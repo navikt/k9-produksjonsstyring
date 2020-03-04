@@ -1,0 +1,9 @@
+
+const KoSortering = {
+  OPPRETT_BEHANDLING: 'OPPRBEH',
+  BEHANDLINGSFRIST: 'BEHFRIST',
+  BELOP: 'BELOP',
+  FEILUTBETALINGSTART: 'FEILUTBETALINGSTART',
+};
+
+export default KoSortering;
