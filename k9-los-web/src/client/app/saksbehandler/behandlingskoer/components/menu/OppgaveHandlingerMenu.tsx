@@ -51,11 +51,11 @@ type TsProps = Readonly<{
   };
   oppgave: Oppgave;
   imageNode: any;
-  opphevOppgaveReservasjon: (oppgaveId: number, begrunnelse: string) => Promise<string>;
-  forlengOppgaveReservasjon: (oppgaveId: number) => Promise<string>;
+  opphevOppgaveReservasjon: (oppgaveId: string, begrunnelse: string) => Promise<string>;
+  forlengOppgaveReservasjon: (oppgaveId: string) => Promise<string>;
   finnSaksbehandler: (brukerIdent: string) => Promise<string>;
   resetSaksbehandler: () => Promise<string>;
-  flyttReservasjon: (oppgaveId: number, brukerident: string, begrunnelse: string) => Promise<string>;
+  flyttReservasjon: (oppgaveId: string, brukerident: string, begrunnelse: string) => Promise<string>;
 }>;
 
 interface TsState {
@@ -158,20 +158,20 @@ export class OppgaveHandlingerMenu extends Component<TsProps, TsState> {
 
   forlengReserverasjon = () => {
     const { oppgave, forlengOppgaveReservasjon } = this.props;
-    forlengOppgaveReservasjon(oppgave.id).then(() => {
+    forlengOppgaveReservasjon(oppgave.eksternId).then(() => {
       toggleEventListeners(false, this.handleOutsideClick);
       this.setState(prevState => ({ ...prevState, showForlengetReservasjonModal: true }));
     });
   }
 
-  opphevReserverasjon = (oppgaveId: number, begrunnelse: string) => {
+  opphevReserverasjon = (oppgaveId: string, begrunnelse: string) => {
     const { opphevOppgaveReservasjon } = this.props;
     opphevOppgaveReservasjon(oppgaveId, begrunnelse);
     const { toggleMenu, oppgave } = this.props;
     toggleMenu(oppgave);
   }
 
-  flyttReservasjon = (oppgaveId: number, brukerident: string, begrunnelse: string) => {
+  flyttReservasjon = (oppgaveId: string, brukerident: string, begrunnelse: string) => {
     const { flyttReservasjon } = this.props;
     flyttReservasjon(oppgaveId, brukerident, begrunnelse);
     const { toggleMenu, oppgave } = this.props;

@@ -43,7 +43,7 @@ const getFlyttetImageIcon = isHoovering => (isHoovering ? bubbletextFilledUrl : 
 
 const slaSammenOgMarkerReserverte = (reserverteOppgaver, oppgaverTilBehandling): OppgaveMedReservertIndikator[] => {
   const markedAsUnderBehandling = reserverteOppgaver
-    .filter(reservertOppgave => !oppgaverTilBehandling.some(oppgave => oppgave.id === reservertOppgave.id))
+    .filter(reservertOppgave => !oppgaverTilBehandling.some(oppgave => oppgave.eksternId === reservertOppgave.eksternId))
     .map(f => ({
       ...f,
       underBehandling: true,
@@ -62,17 +62,17 @@ type TsProps = Readonly<{
   oppgaverTilBehandling: Oppgave[];
   reserverteOppgaver: Oppgave[];
   reserverOppgave: (oppgave: Oppgave) => void;
-  opphevOppgaveReservasjon: (oppgaveId: number, begrunnelse: string) => Promise<string>;
-  forlengOppgaveReservasjon: (oppgaveId: number) => Promise<string>;
+  opphevOppgaveReservasjon: (oppgaveId: string, begrunnelse: string) => Promise<string>;
+  forlengOppgaveReservasjon: (oppgaveId: string) => Promise<string>;
   finnSaksbehandler: (brukerIdent: string) => Promise<string>;
   resetSaksbehandler: () => Promise<string>;
-  flyttReservasjon: (oppgaveId: number, brukerident: string, begrunnelse: string) => Promise<string>;
+  flyttReservasjon: (oppgaveId: string, brukerident: string, begrunnelse: string) => Promise<string>;
   antall: number;
 }>
 
 interface TsState {
   showMenu: boolean;
-  valgtOppgaveId?: number;
+  valgtOppgaveId?: string;
   offset: {
     left: number;
     top: number;
@@ -120,9 +120,9 @@ export class OppgaverTabell extends Component<TsProps, TsState> {
 
   toggleMenu = (valgtOppgave: Oppgave) => {
     const { showMenu } = this.state;
-    const offset = this.nodes[valgtOppgave.id].getBoundingClientRect();
+    const offset = this.nodes[valgtOppgave.eksternId].getBoundingClientRect();
     this.setState(() => ({
-      valgtOppgaveId: valgtOppgave.id,
+      valgtOppgaveId: valgtOppgave.eksternId,
       showMenu: !showMenu,
       offset: { top: offset.top, left: offset.left },
     }));
@@ -157,7 +157,7 @@ export class OppgaverTabell extends Component<TsProps, TsState> {
     } = this.state;
 
     const alleOppgaver = slaSammenOgMarkerReserverte(reserverteOppgaver, oppgaverTilBehandling);
-    const valgtOppgave = reserverteOppgaver.find(o => o.id === valgtOppgaveId);
+    const valgtOppgave = reserverteOppgaver.find(o => o.eksternId === valgtOppgaveId);
 
     return (
       <>
@@ -174,7 +174,7 @@ export class OppgaverTabell extends Component<TsProps, TsState> {
             <Table headerTextCodes={headerTextCodes}>
               {alleOppgaver.map(oppgave => (
                 <TableRow
-                  key={oppgave.id}
+                  key={oppgave.eksternId}
                   onMouseDown={this.goToFagsak}
                   onKeyDown={this.goToFagsak}
                   className={oppgave.underBehandling ? styles.isUnderBehandling : undefined}
@@ -198,7 +198,7 @@ export class OppgaverTabell extends Component<TsProps, TsState> {
                   <TableColumn className={oppgave.underBehandling ? styles.noPadding : undefined}>
                     {!oppgave.underBehandling && <NavFrontendChevron /> }
                     {oppgave.underBehandling && (
-                      <div ref={(node) => { this.nodes = { ...this.nodes, [oppgave.id]: node }; }}>
+                      <div ref={(node) => { this.nodes = { ...this.nodes, [oppgave.eksternId]: node }; }}>
                         <Image
                           className={styles.image}
                           imageSrcFunction={getImageIcon}

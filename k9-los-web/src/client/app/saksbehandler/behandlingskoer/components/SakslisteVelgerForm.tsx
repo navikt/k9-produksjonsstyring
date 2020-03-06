@@ -67,16 +67,16 @@ const getInitialValues = (sakslister) => {
 
 const getValgtSaksliste = (sakslister: Saksliste[], sakslisteId: string) => sakslister.find(s => sakslisteId === `${s.sakslisteId}`);
 
-const getStonadstyper = (intl: any, saksliste?: Saksliste) => (saksliste && saksliste.fagsakYtelseTyper.length > 0
-  ? saksliste.fagsakYtelseTyper.map(type => type.navn) : [intl.formatMessage({ id: 'SakslisteVelgerForm.Alle' })]);
+const getStonadstyper = (saksliste?: Saksliste, intl: any) => (saksliste && saksliste.fagsakYtelseTyper.length > 0
+    ? saksliste.fagsakYtelseTyper.map(type => type.navn) : [intl.formatMessage({ id: 'SakslisteVelgerForm.Alle' })]);
 
-const getBehandlingstyper = (intl: any, saksliste?: Saksliste) => (saksliste && saksliste.behandlingTyper.length > 0
-  ? saksliste.behandlingTyper.map(type => type.navn) : [intl.formatMessage({ id: 'SakslisteVelgerForm.Alle' })]);
+const getBehandlingstyper = (saksliste?: Saksliste, intl: any) => (saksliste && saksliste.behandlingTyper.length > 0
+    ? saksliste.behandlingTyper.map(type => type.navn) : [intl.formatMessage({ id: 'SakslisteVelgerForm.Alle' })]);
 
-const getAndreKriterier = (intl: any, saksliste?: Saksliste) => {
+const getAndreKriterier = (saksliste?: Saksliste, intl: any) => {
   if (saksliste && saksliste.andreKriterier.length > 0) {
     return saksliste.andreKriterier.map(ak => (ak.inkluder ? ak.andreKriterierType.navn
-      : intl.formatMessage({ id: 'SakslisteVelgerForm.Uten' }, { kriterie: ak.andreKriterierType.navn })));
+        : intl.formatMessage({ id: 'SakslisteVelgerForm.Uten' }, { kriterie: ak.andreKriterierType.navn })));
   }
   return [intl.formatMessage({ id: 'SakslisteVelgerForm.Alle' })];
 };
@@ -180,14 +180,14 @@ export class SakslisteVelgerForm extends Component<TsProps> {
             <VerticalSpacer eightPx />
             <FormSpy
               onChange={(val) => {
-                if (val && val.values.sakslisteId && val.dirtyFields.sakslisteId) {
-                  setValueInLocalStorage('sakslisteId', val.values.sakslisteId);
-                  const id = parseInt(val.values.sakslisteId, 10);
-                  fetchSakslisteOppgaver(id);
-                  fetchSaksbehandlere(id);
-                  fetchAntallOppgaver(id);
-                }
-              }}
+                        if (val && val.values.sakslisteId && val.dirtyFields.sakslisteId) {
+                          setValueInLocalStorage('sakslisteId', val.values.sakslisteId);
+                          const id = parseInt(val.values.sakslisteId, 10);
+                          fetchSakslisteOppgaver(id);
+                          fetchSaksbehandlere(id);
+                          fetchAntallOppgaver(id);
+                        }
+                      }}
               subscription={{ values: true, dirtyFields: true }}
             />
             <FlexContainer>
@@ -197,7 +197,7 @@ export class SakslisteVelgerForm extends Component<TsProps> {
                     name="sakslisteId"
                     label={intl.formatMessage({ id: 'SakslisteVelgerForm.Saksliste' })}
                     selectValues={sakslister
-                      .map(saksliste => (<option key={saksliste.sakslisteId} value={`${saksliste.sakslisteId}`}>{saksliste.navn}</option>))}
+                                .map(saksliste => (<option key={saksliste.sakslisteId} value={`${saksliste.sakslisteId}`}>{saksliste.navn}</option>))}
                     bredde="l"
                   />
                 </FlexColumn>
@@ -238,11 +238,11 @@ export class SakslisteVelgerForm extends Component<TsProps> {
                       />
                     </FlexColumn>
                   </>
-                )}
+                      )}
               </FlexRow>
             </FlexContainer>
           </form>
-        )}
+            )}
       />
     );
   }

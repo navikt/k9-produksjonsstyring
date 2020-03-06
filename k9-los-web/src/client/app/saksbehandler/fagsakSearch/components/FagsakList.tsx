@@ -65,8 +65,8 @@ export const FagsakList = ({
       const filtrerteOppgaver = fagsakOppgaver.filter(o => o.saksnummer === fagsak.saksnummer);
       const oppgaver = filtrerteOppgaver.map((oppgave, index) => (
         <TableRow
-          key={`oppgave${oppgave.id}`}
-          id={oppgave.id}
+          key={`oppgave${oppgave.eksternId}`}
+          id={oppgave.eksternId}
           onMouseDown={getSelectOppgaveCallback(oppgave, selectOppgaveCallback)}
           onKeyDown={getSelectOppgaveCallback(oppgave, selectOppgaveCallback)}
           isDashedBottomBorder={filtrerteOppgaver.length > index + 1}

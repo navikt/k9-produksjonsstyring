@@ -24,7 +24,7 @@ type TsProps = Readonly<{
   showModal: boolean;
   oppgave: Oppgave;
   cancel: () => void;
-  submit: (oppgaveId: number, begrunnelse: string) => void;
+  submit: (oppgaveId: string, begrunnelse: string) => void;
 }>;
 
 /**
@@ -47,7 +47,7 @@ export const OpphevReservasjonModal = ({
     onRequestClose={cancel}
   >
     <Form
-      onSubmit={values => submit(oppgave.id, values.begrunnelse)}
+      onSubmit={values => submit(oppgave.eksternId, values.begrunnelse)}
       render={({ handleSubmit }) => (
         <form onSubmit={handleSubmit}>
           <Undertittel><FormattedMessage id="OpphevReservasjonModal.Begrunnelse" /></Undertittel>

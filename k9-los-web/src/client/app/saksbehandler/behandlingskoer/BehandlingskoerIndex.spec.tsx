@@ -41,7 +41,7 @@ describe('<BehandlingskoerIndex>', () => {
   }];
 
   const oppgave = {
-    id: 1,
+    eksternId: '1',
     status: {
       erReservert: false,
     },
@@ -66,8 +66,8 @@ describe('<BehandlingskoerIndex>', () => {
   it('skal ikke vise behandlingskøer når det ikke finnes sakslister', () => {
     const fetchSakslister = sinon.spy();
     const wrapper = shallow(<BehandlingskoerIndex
-      fpsakUrl="www.fpsak.no"
-      fptilbakeUrl="www.fptilbake.no"
+      k9sakUrl="www.k9sak.no"
+      k9tilbakeUrl="www.k9tilbake.no"
       fetchOppgaverTilBehandling={sinon.spy()}
       fetchReserverteOppgaver={sinon.spy()}
       fetchAlleSakslister={fetchSakslister}
@@ -89,8 +89,8 @@ describe('<BehandlingskoerIndex>', () => {
   it('skal hente behandlingskøer ved lasting av komponent og så vise desse korrekt', () => {
     const fetchSakslister = sinon.spy();
     const wrapper = shallow(<BehandlingskoerIndex
-      fpsakUrl="www.fpsak.no"
-      fptilbakeUrl="www.fptilbake.no"
+      k9sakUrl="www.k9sak.no"
+      k9tilbakeUrl="www.k9tilbake.no"
       fetchOppgaverTilBehandling={sinon.spy()}
       fetchReserverteOppgaver={sinon.spy()}
       fetchAlleSakslister={fetchSakslister}
@@ -110,7 +110,7 @@ describe('<BehandlingskoerIndex>', () => {
   });
 
   it('skal reservere og åpne sak i FPSAK når oppgave ikke er reservert fra før', async () => {
-    const reserverOppgave = sinon.stub().withArgs(oppgave.id).resolves({
+    const reserverOppgave = sinon.stub().withArgs(oppgave.eksternId).resolves({
       payload: {
         erReservert: true,
         erReservertAvInnloggetBruker: true,
@@ -118,8 +118,8 @@ describe('<BehandlingskoerIndex>', () => {
     });
     const goToUrl = sinon.spy();
     const wrapper = shallow(<BehandlingskoerIndex
-      fpsakUrl="www.fpsak.no"
-      fptilbakeUrl="www.fptilbake.no"
+      k9sakUrl="www.k9sak.no"
+      k9tilbakeUrl="www.k9tilbake.no"
       fetchOppgaverTilBehandling={sinon.spy()}
       fetchReserverteOppgaver={sinon.spy()}
       fetchAlleSakslister={sinon.spy()}
@@ -143,15 +143,15 @@ describe('<BehandlingskoerIndex>', () => {
     expect(goToUrl.calledOnce).to.be.true;
     const { args } = goToUrl.getCalls()[0];
     expect(args).to.have.length(1);
-    expect(args[0]).to.eql('www.fpsak.no/fagsak/12343/behandling/1/?punkt=default&fakta=default');
+    expect(args[0]).to.eql('www.k9sak.no/fagsak/12343/behandling/1/?punkt=default&fakta=default');
   });
 
   it('skal ikke reservere men kun åpne sak i FPSAK når oppgave allerede er reservert', () => {
     const reserverOppgave = sinon.spy();
     const goToUrl = sinon.spy();
     const wrapper = shallow(<BehandlingskoerIndex
-      fpsakUrl="www.fpsak.no"
-      fptilbakeUrl="www.fptilbake.no"
+      k9sakUrl="www.k9sak.no"
+      k9tilbakeUrl="www.k9tilbake.no"
       fetchOppgaverTilBehandling={sinon.spy()}
       fetchReserverteOppgaver={sinon.spy()}
       fetchAlleSakslister={sinon.spy()}
@@ -182,7 +182,7 @@ describe('<BehandlingskoerIndex>', () => {
     expect(goToUrl.calledOnce).to.be.true;
     const { args } = goToUrl.getCalls()[0];
     expect(args).to.have.length(1);
-    expect(args[0]).to.eql('www.fpsak.no/fagsak/12343/behandling/1/?punkt=default&fakta=default');
+    expect(args[0]).to.eql('www.k9sak.no/fagsak/12343/behandling/1/?punkt=default&fakta=default');
   });
 
   it('skal hente sakslistens oppgaver og så starta polling etter endringer', async () => {
@@ -201,8 +201,8 @@ describe('<BehandlingskoerIndex>', () => {
     const fetchReserverteOppgaverFn = sinon.spy();
 
     const wrapper = shallow(<BehandlingskoerIndex
-      fpsakUrl="www.fpsak.no"
-      fptilbakeUrl="www.fptilbake.no"
+      k9sakUrl="www.k9sak.no"
+      k9tilbakeUrl="www.k9tilbake.no"
       fetchOppgaverTilBehandling={fetchOppgaverTilBehandlingFn}
       fetchReserverteOppgaver={fetchReserverteOppgaverFn}
       fetchAlleSakslister={sinon.spy()}
@@ -231,15 +231,15 @@ describe('<BehandlingskoerIndex>', () => {
     const { args: args2 } = fetchOppgaverTilBehandlingOppgaverFn.getCalls()[0];
     expect(args2).to.have.length(2);
     expect(args2[0]).to.eql(1);
-    expect(args2[1]).to.eql(oppgaveIder.map(o => o.id).join(','));
+    expect(args2[1]).to.eql(oppgaveIder.map(o => o.eksternId).join(','));
   });
 
   it('skal oppheve reservasjon og så hente reserverte oppgaver på nytt', async () => {
-    const opphevOppgaveReservasjonFn = sinon.stub().withArgs(oppgave.id).resolves();
+    const opphevOppgaveReservasjonFn = sinon.stub().withArgs(oppgave.eksternId).resolves();
     const fetchReserverteOppgaverFn = sinon.spy();
     const wrapper = shallow(<BehandlingskoerIndex
-      fpsakUrl="www.fpsak.no"
-      fptilbakeUrl="www.fptilbake.no"
+      k9sakUrl="www.k9sak.no"
+      k9tilbakeUrl="www.k9tilbake.no"
       fetchOppgaverTilBehandling={sinon.spy()}
       fetchReserverteOppgaver={fetchReserverteOppgaverFn}
       fetchAlleSakslister={sinon.spy()}
@@ -257,7 +257,7 @@ describe('<BehandlingskoerIndex>', () => {
     const panel = wrapper.find(SakslistePanel);
     expect(panel).to.have.length(1);
 
-    const oppgaveId = 1;
+    const oppgaveId = '1';
     const begrunnelse = 'Dette er en begrunnelse';
     const sakslisteId = 1;
     wrapper.setState({ sakslisteId });
@@ -276,11 +276,11 @@ describe('<BehandlingskoerIndex>', () => {
   });
 
   it('skal forlenge reservasjon og så hente reserverte oppgaver på nytt', async () => {
-    const forlengOppgaveReservasjonFn = sinon.stub().withArgs(oppgave.id).resolves();
+    const forlengOppgaveReservasjonFn = sinon.stub().withArgs(oppgave.eksternId).resolves();
     const fetchReserverteOppgaverFn = sinon.spy();
     const wrapper = shallow(<BehandlingskoerIndex
-      fpsakUrl="www.fpsak.no"
-      fptilbakeUrl="www.fptilbake.no"
+      k9sakUrl="www.k9sak.no"
+      k9tilbakeUrl="www.k9tilbake.no"
       fetchOppgaverTilBehandling={sinon.spy()}
       fetchReserverteOppgaver={fetchReserverteOppgaverFn}
       fetchAlleSakslister={sinon.spy()}
@@ -298,7 +298,7 @@ describe('<BehandlingskoerIndex>', () => {
     const panel = wrapper.find(SakslistePanel);
     expect(panel).to.have.length(1);
 
-    const oppgaveId = 1;
+    const oppgaveId = '1';
     const sakslisteId = 1;
     wrapper.setState({ sakslisteId });
     await panel.prop('forlengOppgaveReservasjon')(oppgaveId);
@@ -318,8 +318,8 @@ describe('<BehandlingskoerIndex>', () => {
     const flyttReservasjonFn = sinon.stub().withArgs(oppgave.id).resolves();
     const fetchReserverteOppgaverFn = sinon.spy();
     const wrapper = shallow(<BehandlingskoerIndex
-      fpsakUrl="www.fpsak.no"
-      fptilbakeUrl="www.fptilbake.no"
+      k9sakUrl="www.k9sak.no"
+      k9tilbakeUrl="www.k9tilbake.no"
       fetchOppgaverTilBehandling={sinon.spy()}
       fetchReserverteOppgaver={fetchReserverteOppgaverFn}
       fetchAlleSakslister={sinon.spy()}
@@ -337,7 +337,7 @@ describe('<BehandlingskoerIndex>', () => {
     const panel = wrapper.find(SakslistePanel);
     expect(panel).to.have.length(1);
 
-    const oppgaveId = 1;
+    const oppgaveId = '1';
     const brukerIdent = 'T122334';
     const begrunnelse = 'Dette er en begrunnelse';
     const sakslisteId = 1;
@@ -360,8 +360,8 @@ describe('<BehandlingskoerIndex>', () => {
   it('skal vise dialog ved timeout', () => {
     const fetchSakslister = sinon.spy();
     const wrapper = shallow(<BehandlingskoerIndex
-      fpsakUrl="www.fpsak.no"
-      fptilbakeUrl="www.fptilbake.no"
+      k9sakUrl="www.k9sak.no"
+      k9tilbakeUrl="www.k9tilbake.no"
       fetchOppgaverTilBehandling={sinon.spy()}
       fetchReserverteOppgaver={sinon.spy()}
       fetchAlleSakslister={fetchSakslister}

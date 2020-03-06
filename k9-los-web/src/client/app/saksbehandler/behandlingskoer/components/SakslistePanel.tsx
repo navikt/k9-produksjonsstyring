@@ -17,9 +17,9 @@ type TsProps = Readonly<{
   sakslister: Saksliste[];
   fetchSakslisteOppgaver: (sakslisteId: number) => void;
   reserverOppgave: (oppgaveId: Oppgave) => void;
-  opphevOppgaveReservasjon: (oppgaveId: number, begrunnelse: string) => Promise<string>;
-  forlengOppgaveReservasjon: (oppgaveId: number) => Promise<string>;
-  flyttReservasjon: (oppgaveId: number, brukerident: string, begrunnelse: string) => Promise<string>;
+  opphevOppgaveReservasjon: (oppgaveId: string, begrunnelse: string) => Promise<string>;
+  forlengOppgaveReservasjon: (oppgaveId: string) => Promise<string>;
+  flyttReservasjon: (oppgaveId: string, brukerident: string, begrunnelse: string) => Promise<string>;
 }>
 
 /**

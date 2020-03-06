@@ -32,7 +32,7 @@ type TsProps = Readonly<{
   showModal: boolean;
   oppgave: Oppgave;
   closeModal: () => void;
-  submit: (oppgaveId: number, brukerident: string, begrunnelse: string) => void;
+  submit: (oppgaveId: string, brukerident: string, begrunnelse: string) => void;
   finnSaksbehandler: (brukerident: string) => void;
   resetSaksbehandler: () => Promise<string>;
   saksbehandler?: Saksbehandler;
@@ -139,7 +139,7 @@ export class FlyttReservasjonModal extends Component<TsProps> {
            )}
          />
          <Form
-           onSubmit={values => submit(oppgave.id, saksbehandler ? saksbehandler.brukerIdent : '', values.begrunnelse)}
+           onSubmit={values => submit(oppgave.eksternId, saksbehandler ? saksbehandler.brukerIdent : '', values.begrunnelse)}
            render={({
              handleSubmit, values,
            }) => (

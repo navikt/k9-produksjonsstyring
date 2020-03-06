@@ -10,7 +10,6 @@ import SistBehandledeSaker from './SistBehandledeSaker';
 interface TsProps {
   k9sakUrl: string;
   sistBehandledeSaker: Oppgave[];
-  valgtSakslisteId?: number;
 }
 
 /**
@@ -19,7 +18,6 @@ interface TsProps {
 const SaksstottePaneler = ({
   k9sakUrl,
   sistBehandledeSaker,
-  valgtSakslisteId,
 }: TsProps) => (
   <>
     <SistBehandledeSaker k9sakUrl={k9sakUrl} sistBehandledeSaker={sistBehandledeSaker} />
@@ -30,11 +28,6 @@ const SaksstottePaneler = ({
 SaksstottePaneler.propTypes = {
   k9sakUrl: PropTypes.string.isRequired,
   sistBehandledeSaker: PropTypes.arrayOf(oppgavePropType).isRequired,
-  valgtSakslisteId: PropTypes.number,
-};
-
-SaksstottePaneler.defaultProps = {
-  valgtSakslisteId: undefined,
 };
 
 export default SaksstottePaneler;

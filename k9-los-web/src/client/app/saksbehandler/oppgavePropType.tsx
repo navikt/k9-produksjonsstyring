@@ -4,7 +4,6 @@ import kodeverkPropType from 'kodeverk/kodeverkPropType';
 import oppgaveStatusPropType from './oppgaveStatusPropType';
 
 const oppgavePropType = PropTypes.shape({
-  id: PropTypes.number.isRequired,
   status: oppgaveStatusPropType.isRequired,
   saksnummer: PropTypes.number.isRequired,
   behandlingId: PropTypes.number,
@@ -17,7 +16,7 @@ const oppgavePropType = PropTypes.shape({
   fristForBehandling: PropTypes.string,
   fagsakYtelseType: kodeverkPropType,
   erTilSaksbehandling: PropTypes.bool.isRequired,
-  eksternId: PropTypes.string,
+  eksternId: PropTypes.string.isRequired,
 });
 
 export default oppgavePropType;

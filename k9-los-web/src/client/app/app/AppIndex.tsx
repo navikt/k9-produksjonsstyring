@@ -117,9 +117,9 @@ export class AppIndex extends Component<TsProps> {
     showCrashMsg([
       error.toString(),
       info.componentStack
-        .split('\n')
-        .map((line: string) => line.trim())
-        .find((line: string) => !!line),
+          .split('\n')
+          .map((line: string) => line.trim())
+          .find((line: string) => !!line),
     ].join(' '));
   }
 
@@ -143,8 +143,8 @@ export class AppIndex extends Component<TsProps> {
           />
           {!crashMessage && (
             <Home nrOfErrorMessages={errorMessagesLength + (queryStrings.errorcode || queryStrings.errormessage ? 1 : 0)} />
-          )
-          }
+            )
+            }
         </LanguageProvider>
       </AppConfigResolver>
     );

@@ -24,10 +24,10 @@ type TsProps = Readonly<{
   fetchOppgaverTilBehandlingOppgaver: (sakslisteId: number, oppgaveIder?: string) => Promise<{payload: any }>;
   fetchAlleSakslister: () => void;
   fetchReserverteOppgaver: (sakslisteId: number) => Promise<{payload: any }>;
-  reserverOppgave: (oppgaveId: number) => Promise<{payload: OppgaveStatus }>;
-  opphevOppgaveReservasjon: (oppgaveId: number, begrunnelse: string) => Promise<string>;
-  forlengOppgaveReservasjon: (oppgaveId: number) => Promise<string>;
-  flyttReservasjon: (oppgaveId: number, brukerident: string, begrunnelse: string) => Promise<string>;
+  reserverOppgave: (oppgaveId: string) => Promise<{payload: OppgaveStatus }>;
+  opphevOppgaveReservasjon: (oppgaveId: string, begrunnelse: string) => Promise<string>;
+  forlengOppgaveReservasjon: (oppgaveId: string) => Promise<string>;
+  flyttReservasjon: (oppgaveId: string, brukerident: string, begrunnelse: string) => Promise<string>;
   sakslister: Saksliste[];
   k9sakUrl: string;
   k9tilbakeUrl: string;
@@ -125,7 +125,7 @@ export class BehandlingskoerIndex extends Component<TsProps, StateProps> {
     } else {
       const { reserverOppgave: reserver } = this.props;
 
-      reserver(oppgave.id).then((data: {payload: OppgaveStatus }) => {
+      reserver(oppgave.eksternId).then((data: {payload: OppgaveStatus }) => {
         const nyOppgaveStatus = data.payload;
         if (nyOppgaveStatus.erReservert && nyOppgaveStatus.erReservertAvInnloggetBruker) {
           this.openSak(oppgave);
@@ -141,7 +141,7 @@ export class BehandlingskoerIndex extends Component<TsProps, StateProps> {
     }
   }
 
-  opphevReservasjon = (oppgaveId: number, begrunnelse: string): Promise<any> => {
+  opphevReservasjon = (oppgaveId: string, begrunnelse: string): Promise<any> => {
     const { opphevOppgaveReservasjon: opphevReservasjon, fetchReserverteOppgaver: fetchReserverte } = this.props;
     const { sakslisteId } = this.state;
     if (!sakslisteId) {
@@ -151,7 +151,7 @@ export class BehandlingskoerIndex extends Component<TsProps, StateProps> {
       .then(() => fetchReserverte(sakslisteId));
   }
 
-  forlengOppgaveReservasjon = (oppgaveId: number): Promise<any> => {
+  forlengOppgaveReservasjon = (oppgaveId: string): Promise<any> => {
     const { forlengOppgaveReservasjon: forlengReservasjon, fetchReserverteOppgaver: fetchReserverte } = this.props;
     const { sakslisteId } = this.state;
     if (!sakslisteId) {
@@ -161,7 +161,7 @@ export class BehandlingskoerIndex extends Component<TsProps, StateProps> {
       .then(() => fetchReserverte(sakslisteId));
   }
 
-  flyttReservasjon = (oppgaveId: number, brukerident: string, begrunnelse: string): Promise<any> => {
+  flyttReservasjon = (oppgaveId: string, brukerident: string, begrunnelse: string): Promise<any> => {
     const { flyttReservasjon: flytt, fetchReserverteOppgaver: fetchReserverte } = this.props;
     const { sakslisteId } = this.state;
     if (!sakslisteId) {

@@ -36,25 +36,25 @@ export const fetchReserverteOppgaver = () => (dispatch: Dispatch) => dispatch(
 );
 export const getReserverteOppgaver = k9LosApi.RESERVERTE_OPPGAVER.getRestApiData();
 
-export const reserverOppgave = (oppgaveId: number) => (dispatch: Dispatch) => dispatch(
+export const reserverOppgave = (oppgaveId: string) => (dispatch: Dispatch) => dispatch(
   k9LosApi.RESERVER_OPPGAVE.makeRestApiRequest()(
     { oppgaveId },
   ),
 );
 
-export const hentReservasjonsstatus = (oppgaveId: number) => (dispatch: Dispatch) => dispatch(
+export const hentReservasjonsstatus = (oppgaveId: string) => (dispatch: Dispatch) => dispatch(
   k9LosApi.HENT_RESERVASJONSSTATUS.makeRestApiRequest()(
     { oppgaveId },
   ),
 );
 
-export const opphevOppgaveReservasjon = (oppgaveId: number, begrunnelse: string) => (dispatch: Dispatch) => dispatch(
+export const opphevOppgaveReservasjon = (oppgaveId: string, begrunnelse: string) => (dispatch: Dispatch) => dispatch(
   k9LosApi.OPPHEV_OPPGAVERESERVASJON.makeRestApiRequest()(
     { oppgaveId, begrunnelse },
   ),
 );
 
-export const forlengOppgaveReservasjon = (oppgaveId: number) => (dispatch: Dispatch) => dispatch(
+export const forlengOppgaveReservasjon = (oppgaveId: string) => (dispatch: Dispatch) => dispatch(
   k9LosApi.FORLENG_OPPGAVERESERVASJON.makeRestApiRequest()(
     { oppgaveId },
   ),
@@ -68,7 +68,7 @@ export const isSaksbehandlerSokFerdig = k9LosApi.FLYTT_RESERVASJON_SAKSBEHANDLER
 export const getSaksbehandler = k9LosApi.FLYTT_RESERVASJON_SAKSBEHANDLER_SOK.getRestApiData();
 export const resetSaksbehandler = () => (dispatch: Dispatch) => dispatch(k9LosApi.FLYTT_RESERVASJON_SAKSBEHANDLER_SOK.resetRestApi()());
 
-export const flyttReservasjon = (oppgaveId: number, brukerIdent: string, begrunnelse: string) => (dispatch: Dispatch) => dispatch(
+export const flyttReservasjon = (oppgaveId: string, brukerIdent: string, begrunnelse: string) => (dispatch: Dispatch) => dispatch(
   k9LosApi.FLYTT_RESERVASJON.makeRestApiRequest()(
     { oppgaveId, brukerIdent, begrunnelse },
   ),

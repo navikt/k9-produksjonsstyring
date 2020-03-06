@@ -73,9 +73,9 @@ export const getNavAnsattName = createSelector([k9LosApi.NAV_ANSATT.getRestApiDa
 export const getNavAnsattKanSaksbehandle = createSelector([k9LosApi.NAV_ANSATT.getRestApiData()], (navAnsatt: NavAnsatt = NavAnsattDefault) => navAnsatt
     .kanSaksbehandle);
 export const getNavAnsattKanOppgavestyre = createSelector([k9LosApi.NAV_ANSATT.getRestApiData()], (navAnsatt: NavAnsatt = NavAnsattDefault) => navAnsatt
-  .kanOppgavestyre);
+    .kanOppgavestyre);
 export const getNavAnsattKanBehandleKode6 = createSelector([k9LosApi.NAV_ANSATT.getRestApiData()], (navAnsatt: NavAnsatt = NavAnsattDefault) => navAnsatt
-  .kanBehandleKode6);
+    .kanBehandleKode6);
 export const getFunksjonellTid = createSelector([k9LosApi.NAV_ANSATT.getRestApiData()], (navAnsatt: NavAnsatt = NavAnsattDefault) => navAnsatt.funksjonellTid);
 export const getK9sakUrl = createSelector([k9LosApi.K9SAK_URL.getRestApiData()], (k9sakUrl: {verdi: undefined }) => k9sakUrl.verdi);
 export const getK9tilbakeUrl = createSelector([k9LosApi.K9SAK_URL.getRestApiData()], (k9tilbakeUrl: {verdi: undefined }) => k9tilbakeUrl.verdi);

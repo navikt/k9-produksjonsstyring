@@ -4,7 +4,6 @@ import { OppgaveStatus } from './oppgaveStatusTsType';
 // TODO (TOR) default export feilar for yarn:coverage
 // eslint-disable-next-line import/prefer-default-export
 export type Oppgave = Readonly<{
-  id: number;
   status: OppgaveStatus;
   saksnummer: number;
   behandlingId: number;

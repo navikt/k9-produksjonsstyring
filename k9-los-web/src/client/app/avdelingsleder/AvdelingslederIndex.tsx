@@ -11,18 +11,12 @@ import { Undertittel } from 'nav-frontend-typografi';
 
 import LoadingPanel from 'sharedComponents/LoadingPanel';
 import {
-  getValgtAvdelingEnhet,
-  getNavAnsattKanOppgavestyre,
-  getNavAnsattKanBehandleKode6,
-  getAvdelingeneTilAvdelingslederResultat,
-  fetchAvdelingeneTilAvdelingsleder, setAvdelingEnhet, resetAvdelingEnhet, resetAvdelingeneTilAvdelingslederData,
+  getValgtAvdelingEnhet, getNavAnsattKanOppgavestyre, getNavAnsattKanBehandleKode6, getAvdelingeneTilAvdelingslederResultat,
 } from 'app/duck';
 import { parseQueryString } from 'utils/urlUtils';
 import { getAvdelingslederPanelLocationCreator } from 'app/paths';
 import trackRouteParam from 'app/data/trackRouteParam';
 import { Location } from 'app/locationTsType';
-import { bindActionCreators, Dispatch } from 'redux';
-import errorHandler from 'api/error-api-redux';
 import { getSelectedAvdelingslederPanel, setSelectedAvdelingslederPanel } from './duck';
 import AvdelingslederDashboard from './components/AvdelingslederDashboard';
 import IkkeTilgangTilAvdelingslederPanel from './components/IkkeTilgangTilAvdelingslederPanel';
@@ -82,13 +76,13 @@ const getTab = (avdelingslederPanel, activeAvdelingslederPanel, getAvdelingslede
  * AvdelingslederIndex
  */
 export const AvdelingslederIndex = ({
-  valgtAvdelingEnhet,
-  activeAvdelingslederPanel,
-  getAvdelingslederPanelLocation,
-  kanOppgavestyre,
-  kanBehandleKode6,
-  erKode6Avdeling,
-}: TsProps) => {
+                                      valgtAvdelingEnhet,
+                                      activeAvdelingslederPanel,
+                                      getAvdelingslederPanelLocation,
+                                      kanOppgavestyre,
+                                      kanBehandleKode6,
+                                      erKode6Avdeling,
+                                    }: TsProps) => {
   if (!kanOppgavestyre) {
     return <IkkeTilgangTilAvdelingslederPanel />;
   } if (erKode6Avdeling && !kanBehandleKode6) {
@@ -98,10 +92,10 @@ export const AvdelingslederIndex = ({
       <AvdelingslederDashboard key={valgtAvdelingEnhet}>
         <div>
           <Tabs tabs={[
-            getTab(AvdelingslederPanels.BEHANDLINGSKOER, activeAvdelingslederPanel, getAvdelingslederPanelLocation),
-            getTab(AvdelingslederPanels.NOKKELTALL, activeAvdelingslederPanel, getAvdelingslederPanelLocation),
-            getTab(AvdelingslederPanels.SAKSBEHANDLERE, activeAvdelingslederPanel, getAvdelingslederPanelLocation),
-          ]}
+              getTab(AvdelingslederPanels.BEHANDLINGSKOER, activeAvdelingslederPanel, getAvdelingslederPanelLocation),
+              getTab(AvdelingslederPanels.NOKKELTALL, activeAvdelingslederPanel, getAvdelingslederPanelLocation),
+              getTab(AvdelingslederPanels.SAKSBEHANDLERE, activeAvdelingslederPanel, getAvdelingslederPanelLocation),
+            ]}
           />
           <Panel className={styles.panelPadding}>
             {renderAvdelingslederPanel(activeAvdelingslederPanel)}
@@ -135,17 +129,17 @@ const getPanelFromUrlOrDefault = (location) => {
 };
 
 export const erKode6Avdeling = createSelector([getValgtAvdelingEnhet, getAvdelingeneTilAvdelingslederResultat],
-  (valgtAvdelingEnhet, avdelinger = []) => {
-    const avdeling = avdelinger instanceof Array && avdelinger.find(a => a.avdelingEnhet === valgtAvdelingEnhet);
-    return avdeling ? avdeling.kreverKode6 : false;
-  });
+    (valgtAvdelingEnhet, avdelinger = []) => {
+      const avdeling = avdelinger instanceof Array && avdelinger.find(a => a.avdelingEnhet === valgtAvdelingEnhet);
+      return avdeling ? avdeling.kreverKode6 : false;
+    });
 
 const mapStateToProps = state => ({
-  valgtAvdelingEnhet: getValgtAvdelingEnhet,
-  activeAvdelingslederPanel: getSelectedAvdelingslederPanel,
-  kanOppgavestyre: getNavAnsattKanOppgavestyre,
-  kanBehandleKode6: getNavAnsattKanBehandleKode6,
-  erKode6Avdeling,
+  valgtAvdelingEnhet: getValgtAvdelingEnhet(state),
+  activeAvdelingslederPanel: getSelectedAvdelingslederPanel(state),
+  kanOppgavestyre: getNavAnsattKanOppgavestyre(state),
+  kanBehandleKode6: getNavAnsattKanBehandleKode6(state),
+  erKode6Avdeling: erKode6Avdeling(state),
 });
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => ({
