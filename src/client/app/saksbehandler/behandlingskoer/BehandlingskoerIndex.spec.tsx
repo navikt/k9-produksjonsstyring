@@ -49,7 +49,7 @@ describe('<BehandlingskoerIndex>', () => {
     behandlingId: 1,
     personnummer: 1234567891,
     navn: 'Espen Uteligger',
-    system: 'FPSAK',
+    system: 'K9SAK',
     behandlingstype: {
       kode: 'TEST',
       navn: 'test',
@@ -143,7 +143,7 @@ describe('<BehandlingskoerIndex>', () => {
     expect(goToUrl.calledOnce).to.be.true;
     const { args } = goToUrl.getCalls()[0];
     expect(args).to.have.length(1);
-    expect(args[0]).to.eql('www.k9sak.no/fagsak/12343/behandling/1/?punkt=default&fakta=default');
+    expect(args[0]).to.eql('www.k9sak.no/k9sak/12343/behandling/1/?punkt=default&fakta=default');
   });
 
   it('skal ikke reservere men kun åpne sak i FPSAK når oppgave allerede er reservert', () => {
@@ -187,14 +187,14 @@ describe('<BehandlingskoerIndex>', () => {
 
   it('skal hente sakslistens oppgaver og så starta polling etter endringer', async () => {
     const sakslisteId = 1;
-    const oppgaveIder = [{ id: 1 }, { id: 2 }, { id: 3 }];
+    const oppgaveIder = [{ id: "1" }, { id: "2" }, { id: "3" }];
     const fetchOppgaverTilBehandlingFn = sinon.stub()
       .withArgs(sakslisteId).resolves({
         payload: oppgaveIder,
       });
     const fetchOppgaverTilBehandlingOppgaverFn = sinon.stub()
       .onFirstCall().resolves({
-        payload: oppgaveIder.concat({ id: 4 }),
+        payload: oppgaveIder.concat({ id: "4" }),
       })
       .onSecondCall()
       .throws(); // Avbryter polling
@@ -231,7 +231,7 @@ describe('<BehandlingskoerIndex>', () => {
     const { args: args2 } = fetchOppgaverTilBehandlingOppgaverFn.getCalls()[0];
     expect(args2).to.have.length(2);
     expect(args2[0]).to.eql(1);
-    expect(args2[1]).to.eql(oppgaveIder.map(o => o.eksternId).join(','));
+    expect(args2[1]).to.eql(oppgaveIder.map(o => o.id).join(','));
   });
 
   it('skal oppheve reservasjon og så hente reserverte oppgaver på nytt', async () => {
