@@ -34,7 +34,7 @@ interface TsProps {
     feilmelding?: string;
   };
   resetSearch: () => void;
-  kanSaksbehandle: boolean;
+  kanSaksbehandle: () => boolean;
 }
 
 /**
@@ -110,7 +110,7 @@ SearchForm.propTypes = {
     feilmelding: PropTypes.string,
   }),
   resetSearch: PropTypes.func.isRequired,
-  kanSaksbehandle: PropTypes.func.isRequired,
+  kanSaksbehandle: PropTypes.bool.isRequired,
 };
 
 SearchForm.defaultProps = {
@@ -119,8 +119,8 @@ SearchForm.defaultProps = {
   },
 };
 
-const mapStateToProps = () => ({
-  kanSaksbehandle: getNavAnsattKanSaksbehandle,
+const mapStateToProps = state => ({
+  kanSaksbehandle: getNavAnsattKanSaksbehandle(state),
 });
 
 export default connect(mapStateToProps)(injectIntl(SearchForm));

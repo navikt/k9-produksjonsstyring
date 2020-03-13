@@ -18,7 +18,7 @@ import { OppgaverTabell } from './OppgaverTabell';
 describe('<OppgaverTabell>', () => {
   it('skal vise kriterievelger og liste over neste oppgaver', () => {
     const oppgaverTilBehandling = [{
-      id: 1,
+      eksternId: '1',
       status: {
         erReservert: false,
       },
@@ -26,7 +26,7 @@ describe('<OppgaverTabell>', () => {
       behandlingId: 2,
       personnummer: '123456789',
       navn: 'Espen Utvikler',
-      system: 'FPSAK',
+      system: 'K9SAK',
       behandlingstype: {
         kode: behandlingType.FORSTEGANGSSOKNAD,
         navn: 'Førstegangssøknad',
@@ -36,14 +36,14 @@ describe('<OppgaverTabell>', () => {
       erTilSaksbehandling: true,
       fagsakYtelseType: {
         kode: fagsakYtelseType.FORELDREPRENGER,
-        navn: 'FP',
+        navn: 'K9',
       },
       behandlingStatus: {
         kode: behandlingStatus.OPPRETTET,
         navn: '',
       },
     }, {
-      id: 2,
+      eksternId: '2',
       status: {
         erReservert: false,
       },
@@ -103,7 +103,7 @@ describe('<OppgaverTabell>', () => {
 
   it('skal vise de behandlingene som fremdeles er valgt av saksbehandler først i listen samt et menyikon for disse', () => {
     const oppgaverTilBehandling = [{
-      id: 1,
+      eksternId: '1',
       status: {
         erReservert: false,
       },
@@ -111,7 +111,7 @@ describe('<OppgaverTabell>', () => {
       behandlingId: 2,
       personnummer: '123456789',
       navn: 'Espen Utvikler',
-      system: 'FPSAK',
+      system: 'K9SAK',
       behandlingstype: {
         kode: behandlingType.FORSTEGANGSSOKNAD,
         navn: 'Førstegangssøknad',
@@ -121,7 +121,7 @@ describe('<OppgaverTabell>', () => {
       erTilSaksbehandling: true,
       fagsakYtelseType: {
         kode: fagsakYtelseType.FORELDREPRENGER,
-        navn: 'FP',
+        navn: 'K9',
       },
       behandlingStatus: {
         kode: behandlingStatus.OPPRETTET,
@@ -129,7 +129,7 @@ describe('<OppgaverTabell>', () => {
       },
     }];
     const reserverteOppgaver = [{
-      id: 2,
+      eksternId: '2',
       status: {
         erReservert: true,
       },
@@ -211,7 +211,7 @@ describe('<OppgaverTabell>', () => {
 
   it('skal vise tooltip for reserverte oppgaver som er flyttet', () => {
     const reserverteOppgaver = [{
-      id: 2,
+      eksternId: '2',
       status: {
         erReservert: true,
         flyttetReservasjon: {
@@ -225,7 +225,7 @@ describe('<OppgaverTabell>', () => {
       behandlingId: 2,
       personnummer: '657643535',
       navn: 'Espen Solstråle',
-      system: 'FPSAK',
+      system: 'K9SAK',
       behandlingstype: {
         kode: behandlingType.FORSTEGANGSSOKNAD,
         navn: 'Førstegangssøknad far',
@@ -235,7 +235,7 @@ describe('<OppgaverTabell>', () => {
       erTilSaksbehandling: true,
       fagsakYtelseType: {
         kode: fagsakYtelseType.FORELDREPRENGER,
-        navn: 'FP',
+        navn: 'K9',
       },
       behandlingStatus: {
         kode: behandlingStatus.OPPRETTET,

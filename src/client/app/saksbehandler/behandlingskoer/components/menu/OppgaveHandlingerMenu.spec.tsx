@@ -17,7 +17,7 @@ import MenuButton from './MenuButton';
 
 describe('<OppgaveHandlingerMenu>', () => {
   const oppgave = {
-    id: 1,
+    eksternId: '1',
     status: {
       erReservert: false,
       reservertTilTidspunkt: moment().add(2, 'hours').format(),

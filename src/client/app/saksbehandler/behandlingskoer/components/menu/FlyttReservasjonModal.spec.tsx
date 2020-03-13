@@ -16,7 +16,7 @@ import { FlyttReservasjonModal } from './FlyttReservasjonModal';
 
 describe('<FlyttReservasjonModal>', () => {
   const oppgave = {
-    id: 1,
+    eksternId: '1',
     status: {
       erReservert: false,
       reservertTilTidspunkt: moment().add(2, 'hours').format(),
@@ -25,7 +25,7 @@ describe('<FlyttReservasjonModal>', () => {
     behandlingId: 2,
     personnummer: '1234567',
     navn: 'Espen Utvikler',
-    system: 'FPSAK',
+    system: 'K9SAK',
     behandlingstype: {
       kode: behandlingType.FORSTEGANGSSOKNAD,
       navn: '',
@@ -35,7 +35,7 @@ describe('<FlyttReservasjonModal>', () => {
     erTilSaksbehandling: true,
     fagsakYtelseType: {
       kode: fagsakYtelseType.FORELDREPRENGER,
-      navn: 'FP',
+      navn: 'K9',
     },
     behandlingStatus: {
       kode: behandlingStatus.OPPRETTET,

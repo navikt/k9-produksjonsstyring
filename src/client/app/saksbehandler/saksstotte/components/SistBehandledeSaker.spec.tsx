@@ -9,7 +9,7 @@ import SistBehandledeSaker from './SistBehandledeSaker';
 describe('<SistBehandledeSaker>', () => {
   it('skal vise sist behandlede saker som lenker i en liste', () => {
     const oppgaver = [{
-      id: 3,
+      eksternId: '3',
       status: {
         erReservert: false,
       },
@@ -17,7 +17,7 @@ describe('<SistBehandledeSaker>', () => {
       behandlingId: 1,
       personnummer: '123456789',
       navn: 'Espen Utvikler',
-      system: 'FPSAK',
+      system: 'K9SAK',
       behandlingstype: {
         kode: 'test',
         navn: 'test',
@@ -34,7 +34,7 @@ describe('<SistBehandledeSaker>', () => {
       },
       erTilSaksbehandling: true,
     }, {
-      id: 4,
+      eksternId: '4',
       status: {
         erReservert: false,
       },
@@ -42,7 +42,7 @@ describe('<SistBehandledeSaker>', () => {
       behandlingId: 2,
       personnummer: '657643535',
       navn: 'Espen Solstråle',
-      system: 'FPSAK',
+      system: 'K9SAK',
       behandlingstype: {
         kode: 'test',
         navn: 'test',
@@ -61,22 +61,22 @@ describe('<SistBehandledeSaker>', () => {
     }];
 
     const wrapper = shallow(<SistBehandledeSaker
-      fpsakUrl="www.fpsak.no"
+      k9sakUrl="www.k9sak.no"
       sistBehandledeSaker={oppgaver}
     />);
 
     const links = wrapper.find(Lenke);
     expect(links).to.have.length(2);
-    expect(links.first().prop('href')).to.eql('www.fpsak.no/fagsak/1/behandling/1/?punkt=default&fakta=default');
+    expect(links.first().prop('href')).to.eql('www.k9sak.no/fagsak/1/behandling/1/?punkt=default&fakta=default');
     expect(links.first().childAt(0).text()).to.eql('Espen Utvikler 123456789');
-    expect(links.last().prop('href')).to.eql('www.fpsak.no/fagsak/2/behandling/2/?punkt=default&fakta=default');
+    expect(links.last().prop('href')).to.eql('www.k9sak.no/fagsak/2/behandling/2/?punkt=default&fakta=default');
     expect(links.last().childAt(0).text()).to.eql('Espen Solstråle 657643535');
   });
 
   it('skal ikke vise noen lenker når ingen behandlede saker blir funnet', () => {
     const oppgaver = [];
     const wrapper = shallow(<SistBehandledeSaker
-      fpsakUrl="www.fpsak.no"
+      k9sakUrl="www.k9sak.no"
       sistBehandledeSaker={oppgaver}
     />);
 

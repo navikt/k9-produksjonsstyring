@@ -7,24 +7,24 @@
 }
 
 :global(.modal__overlay) {
-   background-color: rgba(61, 56, 49, 0.9);
+  background-color: rgba(61, 56, 49, 0.9);
 }
 
 // Text-area custom styling
 :global(.textarea--medMeta__teller) {
-   color: @navMorkGra;
-   font-size: 0.8rem;
-   font-style: italic;
+  color: @navMorkGra;
+  font-size: 0.8rem;
+  font-style: italic;
 }
 
 :global(.lenke) {
-  color: @navBla;
-  border: 0;
-  padding: 0;
   background: none;
-  text-decoration: none;
+  border: 0;
   border-bottom: solid 1px @navGra40;
+  color: @navBla;
   cursor: pointer;
+  padding: 0;
+  text-decoration: none;
 
   &:hover,
   &--hover {
@@ -33,14 +33,14 @@
 
   &:focus,
   &--focus {
-    outline: none;
     background-color: @orangeFocus;
+    outline: none;
   }
 
   &:active,
   &--active {
-    color: @navDypBla;
     border-bottom-color: @navDypBla;
+    color: @navDypBla;
   }
 
   &--frittstaende {
@@ -56,20 +56,20 @@
 
 :global(.skjemaelement > .skjemaelement__input) {
   padding: 9px;
- }
+}
 
 //TODO (TOR) Dette bør kunna gjerast på ein bedre måte (Har lagt til float:left for å få vist to månedar for periodevelgjar)
 :global(.DayPicker-Month) {
-  display: table;
   border-collapse: collapse;
   border-spacing: 0;
-  -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
+  display: table;
+  float: left;
   margin: 0 1rem;
   margin-top: 1rem;
-  float: left;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 :global(.nav-frontend-tabs) {

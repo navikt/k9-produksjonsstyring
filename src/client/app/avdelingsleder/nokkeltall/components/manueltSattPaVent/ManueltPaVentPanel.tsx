@@ -106,8 +106,8 @@ export const ManueltPaVentPanel = ({
                   label={finnFagsakYtelseTypeNavn(fagsakYtelseTyper, fagsakYtelseType.ENGANGSSTONAD)}
                 />
                 <RadioOption
-                  value={fagsakYtelseType.SVANGERSKAPPENGER}
-                  label={finnFagsakYtelseTypeNavn(fagsakYtelseTyper, fagsakYtelseType.SVANGERSKAPPENGER)}
+                  value={fagsakYtelseType.PLEIEPENGER_SYKT_BARN}
+                  label={finnFagsakYtelseTypeNavn(fagsakYtelseTyper, fagsakYtelseType.PLEIEPENGER_SYKT_BARN)}
                 />
                 <RadioOption
                   value={ALLE_YTELSETYPER_VALGT}

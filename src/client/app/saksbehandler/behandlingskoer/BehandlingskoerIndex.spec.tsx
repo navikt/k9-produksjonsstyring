@@ -109,7 +109,7 @@ describe('<BehandlingskoerIndex>', () => {
     expect(fetchSakslister.calledOnce).to.be.true;
   });
 
-  it('skal reservere og åpne sak i FPSAK når oppgave ikke er reservert fra før', async () => {
+  it('skal reservere og åpne sak i K)SAK når oppgave ikke er reservert fra før', async () => {
     const reserverOppgave = sinon.stub().withArgs(oppgave.eksternId).resolves({
       payload: {
         erReservert: true,
@@ -143,7 +143,7 @@ describe('<BehandlingskoerIndex>', () => {
     expect(goToUrl.calledOnce).to.be.true;
     const { args } = goToUrl.getCalls()[0];
     expect(args).to.have.length(1);
-    expect(args[0]).to.eql('www.k9sak.no/k9sak/12343/behandling/1/?punkt=default&fakta=default');
+    expect(args[0]).to.eql('www.k9sak.no/fagsak/12343/behandling/1/?punkt=default&fakta=default');
   });
 
   it('skal ikke reservere men kun åpne sak i FPSAK når oppgave allerede er reservert', () => {
@@ -187,14 +187,14 @@ describe('<BehandlingskoerIndex>', () => {
 
   it('skal hente sakslistens oppgaver og så starta polling etter endringer', async () => {
     const sakslisteId = 1;
-    const oppgaveIder = [{ id: "1" }, { id: "2" }, { id: "3" }];
+    const oppgaveIder = [{ id: '1' }, { id: '2' }, { id: '3' }];
     const fetchOppgaverTilBehandlingFn = sinon.stub()
       .withArgs(sakslisteId).resolves({
         payload: oppgaveIder,
       });
     const fetchOppgaverTilBehandlingOppgaverFn = sinon.stub()
       .onFirstCall().resolves({
-        payload: oppgaveIder.concat({ id: "4" }),
+        payload: oppgaveIder.concat({ id: '4' }),
       })
       .onSecondCall()
       .throws(); // Avbryter polling
@@ -315,7 +315,7 @@ describe('<BehandlingskoerIndex>', () => {
   });
 
   it('skal flytte reservasjon og så hente reserverte oppgaver på nytt', async () => {
-    const flyttReservasjonFn = sinon.stub().withArgs(oppgave.id).resolves();
+    const flyttReservasjonFn = sinon.stub().withArgs(oppgave.eksternId).resolves();
     const fetchReserverteOppgaverFn = sinon.spy();
     const wrapper = shallow(<BehandlingskoerIndex
       k9sakUrl="www.k9sak.no"

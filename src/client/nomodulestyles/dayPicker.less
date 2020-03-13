@@ -2,19 +2,19 @@
 @import '@{coreModulePath}nav-frontend-typografi-style/src/index';
 
 .DayPickerInput-OverlayWrapper {
-  height: 0px;
+  height: 0;
   position: relative;
-  width: 0px;
   top: -12px;
+  width: 0;
 }
 
 .DayPickerInput-Overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
   background: white;
   border: 1px solid @navGra40;
   border-radius: 4px;
+  left: 0;
+  position: absolute;
+  top: 0;
   z-index: 1010;
 }
 
@@ -22,43 +22,43 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  position: relative;
   padding: 1rem 0;
+  position: relative;
   user-select: none;
 
   &:focus {
-    outline: none;
     box-shadow: 0 0 0 3px @orangeFocus;
+    outline: none;
   }
 }
 
 .DayPicker-Month {
-  display: table;
   border-collapse: collapse;
   border-spacing: 0;
-  user-select: none;
+  display: table;
   margin: 0 1em;
+  user-select: none;
 }
 
 .DayPicker-NavBar {
-  position: absolute;
   left: 0;
-  right: 0;
   padding: 0 0.5em;
+  position: absolute;
+  right: 0;
 }
 
 .DayPicker-NavButton {
-  position: absolute;
-  width: 2em;
-  height: 2em;
-  cursor: pointer;
-  border: 0;
   background: transparent url(../images/pil-videre.svg) no-repeat center;
   background-size: 1.25em 1.25em;
+  border: 0;
+  cursor: pointer;
+  height: 2em;
+  position: absolute;
+  width: 2em;
 
   &:focus {
-    outline: none;
     box-shadow: 0 0 0 3px @orangeFocus;
+    outline: none;
   }
 
   &:focus,
@@ -78,11 +78,11 @@
 
 .DayPicker-Caption {
   display: table-caption;
-  .typo-undertittel();
   height: 2em;
   line-height: 2em;
-  text-align: center;
   margin-bottom: 0.5em;
+  text-align: center;
+  .typo-undertittel();
 }
 
 .DayPicker-Weekdays {
@@ -114,16 +114,16 @@
 }
 
 .DayPicker-Day {
-  font-weight: 600;
+  cursor: pointer;
   display: table-cell;
+  font-weight: 600;
   padding: 0.5em;
   text-align: center;
-  cursor: pointer;
   vertical-align: middle;
 
   &:focus {
-    outline: none;
     background-color: @orangeFocus;
+    outline: none;
   }
 
   &:hover {
@@ -161,8 +161,8 @@
 }
 
 .DayPicker-Day--outside {
-  cursor: default;
   color: @grayInactive;
+  cursor: default;
 }
 
 .DayPicker-Day--sunday {

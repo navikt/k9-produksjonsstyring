@@ -16,7 +16,7 @@ describe('<FagsakYtelseTypeVelger>', () => {
       kode: fagsakYtelseType.FORELDREPRENGER,
       navn: 'Foreldrepenger',
     }, {
-      kode: fagsakYtelseType.SVANGERSKAPPENGER,
+      kode: fagsakYtelseType.PLEIEPENGER_SYKT_BARN,
       navn: 'Svangerskapspenger',
     }];
 

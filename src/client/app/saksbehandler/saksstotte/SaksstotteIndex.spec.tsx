@@ -12,7 +12,7 @@ describe('<SaksstotteIndex>', () => {
     const fetchFn = sinon.spy();
     const oppgaver = [];
     const wrapper = shallow(<SaksstotteIndex
-      fpsakUrl="www.fpsak.no"
+      k9sakUrl="www.k9sak.no"
       fetchBehandledeOppgaver={fetchFn}
       sistBehandledeSaker={oppgaver}
     />);

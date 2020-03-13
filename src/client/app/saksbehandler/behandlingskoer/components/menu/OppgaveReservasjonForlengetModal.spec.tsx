@@ -12,7 +12,7 @@ import { OppgaveReservasjonForlengetModal } from './OppgaveReservasjonForlengetM
 
 describe('<OppgaveReservasjonForlengetModal>', () => {
   const oppgave = {
-    id: 1,
+    eksternId: '1',
     status: {
       erReservert: false,
       reservertTilTidspunkt: '2017-08-02T00:54:25.455',

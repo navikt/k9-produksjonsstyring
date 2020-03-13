@@ -17,7 +17,7 @@ import { OppgaveErReservertAvAnnenModal } from './OppgaveErReservertAvAnnenModal
 describe('<OppgaveErReservertAvAnnenModal>', () => {
   const dato = moment().add(2, 'hours').format();
   const oppgave = {
-    id: 1,
+    eksternId: '1',
     status: {
       erReservert: false,
       reservertTilTidspunkt: dato,
