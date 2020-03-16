@@ -9,7 +9,7 @@ ENV APP_DIR="client/app" \
   APP_URL_FPTILBAKE="http://fptilbake" \
   APP_URL_SAK="http://k9-los"
 
-COPY dist /usr/share/nginx/html
+COPY target /usr/share/nginx/html
 
 EXPOSE 8030 443
 
