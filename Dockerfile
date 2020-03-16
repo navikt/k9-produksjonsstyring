@@ -13,7 +13,6 @@ COPY dist /usr/share/nginx/html
 
 EXPOSE 8030 443
 
-
 # using bash over sh for better signal-handling
 SHELL ["/bin/bash", "-c"]
 ADD start-server.sh /start-server.sh
