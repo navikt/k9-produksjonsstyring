@@ -65,8 +65,9 @@ jobs:
       - name: Deploy til testmiljø
         uses: nais/deploy/actions/deploy@v1
         env:
-          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
+          APIKEY: ${{ secrets.DEPLOY_KEY }}
           CLUSTER: dev-fss
           RESOURCE: deploy/dev-fss.yml
+          TEAM: k9saksbehandling
 
 
