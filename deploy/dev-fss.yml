@@ -37,6 +37,6 @@ spec:
     - name: APP_NAME
       value: k9-los-web
     - name: APP_URL
-      value: "http://k9-los"
+      value: "http://k9-los-web"
     - name: APP_PORT
       value: "8030"
