@@ -5,6 +5,7 @@ on:
       - '**.md'
       - '.gitignore'
       - 'CODEOWNERS'
+      - 'LICENCE'
     branches:
       - master
 env:
@@ -65,7 +66,9 @@ jobs:
         uses: nais/deploy/actions/deploy@v1
         env:
           APIKEY: ${{ secrets.DEPLOY_KEY }}
-          CLUSTER: dev-fss
-          RESOURCE: deploy/dev-fss.yml
+        with:
+          cluster: dev-fss
+          team: k9saksbehandling
+          resources: deploy/dev-fss.yml
 
 
