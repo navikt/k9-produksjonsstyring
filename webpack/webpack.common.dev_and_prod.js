@@ -41,7 +41,7 @@ const config = {
           {
             loader: MiniCssExtractPlugin.loader,
             options: {
-              publicPath: isDevelopment ? './' : '.',
+              publicPath: isDevelopment ? './' : 'k9-los-web',
             },
           }, {
             loader: 'css-loader',
@@ -69,7 +69,7 @@ const config = {
           {
             loader: MiniCssExtractPlugin.loader,
             options: {
-              publicPath: isDevelopment ? './' : '.',
+              publicPath: isDevelopment ? './' : 'k9-los-web',
             },
           }, {
             loader: 'css-loader',
@@ -99,6 +99,27 @@ const config = {
     new MiniCssExtractPlugin({
       filename: isDevelopment ? 'style.css' : 'style_[hash].css',
     }),
+    new HtmlWebpackPlugin({
+      filename: 'index.html',
+      favicon: path.join(ROOT_DIR, 'favicon.ico'),
+      template: path.join(ROOT_DIR, 'index.html'),
+      version: VERSION,
+    }),
+    new webpack.DefinePlugin({
+      VERSION: JSON.stringify(VERSION),
+    }),
+    new CopyWebpackPlugin([
+      {
+        from: LANG_DIR,
+        to: 'sprak/[name].[ext]',
+        force: true,
+        cache: {
+          key: '[hash]',
+        },
+      },
+    ]),
+    // eslint-disable-next-line no-useless-escape
+    new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /nb/),
     new CircularDependencyPlugin({
       exclude: /node_modules/,
       failOnError: true,
