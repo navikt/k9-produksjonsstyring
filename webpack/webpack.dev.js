@@ -13,9 +13,9 @@ const config = {
 
   entry: [
    'babel-polyfill',
-   'webpack-dev-server/client?http://localhost:9100',
+   'webpack-dev-server/client?http://localhost:8030',
    'webpack/hot/only-dev-server',
-    APP_DIR + '/index.tsx',
+    `${APP_DIR}/index.tsx`,
   ],
 
   output: {

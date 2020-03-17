@@ -27,11 +27,11 @@ const options = {
 
 const wds = new WebpackDevServer(webpack(config), options);
 
-wds.listen(9100, 'localhost', (err) => {
+wds.listen(8030, 'localhost', (err) => {
   if (err) {
     return console.log(err); // NOSONAR
   }
 
-  console.log('Listening at http://localhost:9100/');
+  console.log('Listening at http://localhost:8030/');
   return null;
 });
