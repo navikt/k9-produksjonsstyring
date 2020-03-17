@@ -3,6 +3,8 @@ FROM nginx:1.17.8-alpine
 # bash er ikke standard i alpine:
 RUN apk add --no-cache bash
 
+ADD nginx.conf /etc/nginx/conf.d/app.conf.template
+
 ENV APP_DIR="client/app" \
   APP_PATH_PREFIX="/k9-los" \
   APP_CALLBACK_PATH="/k9-los/cb" \
