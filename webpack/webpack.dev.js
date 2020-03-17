@@ -21,7 +21,7 @@ const config = {
   output: {
     filename: 'bundle.js',
     path: ROOT_DIR,
-    publicPath: '/',
+    publicPath: '/k9-los-web',
   },
 
   plugins: [
