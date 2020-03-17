@@ -1,13 +1,18 @@
 const CircularDependencyPlugin = require('circular-dependency-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const webpack = require('webpack');
 const path = require('path');
 const merge = require('webpack-merge');
 const common = require('./webpack.common.js');
+const PACKAGE = require('./../package.json');
+const VERSION = PACKAGE.version;
 
 const CORE_DIR = path.resolve(__dirname, '../node_modules');
 const ROOT_DIR = path.resolve(__dirname, '../src/client');
 const APP_DIR = path.join(ROOT_DIR, 'app');
+const LANG_DIR = path.resolve(APP_DIR, 'sprak/');
 const IMG_DIR = path.join(ROOT_DIR, 'images');
 const STYLE_DIR = path.join(ROOT_DIR, 'styles');
 const CSS_DIR = path.join(ROOT_DIR, 'nomodulestyles');
