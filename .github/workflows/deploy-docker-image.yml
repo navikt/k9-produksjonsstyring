@@ -63,12 +63,10 @@ jobs:
                       "image": "${{ env.IMAGE }}"
                   }}'
       - name: Deploy til testmiljø
-        steps:
-          - uses: actions/checkout@v1
-          - uses: nais/deploy/actions/deploy@v1
-            env:
-              APIKEY: ${{ secrets.DEPLOY_KEY }}
-              CLUSTER: dev-fss
-              RESOURCE: deploy/dev-fss.yml
+        uses: nais/deploy/actions/deploy@v1
+        env:
+          APIKEY: ${{ secrets.DEPLOY_KEY }}
+          CLUSTER: dev-fss
+          RESOURCE: deploy/dev-fss.yml
 
 
