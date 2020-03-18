@@ -10,10 +10,6 @@ if (process.argv.includes('--no-fix')) {
 const options = {
   contentBase: 'src/client',
   proxy: {
-    '**/(sprak|api)/**': {
-      target: 'http://localhost:8020',
-      secure: false,
-    },
     '/api/**': {
       target: process.env.APP_URL_LOS || 'http://localhost:8020',
       secure: false,
