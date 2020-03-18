@@ -11,8 +11,7 @@ ENV APP_DIR="client/app" \
   APP_URL_FPTILBAKE="http://fptilbake" \
   APP_URL_LOS="http://k9-los-api"
 
-COPY target/index.html /usr/share/nginx/html
-COPY target/public /usr/share/nginx/html
+COPY dist /usr/share/nginx/html
 
 EXPOSE 8030 443
 

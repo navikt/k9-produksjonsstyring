@@ -46,7 +46,7 @@ const config = {
           {
             loader: MiniCssExtractPlugin.loader,
             options: {
-              publicPath: isDevelopment ? './' : '.',
+              publicPath: isDevelopment ? './' : '/k9los/web/',
             },
           }, {
             loader: 'css-loader',
@@ -74,7 +74,7 @@ const config = {
           {
             loader: MiniCssExtractPlugin.loader,
             options: {
-              publicPath: isDevelopment ? './' : ',',
+              publicPath: isDevelopment ? './' : '/k9los/web/',
             },
           }, {
             loader: 'css-loader',

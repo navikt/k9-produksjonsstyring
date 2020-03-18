@@ -1,5 +1,5 @@
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
-const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 const merge = require('webpack-merge');
@@ -20,8 +20,8 @@ const config = {
 
   output: {
     filename: 'bundle-[hash].js',
-    path: path.resolve(__dirname, '../target/public'),
-    publicPath: 'public',
+    path: path.resolve(__dirname, '../dist/k9los/web'),
+    publicPath: '/k9los/web/',
   },
 
   plugins: [
