@@ -11,8 +11,19 @@ const options = {
   contentBase: 'src/client',
   proxy: {
     '**/(sprak|api)/**': {
+      target: 'http://localhost:8020',
+      secure: false,
+    },
+    '/api/**': {
       target: process.env.APP_URL_LOS || 'http://localhost:8020',
       secure: false,
+      changeOrigin: !!process.env.APP_URL_LOS,
+      onProxyRes: function onProxyRes(proxyRes, req, res) {
+        // For å håndtere redirects på 202 Accepted responser med location headers...
+        if (proxyRes.headers.location && proxyRes.headers.location.startsWith(process.env.APP_URL_LOS)) {
+          proxyRes.headers.location = proxyRes.headers.location.split(process.env.APP_URL_LOS)[1];
+        }
+      },
     },
   },
   publicPath: config.output.publicPath,
