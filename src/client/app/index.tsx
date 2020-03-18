@@ -18,7 +18,7 @@ init({
 
 
 const history = createBrowserHistory({
-  basename: 'k9-los-web',
+  basename: '/k9-los-web/',
 });
 const store = configureStore(history);
 
