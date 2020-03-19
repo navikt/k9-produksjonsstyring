@@ -10,7 +10,7 @@ if (process.argv.includes('--no-fix')) {
 const options = {
   contentBase: 'src/client',
   proxy: {
-    '/k9los/**': {
+    '/api/**': {
       target: `${process.env.APP_URL_LOS}/api` || 'http://localhost:8020',
       secure: false,
       changeOrigin: !!process.env.APP_URL_LOS,
