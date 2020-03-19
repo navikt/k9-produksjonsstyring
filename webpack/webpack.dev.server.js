@@ -11,7 +11,7 @@ const options = {
   contentBase: 'src/client',
   proxy: {
     '/api/**': {
-      target: `${process.env.APP_URL_LOS}/api` || 'http://localhost:8020',
+      target: process.env.APP_URL_LOS || 'http://localhost:8020',
       secure: false,
       changeOrigin: !!process.env.APP_URL_LOS,
       onProxyRes: function onProxyRes(proxyRes, req, res) {
