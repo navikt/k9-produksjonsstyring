@@ -61,7 +61,7 @@ const endpoints = new RestApiConfigBuilder()
   .withGet('/saksbehandler/saksliste/saksbehandlere', k9LosApiKeys.SAKSLISTE_SAKSBEHANDLERE)
 
   /* /api/saksbehandler/oppgave */
-  .withAsyncGet('/saksbehandler/oppgaver', k9LosApiKeys.OPPGAVER_TIL_BEHANDLING, { maxPollingLimit: 1800 })
+  .withGet('/saksbehandler/oppgaver', k9LosApiKeys.OPPGAVER_TIL_BEHANDLING)
   .withGet('/saksbehandler/oppgaver/reserverte', k9LosApiKeys.RESERVERTE_OPPGAVER)
   .withPost('/saksbehandler/oppgaver/reserver', k9LosApiKeys.RESERVER_OPPGAVE)
   .withGet('/saksbehandler/oppgaver/reservasjon-status', k9LosApiKeys.HENT_RESERVASJONSSTATUS)

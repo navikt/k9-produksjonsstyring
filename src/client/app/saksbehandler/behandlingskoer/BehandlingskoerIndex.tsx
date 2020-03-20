@@ -14,10 +14,8 @@ import OppgaveErReservertAvAnnenModal from 'saksbehandler/components/OppgaveErRe
 import {
   fetchAlleSakslister, getSakslisteResult, fetchOppgaverTilBehandling, fetchReserverteOppgaver, reserverOppgave, opphevOppgaveReservasjon,
   forlengOppgaveReservasjon, fetchOppgaverTilBehandlingOppgaver, flyttReservasjon, setValgtSakslisteId,
-  harOppgaverTilBehandlingTimeout,
 } from './duck';
 import SakslistePanel from './components/SakslistePanel';
-import BehandlingPollingTimoutModal from './components/BehandlingPollingTimoutModal';
 
 type TsProps = Readonly<{
   fetchOppgaverTilBehandling: (sakslisteId: number) => Promise<{payload: any }>;
@@ -32,7 +30,6 @@ type TsProps = Readonly<{
   k9sakUrl: string;
   k9tilbakeUrl: string;
   goToUrl: (url: string) => void;
-  harTimeout: boolean;
   setValgtSakslisteId: (sakslisteId: number) => void;
 }>
 
@@ -63,7 +60,6 @@ export class BehandlingskoerIndex extends Component<TsProps, StateProps> {
     k9sakUrl: PropTypes.string.isRequired,
     k9tilbakeUrl: PropTypes.string.isRequired,
     goToUrl: PropTypes.func.isRequired,
-    harTimeout: PropTypes.bool.isRequired,
     setValgtSakslisteId: PropTypes.func.isRequired,
   };
 
@@ -86,10 +82,7 @@ export class BehandlingskoerIndex extends Component<TsProps, StateProps> {
   fetchSakslisteOppgaverPolling = (sakslisteId: number, oppgaveIder?: string) => {
     const { fetchOppgaverTilBehandlingOppgaver: fetchTilBehandling, fetchReserverteOppgaver: fetchReserverte } = this.props;
     fetchReserverte(sakslisteId);
-    fetchTilBehandling(sakslisteId, oppgaveIder).then((response) => {
-      const { sakslisteId: id } = this.state;
-      return sakslisteId === id ? this.fetchSakslisteOppgaverPolling(sakslisteId, response.payload.map(o => o.id).join(',')) : Promise.resolve();
-    }).catch(() => undefined);
+    fetchTilBehandling(sakslisteId, oppgaveIder);
   }
 
   fetchSakslisteOppgaver = (sakslisteId: number) => {
@@ -105,7 +98,7 @@ export class BehandlingskoerIndex extends Component<TsProps, StateProps> {
 
   openSak = (oppgave: Oppgave) => {
     if (oppgave.system === 'K9SAK') this.openFagsak(oppgave);
-    else if (oppgave.system === 'k9TILBAKE') this.openTilbakesak(oppgave);
+    else if (oppgave.system === 'K9TILBAKE') this.openTilbakesak(oppgave);
     else throw new Error('Fagsystemet for oppgaven er ukjent');
   }
 
@@ -180,7 +173,7 @@ export class BehandlingskoerIndex extends Component<TsProps, StateProps> {
 
   render = () => {
     const {
-      sakslister, harTimeout,
+      sakslister,
     } = this.props;
     const {
       reservertAvAnnenSaksbehandler, reservertOppgave, reservertOppgaveStatus,
@@ -198,9 +191,6 @@ export class BehandlingskoerIndex extends Component<TsProps, StateProps> {
           forlengOppgaveReservasjon={this.forlengOppgaveReservasjon}
           flyttReservasjon={this.flyttReservasjon}
         />
-        {harTimeout
-          && <BehandlingPollingTimoutModal />
-        }
         {reservertAvAnnenSaksbehandler && reservertOppgave && reservertOppgaveStatus && (
           <OppgaveErReservertAvAnnenModal
             lukkErReservertModalOgOpneOppgave={this.lukkErReservertModalOgOpneOppgave}
@@ -217,7 +207,6 @@ export class BehandlingskoerIndex extends Component<TsProps, StateProps> {
 const mapStateToProps = state => ({
   k9sakUrl: getK9sakUrl(state),
   k9tilbakeUrl: getK9tilbakeUrl(state),
-  harTimeout: harOppgaverTilBehandlingTimeout(state),
   sakslister: getSakslisteResult(state),
   goToUrl: url => window.location.assign(url),
 });

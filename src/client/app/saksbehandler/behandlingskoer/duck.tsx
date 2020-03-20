@@ -27,7 +27,6 @@ export const fetchOppgaverTilBehandlingOppgaver = (sakslisteId: number, oppgaveI
   ),
 );
 export const getOppgaverTilBehandling = k9LosApi.OPPGAVER_TIL_BEHANDLING.getRestApiData();
-export const harOppgaverTilBehandlingTimeout = k9LosApi.OPPGAVER_TIL_BEHANDLING.getRestApiPollingTimeout();
 
 export const fetchReserverteOppgaver = () => (dispatch: Dispatch) => dispatch(
   k9LosApi.RESERVERTE_OPPGAVER.makeRestApiRequest()(
