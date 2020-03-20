@@ -77,7 +77,6 @@ describe('<BehandlingskoerIndex>', () => {
       fetchOppgaverTilBehandlingOppgaver={sinon.spy()}
       flyttReservasjon={sinon.spy()}
       goToUrl={sinon.spy()}
-      harTimeout={false}
       setValgtSakslisteId={sinon.spy()}
     />);
 
@@ -101,7 +100,6 @@ describe('<BehandlingskoerIndex>', () => {
       flyttReservasjon={sinon.spy()}
       sakslister={sakslister}
       goToUrl={sinon.spy()}
-      harTimeout={false}
       setValgtSakslisteId={sinon.spy()}
     />);
 
@@ -130,7 +128,6 @@ describe('<BehandlingskoerIndex>', () => {
       flyttReservasjon={sinon.spy()}
       sakslister={sakslister}
       goToUrl={goToUrl}
-      harTimeout={false}
       setValgtSakslisteId={sinon.spy()}
     />);
 
@@ -162,7 +159,6 @@ describe('<BehandlingskoerIndex>', () => {
       flyttReservasjon={sinon.spy()}
       sakslister={sakslister}
       goToUrl={goToUrl}
-      harTimeout={false}
       setValgtSakslisteId={sinon.spy()}
     />);
 
@@ -213,7 +209,6 @@ describe('<BehandlingskoerIndex>', () => {
       flyttReservasjon={sinon.spy()}
       sakslister={sakslister}
       goToUrl={sinon.spy()}
-      harTimeout={false}
       setValgtSakslisteId={sinon.spy()}
     />);
 
@@ -250,7 +245,6 @@ describe('<BehandlingskoerIndex>', () => {
       flyttReservasjon={sinon.spy()}
       sakslister={sakslister}
       goToUrl={sinon.spy()}
-      harTimeout={false}
       setValgtSakslisteId={sinon.spy()}
     />);
 
@@ -291,7 +285,6 @@ describe('<BehandlingskoerIndex>', () => {
       flyttReservasjon={sinon.spy()}
       sakslister={sakslister}
       goToUrl={sinon.spy()}
-      harTimeout={false}
       setValgtSakslisteId={sinon.spy()}
     />);
 
@@ -330,7 +323,6 @@ describe('<BehandlingskoerIndex>', () => {
       flyttReservasjon={flyttReservasjonFn}
       sakslister={sakslister}
       goToUrl={sinon.spy()}
-      harTimeout={false}
       setValgtSakslisteId={sinon.spy()}
     />);
 
@@ -357,7 +349,7 @@ describe('<BehandlingskoerIndex>', () => {
     expect(args2[0]).to.eql(sakslisteId);
   });
 
-  it('skal vise dialog ved timeout', () => {
+/*  it('skal vise dialog ved timeout', () => {
     const fetchSakslister = sinon.spy();
     const wrapper = shallow(<BehandlingskoerIndex
       k9sakUrl="www.k9sak.no"
@@ -372,10 +364,9 @@ describe('<BehandlingskoerIndex>', () => {
       flyttReservasjon={sinon.spy()}
       sakslister={sakslister}
       goToUrl={sinon.spy()}
-      harTimeout
       setValgtSakslisteId={sinon.spy()}
     />);
 
     expect(wrapper.find(BehandlingPollingTimoutModal)).to.have.length(1);
-  });
+  }); */
 });
