@@ -5,7 +5,7 @@ import { OppgaveStatus } from './oppgaveStatusTsType';
 // eslint-disable-next-line import/prefer-default-export
 export type Oppgave = Readonly<{
   status: OppgaveStatus;
-  saksnummer: number;
+  saksnummer: string;
   behandlingId: number;
   personnummer: string;
   navn: string;

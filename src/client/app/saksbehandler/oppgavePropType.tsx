@@ -5,7 +5,7 @@ import oppgaveStatusPropType from './oppgaveStatusPropType';
 
 const oppgavePropType = PropTypes.shape({
   status: oppgaveStatusPropType.isRequired,
-  saksnummer: PropTypes.number.isRequired,
+  saksnummer: PropTypes.string.isRequired,
   behandlingId: PropTypes.number,
   navn: PropTypes.string.isRequired,
   system: PropTypes.string.isRequired,

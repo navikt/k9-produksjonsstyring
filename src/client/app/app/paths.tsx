@@ -19,8 +19,8 @@ export const getAvdelingslederPanelLocationCreator = (location: Location) => (av
   location, { fane: avdelingslederPanel },
 );
 
-export const getK9sakHref = (k9sakUrl: string, saksnummer: number, behandlingId?: number) => (behandlingId
+export const getK9sakHref = (k9sakUrl: string, saksnummer: string, behandlingId?: number) => (behandlingId
   ? `${k9sakUrl}/fagsak/${saksnummer}/behandling/${behandlingId}/?punkt=default&fakta=default` : `${k9sakUrl}/fagsak/${saksnummer}/`);
 
-export const getK9tilbakeHref = (k9tilbakeUrl: string, saksnummer: number, eksternId?: string) => (eksternId
+export const getK9tilbakeHref = (k9tilbakeUrl: string, saksnummer: string, eksternId?: string) => (eksternId
     ? `${k9tilbakeUrl}/tilbake/${saksnummer}/behandling/${eksternId}/?punkt=default&fakta=default` : `${k9tilbakeUrl}/tilbake/${saksnummer}/`);

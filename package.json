@@ -155,6 +155,8 @@
     "postinstall": "yarn run build && yarn test && yarn run less:lint",
     "ts-check": "tsc --pretty",
     "less:lint": "stylelint \"src/**/*.less\"",
+    "up": "docker-compose up -d --remove-orphans --build",
+    "down": "docker-compose down",
     "doc": "react-asciidoc-generator ./src/client/app/ -o ../../docs/generated/react.adoc --handlebar-template src/docs/asciidoc-template.handlebars "
   },
   "nyc": {

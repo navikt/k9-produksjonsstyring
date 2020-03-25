@@ -1,0 +1,12 @@
+version: '3'
+services:
+  frontend:
+    image: k9-los-web:0.0.1
+    # build: .
+    ports:
+      - 8030:8030
+    environment:
+      - APP_HOSTNAME=localhost
+      - APP_URL_LOS=http://host.docker.internal:8020
+      - APP_PORT=8030
+      - APP_PATH_PREFIX=sak
