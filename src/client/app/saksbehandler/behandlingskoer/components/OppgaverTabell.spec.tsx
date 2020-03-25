@@ -22,7 +22,7 @@ describe('<OppgaverTabell>', () => {
       status: {
         erReservert: false,
       },
-      saksnummer: 1,
+      saksnummer: '1',
       behandlingId: 2,
       personnummer: '123456789',
       navn: 'Espen Utvikler',
@@ -47,7 +47,7 @@ describe('<OppgaverTabell>', () => {
       status: {
         erReservert: false,
       },
-      saksnummer: 2,
+      saksnummer: '2',
       behandlingId: 2,
       personnummer: '657643535',
       navn: 'Espen Solstråle',
@@ -107,7 +107,7 @@ describe('<OppgaverTabell>', () => {
       status: {
         erReservert: false,
       },
-      saksnummer: 1,
+      saksnummer: '1',
       behandlingId: 2,
       personnummer: '123456789',
       navn: 'Espen Utvikler',
@@ -133,7 +133,7 @@ describe('<OppgaverTabell>', () => {
       status: {
         erReservert: true,
       },
-      saksnummer: 2,
+      saksnummer: '2',
       behandlingId: 2,
       personnummer: '657643535',
       navn: 'Espen Solstråle',
@@ -221,7 +221,7 @@ describe('<OppgaverTabell>', () => {
           begrunnelse: 'Har flytta til deg',
         },
       },
-      saksnummer: 2,
+      saksnummer: '2',
       behandlingId: 2,
       personnummer: '657643535',
       navn: 'Espen Solstråle',

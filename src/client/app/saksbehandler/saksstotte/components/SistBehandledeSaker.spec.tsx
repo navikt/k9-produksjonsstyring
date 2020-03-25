@@ -13,7 +13,7 @@ describe('<SistBehandledeSaker>', () => {
       status: {
         erReservert: false,
       },
-      saksnummer: 1,
+      saksnummer: '1',
       behandlingId: 1,
       personnummer: '123456789',
       navn: 'Espen Utvikler',
@@ -38,7 +38,7 @@ describe('<SistBehandledeSaker>', () => {
       status: {
         erReservert: false,
       },
-      saksnummer: 2,
+      saksnummer: '2',
       behandlingId: 2,
       personnummer: '657643535',
       navn: 'Espen Solstråle',

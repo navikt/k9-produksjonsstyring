@@ -24,7 +24,7 @@ describe('<OppgaveErReservertAvAnnenModal>', () => {
       reservertAvNavn: 'Espen Utvikler',
       reservertAvUid: '123455',
     },
-    saksnummer: 1,
+    saksnummer: '1',
     behandlingId: 2,
     personnummer: '1234567',
     navn: 'Espen Utvikler',

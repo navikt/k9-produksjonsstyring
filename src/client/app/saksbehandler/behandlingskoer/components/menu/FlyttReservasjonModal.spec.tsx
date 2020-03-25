@@ -21,7 +21,7 @@ describe('<FlyttReservasjonModal>', () => {
       erReservert: false,
       reservertTilTidspunkt: moment().add(2, 'hours').format(),
     },
-    saksnummer: 1,
+    saksnummer: '1',
     behandlingId: 2,
     personnummer: '1234567',
     navn: 'Espen Utvikler',
