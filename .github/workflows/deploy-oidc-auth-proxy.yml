@@ -12,11 +12,9 @@ jobs:
     steps:
       - name: Hente kode
         uses: actions/checkout@v1
-      - name: Deploye til dev
+      - name: Deploy til testmiljø
         uses: nais/deploy/actions/deploy@v1
         env:
           APIKEY: ${{ secrets.DEPLOY_KEY }}
-        with:
-          cluster: dev-fss
-          team: k9saksbehandling
-          rawresources: deploy/k9-los-oidc-auth-proxy.yml
+          CLUSTER: dev-fss
+          RESOURCE:  deploy/k9-los-oidc-auth-proxy.yml
