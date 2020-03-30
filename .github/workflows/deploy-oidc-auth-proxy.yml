@@ -19,4 +19,4 @@ jobs:
         with:
           cluster: dev-fss
           team: k9saksbehandling
-          rawresources: nais/dev/k9-los-oidc-auth-proxy.yml
+          rawresources: deploy/k9-los-oidc-auth-proxy.yml

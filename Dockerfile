@@ -10,6 +10,7 @@ ENV APP_DIR="client/app" \
   APP_CALLBACK_PATH="/k9-los/cb" \
   APP_URL_FPTILBAKE="http://fptilbake" \
   APP_URL_LOS="http://k9-los-api"
+  APPLICATION_BASE_URL="http://k9-los-web/k9los/web"
 
 COPY dist /usr/share/nginx/html
 
