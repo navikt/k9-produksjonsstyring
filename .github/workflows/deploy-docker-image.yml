@@ -6,9 +6,6 @@ on:
       - '.gitignore'
       - 'CODEOWNERS'
       - 'LICENCE'
-      - 'deploy/k9-los-oidc-auth-proxy.yml'
-      - 'deploy/k9-los-oidc-auth-proxy-redis.yml'
-      - 'deploy/k9-los-oidc-auth-proxy-redis-exporter.yml'
     branches:
       - master
 env:
