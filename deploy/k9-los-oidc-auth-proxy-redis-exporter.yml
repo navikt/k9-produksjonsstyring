@@ -24,4 +24,4 @@ spec:
     enabled: true
   env:
     - name: REDIS_ADDR
-      value: k9-punsj-los-auth-proxy-redis.default.svc.nais.local:6379
+      value: k9-los-auth-proxy-redis.default.svc.nais.local:6379
