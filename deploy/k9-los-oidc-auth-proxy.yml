@@ -67,4 +67,3 @@ spec:
           value: 'Content-Type,Referer,X-Nav-NorskIdent'
         - name: CORS_EXPOSED_HEADERS
           value: 'Location'
-
