@@ -46,5 +46,3 @@ spec:
       value: https://k9-los-oidc-auth-proxy.nais.preprod.local
     - name: APPLICATION_BASE_URL
       value: http://k9-los-web
-    - name: REDIRECT_URL
-      value: login?redirect_uri=${APPLICATION_BASE_URL}/k9los/web
