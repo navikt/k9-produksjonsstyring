@@ -18,7 +18,7 @@ export APP_PORT="${APP_PORT:-443}"
 export APP_NAME="${APP_NAME:-devimg}"
 export APP_VERSION="${APP_VERSION:-localhost}"
 
-envsubst '$APP_PORT $APP_HOSTNAME $APP_URL_LOS $APP_NAME $APP_VERSION $AUTH_PROXY_URL $APPLICATION_BASE_URL' < /etc/nginx/conf.d/app.conf.template > /etc/nginx/conf.d/default.conf
+envsubst '$APP_PORT $APP_HOSTNAME $APP_URL_LOS $APP_NAME $APP_VERSION $AUTH_PROXY_URL $APPLICATION_BASE_URL $REDIRECT_URL' < /etc/nginx/conf.d/app.conf.template > /etc/nginx/conf.d/default.conf
 
 cat /etc/nginx/conf.d/default.conf
 
