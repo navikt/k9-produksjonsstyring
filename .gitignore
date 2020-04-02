@@ -10,7 +10,7 @@
 /target/
 # production
 /build
-dist
+/dist
 # misc
 .DS_Store
 .env.local
