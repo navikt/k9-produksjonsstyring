@@ -52,7 +52,7 @@ spec:
         - name: OIDC_AUTH_PROXY_BASE_URL
           value: https://k9-los-oidc-auth-proxy.nais.preprod.local
         - name: APPLICATION_BASE_URL
-          value: http://k9-los-web/k9los/web
+          value: https://k9-los-web.nais.preprod.local/
         - name: ALLOW_PROXY_TO_SELF_SIGNED_CERTIFICATES
           value: 'true'
         - name: SESSION_ID_COOKIE_NAME
