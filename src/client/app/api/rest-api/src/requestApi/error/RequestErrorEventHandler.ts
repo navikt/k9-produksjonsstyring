@@ -54,7 +54,7 @@ class RequestErrorEventHandler {
       }
     }
     if (is401Error(formattedError.status)) {
-      // this.notify(EventType.REQUEST_ERROR, { message: error.message });
+      this.notify(EventType.REQUEST_ERROR, { message: error.message });
       window.location.href = REDIRECT_URL;
     } else if (is418Error(formattedError.status)) {
       this.notify(EventType.POLLING_HALTED_OR_DELAYED, formattedError.data);
