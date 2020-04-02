@@ -4,7 +4,7 @@ import { isHandledError, is401Error, is418Error } from './ErrorTypes';
 import TimeoutError from './TimeoutError';
 import { redirect } from '../../../rest-utils';
 
-const REDIRECT_URL = 'https://k9-los-oidc-auth-proxy/login?redirect_uri=https://k9-los-web.nais.preprod.local/k9los/web';
+const REDIRECT_URL = 'https://k9-los-oidc-auth-proxy.nais.preprod.local/login?redirect_uri=https://k9-los-web.nais.preprod.local/k9los/web';
 
 type NotificationEmitter = (eventType: keyof typeof EventType, data?: any) => void
 
