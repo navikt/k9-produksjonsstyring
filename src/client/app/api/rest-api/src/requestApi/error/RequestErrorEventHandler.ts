@@ -4,7 +4,6 @@ import { isHandledError, is401Error, is418Error } from './ErrorTypes';
 import TimeoutError from './TimeoutError';
 import { redirect } from '../../../rest-utils';
 
-const isDevelopment = process.env.NODE_ENV === 'development';
 const REDIRECT_URL = 'https://k9-los-oidc-auth-proxy/login?redirect_uri=https://k9-los-web.nais.preprod.local/k9los/web';
 
 type NotificationEmitter = (eventType: keyof typeof EventType, data?: any) => void
@@ -57,7 +56,7 @@ class RequestErrorEventHandler {
     }
     if (is401Error(formattedError.status)) {
       this.notify(EventType.REQUEST_ERROR, { message: error.message });
-      redirect(REDIRECT_URL);
+      window.location.href = REDIRECT_URL;
     } else if (is418Error(formattedError.status)) {
       this.notify(EventType.POLLING_HALTED_OR_DELAYED, formattedError.data);
     } else if (!error.response && error.message) {
@@ -79,8 +78,6 @@ class RequestErrorEventHandler {
       status: response ? response.status : undefined,
     };
   };
-
-
 }
 
 export default RequestErrorEventHandler;
