@@ -2,7 +2,6 @@ import EventType from '../eventType';
 import { ErrorType } from './errorTsType';
 import { isHandledError, is401Error, is418Error } from './ErrorTypes';
 import TimeoutError from './TimeoutError';
-import { redirect } from '../../../rest-utils';
 
 const REDIRECT_URL = 'https://k9-los-oidc-auth-proxy.nais.preprod.local/login?redirect_uri=https://k9-los-web.nais.preprod.local/k9los/web';
 
@@ -55,7 +54,7 @@ class RequestErrorEventHandler {
       }
     }
     if (is401Error(formattedError.status)) {
-      //this.notify(EventType.REQUEST_ERROR, { message: error.message });
+      // this.notify(EventType.REQUEST_ERROR, { message: error.message });
       window.location.href = REDIRECT_URL;
     } else if (is418Error(formattedError.status)) {
       this.notify(EventType.POLLING_HALTED_OR_DELAYED, formattedError.data);
