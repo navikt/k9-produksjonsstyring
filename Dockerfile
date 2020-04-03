@@ -1,6 +1,6 @@
 FROM node:alpine
 
-WORKDIR /usr/src/app
+WORKDIR /usr/src/client/app
 
 COPY dist ./dist
 COPY server.js .
