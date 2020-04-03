@@ -11,13 +11,13 @@ const options = {
   contentBase: 'src/client',
   proxy: {
     '/api/**': {
-      target: process.env.APP_URL_LOS || 'http://localhost:8020',
+      target: `${process.env.AUTH_PROXY_URL  }/api/k9-los-api` || 'http://localhost:8021',
       secure: false,
-      changeOrigin: !!process.env.APP_URL_LOS,
+      changeOrigin: !!process.env.AUTH_PROXY_URL,
       onProxyRes: function onProxyRes(proxyRes, req, res) {
         // For å håndtere redirects på 202 Accepted responser med location headers...
-        if (proxyRes.headers.location && proxyRes.headers.location.startsWith(process.env.APP_URL_LOS)) {
-          proxyRes.headers.location = proxyRes.headers.location.split(process.env.APP_URL_LOS)[1];
+        if (proxyRes.headers.location && proxyRes.headers.location.startsWith(process.env.AUTH_PROXY_URL)) {
+          proxyRes.headers.location = proxyRes.headers.location.split(process.env.AUTH_PROXY_URL)[1];
         }
       },
     },
