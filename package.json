@@ -155,7 +155,7 @@
     "test:coverage": "nyc mochapack --webpack-config webpack/webpack.test.coverage.js  \"src/client/app/*/**/*.ts*\"",
     "dev": "cross-env NODE_ENV=development node webpack/webpack.dev.server.js --config webpack/webpack.dev.js",
     "build": "cross-env NODE_ENV=production webpack --progress --colors --config webpack/webpack.prod.js",
-    "postinstall": "yarn run src/build && yarn test && yarn run less:lint",
+    "postinstall": "yarn run build && yarn test && yarn run less:lint",
     "ts-check": "tsc --pretty",
     "less:lint": "stylelint \"src/**/*.less\"",
     "up": "docker-compose up -d --remove-orphans --build",
