@@ -3,7 +3,7 @@ import React, {
 } from 'react';
 import PropTypes from 'prop-types';
 import { injectIntl, intlShape } from 'react-intl';
-import Popover from '@navikt/nap-popover';
+import Popover from '@popperjs/core';
 import SystemButton from '@navikt/nap-system-button';
 import UserPanel from '@navikt/nap-user-panel';
 import BoxedListWithSelection from '@navikt/boxed-list-with-selection';
