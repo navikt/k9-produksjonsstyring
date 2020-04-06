@@ -6,6 +6,7 @@
   "repository": "https://github.com/navikt/k9-los-web",
   "license": "MIT",
   "dependencies": {
+    "@popperjs/core": "2.2.1",
     "@navikt/boxed-list-with-links": "1.0.4",
     "@navikt/boxed-list-with-selection": "1.0.1",
     "@navikt/nap-header": "1.0.9",
