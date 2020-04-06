@@ -12,6 +12,7 @@ server.use(compression());
 server.set('views', `${__dirname}/dist`);
 server.set('view engine', 'mustache');
 server.engine('html', mustacheExpress());
+server.use(express.static(`${__dirname}/public`));
 
 createEnvSettingsFile(path.resolve(`${__dirname}/dist/js/settings.js`));
 
