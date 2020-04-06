@@ -20,8 +20,8 @@ const config = {
 
   output: {
     filename: 'bundle-[hash].js',
-    path: path.resolve(__dirname, '../dist/k9los/web'),
-    publicPath: '/k9los/web/',
+    path: path.resolve(__dirname, '../dist'),
+    publicPath: 'public',
   },
 
   plugins: [

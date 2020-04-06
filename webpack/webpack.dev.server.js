@@ -25,9 +25,7 @@ const options = {
   publicPath: config.output.publicPath,
   hot: true,
   noInfo: true,
-  historyApiFallback: {
-    index: '/k9los/web/',
-  },
+  historyApiFallback: true,
   stats: {
     children: false,
     colors: true,
