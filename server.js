@@ -27,15 +27,11 @@ const renderApp = () =>
     });
 
 const startServer = (html) => {
-    server.use('/dist/js', express.static(path.resolve(__dirname, 'dist/js')));
-    server.use('/dist/css', express.static(path.resolve(__dirname, 'dist/css')));
-    server.use('/dist/favicon.png', express.static(path.resolve(__dirname, 'dist/favicon.png')));
-
     server.get('/isAlive', (req, res) => res.sendStatus(200));
     server.get('/isReady', (req, res) => res.sendStatus(200));
 
-    server.get(/^\/(?!.*dist).*$/, (req, res) => {
-        res.send(html);
+    server.get('/', (req, res) => {
+        res.sendFile(path.join(__dirname, 'dist', 'index.html'));
     });
 
     const port = process.env.PORT || 8030;
