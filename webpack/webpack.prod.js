@@ -21,7 +21,7 @@ const config = {
   output: {
     filename: 'bundle-[hash].js',
     path: path.resolve(__dirname, '../dist'),
-    publicPath: 'public',
+    publicPath: '/',
   },
 
   plugins: [
