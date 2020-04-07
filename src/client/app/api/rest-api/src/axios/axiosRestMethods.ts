@@ -27,7 +27,7 @@ const defaultPostHeaders = {
 };
 
 const get = axiosInstance => (url: string, params: any, responseType: string = 'json') => {
-  const urlRedir = url ? `https://k9-los-oidc-auth-proxy.nais.preprod.local/api/k9-los-api/${url}` : null;
+  const urlRedir = url ? `https://k9-los-oidc-auth-proxy.nais.preprod.local/api/k9-los-api${url}` : null;
   return cancellable(axiosInstance, {
     url: urlRedir,
     params,
