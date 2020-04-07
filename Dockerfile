@@ -9,5 +9,5 @@ COPY package.json .
 COPY src/build/scripts/envSettings.js ./src/build/scripts/envSettings.js
 
 EXPOSE 8030
-CMD ["yarn", "dev"]
+CMD ["yarn", "run", "start-express"]
 
