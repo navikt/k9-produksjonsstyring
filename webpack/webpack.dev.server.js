@@ -40,5 +40,6 @@ wds.listen(8030, 'localhost', (err) => {
   }
 
   console.log('Listening at http://localhost:8030/');
+  console.log(`${process.env.AUTH_PROXY_URL}/api/k9-los-api`);
   return null;
 });
