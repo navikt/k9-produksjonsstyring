@@ -15,3 +15,4 @@ server.get('/', (req, res) => {
 server.listen(PORT);
 
 console.log(`Started express server at port ${PORT}`);
+console.log( 'AUTH PROXY_URL_:' + `${process.env.AUTH_PROXY_URL}/api/k9-los-api`)
