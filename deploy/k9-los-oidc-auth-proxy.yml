@@ -64,6 +64,6 @@ spec:
         - name: REDIS_PORT
           value: '6379'
         - name: CORS_ALLOWED_HEADERS
-          value: 'Content-Type,Referer,X-Nav-NorskIdent'
+          value: 'Content-Type,Referer,X-Nav-NorskIdent,cache-control,expires,nav-callid,pragma'
         - name: CORS_EXPOSED_HEADERS
           value: 'Location'

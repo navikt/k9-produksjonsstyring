@@ -33,6 +33,7 @@ spec:
       memory: 32Mi
   ingresses:
     - https://k9-los-web.nais.preprod.local
+    - https://app-q1.adeo.no/k9-los
   env:
     - name: APP_NAME
       value: k9-los-web
@@ -43,6 +44,6 @@ spec:
     - name: APP_URL_LOS
       value: http://k9-los-api
     - name: AUTH_PROXY_URL
-      value: http://k9-los-oidc-auth-proxy
+      value: https://k9-los-oidc-auth-proxy.nais.preprod.local
     - name: APPLICATION_BASE_URL
       value: https://k9-los-web.nais.preprod.local

@@ -1,23 +1,13 @@
-FROM nginx:1.17.8-alpine
+FROM node:alpine
 
-# bash er ikke standard i alpine:
-RUN apk add --no-cache bash
+WORKDIR /usr/src/client/app
 
-ADD nginx.conf /etc/nginx/conf.d/app.conf.template
+COPY dist ./dist
+COPY server.js .
+COPY node_modules ./node_modules
+COPY package.json .
+COPY src/build/scripts/envSettings.js ./src/build/scripts/envSettings.js
 
-ENV APP_DIR="client/app" \
-  APP_PATH_PREFIX="/k9-los" \
-  APP_CALLBACK_PATH="/k9-los/cb" \
-  APP_URL_FPTILBAKE="http://fptilbake" \
-  APP_URL_LOS="http://k9-los-api" \
-  APPLICATION_BASE_URL="http://k9-los-web/k9los/web"
-
-COPY dist /usr/share/nginx/html
-
-EXPOSE 8030 443
-
-# using bash over sh for better signal-handling
-SHELL ["/bin/bash", "-c"]
-ADD start-server.sh /start-server.sh
-CMD /start-server.sh
+EXPOSE 8030
+CMD ["yarn", "run", "start-express"]
 

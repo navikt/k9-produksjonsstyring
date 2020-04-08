@@ -4,8 +4,8 @@ const path = require('path');
 const merge = require('webpack-merge');
 const commonDevAndProd = require('./webpack.common.dev_and_prod.js');
 
-const ROOT_DIR = path.resolve(__dirname, '../public');
-const APP_DIR = path.resolve(__dirname, '../src/client/app');
+const ROOT_DIR = path.resolve(__dirname, '../src/client');
+const APP_DIR = path.resolve(ROOT_DIR, 'app');
 
 const config = {
   mode: 'development',
@@ -21,7 +21,7 @@ const config = {
   output: {
     filename: 'bundle.js',
     path: ROOT_DIR,
-    publicPath: '/k9los/web',
+    publicPath: '/',
   },
 
   plugins: [
