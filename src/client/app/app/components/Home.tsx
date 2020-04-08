@@ -25,7 +25,7 @@ const Home = ({
 }: TsProps) => (
   <div className={styles[`content_${nrOfErrorMessages > 5 ? 5 : nrOfErrorMessages}`]}>
     <Switch>
-      <Route exact path="/k9-los" component={SaksbehandlerIndex} />
+      <Route exact path="/" component={SaksbehandlerIndex} />
       <Route exact path="/avdelingsleder" component={AvdelingslederIndex} />
       <Route component={MissingPage} />
     </Switch>

@@ -8,11 +8,10 @@ const PORT = process.env.PORT || 8030;
 server.get('/isAlive', (req, res) => res.sendStatus(200));
 server.get('/isReady', (req, res) => res.sendStatus(200));
 
-server.get('/k9-los', (req, res) => {
+server.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
 server.listen(PORT);
 
 console.log(`Started express server at port ${PORT}`);
-console.log( 'AUTH PROXY_URL_:' + `${process.env.AUTH_PROXY_URL}/api/k9-los-api`)
