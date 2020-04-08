@@ -18,6 +18,7 @@ const getAxiosHttpClientApi = () => {
   axiosInstance.interceptors.request.use((c): Record<string, any> => {
     const config = Object.assign({}, c);
     config.headers['Nav-Callid'] = `CallId_${(new Date()).getTime()}_${Math.floor(Math.random() * 1000000000)}`;
+    config.withCredentials = true;
     return config;
   });
 
