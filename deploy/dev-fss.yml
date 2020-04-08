@@ -33,7 +33,7 @@ spec:
       memory: 32Mi
   ingresses:
     - https://k9-los-web.nais.preprod.local
-    - https://app-q1.adeo.no/k9-los
+    - https://app-q1.adeo.no/k9los
   env:
     - name: APP_NAME
       value: k9-los-web
