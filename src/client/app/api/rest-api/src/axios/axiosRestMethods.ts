@@ -44,7 +44,7 @@ const get = axiosInstance => (url: string, params: any, responseType: string = '
 const post = axiosInstance => (url: string, data: any, responseType: string = 'json') => {
   const urlRedir = url ? `${proxyUrl}${url}` : null;
   return cancellable(axiosInstance, {
-    urlRedir,
+    url: urlRedir,
     responseType,
     data: JSON.stringify(data),
     method: 'post',
@@ -59,7 +59,7 @@ const post = axiosInstance => (url: string, data: any, responseType: string = 'j
 const put = axiosInstance => (url: string, data: any, responseType: string = 'json') => {
   const urlRedir = url ? `${proxyUrl}${url}` : null;
   return cancellable(axiosInstance, {
-    urlRedir,
+    url: urlRedir,
     responseType,
     data: JSON.stringify(data),
     method: 'put',
