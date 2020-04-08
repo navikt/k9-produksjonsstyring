@@ -31,7 +31,7 @@ const defaultPostHeaders = {
 const get = axiosInstance => (url: string, params: any, responseType: string = 'json') => {
   const urlRedir = url ? `${proxyUrl}${url}` : null;
   return cancellable(axiosInstance, {
-    urlRedir,
+    url: urlRedir,
     params,
     responseType,
     method: 'get',
