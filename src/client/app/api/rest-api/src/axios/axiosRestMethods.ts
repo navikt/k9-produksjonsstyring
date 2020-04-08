@@ -5,8 +5,8 @@ const openPreview = (data) => {
     window.open(URL.createObjectURL(data));
   }
 };
-
-const proxyUrl = 'https://k9-los-oidc-auth-proxy.nais.preprod.local/api/k9-los-api';
+const isDevelopment = process.env.NODE_ENV === 'development';
+const proxyUrl = isDevelopment ? 'http://localhost:8020/api' : 'https://k9-los-oidc-auth-proxy.nais.preprod.local/api/k9-los-api';
 
 const cancellable = (axiosInstance, config) => {
   let cancel;

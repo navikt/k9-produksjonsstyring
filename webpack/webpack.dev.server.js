@@ -11,9 +11,9 @@ const options = {
   contentBase: 'src/client',
   proxy: {
     '/api/**': {
-      target: process.env.AUTH_PROXY_URL ? `${process.env.AUTH_PROXY_URL}/api/k9-los-api` : 'http://localhost:8020',
+      target: 'http://localhost:8020/api',
       secure: false,
-      changeOrigin: !!process.env.AUTH_PROXY_URL,
+      changeOrigin: !!'http://localhost:8020/api',
       onProxyRes: function onProxyRes(proxyRes, req, res) {
         // For å håndtere redirects på 202 Accepted responser med location headers...
         if (proxyRes.headers.location && proxyRes.headers.location.startsWith(process.env.AUTH_PROXY_URL)) {
