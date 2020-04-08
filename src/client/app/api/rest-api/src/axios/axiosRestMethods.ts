@@ -6,6 +6,8 @@ const openPreview = (data) => {
   }
 };
 
+const proxyUrl = process.env.AUTH_PROXY_URL;
+
 const cancellable = (axiosInstance, config) => {
   let cancel;
   const request = axiosInstance({
@@ -27,9 +29,9 @@ const defaultPostHeaders = {
 };
 
 const get = axiosInstance => (url: string, params: any, responseType: string = 'json') => {
-  const urlRedir = url ? `https://k9-los-oidc-auth-proxy.nais.preprod.local/api/k9-los-api${url}` : null;
+  const urlRedir = url ? `${proxyUrl}${url}` : null;
   return cancellable(axiosInstance, {
-    url: urlRedir,
+    urlRedir,
     params,
     responseType,
     method: 'get',
@@ -39,29 +41,35 @@ const get = axiosInstance => (url: string, params: any, responseType: string = '
   });
 };
 
-const post = axiosInstance => (url: string, data: any, responseType: string = 'json') => cancellable(axiosInstance, {
-  url,
-  responseType,
-  data: JSON.stringify(data),
-  method: 'post',
-  headers: {
-    ...defaultHeaders,
-    ...defaultPostHeaders,
-  },
-  cache: false,
-});
+const post = axiosInstance => (url: string, data: any, responseType: string = 'json') => {
+  const urlRedir = url ? `${proxyUrl}${url}` : null;
+  return cancellable(axiosInstance, {
+    urlRedir,
+    responseType,
+    data: JSON.stringify(data),
+    method: 'post',
+    headers: {
+      ...defaultHeaders,
+      ...defaultPostHeaders,
+    },
+    cache: false,
+  });
+};
 
-const put = axiosInstance => (url: string, data: any, responseType: string = 'json') => cancellable(axiosInstance, {
-  url,
-  responseType,
-  data: JSON.stringify(data),
-  method: 'put',
-  headers: {
-    ...defaultHeaders,
-    ...defaultPostHeaders,
-  },
-  cache: false,
-});
+const put = axiosInstance => (url: string, data: any, responseType: string = 'json') => {
+  const urlRedir = url ? `${proxyUrl}${url}` : null;
+  return cancellable(axiosInstance, {
+    urlRedir,
+    responseType,
+    data: JSON.stringify(data),
+    method: 'put',
+    headers: {
+      ...defaultHeaders,
+      ...defaultPostHeaders,
+    },
+    cache: false,
+  });
+};
 
 const getBlob = axiosInstance => (url: string, params: any) => get(axiosInstance)(url, params, 'blob');
 
