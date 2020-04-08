@@ -8,7 +8,7 @@ const PORT = process.env.PORT || 8030;
 server.get('/isAlive', (req, res) => res.sendStatus(200));
 server.get('/isReady', (req, res) => res.sendStatus(200));
 
-server.get('/k9-los', (req, res) => {
+server.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
