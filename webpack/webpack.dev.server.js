@@ -11,9 +11,9 @@ const options = {
   contentBase: 'src/client',
   proxy: {
     '/api/**': {
-      target: 'http://localhost:8020/api',
+      target: 'http://localhost:8020',
       secure: false,
-      changeOrigin: !!'http://localhost:8020/api',
+      changeOrigin: !!'http://localhost:8020',
       onProxyRes: function onProxyRes(proxyRes, req, res) {
         // For å håndtere redirects på 202 Accepted responser med location headers...
         if (proxyRes.headers.location && proxyRes.headers.location.startsWith(process.env.AUTH_PROXY_URL)) {

@@ -3,6 +3,8 @@ import {
 } from './rest-api-redux/index';
 import errorHandler from './error-api-redux';
 
+const isDevelopment = process.env.NODE_ENV === 'development';
+
 const k9LosApiKeys = {
   KODEVERK: 'KODEVERK',
   NAV_ANSATT: 'NAV_ANSATT',
@@ -119,7 +121,13 @@ const endpoints = new RestApiConfigBuilder()
 
   .build();
 
-export const reduxRestApi: ReduxRestApi = new ReduxRestApiBuilder(endpoints, 'dataContext')
+export const reduxRestApi: ReduxRestApi = isDevelopment
+    ? new ReduxRestApiBuilder(endpoints, 'dataContext')
+        .withContextPath('api/')
+    .withReduxEvents(new ReduxEvents()
+        .withErrorActionCreator(errorHandler.getErrorActionCreator()))
+    .build()
+    : new ReduxRestApiBuilder(endpoints, 'dataContext')
   .withReduxEvents(new ReduxEvents()
     .withErrorActionCreator(errorHandler.getErrorActionCreator()))
   .build();

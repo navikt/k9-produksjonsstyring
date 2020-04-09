@@ -6,7 +6,7 @@ const openPreview = (data) => {
   }
 };
 const isDevelopment = process.env.NODE_ENV === 'development';
-const proxyUrl = isDevelopment ? 'http://localhost:8020/api' : 'https://k9-los-oidc-auth-proxy.nais.preprod.local/api/k9-los-api';
+const proxyUrl = 'https://k9-los-oidc-auth-proxy.nais.preprod.local/api/k9-los-api';
 
 const cancellable = (axiosInstance, config) => {
   let cancel;
@@ -29,7 +29,8 @@ const defaultPostHeaders = {
 };
 
 const get = axiosInstance => (url: string, params: any, responseType: string = 'json') => {
-  const urlRedir = url ? `${proxyUrl}${url}` : null;
+  let urlRedir = url ? `${proxyUrl}${url}` : null;
+  if (isDevelopment) urlRedir = url;
   return cancellable(axiosInstance, {
     url: urlRedir,
     params,
@@ -42,7 +43,8 @@ const get = axiosInstance => (url: string, params: any, responseType: string = '
 };
 
 const post = axiosInstance => (url: string, data: any, responseType: string = 'json') => {
-  const urlRedir = url ? `${proxyUrl}${url}` : null;
+  let urlRedir = url ? `${proxyUrl}${url}` : null;
+  if (isDevelopment) urlRedir = url;
   return cancellable(axiosInstance, {
     url: urlRedir,
     responseType,
@@ -57,7 +59,8 @@ const post = axiosInstance => (url: string, data: any, responseType: string = 'j
 };
 
 const put = axiosInstance => (url: string, data: any, responseType: string = 'json') => {
-  const urlRedir = url ? `${proxyUrl}${url}` : null;
+  let urlRedir = url ? `${proxyUrl}${url}` : null;
+  if (isDevelopment) urlRedir = url;
   return cancellable(axiosInstance, {
     url: urlRedir,
     responseType,
