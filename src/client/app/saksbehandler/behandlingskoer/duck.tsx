@@ -5,25 +5,25 @@ import { Dispatch } from 'redux';
 import k9LosApi from 'api/k9LosApi';
 
 /* Action types */
-const SET_SAKSLISTE_ID = 'SET_SAKSLISTE_ID';
+const SET_OPPGAVEKO_ID = 'SET_OPPGAVEKO_ID';
 
 /* Action creators */
-export const setValgtSakslisteId = (setSakslisteId: number) => ({
-  type: SET_SAKSLISTE_ID,
-  data: setSakslisteId,
+export const setValgtOppgavekoId = (setOppgavekoId: string) => ({
+  type: SET_OPPGAVEKO_ID,
+  data: setOppgavekoId,
 });
 
-export const fetchAlleSakslister = k9LosApi.SAKSLISTE.makeRestApiRequest();
-export const getSakslisteResult = k9LosApi.SAKSLISTE.getRestApiData();
+export const fetchAlleOppgavekoer = k9LosApi.OPPGAVEKO.makeRestApiRequest();
+export const getOppgavekoResult = k9LosApi.OPPGAVEKO.getRestApiData();
 
-export const fetchOppgaverTilBehandling = (sakslisteId: number) => (dispatch: Dispatch) => dispatch(
+export const fetchOppgaverTilBehandling = (oppgavekoId: string) => (dispatch: Dispatch) => dispatch(
   k9LosApi.OPPGAVER_TIL_BEHANDLING.makeRestApiRequest()(
-    { sakslisteId }, { keepData: false },
+    { oppgavekoId }, { keepData: false },
   ),
 );
-export const fetchOppgaverTilBehandlingOppgaver = (sakslisteId: number, oppgaveIder?: string) => (dispatch: Dispatch) => dispatch(
+export const fetchOppgaverTilBehandlingOppgaver = (oppgavekoId: string, oppgaveIder?: string) => (dispatch: Dispatch) => dispatch(
   k9LosApi.OPPGAVER_TIL_BEHANDLING.makeRestApiRequest()(
-    oppgaveIder ? { sakslisteId, oppgaveIder } : { sakslisteId }, { keepData: true },
+    oppgaveIder ? { oppgavekoId, oppgaveIder } : { oppgavekoId }, { keepData: true },
   ),
 );
 export const getOppgaverTilBehandling = k9LosApi.OPPGAVER_TIL_BEHANDLING.getRestApiData();
@@ -73,22 +73,22 @@ export const flyttReservasjon = (oppgaveId: string, brukerIdent: string, begrunn
   ),
 );
 
-export const fetchSakslistensSaksbehandlere = (sakslisteId: number) => (dispatch: Dispatch) => dispatch(
-  k9LosApi.SAKSLISTE_SAKSBEHANDLERE.makeRestApiRequest()(
-    { sakslisteId }, { keepData: false },
+export const fetchOppgavekoensSaksbehandlere = (oppgavekoId: string) => (dispatch: Dispatch) => dispatch(
+  k9LosApi.OPPGAVEKO_SAKSBEHANDLERE.makeRestApiRequest()(
+    { oppgavekoId }, { keepData: false },
   ),
 );
-export const getSakslistensSaksbehandlere = k9LosApi.SAKSLISTE_SAKSBEHANDLERE.getRestApiData();
+export const getOppgavekoensSaksbehandlere = k9LosApi.OPPGAVEKO_SAKSBEHANDLERE.getRestApiData();
 
-export const fetchAntallOppgaverForBehandlingsko = (sakslisteId: number) => (dispatch: Dispatch) => dispatch(
-  k9LosApi.BEHANDLINGSKO_OPPGAVE_ANTALL.makeRestApiRequest()({ sakslisteId }),
+export const fetchAntallOppgaverForBehandlingsko = (oppgavekoId: string) => (dispatch: Dispatch) => dispatch(
+  k9LosApi.BEHANDLINGSKO_OPPGAVE_ANTALL.makeRestApiRequest()({ oppgavekoId }),
 );
 export const getAntallOppgaverForBehandlingskoResultat = k9LosApi.BEHANDLINGSKO_OPPGAVE_ANTALL.getRestApiData();
 
 
 /* Reducers */
 const initialState = {
-  valgtSakslisteId: undefined,
+  valgtOppgavekoId: undefined,
 };
 
 interface ActionTsType {
@@ -96,15 +96,15 @@ interface ActionTsType {
   data?: any;
 }
 interface StateTsType {
-  valgtSakslisteId?: number;
+  valgtOppgavekoId?: string;
 }
 
 export const behandlingskoerReducer = (state: StateTsType = initialState, action: ActionTsType = { type: '' }) => {
   switch (action.type) {
-    case SET_SAKSLISTE_ID:
+    case SET_OPPGAVEKO_ID:
       return {
         ...state,
-        valgtSakslisteId: action.data,
+        valgtOppgavekoId: action.data,
       };
     default:
       return state;
@@ -113,4 +113,4 @@ export const behandlingskoerReducer = (state: StateTsType = initialState, action
 
 /* Selectors */
 const getBehandlingskoerContext = state => state.default.behandlingskoerContext;
-export const getValgtSakslisteId = createSelector([getBehandlingskoerContext], behandlingskoerContext => behandlingskoerContext.valgtSakslisteId);
+export const getValgtOppgavekoId = createSelector([getBehandlingskoerContext], behandlingskoerContext => behandlingskoerContext.valgtOppgavekoId);

@@ -10,10 +10,10 @@ import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
 import Table from 'sharedComponents/Table';
 import TableRow from 'sharedComponents/TableRow';
 import TableColumn from 'sharedComponents/TableColumn';
-import SletteSakslisteModal from './SletteSakslisteModal';
-import { GjeldendeSakslisterTabell } from './GjeldendeSakslisterTabell';
+import SletteOppgavekoModal from './SletteOppgavekoModal';
+import { GjeldendeOppgavekoerTabell } from './GjeldendeOppgavekoerTabell';
 
-describe('<GjeldendeSakslisterTabell>', () => {
+describe('<GjeldendeOppgavekoerTabell>', () => {
   const behandlingstyper = [{
     kode: behandlingType.FORSTEGANGSSOKNAD,
     navn: '',
@@ -31,38 +31,38 @@ describe('<GjeldendeSakslisterTabell>', () => {
   },
   ];
 
-  it('skal ikke vise tabell når ingen sakslister finnes', () => {
-    const sakslister = [];
+  it('skal ikke vise tabell når ingen oppgavekoer finnes', () => {
+    const oppgavekoer = [];
 
-    const wrapper = shallow(<GjeldendeSakslisterTabell
-      sakslister={sakslister}
-      setValgtSakslisteId={sinon.spy()}
-      lagNySaksliste={sinon.spy()}
-      fjernSaksliste={sinon.spy()}
+    const wrapper = shallow(<GjeldendeOppgavekoerTabell
+      oppgavekoer={oppgavekoer}
+      setValgtOppgavekoId={sinon.spy()}
+      lagNyOppgaveko={sinon.spy()}
+      fjernOppgaveko={sinon.spy()}
       behandlingTyper={behandlingstyper}
       fagsakYtelseTyper={fagsakYtelseTyper}
       valgtAvdelingEnhet="2"
-      hentAvdelingensSakslister={sinon.spy()}
+      hentAvdelingensOppgavekoer={sinon.spy()}
       hentAntallOppgaverForAvdeling={sinon.spy()}
     />);
 
     const tekstComp = wrapper.find(FormattedMessage);
     expect(tekstComp).to.have.length(4);
-    expect(tekstComp.at(2).prop('id')).to.eql('GjeldendeSakslisterTabell.IngenLister');
+    expect(tekstComp.at(2).prop('id')).to.eql('GjeldendeOppgavekoerTabell.IngenLister');
 
     expect(wrapper.find(Table)).to.have.length(0);
   });
 
-  it('skal vise to sakslister', () => {
-    const sakslister = [{
-      sakslisteId: 1,
+  it('skal vise to oppgavekoer', () => {
+    const oppgavekoer = [{
+      oppgavekoId: '1',
       navn: 'Nyansatte',
       sistEndret: '2017-08-31',
       erTilBeslutter: false,
       erRegistrerPapirsoknad: false,
       saksbehandlerIdenter: [],
     }, {
-      sakslisteId: 2,
+      oppgavekoId: '2',
       navn: 'Kun foreldrepenger',
       sistEndret: '2018-08-31',
       erTilBeslutter: false,
@@ -70,15 +70,15 @@ describe('<GjeldendeSakslisterTabell>', () => {
       saksbehandlerIdenter: [],
     }];
 
-    const wrapper = shallow(<GjeldendeSakslisterTabell
-      sakslister={sakslister}
-      setValgtSakslisteId={sinon.spy()}
-      lagNySaksliste={sinon.spy()}
-      fjernSaksliste={sinon.spy()}
+    const wrapper = shallow(<GjeldendeOppgavekoerTabell
+      oppgavekoer={oppgavekoer}
+      setValgtOppgavekoId={sinon.spy()}
+      lagNyOppgaveko={sinon.spy()}
+      fjernOppgaveko={sinon.spy()}
       behandlingTyper={behandlingstyper}
       fagsakYtelseTyper={fagsakYtelseTyper}
       valgtAvdelingEnhet="2"
-      hentAvdelingensSakslister={sinon.spy()}
+      hentAvdelingensOppgavekoer={sinon.spy()}
       hentAntallOppgaverForAvdeling={sinon.spy()}
     />);
 
@@ -96,19 +96,19 @@ describe('<GjeldendeSakslisterTabell>', () => {
     expect(kolonnerForRad2.first().childAt(0).text()).to.eql('Kun foreldrepenger');
   });
 
-  it('skal legge til ny saksliste ved musklikk', () => {
-    const sakslister = [];
-    const lagNySakslisteFn = sinon.spy();
+  it('skal legge til ny oppgavekø ved musklikk', () => {
+    const oppgavekoer = [];
+    const lagNyOppgavekoFn = sinon.spy();
 
-    const wrapper = shallow(<GjeldendeSakslisterTabell
-      sakslister={sakslister}
-      setValgtSakslisteId={sinon.spy()}
-      lagNySaksliste={lagNySakslisteFn}
-      fjernSaksliste={sinon.spy()}
+    const wrapper = shallow(<GjeldendeOppgavekoerTabell
+      oppgavekoer={oppgavekoer}
+      setValgtOppgavekoId={sinon.spy()}
+      lagNyOppgaveko={lagNyOppgavekoFn}
+      fjernOppgaveko={sinon.spy()}
       behandlingTyper={behandlingstyper}
       fagsakYtelseTyper={fagsakYtelseTyper}
       valgtAvdelingEnhet="2"
-      hentAvdelingensSakslister={sinon.spy()}
+      hentAvdelingensOppgavekoer={sinon.spy()}
       hentAntallOppgaverForAvdeling={sinon.spy()}
     />);
 
@@ -117,22 +117,22 @@ describe('<GjeldendeSakslisterTabell>', () => {
 
     leggTilListe.prop('onClick')();
 
-    expect(lagNySakslisteFn.calledOnce).to.be.true;
+    expect(lagNyOppgavekoFn.calledOnce).to.be.true;
   });
 
-  it('skal legge til ny saksliste ved trykk på enter-knapp', () => {
-    const sakslister = [];
-    const lagNySakslisteFn = sinon.spy();
+  it('skal legge til ny oppgavekø ved trykk på enter-knapp', () => {
+    const oppgavekoer = [];
+    const lagNyOppgavekoFn = sinon.spy();
 
-    const wrapper = shallow(<GjeldendeSakslisterTabell
-      sakslister={sakslister}
-      setValgtSakslisteId={sinon.spy()}
-      lagNySaksliste={lagNySakslisteFn}
-      fjernSaksliste={sinon.spy()}
+    const wrapper = shallow(<GjeldendeOppgavekoerTabell
+      oppgavekoer={oppgavekoer}
+      setValgtOppgavekoId={sinon.spy()}
+      lagNyOppgaveko={lagNyOppgavekoFn}
+      fjernOppgaveko={sinon.spy()}
       behandlingTyper={behandlingstyper}
       fagsakYtelseTyper={fagsakYtelseTyper}
       valgtAvdelingEnhet="2"
-      hentAvdelingensSakslister={sinon.spy()}
+      hentAvdelingensOppgavekoer={sinon.spy()}
       hentAntallOppgaverForAvdeling={sinon.spy()}
     />);
 
@@ -143,22 +143,22 @@ describe('<GjeldendeSakslisterTabell>', () => {
       keyCode: 13,
     });
 
-    expect(lagNySakslisteFn.calledOnce).to.be.true;
+    expect(lagNyOppgavekoFn.calledOnce).to.be.true;
   });
 
-  it('skal ikke legge til ny saksliste ved trykk på annen knapp enn enter', () => {
-    const sakslister = [];
-    const lagNySakslisteFn = sinon.spy();
+  it('skal ikke legge til ny oppgavekø ved trykk på annen knapp enn enter', () => {
+    const oppgavekoer = [];
+    const lagNyOppgavekoFn = sinon.spy();
 
-    const wrapper = shallow(<GjeldendeSakslisterTabell
-      sakslister={sakslister}
-      setValgtSakslisteId={sinon.spy()}
-      lagNySaksliste={lagNySakslisteFn}
-      fjernSaksliste={sinon.spy()}
+    const wrapper = shallow(<GjeldendeOppgavekoerTabell
+      oppgavekoer={oppgavekoer}
+      setValgtOppgavekoId={sinon.spy()}
+      lagNyOppgaveko={lagNyOppgavekoFn}
+      fjernOppgaveko={sinon.spy()}
       behandlingTyper={behandlingstyper}
       fagsakYtelseTyper={fagsakYtelseTyper}
       valgtAvdelingEnhet="2"
-      hentAvdelingensSakslister={sinon.spy()}
+      hentAvdelingensOppgavekoer={sinon.spy()}
       hentAntallOppgaverForAvdeling={sinon.spy()}
     />);
 
@@ -169,29 +169,29 @@ describe('<GjeldendeSakslisterTabell>', () => {
       keyCode: 10,
     });
 
-    expect(lagNySakslisteFn.calledOnce).to.be.false;
+    expect(lagNyOppgavekoFn.calledOnce).to.be.false;
   });
 
-  it('skal sette valgt saksliste ved trykk på rad i tabell', async () => {
-    const sakslister = [{
-      sakslisteId: 1,
+  it('skal sette valgt oppgavekø ved trykk på rad i tabell', async () => {
+    const oppgavekoer = [{
+      oppgavekoId: '1',
       navn: 'Nyansatte',
       sistEndret: '2017-08-31',
       erTilBeslutter: false,
       erRegistrerPapirsoknad: false,
       saksbehandlerIdenter: [],
     }];
-    const setValgtSakslisteIdFn = sinon.spy();
+    const setValgtOppgavekoIdFn = sinon.spy();
 
-    const wrapper = shallow(<GjeldendeSakslisterTabell
-      sakslister={sakslister}
-      setValgtSakslisteId={setValgtSakslisteIdFn}
-      lagNySaksliste={sinon.spy()}
-      fjernSaksliste={sinon.spy()}
+    const wrapper = shallow(<GjeldendeOppgavekoerTabell
+      oppgavekoer={oppgavekoer}
+      setValgtOppgavekoId={setValgtOppgavekoIdFn}
+      lagNyOppgaveko={sinon.spy()}
+      fjernOppgaveko={sinon.spy()}
       behandlingTyper={behandlingstyper}
       fagsakYtelseTyper={fagsakYtelseTyper}
       valgtAvdelingEnhet="2"
-      hentAvdelingensSakslister={sinon.spy()}
+      hentAvdelingensOppgavekoer={sinon.spy()}
       hentAntallOppgaverForAvdeling={sinon.spy()}
     />);
 
@@ -200,27 +200,27 @@ describe('<GjeldendeSakslisterTabell>', () => {
 
     await rader.prop('onKeyDown')();
 
-    expect(setValgtSakslisteIdFn.calledOnce).to.be.true;
+    expect(setValgtOppgavekoIdFn.calledOnce).to.be.true;
   });
 
-  it('skal vise modal for å slette saksliste ved trykk på slette-knapp', () => {
-    const sakslister = [{
-      sakslisteId: 1,
+  it('skal vise modal for å slette oppgavekø ved trykk på slette-knapp', () => {
+    const oppgavekoer = [{
+      oppgavekoId: '1',
       navn: 'Nyansatte',
       sistEndret: '2017-08-31',
       erTilBeslutter: false,
       erRegistrerPapirsoknad: false,
       saksbehandlerIdenter: [],
     }];
-    const wrapper = shallow(<GjeldendeSakslisterTabell
-      sakslister={sakslister}
-      setValgtSakslisteId={sinon.spy()}
-      lagNySaksliste={sinon.spy()}
-      fjernSaksliste={sinon.spy()}
+    const wrapper = shallow(<GjeldendeOppgavekoerTabell
+      oppgavekoer={oppgavekoer}
+      setValgtOppgavekoId={sinon.spy()}
+      lagNyOppgaveko={sinon.spy()}
+      fjernOppgaveko={sinon.spy()}
       behandlingTyper={behandlingstyper}
       fagsakYtelseTyper={fagsakYtelseTyper}
       valgtAvdelingEnhet="2"
-      hentAvdelingensSakslister={sinon.spy()}
+      hentAvdelingensOppgavekoer={sinon.spy()}
       hentAntallOppgaverForAvdeling={sinon.spy()}
     />);
 
@@ -231,32 +231,32 @@ describe('<GjeldendeSakslisterTabell>', () => {
     const bildeKnapp = kolonner.last().find(Image);
     expect(bildeKnapp).to.have.length(1);
 
-    expect(wrapper.find(SletteSakslisteModal)).to.have.length(0);
+    expect(wrapper.find(SletteOppgavekoModal)).to.have.length(0);
 
     bildeKnapp.prop('onMouseDown')();
 
-    expect(wrapper.find(SletteSakslisteModal)).to.have.length(1);
-    expect(wrapper.state().valgtSaksliste).is.eql(sakslister[0]);
+    expect(wrapper.find(SletteOppgavekoModal)).to.have.length(1);
+    expect(wrapper.state().valgtOppgaveko).is.eql(oppgavekoer[0]);
   });
 
   it('skal lukke modal ved trykk på avbryt i modal', () => {
-    const sakslister = [{
-      sakslisteId: 1,
+    const oppgavekoer = [{
+      oppgavekoId: '1',
       navn: 'Nyansatte',
       sistEndret: '2017-08-31',
       erTilBeslutter: false,
       erRegistrerPapirsoknad: false,
       saksbehandlerIdenter: [],
     }];
-    const wrapper = shallow(<GjeldendeSakslisterTabell
-      sakslister={sakslister}
-      setValgtSakslisteId={sinon.spy()}
-      lagNySaksliste={sinon.spy()}
-      fjernSaksliste={sinon.spy()}
+    const wrapper = shallow(<GjeldendeOppgavekoerTabell
+      oppgavekoer={oppgavekoer}
+      setValgtOppgavekoId={sinon.spy()}
+      lagNyOppgaveko={sinon.spy()}
+      fjernOppgaveko={sinon.spy()}
       behandlingTyper={behandlingstyper}
       fagsakYtelseTyper={fagsakYtelseTyper}
       valgtAvdelingEnhet="2"
-      hentAvdelingensSakslister={sinon.spy()}
+      hentAvdelingensOppgavekoer={sinon.spy()}
       hentAntallOppgaverForAvdeling={sinon.spy()}
     />);
 
@@ -266,34 +266,34 @@ describe('<GjeldendeSakslisterTabell>', () => {
 
     bildeKnapp.prop('onMouseDown')();
 
-    const modal = wrapper.find(SletteSakslisteModal);
+    const modal = wrapper.find(SletteOppgavekoModal);
     expect(modal).to.have.length(1);
 
     modal.prop('cancel')();
 
-    expect(wrapper.find(SletteSakslisteModal)).to.have.length(0);
-    expect(wrapper.state().valgtSaksliste).is.undefined;
+    expect(wrapper.find(SletteOppgavekoModal)).to.have.length(0);
+    expect(wrapper.state().valgtOppgaveko).is.undefined;
   });
 
-  it('skal fjerne saksliste ved trykk på ok i modal', () => {
-    const sakslister = [{
-      sakslisteId: 1,
+  it('skal fjerne oppgavekø ved trykk på ok i modal', () => {
+    const oppgavekoer = [{
+      oppgavekoId: '1',
       navn: 'Nyansatte',
       sistEndret: '2017-08-31',
       erTilBeslutter: false,
       erRegistrerPapirsoknad: false,
       saksbehandlerIdenter: [],
     }];
-    const fjernSakslisterFn = sinon.spy();
-    const wrapper = shallow(<GjeldendeSakslisterTabell
-      sakslister={sakslister}
-      setValgtSakslisteId={sinon.spy()}
-      lagNySaksliste={sinon.spy()}
-      fjernSaksliste={fjernSakslisterFn}
+    const fjernOppgavekoerFn = sinon.spy();
+    const wrapper = shallow(<GjeldendeOppgavekoerTabell
+      oppgavekoer={oppgavekoer}
+      setValgtOppgavekoId={sinon.spy()}
+      lagNyOppgaveko={sinon.spy()}
+      fjernOppgaveko={fjernOppgavekoerFn}
       behandlingTyper={behandlingstyper}
       fagsakYtelseTyper={fagsakYtelseTyper}
       valgtAvdelingEnhet="2"
-      hentAvdelingensSakslister={sinon.spy()}
+      hentAvdelingensOppgavekoer={sinon.spy()}
       hentAntallOppgaverForAvdeling={sinon.spy()}
     />);
 
@@ -303,24 +303,24 @@ describe('<GjeldendeSakslisterTabell>', () => {
 
     bildeKnapp.prop('onMouseDown')();
 
-    const modal = wrapper.find(SletteSakslisteModal);
+    const modal = wrapper.find(SletteOppgavekoModal);
     expect(modal).to.have.length(1);
 
-    modal.prop('submit')(sakslister[0]);
+    modal.prop('submit')(oppgavekoer[0]);
 
-    expect(wrapper.find(SletteSakslisteModal)).to.have.length(0);
-    expect(wrapper.state().valgtSaksliste).is.undefined;
+    expect(wrapper.find(SletteOppgavekoModal)).to.have.length(0);
+    expect(wrapper.state().valgtOppgaveko).is.undefined;
 
-    expect(fjernSakslisterFn.calledOnce).to.be.true;
-    const { args } = fjernSakslisterFn.getCalls()[0];
+    expect(fjernOppgavekoerFn.calledOnce).to.be.true;
+    const { args } = fjernOppgavekoerFn.getCalls()[0];
     expect(args).to.have.length(2);
-    expect(args[0]).to.eql(sakslister[0].sakslisteId);
+    expect(args[0]).to.eql(oppgavekoer[0].oppgavekoId);
     expect(args[1]).to.eql('2');
   });
 
-  it('skal vise antall saksbehandlere tilknyttet sakslisten', () => {
-    const sakslister = [{
-      sakslisteId: 1,
+  it('skal vise antall saksbehandlere tilknyttet oppgavekøen', () => {
+    const oppgavekoer = [{
+      oppgavekoId: '1',
       navn: 'Nyansatte',
       sistEndret: '2017-08-31',
       erTilBeslutter: false,
@@ -328,15 +328,15 @@ describe('<GjeldendeSakslisterTabell>', () => {
       saksbehandlerIdenter: ['U12332'],
     }];
 
-    const wrapper = shallow(<GjeldendeSakslisterTabell
-      sakslister={sakslister}
-      setValgtSakslisteId={sinon.spy()}
-      lagNySaksliste={sinon.spy()}
-      fjernSaksliste={sinon.spy()}
+    const wrapper = shallow(<GjeldendeOppgavekoerTabell
+      oppgavekoer={oppgavekoer}
+      setValgtOppgavekoId={sinon.spy()}
+      lagNyOppgaveko={sinon.spy()}
+      fjernOppgaveko={sinon.spy()}
       behandlingTyper={behandlingstyper}
       fagsakYtelseTyper={fagsakYtelseTyper}
       valgtAvdelingEnhet="2"
-      hentAvdelingensSakslister={sinon.spy()}
+      hentAvdelingensOppgavekoer={sinon.spy()}
       hentAntallOppgaverForAvdeling={sinon.spy()}
     />);
 

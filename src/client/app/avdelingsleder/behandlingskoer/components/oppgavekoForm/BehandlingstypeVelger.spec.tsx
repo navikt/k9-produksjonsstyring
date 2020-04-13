@@ -19,8 +19,8 @@ describe('<BehandlingstypeVelger>', () => {
 
     const wrapper = shallow(<BehandlingstypeVelger
       behandlingTyper={behandlingTyper}
-      valgtSakslisteId={1}
-      lagreSakslisteBehandlingstype={sinon.spy()}
+      valgtOppgavekoId="1"
+      lagreOppgavekoBehandlingstype={sinon.spy()}
       valgtAvdelingEnhet="3"
     />);
 
@@ -39,8 +39,8 @@ describe('<BehandlingstypeVelger>', () => {
 
     const wrapper = shallow(<BehandlingstypeVelger
       behandlingTyper={behandlingTyper}
-      valgtSakslisteId={1}
-      lagreSakslisteBehandlingstype={lagreBehandlingTypeFn}
+      valgtOppgavekoId="1"
+      lagreOppgavekoBehandlingstype={lagreBehandlingTypeFn}
       valgtAvdelingEnhet="3"
     />);
 
@@ -50,7 +50,7 @@ describe('<BehandlingstypeVelger>', () => {
     expect(lagreBehandlingTypeFn.calledOnce).to.be.true;
     const { args } = lagreBehandlingTypeFn.getCalls()[0];
     expect(args).to.have.length(4);
-    expect(args[0]).to.eql(1);
+    expect(args[0]).to.eql('1');
     expect(args[1]).to.eql(behandlingTyper[0]);
     expect(args[2]).is.true;
     expect(args[3]).to.eql('3');

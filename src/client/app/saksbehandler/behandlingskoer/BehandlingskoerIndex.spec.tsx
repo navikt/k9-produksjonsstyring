@@ -4,13 +4,13 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
 
-import SakslistePanel from './components/SakslistePanel';
+import OppgavekoPanel from './components/OppgavekoPanel';
 import { BehandlingskoerIndex } from './BehandlingskoerIndex';
 import BehandlingPollingTimoutModal from './components/BehandlingPollingTimoutModal';
 
 describe('<BehandlingskoerIndex>', () => {
-  const sakslister = [{
-    sakslisteId: 1,
+  const oppgavekoer = [{
+    oppgavekoId: '1',
     navn: 'test',
     behandlingTyper: [{
       kode: 'test',
@@ -63,48 +63,48 @@ describe('<BehandlingskoerIndex>', () => {
     erTilSaksbehandling: true,
   };
 
-  it('skal ikke vise behandlingskøer når det ikke finnes sakslister', () => {
-    const fetchSakslister = sinon.spy();
+  it('skal ikke vise behandlingskøer når det ikke finnes oppgavekoer', () => {
+    const fetchOppgavekoer = sinon.spy();
     const wrapper = shallow(<BehandlingskoerIndex
       k9sakUrl="www.k9sak.no"
       k9tilbakeUrl="www.k9tilbake.no"
       fetchOppgaverTilBehandling={sinon.spy()}
       fetchReserverteOppgaver={sinon.spy()}
-      fetchAlleSakslister={fetchSakslister}
+      fetchAlleOppgavekoer={fetchOppgavekoer}
       reserverOppgave={sinon.spy()}
       opphevOppgaveReservasjon={sinon.spy()}
       forlengOppgaveReservasjon={sinon.spy()}
       fetchOppgaverTilBehandlingOppgaver={sinon.spy()}
       flyttReservasjon={sinon.spy()}
       goToUrl={sinon.spy()}
-      setValgtSakslisteId={sinon.spy()}
+      setValgtOppgavekoId={sinon.spy()}
     />);
 
-    expect(wrapper.find(SakslistePanel)).to.have.length(0);
+    expect(wrapper.find(OppgavekoPanel)).to.have.length(0);
     expect(wrapper.find(BehandlingPollingTimoutModal)).to.have.length(0);
-    expect(fetchSakslister.calledOnce).to.be.true;
+    expect(fetchOppgavekoer.calledOnce).to.be.true;
   });
 
   it('skal hente behandlingskøer ved lasting av komponent og så vise desse korrekt', () => {
-    const fetchSakslister = sinon.spy();
+    const fetchOppgavekoer = sinon.spy();
     const wrapper = shallow(<BehandlingskoerIndex
       k9sakUrl="www.k9sak.no"
       k9tilbakeUrl="www.k9tilbake.no"
       fetchOppgaverTilBehandling={sinon.spy()}
       fetchReserverteOppgaver={sinon.spy()}
-      fetchAlleSakslister={fetchSakslister}
+      fetchAlleOppgavekoer={fetchOppgavekoer}
       reserverOppgave={sinon.spy()}
       opphevOppgaveReservasjon={sinon.spy()}
       forlengOppgaveReservasjon={sinon.spy()}
       fetchOppgaverTilBehandlingOppgaver={sinon.spy()}
       flyttReservasjon={sinon.spy()}
-      sakslister={sakslister}
+      oppgavekoer={oppgavekoer}
       goToUrl={sinon.spy()}
-      setValgtSakslisteId={sinon.spy()}
+      setValgtOppgavekoId={sinon.spy()}
     />);
 
-    expect(wrapper.find(SakslistePanel)).to.have.length(1);
-    expect(fetchSakslister.calledOnce).to.be.true;
+    expect(wrapper.find(OppgavekoPanel)).to.have.length(1);
+    expect(fetchOppgavekoer.calledOnce).to.be.true;
   });
 
   it('skal reservere og åpne sak i K)SAK når oppgave ikke er reservert fra før', async () => {
@@ -120,18 +120,18 @@ describe('<BehandlingskoerIndex>', () => {
       k9tilbakeUrl="www.k9tilbake.no"
       fetchOppgaverTilBehandling={sinon.spy()}
       fetchReserverteOppgaver={sinon.spy()}
-      fetchAlleSakslister={sinon.spy()}
+      fetchAlleOppgavekoer={sinon.spy()}
       reserverOppgave={reserverOppgave}
       opphevOppgaveReservasjon={sinon.spy()}
       forlengOppgaveReservasjon={sinon.spy()}
       fetchOppgaverTilBehandlingOppgaver={sinon.spy()}
       flyttReservasjon={sinon.spy()}
-      sakslister={sakslister}
+      oppgavekoer={oppgavekoer}
       goToUrl={goToUrl}
-      setValgtSakslisteId={sinon.spy()}
+      setValgtOppgavekoId={sinon.spy()}
     />);
 
-    const panel = wrapper.find(SakslistePanel);
+    const panel = wrapper.find(OppgavekoPanel);
     expect(panel).to.have.length(1);
 
     await panel.prop('reserverOppgave')(oppgave);
@@ -151,18 +151,18 @@ describe('<BehandlingskoerIndex>', () => {
       k9tilbakeUrl="www.k9tilbake.no"
       fetchOppgaverTilBehandling={sinon.spy()}
       fetchReserverteOppgaver={sinon.spy()}
-      fetchAlleSakslister={sinon.spy()}
+      fetchAlleOppgavekoer={sinon.spy()}
       reserverOppgave={reserverOppgave}
       opphevOppgaveReservasjon={sinon.spy()}
       forlengOppgaveReservasjon={sinon.spy()}
       fetchOppgaverTilBehandlingOppgaver={sinon.spy()}
       flyttReservasjon={sinon.spy()}
-      sakslister={sakslister}
+      oppgavekoer={oppgavekoer}
       goToUrl={goToUrl}
-      setValgtSakslisteId={sinon.spy()}
+      setValgtOppgavekoId={sinon.spy()}
     />);
 
-    const panel = wrapper.find(SakslistePanel);
+    const panel = wrapper.find(OppgavekoPanel);
     expect(panel).to.have.length(1);
 
     const reservertOppgave = {
@@ -181,11 +181,11 @@ describe('<BehandlingskoerIndex>', () => {
     expect(args[0]).to.eql('www.k9sak.no/fagsak/12343/behandling/1/?punkt=default&fakta=default');
   });
 
-  it('skal hente sakslistens oppgaver og så starta polling etter endringer', async () => {
-    const sakslisteId = 1;
+  it('skal hente oppgavekoens oppgaver og så starta polling etter endringer', async () => {
+    const oppgavekoId = '1';
     const oppgaveIder = [{ id: '1' }, { id: '2' }, { id: '3' }];
     const fetchOppgaverTilBehandlingFn = sinon.stub()
-      .withArgs(sakslisteId).resolves({
+      .withArgs(oppgavekoId).resolves({
         payload: oppgaveIder,
       });
     const fetchOppgaverTilBehandlingOppgaverFn = sinon.stub()
@@ -201,31 +201,31 @@ describe('<BehandlingskoerIndex>', () => {
       k9tilbakeUrl="www.k9tilbake.no"
       fetchOppgaverTilBehandling={fetchOppgaverTilBehandlingFn}
       fetchReserverteOppgaver={fetchReserverteOppgaverFn}
-      fetchAlleSakslister={sinon.spy()}
+      fetchAlleOppgavekoer={sinon.spy()}
       reserverOppgave={sinon.spy()}
       opphevOppgaveReservasjon={sinon.spy()}
       forlengOppgaveReservasjon={sinon.spy()}
       fetchOppgaverTilBehandlingOppgaver={fetchOppgaverTilBehandlingOppgaverFn}
       flyttReservasjon={sinon.spy()}
-      sakslister={sakslister}
+      oppgavekoer={oppgavekoer}
       goToUrl={sinon.spy()}
-      setValgtSakslisteId={sinon.spy()}
+      setValgtOppgavekoId={sinon.spy()}
     />);
 
-    const panel = wrapper.find(SakslistePanel);
+    const panel = wrapper.find(OppgavekoPanel);
     expect(panel).to.have.length(1);
 
-    await panel.prop('fetchSakslisteOppgaver')(sakslisteId);
+    await panel.prop('fetchOppgavekoOppgaver')(oppgavekoId);
 
     expect(fetchReserverteOppgaverFn.calledTwice).to.be.true;
     const { args } = fetchReserverteOppgaverFn.getCalls()[0];
     expect(args).to.have.length(1);
-    expect(args[0]).to.eql(sakslisteId);
+    expect(args[0]).to.eql(oppgavekoId);
 
     expect(fetchOppgaverTilBehandlingOppgaverFn.calledOnce).to.be.true;
     const { args: args2 } = fetchOppgaverTilBehandlingOppgaverFn.getCalls()[0];
     expect(args2).to.have.length(2);
-    expect(args2[0]).to.eql(1);
+    expect(args2[0]).to.eql('1');
     expect(args2[1]).to.eql(oppgaveIder.map(o => o.id).join(','));
   });
 
@@ -237,24 +237,24 @@ describe('<BehandlingskoerIndex>', () => {
       k9tilbakeUrl="www.k9tilbake.no"
       fetchOppgaverTilBehandling={sinon.spy()}
       fetchReserverteOppgaver={fetchReserverteOppgaverFn}
-      fetchAlleSakslister={sinon.spy()}
+      fetchAlleOppgavekoer={sinon.spy()}
       reserverOppgave={sinon.spy()}
       opphevOppgaveReservasjon={opphevOppgaveReservasjonFn}
       forlengOppgaveReservasjon={sinon.spy()}
       fetchOppgaverTilBehandlingOppgaver={sinon.spy()}
       flyttReservasjon={sinon.spy()}
-      sakslister={sakslister}
+      oppgavekoer={oppgavekoer}
       goToUrl={sinon.spy()}
-      setValgtSakslisteId={sinon.spy()}
+      setValgtOppgavekoId={sinon.spy()}
     />);
 
-    const panel = wrapper.find(SakslistePanel);
+    const panel = wrapper.find(OppgavekoPanel);
     expect(panel).to.have.length(1);
 
     const oppgaveId = '1';
     const begrunnelse = 'Dette er en begrunnelse';
-    const sakslisteId = 1;
-    wrapper.setState({ sakslisteId });
+    const oppgavekoId = '1';
+    wrapper.setState({ oppgavekoId });
     await panel.prop('opphevOppgaveReservasjon')(oppgaveId, begrunnelse);
 
     expect(opphevOppgaveReservasjonFn.calledOnce).to.be.true;
@@ -266,7 +266,7 @@ describe('<BehandlingskoerIndex>', () => {
     expect(fetchReserverteOppgaverFn.calledOnce).to.be.true;
     const { args: args2 } = fetchReserverteOppgaverFn.getCalls()[0];
     expect(args2).to.have.length(1);
-    expect(args2[0]).to.eql(sakslisteId);
+    expect(args2[0]).to.eql(oppgavekoId);
   });
 
   it('skal forlenge reservasjon og så hente reserverte oppgaver på nytt', async () => {
@@ -277,23 +277,23 @@ describe('<BehandlingskoerIndex>', () => {
       k9tilbakeUrl="www.k9tilbake.no"
       fetchOppgaverTilBehandling={sinon.spy()}
       fetchReserverteOppgaver={fetchReserverteOppgaverFn}
-      fetchAlleSakslister={sinon.spy()}
+      fetchAlleOppgavekoer={sinon.spy()}
       reserverOppgave={sinon.spy()}
       opphevOppgaveReservasjon={sinon.spy()}
       forlengOppgaveReservasjon={forlengOppgaveReservasjonFn}
       fetchOppgaverTilBehandlingOppgaver={sinon.spy()}
       flyttReservasjon={sinon.spy()}
-      sakslister={sakslister}
+      oppgavekoer={oppgavekoer}
       goToUrl={sinon.spy()}
-      setValgtSakslisteId={sinon.spy()}
+      setValgtOppgavekoId={sinon.spy()}
     />);
 
-    const panel = wrapper.find(SakslistePanel);
+    const panel = wrapper.find(OppgavekoPanel);
     expect(panel).to.have.length(1);
 
     const oppgaveId = '1';
-    const sakslisteId = 1;
-    wrapper.setState({ sakslisteId });
+    const oppgavekoId = '1';
+    wrapper.setState({ oppgavekoId });
     await panel.prop('forlengOppgaveReservasjon')(oppgaveId);
 
     expect(forlengOppgaveReservasjonFn.calledOnce).to.be.true;
@@ -304,7 +304,7 @@ describe('<BehandlingskoerIndex>', () => {
     expect(fetchReserverteOppgaverFn.calledOnce).to.be.true;
     const { args: args2 } = fetchReserverteOppgaverFn.getCalls()[0];
     expect(args2).to.have.length(1);
-    expect(args2[0]).to.eql(sakslisteId);
+    expect(args2[0]).to.eql(oppgavekoId);
   });
 
   it('skal flytte reservasjon og så hente reserverte oppgaver på nytt', async () => {
@@ -315,25 +315,25 @@ describe('<BehandlingskoerIndex>', () => {
       k9tilbakeUrl="www.k9tilbake.no"
       fetchOppgaverTilBehandling={sinon.spy()}
       fetchReserverteOppgaver={fetchReserverteOppgaverFn}
-      fetchAlleSakslister={sinon.spy()}
+      fetchAlleOppgavekoer={sinon.spy()}
       reserverOppgave={sinon.spy()}
       opphevOppgaveReservasjon={sinon.spy()}
       forlengOppgaveReservasjon={sinon.spy()}
       fetchOppgaverTilBehandlingOppgaver={sinon.spy()}
       flyttReservasjon={flyttReservasjonFn}
-      sakslister={sakslister}
+      oppgavekoer={oppgavekoer}
       goToUrl={sinon.spy()}
-      setValgtSakslisteId={sinon.spy()}
+      setValgtOppgavekoId={sinon.spy()}
     />);
 
-    const panel = wrapper.find(SakslistePanel);
+    const panel = wrapper.find(OppgavekoPanel);
     expect(panel).to.have.length(1);
 
     const oppgaveId = '1';
     const brukerIdent = 'T122334';
     const begrunnelse = 'Dette er en begrunnelse';
-    const sakslisteId = 1;
-    wrapper.setState({ sakslisteId });
+    const oppgavekoId = '1';
+    wrapper.setState({ oppgavekoId });
     await panel.prop('flyttReservasjon')(oppgaveId, brukerIdent, begrunnelse);
 
     expect(flyttReservasjonFn.calledOnce).to.be.true;
@@ -346,25 +346,25 @@ describe('<BehandlingskoerIndex>', () => {
     expect(fetchReserverteOppgaverFn.calledOnce).to.be.true;
     const { args: args2 } = fetchReserverteOppgaverFn.getCalls()[0];
     expect(args2).to.have.length(1);
-    expect(args2[0]).to.eql(sakslisteId);
+    expect(args2[0]).to.eql(oppgavekoId);
   });
 
 /*  it('skal vise dialog ved timeout', () => {
-    const fetchSakslister = sinon.spy();
+    const fetchOppgavekoer = sinon.spy();
     const wrapper = shallow(<BehandlingskoerIndex
       k9sakUrl="www.k9sak.no"
       k9tilbakeUrl="www.k9tilbake.no"
       fetchOppgaverTilBehandling={sinon.spy()}
       fetchReserverteOppgaver={sinon.spy()}
-      fetchAlleSakslister={fetchSakslister}
+      fetchAlleOppgavekoer={fetchOppgavekoer}
       reserverOppgave={sinon.spy()}
       opphevOppgaveReservasjon={sinon.spy()}
       forlengOppgaveReservasjon={sinon.spy()}
       fetchOppgaverTilBehandlingOppgaver={sinon.spy()}
       flyttReservasjon={sinon.spy()}
-      sakslister={sakslister}
+      oppgavekoer={oppgavekoer}
       goToUrl={sinon.spy()}
-      setValgtSakslisteId={sinon.spy()}
+      setValgtOppgavekoeId={sinon.spy()}
     />);
 
     expect(wrapper.find(BehandlingPollingTimoutModal)).to.have.length(1);

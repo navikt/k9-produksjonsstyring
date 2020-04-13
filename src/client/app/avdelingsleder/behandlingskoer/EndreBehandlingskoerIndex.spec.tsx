@@ -3,31 +3,31 @@ import { shallow } from 'enzyme';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import EndreSakslisterPanel from './components/EndreSakslisterPanel';
+import EndreOppgavekoerPanel from './components/EndreOppgavekoerPanel';
 import { EndreBehandlingskoerIndex } from './EndreBehandlingskoerIndex';
 
 describe('<EndreBehandlingskoerIndex>', () => {
-  it('skal hente sakslister når sakliste-fanen blir valgt', () => {
-    const fetchAvdelingensSakslisterFn = sinon.spy();
+  it('skal hente oppgavekøer når oppgavekø-fanen blir valgt', () => {
+    const fetchAvdelingensOppgavekoerFn = sinon.spy();
     const fetchAvdelingensSaksbehandlereFn = sinon.spy();
     const wrapper = shallow(<EndreBehandlingskoerIndex
-      fetchAvdelingensSakslister={fetchAvdelingensSakslisterFn}
-      setValgtSakslisteId={sinon.spy()}
-      lagNySaksliste={sinon.spy()}
-      fjernSaksliste={sinon.spy()}
-      lagreSakslisteNavn={sinon.spy()}
-      lagreSakslisteBehandlingstype={sinon.spy()}
-      lagreSakslisteFagsakYtelseType={sinon.spy()}
-      lagreSakslisteAndreKriterier={sinon.spy()}
-      knyttSaksbehandlerTilSaksliste={sinon.spy()}
+      fetchAvdelingensOppgavekoer={fetchAvdelingensOppgavekoerFn}
+      setValgtOppgavekoId={sinon.spy()}
+      lagNyOppgaveko={sinon.spy()}
+      fjernOppgaveko={sinon.spy()}
+      lagreOppgavekoNavn={sinon.spy()}
+      lagreOppgavekoBehandlingstype={sinon.spy()}
+      lagreOppgavekoFagsakYtelseType={sinon.spy()}
+      lagreOppgavekoAndreKriterier={sinon.spy()}
+      knyttSaksbehandlerTilOppgaveko={sinon.spy()}
       fetchAvdelingensSaksbehandlere={fetchAvdelingensSaksbehandlereFn}
       valgtAvdelingEnhet="1"
-      fetchAntallOppgaverForSaksliste={sinon.spy()}
+      fetchAntallOppgaverForOppgaveko={sinon.spy()}
       fetchAntallOppgaverForAvdeling={sinon.spy()}
     />);
 
-    expect(wrapper.find(EndreSakslisterPanel)).to.have.length(1);
-    expect(fetchAvdelingensSakslisterFn.calledOnce).to.be.true;
+    expect(wrapper.find(EndreOppgavekoerPanel)).to.have.length(1);
+    expect(fetchAvdelingensOppgavekoerFn.calledOnce).to.be.true;
     expect(fetchAvdelingensSaksbehandlereFn.calledOnce).to.be.true;
   });
 });

@@ -20,11 +20,11 @@ describe('<SorteringVelger>', () => {
     const wrapper = shallowWithIntl(<SorteringVelger
       intl={intlMock}
       koSorteringTyper={koSorteringTyper}
-      valgtSakslisteId={1}
-      lagreSakslisteSortering={sinon.spy()}
-      lagreSakslisteSorteringErDynamiskPeriode={sinon.spy()}
-      lagreSakslisteSorteringTidsintervallDato={sinon.spy()}
-      lagreSakslisteSorteringNumeriskIntervall={sinon.spy()}
+      valgtOppgavekoId="1"
+      lagreOppgavekoSortering={sinon.spy()}
+      lagreOppgavekoSorteringErDynamiskPeriode={sinon.spy()}
+      lagreOppgavekoSorteringTidsintervallDato={sinon.spy()}
+      lagreOppgavekoSorteringNumeriskIntervall={sinon.spy()}
       valgtAvdelingEnhet="1"
       erDynamiskPeriode={false}
     />);
@@ -48,11 +48,11 @@ describe('<SorteringVelger>', () => {
     const wrapper = shallowWithIntl(<SorteringVelger
       intl={intlMock}
       koSorteringTyper={koSorteringTyper}
-      valgtSakslisteId={1}
-      lagreSakslisteSortering={lagreSorteringFn}
-      lagreSakslisteSorteringErDynamiskPeriode={sinon.spy()}
-      lagreSakslisteSorteringTidsintervallDato={sinon.spy()}
-      lagreSakslisteSorteringNumeriskIntervall={sinon.spy()}
+      valgtOppgavekoId="1"
+      lagreOppgavekoSortering={lagreSorteringFn}
+      lagreOppgavekoSorteringErDynamiskPeriode={sinon.spy()}
+      lagreOppgavekoSorteringTidsintervallDato={sinon.spy()}
+      lagreOppgavekoSorteringNumeriskIntervall={sinon.spy()}
       valgtAvdelingEnhet="3"
       erDynamiskPeriode={false}
     />);
@@ -63,7 +63,7 @@ describe('<SorteringVelger>', () => {
     expect(lagreSorteringFn.calledOnce).to.be.true;
     const { args } = lagreSorteringFn.getCalls()[0];
     expect(args).to.have.length(3);
-    expect(args[0]).to.eql(1);
+    expect(args[0]).to.eql('1');
     expect(args[1]).to.eql(KoSortering.OPPRETT_BEHANDLING);
     expect(args[2]).to.eql('3');
   });

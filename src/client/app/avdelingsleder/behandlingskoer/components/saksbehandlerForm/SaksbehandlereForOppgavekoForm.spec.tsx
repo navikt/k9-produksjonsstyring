@@ -8,11 +8,11 @@ import { Column } from 'nav-frontend-grid';
 
 import andreKriterierType from 'kodeverk/andreKriterierType';
 import { CheckboxField } from 'form/FinalFields';
-import { SaksbehandlereForSakslisteForm } from './SaksbehandlereForSakslisteForm';
+import { SaksbehandlereForOppgavekoForm } from './SaksbehandlereForOppgavekoForm';
 
-describe('<SaksbehandlereForSakslisteForm>', () => {
-  const saksliste = {
-    sakslisteId: 1,
+describe('<SaksbehandlereForOppgavekoForm>', () => {
+  const oppgaveko = {
+    oppgavekoId: '1',
     navn: 'Nyansatte',
     sistEndret: '2017-08-31',
     andreKriterierTyper: [{
@@ -26,15 +26,15 @@ describe('<SaksbehandlereForSakslisteForm>', () => {
   };
 
   it('skal vise tekst når avdelingen ikke har tilordnede saksbehandlere', () => {
-    const wrapper = shallow(<SaksbehandlereForSakslisteForm
-      valgtSaksliste={saksliste}
-      knyttSaksbehandlerTilSaksliste={sinon.spy()}
+    const wrapper = shallow(<SaksbehandlereForOppgavekoForm
+      valgtOppgaveko={oppgaveko}
+      knyttSaksbehandlerTilOppgaveko={sinon.spy()}
       valgtAvdelingEnhet="1"
     />).find(Form).drill(props => props.render()).shallow();
 
     const melding = wrapper.find(FormattedMessage);
     expect(melding).to.have.length(2);
-    expect(melding.last().prop('id')).to.eql('SaksbehandlereForSakslisteForm.IngenSaksbehandlere');
+    expect(melding.last().prop('id')).to.eql('SaksbehandlereForOppgavekoForm.IngenSaksbehandlere');
   });
 
   it('skal vise kun en kolonne med saksbehandlere når det er tilordnet en saksbehandler', () => {
@@ -44,10 +44,10 @@ describe('<SaksbehandlereForSakslisteForm>', () => {
       avdelingsnavn: ['NAV Oslo'],
     }];
 
-    const wrapper = shallow(<SaksbehandlereForSakslisteForm
-      valgtSaksliste={saksliste}
+    const wrapper = shallow(<SaksbehandlereForOppgavekoForm
+      valgtOppgaveko={oppgaveko}
       avdelingensSaksbehandlere={saksbehandlere}
-      knyttSaksbehandlerTilSaksliste={sinon.spy()}
+      knyttSaksbehandlerTilOppgaveko={sinon.spy()}
       valgtAvdelingEnhet="1"
     />).find(Form).drill(props => props.render()).shallow();
 
@@ -75,10 +75,10 @@ describe('<SaksbehandlereForSakslisteForm>', () => {
       avdelingsnavn: ['NAV Bærum'],
     }];
 
-    const wrapper = shallow(<SaksbehandlereForSakslisteForm
-      valgtSaksliste={saksliste}
+    const wrapper = shallow(<SaksbehandlereForOppgavekoForm
+      valgtOppgaveko={oppgaveko}
       avdelingensSaksbehandlere={saksbehandlere}
-      knyttSaksbehandlerTilSaksliste={sinon.spy()}
+      knyttSaksbehandlerTilOppgaveko={sinon.spy()}
       valgtAvdelingEnhet="1"
     />).find(Form).drill(props => props.render()).shallow();
 

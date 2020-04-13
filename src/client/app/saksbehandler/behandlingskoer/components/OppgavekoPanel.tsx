@@ -4,41 +4,40 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Undertittel } from 'nav-frontend-typografi';
 
-import sakslistePropType from 'saksbehandler/behandlingskoer/sakslistePropType';
-import { Saksliste } from 'saksbehandler/behandlingskoer/sakslisteTsType';
-import { Oppgave } from 'saksbehandler/oppgaveTsType';
+import oppgavekoPropType from 'saksbehandler/behandlingskoer/oppgavekoPropType';
+import { Oppgaveko } from 'saksbehandler/behandlingskoer/oppgavekoTsType';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
-import SakslisteVelgerForm from './SakslisteVelgerForm';
+import OppgavekoVelgerForm from './OppgavekoVelgerForm';
 import OppgaverTabell from './OppgaverTabell';
 
-import styles from './sakslistePanel.less';
+import styles from './oppgavekoPanel.less';
 
 type TsProps = Readonly<{
-  sakslister: Saksliste[];
-  fetchSakslisteOppgaver: (sakslisteId: number) => void;
-  reserverOppgave: (oppgaveId: Oppgave) => void;
+  oppgavekoer: Oppgaveko[];
+  fetchOppgavekoOppgaver: (oppgavekoId: string) => void;
+  reserverOppgave: (oppgaveId: string) => void;
   opphevOppgaveReservasjon: (oppgaveId: string, begrunnelse: string) => Promise<string>;
   forlengOppgaveReservasjon: (oppgaveId: string) => Promise<string>;
   flyttReservasjon: (oppgaveId: string, brukerident: string, begrunnelse: string) => Promise<string>;
 }>
 
 /**
- * SakslistePanel
+ * OppgavekoPanel
  */
-const SakslistePanel = ({
+const OppgavekoPanel = ({
   reserverOppgave,
   opphevOppgaveReservasjon,
   forlengOppgaveReservasjon,
-  sakslister,
-  fetchSakslisteOppgaver,
+  oppgavekoer,
+  fetchOppgavekoOppgaver,
   flyttReservasjon,
 }: TsProps) => (
   <>
-    <Undertittel><FormattedMessage id="SakslistePanel.StartBehandling" /></Undertittel>
+    <Undertittel><FormattedMessage id="OppgavekoPanel.StartBehandling" /></Undertittel>
     <div className={styles.container}>
-      <SakslisteVelgerForm
-        sakslister={sakslister}
-        fetchSakslisteOppgaver={fetchSakslisteOppgaver}
+      <OppgavekoVelgerForm
+        oppgavekoer={oppgavekoer}
+        fetchOppgavekoOppgaver={fetchOppgavekoOppgaver}
       />
       <VerticalSpacer twentyPx />
       <OppgaverTabell
@@ -51,13 +50,13 @@ const SakslistePanel = ({
   </>
 );
 
-SakslistePanel.propTypes = {
-  sakslister: PropTypes.arrayOf(sakslistePropType),
-  fetchSakslisteOppgaver: PropTypes.func.isRequired,
+OppgavekoPanel.propTypes = {
+  oppgavekoer: PropTypes.arrayOf(oppgavekoPropType),
+  fetchOppgavekoOppgaver: PropTypes.func.isRequired,
   reserverOppgave: PropTypes.func.isRequired,
   opphevOppgaveReservasjon: PropTypes.func.isRequired,
   forlengOppgaveReservasjon: PropTypes.func.isRequired,
   flyttReservasjon: PropTypes.func.isRequired,
 };
 
-export default SakslistePanel;
+export default OppgavekoPanel;

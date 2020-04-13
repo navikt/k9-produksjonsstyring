@@ -11,8 +11,8 @@ import AutoLagringVedBlur from './AutoLagringVedBlur';
 
 interface TsProps {
     intl: any;
-    valgtSakslisteId: number;
-    lagreSakslisteSorteringNumerisk: (sakslisteId: number, fra: number, til: number, avdelingEnhet: string) => void;
+    valgtOppgavekoId: string;
+    lagreSakslisteSorteringNumerisk: (oppgavekoId: string, fra: number, til: number, avdelingEnhet: string) => void;
     valgtAvdelingEnhet: string;
     fra: number;
     til: number;
@@ -20,7 +20,7 @@ interface TsProps {
 
 export const BelopSorteringValg = ({
     intl,
-    valgtSakslisteId,
+    valgtOppgavekoId,
     valgtAvdelingEnhet,
     lagreSakslisteSorteringNumerisk,
 }: TsProps) => (
@@ -31,7 +31,7 @@ export const BelopSorteringValg = ({
 
     <>
       <AutoLagringVedBlur
-        lagre={values => lagreSakslisteSorteringNumerisk(valgtSakslisteId, values.fra, values.til, valgtAvdelingEnhet)}
+        lagre={values => lagreSakslisteSorteringNumerisk(valgtOppgavekoId, values.fra, values.til, valgtAvdelingEnhet)}
         fieldNames={['fra', 'til']}
       />
       <FlexContainer>

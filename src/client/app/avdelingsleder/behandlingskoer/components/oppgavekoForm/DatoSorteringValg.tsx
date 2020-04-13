@@ -16,7 +16,7 @@ import AutoLagringVedBlur from './AutoLagringVedBlur';
 import styles from './sorteringVelger.less';
 
 const finnDato = antallDager => moment().add(antallDager, 'd').format();
-const getLagreDatoFn = (lagreSakslisteSorteringTidsintervallDato, valgtSakslisteId, valgtAvdelingEnhet, annenDato, erFomDato) => (e) => {
+const getLagreDatoFn = (lagreOppgavekoSorteringTidsintervallDato, valgtOppgavekoId, valgtAvdelingEnhet, annenDato, erFomDato) => (e) => {
     let dato = e.target.value;
     if (dato) {
         dato = moment(dato, DDMMYYYY_DATE_FORMAT, true);
@@ -24,17 +24,17 @@ const getLagreDatoFn = (lagreSakslisteSorteringTidsintervallDato, valgtSaksliste
     if (!dato || dato.isValid()) {
         const d = dato ? dato.format(ISO_DATE_FORMAT) : dato;
         return erFomDato
-            ? lagreSakslisteSorteringTidsintervallDato(valgtSakslisteId, d, annenDato, valgtAvdelingEnhet)
-            : lagreSakslisteSorteringTidsintervallDato(valgtSakslisteId, annenDato, d, valgtAvdelingEnhet);
+            ? lagreOppgavekoSorteringTidsintervallDato(valgtOppgavekoId, d, annenDato, valgtAvdelingEnhet)
+            : lagreOppgavekoSorteringTidsintervallDato(valgtOppgavekoId, annenDato, d, valgtAvdelingEnhet);
     }
     return undefined;
 };
 interface TsProps {
     intl: any;
-    valgtSakslisteId: number;
-    lagreSakslisteSorteringErDynamiskPeriode: (sakslisteId: number, avdelingEnhet: string) => void;
-    lagreSakslisteSorteringTidsintervallDato: (sakslisteId: number, fomDato: string, tomDato: string, avdelingEnhet: string) => void;
-    lagreSakslisteSorteringTidsintervallDager: (sakslisteId: number, fomDagr: number, tomDagr: number, avdelingEnhet: string) => void;
+    valgtOppgavekoId: string;
+    lagreOppgavekoSorteringErDynamiskPeriode: (oppgavekoId: string, avdelingEnhet: string) => void;
+    lagreOppgavekoSorteringTidsintervallDato: (oppgavekoId: string, fomDato: string, tomDato: string, avdelingEnhet: string) => void;
+    lagreOppgavekoSorteringTidsintervallDager: (oppgavekoId: string, fomDagr: number, tomDagr: number, avdelingEnhet: string) => void;
     valgtAvdelingEnhet: string;
     erDynamiskPeriode: boolean;
     fra: number;
@@ -45,12 +45,12 @@ interface TsProps {
 
 export const DatoSorteringValg = ({
           intl,
-          valgtSakslisteId,
-          lagreSakslisteSorteringErDynamiskPeriode,
+          valgtOppgavekoId,
+          lagreOppgavekoSorteringErDynamiskPeriode,
           valgtAvdelingEnhet,
           erDynamiskPeriode,
-          lagreSakslisteSorteringTidsintervallDato,
-          lagreSakslisteSorteringTidsintervallDager,
+          lagreOppgavekoSorteringTidsintervallDato,
+          lagreOppgavekoSorteringTidsintervallDager,
           fra,
           til,
           fomDato,
@@ -65,7 +65,7 @@ export const DatoSorteringValg = ({
           {erDynamiskPeriode && (
           <>
             <AutoLagringVedBlur
-              lagre={values => lagreSakslisteSorteringTidsintervallDager(valgtSakslisteId, values.fra, values.til, valgtAvdelingEnhet)}
+              lagre={values => lagreOppgavekoSorteringTidsintervallDager(valgtOppgavekoId, values.fra, values.til, valgtAvdelingEnhet)}
               fieldNames={['fra', 'til']}
             />
             <FlexContainer>
@@ -124,7 +124,7 @@ export const DatoSorteringValg = ({
                     label={{ id: 'SorteringVelger.Fom' }}
                     onBlurValidation
                     validate={[hasValidDate]}
-                    onBlur={getLagreDatoFn(lagreSakslisteSorteringTidsintervallDato, valgtSakslisteId, valgtAvdelingEnhet, tomDato, true)}
+                    onBlur={getLagreDatoFn(lagreOppgavekoSorteringTidsintervallDato, valgtOppgavekoId, valgtAvdelingEnhet, tomDato, true)}
                   />
                 </FlexColumn>
                 <FlexColumn>
@@ -138,7 +138,7 @@ export const DatoSorteringValg = ({
                     label={{ id: 'SorteringVelger.Tom' }}
                     onBlurValidation
                     validate={[hasValidDate]}
-                    onBlur={getLagreDatoFn(lagreSakslisteSorteringTidsintervallDato, valgtSakslisteId, valgtAvdelingEnhet, fomDato, false)}
+                    onBlur={getLagreDatoFn(lagreOppgavekoSorteringTidsintervallDato, valgtOppgavekoId, valgtAvdelingEnhet, fomDato, false)}
                   />
                 </FlexColumn>
               </FlexRow>
@@ -148,7 +148,7 @@ export const DatoSorteringValg = ({
           <CheckboxField
             name="erDynamiskPeriode"
             label={intl.formatMessage({ id: 'SorteringVelger.DynamiskPeriode' })}
-            onChange={() => lagreSakslisteSorteringErDynamiskPeriode(valgtSakslisteId, valgtAvdelingEnhet)}
+            onChange={() => lagreOppgavekoSorteringErDynamiskPeriode(valgtOppgavekoId, valgtAvdelingEnhet)}
           />
           <VerticalSpacer eightPx />
         </ArrowBox>

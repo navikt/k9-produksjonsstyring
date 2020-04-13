@@ -6,14 +6,14 @@ import { Form } from 'react-final-form';
 import andreKriterierType from 'kodeverk/andreKriterierType';
 import { InputField } from 'form/FinalFields';
 import { shallowWithIntl, intlMock } from 'testHelpers/intl-enzyme-test-helper';
-import { UtvalgskriterierForSakslisteForm } from './UtvalgskriterierForSakslisteForm';
+import { UtvalgskriterierForOppgavekoForm } from './UtvalgskriterierForOppgavekoForm';
 import AutoLagringVedBlur from './AutoLagringVedBlur';
 import BehandlingstypeVelger from './BehandlingstypeVelger';
 
-describe('<UtvalgskriterierForSakslisteForm>', () => {
-  it('skal vise form som lar avdelingsleder endre navn på saksliste', () => {
-    const saksliste = {
-      sakslisteId: 1,
+describe('<UtvalgskriterierForOppgavekoForm>', () => {
+  it('skal vise form som lar avdelingsleder endre navn på oppgaveko', () => {
+    const oppgaveko = {
+      oppgavekoId: '1',
       navn: 'Nyansatte',
       sistEndret: '2017-08-31',
       andreKriterierTyper: [{
@@ -26,16 +26,16 @@ describe('<UtvalgskriterierForSakslisteForm>', () => {
       saksbehandlerIdenter: [],
     };
 
-    const wrapper = shallowWithIntl(<UtvalgskriterierForSakslisteForm
+    const wrapper = shallowWithIntl(<UtvalgskriterierForOppgavekoForm
       intl={intlMock}
-      valgtSaksliste={saksliste}
-      lagreSakslisteNavn={sinon.spy()}
-      lagreSakslisteBehandlingstype={sinon.spy()}
-      lagreSakslisteFagsakYtelseType={sinon.spy()}
-      lagreSakslisteSortering={sinon.spy()}
-      lagreSakslisteAndreKriterier={sinon.spy()}
+      valgtOppgaveko={oppgaveko}
+      lagreOppgavekoNavn={sinon.spy()}
+      lagreOppgavekoBehandlingstype={sinon.spy()}
+      lagreOppgavekoFagsakYtelseType={sinon.spy()}
+      lagreOppgavekoSortering={sinon.spy()}
+      lagreOppgavekoAndreKriterier={sinon.spy()}
       valgtAvdelingEnhet="1"
-      hentAntallOppgaverForSaksliste={sinon.spy()}
+      hentAntallOppgaverForOppgaveko={sinon.spy()}
     />).find(Form).drill(props => props.render({ values: { erDynamiskPeriode: false } })).shallow();
 
     expect(wrapper.find(AutoLagringVedBlur)).to.have.length(1);
@@ -43,29 +43,29 @@ describe('<UtvalgskriterierForSakslisteForm>', () => {
     expect(wrapper.find(InputField)).to.have.length(1);
   });
 
-  it('skal vise default-navn for sakslisten når dette ikke er satt fra før', () => {
-    const saksliste = {
-      sakslisteId: 1,
+  it('skal vise default-navn for oppgavekon når dette ikke er satt fra før', () => {
+    const oppgaveko = {
+      oppgavekoId: '1',
       navn: undefined,
       sistEndret: '2017-08-31',
       saksbehandlerIdenter: [],
     };
 
-    const wrapper = shallowWithIntl(<UtvalgskriterierForSakslisteForm
+    const wrapper = shallowWithIntl(<UtvalgskriterierForOppgavekoForm
       intl={intlMock}
-      valgtSaksliste={saksliste}
-      lagreSakslisteNavn={sinon.spy()}
-      lagreSakslisteBehandlingstype={sinon.spy()}
-      lagreSakslisteFagsakYtelseType={sinon.spy()}
-      lagreSakslisteSortering={sinon.spy()}
+      valgtOppgaveko={oppgaveko}
+      lagreOppgavekoNavn={sinon.spy()}
+      lagreOppgavekoBehandlingstype={sinon.spy()}
+      lagreOppgavekoFagsakYtelseType={sinon.spy()}
+      lagreOppgavekoSortering={sinon.spy()}
       valgtAvdelingEnhet="1"
-      hentAntallOppgaverForSaksliste={sinon.spy()}
-      lagreSakslisteAndreKriterier={sinon.spy()}
+      hentAntallOppgaverForOppgaveko={sinon.spy()}
+      lagreOppgavekoAndreKriterier={sinon.spy()}
     />);
 
     const initialValues = wrapper.prop('initialValues');
     expect(initialValues).to.eql({
-      sakslisteId: 1,
+      oppgavekoId: '1',
       navn: 'Ny behandlingskø',
       sortering: undefined,
       fagsakYtelseType: '',
@@ -77,29 +77,29 @@ describe('<UtvalgskriterierForSakslisteForm>', () => {
     });
   });
 
-  it('skal vise navn for sakslisten når dette er satt fra før', () => {
-    const saksliste = {
-      sakslisteId: 1,
+  it('skal vise navn for oppgavekon når dette er satt fra før', () => {
+    const oppgaveko = {
+      oppgavekoId: '1',
       navn: 'Nyansatte',
       sistEndret: '2017-08-31',
       saksbehandlerIdenter: [],
     };
 
-    const wrapper = shallowWithIntl(<UtvalgskriterierForSakslisteForm
+    const wrapper = shallowWithIntl(<UtvalgskriterierForOppgavekoForm
       intl={intlMock}
-      valgtSaksliste={saksliste}
-      lagreSakslisteNavn={sinon.spy()}
-      lagreSakslisteBehandlingstype={sinon.spy()}
-      lagreSakslisteFagsakYtelseType={sinon.spy()}
-      lagreSakslisteSortering={sinon.spy()}
+      valgtOppgaveko={oppgaveko}
+      lagreOppgavekoNavn={sinon.spy()}
+      lagreOppgavekoBehandlingstype={sinon.spy()}
+      lagreOppgavekoFagsakYtelseType={sinon.spy()}
+      lagreOppgavekoSortering={sinon.spy()}
       valgtAvdelingEnhet="1"
-      hentAntallOppgaverForSaksliste={sinon.spy()}
-      lagreSakslisteAndreKriterier={sinon.spy()}
+      hentAntallOppgaverForOppgaveko={sinon.spy()}
+      lagreOppgavekoAndreKriterier={sinon.spy()}
     />);
 
     const initialValues = wrapper.prop('initialValues');
     expect(initialValues).to.eql({
-      sakslisteId: 1,
+      oppgavekoId: '1',
       navn: 'Nyansatte',
       sortering: undefined,
       fagsakYtelseType: '',
@@ -111,48 +111,48 @@ describe('<UtvalgskriterierForSakslisteForm>', () => {
     });
   });
 
-  it('skal lagre sakslistenavn ved blur i navnefelt', () => {
-    const saksliste = {
-      sakslisteId: 1,
+  it('skal lagre oppgavekonavn ved blur i navnefelt', () => {
+    const oppgaveko = {
+      oppgavekoId: '1',
       navn: 'Nyansatte',
       sistEndret: '2017-08-31',
       saksbehandlerIdenter: [],
     };
 
-    const lagreSakslisteNavnFn = sinon.spy();
+    const lagreOppgavekoNavnFn = sinon.spy();
 
-    const wrapper = shallowWithIntl(<UtvalgskriterierForSakslisteForm
+    const wrapper = shallowWithIntl(<UtvalgskriterierForOppgavekoForm
       intl={intlMock}
-      valgtSaksliste={saksliste}
-      lagreSakslisteNavn={lagreSakslisteNavnFn}
-      lagreSakslisteBehandlingstype={sinon.spy()}
-      lagreSakslisteFagsakYtelseType={sinon.spy()}
-      lagreSakslisteSortering={sinon.spy()}
+      valgtOppgaveko={oppgaveko}
+      lagreOppgavekoNavn={lagreOppgavekoNavnFn}
+      lagreOppgavekoBehandlingstype={sinon.spy()}
+      lagreOppgavekoFagsakYtelseType={sinon.spy()}
+      lagreOppgavekoSortering={sinon.spy()}
       valgtAvdelingEnhet="1"
-      hentAntallOppgaverForSaksliste={sinon.spy()}
-      lagreSakslisteAndreKriterier={sinon.spy()}
+      hentAntallOppgaverForOppgaveko={sinon.spy()}
+      lagreOppgavekoAndreKriterier={sinon.spy()}
     />).find(Form).drill(props => props.render({ values: { erDynamiskPeriode: false } })).shallow();
 
     const lagreComp = wrapper.find(AutoLagringVedBlur);
 
     lagreComp.prop('lagre')({
-      sakslisteId: 1,
+      oppgavekoId: '1',
       navn: 'Foreldrepenger',
     });
 
-    expect(lagreSakslisteNavnFn.calledOnce).to.be.true;
-    const { args } = lagreSakslisteNavnFn.getCalls()[0];
+    expect(lagreOppgavekoNavnFn.calledOnce).to.be.true;
+    const { args } = lagreOppgavekoNavnFn.getCalls()[0];
     expect(args).to.have.length(2);
     expect(args[0]).to.eql({
-      sakslisteId: 1,
+      oppgavekoId: '1',
       navn: 'Foreldrepenger',
     });
     expect(args[1]).to.eql('1');
   });
 
   it('skal sette opp korrekt formstate for andrekriterier', () => {
-    const saksliste = {
-      sakslisteId: 1,
+    const oppgaveko = {
+      oppgavekoId: '1',
       navn: 'Nyansatte',
       sistEndret: '2017-08-31',
       saksbehandlerIdenter: [],
@@ -171,21 +171,21 @@ describe('<UtvalgskriterierForSakslisteForm>', () => {
       }],
     };
 
-    const wrapper = shallowWithIntl(<UtvalgskriterierForSakslisteForm
+    const wrapper = shallowWithIntl(<UtvalgskriterierForOppgavekoForm
       intl={intlMock}
-      valgtSaksliste={saksliste}
-      lagreSakslisteNavn={sinon.spy()}
-      lagreSakslisteBehandlingstype={sinon.spy()}
-      lagreSakslisteFagsakYtelseType={sinon.spy()}
-      lagreSakslisteSortering={sinon.spy()}
+      valgtOppgaveko={oppgaveko}
+      lagreOppgavekoNavn={sinon.spy()}
+      lagreOppgavekoBehandlingstype={sinon.spy()}
+      lagreOppgavekoFagsakYtelseType={sinon.spy()}
+      lagreOppgavekoSortering={sinon.spy()}
       valgtAvdelingEnhet="1"
-      hentAntallOppgaverForSaksliste={sinon.spy()}
-      lagreSakslisteAndreKriterier={sinon.spy()}
+      hentAntallOppgaverForOppgaveko={sinon.spy()}
+      lagreOppgavekoAndreKriterier={sinon.spy()}
     />);
 
     const initialValues = wrapper.prop('initialValues');
     expect(initialValues).to.eql({
-      sakslisteId: 1,
+      oppgavekoId: '1',
       navn: 'Nyansatte',
       sortering: undefined,
       fagsakYtelseType: '',

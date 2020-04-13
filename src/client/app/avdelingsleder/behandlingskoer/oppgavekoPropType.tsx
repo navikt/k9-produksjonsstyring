@@ -2,8 +2,8 @@ import PropTypes from 'prop-types';
 
 import kodeverkPropType from 'kodeverk/kodeverkPropType';
 
-const sakslistePropType = PropTypes.shape({
-  sakslisteId: PropTypes.number.isRequired,
+const oppgavekoPropType = PropTypes.shape({
+  oppgavekoId: PropTypes.string.isRequired,
   navn: PropTypes.string,
   behandlingTyper: PropTypes.arrayOf(kodeverkPropType),
   fagsakYtelseTyper: PropTypes.arrayOf(kodeverkPropType),
@@ -24,4 +24,4 @@ const sakslistePropType = PropTypes.shape({
   antallBehandlinger: PropTypes.number,
 });
 
-export default sakslistePropType;
+export default oppgavekoPropType;

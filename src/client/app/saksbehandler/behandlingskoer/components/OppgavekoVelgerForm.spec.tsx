@@ -12,13 +12,13 @@ import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
 import andreKriterierType from 'kodeverk/andreKriterierType';
 import { SelectField } from 'form/FinalFields';
 import { shallowWithIntl, intlMock } from 'testHelpers/intl-enzyme-test-helper';
-import { SakslisteVelgerForm } from './SakslisteVelgerForm';
+import { OppgavekoVelgerForm } from './OppgavekoVelgerForm';
 
-describe('<SakslisteVelgerForm>', () => {
-  it('skal vise dropdown med to sakslister', () => {
+describe('<OppgavekoVelgerForm>', () => {
+  it('skal vise dropdown med to oppgavekoer', () => {
     const formProps = { };
-    const sakslister = [{
-      sakslisteId: 1,
+    const oppgavekoer = [{
+      oppgavekoId: '1',
       navn: 'Testliste 1',
       behandlingTyper: [],
       fagsakYtelseTyper: [],
@@ -35,7 +35,7 @@ describe('<SakslisteVelgerForm>', () => {
         erDynamiskPeriode: false,
       },
     }, {
-      sakslisteId: 2,
+      oppgavekoId: '2',
       navn: 'Testliste 2',
       behandlingTyper: [],
       fagsakYtelseTyper: [],
@@ -52,12 +52,12 @@ describe('<SakslisteVelgerForm>', () => {
         erDynamiskPeriode: false,
       },
     }];
-    const wrapper = shallowWithIntl(<SakslisteVelgerForm
+    const wrapper = shallowWithIntl(<OppgavekoVelgerForm
       intl={intlMock}
-      sakslister={sakslister}
-      fetchSakslisteOppgaver={sinon.spy()}
+      oppgavekoer={oppgavekoer}
+      fetchOppgavekoOppgaver={sinon.spy()}
       totaltBehandlingTypeAntall={5}
-      fetchSakslistensSaksbehandlere={sinon.spy()}
+      fetchOppgavekoensSaksbehandlere={sinon.spy()}
       fetchAntallOppgaverForBehandlingsko={sinon.spy()}
     />).find(Form).drill(props => props.render(formProps)).shallow();
 
@@ -72,9 +72,9 @@ describe('<SakslisteVelgerForm>', () => {
     expect(options[1].props.children).to.eql('Testliste 2');
   });
 
-  it('skal ikke vise informasjon om saksliste når ingen saksliste er valgt', () => {
-    const sakslister = [{
-      sakslisteId: 1,
+  it('skal ikke vise informasjon om oppgavekø når ingen oppgavekø er valgt', () => {
+    const oppgavekoer = [{
+      oppgavekoId: '1',
       navn: 'Testliste 1',
       behandlingTyper: [],
       fagsakYtelseTyper: [],
@@ -92,13 +92,13 @@ describe('<SakslisteVelgerForm>', () => {
       },
     }];
 
-    const formProps = { values: { sakslisteId: undefined } };
-    const wrapper = shallowWithIntl(<SakslisteVelgerForm
+    const formProps = { values: { oppgavekoId: undefined } };
+    const wrapper = shallowWithIntl(<OppgavekoVelgerForm
       intl={intlMock}
-      sakslister={sakslister}
-      fetchSakslisteOppgaver={sinon.spy()}
+      oppgavekoer={oppgavekoer}
+      fetchOppgavekoOppgaver={sinon.spy()}
       totaltBehandlingTypeAntall={5}
-      fetchSakslistensSaksbehandlere={sinon.spy()}
+      fetchOppgavekoensSaksbehandlere={sinon.spy()}
       fetchAntallOppgaverForBehandlingsko={sinon.spy()}
     />).find(Form).drill(props => props.render(formProps)).shallow();
 
@@ -106,8 +106,8 @@ describe('<SakslisteVelgerForm>', () => {
   });
 
   it('skal vise at alle behandlingstyper og fagsakYtelseTyper er valgt når ingen verdier er oppgitt', () => {
-    const sakslister = [{
-      sakslisteId: 1,
+    const oppgavekoer = [{
+      oppgavekoId: '1',
       navn: 'Testliste 1',
       behandlingTyper: [],
       fagsakYtelseTyper: [],
@@ -125,13 +125,13 @@ describe('<SakslisteVelgerForm>', () => {
       },
     }];
 
-    const formProps = { values: { sakslisteId: '1' } };
-    const wrapper = shallowWithIntl(<SakslisteVelgerForm
+    const formProps = { values: { oppgavekoId: '1' } };
+    const wrapper = shallowWithIntl(<OppgavekoVelgerForm
       intl={intlMock}
-      sakslister={sakslister}
-      fetchSakslisteOppgaver={sinon.spy()}
+      oppgavekoer={oppgavekoer}
+      fetchOppgavekoOppgaver={sinon.spy()}
       totaltBehandlingTypeAntall={5}
-      fetchSakslistensSaksbehandlere={sinon.spy()}
+      fetchOppgavekoensSaksbehandlere={sinon.spy()}
       fetchAntallOppgaverForBehandlingsko={sinon.spy()}
     />).find(Form).drill(props => props.render(formProps)).shallow();
 
@@ -143,8 +143,8 @@ describe('<SakslisteVelgerForm>', () => {
   });
 
   it('skal vise at alle behandlingstyper er valgt når alle verdiene er oppgitt', () => {
-    const sakslister = [{
-      sakslisteId: 1,
+    const oppgavekoer = [{
+      oppgavekoId: '1',
       navn: 'Testliste 1',
       behandlingTyper: [{
         kode: behandlingType.FORSTEGANGSSOKNAD,
@@ -165,14 +165,14 @@ describe('<SakslisteVelgerForm>', () => {
       },
     }];
 
-    const formProps = { values: { sakslisteId: '1' } };
-    // totaltBehandlingTypeAntall er satt til 1 som er lik antall behandlingstypar satt på sakslisten
-    const wrapper = shallowWithIntl(<SakslisteVelgerForm
+    const formProps = { values: { oppgavekoId: '1' } };
+    // totaltBehandlingTypeAntall er satt til 1 som er lik antall behandlingstypar satt på oppgavekøen
+    const wrapper = shallowWithIntl(<OppgavekoVelgerForm
       intl={intlMock}
-      sakslister={sakslister}
-      fetchSakslisteOppgaver={sinon.spy()}
+      oppgavekoer={oppgavekoer}
+      fetchOppgavekoOppgaver={sinon.spy()}
       totaltBehandlingTypeAntall={1}
-      fetchSakslistensSaksbehandlere={sinon.spy()}
+      fetchOppgavekoensSaksbehandlere={sinon.spy()}
       fetchAntallOppgaverForBehandlingsko={sinon.spy()}
     />).find(Form).drill(props => props.render(formProps)).shallow();
 
@@ -183,8 +183,8 @@ describe('<SakslisteVelgerForm>', () => {
   });
 
   it('skal vise valgte behandlingstyper og fagsakYtelseTyper', () => {
-    const sakslister = [{
-      sakslisteId: 1,
+    const oppgavekoer = [{
+      oppgavekoId: '1',
       navn: 'Testliste 1',
       behandlingTyper: [{
         kode: behandlingType.FORSTEGANGSSOKNAD,
@@ -211,13 +211,13 @@ describe('<SakslisteVelgerForm>', () => {
       },
     }];
 
-    const formProps = { values: { sakslisteId: '1' } };
-    const wrapper = shallowWithIntl(<SakslisteVelgerForm
+    const formProps = { values: { oppgavekoId: '1' } };
+    const wrapper = shallowWithIntl(<OppgavekoVelgerForm
       intl={intlMock}
-      sakslister={sakslister}
-      fetchSakslisteOppgaver={sinon.spy()}
+      oppgavekoer={oppgavekoer}
+      fetchOppgavekoOppgaver={sinon.spy()}
       totaltBehandlingTypeAntall={5}
-      fetchSakslistensSaksbehandlere={sinon.spy()}
+      fetchOppgavekoensSaksbehandlere={sinon.spy()}
       fetchAntallOppgaverForBehandlingsko={sinon.spy()}
     />).find(Form).drill(props => props.render(formProps)).shallow();
 
@@ -228,8 +228,8 @@ describe('<SakslisteVelgerForm>', () => {
   });
 
   it('skal vise valgte andre kriterier som er inkluderte', () => {
-    const sakslister = [{
-      sakslisteId: 1,
+    const oppgavekoer = [{
+      oppgavekoId: '1',
       navn: 'Testliste 1',
       behandlingTyper: [],
       fagsakYtelseTyper: [],
@@ -253,13 +253,13 @@ describe('<SakslisteVelgerForm>', () => {
       },
     }];
 
-    const formProps = { values: { sakslisteId: '1' } };
-    const wrapper = shallowWithIntl(<SakslisteVelgerForm
+    const formProps = { values: { oppgavekoId: '1' } };
+    const wrapper = shallowWithIntl(<OppgavekoVelgerForm
       intl={intlMock}
-      sakslister={sakslister}
-      fetchSakslisteOppgaver={sinon.spy()}
+      oppgavekoer={oppgavekoer}
+      fetchOppgavekoOppgaver={sinon.spy()}
       totaltBehandlingTypeAntall={5}
-      fetchSakslistensSaksbehandlere={sinon.spy()}
+      fetchOppgavekoensSaksbehandlere={sinon.spy()}
       fetchAntallOppgaverForBehandlingsko={sinon.spy()}
     />).find(Form).drill(props => props.render(formProps)).shallow();
 
@@ -269,8 +269,8 @@ describe('<SakslisteVelgerForm>', () => {
   });
 
   it('skal vise valgte andre kriterier som er ekskludert', () => {
-    const sakslister = [{
-      sakslisteId: 1,
+    const oppgavekoer = [{
+      oppgavekoId: '1',
       navn: 'Testliste 1',
       behandlingTyper: [],
       fagsakYtelseTyper: [],
@@ -294,13 +294,13 @@ describe('<SakslisteVelgerForm>', () => {
       },
     }];
 
-    const formProps = { values: { sakslisteId: '1' } };
-    const wrapper = shallowWithIntl(<SakslisteVelgerForm
+    const formProps = { values: { oppgavekoId: '1' } };
+    const wrapper = shallowWithIntl(<OppgavekoVelgerForm
       intl={intlMock}
-      sakslister={sakslister}
-      fetchSakslisteOppgaver={sinon.spy()}
+      oppgavekoer={oppgavekoer}
+      fetchOppgavekoOppgaver={sinon.spy()}
       totaltBehandlingTypeAntall={5}
-      fetchSakslistensSaksbehandlere={sinon.spy()}
+      fetchOppgavekoensSaksbehandlere={sinon.spy()}
       fetchAntallOppgaverForBehandlingsko={sinon.spy()}
     />).find(Form).drill(props => props.render(formProps)).shallow();
 
@@ -310,8 +310,8 @@ describe('<SakslisteVelgerForm>', () => {
   });
 
   it('skal vise at alle andre kriterier er valgte', () => {
-    const sakslister = [{
-      sakslisteId: 1,
+    const oppgavekoer = [{
+      oppgavekoId: '1',
       navn: 'Testliste 1',
       behandlingTyper: [],
       fagsakYtelseTyper: [],
@@ -329,13 +329,13 @@ describe('<SakslisteVelgerForm>', () => {
       },
     }];
 
-    const formProps = { values: { sakslisteId: '1' } };
-    const wrapper = shallowWithIntl(<SakslisteVelgerForm
+    const formProps = { values: { oppgavekoId: '1' } };
+    const wrapper = shallowWithIntl(<OppgavekoVelgerForm
       intl={intlMock}
-      sakslister={sakslister}
-      fetchSakslisteOppgaver={sinon.spy()}
+      oppgavekoer={oppgavekoer}
+      fetchOppgavekoOppgaver={sinon.spy()}
       totaltBehandlingTypeAntall={5}
-      fetchSakslistensSaksbehandlere={sinon.spy()}
+      fetchOppgavekoensSaksbehandlere={sinon.spy()}
       fetchAntallOppgaverForBehandlingsko={sinon.spy()}
     />).find(Form).drill(props => props.render(formProps)).shallow();
 
@@ -345,8 +345,8 @@ describe('<SakslisteVelgerForm>', () => {
   });
 
   it('skal vise køens saksbehandlere i tooltip', () => {
-    const sakslister = [{
-      sakslisteId: 1,
+    const oppgavekoer = [{
+      oppgavekoId: '1',
       navn: 'Testliste 1',
       behandlingTyper: [],
       fagsakYtelseTyper: [],
@@ -364,13 +364,13 @@ describe('<SakslisteVelgerForm>', () => {
       },
     }];
 
-    const formProps = { values: { sakslisteId: '1' } };
-    const wrapper = shallowWithIntl(<SakslisteVelgerForm
+    const formProps = { values: { oppgavekoId: '1' } };
+    const wrapper = shallowWithIntl(<OppgavekoVelgerForm
       intl={intlMock}
-      sakslister={sakslister}
-      fetchSakslisteOppgaver={sinon.spy()}
+      oppgavekoer={oppgavekoer}
+      fetchOppgavekoOppgaver={sinon.spy()}
       totaltBehandlingTypeAntall={5}
-      fetchSakslistensSaksbehandlere={sinon.spy()}
+      fetchOppgavekoensSaksbehandlere={sinon.spy()}
       fetchAntallOppgaverForBehandlingsko={sinon.spy()}
       saksbehandlere={[{
         brukerIdent: 'T120101',

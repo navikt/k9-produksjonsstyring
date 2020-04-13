@@ -19,8 +19,8 @@ const finnFagsakYtelseTypeNavn = (fagsakYtelseTyper, valgtFagsakYtelseType) => {
 
 interface TsProps {
   fagsakYtelseTyper: Kodeverk[];
-  valgtSakslisteId: number;
-  lagreSakslisteFagsakYtelseType: (sakslisteId: number, fagsakYtelseType: string, avdelingEnhet: string) => void;
+  valgtOppgavekoId: string;
+  lagreOppgavekoFagsakYtelseType: (oppgavekoId: string, fagsakYtelseType: string, avdelingEnhet: string) => void;
   valgtAvdelingEnhet: string;
 }
 
@@ -29,8 +29,8 @@ interface TsProps {
  */
 export const FagsakYtelseTypeVelger = ({
   fagsakYtelseTyper,
-  valgtSakslisteId,
-  lagreSakslisteFagsakYtelseType,
+  valgtOppgavekoId,
+  lagreOppgavekoFagsakYtelseType,
   valgtAvdelingEnhet,
 }: TsProps) => (
   <>
@@ -40,7 +40,7 @@ export const FagsakYtelseTypeVelger = ({
     <VerticalSpacer eightPx />
     <RadioGroupField
       name="fagsakYtelseType"
-      onChange={fyt => lagreSakslisteFagsakYtelseType(valgtSakslisteId, fyt, valgtAvdelingEnhet)}
+      onChange={fyt => lagreOppgavekoFagsakYtelseType(valgtOppgavekoId, fyt, valgtAvdelingEnhet)}
     >
       <RadioOption
         value={fagsakYtelseType.FORELDREPRENGER}
@@ -64,8 +64,8 @@ export const FagsakYtelseTypeVelger = ({
 
 FagsakYtelseTypeVelger.propTypes = {
   fagsakYtelseTyper: PropTypes.arrayOf(kodeverkPropType).isRequired,
-  valgtSakslisteId: PropTypes.number.isRequired,
-  lagreSakslisteFagsakYtelseType: PropTypes.func.isRequired,
+  valgtOppgavekoId: PropTypes.string.isRequired,
+  lagreOppgavekoFagsakYtelseType: PropTypes.func.isRequired,
   valgtAvdelingEnhet: PropTypes.string.isRequired,
 };
 

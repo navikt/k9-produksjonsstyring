@@ -7,7 +7,7 @@ import { getK9sakUrl } from 'app/duck';
 import oppgavePropType from '../oppgavePropType';
 import { Oppgave } from '../oppgaveTsType';
 import { fetchBehandledeOppgaver, getBehandledeOppgaver } from './duck';
-import { getValgtSakslisteId } from '../behandlingskoer/duck';
+import { getValgtOppgavekoId } from '../behandlingskoer/duck';
 import SaksstottePaneler from './components/SaksstottePaneler';
 
 
@@ -15,7 +15,7 @@ interface TsProps {
   k9sakUrl: string;
   fetchBehandledeOppgaver: () => any;
   sistBehandledeSaker: Oppgave[];
-  valgtSakslisteId?: number;
+  valgtOppgavekoId?: string;
 }
 
 /**
@@ -26,12 +26,12 @@ export class SaksstotteIndex extends Component<TsProps> {
     k9sakUrl: PropTypes.string.isRequired,
     sistBehandledeSaker: PropTypes.arrayOf(oppgavePropType),
     fetchBehandledeOppgaver: PropTypes.func.isRequired,
-    valgtSakslisteId: PropTypes.number,
+    valgtOppgavekoId: PropTypes.string,
   };
 
   static defaultProps = {
     sistBehandledeSaker: [],
-    valgtSakslisteId: undefined,
+    valgtOppgavekoId: undefined,
   };
 
   componentDidMount = () => {
@@ -40,9 +40,9 @@ export class SaksstotteIndex extends Component<TsProps> {
   }
 
   render = () => {
-    const { k9sakUrl, sistBehandledeSaker, valgtSakslisteId } = this.props;
+    const { k9sakUrl, sistBehandledeSaker, valgtOppgavekoId } = this.props;
     return (
-      <SaksstottePaneler k9sakUrl={k9sakUrl} sistBehandledeSaker={sistBehandledeSaker} valgtSakslisteId={valgtSakslisteId} />
+      <SaksstottePaneler k9sakUrl={k9sakUrl} sistBehandledeSaker={sistBehandledeSaker} valgtOppgavekoId={valgtOppgavekoId} />
     );
   }
 }
@@ -50,7 +50,7 @@ export class SaksstotteIndex extends Component<TsProps> {
 const mapStateToProps = state => ({
   k9sakUrl: getK9sakUrl(state),
   sistBehandledeSaker: getBehandledeOppgaver(state),
-  valgtSakslisteId: getValgtSakslisteId(state),
+  valgtOppgavekoId: getValgtOppgavekoId(state),
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({

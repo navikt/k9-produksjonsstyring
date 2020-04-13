@@ -18,8 +18,8 @@ describe('<AndreKriterierVelger>', () => {
 
   it('skal vise checkbox for Til beslutter', () => {
     const wrapper = shallow(<AndreKriterierVelger
-      valgtSakslisteId={1}
-      lagreSakslisteAndreKriterier={sinon.spy()}
+      valgtOppgavekoId="1"
+      lagreOppgavekoAndreKriterier={sinon.spy()}
       valgtAvdelingEnhet="3"
       andreKriterierTyper={andreKriterierTyper}
       values={{}}
@@ -36,8 +36,8 @@ describe('<AndreKriterierVelger>', () => {
 
   it('skal vise checkbox for Registrere papirsøknad', () => {
     const wrapper = shallow(<AndreKriterierVelger
-      valgtSakslisteId={1}
-      lagreSakslisteAndreKriterier={sinon.spy()}
+      valgtOppgavekoId="1"
+      lagreOppgavekoAndreKriterier={sinon.spy()}
       valgtAvdelingEnhet="3"
       andreKriterierTyper={andreKriterierTyper}
       values={{}}
@@ -53,8 +53,8 @@ describe('<AndreKriterierVelger>', () => {
     const lagreAndreKriterierFn = sinon.spy();
 
     const wrapper = shallow(<AndreKriterierVelger
-      valgtSakslisteId={1}
-      lagreSakslisteAndreKriterier={lagreAndreKriterierFn}
+      valgtOppgavekoId="1"
+      lagreOppgavekoAndreKriterier={lagreAndreKriterierFn}
       valgtAvdelingEnhet="3"
       andreKriterierTyper={andreKriterierTyper}
       values={{}}
@@ -66,7 +66,7 @@ describe('<AndreKriterierVelger>', () => {
     expect(lagreAndreKriterierFn.calledOnce).to.be.true;
     const { args } = lagreAndreKriterierFn.getCalls()[0];
     expect(args).to.have.length(5);
-    expect(args[0]).to.eql(1);
+    expect(args[0]).to.eql('1');
     expect(args[1].kode).to.eql(andreKriterierType.TIL_BESLUTTER);
     expect(args[2]).to.true;
     expect(args[3]).to.true;
@@ -77,8 +77,8 @@ describe('<AndreKriterierVelger>', () => {
     const lagreAndreKriterierFn = sinon.spy();
 
     const wrapper = shallow(<AndreKriterierVelger
-      valgtSakslisteId={1}
-      lagreSakslisteAndreKriterier={lagreAndreKriterierFn}
+      valgtOppgavekoId="1"
+      lagreOppgavekoAndreKriterier={lagreAndreKriterierFn}
       valgtAvdelingEnhet="3"
       andreKriterierTyper={andreKriterierTyper}
       values={{}}
@@ -90,7 +90,7 @@ describe('<AndreKriterierVelger>', () => {
     expect(lagreAndreKriterierFn.calledOnce).to.be.true;
     const { args } = lagreAndreKriterierFn.getCalls()[0];
     expect(args).to.have.length(5);
-    expect(args[0]).to.eql(1);
+    expect(args[0]).to.eql('1');
     expect(args[1].kode).to.eql(andreKriterierType.REGISTRER_PAPIRSOKNAD);
     expect(args[2]).to.true;
     expect(args[3]).to.true;
@@ -101,8 +101,8 @@ describe('<AndreKriterierVelger>', () => {
     const lagreAndreKriterierFn = sinon.spy();
 
     const wrapper = shallow(<AndreKriterierVelger
-      valgtSakslisteId={1}
-      lagreSakslisteAndreKriterier={lagreAndreKriterierFn}
+      valgtOppgavekoId="1"
+      lagreOppgavekoAndreKriterier={lagreAndreKriterierFn}
       valgtAvdelingEnhet="3"
       andreKriterierTyper={andreKriterierTyper}
       values={{
@@ -119,8 +119,8 @@ describe('<AndreKriterierVelger>', () => {
     const lagreAndreKriterierFn = sinon.spy();
 
     const wrapper = shallow(<AndreKriterierVelger
-      valgtSakslisteId={1}
-      lagreSakslisteAndreKriterier={lagreAndreKriterierFn}
+      valgtOppgavekoId="1"
+      lagreOppgavekoAndreKriterier={lagreAndreKriterierFn}
       valgtAvdelingEnhet="3"
       andreKriterierTyper={andreKriterierTyper}
       values={{
@@ -134,7 +134,7 @@ describe('<AndreKriterierVelger>', () => {
     expect(lagreAndreKriterierFn.calledOnce).to.be.true;
     const { args } = lagreAndreKriterierFn.getCalls()[0];
     expect(args).to.have.length(5);
-    expect(args[0]).to.eql(1);
+    expect(args[0]).to.eql('1');
     expect(args[1].kode).to.eql(andreKriterierType.TIL_BESLUTTER);
     expect(args[2]).to.true;
     expect(args[3]).to.false;

@@ -1,40 +1,40 @@
 import { expect } from 'chai';
 
 import {
-  organiseringAvSakslisterReducer, setValgtSakslisteId, resetValgtSakslisteId, getValgtSakslisteId,
+  organiseringAvOppgavekoerReducer, setValgtOppgavekoId, resetValgtOppgavekoId, getValgtOppgavekoId,
 } from './duck';
 
-describe('Saksliste-reducer', () => {
+describe('Oppgavekø-reducer', () => {
   it('skal returnere initial state', () => {
-    expect(organiseringAvSakslisterReducer(undefined, {})).to.eql({ valgtSakslisteId: undefined });
+    expect(organiseringAvOppgavekoerReducer(undefined, {})).to.eql({ valgtOppgavekoId: undefined });
   });
 
-  it('skal oppdatere state med valgt saksliste id', () => {
-    const setAction = setValgtSakslisteId(1);
-    expect(organiseringAvSakslisterReducer(undefined, setAction)).to.eql({
-      valgtSakslisteId: 1,
+  it('skal oppdatere state med valgt oppgavekø id', () => {
+    const setAction = setValgtOppgavekoId('1');
+    expect(organiseringAvOppgavekoerReducer(undefined, setAction)).to.eql({
+      valgtOppgavekoId: '1',
     });
   });
 
   it('skal resette state', () => {
     const state = {
-      valgtSakslisteId: 1,
+      valgtOppgavekoId: '1',
     };
-    const resetAction = resetValgtSakslisteId();
-    expect(organiseringAvSakslisterReducer(state, resetAction)).to.eql({
-      valgtSakslisteId: undefined,
+    const resetAction = resetValgtOppgavekoId();
+    expect(organiseringAvOppgavekoerReducer(state, resetAction)).to.eql({
+      valgtOppgavekoId: undefined,
     });
   });
 
-  it('skal finne valgt saksliste id', () => {
+  it('skal finne valgt oppgavekø id', () => {
     const state = {
       default: {
-        organiseringAvSakslisterContext: {
-          valgtSakslisteId: 1,
+        organiseringAvOppgavekoerContext: {
+          valgtOppgavekoId: '1',
         },
       },
     };
 
-    expect(getValgtSakslisteId(state)).is.eql(1);
+    expect(getValgtOppgavekoId(state)).is.eql('1');
   });
 });

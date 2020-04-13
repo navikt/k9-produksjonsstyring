@@ -15,8 +15,8 @@ import { CheckboxField } from 'form/FinalFields';
 
 interface TsProps {
   behandlingTyper: Kodeverk[];
-  valgtSakslisteId: number;
-  lagreSakslisteBehandlingstype: (sakslisteId: number, behandlingType: Kodeverk, isChecked: boolean, avdelingEnhet: string) => void;
+  valgtOppgavekoId: string;
+  lagreOppgavekoBehandlingstype: (oppgavekoId: string, behandlingType: Kodeverk, isChecked: boolean, avdelingEnhet: string) => void;
   valgtAvdelingEnhet: string;
 }
 
@@ -25,8 +25,8 @@ interface TsProps {
  */
 export const BehandlingstypeVelger = ({
   behandlingTyper,
-  valgtSakslisteId,
-  lagreSakslisteBehandlingstype,
+  valgtOppgavekoId,
+  lagreOppgavekoBehandlingstype,
   valgtAvdelingEnhet,
 }: TsProps) => (
   <>
@@ -39,7 +39,7 @@ export const BehandlingstypeVelger = ({
         key={bt.kode}
         name={bt.kode}
         label={bt.navn}
-        onChange={isChecked => lagreSakslisteBehandlingstype(valgtSakslisteId, bt, isChecked, valgtAvdelingEnhet)}
+        onChange={isChecked => lagreOppgavekoBehandlingstype(valgtOppgavekoId, bt, isChecked, valgtAvdelingEnhet)}
       />
     ))
     }
@@ -48,8 +48,8 @@ export const BehandlingstypeVelger = ({
 
 BehandlingstypeVelger.propTypes = {
   behandlingTyper: PropTypes.arrayOf(kodeverkPropType).isRequired,
-  valgtSakslisteId: PropTypes.number.isRequired,
-  lagreSakslisteBehandlingstype: PropTypes.func.isRequired,
+  valgtOppgavekoId: PropTypes.string.isRequired,
+  lagreOppgavekoBehandlingstype: PropTypes.func.isRequired,
   valgtAvdelingEnhet: PropTypes.string.isRequired,
 };
 

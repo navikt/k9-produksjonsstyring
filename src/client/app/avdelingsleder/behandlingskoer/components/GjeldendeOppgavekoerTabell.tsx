@@ -21,72 +21,72 @@ import DateLabel from 'sharedComponents/DateLabel';
 import addCircleIcon from 'images/add-circle.svg';
 import removeIcon from 'images/remove.svg';
 import { Column, Row } from 'nav-frontend-grid';
-import SletteSakslisteModal from './SletteSakslisteModal';
-import { Saksliste } from '../sakslisteTsType';
-import sakslistePropType from '../sakslistePropType';
+import SletteOppgavekoModal from './SletteOppgavekoModal';
+import { Oppgaveko } from '../oppgavekoTsType';
+import oppgavekoPropType from '../oppgavekoPropType';
 import { getAntallOppgaverForAvdelingResultat } from '../duck';
 
-import styles from './gjeldendeSakslisterTabell.less';
+import styles from './gjeldendeOppgavekoerTabell.less';
 
 const headerTextCodes = [
-  'GjeldendeSakslisterTabell.Listenavn',
-  'GjeldendeSakslisterTabell.Stonadstype',
-  'GjeldendeSakslisterTabell.Behandlingtype',
-  'GjeldendeSakslisterTabell.AntallSaksbehandlere',
-  'GjeldendeSakslisterTabell.AntallBehandlinger',
-  'GjeldendeSakslisterTabell.SistEndret',
+  'GjeldendeOppgavekoerTabell.Listenavn',
+  'GjeldendeOppgavekoerTabell.Stonadstype',
+  'GjeldendeOppgavekoerTabell.Behandlingtype',
+  'GjeldendeOppgavekoerTabell.AntallSaksbehandlere',
+  'GjeldendeOppgavekoerTabell.AntallBehandlinger',
+  'GjeldendeOppgavekoerTabell.SistEndret',
   'EMPTY_1',
 ];
 
 interface TsProps {
-  sakslister: Saksliste[];
-  setValgtSakslisteId: (sakslisteId: number) => void;
-  lagNySaksliste: (avdelingEnhet: string) => void;
-  fjernSaksliste: (sakslisteId: number, avdelingEnhet: string) => void;
-  valgtSakslisteId?: number;
+  oppgavekoer: Oppgaveko[];
+  setValgtOppgavekoId: (oppgavekoId: string) => void;
+  lagNyOppgaveko: (avdelingEnhet: string) => void;
+  fjernOppgaveko: (oppgavekoId: string, avdelingEnhet: string) => void;
+  valgtOppgavekoId?: string;
   behandlingTyper: Kodeverk[];
   fagsakYtelseTyper: Kodeverk[];
   valgtAvdelingEnhet: string;
-  hentAvdelingensSakslister: (avdelingEnhet: string) => Saksliste[];
+  hentAvdelingensOppgavekoer: (avdelingEnhet: string) => Oppgaveko[];
   oppgaverForAvdeling?: number;
   hentAntallOppgaverForAvdeling: (avdelingEnhet: string) => Promise<string>;
 }
 
 interface StateTsProps {
-  valgtSaksliste?: Saksliste;
+  valgtOppgaveko?: Oppgaveko;
 }
 
 const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 /**
- * GjeldendeSakslisterTabell
+ * GjeldendeOppgavekoerTabell
  */
-export class GjeldendeSakslisterTabell extends Component<TsProps, StateTsProps> {
+export class GjeldendeOppgavekoerTabell extends Component<TsProps, StateTsProps> {
   nodes: any[];
 
   static propTypes = {
-    sakslister: PropTypes.arrayOf(sakslistePropType).isRequired,
-    setValgtSakslisteId: PropTypes.func.isRequired,
-    lagNySaksliste: PropTypes.func.isRequired,
-    fjernSaksliste: PropTypes.func.isRequired,
-    valgtSakslisteId: PropTypes.number,
+    oppgavekoer: PropTypes.arrayOf(oppgavekoPropType).isRequired,
+    setValgtOppgavekoId: PropTypes.func.isRequired,
+    lagNyOppgaveko: PropTypes.func.isRequired,
+    fjernOppgaveko: PropTypes.func.isRequired,
+    valgtOppgavekoId: PropTypes.number,
     behandlingTyper: PropTypes.arrayOf(kodeverkPropType).isRequired,
     fagsakYtelseTyper: PropTypes.arrayOf(kodeverkPropType).isRequired,
     valgtAvdelingEnhet: PropTypes.string.isRequired,
-    hentAvdelingensSakslister: PropTypes.func.isRequired,
+    hentAvdelingensOppgavekoer: PropTypes.func.isRequired,
     oppgaverForAvdeling: PropTypes.number,
     hentAntallOppgaverForAvdeling: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
-    valgtSakslisteId: undefined,
+    valgtOppgavekoId: undefined,
   }
 
   constructor(props: TsProps) {
     super(props);
 
     this.state = {
-      valgtSaksliste: undefined,
+      valgtOppgaveko: undefined,
     };
     this.nodes = [];
   }
@@ -98,8 +98,8 @@ export class GjeldendeSakslisterTabell extends Component<TsProps, StateTsProps> 
     hentAntallOppgaverForAvdeling(valgtAvdelingEnhet);
   }
 
-  setValgtSaksliste = async (event: Event, id: number) => {
-    const { setValgtSakslisteId, hentAvdelingensSakslister, valgtAvdelingEnhet } = this.props;
+  setValgtOppgaveko = async (event: Event, id: number) => {
+    const { setValgtOppgavekoId, hentAvdelingensOppgavekoer, valgtAvdelingEnhet } = this.props;
     if (this.nodes.some(node => node && node.contains(event.target))) {
       return;
     }
@@ -108,36 +108,36 @@ export class GjeldendeSakslisterTabell extends Component<TsProps, StateTsProps> 
     // der en endrer navn og så trykker direkte på en annen behandlingskø vil ikke lagringen skje før etter at ny kø er valgt.
     await wait(100);
 
-    setValgtSakslisteId(id);
-    hentAvdelingensSakslister(valgtAvdelingEnhet);
+    setValgtOppgavekoId(id);
+    hentAvdelingensOppgavekoer(valgtAvdelingEnhet);
   }
 
-  lagNySaksliste = (event: KeyboardEvent) => {
+  lagNyOppgaveko = (event: KeyboardEvent) => {
     if (event.keyCode === 13) {
-      const { lagNySaksliste, valgtAvdelingEnhet } = this.props;
-      lagNySaksliste(valgtAvdelingEnhet);
+      const { lagNyOppgaveko, valgtAvdelingEnhet } = this.props;
+      lagNyOppgaveko(valgtAvdelingEnhet);
     }
   };
 
-  visFjernSakslisteModal = (valgtSaksliste: Saksliste) => {
-    this.setState(prevState => ({ ...prevState, valgtSaksliste }));
+  visFjernOppgavekoModal = (valgtOppgaveko: Oppgaveko) => {
+    this.setState(prevState => ({ ...prevState, valgtOppgaveko }));
   }
 
   closeSletteModal = () => {
-    this.setState(prevState => ({ ...prevState, valgtSaksliste: undefined }));
+    this.setState(prevState => ({ ...prevState, valgtOppgaveko: undefined }));
   }
 
-  fjernSaksliste = (saksliste: Saksliste) => {
+  fjernOppgaveko = (oppgaveko: Oppgaveko) => {
     const {
-      fjernSaksliste, valgtAvdelingEnhet,
+      fjernOppgaveko, valgtAvdelingEnhet,
     } = this.props;
     this.closeSletteModal();
-    fjernSaksliste(saksliste.sakslisteId, valgtAvdelingEnhet);
+    fjernOppgaveko(oppgaveko.oppgavekoId, valgtAvdelingEnhet);
   }
 
   formatStonadstyper = (valgteFagsakYtelseTyper?: Kodeverk[]) => {
     if (!valgteFagsakYtelseTyper || valgteFagsakYtelseTyper.length === 0) {
-      return <FormattedMessage id="GjeldendeSakslisterTabell.Alle" />;
+      return <FormattedMessage id="GjeldendeOppgavekoerTabell.Alle" />;
     }
 
     const { fagsakYtelseTyper } = this.props;
@@ -152,7 +152,7 @@ export class GjeldendeSakslisterTabell extends Component<TsProps, StateTsProps> 
 
     if (!valgteBehandlingTyper || valgteBehandlingTyper.length === 0
       || valgteBehandlingTyper.length === behandlingTyper.length) {
-      return <FormattedMessage id="GjeldendeSakslisterTabell.Alle" />;
+      return <FormattedMessage id="GjeldendeOppgavekoerTabell.Alle" />;
     }
 
     return valgteBehandlingTyper.map((bt) => {
@@ -163,10 +163,10 @@ export class GjeldendeSakslisterTabell extends Component<TsProps, StateTsProps> 
 
   render = () => {
     const {
-      sakslister, valgtSakslisteId, lagNySaksliste, valgtAvdelingEnhet, oppgaverForAvdeling,
+      oppgavekoer, valgtOppgavekoId, lagNyOppgaveko, valgtAvdelingEnhet, oppgaverForAvdeling,
     } = this.props;
     const {
-      valgtSaksliste,
+      valgtOppgaveko,
     } = this.state;
 
     return (
@@ -175,51 +175,51 @@ export class GjeldendeSakslisterTabell extends Component<TsProps, StateTsProps> 
         <Row>
           <Column xs="9">
             <Element>
-              <FormattedMessage id="GjeldendeSakslisterTabell.GjeldendeLister" />
+              <FormattedMessage id="GjeldendeOppgavekoerTabell.GjeldendeLister" />
             </Element>
           </Column>
           <Column xs="3">
             <div className={styles.grayBox}>
               <Normaltekst>
-                <FormattedMessage id="GjeldendeSakslisterTabell.OppgaverForAvdeling" />
+                <FormattedMessage id="GjeldendeOppgavekoerTabell.OppgaverForAvdeling" />
                 <Undertittel>{oppgaverForAvdeling || '0'}</Undertittel>
               </Normaltekst>
             </div>
           </Column>
         </Row>
-        {sakslister.length === 0 && (
+        {oppgavekoer.length === 0 && (
           <>
             <VerticalSpacer eightPx />
-            <Normaltekst><FormattedMessage id="GjeldendeSakslisterTabell.IngenLister" /></Normaltekst>
+            <Normaltekst><FormattedMessage id="GjeldendeOppgavekoerTabell.IngenLister" /></Normaltekst>
             <VerticalSpacer eightPx />
           </>
         )
         }
-        {sakslister.length > 0 && (
+        {oppgavekoer.length > 0 && (
         <Table headerTextCodes={headerTextCodes}>
-          {sakslister.map(saksliste => (
+          {oppgavekoer.map(oppgaveko => (
             <TableRow
-              key={saksliste.sakslisteId}
-              className={saksliste.sakslisteId === valgtSakslisteId ? styles.isSelected : undefined}
-              id={saksliste.sakslisteId}
-              onMouseDown={this.setValgtSaksliste}
-              onKeyDown={this.setValgtSaksliste}
+              key={oppgaveko.oppgavekoId}
+              className={oppgaveko.oppgavekoId === valgtOppgavekoId ? styles.isSelected : undefined}
+              id={oppgaveko.oppgavekoId}
+              onMouseDown={this.setValgtOppgaveko}
+              onKeyDown={this.setValgtOppgaveko}
             >
-              <TableColumn>{saksliste.navn}</TableColumn>
-              <TableColumn>{this.formatStonadstyper(saksliste.fagsakYtelseTyper)}</TableColumn>
-              <TableColumn>{this.formatBehandlingstyper(saksliste.behandlingTyper)}</TableColumn>
-              <TableColumn>{saksliste.saksbehandlerIdenter.length > 0 ? saksliste.saksbehandlerIdenter.length : ''}</TableColumn>
-              <TableColumn>{saksliste.antallBehandlinger}</TableColumn>
+              <TableColumn>{oppgaveko.navn}</TableColumn>
+              <TableColumn>{this.formatStonadstyper(oppgaveko.fagsakYtelseTyper)}</TableColumn>
+              <TableColumn>{this.formatBehandlingstyper(oppgaveko.behandlingTyper)}</TableColumn>
+              <TableColumn>{oppgaveko.saksbehandlerIdenter.length > 0 ? oppgaveko.saksbehandlerIdenter.length : ''}</TableColumn>
+              <TableColumn>{oppgaveko.antallBehandlinger}</TableColumn>
               <TableColumn>
-                <DateLabel dateString={saksliste.sistEndret} />
+                <DateLabel dateString={oppgaveko.sistEndret} />
               </TableColumn>
               <TableColumn>
                 <div ref={(node) => { this.nodes.push(node); }}>
                   <Image
                     src={removeIcon}
                     className={styles.removeImage}
-                    onMouseDown={() => this.visFjernSakslisteModal(saksliste)}
-                    onKeyDown={() => this.visFjernSakslisteModal(saksliste)}
+                    onMouseDown={() => this.visFjernOppgavekoModal(oppgaveko)}
+                    onKeyDown={() => this.visFjernOppgavekoModal(oppgaveko)}
                     tabIndex="0"
                   />
                 </div>
@@ -233,19 +233,19 @@ export class GjeldendeSakslisterTabell extends Component<TsProps, StateTsProps> 
           role="button"
           tabIndex={0}
           className={styles.addPeriode}
-          onClick={() => lagNySaksliste(valgtAvdelingEnhet)}
-          onKeyDown={this.lagNySaksliste}
+          onClick={() => lagNyOppgaveko(valgtAvdelingEnhet)}
+          onKeyDown={this.lagNyOppgaveko}
         >
           <Image className={styles.addCircleIcon} src={addCircleIcon} />
           <Undertekst className={styles.imageText}>
-            <FormattedMessage id="GjeldendeSakslisterTabell.LeggTilListe" />
+            <FormattedMessage id="GjeldendeOppgavekoerTabell.LeggTilListe" />
           </Undertekst>
         </div>
-        {valgtSaksliste && (
-          <SletteSakslisteModal
-            valgtSaksliste={valgtSaksliste}
+        {valgtOppgaveko && (
+          <SletteOppgavekoModal
+            valgtOppgaveko={valgtOppgaveko}
             cancel={this.closeSletteModal}
-            submit={this.fjernSaksliste}
+            submit={this.fjernOppgaveko}
           />
         )}
       </>
@@ -260,4 +260,4 @@ const mapStateToProps = state => ({
   oppgaverForAvdeling: getAntallOppgaverForAvdelingResultat(state),
 });
 
-export default connect(mapStateToProps)(GjeldendeSakslisterTabell);
+export default connect(mapStateToProps)(GjeldendeOppgavekoerTabell);

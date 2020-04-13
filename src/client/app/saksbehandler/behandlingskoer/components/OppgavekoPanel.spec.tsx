@@ -4,31 +4,31 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
 
-import SakslisteVelgerForm from './SakslisteVelgerForm';
+import OppgavekoVelgerForm from './OppgavekoVelgerForm';
 import OppgaverTabell from './OppgaverTabell';
 
-import SakslistePanel from './SakslistePanel';
+import OppgavekoPanel from './OppgavekoPanel';
 
-describe('<SakslistePanel>', () => {
+describe('<OppgavekoPanel>', () => {
   it('skal vise kriterievelger og liste over neste saker', () => {
     const fetchFn = sinon.spy();
     const reserverteOppgaver = [];
-    const sakslister = [];
-    const wrapper = shallow(<SakslistePanel
-      fetchSakslisteOppgaver={fetchFn}
+    const oppgavekoer = [];
+    const wrapper = shallow(<OppgavekoPanel
+      fetchOppgavekoOppgaver={fetchFn}
       oppgaverTilBehandling={reserverteOppgaver}
       reserverteOppgaver={reserverteOppgaver}
-      sakslister={sakslister}
+      oppgavekoer={oppgavekoer}
       reserverOppgave={sinon.spy()}
       opphevOppgaveReservasjon={sinon.spy()}
       forlengOppgaveReservasjon={sinon.spy()}
       finnSaksbehandler={sinon.spy()}
       resetSaksbehandler={sinon.spy()}
       flyttReservasjon={sinon.spy()}
-      fetchSakslistensSaksbehandlere={sinon.spy()}
+      fetchOppgavekoensSaksbehandlere={sinon.spy()}
     />);
 
-    expect(wrapper.find(SakslisteVelgerForm)).to.have.length(1);
+    expect(wrapper.find(OppgavekoVelgerForm)).to.have.length(1);
     expect(wrapper.find(OppgaverTabell)).to.have.length(1);
   });
 });

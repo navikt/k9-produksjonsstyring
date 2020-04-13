@@ -68,7 +68,7 @@ describe('<AvdelingslederIndex>', () => {
     expect(tabs[2].aktiv).is.false;
   });
 
-  it('skal rendre panel for sakslister når dette er valgt', () => {
+  it('skal rendre panel for oppgavekøer når dette er valgt', () => {
     const location = {
       hash: '23',
       pathname: '/test/',

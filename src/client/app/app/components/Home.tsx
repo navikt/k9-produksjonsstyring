@@ -10,6 +10,7 @@ import 'styles/modigDesign.less';
 import '../../../nomodulestyles/global.less';
 
 import styles from './home.less';
+import StatistikkIndex from '../../statistikk/StatistikkIndex';
 
 type TsProps = Readonly<{
   nrOfErrorMessages: number;
@@ -27,6 +28,7 @@ const Home = ({
     <Switch>
       <Route exact path="/" component={SaksbehandlerIndex} />
       <Route exact path="/avdelingsleder" component={AvdelingslederIndex} />
+      <Route exact path="/statistikk" component={StatistikkIndex} />
       <Route component={MissingPage} />
     </Switch>
   </div>

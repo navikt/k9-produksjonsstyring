@@ -10,26 +10,26 @@ import Image from 'sharedComponents/Image';
 import Modal from 'sharedComponents/Modal';
 
 import advarselImageUrl from 'images/advarsel.svg';
-import { Saksliste } from '../sakslisteTsType';
-import sakslistePropType from '../sakslistePropType';
+import { Oppgaveko } from '../oppgavekoTsType';
+import oppgavekoPropType from '../oppgavekoPropType';
 
-import styles from './sletteSakslisteModal.less';
+import styles from './sletteOppgavekoModal.less';
 
 type TsProps = Readonly<{
   intl: any;
-  valgtSaksliste: Saksliste;
+  valgtOppgaveko: Oppgaveko;
   cancel: () => void;
-  submit: (saksliste: Saksliste) => void;
+  submit: (oppgaveko: Oppgaveko) => void;
 }>;
 
 /**
- * SletteSakslisteModal
+ * SletteOppgavekoModal
  *
- * Presentasjonskomponent. Modal som lar en avdelingsleder fjerne sakslister.
+ * Presentasjonskomponent. Modal som lar en avdelingsleder fjerne oppgavekøer.
  */
-export const SletteSakslisteModal = ({
+export const SletteOppgavekoModal = ({
   intl,
-  valgtSaksliste,
+  valgtOppgaveko,
   cancel,
   submit,
 }: TsProps) => (
@@ -37,17 +37,17 @@ export const SletteSakslisteModal = ({
     className={styles.modal}
     closeButton={false}
     isOpen
-    contentLabel={intl.formatMessage({ id: 'SletteSakslisteModal.SletteModal' })}
+    contentLabel={intl.formatMessage({ id: 'SletteOppgavekoModal.SletteModal' })}
     onRequestClose={cancel}
   >
     <Row>
       <Column xs="1">
-        <Image className={styles.image} altCode="SletteSakslisteModal.SletteModal" src={advarselImageUrl} />
+        <Image className={styles.image} altCode="SletteOppgavekoModal.SletteModal" src={advarselImageUrl} />
         <div className={styles.divider} />
       </Column>
       <Column xs="6" className={styles.text}>
         <Normaltekst>
-          <FormattedMessage id="SletteSakslisteModal.SletteSaksliste" values={{ sakslisteNavn: valgtSaksliste.navn }} />
+          <FormattedMessage id="SletteOppgavekoModal.SletteOppgaveko" values={{ oppgavekoNavn: valgtOppgaveko.navn }} />
         </Normaltekst>
       </Column>
       <Column xs="4">
@@ -55,10 +55,10 @@ export const SletteSakslisteModal = ({
           className={styles.submitButton}
           mini
           htmlType="submit"
-          onClick={() => submit(valgtSaksliste)}
+          onClick={() => submit(valgtOppgaveko)}
           autoFocus
         >
-          {intl.formatMessage({ id: 'SletteSakslisteModal.Ja' })}
+          {intl.formatMessage({ id: 'SletteOppgavekoModal.Ja' })}
         </Hovedknapp>
         <Knapp
           className={styles.cancelButton}
@@ -66,18 +66,18 @@ export const SletteSakslisteModal = ({
           htmlType="reset"
           onClick={cancel}
         >
-          {intl.formatMessage({ id: 'SletteSakslisteModal.Nei' })}
+          {intl.formatMessage({ id: 'SletteOppgavekoModal.Nei' })}
         </Knapp>
       </Column>
     </Row>
   </Modal>
 );
 
-SletteSakslisteModal.propTypes = {
+SletteOppgavekoModal.propTypes = {
   intl: intlShape.isRequired,
   submit: PropTypes.func.isRequired,
   cancel: PropTypes.func.isRequired,
-  valgtSaksliste: sakslistePropType.isRequired,
+  valgtOppgaveko: oppgavekoPropType.isRequired,
 };
 
-export default injectIntl(SletteSakslisteModal);
+export default injectIntl(SletteOppgavekoModal);

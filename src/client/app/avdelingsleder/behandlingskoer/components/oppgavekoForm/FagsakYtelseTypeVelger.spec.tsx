@@ -22,8 +22,8 @@ describe('<FagsakYtelseTypeVelger>', () => {
 
     const wrapper = shallow(<FagsakYtelseTypeVelger
       fagsakYtelseTyper={fagsakYtelseTyper}
-      valgtSakslisteId={1}
-      lagreSakslisteFagsakYtelseType={sinon.spy()}
+      valgtOppgavekoId="1"
+      lagreOppgavekoFagsakYtelseType={sinon.spy()}
       valgtAvdelingEnhet="3"
     />);
 
@@ -43,8 +43,8 @@ describe('<FagsakYtelseTypeVelger>', () => {
 
     const wrapper = shallow(<FagsakYtelseTypeVelger
       fagsakYtelseTyper={fagsakYtelseTyper}
-      valgtSakslisteId={1}
-      lagreSakslisteFagsakYtelseType={lagreYtelseTypeFn}
+      valgtOppgavekoId="1"
+      lagreOppgavekoFagsakYtelseType={lagreYtelseTypeFn}
       valgtAvdelingEnhet="3"
     />);
 
@@ -54,7 +54,7 @@ describe('<FagsakYtelseTypeVelger>', () => {
     expect(lagreYtelseTypeFn.calledOnce).to.be.true;
     const { args } = lagreYtelseTypeFn.getCalls()[0];
     expect(args).to.have.length(3);
-    expect(args[0]).to.eql(1);
+    expect(args[0]).to.eql('1');
     expect(args[1]).to.eql(fagsakYtelseType.ENGANGSSTONAD);
     expect(args[2]).to.eql('3');
   });

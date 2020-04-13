@@ -5,132 +5,132 @@ import k9LosApi from 'api/k9LosApi';
 
 /* Action types */
 const actionType = name => `saksliste/${name}`;
-const SET_VALGT_SAKSLISTE_ID = actionType('SET_VALGT_SAKSLISTE_ID');
-const RESET_VALGT_SAKSLISTE_ID = actionType('RESET_VALGT_SAKSLISTE_ID');
+const SET_VALGT_OPPGAVEKO_ID = actionType('SET_VALGT_OPPGAVEKO_ID');
+const RESET_VALGT_OPPGAVEKO_ID = actionType('RESET_VALGT_OPPGAVEKO_ID');
 
 /* Action creators */
-export const setValgtSakslisteId = (valgtSakslisteId: number) => ({
-  type: SET_VALGT_SAKSLISTE_ID,
-  payload: valgtSakslisteId,
+export const setValgtOppgavekoId = (valgtOppgavekoId: string) => ({
+  type: SET_VALGT_OPPGAVEKO_ID,
+  payload: valgtOppgavekoId,
 });
 
 
-export const resetValgtSakslisteId = () => ({
-  type: RESET_VALGT_SAKSLISTE_ID,
+export const resetValgtOppgavekoId = () => ({
+  type: RESET_VALGT_OPPGAVEKO_ID,
 });
 
-export const fetchAvdelingensSakslister = (avdelingEnhet: string) => (dispatch: Dispatch) => dispatch(
-  k9LosApi.SAKSLISTER_FOR_AVDELING.makeRestApiRequest()(
+export const fetchAvdelingensOppgavekoer = (avdelingEnhet: string) => (dispatch: Dispatch) => dispatch(
+  k9LosApi.OPPGAVEKOER_FOR_AVDELING.makeRestApiRequest()(
     { avdelingEnhet }, { keepData: true },
   ),
 );
 
-export const getAvdelingensSakslister = k9LosApi.SAKSLISTER_FOR_AVDELING.getRestApiData();
+export const getAvdelingensOppgavekoer = k9LosApi.OPPGAVEKOER_FOR_AVDELING.getRestApiData();
 
 export const fetchAntallOppgaverForAvdeling = (avdelingEnhet: string) => (dispatch: Dispatch) => dispatch(
     k9LosApi.OPPGAVE_AVDELING_ANTALL.makeRestApiRequest()({ avdelingEnhet }),
 );
 
-export const fetchAntallOppgaverForSaksliste = (sakslisteId: number, avdelingEnhet: string) => (dispatch: Dispatch) => dispatch(
-    k9LosApi.OPPGAVE_ANTALL.makeRestApiRequest()({ sakslisteId, avdelingEnhet }),
+export const fetchAntallOppgaverForOppgaveko = (oppgavekoId: string, avdelingEnhet: string) => (dispatch: Dispatch) => dispatch(
+    k9LosApi.OPPGAVE_ANTALL.makeRestApiRequest()({ oppgavekoId, avdelingEnhet }),
 ).then(() => dispatch(fetchAntallOppgaverForAvdeling(avdelingEnhet)));
 
 
 export const getAntallOppgaverForAvdelingResultat = k9LosApi.OPPGAVE_AVDELING_ANTALL.getRestApiData();
 
-export const getAntallOppgaverForSakslisteResultat = k9LosApi.OPPGAVE_ANTALL.getRestApiData();
+export const getAntallOppgaverForOppgavekoResultat = k9LosApi.OPPGAVE_ANTALL.getRestApiData();
 
 // k9LosApi.OPPGAVE_ANTALL.getRestApiData();
 
-export const lagNySaksliste = (avdelingEnhet: string) => (dispatch: Dispatch) => dispatch(k9LosApi
-  .OPPRETT_NY_SAKSLISTE.makeRestApiRequest()({ avdelingEnhet }))
-  .then(() => dispatch(resetValgtSakslisteId()))
-  .then(() => dispatch(fetchAvdelingensSakslister(avdelingEnhet)));
-export const getNySakslisteId = k9LosApi.OPPRETT_NY_SAKSLISTE.getRestApiData();
+export const lagNyOppgaveko = (avdelingEnhet: string) => (dispatch: Dispatch) => dispatch(k9LosApi
+  .OPPRETT_NY_OPPGAVEKO.makeRestApiRequest()({ avdelingEnhet }))
+  .then(() => dispatch(resetValgtOppgavekoId()))
+  .then(() => dispatch(fetchAvdelingensOppgavekoer(avdelingEnhet)));
+export const getNyOppgavekoId = k9LosApi.OPPRETT_NY_OPPGAVEKO.getRestApiData();
 
-export const fjernSaksliste = (sakslisteId: number, avdelingEnhet: string) => (dispatch: Dispatch) => dispatch(
-  k9LosApi.SLETT_SAKSLISTE.makeRestApiRequest()({ sakslisteId, avdelingEnhet }),
+export const fjernOppgaveko = (oppgavekoId: string, avdelingEnhet: string) => (dispatch: Dispatch) => dispatch(
+  k9LosApi.SLETT_OPPGAVEKO.makeRestApiRequest()({ oppgavekoId, avdelingEnhet }),
 )
-  .then(() => dispatch(resetValgtSakslisteId()))
-  .then(() => dispatch(fetchAvdelingensSakslister(avdelingEnhet)));
+  .then(() => dispatch(resetValgtOppgavekoId()))
+  .then(() => dispatch(fetchAvdelingensOppgavekoer(avdelingEnhet)));
 
-export const lagreSakslisteNavn = (saksliste: {sakslisteId: number; navn: number}, avdelingEnhet: string) => (dispatch: Dispatch) => dispatch(
-  k9LosApi.LAGRE_SAKSLISTE_NAVN.makeRestApiRequest()({ sakslisteId: saksliste.sakslisteId, navn: saksliste.navn, avdelingEnhet }),
-).then(() => dispatch(fetchAvdelingensSakslister(avdelingEnhet)));
+export const lagreOppgavekoNavn = (oppgaveko: {oppgavekoId: string; navn: number}, avdelingEnhet: string) => (dispatch: Dispatch) => dispatch(
+  k9LosApi.LAGRE_OPPGAVEKO_NAVN.makeRestApiRequest()({ oppgavekoId: oppgaveko.oppgavekoId, navn: oppgaveko.navn, avdelingEnhet }),
+).then(() => dispatch(fetchAvdelingensOppgavekoer(avdelingEnhet)));
 
-export const lagreSakslisteBehandlingstype = (sakslisteId: number, behandlingType: {}, isChecked: boolean,
+export const lagreOppgavekoBehandlingstype = (oppgavekoId: string, behandlingType: {}, isChecked: boolean,
   avdelingEnhet: string) => (dispatch: Dispatch) => dispatch(
-  k9LosApi.LAGRE_SAKSLISTE_BEHANDLINGSTYPE.makeRestApiRequest()({
-    sakslisteId,
+  k9LosApi.LAGRE_OPPGAVEKO_BEHANDLINGSTYPE.makeRestApiRequest()({
+    oppgavekoId,
     avdelingEnhet,
     behandlingType,
     checked: isChecked,
   }),
-).then(() => dispatch(fetchAntallOppgaverForSaksliste(sakslisteId, avdelingEnhet)))
-    .then(() => dispatch(fetchAvdelingensSakslister(avdelingEnhet)));
+).then(() => dispatch(fetchAntallOppgaverForOppgaveko(oppgavekoId, avdelingEnhet)))
+    .then(() => dispatch(fetchAvdelingensOppgavekoer(avdelingEnhet)));
 
-export const lagreSakslisteFagsakYtelseType = (sakslisteId: number, fagsakYtelseType: string, avdelingEnhet: string) => (dispatch: Dispatch) => {
-  const data = fagsakYtelseType !== '' ? { sakslisteId, avdelingEnhet, fagsakYtelseType } : { sakslisteId, avdelingEnhet };
-  return dispatch(k9LosApi.LAGRE_SAKSLISTE_FAGSAK_YTELSE_TYPE.makeRestApiRequest()(data))
-    .then(() => dispatch(fetchAntallOppgaverForSaksliste(sakslisteId, avdelingEnhet)))
-    .then(() => dispatch(fetchAvdelingensSakslister(avdelingEnhet)));
+export const lagreOppgavekoFagsakYtelseType = (oppgavekoId: string, fagsakYtelseType: string, avdelingEnhet: string) => (dispatch: Dispatch) => {
+  const data = fagsakYtelseType !== '' ? { oppgavekoId, avdelingEnhet, fagsakYtelseType } : { oppgavekoId, avdelingEnhet };
+  return dispatch(k9LosApi.LAGRE_OPPGAVEKO_FAGSAK_YTELSE_TYPE.makeRestApiRequest()(data))
+    .then(() => dispatch(fetchAntallOppgaverForOppgaveko(oppgavekoId, avdelingEnhet)))
+    .then(() => dispatch(fetchAvdelingensOppgavekoer(avdelingEnhet)));
 };
 
-export const lagreSakslisteSortering = (sakslisteId: number, sakslisteSorteringValg: string, avdelingEnhet: string) => (dispatch: Dispatch) => dispatch(
-  k9LosApi.LAGRE_SAKSLISTE_SORTERING.makeRestApiRequest()({ sakslisteId, sakslisteSorteringValg, avdelingEnhet }),
-).then(() => dispatch(fetchAntallOppgaverForSaksliste(sakslisteId, avdelingEnhet)))
-    .then(() => dispatch(fetchAvdelingensSakslister(avdelingEnhet)));
+export const lagreOppgavekoSortering = (oppgavekoId: string, oppgavekoSorteringValg: string, avdelingEnhet: string) => (dispatch: Dispatch) => dispatch(
+  k9LosApi.LAGRE_OPPGAVEKO_SORTERING.makeRestApiRequest()({ oppgavekoId, oppgavekoSorteringValg, avdelingEnhet }),
+).then(() => dispatch(fetchAntallOppgaverForOppgaveko(oppgavekoId, avdelingEnhet)))
+    .then(() => dispatch(fetchAvdelingensOppgavekoer(avdelingEnhet)));
 
-export const lagreSakslisteSorteringErDynamiskPeriode = (sakslisteId: number, avdelingEnhet: string) => (dispatch: Dispatch<any>) => dispatch(
-  k9LosApi.LAGRE_SAKSLISTE_SORTERING_DYNAMISK_PERIDE.makeRestApiRequest()({ sakslisteId, avdelingEnhet }),
-).then(() => dispatch(fetchAntallOppgaverForSaksliste(sakslisteId, avdelingEnhet)))
-    .then(() => dispatch(fetchAvdelingensSakslister(avdelingEnhet)));
+export const lagreOppgavekoSorteringErDynamiskPeriode = (oppgavekoId: string, avdelingEnhet: string) => (dispatch: Dispatch<any>) => dispatch(
+  k9LosApi.LAGRE_OPPGAVEKO_SORTERING_DYNAMISK_PERIDE.makeRestApiRequest()({ oppgavekoId, avdelingEnhet }),
+).then(() => dispatch(fetchAntallOppgaverForOppgaveko(oppgavekoId, avdelingEnhet)))
+    .then(() => dispatch(fetchAvdelingensOppgavekoer(avdelingEnhet)));
 
-export const lagreSakslisteSorteringTidsintervallDato = (sakslisteId: number, fomDato: string, tomDato: string,
+export const lagreOppgavekoSorteringTidsintervallDato = (oppgavekoId: string, fomDato: string, tomDato: string,
   avdelingEnhet: string) => (dispatch: Dispatch<any>) => dispatch(
-  k9LosApi.LAGRE_SAKSLISTE_SORTERING_TIDSINTERVALL_DATO.makeRestApiRequest()({
- sakslisteId, avdelingEnhet, fomDato, tomDato,
+  k9LosApi.LAGRE_OPPGAVEKO_SORTERING_TIDSINTERVALL_DATO.makeRestApiRequest()({
+ oppgavekoId, avdelingEnhet, fomDato, tomDato,
 }),
-).then(() => dispatch(fetchAntallOppgaverForSaksliste(sakslisteId, avdelingEnhet)))
-    .then(() => dispatch(fetchAvdelingensSakslister(avdelingEnhet)));
+).then(() => dispatch(fetchAntallOppgaverForOppgaveko(oppgavekoId, avdelingEnhet)))
+    .then(() => dispatch(fetchAvdelingensOppgavekoer(avdelingEnhet)));
 
-export const lagreSakslisteSorteringNumeriskIntervall = (sakslisteId: number, fra: number, til: number,
+export const lagreOppgavekoSorteringNumeriskIntervall = (oppgavekoId: string, fra: number, til: number,
   avdelingEnhet: string) => (dispatch: Dispatch<any>) => dispatch(
-  k9LosApi.LAGRE_SAKSLISTE_SORTERING_TIDSINTERVALL_DAGER.makeRestApiRequest()({
-    sakslisteId, fra, til, avdelingEnhet,
+  k9LosApi.LAGRE_OPPGAVEKO_SORTERING_TIDSINTERVALL_DAGER.makeRestApiRequest()({
+    oppgavekoId, fra, til, avdelingEnhet,
   }),
-).then(() => dispatch(fetchAntallOppgaverForSaksliste(sakslisteId, avdelingEnhet)))
-    .then(() => dispatch(fetchAvdelingensSakslister(avdelingEnhet)));
+).then(() => dispatch(fetchAntallOppgaverForOppgaveko(oppgavekoId, avdelingEnhet)))
+    .then(() => dispatch(fetchAvdelingensOppgavekoer(avdelingEnhet)));
 
-export const lagreSakslisteAndreKriterier = (sakslisteId: number, andreKriterierType: string, isChecked: boolean, skalInkludere: boolean,
+export const lagreOppgavekoAndreKriterier = (oppgavekoId: string, andreKriterierType: string, isChecked: boolean, skalInkludere: boolean,
   avdelingEnhet: string) => (dispatch: Dispatch) => dispatch(
-  k9LosApi.LAGRE_SAKSLISTE_ANDRE_KRITERIER.makeRestApiRequest()({
-    sakslisteId,
+  k9LosApi.LAGRE_OPPGAVEKO_ANDRE_KRITERIER.makeRestApiRequest()({
+    oppgavekoId,
     avdelingEnhet,
     andreKriterierType,
     checked: isChecked,
     inkluder: skalInkludere,
   }),
-).then(() => dispatch(fetchAntallOppgaverForSaksliste(sakslisteId, avdelingEnhet)))
-    .then(() => dispatch(fetchAvdelingensSakslister(avdelingEnhet)));
+).then(() => dispatch(fetchAntallOppgaverForOppgaveko(oppgavekoId, avdelingEnhet)))
+    .then(() => dispatch(fetchAvdelingensOppgavekoer(avdelingEnhet)));
 
-export const knyttSaksbehandlerTilSaksliste = (sakslisteId: number, brukerIdent: string, isChecked: boolean,
+export const knyttSaksbehandlerTilOppgaveko = (oppgavekoId: string, brukerIdent: string, isChecked: boolean,
   avdelingEnhet: string) => (dispatch: Dispatch) => dispatch(
-  k9LosApi.LAGRE_SAKSLISTE_SAKSBEHANDLER.makeRestApiRequest()({
-    sakslisteId,
+  k9LosApi.LAGRE_OPPGAVEKO_SAKSBEHANDLER.makeRestApiRequest()({
+    oppgavekoId,
     brukerIdent,
     checked: isChecked,
     avdelingEnhet,
   }),
-).then(() => dispatch(fetchAvdelingensSakslister(avdelingEnhet)));
+).then(() => dispatch(fetchAvdelingensOppgavekoer(avdelingEnhet)));
 
 /* Reducer */
 const initialState = {
-  valgtSakslisteId: undefined,
+  valgtOppgavekoId: undefined,
 };
 
 interface StateTsProp {
-  valgtSakslisteId?: number;
+  valgtOppgavekoId?: string;
 }
 
 interface ActionTsProp {
@@ -138,19 +138,19 @@ interface ActionTsProp {
   payload?: any;
 }
 
-export const organiseringAvSakslisterReducer = (state: StateTsProp = initialState, action: ActionTsProp = { type: '' }) => {
+export const organiseringAvOppgavekoerReducer = (state: StateTsProp = initialState, action: ActionTsProp = { type: '' }) => {
   switch (action.type) {
-    case SET_VALGT_SAKSLISTE_ID:
+    case SET_VALGT_OPPGAVEKO_ID:
       return {
         ...state,
-        valgtSakslisteId: action.payload,
+        valgtOppgavekoId: action.payload,
       };
-    case RESET_VALGT_SAKSLISTE_ID:
+    case RESET_VALGT_OPPGAVEKO_ID:
       return initialState;
     default:
       return state;
   }
 };
 
-const getOrganiseringAvSakslisterContext = state => state.default.organiseringAvSakslisterContext;
-export const getValgtSakslisteId = (state: any) => getOrganiseringAvSakslisterContext(state).valgtSakslisteId;
+const getOrganiseringAvOppgavekoerContext = state => state.default.organiseringAvOppgavekoerContext;
+export const getValgtOppgavekoId = (state: any) => getOrganiseringAvOppgavekoerContext(state).valgtOppgavekoId;
