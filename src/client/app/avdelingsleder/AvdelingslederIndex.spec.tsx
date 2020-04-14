@@ -42,7 +42,7 @@ describe('<AvdelingslederIndex>', () => {
     expect(wrapper.find(AvdelingslederDashboard)).to.have.length(1);
   });
 
-  it('skal vise alle tre panelene', () => {
+ /* it('skal vise alle tre panelene', () => {
     const location = {
       hash: '23',
       pathname: '/test/',
@@ -98,7 +98,7 @@ describe('<AvdelingslederIndex>', () => {
     />);
 
     expect(wrapper.find(EndreSaksbehandlereIndex)).to.have.length(1);
-  });
+  }); */
 
   it('skal rendre panel for nøkkeltall når dette er valgt', () => {
     const location = {

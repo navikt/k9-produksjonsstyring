@@ -125,6 +125,8 @@
   "MissingPage.PageIsMissing": "Side finnes ikke",
   "MissingPage.Home": "Hjem",
 
+  "MottattPanel.MottattRefusjonskrav": "Mottatt refusjonskrav",
+
   "NyeOgFerdigstilteOppgaverForIdagGraf.Ferdigstilte": "Ferdigstilte",
   "NyeOgFerdigstilteOppgaverForIdagGraf.Nye": "Nye",
   "NyeOgFerdigstilteOppgaverForIdagGraf.FerdigstiltAntall": "Antall ferdigstilte: {antall}",

@@ -1,16 +1,12 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
-
+import { MottattPanel } from 'avdelingsleder/nokkeltall/components/refusjon/MottattPanel';
 import NokkeltallPanel from './NokkeltallPanel';
-import FordelingAvBehandlingstypePanel from './fordelingAvBehandlingstype/FordelingAvBehandlingstypePanel';
-import TilBehandlingPanel from './tilBehandling/TilBehandlingPanel';
 
 describe('<NokkeltallPanel>', () => {
-  it('skal vise grafpaneler', () => {
+  it('skal vise mottattPanel', () => {
     const wrapper = shallow(<NokkeltallPanel />);
-
-    expect(wrapper.find(FordelingAvBehandlingstypePanel)).to.have.length(1);
-    expect(wrapper.find(TilBehandlingPanel)).to.have.length(1);
+    expect(wrapper.find(MottattPanel)).to.have.length(1);
   });
 });

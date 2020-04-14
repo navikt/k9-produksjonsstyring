@@ -30,8 +30,8 @@ import styles from './avdelingslederIndex.less';
 
 const classNames = classnames.bind(styles);
 
-const renderAvdelingslederPanel = (avdelingslederPanel) => {
-  switch (avdelingslederPanel) {
+const renderAvdelingslederPanel = avdelingslederPanel =>
+  /* switch (avdelingslederPanel) {
     case AvdelingslederPanels.BEHANDLINGSKOER:
       return <EndreBehandlingskoerIndex />;
     case AvdelingslederPanels.SAKSBEHANDLERE:
@@ -40,9 +40,9 @@ const renderAvdelingslederPanel = (avdelingslederPanel) => {
       return <NokkeltallIndex />;
     default:
       return null;
-  }
-};
-
+  } */
+    // eslint-disable-next-line implicit-arrow-linebreak
+  <NokkeltallIndex />;
 const messageId = {
   [AvdelingslederPanels.BEHANDLINGSKOER]: 'AvdelingslederIndex.Behandlingskoer',
   [AvdelingslederPanels.SAKSBEHANDLERE]: 'AvdelingslederIndex.Saksbehandlere',
@@ -92,9 +92,9 @@ export const AvdelingslederIndex = ({
       <AvdelingslederDashboard key={valgtAvdelingEnhet}>
         <div>
           <Tabs tabs={[
-              getTab(AvdelingslederPanels.BEHANDLINGSKOER, activeAvdelingslederPanel, getAvdelingslederPanelLocation),
+            //  getTab(AvdelingslederPanels.BEHANDLINGSKOER, activeAvdelingslederPanel, getAvdelingslederPanelLocation),
               getTab(AvdelingslederPanels.NOKKELTALL, activeAvdelingslederPanel, getAvdelingslederPanelLocation),
-              getTab(AvdelingslederPanels.SAKSBEHANDLERE, activeAvdelingslederPanel, getAvdelingslederPanelLocation),
+            //  getTab(AvdelingslederPanels.SAKSBEHANDLERE, activeAvdelingslederPanel, getAvdelingslederPanelLocation),
             ]}
           />
           <Panel className={styles.panelPadding}>

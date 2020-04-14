@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
+import { MottattPanel } from 'avdelingsleder/nokkeltall/components/refusjon/MottattPanel';
 import FordelingAvBehandlingstypePanel from './fordelingAvBehandlingstype/FordelingAvBehandlingstypePanel';
 import TilBehandlingPanel from './tilBehandling/TilBehandlingPanel';
 import ManueltPaVentPanel from './manueltSattPaVent/ManueltPaVentPanel';
@@ -49,22 +50,7 @@ class NokkeltallPanel extends Component<{}, StateTsProps> {
 
     return (
       <div ref={(node) => { this.node = node; }}>
-        <TilBehandlingPanel
-          width={width}
-          height={height}
-        />
-        <VerticalSpacer twentyPx />
-        <FordelingAvBehandlingstypePanel
-          width={width}
-          height={height}
-        />
-        <VerticalSpacer twentyPx />
-        <ManueltPaVentPanel
-          width={width}
-          height={height}
-        />
-        <VerticalSpacer twentyPx />
-        <OppgaverPerForsteStonadsdagPanel
+        <MottattPanel
           width={width}
           height={height}
         />
