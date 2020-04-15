@@ -33,7 +33,7 @@ const Home = ({
 );
 
 Home.propTypes = {
-  nrOfErrorMessages: PropTypes.number.isRequired,
+    nrOfErrorMessages: PropTypes.number.isRequired,
 };
 
 export default Home;

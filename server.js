@@ -12,6 +12,10 @@ server.get('/k9-los', (req, res) => {
     res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
+server.get('/avdelingsleder', (req, res) => {
+    res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+});
+
 server.listen(PORT);
 
 console.log(`Started express server at port ${PORT}`);
