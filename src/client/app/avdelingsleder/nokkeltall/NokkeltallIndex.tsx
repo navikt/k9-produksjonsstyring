@@ -36,10 +36,10 @@ export class NokkeltallIndex extends Component<TsProps> {
     const {
       fetchOppgaverForAvdeling, fetchOppgaverPerDato, fetchOppgaverAvdelingManueltPaVent, fetchOppgaverPerForsteStonadsdag, valgtAvdelingEnhet,
     } = this.props;
-    fetchOppgaverForAvdeling(valgtAvdelingEnhet);
-    fetchOppgaverPerDato(valgtAvdelingEnhet);
-    fetchOppgaverAvdelingManueltPaVent(valgtAvdelingEnhet);
-    fetchOppgaverPerForsteStonadsdag(valgtAvdelingEnhet);
+ //   fetchOppgaverForAvdeling(valgtAvdelingEnhet);
+ //   fetchOppgaverPerDato(valgtAvdelingEnhet);
+ //   fetchOppgaverAvdelingManueltPaVent(valgtAvdelingEnhet);
+ //   fetchOppgaverPerForsteStonadsdag(valgtAvdelingEnhet);
   }
 
   render = () => (

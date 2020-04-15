@@ -30,7 +30,8 @@ import styles from './avdelingslederIndex.less';
 
 const classNames = classnames.bind(styles);
 
-const renderAvdelingslederPanel = avdelingslederPanel =>
+const renderAvdelingslederPanel = avdelingslederPanel => <NokkeltallIndex />;
+
   /* switch (avdelingslederPanel) {
     case AvdelingslederPanels.BEHANDLINGSKOER:
       return <EndreBehandlingskoerIndex />;
@@ -41,8 +42,8 @@ const renderAvdelingslederPanel = avdelingslederPanel =>
     default:
       return null;
   } */
-    // eslint-disable-next-line implicit-arrow-linebreak
-  <NokkeltallIndex />;
+
+
 const messageId = {
   [AvdelingslederPanels.BEHANDLINGSKOER]: 'AvdelingslederIndex.Behandlingskoer',
   [AvdelingslederPanels.SAKSBEHANDLERE]: 'AvdelingslederIndex.Saksbehandlere',
