@@ -25,28 +25,15 @@ describe('<SaksbehandlereForOppgavekoForm>', () => {
     saksbehandlere: [],
   };
 
-  it('skal vise tekst når avdelingen ikke har tilordnede saksbehandlere', () => {
-    const wrapper = shallow(<SaksbehandlereForOppgavekoForm
-      valgtOppgaveko={oppgaveko}
-      knyttSaksbehandlerTilOppgaveko={sinon.spy()}
-      valgtAvdelingEnhet="1"
-    />).find(Form).drill(props => props.render()).shallow();
-
-    const melding = wrapper.find(FormattedMessage);
-    expect(melding).to.have.length(2);
-    expect(melding.last().prop('id')).to.eql('SaksbehandlereForOppgavekoForm.IngenSaksbehandlere');
-  });
-
   it('skal vise kun en kolonne med saksbehandlere når det er tilordnet en saksbehandler', () => {
     const saksbehandlere = [{
       brukerIdent: 'TEST1',
       navn: 'Espen Utvikler',
-      avdelingsnavn: ['NAV Oslo'],
     }];
 
     const wrapper = shallow(<SaksbehandlereForOppgavekoForm
       valgtOppgaveko={oppgaveko}
-      avdelingensSaksbehandlere={saksbehandlere}
+      alleSaksbehandlere={saksbehandlere}
       knyttSaksbehandlerTilOppgaveko={sinon.spy()}
       valgtAvdelingEnhet="1"
     />).find(Form).drill(props => props.render()).shallow();
@@ -68,18 +55,15 @@ describe('<SaksbehandlereForOppgavekoForm>', () => {
     const saksbehandlere = [{
       brukerIdent: 'TEST1',
       navn: 'Espen Utvikler',
-      avdelingsnavn: ['NAV Oslo'],
     }, {
       brukerIdent: 'TEST2',
       navn: 'Auto Joachim',
-      avdelingsnavn: ['NAV Bærum'],
     }];
 
     const wrapper = shallow(<SaksbehandlereForOppgavekoForm
       valgtOppgaveko={oppgaveko}
-      avdelingensSaksbehandlere={saksbehandlere}
+      alleSaksbehandlere={saksbehandlere}
       knyttSaksbehandlerTilOppgaveko={sinon.spy()}
-      valgtAvdelingEnhet="1"
     />).find(Form).drill(props => props.render()).shallow();
 
     expect(wrapper.find(FormattedMessage)).to.have.length(1);

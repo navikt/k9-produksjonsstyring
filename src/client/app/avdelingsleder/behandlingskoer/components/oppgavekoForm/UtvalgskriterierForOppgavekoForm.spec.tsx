@@ -58,7 +58,6 @@ describe('<UtvalgskriterierForOppgavekoForm>', () => {
       lagreOppgavekoBehandlingstype={sinon.spy()}
       lagreOppgavekoFagsakYtelseType={sinon.spy()}
       lagreOppgavekoSortering={sinon.spy()}
-      valgtAvdelingEnhet="1"
       hentAntallOppgaverForOppgaveko={sinon.spy()}
       lagreOppgavekoAndreKriterier={sinon.spy()}
     />);
@@ -69,11 +68,8 @@ describe('<UtvalgskriterierForOppgavekoForm>', () => {
       navn: 'Ny behandlingskø',
       sortering: undefined,
       fagsakYtelseType: '',
-      fra: undefined,
-      til: undefined,
       fomDato: undefined,
       tomDato: undefined,
-      erDynamiskPeriode: undefined,
     });
   });
 
@@ -103,11 +99,8 @@ describe('<UtvalgskriterierForOppgavekoForm>', () => {
       navn: 'Nyansatte',
       sortering: undefined,
       fagsakYtelseType: '',
-      fra: undefined,
-      til: undefined,
       fomDato: undefined,
       tomDato: undefined,
-      erDynamiskPeriode: undefined,
     });
   });
 
@@ -128,7 +121,6 @@ describe('<UtvalgskriterierForOppgavekoForm>', () => {
       lagreOppgavekoBehandlingstype={sinon.spy()}
       lagreOppgavekoFagsakYtelseType={sinon.spy()}
       lagreOppgavekoSortering={sinon.spy()}
-      valgtAvdelingEnhet="1"
       hentAntallOppgaverForOppgaveko={sinon.spy()}
       lagreOppgavekoAndreKriterier={sinon.spy()}
     />).find(Form).drill(props => props.render({ values: { erDynamiskPeriode: false } })).shallow();
@@ -142,12 +134,11 @@ describe('<UtvalgskriterierForOppgavekoForm>', () => {
 
     expect(lagreOppgavekoNavnFn.calledOnce).to.be.true;
     const { args } = lagreOppgavekoNavnFn.getCalls()[0];
-    expect(args).to.have.length(2);
+    expect(args).to.have.length(1);
     expect(args[0]).to.eql({
-      id: '1',
+      oppgavekoId: '1',
       navn: 'Foreldrepenger',
     });
-    expect(args[1]).to.eql('1');
   });
 
   it('skal sette opp korrekt formstate for andrekriterier', () => {
@@ -178,7 +169,6 @@ describe('<UtvalgskriterierForOppgavekoForm>', () => {
       lagreOppgavekoBehandlingstype={sinon.spy()}
       lagreOppgavekoFagsakYtelseType={sinon.spy()}
       lagreOppgavekoSortering={sinon.spy()}
-      valgtAvdelingEnhet="1"
       hentAntallOppgaverForOppgaveko={sinon.spy()}
       lagreOppgavekoAndreKriterier={sinon.spy()}
     />);
@@ -189,11 +179,8 @@ describe('<UtvalgskriterierForOppgavekoForm>', () => {
       navn: 'Nyansatte',
       sortering: undefined,
       fagsakYtelseType: '',
-      fra: undefined,
-      til: undefined,
       fomDato: undefined,
       tomDato: undefined,
-      erDynamiskPeriode: undefined,
       [andreKriterierType.REGISTRER_PAPIRSOKNAD]: true,
       [`${andreKriterierType.REGISTRER_PAPIRSOKNAD}_inkluder`]: false,
       [andreKriterierType.TIL_BESLUTTER]: true,

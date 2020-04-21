@@ -3,5 +3,4 @@
 export type Saksbehandler = Readonly<{
   brukerIdent: string;
   navn: string;
-  avdelingsnavn: string[];
 }>

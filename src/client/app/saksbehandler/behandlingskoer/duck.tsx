@@ -32,6 +32,7 @@ export const fetchReserverteOppgaver = () => (dispatch: Dispatch) => dispatch(
   k9LosApi.RESERVERTE_OPPGAVER.makeRestApiRequest()(
     undefined, { keepData: true },
   ),
+
 );
 export const getReserverteOppgaver = k9LosApi.RESERVERTE_OPPGAVER.getRestApiData();
 

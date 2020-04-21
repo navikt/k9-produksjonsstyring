@@ -20,8 +20,7 @@ const finnFagsakYtelseTypeNavn = (fagsakYtelseTyper, valgtFagsakYtelseType) => {
 interface TsProps {
   fagsakYtelseTyper: Kodeverk[];
   valgtOppgavekoId: string;
-  lagreOppgavekoFagsakYtelseType: (oppgavekoId: string, fagsakYtelseType: string, avdelingEnhet: string) => void;
-  valgtAvdelingEnhet: string;
+  lagreOppgavekoFagsakYtelseType: (oppgavekoId: string, fagsakYtelseType: string) => void;
 }
 
 /**
@@ -40,7 +39,7 @@ export const FagsakYtelseTypeVelger = ({
     <VerticalSpacer eightPx />
     <RadioGroupField
       name="fagsakYtelseType"
-      onChange={fyt => lagreOppgavekoFagsakYtelseType(valgtOppgavekoId, fyt, valgtAvdelingEnhet)}
+      onChange={fyt => lagreOppgavekoFagsakYtelseType(valgtOppgavekoId, fyt)}
     >
       <RadioOption
         value={fagsakYtelseType.OMSORGSPENGER}
@@ -62,7 +61,6 @@ FagsakYtelseTypeVelger.propTypes = {
   fagsakYtelseTyper: PropTypes.arrayOf(kodeverkPropType).isRequired,
   valgtOppgavekoId: PropTypes.string.isRequired,
   lagreOppgavekoFagsakYtelseType: PropTypes.func.isRequired,
-  valgtAvdelingEnhet: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = state => ({

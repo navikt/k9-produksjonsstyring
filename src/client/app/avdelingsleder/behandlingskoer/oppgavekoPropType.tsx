@@ -8,6 +8,7 @@ const oppgavekoPropType = PropTypes.shape({
   navn: PropTypes.string,
   behandlingTyper: PropTypes.arrayOf(kodeverkPropType),
   fagsakYtelseTyper: PropTypes.arrayOf(kodeverkPropType),
+  andreKriterier: PropTypes.arrayOf(kodeverkPropType),
   sistEndret: PropTypes.string.isRequired,
   sortering: PropTypes.shape({
     sorteringType: kodeverkPropType.isRequired,
@@ -18,13 +19,6 @@ const oppgavekoPropType = PropTypes.shape({
     erDynamiskPeriode: PropTypes.bool.isRequired,
   }),
   saksbehandlere: PropTypes.arrayOf(saksbehandlerPropType).isRequired,
-  antallBehandlinger: PropTypes.number,
-  tilBeslutter: PropTypes.bool.isRequired,
-  utbetalingTilBruker: PropTypes.bool.isRequired,
-  selvstendigFrilans: PropTypes.bool.isRequired,
-  kombinert: PropTypes.bool.isRequired,
-  søktGradering: PropTypes.bool.isRequired,
-  registrerPapir: PropTypes.bool.isRequired,
 });
 
 export default oppgavekoPropType;

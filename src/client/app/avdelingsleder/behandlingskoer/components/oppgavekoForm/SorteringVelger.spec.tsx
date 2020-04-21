@@ -13,7 +13,7 @@ describe('<SorteringVelger>', () => {
       kode: KoSortering.OPPRETT_BEHANDLING,
       navn: 'opprett',
     }, {
-      kode: KoSortering.BEHANDLINGSFRIST,
+      kode: KoSortering.FORSTE_STONADSDAG,
       navn: 'frist',
     }];
 
@@ -24,15 +24,12 @@ describe('<SorteringVelger>', () => {
       lagreOppgavekoSortering={sinon.spy()}
       lagreOppgavekoSorteringErDynamiskPeriode={sinon.spy()}
       lagreOppgavekoSorteringTidsintervallDato={sinon.spy()}
-      lagreOppgavekoSorteringNumeriskIntervall={sinon.spy()}
-      valgtAvdelingEnhet="1"
-      erDynamiskPeriode={false}
     />);
 
     const options = wrapper.find(RadioOption);
     expect(options).to.have.length(2);
     expect(options.first().prop('value')).to.eql(KoSortering.OPPRETT_BEHANDLING);
-    expect(options.last().prop('value')).to.eql(KoSortering.BEHANDLINGSFRIST);
+    expect(options.last().prop('value')).to.eql(KoSortering.FORSTE_STONADSDAG);
   });
 
   it('skal lagre sortering ved klikk på radioknapp', () => {
@@ -40,7 +37,7 @@ describe('<SorteringVelger>', () => {
       kode: KoSortering.OPPRETT_BEHANDLING,
       navn: 'opprett',
     }, {
-      kode: KoSortering.BEHANDLINGSFRIST,
+      kode: KoSortering.FORSTE_STONADSDAG,
       navn: 'frist',
     }];
     const lagreSorteringFn = sinon.spy();
@@ -52,9 +49,6 @@ describe('<SorteringVelger>', () => {
       lagreOppgavekoSortering={lagreSorteringFn}
       lagreOppgavekoSorteringErDynamiskPeriode={sinon.spy()}
       lagreOppgavekoSorteringTidsintervallDato={sinon.spy()}
-      lagreOppgavekoSorteringNumeriskIntervall={sinon.spy()}
-      valgtAvdelingEnhet="3"
-      erDynamiskPeriode={false}
     />);
 
     const felt = wrapper.find(RadioGroupField);
@@ -62,9 +56,8 @@ describe('<SorteringVelger>', () => {
 
     expect(lagreSorteringFn.calledOnce).to.be.true;
     const { args } = lagreSorteringFn.getCalls()[0];
-    expect(args).to.have.length(3);
+    expect(args).to.have.length(2);
     expect(args[0]).to.eql('1');
     expect(args[1]).to.eql(KoSortering.OPPRETT_BEHANDLING);
-    expect(args[2]).to.eql('3');
   });
 });

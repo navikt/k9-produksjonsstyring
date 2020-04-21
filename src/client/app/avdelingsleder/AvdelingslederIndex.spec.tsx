@@ -13,20 +13,6 @@ import AvdelingslederPanels from './avdelingslederPanels';
 import { AvdelingslederIndex } from './AvdelingslederIndex';
 
 describe('<AvdelingslederIndex>', () => {
-  it('skal vise lasteikon før valgt avdeling er satt', () => {
-    const location = {
-      hash: '23',
-      pathname: '/test/',
-      state: {},
-    };
-    const wrapper = shallow(<AvdelingslederIndex
-      activeAvdelingslederPanel={AvdelingslederPanels.BEHANDLINGSKOER}
-      getAvdelingslederPanelLocation={() => location}
-      kanOppgavestyre
-    />);
-    expect(wrapper.find(LoadingPanel)).to.have.length(1);
-  });
-
   it('skal vise avdelingsleder dashboard etter at valgt avdeling er satt', () => {
     const location = {
       hash: '23',
@@ -50,7 +36,6 @@ describe('<AvdelingslederIndex>', () => {
     const wrapper = shallow(<AvdelingslederIndex
       activeAvdelingslederPanel={AvdelingslederPanels.BEHANDLINGSKOER}
       getAvdelingslederPanelLocation={() => location}
-      valgtAvdelingEnhet="1"
       kanOppgavestyre
     />);
 
@@ -110,7 +95,7 @@ describe('<AvdelingslederIndex>', () => {
     />);
 
     expect(wrapper.find(NokkeltallIndex)).to.have.length(1);
-  });
+  }); */
 
   it('skal vise at en ikke har tilgang til avdelingsleder-siden', () => {
     const location = {
@@ -125,5 +110,5 @@ describe('<AvdelingslederIndex>', () => {
     />);
 
     expect(wrapper.find(IkkeTilgangTilAvdelingslederPanel)).to.have.length(1);
-  }); */
+  });
 });

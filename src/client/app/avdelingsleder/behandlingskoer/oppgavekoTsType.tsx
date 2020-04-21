@@ -18,7 +18,7 @@ export type Oppgaveko = Readonly<{
     erDynamiskPeriode: boolean;
   };
   andreKriterier?: AnnetKriterie[];
-  saksbehandlerIdenter: string[];
+  saksbehandlere: string[];
   antallBehandlinger: number;
 }>;
 

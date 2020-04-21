@@ -32,11 +32,8 @@ describe('<BehandlingskoerIndex>', () => {
         kode: 'test',
         navn: 'test',
       },
-      fra: 1,
-      til: 2,
       fomDato: '2019-01-01',
       tomDato: '2019-01-10',
-      erDynamiskPeriode: false,
     },
   }];
 
@@ -107,7 +104,7 @@ describe('<BehandlingskoerIndex>', () => {
     expect(fetchOppgavekoer.calledOnce).to.be.true;
   });
 
-  it('skal reservere og åpne sak i K)SAK når oppgave ikke er reservert fra før', async () => {
+  it('skal reservere og åpne sak i K9SAK når oppgave ikke er reservert fra før', async () => {
     const reserverOppgave = sinon.stub().withArgs(oppgave.eksternId).resolves({
       payload: {
         erReservert: true,
@@ -181,54 +178,6 @@ describe('<BehandlingskoerIndex>', () => {
     expect(args[0]).to.eql('www.k9sak.no/fagsak/12343/behandling/1/?punkt=default&fakta=default');
   });
 
-  it('skal hente oppgavekoens oppgaver og så starta polling etter endringer', async () => {
-    const oppgavekoId = '1';
-    const oppgaveIder = [{ id: '1' }, { id: '2' }, { id: '3' }];
-    const fetchOppgaverTilBehandlingFn = sinon.stub()
-      .withArgs(oppgavekoId).resolves({
-        payload: oppgaveIder,
-      });
-    const fetchOppgaverTilBehandlingOppgaverFn = sinon.stub()
-      .onFirstCall().resolves({
-        payload: oppgaveIder.concat({ id: '4' }),
-      })
-      .onSecondCall()
-      .throws(); // Avbryter polling
-    const fetchReserverteOppgaverFn = sinon.spy();
-
-    const wrapper = shallow(<BehandlingskoerIndex
-      k9sakUrl="www.k9sak.no"
-      k9tilbakeUrl="www.k9tilbake.no"
-      fetchOppgaverTilBehandling={fetchOppgaverTilBehandlingFn}
-      fetchReserverteOppgaver={fetchReserverteOppgaverFn}
-      fetchAlleOppgavekoer={sinon.spy()}
-      reserverOppgave={sinon.spy()}
-      opphevOppgaveReservasjon={sinon.spy()}
-      forlengOppgaveReservasjon={sinon.spy()}
-      fetchOppgaverTilBehandlingOppgaver={fetchOppgaverTilBehandlingOppgaverFn}
-      flyttReservasjon={sinon.spy()}
-      oppgavekoer={oppgavekoer}
-      goToUrl={sinon.spy()}
-      setValgtOppgavekoId={sinon.spy()}
-    />);
-
-    const panel = wrapper.find(OppgavekoPanel);
-    expect(panel).to.have.length(1);
-
-    await panel.prop('fetchOppgavekoOppgaver')(oppgavekoId);
-
-    expect(fetchReserverteOppgaverFn.calledTwice).to.be.true;
-    const { args } = fetchReserverteOppgaverFn.getCalls()[0];
-    expect(args).to.have.length(1);
-    expect(args[0]).to.eql(oppgavekoId);
-
-    expect(fetchOppgaverTilBehandlingOppgaverFn.calledOnce).to.be.true;
-    const { args: args2 } = fetchOppgaverTilBehandlingOppgaverFn.getCalls()[0];
-    expect(args2).to.have.length(2);
-    expect(args2[0]).to.eql('1');
-    expect(args2[1]).to.eql(oppgaveIder.map(o => o.id).join(','));
-  });
-
   it('skal oppheve reservasjon og så hente reserverte oppgaver på nytt', async () => {
     const opphevOppgaveReservasjonFn = sinon.stub().withArgs(oppgave.eksternId).resolves();
     const fetchReserverteOppgaverFn = sinon.spy();
@@ -253,8 +202,8 @@ describe('<BehandlingskoerIndex>', () => {
 
     const oppgaveId = '1';
     const begrunnelse = 'Dette er en begrunnelse';
-    const oppgavekoId = '1';
-    wrapper.setState({ oppgavekoId: id });
+    const id = '1';
+    wrapper.setState({ id });
     await panel.prop('opphevOppgaveReservasjon')(oppgaveId, begrunnelse);
 
     expect(opphevOppgaveReservasjonFn.calledOnce).to.be.true;
@@ -266,7 +215,7 @@ describe('<BehandlingskoerIndex>', () => {
     expect(fetchReserverteOppgaverFn.calledOnce).to.be.true;
     const { args: args2 } = fetchReserverteOppgaverFn.getCalls()[0];
     expect(args2).to.have.length(1);
-    expect(args2[0]).to.eql(oppgavekoId);
+    expect(args2[0]).to.eql(id);
   });
 
   it('skal forlenge reservasjon og så hente reserverte oppgaver på nytt', async () => {
@@ -292,8 +241,8 @@ describe('<BehandlingskoerIndex>', () => {
     expect(panel).to.have.length(1);
 
     const oppgaveId = '1';
-    const oppgavekoId = '1';
-    wrapper.setState({ oppgavekoId: id });
+    const id = '1';
+    wrapper.setState({ id });
     await panel.prop('forlengOppgaveReservasjon')(oppgaveId);
 
     expect(forlengOppgaveReservasjonFn.calledOnce).to.be.true;
@@ -304,7 +253,7 @@ describe('<BehandlingskoerIndex>', () => {
     expect(fetchReserverteOppgaverFn.calledOnce).to.be.true;
     const { args: args2 } = fetchReserverteOppgaverFn.getCalls()[0];
     expect(args2).to.have.length(1);
-    expect(args2[0]).to.eql(oppgavekoId);
+    expect(args2[0]).to.eql(id);
   });
 
   it('skal flytte reservasjon og så hente reserverte oppgaver på nytt', async () => {
@@ -332,8 +281,8 @@ describe('<BehandlingskoerIndex>', () => {
     const oppgaveId = '1';
     const brukerIdent = 'T122334';
     const begrunnelse = 'Dette er en begrunnelse';
-    const oppgavekoId = '1';
-    wrapper.setState({ oppgavekoId: id });
+    const id = '1';
+    wrapper.setState({ id });
     await panel.prop('flyttReservasjon')(oppgaveId, brukerIdent, begrunnelse);
 
     expect(flyttReservasjonFn.calledOnce).to.be.true;
@@ -346,7 +295,7 @@ describe('<BehandlingskoerIndex>', () => {
     expect(fetchReserverteOppgaverFn.calledOnce).to.be.true;
     const { args: args2 } = fetchReserverteOppgaverFn.getCalls()[0];
     expect(args2).to.have.length(1);
-    expect(args2[0]).to.eql(oppgavekoId);
+    expect(args2[0]).to.eql(id);
   });
 
 /*  it('skal vise dialog ved timeout', () => {

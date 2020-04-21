@@ -56,7 +56,6 @@ export class UtvalgskriterierForOppgavekoForm extends Component<TsProps> {
     lagreOppgavekoBehandlingstype: PropTypes.func.isRequired,
     lagreOppgavekoFagsakYtelseType: PropTypes.func.isRequired,
     lagreOppgavekoAndreKriterier: PropTypes.func.isRequired,
-    valgtAvdelingEnhet: PropTypes.string.isRequired,
     antallOppgaver: PropTypes.number,
     hentAntallOppgaverForOppgaveko: PropTypes.func.isRequired,
   };
@@ -108,7 +107,7 @@ export class UtvalgskriterierForOppgavekoForm extends Component<TsProps> {
     const {
       lagreOppgavekoNavn,
     } = this.props;
-    lagreOppgavekoNavn({ id: values.id, navn: values.navn });
+    lagreOppgavekoNavn({ oppgavekoId: values.id, navn: values.navn });
   }
 
   render = () => {
@@ -186,7 +185,6 @@ export class UtvalgskriterierForOppgavekoForm extends Component<TsProps> {
 }
 
 const mapStateToProps = state => ({
-  valgtAvdelingEnhet: getValgtAvdelingEnhet(state),
   antallOppgaver: getAntallOppgaverForOppgavekoResultat(state),
 });
 

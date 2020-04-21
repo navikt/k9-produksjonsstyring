@@ -116,7 +116,8 @@ export class BehandlingskoerIndex extends Component<TsProps, StateProps> {
     if (oppgave.status.erReservert) {
       this.openSak(oppgave);
     } else {
-      const { reserverOppgave: reserver } = this.props;
+      const { reserverOppgave: reserver, fetchReserverteOppgaver: fetchReserverte } = this.props;
+      const { id } = this.state;
 
       reserver(oppgave.eksternId).then((data: {payload: OppgaveStatus }) => {
         const nyOppgaveStatus = data.payload;
@@ -130,7 +131,7 @@ export class BehandlingskoerIndex extends Component<TsProps, StateProps> {
             reservertOppgaveStatus: nyOppgaveStatus,
           }));
         }
-      });
+      }).then(() => fetchReserverte(id));
     }
   }
 

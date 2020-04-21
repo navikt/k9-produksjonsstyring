@@ -24,8 +24,7 @@ import styles from './saksbehandlereForOppgavekoForm.less';
 interface TsProps {
   valgtOppgaveko: Oppgaveko;
   alleSaksbehandlere: Saksbehandler[];
-  knyttSaksbehandlerTilOppgaveko: (oppgavekoId: string, brukerIdent: string, isChecked: boolean, avdelingEnhet: string) => void;
-  valgtAvdelingEnhet: string;
+  knyttSaksbehandlerTilOppgaveko: (oppgavekoId: string, brukerIdent: string, isChecked: boolean) => void;
 }
 
 /**
@@ -36,7 +35,6 @@ export class SaksbehandlereForOppgavekoForm extends Component<TsProps> {
     valgtOppgaveko: oppgavekoPropType.isRequired,
     alleSaksbehandlere: PropTypes.arrayOf(saksbehandlerPropType),
     knyttSaksbehandlerTilOppgaveko: PropTypes.func.isRequired,
-    valgtAvdelingEnhet: PropTypes.string.isRequired,
   };
 
   static defaultProps = {
@@ -56,7 +54,7 @@ export class SaksbehandlereForOppgavekoForm extends Component<TsProps> {
 
   render = () => {
     const {
-      alleSaksbehandlere, knyttSaksbehandlerTilOppgaveko, valgtOppgaveko, valgtAvdelingEnhet,
+      alleSaksbehandlere, knyttSaksbehandlerTilOppgaveko, valgtOppgaveko,
     } = this.props;
 
     const pos = Math.ceil(alleSaksbehandlere.length / 2);
@@ -84,7 +82,7 @@ export class SaksbehandlereForOppgavekoForm extends Component<TsProps> {
                     key={s.brukerIdent}
                     name={s.brukerIdent}
                     label={s.navn}
-                    onChange={isChecked => knyttSaksbehandlerTilOppgaveko(valgtOppgaveko.id, s.brukerIdent, isChecked, valgtAvdelingEnhet)}
+                    onChange={isChecked => knyttSaksbehandlerTilOppgaveko(valgtOppgaveko.id, s.brukerIdent, isChecked)}
                   />
                 ))}
               </Column>
@@ -94,7 +92,7 @@ export class SaksbehandlereForOppgavekoForm extends Component<TsProps> {
                     key={s.brukerIdent}
                     name={s.brukerIdent}
                     label={s.navn}
-                    onChange={isChecked => knyttSaksbehandlerTilOppgaveko(valgtOppgaveko.id, s.brukerIdent, isChecked, valgtAvdelingEnhet)}
+                    onChange={isChecked => knyttSaksbehandlerTilOppgaveko(valgtOppgaveko.id, s.brukerIdent, isChecked)}
                   />
                 ))}
               </Column>
@@ -112,7 +110,6 @@ const sortSaksbehandlere = createSelector([getSaksbehandlere], saksbehandlere =>
   : saksbehandlere));
 
 const mapStateToProps = state => ({
-  valgtAvdelingEnhet: getValgtAvdelingEnhet(state),
   alleSaksbehandlere: sortSaksbehandlere(state),
 });
 

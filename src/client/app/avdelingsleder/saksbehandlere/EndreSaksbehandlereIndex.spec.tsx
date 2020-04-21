@@ -22,7 +22,6 @@ describe('<EndreSaksbehandlereIndex>', () => {
     expect(wrapper.find(SaksbehandlerePanel)).to.have.length(1);
     expect(fetchAlleSaksbehandlere.calledOnce).to.be.true;
     const { args } = fetchAlleSaksbehandlere.getCalls()[0];
-    expect(args).to.have.length(1);
-    expect(args[0]).to.eql('2');
+    expect(args).to.have.length(0);
   });
 });

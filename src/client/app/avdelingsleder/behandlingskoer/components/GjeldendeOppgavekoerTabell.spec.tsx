@@ -18,15 +18,15 @@ describe('<GjeldendeOppgavekoerTabell>', () => {
     kode: behandlingType.FORSTEGANGSSOKNAD,
     navn: '',
   }, {
-    kode: behandlingType.KLAGE,
+    kode: behandlingType.REVURDERING,
     navn: '',
   },
   ];
   const fagsakYtelseTyper = [{
-    kode: fagsakYtelseType.ENGANGSSTONAD,
+    kode: fagsakYtelseType.OMSORGSPENGER,
     navn: '',
   }, {
-    kode: fagsakYtelseType.FORELDREPRENGER,
+    kode: fagsakYtelseType.PLEIEPENGER_SYKT_BARN,
     navn: '',
   },
   ];
@@ -304,9 +304,8 @@ describe('<GjeldendeOppgavekoerTabell>', () => {
 
     expect(fjernOppgavekoerFn.calledOnce).to.be.true;
     const { args } = fjernOppgavekoerFn.getCalls()[0];
-    expect(args).to.have.length(2);
+    expect(args).to.have.length(1);
     expect(args[0]).to.eql(oppgavekoer[0].id);
-    expect(args[1]).to.eql('2');
   });
 
   it('skal vise antall saksbehandlere tilknyttet oppgavekøen', () => {
@@ -316,7 +315,11 @@ describe('<GjeldendeOppgavekoerTabell>', () => {
       sistEndret: '2017-08-31',
       erTilBeslutter: false,
       erRegistrerPapirsoknad: false,
-      saksbehandlere: ['U12332'],
+      saksbehandlere: [{
+        navn: 'Sara',
+        brukerIdent: 'fslkjd',
+
+      }],
     }];
 
     const wrapper = shallow(<GjeldendeOppgavekoerTabell

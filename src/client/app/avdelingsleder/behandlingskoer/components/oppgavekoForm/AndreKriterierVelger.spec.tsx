@@ -20,7 +20,6 @@ describe('<AndreKriterierVelger>', () => {
     const wrapper = shallow(<AndreKriterierVelger
       valgtOppgavekoId="1"
       lagreOppgavekoAndreKriterier={sinon.spy()}
-      valgtAvdelingEnhet="3"
       andreKriterierTyper={andreKriterierTyper}
       values={{}}
     />);
@@ -38,7 +37,6 @@ describe('<AndreKriterierVelger>', () => {
     const wrapper = shallow(<AndreKriterierVelger
       valgtOppgavekoId="1"
       lagreOppgavekoAndreKriterier={sinon.spy()}
-      valgtAvdelingEnhet="3"
       andreKriterierTyper={andreKriterierTyper}
       values={{}}
     />);
@@ -55,7 +53,6 @@ describe('<AndreKriterierVelger>', () => {
     const wrapper = shallow(<AndreKriterierVelger
       valgtOppgavekoId="1"
       lagreOppgavekoAndreKriterier={lagreAndreKriterierFn}
-      valgtAvdelingEnhet="3"
       andreKriterierTyper={andreKriterierTyper}
       values={{}}
     />);
@@ -65,12 +62,11 @@ describe('<AndreKriterierVelger>', () => {
 
     expect(lagreAndreKriterierFn.calledOnce).to.be.true;
     const { args } = lagreAndreKriterierFn.getCalls()[0];
-    expect(args).to.have.length(5);
+    expect(args).to.have.length(4);
     expect(args[0]).to.eql('1');
     expect(args[1].kode).to.eql(andreKriterierType.TIL_BESLUTTER);
     expect(args[2]).to.true;
     expect(args[3]).to.true;
-    expect(args[4]).to.eql('3');
   });
 
   it('skal lagre valgt for Registrere papirsoknad ved klikk på checkbox', () => {
@@ -79,7 +75,6 @@ describe('<AndreKriterierVelger>', () => {
     const wrapper = shallow(<AndreKriterierVelger
       valgtOppgavekoId="1"
       lagreOppgavekoAndreKriterier={lagreAndreKriterierFn}
-      valgtAvdelingEnhet="3"
       andreKriterierTyper={andreKriterierTyper}
       values={{}}
     />);
@@ -89,12 +84,11 @@ describe('<AndreKriterierVelger>', () => {
 
     expect(lagreAndreKriterierFn.calledOnce).to.be.true;
     const { args } = lagreAndreKriterierFn.getCalls()[0];
-    expect(args).to.have.length(5);
+    expect(args).to.have.length(4);
     expect(args[0]).to.eql('1');
     expect(args[1].kode).to.eql(andreKriterierType.REGISTRER_PAPIRSOKNAD);
     expect(args[2]).to.true;
     expect(args[3]).to.true;
-    expect(args[4]).to.eql('3');
   });
 
   it('skal vise radioknapper for å ta med eller fjerne', () => {
@@ -121,7 +115,6 @@ describe('<AndreKriterierVelger>', () => {
     const wrapper = shallow(<AndreKriterierVelger
       valgtOppgavekoId="1"
       lagreOppgavekoAndreKriterier={lagreAndreKriterierFn}
-      valgtAvdelingEnhet="3"
       andreKriterierTyper={andreKriterierTyper}
       values={{
         [andreKriterierType.TIL_BESLUTTER]: true,
@@ -133,11 +126,10 @@ describe('<AndreKriterierVelger>', () => {
 
     expect(lagreAndreKriterierFn.calledOnce).to.be.true;
     const { args } = lagreAndreKriterierFn.getCalls()[0];
-    expect(args).to.have.length(5);
+    expect(args).to.have.length(4);
     expect(args[0]).to.eql('1');
     expect(args[1].kode).to.eql(andreKriterierType.TIL_BESLUTTER);
     expect(args[2]).to.true;
     expect(args[3]).to.false;
-    expect(args[4]).to.eql('3');
   });
 });

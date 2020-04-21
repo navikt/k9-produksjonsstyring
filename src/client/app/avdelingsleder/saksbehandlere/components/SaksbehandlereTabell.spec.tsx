@@ -46,12 +46,12 @@ describe('<SaksbehandlereTabell>', () => {
     expect(rader).to.have.length(2);
 
     const kolonnerRad1 = rader.first().find(TableColumn);
-    expect(kolonnerRad1).to.have.length(4);
+    expect(kolonnerRad1).to.have.length(3);
     expect(kolonnerRad1.first().childAt(0).text()).to.eql('Auto Joachim');
     expect(kolonnerRad1.at(1).childAt(0).text()).to.eql('TEST2');
 
     const kolonnerRad2 = rader.last().find(TableColumn);
-    expect(kolonnerRad2).to.have.length(4);
+    expect(kolonnerRad2).to.have.length(3);
     expect(kolonnerRad2.first().childAt(0).text()).to.eql('Espen Utvikler');
     expect(kolonnerRad2.at(1).childAt(0).text()).to.eql('TEST1');
   });
