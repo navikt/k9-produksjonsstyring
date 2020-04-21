@@ -5,32 +5,31 @@ import { bindActionCreators, Dispatch } from 'redux';
 
 import { Kodeverk } from 'kodeverk/kodeverkTsType';
 import { getValgtAvdelingEnhet } from 'app/duck';
-import { fetchAvdelingensSaksbehandlere } from '../saksbehandlere/duck';
+import { fetchAlleSaksbehandlere } from '../saksbehandlere/duck';
 import {
-  fetchAvdelingensOppgavekoer, getAvdelingensOppgavekoer, setValgtOppgavekoId, getValgtOppgavekoId, lagNyOppgaveko, getNyOppgavekoId,
+  fetchAlleOppgavekoer, getAlleOppgavekoer, setValgtOppgavekoId, getValgtOppgavekoId, lagNyOppgaveko, getNyOppgavekoId,
   fjernOppgaveko, lagreOppgavekoNavn, lagreOppgavekoBehandlingstype, knyttSaksbehandlerTilOppgaveko,
-  lagreOppgavekoFagsakYtelseType, fetchAntallOppgaverForOppgaveko, fetchAntallOppgaverForAvdeling, lagreOppgavekoAndreKriterier,
+  lagreOppgavekoFagsakYtelseType, fetchAntallOppgaverForOppgaveko, fetchAntallOppgaverTotalt, lagreOppgavekoAndreKriterier,
 } from './duck';
 import EndreOppgavekoerPanel from './components/EndreOppgavekoerPanel';
 import { Oppgaveko } from './oppgavekoTsType';
 import oppgavekoPropType from './oppgavekoPropType';
 
 interface TsProps {
-  fetchAvdelingensOppgavekoer: (avdelingEnhet: string) => Oppgaveko[];
-  fetchAntallOppgaverForOppgaveko: (oppgavekoId: string, avdelingEnhet: string) => Promise<string>;
-  fetchAntallOppgaverForAvdeling: (avdelingEnhet: string) => Promise<string>;
+  fetchAlleOppgavekoer: () => Oppgaveko[];
+  fetchAntallOppgaverForOppgaveko: (oppgavekoId: string) => Promise<string>;
+  fetchAntallOppgaverTotalt: () => Promise<string>;
   setValgtOppgavekoId: (oppgavekoId: string) => void;
-  lagNyOppgaveko: (avdelingEnhet: string) => void;
-  fjernOppgaveko: (oppgavekoId: string, avdelingEnhet: string) => void;
-  lagreOppgavekoNavn: (oppgaveko: {oppgavekoId: string; navn: string}, avdelingEnhet: string) => void;
-  lagreOppgavekoBehandlingstype: (oppgavekoId: string, behandlingType: Kodeverk, isChecked: boolean, avdelingEnhet: string) => void;
-  lagreOppgavekoFagsakYtelseType: (oppgavekoId: string, fagsakYtelseType: string, avdelingEnhet: string) => void;
-  knyttSaksbehandlerTilOppgaveko: (oppgavekoId: string, brukerIdent: string, isChecked: boolean, avdelingEnhet: string) => void;
-  lagreOppgavekoAndreKriterier: (oppgavekoId: string, andreKriterierType: Kodeverk, isChecked: boolean, skalInkludere: boolean, avdelingEnhet: string) => void;
+  lagNyOppgaveko: () => void;
+  fjernOppgaveko: (oppgavekoId: string) => void;
+  lagreOppgavekoNavn: (oppgaveko: {oppgavekoId: string; navn: string}) => void;
+  lagreOppgavekoBehandlingstype: (oppgavekoId: string, behandlingType: Kodeverk, isChecked: boolean,) => void;
+  lagreOppgavekoFagsakYtelseType: (oppgavekoId: string, fagsakYtelseType: string) => void;
+  knyttSaksbehandlerTilOppgaveko: (oppgavekoId: string, brukerIdent: string, isChecked: boolean,) => void;
+  lagreOppgavekoAndreKriterier: (oppgavekoId: string, andreKriterierType: Kodeverk, isChecked: boolean, skalInkludere: boolean) => void;
   oppgavekoer: Oppgaveko[];
   valgtOppgavekoId?: string;
-  fetchAvdelingensSaksbehandlere: (avdelingEnhet: string) => void;
-  valgtAvdelingEnhet: string;
+  fetchAlleSaksbehandlere: () => void;
 }
 
 /**
@@ -38,9 +37,9 @@ interface TsProps {
  */
 export class EndreBehandlingskoerIndex extends Component<TsProps> {
   static propTypes = {
-    fetchAvdelingensOppgavekoer: PropTypes.func.isRequired,
+    fetchAlleOppgavekoer: PropTypes.func.isRequired,
     fetchAntallOppgaverForOppgaveko: PropTypes.func.isRequired,
-    fetchAntallOppgaverForAvdeling: PropTypes.func.isRequired,
+    fetchAntallOppgaverTotalt: PropTypes.func.isRequired,
     setValgtOppgavekoId: PropTypes.func.isRequired,
     lagNyOppgaveko: PropTypes.func.isRequired,
     fjernOppgaveko: PropTypes.func.isRequired,
@@ -48,11 +47,10 @@ export class EndreBehandlingskoerIndex extends Component<TsProps> {
     lagreOppgavekoBehandlingstype: PropTypes.func.isRequired,
     lagreOppgavekoFagsakYtelseType: PropTypes.func.isRequired,
     knyttSaksbehandlerTilOppgaveko: PropTypes.func.isRequired,
-    fetchAvdelingensSaksbehandlere: PropTypes.func.isRequired,
+    fetchAlleSaksbehandlere: PropTypes.func.isRequired,
     lagreOppgavekoAndreKriterier: PropTypes.func.isRequired,
     oppgavekoer: PropTypes.arrayOf(oppgavekoPropType),
     valgtOppgavekoId: PropTypes.string,
-    valgtAvdelingEnhet: PropTypes.string.isRequired,
   };
 
   static defaultProps = {
@@ -62,14 +60,13 @@ export class EndreBehandlingskoerIndex extends Component<TsProps> {
 
   componentDidMount = () => {
     const {
-      fetchAvdelingensOppgavekoer: fetchOppgavekoer,
-      fetchAvdelingensSaksbehandlere: fetchSaksbehandlere,
-      fetchAntallOppgaverForAvdeling: fetchAntallOppgaver,
-      valgtAvdelingEnhet,
+      fetchAlleOppgavekoer: fetchOppgavekoer,
+      fetchAlleSaksbehandlere: fetchSaksbehandlere,
+      fetchAntallOppgaverTotalt: fetchAntallOppgaver,
 } = this.props;
-    fetchOppgavekoer(valgtAvdelingEnhet);
-    fetchSaksbehandlere(valgtAvdelingEnhet);
-    fetchAntallOppgaver(valgtAvdelingEnhet);
+    fetchOppgavekoer();
+    fetchSaksbehandlere();
+    fetchAntallOppgaver();
   }
 
   render = () => {
@@ -78,9 +75,9 @@ export class EndreBehandlingskoerIndex extends Component<TsProps> {
       fjernOppgaveko: fjernListe, lagreOppgavekoNavn: lagreListeNavn, lagreOppgavekoBehandlingstype: lagreListeBehandlingstype,
       knyttSaksbehandlerTilOppgaveko: knyttSaksbehandlerTilListe,
       lagreOppgavekoFagsakYtelseType: lagreListeFagsakYtelseType,
-      fetchAvdelingensOppgavekoer: hentAvdelingensOppgavekoer,
+      fetchAlleOppgavekoer: hentAlleOppgavekoer,
       fetchAntallOppgaverForOppgaveko: hentAntallOppgaverForOppgaveko,
-      fetchAntallOppgaverForAvdeling: hentAntallOppgaverForAvdeling,
+      fetchAntallOppgaverTotalt: hentAntallOppgaverTotalt,
       lagreOppgavekoAndreKriterier: lagreAndreKriterier,
     } = this.props;
     return (
@@ -95,9 +92,9 @@ export class EndreBehandlingskoerIndex extends Component<TsProps> {
         lagreOppgavekoFagsakYtelseType={lagreListeFagsakYtelseType}
         lagreOppgavekoAndreKriterier={lagreAndreKriterier}
         knyttSaksbehandlerTilOppgaveko={knyttSaksbehandlerTilListe}
-        hentAvdelingensOppgavekoer={hentAvdelingensOppgavekoer}
+        hentOppgavekoer={hentAlleOppgavekoer}
         hentAntallOppgaverForOppgaveko={hentAntallOppgaverForOppgaveko}
-        hentAntallOppgaverForAvdeling={hentAntallOppgaverForAvdeling}
+        hentAntallOppgaverTotalt={hentAntallOppgaverTotalt}
       />
     );
   }
@@ -106,17 +103,16 @@ export class EndreBehandlingskoerIndex extends Component<TsProps> {
 const mapStateToProps = (state) => {
   const id = getValgtOppgavekoId(state);
   const nyIdObject = getNyOppgavekoId(state);
-  const nyId = nyIdObject ? parseInt(nyIdObject.oppgavekoId, 10) : undefined;
+  const nyId = nyIdObject ? nyIdObject.oppgavekoId : undefined;
   return {
-    oppgavekoer: getAvdelingensOppgavekoer(state),
+    oppgavekoer: getAlleOppgavekoer(state),
     valgtOppgavekoId: id !== undefined ? id : nyId,
-    valgtAvdelingEnhet: getValgtAvdelingEnhet(state),
   };
 };
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   ...bindActionCreators({
-    fetchAvdelingensOppgavekoer,
+    fetchAlleOppgavekoer,
     setValgtOppgavekoId,
     lagNyOppgaveko,
     fjernOppgaveko,
@@ -125,9 +121,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
     lagreOppgavekoFagsakYtelseType,
     lagreOppgavekoAndreKriterier,
     knyttSaksbehandlerTilOppgaveko,
-    fetchAvdelingensSaksbehandlere,
+    fetchAlleSaksbehandlere,
     fetchAntallOppgaverForOppgaveko,
-    fetchAntallOppgaverForAvdeling,
+    fetchAntallOppgaverTotalt,
   }, dispatch),
 });
 

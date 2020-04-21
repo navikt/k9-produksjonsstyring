@@ -11,7 +11,6 @@ describe('<SletteSaksbehandlerModal>', () => {
     const saksbehandler = {
       brukerIdent: 'TEST1',
       navn: 'Espen Utvikler',
-      avdelingsnavn: ['NAV Oslo'],
     };
 
     const wrapper = shallowWithIntl(<SletteSaksbehandlerModal
@@ -29,7 +28,6 @@ describe('<SletteSaksbehandlerModal>', () => {
     const saksbehandler = {
       brukerIdent: 'TEST1',
       navn: 'Espen Utvikler',
-      avdelingsnavn: ['NAV Oslo'],
     };
     const submitFn = sinon.spy();
 

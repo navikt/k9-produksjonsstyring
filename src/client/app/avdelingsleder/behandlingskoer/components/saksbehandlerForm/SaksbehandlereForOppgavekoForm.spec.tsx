@@ -12,7 +12,7 @@ import { SaksbehandlereForOppgavekoForm } from './SaksbehandlereForOppgavekoForm
 
 describe('<SaksbehandlereForOppgavekoForm>', () => {
   const oppgaveko = {
-    oppgavekoId: '1',
+    id: '1',
     navn: 'Nyansatte',
     sistEndret: '2017-08-31',
     andreKriterierTyper: [{
@@ -22,7 +22,7 @@ describe('<SaksbehandlereForOppgavekoForm>', () => {
       kode: andreKriterierType.REGISTRER_PAPIRSOKNAD,
       navn: 'Registrer papirsøknad',
     }],
-    saksbehandlerIdenter: [],
+    saksbehandlere: [],
   };
 
   it('skal vise tekst når avdelingen ikke har tilordnede saksbehandlere', () => {

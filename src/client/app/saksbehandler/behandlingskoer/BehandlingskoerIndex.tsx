@@ -34,7 +34,7 @@ type TsProps = Readonly<{
 }>
 
 interface StateProps {
-  oppgavekoId?: string;
+  id?: string;
   reservertAvAnnenSaksbehandler: boolean;
   reservertOppgave?: Oppgave;
   reservertOppgaveStatus?: OppgaveStatus;
@@ -44,7 +44,7 @@ interface StateProps {
  */
 export class BehandlingskoerIndex extends Component<TsProps, StateProps> {
   state = {
-    oppgavekoId: undefined, reservertAvAnnenSaksbehandler: false, reservertOppgave: undefined, reservertOppgaveStatus: undefined,
+    id: undefined, reservertAvAnnenSaksbehandler: false, reservertOppgave: undefined, reservertOppgaveStatus: undefined,
   };
 
   static propTypes = {
@@ -86,7 +86,7 @@ export class BehandlingskoerIndex extends Component<TsProps, StateProps> {
   }
 
   fetchOppgavekoOppgaver = (oppgavekoId: string) => {
-    this.setState(prevState => ({ ...prevState, oppgavekoId }));
+    this.setState(prevState => ({ ...prevState, oppgavekoId: id }));
     const { fetchOppgaverTilBehandling: fetchTilBehandling, fetchReserverteOppgaver: fetchReserverte, setValgtOppgavekoId: setOppgavekoId } = this.props;
     setOppgavekoId(oppgavekoId);
     fetchReserverte(oppgavekoId);

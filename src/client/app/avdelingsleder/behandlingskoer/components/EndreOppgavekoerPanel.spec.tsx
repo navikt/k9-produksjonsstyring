@@ -10,12 +10,12 @@ import EndreOppgavekoerPanel from './EndreOppgavekoerPanel';
 describe('<EndreOppgavekoerPanel>', () => {
   it('skal vise tabell for oppgavekoer, men ikke editeringspanel når ingen tabellrad er valgt', () => {
     const oppgavekoer = [{
-      oppgavekoId: '1',
+      id: '1',
       navn: 'Espen Utvikler',
       sistEndret: '2017-08-31',
       erTilBeslutter: false,
       erRegistrerPapirsoknad: false,
-      saksbehandlerIdenter: [],
+      saksbehandlere: [],
     }];
 
     const wrapper = shallow(<EndreOppgavekoerPanel
@@ -31,7 +31,7 @@ describe('<EndreOppgavekoerPanel>', () => {
       knyttSaksbehandlerTilOppgaveko={sinon.spy()}
       hentOppgavekonsSaksbehandlere={sinon.spy()}
       hentAntallOppgaverForOppgaveko={sinon.spy()}
-      hentAntallOppgaverForAvdeling={sinon.spy()}
+      hentAntallOppgaverTotalt={sinon.spy()}
       showSaksbehandlerPanel
     />);
 
@@ -41,12 +41,12 @@ describe('<EndreOppgavekoerPanel>', () => {
 
   it('skal vise editeringspanel når en har valgt tabellrad', () => {
     const oppgavekoer = [{
-      oppgavekoId: '1',
+      id: '1',
       navn: 'Espen Utvikler',
       sistEndret: '2017-08-31',
       erTilBeslutter: false,
       erRegistrerPapirsoknad: false,
-      saksbehandlerIdenter: [],
+      saksbehandlere: [],
     }];
 
     const wrapper = shallow(<EndreOppgavekoerPanel
@@ -63,7 +63,7 @@ describe('<EndreOppgavekoerPanel>', () => {
       knyttSaksbehandlerTilOppgaveko={sinon.spy()}
       hentOppgavekonsSaksbehandlere={sinon.spy()}
       hentAntallOppgaverForOppgaveko={sinon.spy()}
-      hentAntallOppgaverForAvdeling={sinon.spy()}
+      hentAntallOppgaverTotalt={sinon.spy()}
       showSaksbehandlerPanel
     />);
 

@@ -19,17 +19,17 @@ import styles from './endreOppgavekoerPanel.less';
 interface TsProps {
   oppgavekoer: Oppgaveko[];
   setValgtOppgavekoId: (oppgavekoId: string) => void;
-  lagNyOppgaveko: (avdelingEnhet: string) => void;
-  fjernOppgaveko: (oppgavekoId: string, avdelingEnhet: string) => void;
-  lagreOppgavekoNavn: (oppgaveko: {oppgavekoId: string; navn: string}, avdelingEnhet: string) => void;
-  lagreOppgavekoBehandlingstype: (oppgavekoId: string, behandlingType: Kodeverk, isChecked: boolean, avdelingEnhet: string) => void;
-  lagreOppgavekoFagsakYtelseType: (oppgavekoId: string, fagsakYtelseType: string, avdelingEnhet: string) => void;
-  lagreOppgavekoAndreKriterier: (oppgavekoId: string, andreKriterierType: Kodeverk, isChecked: boolean, skalInkludere: boolean, avdelingEnhet: string) => void;
-  knyttSaksbehandlerTilOppgaveko: (oppgavekoId: string, brukerIdent: string, isChecked: boolean, avdelingEnhet: string) => void;
+  lagNyOppgaveko: () => void;
+  fjernOppgaveko: (oppgavekoId: string) => void;
+  lagreOppgavekoNavn: (oppgaveko: {oppgavekoId: string; navn: string}) => void;
+  lagreOppgavekoBehandlingstype: (oppgavekoId: string, behandlingType: Kodeverk, isChecked: boolean) => void;
+  lagreOppgavekoFagsakYtelseType: (oppgavekoId: string, fagsakYtelseType: string) => void;
+  lagreOppgavekoAndreKriterier: (oppgavekoId: string, andreKriterierType: Kodeverk, isChecked: boolean, skalInkludere: boolean) => void;
+  knyttSaksbehandlerTilOppgaveko: (oppgavekoId: string, brukerIdent: string, isChecked: boolean) => void;
   valgtOppgavekoId?: string;
-  hentAvdelingensOppgavekoer: (avdelingEnhet: string) => Oppgaveko[];
-  hentAntallOppgaverForOppgaveko: (oppgavekoId: string, avdelingEnhet: string) => Promise<string>;
-  hentAntallOppgaverForAvdeling: (avdelingEnhet: string) => Promise<string>;
+  hentOppgavekoer: () => Oppgaveko[];
+  hentAntallOppgaverForOppgaveko: (oppgavekoId: string) => Promise<string>;
+  hentAntallOppgaverTotalt: () => Promise<string>;
 }
 
 /**
@@ -46,11 +46,11 @@ const EndreOppgavekoerPanel = ({
   lagreOppgavekoFagsakYtelseType,
   lagreOppgavekoAndreKriterier,
   knyttSaksbehandlerTilOppgaveko,
-  hentAvdelingensOppgavekoer,
+  hentOppgavekoer,
   hentAntallOppgaverForOppgaveko,
-  hentAntallOppgaverForAvdeling,
+  hentAntallOppgaverTotalt,
 }: TsProps) => {
-  const valgtOppgaveko = oppgavekoer.find(s => s.oppgavekoId === valgtOppgavekoId);
+  const valgtOppgaveko = oppgavekoer.find(s => s.id === valgtOppgavekoId);
   return (
     <>
       <GjeldendeOppgavekoerTabell
@@ -59,8 +59,8 @@ const EndreOppgavekoerPanel = ({
         valgtOppgavekoId={valgtOppgavekoId}
         lagNyOppgaveko={lagNyOppgaveko}
         fjernOppgaveko={fjernOppgaveko}
-        hentAvdelingensOppgavekoer={hentAvdelingensOppgavekoer}
-        hentAntallOppgaverForAvdeling={hentAntallOppgaverForAvdeling}
+        hentOppgavekoer={hentOppgavekoer}
+        hentAntallOppgaverTotalt={hentAntallOppgaverTotalt}
       />
       <VerticalSpacer sixteenPx />
       {valgtOppgavekoId && valgtOppgaveko && (
@@ -104,7 +104,7 @@ EndreOppgavekoerPanel.propTypes = {
   lagreOppgavekoAndreKriterier: PropTypes.func.isRequired,
   valgtOppgavekoId: PropTypes.string,
   hentAntallOppgaverForOppgaveko: PropTypes.func.isRequired,
-  hentAntallOppgaverForAvdeling: PropTypes.func.isRequired,
+  hentAntallOppgaverTotalt: PropTypes.func.isRequired,
 };
 
 EndreOppgavekoerPanel.defaultProps = {

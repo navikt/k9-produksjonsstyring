@@ -16,7 +16,6 @@ describe('<SaksbehandlereTabell>', () => {
     const wrapper = shallow(<SaksbehandlereTabell
       saksbehandlere={[]}
       fjernSaksbehandler={sinon.spy()}
-      valgtAvdelingEnhet="2"
     />);
 
     const message = wrapper.find(FormattedMessage);
@@ -31,16 +30,13 @@ describe('<SaksbehandlereTabell>', () => {
     const saksbehandlere = [{
       brukerIdent: 'TEST1',
       navn: 'Espen Utvikler',
-      avdelingsnavn: ['NAV Oslo'],
     }, {
       brukerIdent: 'TEST2',
       navn: 'Auto Joachim',
-      avdelingsnavn: ['NAV Bærum'],
     }];
     const wrapper = shallow(<SaksbehandlereTabell
       saksbehandlere={saksbehandlere}
       fjernSaksbehandler={sinon.spy()}
-      valgtAvdelingEnhet="2"
     />);
 
     expect(wrapper.find(FormattedMessage)).to.have.length(1);
@@ -53,25 +49,21 @@ describe('<SaksbehandlereTabell>', () => {
     expect(kolonnerRad1).to.have.length(4);
     expect(kolonnerRad1.first().childAt(0).text()).to.eql('Auto Joachim');
     expect(kolonnerRad1.at(1).childAt(0).text()).to.eql('TEST2');
-    expect(kolonnerRad1.at(2).childAt(0).text()).to.eql('NAV Bærum');
 
     const kolonnerRad2 = rader.last().find(TableColumn);
     expect(kolonnerRad2).to.have.length(4);
     expect(kolonnerRad2.first().childAt(0).text()).to.eql('Espen Utvikler');
     expect(kolonnerRad2.at(1).childAt(0).text()).to.eql('TEST1');
-    expect(kolonnerRad2.at(2).childAt(0).text()).to.eql('NAV Oslo');
   });
 
   it('skal vise modal for å slette saksbehandler ved trykk på slette-knapp', () => {
     const saksbehandlere = [{
       brukerIdent: 'TEST1',
       navn: 'Espen Utvikler',
-      avdelingsnavn: ['NAV Oslo'],
     }];
     const wrapper = shallow(<SaksbehandlereTabell
       saksbehandlere={saksbehandlere}
       fjernSaksbehandler={sinon.spy()}
-      valgtAvdelingEnhet="2"
     />);
 
     const rader = wrapper.find(TableRow);
@@ -93,12 +85,10 @@ describe('<SaksbehandlereTabell>', () => {
     const saksbehandlere = [{
       brukerIdent: 'TEST1',
       navn: 'Espen Utvikler',
-      avdelingsnavn: ['NAV Oslo'],
     }];
     const wrapper = shallow(<SaksbehandlereTabell
       saksbehandlere={saksbehandlere}
       fjernSaksbehandler={sinon.spy()}
-      valgtAvdelingEnhet="2"
     />);
 
     const rader = wrapper.find(TableRow);
@@ -120,13 +110,11 @@ describe('<SaksbehandlereTabell>', () => {
     const saksbehandlere = [{
       brukerIdent: 'TEST1',
       navn: 'Espen Utvikler',
-      avdelingsnavn: ['NAV Oslo'],
     }];
     const fjernSaksbehandlerFn = sinon.spy();
     const wrapper = shallow(<SaksbehandlereTabell
       saksbehandlere={saksbehandlere}
       fjernSaksbehandler={fjernSaksbehandlerFn}
-      valgtAvdelingEnhet="2"
     />);
 
     const rader = wrapper.find(TableRow);
@@ -145,8 +133,7 @@ describe('<SaksbehandlereTabell>', () => {
 
     expect(fjernSaksbehandlerFn.calledOnce).to.be.true;
     const { args } = fjernSaksbehandlerFn.getCalls()[0];
-    expect(args).to.have.length(2);
+    expect(args).to.have.length(1);
     expect(args[0]).to.eql(saksbehandlere[0].brukerIdent);
-    expect(args[1]).to.eql('2');
   });
 });

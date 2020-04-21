@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import kodeverkPropType from 'kodeverk/kodeverkPropType';
 
 const oppgavekoPropType = PropTypes.shape({
-  oppgavekoId: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
   navn: PropTypes.string.isRequired,
   behandlingTyper: PropTypes.arrayOf(kodeverkPropType).isRequired,
   fagsakYtelseTyper: PropTypes.arrayOf(kodeverkPropType).isRequired,
@@ -13,11 +13,8 @@ const oppgavekoPropType = PropTypes.shape({
   })),
   sortering: PropTypes.shape({
     sorteringType: kodeverkPropType.isRequired,
-    fra: PropTypes.number,
-    til: PropTypes.number,
     fomDato: PropTypes.string,
     tomDato: PropTypes.string,
-    erDynamiskPeriode: PropTypes.bool.isRequired,
   }),
 });
 

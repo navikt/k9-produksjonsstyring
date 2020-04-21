@@ -13,7 +13,7 @@ import { Row, Column } from 'nav-frontend-grid';
 import { getValgtAvdelingEnhet } from 'app/duck';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import { CheckboxField } from 'form/FinalFields';
-import { getAvdelingensSaksbehandlere } from 'avdelingsleder/saksbehandlere/duck';
+import { getSaksbehandlere } from 'avdelingsleder/saksbehandlere/duck';
 import { Saksbehandler } from 'avdelingsleder/saksbehandlere/saksbehandlerTsType';
 import saksbehandlerPropType from 'avdelingsleder/saksbehandlere/saksbehandlerPropType';
 import { Oppgaveko } from '../../oppgavekoTsType';
@@ -23,7 +23,7 @@ import styles from './saksbehandlereForOppgavekoForm.less';
 
 interface TsProps {
   valgtOppgaveko: Oppgaveko;
-  avdelingensSaksbehandlere: Saksbehandler[];
+  alleSaksbehandlere: Saksbehandler[];
   knyttSaksbehandlerTilOppgaveko: (oppgavekoId: string, brukerIdent: string, isChecked: boolean, avdelingEnhet: string) => void;
   valgtAvdelingEnhet: string;
 }
@@ -34,13 +34,13 @@ interface TsProps {
 export class SaksbehandlereForOppgavekoForm extends Component<TsProps> {
   static propTypes = {
     valgtOppgaveko: oppgavekoPropType.isRequired,
-    avdelingensSaksbehandlere: PropTypes.arrayOf(saksbehandlerPropType),
+    alleSaksbehandlere: PropTypes.arrayOf(saksbehandlerPropType),
     knyttSaksbehandlerTilOppgaveko: PropTypes.func.isRequired,
     valgtAvdelingEnhet: PropTypes.string.isRequired,
   };
 
   static defaultProps = {
-    avdelingensSaksbehandlere: [],
+    alleSaksbehandlere: [],
   }
 
   buildInitialValues = () => {
@@ -48,7 +48,7 @@ export class SaksbehandlereForOppgavekoForm extends Component<TsProps> {
       valgtOppgaveko,
     } = this.props;
 
-    const identer = valgtOppgaveko.saksbehandlerIdenter.reduce((acc, brukerIdent) => ({ ...acc, [brukerIdent]: true }), {});
+    const identer = valgtOppgaveko.saksbehandlere.reduce((acc, brukerIdent) => ({ ...acc, [brukerIdent]: true }), {});
     return {
       ...identer,
     };
@@ -56,12 +56,12 @@ export class SaksbehandlereForOppgavekoForm extends Component<TsProps> {
 
   render = () => {
     const {
-      avdelingensSaksbehandlere, knyttSaksbehandlerTilOppgaveko, valgtOppgaveko, valgtAvdelingEnhet,
+      alleSaksbehandlere, knyttSaksbehandlerTilOppgaveko, valgtOppgaveko, valgtAvdelingEnhet,
     } = this.props;
 
-    const pos = Math.ceil(avdelingensSaksbehandlere.length / 2);
-    const avdelingensSaksbehandlereVenstreListe = avdelingensSaksbehandlere.slice(0, pos);
-    const avdelingensSaksbehandlereHoyreListe = avdelingensSaksbehandlere.slice(pos);
+    const pos = Math.ceil(alleSaksbehandlere.length / 2);
+    const alleSaksbehandlereVenstreListe = alleSaksbehandlere.slice(0, pos);
+    const alleSaksbehandlereHoyreListe = alleSaksbehandlere.slice(pos);
 
     return (
       <Form
@@ -73,28 +73,28 @@ export class SaksbehandlereForOppgavekoForm extends Component<TsProps> {
               <FormattedMessage id="SaksbehandlereForOppgavekoForm.Saksbehandlere" />
             </Element>
             <VerticalSpacer sixteenPx />
-            {avdelingensSaksbehandlere.length === 0 && (
+            {alleSaksbehandlere.length === 0 && (
               <FormattedMessage id="SaksbehandlereForOppgavekoForm.IngenSaksbehandlere" />
             )}
-            {avdelingensSaksbehandlere.length > 0 && (
+            {alleSaksbehandlere.length > 0 && (
             <Row>
               <Column xs="6">
-                {avdelingensSaksbehandlereVenstreListe.map(s => (
+                {alleSaksbehandlereVenstreListe.map(s => (
                   <CheckboxField
                     key={s.brukerIdent}
                     name={s.brukerIdent}
                     label={s.navn}
-                    onChange={isChecked => knyttSaksbehandlerTilOppgaveko(valgtOppgaveko.oppgavekoId, s.brukerIdent, isChecked, valgtAvdelingEnhet)}
+                    onChange={isChecked => knyttSaksbehandlerTilOppgaveko(valgtOppgaveko.id, s.brukerIdent, isChecked, valgtAvdelingEnhet)}
                   />
                 ))}
               </Column>
               <Column xs="6">
-                {avdelingensSaksbehandlereHoyreListe.map(s => (
+                {alleSaksbehandlereHoyreListe.map(s => (
                   <CheckboxField
                     key={s.brukerIdent}
                     name={s.brukerIdent}
                     label={s.navn}
-                    onChange={isChecked => knyttSaksbehandlerTilOppgaveko(valgtOppgaveko.oppgavekoId, s.brukerIdent, isChecked, valgtAvdelingEnhet)}
+                    onChange={isChecked => knyttSaksbehandlerTilOppgaveko(valgtOppgaveko.id, s.brukerIdent, isChecked, valgtAvdelingEnhet)}
                   />
                 ))}
               </Column>
@@ -107,13 +107,13 @@ export class SaksbehandlereForOppgavekoForm extends Component<TsProps> {
   }
 }
 
-const sortSaksbehandlere = createSelector([getAvdelingensSaksbehandlere], saksbehandlere => (saksbehandlere && saksbehandlere instanceof Array
+const sortSaksbehandlere = createSelector([getSaksbehandlere], saksbehandlere => (saksbehandlere && saksbehandlere instanceof Array
   ? saksbehandlere.sort((saksbehandler1, saksbehandler2) => saksbehandler1.navn.localeCompare(saksbehandler2.navn))
   : saksbehandlere));
 
 const mapStateToProps = state => ({
   valgtAvdelingEnhet: getValgtAvdelingEnhet(state),
-  avdelingensSaksbehandlere: sortSaksbehandlere(state),
+  alleSaksbehandlere: sortSaksbehandlere(state),
 });
 
 export default connect(mapStateToProps)(SaksbehandlereForOppgavekoForm);

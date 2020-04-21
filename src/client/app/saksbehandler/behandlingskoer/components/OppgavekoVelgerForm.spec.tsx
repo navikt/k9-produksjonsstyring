@@ -18,7 +18,7 @@ describe('<OppgavekoVelgerForm>', () => {
   it('skal vise dropdown med to oppgavekoer', () => {
     const formProps = { };
     const oppgavekoer = [{
-      oppgavekoId: '1',
+      id: '1',
       navn: 'Testliste 1',
       behandlingTyper: [],
       fagsakYtelseTyper: [],
@@ -32,10 +32,9 @@ describe('<OppgavekoVelgerForm>', () => {
         til: 2,
         fomDato: '2019-01-01',
         tomDato: '2019-01-10',
-        erDynamiskPeriode: false,
       },
     }, {
-      oppgavekoId: '2',
+      id: '2',
       navn: 'Testliste 2',
       behandlingTyper: [],
       fagsakYtelseTyper: [],
@@ -49,7 +48,6 @@ describe('<OppgavekoVelgerForm>', () => {
         til: 2,
         fomDato: '2019-01-01',
         tomDato: '2019-01-10',
-        erDynamiskPeriode: false,
       },
     }];
     const wrapper = shallowWithIntl(<OppgavekoVelgerForm
@@ -74,7 +72,7 @@ describe('<OppgavekoVelgerForm>', () => {
 
   it('skal ikke vise informasjon om oppgavekø når ingen oppgavekø er valgt', () => {
     const oppgavekoer = [{
-      oppgavekoId: '1',
+      id: '1',
       navn: 'Testliste 1',
       behandlingTyper: [],
       fagsakYtelseTyper: [],
@@ -88,11 +86,10 @@ describe('<OppgavekoVelgerForm>', () => {
         til: 2,
         fomDato: '2019-01-01',
         tomDato: '2019-01-10',
-        erDynamiskPeriode: false,
       },
     }];
 
-    const formProps = { values: { oppgavekoId: undefined } };
+    const formProps = { values: { id: undefined } };
     const wrapper = shallowWithIntl(<OppgavekoVelgerForm
       intl={intlMock}
       oppgavekoer={oppgavekoer}
@@ -107,7 +104,7 @@ describe('<OppgavekoVelgerForm>', () => {
 
   it('skal vise at alle behandlingstyper og fagsakYtelseTyper er valgt når ingen verdier er oppgitt', () => {
     const oppgavekoer = [{
-      oppgavekoId: '1',
+      id: '1',
       navn: 'Testliste 1',
       behandlingTyper: [],
       fagsakYtelseTyper: [],
@@ -121,11 +118,10 @@ describe('<OppgavekoVelgerForm>', () => {
         til: 2,
         fomDato: '2019-01-01',
         tomDato: '2019-01-10',
-        erDynamiskPeriode: false,
       },
     }];
 
-    const formProps = { values: { oppgavekoId: '1' } };
+    const formProps = { values: { id: '1' } };
     const wrapper = shallowWithIntl(<OppgavekoVelgerForm
       intl={intlMock}
       oppgavekoer={oppgavekoer}
@@ -144,7 +140,7 @@ describe('<OppgavekoVelgerForm>', () => {
 
   it('skal vise at alle behandlingstyper er valgt når alle verdiene er oppgitt', () => {
     const oppgavekoer = [{
-      oppgavekoId: '1',
+      id: '1',
       navn: 'Testliste 1',
       behandlingTyper: [{
         kode: behandlingType.FORSTEGANGSSOKNAD,
@@ -161,11 +157,10 @@ describe('<OppgavekoVelgerForm>', () => {
         til: 2,
         fomDato: '2019-01-01',
         tomDato: '2019-01-10',
-        erDynamiskPeriode: false,
       },
     }];
 
-    const formProps = { values: { oppgavekoId: '1' } };
+    const formProps = { values: { id: '1' } };
     // totaltBehandlingTypeAntall er satt til 1 som er lik antall behandlingstypar satt på oppgavekøen
     const wrapper = shallowWithIntl(<OppgavekoVelgerForm
       intl={intlMock}
@@ -184,7 +179,7 @@ describe('<OppgavekoVelgerForm>', () => {
 
   it('skal vise valgte behandlingstyper og fagsakYtelseTyper', () => {
     const oppgavekoer = [{
-      oppgavekoId: '1',
+      id: '1',
       navn: 'Testliste 1',
       behandlingTyper: [{
         kode: behandlingType.FORSTEGANGSSOKNAD,
@@ -207,11 +202,10 @@ describe('<OppgavekoVelgerForm>', () => {
         til: 2,
         fomDato: '2019-01-01',
         tomDato: '2019-01-10',
-        erDynamiskPeriode: false,
       },
     }];
 
-    const formProps = { values: { oppgavekoId: '1' } };
+    const formProps = { values: { id: '1' } };
     const wrapper = shallowWithIntl(<OppgavekoVelgerForm
       intl={intlMock}
       oppgavekoer={oppgavekoer}
@@ -229,7 +223,7 @@ describe('<OppgavekoVelgerForm>', () => {
 
   it('skal vise valgte andre kriterier som er inkluderte', () => {
     const oppgavekoer = [{
-      oppgavekoId: '1',
+      id: '1',
       navn: 'Testliste 1',
       behandlingTyper: [],
       fagsakYtelseTyper: [],
@@ -249,11 +243,10 @@ describe('<OppgavekoVelgerForm>', () => {
         til: 2,
         fomDato: '2019-01-01',
         tomDato: '2019-01-10',
-        erDynamiskPeriode: false,
       },
     }];
 
-    const formProps = { values: { oppgavekoId: '1' } };
+    const formProps = { values: { id: '1' } };
     const wrapper = shallowWithIntl(<OppgavekoVelgerForm
       intl={intlMock}
       oppgavekoer={oppgavekoer}
@@ -270,7 +263,7 @@ describe('<OppgavekoVelgerForm>', () => {
 
   it('skal vise valgte andre kriterier som er ekskludert', () => {
     const oppgavekoer = [{
-      oppgavekoId: '1',
+      id: '1',
       navn: 'Testliste 1',
       behandlingTyper: [],
       fagsakYtelseTyper: [],
@@ -290,11 +283,10 @@ describe('<OppgavekoVelgerForm>', () => {
         til: 2,
         fomDato: '2019-01-01',
         tomDato: '2019-01-10',
-        erDynamiskPeriode: false,
       },
     }];
 
-    const formProps = { values: { oppgavekoId: '1' } };
+    const formProps = { values: { id: '1' } };
     const wrapper = shallowWithIntl(<OppgavekoVelgerForm
       intl={intlMock}
       oppgavekoer={oppgavekoer}
@@ -311,7 +303,7 @@ describe('<OppgavekoVelgerForm>', () => {
 
   it('skal vise at alle andre kriterier er valgte', () => {
     const oppgavekoer = [{
-      oppgavekoId: '1',
+      id: '1',
       navn: 'Testliste 1',
       behandlingTyper: [],
       fagsakYtelseTyper: [],
@@ -325,11 +317,10 @@ describe('<OppgavekoVelgerForm>', () => {
         til: 2,
         fomDato: '2019-01-01',
         tomDato: '2019-01-10',
-        erDynamiskPeriode: false,
       },
     }];
 
-    const formProps = { values: { oppgavekoId: '1' } };
+    const formProps = { values: { id: '1' } };
     const wrapper = shallowWithIntl(<OppgavekoVelgerForm
       intl={intlMock}
       oppgavekoer={oppgavekoer}
@@ -346,7 +337,7 @@ describe('<OppgavekoVelgerForm>', () => {
 
   it('skal vise køens saksbehandlere i tooltip', () => {
     const oppgavekoer = [{
-      oppgavekoId: '1',
+      id: '1',
       navn: 'Testliste 1',
       behandlingTyper: [],
       fagsakYtelseTyper: [],
@@ -360,11 +351,10 @@ describe('<OppgavekoVelgerForm>', () => {
         til: 2,
         fomDato: '2019-01-01',
         tomDato: '2019-01-10',
-        erDynamiskPeriode: false,
       },
     }];
 
-    const formProps = { values: { oppgavekoId: '1' } };
+    const formProps = { values: { id: '1' } };
     const wrapper = shallowWithIntl(<OppgavekoVelgerForm
       intl={intlMock}
       oppgavekoer={oppgavekoer}
@@ -375,15 +365,12 @@ describe('<OppgavekoVelgerForm>', () => {
       saksbehandlere={[{
         brukerIdent: 'T120101',
         navn: 'Espen Utvikler',
-        avdelingsnavn: [],
       }, {
         brukerIdent: 'A120102',
         navn: 'Auto Joachim',
-        avdelingsnavn: [],
       }, {
         brukerIdent: 'T120102',
         navn: 'Helge Ingstad',
-        avdelingsnavn: [],
       }]}
     />).find(Form).drill(props => props.render(formProps)).shallow();
 

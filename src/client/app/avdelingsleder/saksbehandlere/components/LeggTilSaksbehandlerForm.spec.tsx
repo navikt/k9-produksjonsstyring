@@ -20,7 +20,6 @@ describe('<LeggTilSaksbehandlerForm>', () => {
       resetSaksbehandlerSok={sinon.spy()}
       erLagtTilAllerede={false}
       erSokFerdig={false}
-      valgtAvdelingEnhet="2"
     />).find(Form).drill(props => props.render(formProps)).shallow();
 
     expect(wrapper.find(Knapp)).to.have.length(1);
@@ -31,7 +30,6 @@ describe('<LeggTilSaksbehandlerForm>', () => {
     const saksbehandler = {
       brukerIdent: 'TEST1',
       navn: 'Espen Utvikler',
-      avdelingsnavn: ['NAV Oslo'],
     };
     const formProps = { handleSubmit: sinon.spy() };
 
@@ -43,7 +41,6 @@ describe('<LeggTilSaksbehandlerForm>', () => {
       saksbehandler={saksbehandler}
       erLagtTilAllerede={false}
       erSokFerdig
-      valgtAvdelingEnhet="2"
     />).find(Form).drill(props => props.render(formProps)).shallow();
 
     expect(wrapper.find(Knapp)).to.have.length(2);
@@ -51,14 +48,13 @@ describe('<LeggTilSaksbehandlerForm>', () => {
 
     const tekst = wrapper.find(Normaltekst);
     expect(tekst).to.have.length(1);
-    expect(tekst.childAt(0).text()).to.eql('Espen Utvikler, NAV Oslo');
+    expect(tekst.childAt(0).text()).to.eql('Espen Utvikler');
   });
 
   it('skal nullstille form state og funnet saksbehandler ved trykk på nullstill', () => {
     const saksbehandler = {
       brukerIdent: 'TEST1',
       navn: 'Espen Utvikler',
-      avdelingsnavn: ['NAV Oslo'],
     };
     const resetFormFn = sinon.spy();
     const formProps = { handleSubmit: sinon.spy(), form: { reset: resetFormFn } };
@@ -72,7 +68,6 @@ describe('<LeggTilSaksbehandlerForm>', () => {
       saksbehandler={saksbehandler}
       erLagtTilAllerede={false}
       erSokFerdig
-      valgtAvdelingEnhet="2"
     />).find(Form).drill(props => props.render(formProps)).shallow();
 
     const nullstillKnapp = wrapper.find(Knapp).last();
@@ -87,7 +82,6 @@ describe('<LeggTilSaksbehandlerForm>', () => {
     const saksbehandler = {
       brukerIdent: 'TEST1',
       navn: 'Espen Utvikler',
-      avdelingsnavn: ['NAV Oslo'],
     };
     const resetFormFn = sinon.spy();
     const formProps = { handleSubmit: sinon.spy(), form: { reset: resetFormFn } };
@@ -106,7 +100,6 @@ describe('<LeggTilSaksbehandlerForm>', () => {
       saksbehandler={saksbehandler}
       erLagtTilAllerede={false}
       erSokFerdig
-      valgtAvdelingEnhet="2"
     />).find(Form).drill(props => props.render(formProps)).shallow();
 
     const leggTilKnapp = wrapper.find(Hovedknapp);
@@ -122,7 +115,6 @@ describe('<LeggTilSaksbehandlerForm>', () => {
     const saksbehandler = {
       brukerIdent: 'TEST1',
       navn: 'Espen Utvikler',
-      avdelingsnavn: ['NAV Oslo'],
     };
     const formProps = { handleSubmit: sinon.spy() };
     const wrapper = shallowWithIntl(<LeggTilSaksbehandlerForm
@@ -133,12 +125,11 @@ describe('<LeggTilSaksbehandlerForm>', () => {
       resetSaksbehandlerSok={sinon.spy()}
       erLagtTilAllerede={false}
       erSokFerdig
-      valgtAvdelingEnhet="2"
     />).find(Form).drill(props => props.render(formProps)).shallow();
 
     const tekstKomp = wrapper.find(Normaltekst);
     expect(tekstKomp).to.have.length(1);
-    expect(tekstKomp.childAt(0).text()).is.eql('Espen Utvikler, NAV Oslo');
+    expect(tekstKomp.childAt(0).text()).is.eql('Espen Utvikler');
   });
 
   it('skal vise tekst som viser at brukerident ikke finnes etter søk på ugyldig bruker', () => {
@@ -151,7 +142,6 @@ describe('<LeggTilSaksbehandlerForm>', () => {
       resetSaksbehandlerSok={sinon.spy()}
       erLagtTilAllerede={false}
       erSokFerdig
-      valgtAvdelingEnhet="2"
     />).find(Form).drill(props => props.render(formProps)).shallow();
 
     const tekstKomp = wrapper.find(Normaltekst);
@@ -163,7 +153,6 @@ describe('<LeggTilSaksbehandlerForm>', () => {
     const saksbehandler = {
       brukerIdent: 'TEST1',
       navn: 'Espen Utvikler',
-      avdelingsnavn: ['NAV Oslo'],
     };
     const formProps = { handleSubmit: sinon.spy() };
     const wrapper = shallowWithIntl(<LeggTilSaksbehandlerForm
@@ -174,11 +163,10 @@ describe('<LeggTilSaksbehandlerForm>', () => {
       resetSaksbehandlerSok={sinon.spy()}
       erLagtTilAllerede
       erSokFerdig
-      valgtAvdelingEnhet="2"
     />).find(Form).drill(props => props.render(formProps)).shallow();
 
     const tekstKomp = wrapper.find(Normaltekst);
     expect(tekstKomp).to.have.length(1);
-    expect(tekstKomp.childAt(0).text()).is.eql('Espen Utvikler, NAV Oslo (Brukerident finnes allerede i listen)');
+    expect(tekstKomp.childAt(0).text()).is.eql('Espen Utvikler (Brukerident finnes allerede i listen)');
   });
 });

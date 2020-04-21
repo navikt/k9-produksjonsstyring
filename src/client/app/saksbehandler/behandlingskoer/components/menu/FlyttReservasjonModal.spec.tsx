@@ -95,7 +95,6 @@ describe('<FlyttReservasjonModal>', () => {
     const saksbehandler = {
       brukerIdent: 'P039283',
       navn: 'Brukernavn',
-      avdelingsnavn: ['Avdelingsnavn'],
     };
     const formProps = {
       handleSubmit: sinon.spy(),
@@ -120,7 +119,7 @@ describe('<FlyttReservasjonModal>', () => {
 
     const tekst = wrapper.find(Normaltekst);
     expect(tekst).has.length(1);
-    expect(tekst.childAt(0).text()).is.eql('Brukernavn, Avdelingsnavn');
+    expect(tekst.childAt(0).text()).is.eql('Brukernavn');
   });
 
   it('skal vise søkeknapp som enablet når en har skrive inn minst ett tegn og en ikke har startet søket', () => {
@@ -206,7 +205,6 @@ describe('<FlyttReservasjonModal>', () => {
     const saksbehandler = {
       brukerIdent: 'P039283',
       navn: 'Brukernavn',
-      avdelingsnavn: ['Avdelingsnavn'],
     };
     const formProps = {
       handleSubmit: sinon.spy(),
@@ -269,7 +267,6 @@ describe('<FlyttReservasjonModal>', () => {
     const saksbehandler = {
       brukerIdent: 'P039283',
       navn: 'Brukernavn',
-      avdelingsnavn: ['Avdelingsnavn'],
     };
     const formProps = {
       handleSubmit: sinon.spy(),

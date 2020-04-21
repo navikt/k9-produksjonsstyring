@@ -56,16 +56,16 @@ const getDefaultOppgaveko = (oppgavekoer) => {
 const getInitialValues = (oppgavekoer) => {
   if (oppgavekoer.length === 0) {
     return {
-      oppgavekoId: undefined,
+      id: undefined,
     };
   }
   const defaultOppgaveko = getDefaultOppgaveko(oppgavekoer);
   return {
-    oppgavekoId: defaultOppgaveko ? `${defaultOppgaveko}` : undefined,
+    id: defaultOppgaveko ? `${defaultOppgaveko}` : undefined,
   };
 };
 
-const getValgtOppgaveko = (oppgavekoer: Oppgaveko[], oppgavekoId: string) => oppgavekoer.find(s => oppgavekoId === `${s.oppgavekoId}`);
+const getValgtOppgaveko = (oppgavekoer: Oppgaveko[], oppgavekoId: string) => oppgavekoer.find(s => oppgavekoId === `${s.id}`);
 
 const getStonadstyper = (oppgaveko?: Oppgaveko, intl: any) => (oppgaveko && oppgaveko.fagsakYtelseTyper.length > 0
     ? oppgaveko.fagsakYtelseTyper.map(type => type.navn) : [intl.formatMessage({ id: 'OppgavekoVelgerForm.Alle' })]);
@@ -87,28 +87,18 @@ const getSorteringsnavn = (oppgaveko?: Oppgaveko) => {
   }
 
   const {
-    erDynamiskPeriode, sorteringType, fra, til, fomDato, tomDato,
+     sorteringType, fomDato, tomDato,
   } = oppgaveko.sortering;
   let values = {};
-  if (!erDynamiskPeriode) {
-    if (!fomDato && !tomDato) {
-      return sorteringType.navn;
-    }
-    values = {
-      navn: sorteringType.navn,
-      fomDato: fomDato ? moment(fomDato).format(DDMMYYYY_DATE_FORMAT) : undefined,
-      tomDato: tomDato ? moment(tomDato).format(DDMMYYYY_DATE_FORMAT) : undefined,
-    };
-  } else {
-    if (!fra && !til) {
-      return sorteringType.navn;
-    }
-    values = {
-      navn: sorteringType.navn,
-      fomDato: fra ? moment().add(fra, 'days').format(DDMMYYYY_DATE_FORMAT) : undefined,
-      tomDato: til ? moment().add(til, 'days').format(DDMMYYYY_DATE_FORMAT) : undefined,
-    };
+
+  if (!fomDato && !tomDato) {
+    return sorteringType.navn;
   }
+  values = {
+    navn: sorteringType.navn,
+    fomDato: fomDato ? moment(fomDato).format(DDMMYYYY_DATE_FORMAT) : undefined,
+    tomDato: tomDato ? moment(tomDato).format(DDMMYYYY_DATE_FORMAT) : undefined,
+  };
 
   if (!values.fomDato) {
     return <FormattedHTMLMessage id="OppgavekoVelgerForm.SorteringsinfoTom" values={values} />;
@@ -180,9 +170,9 @@ export class OppgavekoVelgerForm extends Component<TsProps> {
             <VerticalSpacer eightPx />
             <FormSpy
               onChange={(val) => {
-                        if (val && val.values.oppgavekoId && val.dirtyFields.oppgavekoId) {
+                        if (val && val.values.oppgavekoId && val.dirtyFields.id) {
                           setValueInLocalStorage('oppgavekoId', val.values.oppgavekoId);
-                          const id = parseInt(val.values.oppgavekoId, 10);
+                          const id = val.values.oppgavekoId;
                           fetchOppgavekoOppgaver(id);
                           fetchSaksbehandlere(id);
                           fetchAntallOppgaver(id);
@@ -197,7 +187,7 @@ export class OppgavekoVelgerForm extends Component<TsProps> {
                     name="oppgavekoId"
                     label={intl.formatMessage({ id: 'OppgavekoVelgerForm.Oppgaveko' })}
                     selectValues={oppgavekoer
-                                .map(oppgaveko => (<option key={oppgaveko.oppgavekoId} value={`${oppgaveko.oppgavekoId}`}>{oppgaveko.navn}</option>))}
+                                .map(oppgaveko => (<option key={oppgaveko.id} value={`${oppgaveko.id}`}>{oppgaveko.navn}</option>))}
                     bredde="l"
                   />
                 </FlexColumn>

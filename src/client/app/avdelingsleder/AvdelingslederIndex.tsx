@@ -10,9 +10,7 @@ import Tabs from 'nav-frontend-tabs';
 import { Undertittel } from 'nav-frontend-typografi';
 
 import LoadingPanel from 'sharedComponents/LoadingPanel';
-import {
-  getValgtAvdelingEnhet, getNavAnsattKanOppgavestyre, getNavAnsattKanBehandleKode6, getAvdelingeneTilAvdelingslederResultat,
-} from 'app/duck';
+import { getNavAnsattKanOppgavestyre, getNavAnsattKanBehandleKode6 } from 'app/duck';
 import { parseQueryString } from 'utils/urlUtils';
 import { getAvdelingslederPanelLocationCreator } from 'app/paths';
 import trackRouteParam from 'app/data/trackRouteParam';
@@ -22,7 +20,6 @@ import AvdelingslederDashboard from './components/AvdelingslederDashboard';
 import IkkeTilgangTilAvdelingslederPanel from './components/IkkeTilgangTilAvdelingslederPanel';
 import IkkeTilgangTilKode6AvdelingPanel from './components/IkkeTilgangTilKode6AvdelingPanel';
 import AvdelingslederPanels from './avdelingslederPanels';
-import NokkeltallIndex from './nokkeltall/NokkeltallIndex';
 import EndreSaksbehandlereIndex from './saksbehandlere/EndreSaksbehandlereIndex';
 import EndreBehandlingskoerIndex from './behandlingskoer/EndreBehandlingskoerIndex';
 
@@ -30,15 +27,13 @@ import styles from './avdelingslederIndex.less';
 
 const classNames = classnames.bind(styles);
 
-const renderAvdelingslederPanel = avdelingslederPanel => <NokkeltallIndex />;
+const renderAvdelingslederPanel = avdelingslederPanel => <EndreBehandlingskoerIndex />;
 
   /* switch (avdelingslederPanel) {
     case AvdelingslederPanels.BEHANDLINGSKOER:
       return <EndreBehandlingskoerIndex />;
     case AvdelingslederPanels.SAKSBEHANDLERE:
       return <EndreSaksbehandlereIndex />;
-    case AvdelingslederPanels.NOKKELTALL:
-      return <NokkeltallIndex />;
     default:
       return null;
   } */
@@ -51,12 +46,10 @@ const messageId = {
 };
 
 interface TsProps {
-  valgtAvdelingEnhet?: string;
   activeAvdelingslederPanel: string;
   getAvdelingslederPanelLocation: (panel: string) => Location;
   kanOppgavestyre?: boolean;
   kanBehandleKode6?: boolean;
-  erKode6Avdeling?: boolean;
 }
 
 const getTab = (avdelingslederPanel, activeAvdelingslederPanel, getAvdelingslederPanelLocation) => ({
@@ -77,24 +70,20 @@ const getTab = (avdelingslederPanel, activeAvdelingslederPanel, getAvdelingslede
  * AvdelingslederIndex
  */
 export const AvdelingslederIndex = ({
-                                      valgtAvdelingEnhet,
                                       activeAvdelingslederPanel,
                                       getAvdelingslederPanelLocation,
                                       kanOppgavestyre,
                                       kanBehandleKode6,
-                                      erKode6Avdeling,
                                     }: TsProps) => {
   if (!kanOppgavestyre) {
     return <IkkeTilgangTilAvdelingslederPanel />;
-  } if (erKode6Avdeling && !kanBehandleKode6) {
-    return <IkkeTilgangTilKode6AvdelingPanel />;
-  } if (valgtAvdelingEnhet) {
+  } if (activeAvdelingslederPanel) {
     return (
-      <AvdelingslederDashboard key={valgtAvdelingEnhet}>
+      <AvdelingslederDashboard key={activeAvdelingslederPanel}>
         <div>
           <Tabs tabs={[
-            //  getTab(AvdelingslederPanels.BEHANDLINGSKOER, activeAvdelingslederPanel, getAvdelingslederPanelLocation),
-              getTab(AvdelingslederPanels.NOKKELTALL, activeAvdelingslederPanel, getAvdelingslederPanelLocation),
+              getTab(AvdelingslederPanels.BEHANDLINGSKOER, activeAvdelingslederPanel, getAvdelingslederPanelLocation),
+            // getTab(AvdelingslederPanels.NOKKELTALL, activeAvdelingslederPanel, getAvdelingslederPanelLocation),
             //  getTab(AvdelingslederPanels.SAKSBEHANDLERE, activeAvdelingslederPanel, getAvdelingslederPanelLocation),
             ]}
           />
@@ -109,19 +98,15 @@ export const AvdelingslederIndex = ({
 };
 
 AvdelingslederIndex.propTypes = {
-  valgtAvdelingEnhet: PropTypes.string,
   activeAvdelingslederPanel: PropTypes.string.isRequired,
   getAvdelingslederPanelLocation: PropTypes.func.isRequired,
   kanOppgavestyre: PropTypes.bool,
   kanBehandleKode6: PropTypes.bool,
-  erKode6Avdeling: PropTypes.bool,
 };
 
 AvdelingslederIndex.defaultProps = {
-  valgtAvdelingEnhet: undefined,
   kanOppgavestyre: false,
   kanBehandleKode6: false,
-  erKode6Avdeling: false,
 };
 
 const getPanelFromUrlOrDefault = (location) => {
@@ -129,18 +114,11 @@ const getPanelFromUrlOrDefault = (location) => {
   return panelFromUrl.avdelingsleder ? panelFromUrl.avdelingsleder : AvdelingslederPanels.BEHANDLINGSKOER;
 };
 
-export const erKode6Avdeling = createSelector([getValgtAvdelingEnhet, getAvdelingeneTilAvdelingslederResultat],
-    (valgtAvdelingEnhet, avdelinger = []) => {
-      const avdeling = avdelinger instanceof Array && avdelinger.find(a => a.avdelingEnhet === valgtAvdelingEnhet);
-      return avdeling ? avdeling.kreverKode6 : false;
-    });
 
 const mapStateToProps = state => ({
-  valgtAvdelingEnhet: getValgtAvdelingEnhet(state),
   activeAvdelingslederPanel: getSelectedAvdelingslederPanel(state),
   kanOppgavestyre: getNavAnsattKanOppgavestyre(state),
   kanBehandleKode6: getNavAnsattKanBehandleKode6(state),
-  erKode6Avdeling: erKode6Avdeling(state),
 });
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => ({

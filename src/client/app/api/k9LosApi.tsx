@@ -20,7 +20,7 @@ const k9LosApiKeys = {
   RESERVERTE_OPPGAVER: 'RESERVERTE_OPPGAVER',
   OPPHEV_OPPGAVERESERVASJON: 'OPPHEV_OPPGAVERESERVASJON',
   FORLENG_OPPGAVERESERVASJON: 'FORLENG_OPPGAVERESERVASJON',
-  OPPGAVEKOER_FOR_AVDELING: 'OPPGAVEKOER_FOR_AVDELING',
+  OPPGAVEKOER: 'OPPGAVEKOER',
   OPPRETT_NY_OPPGAVEKO: 'OPPRETT_NY_OPPGAVEKO',
   SLETT_OPPGAVEKO: 'SLETT_OPPGAVEKO',
   LAGRE_OPPGAVEKO_NAVN: 'LAGRE_OPPGAVEKO_NAVN',
@@ -32,17 +32,16 @@ const k9LosApiKeys = {
   LAGRE_OPPGAVEKO_SORTERING_TIDSINTERVALL_DAGER: 'LAGRE_OPPGAVEKO_SORTERING_TIDSINTERVALL_DAGER',
   LAGRE_OPPGAVEKO_SORTERING_TIDSINTERVALL_DATO: 'LAGRE_OPPGAVEKO_SORTERING_TIDSINTERVALL_DATO',
   SAKSBEHANDLER_SOK: 'SAKSBEHANDLER_SOK',
-  SAKSBEHANDLERE_FOR_AVDELING: 'SAKSBEHANDLERE_FOR_AVDELING',
+  SAKSBEHANDLERE: 'SAKSBEHANDLERE',
   OPPRETT_NY_SAKSBEHANDLER: 'OPPRETT_NY_SAKSBEHANDLER',
   SLETT_SAKSBEHANDLER: 'SLETT_SAKSBEHANDLER',
   LAGRE_OPPGAVEKO_SAKSBEHANDLER: 'LAGRE_OPPGAVEKO_SAKSBEHANDLER',
-  HENT_OPPGAVER_FOR_AVDELING: 'HENT_OPPGAVER_FOR_AVDELING',
+  HENT_OPPGAVER: 'HENT_OPPGAVER',
   HENT_OPPGAVER_PER_DATO: 'HENT_OPPGAVER_PER_DATO',
   HENT_OPPGAVER_PER_FORSTE_STONADSDAG: 'HENT_OPPGAVER_PER_FORSTE_STONADSDAG',
   HENT_OPPGAVER_MANUELT_PA_VENT: 'HENT_OPPGAVER_MANUELT_PA_VENT',
-  AVDELINGER: 'AVDELINGER',
   OPPGAVE_ANTALL: 'OPPGAVE_ANTALL',
-  OPPGAVE_AVDELING_ANTALL: 'OPPGAVE_AVDELING_ANTALL',
+  OPPGAVE_ANTALL_TOTALT: 'OPPGAVE_ANTALL_TOTALT',
   OPPGAVER_FOR_FAGSAKER: 'OPPGAVER_FOR_FAGSAKER',
   FLYTT_RESERVASJON_SAKSBEHANDLER_SOK: 'FLYTT_RESERVASJON_SAKSBEHANDLER_SOK',
   FLYTT_RESERVASJON: 'FLYTT_RESERVASJON',
@@ -78,35 +77,32 @@ const endpoints = new RestApiConfigBuilder()
   /* /api/saksbehandler/nokkeltall */
   .withGet('saksbehandler/nokkeltall/nye-og-ferdigstilte-oppgaver', k9LosApiKeys.HENT_NYE_OG_FERDIGSTILTE_OPPGAVER)
 
-  /* /api/avdelingsleder/avdelinger */
-  .withGet('avdelingsleder/avdelinger', k9LosApiKeys.AVDELINGER)
-
   /* /api/avdelingsleder/sakslister */
-  .withGet('avdelingsleder/sakslister', k9LosApiKeys.OPPGAVEKOER_FOR_AVDELING)
-  .withPost('avdelingsleder/sakslister', k9LosApiKeys.OPPRETT_NY_OPPGAVEKO)
-  .withPost('avdelingsleder/sakslister/slett', k9LosApiKeys.SLETT_OPPGAVEKO)
-  .withPost('avdelingsleder/sakslister/navn', k9LosApiKeys.LAGRE_OPPGAVEKO_NAVN)
-  .withPost('avdelingsleder/sakslister/behandlingstype', k9LosApiKeys.LAGRE_OPPGAVEKO_BEHANDLINGSTYPE)
-  .withPost('avdelingsleder/sakslister/ytelsetype', k9LosApiKeys.LAGRE_OPPGAVEKO_FAGSAK_YTELSE_TYPE)
-  .withPost('avdelingsleder/sakslister/andre-kriterier', k9LosApiKeys.LAGRE_OPPGAVEKO_ANDRE_KRITERIER)
-  .withPost('avdelingsleder/sakslister/sortering', k9LosApiKeys.LAGRE_OPPGAVEKO_SORTERING)
-  .withPost('avdelingsleder/sakslister/sortering-tidsintervall-type', k9LosApiKeys.LAGRE_OPPGAVEKO_SORTERING_DYNAMISK_PERIDE)
-  .withPost('avdelingsleder/sakslister/sortering-tidsintervall-dager', k9LosApiKeys.LAGRE_OPPGAVEKO_SORTERING_TIDSINTERVALL_DAGER)
-  .withPost('avdelingsleder/sakslister/sortering-tidsintervall-dato', k9LosApiKeys.LAGRE_OPPGAVEKO_SORTERING_TIDSINTERVALL_DATO)
-  .withPost('avdelingsleder/sakslister/saksbehandler', k9LosApiKeys.LAGRE_OPPGAVEKO_SAKSBEHANDLER)
+  .withGet('avdelingsleder/oppgavekoer', k9LosApiKeys.OPPGAVEKOER)
+  .withPost('avdelingsleder/oppgavekoer', k9LosApiKeys.OPPRETT_NY_OPPGAVEKO)
+  .withPost('avdelingsleder/oppgavekoer/slett', k9LosApiKeys.SLETT_OPPGAVEKO)
+  .withPost('avdelingsleder/oppgavekoer/navn', k9LosApiKeys.LAGRE_OPPGAVEKO_NAVN)
+  .withPost('avdelingsleder/oppgavekoer/behandlingstype', k9LosApiKeys.LAGRE_OPPGAVEKO_BEHANDLINGSTYPE)
+  .withPost('avdelingsleder/oppgavekoer/ytelsetype', k9LosApiKeys.LAGRE_OPPGAVEKO_FAGSAK_YTELSE_TYPE)
+  .withPost('avdelingsleder/oppgavekoer/andre-kriterier', k9LosApiKeys.LAGRE_OPPGAVEKO_ANDRE_KRITERIER)
+  .withPost('avdelingsleder/oppgavekoer/sortering', k9LosApiKeys.LAGRE_OPPGAVEKO_SORTERING)
+  .withPost('avdelingsleder/oppgavekoer/sortering-tidsintervall-type', k9LosApiKeys.LAGRE_OPPGAVEKO_SORTERING_DYNAMISK_PERIDE)
+  .withPost('avdelingsleder/oppgavekoer/sortering-tidsintervall-dager', k9LosApiKeys.LAGRE_OPPGAVEKO_SORTERING_TIDSINTERVALL_DAGER)
+  .withPost('avdelingsleder/oppgavekoer/sortering-tidsintervall-dato', k9LosApiKeys.LAGRE_OPPGAVEKO_SORTERING_TIDSINTERVALL_DATO)
+  .withPost('avdelingsleder/oppgavekoer/saksbehandler', k9LosApiKeys.LAGRE_OPPGAVEKO_SAKSBEHANDLER)
 
   /* /api/avdelingsleder/saksbehandlere */
   .withPost('avdelingsleder/saksbehandlere/sok', k9LosApiKeys.SAKSBEHANDLER_SOK)
-  .withGet('avdelingsleder/saksbehandlere', k9LosApiKeys.SAKSBEHANDLERE_FOR_AVDELING)
+  .withGet('avdelingsleder/saksbehandlere', k9LosApiKeys.SAKSBEHANDLERE)
   .withPost('avdelingsleder/saksbehandlere', k9LosApiKeys.OPPRETT_NY_SAKSBEHANDLER)
   .withPost('avdelingsleder/saksbehandlere/slett', k9LosApiKeys.SLETT_SAKSBEHANDLER)
 
   /* /api/avdelingsleder/oppgaver */
   .withGet('avdelingsleder/oppgaver/antall', k9LosApiKeys.OPPGAVE_ANTALL)
-  .withGet('avdelingsleder/oppgaver/avdelingantall', k9LosApiKeys.OPPGAVE_AVDELING_ANTALL)
+  .withGet('avdelingsleder/oppgaver/antall-totalt', k9LosApiKeys.OPPGAVE_ANTALL_TOTALT)
 
   /* /api/avdelingsleder/nokkeltall */
-  .withGet('avdelingsleder/nokkeltall/behandlinger-under-arbeid', k9LosApiKeys.HENT_OPPGAVER_FOR_AVDELING)
+  .withGet('avdelingsleder/nokkeltall/behandlinger-under-arbeid', k9LosApiKeys.HENT_OPPGAVER)
   .withGet('avdelingsleder/nokkeltall/behandlinger-under-arbeid-historikk', k9LosApiKeys.HENT_OPPGAVER_PER_DATO)
   .withGet('avdelingsleder/nokkeltall/behandlinger-manuelt-vent-historikk', k9LosApiKeys.HENT_OPPGAVER_MANUELT_PA_VENT)
   .withGet('avdelingsleder/nokkeltall/behandlinger-forste-stonadsdag', k9LosApiKeys.HENT_OPPGAVER_PER_FORSTE_STONADSDAG)

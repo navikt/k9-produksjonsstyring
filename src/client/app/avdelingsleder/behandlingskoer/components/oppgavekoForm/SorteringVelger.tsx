@@ -28,14 +28,8 @@ interface TsProps {
   koSorteringTyper: KoSorteringType[];
   valgtOppgavekoId: string;
   valgteBehandlingtyper: Kodeverk[];
-  lagreOppgavekoSortering: (oppgavekoId: string, oppgavekoSorteringValg: KoSorteringType, avdelingEnhet: string) => void;
-  lagreOppgavekoSorteringErDynamiskPeriode: (oppgavekoId: string, avdelingEnhet: string) => void;
-  lagreOppgavekoSorteringTidsintervallDato: (oppgavekoId: string, fomDato: string, tomDato: string, avdelingEnhet: string) => void;
-  lagreOppgavekoSorteringNumeriskIntervall: (oppgavekoId: string, fra: number, til: number, avdelingEnhet: string) => void;
-  valgtAvdelingEnhet: string;
-  erDynamiskPeriode: boolean;
-  fra: number;
-  til: number;
+  lagreOppgavekoSortering: (oppgavekoId: string, oppgavekoSorteringValg: KoSorteringType) => void;
+  lagreOppgavekoSorteringTidsintervallDato: (oppgavekoId: string, fomDato: string, tomDato: string) => void;
   fomDato: string;
   tomDato: string;
 }
@@ -49,13 +43,7 @@ export const SorteringVelger = ({
   valgtOppgavekoId,
   valgteBehandlingtyper,
   lagreOppgavekoSortering,
-  lagreOppgavekoSorteringErDynamiskPeriode,
-  valgtAvdelingEnhet,
-  erDynamiskPeriode,
   lagreOppgavekoSorteringTidsintervallDato,
-  lagreOppgavekoSorteringNumeriskIntervall,
-  fra,
-  til,
   fomDato,
   tomDato,
 }: TsProps) => (
@@ -67,7 +55,7 @@ export const SorteringVelger = ({
     <RadioGroupField
       name="sortering"
       direction="vertical"
-      onChange={sorteringType => lagreOppgavekoSortering(valgtOppgavekoId, sorteringType, valgtAvdelingEnhet)}
+      onChange={sorteringType => lagreOppgavekoSortering(valgtOppgavekoId, sorteringType)}
     >
       {koSorteringTyper.map(koSortering => (
         (koSortering.feltkategori !== 'TILBAKEKREVING' || (valgteBehandlingtyper.length === 1 && valgteBehandlingtyper[0].kode === 'BT-009')) && (
@@ -81,13 +69,7 @@ export const SorteringVelger = ({
           <DatoSorteringValg
             intl={intl}
             valgtOppgavekoId={valgtOppgavekoId}
-            lagreOppgavekoSorteringErDynamiskPeriode={lagreOppgavekoSorteringErDynamiskPeriode}
             lagreOppgavekoSorteringTidsintervallDato={lagreOppgavekoSorteringTidsintervallDato}
-            lagreOppgavekoSorteringTidsintervallDager={lagreOppgavekoSorteringNumeriskIntervall}
-            valgtAvdelingEnhet={valgtAvdelingEnhet}
-            erDynamiskPeriode={erDynamiskPeriode}
-            fra={fra}
-            til={til}
             fomDato={fomDato}
             tomDato={tomDato}
           />
@@ -96,10 +78,6 @@ export const SorteringVelger = ({
           <BelopSorteringValg
             intl={intl}
             valgtOppgavekoId={valgtOppgavekoId}
-            lagreOppgavekoSorteringNumerisk={lagreOppgavekoSorteringNumeriskIntervall}
-            valgtAvdelingEnhet={valgtAvdelingEnhet}
-            fra={fra}
-            til={til}
           />
           )}
         </RadioOption>
@@ -114,20 +92,12 @@ SorteringVelger.propTypes = {
   koSorteringTyper: PropTypes.arrayOf(kodeverkPropType).isRequired,
   valgtOppgavekoId: PropTypes.string.isRequired,
   lagreOppgavekoSortering: PropTypes.func.isRequired,
-  lagreOppgavekoSorteringErDynamiskPeriode: PropTypes.func.isRequired,
   lagreOppgavekoSorteringTidsintervallDato: PropTypes.func.isRequired,
-  lagreOppgavekoSorteringNumeriskIntervall: PropTypes.func.isRequired,
-  valgtAvdelingEnhet: PropTypes.string.isRequired,
-  erDynamiskPeriode: PropTypes.bool.isRequired,
-  fra: PropTypes.number,
-  til: PropTypes.number,
   fomDato: PropTypes.string,
   tomDato: PropTypes.string,
 };
 
 SorteringVelger.defaultProps = {
-  fra: undefined,
-  til: undefined,
   fomDato: undefined,
   tomDato: undefined,
 };
@@ -139,9 +109,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
   ...bindActionCreators({
     lagreOppgavekoSortering: lagreOppgavekoSorteringActionCreator,
-    lagreOppgavekoSorteringErDynamiskPeriode: lagreOppgavekoSorteringErDynamiskPeriodeActionCreator,
     lagreOppgavekoSorteringTidsintervallDato: lagreOppgavekoSorteringTidsintervallDatoActionCreator,
-    lagreOppgavekoSorteringNumeriskIntervall: lagreOppgavekoSorteringNumeriskIntervallActionCreator,
   }, dispatch),
 });
 

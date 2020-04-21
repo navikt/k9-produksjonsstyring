@@ -76,7 +76,7 @@ export class FlyttReservasjonModal extends Component<TsProps> {
      }
 
      return saksbehandler
-       ? `${saksbehandler.navn}, ${saksbehandler.avdelingsnavn.join(', ')}`
+       ? `${saksbehandler.navn}`
        : '';
    }
 

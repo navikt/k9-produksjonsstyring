@@ -11,7 +11,7 @@ describe('<EndreBehandlingskoerIndex>', () => {
     const fetchAvdelingensOppgavekoerFn = sinon.spy();
     const fetchAvdelingensSaksbehandlereFn = sinon.spy();
     const wrapper = shallow(<EndreBehandlingskoerIndex
-      fetchAvdelingensOppgavekoer={fetchAvdelingensOppgavekoerFn}
+      fetchOppgavekoer={fetchAvdelingensOppgavekoerFn}
       setValgtOppgavekoId={sinon.spy()}
       lagNyOppgaveko={sinon.spy()}
       fjernOppgaveko={sinon.spy()}
@@ -20,10 +20,10 @@ describe('<EndreBehandlingskoerIndex>', () => {
       lagreOppgavekoFagsakYtelseType={sinon.spy()}
       lagreOppgavekoAndreKriterier={sinon.spy()}
       knyttSaksbehandlerTilOppgaveko={sinon.spy()}
-      fetchAvdelingensSaksbehandlere={fetchAvdelingensSaksbehandlereFn}
+      fetchSaksbehandlere={fetchAvdelingensSaksbehandlereFn}
       valgtAvdelingEnhet="1"
       fetchAntallOppgaverForOppgaveko={sinon.spy()}
-      fetchAntallOppgaverForAvdeling={sinon.spy()}
+      fetchAntallOppgaverTotalt={sinon.spy()}
     />);
 
     expect(wrapper.find(EndreOppgavekoerPanel)).to.have.length(1);

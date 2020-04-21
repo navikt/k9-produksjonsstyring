@@ -7,7 +7,6 @@ import {
  Normaltekst, Undertekst, Element, Undertittel,
 } from 'nav-frontend-typografi';
 
-import { getValgtAvdelingEnhet } from 'app/duck';
 import { getKodeverk } from 'kodeverk/duck';
 import { Kodeverk } from 'kodeverk/kodeverkTsType';
 import kodeverkPropType from 'kodeverk/kodeverkPropType';
@@ -24,7 +23,7 @@ import { Column, Row } from 'nav-frontend-grid';
 import SletteOppgavekoModal from './SletteOppgavekoModal';
 import { Oppgaveko } from '../oppgavekoTsType';
 import oppgavekoPropType from '../oppgavekoPropType';
-import { getAntallOppgaverForAvdelingResultat } from '../duck';
+import { getAntallOppgaverTotaltResultat } from '../duck';
 
 import styles from './gjeldendeOppgavekoerTabell.less';
 
@@ -41,15 +40,14 @@ const headerTextCodes = [
 interface TsProps {
   oppgavekoer: Oppgaveko[];
   setValgtOppgavekoId: (oppgavekoId: string) => void;
-  lagNyOppgaveko: (avdelingEnhet: string) => void;
-  fjernOppgaveko: (oppgavekoId: string, avdelingEnhet: string) => void;
+  lagNyOppgaveko: () => void;
+  fjernOppgaveko: (oppgavekoId: string) => void;
   valgtOppgavekoId?: string;
   behandlingTyper: Kodeverk[];
   fagsakYtelseTyper: Kodeverk[];
-  valgtAvdelingEnhet: string;
-  hentAvdelingensOppgavekoer: (avdelingEnhet: string) => Oppgaveko[];
-  oppgaverForAvdeling?: number;
-  hentAntallOppgaverForAvdeling: (avdelingEnhet: string) => Promise<string>;
+  hentOppgavekoer: () => Oppgaveko[];
+  oppgaverTotalt?: number;
+  hentAntallOppgaverTotalt: () => Promise<string>;
 }
 
 interface StateTsProps {
@@ -69,13 +67,12 @@ export class GjeldendeOppgavekoerTabell extends Component<TsProps, StateTsProps>
     setValgtOppgavekoId: PropTypes.func.isRequired,
     lagNyOppgaveko: PropTypes.func.isRequired,
     fjernOppgaveko: PropTypes.func.isRequired,
-    valgtOppgavekoId: PropTypes.number,
+    valgtOppgavekoId: PropTypes.string,
     behandlingTyper: PropTypes.arrayOf(kodeverkPropType).isRequired,
     fagsakYtelseTyper: PropTypes.arrayOf(kodeverkPropType).isRequired,
-    valgtAvdelingEnhet: PropTypes.string.isRequired,
-    hentAvdelingensOppgavekoer: PropTypes.func.isRequired,
-    oppgaverForAvdeling: PropTypes.number,
-    hentAntallOppgaverForAvdeling: PropTypes.func.isRequired,
+    hentOppgavekoer: PropTypes.func.isRequired,
+    oppgaverTotalt: PropTypes.number,
+    hentAntallOppgaverTotalt: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -93,13 +90,13 @@ export class GjeldendeOppgavekoerTabell extends Component<TsProps, StateTsProps>
 
   componentDidMount = () => {
     const {
-      hentAntallOppgaverForAvdeling, valgtAvdelingEnhet,
+      hentAntallOppgaverTotalt,
     } = this.props;
-    hentAntallOppgaverForAvdeling(valgtAvdelingEnhet);
+    hentAntallOppgaverTotalt();
   }
 
-  setValgtOppgaveko = async (event: Event, id: number) => {
-    const { setValgtOppgavekoId, hentAvdelingensOppgavekoer, valgtAvdelingEnhet } = this.props;
+  setValgtOppgaveko = async (event: Event, id: string) => {
+    const { setValgtOppgavekoId, hentOppgavekoer } = this.props;
     if (this.nodes.some(node => node && node.contains(event.target))) {
       return;
     }
@@ -109,13 +106,13 @@ export class GjeldendeOppgavekoerTabell extends Component<TsProps, StateTsProps>
     await wait(100);
 
     setValgtOppgavekoId(id);
-    hentAvdelingensOppgavekoer(valgtAvdelingEnhet);
+    hentOppgavekoer();
   }
 
   lagNyOppgaveko = (event: KeyboardEvent) => {
     if (event.keyCode === 13) {
-      const { lagNyOppgaveko, valgtAvdelingEnhet } = this.props;
-      lagNyOppgaveko(valgtAvdelingEnhet);
+      const { lagNyOppgaveko } = this.props;
+      lagNyOppgaveko();
     }
   };
 
@@ -129,10 +126,10 @@ export class GjeldendeOppgavekoerTabell extends Component<TsProps, StateTsProps>
 
   fjernOppgaveko = (oppgaveko: Oppgaveko) => {
     const {
-      fjernOppgaveko, valgtAvdelingEnhet,
+      fjernOppgaveko,
     } = this.props;
     this.closeSletteModal();
-    fjernOppgaveko(oppgaveko.oppgavekoId, valgtAvdelingEnhet);
+    fjernOppgaveko(oppgaveko.id);
   }
 
   formatStonadstyper = (valgteFagsakYtelseTyper?: Kodeverk[]) => {
@@ -163,7 +160,7 @@ export class GjeldendeOppgavekoerTabell extends Component<TsProps, StateTsProps>
 
   render = () => {
     const {
-      oppgavekoer, valgtOppgavekoId, lagNyOppgaveko, valgtAvdelingEnhet, oppgaverForAvdeling,
+      oppgavekoer, valgtOppgavekoId, lagNyOppgaveko, oppgaverTotalt,
     } = this.props;
     const {
       valgtOppgaveko,
@@ -181,8 +178,8 @@ export class GjeldendeOppgavekoerTabell extends Component<TsProps, StateTsProps>
           <Column xs="3">
             <div className={styles.grayBox}>
               <Normaltekst>
-                <FormattedMessage id="GjeldendeOppgavekoerTabell.OppgaverForAvdeling" />
-                <Undertittel>{oppgaverForAvdeling || '0'}</Undertittel>
+                <FormattedMessage id="GjeldendeOppgavekoerTabell.OppgaverTotalt" />
+                <Undertittel>{oppgaverTotalt || '0'}</Undertittel>
               </Normaltekst>
             </div>
           </Column>
@@ -199,16 +196,16 @@ export class GjeldendeOppgavekoerTabell extends Component<TsProps, StateTsProps>
         <Table headerTextCodes={headerTextCodes}>
           {oppgavekoer.map(oppgaveko => (
             <TableRow
-              key={oppgaveko.oppgavekoId}
-              className={oppgaveko.oppgavekoId === valgtOppgavekoId ? styles.isSelected : undefined}
-              id={oppgaveko.oppgavekoId}
+              key={oppgaveko.id}
+              className={oppgaveko.id === valgtOppgavekoId ? styles.isSelected : undefined}
+              id={oppgaveko.id}
               onMouseDown={this.setValgtOppgaveko}
               onKeyDown={this.setValgtOppgaveko}
             >
               <TableColumn>{oppgaveko.navn}</TableColumn>
               <TableColumn>{this.formatStonadstyper(oppgaveko.fagsakYtelseTyper)}</TableColumn>
               <TableColumn>{this.formatBehandlingstyper(oppgaveko.behandlingTyper)}</TableColumn>
-              <TableColumn>{oppgaveko.saksbehandlerIdenter.length > 0 ? oppgaveko.saksbehandlerIdenter.length : ''}</TableColumn>
+              <TableColumn>{oppgaveko.saksbehandlere.length > 0 ? oppgaveko.saksbehandlere.length : ''}</TableColumn>
               <TableColumn>{oppgaveko.antallBehandlinger}</TableColumn>
               <TableColumn>
                 <DateLabel dateString={oppgaveko.sistEndret} />
@@ -233,7 +230,7 @@ export class GjeldendeOppgavekoerTabell extends Component<TsProps, StateTsProps>
           role="button"
           tabIndex={0}
           className={styles.addPeriode}
-          onClick={() => lagNyOppgaveko(valgtAvdelingEnhet)}
+          onClick={() => lagNyOppgaveko()}
           onKeyDown={this.lagNyOppgaveko}
         >
           <Image className={styles.addCircleIcon} src={addCircleIcon} />
@@ -256,8 +253,7 @@ export class GjeldendeOppgavekoerTabell extends Component<TsProps, StateTsProps>
 const mapStateToProps = state => ({
   behandlingTyper: getKodeverk(kodeverkTyper.BEHANDLING_TYPE)(state),
   fagsakYtelseTyper: getKodeverk(kodeverkTyper.FAGSAK_YTELSE_TYPE)(state),
-  valgtAvdelingEnhet: getValgtAvdelingEnhet(state),
-  oppgaverForAvdeling: getAntallOppgaverForAvdelingResultat(state),
+  oppgaverTotalt: getAntallOppgaverTotaltResultat(state),
 });
 
 export default connect(mapStateToProps)(GjeldendeOppgavekoerTabell);

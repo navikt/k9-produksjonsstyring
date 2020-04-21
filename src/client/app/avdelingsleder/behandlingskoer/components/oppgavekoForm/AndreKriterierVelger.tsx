@@ -12,11 +12,12 @@ import ArrowBox from 'sharedComponents/ArrowBox';
 import { Kodeverk } from 'kodeverk/kodeverkTsType';
 import { CheckboxField, RadioGroupField, RadioOption } from 'form/FinalFields';
 
+import { AndreKriterier } from 'avdelingsleder/andreKriterierTsType';
 import styles from './andreKriterierVelger.less';
 
 interface TsProps {
   valgtOppgavekoId: string;
-  lagreOppgavekoAndreKriterier: (oppgavekoId: string, andreKriterierType: Kodeverk, isChecked: boolean, skalInkludere: boolean, avdelingEnhet: string) => void;
+  lagreOppgavekoAndreKriterier: (oppgavekoId: string, andreKriterierType: Kodeverk, isChecked: boolean, skalInkludere: boolean) => void;
   valgtAvdelingEnhet: string;
   andreKriterierTyper: Kodeverk[];
   values: any;
@@ -28,7 +29,6 @@ interface TsProps {
 export const AndreKriterierVelger = ({
   valgtOppgavekoId,
   lagreOppgavekoAndreKriterier,
-  valgtAvdelingEnhet,
   andreKriterierTyper,
   values,
 }: TsProps) => (
@@ -43,14 +43,14 @@ export const AndreKriterierVelger = ({
           key={akt.kode}
           name={akt.kode}
           label={akt.navn}
-          onChange={isChecked => lagreOppgavekoAndreKriterier(valgtOppgavekoId, akt, isChecked, true, valgtAvdelingEnhet)}
+          onChange={isChecked => lagreOppgavekoAndreKriterier(valgtOppgavekoId, akt, isChecked, true)}
         />
         {values[akt.kode] && (
           <div className={styles.arrowbox}>
             <ArrowBox alignOffset={30}>
               <RadioGroupField
                 name={`${akt.kode}_inkluder`}
-                onChange={skalInkludere => lagreOppgavekoAndreKriterier(valgtOppgavekoId, akt, true, skalInkludere, valgtAvdelingEnhet)}
+                onChange={skalInkludere => lagreOppgavekoAndreKriterier(valgtOppgavekoId, akt, true, skalInkludere)}
               >
                 <RadioOption
                   value
@@ -73,7 +73,6 @@ export const AndreKriterierVelger = ({
 AndreKriterierVelger.propTypes = {
   valgtOppgavekoId: PropTypes.string.isRequired,
   lagreOppgavekoAndreKriterier: PropTypes.func.isRequired,
-  valgtAvdelingEnhet: PropTypes.string.isRequired,
   andreKriterierTyper: PropTypes.arrayOf(kodeverkPropType).isRequired,
 };
 

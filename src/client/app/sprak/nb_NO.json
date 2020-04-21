@@ -84,9 +84,9 @@
   "GjeldendeOppgavekoerTabell.Alle": "Alle",
   "GjeldendeOppgavekoerTabell.AntallSaksbehandlere": "Antall saksbehandlere",
   "GjeldendeOppgavekoerTabell.AntallBehandlinger": "Antall behandlinger",
-  "GjeldendeOppgavekoerTabell.OppgaverForAvdeling": "Antall åpne behandlinger totalt",
+  "GjeldendeOppgavekoerTabell.OppgaverTotalt": "Antall åpne behandlinger totalt",
 
-  "Header.Foreldrepenger": "K9 LOS",
+  "Header.K9Los": "K9 LOS",
   "Header.NavAnsatt": "NAV-ansatt",
   "Header.Rettskilde": "Rettskildene",
   "Header.Systemrutine": "Systemrutine",

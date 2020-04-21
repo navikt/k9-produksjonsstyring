@@ -37,13 +37,12 @@ const finnDagerSomTall = (antallDager) => {
 interface TsProps {
   intl: any;
   valgtOppgaveko: Oppgaveko;
-  lagreOppgavekoNavn: (oppgaveko: {oppgavekoId: string; navn: string}, avdelingEnhet: string) => void;
-  lagreOppgavekoBehandlingstype: (oppgavekoId: string, behandlingType: Kodeverk, isChecked: boolean, avdelingEnhet: string) => void;
-  lagreOppgavekoFagsakYtelseType: (oppgavekoId: string, fagsakYtelseType: string, avdelingEnhet: string) => void;
-  lagreOppgavekoAndreKriterier: (oppgavekoId: string, andreKriterierType: Kodeverk, isChecked: boolean, skalInkludere: boolean, avdelingEnhet: string) => void;
-  valgtAvdelingEnhet: string;
+  lagreOppgavekoNavn: (oppgaveko: {oppgavekoId: string; navn: string}) => void;
+  lagreOppgavekoBehandlingstype: (oppgavekoId: string, behandlingType: Kodeverk, isChecked: boolean) => void;
+  lagreOppgavekoFagsakYtelseType: (oppgavekoId: string, fagsakYtelseType: string) => void;
+  lagreOppgavekoAndreKriterier: (oppgavekoId: string, andreKriterierType: Kodeverk, isChecked: boolean, skalInkludere: boolean) => void;
   antallOppgaver?: number;
-  hentAntallOppgaverForOppgaveko: (oppgavekoId: string, avdelingEnhet: string) => Promise<string>;
+  hentAntallOppgaverForOppgaveko: (oppgavekoId: string) => Promise<string>;
 }
 
 /**
@@ -64,17 +63,17 @@ export class UtvalgskriterierForOppgavekoForm extends Component<TsProps> {
 
   componentDidMount = () => {
     const {
-      valgtOppgaveko, hentAntallOppgaverForOppgaveko, valgtAvdelingEnhet,
+      valgtOppgaveko, hentAntallOppgaverForOppgaveko,
     } = this.props;
-    hentAntallOppgaverForOppgaveko(valgtOppgaveko.oppgavekoId, valgtAvdelingEnhet);
+    hentAntallOppgaverForOppgaveko(valgtOppgaveko.id);
   }
 
   componentDidUpdate = (prevProps: TsProps) => {
     const {
-      valgtOppgaveko, hentAntallOppgaverForOppgaveko, valgtAvdelingEnhet,
+      valgtOppgaveko, hentAntallOppgaverForOppgaveko,
     } = this.props;
-    if (prevProps.valgtOppgaveko.oppgavekoId !== valgtOppgaveko.oppgavekoId) {
-      hentAntallOppgaverForOppgaveko(valgtOppgaveko.oppgavekoId, valgtAvdelingEnhet);
+    if (prevProps.valgtOppgaveko.id !== valgtOppgaveko.id) {
+      hentAntallOppgaverForOppgaveko(valgtOppgaveko.id);
     }
   }
 
@@ -93,14 +92,11 @@ export class UtvalgskriterierForOppgavekoForm extends Component<TsProps> {
       ? valgtOppgaveko.andreKriterier.reduce((acc, ak) => ({ ...acc, [`${ak.andreKriterierType.kode}_inkluder`]: ak.inkluder }), {}) : {};
 
     return {
-      oppgavekoId: valgtOppgaveko.oppgavekoId,
+      id: valgtOppgaveko.id,
       navn: valgtOppgaveko.navn ? valgtOppgaveko.navn : intl.formatMessage({ id: 'UtvalgskriterierForOppgavekoForm.NyListe' }),
       sortering: valgtOppgaveko.sortering ? valgtOppgaveko.sortering.sorteringType.kode : undefined,
       fomDato: valgtOppgaveko.sortering ? valgtOppgaveko.sortering.fomDato : undefined,
       tomDato: valgtOppgaveko.sortering ? valgtOppgaveko.sortering.tomDato : undefined,
-      fra: valgtOppgaveko.sortering ? valgtOppgaveko.sortering.fra : undefined,
-      til: valgtOppgaveko.sortering ? valgtOppgaveko.sortering.til : undefined,
-      erDynamiskPeriode: valgtOppgaveko.sortering ? valgtOppgaveko.sortering.erDynamiskPeriode : undefined,
       fagsakYtelseType,
       ...andreKriterierTyper,
       ...andreKriterierInkluder,
@@ -108,16 +104,16 @@ export class UtvalgskriterierForOppgavekoForm extends Component<TsProps> {
     };
   }
 
-  tranformValues = (values: {oppgavekoId: string; navn: string}) => {
+  tranformValues = (values: {id: string; navn: string}) => {
     const {
-      lagreOppgavekoNavn, valgtAvdelingEnhet,
+      lagreOppgavekoNavn,
     } = this.props;
-    lagreOppgavekoNavn({ oppgavekoId: values.oppgavekoId, navn: values.navn }, valgtAvdelingEnhet);
+    lagreOppgavekoNavn({ id: values.id, navn: values.navn });
   }
 
   render = () => {
     const {
-      intl, lagreOppgavekoBehandlingstype, lagreOppgavekoFagsakYtelseType, valgtOppgaveko, valgtAvdelingEnhet, antallOppgaver,
+      intl, lagreOppgavekoBehandlingstype, lagreOppgavekoFagsakYtelseType, valgtOppgaveko, antallOppgaver,
       lagreOppgavekoAndreKriterier,
     } = this.props;
 
@@ -154,8 +150,7 @@ export class UtvalgskriterierForOppgavekoForm extends Component<TsProps> {
               <Column xs="6" className={styles.stonadstypeRadios}>
                 <FagsakYtelseTypeVelger
                   lagreOppgavekoFagsakYtelseType={lagreOppgavekoFagsakYtelseType}
-                  valgtOppgavekoId={valgtOppgaveko.oppgavekoId}
-                  valgtAvdelingEnhet={valgtAvdelingEnhet}
+                  valgtOppgavekoId={valgtOppgaveko.id}
                   valgtFagsakYtelseType={values ? values.fagsakYtelseType : ''}
                 />
               </Column>
@@ -164,26 +159,20 @@ export class UtvalgskriterierForOppgavekoForm extends Component<TsProps> {
               <Column xs="3">
                 <BehandlingstypeVelger
                   lagreOppgavekoBehandlingstype={lagreOppgavekoBehandlingstype}
-                  valgtOppgavekoId={valgtOppgaveko.oppgavekoId}
-                  valgtAvdelingEnhet={valgtAvdelingEnhet}
+                  valgtOppgavekoId={valgtOppgaveko.id}
                 />
               </Column>
               <Column xs="4">
                 <AndreKriterierVelger
                   lagreOppgavekoAndreKriterier={lagreOppgavekoAndreKriterier}
-                  valgtOppgavekoId={valgtOppgaveko.oppgavekoId}
-                  valgtAvdelingEnhet={valgtAvdelingEnhet}
+                  valgtOppgavekoId={valgtOppgaveko.id}
                   values={values}
                 />
               </Column>
               <Column xs="4">
                 <SorteringVelger
-                  valgtOppgavekoId={valgtOppgaveko.oppgavekoId}
+                  valgtOppgavekoId={valgtOppgaveko.id}
                   valgteBehandlingtyper={valgtOppgaveko.behandlingTyper}
-                  valgtAvdelingEnhet={valgtAvdelingEnhet}
-                  erDynamiskPeriode={values.erDynamiskPeriode}
-                  fra={finnDagerSomTall(values.fra)}
-                  til={finnDagerSomTall(values.til)}
                   fomDato={values.fomDato}
                   tomDato={values.tomDato}
                 />

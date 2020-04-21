@@ -10,26 +10,24 @@ import { Form } from 'react-final-form';
 import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
 import { Normaltekst, Element } from 'nav-frontend-typografi';
 
-import { getValgtAvdelingEnhet } from 'app/duck';
 import { required } from 'utils/validation/validators';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import { InputField } from 'form/FinalFields';
 import { FlexContainer, FlexRow, FlexColumn } from 'sharedComponents/flexGrid';
 import { Saksbehandler } from '../saksbehandlerTsType';
 import saksbehandlerPropType from '../saksbehandlerPropType';
-import { getSaksbehandler, getAvdelingensSaksbehandlere, getSaksbehandlerSokFinished } from '../duck';
+import { getSaksbehandler, getSaksbehandlere, getSaksbehandlerSokFinished } from '../duck';
 
 import styles from './leggTilSaksbehandlerForm.less';
 
 interface TsProps {
   intl: any;
   finnSaksbehandler: (brukerIdent: string) => Promise<string>;
-  leggTilSaksbehandler: (brukerIdent: string, avdelingEnhet: string) => Promise<string>;
+  leggTilSaksbehandler: (brukerIdent: string) => Promise<string>;
   resetSaksbehandlerSok: () => void;
   saksbehandler?: Saksbehandler;
   erLagtTilAllerede: boolean;
   erSokFerdig: boolean;
-  valgtAvdelingEnhet: string;
 }
 
 interface StateTsProps {
@@ -50,7 +48,6 @@ export class LeggTilSaksbehandlerForm extends Component<TsProps, StateTsProps> {
     saksbehandler: saksbehandlerPropType,
     erLagtTilAllerede: PropTypes.bool.isRequired,
     erSokFerdig: PropTypes.bool.isRequired,
-    valgtAvdelingEnhet: PropTypes.string.isRequired,
   };
 
   static defaultProps = {
@@ -68,12 +65,12 @@ export class LeggTilSaksbehandlerForm extends Component<TsProps, StateTsProps> {
 
   leggTilSaksbehandler = (resetFormValues: () => void) => {
     const {
-      leggTilSaksbehandler, saksbehandler, valgtAvdelingEnhet,
+      leggTilSaksbehandler, saksbehandler,
     } = this.props;
 
     if (saksbehandler) {
       this.setState(prevState => ({ ...prevState, leggerTilNySaksbehandler: true }));
-      leggTilSaksbehandler(saksbehandler.brukerIdent, valgtAvdelingEnhet).then(() => {
+      leggTilSaksbehandler(saksbehandler.brukerIdent).then(() => {
         this.resetSaksbehandlerSok(resetFormValues);
         this.setState(prevState => ({ ...prevState, leggerTilNySaksbehandler: false }));
       });
@@ -99,7 +96,7 @@ export class LeggTilSaksbehandlerForm extends Component<TsProps, StateTsProps> {
       return '';
     }
 
-    const brukerinfo = `${saksbehandler.navn}, ${saksbehandler.avdelingsnavn.join(', ')}`;
+    const brukerinfo = `${saksbehandler.navn}`;
     return erLagtTilAllerede
       ? `${brukerinfo} (${intl.formatMessage({ id: 'LeggTilSaksbehandlerForm.FinnesAllerede' })})`
       : brukerinfo;
@@ -190,7 +187,7 @@ export class LeggTilSaksbehandlerForm extends Component<TsProps, StateTsProps> {
     );
   }
 }
-const erSaksbehandlerLagtTilAllerede = createSelector([getSaksbehandler, getAvdelingensSaksbehandlere],
+const erSaksbehandlerLagtTilAllerede = createSelector([getSaksbehandler, getSaksbehandlere],
   (saksbehandler: Saksbehandler, avdelingensSaksbehandlere = []) => avdelingensSaksbehandlere instanceof Array
     && avdelingensSaksbehandlere.some(s => saksbehandler && s.brukerIdent.toLowerCase() === saksbehandler.brukerIdent.toLowerCase()));
 
@@ -198,7 +195,6 @@ const mapStateToProps = state => ({
   saksbehandler: getSaksbehandler(state),
   erLagtTilAllerede: erSaksbehandlerLagtTilAllerede(state),
   erSokFerdig: getSaksbehandlerSokFinished(state),
-  valgtAvdelingEnhet: getValgtAvdelingEnhet(state),
 });
 
 export default connect(mapStateToProps)(injectIntl(LeggTilSaksbehandlerForm));

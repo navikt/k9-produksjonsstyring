@@ -1,9 +1,10 @@
 import PropTypes from 'prop-types';
 
 import kodeverkPropType from 'kodeverk/kodeverkPropType';
+import saksbehandlerPropType from 'avdelingsleder/saksbehandlere/saksbehandlerPropType';
 
 const oppgavekoPropType = PropTypes.shape({
-  oppgavekoId: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
   navn: PropTypes.string,
   behandlingTyper: PropTypes.arrayOf(kodeverkPropType),
   fagsakYtelseTyper: PropTypes.arrayOf(kodeverkPropType),
@@ -16,12 +17,14 @@ const oppgavekoPropType = PropTypes.shape({
     tomDato: PropTypes.string,
     erDynamiskPeriode: PropTypes.bool.isRequired,
   }),
-  andreKriterier: PropTypes.arrayOf(PropTypes.shape({
-    andreKriterierType: kodeverkPropType,
-    inkluder: PropTypes.bool.isRequired,
-  })),
-  saksbehandlerIdenter: PropTypes.arrayOf(PropTypes.string).isRequired,
+  saksbehandlere: PropTypes.arrayOf(saksbehandlerPropType).isRequired,
   antallBehandlinger: PropTypes.number,
+  tilBeslutter: PropTypes.bool.isRequired,
+  utbetalingTilBruker: PropTypes.bool.isRequired,
+  selvstendigFrilans: PropTypes.bool.isRequired,
+  kombinert: PropTypes.bool.isRequired,
+  søktGradering: PropTypes.bool.isRequired,
+  registrerPapir: PropTypes.bool.isRequired,
 });
 
 export default oppgavekoPropType;

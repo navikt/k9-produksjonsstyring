@@ -4,7 +4,6 @@ import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import { Normaltekst, Element } from 'nav-frontend-typografi';
 
-import { getValgtAvdelingEnhet } from 'app/duck';
 import Image from 'sharedComponents/Image';
 import removeIcon from 'images/remove.svg';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
@@ -20,13 +19,11 @@ import styles from './saksbehandlereTabell.less';
 const headerTextCodes = [
   'SaksbehandlereTabell.Navn',
   'SaksbehandlereTabell.Brukerident',
-  'SaksbehandlereTabell.Avdeling',
 ];
 
 interface TsProps {
   saksbehandlere: Saksbehandler[];
-  fjernSaksbehandler: (brukerIdent: string, avdelingEnhet: string) => Promise<string>;
-  valgtAvdelingEnhet: string;
+  fjernSaksbehandler: (brukerIdent: string) => Promise<string>;
 }
 
 interface StateTsProps {
@@ -40,7 +37,6 @@ export class SaksbehandlereTabell extends Component<TsProps, StateTsProps> {
   static propTypes = {
     saksbehandlere: PropTypes.arrayOf(saksbehandlerPropType).isRequired,
     fjernSaksbehandler: PropTypes.func.isRequired,
-    valgtAvdelingEnhet: PropTypes.string.isRequired,
   };
 
   constructor(props: TsProps) {
@@ -61,9 +57,9 @@ export class SaksbehandlereTabell extends Component<TsProps, StateTsProps> {
 
   fjernSaksbehandler = (valgtSaksbehandler: Saksbehandler) => {
     const {
-      fjernSaksbehandler, valgtAvdelingEnhet,
+      fjernSaksbehandler,
     } = this.props;
-    fjernSaksbehandler(valgtSaksbehandler.brukerIdent, valgtAvdelingEnhet);
+    fjernSaksbehandler(valgtSaksbehandler.brukerIdent);
     this.closeSletteModal();
   }
 
@@ -94,7 +90,6 @@ export class SaksbehandlereTabell extends Component<TsProps, StateTsProps> {
             <TableRow key={saksbehandler.brukerIdent}>
               <TableColumn>{saksbehandler.navn}</TableColumn>
               <TableColumn>{saksbehandler.brukerIdent}</TableColumn>
-              <TableColumn>{saksbehandler.avdelingsnavn.join(', ')}</TableColumn>
               <TableColumn>
                 <Image
                   src={removeIcon}
@@ -122,7 +117,7 @@ export class SaksbehandlereTabell extends Component<TsProps, StateTsProps> {
 }
 
 const mapStateToProps = state => ({
-  valgtAvdelingEnhet: getValgtAvdelingEnhet(state),
+
 });
 
 export default connect(mapStateToProps)(SaksbehandlereTabell);

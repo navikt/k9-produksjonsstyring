@@ -10,12 +10,12 @@ import { SletteOppgavekoModal } from './SletteOppgavekoModal';
 describe('<SletteOppgavekoModal>', () => {
   it('skal vise slette-modal med knapper for om en vil slette eller ikke', () => {
     const oppgaveko = {
-      oppgavekoId: '1',
+      id: '1',
       navn: 'Nyansatte',
       sistEndret: '2017-01-01',
       erTilBeslutter: false,
       erRegistrerPapirsoknad: false,
-      saksbehandlerIdenter: [],
+      saksbehandlere: [],
     };
 
     const wrapper = shallowWithIntl(<SletteOppgavekoModal
@@ -31,12 +31,12 @@ describe('<SletteOppgavekoModal>', () => {
 
   it('skal kjøre slettefunksjon ved trykk på Ja-knapp', () => {
     const oppgaveko = {
-      oppgavekoId: '1',
+      id: '1',
       navn: 'Nyansatte',
       sistEndret: '2017-01-01',
       erTilBeslutter: false,
       erRegistrerPapirsoknad: false,
-      saksbehandlerIdenter: [],
+      saksbehandlere: [],
     };
     const submitFn = sinon.spy();
 

@@ -13,7 +13,7 @@ import BehandlingstypeVelger from './BehandlingstypeVelger';
 describe('<UtvalgskriterierForOppgavekoForm>', () => {
   it('skal vise form som lar avdelingsleder endre navn på oppgaveko', () => {
     const oppgaveko = {
-      oppgavekoId: '1',
+      id: '1',
       navn: 'Nyansatte',
       sistEndret: '2017-08-31',
       andreKriterierTyper: [{
@@ -23,7 +23,7 @@ describe('<UtvalgskriterierForOppgavekoForm>', () => {
         kode: andreKriterierType.REGISTRER_PAPIRSOKNAD,
         navn: 'Registrer papirsøknad',
       }],
-      saksbehandlerIdenter: [],
+      saksbehandlere: [],
     };
 
     const wrapper = shallowWithIntl(<UtvalgskriterierForOppgavekoForm
@@ -45,10 +45,10 @@ describe('<UtvalgskriterierForOppgavekoForm>', () => {
 
   it('skal vise default-navn for oppgavekon når dette ikke er satt fra før', () => {
     const oppgaveko = {
-      oppgavekoId: '1',
+      id: '1',
       navn: undefined,
       sistEndret: '2017-08-31',
-      saksbehandlerIdenter: [],
+      saksbehandlere: [],
     };
 
     const wrapper = shallowWithIntl(<UtvalgskriterierForOppgavekoForm
@@ -65,7 +65,7 @@ describe('<UtvalgskriterierForOppgavekoForm>', () => {
 
     const initialValues = wrapper.prop('initialValues');
     expect(initialValues).to.eql({
-      oppgavekoId: '1',
+      id: '1',
       navn: 'Ny behandlingskø',
       sortering: undefined,
       fagsakYtelseType: '',
@@ -79,10 +79,10 @@ describe('<UtvalgskriterierForOppgavekoForm>', () => {
 
   it('skal vise navn for oppgavekon når dette er satt fra før', () => {
     const oppgaveko = {
-      oppgavekoId: '1',
+      id: '1',
       navn: 'Nyansatte',
       sistEndret: '2017-08-31',
-      saksbehandlerIdenter: [],
+      saksbehandlere: [],
     };
 
     const wrapper = shallowWithIntl(<UtvalgskriterierForOppgavekoForm
@@ -99,7 +99,7 @@ describe('<UtvalgskriterierForOppgavekoForm>', () => {
 
     const initialValues = wrapper.prop('initialValues');
     expect(initialValues).to.eql({
-      oppgavekoId: '1',
+      id: '1',
       navn: 'Nyansatte',
       sortering: undefined,
       fagsakYtelseType: '',
@@ -113,10 +113,10 @@ describe('<UtvalgskriterierForOppgavekoForm>', () => {
 
   it('skal lagre oppgavekonavn ved blur i navnefelt', () => {
     const oppgaveko = {
-      oppgavekoId: '1',
+      id: '1',
       navn: 'Nyansatte',
       sistEndret: '2017-08-31',
-      saksbehandlerIdenter: [],
+      saksbehandlere: [],
     };
 
     const lagreOppgavekoNavnFn = sinon.spy();
@@ -136,7 +136,7 @@ describe('<UtvalgskriterierForOppgavekoForm>', () => {
     const lagreComp = wrapper.find(AutoLagringVedBlur);
 
     lagreComp.prop('lagre')({
-      oppgavekoId: '1',
+      id: '1',
       navn: 'Foreldrepenger',
     });
 
@@ -144,7 +144,7 @@ describe('<UtvalgskriterierForOppgavekoForm>', () => {
     const { args } = lagreOppgavekoNavnFn.getCalls()[0];
     expect(args).to.have.length(2);
     expect(args[0]).to.eql({
-      oppgavekoId: '1',
+      id: '1',
       navn: 'Foreldrepenger',
     });
     expect(args[1]).to.eql('1');
@@ -152,10 +152,10 @@ describe('<UtvalgskriterierForOppgavekoForm>', () => {
 
   it('skal sette opp korrekt formstate for andrekriterier', () => {
     const oppgaveko = {
-      oppgavekoId: '1',
+      id: '1',
       navn: 'Nyansatte',
       sistEndret: '2017-08-31',
-      saksbehandlerIdenter: [],
+      saksbehandlere: [],
       andreKriterier: [{
         andreKriterierType: {
           kode: andreKriterierType.TIL_BESLUTTER,
@@ -185,7 +185,7 @@ describe('<UtvalgskriterierForOppgavekoForm>', () => {
 
     const initialValues = wrapper.prop('initialValues');
     expect(initialValues).to.eql({
-      oppgavekoId: '1',
+      id: '1',
       navn: 'Nyansatte',
       sortering: undefined,
       fagsakYtelseType: '',

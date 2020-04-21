@@ -18,12 +18,12 @@ export const getOppgavekoResult = k9LosApi.OPPGAVEKO.getRestApiData();
 
 export const fetchOppgaverTilBehandling = (oppgavekoId: string) => (dispatch: Dispatch) => dispatch(
   k9LosApi.OPPGAVER_TIL_BEHANDLING.makeRestApiRequest()(
-    { oppgavekoId }, { keepData: false },
+    { oppgavekoId: id }, { keepData: false },
   ),
 );
 export const fetchOppgaverTilBehandlingOppgaver = (oppgavekoId: string, oppgaveIder?: string) => (dispatch: Dispatch) => dispatch(
   k9LosApi.OPPGAVER_TIL_BEHANDLING.makeRestApiRequest()(
-    oppgaveIder ? { oppgavekoId, oppgaveIder } : { oppgavekoId }, { keepData: true },
+    oppgaveIder ? { oppgavekoId: id, oppgaveIder } : { oppgavekoId: id }, { keepData: true },
   ),
 );
 export const getOppgaverTilBehandling = k9LosApi.OPPGAVER_TIL_BEHANDLING.getRestApiData();

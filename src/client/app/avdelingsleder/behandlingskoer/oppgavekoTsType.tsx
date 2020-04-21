@@ -1,15 +1,10 @@
 import { Kodeverk } from 'kodeverk/kodeverkTsType';
 import { KoSorteringType } from 'kodeverk/KoSorteringTsType';
 
-type AnnetKriterie = Readonly<{
-  andreKriterierType: Kodeverk;
-  inkluder: boolean;
-}>
-
 // TODO (TOR) default export feilar for yarn:coverage
 // eslint-disable-next-line import/prefer-default-export
 export type Oppgaveko = Readonly<{
-  oppgavekoId: string;
+  id: string;
   navn?: string;
   behandlingTyper?: Kodeverk[];
   fagsakYtelseTyper?: Kodeverk[];
@@ -25,4 +20,9 @@ export type Oppgaveko = Readonly<{
   andreKriterier?: AnnetKriterie[];
   saksbehandlerIdenter: string[];
   antallBehandlinger: number;
+}>;
+
+type AnnetKriterie = Readonly<{
+  andreKriterierType: Kodeverk;
+  inkluder: boolean;
 }>;

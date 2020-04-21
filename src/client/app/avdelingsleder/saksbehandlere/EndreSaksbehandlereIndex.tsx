@@ -3,22 +3,20 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 
-import { getValgtAvdelingEnhet } from 'app/duck';
 import { Saksbehandler } from './saksbehandlerTsType';
 import saksbehandlerPropType from './saksbehandlerPropType';
 import SaksbehandlerePanel from './components/SaksbehandlerePanel';
 import {
-  fetchAvdelingensSaksbehandlere, getAvdelingensSaksbehandlere, findSaksbehandler, addSaksbehandler, resetSaksbehandlerSok, removeSaksbehandler,
+  fetchAlleSaksbehandlere, getSaksbehandlere, findSaksbehandler, addSaksbehandler, resetSaksbehandlerSok, removeSaksbehandler,
 } from './duck';
 
 interface TsProps {
-    fetchAvdelingensSaksbehandlere: (avdelingEnhet: string) => void;
+    fetchAlleSaksbehandlere: () => void;
     findSaksbehandler: (brukerIdent: string) => Promise<string>;
     resetSaksbehandlerSok: () => void;
-    addSaksbehandler: (brukerIdent: string, avdelingEnhet: string) => Promise<string>;
-    avdelingensSaksbehandlere: Saksbehandler[];
-    removeSaksbehandler: (brukerIdent: string, avdelingEnhet: string) => Promise<string>;
-    valgtAvdelingEnhet: string;
+    addSaksbehandler: (brukerIdent: string) => Promise<string>;
+    alleSaksbehandlere: Saksbehandler[];
+    removeSaksbehandler: (brukerIdent: string) => Promise<string>;
 }
 
 /**
@@ -26,32 +24,31 @@ interface TsProps {
  */
 export class EndreSaksbehandlereIndex extends Component<TsProps> {
     static propTypes = {
-      fetchAvdelingensSaksbehandlere: PropTypes.func.isRequired,
+      fetchAlleSaksbehandlere: PropTypes.func.isRequired,
       findSaksbehandler: PropTypes.func.isRequired,
       addSaksbehandler: PropTypes.func.isRequired,
       resetSaksbehandlerSok: PropTypes.func.isRequired,
       removeSaksbehandler: PropTypes.func.isRequired,
-      avdelingensSaksbehandlere: PropTypes.arrayOf(saksbehandlerPropType),
-      valgtAvdelingEnhet: PropTypes.string.isRequired,
+      alleSaksbehandlere: PropTypes.arrayOf(saksbehandlerPropType),
     };
 
     static defaultProps = {
-      avdelingensSaksbehandlere: [],
+      alleSaksbehandlere: [],
     }
 
     componentDidMount = () => {
-      const { fetchAvdelingensSaksbehandlere: fetchSaksbehandlere, valgtAvdelingEnhet } = this.props;
-      fetchSaksbehandlere(valgtAvdelingEnhet);
+      const { fetchAlleSaksbehandlere: fetchSaksbehandlere } = this.props;
+      fetchSaksbehandlere();
     }
 
     render = () => {
       const {
-        avdelingensSaksbehandlere, findSaksbehandler: finnSaksbehandler, addSaksbehandler: leggTilSaksbehandler, resetSaksbehandlerSok: reset,
+        alleSaksbehandlere, findSaksbehandler: finnSaksbehandler, addSaksbehandler: leggTilSaksbehandler, resetSaksbehandlerSok: reset,
         removeSaksbehandler: fjernSaksbehandler,
       } = this.props;
       return (
         <SaksbehandlerePanel
-          saksbehandlere={avdelingensSaksbehandlere}
+          saksbehandlere={alleSaksbehandlere}
           finnSaksbehandler={finnSaksbehandler}
           resetSaksbehandlerSok={reset}
           leggTilSaksbehandler={leggTilSaksbehandler}
@@ -62,13 +59,12 @@ export class EndreSaksbehandlereIndex extends Component<TsProps> {
 }
 
 const mapStateToProps = state => ({
-  avdelingensSaksbehandlere: getAvdelingensSaksbehandlere(state),
-  valgtAvdelingEnhet: getValgtAvdelingEnhet(state),
+  alleSaksbehandlere: getSaksbehandlere(state),
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   ...bindActionCreators({
-    fetchAvdelingensSaksbehandlere,
+    fetchAlleSaksbehandlere,
     findSaksbehandler,
     resetSaksbehandlerSok,
     addSaksbehandler,

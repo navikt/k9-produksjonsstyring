@@ -4,17 +4,11 @@ import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 import { withRouter } from 'react-router-dom';
 import moment from 'moment';
-
-import { Avdeling } from 'app/avdelingTsType';
-import avdelingPropType from 'app/avdelingPropType';
 import { parseQueryString } from 'utils/urlUtils';
 import errorHandler from 'api/error-api-redux';
 import AppConfigResolver from './AppConfigResolver';
-import { AVDELINGSLEDER_PATH } from './paths';
 import {
-  getFunksjonellTid, getNavAnsattName, setAvdelingEnhet, getValgtAvdelingEnhet,
-  fetchAvdelingeneTilAvdelingsleder, getAvdelingeneTilAvdelingslederResultat,
-  resetAvdelingeneTilAvdelingslederData, resetAvdelingEnhet, getNavAnsattKanOppgavestyre,
+  getFunksjonellTid, getNavAnsattName, getNavAnsattKanOppgavestyre,
 } from './duck';
 import { Location } from './locationTsType';
 import LanguageProvider from './LanguageProvider';
@@ -31,12 +25,6 @@ type TsProps = Readonly<{
   navAnsattName: string;
   funksjonellTid?: string;
   location: Location;
-  fetchAvdelingeneTilAvdelingsleder: () => void;
-  resetAvdelingeneTilAvdelingslederData: () => void;
-  setAvdelingEnhet: (avdelingEnhet: string) => void;
-  resetAvdelingEnhet: () => void;
-  avdelinger?: Avdeling[];
-  valgtAvdelingEnhet?: string;
   kanOppgavestyre: boolean;
 }>
 
@@ -59,42 +47,13 @@ export class AppIndex extends Component<TsProps> {
     location: PropTypes.shape({
       search: PropTypes.string,
     }).isRequired,
-    fetchAvdelingeneTilAvdelingsleder: PropTypes.func.isRequired,
-    setAvdelingEnhet: PropTypes.func.isRequired,
-    resetAvdelingEnhet: PropTypes.func.isRequired,
-    resetAvdelingeneTilAvdelingslederData: PropTypes.func.isRequired,
-    avdelinger: PropTypes.arrayOf(avdelingPropType),
-    valgtAvdelingEnhet: PropTypes.string,
-    kanOppgavestyre: PropTypes.bool,
   };
 
   static defaultProps = {
     crashMessage: '',
     navAnsattName: '',
     funksjonellTid: undefined,
-    avdelinger: [],
-    valgtAvdelingEnhet: undefined,
-    kanOppgavestyre: false,
   };
-
-  fetchAvdelinger = () => {
-    const {
-      location, fetchAvdelingeneTilAvdelingsleder: fetchAvdelinger, resetAvdelingEnhet: resetAvdeling, resetAvdelingeneTilAvdelingslederData: resetAvdelingene,
-      kanOppgavestyre, avdelinger,
-    } = this.props;
-
-    const harAvdelinger = avdelinger && avdelinger.length > 0;
-    if (kanOppgavestyre && !harAvdelinger && location.pathname && location.pathname.includes(AVDELINGSLEDER_PATH)) {
-      fetchAvdelinger();
-    } else if (harAvdelinger && location.pathname && !location.pathname.includes(AVDELINGSLEDER_PATH)) {
-      resetAvdeling();
-      resetAvdelingene();
-    }
-  }
-
-  componentDidMount = () => {
-    this.fetchAvdelinger();
-  }
 
   componentDidUpdate = (prevProps: TsProps) => {
     const { funksjonellTid } = this.props;
@@ -108,8 +67,6 @@ export class AppIndex extends Component<TsProps> {
         moment.now = () => Date.now() - diff;
       }
     }
-
-    this.fetchAvdelinger();
   }
 
   componentDidCatch = (error: Error, info: any) => {
@@ -126,7 +83,7 @@ export class AppIndex extends Component<TsProps> {
   render = () => {
     const {
       location, crashMessage, errorMessagesLength, navAnsattName,
-      removeErrorMessage: removeErrorMsg, avdelinger, setAvdelingEnhet: setAvdeling, valgtAvdelingEnhet,
+      removeErrorMessage: removeErrorMsg,
     } = this.props;
     const queryStrings = parseQueryString(location.search);
 
@@ -137,9 +94,6 @@ export class AppIndex extends Component<TsProps> {
             queryStrings={queryStrings}
             navAnsattName={navAnsattName}
             removeErrorMessage={removeErrorMsg}
-            avdelinger={avdelinger}
-            setValgtAvdeling={setAvdeling}
-            valgtAvdelingEnhet={valgtAvdelingEnhet}
           />
           {!crashMessage && (
             <Home nrOfErrorMessages={errorMessagesLength + (queryStrings.errorcode || queryStrings.errormessage ? 1 : 0)} />
@@ -156,18 +110,11 @@ const mapStateToProps = (state: any) => ({
   crashMessage: errorHandler.getCrashMessage(state),
   navAnsattName: getNavAnsattName(state),
   funksjonellTid: getFunksjonellTid(state),
-  avdelinger: getAvdelingeneTilAvdelingslederResultat(state),
-  valgtAvdelingEnhet: getValgtAvdelingEnhet(state),
-  kanOppgavestyre: getNavAnsattKanOppgavestyre(state),
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({
   showCrashMessage: errorHandler.showCrashMessage,
   removeErrorMessage: errorHandler.removeErrorMessage,
-  fetchAvdelingeneTilAvdelingsleder,
-  setAvdelingEnhet,
-  resetAvdelingEnhet,
-  resetAvdelingeneTilAvdelingslederData,
 }, dispatch);
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(AppIndex));

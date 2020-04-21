@@ -43,12 +43,8 @@ export const FagsakYtelseTypeVelger = ({
       onChange={fyt => lagreOppgavekoFagsakYtelseType(valgtOppgavekoId, fyt, valgtAvdelingEnhet)}
     >
       <RadioOption
-        value={fagsakYtelseType.FORELDREPRENGER}
-        label={finnFagsakYtelseTypeNavn(fagsakYtelseTyper, fagsakYtelseType.FORELDREPRENGER)}
-      />
-      <RadioOption
-        value={fagsakYtelseType.ENGANGSSTONAD}
-        label={finnFagsakYtelseTypeNavn(fagsakYtelseTyper, fagsakYtelseType.ENGANGSSTONAD)}
+        value={fagsakYtelseType.OMSORGSPENGER}
+        label={finnFagsakYtelseTypeNavn(fagsakYtelseTyper, fagsakYtelseType.OMSORGSPENGER)}
       />
       <RadioOption
         value={fagsakYtelseType.PLEIEPENGER_SYKT_BARN}
@@ -70,7 +66,7 @@ FagsakYtelseTypeVelger.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  fagsakYtelseTyper: getKodeverk(kodeverkTyper.FAGSAK_YTELSE_TYPE)(state).filter(k => k.kode !== fagsakYtelseType.ENDRING_FORELDREPENGER),
+  fagsakYtelseTyper: getKodeverk(kodeverkTyper.FAGSAK_YTELSE_TYPE)(state),
 });
 
 export default connect(mapStateToProps)(FagsakYtelseTypeVelger);

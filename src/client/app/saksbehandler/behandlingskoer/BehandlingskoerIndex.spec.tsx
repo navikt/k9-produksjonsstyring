@@ -10,7 +10,7 @@ import BehandlingPollingTimoutModal from './components/BehandlingPollingTimoutMo
 
 describe('<BehandlingskoerIndex>', () => {
   const oppgavekoer = [{
-    oppgavekoId: '1',
+    id: '1',
     navn: 'test',
     behandlingTyper: [{
       kode: 'test',
@@ -254,7 +254,7 @@ describe('<BehandlingskoerIndex>', () => {
     const oppgaveId = '1';
     const begrunnelse = 'Dette er en begrunnelse';
     const oppgavekoId = '1';
-    wrapper.setState({ oppgavekoId });
+    wrapper.setState({ oppgavekoId: id });
     await panel.prop('opphevOppgaveReservasjon')(oppgaveId, begrunnelse);
 
     expect(opphevOppgaveReservasjonFn.calledOnce).to.be.true;
@@ -293,7 +293,7 @@ describe('<BehandlingskoerIndex>', () => {
 
     const oppgaveId = '1';
     const oppgavekoId = '1';
-    wrapper.setState({ oppgavekoId });
+    wrapper.setState({ oppgavekoId: id });
     await panel.prop('forlengOppgaveReservasjon')(oppgaveId);
 
     expect(forlengOppgaveReservasjonFn.calledOnce).to.be.true;
@@ -333,7 +333,7 @@ describe('<BehandlingskoerIndex>', () => {
     const brukerIdent = 'T122334';
     const begrunnelse = 'Dette er en begrunnelse';
     const oppgavekoId = '1';
-    wrapper.setState({ oppgavekoId });
+    wrapper.setState({ oppgavekoId: id });
     await panel.prop('flyttReservasjon')(oppgaveId, brukerIdent, begrunnelse);
 
     expect(flyttReservasjonFn.calledOnce).to.be.true;

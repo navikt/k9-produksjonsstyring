@@ -16,9 +16,6 @@ export const resetAvdelingEnhet = () => ({
   type: RESET_AVDELING_ENHET,
 });
 
-export const fetchAvdelingeneTilAvdelingsleder = k9LosApi.AVDELINGER.makeRestApiRequest();
-export const getAvdelingeneTilAvdelingslederResultat = k9LosApi.AVDELINGER.getRestApiData();
-export const resetAvdelingeneTilAvdelingslederData = k9LosApi.AVDELINGER.resetRestApi();
 
 /* Reducers */
 const initialState = {
