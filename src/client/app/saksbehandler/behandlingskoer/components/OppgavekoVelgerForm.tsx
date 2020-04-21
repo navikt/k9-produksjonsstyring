@@ -43,14 +43,14 @@ interface Toolip {
 const getDefaultOppgaveko = (oppgavekoer) => {
   const lagretOppgavekoId = getValueFromLocalStorage('oppgavekoId');
   if (lagretOppgavekoId) {
-    if (oppgavekoer.some(s => `${s.oppgavekoId}` === lagretOppgavekoId)) {
+    if (oppgavekoer.some(s => `${s.id}` === lagretOppgavekoId)) {
       return parseInt(lagretOppgavekoId, 10);
     }
     removeValueFromLocalStorage('oppgavekoId');
   }
 
   const sortertOppgavekoer = oppgavekoer.sort((oppgaveko1, oppgaveko2) => oppgaveko1.navn.localeCompare(oppgaveko2.navn));
-  return sortertOppgavekoer.length > 0 ? sortertOppgavekoer[0].oppgavekoId : undefined;
+  return sortertOppgavekoer.length > 0 ? sortertOppgavekoer[0].id : undefined;
 };
 
 const getInitialValues = (oppgavekoer) => {
@@ -170,9 +170,9 @@ export class OppgavekoVelgerForm extends Component<TsProps> {
             <VerticalSpacer eightPx />
             <FormSpy
               onChange={(val) => {
-                        if (val && val.values.oppgavekoId && val.dirtyFields.id) {
-                          setValueInLocalStorage('oppgavekoId', val.values.oppgavekoId);
-                          const id = val.values.oppgavekoId;
+                        if (val && val.values.id && val.dirtyFields.id) {
+                          setValueInLocalStorage('id', val.values.id);
+                          const { id } = val.values;
                           fetchOppgavekoOppgaver(id);
                           fetchSaksbehandlere(id);
                           fetchAntallOppgaver(id);
@@ -191,7 +191,7 @@ export class OppgavekoVelgerForm extends Component<TsProps> {
                     bredde="l"
                   />
                 </FlexColumn>
-                {values.oppgavekoId && (
+                {values.id && (
                   <>
                     <FlexColumn>
                       <div className={styles.saksbehandlerIkon} />
@@ -206,25 +206,25 @@ export class OppgavekoVelgerForm extends Component<TsProps> {
                     <FlexColumn className={styles.marginFilters}>
                       <LabelWithHeader
                         header={intl.formatMessage({ id: 'OppgavekoVelgerForm.Stonadstype' })}
-                        texts={getStonadstyper(getValgtOppgaveko(oppgavekoer, values.oppgavekoId), intl)}
+                        texts={getStonadstyper(getValgtOppgaveko(oppgavekoer, values.id), intl)}
                       />
                     </FlexColumn>
                     <FlexColumn className={styles.marginFilters}>
                       <LabelWithHeader
                         header={intl.formatMessage({ id: 'OppgavekoVelgerForm.Behandlingstype' })}
-                        texts={getBehandlingstyper(getValgtOppgaveko(oppgavekoer, values.oppgavekoId), intl)}
+                        texts={getBehandlingstyper(getValgtOppgaveko(oppgavekoer, values.id), intl)}
                       />
                     </FlexColumn>
                     <FlexColumn className={styles.marginFilters}>
                       <LabelWithHeader
                         header={intl.formatMessage({ id: 'OppgavekoVelgerForm.AndreKriterier' })}
-                        texts={getAndreKriterier(getValgtOppgaveko(oppgavekoer, values.oppgavekoId), intl)}
+                        texts={getAndreKriterier(getValgtOppgaveko(oppgavekoer, values.id), intl)}
                       />
                     </FlexColumn>
                     <FlexColumn className={styles.marginFilters}>
                       <LabelWithHeader
                         header={intl.formatMessage({ id: 'OppgavekoVelgerForm.Sortering' })}
-                        texts={[getSorteringsnavn(getValgtOppgaveko(oppgavekoer, values.oppgavekoId))]}
+                        texts={[getSorteringsnavn(getValgtOppgaveko(oppgavekoer, values.id))]}
                       />
                     </FlexColumn>
                   </>
