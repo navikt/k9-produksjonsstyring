@@ -73,7 +73,7 @@ export class BehandlingskoerIndex extends Component<TsProps, StateProps> {
   }
 
   componentWillUnmount = () => {
-    const { oppgavekoId: id } = this.state;
+    const { id } = this.state;
     if (id) {
       k9LosApi.OPPGAVER_TIL_BEHANDLING.cancelRestApiRequest();
     }
@@ -86,12 +86,12 @@ export class BehandlingskoerIndex extends Component<TsProps, StateProps> {
   }
 
   fetchOppgavekoOppgaver = (oppgavekoId: string) => {
-    this.setState(prevState => ({ ...prevState, oppgavekoId: id }));
+    this.setState(prevState => ({ ...prevState, oppgavekoId }));
     const { fetchOppgaverTilBehandling: fetchTilBehandling, fetchReserverteOppgaver: fetchReserverte, setValgtOppgavekoId: setOppgavekoId } = this.props;
     setOppgavekoId(oppgavekoId);
     fetchReserverte(oppgavekoId);
     fetchTilBehandling(oppgavekoId).then((response) => {
-      const { oppgavekoId: id } = this.state;
+      const { id } = this.state;
       return oppgavekoId === id ? this.fetchOppgavekoOppgaverPolling(oppgavekoId, response.payload.map(o => o.id).join(',')) : Promise.resolve();
     });
   }
@@ -136,32 +136,32 @@ export class BehandlingskoerIndex extends Component<TsProps, StateProps> {
 
   opphevReservasjon = (oppgaveId: string, begrunnelse: string): Promise<any> => {
     const { opphevOppgaveReservasjon: opphevReservasjon, fetchReserverteOppgaver: fetchReserverte } = this.props;
-    const { oppgavekoId } = this.state;
-    if (!oppgavekoId) {
+    const { id } = this.state;
+    if (!id) {
       return Promise.resolve();
     }
     return opphevReservasjon(oppgaveId, begrunnelse)
-      .then(() => fetchReserverte(oppgavekoId));
+      .then(() => fetchReserverte(id));
   }
 
   forlengOppgaveReservasjon = (oppgaveId: string): Promise<any> => {
     const { forlengOppgaveReservasjon: forlengReservasjon, fetchReserverteOppgaver: fetchReserverte } = this.props;
-    const { oppgavekoId } = this.state;
-    if (!oppgavekoId) {
+    const { id } = this.state;
+    if (!id) {
       return Promise.resolve();
     }
     return forlengReservasjon(oppgaveId)
-      .then(() => fetchReserverte(oppgavekoId));
+      .then(() => fetchReserverte(id));
   }
 
   flyttReservasjon = (oppgaveId: string, brukerident: string, begrunnelse: string): Promise<any> => {
     const { flyttReservasjon: flytt, fetchReserverteOppgaver: fetchReserverte } = this.props;
-    const { oppgavekoId } = this.state;
-    if (!oppgavekoId) {
+    const { id } = this.state;
+    if (!id) {
       return Promise.resolve();
     }
     return flytt(oppgaveId, brukerident, begrunnelse)
-      .then(() => fetchReserverte(oppgavekoId));
+      .then(() => fetchReserverte(id));
   }
 
   lukkErReservertModalOgOpneOppgave = (oppgave: Oppgave) => {
