@@ -90,10 +90,9 @@ export class BehandlingskoerIndex extends Component<TsProps, StateProps> {
     const { fetchOppgaverTilBehandling: fetchTilBehandling, fetchReserverteOppgaver: fetchReserverte, setValgtOppgavekoId: setOppgavekoId } = this.props;
     setOppgavekoId(id);
     fetchReserverte(id);
-    fetchTilBehandling(id).then((response) => {
-      // eslint-disable-next-line react/destructuring-assignment
-      return id === this.state.id ? this.fetchOppgavekoOppgaverPolling(id, response.payload.map(o => o.id).join(',')) : Promise.resolve();
-    });
+    fetchTilBehandling(id).then(response =>
+        // eslint-disable-next-line react/destructuring-assignment,implicit-arrow-linebreak
+       (id === this.state.id ? this.fetchOppgavekoOppgaverPolling(id, response.payload.map(o => o.id).join(',')) : Promise.resolve()));
   }
 
   openSak = (oppgave: Oppgave) => {
