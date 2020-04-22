@@ -16,14 +16,14 @@ export const setValgtOppgavekoId = (setOppgavekoId: string) => ({
 export const fetchAlleOppgavekoer = k9LosApi.OPPGAVEKO.makeRestApiRequest();
 export const getOppgavekoResult = k9LosApi.OPPGAVEKO.getRestApiData();
 
-export const fetchOppgaverTilBehandling = (oppgavekoId: string) => (dispatch: Dispatch) => dispatch(
+export const fetchOppgaverTilBehandling = (id: string) => (dispatch: Dispatch) => dispatch(
   k9LosApi.OPPGAVER_TIL_BEHANDLING.makeRestApiRequest()(
-    { oppgavekoId }, { keepData: false },
+    { id }, { keepData: false },
   ),
 );
-export const fetchOppgaverTilBehandlingOppgaver = (oppgavekoId: string, oppgaveIder?: string) => (dispatch: Dispatch) => dispatch(
+export const fetchOppgaverTilBehandlingOppgaver = (id: string, oppgaveIder?: string) => (dispatch: Dispatch) => dispatch(
   k9LosApi.OPPGAVER_TIL_BEHANDLING.makeRestApiRequest()(
-    oppgaveIder ? { oppgavekoId, oppgaveIder } : { oppgavekoId }, { keepData: true },
+    oppgaveIder ? { id, oppgaveIder } : { id }, { keepData: true },
   ),
 );
 export const getOppgaverTilBehandling = k9LosApi.OPPGAVER_TIL_BEHANDLING.getRestApiData();
@@ -74,15 +74,15 @@ export const flyttReservasjon = (oppgaveId: string, brukerIdent: string, begrunn
   ),
 );
 
-export const fetchOppgavekoensSaksbehandlere = (oppgavekoId: string) => (dispatch: Dispatch) => dispatch(
+export const fetchOppgavekoensSaksbehandlere = (id: string) => (dispatch: Dispatch) => dispatch(
   k9LosApi.OPPGAVEKO_SAKSBEHANDLERE.makeRestApiRequest()(
-    { oppgavekoId }, { keepData: false },
+    { id }, { keepData: false },
   ),
 );
 export const getOppgavekoensSaksbehandlere = k9LosApi.OPPGAVEKO_SAKSBEHANDLERE.getRestApiData();
 
-export const fetchAntallOppgaverForBehandlingsko = (oppgavekoId: string) => (dispatch: Dispatch) => dispatch(
-  k9LosApi.BEHANDLINGSKO_OPPGAVE_ANTALL.makeRestApiRequest()({ oppgavekoId }),
+export const fetchAntallOppgaverForBehandlingsko = (id: string) => (dispatch: Dispatch) => dispatch(
+  k9LosApi.BEHANDLINGSKO_OPPGAVE_ANTALL.makeRestApiRequest()({ id }),
 );
 export const getAntallOppgaverForBehandlingskoResultat = k9LosApi.BEHANDLINGSKO_OPPGAVE_ANTALL.getRestApiData();
 

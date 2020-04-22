@@ -18,17 +18,17 @@ import styles from './endreOppgavekoerPanel.less';
 
 interface TsProps {
   oppgavekoer: Oppgaveko[];
-  setValgtOppgavekoId: (oppgavekoId: string) => void;
+  setValgtOppgavekoId: (id: string) => void;
   lagNyOppgaveko: () => void;
-  fjernOppgaveko: (oppgavekoId: string) => void;
-  lagreOppgavekoNavn: (oppgaveko: {oppgavekoId: string; navn: string}) => void;
-  lagreOppgavekoBehandlingstype: (oppgavekoId: string, behandlingType: Kodeverk, isChecked: boolean) => void;
-  lagreOppgavekoFagsakYtelseType: (oppgavekoId: string, fagsakYtelseType: string) => void;
-  lagreOppgavekoAndreKriterier: (oppgavekoId: string, andreKriterierType: Kodeverk, isChecked: boolean, skalInkludere: boolean) => void;
-  knyttSaksbehandlerTilOppgaveko: (oppgavekoId: string, brukerIdent: string, isChecked: boolean) => void;
+  fjernOppgaveko: (id: string) => void;
+  lagreOppgavekoNavn: (oppgaveko: {id: string; navn: string}) => void;
+  lagreOppgavekoBehandlingstype: (id: string, behandlingType: Kodeverk, isChecked: boolean) => void;
+  lagreOppgavekoFagsakYtelseType: (id: string, fagsakYtelseType: string) => void;
+  lagreOppgavekoAndreKriterier: (id: string, andreKriterierType: Kodeverk, isChecked: boolean, skalInkludere: boolean) => void;
+  knyttSaksbehandlerTilOppgaveko: (id: string, brukerIdent: string, isChecked: boolean) => void;
   valgtOppgavekoId?: string;
   hentOppgavekoer: () => Oppgaveko[];
-  hentAntallOppgaverForOppgaveko: (oppgavekoId: string) => Promise<string>;
+  hentAntallOppgaverForOppgaveko: (id: string) => Promise<string>;
   hentAntallOppgaverTotalt: () => Promise<string>;
 }
 

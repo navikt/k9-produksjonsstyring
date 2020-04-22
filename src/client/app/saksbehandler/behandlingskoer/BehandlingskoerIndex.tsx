@@ -18,10 +18,10 @@ import {
 import OppgavekoPanel from './components/OppgavekoPanel';
 
 type TsProps = Readonly<{
-  fetchOppgaverTilBehandling: (oppgavekoId: string) => Promise<{payload: any }>;
-  fetchOppgaverTilBehandlingOppgaver: (oppgavekoId: string, oppgaveIder?: string) => Promise<{payload: any }>;
+  fetchOppgaverTilBehandling: (id: string) => Promise<{payload: any }>;
+  fetchOppgaverTilBehandlingOppgaver: (id: string, oppgaveIder?: string) => Promise<{payload: any }>;
   fetchAlleOppgavekoer: () => void;
-  fetchReserverteOppgaver: (oppgavekoId: string) => Promise<{payload: any }>;
+  fetchReserverteOppgaver: (id: string) => Promise<{payload: any }>;
   reserverOppgave: (oppgaveId: string) => Promise<{payload: OppgaveStatus }>;
   opphevOppgaveReservasjon: (oppgaveId: string, begrunnelse: string) => Promise<string>;
   forlengOppgaveReservasjon: (oppgaveId: string) => Promise<string>;
@@ -30,7 +30,7 @@ type TsProps = Readonly<{
   k9sakUrl: string;
   k9tilbakeUrl: string;
   goToUrl: (url: string) => void;
-  setValgtOppgavekoId: (oppgavekoId: string) => void;
+  setValgtOppgavekoId: (id: string) => void;
 }>
 
 interface StateProps {
@@ -79,20 +79,20 @@ export class BehandlingskoerIndex extends Component<TsProps, StateProps> {
     }
   }
 
-  fetchOppgavekoOppgaverPolling = (oppgavekoId: string, oppgaveIder?: string) => {
+  fetchOppgavekoOppgaverPolling = (id: string, oppgaveIder?: string) => {
     const { fetchOppgaverTilBehandlingOppgaver: fetchTilBehandling, fetchReserverteOppgaver: fetchReserverte } = this.props;
-    fetchReserverte(oppgavekoId);
-    fetchTilBehandling(oppgavekoId, oppgaveIder);
+    fetchReserverte(id);
+    fetchTilBehandling(id, oppgaveIder);
   }
 
-  fetchOppgavekoOppgaver = (oppgavekoId: string) => {
-    this.setState(prevState => ({ ...prevState, oppgavekoId }));
+  fetchOppgavekoOppgaver = (id: string) => {
+    this.setState(prevState => ({ ...prevState, id }));
     const { fetchOppgaverTilBehandling: fetchTilBehandling, fetchReserverteOppgaver: fetchReserverte, setValgtOppgavekoId: setOppgavekoId } = this.props;
-    setOppgavekoId(oppgavekoId);
-    fetchReserverte(oppgavekoId);
-    fetchTilBehandling(oppgavekoId).then((response) => {
-      const { id } = this.state;
-      return oppgavekoId === id ? this.fetchOppgavekoOppgaverPolling(oppgavekoId, response.payload.map(o => o.id).join(',')) : Promise.resolve();
+    setOppgavekoId(id);
+    fetchReserverte(id);
+    fetchTilBehandling(id).then((response) => {
+      // eslint-disable-next-line react/destructuring-assignment
+      return id === this.state.id ? this.fetchOppgavekoOppgaverPolling(id, response.payload.map(o => o.id).join(',')) : Promise.resolve();
     });
   }
 

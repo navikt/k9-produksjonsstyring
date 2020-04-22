@@ -17,16 +17,16 @@ import oppgavekoPropType from './oppgavekoPropType';
 
 interface TsProps {
   fetchAlleOppgavekoer: () => Oppgaveko[];
-  fetchAntallOppgaverForOppgaveko: (oppgavekoId: string) => Promise<string>;
+  fetchAntallOppgaverForOppgaveko: (id: string) => Promise<string>;
   fetchAntallOppgaverTotalt: () => Promise<string>;
-  setValgtOppgavekoId: (oppgavekoId: string) => void;
+  setValgtOppgavekoId: (id: string) => void;
   lagNyOppgaveko: () => void;
-  fjernOppgaveko: (oppgavekoId: string) => void;
-  lagreOppgavekoNavn: (oppgaveko: {oppgavekoId: string; navn: string}) => void;
-  lagreOppgavekoBehandlingstype: (oppgavekoId: string, behandlingType: Kodeverk, isChecked: boolean,) => void;
-  lagreOppgavekoFagsakYtelseType: (oppgavekoId: string, fagsakYtelseType: string) => void;
-  knyttSaksbehandlerTilOppgaveko: (oppgavekoId: string, brukerIdent: string, isChecked: boolean,) => void;
-  lagreOppgavekoAndreKriterier: (oppgavekoId: string, andreKriterierType: Kodeverk, isChecked: boolean, skalInkludere: boolean) => void;
+  fjernOppgaveko: (id: string) => void;
+  lagreOppgavekoNavn: (oppgaveko: {id: string; navn: string}) => void;
+  lagreOppgavekoBehandlingstype: (id: string, behandlingType: Kodeverk, isChecked: boolean,) => void;
+  lagreOppgavekoFagsakYtelseType: (id: string, fagsakYtelseType: string) => void;
+  knyttSaksbehandlerTilOppgaveko: (id: string, brukerIdent: string, isChecked: boolean,) => void;
+  lagreOppgavekoAndreKriterier: (id: string, andreKriterierType: Kodeverk, isChecked: boolean, skalInkludere: boolean) => void;
   oppgavekoer: Oppgaveko[];
   valgtOppgavekoId?: string;
   fetchAlleSaksbehandlere: () => void;
@@ -103,7 +103,7 @@ export class EndreBehandlingskoerIndex extends Component<TsProps> {
 const mapStateToProps = (state) => {
   const id = getValgtOppgavekoId(state);
   const nyIdObject = getNyOppgavekoId(state);
-  const nyId = nyIdObject ? nyIdObject.oppgavekoId : undefined;
+  const nyId = nyIdObject ? nyIdObject.id : undefined;
   return {
     oppgavekoer: getAlleOppgavekoer(state),
     valgtOppgavekoId: id !== undefined ? id : nyId,

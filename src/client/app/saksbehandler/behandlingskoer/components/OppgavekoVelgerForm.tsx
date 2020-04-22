@@ -29,9 +29,9 @@ import styles from './oppgavekoVelgerForm.less';
 interface TsProps {
   intl: any;
   oppgavekoer: Oppgaveko[];
-  fetchOppgavekoOppgaver: (oppgavekoId: string) => void;
-  fetchOppgavekoensSaksbehandlere: (oppgavekoId: string) => void;
-  fetchAntallOppgaverForBehandlingsko: (oppgavekoId: string) => void;
+  fetchOppgavekoOppgaver: (id: string) => void;
+  fetchOppgavekoensSaksbehandlere: (id: string) => void;
+  fetchAntallOppgaverForBehandlingsko: (id: string) => void;
   saksbehandlere?: Saksbehandler[];
 }
 
@@ -41,12 +41,12 @@ interface Toolip {
 }
 
 const getDefaultOppgaveko = (oppgavekoer) => {
-  const lagretOppgavekoId = getValueFromLocalStorage('oppgavekoId');
+  const lagretOppgavekoId = getValueFromLocalStorage('id');
   if (lagretOppgavekoId) {
     if (oppgavekoer.some(s => `${s.id}` === lagretOppgavekoId)) {
-      return parseInt(lagretOppgavekoId, 10);
+      return lagretOppgavekoId;
     }
-    removeValueFromLocalStorage('oppgavekoId');
+    removeValueFromLocalStorage('id');
   }
 
   const sortertOppgavekoer = oppgavekoer.sort((oppgaveko1, oppgaveko2) => oppgaveko1.navn.localeCompare(oppgaveko2.navn));
@@ -65,7 +65,7 @@ const getInitialValues = (oppgavekoer) => {
   };
 };
 
-const getValgtOppgaveko = (oppgavekoer: Oppgaveko[], oppgavekoId: string) => oppgavekoer.find(s => oppgavekoId === `${s.id}`);
+const getValgtOppgaveko = (oppgavekoer: Oppgaveko[], id: string) => oppgavekoer.find(s => id === `${s.id}`);
 
 const getStonadstyper = (oppgaveko?: Oppgaveko, intl: any) => (oppgaveko && oppgaveko.fagsakYtelseTyper.length > 0
     ? oppgaveko.fagsakYtelseTyper.map(type => type.navn) : [intl.formatMessage({ id: 'OppgavekoVelgerForm.Alle' })]);
@@ -184,7 +184,7 @@ export class OppgavekoVelgerForm extends Component<TsProps> {
               <FlexRow>
                 <FlexColumn className={styles.navnInput}>
                   <SelectField
-                    name="oppgavekoId"
+                    name="id"
                     label={intl.formatMessage({ id: 'OppgavekoVelgerForm.Oppgaveko' })}
                     selectValues={oppgavekoer
                                 .map(oppgaveko => (<option key={oppgaveko.id} value={`${oppgaveko.id}`}>{oppgaveko.navn}</option>))}

@@ -116,7 +116,6 @@ export class OppgaverTabell extends Component<TsProps, TsState> {
       return;
     }
     reserverOppgave(oppgave);
-    slaSammenOgMarkerReserverte(reserverteOppgaver, oppgaverTilBehandling);
   };
 
   toggleMenu = (valgtOppgave: Oppgave) => {

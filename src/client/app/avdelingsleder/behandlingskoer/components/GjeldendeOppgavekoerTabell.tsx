@@ -39,9 +39,9 @@ const headerTextCodes = [
 
 interface TsProps {
   oppgavekoer: Oppgaveko[];
-  setValgtOppgavekoId: (oppgavekoId: string) => void;
+  setValgtOppgavekoId: (id: string) => void;
   lagNyOppgaveko: () => void;
-  fjernOppgaveko: (oppgavekoId: string) => void;
+  fjernOppgaveko: (id: string) => void;
   valgtOppgavekoId?: string;
   behandlingTyper: Kodeverk[];
   fagsakYtelseTyper: Kodeverk[];

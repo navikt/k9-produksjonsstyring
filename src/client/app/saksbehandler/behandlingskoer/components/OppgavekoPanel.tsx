@@ -14,7 +14,7 @@ import styles from './oppgavekoPanel.less';
 
 type TsProps = Readonly<{
   oppgavekoer: Oppgaveko[];
-  fetchOppgavekoOppgaver: (oppgavekoId: string) => void;
+  fetchOppgavekoOppgaver: (id: string) => void;
   reserverOppgave: (oppgaveId: string) => void;
   opphevOppgaveReservasjon: (oppgaveId: string, begrunnelse: string) => Promise<string>;
   forlengOppgaveReservasjon: (oppgaveId: string) => Promise<string>;
