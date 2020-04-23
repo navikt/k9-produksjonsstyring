@@ -12,11 +12,8 @@ const oppgavekoPropType = PropTypes.shape({
   sistEndret: PropTypes.string.isRequired,
   sortering: PropTypes.shape({
     sorteringType: kodeverkPropType.isRequired,
-    fra: PropTypes.number,
-    til: PropTypes.number,
     fomDato: PropTypes.string,
     tomDato: PropTypes.string,
-    erDynamiskPeriode: PropTypes.bool.isRequired,
   }),
   saksbehandlere: PropTypes.arrayOf(saksbehandlerPropType).isRequired,
 });

@@ -65,7 +65,6 @@ export const SorteringVelger = ({
           label={koSortering.navn}
         >
           {(koSortering.felttype === 'DATO') && (
-
           <DatoSorteringValg
             intl={intl}
             valgtOppgavekoId={valgtOppgavekoId}

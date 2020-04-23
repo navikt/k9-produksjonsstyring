@@ -19,7 +19,7 @@ import OppgavekoPanel from './components/OppgavekoPanel';
 
 type TsProps = Readonly<{
   fetchOppgaverTilBehandling: (id: string) => Promise<{payload: any }>;
-  fetchOppgaverTilBehandlingOppgaver: (id: string, oppgaveIder?: string) => Promise<{payload: any }>;
+  fetchOppgaverTilBehandlingOppgaver: (id: string) => Promise<{payload: any }>;
   fetchAlleOppgavekoer: () => void;
   fetchReserverteOppgaver: (id: string) => Promise<{payload: any }>;
   reserverOppgave: (oppgaveId: string) => Promise<{payload: OppgaveStatus }>;
@@ -79,10 +79,13 @@ export class BehandlingskoerIndex extends Component<TsProps, StateProps> {
     }
   }
 
-  fetchOppgavekoOppgaverPolling = (id: string, oppgaveIder?: string) => {
+  fetchOppgavekoOppgaverPolling = (koId: string) => {
     const { fetchOppgaverTilBehandlingOppgaver: fetchTilBehandling, fetchReserverteOppgaver: fetchReserverte } = this.props;
-    fetchReserverte(id);
-    fetchTilBehandling(id, oppgaveIder);
+    fetchReserverte(koId);
+    fetchTilBehandling(koId).then((response) => {
+      const { id } = this.state;
+      return koId === id ? this.fetchOppgavekoOppgaverPolling(id) : Promise.resolve();
+    }).catch(() => undefined);
   }
 
   fetchOppgavekoOppgaver = (id: string) => {
@@ -92,7 +95,7 @@ export class BehandlingskoerIndex extends Component<TsProps, StateProps> {
     fetchReserverte(id);
     fetchTilBehandling(id).then(response =>
         // eslint-disable-next-line react/destructuring-assignment,implicit-arrow-linebreak
-       (id === this.state.id ? this.fetchOppgavekoOppgaverPolling(id, response.payload.map(o => o.id).join(',')) : Promise.resolve()));
+       (id === this.state.id ? this.fetchOppgavekoOppgaverPolling(id) : Promise.resolve()));
   }
 
   openSak = (oppgave: Oppgave) => {

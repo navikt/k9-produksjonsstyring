@@ -11,18 +11,12 @@ export type Oppgaveko = Readonly<{
   sistEndret: string;
   sortering?: {
     sorteringType: KoSorteringType;
-    fra?: number;
-    til?: number;
     fomDato?: string;
     tomDato?: string;
-    erDynamiskPeriode: boolean;
   };
-  andreKriterier?: AnnetKriterie[];
+  andreKriterier?: Kodeverk[];
   saksbehandlere: string[];
   antallBehandlinger: number;
 }>;
 
-type AnnetKriterie = Readonly<{
-  andreKriterierType: Kodeverk;
-  inkluder: boolean;
-}>;
+

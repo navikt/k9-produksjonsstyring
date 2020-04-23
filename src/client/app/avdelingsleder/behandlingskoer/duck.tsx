@@ -55,8 +55,8 @@ export const fjernOppgaveko = (id: string) => (dispatch: Dispatch) => dispatch(
   .then(() => dispatch(resetValgtOppgavekoId()))
   .then(() => dispatch(fetchAlleOppgavekoer()));
 
-export const lagreOppgavekoNavn = (oppgaveko: {id: string; navn: number}) => (dispatch: Dispatch) => dispatch(
-  k9LosApi.LAGRE_OPPGAVEKO_NAVN.makeRestApiRequest()({ id: oppgaveko.id, navn: oppgaveko.navn }),
+export const lagreOppgavekoNavn = (id: string, navn: number) => (dispatch: Dispatch) => dispatch(
+  k9LosApi.LAGRE_OPPGAVEKO_NAVN.makeRestApiRequest()({ id, navn }),
 ).then(() => dispatch(fetchAlleOppgavekoer()));
 
 export const lagreOppgavekoBehandlingstype = (id: string, behandlingType: {}, isChecked: boolean) => (dispatch: Dispatch) => dispatch(
@@ -75,6 +75,15 @@ export const lagreOppgavekoFagsakYtelseType = (id: string, fagsakYtelseType: str
     .then(() => dispatch(fetchAlleOppgavekoer()));
 };
 
+export const lagreOppgavekoAndreKriterier = (id: string, andreKriterierType: {}, isChecked: boolean) => (dispatch: Dispatch) => dispatch(
+    k9LosApi.LAGRE_OPPGAVEKO_ANDRE_KRITERIER.makeRestApiRequest()({
+        id,
+        andreKriterierType,
+        checked: isChecked,
+    }),
+).then(() => dispatch(fetchAntallOppgaverForOppgaveko(id)))
+    .then(() => dispatch(fetchAlleOppgavekoer()));
+
 export const lagreOppgavekoSortering = (id: string, oppgavekoSorteringValg: string) => (dispatch: Dispatch) => dispatch(
   k9LosApi.LAGRE_OPPGAVEKO_SORTERING.makeRestApiRequest()({ id, oppgavekoSorteringValg }),
 ).then(() => dispatch(fetchAntallOppgaverForOppgaveko(id)))
@@ -84,17 +93,6 @@ export const lagreOppgavekoSorteringTidsintervallDato = (id: string, fomDato: st
   k9LosApi.LAGRE_OPPGAVEKO_SORTERING_TIDSINTERVALL_DATO.makeRestApiRequest()({
  id, fomDato, tomDato,
 }),
-).then(() => dispatch(fetchAntallOppgaverForOppgaveko(id)))
-    .then(() => dispatch(fetchAlleOppgavekoer()));
-
-export const lagreOppgavekoAndreKriterier = (id: string, andreKriterierType: string, isChecked: boolean,
-                                             skalInkludere: boolean) => (dispatch: Dispatch) => dispatch(
-  k9LosApi.LAGRE_OPPGAVEKO_ANDRE_KRITERIER.makeRestApiRequest()({
-    id,
-    andreKriterierType,
-    checked: isChecked,
-    inkluder: skalInkludere,
-  }),
 ).then(() => dispatch(fetchAntallOppgaverForOppgaveko(id)))
     .then(() => dispatch(fetchAlleOppgavekoer()));
 

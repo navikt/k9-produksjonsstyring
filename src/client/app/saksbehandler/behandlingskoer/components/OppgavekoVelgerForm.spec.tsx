@@ -221,26 +221,22 @@ describe('<OppgavekoVelgerForm>', () => {
     expect(labels.at(1).prop('texts')).to.eql(['Førstegangssøknad', 'Klage']);
   });
 
-  it('skal vise valgte andre kriterier som er inkluderte', () => {
+  it('skal vise valgte andre kriterier', () => {
     const oppgavekoer = [{
       id: '1',
       navn: 'Testliste 1',
       behandlingTyper: [],
       fagsakYtelseTyper: [],
       andreKriterier: [{
-        andreKriterierType: {
           kode: andreKriterierType.TIL_BESLUTTER,
           navn: 'Til beslutter',
         },
-        inkluder: true,
-      }],
+      ],
       sortering: {
         sorteringType: {
           kode: 'test',
           navn: 'test',
         },
-        fra: 1,
-        til: 2,
         fomDato: '2019-01-01',
         tomDato: '2019-01-10',
       },
@@ -259,46 +255,6 @@ describe('<OppgavekoVelgerForm>', () => {
     const labels = wrapper.find(LabelWithHeader);
     expect(labels).to.have.length(4);
     expect(labels.at(2).prop('texts')).to.eql(['Til beslutter']);
-  });
-
-  it('skal vise valgte andre kriterier som er ekskludert', () => {
-    const oppgavekoer = [{
-      id: '1',
-      navn: 'Testliste 1',
-      behandlingTyper: [],
-      fagsakYtelseTyper: [],
-      andreKriterier: [{
-        andreKriterierType: {
-          kode: andreKriterierType.TIL_BESLUTTER,
-          navn: 'Til beslutter',
-        },
-        inkluder: false,
-      }],
-      sortering: {
-        sorteringType: {
-          kode: 'test',
-          navn: 'test',
-        },
-        fra: 1,
-        til: 2,
-        fomDato: '2019-01-01',
-        tomDato: '2019-01-10',
-      },
-    }];
-
-    const formProps = { values: { id: '1' } };
-    const wrapper = shallowWithIntl(<OppgavekoVelgerForm
-      intl={intlMock}
-      oppgavekoer={oppgavekoer}
-      fetchOppgavekoOppgaver={sinon.spy()}
-      totaltBehandlingTypeAntall={5}
-      fetchOppgavekoensSaksbehandlere={sinon.spy()}
-      fetchAntallOppgaverForBehandlingsko={sinon.spy()}
-    />).find(Form).drill(props => props.render(formProps)).shallow();
-
-    const labels = wrapper.find(LabelWithHeader);
-    expect(labels).to.have.length(4);
-    expect(labels.at(2).prop('texts')).to.eql(['Uten: Til beslutter']);
   });
 
   it('skal vise at alle andre kriterier er valgte', () => {

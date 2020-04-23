@@ -37,10 +37,10 @@ const finnDagerSomTall = (antallDager) => {
 interface TsProps {
   intl: any;
   valgtOppgaveko: Oppgaveko;
-  lagreOppgavekoNavn: (oppgaveko: {oppgavekoId: string; navn: string}) => void;
+  lagreOppgavekoNavn: (id: string, navn: string) => void;
   lagreOppgavekoBehandlingstype: (oppgavekoId: string, behandlingType: Kodeverk, isChecked: boolean) => void;
   lagreOppgavekoFagsakYtelseType: (oppgavekoId: string, fagsakYtelseType: string) => void;
-  lagreOppgavekoAndreKriterier: (oppgavekoId: string, andreKriterierType: Kodeverk, isChecked: boolean, skalInkludere: boolean) => void;
+  lagreOppgavekoAndreKriterier: (id: string, andreKriterierType: Kodeverk, isChecked: boolean) => void;
   antallOppgaver?: number;
   hentAntallOppgaverForOppgaveko: (oppgavekoId: string) => Promise<string>;
 }
@@ -86,9 +86,7 @@ export class UtvalgskriterierForOppgavekoForm extends Component<TsProps> {
       ? valgtOppgaveko.fagsakYtelseTyper[0].kode : '';
 
     const andreKriterierTyper = valgtOppgaveko.andreKriterier
-      ? valgtOppgaveko.andreKriterier.reduce((acc, ak) => ({ ...acc, [ak.andreKriterierType.kode]: true }), {}) : {};
-    const andreKriterierInkluder = valgtOppgaveko.andreKriterier
-      ? valgtOppgaveko.andreKriterier.reduce((acc, ak) => ({ ...acc, [`${ak.andreKriterierType.kode}_inkluder`]: ak.inkluder }), {}) : {};
+      ? valgtOppgaveko.andreKriterier.reduce((acc, ak) => ({ ...acc, [ak.kode]: true }), {}) : {};
 
     return {
       id: valgtOppgaveko.id,
@@ -98,7 +96,6 @@ export class UtvalgskriterierForOppgavekoForm extends Component<TsProps> {
       tomDato: valgtOppgaveko.sortering ? valgtOppgaveko.sortering.tomDato : undefined,
       fagsakYtelseType,
       ...andreKriterierTyper,
-      ...andreKriterierInkluder,
       ...behandlingTypes,
     };
   }
@@ -107,7 +104,7 @@ export class UtvalgskriterierForOppgavekoForm extends Component<TsProps> {
     const {
       lagreOppgavekoNavn,
     } = this.props;
-    lagreOppgavekoNavn({ oppgavekoId: values.id, navn: values.navn });
+    lagreOppgavekoNavn(values.id, values.navn);
   }
 
   render = () => {

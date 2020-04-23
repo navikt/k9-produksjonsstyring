@@ -134,10 +134,9 @@ describe('<UtvalgskriterierForOppgavekoForm>', () => {
 
     expect(lagreOppgavekoNavnFn.calledOnce).to.be.true;
     const { args } = lagreOppgavekoNavnFn.getCalls()[0];
-    expect(args).to.have.length(1);
-    expect(args[0]).to.eql({
-      oppgavekoId: '1',
-      navn: 'Foreldrepenger',
+    expect(args).to.have.length(2);
+    expect(args[0]).to.eql('1');
+    expect(args[1]).to.eql('Foreldrepenger');
     });
   });
 
@@ -148,18 +147,14 @@ describe('<UtvalgskriterierForOppgavekoForm>', () => {
       sistEndret: '2017-08-31',
       saksbehandlere: [],
       andreKriterier: [{
-        andreKriterierType: {
           kode: andreKriterierType.TIL_BESLUTTER,
           navn: 'Til beslutter',
         },
-        inkluder: true,
-      }, {
-        andreKriterierType: {
+       {
           kode: andreKriterierType.REGISTRER_PAPIRSOKNAD,
           navn: 'Registrer papirsoknad',
         },
-        inkluder: false,
-      }],
+      ],
     };
 
     const wrapper = shallowWithIntl(<UtvalgskriterierForOppgavekoForm
@@ -182,9 +177,6 @@ describe('<UtvalgskriterierForOppgavekoForm>', () => {
       fomDato: undefined,
       tomDato: undefined,
       [andreKriterierType.REGISTRER_PAPIRSOKNAD]: true,
-      [`${andreKriterierType.REGISTRER_PAPIRSOKNAD}_inkluder`]: false,
       [andreKriterierType.TIL_BESLUTTER]: true,
-      [`${andreKriterierType.TIL_BESLUTTER}_inkluder`]: true,
     });
   });
-});

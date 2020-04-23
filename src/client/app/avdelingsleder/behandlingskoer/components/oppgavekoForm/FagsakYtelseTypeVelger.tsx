@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
@@ -30,7 +30,6 @@ export const FagsakYtelseTypeVelger = ({
   fagsakYtelseTyper,
   valgtOppgavekoId,
   lagreOppgavekoFagsakYtelseType,
-  valgtAvdelingEnhet,
 }: TsProps) => (
   <>
     <Undertekst>
