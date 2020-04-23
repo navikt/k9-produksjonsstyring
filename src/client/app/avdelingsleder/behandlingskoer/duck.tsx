@@ -55,7 +55,7 @@ export const fjernOppgaveko = (id: string) => (dispatch: Dispatch) => dispatch(
   .then(() => dispatch(resetValgtOppgavekoId()))
   .then(() => dispatch(fetchAlleOppgavekoer()));
 
-export const lagreOppgavekoNavn = (id: string, navn: number) => (dispatch: Dispatch) => dispatch(
+export const lagreOppgavekoNavn = (id: string, navn: string) => (dispatch: Dispatch) => dispatch(
   k9LosApi.LAGRE_OPPGAVEKO_NAVN.makeRestApiRequest()({ id, navn }),
 ).then(() => dispatch(fetchAlleOppgavekoer()));
 
@@ -68,7 +68,7 @@ export const lagreOppgavekoBehandlingstype = (id: string, behandlingType: {}, is
 ).then(() => dispatch(fetchAntallOppgaverForOppgaveko(id)))
     .then(() => dispatch(fetchAlleOppgavekoer()));
 
-export const lagreOppgavekoFagsakYtelseType = (id: string, fagsakYtelseType: string) => (dispatch: Dispatch) => {
+export const lagreOppgavekoFagsakYtelseType = (id: string, fagsakYtelseType: {}) => (dispatch: Dispatch) => {
   const data = fagsakYtelseType !== '' ? { id, fagsakYtelseType } : { id };
   return dispatch(k9LosApi.LAGRE_OPPGAVEKO_FAGSAK_YTELSE_TYPE.makeRestApiRequest()(data))
     .then(() => dispatch(fetchAntallOppgaverForOppgaveko(id)))

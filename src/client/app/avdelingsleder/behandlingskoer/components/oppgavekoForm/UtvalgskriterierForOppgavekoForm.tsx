@@ -39,7 +39,7 @@ interface TsProps {
   valgtOppgaveko: Oppgaveko;
   lagreOppgavekoNavn: (id: string, navn: string) => void;
   lagreOppgavekoBehandlingstype: (oppgavekoId: string, behandlingType: Kodeverk, isChecked: boolean) => void;
-  lagreOppgavekoFagsakYtelseType: (oppgavekoId: string, fagsakYtelseType: string) => void;
+  lagreOppgavekoFagsakYtelseType: (oppgavekoId: string, fagsakYtelseType: Kodeverk) => void;
   lagreOppgavekoAndreKriterier: (id: string, andreKriterierType: Kodeverk, isChecked: boolean) => void;
   antallOppgaver?: number;
   hentAntallOppgaverForOppgaveko: (oppgavekoId: string) => Promise<string>;
@@ -162,7 +162,6 @@ export class UtvalgskriterierForOppgavekoForm extends Component<TsProps> {
                 <AndreKriterierVelger
                   lagreOppgavekoAndreKriterier={lagreOppgavekoAndreKriterier}
                   valgtOppgavekoId={valgtOppgaveko.id}
-                  values={values}
                 />
               </Column>
               <Column xs="4">

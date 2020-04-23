@@ -82,9 +82,9 @@ export class BehandlingskoerIndex extends Component<TsProps, StateProps> {
   fetchOppgavekoOppgaverPolling = (koId: string) => {
     const { fetchOppgaverTilBehandlingOppgaver: fetchTilBehandling, fetchReserverteOppgaver: fetchReserverte } = this.props;
     fetchReserverte(koId);
-    fetchTilBehandling(koId).then((response) => {
+    fetchTilBehandling(koId).then(() => {
       const { id } = this.state;
-      return koId === id ? this.fetchOppgavekoOppgaverPolling(id) : Promise.resolve();
+      if (koId === id) { setTimeout(() => { this.fetchOppgavekoOppgaverPolling(id); }, 5000); } else Promise.resolve();
     }).catch(() => undefined);
   }
 

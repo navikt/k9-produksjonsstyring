@@ -11,6 +11,7 @@ import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import ArrowBox from 'sharedComponents/ArrowBox';
 import { Kodeverk } from 'kodeverk/kodeverkTsType';
 import { CheckboxField, RadioGroupField, RadioOption } from 'form/FinalFields';
+import styles from './andreKriterierVelger.less';
 
 interface TsProps {
   valgtOppgavekoId: string;
