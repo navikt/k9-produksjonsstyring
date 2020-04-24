@@ -75,11 +75,11 @@ jobs:
         run: |
           echo "::set-env name=IMAGE::$BASE_IMAGE:$(date "+%Y.%m.%d")-$(git rev-parse --short HEAD)"
       - name: Deploy
-          uses: nais/deploy/actions/deploy@v1
-          env:
-            APIKEY: ${{ secrets.DEPLOY_KEY }}
-            CLUSTER: dev-fss
-            RESOURCE: deploy/dev-fss.yml
+        uses: nais/deploy/actions/deploy@v1
+        env:
+          APIKEY: ${{ secrets.DEPLOY_KEY }}
+          CLUSTER: dev-fss
+          RESOURCE: deploy/dev-fss.yml
 
   deploy-prod-fss:
     name: Deploy til prod
@@ -92,11 +92,11 @@ jobs:
         run: |
           echo "::set-env name=IMAGE::$BASE_IMAGE:$(date "+%Y.%m.%d")-$(git rev-parse --short HEAD)"
       - name: Deploy
-          uses: nais/deploy/actions/deploy@v1
-          env:
-            APIKEY: ${{ secrets.DEPLOY_KEY }}
-            CLUSTER: prod-fss
-            RESOURCE: deploy/prod-fss.yml
+        uses: nais/deploy/actions/deploy@v1
+        env:
+          APIKEY: ${{ secrets.DEPLOY_KEY }}
+          CLUSTER: prod-fss
+          RESOURCE: deploy/prod-fss.yml
 
 
 
