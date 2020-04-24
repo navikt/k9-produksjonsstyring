@@ -6,15 +6,14 @@ on:
       - '.gitignore'
       - 'CODEOWNERS'
       - 'LICENCE'
-      - 'deploy/k9-los-oidc-auth-proxy.yml'
+      - 'deploy/k9-los-oidc-auth-proxy-dev.yml'
       - 'deploy/k9-los-oidc-auth-proxy-redis.yml'
       - 'deploy/k9-los-oidc-auth-proxy-redis-exporter.yml'
-    branches:
-      - master
+
 env:
   IMAGE_BASE: docker.pkg.github.com/${{ github.repository }}/k9-los-web
 jobs:
-  deploy-docker-image:
+  build-docker-image:
     name: Deploy Docker image
     runs-on: ubuntu-latest
     steps:
@@ -59,18 +58,31 @@ jobs:
           -H "Accept: application/vnd.github.everest-preview+json" \
           -H "Content-Type: application/json" \
           https://api.github.com/repos/navikt/k9-verdikjede/dispatches \
-          --data '{"event_type": "saksbehandling-verdikjede", 
+          --data '{"event_type": "saksbehandling-verdikjede",
                    "client_payload": {
                       "trigger": "${{ github.repository }}",
                       "version": "${{ env.TAG }}",
                       "image": "${{ env.IMAGE }}"
                   }}'
-      - name: Deploy til testmiljø
-        uses: nais/deploy/actions/deploy@v1
-        env:
-          APIKEY: ${{ secrets.DEPLOY_KEY }}
-          CLUSTER: dev-fss
-          RESOURCE: deploy/dev-fss.yml
+  deploy-dev-fss:
+    name: Deploy til testmiljø
+    if: startsWith(github.ref, 'refs/heads/dev-') || startsWith(github.ref, 'refs/heads/master') # Deploy if branch is either master or dev-*
+    needs: build-docker-image
+    uses: nais/deploy/actions/deploy@v1
+    env:
+      APIKEY: ${{ secrets.DEPLOY_KEY }}
+      CLUSTER: dev-fss
+      RESOURCE: deploy/dev-fss.yml
+
+  deploy-prod-fss:
+    name: Deploy til prod
+    if: startsWith(github.ref, 'refs/heads/master') # If the branch is master
+    needs: build-docker-image
+    uses: nais/deploy/actions/deploy@v1
+    env:
+      APIKEY: ${{ secrets.DEPLOY_KEY }}
+      CLUSTER: prod-fss
+      RESOURCE: deploy/prod-fss.yml
 
 
 
