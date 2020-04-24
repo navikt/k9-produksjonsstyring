@@ -68,21 +68,35 @@ jobs:
     name: Deploy til testmiljø
     if: startsWith(github.ref, 'refs/heads/dev-') || startsWith(github.ref, 'refs/heads/master') # Deploy if branch is either master or dev-*
     needs: build-docker-image
-    uses: nais/deploy/actions/deploy@v1
-    env:
-      APIKEY: ${{ secrets.DEPLOY_KEY }}
-      CLUSTER: dev-fss
-      RESOURCE: deploy/dev-fss.yml
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v1
+      - name: unpack
+        run: |
+          echo "::set-env name=IMAGE::$BASE_IMAGE:$(date "+%Y.%m.%d")-$(git rev-parse --short HEAD)"
+      - name: Deploy
+          uses: nais/deploy/actions/deploy@v1
+          env:
+            APIKEY: ${{ secrets.DEPLOY_KEY }}
+            CLUSTER: dev-fss
+            RESOURCE: deploy/dev-fss.yml
 
   deploy-prod-fss:
     name: Deploy til prod
     if: startsWith(github.ref, 'refs/heads/master') # If the branch is master
     needs: build-docker-image
-    uses: nais/deploy/actions/deploy@v1
-    env:
-      APIKEY: ${{ secrets.DEPLOY_KEY }}
-      CLUSTER: prod-fss
-      RESOURCE: deploy/prod-fss.yml
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v1
+      - name: unpack
+        run: |
+          echo "::set-env name=IMAGE::$BASE_IMAGE:$(date "+%Y.%m.%d")-$(git rev-parse --short HEAD)"
+      - name: Deploy
+          uses: nais/deploy/actions/deploy@v1
+          env:
+            APIKEY: ${{ secrets.DEPLOY_KEY }}
+            CLUSTER: prod-fss
+            RESOURCE: deploy/prod-fss.yml
 
 
 
