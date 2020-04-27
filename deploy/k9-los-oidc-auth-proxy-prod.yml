@@ -40,7 +40,7 @@ spec:
         - mountPath: /var/run/secrets/nais.io/vault
           kvPath: /kv/preprod/fss/k9-los-oidc-auth-proxy/default
         - mountPath: /var/run/secrets/nais.io/azuread
-          kvPath: /azuread/data/dev/creds/k9-los-oidc-auth-proxy
+          kvPath: /azuread/data/prod/creds/k9-los-oidc-auth-proxy
     webproxy: true
     env:
         - name: CLIENT_ID
