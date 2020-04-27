@@ -38,9 +38,9 @@ spec:
       enabled: true
       paths:
         - mountPath: /var/run/secrets/nais.io/vault
-          kvPath: /kv/preprod/fss/k9-los-oidc-auth-proxy/default
+          kvPath: /kv/prod/fss/k9-los-oidc-auth-proxy/default
         - mountPath: /var/run/secrets/nais.io/azuread
-          kvPath: /azuread/data/dev/creds/k9-los-oidc-auth-proxy
+          kvPath: /azuread/data/prod/creds/k9-los-oidc-auth-proxy
     webproxy: true
     env:
         - name: CLIENT_ID
@@ -48,11 +48,11 @@ spec:
         - name: DISCOVERY_URL
           value: https://login.microsoftonline.com/62366534-1ec3-4962-8869-9b5535279d0b/v2.0/.well-known/openid-configuration
         - name: LOGIN_SCOPES
-          value: 'openid profile a084abb8-6a38-4506-84c2-e4ac8b438a05/.default'
+          value: 'openid profile 0dc85ed5-a4d7-4893-8424-700ee6725067/.default'
         - name: OIDC_AUTH_PROXY_BASE_URL
-          value: https://k9-los-oidc-auth-proxy.nais.preprod.local
+          value: https://k9-los-oidc-auth-proxy.prod-fss.nais.io
         - name: APPLICATION_BASE_URL
-          value: https://k9-los-web.nais.preprod.local
+          value: https://k9-los-web.prod-fss.nais.io
         - name: ALLOW_PROXY_TO_SELF_SIGNED_CERTIFICATES
           value: 'true'
         - name: SESSION_ID_COOKIE_NAME
