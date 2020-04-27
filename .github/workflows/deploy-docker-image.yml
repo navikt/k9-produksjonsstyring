@@ -13,8 +13,9 @@ on:
 env:
   IMAGE_BASE: docker.pkg.github.com/${{ github.repository }}/k9-los-web
 jobs:
-  build-docker-image:
-    name: Deploy Docker image
+  deploy-dev-fss:
+    name: Deploy til testmiljø
+    if: startsWith(github.ref, 'refs/heads/dev-') || startsWith(github.ref, 'refs/heads/master') # Deploy if branch is either master or dev-*
     runs-on: ubuntu-latest
     steps:
       - name: Hente kode
@@ -64,14 +65,6 @@ jobs:
                       "version": "${{ env.TAG }}",
                       "image": "${{ env.IMAGE }}"
                   }}'
-  deploy-dev-fss:
-    name: Deploy til testmiljø
-    if: startsWith(github.ref, 'refs/heads/dev-') || startsWith(github.ref, 'refs/heads/master') # Deploy if branch is either master or dev-*
-    needs: build-docker-image
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v1
       - name: Deploy
         uses: nais/deploy/actions/deploy@v1
         env:
@@ -82,11 +75,55 @@ jobs:
   deploy-prod-fss:
     name: Deploy til prod
     if: startsWith(github.ref, 'refs/heads/master') # If the branch is master
-    needs: build-docker-image
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: Hente kode
         uses: actions/checkout@v1
+      - name: Sette opp Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+      - name: Get yarn cache
+        id: yarn-cache
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+      - name: Cache node modules
+        uses: actions/cache@v1.1.0
+        with:
+          path: ${{ steps.yarn-cache.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+      - name: Installere dependencies
+        run: yarn install --ignore-optional --no-progress --frozen-lockfile
+      - name: Tester og linting
+        run: yarn test && yarn less:lint
+      - name: Bygge dist
+        run: yarn build
+      - name: Sette Docker-navn og -tag
+        run: |
+          echo "::set-env name=TAG::$(date +"%Y%m%d%H%M%S")-$(echo $GITHUB_SHA | cut -c1-7)"
+          echo "::set-env name=IMAGE::$IMAGE_BASE:$(date +"%Y%m%d%H%M%S")-$(echo $GITHUB_SHA | cut -c1-7)"
+      - name: Bygg og laste opp docker-image
+        run: |
+          docker pull node:alpine
+          docker build --tag ${IMAGE} --tag ${IMAGE_BASE}:latest .
+          echo "$GITHUB_TOKEN" | docker login --username "x-access-token" --password-stdin https://docker.pkg.github.com
+          docker push ${IMAGE_BASE}:latest
+          docker push ${IMAGE}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Trigger verdikjede test
+        if: success()
+        shell: bash
+        run: |
+          curl -XPOST -u "x-access-token:${{secrets.GITHUB_ACCESS_TOKEN}}" \
+          -H "Accept: application/vnd.github.everest-preview+json" \
+          -H "Content-Type: application/json" \
+          https://api.github.com/repos/navikt/k9-verdikjede/dispatches \
+          --data '{"event_type": "saksbehandling-verdikjede",
+                   "client_payload": {
+                      "trigger": "${{ github.repository }}",
+                      "version": "${{ env.TAG }}",
+                      "image": "${{ env.IMAGE }}"
+                  }}'
       - name: Deploy
         uses: nais/deploy/actions/deploy@v1
         env:
