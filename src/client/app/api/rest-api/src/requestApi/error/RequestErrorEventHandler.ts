@@ -3,11 +3,9 @@ import { ErrorType } from './errorTsType';
 import { isHandledError, is401Error, is418Error } from './ErrorTypes';
 import TimeoutError from './TimeoutError';
 
-
-
 const isDevelopment = process.env.NODE_ENV === 'development';
 const REDIRECT_URL = isDevelopment ? 'https://k9-los-oidc-auth-proxy.nais.preprod.local/login?redirect_uri=https://k9-los-web.nais.preprod.local/'
-    : 'https://k9-los-oidc-auth-proxy.nais.adeo.no/login?redirect_uri=https://k9-los-web.nais.adeo.no/'
+    : 'https://k9-los-oidc-auth-proxy.nais.adeo.no/login?redirect_uri=https://k9-los-web.nais.adeo.no/';
 
 type NotificationEmitter = (eventType: keyof typeof EventType, data?: any) => void
 
