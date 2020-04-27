@@ -38,7 +38,7 @@ spec:
       enabled: true
       paths:
         - mountPath: /var/run/secrets/nais.io/vault
-          kvPath: /kv/preprod/fss/k9-los-oidc-auth-proxy/default
+          kvPath: /kv/prod/fss/k9-los-oidc-auth-proxy/default
         - mountPath: /var/run/secrets/nais.io/azuread
           kvPath: /azuread/data/prod/creds/k9-los-oidc-auth-proxy
     webproxy: true
