@@ -72,10 +72,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v1
-      - name: unpack
-        run: |
-          echo "::set-env name=TAG::$(date +"%Y%m%d%H%M%S")-$(echo $GITHUB_SHA | cut -c1-7)"
-          echo "::set-env name=IMAGE::$IMAGE_BASE:$(date +"%Y%m%d%H%M%S")-$(echo $GITHUB_SHA | cut -c1-7)"
       - name: Deploy
         uses: nais/deploy/actions/deploy@v1
         env:
@@ -91,10 +87,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v1
-      - name: unpack
-        run: |
-          echo "::set-env name=TAG::$(date +"%Y%m%d%H%M%S")-$(echo $GITHUB_SHA | cut -c1-7)"
-          echo "::set-env name=IMAGE::$IMAGE_BASE:$(date +"%Y%m%d%H%M%S")-$(echo $GITHUB_SHA | cut -c1-7)"
       - name: Deploy
         uses: nais/deploy/actions/deploy@v1
         env:
