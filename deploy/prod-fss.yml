@@ -40,7 +40,7 @@ spec:
     - name: APP_PORT
       value: "8030"
     - name: AUTH_PROXY_URL
-      value: https://k9-los-oidc-auth-proxy.prod-fss.nais.io
+      value: https://k9-los-oidc-auth-proxy.nais.adeo.no
     - name: APPLICATION_BASE_URL
-      value: https://k9-los-web.prod-fss.nais.io
+      value: https://k9-los-web.nais.adeo.no
 

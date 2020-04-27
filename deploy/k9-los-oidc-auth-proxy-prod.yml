@@ -26,7 +26,7 @@ spec:
             cpu: 50m
             memory: 128Mi
     ingresses:
-        - https://k9-los-oidc-auth-proxy.prod-fss.nais.io
+        - https://k9-los-oidc-auth-proxy.nais.adeo.no
     replicas:
         min: 1
         max: 1
@@ -50,15 +50,15 @@ spec:
         - name: LOGIN_SCOPES
           value: 'openid profile 0dc85ed5-a4d7-4893-8424-700ee6725067/.default'
         - name: OIDC_AUTH_PROXY_BASE_URL
-          value: https://k9-los-oidc-auth-proxy.prod-fss.nais.io
+          value: https://k9-los-oidc-auth-proxy.nais.adeo.no
         - name: APPLICATION_BASE_URL
-          value: https://k9-los-web.prod-fss.nais.io
+          value: https://k9-los-web.nais.adeo.no
         - name: ALLOW_PROXY_TO_SELF_SIGNED_CERTIFICATES
           value: 'true'
         - name: SESSION_ID_COOKIE_NAME
           value: k9-los-web
         - name: PROXY_CONFIG
-          value: '{"apis":[{"path":"k9-los-api","url":"https://k9-los-api.prod-fss.nais.io/api","scopes":"37066d6c-842c-470a-85f1-3149a37da2c2/.default"}]}'
+          value: '{"apis":[{"path":"k9-los-api","url":"https://k9-los-api.nais.adeo.no/api","scopes":"37066d6c-842c-470a-85f1-3149a37da2c2/.default"}]}'
         - name: REDIS_HOST
           value: k9-los-oidc-auth-proxy-redis.default.svc.nais.local
         - name: REDIS_PORT
