@@ -5,8 +5,10 @@ const openPreview = (data) => {
     window.open(URL.createObjectURL(data));
   }
 };
-const isDevelopment = process.env.NODE_ENV === 'development';
-const proxyUrl = process.env.AUTH_PROXY_URL;
+const isLocal = process.env.NODE_ENV === 'development';
+const isProd = window.location.hostname.startsWith('https://k9-los-web.nais.adeo.no');
+const proxyUrl = isProd ? 'https://k9-los-oidc-auth-proxy.nais.adeo.no/api/k9-los-api'
+: 'https://k9-los-oidc-auth-proxy.nais.preprod.local/api/k9-los-api';
 
 const cancellable = (axiosInstance, config) => {
   let cancel;
@@ -30,7 +32,7 @@ const defaultPostHeaders = {
 
 const get = axiosInstance => (url: string, params: any, responseType: string = 'json') => {
   let urlRedir = url ? `${proxyUrl}${url}` : null;
-  if (isDevelopment) urlRedir = url;
+  if (isLocal) urlRedir = url;
   return cancellable(axiosInstance, {
     url: urlRedir,
     params,
@@ -44,7 +46,7 @@ const get = axiosInstance => (url: string, params: any, responseType: string = '
 
 const post = axiosInstance => (url: string, data: any, responseType: string = 'json') => {
   let urlRedir = url ? `${proxyUrl}${url}` : null;
-  if (isDevelopment) urlRedir = url;
+  if (isLocal) urlRedir = url;
   return cancellable(axiosInstance, {
     url: urlRedir,
     responseType,
@@ -60,7 +62,7 @@ const post = axiosInstance => (url: string, data: any, responseType: string = 'j
 
 const put = axiosInstance => (url: string, data: any, responseType: string = 'json') => {
   let urlRedir = url ? `${proxyUrl}${url}` : null;
-  if (isDevelopment) urlRedir = url;
+  if (isLocal) urlRedir = url;
   return cancellable(axiosInstance, {
     url: urlRedir,
     responseType,

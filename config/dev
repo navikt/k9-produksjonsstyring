@@ -1,2 +1,0 @@
-AUTH_PROXY_URL=https://k9-los-oidc-auth-proxy.nais.preprod.local/api/k9-los-api
-REDIRECT_URL=https://k9-los-oidc-auth-proxy.nais.preprod.local/login?redirect_uri=https://k9-los-web.nais.preprod.local/
