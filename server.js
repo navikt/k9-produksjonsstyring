@@ -4,6 +4,8 @@ const server = express();
 server.use(express.static(path.join(__dirname, 'dist')));
 const PORT = process.env.PORT || 8030;
 const ENVIRONMENT = process.env.NODE_ENV;
+const CLUSTER_NAME = process.env.CLUSTER;
+const ENV = process.env;
 
 
 server.get('/isAlive', (req, res) => res.sendStatus(200));
@@ -20,4 +22,6 @@ server.get('/avdelingsleder', (req, res) => {
 server.listen(PORT);
 
 console.log(`Started express server at port ${PORT}`);
-console.log(`Environment name: ${ENVIRONMENT}`)
+console.log(`Environment name: ${ENVIRONMENT}`);
+console.log(`Cluster name: ${CLUSTER_NAME}`);
+console.log(`LIste: ${ENV}`);
