@@ -5,7 +5,7 @@ import TimeoutError from './TimeoutError';
 
 const isProduction = process.env.NAIS_CLUSTER_NAME === 'prod-fss';
 const REDIRECT_URL = isProduction ? 'https://k9-los-oidc-auth-proxy.nais.adeo.no/login?redirect_uri=https://k9-los-web.nais.adeo.no/'
-    : 'https://k9-los-oidc-auth-proxy.nais.preprod.local/login?redirect_uri=https://k9-los-web.nais.preprod.local/'
+    : 'https://k9-los-oidc-auth-proxy.nais.preprod.local/login?redirect_uri=https://k9-los-web.nais.preprod.local/';
 
 type NotificationEmitter = (eventType: keyof typeof EventType, data?: any) => void
 
