@@ -6,6 +6,7 @@ COPY dist ./dist
 COPY server.js .
 COPY node_modules ./node_modules
 COPY package.json .
+COPY config ./config
 
 EXPOSE 8030
 CMD ["yarn", "run", "start-express"]
