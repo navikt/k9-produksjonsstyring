@@ -1,5 +1,3 @@
-import { getEnvironmentVariable } from 'api/rest-api/utils';
-
 const openPreview = (data) => {
   if (window.navigator.msSaveOrOpenBlob) {
     window.navigator.msSaveOrOpenBlob(data);
@@ -8,7 +6,9 @@ const openPreview = (data) => {
   }
 };
 const isDevelopment = process.env.NODE_ENV === 'development';
-const proxyUrl = getEnvironmentVariable('AUTH_PROXY_URL');
+const isProduction = process.env.NAIS_CLUSTER_NAME === 'prod-fss';
+const proxyUrl = isProduction ? 'https://k9-los-oidc-auth-proxy.nais.adeo.no/api/k9-los-api'
+    : 'https://k9-los-oidc-auth-proxy.nais.preprod.local/api/k9-los-api';
 
 const cancellable = (axiosInstance, config) => {
   let cancel;
