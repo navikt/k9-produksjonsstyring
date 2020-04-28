@@ -60,7 +60,7 @@ spec:
         - name: PROXY_CONFIG
           value: '{"apis":[{"path":"k9-los-api","url":"https://k9-los-api.nais.adeo.no/api","scopes":"37066d6c-842c-470a-85f1-3149a37da2c2/.default"}]}'
         - name: REDIS_HOST
-          value: k9-los-oidc-auth-proxy-redis.prod-fss.svc.nais.local
+          value: k9-los-oidc-auth-proxy-redis.default.svc.nais.local
         - name: REDIS_PORT
           value: '6379'
         - name: CORS_ALLOWED_HEADERS
