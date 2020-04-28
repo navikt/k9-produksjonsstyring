@@ -3,9 +3,7 @@ import { ErrorType } from './errorTsType';
 import { isHandledError, is401Error, is418Error } from './ErrorTypes';
 import TimeoutError from './TimeoutError';
 
-const isProduction = process.env.NAIS_CLUSTER_NAME === 'prod-fss';
-const REDIRECT_URL = isProduction ? 'https://k9-los-oidc-auth-proxy.nais.adeo.no/login?redirect_uri=https://k9-los-web.nais.adeo.no/'
-    : 'https://k9-los-oidc-auth-proxy.nais.preprod.local/login?redirect_uri=https://k9-los-web.nais.preprod.local/';
+const PROXY_REDIRECT_URL = process.env.REDIRECT_URL;
 
 type NotificationEmitter = (eventType: keyof typeof EventType, data?: any) => void
 
@@ -57,7 +55,7 @@ class RequestErrorEventHandler {
     }
     if (is401Error(formattedError.status)) {
       this.notify(EventType.REQUEST_ERROR, { message: error.message });
-      window.location.href = REDIRECT_URL;
+      window.location.href = PROXY_REDIRECT_URL;
     } else if (is418Error(formattedError.status)) {
       this.notify(EventType.POLLING_HALTED_OR_DELAYED, formattedError.data);
     } else if (!error.response && error.message) {

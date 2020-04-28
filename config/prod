@@ -1,0 +1,2 @@
+AUTH_PROXY_URL=https://k9-los-oidc-auth-proxy.nais.adeo.no/api/k9-los-api
+REDIRECT_URL=https://k9-los-oidc-auth-proxy.nais.adeo.no/login?redirect_uri=https://k9-los-web.nais.adeo.no/
