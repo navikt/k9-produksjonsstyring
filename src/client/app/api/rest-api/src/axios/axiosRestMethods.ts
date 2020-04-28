@@ -6,9 +6,9 @@ const openPreview = (data) => {
   }
 };
 const isLocal = process.env.NODE_ENV === 'development';
-const isProd = window.location.hostname.startsWith('https://k9-los-web.nais.adeo.no');
-const proxyUrl = isProd ? 'https://k9-los-oidc-auth-proxy.nais.adeo.no/api/k9-los-api'
-: 'https://k9-los-oidc-auth-proxy.nais.preprod.local/api/k9-los-api';
+const isDev = window.location.hostname.includes('preprod.local');
+const proxyUrl = isDev ? 'https://k9-los-oidc-auth-proxy.nais.preprod.local/api/k9-los-api'
+: 'https://k9-los-oidc-auth-proxy.nais.adeo.no/api/k9-los-api';
 
 const cancellable = (axiosInstance, config) => {
   let cancel;

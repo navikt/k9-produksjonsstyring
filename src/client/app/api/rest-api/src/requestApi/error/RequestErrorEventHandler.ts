@@ -3,9 +3,9 @@ import { ErrorType } from './errorTsType';
 import { isHandledError, is401Error, is418Error } from './ErrorTypes';
 import TimeoutError from './TimeoutError';
 
-const isProd = window.location.hostname.startsWith('https://k9-los-web.nais.adeo.no');
-const PROXY_REDIRECT_URL = isProd ? 'https://k9-los-oidc-auth-proxy.nais.adeo.no/login?redirect_uri=https://k9-los-web.nais.adeo.no/'
-    : 'https://k9-los-oidc-auth-proxy.nais.preprod.local/login?redirect_uri=https://k9-los-web.nais.preprod.local/';
+const isDev = window.location.hostname.includes('preprod.local');
+const PROXY_REDIRECT_URL = isDev ? 'https://k9-los-oidc-auth-proxy.nais.preprod.local/login?redirect_uri=https://k9-los-web.nais.preprod.local/'
+: 'https://k9-los-oidc-auth-proxy.nais.adeo.no/login?redirect_uri=https://k9-los-web.nais.adeo.no/';
 
 type NotificationEmitter = (eventType: keyof typeof EventType, data?: any) => void
 
