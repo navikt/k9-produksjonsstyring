@@ -6,7 +6,9 @@ const openPreview = (data) => {
   }
 };
 const isDevelopment = process.env.NODE_ENV === 'development';
-const proxyUrl = 'https://k9-los-oidc-auth-proxy.nais.preprod.local/api/k9-los-api';
+const isProduction = process.env.NAIS_CLUSTER_NAME === 'prod-fss';
+const proxyUrl = isProduction ? 'https://k9-los-oidc-auth-proxy.nais.adeo.no/api/k9-los-api'
+    : 'https://k9-los-oidc-auth-proxy.nais.preprod.local/api/k9-los-api';
 
 const cancellable = (axiosInstance, config) => {
   let cancel;
