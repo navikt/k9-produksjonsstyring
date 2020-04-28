@@ -40,7 +40,9 @@ spec:
     - name: APP_PORT
       value: "8030"
     - name: AUTH_PROXY_URL
-      value: https://k9-los-oidc-auth-proxy.nais.adeo.no
+      value: https://k9-los-oidc-auth-proxy.nais.adeo.no/api/k9-los-api
     - name: APPLICATION_BASE_URL
       value: https://k9-los-web.nais.adeo.no
+    - name: REDIRECT_URL
+      value: https://k9-los-oidc-auth-proxy.nais.adeo.no/login?redirect_uri=https://k9-los-web.nais.adeo.no/
 

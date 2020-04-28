@@ -1,11 +1,10 @@
+import { getEnvironmentVariable } from 'api/rest-api/utils';
 import EventType from '../eventType';
 import { ErrorType } from './errorTsType';
 import { isHandledError, is401Error, is418Error } from './ErrorTypes';
 import TimeoutError from './TimeoutError';
 
-const isProduction = process.env.NAIS_CLUSTER_NAME === 'prod-fss';
-const REDIRECT_URL = isProduction ? 'https://k9-los-oidc-auth-proxy.nais.adeo.no/login?redirect_uri=https://k9-los-web.nais.adeo.no/'
-    : 'https://k9-los-oidc-auth-proxy.nais.preprod.local/login?redirect_uri=https://k9-los-web.nais.preprod.local/';
+const REDIRECT_URL = getEnvironmentVariable('REDIRECT_URL');
 
 type NotificationEmitter = (eventType: keyof typeof EventType, data?: any) => void
 
