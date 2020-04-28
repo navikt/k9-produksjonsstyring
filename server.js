@@ -22,4 +22,3 @@ console.log(`cluster ${CLUSTER}`);
 server.listen(PORT);
 
 console.log(`Started express server at port ${PORT}`);
-
