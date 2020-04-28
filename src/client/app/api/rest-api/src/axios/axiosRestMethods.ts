@@ -8,7 +8,7 @@ const openPreview = (data) => {
   }
 };
 const isDevelopment = process.env.NODE_ENV === 'development';
-const proxyUrl = getEnvironmentVariable('AUTH_PROXY_URL')
+const proxyUrl = getEnvironmentVariable('AUTH_PROXY_URL');
 
 const cancellable = (axiosInstance, config) => {
   let cancel;
