@@ -1,4 +1,4 @@
-import {getEnvironmentVariable} from "api/rest-api/utils";
+import { getEnvironmentVariable } from 'api/rest-api/utils';
 
 const openPreview = (data) => {
   if (window.navigator.msSaveOrOpenBlob) {
