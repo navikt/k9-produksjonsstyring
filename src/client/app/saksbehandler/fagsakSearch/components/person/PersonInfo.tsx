@@ -33,29 +33,26 @@ const PersonInfo = ({
   person,
 }: TsProps) => {
   const {
-    erKvinne, dodsdato, diskresjonskode, alder, navn, personnummer,
+     navn, personnummer, kjoenn, doedsdato,
   } = person;
   return (
     <div>
       <Image
         className={styles.icon}
-        src={erKvinne ? urlKvinne : urlMann}
+        src={kjoenn === 'KVINNE' ? urlKvinne : urlMann}
         altCode="Person.ImageText"
-        titleCode={erKvinne ? 'Person.Woman' : 'Person.Man'}
+        titleCode={kjoenn === 'KVINNE' ? 'Person.Woman' : 'Person.Man'}
       />
       <div className={styles.infoPlaceholder}>
         <div>
           <Undertittel>
             {navn}
             {' '}
-            <AlderVisning erDod={!!dodsdato} alder={alder} dodsdato={dodsdato} />
+            {doedsdato && <AlderVisning doedsdato={doedsdato} />}
           </Undertittel>
           <Undertekst>
             {personnummer}
           </Undertekst>
-        </div>
-        <div>
-          <MerkePanel erDod={!!dodsdato} diskresjonskode={diskresjonskode} />
         </div>
       </div>
     </div>

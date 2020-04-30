@@ -111,7 +111,7 @@ export class OppgaverTabell extends Component<TsProps, TsState> {
   }
 
   goToFagsak = (event: Event, id: number, oppgave: Oppgave) => {
-    const { reserverOppgave, oppgaverTilBehandling, reserverteOppgaver } = this.props;
+    const { reserverOppgave } = this.props;
     if (this.nodes && Object.keys(this.nodes).some(key => this.nodes[key] && this.nodes[key].contains(event.target))) {
       return;
     }

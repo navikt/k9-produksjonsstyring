@@ -21,9 +21,9 @@ export const fetchOppgaverTilBehandling = (id: string) => (dispatch: Dispatch) =
     { id }, { keepData: false },
   ),
 );
-export const fetchOppgaverTilBehandlingOppgaver = (id: string, oppgaveIder?: string) => (dispatch: Dispatch) => dispatch(
+export const fetchOppgaverTilBehandlingOppgaver = (id: string) => (dispatch: Dispatch) => dispatch(
   k9LosApi.OPPGAVER_TIL_BEHANDLING.makeRestApiRequest()(
-    oppgaveIder ? { id, oppgaveIder } : { id }, { keepData: true },
+     { id }, { keepData: true },
   ),
 );
 export const getOppgaverTilBehandling = k9LosApi.OPPGAVER_TIL_BEHANDLING.getRestApiData();

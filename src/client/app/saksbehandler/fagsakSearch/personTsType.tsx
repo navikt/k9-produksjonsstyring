@@ -2,9 +2,8 @@
 // eslint-disable-next-line import/prefer-default-export
 export type Person = Readonly<{
   navn: string;
-  alder: number;
   personnummer: string;
-  erKvinne: boolean;
-  diskresjonskode?: string;
-  dodsdato?: string;
+  kjoenn: string;
+  doedsdato?: string;
+
 }>

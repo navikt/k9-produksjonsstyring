@@ -9,22 +9,9 @@ import DateLabel from 'sharedComponents/DateLabel';
 import AlderVisning from './Aldervisning';
 
 describe('<Aldervisning>', () => {
-  it('skal sjekke at alder vises når person ikke er død', () => {
-    const wrapper = shallow(<AlderVisning
-      alder={40}
-      erDod={false}
-      dodsdato="01.01.2017"
-    />);
-    const aldervisning = wrapper.find('span');
-    expect(aldervisning).to.have.length(1);
-    expect(aldervisning.find(FormattedMessage).prop('values').age).to.equal(40);
-  });
-
   it('skal sjekke at dødsdato vises når person er død og dødsdato er satt', () => {
     const wrapper = shallow(<AlderVisning
-      alder={40}
-      erDod
-      dodsdato="01.01.2017"
+      doedsdato="01.01.2017"
     />);
 
     const aldervisningDod = wrapper.find(Normaltekst);
@@ -36,9 +23,7 @@ describe('<Aldervisning>', () => {
 
   it('skal sjekke at default tekst vises for dødsdato når person er død og dødsdato mangler', () => {
     const wrapper = shallow(<AlderVisning
-      alder={40}
-      erDod
-      dodsdato={undefined}
+      doedsdato={undefined}
     />);
 
     const aldervisningDod = wrapper.find(Normaltekst);
