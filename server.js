@@ -12,7 +12,7 @@ server.use('/dist/favicon.png', express.static(path.resolve(__dirname, 'dist/fav
 server.get('/isAlive', (req, res) => res.sendStatus(200));
 server.get('/isReady', (req, res) => res.sendStatus(200));
 
-server.get('/k9-los-web', (req, res) => {
+server.get('/k9-los', (req, res) => {
     res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
