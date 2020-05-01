@@ -32,9 +32,9 @@ spec:
       cpu: 200m
       memory: 32Mi
   ingresses:
-    - https://k9-los-web.prod-fss.nais.io
-    - https://app.adeo.no/k9-los
     - https://k9-los-web.nais.adeo.no
+    - https://k9-los-web.prod-fss.nais.io
+    - https://app.adeo.no/k9-los-web
   env:
     - name: APP_NAME
       value: k9-los-web

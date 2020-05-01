@@ -33,7 +33,8 @@ spec:
       memory: 32Mi
   ingresses:
     - https://k9-los-web.nais.preprod.local
-    - https://app-{{namespace}}.adeo.no/veilarblogin
+    - https://k9-los-web.dev-fss.nais.io
+    - https://app-q1.adeo.no/k9-los-web
   env:
     - name: APP_NAME
       value: k9-los-web
