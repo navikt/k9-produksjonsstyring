@@ -6,7 +6,7 @@ export const numberOptionalNegativeRegex = /^-?\d+([,.]\d+)?$/;
 export const integerRegex = /^\s*\d+\s*$/;
 export const integerOptionalNegativeRegex = /^\s*-?\d+\s*$/;
 export const decimalRegex = /^\d+(.\d{1,2})?$/;
-export const saksnummerOrFodselsnummerPattern = /^\d{0,18}$/;
+export const saksnummerOrFodselsnummerPattern = /^(\w|\d){5}$|(^\d{11}$)/;
 
 export const textRegex = /^[0-9a-zA-ZæøåÆØÅAaÁáBbCcČčDdĐđEeFfGgHhIiJjKkLlMmNnŊŋOoPpRrSsŠšTtŦŧUuVvZzŽžéôèÉöüäÖÜÄ .'\-/%§!?@_()+:;,="&\n]*$/;
 export const textGyldigRegex = /[0-9a-zA-ZæøåÆØÅAaÁáBbCcČčDdĐđEeFfGgHhIiJjKkLlMmNnŊŋOoPpRrSsŠšTtŦŧUuVvZzŽžéôèÉöüäÖÜÄ .'\-/%§!?@_()+:;,="&\n]*/g;
