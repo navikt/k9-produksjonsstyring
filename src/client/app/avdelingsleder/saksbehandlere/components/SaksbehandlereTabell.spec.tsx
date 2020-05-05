@@ -30,9 +30,11 @@ describe('<SaksbehandlereTabell>', () => {
     const saksbehandlere = [{
       brukerIdent: 'TEST1',
       navn: 'Espen Utvikler',
+      epost: 'epost',
     }, {
       brukerIdent: 'TEST2',
       navn: 'Auto Joachim',
+      epost: 'epost',
     }];
     const wrapper = shallow(<SaksbehandlereTabell
       saksbehandlere={saksbehandlere}
@@ -60,6 +62,7 @@ describe('<SaksbehandlereTabell>', () => {
     const saksbehandlere = [{
       brukerIdent: 'TEST1',
       navn: 'Espen Utvikler',
+      epost: 'epost',
     }];
     const wrapper = shallow(<SaksbehandlereTabell
       saksbehandlere={saksbehandlere}
@@ -85,6 +88,7 @@ describe('<SaksbehandlereTabell>', () => {
     const saksbehandlere = [{
       brukerIdent: 'TEST1',
       navn: 'Espen Utvikler',
+      epost: 'epost',
     }];
     const wrapper = shallow(<SaksbehandlereTabell
       saksbehandlere={saksbehandlere}
@@ -110,6 +114,7 @@ describe('<SaksbehandlereTabell>', () => {
     const saksbehandlere = [{
       brukerIdent: 'TEST1',
       navn: 'Espen Utvikler',
+      epost: 'epost',
     }];
     const fjernSaksbehandlerFn = sinon.spy();
     const wrapper = shallow(<SaksbehandlereTabell

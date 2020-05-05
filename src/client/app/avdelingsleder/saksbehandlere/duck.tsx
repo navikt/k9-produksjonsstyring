@@ -8,8 +8,8 @@ export const fetchAlleSaksbehandlere = () => (dispatch: Dispatch) => dispatch(
 );
 export const getSaksbehandlere = k9LosApi.SAKSBEHANDLERE.getRestApiData();
 
-export const findSaksbehandler = (brukerIdent: string) => (dispatch: Dispatch) => dispatch(k9LosApi.SAKSBEHANDLER_SOK.makeRestApiRequest()(
-  brukerIdent,
+export const findSaksbehandler = (epost: string) => (dispatch: Dispatch) => dispatch(k9LosApi.SAKSBEHANDLER_SOK.makeRestApiRequest()(
+    { epost },
 ));
 export const getSaksbehandler = k9LosApi.SAKSBEHANDLER_SOK.getRestApiData();
 export const getSaksbehandlerSokFinished = k9LosApi.SAKSBEHANDLER_SOK.getRestApiFinished();
@@ -19,10 +19,10 @@ export const addSaksbehandler = (brukerIdent: string) => (dispatch: Dispatch) =>
   k9LosApi.OPPRETT_NY_SAKSBEHANDLER.makeRestApiRequest()(
     { brukerIdent },
   ),
-).then(() => fetchSaksbehandlere()(dispatch));
+).then(() => fetchAlleSaksbehandlere()(dispatch));
 
 export const removeSaksbehandler = (brukerIdent: string) => (dispatch: Dispatch) => dispatch(
   k9LosApi.SLETT_SAKSBEHANDLER.makeRestApiRequest()(
     { brukerIdent },
   ),
-).then(() => fetchSaksbehandlere()(dispatch));
+).then(() => fetchAlleSaksbehandlere()(dispatch));

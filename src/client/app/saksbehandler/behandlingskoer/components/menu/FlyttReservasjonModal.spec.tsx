@@ -88,13 +88,14 @@ describe('<FlyttReservasjonModal>', () => {
 
     const tekst = wrapper.find(Normaltekst);
     expect(tekst).has.length(1);
-    expect(tekst.childAt(0).text()).is.eql('Kan ikke finne brukerident');
+    expect(tekst.childAt(0).text()).is.eql('Kan ikke finne bruker');
   });
 
   it('skal vise saksbehandler', () => {
     const saksbehandler = {
       brukerIdent: 'P039283',
       navn: 'Brukernavn',
+      epost: 'epost',
     };
     const formProps = {
       handleSubmit: sinon.spy(),

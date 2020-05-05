@@ -29,13 +29,13 @@ describe('<SaksbehandlereForOppgavekoForm>', () => {
     const saksbehandlere = [{
       brukerIdent: 'TEST1',
       navn: 'Espen Utvikler',
+      epost: 'epost',
     }];
 
     const wrapper = shallow(<SaksbehandlereForOppgavekoForm
       valgtOppgaveko={oppgaveko}
       alleSaksbehandlere={saksbehandlere}
       knyttSaksbehandlerTilOppgaveko={sinon.spy()}
-      valgtAvdelingEnhet="1"
     />).find(Form).drill(props => props.render()).shallow();
 
     expect(wrapper.find(FormattedMessage)).to.have.length(1);
@@ -55,9 +55,11 @@ describe('<SaksbehandlereForOppgavekoForm>', () => {
     const saksbehandlere = [{
       brukerIdent: 'TEST1',
       navn: 'Espen Utvikler',
+      epost: 'epost',
     }, {
       brukerIdent: 'TEST2',
       navn: 'Auto Joachim',
+      epost: 'epost',
     }];
 
     const wrapper = shallow(<SaksbehandlereForOppgavekoForm

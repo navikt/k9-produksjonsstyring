@@ -27,16 +27,16 @@ import styles from './avdelingslederIndex.less';
 
 const classNames = classnames.bind(styles);
 
-const renderAvdelingslederPanel = avdelingslederPanel => <EndreBehandlingskoerIndex />;
-
-  /* switch (avdelingslederPanel) {
+const renderAvdelingslederPanel = (avdelingslederPanel) => {
+  switch (avdelingslederPanel) {
     case AvdelingslederPanels.BEHANDLINGSKOER:
       return <EndreBehandlingskoerIndex />;
     case AvdelingslederPanels.SAKSBEHANDLERE:
       return <EndreSaksbehandlereIndex />;
     default:
       return null;
-  } */
+  }
+};
 
 
 const messageId = {
@@ -84,7 +84,7 @@ export const AvdelingslederIndex = ({
           <Tabs tabs={[
               getTab(AvdelingslederPanels.BEHANDLINGSKOER, activeAvdelingslederPanel, getAvdelingslederPanelLocation),
             // getTab(AvdelingslederPanels.NOKKELTALL, activeAvdelingslederPanel, getAvdelingslederPanelLocation),
-            //  getTab(AvdelingslederPanels.SAKSBEHANDLERE, activeAvdelingslederPanel, getAvdelingslederPanelLocation),
+              getTab(AvdelingslederPanels.SAKSBEHANDLERE, activeAvdelingslederPanel, getAvdelingslederPanelLocation),
             ]}
           />
           <Panel className={styles.panelPadding}>

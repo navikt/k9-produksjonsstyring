@@ -44,9 +44,10 @@ export class SaksbehandlereForOppgavekoForm extends Component<TsProps> {
   buildInitialValues = () => {
     const {
       valgtOppgaveko,
+        alleSaksbehandlere,
     } = this.props;
 
-    const identer = valgtOppgaveko.saksbehandlere.reduce((acc, brukerIdent) => ({ ...acc, [brukerIdent]: true }), {});
+    const identer = alleSaksbehandlere.reduce((acc, brukerIdent) => ({ ...acc, [brukerIdent]: true }), {});
     return {
       ...identer,
     };

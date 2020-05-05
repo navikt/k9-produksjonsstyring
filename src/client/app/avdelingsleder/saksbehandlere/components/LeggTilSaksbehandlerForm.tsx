@@ -96,7 +96,7 @@ export class LeggTilSaksbehandlerForm extends Component<TsProps, StateTsProps> {
       return '';
     }
 
-    const brukerinfo = `${saksbehandler.navn}`;
+    const brukerinfo = `${saksbehandler.navn} ${saksbehandler.brukerIdent}`;
     return erLagtTilAllerede
       ? `${brukerinfo} (${intl.formatMessage({ id: 'LeggTilSaksbehandlerForm.FinnesAllerede' })})`
       : brukerinfo;
@@ -112,7 +112,7 @@ export class LeggTilSaksbehandlerForm extends Component<TsProps, StateTsProps> {
 
     return (
       <Form
-        onSubmit={(values: { brukerIdent: string}) => finnSaksbehandler(values.brukerIdent)}
+        onSubmit={(values: { epost: string}) => finnSaksbehandler(values.epost)}
         render={({
           submitting, handleSubmit, form,
         }) => (
@@ -125,9 +125,10 @@ export class LeggTilSaksbehandlerForm extends Component<TsProps, StateTsProps> {
               <FlexRow>
                 <FlexColumn>
                   <InputField
-                    name="brukerIdent"
-                    label={intl.formatMessage({ id: 'LeggTilSaksbehandlerForm.Brukerident' })}
-                    bredde="S"
+                    name="epost"
+                    className={styles.epost}
+                    label={intl.formatMessage({ id: 'LeggTilSaksbehandlerForm.Epost' })}
+                    bredde="L"
                     validate={[required]}
                   />
                 </FlexColumn>

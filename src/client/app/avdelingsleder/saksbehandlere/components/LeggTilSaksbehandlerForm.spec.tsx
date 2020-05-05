@@ -30,6 +30,7 @@ describe('<LeggTilSaksbehandlerForm>', () => {
     const saksbehandler = {
       brukerIdent: 'TEST1',
       navn: 'Espen Utvikler',
+      epost: 'epost',
     };
     const formProps = { handleSubmit: sinon.spy() };
 
@@ -48,13 +49,14 @@ describe('<LeggTilSaksbehandlerForm>', () => {
 
     const tekst = wrapper.find(Normaltekst);
     expect(tekst).to.have.length(1);
-    expect(tekst.childAt(0).text()).to.eql('Espen Utvikler');
+    expect(tekst.childAt(0).text()).to.eql('Espen Utvikler TEST1');
   });
 
   it('skal nullstille form state og funnet saksbehandler ved trykk på nullstill', () => {
     const saksbehandler = {
       brukerIdent: 'TEST1',
       navn: 'Espen Utvikler',
+      epost: 'epost',
     };
     const resetFormFn = sinon.spy();
     const formProps = { handleSubmit: sinon.spy(), form: { reset: resetFormFn } };
@@ -82,6 +84,7 @@ describe('<LeggTilSaksbehandlerForm>', () => {
     const saksbehandler = {
       brukerIdent: 'TEST1',
       navn: 'Espen Utvikler',
+      epost: 'epost',
     };
     const resetFormFn = sinon.spy();
     const formProps = { handleSubmit: sinon.spy(), form: { reset: resetFormFn } };
@@ -115,6 +118,7 @@ describe('<LeggTilSaksbehandlerForm>', () => {
     const saksbehandler = {
       brukerIdent: 'TEST1',
       navn: 'Espen Utvikler',
+      epost: 'epost',
     };
     const formProps = { handleSubmit: sinon.spy() };
     const wrapper = shallowWithIntl(<LeggTilSaksbehandlerForm
@@ -129,10 +133,10 @@ describe('<LeggTilSaksbehandlerForm>', () => {
 
     const tekstKomp = wrapper.find(Normaltekst);
     expect(tekstKomp).to.have.length(1);
-    expect(tekstKomp.childAt(0).text()).is.eql('Espen Utvikler');
+    expect(tekstKomp.childAt(0).text()).is.eql('Espen Utvikler TEST1');
   });
 
-  it('skal vise tekst som viser at brukerident ikke finnes etter søk på ugyldig bruker', () => {
+  it('skal vise tekst som viser at e-posten ikke finnes etter søk på ugyldig bruker', () => {
     const formProps = { handleSubmit: sinon.spy() };
 
     const wrapper = shallowWithIntl(<LeggTilSaksbehandlerForm
@@ -146,13 +150,14 @@ describe('<LeggTilSaksbehandlerForm>', () => {
 
     const tekstKomp = wrapper.find(Normaltekst);
     expect(tekstKomp).to.have.length(1);
-    expect(tekstKomp.childAt(0).text()).is.eql('Kan ikke finne brukerident');
+    expect(tekstKomp.childAt(0).text()).is.eql('Kan ikke finne bruker');
   });
 
   it('skal vise tekst som viser at brukerident allerede er lagt til', () => {
     const saksbehandler = {
       brukerIdent: 'TEST1',
       navn: 'Espen Utvikler',
+      epost: 'epost',
     };
     const formProps = { handleSubmit: sinon.spy() };
     const wrapper = shallowWithIntl(<LeggTilSaksbehandlerForm
@@ -167,6 +172,6 @@ describe('<LeggTilSaksbehandlerForm>', () => {
 
     const tekstKomp = wrapper.find(Normaltekst);
     expect(tekstKomp).to.have.length(1);
-    expect(tekstKomp.childAt(0).text()).is.eql('Espen Utvikler (Brukerident finnes allerede i listen)');
+    expect(tekstKomp.childAt(0).text()).is.eql('Espen Utvikler TEST1 (E-post adressen finnes allerede i listen)');
   });
 });

@@ -87,7 +87,7 @@
   "GjeldendeOppgavekoerTabell.AntallBehandlinger": "Antall behandlinger",
   "GjeldendeOppgavekoerTabell.OppgaverTotalt": "Antall åpne behandlinger totalt",
 
-  "Header.K9Los": "Omsorgspenger",
+  "Header.K9Los": "Omsorgspenger, pleiepenger og frisinn",
   "Header.NavAnsatt": "NAV-ansatt",
   "Header.Rettskilde": "Rettskildene",
   "Header.Systemrutine": "Systemrutine",
@@ -98,12 +98,12 @@
   "IkkeTilgangTilKode6AvdelingPanel.HarIkkeTilgang": "Du har ikke tilgang til denne avdelingen",
 
   "LeggTilSaksbehandlerForm.LeggTil": "Legg til saksbehandler",
-  "LeggTilSaksbehandlerForm.Brukerident": "Brukerident",
+  "LeggTilSaksbehandlerForm.Epost": "E-post adresse",
   "LeggTilSaksbehandlerForm.Sok": "Søk",
   "LeggTilSaksbehandlerForm.LeggTilIListen": "Legg til i listen",
   "LeggTilSaksbehandlerForm.Nullstill": "Nullstill",
-  "LeggTilSaksbehandlerForm.FinnesAllerede": "Brukerident finnes allerede i listen",
-  "LeggTilSaksbehandlerForm.FinnesIkke": "Kan ikke finne brukerident",
+  "LeggTilSaksbehandlerForm.FinnesAllerede": "E-post adressen finnes allerede i listen",
+  "LeggTilSaksbehandlerForm.FinnesIkke": "Kan ikke finne bruker",
 
   "ManueltPaVentPanel.FireSisteUker": "4 uker frem",
   "ManueltPaVentPanel.AtteSisteUker": "8 uker frem",
@@ -196,7 +196,7 @@
   "ReserverOppgaveModal.ReserverOppgave": "Ønsker du å reservere behandlingen?",
 
   "SaksbehandlereForOppgavekoForm.Saksbehandlere": "Saksbehandlere",
-  "SaksbehandlereForOppgavekoForm.IngenSaksbehandlere": "Avdelingen har ingen saksbehandlere tilknyttet",
+  "SaksbehandlereForOppgavekoForm.IngenSaksbehandlere": "Ingen saksbehandlere",
 
   "SaksbehandlereTabell.Navn": "Navn",
   "SaksbehandlereTabell.Brukerident": "Brukerident",
