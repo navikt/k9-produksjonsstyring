@@ -10,7 +10,7 @@ import { Form } from 'react-final-form';
 import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
 import { Normaltekst, Element } from 'nav-frontend-typografi';
 
-import { required } from 'utils/validation/validators';
+import { hasValidEmailFormat } from 'utils/validation/validators';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import { InputField } from 'form/FinalFields';
 import { FlexContainer, FlexRow, FlexColumn } from 'sharedComponents/flexGrid';
@@ -22,16 +22,16 @@ import styles from './leggTilSaksbehandlerForm.less';
 
 interface TsProps {
   intl: any;
-  finnSaksbehandler: (brukerIdent: string) => Promise<string>;
   leggTilSaksbehandler: (brukerIdent: string) => Promise<string>;
   resetSaksbehandlerSok: () => void;
   saksbehandler?: Saksbehandler;
-  erLagtTilAllerede: boolean;
   erSokFerdig: boolean;
+  saksbehandlere: Saksbehandler[];
 }
 
 interface StateTsProps {
   leggerTilNySaksbehandler: boolean;
+    erLagtTilAllerede: boolean;
 }
 
 /**
@@ -42,12 +42,11 @@ export class LeggTilSaksbehandlerForm extends Component<TsProps, StateTsProps> {
 
   static propTypes = {
     intl: intlShape.isRequired,
-    finnSaksbehandler: PropTypes.func.isRequired,
     leggTilSaksbehandler: PropTypes.func.isRequired,
     resetSaksbehandlerSok: PropTypes.func.isRequired,
     saksbehandler: saksbehandlerPropType,
-    erLagtTilAllerede: PropTypes.bool.isRequired,
     erSokFerdig: PropTypes.bool.isRequired,
+    saksbehandlere: PropTypes.arrayOf(saksbehandlerPropType),
   };
 
   static defaultProps = {
@@ -59,22 +58,23 @@ export class LeggTilSaksbehandlerForm extends Component<TsProps, StateTsProps> {
 
     this.state = {
       leggerTilNySaksbehandler: false,
+      erLagtTilAllerede: false,
     };
     this.nodes = [];
   }
 
-  leggTilSaksbehandler = (resetFormValues: () => void) => {
+  leggTilSaksbehandler = (epost: string) => {
     const {
-      leggTilSaksbehandler, saksbehandler,
+      leggTilSaksbehandler, saksbehandlere,
     } = this.props;
-
-    if (saksbehandler) {
       this.setState(prevState => ({ ...prevState, leggerTilNySaksbehandler: true }));
-      leggTilSaksbehandler(saksbehandler.brukerIdent).then(() => {
-        this.resetSaksbehandlerSok(resetFormValues);
+      if (saksbehandlere.some(s => s.epost.toLowerCase() === epost.toLowerCase())) {
+          this.setState(prevState => ({ ...prevState, erLagtTilAllerede: true }));
+      } else {
+      leggTilSaksbehandler(epost).then(() => {
         this.setState(prevState => ({ ...prevState, leggerTilNySaksbehandler: false }));
       });
-    }
+      }
   }
 
   resetSaksbehandlerSok = (resetFormValues: () => void) => {
@@ -85,18 +85,13 @@ export class LeggTilSaksbehandlerForm extends Component<TsProps, StateTsProps> {
     resetFormValues();
   }
 
+
   formatText = () => {
     const {
-      intl, saksbehandler, erLagtTilAllerede, erSokFerdig,
+      intl, saksbehandler, erSokFerdig,
     } = this.props;
-    if (erSokFerdig && !saksbehandler) {
-      return intl.formatMessage({ id: 'LeggTilSaksbehandlerForm.FinnesIkke' });
-    }
-    if (!saksbehandler) {
-      return '';
-    }
-
-    const brukerinfo = `${saksbehandler.navn} ${saksbehandler.brukerIdent}`;
+    const { erLagtTilAllerede } = this.state;
+    const brukerinfo = `${saksbehandler.epost} `;
     return erLagtTilAllerede
       ? `${brukerinfo} (${intl.formatMessage({ id: 'LeggTilSaksbehandlerForm.FinnesAllerede' })})`
       : brukerinfo;
@@ -104,15 +99,16 @@ export class LeggTilSaksbehandlerForm extends Component<TsProps, StateTsProps> {
 
   render = () => {
     const {
-      intl, finnSaksbehandler, saksbehandler, erLagtTilAllerede, erSokFerdig,
+      intl, erSokFerdig,
     } = this.props;
     const {
       leggerTilNySaksbehandler,
+        erLagtTilAllerede,
     } = this.state;
 
     return (
       <Form
-        onSubmit={(values: { epost: string}) => finnSaksbehandler(values.epost)}
+        onSubmit={(values: { epost: string}) => this.leggTilSaksbehandler(values.epost)}
         render={({
           submitting, handleSubmit, form,
         }) => (
@@ -129,7 +125,7 @@ export class LeggTilSaksbehandlerForm extends Component<TsProps, StateTsProps> {
                     className={styles.epost}
                     label={intl.formatMessage({ id: 'LeggTilSaksbehandlerForm.Epost' })}
                     bredde="L"
-                    validate={[required]}
+                    validate={[hasValidEmailFormat]}
                   />
                 </FlexColumn>
                 <FlexColumn>
@@ -140,45 +136,28 @@ export class LeggTilSaksbehandlerForm extends Component<TsProps, StateTsProps> {
                     spinner={submitting}
                     disabled={submitting || leggerTilNySaksbehandler}
                     tabIndex={0}
+                    onClick={() => form.reset}
                   >
                     <FormattedMessage id="LeggTilSaksbehandlerForm.Sok" />
                   </Knapp>
                 </FlexColumn>
               </FlexRow>
             </FlexContainer>
-            {erSokFerdig && (
+            {(erLagtTilAllerede && erSokFerdig) && (
             <>
               <Normaltekst>
                 {this.formatText()}
               </Normaltekst>
-              <VerticalSpacer sixteenPx />
-              <FlexContainer>
-                <FlexRow>
-                  <FlexColumn>
-                    <Hovedknapp
-                      mini
-                      autoFocus
-                      htmlType="button"
-                      onClick={() => this.leggTilSaksbehandler(form.reset)}
-                      spinner={leggerTilNySaksbehandler}
-                      disabled={leggerTilNySaksbehandler || erLagtTilAllerede || !saksbehandler}
-                    >
-                      <FormattedMessage id="LeggTilSaksbehandlerForm.LeggTilIListen" />
-                    </Hovedknapp>
-                  </FlexColumn>
-                  <FlexColumn>
-                    <Knapp
-                      mini
-                      htmlType="button"
-                      tabIndex={0}
-                      disabled={leggerTilNySaksbehandler}
-                      onClick={() => this.resetSaksbehandlerSok(form.reset)}
-                    >
-                      <FormattedMessage id="LeggTilSaksbehandlerForm.Nullstill" />
-                    </Knapp>
-                  </FlexColumn>
-                </FlexRow>
-              </FlexContainer>
+              <FlexColumn>
+                <Knapp
+                  mini
+                  htmlType="button"
+                  tabIndex={0}
+                  onClick={() => this.resetSaksbehandlerSok(form.reset)}
+                >
+                  <FormattedMessage id="LeggTilSaksbehandlerForm.Nullstill" />
+                </Knapp>
+              </FlexColumn>
             </>
             )
             }
@@ -188,13 +167,10 @@ export class LeggTilSaksbehandlerForm extends Component<TsProps, StateTsProps> {
     );
   }
 }
-const erSaksbehandlerLagtTilAllerede = createSelector([getSaksbehandler, getSaksbehandlere],
-  (saksbehandler: Saksbehandler, avdelingensSaksbehandlere = []) => avdelingensSaksbehandlere instanceof Array
-    && avdelingensSaksbehandlere.some(s => saksbehandler && s.brukerIdent.toLowerCase() === saksbehandler.brukerIdent.toLowerCase()));
 
 const mapStateToProps = state => ({
+  saksbehandlere: getSaksbehandlere(state),
   saksbehandler: getSaksbehandler(state),
-  erLagtTilAllerede: erSaksbehandlerLagtTilAllerede(state),
   erSokFerdig: getSaksbehandlerSokFinished(state),
 });
 

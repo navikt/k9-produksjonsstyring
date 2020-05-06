@@ -147,7 +147,7 @@ export class OppgavekoVelgerForm extends Component<TsProps> {
 
     return {
       header: <Undertittel>{intl.formatMessage({ id: 'OppgavekoVelgerForm.SaksbehandlerToolip' })}</Undertittel>,
-      body: saksbehandlere.map(s => s.navn).sort((n1, n2) => n1.localeCompare(n2)).map(navn => (<Normaltekst key={navn}>{navn}</Normaltekst>)),
+      body: saksbehandlere.map(s => s.epost).sort((n1, n2) => n1.localeCompare(n2)).map(epost => (<Normaltekst key={epost}>{epost}</Normaltekst>)),
     };
   }
 

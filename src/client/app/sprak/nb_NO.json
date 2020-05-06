@@ -99,7 +99,7 @@
 
   "LeggTilSaksbehandlerForm.LeggTil": "Legg til saksbehandler",
   "LeggTilSaksbehandlerForm.Epost": "E-post adresse",
-  "LeggTilSaksbehandlerForm.Sok": "Søk",
+  "LeggTilSaksbehandlerForm.Sok": "Legg til",
   "LeggTilSaksbehandlerForm.LeggTilIListen": "Legg til i listen",
   "LeggTilSaksbehandlerForm.Nullstill": "Nullstill",
   "LeggTilSaksbehandlerForm.FinnesAllerede": "E-post adressen finnes allerede i listen",
@@ -200,7 +200,7 @@
 
   "SaksbehandlereTabell.Navn": "Navn",
   "SaksbehandlereTabell.Brukerident": "Brukerident",
-  "SaksbehandlereTabell.Avdeling": "Avdeling",
+  "SaksbehandlereTabell.Epost": "E-post adresse",
   "SaksbehandlereTabell.Saksbehandlere": "Tilgjengelige saksbehandlere",
   "SaksbehandlereTabell.IngenSaksbehandlere": "Ingen saksbehandlere lagt til",
 
@@ -282,6 +282,7 @@
   "ValidationMessage.Registrering.MaVelgeTillegg": "Velg minst en",
   "ValidationMessage.InvalidFodselsnummerFormat": "Feltet må være et fødselsnummer (11 siffer)",
   "ValidationMessage.InvalidFodselsnummer": "Ugyldig fødselsnummer",
+  "ValidationMessage.InvalidEmail": "Ugyldig e-post adresse",
   "ValidationMessage.InvalidText": "Feltet inneholder ugyldige tegn: {text}",
   "ValidationMessage.InvalidValue": "Feltet inneholder en ugyldig verdi: {value}",
   "ValidationMessage.ArrayMinLength": "Listen må ha lengde størren enn: {length}",

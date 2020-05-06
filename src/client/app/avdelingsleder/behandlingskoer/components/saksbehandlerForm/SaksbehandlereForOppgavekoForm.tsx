@@ -80,9 +80,9 @@ export class SaksbehandlereForOppgavekoForm extends Component<TsProps> {
               <Column xs="6">
                 {alleSaksbehandlereVenstreListe.map(s => (
                   <CheckboxField
-                    key={s.brukerIdent}
-                    name={s.brukerIdent}
-                    label={s.navn}
+                    key={s.epost}
+                    name={s.epost}
+                    label={s.epost}
                     onChange={isChecked => knyttSaksbehandlerTilOppgaveko(valgtOppgaveko.id, s.brukerIdent, isChecked)}
                   />
                 ))}
@@ -90,9 +90,9 @@ export class SaksbehandlereForOppgavekoForm extends Component<TsProps> {
               <Column xs="6">
                 {alleSaksbehandlereHoyreListe.map(s => (
                   <CheckboxField
-                    key={s.brukerIdent}
-                    name={s.brukerIdent}
-                    label={s.navn}
+                    key={s.epost}
+                    name={s.epost}
+                    label={s.epost}
                     onChange={isChecked => knyttSaksbehandlerTilOppgaveko(valgtOppgaveko.id, s.brukerIdent, isChecked)}
                   />
                 ))}
@@ -107,7 +107,7 @@ export class SaksbehandlereForOppgavekoForm extends Component<TsProps> {
 }
 
 const sortSaksbehandlere = createSelector([getSaksbehandlere], saksbehandlere => (saksbehandlere && saksbehandlere instanceof Array
-  ? saksbehandlere.sort((saksbehandler1, saksbehandler2) => saksbehandler1.navn.localeCompare(saksbehandler2.navn))
+  ? saksbehandlere.sort((saksbehandler1, saksbehandler2) => saksbehandler1.epost.localeCompare(saksbehandler2.epost))
   : saksbehandlere));
 
 const mapStateToProps = state => ({

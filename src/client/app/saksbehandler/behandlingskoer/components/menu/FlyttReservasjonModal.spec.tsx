@@ -34,7 +34,7 @@ describe('<FlyttReservasjonModal>', () => {
     behandlingsfrist: '2017-01-01',
     erTilSaksbehandling: true,
     fagsakYtelseType: {
-      kode: fagsakYtelseType.FORELDREPRENGER,
+      kode: fagsakYtelseType.PLEIEPENGER_SYKT_BARN,
       navn: 'K9',
     },
     behandlingStatus: {
@@ -206,6 +206,7 @@ describe('<FlyttReservasjonModal>', () => {
     const saksbehandler = {
       brukerIdent: 'P039283',
       navn: 'Brukernavn',
+      epost: 'epost',
     };
     const formProps = {
       handleSubmit: sinon.spy(),
@@ -268,6 +269,7 @@ describe('<FlyttReservasjonModal>', () => {
     const saksbehandler = {
       brukerIdent: 'P039283',
       navn: 'Brukernavn',
+      epost: 'epost',
     };
     const formProps = {
       handleSubmit: sinon.spy(),

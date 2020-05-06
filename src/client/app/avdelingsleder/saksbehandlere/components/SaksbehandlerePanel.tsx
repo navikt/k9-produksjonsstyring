@@ -11,8 +11,8 @@ interface TsProps {
   saksbehandlere: Saksbehandler[];
   finnSaksbehandler: (brukerIdent: string) => Promise<string>;
   resetSaksbehandlerSok: () => void;
-  leggTilSaksbehandler: (brukerIdent: string) => Promise<string>;
-  fjernSaksbehandler: (brukerIdent: string) => Promise<string>;
+  leggTilSaksbehandler: (epost: string) => Promise<string>;
+  fjernSaksbehandler: (epost: string) => Promise<string>;
 }
 
 /**
