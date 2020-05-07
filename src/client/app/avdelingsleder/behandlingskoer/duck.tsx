@@ -96,10 +96,10 @@ export const lagreOppgavekoSorteringTidsintervallDato = (id: string, fomDato: st
 ).then(() => dispatch(fetchAntallOppgaverForOppgaveko(id)))
     .then(() => dispatch(fetchAlleOppgavekoer()));
 
-export const knyttSaksbehandlerTilOppgaveko = (id: string, epost: string, isChecked: boolean) => (dispatch: Dispatch) => dispatch(
+export const knyttSaksbehandlerTilOppgaveko = (id: string, brukerIdent: string, isChecked: boolean) => (dispatch: Dispatch) => dispatch(
   k9LosApi.LAGRE_OPPGAVEKO_SAKSBEHANDLER.makeRestApiRequest()({
     id,
-    epost,
+    brukerIdent,
     checked: isChecked,
   }),
 ).then(() => dispatch(fetchAlleOppgavekoer()));

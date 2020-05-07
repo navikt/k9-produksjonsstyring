@@ -22,7 +22,6 @@ interface OwnProps {
     errorcode?: string;
   };
   kanOppgavestyre: boolean;
-  goBackUrl: string;
 }
 
 const useOutsideClickEvent = (erLenkepanelApent, erAvdelingerPanelApent, setLenkePanelApent, setAvdelingerPanelApent) => {
@@ -61,7 +60,6 @@ const HeaderWithErrorPanel: FunctionComponent<OwnProps> = ({
   removeErrorMessage,
   queryStrings,
   kanOppgavestyre,
-  goBackUrl,
 }) => {
     const [erLenkePanelApent, setLenkePanelApent] = useState(false);
     const [erAvdelingerPanelApent, setAvdelingerPanelApent] = useState(false);
@@ -85,8 +83,7 @@ const HeaderWithErrorPanel: FunctionComponent<OwnProps> = ({
     return (
       <header className={styles.container}>
         <div ref={wrapperRef}>
-          <Header title={intl.formatMessage({ id: 'Header.K9Los' })} titleHref={goBackUrl}>
-            { console.log(`LENKE: ${goBackUrl}`)}
+          <Header title={intl.formatMessage({ id: 'Header.K9Los' })}>
             {visKnapp() && <KnappBase className={styles.knapp} onClick={goTilAvdlelingslederPanel}>Avdelingslederpanel</KnappBase>}
             <Popover
               popperIsVisible={erLenkePanelApent}
@@ -146,7 +143,6 @@ HeaderWithErrorPanel.propTypes = {
   navAnsattName: PropTypes.string.isRequired,
   removeErrorMessage: PropTypes.func.isRequired,
   kanOppgavestyre: PropTypes.bool.isRequired,
-    goBackUrl: PropTypes.string,
 };
 
 export default injectIntl(HeaderWithErrorPanel);

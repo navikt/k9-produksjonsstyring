@@ -49,7 +49,7 @@ const slaSammenOgMarkerReserverte = (reserverteOppgaver, oppgaverTilBehandling):
       underBehandling: true,
     }));
 
-  return markedAsUnderBehandling.concat(oppgaverTilBehandling);
+  return markedAsUnderBehandling.concat(oppgaverTilBehandling.slice(0, 3));
 };
 
 const getToggleMenuEvent = (oppgave: OppgaveMedReservertIndikator, toggleMenu) => (oppgave.underBehandling ? () => toggleMenu(oppgave) : undefined);
