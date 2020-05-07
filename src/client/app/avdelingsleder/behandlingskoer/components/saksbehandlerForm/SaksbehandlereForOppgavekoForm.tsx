@@ -1,4 +1,3 @@
-
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -10,7 +9,6 @@ import Panel from 'nav-frontend-paneler';
 import { Element } from 'nav-frontend-typografi';
 import { Row, Column } from 'nav-frontend-grid';
 
-import { getValgtAvdelingEnhet } from 'app/duck';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import { CheckboxField } from 'form/FinalFields';
 import { getSaksbehandlere } from 'avdelingsleder/saksbehandlere/duck';
@@ -24,7 +22,7 @@ import styles from './saksbehandlereForOppgavekoForm.less';
 interface TsProps {
   valgtOppgaveko: Oppgaveko;
   alleSaksbehandlere: Saksbehandler[];
-  knyttSaksbehandlerTilOppgaveko: (oppgavekoId: string, brukerIdent: string, isChecked: boolean) => void;
+  knyttSaksbehandlerTilOppgaveko: (oppgavekoId: string, epost: string, isChecked: boolean) => void;
 }
 
 /**
@@ -44,10 +42,9 @@ export class SaksbehandlereForOppgavekoForm extends Component<TsProps> {
   buildInitialValues = () => {
     const {
       valgtOppgaveko,
-        alleSaksbehandlere,
     } = this.props;
 
-    const identer = alleSaksbehandlere.reduce((acc, brukerIdent) => ({ ...acc, [brukerIdent]: true }), {});
+    const identer = valgtOppgaveko.saksbehandlere.reduce((acc, epost) => ({ ...acc, [epost]: true }), {});
     return {
       ...identer,
     };
@@ -83,7 +80,7 @@ export class SaksbehandlereForOppgavekoForm extends Component<TsProps> {
                     key={s.epost}
                     name={s.epost}
                     label={s.epost}
-                    onChange={isChecked => knyttSaksbehandlerTilOppgaveko(valgtOppgaveko.id, s.brukerIdent, isChecked)}
+                    onChange={isChecked => knyttSaksbehandlerTilOppgaveko(valgtOppgaveko.id, s.epost, isChecked)}
                   />
                 ))}
               </Column>
@@ -93,7 +90,7 @@ export class SaksbehandlereForOppgavekoForm extends Component<TsProps> {
                     key={s.epost}
                     name={s.epost}
                     label={s.epost}
-                    onChange={isChecked => knyttSaksbehandlerTilOppgaveko(valgtOppgaveko.id, s.brukerIdent, isChecked)}
+                    onChange={isChecked => knyttSaksbehandlerTilOppgaveko(valgtOppgaveko.id, s.epost, isChecked)}
                   />
                 ))}
               </Column>

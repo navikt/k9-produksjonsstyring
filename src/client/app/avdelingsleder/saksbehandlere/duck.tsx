@@ -3,7 +3,9 @@ import { Dispatch } from 'redux';
 
 import k9LosApi from 'api/k9LosApi';
 
-export const fetchAlleSaksbehandlere = k9LosApi.SAKSBEHANDLERE.makeRestApiRequest();
+export const fetchAlleSaksbehandlere = () => (dispatch: Dispatch) => dispatch(
+    k9LosApi.SAKSBEHANDLERE.makeRestApiRequest()({ keepData: true }),
+);
 
 export const getSaksbehandlere = k9LosApi.SAKSBEHANDLERE.getRestApiData();
 

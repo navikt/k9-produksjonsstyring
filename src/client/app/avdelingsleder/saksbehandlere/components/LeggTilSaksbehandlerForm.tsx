@@ -70,6 +70,7 @@ export class LeggTilSaksbehandlerForm extends Component<TsProps, StateTsProps> {
       this.setState(prevState => ({ ...prevState, leggerTilNySaksbehandler: true }));
       if (saksbehandlere.some(s => s.epost.toLowerCase() === epost.toLowerCase())) {
           this.setState(prevState => ({ ...prevState, erLagtTilAllerede: true }));
+          this.setState(prevState => ({ ...prevState, leggerTilNySaksbehandler: false }));
       } else {
       leggTilSaksbehandler(epost).then(() => {
         this.setState(prevState => ({ ...prevState, leggerTilNySaksbehandler: false }));
@@ -136,7 +137,6 @@ export class LeggTilSaksbehandlerForm extends Component<TsProps, StateTsProps> {
                     spinner={submitting}
                     disabled={submitting || leggerTilNySaksbehandler}
                     tabIndex={0}
-                    onClick={() => form.reset}
                   >
                     <FormattedMessage id="LeggTilSaksbehandlerForm.Sok" />
                   </Knapp>
