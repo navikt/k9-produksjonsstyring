@@ -83,7 +83,7 @@ const HeaderWithErrorPanel: FunctionComponent<OwnProps> = ({
     return (
       <header className={styles.container}>
         <div ref={wrapperRef}>
-          <Header title={intl.formatMessage({ id: 'Header.K9Los' })}>
+          <Header title={intl.formatMessage({ id: 'Header.K9Los' })} titleHref="/">
             {visKnapp() && <KnappBase className={styles.knapp} onClick={goTilAvdlelingslederPanel}>Avdelingslederpanel</KnappBase>}
             <Popover
               popperIsVisible={erLenkePanelApent}

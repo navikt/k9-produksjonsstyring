@@ -1,7 +1,6 @@
 var webpack = require('webpack');
 var WebpackDevServer = require('webpack-dev-server');
 var config = require('./webpack.dev');
-const CLUSTER = process.env.NAIS_CLUSTER_NAME;
 if (process.argv.includes('--no-fix')) {
   console.warn("Setting eslint-loader option 'fix' to false");
   config.module.rules.find(rules => rules.loader === 'eslint-loader').options.fix = false;
@@ -38,7 +37,6 @@ wds.listen(8030, 'localhost', (err) => {
   if (err) {
     return console.log(err); // NOSONAR
   }
-  console.log(`cluster ${CLUSTER}`);
 
   console.log('Listening at http://localhost:8030/');
   return null;
