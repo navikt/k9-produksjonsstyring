@@ -30,9 +30,11 @@ describe('<SaksbehandlereTabell>', () => {
     const saksbehandlere = [{
       brukerIdent: 'TEST1',
       navn: 'Espen Utvikler',
+      epost: 'epost',
     }, {
       brukerIdent: 'TEST2',
       navn: 'Auto Joachim',
+      epost: 'epost',
     }];
     const wrapper = shallow(<SaksbehandlereTabell
       saksbehandlere={saksbehandlere}
@@ -47,19 +49,20 @@ describe('<SaksbehandlereTabell>', () => {
 
     const kolonnerRad1 = rader.first().find(TableColumn);
     expect(kolonnerRad1).to.have.length(3);
-    expect(kolonnerRad1.first().childAt(0).text()).to.eql('Auto Joachim');
-    expect(kolonnerRad1.at(1).childAt(0).text()).to.eql('TEST2');
+    expect(kolonnerRad1.first().childAt(0).text()).to.eql('epost');
+    expect(kolonnerRad1.at(1).childAt(0).text()).to.eql('TEST1');
 
     const kolonnerRad2 = rader.last().find(TableColumn);
     expect(kolonnerRad2).to.have.length(3);
-    expect(kolonnerRad2.first().childAt(0).text()).to.eql('Espen Utvikler');
-    expect(kolonnerRad2.at(1).childAt(0).text()).to.eql('TEST1');
+    expect(kolonnerRad2.first().childAt(0).text()).to.eql('epost');
+    expect(kolonnerRad2.at(1).childAt(0).text()).to.eql('TEST2');
   });
 
   it('skal vise modal for å slette saksbehandler ved trykk på slette-knapp', () => {
     const saksbehandlere = [{
       brukerIdent: 'TEST1',
       navn: 'Espen Utvikler',
+      epost: 'epost',
     }];
     const wrapper = shallow(<SaksbehandlereTabell
       saksbehandlere={saksbehandlere}
@@ -85,6 +88,7 @@ describe('<SaksbehandlereTabell>', () => {
     const saksbehandlere = [{
       brukerIdent: 'TEST1',
       navn: 'Espen Utvikler',
+      epost: 'epost',
     }];
     const wrapper = shallow(<SaksbehandlereTabell
       saksbehandlere={saksbehandlere}
@@ -110,6 +114,7 @@ describe('<SaksbehandlereTabell>', () => {
     const saksbehandlere = [{
       brukerIdent: 'TEST1',
       navn: 'Espen Utvikler',
+      epost: 'epost',
     }];
     const fjernSaksbehandlerFn = sinon.spy();
     const wrapper = shallow(<SaksbehandlereTabell
@@ -134,6 +139,6 @@ describe('<SaksbehandlereTabell>', () => {
     expect(fjernSaksbehandlerFn.calledOnce).to.be.true;
     const { args } = fjernSaksbehandlerFn.getCalls()[0];
     expect(args).to.have.length(1);
-    expect(args[0]).to.eql(saksbehandlere[0].brukerIdent);
+    expect(args[0]).to.eql(saksbehandlere[0].epost);
   });
 });

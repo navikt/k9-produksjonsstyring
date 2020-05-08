@@ -42,7 +42,7 @@ describe('validatorsHelper', () => {
 
   describe('saksnummerOrFodselsnummerPattern', () => {
     it('Skal sjekke om saksnummer er i riktig format', () => {
-      expect(saksnummerOrFodselsnummerPattern.test('123456789012345678')).is.true;
+      expect(saksnummerOrFodselsnummerPattern.test('5ZYUH')).is.true;
       expect(saksnummerOrFodselsnummerPattern.test('X123456789012345678')).is.false;
     });
   });

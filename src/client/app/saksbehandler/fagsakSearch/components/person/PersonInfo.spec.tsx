@@ -13,9 +13,8 @@ describe('<PersonInfo>', () => {
   it('skal sjekke at props blir brukt korrekt', () => {
     const person = {
       navn: 'frida',
-      alder: 40,
       personnummer: '12345678910',
-      erKvinne: true,
+      kjoenn: 'KVINNE',
       erDod: false,
       erVerge: true,
       diskresjonskode: '6',
@@ -37,23 +36,15 @@ describe('<PersonInfo>', () => {
 
     const innholdstittel = wrapper.find(Undertittel);
     expect(innholdstittel.childAt(0).text()).to.eql('frida');
-
-    const aldervisning = wrapper.find(AlderVisning);
-    expect(aldervisning.prop('alder')).to.eql(40);
-
     const normaltekst = wrapper.find(Undertekst);
     expect(normaltekst.childAt(0).text()).to.eql('12345678910');
-
-    const merkepanel = wrapper.find(MerkePanel);
-    expect(merkepanel.prop('diskresjonskode')).to.eql('6');
   });
 
   it('skal vise annen title når søker er mann ', () => {
     const person = {
       navn: 'Espen',
-      alder: 40,
       personnummer: '12345678910',
-      erKvinne: false,
+      kjoenn: 'MANN',
       erDod: false,
       erVerge: true,
       diskresjonskode: '6',

@@ -52,6 +52,7 @@
   "FagsakList.Behandlingstype": "Behandlingstype",
   "FagsakList.Status": "Status",
   "FagsakList.BarnFodt": "Barnet er født",
+  "FagsakList.Navn": "Navn",
 
   "FagsakSearch.ZeroSearchResults": "Søket ga ingen treff",
   "FagsakSearch.FlereApneBehandlinger": "Det er flere åpne behandlinger. Velg behandlingen du ønsker å åpne/reservere. (Fagsak kan ikke reserveres.)",
@@ -86,7 +87,7 @@
   "GjeldendeOppgavekoerTabell.AntallBehandlinger": "Antall behandlinger",
   "GjeldendeOppgavekoerTabell.OppgaverTotalt": "Antall åpne behandlinger totalt",
 
-  "Header.K9Los": "Omsorgspenger",
+  "Header.K9Los": "Omsorgspenger, pleiepenger og frisinn",
   "Header.NavAnsatt": "NAV-ansatt",
   "Header.Rettskilde": "Rettskildene",
   "Header.Systemrutine": "Systemrutine",
@@ -97,12 +98,12 @@
   "IkkeTilgangTilKode6AvdelingPanel.HarIkkeTilgang": "Du har ikke tilgang til denne avdelingen",
 
   "LeggTilSaksbehandlerForm.LeggTil": "Legg til saksbehandler",
-  "LeggTilSaksbehandlerForm.Brukerident": "Brukerident",
-  "LeggTilSaksbehandlerForm.Sok": "Søk",
+  "LeggTilSaksbehandlerForm.Epost": "E-post adresse",
+  "LeggTilSaksbehandlerForm.Sok": "Legg til",
   "LeggTilSaksbehandlerForm.LeggTilIListen": "Legg til i listen",
   "LeggTilSaksbehandlerForm.Nullstill": "Nullstill",
-  "LeggTilSaksbehandlerForm.FinnesAllerede": "Brukerident finnes allerede i listen",
-  "LeggTilSaksbehandlerForm.FinnesIkke": "Kan ikke finne brukerident",
+  "LeggTilSaksbehandlerForm.FinnesAllerede": "E-post adressen finnes allerede i listen",
+  "LeggTilSaksbehandlerForm.FinnesIkke": "Kan ikke finne bruker",
 
   "ManueltPaVentPanel.FireSisteUker": "4 uker frem",
   "ManueltPaVentPanel.AtteSisteUker": "8 uker frem",
@@ -192,12 +193,14 @@
 
   "Rest.ErrorMessage.Timeout": "Serverkall har gått ut på tid: {location}",
 
+  "ReserverOppgaveModal.ReserverOppgave": "Ønsker du å reservere behandlingen?",
+
   "SaksbehandlereForOppgavekoForm.Saksbehandlere": "Saksbehandlere",
-  "SaksbehandlereForOppgavekoForm.IngenSaksbehandlere": "Avdelingen har ingen saksbehandlere tilknyttet",
+  "SaksbehandlereForOppgavekoForm.IngenSaksbehandlere": "Ingen saksbehandlere",
 
   "SaksbehandlereTabell.Navn": "Navn",
   "SaksbehandlereTabell.Brukerident": "Brukerident",
-  "SaksbehandlereTabell.Avdeling": "Avdeling",
+  "SaksbehandlereTabell.Epost": "E-post adresse",
   "SaksbehandlereTabell.Saksbehandlere": "Tilgjengelige saksbehandlere",
   "SaksbehandlereTabell.IngenSaksbehandlere": "Ingen saksbehandlere lagt til",
 
@@ -279,6 +282,7 @@
   "ValidationMessage.Registrering.MaVelgeTillegg": "Velg minst en",
   "ValidationMessage.InvalidFodselsnummerFormat": "Feltet må være et fødselsnummer (11 siffer)",
   "ValidationMessage.InvalidFodselsnummer": "Ugyldig fødselsnummer",
+  "ValidationMessage.InvalidEmail": "Ugyldig e-post adresse",
   "ValidationMessage.InvalidText": "Feltet inneholder ugyldige tegn: {text}",
   "ValidationMessage.InvalidValue": "Feltet inneholder en ugyldig verdi: {value}",
   "ValidationMessage.ArrayMinLength": "Listen må ha lengde størren enn: {length}",

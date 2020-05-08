@@ -6,13 +6,16 @@ export const numberOptionalNegativeRegex = /^-?\d+([,.]\d+)?$/;
 export const integerRegex = /^\s*\d+\s*$/;
 export const integerOptionalNegativeRegex = /^\s*-?\d+\s*$/;
 export const decimalRegex = /^\d+(.\d{1,2})?$/;
-export const saksnummerOrFodselsnummerPattern = /^\d{0,18}$/;
+export const saksnummerOrFodselsnummerPattern = /^(\w|\d){5}$|(^\d{11}$)/;
+// eslint-disable-next-line no-useless-escape
+export const emailPattern = /[^@]+@[^\.]+\..+/;
 
 export const textRegex = /^[0-9a-zA-ZæøåÆØÅAaÁáBbCcČčDdĐđEeFfGgHhIiJjKkLlMmNnŊŋOoPpRrSsŠšTtŦŧUuVvZzŽžéôèÉöüäÖÜÄ .'\-/%§!?@_()+:;,="&\n]*$/;
 export const textGyldigRegex = /[0-9a-zA-ZæøåÆØÅAaÁáBbCcČčDdĐđEeFfGgHhIiJjKkLlMmNnŊŋOoPpRrSsŠšTtŦŧUuVvZzŽžéôèÉöüäÖÜÄ .'\-/%§!?@_()+:;,="&\n]*/g;
 
 export const nameRegex = /^[0-9a-zA-ZæøåÆØÅAaÁáBbCcČčDdĐđEeFfGgHhIiJjKkLlMmNnŊŋOoPpRrSsŠšTtŦŧUuVvZzŽžéôèÉöüäÖÜÄ .'-]*$/;
 export const nameGyldigRegex = /[0-9a-zA-ZæøåÆØÅAaÁáBbCcČčDdĐđEeFfGgHhIiJjKkLlMmNnŊŋOoPpRrSsŠšTtŦŧUuVvZzŽžéôèÉöüäÖÜÄ .'-]*/g;
+
 
 export const isEmpty = text => text === null || text === undefined || text.toString().trim().length === 0;
 

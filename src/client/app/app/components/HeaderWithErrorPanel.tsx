@@ -9,6 +9,7 @@ import UserPanel from '@navikt/nap-user-panel';
 import BoxedListWithLinks from '@navikt/boxed-list-with-links';
 import Header from '@navikt/nap-header';
 import { RETTSKILDE_URL, SYSTEMRUTINE_URL } from 'api/eksterneLenker';
+import KnappBase, { Knapp, Flatknapp } from 'nav-frontend-knapper';
 import ErrorMessagePanel from './ErrorMessagePanel';
 import styles from './headerWithErrorPanel.less';
 
@@ -20,6 +21,7 @@ interface OwnProps {
     errormessage?: string;
     errorcode?: string;
   };
+  kanOppgavestyre: boolean;
 }
 
 const useOutsideClickEvent = (erLenkepanelApent, erAvdelingerPanelApent, setLenkePanelApent, setAvdelingerPanelApent) => {
@@ -57,17 +59,32 @@ const HeaderWithErrorPanel: FunctionComponent<OwnProps> = ({
   navAnsattName,
   removeErrorMessage,
   queryStrings,
+  kanOppgavestyre,
 }) => {
     const [erLenkePanelApent, setLenkePanelApent] = useState(false);
     const [erAvdelingerPanelApent, setAvdelingerPanelApent] = useState(false);
-
     const wrapperRef = useOutsideClickEvent(erLenkePanelApent, erAvdelingerPanelApent, setLenkePanelApent, setAvdelingerPanelApent);
     const brukerPanel = <UserPanel name={navAnsattName} />;
+
+    const goTilAvdlelingslederPanel = () => {
+        window.location.href += 'avdelingsleder';
+    };
+
+    const visKnapp = (): boolean => {
+        if (!kanOppgavestyre) {
+            return false;
+        }
+        if (kanOppgavestyre && window.location.href.includes('avdelingsleder')) {
+            return false;
+        }
+            return true;
+    };
 
     return (
       <header className={styles.container}>
         <div ref={wrapperRef}>
-          <Header title={intl.formatMessage({ id: 'Header.K9Los' })}>
+          <Header title={intl.formatMessage({ id: 'Header.K9Los' })} titleHref="/">
+            {visKnapp() && <KnappBase className={styles.knapp} onClick={goTilAvdlelingslederPanel}>Avdelingslederpanel</KnappBase>}
             <Popover
               popperIsVisible={erLenkePanelApent}
               renderArrowElement
@@ -125,6 +142,7 @@ HeaderWithErrorPanel.propTypes = {
   }).isRequired,
   navAnsattName: PropTypes.string.isRequired,
   removeErrorMessage: PropTypes.func.isRequired,
+  kanOppgavestyre: PropTypes.bool.isRequired,
 };
 
 export default injectIntl(HeaderWithErrorPanel);

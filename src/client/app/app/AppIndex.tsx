@@ -47,6 +47,7 @@ export class AppIndex extends Component<TsProps> {
     location: PropTypes.shape({
       search: PropTypes.string,
     }).isRequired,
+    kanOppgavestyre: PropTypes.bool.isRequired,
   };
 
   static defaultProps = {
@@ -83,7 +84,7 @@ export class AppIndex extends Component<TsProps> {
   render = () => {
     const {
       location, crashMessage, errorMessagesLength, navAnsattName,
-      removeErrorMessage: removeErrorMsg,
+      removeErrorMessage: removeErrorMsg, kanOppgavestyre,
     } = this.props;
     const queryStrings = parseQueryString(location.search);
 
@@ -91,6 +92,7 @@ export class AppIndex extends Component<TsProps> {
       <AppConfigResolver>
         <LanguageProvider>
           <HeaderWithErrorPanel
+            kanOppgavestyre={kanOppgavestyre}
             queryStrings={queryStrings}
             navAnsattName={navAnsattName}
             removeErrorMessage={removeErrorMsg}
@@ -110,6 +112,7 @@ const mapStateToProps = (state: any) => ({
   crashMessage: errorHandler.getCrashMessage(state),
   navAnsattName: getNavAnsattName(state),
   funksjonellTid: getFunksjonellTid(state),
+  kanOppgavestyre: getNavAnsattKanOppgavestyre(state),
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({

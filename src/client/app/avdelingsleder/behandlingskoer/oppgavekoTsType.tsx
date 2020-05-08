@@ -1,5 +1,6 @@
 import { Kodeverk } from 'kodeverk/kodeverkTsType';
 import { KoSorteringType } from 'kodeverk/KoSorteringTsType';
+import {Saksbehandler} from "avdelingsleder/saksbehandlere/saksbehandlerTsType";
 
 // TODO (TOR) default export feilar for yarn:coverage
 // eslint-disable-next-line import/prefer-default-export
@@ -18,5 +19,3 @@ export type Oppgaveko = Readonly<{
   saksbehandlere: string[];
   antallBehandlinger: number;
 }>;
-
-

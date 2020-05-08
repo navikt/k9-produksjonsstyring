@@ -17,13 +17,13 @@ import { Saksbehandler } from '../saksbehandlerTsType';
 import styles from './saksbehandlereTabell.less';
 
 const headerTextCodes = [
-  'SaksbehandlereTabell.Navn',
+  'SaksbehandlereTabell.Epost',
   'SaksbehandlereTabell.Brukerident',
 ];
 
 interface TsProps {
   saksbehandlere: Saksbehandler[];
-  fjernSaksbehandler: (brukerIdent: string) => Promise<string>;
+  fjernSaksbehandler: (epost: string) => Promise<string>;
 }
 
 interface StateTsProps {
@@ -59,7 +59,7 @@ export class SaksbehandlereTabell extends Component<TsProps, StateTsProps> {
     const {
       fjernSaksbehandler,
     } = this.props;
-    fjernSaksbehandler(valgtSaksbehandler.brukerIdent);
+    fjernSaksbehandler(valgtSaksbehandler.epost);
     this.closeSletteModal();
   }
 
@@ -71,7 +71,7 @@ export class SaksbehandlereTabell extends Component<TsProps, StateTsProps> {
       valgtSaksbehandler,
     } = this.state;
 
-    const sorterteSaksbehandlere = saksbehandlere.sort((saksbehandler1, saksbehandler2) => saksbehandler1.navn.localeCompare(saksbehandler2.navn));
+    const sorterteSaksbehandlere = saksbehandlere.sort((saksbehandler1, saksbehandler2) => saksbehandler1.epost.localeCompare(saksbehandler2.epost));
 
     return (
       <>
@@ -88,7 +88,7 @@ export class SaksbehandlereTabell extends Component<TsProps, StateTsProps> {
         <Table headerTextCodes={headerTextCodes} noHover>
           {sorterteSaksbehandlere.map(saksbehandler => (
             <TableRow key={saksbehandler.brukerIdent}>
-              <TableColumn>{saksbehandler.navn}</TableColumn>
+              <TableColumn>{saksbehandler.epost}</TableColumn>
               <TableColumn>{saksbehandler.brukerIdent}</TableColumn>
               <TableColumn>
                 <Image
@@ -116,8 +116,5 @@ export class SaksbehandlereTabell extends Component<TsProps, StateTsProps> {
   }
 }
 
-const mapStateToProps = state => ({
 
-});
-
-export default connect(mapStateToProps)(SaksbehandlereTabell);
+export default SaksbehandlereTabell;

@@ -9,7 +9,7 @@ import { FagsakSearchIndex } from './FagsakSearchIndex';
 
 describe('<FagsakSearchIndex>', () => {
   const fagsak = {
-    saksnummer: 12345,
+    saksnummer: '12345',
     sakstype: {
       kode: 'ES',
       navn: 'test',
@@ -23,12 +23,12 @@ describe('<FagsakSearchIndex>', () => {
       navn: 'Espen',
       alder: 38,
       personnummer: '123456789',
-      erKvinne: true,
+      kjoenn: 'KVINNE',
       erDod: false,
     },
     opprettet: '13‎.‎02‎.‎2017‎ ‎09‎:‎54‎:‎22',
   };
-  const fagsaker = [fagsak, { ...fagsak, saksnummer: 23456 }];
+  const fagsaker = [fagsak, { ...fagsak, saksnummer: ' 23456' }];
 
   it('skal sette opp søkeskjermbilde for fagsaker', () => {
     const wrapper = shallowWithIntl(<FagsakSearchIndex

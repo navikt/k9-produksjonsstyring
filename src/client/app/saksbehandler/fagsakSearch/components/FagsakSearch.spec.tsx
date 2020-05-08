@@ -11,7 +11,7 @@ import FagsakList from './FagsakList';
 
 describe('<FagsakSearch>', () => {
   const fagsak = {
-    saksnummer: 12345,
+    saksnummer: '12345',
     sakstype: {
       navn: 'Engangsstonad',
       kode: 'TEST',
@@ -25,9 +25,8 @@ describe('<FagsakSearch>', () => {
     endret: '13‎.‎02‎.‎2017‎',
     person: {
       navn: 'Frida',
-      alder: 44,
       personnummer: '0405198632231',
-      erKvinne: true,
+      kjoenn: 'KVINNE',
       erDod: false,
     },
   };

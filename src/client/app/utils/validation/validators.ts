@@ -2,14 +2,33 @@ import moment from 'moment';
 import { fodselsnummerPattern, isValidFodselsnummer } from 'utils/fodselsnummerUtils';
 import { DDMMYYYY_DATE_FORMAT, ISO_DATE_FORMAT } from 'utils/formats';
 import {
-  isRequiredMessage, minLengthMessage, invalidNumberMessage, maxLengthMessage, minValueMessage, maxValueMessage, invalidDateMessage,
-  invalidIntegerMessage, invalidDecimalMessage, dateNotBeforeOrEqualMessage, dateNotAfterOrEqualMessage, dateRangesOverlappingMessage,
-  invalidFodselsnummerFormatMessage, invalidFodselsnummerMessage, invalidTextMessage, invalidSaksnummerOrFodselsnummerFormatMessage,
-  invalidValueMessage, arrayMinLengthMessage, invalidPeriodMessage, invalidDatesInPeriodMessage, invalidPeriodRangeMessage, datesNotEqual,
+  isRequiredMessage,
+  minLengthMessage,
+  invalidNumberMessage,
+  maxLengthMessage,
+  minValueMessage,
+  maxValueMessage,
+  invalidDateMessage,
+  invalidIntegerMessage,
+  invalidDecimalMessage,
+  dateNotBeforeOrEqualMessage,
+  dateNotAfterOrEqualMessage,
+  dateRangesOverlappingMessage,
+  invalidFodselsnummerFormatMessage,
+  invalidFodselsnummerMessage,
+  invalidTextMessage,
+  invalidSaksnummerOrFodselsnummerFormatMessage,
+  invalidValueMessage,
+  arrayMinLengthMessage,
+  invalidPeriodMessage,
+  invalidDatesInPeriodMessage,
+  invalidPeriodRangeMessage,
+  datesNotEqual,
+  invalidEmailMessage,
 } from './messages';
 import {
   isoDateRegex, numberRegex, numberOptionalNegativeRegex, integerRegex, integerOptionalNegativeRegex, decimalRegex, textRegex,
-  textGyldigRegex, isEmpty, yesterday, tomorrow, dateRangesAreSequential, nameRegex, nameGyldigRegex, saksnummerOrFodselsnummerPattern,
+  textGyldigRegex, isEmpty, yesterday, tomorrow, dateRangesAreSequential, nameRegex, nameGyldigRegex, saksnummerOrFodselsnummerPattern, emailPattern,
 } from './validatorsHelper';
 
 export const required = value => (isEmpty(value) ? isRequiredMessage() : undefined);
@@ -35,6 +54,9 @@ export const hasValidDecimal = text => (hasValidNumber(text) || hasValidDec(text
 
 export const hasValidSaksnummerOrFodselsnummerFormat = text => (isEmpty(text) || saksnummerOrFodselsnummerPattern.test(text)
   ? null : invalidSaksnummerOrFodselsnummerFormatMessage());
+
+export const hasValidEmailFormat = text => (isEmpty(text) || emailPattern.test(text)
+    ? null : invalidEmailMessage());
 
 export const hasValidDate = text => (isEmpty(text) || isoDateRegex.test(text) ? null : invalidDateMessage());
 export const dateBeforeOrEqual = latest => text => (
