@@ -1,7 +1,6 @@
 import React, { Component, ReactNode } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { createSelector } from 'reselect';
 import {
   injectIntl, intlShape, FormattedMessage,
 } from 'react-intl';
@@ -32,6 +31,7 @@ interface TsProps {
 interface StateTsProps {
   leggerTilNySaksbehandler: boolean;
     erLagtTilAllerede: boolean;
+    showWarning: boolean;
 }
 
 /**
@@ -59,17 +59,19 @@ export class LeggTilSaksbehandlerForm extends Component<TsProps, StateTsProps> {
     this.state = {
       leggerTilNySaksbehandler: false,
       erLagtTilAllerede: false,
+      showWarning: false,
     };
     this.nodes = [];
   }
 
   leggTilSaksbehandler = (epost: string) => {
     const {
-      leggTilSaksbehandler, saksbehandlere,
+      leggTilSaksbehandler, saksbehandlere, saksbehandler,
     } = this.props;
       this.setState(prevState => ({ ...prevState, leggerTilNySaksbehandler: true }));
       if (saksbehandlere.some(s => s.epost.toLowerCase() === epost.toLowerCase())) {
-          this.setState(prevState => ({ ...prevState, erLagtTilAllerede: true }));
+        this.setState(prevState => ({ ...prevState, showWarning: true }));
+        this.setState(prevState => ({ ...prevState, leggerTilNySaksbehandler: false }));
       } else {
       leggTilSaksbehandler(epost).then(() => {
         this.setState(prevState => ({ ...prevState, leggerTilNySaksbehandler: false }));
@@ -83,18 +85,14 @@ export class LeggTilSaksbehandlerForm extends Component<TsProps, StateTsProps> {
     } = this.props;
     resetSaksbehandlerSok();
     resetFormValues();
+    this.setState(prevState => ({ ...prevState, showWarning: false }));
   }
-
 
   formatText = () => {
     const {
-      intl, saksbehandler, erSokFerdig,
+      intl,
     } = this.props;
-    const { erLagtTilAllerede } = this.state;
-    const brukerinfo = `${saksbehandler.epost} `;
-    return erLagtTilAllerede
-      ? `${brukerinfo} (${intl.formatMessage({ id: 'LeggTilSaksbehandlerForm.FinnesAllerede' })})`
-      : brukerinfo;
+    return ` (${intl.formatMessage({ id: 'LeggTilSaksbehandlerForm.FinnesAllerede' })})`;
   }
 
   render = () => {
@@ -103,7 +101,7 @@ export class LeggTilSaksbehandlerForm extends Component<TsProps, StateTsProps> {
     } = this.props;
     const {
       leggerTilNySaksbehandler,
-        erLagtTilAllerede,
+        erLagtTilAllerede, showWarning,
     } = this.state;
 
     return (
@@ -143,7 +141,7 @@ export class LeggTilSaksbehandlerForm extends Component<TsProps, StateTsProps> {
                 </FlexColumn>
               </FlexRow>
             </FlexContainer>
-            {(erLagtTilAllerede && erSokFerdig) && (
+            {showWarning && (
             <>
               <Normaltekst>
                 {this.formatText()}
