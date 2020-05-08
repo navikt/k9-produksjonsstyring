@@ -67,9 +67,9 @@ describe('<SistBehandledeSaker>', () => {
 
     const links = wrapper.find(Lenke);
     expect(links).to.have.length(2);
-    expect(links.first().prop('href')).to.eql('www.k9sak.no/fagsak/1/behandling/1/?punkt=default&fakta=default');
+    expect(links.first().prop('href')).to.eql('www.k9sak.no/fagsak/1/behandling/1/?punkt=default&fakta=default?kilde=k9-los');
     expect(links.first().childAt(0).text()).to.eql('Espen Utvikler 123456789');
-    expect(links.last().prop('href')).to.eql('www.k9sak.no/fagsak/2/behandling/2/?punkt=default&fakta=default');
+    expect(links.last().prop('href')).to.eql('www.k9sak.no/fagsak/2/behandling/2/?punkt=default&fakta=default?kilde=k9-los');
     expect(links.last().childAt(0).text()).to.eql('Espen Solstråle 657643535');
   });
 

@@ -19,8 +19,8 @@ interface TsProps {
   fagsakOppgaver: Oppgave[];
   searchFagsakCallback: ({ searchString: string, skalReservere: boolean }) => void;
   searchResultReceived: boolean;
-  selectFagsakCallback: (saksnummer: number) => void;
-  selectOppgaveCallback: (oppgave: Oppgave) => void;
+  selectFagsakCallback: (saksnummer: string) => void;
+  selectOppgaveCallback: (oppgave: Oppgave, reserver: boolean) => void;
   searchStarted: boolean;
   searchResultAccessDenied?: {
     feilmelding?: string;
@@ -59,11 +59,9 @@ const FagsakSearch = ({
       searchResultAccessDenied={searchResultAccessDenied}
       resetSearch={resetSearch}
     />
-
     {searchResultReceived && fagsaker && fagsaker.length === 0
       && <Normaltekst className={styles.label}><FormattedMessage id="FagsakSearch.ZeroSearchResults" /></Normaltekst>
     }
-
     {searchResultReceived && skalViseListe(fagsaker, fagsakOppgaver) && (
       <>
         <PersonInfo person={fagsaker[0].person} />

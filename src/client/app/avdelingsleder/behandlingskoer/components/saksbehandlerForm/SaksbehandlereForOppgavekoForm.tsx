@@ -10,7 +10,6 @@ import Panel from 'nav-frontend-paneler';
 import { Element } from 'nav-frontend-typografi';
 import { Row, Column } from 'nav-frontend-grid';
 
-import { getValgtAvdelingEnhet } from 'app/duck';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import { CheckboxField } from 'form/FinalFields';
 import { getSaksbehandlere } from 'avdelingsleder/saksbehandlere/duck';
@@ -24,7 +23,7 @@ import styles from './saksbehandlereForOppgavekoForm.less';
 interface TsProps {
   valgtOppgaveko: Oppgaveko;
   alleSaksbehandlere: Saksbehandler[];
-  knyttSaksbehandlerTilOppgaveko: (oppgavekoId: string, brukerIdent: string, isChecked: boolean) => void;
+  knyttSaksbehandlerTilOppgaveko: (oppgavekoId: string, epost: string, isChecked: boolean) => void;
 }
 
 /**
@@ -45,10 +44,9 @@ export class SaksbehandlereForOppgavekoForm extends Component<TsProps> {
     const {
       valgtOppgaveko,
     } = this.props;
-
-    const identer = valgtOppgaveko.saksbehandlere.reduce((acc, brukerIdent) => ({ ...acc, [brukerIdent]: true }), {});
+    const eposter = valgtOppgaveko.saksbehandlere ? valgtOppgaveko.saksbehandlere.reduce((acc, sb) => ({ ...acc, [sb]: true }), {}) : {};
     return {
-      ...identer,
+      ...eposter,
     };
   }
 
@@ -79,20 +77,20 @@ export class SaksbehandlereForOppgavekoForm extends Component<TsProps> {
               <Column xs="6">
                 {alleSaksbehandlereVenstreListe.map(s => (
                   <CheckboxField
-                    key={s.brukerIdent}
-                    name={s.brukerIdent}
-                    label={s.navn}
-                    onChange={isChecked => knyttSaksbehandlerTilOppgaveko(valgtOppgaveko.id, s.brukerIdent, isChecked)}
+                    key={s.epost}
+                    name={s.epost}
+                    label={s.epost}
+                    onChange={isChecked => knyttSaksbehandlerTilOppgaveko(valgtOppgaveko.id, s.epost, isChecked)}
                   />
                 ))}
               </Column>
               <Column xs="6">
                 {alleSaksbehandlereHoyreListe.map(s => (
                   <CheckboxField
-                    key={s.brukerIdent}
-                    name={s.brukerIdent}
-                    label={s.navn}
-                    onChange={isChecked => knyttSaksbehandlerTilOppgaveko(valgtOppgaveko.id, s.brukerIdent, isChecked)}
+                    key={s.epost}
+                    name={s.epost}
+                    label={s.epost}
+                    onChange={isChecked => knyttSaksbehandlerTilOppgaveko(valgtOppgaveko.id, s.epost, isChecked)}
                   />
                 ))}
               </Column>
@@ -106,7 +104,7 @@ export class SaksbehandlereForOppgavekoForm extends Component<TsProps> {
 }
 
 const sortSaksbehandlere = createSelector([getSaksbehandlere], saksbehandlere => (saksbehandlere && saksbehandlere instanceof Array
-  ? saksbehandlere.sort((saksbehandler1, saksbehandler2) => saksbehandler1.navn.localeCompare(saksbehandler2.navn))
+  ? saksbehandlere.sort((saksbehandler1, saksbehandler2) => saksbehandler1.epost.localeCompare(saksbehandler2.epost))
   : saksbehandlere));
 
 const mapStateToProps = state => ({

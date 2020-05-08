@@ -11,6 +11,7 @@ export const dateNotAfterOrEqualMessage = limit => ([{ id: 'ValidationMessage.Da
 export const dateRangesOverlappingMessage = () => ([{ id: 'ValidationMessage.DateRangesOverlapping' }]);
 export const datesNotEqual = value => ([{ id: 'ValidationMessage.DatesNotEqual' }, { value }]);
 export const invalidFodselsnummerFormatMessage = () => ([{ id: 'ValidationMessage.InvalidFodselsnummerFormat' }]);
+export const invalidEmailMessage = () => ([{ id: 'ValidationMessage.InvalidEmail' }]);
 export const invalidFodselsnummerMessage = () => ([{ id: 'ValidationMessage.InvalidFodselsnummer' }]);
 export const sammeFodselsnummerSomSokerMessage = () => ([{ id: 'ValidationMessage.SammeFodselsnummerSomSoker' }]);
 export const invalidSaksnummerOrFodselsnummerFormatMessage = () => ([{ id: 'ValidationMessage.InvalidSaksnummerOrFodselsnummerFormat' }]);

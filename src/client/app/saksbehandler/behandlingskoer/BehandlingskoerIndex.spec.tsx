@@ -137,7 +137,7 @@ describe('<BehandlingskoerIndex>', () => {
     expect(goToUrl.calledOnce).to.be.true;
     const { args } = goToUrl.getCalls()[0];
     expect(args).to.have.length(1);
-    expect(args[0]).to.eql('www.k9sak.no/fagsak/12343/behandling/1/?punkt=default&fakta=default');
+    expect(args[0]).to.eql('www.k9sak.no/fagsak/12343/behandling/1/?punkt=default&fakta=default?kilde=k9-los');
   });
 
   it('skal ikke reservere men kun åpne sak i FPSAK når oppgave allerede er reservert', () => {
@@ -175,7 +175,7 @@ describe('<BehandlingskoerIndex>', () => {
     expect(goToUrl.calledOnce).to.be.true;
     const { args } = goToUrl.getCalls()[0];
     expect(args).to.have.length(1);
-    expect(args[0]).to.eql('www.k9sak.no/fagsak/12343/behandling/1/?punkt=default&fakta=default');
+    expect(args[0]).to.eql('www.k9sak.no/fagsak/12343/behandling/1/?punkt=default&fakta=default?kilde=k9-los');
   });
 
   it('skal oppheve reservasjon og så hente reserverte oppgaver på nytt', async () => {

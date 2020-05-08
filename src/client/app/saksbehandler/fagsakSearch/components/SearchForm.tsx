@@ -58,7 +58,6 @@ export const SearchForm = ({
         {kanSaksbehandle && (
         <>
           <VerticalSpacer sixteenPx />
-          <CheckboxField name="skalReservere" label={intl.formatMessage({ id: 'Search.ReserverBehandling' })} onClick={resetSearch} />
         </>
         )
         }

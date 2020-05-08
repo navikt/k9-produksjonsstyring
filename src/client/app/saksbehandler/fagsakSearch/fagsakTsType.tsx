@@ -4,12 +4,13 @@ import { Person } from './personTsType';
 // TODO (TOR) default export feilar for yarn:coverage
 // eslint-disable-next-line import/prefer-default-export
 export type Fagsak = Readonly<{
-  saksnummer: number;
+  saksnummer: string;
   sakstype: Kodeverk;
-  status: Kodeverk;
+//  status: Kodeverk;
   person: Person;
-  barnFodt?: string;
+//  barnFodt?: string;
   behandlingStatus?: Kodeverk;
   opprettet: string;
-  endret?: string;
+  aktiv: boolean;
+//  endret?: string;
 }>;

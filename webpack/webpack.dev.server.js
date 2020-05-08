@@ -1,7 +1,6 @@
 var webpack = require('webpack');
 var WebpackDevServer = require('webpack-dev-server');
 var config = require('./webpack.dev');
-
 if (process.argv.includes('--no-fix')) {
   console.warn("Setting eslint-loader option 'fix' to false");
   config.module.rules.find(rules => rules.loader === 'eslint-loader').options.fix = false;

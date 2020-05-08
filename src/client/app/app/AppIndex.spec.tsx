@@ -14,6 +14,7 @@ describe('<AppIndex>', () => {
       showCrashMessage={sinon.spy()}
       removeErrorMessage={sinon.spy()}
       errorMessagesLength={0}
+      kanOppgavestyre
       location={{ search: undefined, state: {} }}
     />);
 
@@ -32,6 +33,7 @@ describe('<AppIndex>', () => {
       showCrashMessage={sinon.spy()}
       removeErrorMessage={sinon.spy()}
       errorMessagesLength={1}
+      kanOppgavestyre
       location={{ search: undefined, state: {} }}
     />);
 
@@ -55,6 +57,7 @@ describe('<AppIndex>', () => {
       removeErrorMessage={sinon.spy()}
       showCrashMessage={sinon.spy()}
       errorMessagesLength={0}
+      kanOppgavestyre
       location={location}
     />);
 

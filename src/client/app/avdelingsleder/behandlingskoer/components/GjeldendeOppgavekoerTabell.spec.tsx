@@ -318,6 +318,7 @@ describe('<GjeldendeOppgavekoerTabell>', () => {
       saksbehandlere: [{
         navn: 'Sara',
         brukerIdent: 'fslkjd',
+        epost: 'epost',
 
       }],
     }];

@@ -19,3 +19,4 @@ server.get('/avdelingsleder', (req, res) => {
 server.listen(PORT);
 
 console.log(`Started express server at port ${PORT}`);
+

@@ -185,11 +185,11 @@ describe('<OppgavekoVelgerForm>', () => {
         kode: behandlingType.FORSTEGANGSSOKNAD,
         navn: 'Førstegangssøknad',
       }, {
-        kode: behandlingType.KLAGE,
+        kode: behandlingType.REVURDERING,
         navn: 'Klage',
       }],
       fagsakYtelseTyper: [{
-        kode: fagsakYtelseType.ENGANGSSTONAD,
+        kode: fagsakYtelseType.PLEIEPENGER_SYKT_BARN,
         navn: 'Engangsstønad',
       }],
       andreKriterier: [],
@@ -321,12 +321,15 @@ describe('<OppgavekoVelgerForm>', () => {
       saksbehandlere={[{
         brukerIdent: 'T120101',
         navn: 'Espen Utvikler',
+        epost: 'epost',
       }, {
         brukerIdent: 'A120102',
         navn: 'Auto Joachim',
+        epost: 'epost',
       }, {
         brukerIdent: 'T120102',
         navn: 'Helge Ingstad',
+        epost: 'epost',
       }]}
     />).find(Form).drill(props => props.render(formProps)).shallow();
 
@@ -334,8 +337,8 @@ describe('<OppgavekoVelgerForm>', () => {
     expect(labels).to.have.length(1);
     expect(labels.first().prop('tooltip').header.props.children).to.eql('Saksbehandlere');
     expect(labels.first().prop('tooltip').body).to.have.length(3);
-    expect(labels.first().prop('tooltip').body[0].key).to.eql('Auto Joachim');
-    expect(labels.first().prop('tooltip').body[1].key).to.eql('Espen Utvikler');
-    expect(labels.first().prop('tooltip').body[2].key).to.eql('Helge Ingstad');
+    expect(labels.first().prop('tooltip').body[0].key).to.eql('epost');
+    expect(labels.first().prop('tooltip').body[1].key).to.eql('epost');
+    expect(labels.first().prop('tooltip').body[2].key).to.eql('epost');
   });
 });
