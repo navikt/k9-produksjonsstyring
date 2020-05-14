@@ -17,8 +17,9 @@ import { Saksbehandler } from '../saksbehandlerTsType';
 import styles from './saksbehandlereTabell.less';
 
 const headerTextCodes = [
-  'SaksbehandlereTabell.Epost',
+  'SaksbehandlereTabell.Navn',
   'SaksbehandlereTabell.Brukerident',
+  'SaksbehandlereTabell.Epost',
 ];
 
 interface TsProps {
@@ -88,8 +89,9 @@ export class SaksbehandlereTabell extends Component<TsProps, StateTsProps> {
         <Table headerTextCodes={headerTextCodes} noHover>
           {sorterteSaksbehandlere.map(saksbehandler => (
             <TableRow key={saksbehandler.brukerIdent}>
-              <TableColumn>{saksbehandler.epost}</TableColumn>
+              <TableColumn>{saksbehandler.navn}</TableColumn>
               <TableColumn>{saksbehandler.brukerIdent}</TableColumn>
+              <TableColumn>{saksbehandler.epost}</TableColumn>
               <TableColumn>
                 <Image
                   src={removeIcon}

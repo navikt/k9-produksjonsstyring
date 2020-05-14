@@ -134,7 +134,7 @@ export class LeggTilSaksbehandlerForm extends Component<TsProps, StateTsProps> {
                     spinner={submitting}
                     disabled={submitting || leggerTilNySaksbehandler}
                     tabIndex={0}
-                    onClick={() => form.reset}
+                    onClick={() => this.resetSaksbehandlerSok(form.reset)}
                   >
                     <FormattedMessage id="LeggTilSaksbehandlerForm.Sok" />
                   </Knapp>

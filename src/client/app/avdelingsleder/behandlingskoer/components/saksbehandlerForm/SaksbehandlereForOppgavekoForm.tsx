@@ -44,7 +44,7 @@ export class SaksbehandlereForOppgavekoForm extends Component<TsProps> {
     const {
       valgtOppgaveko,
     } = this.props;
-    const eposter = valgtOppgaveko.saksbehandlere ? valgtOppgaveko.saksbehandlere.reduce((acc, sb) => ({ ...acc, [sb]: true }), {}) : {};
+    const eposter = valgtOppgaveko.saksbehandlere ? valgtOppgaveko.saksbehandlere.reduce((acc, sb) => ({ ...acc, [sb.epost]: true }), {}) : {};
     return {
       ...eposter,
     };
