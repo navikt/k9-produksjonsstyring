@@ -44,9 +44,9 @@ export class SaksbehandlereForOppgavekoForm extends Component<TsProps> {
     const {
       valgtOppgaveko,
     } = this.props;
-    const eposter = valgtOppgaveko.saksbehandlere ? valgtOppgaveko.saksbehandlere.reduce((acc, sb) => ({ ...acc, [sb.epost]: true }), {}) : {};
+    const identer = valgtOppgaveko.saksbehandlere ? valgtOppgaveko.saksbehandlere.reduce((acc, sb) => ({ ...acc, [sb.brukerIdent]: true }), {}) : {};
     return {
-      ...eposter,
+      ...identer,
     };
   }
 
@@ -77,8 +77,8 @@ export class SaksbehandlereForOppgavekoForm extends Component<TsProps> {
               <Column xs="6">
                 {alleSaksbehandlereVenstreListe.map(s => (
                   <CheckboxField
-                    key={s.epost}
-                    name={s.epost}
+                    key={s.brukerIdent}
+                    name={s.brukerIdent}
                     label={s.epost}
                     onChange={isChecked => knyttSaksbehandlerTilOppgaveko(valgtOppgaveko.id, s.epost, isChecked)}
                   />
@@ -87,8 +87,8 @@ export class SaksbehandlereForOppgavekoForm extends Component<TsProps> {
               <Column xs="6">
                 {alleSaksbehandlereHoyreListe.map(s => (
                   <CheckboxField
-                    key={s.epost}
-                    name={s.epost}
+                    key={s.brukerIdent}
+                    name={s.brukerIdent}
                     label={s.epost}
                     onChange={isChecked => knyttSaksbehandlerTilOppgaveko(valgtOppgaveko.id, s.epost, isChecked)}
                   />
