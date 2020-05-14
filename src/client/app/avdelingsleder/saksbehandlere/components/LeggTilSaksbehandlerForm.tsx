@@ -134,7 +134,6 @@ export class LeggTilSaksbehandlerForm extends Component<TsProps, StateTsProps> {
                     spinner={submitting}
                     disabled={submitting || leggerTilNySaksbehandler}
                     tabIndex={0}
-                    onClick={() => form.reset}
                   >
                     <FormattedMessage id="LeggTilSaksbehandlerForm.Sok" />
                   </Knapp>
@@ -147,6 +146,7 @@ export class LeggTilSaksbehandlerForm extends Component<TsProps, StateTsProps> {
                 {this.formatText()}
               </Normaltekst>
               <FlexColumn>
+                behandling_prosess_events_k9
                 <Knapp
                   mini
                   htmlType="button"
