@@ -47,7 +47,7 @@ export const SletteOppgavekoModal = ({
       </Column>
       <Column xs="6" className={styles.text}>
         <Normaltekst>
-          <FormattedMessage id="SletteOppgavekoModal.SletteOppgaveko" values={{ oppgavekoNavn: valgtOppgaveko.navn }} />
+          <FormattedMessage id="SletteOppgavekoModal.SletteOppgaveko" values={{ OppgavekoNavn: valgtOppgaveko.navn }} />
         </Normaltekst>
       </Column>
       <Column xs="4">
