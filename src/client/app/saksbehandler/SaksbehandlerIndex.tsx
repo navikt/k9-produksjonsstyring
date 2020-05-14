@@ -3,6 +3,7 @@ import React from 'react';
 import IkkeTilgangTilAvdelingslederPanel from 'avdelingsleder/components/IkkeTilgangTilAvdelingslederPanel';
 import PropTypes from 'prop-types';
 import { getNavAnsattKanSaksbehandle } from 'app/duck';
+import { connect } from 'react-redux';
 import SaksbehandlerDashboard from './components/SaksbehandlerDashboard';
 
 
@@ -35,4 +36,4 @@ SaksbehandlerIndex.defaultProps = {
     kanSaksbehandle: false,
 };
 
-export default mapStateToProps(SaksbehandlerIndex);
+export default (connect(mapStateToProps)(SaksbehandlerIndex));
