@@ -16,6 +16,7 @@ describe('<UtvalgskriterierForOppgavekoForm>', () => {
       id: '1',
       navn: 'Nyansatte',
       sistEndret: '2017-08-31',
+      skjermet: false,
       andreKriterierTyper: [{
         kode: andreKriterierType.TIL_BESLUTTER,
         navn: 'Til beslutter',
@@ -34,6 +35,7 @@ describe('<UtvalgskriterierForOppgavekoForm>', () => {
       lagreOppgavekoFagsakYtelseType={sinon.spy()}
       lagreOppgavekoSortering={sinon.spy()}
       lagreOppgavekoAndreKriterier={sinon.spy()}
+      lagreOppgavekoSkjermet={sinon.spy()}
       valgtAvdelingEnhet="1"
       hentAntallOppgaverForOppgaveko={sinon.spy()}
     />).find(Form).drill(props => props.render({ values: { erDynamiskPeriode: false } })).shallow();
@@ -49,6 +51,7 @@ describe('<UtvalgskriterierForOppgavekoForm>', () => {
       navn: undefined,
       sistEndret: '2017-08-31',
       saksbehandlere: [],
+      skjermet: false,
     };
 
     const wrapper = shallowWithIntl(<UtvalgskriterierForOppgavekoForm
@@ -58,6 +61,7 @@ describe('<UtvalgskriterierForOppgavekoForm>', () => {
       lagreOppgavekoBehandlingstype={sinon.spy()}
       lagreOppgavekoFagsakYtelseType={sinon.spy()}
       lagreOppgavekoSortering={sinon.spy()}
+      lagreOppgavekoSkjermet={sinon.spy()}
       hentAntallOppgaverForOppgaveko={sinon.spy()}
       lagreOppgavekoAndreKriterier={sinon.spy()}
     />);
@@ -70,6 +74,7 @@ describe('<UtvalgskriterierForOppgavekoForm>', () => {
       fagsakYtelseType: '',
       fomDato: undefined,
       tomDato: undefined,
+      skjermet: false,
     });
   });
 
@@ -79,6 +84,7 @@ describe('<UtvalgskriterierForOppgavekoForm>', () => {
       navn: 'Nyansatte',
       sistEndret: '2017-08-31',
       saksbehandlere: [],
+      skjermet: false,
     };
 
     const wrapper = shallowWithIntl(<UtvalgskriterierForOppgavekoForm
@@ -88,7 +94,7 @@ describe('<UtvalgskriterierForOppgavekoForm>', () => {
       lagreOppgavekoBehandlingstype={sinon.spy()}
       lagreOppgavekoFagsakYtelseType={sinon.spy()}
       lagreOppgavekoSortering={sinon.spy()}
-      valgtAvdelingEnhet="1"
+      lagreOppgavekoSkjermet={sinon.spy()}
       hentAntallOppgaverForOppgaveko={sinon.spy()}
       lagreOppgavekoAndreKriterier={sinon.spy()}
     />);
@@ -98,6 +104,7 @@ describe('<UtvalgskriterierForOppgavekoForm>', () => {
       id: '1',
       navn: 'Nyansatte',
       sortering: undefined,
+      skjermet: false,
       fagsakYtelseType: '',
       fomDato: undefined,
       tomDato: undefined,
@@ -110,6 +117,7 @@ describe('<UtvalgskriterierForOppgavekoForm>', () => {
       navn: 'Nyansatte',
       sistEndret: '2017-08-31',
       saksbehandlere: [],
+      skjermet: false,
     };
 
     const lagreOppgavekoNavnFn = sinon.spy();
@@ -121,6 +129,7 @@ describe('<UtvalgskriterierForOppgavekoForm>', () => {
       lagreOppgavekoBehandlingstype={sinon.spy()}
       lagreOppgavekoFagsakYtelseType={sinon.spy()}
       lagreOppgavekoSortering={sinon.spy()}
+      lagreOppgavekoSkjermet={sinon.spy()}
       hentAntallOppgaverForOppgaveko={sinon.spy()}
       lagreOppgavekoAndreKriterier={sinon.spy()}
     />).find(Form).drill(props => props.render({ values: { erDynamiskPeriode: false } })).shallow();
@@ -146,6 +155,7 @@ describe('<UtvalgskriterierForOppgavekoForm>', () => {
       navn: 'Nyansatte',
       sistEndret: '2017-08-31',
       saksbehandlere: [],
+      skjermet: false,
       andreKriterier: [{
           kode: andreKriterierType.TIL_BESLUTTER,
           navn: 'Til beslutter',
@@ -163,6 +173,7 @@ describe('<UtvalgskriterierForOppgavekoForm>', () => {
       lagreOppgavekoNavn={sinon.spy()}
       lagreOppgavekoBehandlingstype={sinon.spy()}
       lagreOppgavekoFagsakYtelseType={sinon.spy()}
+      lagreOppgavekoSkjermet={sinon.spy()}
       lagreOppgavekoSortering={sinon.spy()}
       hentAntallOppgaverForOppgaveko={sinon.spy()}
       lagreOppgavekoAndreKriterier={sinon.spy()}
@@ -173,6 +184,7 @@ describe('<UtvalgskriterierForOppgavekoForm>', () => {
       id: '1',
       navn: 'Nyansatte',
       sortering: undefined,
+      skjermet: false,
       fagsakYtelseType: '',
       fomDato: undefined,
       tomDato: undefined,

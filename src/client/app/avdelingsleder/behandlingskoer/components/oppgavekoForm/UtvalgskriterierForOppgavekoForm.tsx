@@ -15,6 +15,8 @@ import {
 import { Kodeverk } from 'kodeverk/kodeverkTsType';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import { InputField } from 'form/FinalFields';
+import { Checkbox } from 'nav-frontend-skjema';
+import SkjermetVelger from 'avdelingsleder/behandlingskoer/components/oppgavekoForm/SkjermetVelger';
 import { Oppgaveko } from '../../oppgavekoTsType';
 import oppgavekoPropType from '../../oppgavekoPropType';
 import { getAntallOppgaverForOppgavekoResultat } from '../../duck';
@@ -41,6 +43,7 @@ interface TsProps {
   lagreOppgavekoBehandlingstype: (oppgavekoId: string, behandlingType: Kodeverk, isChecked: boolean) => void;
   lagreOppgavekoFagsakYtelseType: (oppgavekoId: string, fagsakYtelseType: Kodeverk) => void;
   lagreOppgavekoAndreKriterier: (id: string, andreKriterierType: Kodeverk, isChecked: boolean) => void;
+  lagreOppgavekoSkjermet: (id: string, isChecked: boolean) => void;
   antallOppgaver?: number;
   hentAntallOppgaverForOppgaveko: (oppgavekoId: string) => Promise<string>;
 }
@@ -58,6 +61,7 @@ export class UtvalgskriterierForOppgavekoForm extends Component<TsProps> {
     lagreOppgavekoAndreKriterier: PropTypes.func.isRequired,
     antallOppgaver: PropTypes.number,
     hentAntallOppgaverForOppgaveko: PropTypes.func.isRequired,
+    lagreOppgavekoSkjermet: PropTypes.func.isRequired,
   };
 
   componentDidMount = () => {
@@ -94,6 +98,7 @@ export class UtvalgskriterierForOppgavekoForm extends Component<TsProps> {
       sortering: valgtOppgaveko.sortering ? valgtOppgaveko.sortering.sorteringType.kode : undefined,
       fomDato: valgtOppgaveko.sortering ? valgtOppgaveko.sortering.fomDato : undefined,
       tomDato: valgtOppgaveko.sortering ? valgtOppgaveko.sortering.tomDato : undefined,
+      skjermet: valgtOppgaveko.skjermet,
       fagsakYtelseType,
       ...andreKriterierTyper,
       ...behandlingTypes,
@@ -110,7 +115,7 @@ export class UtvalgskriterierForOppgavekoForm extends Component<TsProps> {
   render = () => {
     const {
       intl, lagreOppgavekoBehandlingstype, lagreOppgavekoFagsakYtelseType, valgtOppgaveko, antallOppgaver,
-      lagreOppgavekoAndreKriterier,
+      lagreOppgavekoAndreKriterier, lagreOppgavekoSkjermet,
     } = this.props;
 
     return (
@@ -143,6 +148,7 @@ export class UtvalgskriterierForOppgavekoForm extends Component<TsProps> {
               </Column>
             </Row>
             <Row>
+              <SkjermetVelger valgtOppgavekoId={valgtOppgaveko.id} lagreSkjermet={lagreOppgavekoSkjermet} />
               <Column xs="6" className={styles.stonadstypeRadios}>
                 <FagsakYtelseTypeVelger
                   lagreOppgavekoFagsakYtelseType={lagreOppgavekoFagsakYtelseType}

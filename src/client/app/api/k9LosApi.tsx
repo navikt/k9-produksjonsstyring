@@ -28,6 +28,7 @@ const k9LosApiKeys = {
   LAGRE_OPPGAVEKO_FAGSAK_YTELSE_TYPE: 'LAGRE_OPPGAVEKO_FAGSAK_YTELSE_TYPE',
   LAGRE_OPPGAVEKO_ANDRE_KRITERIER: 'LAGRE_OPPGAVEKO_ANDRE_KRITERIER',
   LAGRE_OPPGAVEKO_SORTERING: 'LAGRE_OPPGAVEKO_SORTERING',
+  LAGRE_OPPGAVEKO_SKJERMET: 'LAGRE_OPPGAVEKO_SKJERMET',
   LAGRE_OPPGAVEKO_SORTERING_DYNAMISK_PERIDE: 'LAGRE_OPPGAVEKO_SORTERING_DYNAMISK_PERIDE',
   LAGRE_OPPGAVEKO_SORTERING_TIDSINTERVALL_DAGER: 'LAGRE_OPPGAVEKO_SORTERING_TIDSINTERVALL_DAGER',
   LAGRE_OPPGAVEKO_SORTERING_TIDSINTERVALL_DATO: 'LAGRE_OPPGAVEKO_SORTERING_TIDSINTERVALL_DATO',
@@ -58,8 +59,8 @@ const endpoints = new RestApiConfigBuilder()
   .withGet('saksbehandler', k9LosApiKeys.NAV_ANSATT)
 
   /* /api/saksbehandler/saksliste */
-  .withGet('saksbehandler/saksliste', k9LosApiKeys.OPPGAVEKO)
-  .withGet('saksbehandler/saksliste/saksbehandlere', k9LosApiKeys.OPPGAVEKO_SAKSBEHANDLERE)
+  .withGet('saksbehandler/oppgaveko', k9LosApiKeys.OPPGAVEKO)
+  .withGet('saksbehandler/oppgaveko/saksbehandlere', k9LosApiKeys.OPPGAVEKO_SAKSBEHANDLERE)
 
   /* /api/saksbehandler/oppgave */
   .withGet('saksbehandler/oppgaver', k9LosApiKeys.OPPGAVER_TIL_BEHANDLING)
@@ -86,6 +87,7 @@ const endpoints = new RestApiConfigBuilder()
   .withPost('avdelingsleder/oppgavekoer/ytelsetype', k9LosApiKeys.LAGRE_OPPGAVEKO_FAGSAK_YTELSE_TYPE)
   .withPost('avdelingsleder/oppgavekoer/andre-kriterier', k9LosApiKeys.LAGRE_OPPGAVEKO_ANDRE_KRITERIER)
   .withPost('avdelingsleder/oppgavekoer/sortering', k9LosApiKeys.LAGRE_OPPGAVEKO_SORTERING)
+  .withPost('avdelingsleder/oppgavekoer/skjermet', k9LosApiKeys.LAGRE_OPPGAVEKO_SKJERMET)
   .withPost('avdelingsleder/oppgavekoer/sortering-tidsintervall-type', k9LosApiKeys.LAGRE_OPPGAVEKO_SORTERING_DYNAMISK_PERIDE)
   .withPost('avdelingsleder/oppgavekoer/sortering-tidsintervall-dager', k9LosApiKeys.LAGRE_OPPGAVEKO_SORTERING_TIDSINTERVALL_DAGER)
   .withPost('avdelingsleder/oppgavekoer/sortering-tidsintervall-dato', k9LosApiKeys.LAGRE_OPPGAVEKO_SORTERING_TIDSINTERVALL_DATO)

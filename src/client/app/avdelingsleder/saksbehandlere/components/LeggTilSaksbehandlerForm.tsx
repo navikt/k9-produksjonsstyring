@@ -146,7 +146,6 @@ export class LeggTilSaksbehandlerForm extends Component<TsProps, StateTsProps> {
                 {this.formatText()}
               </Normaltekst>
               <FlexColumn>
-                behandling_prosess_events_k9
                 <Knapp
                   mini
                   htmlType="button"

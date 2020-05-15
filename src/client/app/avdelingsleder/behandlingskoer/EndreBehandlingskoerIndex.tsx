@@ -4,11 +4,10 @@ import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 
 import { Kodeverk } from 'kodeverk/kodeverkTsType';
-import { getValgtAvdelingEnhet } from 'app/duck';
 import { fetchAlleSaksbehandlere } from '../saksbehandlere/duck';
 import {
   fetchAlleOppgavekoer, getAlleOppgavekoer, setValgtOppgavekoId, getValgtOppgavekoId, lagNyOppgaveko, getNyOppgavekoId,
-  fjernOppgaveko, lagreOppgavekoNavn, lagreOppgavekoBehandlingstype, knyttSaksbehandlerTilOppgaveko,
+  fjernOppgaveko, lagreOppgavekoNavn, lagreOppgavekoBehandlingstype, lagreOppgavekoSkjermet, knyttSaksbehandlerTilOppgaveko,
   lagreOppgavekoFagsakYtelseType, fetchAntallOppgaverForOppgaveko, fetchAntallOppgaverTotalt, lagreOppgavekoAndreKriterier,
 } from './duck';
 import EndreOppgavekoerPanel from './components/EndreOppgavekoerPanel';
@@ -27,6 +26,7 @@ interface TsProps {
   lagreOppgavekoFagsakYtelseType: (id: string, fagsakYtelseType: string) => void;
   knyttSaksbehandlerTilOppgaveko: (id: string, brukerIdent: string, isChecked: boolean,) => void;
   lagreOppgavekoAndreKriterier: (id: string, andreKriterierType: Kodeverk, isChecked: boolean) => void;
+  lagreOppgavekoSkjermet: (id: string, isChecked: boolean) => void;
   oppgavekoer: Oppgaveko[];
   valgtOppgavekoId?: string;
   fetchAlleSaksbehandlere: () => void;
@@ -49,6 +49,7 @@ export class EndreBehandlingskoerIndex extends Component<TsProps> {
     knyttSaksbehandlerTilOppgaveko: PropTypes.func.isRequired,
     fetchAlleSaksbehandlere: PropTypes.func.isRequired,
     lagreOppgavekoAndreKriterier: PropTypes.func.isRequired,
+    lagreOppgavekoSkjermet: PropTypes.func.isRequired,
     oppgavekoer: PropTypes.arrayOf(oppgavekoPropType),
     valgtOppgavekoId: PropTypes.string,
   };
@@ -79,6 +80,7 @@ export class EndreBehandlingskoerIndex extends Component<TsProps> {
       fetchAntallOppgaverForOppgaveko: hentAntallOppgaverForOppgaveko,
       fetchAntallOppgaverTotalt: hentAntallOppgaverTotalt,
       lagreOppgavekoAndreKriterier: lagreAndreKriterier,
+      lagreOppgavekoSkjermet: lagreSkjermet,
     } = this.props;
     return (
       <EndreOppgavekoerPanel
@@ -92,6 +94,7 @@ export class EndreBehandlingskoerIndex extends Component<TsProps> {
         lagreOppgavekoFagsakYtelseType={lagreListeFagsakYtelseType}
         lagreOppgavekoAndreKriterier={lagreAndreKriterier}
         knyttSaksbehandlerTilOppgaveko={knyttSaksbehandlerTilListe}
+        lagreOppgavekoSkjermet={lagreSkjermet}
         hentOppgavekoer={hentAlleOppgavekoer}
         hentAntallOppgaverForOppgaveko={hentAntallOppgaverForOppgaveko}
         hentAntallOppgaverTotalt={hentAntallOppgaverTotalt}
@@ -120,6 +123,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
     lagreOppgavekoBehandlingstype,
     lagreOppgavekoFagsakYtelseType,
     lagreOppgavekoAndreKriterier,
+    lagreOppgavekoSkjermet,
     knyttSaksbehandlerTilOppgaveko,
     fetchAlleSaksbehandlere,
     fetchAntallOppgaverForOppgaveko,

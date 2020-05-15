@@ -19,6 +19,7 @@ describe('<EndreBehandlingskoerIndex>', () => {
       lagreOppgavekoBehandlingstype={sinon.spy()}
       lagreOppgavekoFagsakYtelseType={sinon.spy()}
       lagreOppgavekoAndreKriterier={sinon.spy()}
+      lagreOppgavekoSkjermet={sinon.spy()}
       knyttSaksbehandlerTilOppgaveko={sinon.spy()}
       fetchAlleSaksbehandlere={fetchAvdelingensSaksbehandlereFn}
       fetchAntallOppgaverForOppgaveko={sinon.spy()}

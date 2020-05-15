@@ -15,6 +15,7 @@ export type Oppgaveko = Readonly<{
     fomDato?: string;
     tomDato?: string;
   };
+  skjermet: boolean;
   andreKriterier?: Kodeverk[];
   saksbehandlere: Saksbehandler[];
   antallBehandlinger: number;

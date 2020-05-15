@@ -16,6 +16,7 @@ describe('<SletteOppgavekoModal>', () => {
       erTilBeslutter: false,
       erRegistrerPapirsoknad: false,
       saksbehandlere: [],
+      skjermet: false,
     };
 
     const wrapper = shallowWithIntl(<SletteOppgavekoModal
@@ -37,6 +38,7 @@ describe('<SletteOppgavekoModal>', () => {
       erTilBeslutter: false,
       erRegistrerPapirsoknad: false,
       saksbehandlere: [],
+      skjermet: false,
     };
     const submitFn = sinon.spy();
 
