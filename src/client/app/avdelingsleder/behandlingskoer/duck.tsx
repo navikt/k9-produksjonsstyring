@@ -84,6 +84,15 @@ export const lagreOppgavekoAndreKriterier = (id: string, andreKriterierType: {},
 ).then(() => dispatch(fetchAntallOppgaverForOppgaveko(id)))
     .then(() => dispatch(fetchAlleOppgavekoer()));
 
+export const lagreOppgavekoSkjermet = (id: string, isChecked: boolean) => (dispatch: Dispatch) => dispatch(
+    k9LosApi.LAGRE_OPPGAVEKO_SKJERMET.makeRestApiRequest()({
+        id,
+        skjermet: isChecked,
+    }),
+).then(() => dispatch(fetchAntallOppgaverForOppgaveko(id)))
+    .then(() => dispatch(fetchAlleOppgavekoer()));
+
+
 export const lagreOppgavekoSortering = (id: string, oppgavekoSorteringValg: string) => (dispatch: Dispatch) => dispatch(
   k9LosApi.LAGRE_OPPGAVEKO_SORTERING.makeRestApiRequest()({ id, oppgavekoSorteringValg }),
 ).then(() => dispatch(fetchAntallOppgaverForOppgaveko(id)))

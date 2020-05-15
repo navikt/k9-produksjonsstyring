@@ -15,6 +15,7 @@ describe('<SaksbehandlereForOppgavekoForm>', () => {
     id: '1',
     navn: 'Nyansatte',
     sistEndret: '2017-08-31',
+    skjermet: false,
     andreKriterierTyper: [{
       kode: andreKriterierType.TIL_BESLUTTER,
       navn: 'Til beslutter',

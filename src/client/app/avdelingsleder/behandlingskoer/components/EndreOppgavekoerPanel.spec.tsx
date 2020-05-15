@@ -16,6 +16,7 @@ describe('<EndreOppgavekoerPanel>', () => {
       erTilBeslutter: false,
       erRegistrerPapirsoknad: false,
       saksbehandlere: [],
+      skjermet: false,
     }];
 
     const wrapper = shallow(<EndreOppgavekoerPanel
@@ -27,6 +28,7 @@ describe('<EndreOppgavekoerPanel>', () => {
       lagreOppgavekoBehandlingstype={sinon.spy()}
       lagreOppgavekoFagsakYtelseType={sinon.spy()}
       lagreOppgavekoSortering={sinon.spy()}
+      lagreOppgavekoSkjermet={sinon.spy()}
       lagreOppgavekoAndreKriterier={sinon.spy()}
       knyttSaksbehandlerTilOppgaveko={sinon.spy()}
       hentOppgavekonsSaksbehandlere={sinon.spy()}
@@ -47,6 +49,7 @@ describe('<EndreOppgavekoerPanel>', () => {
       erTilBeslutter: false,
       erRegistrerPapirsoknad: false,
       saksbehandlere: [],
+      skjermet: false,
     }];
 
     const wrapper = shallow(<EndreOppgavekoerPanel
@@ -59,6 +62,7 @@ describe('<EndreOppgavekoerPanel>', () => {
       lagreOppgavekoFagsakYtelseType={sinon.spy()}
       lagreOppgavekoSortering={sinon.spy()}
       lagreOppgavekoAndreKriterier={sinon.spy()}
+      lagreOppgavekoSkjermet={sinon.spy()}
       valgtOppgavekoId="1"
       knyttSaksbehandlerTilOppgaveko={sinon.spy()}
       hentOppgavekonsSaksbehandlere={sinon.spy()}
