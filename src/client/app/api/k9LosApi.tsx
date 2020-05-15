@@ -59,8 +59,8 @@ const endpoints = new RestApiConfigBuilder()
   .withGet('saksbehandler', k9LosApiKeys.NAV_ANSATT)
 
   /* /api/saksbehandler/saksliste */
-  .withGet('saksbehandler/saksliste', k9LosApiKeys.OPPGAVEKO)
-  .withGet('saksbehandler/saksliste/saksbehandlere', k9LosApiKeys.OPPGAVEKO_SAKSBEHANDLERE)
+  .withGet('saksbehandler/oppgaveko', k9LosApiKeys.OPPGAVEKO)
+  .withGet('saksbehandler/oppgaveko/saksbehandlere', k9LosApiKeys.OPPGAVEKO_SAKSBEHANDLERE)
 
   /* /api/saksbehandler/oppgave */
   .withGet('saksbehandler/oppgaver', k9LosApiKeys.OPPGAVER_TIL_BEHANDLING)

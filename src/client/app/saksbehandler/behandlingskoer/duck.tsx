@@ -61,7 +61,7 @@ export const forlengOppgaveReservasjon = (oppgaveId: string) => (dispatch: Dispa
 );
 
 export const finnSaksbehandler = (brukerIdent: string) => (dispatch: Dispatch) => dispatch(
-  k9LosApi.FLYTT_RESERVASJON_SAKSBEHANDLER_SOK.makeRestApiRequest()(brukerIdent),
+  k9LosApi.FLYTT_RESERVASJON_SAKSBEHANDLER_SOK.makeRestApiRequest()({ brukerIdent }),
 );
 export const isSaksbehandlerSokStartet = k9LosApi.FLYTT_RESERVASJON_SAKSBEHANDLER_SOK.getRestApiStarted();
 export const isSaksbehandlerSokFerdig = k9LosApi.FLYTT_RESERVASJON_SAKSBEHANDLER_SOK.getRestApiFinished();
