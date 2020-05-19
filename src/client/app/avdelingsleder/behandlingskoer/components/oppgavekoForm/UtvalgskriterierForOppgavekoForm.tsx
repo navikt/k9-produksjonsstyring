@@ -42,7 +42,7 @@ interface TsProps {
   lagreOppgavekoNavn: (id: string, navn: string) => void;
   lagreOppgavekoBehandlingstype: (oppgavekoId: string, behandlingType: Kodeverk, isChecked: boolean) => void;
   lagreOppgavekoFagsakYtelseType: (oppgavekoId: string, fagsakYtelseType: Kodeverk) => void;
-  lagreOppgavekoAndreKriterier: (id: string, andreKriterierType: Kodeverk, isChecked: boolean) => void;
+  lagreOppgavekoAndreKriterier: (id: string, andreKriterierType: Kodeverk, isChecked: boolean, inkluder: boolean) => void;
   lagreOppgavekoSkjermet: (id: string, isChecked: boolean) => void;
   antallOppgaver?: number;
   hentAntallOppgaverForOppgaveko: (oppgavekoId: string) => Promise<string>;
@@ -90,7 +90,9 @@ export class UtvalgskriterierForOppgavekoForm extends Component<TsProps> {
       ? valgtOppgaveko.fagsakYtelseTyper[0].kode : '';
 
     const andreKriterierTyper = valgtOppgaveko.andreKriterier
-      ? valgtOppgaveko.andreKriterier.reduce((acc, ak) => ({ ...acc, [ak.kode]: true }), {}) : {};
+        ? valgtOppgaveko.andreKriterier.reduce((acc, ak) => ({ ...acc, [ak.andreKriterierType.kode]: true }), {}) : {};
+    const andreKriterierInkluder = valgtOppgaveko.andreKriterier
+        ? valgtOppgaveko.andreKriterier.reduce((acc, ak) => ({ ...acc, [`${ak.andreKriterierType.kode}_inkluder`]: ak.inkluder }), {}) : {};
 
     return {
       id: valgtOppgaveko.id,
@@ -101,6 +103,7 @@ export class UtvalgskriterierForOppgavekoForm extends Component<TsProps> {
       skjermet: valgtOppgaveko.skjermet,
       fagsakYtelseType,
       ...andreKriterierTyper,
+      ...andreKriterierInkluder,
       ...behandlingTypes,
     };
   }
@@ -168,6 +171,7 @@ export class UtvalgskriterierForOppgavekoForm extends Component<TsProps> {
                 <AndreKriterierVelger
                   lagreOppgavekoAndreKriterier={lagreOppgavekoAndreKriterier}
                   valgtOppgavekoId={valgtOppgaveko.id}
+                  values={values}
                 />
               </Column>
               <Column xs="4">
