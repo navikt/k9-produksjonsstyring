@@ -26,6 +26,7 @@ interface TsProps {
   lagreOppgavekoFagsakYtelseType: (id: string, fagsakYtelseType: string) => void;
   lagreOppgavekoAndreKriterier: (id: string, andreKriterierType: Kodeverk, isChecked: boolean, inkluder: boolean) => void;
   lagreOppgavekoSkjermet: (id: string, isChecked: boolean) => void;
+  lagreOppgavekoSkjermet: (id: string, isChecked: boolean) => void;
   knyttSaksbehandlerTilOppgaveko: (id: string, epost: string, isChecked: boolean) => void;
   valgtOppgavekoId?: string;
   hentOppgavekoer: () => Oppgaveko[];
