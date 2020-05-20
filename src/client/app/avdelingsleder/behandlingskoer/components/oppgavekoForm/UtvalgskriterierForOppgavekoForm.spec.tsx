@@ -157,14 +157,18 @@ describe('<UtvalgskriterierForOppgavekoForm>', () => {
       saksbehandlere: [],
       skjermet: false,
       andreKriterier: [{
+        andreKriterierType: {
           kode: andreKriterierType.TIL_BESLUTTER,
           navn: 'Til beslutter',
         },
-       {
+        inkluder: true,
+      }, {
+        andreKriterierType: {
           kode: andreKriterierType.REGISTRER_PAPIRSOKNAD,
           navn: 'Registrer papirsoknad',
         },
-      ],
+        inkluder: false,
+      }],
     };
 
     const wrapper = shallowWithIntl(<UtvalgskriterierForOppgavekoForm
@@ -189,6 +193,8 @@ describe('<UtvalgskriterierForOppgavekoForm>', () => {
       fomDato: undefined,
       tomDato: undefined,
       [andreKriterierType.REGISTRER_PAPIRSOKNAD]: true,
+      [`${andreKriterierType.REGISTRER_PAPIRSOKNAD}_inkluder`]: false,
       [andreKriterierType.TIL_BESLUTTER]: true,
+      [`${andreKriterierType.TIL_BESLUTTER}_inkluder`]: true,
     });
   });

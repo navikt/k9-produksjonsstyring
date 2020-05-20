@@ -8,7 +8,10 @@ const oppgavekoPropType = PropTypes.shape({
   navn: PropTypes.string,
   behandlingTyper: PropTypes.arrayOf(kodeverkPropType),
   fagsakYtelseTyper: PropTypes.arrayOf(kodeverkPropType),
-  andreKriterier: PropTypes.arrayOf(kodeverkPropType),
+  andreKriterier: PropTypes.arrayOf(PropTypes.shape({
+    andreKriterierType: kodeverkPropType,
+    inkluder: PropTypes.bool.isRequired,
+  })),
   sistEndret: PropTypes.string.isRequired,
   skjermet: PropTypes.bool.isRequired,
   sortering: PropTypes.shape({
