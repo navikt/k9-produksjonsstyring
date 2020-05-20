@@ -25,6 +25,7 @@ interface TsProps {
   lagreOppgavekoBehandlingstype: (id: string, behandlingType: Kodeverk, isChecked: boolean) => void;
   lagreOppgavekoFagsakYtelseType: (id: string, fagsakYtelseType: string) => void;
   lagreOppgavekoAndreKriterier: (id: string, andreKriterierType: Kodeverk, isChecked: boolean) => void;
+  lagreOppgavekoSkjermet: (id: string, isChecked: boolean) => void;
   knyttSaksbehandlerTilOppgaveko: (id: string, epost: string, isChecked: boolean) => void;
   valgtOppgavekoId?: string;
   hentOppgavekoer: () => Oppgaveko[];
@@ -49,6 +50,7 @@ const EndreOppgavekoerPanel = ({
   hentOppgavekoer,
   hentAntallOppgaverForOppgaveko,
   hentAntallOppgaverTotalt,
+  lagreOppgavekoSkjermet,
 }: TsProps) => {
   const valgtOppgaveko = oppgavekoer.find(s => s.id === valgtOppgavekoId);
   return (
@@ -71,6 +73,7 @@ const EndreOppgavekoerPanel = ({
             lagreOppgavekoBehandlingstype={lagreOppgavekoBehandlingstype}
             lagreOppgavekoFagsakYtelseType={lagreOppgavekoFagsakYtelseType}
             lagreOppgavekoAndreKriterier={lagreOppgavekoAndreKriterier}
+            lagreOppgavekoSkjermet={lagreOppgavekoSkjermet}
             hentAntallOppgaverForOppgaveko={hentAntallOppgaverForOppgaveko}
           />
           <Row>
@@ -105,6 +108,7 @@ EndreOppgavekoerPanel.propTypes = {
   valgtOppgavekoId: PropTypes.string,
   hentAntallOppgaverForOppgaveko: PropTypes.func.isRequired,
   hentAntallOppgaverTotalt: PropTypes.func.isRequired,
+  lagreOppgavekoSkjermet: PropTypes.func.isRequired,
 };
 
 EndreOppgavekoerPanel.defaultProps = {

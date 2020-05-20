@@ -60,6 +60,7 @@ describe('<GjeldendeOppgavekoerTabell>', () => {
       erTilBeslutter: false,
       erRegistrerPapirsoknad: false,
       saksbehandlere: [],
+      skjermet: false,
     }, {
       id: '2',
       navn: 'Kun foreldrepenger',
@@ -67,6 +68,7 @@ describe('<GjeldendeOppgavekoerTabell>', () => {
       erTilBeslutter: false,
       erRegistrerPapirsoknad: false,
       saksbehandlere: [],
+      skjermet: false,
     }];
 
     const wrapper = shallow(<GjeldendeOppgavekoerTabell
@@ -175,6 +177,7 @@ describe('<GjeldendeOppgavekoerTabell>', () => {
       erTilBeslutter: false,
       erRegistrerPapirsoknad: false,
       saksbehandlere: [],
+      skjermet: false,
     }];
     const setValgtOppgavekoIdFn = sinon.spy();
 
@@ -205,6 +208,7 @@ describe('<GjeldendeOppgavekoerTabell>', () => {
       erTilBeslutter: false,
       erRegistrerPapirsoknad: false,
       saksbehandlere: [],
+      skjermet: false,
     }];
     const wrapper = shallow(<GjeldendeOppgavekoerTabell
       oppgavekoer={oppgavekoer}
@@ -240,6 +244,7 @@ describe('<GjeldendeOppgavekoerTabell>', () => {
       erTilBeslutter: false,
       erRegistrerPapirsoknad: false,
       saksbehandlere: [],
+      skjermet: false,
     }];
     const wrapper = shallow(<GjeldendeOppgavekoerTabell
       oppgavekoer={oppgavekoer}
@@ -275,6 +280,7 @@ describe('<GjeldendeOppgavekoerTabell>', () => {
       erTilBeslutter: false,
       erRegistrerPapirsoknad: false,
       saksbehandlere: [],
+      skjermet: false,
     }];
     const fjernOppgavekoerFn = sinon.spy();
     const wrapper = shallow(<GjeldendeOppgavekoerTabell
@@ -314,6 +320,7 @@ describe('<GjeldendeOppgavekoerTabell>', () => {
       navn: 'Nyansatte',
       sistEndret: '2017-08-31',
       erTilBeslutter: false,
+      skjermet: false,
       erRegistrerPapirsoknad: false,
       saksbehandlere: [{
         navn: 'Sara',
