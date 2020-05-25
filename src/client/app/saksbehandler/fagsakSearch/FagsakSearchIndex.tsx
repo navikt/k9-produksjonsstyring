@@ -104,7 +104,7 @@ export class FagsakSearchIndex extends Component<Props, StateProps> {
      this.setState(prevState => ({ ...prevState, reservertAvAnnenSaksbehandler: true, reservertOppgave: oppgave }));
     }
     if (!reserver) {
-      goToFagsak(oppgave.saksnummer, oppgave.behandlingId);
+      this.goToFagsakEllerApneModal(oppgave);
     } else {
       reserverOppgave(oppgave.eksternId).then(() => {
           goToFagsak(oppgave.saksnummer, oppgave.behandlingId);
