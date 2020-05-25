@@ -83,17 +83,6 @@ export class FagsakSearchIndex extends Component<Props, StateProps> {
     searchResultAccessDenied: undefined,
   };
 
-  componentDidUpdate = (prevProps: Props, prevState: StateProps) => {
-    const { fagsaker, fagsakOppgaver, goToFagsak } = this.props;
-    const { sokFerdig } = this.state;
-    if (sokFerdig && !prevState.sokFerdig && fagsaker.length === 1) {
-      if (fagsakOppgaver.length === 1) {
-        this.velgFagsakOperasjoner(fagsakOppgaver[0], false);
-      } else if (fagsakOppgaver.length === 0) {
-        goToFagsak(fagsaker[0].saksnummer);
-      }
-    }
-  }
 
   componentWillUnmount = () => {
     const { resetFagsakSearch: resetSearch } = this.props;
@@ -115,7 +104,7 @@ export class FagsakSearchIndex extends Component<Props, StateProps> {
      this.setState(prevState => ({ ...prevState, reservertAvAnnenSaksbehandler: true, reservertOppgave: oppgave }));
     }
     if (!reserver) {
-      goToFagsak(oppgave.saksnummer, oppgave.behandlingId);
+      this.goToFagsakEllerApneModal(oppgave);
     } else {
       reserverOppgave(oppgave.eksternId).then(() => {
           goToFagsak(oppgave.saksnummer, oppgave.behandlingId);

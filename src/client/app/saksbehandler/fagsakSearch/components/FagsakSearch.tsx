@@ -29,10 +29,10 @@ interface TsProps {
 }
 
 const skalViseListe = (fagsaker, fagsakOppgaver) => {
-  if (!fagsaker) {
+  if (!fagsaker && !fagsakOppgaver) {
     return false;
   }
-  return fagsaker.length > 1 || (fagsaker.length === 1 && fagsakOppgaver.filter(oppgave => oppgave.saksnummer === fagsaker[0].saksnummer).length > 1);
+  return fagsaker.length >= 1 || (fagsaker.length >= 1 && fagsakOppgaver.filter(oppgave => oppgave.saksnummer === fagsaker[0].saksnummer).length > 1);
 };
 
 /**

@@ -70,32 +70,6 @@ describe('<FagsakSearchIndex>', () => {
     expect(goToFagsak.calledOnce).to.be.true;
   });
 
-  it('skal gå direkte til fagsak når søkeresultatet returnerer kun en fagsak', () => {
-    const goToFagsak = sinon.spy();
-    const wrapper = shallowWithIntl(<FagsakSearchIndex
-      searchFagsaker={sinon.spy()}
-      searchResultReceived={false}
-      searchStarted
-      resetFagsakSearch={sinon.spy()}
-      goToFagsak={goToFagsak}
-      reserverOppgave={sinon.spy()}
-      hentReservasjonsstatus={sinon.spy()}
-      fagsakOppgaver={[]}
-      hentOppgaverForFagsaker={sinon.spy()}
-    />);
-
-    wrapper.setProps({
-      fagsaker: [fagsak],
-    });
-    wrapper.setState({
-      sokStartet: false,
-      sokFerdig: true,
-    });
-    wrapper.update();
-
-    expect(goToFagsak.calledOnce).to.be.true;
-  });
-
   it('skal ikke gå direkte til fagsak når søkeresultatet returnerer flere fagsaker', () => {
     const goToFagsak = sinon.spy();
     const wrapper = shallowWithIntl(<FagsakSearchIndex

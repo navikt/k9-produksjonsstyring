@@ -55,7 +55,7 @@
   "FagsakList.Navn": "Navn",
 
   "FagsakSearch.ZeroSearchResults": "Søket ga ingen treff",
-  "FagsakSearch.FlereApneBehandlinger": "Det er flere åpne behandlinger. Velg behandlingen du ønsker å åpne/reservere. (Fagsak kan ikke reserveres.)",
+  "FagsakSearch.FlereApneBehandlinger": "Velg behandlingen du ønsker å åpne/reservere. (Fagsak kan ikke reserveres.)",
 
   "FagsakYtelseTypeVelger.Stonadstype": "Stønadstype",
   "FagsakYtelseTypeVelger.Alle": "Alle",

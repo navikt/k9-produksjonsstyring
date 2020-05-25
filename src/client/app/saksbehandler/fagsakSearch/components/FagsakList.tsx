@@ -41,7 +41,7 @@ interface TsProps {
 let viseModal = false;
 
 const onClick = (oppgave, selectOppgaveCallback) => {
-  if (oppgave.erTilSaksbehandling) {
+  if (oppgave.erTilSaksbehandling && !oppgave.status.erReservert) {
     viseModal = true;
   } else {
     selectOppgaveCallback(oppgave, false);
