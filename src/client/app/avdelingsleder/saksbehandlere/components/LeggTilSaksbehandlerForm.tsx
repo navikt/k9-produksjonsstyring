@@ -64,7 +64,7 @@ export class LeggTilSaksbehandlerForm extends Component<TsProps, StateTsProps> {
     this.nodes = [];
   }
 
-  leggTilSaksbehandler = (epost: string) => {
+  leggTilSaksbehandler = (epost: string, resetFormValues: () => void) => {
     const {
       leggTilSaksbehandler, saksbehandlere, saksbehandler,
     } = this.props;
@@ -74,6 +74,7 @@ export class LeggTilSaksbehandlerForm extends Component<TsProps, StateTsProps> {
         this.setState(prevState => ({ ...prevState, leggerTilNySaksbehandler: false }));
       } else {
       leggTilSaksbehandler(epost).then(() => {
+        this.resetSaksbehandlerSok(resetFormValues);
         this.setState(prevState => ({ ...prevState, leggerTilNySaksbehandler: false }));
       });
       }
@@ -101,16 +102,16 @@ export class LeggTilSaksbehandlerForm extends Component<TsProps, StateTsProps> {
     } = this.props;
     const {
       leggerTilNySaksbehandler,
-        erLagtTilAllerede, showWarning,
+         showWarning,
     } = this.state;
 
     return (
       <Form
-        onSubmit={(values: { epost: string}) => this.leggTilSaksbehandler(values.epost)}
+        onSubmit={() => undefined}
         render={({
-          submitting, handleSubmit, form,
+          submitting, handleSubmit, form, values,
         }) => (
-          <form onSubmit={handleSubmit}>
+          <div>
             <Element>
               <FormattedMessage id="LeggTilSaksbehandlerForm.LeggTil" />
             </Element>
@@ -134,6 +135,7 @@ export class LeggTilSaksbehandlerForm extends Component<TsProps, StateTsProps> {
                     spinner={submitting}
                     disabled={submitting || leggerTilNySaksbehandler}
                     tabIndex={0}
+                    onClick={() => this.leggTilSaksbehandler(values.epost, form.reset)}
                   >
                     <FormattedMessage id="LeggTilSaksbehandlerForm.Sok" />
                   </Knapp>
@@ -158,7 +160,7 @@ export class LeggTilSaksbehandlerForm extends Component<TsProps, StateTsProps> {
             </>
             )
             }
-          </form>
+          </div>
         )}
       />
     );

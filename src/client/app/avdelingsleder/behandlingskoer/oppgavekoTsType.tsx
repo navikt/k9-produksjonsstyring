@@ -16,7 +16,12 @@ export type Oppgaveko = Readonly<{
     tomDato?: string;
   };
   skjermet: boolean;
-  andreKriterier?: Kodeverk[];
+  andreKriterier?: AnnetKriterie[];
   saksbehandlere: Saksbehandler[];
   antallBehandlinger: number;
 }>;
+
+type AnnetKriterie = Readonly<{
+  andreKriterierType: Kodeverk;
+  inkluder: boolean;
+}>

@@ -62,10 +62,11 @@ describe('<AndreKriterierVelger>', () => {
 
     expect(lagreAndreKriterierFn.calledOnce).to.be.true;
     const { args } = lagreAndreKriterierFn.getCalls()[0];
-    expect(args).to.have.length(3);
+    expect(args).to.have.length(4);
     expect(args[0]).to.eql('1');
     expect(args[1].kode).to.eql(andreKriterierType.TIL_BESLUTTER);
     expect(args[2]).to.true;
+    expect(args[3]).to.true;
   });
 
   it('skal lagre valgt for Registrere papirsoknad ved klikk på checkbox', () => {
@@ -83,9 +84,51 @@ describe('<AndreKriterierVelger>', () => {
 
     expect(lagreAndreKriterierFn.calledOnce).to.be.true;
     const { args } = lagreAndreKriterierFn.getCalls()[0];
-    expect(args).to.have.length(3);
+    expect(args).to.have.length(4);
     expect(args[0]).to.eql('1');
     expect(args[1].kode).to.eql(andreKriterierType.REGISTRER_PAPIRSOKNAD);
     expect(args[2]).to.true;
+    expect(args[3]).to.true;
+  });
+
+  it('skal vise radioknapper for å ta med eller fjerne', () => {
+    const lagreAndreKriterierFn = sinon.spy();
+
+    const wrapper = shallow(<AndreKriterierVelger
+      valgtOppgavekoId="1"
+      lagreOppgavekoAndreKriterier={lagreAndreKriterierFn}
+      andreKriterierTyper={andreKriterierTyper}
+      values={{
+        [andreKriterierType.TIL_BESLUTTER]: true,
+        [`${andreKriterierType.TIL_BESLUTTER}_inkluder`]: true,
+      }}
+    />);
+
+    expect(wrapper.find(RadioGroupField)).to.have.length(1);
+    expect(wrapper.find(RadioOption)).to.have.length(2);
+  });
+
+  it('skal valge å fjerne inkludering av beslutter', () => {
+    const lagreAndreKriterierFn = sinon.spy();
+
+    const wrapper = shallow(<AndreKriterierVelger
+      valgtOppgavekoId="1"
+      lagreOppgavekoAndreKriterier={lagreAndreKriterierFn}
+      andreKriterierTyper={andreKriterierTyper}
+      values={{
+        [andreKriterierType.TIL_BESLUTTER]: true,
+        [`${andreKriterierType.TIL_BESLUTTER}_inkluder`]: true,
+      }}
+    />);
+
+    wrapper.find(RadioGroupField).prop('onChange')(false);
+
+    expect(lagreAndreKriterierFn.calledOnce).to.be.true;
+    const { args } = lagreAndreKriterierFn.getCalls()[0];
+    expect(args).to.have.length(4);
+    expect(args[0]).to.eql('1');
+    expect(args[1].kode).to.eql(andreKriterierType.TIL_BESLUTTER);
+    expect(args[2]).to.true;
+    expect(args[3]).to.false;
   });
 });
