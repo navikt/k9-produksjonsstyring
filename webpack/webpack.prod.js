@@ -21,7 +21,7 @@ const config = {
   output: {
     filename: '[name]-[contenthash].js',
     chunkFilename: '[name].[contenthash].chunk.js',
-    path: path.resolve(__dirname, '../target/public'),
+    path: path.resolve(__dirname, '../dist/public'),
     publicPath: 'public/',
   },
 
