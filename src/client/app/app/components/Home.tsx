@@ -7,7 +7,6 @@ import SaksbehandlerIndex from 'saksbehandler/SaksbehandlerIndex';
 import MissingPage from './MissingPage';
 
 import 'styles/modigDesign.less';
-import '../../../nomodulestyles/global.less';
 
 import styles from './home.less';
 
@@ -33,7 +32,7 @@ const Home = ({
 );
 
 Home.propTypes = {
-    nrOfErrorMessages: PropTypes.number.isRequired,
+  nrOfErrorMessages: PropTypes.number.isRequired,
 };
 
 export default Home;

@@ -23,7 +23,7 @@ export const fetchOppgaverTilBehandling = (id: string) => (dispatch: Dispatch) =
 );
 export const fetchOppgaverTilBehandlingOppgaver = (id: string) => (dispatch: Dispatch) => dispatch(
   k9LosApi.OPPGAVER_TIL_BEHANDLING.makeRestApiRequest()(
-     { id }, { keepData: true },
+    { id }, { keepData: true },
   ),
 );
 export const getOppgaverTilBehandling = k9LosApi.OPPGAVER_TIL_BEHANDLING.getRestApiData();
@@ -113,5 +113,5 @@ export const behandlingskoerReducer = (state: StateTsType = initialState, action
 };
 
 /* Selectors */
-const getBehandlingskoerContext = state => state.default.behandlingskoerContext;
-export const getValgtOppgavekoId = createSelector([getBehandlingskoerContext], behandlingskoerContext => behandlingskoerContext.valgtOppgavekoId);
+const getBehandlingskoerContext = (state) => state.default.behandlingskoerContext;
+export const getValgtOppgavekoId = createSelector([getBehandlingskoerContext], (behandlingskoerContext) => behandlingskoerContext.valgtOppgavekoId);

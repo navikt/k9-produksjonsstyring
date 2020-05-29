@@ -5,13 +5,13 @@ import TimeoutError from './TimeoutError';
 
 const isDev = window.location.hostname.includes('preprod.local');
 const PROXY_REDIRECT_URL = isDev ? 'https://k9-los-oidc-auth-proxy.nais.preprod.local/login?redirect_uri=https://k9-los-web.nais.preprod.local/'
-: 'https://k9-los-oidc-auth-proxy.nais.adeo.no/login?redirect_uri=https://k9-los-web.nais.adeo.no/';
+  : 'https://k9-los-oidc-auth-proxy.nais.adeo.no/login?redirect_uri=https://k9-los-web.nais.adeo.no/';
 
 type NotificationEmitter = (eventType: keyof typeof EventType, data?: any) => void
 
-const isString = value => typeof value === 'string';
+const isString = (value) => typeof value === 'string';
 
-const isOfTypeBlob = error => error && error.config && error.config.responseType === 'blob';
+const isOfTypeBlob = (error) => error && error.config && error.config.responseType === 'blob';
 
 const blobParser = (blob: any): Promise<string> => {
   const fileReader = new FileReader();

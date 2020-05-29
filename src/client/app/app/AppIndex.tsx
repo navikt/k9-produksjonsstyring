@@ -14,10 +14,10 @@ import { Location } from './locationTsType';
 import LanguageProvider from './LanguageProvider';
 import HeaderWithErrorPanel from './components/HeaderWithErrorPanel';
 import Home from './components/Home';
+import '../../styles/global.less';
 
-import '../../nomodulestyles/global.less';
 
-type TsProps = Readonly<{
+interface TsProps {
   errorMessagesLength: number;
   removeErrorMessage: () => void;
   crashMessage: string;
@@ -26,7 +26,7 @@ type TsProps = Readonly<{
   funksjonellTid?: string;
   location: Location;
   kanOppgavestyre: boolean;
-}>
+}
 
 /**
  * AppIndex
@@ -75,9 +75,9 @@ export class AppIndex extends Component<TsProps> {
     showCrashMsg([
       error.toString(),
       info.componentStack
-          .split('\n')
-          .map((line: string) => line.trim())
-          .find((line: string) => !!line),
+        .split('\n')
+        .map((line: string) => line.trim())
+        .find((line: string) => !!line),
     ].join(' '));
   }
 
@@ -99,8 +99,7 @@ export class AppIndex extends Component<TsProps> {
           />
           {!crashMessage && (
             <Home nrOfErrorMessages={errorMessagesLength + (queryStrings.errorcode || queryStrings.errormessage ? 1 : 0)} />
-            )
-            }
+          )}
         </LanguageProvider>
       </AppConfigResolver>
     );

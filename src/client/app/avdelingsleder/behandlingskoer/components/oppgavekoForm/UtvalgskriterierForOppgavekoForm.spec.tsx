@@ -38,7 +38,7 @@ describe('<UtvalgskriterierForOppgavekoForm>', () => {
       lagreOppgavekoSkjermet={sinon.spy()}
       valgtAvdelingEnhet="1"
       hentAntallOppgaverForOppgaveko={sinon.spy()}
-    />).find(Form).drill(props => props.render({ values: { erDynamiskPeriode: false } })).shallow();
+    />).find(Form).drill((props) => props.render({ values: { erDynamiskPeriode: false } })).shallow();
 
     expect(wrapper.find(AutoLagringVedBlur)).to.have.length(1);
     expect(wrapper.find(BehandlingstypeVelger)).to.have.length(1);
@@ -132,7 +132,7 @@ describe('<UtvalgskriterierForOppgavekoForm>', () => {
       lagreOppgavekoSkjermet={sinon.spy()}
       hentAntallOppgaverForOppgaveko={sinon.spy()}
       lagreOppgavekoAndreKriterier={sinon.spy()}
-    />).find(Form).drill(props => props.render({ values: { erDynamiskPeriode: false } })).shallow();
+    />).find(Form).drill((props) => props.render({ values: { erDynamiskPeriode: false } })).shallow();
 
     const lagreComp = wrapper.find(AutoLagringVedBlur);
 
@@ -146,55 +146,55 @@ describe('<UtvalgskriterierForOppgavekoForm>', () => {
     expect(args).to.have.length(2);
     expect(args[0]).to.eql('1');
     expect(args[1]).to.eql('Foreldrepenger');
-    });
   });
+});
 
-  it('skal sette opp korrekt formstate for andrekriterier', () => {
-    const oppgaveko = {
-      id: '1',
-      navn: 'Nyansatte',
-      sistEndret: '2017-08-31',
-      saksbehandlere: [],
-      skjermet: false,
-      andreKriterier: [{
-        andreKriterierType: {
-          kode: andreKriterierType.TIL_BESLUTTER,
-          navn: 'Til beslutter',
-        },
-        inkluder: true,
-      }, {
-        andreKriterierType: {
-          kode: andreKriterierType.REGISTRER_PAPIRSOKNAD,
-          navn: 'Registrer papirsoknad',
-        },
-        inkluder: false,
-      }],
-    };
+it('skal sette opp korrekt formstate for andrekriterier', () => {
+  const oppgaveko = {
+    id: '1',
+    navn: 'Nyansatte',
+    sistEndret: '2017-08-31',
+    saksbehandlere: [],
+    skjermet: false,
+    andreKriterier: [{
+      andreKriterierType: {
+        kode: andreKriterierType.TIL_BESLUTTER,
+        navn: 'Til beslutter',
+      },
+      inkluder: true,
+    }, {
+      andreKriterierType: {
+        kode: andreKriterierType.REGISTRER_PAPIRSOKNAD,
+        navn: 'Registrer papirsoknad',
+      },
+      inkluder: false,
+    }],
+  };
 
-    const wrapper = shallowWithIntl(<UtvalgskriterierForOppgavekoForm
-      intl={intlMock}
-      valgtOppgaveko={oppgaveko}
-      lagreOppgavekoNavn={sinon.spy()}
-      lagreOppgavekoBehandlingstype={sinon.spy()}
-      lagreOppgavekoFagsakYtelseType={sinon.spy()}
-      lagreOppgavekoSkjermet={sinon.spy()}
-      lagreOppgavekoSortering={sinon.spy()}
-      hentAntallOppgaverForOppgaveko={sinon.spy()}
-      lagreOppgavekoAndreKriterier={sinon.spy()}
-    />);
+  const wrapper = shallowWithIntl(<UtvalgskriterierForOppgavekoForm
+    intl={intlMock}
+    valgtOppgaveko={oppgaveko}
+    lagreOppgavekoNavn={sinon.spy()}
+    lagreOppgavekoBehandlingstype={sinon.spy()}
+    lagreOppgavekoFagsakYtelseType={sinon.spy()}
+    lagreOppgavekoSkjermet={sinon.spy()}
+    lagreOppgavekoSortering={sinon.spy()}
+    hentAntallOppgaverForOppgaveko={sinon.spy()}
+    lagreOppgavekoAndreKriterier={sinon.spy()}
+  />);
 
-    const initialValues = wrapper.prop('initialValues');
-    expect(initialValues).to.eql({
-      id: '1',
-      navn: 'Nyansatte',
-      sortering: undefined,
-      skjermet: false,
-      fagsakYtelseType: '',
-      fomDato: undefined,
-      tomDato: undefined,
-      [andreKriterierType.REGISTRER_PAPIRSOKNAD]: true,
-      [`${andreKriterierType.REGISTRER_PAPIRSOKNAD}_inkluder`]: false,
-      [andreKriterierType.TIL_BESLUTTER]: true,
-      [`${andreKriterierType.TIL_BESLUTTER}_inkluder`]: true,
-    });
+  const initialValues = wrapper.prop('initialValues');
+  expect(initialValues).to.eql({
+    id: '1',
+    navn: 'Nyansatte',
+    sortering: undefined,
+    skjermet: false,
+    fagsakYtelseType: '',
+    fomDato: undefined,
+    tomDato: undefined,
+    [andreKriterierType.REGISTRER_PAPIRSOKNAD]: true,
+    [`${andreKriterierType.REGISTRER_PAPIRSOKNAD}_inkluder`]: false,
+    [andreKriterierType.TIL_BESLUTTER]: true,
+    [`${andreKriterierType.TIL_BESLUTTER}_inkluder`]: true,
   });
+});

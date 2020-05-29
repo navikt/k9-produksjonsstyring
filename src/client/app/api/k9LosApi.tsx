@@ -110,9 +110,9 @@ const endpoints = new RestApiConfigBuilder()
   .withGet('avdelingsleder/nokkeltall/behandlinger-forste-stonadsdag', k9LosApiKeys.HENT_OPPGAVER_PER_FORSTE_STONADSDAG)
 
   /* /api/konfig */
-    .withGet('konfig/k9-sak-url', k9LosApiKeys.K9SAK_URL)
-    .withGet('konfig/k9tilbake-url', k9LosApiKeys.K9TILBAKE_URL)
-    .withGet('konfig/feature-toggles', k9LosApiKeys.FEATURE_TOGGLES)
+  .withGet('konfig/k9-sak-url', k9LosApiKeys.K9SAK_URL)
+  .withGet('konfig/k9tilbake-url', k9LosApiKeys.K9TILBAKE_URL)
+  .withGet('konfig/feature-toggles', k9LosApiKeys.FEATURE_TOGGLES)
 
   /* /api/kodeverk */
   .withGet('kodeverk', k9LosApiKeys.KODEVERK)
@@ -120,15 +120,15 @@ const endpoints = new RestApiConfigBuilder()
   .build();
 
 export const reduxRestApi: ReduxRestApi = isDevelopment
-    ? new ReduxRestApiBuilder(endpoints, 'dataContext')
-        .withContextPath('api/')
+  ? new ReduxRestApiBuilder(endpoints, 'dataContext')
+    .withContextPath('api/')
     .withReduxEvents(new ReduxEvents()
-        .withErrorActionCreator(errorHandler.getErrorActionCreator()))
+      .withErrorActionCreator(errorHandler.getErrorActionCreator()))
     .build()
-    : new ReduxRestApiBuilder(endpoints, 'dataContext')
-  .withReduxEvents(new ReduxEvents()
-    .withErrorActionCreator(errorHandler.getErrorActionCreator()))
-  .build();
+  : new ReduxRestApiBuilder(endpoints, 'dataContext')
+    .withReduxEvents(new ReduxEvents()
+      .withErrorActionCreator(errorHandler.getErrorActionCreator()))
+    .build();
 
 const k9LosApi = reduxRestApi.getEndpointApi();
 export default k9LosApi;

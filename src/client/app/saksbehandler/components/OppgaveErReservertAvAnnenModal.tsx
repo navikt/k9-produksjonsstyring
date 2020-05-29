@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { FunctionComponent } from 'react';
 import PropTypes from 'prop-types';
-import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
+import { injectIntl, WrappedComponentProps, FormattedMessage } from 'react-intl';
 import { Row, Column } from 'nav-frontend-grid';
 import { Hovedknapp } from 'nav-frontend-knapper';
 import { Normaltekst } from 'nav-frontend-typografi';
@@ -31,7 +31,7 @@ const getClickEvent = (lukkErReservertModalOgOpneOppgave, oppgave) => () => lukk
  *
  * Presentasjonskomponent. Modal som vises når en åpner oppgave som er reservert av en annen saksbehandler
  */
-export const OppgaveErReservertAvAnnenModal = ({
+export const OppgaveErReservertAvAnnenModal: FunctionComponent<TsProps & WrappedComponentProps> = ({
   intl,
   lukkErReservertModalOgOpneOppgave,
   oppgave,
@@ -46,7 +46,11 @@ export const OppgaveErReservertAvAnnenModal = ({
   >
     <Row>
       <Column xs="1">
-        <Image className={styles.image} altCode="OppgaveErReservertAvAnnenModal.ReservertAvEnkel" src={advarselImageUrl} />
+        <Image
+          className={styles.image}
+          alt={intl.formatMessage({ id: 'OppgaveErReservertAvAnnenModal.ReservertAvEnkel' })}
+          src={advarselImageUrl}
+        />
         <div className={styles.divider} />
       </Column>
       <Column xs="8" className={styles.text}>
@@ -75,12 +79,5 @@ export const OppgaveErReservertAvAnnenModal = ({
     </Row>
   </Modal>
 );
-
-OppgaveErReservertAvAnnenModal.propTypes = {
-  intl: intlShape.isRequired,
-  lukkErReservertModalOgOpneOppgave: PropTypes.func.isRequired,
-  oppgave: oppgavePropType.isRequired,
-  oppgaveStatus: oppgaveStatusPropType.isRequired,
-};
 
 export default injectIntl(OppgaveErReservertAvAnnenModal);

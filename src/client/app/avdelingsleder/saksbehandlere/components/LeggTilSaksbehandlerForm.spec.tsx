@@ -3,7 +3,6 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { Form } from 'react-final-form';
-import { Normaltekst } from 'nav-frontend-typografi';
 
 import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
 import { shallowWithIntl, intlMock } from 'testHelpers/intl-enzyme-test-helper';
@@ -20,7 +19,7 @@ describe('<LeggTilSaksbehandlerForm>', () => {
       resetSaksbehandlerSok={sinon.spy()}
       erLagtTilAllerede={false}
       erSokFerdig={false}
-    />).find(Form).drill(props => props.render(formProps)).shallow();
+    />).find(Form).drill((props) => props.render(formProps)).shallow();
 
     expect(wrapper.find(Knapp)).to.have.length(1);
     expect(wrapper.find(Hovedknapp)).to.have.length(0);

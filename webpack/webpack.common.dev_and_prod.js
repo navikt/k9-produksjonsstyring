@@ -22,109 +22,94 @@ const isDevelopment = JSON.stringify(process.env.NODE_ENV) === '"development"';
 const config = {
   module: {
     rules: [{
-        test: /\.(tsx?|ts?)$/,
-        enforce: 'pre',
-        loader: 'eslint-loader',
-        options: {
-          failOnWarning: false,
-          failOnError: !isDevelopment,
-          configFile: isDevelopment ? './eslint/eslintrc.dev.js' : './eslint/eslintrc.prod.js',
-          fix: isDevelopment,
-          cache: true,
-        },
-        include: [APP_DIR],
-      }, {
-        test: /\.(tsx?|ts?)$/,
-        loader: 'babel-loader',
-        options: {
-          cacheDirectory: true,
-        },
-        include: APP_DIR,
-      }, {
-        test: /\.(less|css)?$/,
-        use: [
-          {
-            loader: MiniCssExtractPlugin.loader,
-            options: {
-              publicPath: isDevelopment ? './' : '.',
-            },
-          }, {
-            loader: 'css-loader',
-            options: {
-              importLoaders: 1,
-              modules: true,
-              localIdentName: '[name]_[local]_[hash:base64:5]',
-            },
-          }, {
-            loader: 'less-loader',
-            options: {
-              modules: true,
-              localIdentName: '[name]_[local]_[hash:base64:5]',
-              modifyVars: {
-                nodeModulesPath: '~',
-                coreModulePath: '~',
-              },
-            },
-          },
-        ],
-        include: [APP_DIR, STYLE_DIR],
-      }, {
-        test: /\.(less|css)?$/,
-        use: [
-          {
-            loader: MiniCssExtractPlugin.loader,
-            options: {
-              publicPath: isDevelopment ? './' : '.',
-            },
-          }, {
-            loader: 'css-loader',
-          }, {
-            loader: 'less-loader',
-            options: {
-              modifyVars: {
-                nodeModulesPath: '~',
-                coreModulePath: '~',
-              },
-            },
-          },
-        ],
-        include: [CSS_DIR, CORE_DIR],
-      }, {
-        test: /\.(jpg|png|svg)$/,
-        loader: 'file-loader',
-        options: {
-          name: isDevelopment ? '[name]_[hash].[ext]' : '/[name]_[hash].[ext]',
-        },
-        include: [IMG_DIR],
+      test: /\.(tsx?|ts?)$/,
+      enforce: 'pre',
+      loader: 'eslint-loader',
+      options: {
+        failOnWarning: false,
+        failOnError: !isDevelopment,
+        configFile: isDevelopment ? './eslint/eslintrc.dev.js' : './eslint/eslintrc.prod.js',
+        fix: isDevelopment,
+        cache: true,
       },
+      include: [APP_DIR],
+    }, {
+      test: /\.(tsx?|ts?)$/,
+      loader: 'babel-loader',
+      options: {
+        cacheDirectory: true,
+      },
+      include: APP_DIR,
+    }, {
+      test: /\.(less|css)?$/,
+      use: [
+        {
+          loader: MiniCssExtractPlugin.loader,
+          options: {
+            publicPath: isDevelopment ? './' : '.',
+          },
+        }, {
+          loader: 'css-loader',
+          options: {
+            importLoaders: 1,
+            modules: {
+              localIdentName: '[name]_[local]_[hash:base64:5]',
+            },
+          },
+        }, {
+          loader: 'less-loader',
+          options: {
+            lessOptions: {
+              modules: true,
+              localIdentName: '[name]_[local]_[hash:base64:5]',
+              modifyVars: {
+                nodeModulesPath: '~',
+                coreModulePath: '~',
+              },
+            },
+          },
+        },
+      ],
+      include: [APP_DIR],
+    }, {
+      test: /\.(less|css)?$/,
+      use: [
+        {
+          loader: MiniCssExtractPlugin.loader,
+          options: {
+            publicPath: isDevelopment ? './' : '.',
+          },
+        }, {
+          loader: 'css-loader',
+        }, {
+          loader: 'less-loader',
+          options: {
+            lessOptions: {
+              modifyVars: {
+                nodeModulesPath: '~',
+                coreModulePath: '~',
+              },
+            },
+          },
+        },
+      ],
+      include: [STYLE_DIR, CORE_DIR],
+    }, {
+      test: /\.(svg)$/,
+      loader: 'file-loader',
+      options: {
+        name: '[name]_[hash].[ext]',
+      },
+      include: [IMG_DIR],
+    },
     ],
   },
 
   plugins: [
     new MiniCssExtractPlugin({
       filename: isDevelopment ? 'style.css' : 'style_[hash].css',
+      ignoreOrder: true,
     }),
-    new HtmlWebpackPlugin({
-      filename: 'index.html',
-      favicon: path.join(ROOT_DIR, 'favicon.ico'),
-      template: path.join(ROOT_DIR, 'index.html'),
-      version: VERSION,
-    }),
-    new webpack.DefinePlugin({
-      VERSION: JSON.stringify(VERSION),
-    }),
-    new CopyWebpackPlugin([
-      {
-        from: LANG_DIR,
-        to: 'sprak/[name].[ext]',
-        force: true,
-        cache: {
-          key: '[hash]',
-        },
-      },
-    ]),
-    // eslint-disable-next-line no-useless-escape
-    new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /nb/),
     new CircularDependencyPlugin({
       exclude: /node_modules/,
       failOnError: true,

@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
@@ -6,7 +5,6 @@ import sinon from 'sinon';
 
 import OppgavekoPanel from './components/OppgavekoPanel';
 import { BehandlingskoerIndex } from './BehandlingskoerIndex';
-import BehandlingPollingTimoutModal from './components/BehandlingPollingTimoutModal';
 
 describe('<BehandlingskoerIndex>', () => {
   const oppgavekoer = [{
@@ -78,7 +76,6 @@ describe('<BehandlingskoerIndex>', () => {
     />);
 
     expect(wrapper.find(OppgavekoPanel)).to.have.length(0);
-    expect(wrapper.find(BehandlingPollingTimoutModal)).to.have.length(0);
     expect(fetchOppgavekoer.calledOnce).to.be.true;
   });
 
@@ -297,25 +294,4 @@ describe('<BehandlingskoerIndex>', () => {
     expect(args2).to.have.length(1);
     expect(args2[0]).to.eql(id);
   });
-
-/*  it('skal vise dialog ved timeout', () => {
-    const fetchOppgavekoer = sinon.spy();
-    const wrapper = shallow(<BehandlingskoerIndex
-      k9sakUrl="www.k9sak.no"
-      k9tilbakeUrl="www.k9tilbake.no"
-      fetchOppgaverTilBehandling={sinon.spy()}
-      fetchReserverteOppgaver={sinon.spy()}
-      fetchAlleOppgavekoer={fetchOppgavekoer}
-      reserverOppgave={sinon.spy()}
-      opphevOppgaveReservasjon={sinon.spy()}
-      forlengOppgaveReservasjon={sinon.spy()}
-      fetchOppgaverTilBehandlingOppgaver={sinon.spy()}
-      flyttReservasjon={sinon.spy()}
-      oppgavekoer={oppgavekoer}
-      goToUrl={sinon.spy()}
-      setValgtOppgavekoeId={sinon.spy()}
-    />);
-
-    expect(wrapper.find(BehandlingPollingTimoutModal)).to.have.length(1);
-  }); */
 });

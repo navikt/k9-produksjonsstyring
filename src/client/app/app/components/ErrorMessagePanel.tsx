@@ -1,21 +1,41 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { injectIntl, intlShape } from 'react-intl';
-import { createSelector } from 'reselect';
+import React, { FunctionComponent, useMemo } from 'react';
+import { injectIntl, WrappedComponentProps, IntlShape } from 'react-intl';
 import { Row, Column } from 'nav-frontend-grid';
 import { Undertekst } from 'nav-frontend-typografi';
 import Lukknapp from 'nav-frontend-lukknapp';
 
 import decodeHtmlEntity from 'utils/decodeHtmlEntityUtils';
-import errorHandler from 'api/error-api-redux';
+import EventType from 'api/rest-api/src/requestApi/eventType';
 
 import styles from './errorMessagePanel.less';
 
-interface TsProps {
-  intl: any;
-  errorMessages: string[];
+export const getErrorMessageList = (intl: IntlShape, queryStrings: { errorcode?: string; errormessage?: string}, allErrorMessages = []): string[] => {
+  const errorMessages = [];
+  if (queryStrings.errorcode) {
+    errorMessages.push(intl.formatMessage({ id: queryStrings.errorcode }));
+  }
+  if (queryStrings.errormessage) {
+    errorMessages.push(queryStrings.errormessage);
+  }
+  allErrorMessages.forEach((message) => errorMessages.push(message.code ? intl.formatMessage({ id: message.code }, message.params) : message.text));
+  return errorMessages;
+};
+
+interface OwnProps {
   removeErrorMessage: () => void;
+  errorMessages?: {
+    type: EventType;
+    code?: string;
+    params?: {
+      errorDetails?: string;
+      location?: string;
+    };
+    text?: string;
+  }[];
+  queryStrings: {
+    errormessage?: string;
+    errorcode?: string;
+  };
 }
 
 /**
@@ -23,18 +43,21 @@ interface TsProps {
  *
  * Presentasjonskomponent. Definerer hvordan feilmeldinger vises.
  */
-export const ErrorMessagePanel = ({
+const ErrorMessagePanel: FunctionComponent<OwnProps & WrappedComponentProps> = ({
   intl,
   errorMessages,
+  queryStrings,
   removeErrorMessage,
-}: TsProps) => {
-  if (errorMessages.length === 0) {
+}) => {
+  const feilmeldinger = useMemo(() => getErrorMessageList(intl, queryStrings, errorMessages), [queryStrings, errorMessages]);
+
+  if (feilmeldinger.length === 0) {
     return null;
   }
 
   return (
     <div className={styles.container}>
-      {errorMessages.map(message => (
+      {feilmeldinger.map((message) => (
         <Row key={message}>
           <Column xs="11">
             <Undertekst className={styles.wordWrap}>
@@ -50,29 +73,4 @@ export const ErrorMessagePanel = ({
   );
 };
 
-
-ErrorMessagePanel.propTypes = {
-  intl: intlShape.isRequired,
-  errorMessages: PropTypes.arrayOf(PropTypes.string).isRequired,
-  removeErrorMessage: PropTypes.func.isRequired,
-};
-
-export const getErrorMessageList = createSelector([(state, ownProps) => ownProps,
-  errorHandler.getAllErrorMessages], (ownProps, allErrorMessages = []) => {
-  const { queryStrings, intl } = ownProps;
-  const errorMessages = [];
-  if (queryStrings.errorcode) {
-    errorMessages.push(intl.formatMessage({ id: queryStrings.errorcode }));
-  }
-  if (queryStrings.errormessage) {
-    errorMessages.push(queryStrings.errormessage);
-  }
-  allErrorMessages.forEach(message => errorMessages.push(message.code ? intl.formatMessage({ id: message.code }, message.params) : message.text));
-  return errorMessages;
-});
-
-const mapStateToProps = (state, ownProps) => ({
-  errorMessages: getErrorMessageList(state, ownProps),
-});
-
-export default connect(mapStateToProps)(injectIntl(ErrorMessagePanel));
+export default injectIntl(ErrorMessagePanel);

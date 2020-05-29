@@ -1,6 +1,6 @@
 
 import React, {
- Component, Fragment, useEffect, useState,
+  Component, Fragment, useEffect, useState,
 } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -64,45 +64,44 @@ const onCancel = (oppgave: Oppgave, selectOppgaveCallback) => {
  * Presentasjonskomponent. Formaterer fagsak-søkeresultatet for visning i tabell. Sortering av fagsakene blir håndtert her.
  */
 export const FagsakList = ({
-                             sorterteFagsaker,
-                             fagsakOppgaver,
-                             selectOppgaveCallback,
-                           }: TsProps) => (
-                             <Table headerTextCodes={headerTextCodes} classNameTable={styles.table}>
-                               {sorterteFagsaker.map((fagsak) => {
-        const filtrerteOppgaver = fagsakOppgaver.filter(o => o.saksnummer === fagsak.saksnummer);
-        const oppgaver = filtrerteOppgaver.map((oppgave, index) => (
-          <TableRow
-            key={`oppgave${oppgave.eksternId}`}
-            id={oppgave.eksternId}
-            onMouseDown={() => onClick(oppgave, selectOppgaveCallback)}
-            onKeyDown={() => onClick(oppgave, selectOppgaveCallback)}
-            isDashedBottomBorder={filtrerteOppgaver.length > index + 1}
-          >
-            <TableColumn>{oppgave.saksnummer}</TableColumn>
-            <TableColumn>{oppgave.navn}</TableColumn>
-            <TableColumn>{oppgave.fagsakYtelseType.navn}</TableColumn>
-            <TableColumn>{oppgave.behandlingstype.navn}</TableColumn>
-            <TableColumn><NavFrontendChevron /></TableColumn>
-            {viseModal && (
-              <ReserverOppgaveModal
-                cancel={() => onCancel(oppgave, selectOppgaveCallback)}
-                valgtOppgave={oppgave}
-                submit={() => onSubmit(oppgave, selectOppgaveCallback)}
-                selectOppgaveCallback={() => selectOppgaveCallback}
-              />
-              )}
-          </TableRow>
-        ));
+  sorterteFagsaker,
+  fagsakOppgaver,
+  selectOppgaveCallback,
+}: TsProps) => (
+  <Table headerTextCodes={headerTextCodes} classNameTable={styles.table}>
+    {sorterteFagsaker.map((fagsak) => {
+      const filtrerteOppgaver = fagsakOppgaver.filter((o) => o.saksnummer === fagsak.saksnummer);
+      const oppgaver = filtrerteOppgaver.map((oppgave, index) => (
+        <TableRow
+          key={`oppgave${oppgave.eksternId}`}
+          id={oppgave.eksternId}
+          onMouseDown={() => onClick(oppgave, selectOppgaveCallback)}
+          onKeyDown={() => onClick(oppgave, selectOppgaveCallback)}
+          isDashedBottomBorder={filtrerteOppgaver.length > index + 1}
+        >
+          <TableColumn>{oppgave.saksnummer}</TableColumn>
+          <TableColumn>{oppgave.navn}</TableColumn>
+          <TableColumn>{oppgave.fagsakYtelseType.navn}</TableColumn>
+          <TableColumn>{oppgave.behandlingstype.navn}</TableColumn>
+          <TableColumn><NavFrontendChevron /></TableColumn>
+          {viseModal && (
+          <ReserverOppgaveModal
+            cancel={() => onCancel(oppgave, selectOppgaveCallback)}
+            valgtOppgave={oppgave}
+            submit={() => onSubmit(oppgave, selectOppgaveCallback)}
+            selectOppgaveCallback={() => selectOppgaveCallback}
+          />
+          )}
+        </TableRow>
+      ));
 
-        return (
-          <Fragment key={`fagsak${fagsak.saksnummer}`}>
-            {oppgaver.length > 0 && oppgaver}
-          </Fragment>
-        );
-      })
-        }
-                             </Table>
+      return (
+        <Fragment key={`fagsak${fagsak.saksnummer}`}>
+          {oppgaver.length > 0 && oppgaver}
+        </Fragment>
+      );
+    })}
+  </Table>
 );
 
 FagsakList.propTypes = {
@@ -111,7 +110,7 @@ FagsakList.propTypes = {
   selectOppgaveCallback: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   sorterteFagsaker: getFagsaker(state),
   fagsakOppgaver: getFagsakOppgaver(state),
   fagsakStatusTyper: getKodeverk(kodeverkTyper.FAGSAK_STATUS)(state),

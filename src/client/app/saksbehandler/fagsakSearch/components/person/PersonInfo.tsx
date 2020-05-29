@@ -33,7 +33,7 @@ const PersonInfo = ({
   person,
 }: TsProps) => {
   const {
-     navn, personnummer, kjoenn, doedsdato,
+    navn, personnummer, kjoenn, doedsdato,
   } = person;
   return (
     <div>

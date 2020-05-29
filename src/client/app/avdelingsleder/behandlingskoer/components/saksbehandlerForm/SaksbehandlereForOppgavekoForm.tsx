@@ -45,7 +45,7 @@ export class SaksbehandlereForOppgavekoForm extends Component<TsProps> {
       valgtOppgaveko,
     } = this.props;
     const identer = valgtOppgaveko.saksbehandlere ? valgtOppgaveko.saksbehandlere.reduce((acc, sb) => (
-        { ...acc, [sb.epost.replace(/\./g, '')]: true }), {}) : {};
+      { ...acc, [sb.epost.replace(/\./g, '')]: true }), {}) : {};
     return {
       ...identer,
     };
@@ -76,22 +76,22 @@ export class SaksbehandlereForOppgavekoForm extends Component<TsProps> {
             {alleSaksbehandlere.length > 0 && (
             <Row>
               <Column xs="6">
-                {alleSaksbehandlereVenstreListe.map(s => (
+                {alleSaksbehandlereVenstreListe.map((s) => (
                   <CheckboxField
                     key={s.epost}
                     name={s.epost.replace(/\./g, '')}
                     label={s.epost}
-                    onChange={isChecked => knyttSaksbehandlerTilOppgaveko(valgtOppgaveko.id, s.epost, isChecked)}
+                    onChange={(isChecked) => knyttSaksbehandlerTilOppgaveko(valgtOppgaveko.id, s.epost, isChecked)}
                   />
                 ))}
               </Column>
               <Column xs="6">
-                {alleSaksbehandlereHoyreListe.map(s => (
+                {alleSaksbehandlereHoyreListe.map((s) => (
                   <CheckboxField
                     key={s.epost}
                     name={s.epost.replace(/\./g, '')}
                     label={s.epost}
-                    onChange={isChecked => knyttSaksbehandlerTilOppgaveko(valgtOppgaveko.id, s.epost, isChecked)}
+                    onChange={(isChecked) => knyttSaksbehandlerTilOppgaveko(valgtOppgaveko.id, s.epost, isChecked)}
                   />
                 ))}
               </Column>
@@ -104,11 +104,11 @@ export class SaksbehandlereForOppgavekoForm extends Component<TsProps> {
   }
 }
 
-const sortSaksbehandlere = createSelector([getSaksbehandlere], saksbehandlere => (saksbehandlere && saksbehandlere instanceof Array
+const sortSaksbehandlere = createSelector([getSaksbehandlere], (saksbehandlere) => (saksbehandlere && saksbehandlere instanceof Array
   ? saksbehandlere.sort((saksbehandler1, saksbehandler2) => saksbehandler1.epost.localeCompare(saksbehandler2.epost))
   : saksbehandlere));
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   alleSaksbehandlere: sortSaksbehandlere(state),
 });
 

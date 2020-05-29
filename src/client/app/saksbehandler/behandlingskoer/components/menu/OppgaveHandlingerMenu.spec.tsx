@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
 import moment from 'moment';
-import { FormattedHTMLMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 
 import behandlingStatus from 'kodeverk/behandlingStatus';
 import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
@@ -35,8 +35,8 @@ describe('<OppgaveHandlingerMenu>', () => {
     behandlingsfrist: '2017-01-01',
     erTilSaksbehandling: true,
     fagsakYtelseType: {
-      kode: fagsakYtelseType.FORELDREPRENGER,
-      navn: 'FP',
+      kode: fagsakYtelseType.OMSORGSPENGER,
+      navn: 'OMS',
     },
     behandlingStatus: {
       kode: behandlingStatus.OPPRETTET,
@@ -63,7 +63,7 @@ describe('<OppgaveHandlingerMenu>', () => {
     );
 
     expect(wrapper.find(MenuButton)).has.length(3);
-    const message = wrapper.find(FormattedHTMLMessage).first();
+    const message = wrapper.find(FormattedMessage).first();
     expect(message.prop('values')).is.eql({ hours: 1, minutes: 59 });
   });
 
@@ -123,12 +123,12 @@ describe('<OppgaveHandlingerMenu>', () => {
     const modal = wrapper.find(OpphevReservasjonModal);
     expect(modal).has.length(1);
 
-    modal.prop('submit')(1, 'Dette er en begrunnelse');
+    modal.prop('submit')('1', 'Dette er en begrunnelse');
 
     expect(opphevOppgaveReservasjonFn.calledOnce).to.be.true;
     const { args } = opphevOppgaveReservasjonFn.getCalls()[0];
     expect(args).to.have.length(2);
-    expect(args[0]).to.eql(1);
+    expect(args[0]).to.eql('1');
     expect(args[1]).to.eql('Dette er en begrunnelse');
 
     expect(toggleMenuFn.calledOnce).to.be.true;
@@ -138,7 +138,7 @@ describe('<OppgaveHandlingerMenu>', () => {
   });
 
   it('skal vise modal for forlenging av reservasjon', async () => {
-    const forlengOppgaveReservasjonFn = oppgaveId => Promise.resolve(`${oppgaveId}`);
+    const forlengOppgaveReservasjonFn = (oppgaveId) => Promise.resolve(`${oppgaveId}`);
     const wrapper = shallow(
       <OppgaveHandlingerMenu
         toggleMenu={sinon.spy()}
@@ -210,7 +210,7 @@ describe('<OppgaveHandlingerMenu>', () => {
 
     const modal = wrapper.find(FlyttReservasjonModal);
 
-    const oppgaveId = 1;
+    const oppgaveId = '1';
     const brukerident = 'P039283';
     const begrunnelse = 'Dette er en begrunnelse';
     modal.prop('submit')(oppgaveId, brukerident, begrunnelse);
@@ -218,7 +218,7 @@ describe('<OppgaveHandlingerMenu>', () => {
     expect(flyttReservasjonFn.calledOnce).to.be.true;
     const { args } = flyttReservasjonFn.getCalls()[0];
     expect(args).to.have.length(3);
-    expect(args[0]).to.eql(1);
+    expect(args[0]).to.eql('1');
     expect(args[1]).to.eql('P039283');
     expect(args[2]).to.eql('Dette er en begrunnelse');
   });
