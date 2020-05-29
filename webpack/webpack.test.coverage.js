@@ -11,30 +11,30 @@ const config = {
   target: 'node', // webpack should compile node compatible code
   module: {
     rules: [{
-    test: /\.(tsx?|ts?)$/,
-    use: [{
-      loader: 'istanbul-instrumenter-loader',
-      options: { esModules: true },
+      test: /\.(tsx?|ts?)$/,
+      use: [{
+        loader: 'istanbul-instrumenter-loader',
+        options: { esModules: true },
+      }, {
+        loader: 'happypack/loader',
+      }],
+      include: APP_DIR,
+      exclude: /node_modules/,
     }, {
-      loader: 'happypack/loader',
+      test: /\.(less|css|jpg|png|svg)$/,
+      loader: 'null-loader',
     }],
-    include: APP_DIR,
-    exclude: /node_modules/,
-  }, {
-    test: /\.(less|css|jpg|png|svg)$/,
-    loader: 'null-loader',
-  }],
   },
   plugins: [
-  new HappyPack({
-    loaders: [{
-      path: 'babel-loader',
-      query: {
-        cacheDirectory: true,
-      },
-    }],
-    threads: 4,
-  }),
+    new HappyPack({
+      loaders: [{
+        path: 'babel-loader',
+        query: {
+          cacheDirectory: true,
+        },
+      }],
+      threads: 4,
+    }),
   ],
 };
 

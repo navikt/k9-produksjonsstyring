@@ -1,5 +1,5 @@
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 const merge = require('webpack-merge');
@@ -15,13 +15,14 @@ const config = {
 
   entry: [
     'babel-polyfill',
-    `${APP_DIR}/index.tsx`,
+    APP_DIR + '/index.tsx',
   ],
 
   output: {
-    filename: 'bundle-[hash].js',
-    path: path.resolve(__dirname, '../dist/public'),
-    publicPath: 'public',
+    filename: '[name]-[contenthash].js',
+    chunkFilename: '[name].[contenthash].chunk.js',
+    path: path.resolve(__dirname, '../target/public'),
+    publicPath: 'public/',
   },
 
   plugins: [
@@ -44,6 +45,9 @@ const config = {
       }),
       new OptimizeCSSAssetsPlugin({}),
     ],
+    splitChunks: {
+      chunks: 'all',
+    },
   },
 
   stats: {
