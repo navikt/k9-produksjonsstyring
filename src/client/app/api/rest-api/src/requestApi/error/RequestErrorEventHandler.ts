@@ -1,13 +1,14 @@
 import EventType from '../eventType';
-import { ErrorType } from './errorTsType';
-import { isHandledError, is401Error, is418Error } from './ErrorTypes';
+import ErrorType from './errorTsType';
+import { isHandledError } from './ErrorTypes';
 import TimeoutError from './TimeoutError';
+import { ErrorResponse } from '../ResponseTsType';
 
 const isDev = window.location.hostname.includes('preprod.local');
 const PROXY_REDIRECT_URL = isDev ? 'https://k9-los-oidc-auth-proxy.nais.preprod.local/login?redirect_uri=https://k9-los-web.nais.preprod.local/'
   : 'https://k9-los-oidc-auth-proxy.nais.adeo.no/login?redirect_uri=https://k9-los-web.nais.adeo.no/';
 
-type NotificationEmitter = (eventType: keyof typeof EventType, data?: any) => void
+type NotificationEmitter = (eventType: keyof typeof EventType, data?: any, isPollingRequest?: boolean) => void
 
 const isString = (value) => typeof value === 'string';
 
@@ -34,6 +35,17 @@ const blobParser = (blob: any): Promise<string> => {
   });
 };
 
+interface FormatedError {
+  data?: string | ErrorResponse;
+  type?: string;
+  status?: number;
+  isForbidden?: boolean;
+  isUnauthorized?: boolean;
+  is418?: boolean;
+  isGatewayTimeoutOrNotFound?: boolean;
+  location?: string;
+}
+
 class RequestErrorEventHandler {
   notify: NotificationEmitter
 
@@ -41,7 +53,7 @@ class RequestErrorEventHandler {
     this.notify = notificationEmitter;
   }
 
-  handleError = async (error: ErrorType | TimeoutError) => {
+  handleError = async (error: ErrorType | TimeoutError): Promise<string> => {
     if (error instanceof TimeoutError) {
       this.notify(EventType.POLLING_TIMEOUT, { location: error.location });
       return;
@@ -55,10 +67,10 @@ class RequestErrorEventHandler {
         formattedError.data = JSON.parse(jsonErrorString);
       }
     }
-    if (is401Error(formattedError.status)) {
+    if (formattedError.isUnauthorized) {
       this.notify(EventType.REQUEST_ERROR, { message: error.message });
       window.location.href = PROXY_REDIRECT_URL;
-    } else if (is418Error(formattedError.status)) {
+    } else if (formattedError.is418) {
       this.notify(EventType.POLLING_HALTED_OR_DELAYED, formattedError.data);
     } else if (!error.response && error.message) {
       this.notify(EventType.REQUEST_ERROR, { message: error.message });
@@ -67,16 +79,22 @@ class RequestErrorEventHandler {
     }
   };
 
-  getFormattedData = (data: string | Record<string, any>) => (isString(data) ? { message: data } : data);
+  getFormattedData = (data: string | Record<string, any>): string | Record<string, any> => (isString(data) ? { message: data } : data);
 
-  findErrorData = (response: {data?: any; status?: number; statusText?: string}) => (response.data ? response.data : response.statusText);
+  findErrorData = (response: {data?: any; status?: number; statusText?: string}): string | ErrorResponse => (response.data
+    ? response.data : response.statusText);
 
-  formatError = (error: ErrorType) => {
+  formatError = (error: ErrorType): FormatedError => {
     const response = error && error.response ? error.response : undefined;
     return {
       data: response ? this.findErrorData(response) : undefined,
       type: response && response.data ? response.data.type : undefined,
       status: response ? response.status : undefined,
+      isForbidden: response ? response.status === 403 : undefined,
+      isUnauthorized: response ? response.status === 401 : undefined,
+      is418: response ? response.status === 418 : undefined,
+      isGatewayTimeoutOrNotFound: response ? response.status === 504 || response.status === 404 : undefined,
+      location: response && response.config ? response.config.url : undefined,
     };
   };
 }
