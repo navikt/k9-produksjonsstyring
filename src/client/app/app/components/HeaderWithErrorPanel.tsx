@@ -76,6 +76,11 @@ const HeaderWithErrorPanel: FunctionComponent<OwnProps & WrappedComponentProps> 
   const [erAvdelingerPanelApent, setAvdelingerPanelApent] = useState(false);
   const wrapperRef = useOutsideClickEvent(erLenkePanelApent, erAvdelingerPanelApent, setLenkePanelApent, setAvdelingerPanelApent);
   const brukerPanel = <UserPanel name={navAnsattName} />;
+  const fixedHeaderRef = useRef(null);
+  useEffect(() => {
+    setSiteHeight(fixedHeaderRef.current.clientHeight);
+  }, [errorMessages.length]);
+
 
   const goTilAvdlelingslederPanel = () => {
     window.location.href += 'avdelingsleder';
@@ -92,7 +97,7 @@ const HeaderWithErrorPanel: FunctionComponent<OwnProps & WrappedComponentProps> 
   };
 
   return (
-    <header className={styles.container}>
+    <header ref={fixedHeaderRef} className={styles.container}>
       <div ref={wrapperRef}>
         <Header title={intl.formatMessage({ id: 'Header.K9Los' })} titleHref="/">
           {visKnapp() && <KnappBase className={styles.knapp} onClick={goTilAvdlelingslederPanel}>Avdelingslederpanel</KnappBase>}

@@ -6,6 +6,7 @@ import { withRouter } from 'react-router-dom';
 import moment from 'moment';
 import { parseQueryString } from 'utils/urlUtils';
 import errorHandler from 'api/error-api-redux';
+import EventType from 'api/rest-api/src/requestApi/eventType';
 import AppConfigResolver from './AppConfigResolver';
 import {
   getFunksjonellTid, getNavAnsattName, getNavAnsattKanOppgavestyre,
@@ -17,8 +18,15 @@ import Home from './components/Home';
 import '../../styles/global.less';
 
 
-interface TsProps {
-  errorMessagesLength: number;
+interface OwnProps {
+  errorMessages?: {
+    type: EventType;
+    code?: string;
+    params?: {
+      errorDetails?: string;
+    };
+    text?: string;
+  }[];
   removeErrorMessage: () => void;
   crashMessage: string;
   showCrashMessage: (message: string) => void;
@@ -36,27 +44,19 @@ interface TsProps {
  * Komponenten er også ansvarlig for å hente innlogget NAV-ansatt, rettskilde-url, systemrutine-url
  * og kodeverk fra server og lagre desse i klientens state.
  */
-export class AppIndex extends Component<TsProps> {
-  static propTypes = {
-    errorMessagesLength: PropTypes.number.isRequired,
-    removeErrorMessage: PropTypes.func.isRequired,
-    crashMessage: PropTypes.string,
-    showCrashMessage: PropTypes.func.isRequired,
-    navAnsattName: PropTypes.string,
-    funksjonellTid: PropTypes.string,
-    location: PropTypes.shape({
-      search: PropTypes.string,
-    }).isRequired,
-    kanOppgavestyre: PropTypes.bool.isRequired,
-  };
-
+export class AppIndex extends Component<OwnProps> {
   static defaultProps = {
     crashMessage: '',
     navAnsattName: '',
     funksjonellTid: undefined,
+    errorMessages: [],
   };
 
-  componentDidUpdate = (prevProps: TsProps) => {
+  state = {
+    headerHeight: 0,
+  };
+
+  componentDidUpdate = (prevProps: OwnProps) => {
     const { funksjonellTid } = this.props;
 
     if (funksjonellTid && prevProps.funksjonellTid !== funksjonellTid) {
@@ -70,7 +70,7 @@ export class AppIndex extends Component<TsProps> {
     }
   }
 
-  componentDidCatch = (error: Error, info: any) => {
+  componentDidCatch = (error: Error, info: { componentStack: string }): void => {
     const { showCrashMessage: showCrashMsg } = this.props;
     showCrashMsg([
       error.toString(),
@@ -81,11 +81,17 @@ export class AppIndex extends Component<TsProps> {
     ].join(' '));
   }
 
+  setSiteHeight = (headerHeight: number): void => {
+    document.documentElement.setAttribute('style', `height: calc(100% - ${headerHeight}px)`);
+    this.setState((state) => ({ ...state, headerHeight }));
+  }
+
   render = () => {
     const {
-      location, crashMessage, errorMessagesLength, navAnsattName,
+      location, crashMessage, navAnsattName,
       removeErrorMessage: removeErrorMsg, kanOppgavestyre,
     } = this.props;
+    const { headerHeight } = this.state;
     const queryStrings = parseQueryString(location.search);
 
     return (
@@ -96,9 +102,10 @@ export class AppIndex extends Component<TsProps> {
             queryStrings={queryStrings}
             navAnsattName={navAnsattName}
             removeErrorMessage={removeErrorMsg}
+            setSiteHeight={this.setSiteHeight}
           />
           {!crashMessage && (
-            <Home nrOfErrorMessages={errorMessagesLength + (queryStrings.errorcode || queryStrings.errormessage ? 1 : 0)} />
+            <Home headerHeight={headerHeight} />
           )}
         </LanguageProvider>
       </AppConfigResolver>

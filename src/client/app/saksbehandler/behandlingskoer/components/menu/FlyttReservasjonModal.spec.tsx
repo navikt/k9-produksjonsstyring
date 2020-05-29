@@ -2,8 +2,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import moment from 'moment';
-
+import { IntlShape } from 'react-intl';
 import { Form } from 'react-final-form';
 import { Hovedknapp } from 'nav-frontend-knapper';
 import { Normaltekst } from 'nav-frontend-typografi';
@@ -11,10 +10,15 @@ import { Normaltekst } from 'nav-frontend-typografi';
 import { shallowWithIntl, intlMock } from 'testHelpers/intl-enzyme-test-helper';
 import behandlingStatus from 'kodeverk/behandlingStatus';
 import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
+import moment from 'moment';
 import behandlingType from 'kodeverk/behandlingType';
 import { FlyttReservasjonModal } from './FlyttReservasjonModal';
 
 describe('<FlyttReservasjonModal>', () => {
+  const intl: Partial<IntlShape> = {
+    ...intlMock,
+  };
+  // @ts-ignore
   const oppgave = {
     eksternId: '1',
     status: {
@@ -43,6 +47,8 @@ describe('<FlyttReservasjonModal>', () => {
     },
   };
 
+  const oppgaveId = 1;
+
   it('skal ikke vise saksbehandler før søk er utført', () => {
     const formProps = {
       handleSubmit: sinon.spy(),
@@ -50,7 +56,7 @@ describe('<FlyttReservasjonModal>', () => {
     };
     const wrapper = shallowWithIntl(
       <FlyttReservasjonModal
-        intl={intlMock}
+        intl={intl as IntlShape}
         showModal
         oppgave={oppgave}
         closeModal={sinon.spy()}
@@ -60,8 +66,8 @@ describe('<FlyttReservasjonModal>', () => {
         erSaksbehandlerSokStartet={false}
         erSaksbehandlerSokFerdig={false}
       />,
-    ).find(Form).first().drill((props) => props.render(formProps))
-      .shallow();
+      // @ts-ignore
+    ).find(Form).first().renderProp('render')(formProps);
 
     expect(wrapper.find(Normaltekst)).has.length(0);
   });
@@ -73,7 +79,7 @@ describe('<FlyttReservasjonModal>', () => {
     };
     const wrapper = shallowWithIntl(
       <FlyttReservasjonModal
-        intl={intlMock}
+        intl={intl as IntlShape}
         showModal
         oppgave={oppgave}
         closeModal={sinon.spy()}
@@ -83,8 +89,8 @@ describe('<FlyttReservasjonModal>', () => {
         erSaksbehandlerSokStartet={false}
         erSaksbehandlerSokFerdig
       />,
-    ).find(Form).first().drill((props) => props.render(formProps))
-      .shallow();
+      // @ts-ignore
+    ).find(Form).first().renderProp('render')(formProps);
 
     const tekst = wrapper.find(Normaltekst);
     expect(tekst).has.length(1);
@@ -104,7 +110,7 @@ describe('<FlyttReservasjonModal>', () => {
 
     const wrapper = shallowWithIntl(
       <FlyttReservasjonModal
-        intl={intlMock}
+        intl={intl as IntlShape}
         showModal
         oppgave={oppgave}
         closeModal={sinon.spy()}
@@ -115,8 +121,8 @@ describe('<FlyttReservasjonModal>', () => {
         erSaksbehandlerSokFerdig
         saksbehandler={saksbehandler}
       />,
-    ).find(Form).first().drill((props) => props.render(formProps))
-      .shallow();
+      // @ts-ignore
+    ).find(Form).first().renderProp('render')(formProps);
 
     const tekst = wrapper.find(Normaltekst);
     expect(tekst).has.length(1);
@@ -132,7 +138,7 @@ describe('<FlyttReservasjonModal>', () => {
     };
     const wrapper = shallowWithIntl(
       <FlyttReservasjonModal
-        intl={intlMock}
+        intl={intl as IntlShape}
         showModal
         oppgave={oppgave}
         closeModal={sinon.spy()}
@@ -142,8 +148,8 @@ describe('<FlyttReservasjonModal>', () => {
         erSaksbehandlerSokStartet={false}
         erSaksbehandlerSokFerdig={false}
       />,
-    ).find(Form).first().drill((props) => props.render(formProps))
-      .shallow();
+      // @ts-ignore
+    ).find(Form).first().renderProp('render')(formProps);
 
     const knapper = wrapper.find(Hovedknapp);
     expect(knapper).has.length(1);
@@ -157,7 +163,7 @@ describe('<FlyttReservasjonModal>', () => {
     };
     const wrapper = shallowWithIntl(
       <FlyttReservasjonModal
-        intl={intlMock}
+        intl={intl as IntlShape}
         showModal
         oppgave={oppgave}
         closeModal={sinon.spy()}
@@ -167,8 +173,8 @@ describe('<FlyttReservasjonModal>', () => {
         erSaksbehandlerSokStartet={false}
         erSaksbehandlerSokFerdig={false}
       />,
-    ).find(Form).first().drill((props) => props.render(formProps))
-      .shallow();
+      // @ts-ignore
+    ).find(Form).first().renderProp('render')(formProps);
 
     const knapper = wrapper.find(Hovedknapp);
     expect(knapper).has.length(1);
@@ -184,7 +190,7 @@ describe('<FlyttReservasjonModal>', () => {
     };
     const wrapper = shallowWithIntl(
       <FlyttReservasjonModal
-        intl={intlMock}
+        intl={intl as IntlShape}
         showModal
         oppgave={oppgave}
         closeModal={sinon.spy()}
@@ -194,8 +200,8 @@ describe('<FlyttReservasjonModal>', () => {
         erSaksbehandlerSokStartet
         erSaksbehandlerSokFerdig={false}
       />,
-    ).find(Form).first().drill((props) => props.render(formProps))
-      .shallow();
+      // @ts-ignore
+    ).find(Form).first().renderProp('render')(formProps);
 
     const knapper = wrapper.find(Hovedknapp);
     expect(knapper).has.length(1);
@@ -218,9 +224,9 @@ describe('<FlyttReservasjonModal>', () => {
 
     const wrapper = shallowWithIntl(
       <FlyttReservasjonModal
-        intl={intlMock}
+        intl={intl as IntlShape}
         showModal
-        oppgave={oppgave}
+        oppgaveId={oppgaveId}
         closeModal={sinon.spy()}
         submit={sinon.spy()}
         finnSaksbehandler={sinon.spy()}
@@ -229,8 +235,8 @@ describe('<FlyttReservasjonModal>', () => {
         erSaksbehandlerSokFerdig={false}
         saksbehandler={saksbehandler}
       />,
-    ).find(Form).last().drill((props) => props.render(formProps))
-      .shallow();
+      // @ts-ignore
+    ).find(Form).last().renderProp('render')(formProps);
 
     const knapper = wrapper.find(Hovedknapp);
     expect(knapper).has.length(1);
@@ -247,7 +253,7 @@ describe('<FlyttReservasjonModal>', () => {
     };
     const wrapper = shallowWithIntl(
       <FlyttReservasjonModal
-        intl={intlMock}
+        intl={intl as IntlShape}
         showModal
         oppgave={oppgave}
         closeModal={sinon.spy()}
@@ -257,8 +263,8 @@ describe('<FlyttReservasjonModal>', () => {
         erSaksbehandlerSokStartet={false}
         erSaksbehandlerSokFerdig={false}
       />,
-    ).find(Form).last().drill((props) => props.render(formProps))
-      .shallow();
+      // @ts-ignore
+    ).find(Form).last().renderProp('render')(formProps);
 
     const knapper = wrapper.find(Hovedknapp);
     expect(knapper).has.length(1);
@@ -280,7 +286,7 @@ describe('<FlyttReservasjonModal>', () => {
     };
     const wrapper = shallowWithIntl(
       <FlyttReservasjonModal
-        intl={intlMock}
+        intl={intl as IntlShape}
         showModal
         oppgave={oppgave}
         closeModal={sinon.spy()}
@@ -291,8 +297,8 @@ describe('<FlyttReservasjonModal>', () => {
         erSaksbehandlerSokFerdig={false}
         saksbehandler={saksbehandler}
       />,
-    ).find(Form).last().drill((props) => props.render(formProps))
-      .shallow();
+      // @ts-ignore
+    ).find(Form).last().renderProp('render')(formProps);
 
     const knapper = wrapper.find(Hovedknapp);
     expect(knapper).has.length(1);
