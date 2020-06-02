@@ -20,7 +20,7 @@ describe('<OppgaveHandlingerMenu>', () => {
     eksternId: '1',
     status: {
       erReservert: false,
-      reservertTilTidspunkt: moment().add(2, 'hours').format(),
+      reservertTilTidspunkt: '2020-02-02T23:59',
     },
     saksnummer: '1',
     behandlingId: 2,
@@ -44,7 +44,7 @@ describe('<OppgaveHandlingerMenu>', () => {
     },
   };
 
-  it('skal rendre meny med to knapper og vise tiden som står igjen av reservasjonen', () => {
+  it('skal rendre meny med to knapper og vise tidspunkt reservasjonen gjelder til', () => {
     const wrapper = shallow(
       <OppgaveHandlingerMenu
         toggleMenu={sinon.spy()}
@@ -64,7 +64,9 @@ describe('<OppgaveHandlingerMenu>', () => {
 
     expect(wrapper.find(MenuButton)).has.length(3);
     const message = wrapper.find(FormattedMessage).first();
-    expect(message.prop('values')).is.eql({ hours: 1, minutes: 59 });
+    const values = message.prop('values') as { date: string; time: string };
+    expect(values.date).is.eql('02.02.2020');
+    expect(values.time).is.eql('23:59');
   });
 
   it('skal vise modal for oppheving av reservasjon ved klikk på menyknapp og så lukke den ved å avbryte i modal', () => {
