@@ -75,7 +75,9 @@ export const lagreOppgavekoFagsakYtelseType = (id: string, fagsakYtelseType: str
     .then(() => dispatch(fetchAlleOppgavekoer()));
 };
 
-export const lagreOppgavekoAndreKriterier = (id: string, andreKriterierType: string, isChecked: boolean, inkluder: boolean) => (dispatch: Dispatch<any>) => dispatch(
+export const lagreOppgavekoAndreKriterier = (id: string, andreKriterierType: string, isChecked: boolean, inkluder: boolean) => (
+  dispatch: Dispatch<any>,
+) => dispatch(
   k9LosApi.LAGRE_OPPGAVEKO_ANDRE_KRITERIER.makeRestApiRequest()({
     id,
     andreKriterierType,
