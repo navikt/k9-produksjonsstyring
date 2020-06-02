@@ -1,5 +1,5 @@
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 const merge = require('webpack-merge');
@@ -19,9 +19,10 @@ const config = {
   ],
 
   output: {
-    filename: 'bundle-[hash].js',
+    filename: '[name]-[contenthash].js',
+    chunkFilename: '[name].[contenthash].chunk.js',
     path: path.resolve(__dirname, '../dist/public'),
-    publicPath: 'public',
+    publicPath: 'public/',
   },
 
   plugins: [
@@ -44,6 +45,10 @@ const config = {
       }),
       new OptimizeCSSAssetsPlugin({}),
     ],
+    minimize: false,
+    splitChunks: {
+      chunks: 'all',
+    },
   },
 
   stats: {

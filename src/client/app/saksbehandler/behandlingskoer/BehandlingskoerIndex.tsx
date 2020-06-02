@@ -17,7 +17,7 @@ import {
 } from './duck';
 import OppgavekoPanel from './components/OppgavekoPanel';
 
-type TsProps = Readonly<{
+interface DispatchProps {
   fetchOppgaverTilBehandling: (id: string) => Promise<{payload: any }>;
   fetchOppgaverTilBehandlingOppgaver: (id: string) => Promise<{payload: any }>;
   fetchAlleOppgavekoer: () => void;
@@ -31,7 +31,7 @@ type TsProps = Readonly<{
   k9tilbakeUrl: string;
   goToUrl: (url: string) => void;
   setValgtOppgavekoId: (id: string) => void;
-}>
+}
 
 interface StateProps {
   id?: string;
@@ -42,7 +42,7 @@ interface StateProps {
 /**
  * BehandlingskoerIndex
  */
-export class BehandlingskoerIndex extends Component<TsProps, StateProps> {
+export class BehandlingskoerIndex extends Component<DispatchProps, StateProps> {
   state = {
     id: undefined, reservertAvAnnenSaksbehandler: false, reservertOppgave: undefined, reservertOppgaveStatus: undefined,
   };
@@ -79,23 +79,23 @@ export class BehandlingskoerIndex extends Component<TsProps, StateProps> {
     }
   }
 
-  fetchOppgavekoOppgaverPolling = (koId: string) => {
+  fetchOppgavekoOppgaverPolling = () => {
     const { fetchOppgaverTilBehandlingOppgaver: fetchTilBehandling, fetchReserverteOppgaver: fetchReserverte } = this.props;
-    fetchReserverte(koId);
-    fetchTilBehandling(koId).then(() => {
-      const { id } = this.state;
-      if (koId === id) { setTimeout(() => { this.fetchOppgavekoOppgaverPolling(id); }, 5000); } else Promise.resolve();
+    const { id } = this.state;
+    fetchReserverte(id);
+    fetchTilBehandling(id).then(() => {
+      setTimeout(() => { this.fetchOppgavekoOppgaverPolling(); }, 5000);
     }).catch(() => undefined);
   }
 
   fetchOppgavekoOppgaver = (id: string) => {
-    this.setState(prevState => ({ ...prevState, id }));
+    this.setState((prevState) => ({ ...prevState, id }));
     const { fetchOppgaverTilBehandling: fetchTilBehandling, fetchReserverteOppgaver: fetchReserverte, setValgtOppgavekoId: setOppgavekoId } = this.props;
     setOppgavekoId(id);
     fetchReserverte(id);
-    fetchTilBehandling(id).then(response =>
-        // eslint-disable-next-line react/destructuring-assignment,implicit-arrow-linebreak
-       (id === this.state.id ? this.fetchOppgavekoOppgaverPolling(id) : Promise.resolve()));
+    fetchTilBehandling(id).then((response) =>
+    // eslint-disable-next-line react/destructuring-assignment,implicit-arrow-linebreak
+      (id === this.state.id ? this.fetchOppgavekoOppgaverPolling(id) : Promise.resolve()));
   }
 
   openSak = (oppgave: Oppgave) => {
@@ -126,7 +126,7 @@ export class BehandlingskoerIndex extends Component<TsProps, StateProps> {
         if (nyOppgaveStatus.erReservert && nyOppgaveStatus.erReservertAvInnloggetBruker) {
           this.openSak(oppgave);
         } else if (nyOppgaveStatus.erReservert && !nyOppgaveStatus.erReservertAvInnloggetBruker) {
-          this.setState(prevState => ({
+          this.setState((prevState) => ({
             ...prevState,
             reservertAvAnnenSaksbehandler: true,
             reservertOppgave: oppgave,
@@ -168,7 +168,7 @@ export class BehandlingskoerIndex extends Component<TsProps, StateProps> {
   }
 
   lukkErReservertModalOgOpneOppgave = (oppgave: Oppgave) => {
-    this.setState(prevState => ({
+    this.setState((prevState) => ({
       ...prevState, reservertAvAnnenSaksbehandler: false, reservertOppgave: undefined, reservertOppgaveStatus: undefined,
     }));
     this.openSak(oppgave);
@@ -200,22 +200,21 @@ export class BehandlingskoerIndex extends Component<TsProps, StateProps> {
             oppgave={reservertOppgave}
             oppgaveStatus={reservertOppgaveStatus}
           />
-        )
-        }
+        )}
       </>
     );
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   k9sakUrl: getK9sakUrl(state),
   k9tilbakeUrl: getK9tilbakeUrl(state),
   oppgavekoer: getOppgavekoResult(state),
-  goToUrl: url => window.location.assign(url),
+  goToUrl: (url) => window.location.assign(url),
 });
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  ...bindActionCreators({
+const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => ({
+  ...bindActionCreators<DispatchProps, any>({
     fetchAlleOppgavekoer,
     fetchOppgaverTilBehandling,
     fetchOppgaverTilBehandlingOppgaver,

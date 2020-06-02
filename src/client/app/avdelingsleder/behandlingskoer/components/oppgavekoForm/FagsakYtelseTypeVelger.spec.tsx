@@ -5,20 +5,23 @@ import { shallow } from 'enzyme';
 
 import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
 import { RadioOption, RadioGroupField } from 'form/FinalFields';
-import { FagsakYtelseTypeVelger } from './FagsakYtelseTypeVelger';
+import kodeverkTyper from 'kodeverk/kodeverkTyper';
+import FagsakYtelseTypeVelger from './FagsakYtelseTypeVelger';
 
 describe('<FagsakYtelseTypeVelger>', () => {
   it('skal vise checkboxer for ytelsetyper', () => {
-    const fagsakYtelseTyper = [{
-      kode: fagsakYtelseType.OMSORGSPENGER,
-      navn: 'Engangsstønad',
-    }, {
-      kode: fagsakYtelseType.PLEIEPENGER_SYKT_BARN,
-      navn: 'Svangerskapspenger',
-    }];
+    const alleKodeverk = {
+      [kodeverkTyper.FAGSAK_YTELSE_TYPE]: [{
+        kode: fagsakYtelseType.OMSORGSPENGER,
+        navn: 'Omsorgspenger',
+      }, {
+        kode: fagsakYtelseType.PLEIEPENGER_SYKT_BARN,
+        navn: 'Pleiepenger sykt barn',
+      }],
+    };
 
     const wrapper = shallow(<FagsakYtelseTypeVelger
-      fagsakYtelseTyper={fagsakYtelseTyper}
+      alleKodeverk={alleKodeverk}
       valgtOppgavekoId="1"
       lagreOppgavekoFagsakYtelseType={sinon.spy()}
     />);
@@ -31,14 +34,16 @@ describe('<FagsakYtelseTypeVelger>', () => {
   });
 
   it('skal lagre ytelsetype ved klikk på checkbox', () => {
-    const fagsakYtelseTyper = [{
-      kode: fagsakYtelseType.OMSORGSPENGER,
-      navn: 'Engangsstønad',
-    }];
+    const alleKodeverk = {
+      [kodeverkTyper.FAGSAK_YTELSE_TYPE]: [{
+        kode: fagsakYtelseType.OMSORGSPENGER,
+        navn: 'Engangsstønad',
+      }],
+    };
     const lagreYtelseTypeFn = sinon.spy();
 
     const wrapper = shallow(<FagsakYtelseTypeVelger
-      fagsakYtelseTyper={fagsakYtelseTyper}
+      alleKodeverk={alleKodeverk}
       valgtOppgavekoId="1"
       lagreOppgavekoFagsakYtelseType={lagreYtelseTypeFn}
     />);

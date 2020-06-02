@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import {
- Normaltekst, Undertekst, Element, Undertittel,
+  Normaltekst, Undertekst, Element, Undertittel,
 } from 'nav-frontend-typografi';
 
 import { getKodeverk } from 'kodeverk/duck';
@@ -54,7 +54,7 @@ interface StateTsProps {
   valgtOppgaveko?: Oppgaveko;
 }
 
-const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
+const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 /**
  * GjeldendeOppgavekoerTabell
@@ -97,7 +97,7 @@ export class GjeldendeOppgavekoerTabell extends Component<TsProps, StateTsProps>
 
   setValgtOppgaveko = async (event: Event, id: string) => {
     const { setValgtOppgavekoId, hentOppgavekoer } = this.props;
-    if (this.nodes.some(node => node && node.contains(event.target))) {
+    if (this.nodes.some((node) => node && node.contains(event.target))) {
       return;
     }
 
@@ -117,11 +117,11 @@ export class GjeldendeOppgavekoerTabell extends Component<TsProps, StateTsProps>
   };
 
   visFjernOppgavekoModal = (valgtOppgaveko: Oppgaveko) => {
-    this.setState(prevState => ({ ...prevState, valgtOppgaveko }));
+    this.setState((prevState) => ({ ...prevState, valgtOppgaveko }));
   }
 
   closeSletteModal = () => {
-    this.setState(prevState => ({ ...prevState, valgtOppgaveko: undefined }));
+    this.setState((prevState) => ({ ...prevState, valgtOppgaveko: undefined }));
   }
 
   fjernOppgaveko = (oppgaveko: Oppgaveko) => {
@@ -139,7 +139,7 @@ export class GjeldendeOppgavekoerTabell extends Component<TsProps, StateTsProps>
 
     const { fagsakYtelseTyper } = this.props;
     return valgteFagsakYtelseTyper.map((fyt) => {
-      const type = fagsakYtelseTyper.find(def => def.kode === fyt.kode);
+      const type = fagsakYtelseTyper.find((def) => def.kode === fyt.kode);
       return type ? type.navn : '';
     }).join(', ');
   };
@@ -153,7 +153,7 @@ export class GjeldendeOppgavekoerTabell extends Component<TsProps, StateTsProps>
     }
 
     return valgteBehandlingTyper.map((bt) => {
-      const type = behandlingTyper.find(def => def.kode === bt.kode);
+      const type = behandlingTyper.find((def) => def.kode === bt.kode);
       return type ? type.navn : '';
     }).join(', ');
   };
@@ -190,11 +190,10 @@ export class GjeldendeOppgavekoerTabell extends Component<TsProps, StateTsProps>
             <Normaltekst><FormattedMessage id="GjeldendeOppgavekoerTabell.IngenLister" /></Normaltekst>
             <VerticalSpacer eightPx />
           </>
-        )
-        }
+        )}
         {oppgavekoer.length > 0 && (
         <Table headerTextCodes={headerTextCodes}>
-          {oppgavekoer.map(oppgaveko => (
+          {oppgavekoer.map((oppgaveko) => (
             <TableRow
               key={oppgaveko.id}
               className={oppgaveko.id === valgtOppgavekoId ? styles.isSelected : undefined}
@@ -250,9 +249,9 @@ export class GjeldendeOppgavekoerTabell extends Component<TsProps, StateTsProps>
   }
 }
 
-const mapStateToProps = state => ({
-  behandlingTyper: getKodeverk(kodeverkTyper.BEHANDLING_TYPE)(state),
-  fagsakYtelseTyper: getKodeverk(kodeverkTyper.FAGSAK_YTELSE_TYPE)(state),
+const mapStateToProps = (state) => ({
+  behandlingTyper: getKodeverk(state)[kodeverkTyper.BEHANDLING_TYPE],
+  fagsakYtelseTyper: getKodeverk(state)[kodeverkTyper.FAGSAK_YTELSE_TYPE],
   oppgaverTotalt: getAntallOppgaverTotaltResultat(state),
 });
 

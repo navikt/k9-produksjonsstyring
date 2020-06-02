@@ -58,7 +58,7 @@ export class EndreSaksbehandlereIndex extends Component<TsProps> {
     }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   alleSaksbehandlere: getSaksbehandlere(state),
 });
 

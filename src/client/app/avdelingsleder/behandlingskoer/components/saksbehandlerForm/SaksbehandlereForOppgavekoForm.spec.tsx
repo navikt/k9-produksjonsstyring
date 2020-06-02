@@ -37,7 +37,7 @@ describe('<SaksbehandlereForOppgavekoForm>', () => {
       valgtOppgaveko={oppgaveko}
       alleSaksbehandlere={saksbehandlere}
       knyttSaksbehandlerTilOppgaveko={sinon.spy()}
-    />).find(Form).drill(props => props.render()).shallow();
+    />).find(Form).renderProp('render')();
 
     expect(wrapper.find(FormattedMessage)).to.have.length(1);
 
@@ -67,7 +67,7 @@ describe('<SaksbehandlereForOppgavekoForm>', () => {
       valgtOppgaveko={oppgaveko}
       alleSaksbehandlere={saksbehandlere}
       knyttSaksbehandlerTilOppgaveko={sinon.spy()}
-    />).find(Form).drill(props => props.render()).shallow();
+    />).find(Form).renderProp('render')();
 
     expect(wrapper.find(FormattedMessage)).to.have.length(1);
 

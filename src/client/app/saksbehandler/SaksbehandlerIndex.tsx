@@ -16,24 +16,24 @@ interface TsProps {
 }
 
 export const SaksbehandlerIndex = ({
-    kanSaksbehandle,
+  kanSaksbehandle,
 }: TsProps) => {
-    if (!kanSaksbehandle) {
-        return <IkkeTilgangTilAvdelingslederPanel />;
-    }
-    return <SaksbehandlerDashboard />;
+  if (!kanSaksbehandle) {
+    return <IkkeTilgangTilAvdelingslederPanel />;
+  }
+  return <SaksbehandlerDashboard />;
 };
 
 SaksbehandlerIndex.propTypes = {
-    kanSaksbehandle: PropTypes.bool,
+  kanSaksbehandle: PropTypes.bool,
 };
 
-const mapStateToProps = state => ({
-    kanSaksbehandle: getNavAnsattKanSaksbehandle(state),
+const mapStateToProps = (state) => ({
+  kanSaksbehandle: getNavAnsattKanSaksbehandle(state),
 });
 
 SaksbehandlerIndex.defaultProps = {
-    kanSaksbehandle: false,
+  kanSaksbehandle: false,
 };
 
 export default (connect(mapStateToProps)(SaksbehandlerIndex));

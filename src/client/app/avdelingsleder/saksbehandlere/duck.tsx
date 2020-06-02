@@ -6,7 +6,7 @@ export const fetchAlleSaksbehandlere = k9LosApi.SAKSBEHANDLERE.makeRestApiReques
 export const getSaksbehandlere = k9LosApi.SAKSBEHANDLERE.getRestApiData();
 
 export const findSaksbehandler = (epost: string) => (dispatch: Dispatch) => dispatch(k9LosApi.SAKSBEHANDLER_SOK.makeRestApiRequest()(
-    { epost },
+  { epost },
 ));
 export const getSaksbehandler = k9LosApi.SAKSBEHANDLER_SOK.getRestApiData();
 export const getSaksbehandlerSokFinished = k9LosApi.SAKSBEHANDLER_SOK.getRestApiFinished();

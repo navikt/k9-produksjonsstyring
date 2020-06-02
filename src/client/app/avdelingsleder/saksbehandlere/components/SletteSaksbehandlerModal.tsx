@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { FunctionComponent } from 'react';
 import PropTypes from 'prop-types';
-import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
+import { injectIntl, WrappedComponentProps, FormattedMessage } from 'react-intl';
 import { Row, Column } from 'nav-frontend-grid';
 import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
 import { Normaltekst } from 'nav-frontend-typografi';
@@ -10,7 +10,6 @@ import Modal from 'sharedComponents/Modal';
 
 import advarselImageUrl from 'images/advarsel.svg';
 import { Saksbehandler } from '../saksbehandlerTsType';
-import saksbehandlerPropType from '../saksbehandlerPropType';
 
 import styles from './sletteSaksbehandlerModal.less';
 
@@ -26,7 +25,7 @@ type TsProps = Readonly<{
  *
  * Presentasjonskomponent. Modal som lar en avdelingsleder fjerne tilgjengelige saksbehandlere.
  */
-export const SletteSaksbehandlerModal = ({
+const SletteSaksbehandlerModal: FunctionComponent<TsProps & WrappedComponentProps> = ({
   intl,
   valgtSaksbehandler,
   closeSletteModal,
@@ -41,7 +40,11 @@ export const SletteSaksbehandlerModal = ({
   >
     <Row>
       <Column xs="1">
-        <Image className={styles.image} altCode="SletteSaksbehandlerModal.SletteModal" src={advarselImageUrl} />
+        <Image
+          className={styles.image}
+          alt={intl.formatMessage({ id: 'SletteSaksbehandlerModal.SletteModal' })}
+          src={advarselImageUrl}
+        />
         <div className={styles.divider} />
       </Column>
       <Column xs="6" className={styles.text}>
@@ -71,12 +74,5 @@ export const SletteSaksbehandlerModal = ({
     </Row>
   </Modal>
 );
-
-SletteSaksbehandlerModal.propTypes = {
-  intl: intlShape.isRequired,
-  fjernSaksbehandler: PropTypes.func.isRequired,
-  closeSletteModal: PropTypes.func.isRequired,
-  valgtSaksbehandler: saksbehandlerPropType.isRequired,
-};
 
 export default injectIntl(SletteSaksbehandlerModal);

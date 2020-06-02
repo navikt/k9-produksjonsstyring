@@ -23,8 +23,8 @@ class AppConfigResolver extends Component<TsProps> {
     fetchNavAnsatt: PropTypes.func.isRequired,
     fetchKodeverk: PropTypes.func.isRequired,
     fetchK9sakUrl: PropTypes.func.isRequired,
- //   fetchFptilbakeUrl: PropTypes.func.isRequired,
- //   fetchFeatureToggles: PropTypes.func.isRequired,
+    //   fetchFptilbakeUrl: PropTypes.func.isRequired,
+    //   fetchFeatureToggles: PropTypes.func.isRequired,
   };
 
   constructor(props: TsProps) {
@@ -37,15 +37,15 @@ class AppConfigResolver extends Component<TsProps> {
       fetchNavAnsatt,
       fetchKodeverk,
       fetchK9sakUrl,
-  //    fetchFptilbakeUrl,
-  //    fetchFeatureToggles,
+      //    fetchFptilbakeUrl,
+      //    fetchFeatureToggles,
     } = this.props;
 
     fetchNavAnsatt();
     fetchKodeverk();
     fetchK9sakUrl();
- //   fetchFptilbakeUrl();
- //   fetchFeatureToggles();
+    //   fetchFptilbakeUrl();
+    //   fetchFeatureToggles();
   }
 
   render = () => {
@@ -62,11 +62,11 @@ const mapStateToProps = (state: any) => {
     k9LosApi.NAV_ANSATT.getRestApiFinished()(state),
     k9LosApi.KODEVERK.getRestApiFinished()(state),
     k9LosApi.K9SAK_URL.getRestApiFinished()(state),
-//    k9LosApi.FPTILBAKE_URL.getRestApiFinished()(state),
-//    k9LosApi.FEATURE_TOGGLES.getRestApiFinished()(state),
+    //    k9LosApi.FPTILBAKE_URL.getRestApiFinished()(state),
+    //    k9LosApi.FEATURE_TOGGLES.getRestApiFinished()(state),
   ];
   return {
-    finishedLoadingBlockers: blockers.every(finished => finished),
+    finishedLoadingBlockers: blockers.every((finished) => finished),
   };
 };
 
