@@ -43,7 +43,7 @@ const toggleEventListeners = (turnOnEventListeners, handleOutsideClick) => {
   }
 };
 
-type TsProps = Readonly<{
+interface OwnProps {
   toggleMenu: (valgtOppgave: Oppgave) => void;
   offset: {
     top: number;
@@ -56,9 +56,9 @@ type TsProps = Readonly<{
   finnSaksbehandler: (brukerIdent: string) => Promise<string>;
   resetSaksbehandler: () => Promise<string>;
   flyttReservasjon: (oppgaveId: string, brukerident: string, begrunnelse: string) => Promise<string>;
-}>;
+}
 
-interface TsState {
+interface OwnState {
   showOpphevReservasjonModal: boolean;
   showForlengetReservasjonModal: boolean;
   showFlyttReservasjonModal: boolean;
@@ -67,28 +67,13 @@ interface TsState {
 /**
  * OppgaveHandlingerMenu
  */
-export class OppgaveHandlingerMenu extends Component<TsProps, TsState> {
+export class OppgaveHandlingerMenu extends Component<OwnProps, OwnState> {
   node: any;
 
   menuButtonRef: any;
 
-  static propTypes = {
-    toggleMenu: PropTypes.func.isRequired,
-    offset: PropTypes.shape({
-      top: PropTypes.number.isRequired,
-      left: PropTypes.number.isRequired,
-    }).isRequired,
-    oppgave: oppgavePropType.isRequired,
-    imageNode: PropTypes.shape({}).isRequired,
-    opphevOppgaveReservasjon: PropTypes.func.isRequired,
-    forlengOppgaveReservasjon: PropTypes.func.isRequired,
-    finnSaksbehandler: PropTypes.func.isRequired,
-    resetSaksbehandler: PropTypes.func.isRequired,
-    flyttReservasjon: PropTypes.func.isRequired,
-  };
-
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
       showOpphevReservasjonModal: false,
@@ -109,7 +94,7 @@ export class OppgaveHandlingerMenu extends Component<TsProps, TsState> {
     toggleEventListeners(false, this.handleOutsideClick);
   }
 
-  handleOutsideClick = (event: Event | SyntheticKeyboardEvent<HTMLButtonElement>) => {
+  handleOutsideClick = (event: MouseEvent<HTMLButtonElement>) => {
     const { imageNode } = this.props;
     // ignore clicks on the component itself
     const harKlikketMeny = this.node && this.node.contains(event.target);

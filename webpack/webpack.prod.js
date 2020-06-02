@@ -15,7 +15,7 @@ const config = {
 
   entry: [
     'babel-polyfill',
-    APP_DIR + '/index.tsx',
+    `${APP_DIR}/index.tsx`,
   ],
 
   output: {
@@ -45,6 +45,7 @@ const config = {
       }),
       new OptimizeCSSAssetsPlugin({}),
     ],
+    minimize: false,
     splitChunks: {
       chunks: 'all',
     },
