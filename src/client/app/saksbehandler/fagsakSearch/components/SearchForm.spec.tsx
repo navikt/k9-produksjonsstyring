@@ -10,6 +10,7 @@ import { shallowWithIntl, intlMock } from 'testHelpers/intl-enzyme-test-helper';
 import { InputField } from 'form/FinalFields';
 import { SearchForm } from './SearchForm';
 
+
 describe('<SearchForm>', () => {
   const intl: Partial<IntlShape> = {
     ...intlMock,
