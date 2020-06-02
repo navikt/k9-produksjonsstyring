@@ -163,14 +163,13 @@
   "OppgaveErReservertAvAnnenModal.ReservertAvEnkel": "En annen saksbehandler arbeider nå med denne behandlingen",
   "OppgaveErReservertAvAnnenModal.Ok": "OK",
 
-  "OppgaveHandlingerMenu.LeggTilbake": "Legg behandling</BR>tilbake i felles kø",
-  "OppgaveHandlingerMenu.ForlengReservasjon": "Forleng din reservasjon av</BR>behandlingen med 24 timer",
-  "OppgaveHandlingerMenu.ReservertTid": "<b>Reservert i {hours} timer og {minutes} min.</b>",
-  "OppgaveHandlingerMenu.ReservertTidEnTime": "<b>Reservert i {hours} time og {minutes} min.</b>",
-  "OppgaveHandlingerMenu.ReservertTidUtenTimer": "<b>Reservert i {minutes} min.</b>",
-  "OppgaveHandlingerMenu.FlyttReservasjon": "Flytt reservasjonen til</BR>annen saksbehandler",
+  "OppgaveHandlingerMenu.LeggTilbake": "Legg behandling{br}tilbake i felles kø",
+  "OppgaveHandlingerMenu.ForlengReservasjon": "Forleng din reservasjon av{br}behandlingen med 24 timer",
+  "OppgaveHandlingerMenu.EndreReservasjon": "Reserver behandlingen med dato",
+  "OppgaveHandlingerMenu.ReservertTil": "{b}Reservert til {date} - {time}{b}",
+  "OppgaveHandlingerMenu.FlyttReservasjon": "Flytt reservasjonen til{br}annen saksbehandler",
 
-  "OppgaverPerForsteStonadsdagGraf.DagensDato": "Dagens</BR>dato",
+  "OppgaverPerForsteStonadsdagGraf.DagensDato": "Dagens{br}dato",
 
   "OppgaverPerForsteStonadsdagPanel.FordeltPaForsteStonadsdag": "Antall førstegangsbehandlinger fordelt på første stønadsdag",
 
