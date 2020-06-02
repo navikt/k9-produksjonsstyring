@@ -1,7 +1,6 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { Component, ReactNode } from 'react';
 import { connect } from 'react-redux';
-import { FormattedMessage, FormattedHTMLMessage } from 'react-intl';
+import { FormattedMessage, WrappedComponentProps, injectIntl } from 'react-intl';
 import { bindActionCreators, Dispatch } from 'redux';
 import { Normaltekst, Element } from 'nav-frontend-typografi';
 import NavFrontendChevron from 'nav-frontend-chevron';
@@ -9,7 +8,6 @@ import NavFrontendChevron from 'nav-frontend-chevron';
 import { getDateAndTime } from 'utils/dateUtils';
 import Image from 'sharedComponents/Image';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
-import oppgavePropType from 'saksbehandler/oppgavePropType';
 import { Oppgave } from 'saksbehandler/oppgaveTsType';
 import { OppgaveStatus } from 'saksbehandler/oppgaveStatusTsType';
 import Table from 'sharedComponents/Table';
@@ -20,6 +18,8 @@ import menuIconBlueUrl from 'images/ic-menu-18px_blue.svg';
 import menuIconBlackUrl from 'images/ic-menu-18px_black.svg';
 import bubbletextUrl from 'images/bubbletext.svg';
 import bubbletextFilledUrl from 'images/bubbletext_filled.svg';
+import { getK9sakHref } from 'app/paths';
+import { getK9sakUrl } from 'app/duck';
 import OppgaveHandlingerMenu from './menu/OppgaveHandlingerMenu';
 import {
   getAntallOppgaverForBehandlingskoResultat, getOppgaverTilBehandling, getReserverteOppgaver, finnSaksbehandler, resetSaksbehandler,
@@ -38,13 +38,10 @@ const headerTextCodes = [
 
 type OppgaveMedReservertIndikator = Oppgave & { underBehandling?: boolean };
 
-const getImageIcon = isHoovering => (isHoovering ? menuIconBlueUrl : menuIconBlackUrl);
-const getFlyttetImageIcon = isHoovering => (isHoovering ? bubbletextFilledUrl : bubbletextUrl);
-
 const slaSammenOgMarkerReserverte = (reserverteOppgaver, oppgaverTilBehandling): OppgaveMedReservertIndikator[] => {
   const markedAsUnderBehandling = reserverteOppgaver
-    .filter(reservertOppgave => !oppgaverTilBehandling.some(oppgave => oppgave.eksternId === reservertOppgave.eksternId))
-    .map(f => ({
+    .filter((reservertOppgave) => !oppgaverTilBehandling.some((oppgave) => oppgave.eksternId === reservertOppgave.eksternId))
+    .map((f) => ({
       ...f,
       underBehandling: true,
     }));
@@ -54,11 +51,7 @@ const slaSammenOgMarkerReserverte = (reserverteOppgaver, oppgaverTilBehandling):
 
 const getToggleMenuEvent = (oppgave: OppgaveMedReservertIndikator, toggleMenu) => (oppgave.underBehandling ? () => toggleMenu(oppgave) : undefined);
 
-interface Toolip {
-  header: Element;
-}
-
-type TsProps = Readonly<{
+interface OwnProps {
   oppgaverTilBehandling: Oppgave[];
   reserverteOppgaver: Oppgave[];
   reserverOppgave: (oppgave: Oppgave) => void;
@@ -68,9 +61,10 @@ type TsProps = Readonly<{
   resetSaksbehandler: () => Promise<string>;
   flyttReservasjon: (oppgaveId: string, brukerident: string, begrunnelse: string) => Promise<string>;
   antall: number;
-}>
+  goToFagsak: (saknummer: string, behandlingId?: number) => void;
+}
 
-interface TsState {
+interface State {
   showMenu: boolean;
   valgtOppgaveId?: string;
   offset: {
@@ -82,23 +76,11 @@ interface TsState {
 /**
  * OppgaverTabell
  */
-export class OppgaverTabell extends Component<TsProps, TsState> {
-  nodes: { };
+export class OppgaverTabell extends Component<OwnProps & WrappedComponentProps, State> {
+  nodes: any;
 
-  static propTypes = {
-    oppgaverTilBehandling: PropTypes.arrayOf(oppgavePropType).isRequired,
-    reserverteOppgaver: PropTypes.arrayOf(oppgavePropType).isRequired,
-    reserverOppgave: PropTypes.func.isRequired,
-    opphevOppgaveReservasjon: PropTypes.func.isRequired,
-    forlengOppgaveReservasjon: PropTypes.func.isRequired,
-    finnSaksbehandler: PropTypes.func.isRequired,
-    resetSaksbehandler: PropTypes.func.isRequired,
-    flyttReservasjon: PropTypes.func.isRequired,
-    antall: PropTypes.number.isRequired,
-  };
-
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
       showMenu: false,
@@ -110,12 +92,13 @@ export class OppgaverTabell extends Component<TsProps, TsState> {
     };
   }
 
-  goToFagsak = (event: Event, id: number, oppgave: Oppgave) => {
-    const { reserverOppgave } = this.props;
-    if (this.nodes && Object.keys(this.nodes).some(key => this.nodes[key] && this.nodes[key].contains(event.target))) {
+  reserverOgGoToFagsak = (event: Event, id: number, oppgave: Oppgave) => {
+    const { reserverOppgave, goToFagsak } = this.props;
+    if (this.nodes && Object.keys(this.nodes).some((key) => this.nodes[key] && this.nodes[key].contains(event.target))) {
       return;
     }
     reserverOppgave(oppgave);
+    goToFagsak(oppgave.saksnummer, oppgave.behandlingId);
   };
 
   toggleMenu = (valgtOppgave: Oppgave) => {
@@ -128,7 +111,7 @@ export class OppgaverTabell extends Component<TsProps, TsState> {
     }));
   }
 
-  createTooltip = (oppgaveStatus: OppgaveStatus): Toolip | undefined => {
+  createTooltip = (oppgaveStatus: OppgaveStatus): ReactNode | undefined => {
     const { flyttetReservasjon } = oppgaveStatus;
     if (!flyttetReservasjon) {
       return undefined;
@@ -140,24 +123,25 @@ export class OppgaverTabell extends Component<TsProps, TsState> {
       uid: flyttetReservasjon.uid,
       navn: flyttetReservasjon.navn,
       beskrivelse: flyttetReservasjon.begrunnelse,
+      br: <br />,
     };
-    return {
-      header: <Normaltekst><FormattedHTMLMessage id="OppgaverTabell.OverfortReservasjonTooltip" values={textValues} /></Normaltekst>,
-    };
+    return (
+      <Normaltekst><FormattedMessage id="OppgaverTabell.OverfortReservasjonTooltip" values={textValues} /></Normaltekst>
+    );
   }
 
   render = () => {
     const {
       oppgaverTilBehandling, reserverteOppgaver, opphevOppgaveReservasjon, forlengOppgaveReservasjon,
       finnSaksbehandler: findSaksbehandler, flyttReservasjon,
-      resetSaksbehandler: resetBehandler, antall,
+      resetSaksbehandler: resetBehandler, antall, intl,
     } = this.props;
     const {
       showMenu, offset, valgtOppgaveId,
     } = this.state;
 
     const alleOppgaver = slaSammenOgMarkerReserverte(reserverteOppgaver, oppgaverTilBehandling);
-    const valgtOppgave = reserverteOppgaver.find(o => o.eksternId === valgtOppgaveId);
+    const valgtOppgave = reserverteOppgaver.find((o) => o.eksternId === valgtOppgaveId);
 
     return (
       <>
@@ -167,16 +151,15 @@ export class OppgaverTabell extends Component<TsProps, TsState> {
             <VerticalSpacer eightPx />
             <Normaltekst><FormattedMessage id="OppgaverTabell.IngenOppgaver" /></Normaltekst>
           </>
-        )
-        }
+        )}
         {alleOppgaver.length > 0 && (
           <>
             <Table headerTextCodes={headerTextCodes}>
-              {alleOppgaver.map(oppgave => (
+              {alleOppgaver.map((oppgave) => (
                 <TableRow
                   key={oppgave.eksternId}
-                  onMouseDown={this.goToFagsak}
-                  onKeyDown={this.goToFagsak}
+                  onMouseDown={this.reserverOgGoToFagsak}
+                  onKeyDown={this.reserverOgGoToFagsak}
                   className={oppgave.underBehandling ? styles.isUnderBehandling : undefined}
                   model={oppgave}
                 >
@@ -187,11 +170,10 @@ export class OppgaverTabell extends Component<TsProps, TsState> {
                   <TableColumn>
                     {oppgave.status.flyttetReservasjon && (
                     <Image
-                      imageSrcFunction={getFlyttetImageIcon}
-                      altCode="OppgaverTabell.OverfortReservasjon"
-                      titleCode="OppgaverTabell.OverfortReservasjon"
+                      src={bubbletextUrl}
+                      srcHover={bubbletextFilledUrl}
+                      alt={intl.formatMessage({ id: 'OppgaverTabell.OverfortReservasjon' })}
                       tooltip={this.createTooltip(oppgave.status)}
-                      tabIndex="0"
                     />
                     )}
                   </TableColumn>
@@ -201,12 +183,11 @@ export class OppgaverTabell extends Component<TsProps, TsState> {
                       <div ref={(node) => { this.nodes = { ...this.nodes, [oppgave.eksternId]: node }; }}>
                         <Image
                           className={styles.image}
-                          imageSrcFunction={getImageIcon}
-                          altCode="OppgaverTabell.OppgaveHandlinger"
-                          titleCode="OppgaverTabell.OppgaveHandlinger"
+                          src={menuIconBlackUrl}
+                          srcHover={menuIconBlueUrl}
+                          alt={intl.formatMessage({ id: 'OppgaverTabell.OppgaveHandlinger' })}
                           onMouseDown={getToggleMenuEvent(oppgave, this.toggleMenu)}
                           onKeyDown={getToggleMenuEvent(oppgave, this.toggleMenu)}
-                          tabIndex="0"
                         />
                       </div>
                     ) }
@@ -226,8 +207,7 @@ export class OppgaverTabell extends Component<TsProps, TsState> {
                 resetSaksbehandler={resetBehandler}
                 flyttReservasjon={flyttReservasjon}
               />
-            )
-            }
+            )}
           </>
         )}
       </>
@@ -235,10 +215,15 @@ export class OppgaverTabell extends Component<TsProps, TsState> {
   }
 }
 
-const mapStateToProps = state => ({
+const getGoToFagsakFn = (k9sakUrl) => (saksnummer, behandlingId) => {
+  window.location.assign(getK9sakHref(k9sakUrl, saksnummer, behandlingId));
+};
+
+const mapStateToProps = (state) => ({
   antall: getAntallOppgaverForBehandlingskoResultat(state) || 0,
   oppgaverTilBehandling: getOppgaverTilBehandling(state) || [],
   reserverteOppgaver: getReserverteOppgaver(state) || [],
+  goToFagsak: getGoToFagsakFn(getK9sakUrl(state)),
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
@@ -248,4 +233,4 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   }, dispatch),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(OppgaverTabell);
+export default connect(mapStateToProps, mapDispatchToProps)(injectIntl(OppgaverTabell));

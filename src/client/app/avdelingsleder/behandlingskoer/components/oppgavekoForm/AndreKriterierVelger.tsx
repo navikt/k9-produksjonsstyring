@@ -1,53 +1,53 @@
-import React, { Fragment } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import React, { Fragment, FunctionComponent } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Undertekst } from 'nav-frontend-typografi';
 
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
-import kodeverkPropType from 'kodeverk/kodeverkPropType';
-import { getKodeverk } from 'kodeverk/duck';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import ArrowBox from 'sharedComponents/ArrowBox';
 import { Kodeverk } from 'kodeverk/kodeverkTsType';
 import { CheckboxField, RadioGroupField, RadioOption } from 'form/FinalFields';
+
 import styles from './andreKriterierVelger.less';
 
-interface TsProps {
+interface OwnProps {
+  alleKodeverk: {[key: string]: Kodeverk[]};
   valgtOppgavekoId: string;
-  lagreOppgavekoAndreKriterier: (oppgavekoId: string, andreKriterierType: Kodeverk, isChecked: boolean, inkluder: boolean) => void;
-  andreKriterierTyper: Kodeverk[];
+  lagreOppgavekoAndreKriterier: (oppgavekoId: string, andreKriterierType: Kodeverk, isChecked: boolean, skalInkludere: boolean) => void;
   values: any;
 }
 
 /**
  * AndreKriterierVelger
  */
-export const AndreKriterierVelger = ({
+const AndreKriterierVelger: FunctionComponent<OwnProps> = ({
+  alleKodeverk,
   valgtOppgavekoId,
   lagreOppgavekoAndreKriterier,
-  andreKriterierTyper,
-    values,
-}: TsProps) => (
+  values,
+}) => (
   <>
     <Undertekst>
       <FormattedMessage id="AndreKriterierVelger.AndreKriterier" />
     </Undertekst>
     <VerticalSpacer eightPx />
-    {andreKriterierTyper.map(akt => (
+    {alleKodeverk[kodeverkTyper.ANDRE_KRITERIER_TYPE].map((akt) => (
       <Fragment key={akt.kode}>
+        <VerticalSpacer fourPx />
         <CheckboxField
           key={akt.kode}
           name={akt.kode}
           label={akt.navn}
-          onChange={isChecked => lagreOppgavekoAndreKriterier(valgtOppgavekoId, akt, isChecked, true)}
+          onChange={(isChecked) => lagreOppgavekoAndreKriterier(valgtOppgavekoId, akt, isChecked, true)}
         />
         {values[akt.kode] && (
+        <>
+          <VerticalSpacer sixteenPx />
           <div className={styles.arrowbox}>
             <ArrowBox alignOffset={30}>
               <RadioGroupField
                 name={`${akt.kode}_inkluder`}
-                onChange={skalInkludere => lagreOppgavekoAndreKriterier(valgtOppgavekoId, akt, true, skalInkludere)}
+                onChange={(skalInkludere) => lagreOppgavekoAndreKriterier(valgtOppgavekoId, akt, true, skalInkludere)}
               >
                 <RadioOption
                   value
@@ -60,21 +60,11 @@ export const AndreKriterierVelger = ({
               </RadioGroupField>
             </ArrowBox>
           </div>
+        </>
         )}
       </Fragment>
-    ))
-    }
+    ))}
   </>
 );
 
-AndreKriterierVelger.propTypes = {
-  valgtOppgavekoId: PropTypes.string.isRequired,
-  lagreOppgavekoAndreKriterier: PropTypes.func.isRequired,
-  andreKriterierTyper: PropTypes.arrayOf(kodeverkPropType).isRequired,
-};
-
-const mapStateToProps = state => ({
-  andreKriterierTyper: getKodeverk(kodeverkTyper.ANDRE_KRITERIER_TYPE)(state),
-});
-
-export default connect(mapStateToProps)(AndreKriterierVelger);
+export default AndreKriterierVelger;

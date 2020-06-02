@@ -118,8 +118,7 @@ class Datepicker extends Component {
           className={styles.calendarRoot}
           dayPickerClassName={styles.calendarWrapper}
         />
-        )
-        }
+        )}
       </>
     );
   }

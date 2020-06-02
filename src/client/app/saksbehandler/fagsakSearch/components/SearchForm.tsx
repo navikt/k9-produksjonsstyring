@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { FunctionComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
-  injectIntl, intlShape, FormattedMessage, FormattedHTMLMessage,
+  injectIntl, WrappedComponentProps, FormattedMessage, FormattedHTMLMessage,
 } from 'react-intl';
 
 import { Form } from 'react-final-form';
@@ -42,14 +42,14 @@ interface TsProps {
  *
  * Presentasjonskomponent. Definerer søkefelt og tilhørende søkeknapp.
  */
-export const SearchForm = ({
+export const SearchForm: FunctionComponent<TsProps & WrappedComponentProps> = ({
   intl,
   onSubmit,
   searchStarted,
   searchResultAccessDenied,
   resetSearch,
   kanSaksbehandle,
-}: TsProps) => (
+}) => (
   <Form
     onSubmit={onSubmit}
     render={({ handleSubmit, values }) => (
@@ -59,8 +59,7 @@ export const SearchForm = ({
         <>
           <VerticalSpacer sixteenPx />
         </>
-        )
-        }
+        )}
         <VerticalSpacer eightPx />
         <FlexContainer fluid>
           <FlexRow>
@@ -93,32 +92,14 @@ export const SearchForm = ({
               <FormattedHTMLMessage className={styles.feilmelding} id={searchResultAccessDenied.feilmelding} />
             </FlexColumn>
           </FlexRow>
-          )
-          }
+          )}
         </FlexContainer>
       </form>
     )}
   />
 );
 
-SearchForm.propTypes = {
-  intl: intlShape.isRequired,
-  onSubmit: PropTypes.func.isRequired,
-  searchStarted: PropTypes.bool.isRequired,
-  searchResultAccessDenied: PropTypes.shape({
-    feilmelding: PropTypes.string,
-  }),
-  resetSearch: PropTypes.func.isRequired,
-  kanSaksbehandle: PropTypes.bool.isRequired,
-};
-
-SearchForm.defaultProps = {
-  searchResultAccessDenied: {
-    feilmelding: undefined,
-  },
-};
-
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   kanSaksbehandle: getNavAnsattKanSaksbehandle(state),
 });
 

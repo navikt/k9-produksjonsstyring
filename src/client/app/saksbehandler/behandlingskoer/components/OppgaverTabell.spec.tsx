@@ -2,7 +2,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, IntlShape } from 'react-intl';
 import sinon from 'sinon';
 import NavFrontendChevron from 'nav-frontend-chevron';
 
@@ -13,9 +13,13 @@ import DateLabel from 'sharedComponents/DateLabel';
 import TableRow from 'sharedComponents/TableRow';
 import TableColumn from 'sharedComponents/TableColumn';
 import Image from 'sharedComponents/Image';
+import { intlMock, shallowWithIntl } from 'testHelpers/intl-enzyme-test-helper';
 import { OppgaverTabell } from './OppgaverTabell';
 
 describe('<OppgaverTabell>', () => {
+  const intl: Partial<IntlShape> = {
+    ...intlMock,
+  };
   it('skal vise kriterievelger og liste over neste oppgaver', () => {
     const oppgaverTilBehandling = [{
       eksternId: '1',
@@ -35,7 +39,7 @@ describe('<OppgaverTabell>', () => {
       behandlingsfrist: '2019-03-03',
       erTilSaksbehandling: true,
       fagsakYtelseType: {
-        kode: fagsakYtelseType.FORELDREPRENGER,
+        kode: fagsakYtelseType.OMSORGSPENGER,
         navn: 'K9',
       },
       behandlingStatus: {
@@ -60,7 +64,7 @@ describe('<OppgaverTabell>', () => {
       behandlingsfrist: '2018-03-03',
       erTilSaksbehandling: true,
       fagsakYtelseType: {
-        kode: fagsakYtelseType.FORELDREPRENGER,
+        kode: fagsakYtelseType.OMSORGSPENGER,
         navn: 'FP',
       },
       behandlingStatus: {
@@ -120,7 +124,7 @@ describe('<OppgaverTabell>', () => {
       behandlingsfrist: '2019-03-03',
       erTilSaksbehandling: true,
       fagsakYtelseType: {
-        kode: fagsakYtelseType.FORELDREPRENGER,
+        kode: fagsakYtelseType.OMSORGSPENGER,
         navn: 'K9',
       },
       behandlingStatus: {
@@ -146,7 +150,7 @@ describe('<OppgaverTabell>', () => {
       behandlingsfrist: '2018-03-03',
       erTilSaksbehandling: true,
       fagsakYtelseType: {
-        kode: fagsakYtelseType.FORELDREPRENGER,
+        kode: fagsakYtelseType.OMSORGSPENGER,
         navn: 'FP',
       },
       behandlingStatus: {
@@ -156,6 +160,7 @@ describe('<OppgaverTabell>', () => {
     }];
 
     const wrapper = shallow(<OppgaverTabell
+      intl={intl as IntlShape}
       reserverteOppgaver={reserverteOppgaver}
       oppgaverTilBehandling={oppgaverTilBehandling}
       reserverOppgave={sinon.spy()}
@@ -190,6 +195,7 @@ describe('<OppgaverTabell>', () => {
   it('skal ikke vise liste når en ikke har oppgaver', () => {
     const reserverteOppgaver = [];
     const wrapper = shallow(<OppgaverTabell
+      intl={intl as IntlShape}
       oppgaverTilBehandling={reserverteOppgaver}
       reserverteOppgaver={reserverteOppgaver}
       reserverOppgave={sinon.spy()}
@@ -234,7 +240,7 @@ describe('<OppgaverTabell>', () => {
       behandlingsfrist: '2018-03-03',
       erTilSaksbehandling: true,
       fagsakYtelseType: {
-        kode: fagsakYtelseType.FORELDREPRENGER,
+        kode: fagsakYtelseType.OMSORGSPENGER,
         navn: 'K9',
       },
       behandlingStatus: {
@@ -244,6 +250,7 @@ describe('<OppgaverTabell>', () => {
     }];
 
     const wrapper = shallow(<OppgaverTabell
+      intl={intl as IntlShape}
       reserverteOppgaver={reserverteOppgaver}
       oppgaverTilBehandling={[]}
       reserverOppgave={sinon.spy()}
@@ -266,13 +273,13 @@ describe('<OppgaverTabell>', () => {
     expect(columnsRow1.at(4).find(Image)).has.length(1);
     expect(columnsRow1.at(5).find(Image)).has.length(1);
 
-    const tooltip = columnsRow1.at(4).find(Image).prop('tooltip');
-    expect(tooltip.header.props.children.props.values).is.eql({
-      dato: '02.01.2018',
-      tid: '00:00',
-      uid: '1234556',
-      navn: 'Auto Joachim',
-      beskrivelse: 'Har flytta til deg',
-    });
+    const tooltip = shallowWithIntl(columnsRow1.at(4).find(Image).prop('tooltip'));
+    const values = tooltip.find(FormattedMessage).prop('values') as { dato: string; tid: string; uid: string; navn: string; beskrivelse: string};
+
+    expect(values.dato).is.eql('02.01.2018');
+    expect(values.tid).is.eql('00:00');
+    expect(values.uid).is.eql('1234556');
+    expect(values.navn).is.eql('Auto Joachim');
+    expect(values.beskrivelse).is.eql('Har flytta til deg');
   });
 });

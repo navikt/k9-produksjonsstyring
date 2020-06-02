@@ -28,8 +28,7 @@ const SistBehandledeSaker = ({
     <Undertittel><FormattedMessage id="SistBehandledeSaker.SistBehandledeSaker" /></Undertittel>
     <VerticalSpacer eightPx />
     {sistBehandledeSaker.length === 0
-      && <Normaltekst><FormattedMessage id="SistBehandledeSaker.IngenBehandlinger" /></Normaltekst>
-    }
+      && <Normaltekst><FormattedMessage id="SistBehandledeSaker.IngenBehandlinger" /></Normaltekst>}
     {sistBehandledeSaker.map((sbs, index) => (
       <Fragment key={sbs.behandlingId}>
         <Normaltekst>
@@ -39,8 +38,7 @@ const SistBehandledeSaker = ({
               <Lenke href={getK9sakHref(k9sakUrl, sbs.saksnummer, sbs.behandlingId)}>
                 <FormattedMessage id="SistBehandledeSaker.Behandling" values={{ index: index + 1 }} />
               </Lenke>
-            )
-          }
+            )}
         </Normaltekst>
         <VerticalSpacer eightPx />
       </Fragment>

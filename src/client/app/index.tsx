@@ -11,12 +11,6 @@ import configureStore from './store';
 /* eslint no-undef: "error" */
 const environment = window.location.hostname;
 
-init({
-  dsn: 'https://d863105541bf4d0cb030dd4c6bfb4d05@sentry.gc.nav.no/10',
-  environment,
-});
-
-
 const history = createBrowserHistory({
   basename: '',
 });

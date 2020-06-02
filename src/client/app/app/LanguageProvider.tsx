@@ -1,16 +1,12 @@
 import React, { ReactNode } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { IntlProvider, addLocaleData } from 'react-intl';
-
-import nb from 'react-intl/locale-data/nb';
+import { IntlProvider } from 'react-intl';
 
 import data from '../sprak/nb_NO.json';
 
-addLocaleData(nb);
-
 type TsProps = Readonly<{
-  nbMessages: {};
+  nbMessages: {[key: string]: string};
   children: ReactNode;
 }>
 

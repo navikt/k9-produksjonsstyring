@@ -69,11 +69,11 @@ const getTab = (avdelingslederPanel, activeAvdelingslederPanel, getAvdelingslede
  * AvdelingslederIndex
  */
 export const AvdelingslederIndex = ({
-                                      activeAvdelingslederPanel,
-                                      getAvdelingslederPanelLocation,
-                                      kanOppgavestyre,
-                                      kanBehandleKode6,
-                                    }: TsProps) => {
+  activeAvdelingslederPanel,
+  getAvdelingslederPanelLocation,
+  kanOppgavestyre,
+  kanBehandleKode6,
+}: TsProps) => {
   if (!kanOppgavestyre) {
     return <IkkeTilgangTilAvdelingslederPanel />;
   } if (activeAvdelingslederPanel) {
@@ -81,9 +81,9 @@ export const AvdelingslederIndex = ({
       <AvdelingslederDashboard key={activeAvdelingslederPanel}>
         <div>
           <Tabs tabs={[
-              getTab(AvdelingslederPanels.BEHANDLINGSKOER, activeAvdelingslederPanel, getAvdelingslederPanelLocation),
-              getTab(AvdelingslederPanels.SAKSBEHANDLERE, activeAvdelingslederPanel, getAvdelingslederPanelLocation),
-            ]}
+            getTab(AvdelingslederPanels.BEHANDLINGSKOER, activeAvdelingslederPanel, getAvdelingslederPanelLocation),
+            getTab(AvdelingslederPanels.SAKSBEHANDLERE, activeAvdelingslederPanel, getAvdelingslederPanelLocation),
+          ]}
           />
           <Panel className={styles.panelPadding}>
             {renderAvdelingslederPanel(activeAvdelingslederPanel)}
@@ -113,7 +113,7 @@ const getPanelFromUrlOrDefault = (location) => {
 };
 
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   activeAvdelingslederPanel: getSelectedAvdelingslederPanel(state),
   kanOppgavestyre: getNavAnsattKanOppgavestyre(state),
   kanBehandleKode6: getNavAnsattKanBehandleKode6(state),

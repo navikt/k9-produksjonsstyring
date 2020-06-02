@@ -55,7 +55,7 @@
   "FagsakList.Navn": "Navn",
 
   "FagsakSearch.ZeroSearchResults": "Søket ga ingen treff",
-  "FagsakSearch.FlereApneBehandlinger": "Velg behandlingen du ønsker å åpne/reservere. (Fagsak kan ikke reserveres.)",
+  "FagsakSearch.FlereApneBehandlinger": "Velg behandlingen du ønsker å åpne/reservere.",
 
   "FagsakYtelseTypeVelger.Stonadstype": "Stønadstype",
   "FagsakYtelseTypeVelger.Alle": "Alle",
@@ -154,7 +154,7 @@
   "OppgaverTabell.FristForBehandling": "Frist for behandling",
   "OppgaverTabell.OppgaveHandlinger": "Handlinger på oppgave",
   "OppgaverTabell.OverfortReservasjon": "Overført reservasjon",
-  "OppgaverTabell.OverfortReservasjonTooltip": "Overført reservasjon {dato} - {tid} fra {uid} {navn}</BR></BR>{beskrivelse}",
+  "OppgaverTabell.OverfortReservasjonTooltip": "Overført reservasjon {dato} - {tid} fra {uid} {navn}{br}{br}{beskrivelse}",
 
   "OkAvbrytModal.Ok": "OK",
   "OkAvbrytModal.Avbryt": "Avbryt",
@@ -163,14 +163,13 @@
   "OppgaveErReservertAvAnnenModal.ReservertAvEnkel": "En annen saksbehandler arbeider nå med denne behandlingen",
   "OppgaveErReservertAvAnnenModal.Ok": "OK",
 
-  "OppgaveHandlingerMenu.LeggTilbake": "Legg behandling</BR>tilbake i felles kø",
-  "OppgaveHandlingerMenu.ForlengReservasjon": "Forleng din reservasjon av</BR>behandlingen med 24 timer",
-  "OppgaveHandlingerMenu.ReservertTid": "<b>Reservert i {hours} timer og {minutes} min.</b>",
-  "OppgaveHandlingerMenu.ReservertTidEnTime": "<b>Reservert i {hours} time og {minutes} min.</b>",
-  "OppgaveHandlingerMenu.ReservertTidUtenTimer": "<b>Reservert i {minutes} min.</b>",
-  "OppgaveHandlingerMenu.FlyttReservasjon": "Flytt reservasjonen til</BR>annen saksbehandler",
+  "OppgaveHandlingerMenu.LeggTilbake": "Legg behandling{br}tilbake i felles kø",
+  "OppgaveHandlingerMenu.ForlengReservasjon": "Forleng din reservasjon av{br}behandlingen med 24 timer",
+  "OppgaveHandlingerMenu.EndreReservasjon": "Reserver behandlingen med dato",
+  "OppgaveHandlingerMenu.ReservertTil": "{b}Reservert til {date} - {time}{b}",
+  "OppgaveHandlingerMenu.FlyttReservasjon": "Flytt reservasjonen til{br}annen saksbehandler",
 
-  "OppgaverPerForsteStonadsdagGraf.DagensDato": "Dagens</BR>dato",
+  "OppgaverPerForsteStonadsdagGraf.DagensDato": "Dagens{br}dato",
 
   "OppgaverPerForsteStonadsdagPanel.FordeltPaForsteStonadsdag": "Antall førstegangsbehandlinger fordelt på første stønadsdag",
 
@@ -256,9 +255,9 @@
   "OppgavekoVelgerForm.Uten": "Uten: {kriterie}",
   "OppgavekoVelgerForm.Saksbehandlere": "Saksbehandlere tilknyttet denne køen",
   "OppgavekoVelgerForm.SaksbehandlerToolip": "Saksbehandlere",
-  "OppgavekoVelgerForm.Sorteringsinfo": "{navn}<BR/>Gjeldende intervall:<BR/>{fomDato} - {tomDato}",
-  "OppgavekoVelgerForm.SorteringsinfoFom": "{navn}<BR/>Fra og med: {fomDato}",
-  "OppgavekoVelgerForm.SorteringsinfoTom": "{navn}<BR/>Til og med: {tomDato}",
+  "OppgavekoVelgerForm.Sorteringsinfo": "{navn}{br}Gjeldende intervall:{br}{fomDato} - {tomDato}",
+  "OppgavekoVelgerForm.SorteringsinfoFom": "{navn}{br}Fra og med: {fomDato}",
+  "OppgavekoVelgerForm.SorteringsinfoTom": "{navn}{br}Til og med: {tomDato}",
 
   "UtvalgskriterierForOppgavekoForm.Utvalgskriterier": "Utvalgskriterier",
   "UtvalgskriterierForOppgavekoForm.Navn": "Navn",

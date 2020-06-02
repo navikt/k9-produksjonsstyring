@@ -41,13 +41,14 @@ export class SaksstotteIndex extends Component<TsProps> {
 
   render = () => {
     const { k9sakUrl, sistBehandledeSaker, valgtOppgavekoId } = this.props;
+
     return (
       <SaksstottePaneler k9sakUrl={k9sakUrl} sistBehandledeSaker={sistBehandledeSaker} valgtOppgavekoId={valgtOppgavekoId} />
     );
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   k9sakUrl: getK9sakUrl(state),
   sistBehandledeSaker: getBehandledeOppgaver(state),
   valgtOppgavekoId: getValgtOppgavekoId(state),

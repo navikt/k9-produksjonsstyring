@@ -1,29 +1,40 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
+import { IntlShape } from 'react-intl';
 
 import { shallowWithIntl, intlMock } from 'testHelpers/intl-enzyme-test-helper';
 import KoSortering from 'kodeverk/KoSortering';
 import { RadioGroupField, RadioOption } from 'form/FinalFields';
-import { SorteringVelger } from './SorteringVelger';
+import kodeverkTyper from 'kodeverk/kodeverkTyper';
+import SorteringVelger from './SorteringVelger';
 
 describe('<SorteringVelger>', () => {
+  const intl: Partial<IntlShape> = {
+    ...intlMock,
+  };
   it('skal vise radioknapper for alle sorteringsvalg', () => {
-    const koSorteringTyper = [{
-      kode: KoSortering.OPPRETT_BEHANDLING,
-      navn: 'opprett',
-    }, {
-      kode: KoSortering.FORSTE_STONADSDAG,
-      navn: 'frist',
-    }];
+    const alleKodeverk = {
+      [kodeverkTyper.KO_SORTERING]: [{
+        kode: KoSortering.OPPRETT_BEHANDLING,
+        navn: 'opprett',
+        felttype: '',
+        feltkategori: '',
+      }, {
+        kode: KoSortering.FORSTE_STONADSDAG,
+        navn: 'frist',
+        felttype: '',
+        feltkategori: '',
+      }],
+    };
 
-    const wrapper = shallowWithIntl(<SorteringVelger
-      intl={intlMock}
-      koSorteringTyper={koSorteringTyper}
+    const wrapper = shallowWithIntl(<SorteringVelger.WrappedComponent
+      intl={intl as IntlShape}
+      alleKodeverk={alleKodeverk}
       valgtOppgavekoId="1"
       lagreOppgavekoSortering={sinon.spy()}
-      lagreOppgavekoSorteringErDynamiskPeriode={sinon.spy()}
       lagreOppgavekoSorteringTidsintervallDato={sinon.spy()}
+      valgteBehandlingtyper={[]}
     />);
 
     const options = wrapper.find(RadioOption);
@@ -33,22 +44,28 @@ describe('<SorteringVelger>', () => {
   });
 
   it('skal lagre sortering ved klikk på radioknapp', () => {
-    const koSorteringTyper = [{
-      kode: KoSortering.OPPRETT_BEHANDLING,
-      navn: 'opprett',
-    }, {
-      kode: KoSortering.FORSTE_STONADSDAG,
-      navn: 'frist',
-    }];
+    const alleKodeverk = {
+      [kodeverkTyper.KO_SORTERING]: [{
+        kode: KoSortering.OPPRETT_BEHANDLING,
+        navn: 'opprett',
+        felttype: '',
+        feltkategori: '',
+      }, {
+        kode: KoSortering.FORSTE_STONADSDAG,
+        navn: 'frist',
+        felttype: '',
+        feltkategori: '',
+      }],
+    };
     const lagreSorteringFn = sinon.spy();
 
-    const wrapper = shallowWithIntl(<SorteringVelger
-      intl={intlMock}
-      koSorteringTyper={koSorteringTyper}
+    const wrapper = shallowWithIntl(<SorteringVelger.WrappedComponent
+      intl={intl as IntlShape}
+      alleKodeverk={alleKodeverk}
       valgtOppgavekoId="1"
       lagreOppgavekoSortering={lagreSorteringFn}
-      lagreOppgavekoSorteringErDynamiskPeriode={sinon.spy()}
       lagreOppgavekoSorteringTidsintervallDato={sinon.spy()}
+      valgteBehandlingtyper={[]}
     />);
 
     const felt = wrapper.find(RadioGroupField);
