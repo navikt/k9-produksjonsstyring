@@ -17,7 +17,7 @@ import {
 } from './duck';
 import OppgavekoPanel from './components/OppgavekoPanel';
 
-type TsProps = Readonly<{
+interface DispatchProps {
   fetchOppgaverTilBehandling: (id: string) => Promise<{payload: any }>;
   fetchOppgaverTilBehandlingOppgaver: (id: string) => Promise<{payload: any }>;
   fetchAlleOppgavekoer: () => void;
@@ -31,7 +31,7 @@ type TsProps = Readonly<{
   k9tilbakeUrl: string;
   goToUrl: (url: string) => void;
   setValgtOppgavekoId: (id: string) => void;
-}>
+}
 
 interface StateProps {
   id?: string;
@@ -42,7 +42,7 @@ interface StateProps {
 /**
  * BehandlingskoerIndex
  */
-export class BehandlingskoerIndex extends Component<TsProps, StateProps> {
+export class BehandlingskoerIndex extends Component<DispatchProps, StateProps> {
   state = {
     id: undefined, reservertAvAnnenSaksbehandler: false, reservertOppgave: undefined, reservertOppgaveStatus: undefined,
   };
@@ -79,12 +79,12 @@ export class BehandlingskoerIndex extends Component<TsProps, StateProps> {
     }
   }
 
-  fetchOppgavekoOppgaverPolling = (koId: string) => {
+  fetchOppgavekoOppgaverPolling = () => {
     const { fetchOppgaverTilBehandlingOppgaver: fetchTilBehandling, fetchReserverteOppgaver: fetchReserverte } = this.props;
-    fetchReserverte(koId);
-    fetchTilBehandling(koId).then(() => {
-      const { id } = this.state;
-      if (koId === id) { setTimeout(() => { this.fetchOppgavekoOppgaverPolling(id); }, 5000); } else Promise.resolve();
+    const { id } = this.state;
+    fetchReserverte(id);
+    fetchTilBehandling(id).then(() => {
+      setTimeout(() => { this.fetchOppgavekoOppgaverPolling(); }, 5000);
     }).catch(() => undefined);
   }
 
@@ -213,8 +213,8 @@ const mapStateToProps = (state) => ({
   goToUrl: (url) => window.location.assign(url),
 });
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  ...bindActionCreators({
+const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => ({
+  ...bindActionCreators<DispatchProps, any>({
     fetchAlleOppgavekoer,
     fetchOppgaverTilBehandling,
     fetchOppgaverTilBehandlingOppgaver,

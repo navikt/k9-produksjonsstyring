@@ -18,6 +18,8 @@ import menuIconBlueUrl from 'images/ic-menu-18px_blue.svg';
 import menuIconBlackUrl from 'images/ic-menu-18px_black.svg';
 import bubbletextUrl from 'images/bubbletext.svg';
 import bubbletextFilledUrl from 'images/bubbletext_filled.svg';
+import { getK9sakHref } from 'app/paths';
+import { getK9sakUrl } from 'app/duck';
 import OppgaveHandlingerMenu from './menu/OppgaveHandlingerMenu';
 import {
   getAntallOppgaverForBehandlingskoResultat, getOppgaverTilBehandling, getReserverteOppgaver, finnSaksbehandler, resetSaksbehandler,
@@ -59,6 +61,7 @@ interface OwnProps {
   resetSaksbehandler: () => Promise<string>;
   flyttReservasjon: (oppgaveId: string, brukerident: string, begrunnelse: string) => Promise<string>;
   antall: number;
+  goToFagsak: (saknummer: string, behandlingId?: number) => void;
 }
 
 interface State {
@@ -89,12 +92,13 @@ export class OppgaverTabell extends Component<OwnProps & WrappedComponentProps, 
     };
   }
 
-  goToFagsak = (event: Event, id: number, oppgave: Oppgave) => {
-    const { reserverOppgave } = this.props;
+  reserverOgGoToFagsak = (event: Event, id: number, oppgave: Oppgave) => {
+    const { reserverOppgave, goToFagsak } = this.props;
     if (this.nodes && Object.keys(this.nodes).some((key) => this.nodes[key] && this.nodes[key].contains(event.target))) {
       return;
     }
     reserverOppgave(oppgave);
+    goToFagsak(oppgave.saksnummer, oppgave.behandlingId);
   };
 
   toggleMenu = (valgtOppgave: Oppgave) => {
@@ -154,8 +158,8 @@ export class OppgaverTabell extends Component<OwnProps & WrappedComponentProps, 
               {alleOppgaver.map((oppgave) => (
                 <TableRow
                   key={oppgave.eksternId}
-                  onMouseDown={this.goToFagsak}
-                  onKeyDown={this.goToFagsak}
+                  onMouseDown={this.reserverOgGoToFagsak}
+                  onKeyDown={this.reserverOgGoToFagsak}
                   className={oppgave.underBehandling ? styles.isUnderBehandling : undefined}
                   model={oppgave}
                 >
@@ -211,10 +215,15 @@ export class OppgaverTabell extends Component<OwnProps & WrappedComponentProps, 
   }
 }
 
+const getGoToFagsakFn = (k9sakUrl) => (saksnummer, behandlingId) => {
+  window.location.assign(getK9sakHref(k9sakUrl, saksnummer, behandlingId));
+};
+
 const mapStateToProps = (state) => ({
   antall: getAntallOppgaverForBehandlingskoResultat(state) || 0,
   oppgaverTilBehandling: getOppgaverTilBehandling(state) || [],
   reserverteOppgaver: getReserverteOppgaver(state) || [],
+  goToFagsak: getGoToFagsakFn(getK9sakUrl(state)),
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
