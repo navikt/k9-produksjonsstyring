@@ -1,0 +1,115 @@
+// CSS-endringer för felleskomponenter og globaler så som fra core/og muligen import fra alla andra komponenter
+@import '@{coreModulePath}nav-frontend-core/less/core';
+@import './dayPicker';
+
+body {
+  background-color: #efefef;
+  color: #3e3832;
+  height: 100%;
+  line-height: 1.42857143;
+  margin: 0;
+}
+
+:global(.cal-wrap) {
+  width: 300px;
+}
+
+:global(.modal__overlay) {
+  background-color: rgba(61, 56, 49, 0.9);
+}
+
+// Text-area custom styling
+:global(.textarea--medMeta__teller) {
+  color: @navMorkGra;
+  font-size: 0.8rem;
+  font-style: italic;
+}
+
+:global(.lenke) {
+  background: none;
+  border: 0;
+  border-bottom: solid 1px @navGra40;
+  color: @navBla;
+  cursor: pointer;
+  padding: 0;
+  text-decoration: none;
+
+  &:hover,
+  &--hover {
+    border-bottom-color: @navBla;
+  }
+
+  &:focus,
+  &--focus {
+    background-color: @orangeFocus;
+    outline: none;
+  }
+
+  &:active,
+  &--active {
+    border-bottom-color: @navDypBla;
+    color: @navDypBla;
+  }
+
+  &--frittstaende {
+    border-bottom: 0;
+  }
+}
+
+:global(.skjemaelement > .skjemaelement) {
+  &__feilmelding {
+    margin-top: 1rem;
+  }
+}
+
+:global(.skjemaelement > .skjemaelement__input) {
+  padding: 9px;
+}
+
+//TODO (TOR) Dette bør kunna gjerast på ein bedre måte (Har lagt til float:left for å få vist to månedar for periodevelgjar)
+:global(.DayPicker-Month) {
+  border-collapse: collapse;
+  border-spacing: 0;
+  display: table;
+  float: left;
+  margin: 0 1rem;
+  margin-top: 1rem;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+:global(.nav-frontend-tabs) {
+  border-bottom: none;
+}
+
+:global(.nav-frontend-tabs__tab-inner--aktiv) {
+  border: none;
+}
+
+.panel-container-mixin {
+  background-color: white;
+  border-radius: 4px;
+  margin-top: 16px;
+  padding: 20px;
+  width: 100%;
+}
+
+.Grid {
+  display: flex;
+}
+
+.Grid-cell {
+  flex: 1;
+}
+
+.Grid--gutters {
+  margin: -1em 0 0 -1em;
+}
+
+@media (max-width: 1024px) {
+  .panel-container-mixin {
+    width: 100%;
+  }
+}

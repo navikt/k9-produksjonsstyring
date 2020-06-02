@@ -5,22 +5,25 @@ import { shallow } from 'enzyme';
 
 import andreKriterierType from 'kodeverk/andreKriterierType';
 import { CheckboxField, RadioGroupField, RadioOption } from 'form/FinalFields';
-import { AndreKriterierVelger } from './AndreKriterierVelger';
+import kodeverkTyper from 'kodeverk/kodeverkTyper';
+import AndreKriterierVelger from './AndreKriterierVelger';
 
 describe('<AndreKriterierVelger>', () => {
-  const andreKriterierTyper = [{
-    kode: andreKriterierType.TIL_BESLUTTER,
-    navn: 'Til beslutter',
-  }, {
-    kode: andreKriterierType.REGISTRER_PAPIRSOKNAD,
-    navn: 'Registrer papirsøknad',
-  }];
+  const andreKriterierTyper = {
+    [kodeverkTyper.ANDRE_KRITERIER_TYPE]: [{
+      kode: andreKriterierType.TIL_BESLUTTER,
+      navn: 'Til beslutter',
+    }, {
+      kode: andreKriterierType.REGISTRER_PAPIRSOKNAD,
+      navn: 'Registrer papirsøknad',
+    }],
+  };
 
   it('skal vise checkbox for Til beslutter', () => {
     const wrapper = shallow(<AndreKriterierVelger
       valgtOppgavekoId="1"
       lagreOppgavekoAndreKriterier={sinon.spy()}
-      andreKriterierTyper={andreKriterierTyper}
+      alleKodeverk={andreKriterierTyper}
       values={{}}
     />);
 
@@ -37,7 +40,7 @@ describe('<AndreKriterierVelger>', () => {
     const wrapper = shallow(<AndreKriterierVelger
       valgtOppgavekoId="1"
       lagreOppgavekoAndreKriterier={sinon.spy()}
-      andreKriterierTyper={andreKriterierTyper}
+      alleKodeverk={andreKriterierTyper}
       values={{}}
     />);
 
@@ -53,7 +56,7 @@ describe('<AndreKriterierVelger>', () => {
     const wrapper = shallow(<AndreKriterierVelger
       valgtOppgavekoId="1"
       lagreOppgavekoAndreKriterier={lagreAndreKriterierFn}
-      andreKriterierTyper={andreKriterierTyper}
+      alleKodeverk={andreKriterierTyper}
       values={{}}
     />);
 
@@ -75,7 +78,7 @@ describe('<AndreKriterierVelger>', () => {
     const wrapper = shallow(<AndreKriterierVelger
       valgtOppgavekoId="1"
       lagreOppgavekoAndreKriterier={lagreAndreKriterierFn}
-      andreKriterierTyper={andreKriterierTyper}
+      alleKodeverk={andreKriterierTyper}
       values={{}}
     />);
 
@@ -97,7 +100,7 @@ describe('<AndreKriterierVelger>', () => {
     const wrapper = shallow(<AndreKriterierVelger
       valgtOppgavekoId="1"
       lagreOppgavekoAndreKriterier={lagreAndreKriterierFn}
-      andreKriterierTyper={andreKriterierTyper}
+      alleKodeverk={andreKriterierTyper}
       values={{
         [andreKriterierType.TIL_BESLUTTER]: true,
         [`${andreKriterierType.TIL_BESLUTTER}_inkluder`]: true,
@@ -114,7 +117,7 @@ describe('<AndreKriterierVelger>', () => {
     const wrapper = shallow(<AndreKriterierVelger
       valgtOppgavekoId="1"
       lagreOppgavekoAndreKriterier={lagreAndreKriterierFn}
-      andreKriterierTyper={andreKriterierTyper}
+      alleKodeverk={andreKriterierTyper}
       values={{
         [andreKriterierType.TIL_BESLUTTER]: true,
         [`${andreKriterierType.TIL_BESLUTTER}_inkluder`]: true,

@@ -53,7 +53,7 @@ const EndreOppgavekoerPanel = ({
   hentAntallOppgaverTotalt,
   lagreOppgavekoSkjermet,
 }: TsProps) => {
-  const valgtOppgaveko = oppgavekoer.find(s => s.id === valgtOppgavekoId);
+  const valgtOppgaveko = oppgavekoer.find((s) => s.id === valgtOppgavekoId);
   return (
     <>
       <GjeldendeOppgavekoerTabell

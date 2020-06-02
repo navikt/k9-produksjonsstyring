@@ -24,11 +24,10 @@ const AlderVisning = ({
 }: TsProps) => (
   <Normaltekst className={styles.displayInline}>
     {doedsdato
-            ? <DateLabel dateString={doedsdato} />
-            : <FormattedMessage id="Person.ManglerDodsdato" />
-        }
+      ? <DateLabel dateString={doedsdato} />
+      : <FormattedMessage id="Person.ManglerDodsdato" />}
   </Normaltekst>
-  );
+);
 AlderVisning.propTypes = {
   doedsdato: PropTypes.string,
 };

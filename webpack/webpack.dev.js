@@ -12,14 +12,14 @@ const config = {
   devtool: 'cheap-module-eval-source-map',
 
   entry: [
-   'babel-polyfill',
-   'webpack-dev-server/client?http://localhost:8030',
-   'webpack/hot/only-dev-server',
+    'babel-polyfill',
+    'webpack-dev-server/client?http://localhost:8030',
+    'webpack/hot/only-dev-server',
     `${APP_DIR}/index.tsx`,
   ],
 
   output: {
-    filename: 'bundle.js',
+    filename: '[name].js',
     path: ROOT_DIR,
     publicPath: '/',
   },
@@ -35,6 +35,9 @@ const config = {
 
   optimization: {
     namedModules: true,
+    splitChunks: {
+      chunks: 'all',
+    },
   },
 
   devServer: {

@@ -94,20 +94,20 @@ export class FagsakSearchIndex extends Component<Props, StateProps> {
     if (!oppgave.status.erReservert || (oppgave.status.erReservert && oppgave.status.erReservertAvInnloggetBruker)) {
       goToFagsak(oppgave.saksnummer, oppgave.behandlingId);
     } else if (oppgave.status.erReservert && !oppgave.status.erReservertAvInnloggetBruker) {
-      this.setState(prevState => ({ ...prevState, reservertAvAnnenSaksbehandler: true, reservertOppgave: oppgave }));
+      this.setState((prevState) => ({ ...prevState, reservertAvAnnenSaksbehandler: true, reservertOppgave: oppgave }));
     }
   }
 
   velgFagsakOperasjoner = (oppgave: Oppgave, reserver: boolean) => {
     const { reserverOppgave, goToFagsak } = this.props;
     if (oppgave.status.erReservert && !oppgave.status.erReservertAvInnloggetBruker) {
-     this.setState(prevState => ({ ...prevState, reservertAvAnnenSaksbehandler: true, reservertOppgave: oppgave }));
+      this.setState((prevState) => ({ ...prevState, reservertAvAnnenSaksbehandler: true, reservertOppgave: oppgave }));
     }
     if (!reserver) {
       this.goToFagsakEllerApneModal(oppgave);
     } else {
       reserverOppgave(oppgave.eksternId).then(() => {
-          goToFagsak(oppgave.saksnummer, oppgave.behandlingId);
+        goToFagsak(oppgave.saksnummer, oppgave.behandlingId);
       });
     }
   };
@@ -121,7 +121,7 @@ export class FagsakSearchIndex extends Component<Props, StateProps> {
       searchFagsaker: search, hentOppgaverForFagsaker, hentReservasjonsstatus,
     } = this.props;
 
-    this.setState(prevState => ({
+    this.setState((prevState) => ({
       ...prevState, skalReservere: values.skalReservere, sokStartet: true, sokFerdig: false,
     }));
 
@@ -129,17 +129,17 @@ export class FagsakSearchIndex extends Component<Props, StateProps> {
       const fagsaker = data.payload;
       if (fagsaker.length > 0) {
         hentOppgaverForFagsaker(fagsaker).then(() => {
-          this.setState(prevState => ({ ...prevState, sokStartet: false, sokFerdig: true }));
+          this.setState((prevState) => ({ ...prevState, sokStartet: false, sokFerdig: true }));
         });
       } else {
-        this.setState(prevState => ({ ...prevState, sokStartet: false, sokFerdig: true }));
+        this.setState((prevState) => ({ ...prevState, sokStartet: false, sokFerdig: true }));
       }
     });
   }
 
   lukkErReservertModalOgOpneOppgave = (oppgave: Oppgave) => {
     const { goToFagsak } = this.props;
-    this.setState(prevState => ({
+    this.setState((prevState) => ({
       ...prevState, reservertAvAnnenSaksbehandler: false, reservertOppgave: undefined,
     }));
     goToFagsak(oppgave.saksnummer, oppgave.behandlingId);
@@ -148,7 +148,7 @@ export class FagsakSearchIndex extends Component<Props, StateProps> {
   resetSearch = () => {
     const { resetFagsakSearch: resetSearch } = this.props;
     resetSearch();
-    this.setState(prevState => ({ ...prevState, sokStartet: false, sokFerdig: false }));
+    this.setState((prevState) => ({ ...prevState, sokStartet: false, sokFerdig: false }));
   }
 
   render = () => {
@@ -177,18 +177,17 @@ export class FagsakSearchIndex extends Component<Props, StateProps> {
           oppgave={reservertOppgave}
           oppgaveStatus={reservertOppgave.status}
         />
-        )
-        }
+        )}
       </>
     );
   }
 }
 
-const getGoToFagsakFn = k9sakUrl => (saksnummer, behandlingId) => {
+const getGoToFagsakFn = (k9sakUrl) => (saksnummer, behandlingId) => {
   window.location.assign(getK9sakHref(k9sakUrl, saksnummer, behandlingId));
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   fagsaker: getFagsaker(state),
   fagsakOppgaver: getFagsakOppgaver(state),
   searchResultAccessDenied: getSearchFagsakerAccessDenied(state),

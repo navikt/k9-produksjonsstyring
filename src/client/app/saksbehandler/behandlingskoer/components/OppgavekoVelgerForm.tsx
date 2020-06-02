@@ -1,33 +1,28 @@
-import React, { Component, Node } from 'react';
-import PropTypes from 'prop-types';
+import React, { Component, ReactNode } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import { Form, FormSpy } from 'react-final-form';
 import {
-  injectIntl, intlShape, FormattedMessage, FormattedHTMLMessage,
+  injectIntl, WrappedComponentProps, FormattedMessage, IntlShape,
 } from 'react-intl';
 import { bindActionCreators, Dispatch } from 'redux';
-import { Element, Undertittel, Normaltekst } from 'nav-frontend-typografi';
-
+import { Element, Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import { DDMMYYYY_DATE_FORMAT } from 'utils/formats';
 import Image from 'sharedComponents/Image';
 import { getValueFromLocalStorage, setValueInLocalStorage, removeValueFromLocalStorage } from 'utils/localStorageHelper';
 import { FlexContainer, FlexRow, FlexColumn } from 'sharedComponents/flexGrid';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import LabelWithHeader from 'sharedComponents/LabelWithHeader';
-import oppgavekoPropType from 'saksbehandler/behandlingskoer/oppgavekoPropType';
 import { Oppgaveko } from 'saksbehandler/behandlingskoer/oppgavekoTsType';
 import { SelectField } from 'form/FinalFields';
 import gruppeHoverUrl from 'images/gruppe_hover.svg';
 import gruppeUrl from 'images/gruppe.svg';
 import { getOppgavekoensSaksbehandlere, fetchAntallOppgaverForBehandlingsko, fetchOppgavekoensSaksbehandlere } from '../duck';
 import { Saksbehandler } from '../saksbehandlerTsType';
-import saksbehandlerPropType from '../saksbehandlerPropType';
 
 import styles from './oppgavekoVelgerForm.less';
 
-interface TsProps {
-  intl: any;
+interface OwnProps {
   oppgavekoer: Oppgaveko[];
   fetchOppgavekoOppgaver: (id: string) => void;
   fetchOppgavekoensSaksbehandlere: (id: string) => void;
@@ -35,15 +30,10 @@ interface TsProps {
   saksbehandlere?: Saksbehandler[];
 }
 
-interface Toolip {
-  header: Node;
-  body: Node;
-}
-
 const getDefaultOppgaveko = (oppgavekoer) => {
   const lagretOppgavekoId = getValueFromLocalStorage('id');
   if (lagretOppgavekoId) {
-    if (oppgavekoer.some(s => `${s.id}` === lagretOppgavekoId)) {
+    if (oppgavekoer.some((s) => `${s.id}` === lagretOppgavekoId)) {
       return lagretOppgavekoId;
     }
     removeValueFromLocalStorage('id');
@@ -65,26 +55,31 @@ const getInitialValues = (oppgavekoer) => {
   };
 };
 
-const getValgtOppgaveko = (oppgavekoer: Oppgaveko[], id: string) => oppgavekoer.find(s => id === `${s.id}`);
+const getValgtOppgaveko = (oppgavekoer: Oppgaveko[], oppgavekoId: string) => oppgavekoer.find((s) => oppgavekoId === `${s.id}`);
 
-const getStonadstyper = (oppgaveko?: Oppgaveko, intl: any) => (oppgaveko && oppgaveko.fagsakYtelseTyper.length > 0
-    ? oppgaveko.fagsakYtelseTyper.map(type => type.navn) : [intl.formatMessage({ id: 'OppgavekoVelgerForm.Alle' })]);
+const getStonadstyper = (intl: IntlShape, oppgaveko?: Oppgaveko) => (oppgaveko && oppgaveko.fagsakYtelseTyper.length > 0
+  ? oppgaveko.fagsakYtelseTyper.map((type) => type.navn) : [intl.formatMessage({ id: 'OppgavekoVelgerForm.Alle' })]);
 
-const getBehandlingstyper = (oppgaveko?: Oppgaveko, intl: any) => (oppgaveko && oppgaveko.behandlingTyper.length > 0
-    ? oppgaveko.behandlingTyper.map(type => type.navn) : [intl.formatMessage({ id: 'OppgavekoVelgerForm.Alle' })]);
+const getBehandlingstyper = (oppgaveko?: Oppgaveko, intl: IntlShape) => (oppgaveko && oppgaveko.behandlingTyper.length > 0
+  ? oppgaveko.behandlingTyper.map((type) => type.navn) : [intl.formatMessage({ id: 'OppgavekoVelgerForm.Alle' })]);
 
-const getAndreKriterier = (oppgaveko?: Oppgaveko, intl: any) => (oppgaveko && oppgaveko.andreKriterier.length > 0
-    ? oppgaveko.andreKriterier.map(ak => ak.navn) : [intl.formatMessage({ id: 'OppgavekoVelgerForm.Alle' })]);
+const getAndreKriterier = (oppgaveko?: Oppgaveko, intl: IntlShape) => (oppgaveko && oppgaveko.andreKriterier.length > 0
+  ? oppgaveko.andreKriterier.map((ak) => ak.navn) : [intl.formatMessage({ id: 'OppgavekoVelgerForm.Alle' })]);
 
-const getSorteringsnavn = (oppgaveko?: Oppgaveko) => {
+const getSorteringsnavn = (oppgaveko?: Oppgaveko, intl: IntlShape) => {
   if (!oppgaveko || !oppgaveko.sortering) {
     return '';
   }
 
   const {
-     sorteringType, fomDato, tomDato,
+    sorteringType, fomDato, tomDato,
   } = oppgaveko.sortering;
-  let values = {};
+  let values = {
+    br: <br />,
+    fomDato: undefined,
+    tomDato: undefined,
+    navn: undefined,
+  };
 
   if (!fomDato && !tomDato) {
     return sorteringType.navn;
@@ -93,32 +88,22 @@ const getSorteringsnavn = (oppgaveko?: Oppgaveko) => {
     navn: sorteringType.navn,
     fomDato: fomDato ? moment(fomDato).format(DDMMYYYY_DATE_FORMAT) : undefined,
     tomDato: tomDato ? moment(tomDato).format(DDMMYYYY_DATE_FORMAT) : undefined,
+    br: <br />,
   };
 
   if (!values.fomDato) {
-    return <FormattedHTMLMessage id="OppgavekoVelgerForm.SorteringsinfoTom" values={values} />;
+    return intl.formatMessage({ id: 'OppgavekoVelgerForm.SorteringsinfoTom' }, values) as string;
   } if (!values.tomDato) {
-    return <FormattedHTMLMessage id="OppgavekoVelgerForm.SorteringsinfoFom" values={values} />;
+    return intl.formatMessage({ id: 'OppgavekoVelgerForm.SorteringsinfoFom' }, values) as string;
   }
-  return <FormattedHTMLMessage id="OppgavekoVelgerForm.Sorteringsinfo" values={values} />;
+  return intl.formatMessage({ id: 'OppgavekoVelgerForm.Sorteringsinfo' }, values) as string;
 };
-
-const imageSrcFunction = isHovering => (isHovering ? gruppeHoverUrl : gruppeUrl);
 
 /**
  * OppgavekoVelgerForm
  *
  */
-export class OppgavekoVelgerForm extends Component<TsProps> {
-  static propTypes = {
-    intl: intlShape.isRequired,
-    oppgavekoer: PropTypes.arrayOf(oppgavekoPropType).isRequired,
-    fetchOppgavekoOppgaver: PropTypes.func.isRequired,
-    fetchOppgavekoensSaksbehandlere: PropTypes.func.isRequired,
-    fetchAntallOppgaverForBehandlingsko: PropTypes.func.isRequired,
-    saksbehandlere: PropTypes.arrayOf(saksbehandlerPropType),
-  };
-
+export class OppgavekoVelgerForm extends Component<OwnProps & WrappedComponentProps> {
   static defaultProps = {
     saksbehandlere: [],
   };
@@ -137,18 +122,20 @@ export class OppgavekoVelgerForm extends Component<TsProps> {
     }
   }
 
-  createTooltip = (): Toolip | undefined => {
+  createTooltip = (): ReactNode | undefined => {
     const {
-      intl, saksbehandlere,
+      saksbehandlere,
     } = this.props;
     if (!saksbehandlere || saksbehandlere.length === 0) {
       return undefined;
     }
 
-    return {
-      header: <Undertittel>{intl.formatMessage({ id: 'OppgavekoVelgerForm.SaksbehandlerToolip' })}</Undertittel>,
-      body: saksbehandlere.map(s => s.epost).sort((n1, n2) => n1.localeCompare(n2)).map(epost => (<Normaltekst key={epost}>{epost}</Normaltekst>)),
-    };
+    return (
+      <div>
+        <Element><FormattedMessage id="OppgavekoVelgerForm.SaksbehandlerToolip" /></Element>
+        {saksbehandlere.map((s) => s.epost).sort((n1, n2) => n1.localeCompare(n2)).map((epost) => (<Normaltekst key={epost}>{epost}</Normaltekst>))}
+      </div>
+    );
   }
 
   render = () => {
@@ -165,14 +152,14 @@ export class OppgavekoVelgerForm extends Component<TsProps> {
             <VerticalSpacer eightPx />
             <FormSpy
               onChange={(val) => {
-                        if (val && val.values.id && val.dirtyFields.id) {
-                          setValueInLocalStorage('id', val.values.id);
-                          const { id } = val.values;
-                          fetchOppgavekoOppgaver(id);
-                          fetchSaksbehandlere(id);
-                          fetchAntallOppgaver(id);
-                        }
-                      }}
+                if (val && val.values.id && val.dirtyFields.id) {
+                  setValueInLocalStorage('id', val.values.id);
+                  const { id } = val.values;
+                  fetchOppgavekoOppgaver(id);
+                  fetchSaksbehandlere(id);
+                  fetchAntallOppgaver(id);
+                }
+              }}
               subscription={{ values: true, dirtyFields: true }}
             />
             <FlexContainer>
@@ -182,7 +169,7 @@ export class OppgavekoVelgerForm extends Component<TsProps> {
                     name="id"
                     label={intl.formatMessage({ id: 'OppgavekoVelgerForm.Oppgaveko' })}
                     selectValues={oppgavekoer
-                                .map(oppgaveko => (<option key={oppgaveko.id} value={`${oppgaveko.id}`}>{oppgaveko.navn}</option>))}
+                      .map((oppgaveko) => (<option key={oppgaveko.id} value={`${oppgaveko.id}`}>{oppgaveko.navn}</option>))}
                     bredde="l"
                   />
                 </FlexColumn>
@@ -191,17 +178,16 @@ export class OppgavekoVelgerForm extends Component<TsProps> {
                     <FlexColumn>
                       <div className={styles.saksbehandlerIkon} />
                       <Image
-                        altCode="OppgavekoVelgerForm.Saksbehandlere"
-                        imageSrcFunction={imageSrcFunction}
-                        tabIndex="0"
+                        alt={intl.formatMessage({ id: 'OppgavekoVelgerForm.Saksbehandlere' })}
+                        src={gruppeUrl}
+                        srcHover={gruppeHoverUrl}
                         tooltip={this.createTooltip()}
-                        alignTooltipArrowLeft
                       />
                     </FlexColumn>
                     <FlexColumn className={styles.marginFilters}>
                       <LabelWithHeader
                         header={intl.formatMessage({ id: 'OppgavekoVelgerForm.Stonadstype' })}
-                        texts={getStonadstyper(getValgtOppgaveko(oppgavekoer, values.id), intl)}
+                        texts={getStonadstyper(intl, getValgtOppgaveko(oppgavekoer, values.id))}
                       />
                     </FlexColumn>
                     <FlexColumn className={styles.marginFilters}>
@@ -219,21 +205,21 @@ export class OppgavekoVelgerForm extends Component<TsProps> {
                     <FlexColumn className={styles.marginFilters}>
                       <LabelWithHeader
                         header={intl.formatMessage({ id: 'OppgavekoVelgerForm.Sortering' })}
-                        texts={[getSorteringsnavn(getValgtOppgaveko(oppgavekoer, values.id))]}
+                        texts={[getSorteringsnavn(getValgtOppgaveko(oppgavekoer, values.id), intl)]}
                       />
                     </FlexColumn>
                   </>
-                      )}
+                )}
               </FlexRow>
             </FlexContainer>
           </form>
-            )}
+        )}
       />
     );
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   saksbehandlere: getOppgavekoensSaksbehandlere(state),
 });
 

@@ -49,11 +49,11 @@ export class SaksbehandlereTabell extends Component<TsProps, StateTsProps> {
   }
 
   showSletteSaksbehandlerModal = (saksbehandler: Saksbehandler) => {
-    this.setState(prevState => ({ ...prevState, valgtSaksbehandler: saksbehandler }));
+    this.setState((prevState) => ({ ...prevState, valgtSaksbehandler: saksbehandler }));
   }
 
   closeSletteModal = () => {
-    this.setState(prevState => ({ ...prevState, valgtSaksbehandler: undefined }));
+    this.setState((prevState) => ({ ...prevState, valgtSaksbehandler: undefined }));
   }
 
   fjernSaksbehandler = (valgtSaksbehandler: Saksbehandler) => {
@@ -83,11 +83,10 @@ export class SaksbehandlereTabell extends Component<TsProps, StateTsProps> {
             <Normaltekst><FormattedMessage id="SaksbehandlereTabell.IngenSaksbehandlere" /></Normaltekst>
             <VerticalSpacer eightPx />
           </>
-        )
-        }
+        )}
         {sorterteSaksbehandlere.length > 0 && (
         <Table headerTextCodes={headerTextCodes} noHover>
-          {sorterteSaksbehandlere.map(saksbehandler => (
+          {sorterteSaksbehandlere.map((saksbehandler) => (
             <TableRow key={saksbehandler.brukerIdent}>
               <TableColumn>{saksbehandler.navn}</TableColumn>
               <TableColumn>{saksbehandler.brukerIdent}</TableColumn>
@@ -111,8 +110,7 @@ export class SaksbehandlereTabell extends Component<TsProps, StateTsProps> {
           closeSletteModal={this.closeSletteModal}
           fjernSaksbehandler={this.fjernSaksbehandler}
         />
-        )
-        }
+        )}
       </>
     );
   }

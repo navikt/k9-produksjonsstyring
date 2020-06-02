@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { shallowWithIntl } from 'testHelpers/intl-enzyme-test-helper';
+import EventType from 'api/rest-api/src/requestApi/eventType';
 import HeaderWithErrorPanel from './components/HeaderWithErrorPanel';
 
 import { AppIndex } from './AppIndex';
@@ -13,8 +14,7 @@ describe('<AppIndex>', () => {
       navAnsattName="Peder"
       showCrashMessage={sinon.spy()}
       removeErrorMessage={sinon.spy()}
-      errorMessagesLength={0}
-      kanOppgavestyre
+      errorMessages={[]}
       location={{ search: undefined, state: {} }}
     />);
 
@@ -24,7 +24,6 @@ describe('<AppIndex>', () => {
 
     const homeComp = wrapper.find('Home');
     expect(homeComp).to.have.length(1);
-    expect(homeComp.prop('nrOfErrorMessages')).is.eql(0);
   });
 
   it('skal vise hjem-skjermbilde inkludert header og feilmelding', () => {
@@ -32,7 +31,9 @@ describe('<AppIndex>', () => {
       navAnsattName="Peder"
       showCrashMessage={sinon.spy()}
       removeErrorMessage={sinon.spy()}
-      errorMessagesLength={1}
+      errorMessages={[{
+        type: EventType.REQUEST_ERROR,
+      }]}
       kanOppgavestyre
       location={{ search: undefined, state: {} }}
     />);
@@ -43,7 +44,6 @@ describe('<AppIndex>', () => {
 
     const homeComp = wrapper.find('Home');
     expect(homeComp).to.have.length(1);
-    expect(homeComp.prop('nrOfErrorMessages')).is.eql(1);
   });
 
   it('skal vise query-feilmelding', () => {
@@ -56,15 +56,14 @@ describe('<AppIndex>', () => {
       navAnsattName="Peder"
       removeErrorMessage={sinon.spy()}
       showCrashMessage={sinon.spy()}
-      errorMessagesLength={0}
+      errorMessages={[{
+        type: EventType.REQUEST_ERROR,
+      }]}
       kanOppgavestyre
       location={location}
     />);
 
     const headerComp = wrapper.find(HeaderWithErrorPanel);
     expect(headerComp.prop('queryStrings')).to.eql({ errormessage: 'Det finnes ingen sak med denne referansen: 266' });
-
-    const homeComp = wrapper.find('Home');
-    expect(homeComp.prop('nrOfErrorMessages')).is.eql(1);
   });
 });

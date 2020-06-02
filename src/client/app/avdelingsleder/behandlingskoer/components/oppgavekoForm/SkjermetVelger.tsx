@@ -14,7 +14,7 @@ interface TsProps {
 }
 
 export const SkjermetVelger = ({
- lagreSkjermet, valgtOppgavekoId,
+  lagreSkjermet, valgtOppgavekoId,
 }: TsProps) => (
   <div className={styles.skjermet}>
     <Undertekst>
@@ -23,7 +23,7 @@ export const SkjermetVelger = ({
     <VerticalSpacer eightPx />
     <CheckboxField
       label="Ja"
-      onChange={isChecked => lagreSkjermet(valgtOppgavekoId, isChecked)}
+      onChange={(isChecked) => lagreSkjermet(valgtOppgavekoId, isChecked)}
       name="skjermet"
     />
   </div>

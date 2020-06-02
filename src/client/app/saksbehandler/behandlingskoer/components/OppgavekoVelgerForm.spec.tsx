@@ -2,6 +2,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
+import { IntlShape, FormattedMessage } from 'react-intl';
 
 import { Form } from 'react-final-form';
 
@@ -15,6 +16,9 @@ import { shallowWithIntl, intlMock } from 'testHelpers/intl-enzyme-test-helper';
 import { OppgavekoVelgerForm } from './OppgavekoVelgerForm';
 
 describe('<OppgavekoVelgerForm>', () => {
+  const intl: Partial<IntlShape> = {
+    ...intlMock,
+  };
   it('skal vise dropdown med to oppgavekoer', () => {
     const formProps = { };
     const oppgavekoer = [{
@@ -51,17 +55,16 @@ describe('<OppgavekoVelgerForm>', () => {
       },
     }];
     const wrapper = shallowWithIntl(<OppgavekoVelgerForm
-      intl={intlMock}
+      intl={intl as IntlShape}
       oppgavekoer={oppgavekoer}
       fetchOppgavekoOppgaver={sinon.spy()}
-      totaltBehandlingTypeAntall={5}
       fetchOppgavekoensSaksbehandlere={sinon.spy()}
       fetchAntallOppgaverForBehandlingsko={sinon.spy()}
-    />).find(Form).drill(props => props.render(formProps)).shallow();
+    />).find(Form).renderProp('render')(formProps);
 
     const select = wrapper.find(SelectField);
     expect(select).to.have.length(1);
-    const options = select.prop('selectValues');
+    const options = select.prop('selectValues') as { key: number; props: { value: string; children: string }}[];
     expect(options[0].key).to.eql('1');
     expect(options[0].props.value).to.eql('1');
     expect(options[0].props.children).to.eql('Testliste 1');
@@ -91,13 +94,12 @@ describe('<OppgavekoVelgerForm>', () => {
 
     const formProps = { values: { id: undefined } };
     const wrapper = shallowWithIntl(<OppgavekoVelgerForm
-      intl={intlMock}
+      intl={intl as IntlShape}
       oppgavekoer={oppgavekoer}
       fetchOppgavekoOppgaver={sinon.spy()}
-      totaltBehandlingTypeAntall={5}
       fetchOppgavekoensSaksbehandlere={sinon.spy()}
       fetchAntallOppgaverForBehandlingsko={sinon.spy()}
-    />).find(Form).drill(props => props.render(formProps)).shallow();
+    />).find(Form).renderProp('render')(formProps);
 
     expect(wrapper.find(LabelWithHeader)).to.have.length(0);
   });
@@ -123,13 +125,12 @@ describe('<OppgavekoVelgerForm>', () => {
 
     const formProps = { values: { id: '1' } };
     const wrapper = shallowWithIntl(<OppgavekoVelgerForm
-      intl={intlMock}
+      intl={intl as IntlShape}
       oppgavekoer={oppgavekoer}
       fetchOppgavekoOppgaver={sinon.spy()}
-      totaltBehandlingTypeAntall={5}
       fetchOppgavekoensSaksbehandlere={sinon.spy()}
       fetchAntallOppgaverForBehandlingsko={sinon.spy()}
-    />).find(Form).drill(props => props.render(formProps)).shallow();
+    />).find(Form).renderProp('render')(formProps);
 
     const labels = wrapper.find(LabelWithHeader);
     expect(labels).to.have.length(4);
@@ -163,13 +164,12 @@ describe('<OppgavekoVelgerForm>', () => {
     const formProps = { values: { id: '1' } };
     // totaltBehandlingTypeAntall er satt til 1 som er lik antall behandlingstypar satt på oppgavekøen
     const wrapper = shallowWithIntl(<OppgavekoVelgerForm
-      intl={intlMock}
+      intl={intl as IntlShape}
       oppgavekoer={oppgavekoer}
       fetchOppgavekoOppgaver={sinon.spy()}
-      totaltBehandlingTypeAntall={1}
       fetchOppgavekoensSaksbehandlere={sinon.spy()}
       fetchAntallOppgaverForBehandlingsko={sinon.spy()}
-    />).find(Form).drill(props => props.render(formProps)).shallow();
+    />).find(Form).renderProp('render')(formProps);
 
     const labels = wrapper.find(LabelWithHeader);
     expect(labels).to.have.length(4);
@@ -207,13 +207,12 @@ describe('<OppgavekoVelgerForm>', () => {
 
     const formProps = { values: { id: '1' } };
     const wrapper = shallowWithIntl(<OppgavekoVelgerForm
-      intl={intlMock}
+      intl={intl as IntlShape}
       oppgavekoer={oppgavekoer}
       fetchOppgavekoOppgaver={sinon.spy()}
-      totaltBehandlingTypeAntall={5}
       fetchOppgavekoensSaksbehandlere={sinon.spy()}
       fetchAntallOppgaverForBehandlingsko={sinon.spy()}
-    />).find(Form).drill(props => props.render(formProps)).shallow();
+    />).find(Form).renderProp('render')(formProps);
 
     const labels = wrapper.find(LabelWithHeader);
     expect(labels).to.have.length(4);
@@ -228,9 +227,9 @@ describe('<OppgavekoVelgerForm>', () => {
       behandlingTyper: [],
       fagsakYtelseTyper: [],
       andreKriterier: [{
-          kode: andreKriterierType.TIL_BESLUTTER,
-          navn: 'Til beslutter',
-        },
+        kode: andreKriterierType.TIL_BESLUTTER,
+        navn: 'Til beslutter',
+      },
       ],
       sortering: {
         sorteringType: {
@@ -244,13 +243,12 @@ describe('<OppgavekoVelgerForm>', () => {
 
     const formProps = { values: { id: '1' } };
     const wrapper = shallowWithIntl(<OppgavekoVelgerForm
-      intl={intlMock}
+      intl={intl as IntlShape}
       oppgavekoer={oppgavekoer}
       fetchOppgavekoOppgaver={sinon.spy()}
-      totaltBehandlingTypeAntall={5}
       fetchOppgavekoensSaksbehandlere={sinon.spy()}
       fetchAntallOppgaverForBehandlingsko={sinon.spy()}
-    />).find(Form).drill(props => props.render(formProps)).shallow();
+    />).find(Form).renderProp('render')(formProps);
 
     const labels = wrapper.find(LabelWithHeader);
     expect(labels).to.have.length(4);
@@ -278,13 +276,12 @@ describe('<OppgavekoVelgerForm>', () => {
 
     const formProps = { values: { id: '1' } };
     const wrapper = shallowWithIntl(<OppgavekoVelgerForm
-      intl={intlMock}
+      intl={intl as IntlShape}
       oppgavekoer={oppgavekoer}
       fetchOppgavekoOppgaver={sinon.spy()}
-      totaltBehandlingTypeAntall={5}
       fetchOppgavekoensSaksbehandlere={sinon.spy()}
       fetchAntallOppgaverForBehandlingsko={sinon.spy()}
-    />).find(Form).drill(props => props.render(formProps)).shallow();
+    />).find(Form).renderProp('render')(formProps);
 
     const labels = wrapper.find(LabelWithHeader);
     expect(labels).to.have.length(4);
@@ -312,10 +309,9 @@ describe('<OppgavekoVelgerForm>', () => {
 
     const formProps = { values: { id: '1' } };
     const wrapper = shallowWithIntl(<OppgavekoVelgerForm
-      intl={intlMock}
+      intl={intl as IntlShape}
       oppgavekoer={oppgavekoer}
       fetchOppgavekoOppgaver={sinon.spy()}
-      totaltBehandlingTypeAntall={5}
       fetchOppgavekoensSaksbehandlere={sinon.spy()}
       fetchAntallOppgaverForBehandlingsko={sinon.spy()}
       saksbehandlere={[{
@@ -331,14 +327,11 @@ describe('<OppgavekoVelgerForm>', () => {
         navn: 'Helge Ingstad',
         epost: 'epost',
       }]}
-    />).find(Form).drill(props => props.render(formProps)).shallow();
+    />).find(Form).renderProp('render')(formProps);
 
-    const labels = wrapper.find(Image);
-    expect(labels).to.have.length(1);
-    expect(labels.first().prop('tooltip').header.props.children).to.eql('Saksbehandlere');
-    expect(labels.first().prop('tooltip').body).to.have.length(3);
-    expect(labels.first().prop('tooltip').body[0].key).to.eql('epost');
-    expect(labels.first().prop('tooltip').body[1].key).to.eql('epost');
-    expect(labels.first().prop('tooltip').body[2].key).to.eql('epost');
+    const image = wrapper.find(Image);
+    expect(image).to.have.length(1);
+    const tooltip = shallowWithIntl(image.first().prop('tooltip'));
+    expect(tooltip.find(FormattedMessage).prop('id')).to.eql('OppgavekoVelgerForm.SaksbehandlerToolip');
   });
 });

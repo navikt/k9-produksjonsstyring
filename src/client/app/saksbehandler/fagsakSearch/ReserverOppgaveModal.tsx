@@ -22,54 +22,54 @@ type TsProps = Readonly<{
 }>;
 
 export const ReserverOppgaveModal = ({
-     cancel,
-     submit,
-    valgtOppgave,
-    selectOppgaveCallback,
-    }: TsProps) => (
-      <Modal
-        className={styles.modal}
-        closeButton={false}
-        isOpen
-        contentLabel="Ønsker du å reservere behandlingen?"
-        onRequestClose={cancel}
-      >
-        <Row>
-          <Column xs="1">
-            <Image className={styles.image} altCode="ReserverOppgaveModal.ReserverOppgave" src={advarselImageUrl} />
-            <div className={styles.divider} />
-          </Column>
-          <Column xs="6" className={styles.text}>
-            <Normaltekst>
-              <FormattedMessage id="ReserverOppgaveModal.ReserverOppgave" />
-            </Normaltekst>
-          </Column>
-          <Column xs="4">
-            <Hovedknapp
-              className={styles.submitButton}
-              mini
-              htmlType="submit"
-              onClick={() => submit(valgtOppgave, selectOppgaveCallback)}
-              autoFocus
-            >
-              Ja
-            </Hovedknapp>
-            <Knapp
-              className={styles.cancelButton}
-              mini
-              htmlType="reset"
-              onClick={() => cancel(valgtOppgave, selectOppgaveCallback)}
-            >
-              Nei
-            </Knapp>
-          </Column>
-        </Row>
-      </Modal>
+  cancel,
+  submit,
+  valgtOppgave,
+  selectOppgaveCallback,
+}: TsProps) => (
+  <Modal
+    className={styles.modal}
+    closeButton={false}
+    isOpen
+    contentLabel="Ønsker du å reservere behandlingen?"
+    onRequestClose={cancel}
+  >
+    <Row>
+      <Column xs="1">
+        <Image className={styles.image} altCode="ReserverOppgaveModal.ReserverOppgave" src={advarselImageUrl} />
+        <div className={styles.divider} />
+      </Column>
+      <Column xs="6" className={styles.text}>
+        <Normaltekst>
+          <FormattedMessage id="ReserverOppgaveModal.ReserverOppgave" />
+        </Normaltekst>
+      </Column>
+      <Column xs="4">
+        <Hovedknapp
+          className={styles.submitButton}
+          mini
+          htmlType="submit"
+          onClick={() => submit(valgtOppgave, selectOppgaveCallback)}
+          autoFocus
+        >
+          Ja
+        </Hovedknapp>
+        <Knapp
+          className={styles.cancelButton}
+          mini
+          htmlType="reset"
+          onClick={() => cancel(valgtOppgave, selectOppgaveCallback)}
+        >
+          Nei
+        </Knapp>
+      </Column>
+    </Row>
+  </Modal>
 );
 
 ReserverOppgaveModal.propTypes = {
-    submit: PropTypes.func.isRequired,
-    cancel: PropTypes.func.isRequired,
+  submit: PropTypes.func.isRequired,
+  cancel: PropTypes.func.isRequired,
 };
 
 export default injectIntl(ReserverOppgaveModal);

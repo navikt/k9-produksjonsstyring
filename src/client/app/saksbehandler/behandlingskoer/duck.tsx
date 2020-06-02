@@ -23,7 +23,7 @@ export const fetchOppgaverTilBehandling = (id: string) => (dispatch: Dispatch) =
 );
 export const fetchOppgaverTilBehandlingOppgaver = (id: string) => (dispatch: Dispatch) => dispatch(
   k9LosApi.OPPGAVER_TIL_BEHANDLING.makeRestApiRequest()(
-     { id }, { keepData: true },
+    { id }, { keepData: true },
   ),
 );
 export const getOppgaverTilBehandling = k9LosApi.OPPGAVER_TIL_BEHANDLING.getRestApiData();
@@ -92,15 +92,15 @@ const initialState = {
   valgtOppgavekoId: undefined,
 };
 
-interface ActionTsType {
+interface Action {
   type: string;
   data?: any;
 }
-interface StateTsType {
+interface State {
   valgtOppgavekoId?: string;
 }
 
-export const behandlingskoerReducer = (state: StateTsType = initialState, action: ActionTsType = { type: '' }) => {
+export const behandlingskoerReducer = (state: State = initialState, action: Action = { type: '' }) => {
   switch (action.type) {
     case SET_OPPGAVEKO_ID:
       return {
@@ -113,5 +113,5 @@ export const behandlingskoerReducer = (state: StateTsType = initialState, action
 };
 
 /* Selectors */
-const getBehandlingskoerContext = state => state.default.behandlingskoerContext;
-export const getValgtOppgavekoId = createSelector([getBehandlingskoerContext], behandlingskoerContext => behandlingskoerContext.valgtOppgavekoId);
+const getBehandlingskoerContext = (state) => state.default.behandlingskoerContext;
+export const getValgtOppgavekoId = createSelector([getBehandlingskoerContext], (behandlingskoerContext) => behandlingskoerContext.valgtOppgavekoId);

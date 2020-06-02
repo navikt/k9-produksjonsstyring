@@ -2,7 +2,7 @@ import React, { Component, ReactNode } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
-  injectIntl, intlShape, FormattedMessage,
+  injectIntl, WrappedComponentProps, FormattedMessage,
 } from 'react-intl';
 
 import { Form } from 'react-final-form';
@@ -19,7 +19,7 @@ import { getSaksbehandler, getSaksbehandlere, getSaksbehandlerSokFinished } from
 
 import styles from './leggTilSaksbehandlerForm.less';
 
-interface TsProps {
+interface OwnProps {
   intl: any;
   leggTilSaksbehandler: (brukerIdent: string) => Promise<string>;
   resetSaksbehandlerSok: () => void;
@@ -37,23 +37,14 @@ interface StateTsProps {
 /**
  * LeggTilSaksbehandlerForm
  */
-export class LeggTilSaksbehandlerForm extends Component<TsProps, StateTsProps> {
+export class LeggTilSaksbehandlerForm extends Component<OwnProps & WrappedComponentProps, StateTsProps> {
   nodes: ReactNode[];
-
-  static propTypes = {
-    intl: intlShape.isRequired,
-    leggTilSaksbehandler: PropTypes.func.isRequired,
-    resetSaksbehandlerSok: PropTypes.func.isRequired,
-    saksbehandler: saksbehandlerPropType,
-    erSokFerdig: PropTypes.bool.isRequired,
-    saksbehandlere: PropTypes.arrayOf(saksbehandlerPropType),
-  };
 
   static defaultProps = {
     saksbehandler: undefined,
   }
 
-  constructor(props: TsProps) {
+  constructor(props: OwnProps) {
     super(props);
 
     this.state = {
@@ -68,16 +59,16 @@ export class LeggTilSaksbehandlerForm extends Component<TsProps, StateTsProps> {
     const {
       leggTilSaksbehandler, saksbehandlere, saksbehandler,
     } = this.props;
-      this.setState(prevState => ({ ...prevState, leggerTilNySaksbehandler: true }));
-      if (saksbehandlere.some(s => s.epost.toLowerCase() === epost.toLowerCase())) {
-        this.setState(prevState => ({ ...prevState, showWarning: true }));
-        this.setState(prevState => ({ ...prevState, leggerTilNySaksbehandler: false }));
-      } else {
+    this.setState((prevState) => ({ ...prevState, leggerTilNySaksbehandler: true }));
+    if (saksbehandlere.some((s) => s.epost.toLowerCase() === epost.toLowerCase())) {
+      this.setState((prevState) => ({ ...prevState, showWarning: true }));
+      this.setState((prevState) => ({ ...prevState, leggerTilNySaksbehandler: false }));
+    } else {
       leggTilSaksbehandler(epost).then(() => {
         this.resetSaksbehandlerSok(resetFormValues);
-        this.setState(prevState => ({ ...prevState, leggerTilNySaksbehandler: false }));
+        this.setState((prevState) => ({ ...prevState, leggerTilNySaksbehandler: false }));
       });
-      }
+    }
   }
 
   resetSaksbehandlerSok = (resetFormValues: () => void) => {
@@ -86,7 +77,7 @@ export class LeggTilSaksbehandlerForm extends Component<TsProps, StateTsProps> {
     } = this.props;
     resetSaksbehandlerSok();
     resetFormValues();
-    this.setState(prevState => ({ ...prevState, showWarning: false }));
+    this.setState((prevState) => ({ ...prevState, showWarning: false }));
   }
 
   formatText = () => {
@@ -102,7 +93,7 @@ export class LeggTilSaksbehandlerForm extends Component<TsProps, StateTsProps> {
     } = this.props;
     const {
       leggerTilNySaksbehandler,
-         showWarning,
+      showWarning,
     } = this.state;
 
     return (
@@ -158,8 +149,7 @@ export class LeggTilSaksbehandlerForm extends Component<TsProps, StateTsProps> {
                 </Knapp>
               </FlexColumn>
             </>
-            )
-            }
+            )}
           </div>
         )}
       />
@@ -167,7 +157,7 @@ export class LeggTilSaksbehandlerForm extends Component<TsProps, StateTsProps> {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   saksbehandlere: getSaksbehandlere(state),
   saksbehandler: getSaksbehandler(state),
   erSokFerdig: getSaksbehandlerSokFinished(state),

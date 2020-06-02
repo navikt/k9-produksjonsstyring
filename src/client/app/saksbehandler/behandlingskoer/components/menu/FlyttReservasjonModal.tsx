@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
+import { injectIntl, WrappedComponentProps, FormattedMessage } from 'react-intl';
 
 import { Form } from 'react-final-form';
 import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
@@ -27,8 +27,7 @@ const maxLength1500 = maxLength(1500);
 const minLength7 = minLength(7);
 const maxLength7 = maxLength(7);
 
-type TsProps = Readonly<{
-  intl: any;
+interface OwnProps {
   showModal: boolean;
   oppgave: Oppgave;
   closeModal: () => void;
@@ -38,27 +37,14 @@ type TsProps = Readonly<{
   saksbehandler?: Saksbehandler;
   erSaksbehandlerSokStartet: boolean;
   erSaksbehandlerSokFerdig: boolean;
-}>;
+}
 
 /**
  * FlyttReservasjonModal
  *
  * Presentasjonskomponent. Modal som lar en søke opp en saksbehandler som saken skal flyttes til. En kan også begrunne hvorfor saken skal flyttes.
  */
-export class FlyttReservasjonModal extends Component<TsProps> {
-   static propTypes = {
-     intl: intlShape.isRequired,
-     showModal: PropTypes.bool.isRequired,
-     oppgave: oppgavePropType.isRequired,
-     closeModal: PropTypes.func.isRequired,
-     submit: PropTypes.func.isRequired,
-     finnSaksbehandler: PropTypes.func.isRequired,
-     resetSaksbehandler: PropTypes.func.isRequired,
-     saksbehandler: saksbehandlerPropType,
-     erSaksbehandlerSokStartet: PropTypes.bool.isRequired,
-     erSaksbehandlerSokFerdig: PropTypes.bool.isRequired,
-   };
-
+export class FlyttReservasjonModal extends Component<OwnProps & WrappedComponentProps> {
    componentWillUnmount = () => {
      const {
        resetSaksbehandler,
@@ -94,7 +80,7 @@ export class FlyttReservasjonModal extends Component<TsProps> {
          onRequestClose={closeModal}
        >
          <Form
-           onSubmit={values => finnSaksbehandler(values.brukerIdent)}
+           onSubmit={(values) => finnSaksbehandler(values.brukerIdent)}
            render={({
              handleSubmit, values,
            }) => (
@@ -133,13 +119,12 @@ export class FlyttReservasjonModal extends Component<TsProps> {
                  <Normaltekst>{this.formatText()}</Normaltekst>
                  <VerticalSpacer sixteenPx />
                </>
-               )
-             }
+               )}
              </form>
            )}
          />
          <Form
-           onSubmit={values => submit(oppgave.eksternId, saksbehandler ? saksbehandler.brukerIdent : '', values.begrunnelse)}
+           onSubmit={(values) => submit(oppgave.eksternId, saksbehandler ? saksbehandler.brukerIdent : '', values.begrunnelse)}
            render={({
              handleSubmit, values,
            }) => (
@@ -174,8 +159,7 @@ export class FlyttReservasjonModal extends Component<TsProps> {
    }
 }
 
-
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   erSaksbehandlerSokStartet: isSaksbehandlerSokStartet(state),
   erSaksbehandlerSokFerdig: isSaksbehandlerSokFerdig(state),
   saksbehandler: getSaksbehandler(state),
