@@ -1,7 +1,6 @@
 import React, { Component, ReactNode } from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { FormattedMessage, WrappedComponentProps } from 'react-intl';
+import { FormattedMessage, WrappedComponentProps, injectIntl } from 'react-intl';
 import { bindActionCreators, Dispatch } from 'redux';
 import { Normaltekst, Element } from 'nav-frontend-typografi';
 import NavFrontendChevron from 'nav-frontend-chevron';
@@ -225,4 +224,4 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   }, dispatch),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(OppgaverTabell);
+export default connect(mapStateToProps, mapDispatchToProps)(injectIntl(OppgaverTabell));

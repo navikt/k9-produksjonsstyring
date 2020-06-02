@@ -2,6 +2,35 @@ import { createSelector } from 'reselect';
 
 import k9LosApi from 'api/k9LosApi';
 
+/* Action types */
+const SET_AVDELING_ENHET = 'SET_AVDELING_ENHET';
+const RESET_AVDELING_ENHET = 'RESET_AVDELING_ENHET';
+
+/* Action creators */
+export const setAvdelingEnhet = (avdelingEnhet: string): { type: string; data: string } => ({
+  type: SET_AVDELING_ENHET,
+  data: avdelingEnhet,
+});
+
+export const resetAvdelingEnhet = (): { type: string } => ({
+  type: RESET_AVDELING_ENHET,
+});
+
+/* Reducers */
+const initialState = {
+  valgtAvdelingEnhet: undefined,
+};
+
+interface Action {
+  type: string;
+  data?: any;
+}
+interface State {
+  valgtAvdelingEnhet?: string;
+}
+
+export const appReducer = (state: State = initialState, action: Action = { type: '' }) => state;
+
 /* Selectors */
 const getAppContext = (state) => state.default.appContext;
 
