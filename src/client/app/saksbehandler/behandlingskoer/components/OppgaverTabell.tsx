@@ -93,10 +93,12 @@ export class OppgaverTabell extends Component<OwnProps & WrappedComponentProps, 
     };
   }
 
-  reserverOgGoToFagsak = (event: Event, oppgave: Oppgave) => {
-    const { reserverOppgave, goToFagsak } = this.props;
+  goToFagsak = (event: Event, id: number, oppgave: Oppgave) => {
+    const { reserverOppgave } = this.props;
+    if (this.nodes && Object.keys(this.nodes).some((key) => this.nodes[key] && this.nodes[key].contains(event.target))) {
+      return;
+    }
     reserverOppgave(oppgave);
-    goToFagsak(oppgave.saksnummer, oppgave.behandlingId);
   };
 
   toggleMenu = (valgtOppgave: Oppgave) => {
@@ -156,8 +158,8 @@ export class OppgaverTabell extends Component<OwnProps & WrappedComponentProps, 
               {alleOppgaver.map((oppgave) => (
                 <TableRow
                   key={oppgave.eksternId}
-                  onMouseDown={this.reserverOgGoToFagsak}
-                  onKeyDown={this.reserverOgGoToFagsak}
+                  onMouseDown={this.goToFagsak}
+                  onKeyDown={this.goToFagsak}
                   className={oppgave.underBehandling ? styles.isUnderBehandling : undefined}
                   model={oppgave}
                 >
