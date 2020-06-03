@@ -1,13 +1,10 @@
 
 import React, {
-  Component, Fragment, useEffect, useState,
+  Component, Fragment, FunctionComponent, useEffect, useState,
 } from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import NavFrontendChevron from 'nav-frontend-chevron';
-
 import { Oppgave } from 'saksbehandler/oppgaveTsType';
-import oppgavePropType from 'saksbehandler/oppgavePropType';
 import { Kodeverk } from 'kodeverk/kodeverkTsType';
 import { getKodeverk } from 'kodeverk/duck';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
@@ -16,7 +13,6 @@ import TableRow from 'sharedComponents/TableRow';
 import TableColumn from 'sharedComponents/TableColumn';
 import { ReserverOppgaveModal } from 'saksbehandler/fagsakSearch/ReserverOppgaveModal';
 import { getFagsaker, getFagsakOppgaver } from '../fagsakSearchSelectors';
-import fagsakPropType from '../fagsakPropType';
 import { Fagsak } from '../fagsakTsType';
 
 import styles from './fagsakList.less';
@@ -30,7 +26,7 @@ const headerTextCodes = [
   'EMPTY_1',
 ];
 
-interface TsProps {
+interface OwnProps {
   sorterteFagsaker: Fagsak[];
   selectOppgaveCallback: (oppgave: Oppgave, skalReservere: boolean) => void;
   fagsakStatusTyper: Kodeverk[];
@@ -63,11 +59,11 @@ const onCancel = (oppgave: Oppgave, selectOppgaveCallback) => {
  *
  * Presentasjonskomponent. Formaterer fagsak-søkeresultatet for visning i tabell. Sortering av fagsakene blir håndtert her.
  */
-export const FagsakList = ({
+export const FagsakList: FunctionComponent<OwnProps> = ({
   sorterteFagsaker,
   fagsakOppgaver,
   selectOppgaveCallback,
-}: TsProps) => (
+}) => (
   <Table headerTextCodes={headerTextCodes} classNameTable={styles.table}>
     {sorterteFagsaker.map((fagsak) => {
       const filtrerteOppgaver = fagsakOppgaver.filter((o) => o.saksnummer === fagsak.saksnummer);
@@ -104,17 +100,11 @@ export const FagsakList = ({
   </Table>
 );
 
-FagsakList.propTypes = {
-  sorterteFagsaker: PropTypes.arrayOf(fagsakPropType).isRequired,
-  fagsakOppgaver: PropTypes.arrayOf(oppgavePropType).isRequired,
-  selectOppgaveCallback: PropTypes.func.isRequired,
-};
-
 const mapStateToProps = (state) => ({
   sorterteFagsaker: getFagsaker(state),
   fagsakOppgaver: getFagsakOppgaver(state),
-  fagsakStatusTyper: getKodeverk(kodeverkTyper.FAGSAK_STATUS)(state),
-  fagsakYtelseTyper: getKodeverk(kodeverkTyper.FAGSAK_YTELSE_TYPE)(state),
+  fagsakStatusTyper: getKodeverk(state)[kodeverkTyper.FAGSAK_STATUS],
+  fagsakYtelseTyper: getKodeverk(state)[kodeverkTyper.FAGSAK_YTELSE_TYPE],
 });
 
 export default connect(mapStateToProps)(FagsakList);

@@ -1,8 +1,7 @@
 import React, { FunctionComponent } from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
-  injectIntl, WrappedComponentProps, FormattedMessage, FormattedHTMLMessage,
+  injectIntl, WrappedComponentProps, FormattedMessage,
 } from 'react-intl';
 
 import { Form } from 'react-final-form';
@@ -15,7 +14,7 @@ import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import Image from 'sharedComponents/Image';
 import advarselIcon from 'images/advarsel.svg';
 import { hasValidSaksnummerOrFodselsnummerFormat } from 'utils/validation/validators';
-import { InputField, CheckboxField } from 'form/FinalFields';
+import { InputField } from 'form/FinalFields';
 
 import styles from './searchForm.less';
 
@@ -26,7 +25,7 @@ const isButtonDisabled = (searchString, searchStarted) => {
   return false;
 };
 
-interface TsProps {
+interface OwnProps {
   intl: any;
   onSubmit: ({ searchString: string, skalReservere: boolean }) => void;
   searchStarted: boolean;
@@ -42,7 +41,7 @@ interface TsProps {
  *
  * Presentasjonskomponent. Definerer søkefelt og tilhørende søkeknapp.
  */
-export const SearchForm: FunctionComponent<TsProps & WrappedComponentProps> = ({
+export const SearchForm: FunctionComponent<OwnProps & WrappedComponentProps> = ({
   intl,
   onSubmit,
   searchStarted,
@@ -61,7 +60,7 @@ export const SearchForm: FunctionComponent<TsProps & WrappedComponentProps> = ({
         </>
         )}
         <VerticalSpacer eightPx />
-        <FlexContainer fluid>
+        <FlexContainer>
           <FlexRow>
             <FlexColumn>
               <InputField
@@ -79,7 +78,6 @@ export const SearchForm: FunctionComponent<TsProps & WrappedComponentProps> = ({
                 className={styles.button}
                 spinner={searchStarted}
                 disabled={isButtonDisabled(values.searchString, searchStarted)}
-                tabIndex="0"
               >
                 <FormattedMessage id="Search.Search" />
               </Knapp>
@@ -89,7 +87,7 @@ export const SearchForm: FunctionComponent<TsProps & WrappedComponentProps> = ({
           <FlexRow>
             <FlexColumn>
               <Image className={styles.advarselIcon} src={advarselIcon} />
-              <FormattedHTMLMessage className={styles.feilmelding} id={searchResultAccessDenied.feilmelding} />
+              <FormattedMessage id={searchResultAccessDenied.feilmelding} />
             </FlexColumn>
           </FlexRow>
           )}
