@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
-
 import k9LosApi from 'api/k9LosApi';
 import { getK9sakHref, getK9tilbakeHref } from 'app/paths';
-import oppgavekoPropType from 'saksbehandler/behandlingskoer/oppgavekoPropType';
 import { Oppgaveko } from 'saksbehandler/behandlingskoer/oppgavekoTsType';
 import { getK9sakUrl, getK9tilbakeUrl } from 'app/duck';
 import { OppgaveStatus } from 'saksbehandler/oppgaveStatusTsType';
@@ -13,9 +10,17 @@ import { Oppgave } from 'saksbehandler/oppgaveTsType';
 import OppgaveErReservertAvAnnenModal from 'saksbehandler/components/OppgaveErReservertAvAnnenModal';
 import {
   fetchAlleOppgavekoer, getOppgavekoResult, fetchOppgaverTilBehandling, fetchReserverteOppgaver, reserverOppgave, opphevOppgaveReservasjon,
-  forlengOppgaveReservasjon, fetchOppgaverTilBehandlingOppgaver, flyttReservasjon, setValgtOppgavekoId,
+  forlengOppgaveReservasjon, fetchOppgaverTilBehandlingOppgaver, flyttReservasjon, setValgtOppgavekoId, endreOppgaveReservasjon,
 } from './duck';
 import OppgavekoPanel from './components/OppgavekoPanel';
+
+interface OwnProps {
+  k9sakUrl: string;
+  k9tilbakeUrl: string;
+  oppgavekoer: Oppgaveko[];
+  goToUrl: (url: string) => void;
+}
+
 
 interface DispatchProps {
   fetchOppgaverTilBehandling: (id: string) => Promise<{payload: any }>;
@@ -25,6 +30,7 @@ interface DispatchProps {
   reserverOppgave: (oppgaveId: string) => Promise<{payload: OppgaveStatus }>;
   opphevOppgaveReservasjon: (oppgaveId: string, begrunnelse: string) => Promise<string>;
   forlengOppgaveReservasjon: (oppgaveId: string) => Promise<string>;
+  endreOppgaveReservasjon: (oppgaveId: string, reserverTil: string) => Promise<string>;
   flyttReservasjon: (oppgaveId: string, brukerident: string, begrunnelse: string) => Promise<string>;
   oppgavekoer: Oppgaveko[];
   k9sakUrl: string;
@@ -42,25 +48,9 @@ interface StateProps {
 /**
  * BehandlingskoerIndex
  */
-export class BehandlingskoerIndex extends Component<DispatchProps, StateProps> {
+export class BehandlingskoerIndex extends Component<OwnProps & DispatchProps, StateProps> {
   state = {
     id: undefined, reservertAvAnnenSaksbehandler: false, reservertOppgave: undefined, reservertOppgaveStatus: undefined,
-  };
-
-  static propTypes = {
-    fetchOppgaverTilBehandling: PropTypes.func.isRequired,
-    fetchOppgaverTilBehandlingOppgaver: PropTypes.func.isRequired,
-    fetchAlleOppgavekoer: PropTypes.func.isRequired,
-    fetchReserverteOppgaver: PropTypes.func.isRequired,
-    reserverOppgave: PropTypes.func.isRequired,
-    opphevOppgaveReservasjon: PropTypes.func.isRequired,
-    forlengOppgaveReservasjon: PropTypes.func.isRequired,
-    flyttReservasjon: PropTypes.func.isRequired,
-    oppgavekoer: PropTypes.arrayOf(oppgavekoPropType),
-    k9sakUrl: PropTypes.string.isRequired,
-    k9tilbakeUrl: PropTypes.string.isRequired,
-    goToUrl: PropTypes.func.isRequired,
-    setValgtOppgavekoId: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -157,6 +147,16 @@ export class BehandlingskoerIndex extends Component<DispatchProps, StateProps> {
       .then(() => fetchReserverte(id));
   }
 
+  endreOppgaveReservasjon = (oppgaveId: string, reserverTil: string): Promise<any> => {
+    const { endreOppgaveReservasjon: endreReservasjon, fetchReserverteOppgaver: fetchReserverte } = this.props;
+    const { id } = this.state;
+    if (!id) {
+      return Promise.resolve();
+    }
+    return endreReservasjon(oppgaveId, reserverTil)
+      .then(() => fetchReserverte(id));
+  }
+
   flyttReservasjon = (oppgaveId: string, brukerident: string, begrunnelse: string): Promise<any> => {
     const { flyttReservasjon: flytt, fetchReserverteOppgaver: fetchReserverte } = this.props;
     const { id } = this.state;
@@ -189,6 +189,7 @@ export class BehandlingskoerIndex extends Component<DispatchProps, StateProps> {
         <OppgavekoPanel
           reserverOppgave={this.reserverOppgaveOgApne}
           oppgavekoer={oppgavekoer}
+          endreOppgaveReservasjon={this.endreOppgaveReservasjon}
           fetchOppgavekoOppgaver={this.fetchOppgavekoOppgaver}
           opphevOppgaveReservasjon={this.opphevReservasjon}
           forlengOppgaveReservasjon={this.forlengOppgaveReservasjon}
@@ -222,6 +223,7 @@ const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => ({
     reserverOppgave,
     opphevOppgaveReservasjon,
     forlengOppgaveReservasjon,
+    endreOppgaveReservasjon,
     flyttReservasjon,
     setValgtOppgavekoId,
   }, dispatch),

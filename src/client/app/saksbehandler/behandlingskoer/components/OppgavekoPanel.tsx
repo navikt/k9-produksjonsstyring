@@ -16,6 +16,7 @@ interface OwnProps {
   reserverOppgave: (oppgave: Oppgave) => void;
   opphevOppgaveReservasjon: (oppgaveId: string, begrunnelse: string) => Promise<string>;
   forlengOppgaveReservasjon: (oppgaveId: string) => Promise<string>;
+  endreOppgaveReservasjon: (oppgaveId: string, reserverTil: string) => Promise<string>;
   flyttReservasjon: (oppgaveId: string, brukerident: string, begrunnelse: string) => Promise<string>;
 }
 
@@ -29,6 +30,7 @@ const OppgavekoPanel: FunctionComponent<OwnProps> = ({
   oppgavekoer,
   fetchOppgavekoOppgaver,
   flyttReservasjon,
+  endreOppgaveReservasjon,
 }) => (
   <>
     <Undertittel><FormattedMessage id="OppgavekoPanel.StartBehandling" /></Undertittel>
@@ -43,6 +45,7 @@ const OppgavekoPanel: FunctionComponent<OwnProps> = ({
         opphevOppgaveReservasjon={opphevOppgaveReservasjon}
         forlengOppgaveReservasjon={forlengOppgaveReservasjon}
         flyttReservasjon={flyttReservasjon}
+        endreOppgaveReservasjon={endreOppgaveReservasjon}
       />
     </div>
   </>

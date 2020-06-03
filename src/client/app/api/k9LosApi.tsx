@@ -15,6 +15,7 @@ const k9LosApiKeys = {
   FEATURE_TOGGLES: 'FEATURE_TOGGLES',
   OPPGAVEKO: 'OPPGAVEKO',
   RESERVER_OPPGAVE: 'RESERVER_OPPGAVE',
+  ENDRE_OPPGAVERESERVASJON: 'ENDRE_OPPGAVERESERVASJON',
   HENT_RESERVASJONSSTATUS: 'HENT_RESERVASJONSSTATUS',
   OPPGAVER_TIL_BEHANDLING: 'OPPGAVER_TIL_BEHANDLING',
   RESERVERTE_OPPGAVER: 'RESERVERTE_OPPGAVER',
@@ -74,6 +75,7 @@ const endpoints = new RestApiConfigBuilder()
   .withPost('saksbehandler/oppgaver/flytt', k9LosApiKeys.FLYTT_RESERVASJON)
   .withGet('saksbehandler/oppgaver/antall', k9LosApiKeys.BEHANDLINGSKO_OPPGAVE_ANTALL)
   .withGet('saksbehandler/oppgaver/oppgaver-for-fagsaker', k9LosApiKeys.OPPGAVER_FOR_FAGSAKER)
+  .withPost('saksbehandler/oppgaver/reservasjon/endre', k9LosApiKeys.ENDRE_OPPGAVERESERVASJON)
 
   /* /api/saksbehandler/nokkeltall */
   .withGet('saksbehandler/nokkeltall/nye-og-ferdigstilte-oppgaver', k9LosApiKeys.HENT_NYE_OG_FERDIGSTILTE_OPPGAVER)

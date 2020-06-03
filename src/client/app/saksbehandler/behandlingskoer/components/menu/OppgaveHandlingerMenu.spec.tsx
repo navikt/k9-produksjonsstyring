@@ -57,12 +57,13 @@ describe('<OppgaveHandlingerMenu>', () => {
         opphevOppgaveReservasjon={sinon.spy()}
         forlengOppgaveReservasjon={sinon.spy()}
         finnSaksbehandler={sinon.spy()}
+        endreOppgaveReservasjon={sinon.spy()}
         resetSaksbehandler={sinon.spy()}
         flyttReservasjon={sinon.spy()}
       />,
     );
 
-    expect(wrapper.find(MenuButton)).has.length(3);
+    expect(wrapper.find(MenuButton)).has.length(4);
     const message = wrapper.find(FormattedMessage).first();
     const values = message.prop('values') as { date: string; time: string };
     expect(values.date).is.eql('02.02.2020');
@@ -83,6 +84,7 @@ describe('<OppgaveHandlingerMenu>', () => {
         forlengOppgaveReservasjon={sinon.spy()}
         finnSaksbehandler={sinon.spy()}
         resetSaksbehandler={sinon.spy()}
+        endreOppgaveReservasjon={sinon.spy()}
         flyttReservasjon={sinon.spy()}
       />,
     );
@@ -114,6 +116,7 @@ describe('<OppgaveHandlingerMenu>', () => {
         opphevOppgaveReservasjon={opphevOppgaveReservasjonFn}
         forlengOppgaveReservasjon={sinon.spy()}
         finnSaksbehandler={sinon.spy()}
+        endreOppgaveReservasjon={sinon.spy()}
         resetSaksbehandler={sinon.spy()}
         flyttReservasjon={sinon.spy()}
       />,
@@ -154,6 +157,7 @@ describe('<OppgaveHandlingerMenu>', () => {
         forlengOppgaveReservasjon={forlengOppgaveReservasjonFn}
         finnSaksbehandler={sinon.spy()}
         resetSaksbehandler={sinon.spy()}
+        endreOppgaveReservasjon={sinon.spy()}
         flyttReservasjon={sinon.spy()}
       />,
     );
@@ -179,6 +183,7 @@ describe('<OppgaveHandlingerMenu>', () => {
         forlengOppgaveReservasjon={sinon.spy()}
         finnSaksbehandler={sinon.spy()}
         resetSaksbehandler={sinon.spy()}
+        endreOppgaveReservasjon={sinon.spy()}
         flyttReservasjon={sinon.spy()}
       />,
     );
@@ -202,6 +207,7 @@ describe('<OppgaveHandlingerMenu>', () => {
         imageNode={<div />}
         opphevOppgaveReservasjon={sinon.spy()}
         forlengOppgaveReservasjon={sinon.spy()}
+        endreOppgaveReservasjon={sinon.spy()}
         finnSaksbehandler={sinon.spy()}
         resetSaksbehandler={sinon.spy()}
         flyttReservasjon={flyttReservasjonFn}
