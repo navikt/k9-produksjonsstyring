@@ -177,6 +177,10 @@
   "OppgaveReservasjonForlengetModal.Til": "t.o.m. {date} - {time}",
   "OppgaveReservasjonForlengetModal.Ok": "OK",
 
+  "OppgaveReservasjonEndringDatoModal.Header": "Velg dato som reservasjonen avsluttes",
+  "OppgaveReservasjonEndringDatoModal.Ok": "OK",
+  "OppgaveReservasjonEndringDatoModal.Avbryt": "Avbryt",
+
   "OpphevReservasjonModal.Begrunnelse":"Angi begrunnelse",
   "OpphevReservasjonModal.Hjelpetekst":"Når en reservert sak frigjøres er begrunnelse obligatorisk",
   "OpphevReservasjonModal.Ok":"OK",
@@ -261,7 +265,6 @@
 
   "UtvalgskriterierForOppgavekoForm.Utvalgskriterier": "Utvalgskriterier",
   "UtvalgskriterierForOppgavekoForm.Navn": "Navn",
-  "UtvalgskriterierForOppgavekoForm.NyListe": "Ny liste",
   "UtvalgskriterierForOppgavekoForm.AntallSaker": "Antall behandlinger",
   "UtvalgskriterierForOppgavekoForm.NyListe": "Ny behandlingskø",
 

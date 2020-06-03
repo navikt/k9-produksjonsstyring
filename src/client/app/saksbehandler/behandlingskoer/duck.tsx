@@ -60,6 +60,12 @@ export const forlengOppgaveReservasjon = (oppgaveId: string) => (dispatch: Dispa
   ),
 );
 
+export const endreOppgaveReservasjon = (oppgaveId: string, reserverTil: string) => (dispatch: Dispatch) => dispatch(
+  k9LosApi.ENDRE_OPPGAVERESERVASJON.makeRestApiRequest()(
+    { oppgaveId, reserverTil },
+  ),
+);
+
 export const finnSaksbehandler = (brukerIdent: string) => (dispatch: Dispatch) => dispatch(
   k9LosApi.FLYTT_RESERVASJON_SAKSBEHANDLER_SOK.makeRestApiRequest()({ brukerIdent }),
 );

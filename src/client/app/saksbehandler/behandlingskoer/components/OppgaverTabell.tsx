@@ -55,8 +55,9 @@ interface OwnProps {
   oppgaverTilBehandling: Oppgave[];
   reserverteOppgaver: Oppgave[];
   reserverOppgave: (oppgave: Oppgave) => void;
-  opphevOppgaveReservasjon: (oppgaveId: string, begrunnelse: string) => Promise<string>;
-  forlengOppgaveReservasjon: (oppgaveId: string) => Promise<string>;
+  opphevOppgaveReservasjon: (oppgaveId: string, begrunnelse: string) => Promise<any>;
+  forlengOppgaveReservasjon: (oppgaveId: string) => Promise<any>;
+  endreOppgaveReservasjon: (oppgaveId: string, reserverTil: string) => Promise<string>;
   finnSaksbehandler: (brukerIdent: string) => Promise<string>;
   resetSaksbehandler: () => Promise<string>;
   flyttReservasjon: (oppgaveId: string, brukerident: string, begrunnelse: string) => Promise<string>;
@@ -132,7 +133,7 @@ export class OppgaverTabell extends Component<OwnProps & WrappedComponentProps, 
 
   render = () => {
     const {
-      oppgaverTilBehandling, reserverteOppgaver, opphevOppgaveReservasjon, forlengOppgaveReservasjon,
+      oppgaverTilBehandling, reserverteOppgaver, opphevOppgaveReservasjon, forlengOppgaveReservasjon, endreOppgaveReservasjon,
       finnSaksbehandler: findSaksbehandler, flyttReservasjon,
       resetSaksbehandler: resetBehandler, antall, intl,
     } = this.props;
@@ -196,17 +197,18 @@ export class OppgaverTabell extends Component<OwnProps & WrappedComponentProps, 
               ))}
             </Table>
             {showMenu && valgtOppgaveId && valgtOppgave && (
-              <OppgaveHandlingerMenu
-                imageNode={this.nodes[valgtOppgaveId]}
-                toggleMenu={this.toggleMenu}
-                offset={offset}
-                oppgave={valgtOppgave}
-                opphevOppgaveReservasjon={opphevOppgaveReservasjon}
-                forlengOppgaveReservasjon={forlengOppgaveReservasjon}
-                finnSaksbehandler={findSaksbehandler}
-                resetSaksbehandler={resetBehandler}
-                flyttReservasjon={flyttReservasjon}
-              />
+            <OppgaveHandlingerMenu
+              imageNode={this.nodes[valgtOppgaveId]}
+              toggleMenu={this.toggleMenu}
+              offset={offset}
+              oppgave={valgtOppgave}
+              opphevOppgaveReservasjon={opphevOppgaveReservasjon}
+              forlengOppgaveReservasjon={forlengOppgaveReservasjon}
+              endreOppgaveReservasjon={endreOppgaveReservasjon}
+              finnSaksbehandler={findSaksbehandler}
+              resetSaksbehandler={resetBehandler}
+              flyttReservasjon={flyttReservasjon}
+            />
             )}
           </>
         )}

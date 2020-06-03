@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, MouseEvent } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { getDateAndTime } from 'utils/dateUtils';
 import { Oppgave } from 'saksbehandler/oppgaveTsType';
@@ -7,6 +7,7 @@ import MenuButton from './MenuButton';
 import OpphevReservasjonModal from './OpphevReservasjonModal';
 import OppgaveReservasjonForlengetModal from './OppgaveReservasjonForlengetModal';
 import FlyttReservasjonModal from './FlyttReservasjonModal';
+import OppgaveReservasjonEndringDatoModal from './OppgaveReservasjonEndringDatoModal';
 
 import styles from './oppgaveHandlingerMenu.less';
 
@@ -36,6 +37,7 @@ interface OwnProps {
   imageNode: any;
   opphevOppgaveReservasjon: (oppgaveId: string, begrunnelse: string) => Promise<string>;
   forlengOppgaveReservasjon: (oppgaveId: string) => Promise<string>;
+  endreOppgaveReservasjon: (oppgaveId: string, reserverTil: string) => Promise<string>;
   finnSaksbehandler: (brukerIdent: string) => Promise<string>;
   resetSaksbehandler: () => Promise<string>;
   flyttReservasjon: (oppgaveId: string, brukerident: string, begrunnelse: string) => Promise<string>;
@@ -45,6 +47,7 @@ interface OwnState {
   showOpphevReservasjonModal: boolean;
   showForlengetReservasjonModal: boolean;
   showFlyttReservasjonModal: boolean;
+  showReservasjonEndringDatoModal: boolean;
 }
 
 /**
@@ -61,10 +64,12 @@ export class OppgaveHandlingerMenu extends Component<OwnProps, OwnState> {
     this.state = {
       showOpphevReservasjonModal: false,
       showForlengetReservasjonModal: false,
+      showReservasjonEndringDatoModal: false,
       showFlyttReservasjonModal: false,
     };
 
     this.menuButtonRef = React.createRef();
+    toggleEventListeners(true, this.handleOutsideClick);
   }
 
   componentDidMount = () => {
@@ -82,7 +87,7 @@ export class OppgaveHandlingerMenu extends Component<OwnProps, OwnState> {
     // ignore clicks on the component itself
     const harKlikketMeny = this.node && this.node.contains(event.target);
     const harKlikketIkon = imageNode && imageNode.contains(event.target);
-    if (event.key !== 'Escape' && (harKlikketMeny || harKlikketIkon)) {
+    if (harKlikketMeny || harKlikketIkon) {
       return;
     }
 
@@ -107,6 +112,11 @@ export class OppgaveHandlingerMenu extends Component<OwnProps, OwnState> {
     this.setState((prevState) => ({ ...prevState, showFlyttReservasjonModal: true }));
   }
 
+  showReservasjonEndringDato = () => {
+    toggleEventListeners(false, this.handleOutsideClick);
+    this.setState((prevState) => ({ ...prevState, showReservasjonEndringDatoModal: true }));
+  }
+
   closeFlytteModal = () => {
     const { toggleMenu, oppgave } = this.props;
     toggleMenu(oppgave);
@@ -114,7 +124,21 @@ export class OppgaveHandlingerMenu extends Component<OwnProps, OwnState> {
     this.setState((prevState) => ({ ...prevState, showFlyttReservasjonModal: false }));
   }
 
-  closeForlengReservasjonModal = (event: Event) => {
+  endreReservasjon = (reserverTil: string) => {
+    const { oppgave, endreOppgaveReservasjon } = this.props;
+    endreOppgaveReservasjon(oppgave.eksternId, reserverTil).then(() => {
+      toggleEventListeners(false, this.handleOutsideClick);
+      this.setState((prevState) => ({ ...prevState, showForlengetReservasjonModal: true }));
+    });
+  }
+
+  closeReservasjonEndringDatoModal = (event: MouseEvent<HTMLButtonElement>) => {
+    const { toggleMenu, oppgave } = this.props;
+    toggleMenu(oppgave);
+    this.handleOutsideClick(event);
+  }
+
+  closeForlengReservasjonModal = (event: MouseEvent<HTMLButtonElement>) => {
     const { toggleMenu, oppgave } = this.props;
     toggleMenu(oppgave);
     this.handleOutsideClick(event);
@@ -148,7 +172,7 @@ export class OppgaveHandlingerMenu extends Component<OwnProps, OwnState> {
       oppgave, offset, finnSaksbehandler, resetSaksbehandler,
     } = this.props;
     const {
-      showOpphevReservasjonModal, showForlengetReservasjonModal, showFlyttReservasjonModal,
+      showOpphevReservasjonModal, showForlengetReservasjonModal, showFlyttReservasjonModal, showReservasjonEndringDatoModal,
     } = this.state;
 
     return (
@@ -168,6 +192,9 @@ export class OppgaveHandlingerMenu extends Component<OwnProps, OwnState> {
           <MenuButton onClick={this.forlengReserverasjon}>
             <FormattedMessage id="OppgaveHandlingerMenu.ForlengReservasjon" values={{ br: <br /> }} />
           </MenuButton>
+          <MenuButton onClick={this.showReservasjonEndringDato}>
+            <FormattedMessage id="OppgaveHandlingerMenu.EndreReservasjon" />
+          </MenuButton>
           <MenuButton onClick={this.showFlytteModal}>
             <FormattedMessage id="OppgaveHandlingerMenu.FlyttReservasjon" values={{ br: <br /> }} />
           </MenuButton>
@@ -179,6 +206,14 @@ export class OppgaveHandlingerMenu extends Component<OwnProps, OwnState> {
             cancel={this.closeBegrunnelseModal}
             submit={this.opphevReserverasjon}
           />
+        )}
+        {showReservasjonEndringDatoModal && (
+        <OppgaveReservasjonEndringDatoModal
+          showModal={showReservasjonEndringDatoModal}
+          endreOppgaveReservasjon={this.endreReservasjon}
+          closeModal={this.closeReservasjonEndringDatoModal}
+          reserverTilDefault={oppgave.status.reservertTilTidspunkt}
+        />
         )}
         {showForlengetReservasjonModal
           && <OppgaveReservasjonForlengetModal oppgave={oppgave} showModal={showForlengetReservasjonModal} closeModal={this.closeForlengReservasjonModal} />}
