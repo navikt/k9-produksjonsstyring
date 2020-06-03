@@ -93,11 +93,8 @@ export class OppgaverTabell extends Component<OwnProps & WrappedComponentProps, 
     };
   }
 
-  reserverOgGoToFagsak = (event: Event, id: number, oppgave: Oppgave) => {
+  reserverOgGoToFagsak = (event: Event, oppgave: Oppgave) => {
     const { reserverOppgave, goToFagsak } = this.props;
-    if (this.nodes && Object.keys(this.nodes).some((key) => this.nodes[key] && this.nodes[key].contains(event.target))) {
-      return;
-    }
     reserverOppgave(oppgave);
     goToFagsak(oppgave.saksnummer, oppgave.behandlingId);
   };
