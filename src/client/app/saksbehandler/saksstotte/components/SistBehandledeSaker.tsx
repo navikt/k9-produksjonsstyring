@@ -7,12 +7,12 @@ import Lenke from 'nav-frontend-lenker';
 
 import { getK9sakHref } from 'app/paths';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
-import oppgavePropType from '../../oppgavePropType';
-import { Oppgave } from '../../oppgaveTsType';
+import BehandletOppgave from 'saksbehandler/saksstotte/behandletOppgaveTsType';
+import behandletOppgavePropType from 'saksbehandler/saksstotte/behandletOppgavePropType';
 
-interface TsProps {
+interface OwnProps {
   k9sakUrl: string;
-  sistBehandledeSaker: Oppgave[];
+  sistBehandledeSaker: BehandletOppgave[];
 }
 
 /**
@@ -23,7 +23,7 @@ interface TsProps {
 const SistBehandledeSaker = ({
   k9sakUrl,
   sistBehandledeSaker,
-}: TsProps) => (
+}: OwnProps) => (
   <>
     <Undertittel><FormattedMessage id="SistBehandledeSaker.SistBehandledeSaker" /></Undertittel>
     <VerticalSpacer eightPx />
@@ -48,7 +48,7 @@ const SistBehandledeSaker = ({
 
 SistBehandledeSaker.propTypes = {
   k9sakUrl: PropTypes.string.isRequired,
-  sistBehandledeSaker: PropTypes.arrayOf(oppgavePropType).isRequired,
+  sistBehandledeSaker: PropTypes.arrayOf(behandletOppgavePropType).isRequired,
 };
 
 export default SistBehandledeSaker;
