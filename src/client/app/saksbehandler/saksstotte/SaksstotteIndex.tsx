@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 
+import { fetchNyeOgFerdigstilteOppgaverNokkeltall } from 'saksbehandler/saksstotte/nokkeltall/duck';
 import Oppgave from '../oppgaveTsType';
 import { fetchBehandledeOppgaver } from './duck';
 import { getValgtOppgavekoId } from '../behandlingskoer/duck';
@@ -10,6 +11,7 @@ import SaksstottePaneler from './components/SaksstottePaneler';
 
 interface TsProps {
   fetchBehandledeOppgaver: () => any;
+  fetchNyeOgFerdigstilteOppgaverNokkeltall: (oppgavekoId: string) => any;
   sistBehandledeSaker: Oppgave[];
   valgtOppgavekoId?: string;
 }
@@ -24,8 +26,9 @@ export class SaksstotteIndex extends Component<TsProps> {
   };
 
   componentDidMount = () => {
-    const { fetchBehandledeOppgaver: fetch } = this.props;
+    const { fetchBehandledeOppgaver: fetch, fetchNyeOgFerdigstilteOppgaverNokkeltall: fetchNye, valgtOppgavekoId } = this.props;
     fetch();
+    fetchNye(valgtOppgavekoId);
   }
 
   render = () => {
@@ -45,6 +48,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   ...bindActionCreators({
     fetchBehandledeOppgaver,
+    fetchNyeOgFerdigstilteOppgaverNokkeltall,
   }, dispatch),
 });
 
