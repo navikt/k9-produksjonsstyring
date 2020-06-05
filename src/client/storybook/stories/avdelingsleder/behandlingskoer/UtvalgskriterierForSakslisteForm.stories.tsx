@@ -1,27 +1,27 @@
 import React from 'react';
 import { action } from '@storybook/addon-actions';
 
-import { UtvalgskriterierForSakslisteForm } from 'avdelingsleder/behandlingskoer/components/sakslisteForm/UtvalgskriterierForSakslisteForm';
+import { UtvalgskriterierForOppgavekoForm } from 'avdelingsleder/behandlingskoer/components/oppgavekoForm/UtvalgskriterierForOppgavekoForm';
 import koSortering from 'kodeverk/KoSortering';
 import andreKriterierType from 'kodeverk/andreKriterierType';
 import behandlingType from 'kodeverk/behandlingType';
 import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
 
-import withIntl from '../../../decorators/withIntl';
+import withIntl from '../../../decorators/withIntl.js';
 import alleKodeverk from '../../../mocks/alleKodeverk.json';
 
 export default {
-  title: 'avdelingsleder/behandlingskoer/UtvalgskriterierForSakslisteForm',
-  component: UtvalgskriterierForSakslisteForm,
+  title: 'avdelingsleder/behandlingskoer/UtvalgskriterierForOppgavekoForm',
+  component: UtvalgskriterierForOppgavekoForm,
   decorators: [withIntl],
 };
 
-export const skalViseSakslisteOppsettPanel = (intl) => (
-  <UtvalgskriterierForSakslisteForm
+export const skalViseOppgavekoOppsettPanel = (intl) => (
+  <UtvalgskriterierForOppgavekoForm
     intl={intl}
-    valgtSaksliste={{
-      sakslisteId: 1,
-      navn: 'Saksliste 1',
+    valgtOppgaveko={{
+      oppgavekoId: 1,
+      navn: 'Oppgaveko 1',
       sistEndret: '2020-10-10',
       saksbehandlerIdenter: [],
       antallBehandlinger: 1,
@@ -59,16 +59,16 @@ export const skalViseSakslisteOppsettPanel = (intl) => (
       }],
     }}
     antallOppgaver={2}
-    lagreSakslisteNavn={action('button-click')}
-    lagreSakslisteBehandlingstype={action('button-click')}
-    lagreSakslisteFagsakYtelseType={action('button-click')}
-    lagreSakslisteAndreKriterier={action('button-click')}
+    lagreOppgavekoNavn={action('button-click')}
+    lagreOppgavekoBehandlingstype={action('button-click')}
+    lagreOppgavekoFagsakYtelseType={action('button-click')}
+    lagreOppgavekoAndreKriterier={action('button-click')}
     valgtAvdelingEnhet=""
-    hentAntallOppgaverForSaksliste={action('button-click') as () => Promise<string>}
+    hentAntallOppgaverForOppgaveko={action('button-click') as () => Promise<string>}
     alleKodeverk={alleKodeverk}
-    lagreSakslisteSortering={action('button-click')}
-    lagreSakslisteSorteringErDynamiskPeriode={action('button-click')}
-    lagreSakslisteSorteringTidsintervallDato={action('button-click')}
-    lagreSakslisteSorteringNumeriskIntervall={action('button-click')}
+    lagreOppgavekoSortering={action('button-click')}
+    lagreOppgavekoSorteringErDynamiskPeriode={action('button-click')}
+    lagreOppgavekoSorteringTidsintervallDato={action('button-click')}
+    lagreOppgavekoSorteringNumeriskIntervall={action('button-click')}
   />
 );

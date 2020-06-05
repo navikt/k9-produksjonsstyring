@@ -1,26 +1,26 @@
 import React, { useCallback, useState } from 'react';
 
-import { SaksbehandlereForSakslisteForm } from 'avdelingsleder/behandlingskoer/components/saksbehandlerForm/SaksbehandlereForSakslisteForm';
+import { SaksbehandlereForOppgavekoForm } from 'avdelingsleder/behandlingskoer/components/saksbehandlerForm/SaksbehandlereForOppgavekoForm';
 
-import withIntl from '../../../decorators/withIntl';
+import withIntl from '../../../decorators/withIntl.js';
 
 export default {
-  title: 'avdelingsleder/behandlingskoer/SaksbehandlereForSakslisteForm',
-  component: SaksbehandlereForSakslisteForm,
+  title: 'avdelingsleder/behandlingskoer/SaksbehandlereForOppgavekoForm',
+  component: SaksbehandlereForOppgavekoForm,
   decorators: [withIntl],
 };
 
-export const skalVisePanelForÅLeggeSaksbehandlereTilEnSaksliste = () => {
-  const [saksliste, setSaksliste] = useState({
-    sakslisteId: 1,
-    navn: 'Saksliste 1',
+export const skalVisePanelForÅLeggeSaksbehandlereTilEnOppgaveko = () => {
+  const [oppgaveko, setOppgaveko] = useState({
+    oppgavekoId: 1,
+    navn: 'Oppgaveko 1',
     sistEndret: '2020-01-01',
     saksbehandlerIdenter: ['S34354'],
     antallBehandlinger: 1,
   });
 
-  const leggTilSaksbehandler = useCallback((_sakslisteId, brukerIdent, isChecked) => {
-    setSaksliste((oldState) => ({
+  const leggTilSaksbehandler = useCallback((_oppgavekoId, brukerIdent, isChecked) => {
+    setOppgaveko((oldState) => ({
       ...oldState,
       saksbehandlerIdenter: isChecked
         ? oldState.saksbehandlerIdenter.concat(brukerIdent)
@@ -29,8 +29,8 @@ export const skalVisePanelForÅLeggeSaksbehandlereTilEnSaksliste = () => {
   }, []);
 
   return (
-    <SaksbehandlereForSakslisteForm
-      valgtSaksliste={saksliste}
+    <SaksbehandlereForOppgavekoForm
+      valgtOppgaveko={oppgaveko}
       avdelingensSaksbehandlere={[{
         brukerIdent: 'E23232',
         navn: 'Espen Utvikler',
@@ -44,8 +44,7 @@ export const skalVisePanelForÅLeggeSaksbehandlereTilEnSaksliste = () => {
         navn: 'Eirik',
         avdelingsnavn: ['NAV Viken'],
       }]}
-      knyttSaksbehandlerTilSaksliste={leggTilSaksbehandler}
-      valgtAvdelingEnhet="NAV Viken"
+      knyttSaksbehandlerTilOppgaveko={leggTilSaksbehandler}
     />
   );
 };

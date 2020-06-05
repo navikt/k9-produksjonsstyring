@@ -3,11 +3,11 @@ import { Form } from 'react-final-form';
 import { action } from '@storybook/addon-actions';
 
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
-import SorteringVelger from 'avdelingsleder/behandlingskoer/components/sakslisteForm/SorteringVelger';
+import SorteringVelger from 'avdelingsleder/behandlingskoer/components/oppgavekoForm/SorteringVelger';
 import behandlingType from 'kodeverk/behandlingType';
 import koSortering from 'kodeverk/KoSortering';
 
-import withIntl from '../../../decorators/withIntl';
+import withIntl from '../../../decorators/withIntl.js';
 
 const sorteringsTyper = {
   [kodeverkTyper.KO_SORTERING]: [{
@@ -58,7 +58,7 @@ export const skalViseSorteringsvelgerNårMangeBehandlingstyperErValgt = () => {
     tomDato: undefined,
     erDynamiskPeriode: true,
   });
-  const lagre = useCallback((_sakslisteId, sorteringType) => {
+  const lagre = useCallback((_oppgavekoId, sorteringType) => {
     leggTilVerdi((oldState) => ({
       ...oldState,
       sortering: sorteringType,
@@ -78,7 +78,7 @@ export const skalViseSorteringsvelgerNårMangeBehandlingstyperErValgt = () => {
       render={() => (
         <SorteringVelger
           alleKodeverk={sorteringsTyper}
-          valgtSakslisteId={1}
+          valgtOppgavekoId={1}
           valgteBehandlingtyper={[{
             kode: behandlingType.FORSTEGANGSSOKNAD,
             navn: 'Førstegang',
@@ -86,14 +86,8 @@ export const skalViseSorteringsvelgerNårMangeBehandlingstyperErValgt = () => {
             kode: behandlingType.DOKUMENTINNSYN,
             navn: 'Innsyn',
           }]}
-          lagreSakslisteSortering={lagre}
-          lagreSakslisteSorteringErDynamiskPeriode={lagreDynamiskPeriode}
-          valgtAvdelingEnhet="NAV Viken"
-          erDynamiskPeriode={verdier.erDynamiskPeriode}
-          lagreSakslisteSorteringTidsintervallDato={action('button-click')}
-          lagreSakslisteSorteringNumeriskIntervall={action('button-click')}
-          fra={verdier.fra}
-          til={verdier.til}
+          lagreOppgavekoSortering={lagre}
+          lagreOppgavekoSorteringTidsintervallDato={action('button-click')}
           fomDato={verdier.fomDato}
           tomDato={verdier.tomDato}
         />
@@ -111,7 +105,7 @@ export const skalViseSorteringsvelgerNårKunTilbakekrevingErValgt = () => {
     tomDato: undefined,
     erDynamiskPeriode: true,
   });
-  const lagre = useCallback((_sakslisteId, sorteringType) => {
+  const lagre = useCallback((_oppgavekoId, sorteringType) => {
     leggTilVerdi((oldState) => ({
       ...oldState,
       sortering: sorteringType,
@@ -131,19 +125,13 @@ export const skalViseSorteringsvelgerNårKunTilbakekrevingErValgt = () => {
       render={() => (
         <SorteringVelger
           alleKodeverk={sorteringsTyper}
-          valgtSakslisteId={1}
+          valgtOppgavekoId={1}
           valgteBehandlingtyper={[{
             kode: behandlingType.TILBAKEBETALING,
             navn: 'Tilbakekreving',
           }]}
-          lagreSakslisteSortering={lagre}
-          lagreSakslisteSorteringErDynamiskPeriode={lagreDynamiskPeriode}
-          valgtAvdelingEnhet="NAV Viken"
-          erDynamiskPeriode={verdier.erDynamiskPeriode}
-          lagreSakslisteSorteringTidsintervallDato={action('button-click')}
-          lagreSakslisteSorteringNumeriskIntervall={action('button-click')}
-          fra={verdier.fra}
-          til={verdier.til}
+          lagreOppgavekoSortering={lagre}
+          lagreOppgavekoSorteringTidsintervallDato={action('button-click')}
           fomDato={verdier.fomDato}
           tomDato={verdier.tomDato}
         />

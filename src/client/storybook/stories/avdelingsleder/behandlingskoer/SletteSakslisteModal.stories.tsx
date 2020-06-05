@@ -1,21 +1,21 @@
 import React from 'react';
 import { action } from '@storybook/addon-actions';
 
-import SletteSakslisteModal from 'avdelingsleder/behandlingskoer/components/SletteSakslisteModal';
+import SletteOppgavekoModal from 'avdelingsleder/behandlingskoer/components/SletteOppgavekoModal';
 
-import withIntl from '../../../decorators/withIntl';
+import withIntl from '../../../decorators/withIntl.js';
 
 export default {
-  title: 'avdelingsleder/behandlingskoer/SletteSakslisteModal',
-  component: SletteSakslisteModal,
+  title: 'avdelingsleder/behandlingskoer/SletteOppgavekoModal',
+  component: SletteOppgavekoModal,
   decorators: [withIntl],
 };
 
-export const skalViseModalForSlettingAvSaksliste = () => (
-  <SletteSakslisteModal
-    valgtSaksliste={{
-      sakslisteId: 1,
-      navn: 'Saksliste 1',
+export const skalViseModalForSlettingAvOppgaveko = () => (
+  <SletteOppgavekoModal
+    valgtOppgaveko={{
+      oppgavekoId: 1,
+      navn: 'Oppgaveko 1',
       sistEndret: '2020-01-01',
       saksbehandlerIdenter: [],
       antallBehandlinger: 2,

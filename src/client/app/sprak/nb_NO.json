@@ -136,7 +136,7 @@
   "NyeOgFerdigstilteOppgaverForIdagGraf.NyeAntall": "Antall nye: {antall}",
   "NyeOgFerdigstilteOppgaverForIdagGraf.Førstegangsbehandling": "Førstegangsbeh.",
 
-  "NyeOgFerdigstilteOppgaverForIdagPanel.NyeOgFerdigstilte": "Nye og ferdigstilte behandlinger",
+  "NyeOgFerdigstilteOppgaverForIdagPanel.NyeOgFerdigstilte": "Alle nye og ferdigstilte behandlinger",
   "NyeOgFerdigstilteOppgaverForIdagPanel.IDag": "I dag",
 
   "NyeOgFerdigstilteOppgaverForSisteSyvGraf.Ferdigstilte": "Ferdigstilte",
@@ -216,7 +216,8 @@
   "Search.Search": "Søk",
   "Search.ReserverBehandling": "Reserver behandlingen ved søk",
 
-  "SistBehandledeSaker.SistBehandledeSaker": "Siste behandlinger",
+  "SistBehandledeSaker.SistBehandledeSaker": "Dine siste behandlinger",
+
   "SistBehandledeSaker.IngenBehandlinger": "Ingen behandlinger",
   "SistBehandledeSaker.Behandling": "Behandling {index}",
 

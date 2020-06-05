@@ -4,8 +4,9 @@ import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 
 import { getK9sakUrl } from 'app/duck';
-import oppgavePropType from '../oppgavePropType';
-import { Oppgave } from '../oppgaveTsType';
+import BehandletOppgave from 'saksbehandler/saksstotte/behandletOppgaveTsType';
+
+import behandletOppgavePropType from 'saksbehandler/saksstotte/behandletOppgavePropType';
 import { fetchBehandledeOppgaver, getBehandledeOppgaver } from './duck';
 import { getValgtOppgavekoId } from '../behandlingskoer/duck';
 import SaksstottePaneler from './components/SaksstottePaneler';
@@ -14,7 +15,7 @@ import SaksstottePaneler from './components/SaksstottePaneler';
 interface TsProps {
   k9sakUrl: string;
   fetchBehandledeOppgaver: () => any;
-  sistBehandledeSaker: Oppgave[];
+  sistBehandledeSaker: BehandletOppgave[];
   valgtOppgavekoId?: string;
 }
 
@@ -22,13 +23,6 @@ interface TsProps {
  * SaksstotteIndex
  */
 export class SaksstotteIndex extends Component<TsProps> {
-  static propTypes = {
-    k9sakUrl: PropTypes.string.isRequired,
-    sistBehandledeSaker: PropTypes.arrayOf(oppgavePropType),
-    fetchBehandledeOppgaver: PropTypes.func.isRequired,
-    valgtOppgavekoId: PropTypes.string,
-  };
-
   static defaultProps = {
     sistBehandledeSaker: [],
     valgtOppgavekoId: undefined,

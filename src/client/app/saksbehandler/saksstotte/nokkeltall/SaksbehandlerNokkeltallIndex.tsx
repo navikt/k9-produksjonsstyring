@@ -2,18 +2,18 @@ import React, { Component, ReactNode } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 
-import { fetchNyeOgFerdigstilteOppgaverNokkeltall } from 'saksbehandler/saksstotte/nokkeltall/duck';
+import { fetchNyeOgFerdigstilteOppgaverNokkeltall } from './duck';
 import SaksbehandlerNokkeltallPanel from './components/SaksbehandlerNokkeltallPanel';
 
-interface TsProps {
-  fetchNyeOgFerdigstilteOppgaverNokkeltall: (valgtOppgavekoId: string) => void;
+interface OwnProps {
+  fetchNyeOgFerdigstilteOppgaverNokkeltall: (oppgavekoId: string) => void;
   valgtOppgavekoId: string;
 }
 
 /**
  * SaksbehandlerNokkeltallIndex
  */
-export class SaksbehandlerNokkeltallIndex extends Component<TsProps> {
+export class SaksbehandlerNokkeltallIndex extends Component<OwnProps> {
   componentDidMount = (): void => {
     const {
       fetchNyeOgFerdigstilteOppgaverNokkeltall: fetchNyeOgFerdige, valgtOppgavekoId,
@@ -21,7 +21,7 @@ export class SaksbehandlerNokkeltallIndex extends Component<TsProps> {
     fetchNyeOgFerdige(valgtOppgavekoId);
   }
 
-  componentDidUpdate = (prevProps: TsProps): void => {
+  componentDidUpdate = (prevProps: OwnProps): void => {
     const {
       fetchNyeOgFerdigstilteOppgaverNokkeltall: fetchNyeOgFerdige, valgtOppgavekoId,
     } = this.props;

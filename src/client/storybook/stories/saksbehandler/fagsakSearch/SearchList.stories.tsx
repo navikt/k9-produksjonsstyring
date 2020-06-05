@@ -7,7 +7,7 @@ import behandlingStatus from 'kodeverk/behandlingStatus';
 import behandlingType from 'kodeverk/behandlingType';
 import { FagsakList } from 'saksbehandler/fagsakSearch/components/FagsakList';
 
-import withIntl from '../../../decorators/withIntl';
+import withIntl from '../../../decorators/withIntl.js';
 
 export default {
   title: 'saksbehandler/fagsakSearch/FagsakList',
@@ -21,8 +21,8 @@ export const skalViseSøkeresultatMedEnFagsakOgTilhørendeOppgave = () => (
       saksnummer: 12213234,
       system: 'SAK',
       sakstype: {
-        kode: fagsakYtelseType.FORELDREPRENGER,
-        navn: 'Foreldrepenger',
+        kode: fagsakYtelseType.OMSORGSPENGER,
+        navn: 'Omsorgspenger',
       },
       status: {
         kode: fagsakStatus.UNDER_BEHANDLING,
@@ -44,8 +44,8 @@ export const skalViseSøkeresultatMedEnFagsakOgTilhørendeOppgave = () => (
       navn: 'Under behandling',
     }]}
     fagsakYtelseTyper={[{
-      kode: fagsakYtelseType.FORELDREPRENGER,
-      navn: 'Foreldrepenger',
+      kode: fagsakYtelseType.OMSORGSPENGER,
+      navn: 'Omsorgspenger',
     }]}
     fagsakOppgaver={[{
       id: 1,
@@ -67,8 +67,8 @@ export const skalViseSøkeresultatMedEnFagsakOgTilhørendeOppgave = () => (
       opprettetTidspunkt: '2020-01-01',
       behandlingsfrist: '2020-01-01',
       fagsakYtelseType: {
-        kode: fagsakYtelseType.FORELDREPRENGER,
-        navn: 'Foreldrepenger',
+        kode: fagsakYtelseType.OMSORGSPENGER,
+        navn: 'Omsorgspenger',
       },
       erTilSaksbehandling: true,
       behandlingId: '12344',
