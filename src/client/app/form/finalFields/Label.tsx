@@ -1,5 +1,4 @@
 import React, { Component, ReactNode, ReactType } from 'react';
-import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { Undertekst } from 'nav-frontend-typografi';
@@ -29,7 +28,6 @@ export class Label extends Component<OwnProps & WrappedComponentProps> {
     super(props);
     this.format = this.format.bind(this);
   }
-
 
   format(label) {
     if (label && label.id) {

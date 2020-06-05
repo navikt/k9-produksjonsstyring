@@ -18,22 +18,16 @@ import { InputField } from 'form/FinalFields';
 
 import styles from './searchForm.less';
 
-const isButtonDisabled = (searchString, searchStarted) => {
-  if (searchStarted || !searchString) {
-    return true;
-  }
-  return false;
-};
+const isButtonDisabled = (searchString, searchStarted, searchResultAccessDenied) => (!searchResultAccessDenied.feilmelding && searchStarted) || !searchString;
 
 interface OwnProps {
-  intl: any;
   onSubmit: ({ searchString: string, skalReservere: boolean }) => void;
   searchStarted: boolean;
   searchResultAccessDenied?: {
     feilmelding?: string;
   };
   resetSearch: () => void;
-  kanSaksbehandle: () => boolean;
+  kanSaksbehandle: boolean;
 }
 
 /**
@@ -46,7 +40,6 @@ export const SearchForm: FunctionComponent<OwnProps & WrappedComponentProps> = (
   onSubmit,
   searchStarted,
   searchResultAccessDenied,
-  resetSearch,
   kanSaksbehandle,
 }) => (
   <Form
@@ -76,26 +69,37 @@ export const SearchForm: FunctionComponent<OwnProps & WrappedComponentProps> = (
                 mini
                 htmlType="submit"
                 className={styles.button}
-                spinner={searchStarted}
-                disabled={isButtonDisabled(values.searchString, searchStarted)}
+                spinner={!searchResultAccessDenied.feilmelding && searchStarted}
+                disabled={isButtonDisabled(values.searchString, searchStarted, searchResultAccessDenied)}
               >
                 <FormattedMessage id="Search.Search" />
               </Knapp>
             </FlexColumn>
           </FlexRow>
-          {searchResultAccessDenied && searchResultAccessDenied.feilmelding && (
-          <FlexRow>
-            <FlexColumn>
-              <Image className={styles.advarselIcon} src={advarselIcon} />
-              <FormattedMessage id={searchResultAccessDenied.feilmelding} />
-            </FlexColumn>
-          </FlexRow>
+          {searchResultAccessDenied.feilmelding && (
+          <>
+            <VerticalSpacer eightPx />
+            <FlexRow>
+              <FlexColumn>
+                <Image className={styles.advarselIcon} src={advarselIcon} />
+              </FlexColumn>
+              <FlexColumn>
+                <FormattedMessage id={searchResultAccessDenied.feilmelding} />
+              </FlexColumn>
+            </FlexRow>
+          </>
           )}
         </FlexContainer>
       </form>
     )}
   />
 );
+
+SearchForm.defaultProps = {
+  searchResultAccessDenied: {
+    feilmelding: undefined,
+  },
+};
 
 const mapStateToProps = (state) => ({
   kanSaksbehandle: getNavAnsattKanSaksbehandle(state),
