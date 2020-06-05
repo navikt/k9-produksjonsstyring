@@ -1,21 +1,16 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 
-import { getK9sakUrl } from 'app/duck';
-import BehandletOppgave from 'saksbehandler/saksstotte/behandletOppgaveTsType';
-
-import behandletOppgavePropType from 'saksbehandler/saksstotte/behandletOppgavePropType';
-import { fetchBehandledeOppgaver, getBehandledeOppgaver } from './duck';
+import Oppgave from '../oppgaveTsType';
+import { fetchBehandledeOppgaver } from './duck';
 import { getValgtOppgavekoId } from '../behandlingskoer/duck';
 import SaksstottePaneler from './components/SaksstottePaneler';
 
 
 interface TsProps {
-  k9sakUrl: string;
   fetchBehandledeOppgaver: () => any;
-  sistBehandledeSaker: BehandletOppgave[];
+  sistBehandledeSaker: Oppgave[];
   valgtOppgavekoId?: string;
 }
 
@@ -34,17 +29,16 @@ export class SaksstotteIndex extends Component<TsProps> {
   }
 
   render = () => {
-    const { k9sakUrl, sistBehandledeSaker, valgtOppgavekoId } = this.props;
-
+    const {
+      valgtOppgavekoId,
+    } = this.props;
     return (
-      <SaksstottePaneler k9sakUrl={k9sakUrl} sistBehandledeSaker={sistBehandledeSaker} valgtOppgavekoId={valgtOppgavekoId} />
+      <SaksstottePaneler valgtOppgavekoId={valgtOppgavekoId} />
     );
   }
 }
 
 const mapStateToProps = (state) => ({
-  k9sakUrl: getK9sakUrl(state),
-  sistBehandledeSaker: getBehandledeOppgaver(state),
   valgtOppgavekoId: getValgtOppgavekoId(state),
 });
 

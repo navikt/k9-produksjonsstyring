@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import Lenke from 'nav-frontend-lenker';
 
-import SistBehandledeSaker from './SistBehandledeSaker';
+import { SistBehandledeSaker } from './SistBehandledeSaker';
 
 describe('<SistBehandledeSaker>', () => {
   it('skal vise sist behandlede saker som lenker i en liste', () => {
