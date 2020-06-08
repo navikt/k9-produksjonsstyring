@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 
 import { fetchNyeOgFerdigstilteOppgaverNokkeltall } from 'saksbehandler/saksstotte/nokkeltall/duck';
+import { getK9sakUrl } from 'app/duck';
 import Oppgave from '../oppgaveTsType';
 import { fetchBehandledeOppgaver } from './duck';
 import { getValgtOppgavekoId } from '../behandlingskoer/duck';
@@ -14,6 +15,7 @@ interface TsProps {
   fetchNyeOgFerdigstilteOppgaverNokkeltall: (oppgavekoId: string) => any;
   sistBehandledeSaker: Oppgave[];
   valgtOppgavekoId?: string;
+  k9sakUrl: string;
 }
 
 /**
@@ -32,16 +34,17 @@ export class SaksstotteIndex extends Component<TsProps> {
 
   render = () => {
     const {
-      valgtOppgavekoId,
+      valgtOppgavekoId, k9sakUrl,
     } = this.props;
     return (
-      <SaksstottePaneler valgtOppgavekoId={valgtOppgavekoId} />
+      <SaksstottePaneler valgtOppgavekoId={valgtOppgavekoId} k9sakUrl={k9sakUrl} />
     );
   }
 }
 
 const mapStateToProps = (state) => ({
   valgtOppgavekoId: getValgtOppgavekoId(state),
+  k9sakUrl: getK9sakUrl(state),
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
