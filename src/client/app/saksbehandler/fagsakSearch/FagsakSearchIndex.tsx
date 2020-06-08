@@ -13,7 +13,7 @@ import {
 import { OppgaveStatus } from 'saksbehandler/oppgaveStatusTsType';
 import Oppgave from 'saksbehandler/oppgaveTsType';
 import oppgavePropType from 'saksbehandler/oppgavePropType';
-import { leggTilBehandletOppgave as leggTilBehandletOppgaveAtionCreator } from 'saksbehandler/saksstotte/duck';
+import { leggTilBehandletOppgave } from 'saksbehandler/saksstotte/duck';
 import fagsakPropType from './fagsakPropType';
 import { searchFagsaker, resetFagsakSearch, hentOppgaverForFagsaker as hentOppgaverForFagsakerActionCreator } from './duck';
 import {
@@ -93,18 +93,23 @@ export class FagsakSearchIndex extends Component<Props, StateProps> {
   }
 
   goToFagsakEllerApneModal = (oppgave: Oppgave) => {
-    const { goToFagsak, leggTilBehandletOppgave } = this.props;
+    const { goToFagsak } = this.props;
     if (!oppgave.status.erReservert || (oppgave.status.erReservert && oppgave.status.erReservertAvInnloggetBruker)) {
-      leggTilBehandletOppgave(oppgave);
+      this.leggTilBehandletSak(oppgave);
       goToFagsak(oppgave.saksnummer, oppgave.behandlingId);
     } else if (oppgave.status.erReservert && !oppgave.status.erReservertAvInnloggetBruker) {
       this.setState((prevState) => ({ ...prevState, reservertAvAnnenSaksbehandler: true, reservertOppgave: oppgave }));
     }
   }
 
+  leggTilBehandletSak = (oppgave: Oppgave) => {
+    const { leggTilBehandletOppgave: leggTilBehandlet } = this.props;
+    leggTilBehandlet(oppgave);
+  };
+
   velgFagsakOperasjoner = (oppgave: Oppgave, reserver: boolean) => {
-    const { reserverOppgave, goToFagsak, leggTilBehandletOppgave } = this.props;
-    leggTilBehandletOppgave(oppgave);
+    const { reserverOppgave, goToFagsak } = this.props;
+    this.leggTilBehandletSak(oppgave);
     if (oppgave.status.erReservert && !oppgave.status.erReservertAvInnloggetBruker) {
       this.setState((prevState) => ({ ...prevState, reservertAvAnnenSaksbehandler: true, reservertOppgave: oppgave }));
     }
@@ -143,11 +148,11 @@ export class FagsakSearchIndex extends Component<Props, StateProps> {
   }
 
   lukkErReservertModalOgApneOppgave = (oppgave: Oppgave) => {
-    const { goToFagsak, leggTilBehandletOppgave } = this.props;
+    const { goToFagsak } = this.props;
     this.setState((prevState) => ({
       ...prevState, reservertAvAnnenSaksbehandler: false, reservertOppgave: undefined,
     }));
-    leggTilBehandletOppgave(oppgave);
+    this.leggTilBehandletSak(oppgave);
     goToFagsak(oppgave.saksnummer, oppgave.behandlingId);
   }
 
@@ -205,7 +210,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
     searchFagsaker,
     resetFagsakSearch,
     reserverOppgave: reserverOppgaveActionCreator,
-    leggTilBehandletOppgave: leggTilBehandletOppgaveAtionCreator,
+    leggTilBehandletOppgave,
     hentReservasjonsstatus: hentReservasjonActionCreator,
     hentOppgaverForFagsaker: hentOppgaverForFagsakerActionCreator,
   }, dispatch),

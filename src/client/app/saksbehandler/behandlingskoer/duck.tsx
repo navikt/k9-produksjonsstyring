@@ -47,7 +47,13 @@ export const reserverOppgave = (oppgaveId: string) => (dispatch: Dispatch) => di
 
 export const leggTilBehandletOppgave = (behandletOppgave: Oppgave) => (dispatch: Dispatch) => dispatch(
   k9LosApi.LEGG_TIL_BEHANDLET_OPPGAVE.makeRestApiRequest()(
-    { behandletOppgave },
+    {
+      behandlingId: behandletOppgave.behandlingId,
+      saksnummer: behandletOppgave.saksnummer,
+      eksternId: behandletOppgave.eksternId,
+      personnummer: behandletOppgave.personnummer,
+      navn: behandletOppgave.navn,
+    },
   ),
 );
 

@@ -9,6 +9,6 @@ export const getBehandledeOppgaver = k9LosApi.BEHANDLEDE_OPPGAVER.getRestApiData
 
 export const leggTilBehandletOppgave = (behandletOppgave: Oppgave) => (dispatch: Dispatch) => dispatch(
   k9LosApi.LEGG_TIL_BEHANDLET_OPPGAVE.makeRestApiRequest()(
-    { behandletOppgave },
+    behandletOppgave,
   ).then(() => dispatch(fetchBehandledeOppgaver())),
 );
