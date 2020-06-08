@@ -8,10 +8,20 @@ import { getK9sakUrl, getK9tilbakeUrl } from 'app/duck';
 import { OppgaveStatus } from 'saksbehandler/oppgaveStatusTsType';
 import Oppgave from 'saksbehandler/oppgaveTsType';
 import OppgaveErReservertAvAnnenModal from 'saksbehandler/components/OppgaveErReservertAvAnnenModal';
-import { leggTilBehandletOppgave } from 'saksbehandler/saksstotte/duck';
+
 import {
-  fetchAlleOppgavekoer, getOppgavekoResult, fetchOppgaverTilBehandling, fetchReserverteOppgaver, reserverOppgave, opphevOppgaveReservasjon,
-  forlengOppgaveReservasjon, fetchOppgaverTilBehandlingOppgaver, flyttReservasjon, setValgtOppgavekoId, endreOppgaveReservasjon,
+  fetchAlleOppgavekoer,
+  getOppgavekoResult,
+  fetchOppgaverTilBehandling,
+  fetchReserverteOppgaver,
+  reserverOppgave,
+  opphevOppgaveReservasjon,
+  forlengOppgaveReservasjon,
+  fetchOppgaverTilBehandlingOppgaver,
+  flyttReservasjon,
+  setValgtOppgavekoId,
+  endreOppgaveReservasjon,
+  leggTilBehandletOppgave,
 } from './duck';
 import OppgavekoPanel from './components/OppgavekoPanel';
 
