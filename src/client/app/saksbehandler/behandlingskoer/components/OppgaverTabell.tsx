@@ -20,10 +20,9 @@ import bubbletextUrl from 'images/bubbletext.svg';
 import bubbletextFilledUrl from 'images/bubbletext_filled.svg';
 import { getK9sakHref } from 'app/paths';
 import { getK9sakUrl } from 'app/duck';
-import { leggTilBehandletOppgave } from 'saksbehandler/saksstotte/duck';
 import OppgaveHandlingerMenu from './menu/OppgaveHandlingerMenu';
 import {
-  getAntallOppgaverForBehandlingskoResultat, getOppgaverTilBehandling, getReserverteOppgaver, finnSaksbehandler, resetSaksbehandler,
+  getAntallOppgaverForBehandlingskoResultat, getOppgaverTilBehandling, getReserverteOppgaver, finnSaksbehandler, leggTilBehandletOppgave, resetSaksbehandler,
 } from '../duck';
 
 import styles from './oppgaverTabell.less';
@@ -239,6 +238,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   ...bindActionCreators({
     finnSaksbehandler,
     resetSaksbehandler,
+    leggTilBehandletOppgave,
   }, dispatch),
 });
 
