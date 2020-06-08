@@ -3,6 +3,8 @@ import { createSelector } from 'reselect';
 import { Dispatch } from 'redux';
 
 import k9LosApi from 'api/k9LosApi';
+import Oppgave from 'saksbehandler/oppgaveTsType';
+import { fetchBehandledeOppgaver } from 'saksbehandler/saksstotte/duck';
 
 /* Action types */
 const SET_OPPGAVEKO_ID = 'SET_OPPGAVEKO_ID';
@@ -39,6 +41,13 @@ export const getReserverteOppgaver = k9LosApi.RESERVERTE_OPPGAVER.getRestApiData
 export const reserverOppgave = (oppgaveId: string) => (dispatch: Dispatch) => dispatch(
   k9LosApi.RESERVER_OPPGAVE.makeRestApiRequest()(
     { oppgaveId },
+  ),
+);
+
+
+export const leggTilBehandletOppgave = (behandletOppgave: Oppgave) => (dispatch: Dispatch) => dispatch(
+  k9LosApi.LEGG_TIL_BEHANDLET_OPPGAVE.makeRestApiRequest()(
+    { behandletOppgave },
   ),
 );
 

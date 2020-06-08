@@ -28,7 +28,6 @@ export class SaksstotteIndex extends Component<TsProps> {
   componentDidMount = () => {
     const { fetchBehandledeOppgaver: fetch, fetchNyeOgFerdigstilteOppgaverNokkeltall: fetchNye, valgtOppgavekoId } = this.props;
     fetch();
-    fetchNye(valgtOppgavekoId);
   }
 
   render = () => {

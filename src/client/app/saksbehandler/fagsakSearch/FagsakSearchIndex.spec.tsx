@@ -38,6 +38,7 @@ describe('<FagsakSearchIndex>', () => {
       searchStarted
       resetFagsakSearch={sinon.spy()}
       goToFagsak={sinon.spy()}
+      leggTilBehandletOppgave={sinon.spy()}
       reserverOppgave={sinon.spy()}
       hentReservasjonsstatus={sinon.spy()}
       fagsakOppgaver={[]}
@@ -56,6 +57,7 @@ describe('<FagsakSearchIndex>', () => {
       searchFagsaker={sinon.spy()}
       searchResultReceived={false}
       searchStarted
+      leggTilBehandletOppgave={sinon.spy()}
       resetFagsakSearch={sinon.spy()}
       goToFagsak={goToFagsak}
       reserverOppgave={sinon.spy()}
@@ -75,6 +77,7 @@ describe('<FagsakSearchIndex>', () => {
     const wrapper = shallowWithIntl(<FagsakSearchIndex
       searchFagsaker={sinon.spy()}
       searchResultReceived={false}
+      leggTilBehandletOppgave={sinon.spy()}
       searchStarted
       resetFagsakSearch={sinon.spy()}
       goToFagsak={goToFagsak}

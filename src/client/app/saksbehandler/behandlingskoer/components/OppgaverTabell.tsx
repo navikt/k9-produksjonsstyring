@@ -8,7 +8,7 @@ import NavFrontendChevron from 'nav-frontend-chevron';
 import { getDateAndTime } from 'utils/dateUtils';
 import Image from 'sharedComponents/Image';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
-import { Oppgave } from 'saksbehandler/oppgaveTsType';
+import Oppgave from 'saksbehandler/oppgaveTsType';
 import { OppgaveStatus } from 'saksbehandler/oppgaveStatusTsType';
 import Table from 'sharedComponents/Table';
 import TableRow from 'sharedComponents/TableRow';
@@ -20,6 +20,7 @@ import bubbletextUrl from 'images/bubbletext.svg';
 import bubbletextFilledUrl from 'images/bubbletext_filled.svg';
 import { getK9sakHref } from 'app/paths';
 import { getK9sakUrl } from 'app/duck';
+import { leggTilBehandletOppgave } from 'saksbehandler/saksstotte/duck';
 import OppgaveHandlingerMenu from './menu/OppgaveHandlingerMenu';
 import {
   getAntallOppgaverForBehandlingskoResultat, getOppgaverTilBehandling, getReserverteOppgaver, finnSaksbehandler, resetSaksbehandler,
@@ -63,6 +64,7 @@ interface OwnProps {
   flyttReservasjon: (oppgaveId: string, brukerident: string, begrunnelse: string) => Promise<string>;
   antall: number;
   goToFagsak: (saknummer: string, behandlingId?: number) => void;
+  leggTilBehandletOppgave: (oppgave: Oppgave) => void;
 }
 
 interface State {
@@ -93,11 +95,17 @@ export class OppgaverTabell extends Component<OwnProps & WrappedComponentProps, 
     };
   }
 
+  leggTilBehandletSak = (oppgave: Oppgave) => {
+    const { leggTilBehandletOppgave: leggTilBehandlet } = this.props;
+    leggTilBehandlet(oppgave);
+  };
+
   goToFagsak = (event: Event, id: number, oppgave: Oppgave) => {
     const { reserverOppgave } = this.props;
     if (this.nodes && Object.keys(this.nodes).some((key) => this.nodes[key] && this.nodes[key].contains(event.target))) {
       return;
     }
+    this.leggTilBehandletSak(oppgave);
     reserverOppgave(oppgave);
   };
 
