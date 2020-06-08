@@ -8,12 +8,13 @@ import { Fagsak } from 'saksbehandler/fagsakSearch/fagsakTsType';
 import { getK9sakUrl } from 'app/duck';
 import { getK9sakHref } from 'app/paths';
 import {
-  reserverOppgave as reserverOppgaveActionCreator, hentReservasjonsstatus as hentReservasjonActionCreator,
+  reserverOppgave as reserverOppgaveActionCreator,
+  hentReservasjonsstatus as hentReservasjonActionCreator,
+  leggTilBehandletOppgave,
 } from 'saksbehandler/behandlingskoer/duck';
 import { OppgaveStatus } from 'saksbehandler/oppgaveStatusTsType';
 import Oppgave from 'saksbehandler/oppgaveTsType';
 import oppgavePropType from 'saksbehandler/oppgavePropType';
-import { leggTilBehandletOppgave } from 'saksbehandler/saksstotte/duck';
 import fagsakPropType from './fagsakPropType';
 import { searchFagsaker, resetFagsakSearch, hentOppgaverForFagsaker as hentOppgaverForFagsakerActionCreator } from './duck';
 import {
