@@ -50,6 +50,7 @@ const k9LosApiKeys = {
   OPPGAVEKO_SAKSBEHANDLERE: 'OPPGAVEKO_SAKSBEHANDLERE',
   BEHANDLINGSKO_OPPGAVE_ANTALL: 'BEHANDLINGSKO_OPPGAVE_ANTALL',
   HENT_NYE_OG_FERDIGSTILTE_OPPGAVER: 'HENT_NYE_OG_FERDIGSTILTE_OPPGAVER',
+  LEGG_TIL_BEHANDLET_OPPGAVE: 'LEGG_TIL_BEHANDLET_OPPGAVE',
 };
 
 const endpoints = new RestApiConfigBuilder()
@@ -76,6 +77,7 @@ const endpoints = new RestApiConfigBuilder()
   .withGet('saksbehandler/oppgaver/antall', k9LosApiKeys.BEHANDLINGSKO_OPPGAVE_ANTALL)
   .withGet('saksbehandler/oppgaver/oppgaver-for-fagsaker', k9LosApiKeys.OPPGAVER_FOR_FAGSAKER)
   .withPost('saksbehandler/oppgaver/reservasjon/endre', k9LosApiKeys.ENDRE_OPPGAVERESERVASJON)
+  .withPost('saksbehandler/oppgaver/legg-til-behandlet-sak', k9LosApiKeys.LEGG_TIL_BEHANDLET_OPPGAVE)
 
   /* /api/saksbehandler/nokkeltall */
   .withGet('saksbehandler/nokkeltall/nye-og-ferdigstilte-oppgaver', k9LosApiKeys.HENT_NYE_OG_FERDIGSTILTE_OPPGAVER)

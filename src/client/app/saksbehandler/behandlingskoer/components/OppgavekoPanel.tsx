@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl';
 import { Undertittel } from 'nav-frontend-typografi';
 import { Oppgaveko } from 'saksbehandler/behandlingskoer/oppgavekoTsType';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
-import { Oppgave } from 'saksbehandler/oppgaveTsType';
+import Oppgave from 'saksbehandler/oppgaveTsType';
 import OppgavekoVelgerForm from './OppgavekoVelgerForm';
 import OppgaverTabell from './OppgaverTabell';
 

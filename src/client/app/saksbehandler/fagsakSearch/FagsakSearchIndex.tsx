@@ -8,10 +8,12 @@ import { Fagsak } from 'saksbehandler/fagsakSearch/fagsakTsType';
 import { getK9sakUrl } from 'app/duck';
 import { getK9sakHref } from 'app/paths';
 import {
-  reserverOppgave as reserverOppgaveActionCreator, hentReservasjonsstatus as hentReservasjonActionCreator,
+  reserverOppgave as reserverOppgaveActionCreator,
+  hentReservasjonsstatus as hentReservasjonActionCreator,
+  leggTilBehandletOppgave,
 } from 'saksbehandler/behandlingskoer/duck';
 import { OppgaveStatus } from 'saksbehandler/oppgaveStatusTsType';
-import { Oppgave } from 'saksbehandler/oppgaveTsType';
+import Oppgave from 'saksbehandler/oppgaveTsType';
 import oppgavePropType from 'saksbehandler/oppgavePropType';
 import fagsakPropType from './fagsakPropType';
 import { searchFagsaker, resetFagsakSearch, hentOppgaverForFagsaker as hentOppgaverForFagsakerActionCreator } from './duck';
@@ -33,6 +35,7 @@ type Props = Readonly<{
   searchResultAccessDenied?: SearchResultAccessDenied;
   resetFagsakSearch: () => void;
   goToFagsak: (saknummer: string, behandlingId?: number) => void;
+  leggTilBehandletOppgave: (oppgave: Oppgave) => void;
   reserverOppgave: (oppgaveId: string) => Promise<{payload: OppgaveStatus }>;
   hentReservasjonsstatus: (oppgaveId: string) => Promise<{payload: OppgaveStatus }>;
   hentOppgaverForFagsaker: (fagsaker: string[]) => Promise<{payload: Oppgave[] }>;
@@ -74,6 +77,7 @@ export class FagsakSearchIndex extends Component<Props, StateProps> {
     resetFagsakSearch: PropTypes.func.isRequired,
     goToFagsak: PropTypes.func.isRequired,
     reserverOppgave: PropTypes.func.isRequired,
+    leggTilBehandletOppgave: PropTypes.func.isRequired,
     hentReservasjonsstatus: PropTypes.func.isRequired,
     hentOppgaverForFagsaker: PropTypes.func.isRequired,
   };
@@ -92,14 +96,21 @@ export class FagsakSearchIndex extends Component<Props, StateProps> {
   goToFagsakEllerApneModal = (oppgave: Oppgave) => {
     const { goToFagsak } = this.props;
     if (!oppgave.status.erReservert || (oppgave.status.erReservert && oppgave.status.erReservertAvInnloggetBruker)) {
+      this.leggTilBehandletSak(oppgave);
       goToFagsak(oppgave.saksnummer, oppgave.behandlingId);
     } else if (oppgave.status.erReservert && !oppgave.status.erReservertAvInnloggetBruker) {
       this.setState((prevState) => ({ ...prevState, reservertAvAnnenSaksbehandler: true, reservertOppgave: oppgave }));
     }
   }
 
+  leggTilBehandletSak = (oppgave: Oppgave) => {
+    const { leggTilBehandletOppgave: leggTilBehandlet } = this.props;
+    leggTilBehandlet(oppgave);
+  };
+
   velgFagsakOperasjoner = (oppgave: Oppgave, reserver: boolean) => {
     const { reserverOppgave, goToFagsak } = this.props;
+    this.leggTilBehandletSak(oppgave);
     if (oppgave.status.erReservert && !oppgave.status.erReservertAvInnloggetBruker) {
       this.setState((prevState) => ({ ...prevState, reservertAvAnnenSaksbehandler: true, reservertOppgave: oppgave }));
     }
@@ -137,11 +148,12 @@ export class FagsakSearchIndex extends Component<Props, StateProps> {
     });
   }
 
-  lukkErReservertModalOgOpneOppgave = (oppgave: Oppgave) => {
+  lukkErReservertModalOgApneOppgave = (oppgave: Oppgave) => {
     const { goToFagsak } = this.props;
     this.setState((prevState) => ({
       ...prevState, reservertAvAnnenSaksbehandler: false, reservertOppgave: undefined,
     }));
+    this.leggTilBehandletSak(oppgave);
     goToFagsak(oppgave.saksnummer, oppgave.behandlingId);
   }
 
@@ -173,7 +185,7 @@ export class FagsakSearchIndex extends Component<Props, StateProps> {
         />
         {reservertAvAnnenSaksbehandler && reservertOppgave && (
         <OppgaveErReservertAvAnnenModal
-          lukkErReservertModalOgOpneOppgave={this.lukkErReservertModalOgOpneOppgave}
+          lukkErReservertModalOgOpneOppgave={this.lukkErReservertModalOgApneOppgave}
           oppgave={reservertOppgave}
           oppgaveStatus={reservertOppgave.status}
         />
@@ -199,6 +211,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
     searchFagsaker,
     resetFagsakSearch,
     reserverOppgave: reserverOppgaveActionCreator,
+    leggTilBehandletOppgave,
     hentReservasjonsstatus: hentReservasjonActionCreator,
     hentOppgaverForFagsaker: hentOppgaverForFagsakerActionCreator,
   }, dispatch),

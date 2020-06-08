@@ -6,11 +6,22 @@ import { getK9sakHref, getK9tilbakeHref } from 'app/paths';
 import { Oppgaveko } from 'saksbehandler/behandlingskoer/oppgavekoTsType';
 import { getK9sakUrl, getK9tilbakeUrl } from 'app/duck';
 import { OppgaveStatus } from 'saksbehandler/oppgaveStatusTsType';
-import { Oppgave } from 'saksbehandler/oppgaveTsType';
+import Oppgave from 'saksbehandler/oppgaveTsType';
 import OppgaveErReservertAvAnnenModal from 'saksbehandler/components/OppgaveErReservertAvAnnenModal';
+
 import {
-  fetchAlleOppgavekoer, getOppgavekoResult, fetchOppgaverTilBehandling, fetchReserverteOppgaver, reserverOppgave, opphevOppgaveReservasjon,
-  forlengOppgaveReservasjon, fetchOppgaverTilBehandlingOppgaver, flyttReservasjon, setValgtOppgavekoId, endreOppgaveReservasjon,
+  fetchAlleOppgavekoer,
+  getOppgavekoResult,
+  fetchOppgaverTilBehandling,
+  fetchReserverteOppgaver,
+  reserverOppgave,
+  opphevOppgaveReservasjon,
+  forlengOppgaveReservasjon,
+  fetchOppgaverTilBehandlingOppgaver,
+  flyttReservasjon,
+  setValgtOppgavekoId,
+  endreOppgaveReservasjon,
+  leggTilBehandletOppgave,
 } from './duck';
 import OppgavekoPanel from './components/OppgavekoPanel';
 
@@ -96,6 +107,7 @@ export class BehandlingskoerIndex extends Component<OwnProps & DispatchProps, St
 
   openFagsak = (oppgave: Oppgave) => {
     const { k9sakUrl, goToUrl } = this.props;
+    leggTilBehandletOppgave(oppgave);
     goToUrl(getK9sakHref(k9sakUrl, oppgave.saksnummer, oppgave.behandlingId));
   }
 
@@ -105,12 +117,11 @@ export class BehandlingskoerIndex extends Component<OwnProps & DispatchProps, St
   }
 
   reserverOppgaveOgApne = (oppgave: Oppgave) => {
+    const { reserverOppgave: reserver, fetchReserverteOppgaver: fetchReserverte } = this.props;
+    const { id } = this.state;
     if (oppgave.status.erReservert) {
       this.openSak(oppgave);
     } else {
-      const { reserverOppgave: reserver, fetchReserverteOppgaver: fetchReserverte } = this.props;
-      const { id } = this.state;
-
       reserver(oppgave.eksternId).then((data: {payload: OppgaveStatus }) => {
         const nyOppgaveStatus = data.payload;
         if (nyOppgaveStatus.erReservert && nyOppgaveStatus.erReservertAvInnloggetBruker) {
@@ -217,6 +228,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => ({
   ...bindActionCreators<DispatchProps, any>({
     fetchAlleOppgavekoer,
+    leggTilBehandletOppgave,
     fetchOppgaverTilBehandling,
     fetchOppgaverTilBehandlingOppgaver,
     fetchReserverteOppgaver,

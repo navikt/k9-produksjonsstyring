@@ -1,10 +1,10 @@
 import React, { useState, useCallback } from 'react';
 import { Form } from 'react-final-form';
 
-import AndreKriterierVelger from 'avdelingsleder/behandlingskoer/components/sakslisteForm/AndreKriterierVelger';
+import AndreKriterierVelger from 'avdelingsleder/behandlingskoer/components/oppgavekoForm/AndreKriterierVelger';
 import andreKriterierType from 'kodeverk/andreKriterierType';
 
-import withIntl from '../../../decorators/withIntl';
+import withIntl from '../../../decorators/withIntl.js';
 import alleKodeverk from '../../../mocks/alleKodeverk.json';
 
 export default {
@@ -18,7 +18,7 @@ export const skalViseVelgerAvAndreKriterier = () => {
     [andreKriterierType.TIL_BESLUTTER]: true,
     [`${andreKriterierType.TIL_BESLUTTER}_inkluder`]: true,
   });
-  const lagre = useCallback((_sakslisteId, akType, isChecked, skalInkludere) => {
+  const lagre = useCallback((_oppgavekoId, akType, isChecked, skalInkludere) => {
     leggTilVerdi((oldState) => ({
       ...oldState,
       [akType.kode]: isChecked,
@@ -33,9 +33,8 @@ export const skalViseVelgerAvAndreKriterier = () => {
       render={({ values }) => (
         <AndreKriterierVelger
           alleKodeverk={alleKodeverk}
-          valgtSakslisteId={1}
-          lagreSakslisteAndreKriterier={lagre}
-          valgtAvdelingEnhet="NAV Viken"
+          valgtOppgavekoId={1}
+          lagreOppgavekoAndreKriterier={lagre}
           values={values}
         />
       )}

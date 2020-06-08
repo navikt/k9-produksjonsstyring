@@ -3,6 +3,9 @@ import { createSelector } from 'reselect';
 import { Dispatch } from 'redux';
 
 import k9LosApi from 'api/k9LosApi';
+import Oppgave from 'saksbehandler/oppgaveTsType';
+import { fetchBehandledeOppgaver } from 'saksbehandler/saksstotte/duck';
+import { fetchAntallOppgaverTotalt, resetValgtOppgavekoId } from 'avdelingsleder/behandlingskoer/duck';
 
 /* Action types */
 const SET_OPPGAVEKO_ID = 'SET_OPPGAVEKO_ID';
@@ -42,7 +45,24 @@ export const reserverOppgave = (oppgaveId: string) => (dispatch: Dispatch) => di
   ),
 );
 
-export const hentReservasjonsstatus = (oppgaveId: string) => (dispatch: Dispatch) => dispatch(
+export const fetchAntallOppgaverForOppgaveko = (id: string) => (dispatch: Dispatch<any>) => dispatch(
+  k9LosApi.OPPGAVE_ANTALL.makeRestApiRequest()({ id }),
+).then(() => dispatch(fetchAntallOppgaverTotalt()));
+
+export const leggTilBehandletOppgave = (behandletOppgave: Oppgave) => (dispatch: Dispatch) => dispatch(
+  k9LosApi.LEGG_TIL_BEHANDLET_OPPGAVE.makeRestApiRequest()(
+    {
+      behandlingId: behandletOppgave.behandlingId,
+      saksnummer: behandletOppgave.saksnummer,
+      eksternId: behandletOppgave.eksternId,
+      personnummer: behandletOppgave.personnummer,
+      navn: behandletOppgave.navn,
+    },
+  ),
+).then(() => dispatch(fetchBehandledeOppgaver()));
+
+
+export const hentReservasjonsstatus = (oppgaveId: string) => (dispatch: Dispatch<any>) => dispatch(
   k9LosApi.HENT_RESERVASJONSSTATUS.makeRestApiRequest()(
     { oppgaveId },
   ),

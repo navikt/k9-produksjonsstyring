@@ -1,34 +1,27 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 
+import { fetchNyeOgFerdigstilteOppgaverNokkeltall } from 'saksbehandler/saksstotte/nokkeltall/duck';
 import { getK9sakUrl } from 'app/duck';
-import oppgavePropType from '../oppgavePropType';
-import { Oppgave } from '../oppgaveTsType';
-import { fetchBehandledeOppgaver, getBehandledeOppgaver } from './duck';
+import Oppgave from '../oppgaveTsType';
+import { fetchBehandledeOppgaver } from './duck';
 import { getValgtOppgavekoId } from '../behandlingskoer/duck';
 import SaksstottePaneler from './components/SaksstottePaneler';
 
 
 interface TsProps {
-  k9sakUrl: string;
   fetchBehandledeOppgaver: () => any;
+  fetchNyeOgFerdigstilteOppgaverNokkeltall: (oppgavekoId: string) => any;
   sistBehandledeSaker: Oppgave[];
   valgtOppgavekoId?: string;
+  k9sakUrl: string;
 }
 
 /**
  * SaksstotteIndex
  */
 export class SaksstotteIndex extends Component<TsProps> {
-  static propTypes = {
-    k9sakUrl: PropTypes.string.isRequired,
-    sistBehandledeSaker: PropTypes.arrayOf(oppgavePropType),
-    fetchBehandledeOppgaver: PropTypes.func.isRequired,
-    valgtOppgavekoId: PropTypes.string,
-  };
-
   static defaultProps = {
     sistBehandledeSaker: [],
     valgtOppgavekoId: undefined,
@@ -40,23 +33,24 @@ export class SaksstotteIndex extends Component<TsProps> {
   }
 
   render = () => {
-    const { k9sakUrl, sistBehandledeSaker, valgtOppgavekoId } = this.props;
-
+    const {
+      valgtOppgavekoId, k9sakUrl,
+    } = this.props;
     return (
-      <SaksstottePaneler k9sakUrl={k9sakUrl} sistBehandledeSaker={sistBehandledeSaker} valgtOppgavekoId={valgtOppgavekoId} />
+      <SaksstottePaneler valgtOppgavekoId={valgtOppgavekoId} k9sakUrl={k9sakUrl} />
     );
   }
 }
 
 const mapStateToProps = (state) => ({
-  k9sakUrl: getK9sakUrl(state),
-  sistBehandledeSaker: getBehandledeOppgaver(state),
   valgtOppgavekoId: getValgtOppgavekoId(state),
+  k9sakUrl: getK9sakUrl(state),
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   ...bindActionCreators({
     fetchBehandledeOppgaver,
+    fetchNyeOgFerdigstilteOppgaverNokkeltall,
   }, dispatch),
 });
 

@@ -10,11 +10,13 @@ import { SaksstotteIndex } from './SaksstotteIndex';
 describe('<SaksstotteIndex>', () => {
   it('skal vise alle historikkpaneler', () => {
     const fetchFn = sinon.spy();
+    const fetchNyeFn = sinon.spy();
     const oppgaver = [];
     const wrapper = shallow(<SaksstotteIndex
-      k9sakUrl="www.k9sak.no"
       fetchBehandledeOppgaver={fetchFn}
+      fetchNyeOgFerdigstilteOppgaverNokkeltall={fetchNyeFn}
       sistBehandledeSaker={oppgaver}
+      k9sakUrl=""
     />);
 
     expect(wrapper.find(SaksstottePaneler)).to.have.length(1);

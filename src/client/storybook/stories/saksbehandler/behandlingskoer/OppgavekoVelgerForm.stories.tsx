@@ -1,26 +1,26 @@
 import React from 'react';
 import { action } from '@storybook/addon-actions';
 
-import { SakslisteVelgerForm } from 'saksbehandler/behandlingskoer/components/SakslisteVelgerForm';
+import { OppgavekoVelgerForm } from 'saksbehandler/behandlingskoer/components/OppgavekoVelgerForm';
 import behandlingType from 'kodeverk/behandlingType';
 import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
 import koSortering from 'kodeverk/KoSortering';
 import andreKriterierType from 'kodeverk/andreKriterierType';
 
-import withIntl from '../../../decorators/withIntl';
+import withIntl from '../../../decorators/withIntl.js';
 
 export default {
-  title: 'saksbehandler/behandlingskoer/SakslisteVelgerForm',
-  component: SakslisteVelgerForm,
+  title: 'saksbehandler/behandlingskoer/OppgavekoVelgerForm',
+  component: OppgavekoVelgerForm,
   decorators: [withIntl],
 };
 
 export const skalViseValgtKøOgUtvalgskriterier = (intl) => (
-  <SakslisteVelgerForm
+  <OppgavekoVelgerForm
     intl={intl}
-    sakslister={[{
-      sakslisteId: 1,
-      navn: 'Saksliste 1',
+    oppgavekoer={[{
+      oppgavekoId: 1,
+      navn: 'Oppgaveko 1',
       behandlingTyper: [{
         kode: behandlingType.FORSTEGANGSSOKNAD,
         navn: 'Førstegangssøknad',
@@ -29,7 +29,7 @@ export const skalViseValgtKøOgUtvalgskriterier = (intl) => (
         navn: 'Revurdering',
       }],
       fagsakYtelseTyper: [{
-        kode: fagsakYtelseType.FORELDREPRENGER,
+        kode: fagsakYtelseType.OMSORGSPENGER,
         navn: 'Foreldrepenger',
       }],
       andreKriterier: [{
@@ -49,8 +49,8 @@ export const skalViseValgtKøOgUtvalgskriterier = (intl) => (
         erDynamiskPeriode: true,
       },
     }]}
-    fetchSakslisteOppgaver={action('button-click')}
-    fetchSakslistensSaksbehandlere={action('button-click')}
+    fetchOppgavekoOppgaver={action('button-click')}
+    fetchOppgavekonsSaksbehandlere={action('button-click')}
     fetchAntallOppgaverForBehandlingsko={action('button-click')}
     saksbehandlere={[{
       brukerIdent: {

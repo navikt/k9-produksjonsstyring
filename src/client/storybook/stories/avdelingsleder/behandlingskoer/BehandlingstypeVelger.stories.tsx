@@ -1,10 +1,10 @@
 import React, { useState, useCallback } from 'react';
 import { Form } from 'react-final-form';
 
-import BehandlingstypeVelger from 'avdelingsleder/behandlingskoer/components/sakslisteForm/BehandlingstypeVelger';
+import BehandlingstypeVelger from 'avdelingsleder/behandlingskoer/components/oppgavekoForm/BehandlingstypeVelger';
 import behandlingType from 'kodeverk/behandlingType';
 
-import withIntl from '../../../decorators/withIntl';
+import withIntl from '../../../decorators/withIntl.js';
 import alleKodeverk from '../../../mocks/alleKodeverk.json';
 
 export default {
@@ -17,7 +17,7 @@ export const skalViseVelgerForBehandlingstyper = () => {
   const [verdier, leggTilVerdi] = useState({
     [behandlingType.FORSTEGANGSSOKNAD]: true,
   });
-  const lagre = useCallback((_sakslisteId, bt, isChecked) => {
+  const lagre = useCallback((_oppgavekoId, bt, isChecked) => {
     leggTilVerdi((oldState) => ({
       ...oldState,
       [bt.kode]: isChecked,
@@ -31,9 +31,8 @@ export const skalViseVelgerForBehandlingstyper = () => {
       render={() => (
         <BehandlingstypeVelger
           alleKodeverk={alleKodeverk}
-          valgtSakslisteId={1}
-          lagreSakslisteBehandlingstype={lagre}
-          valgtAvdelingEnhet="NAV Viken"
+          valgtOppgavekoId={1}
+          lagreOppgavekoBehandlingstype={lagre}
         />
       )}
     />

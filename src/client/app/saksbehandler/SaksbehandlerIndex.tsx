@@ -11,13 +11,13 @@ import SaksbehandlerDashboard from './components/SaksbehandlerDashboard';
  * SaksbehandlerIndex
  */
 
-interface TsProps {
+interface OwnProps {
     kanSaksbehandle: boolean;
 }
 
 export const SaksbehandlerIndex = ({
   kanSaksbehandle,
-}: TsProps) => {
+}: OwnProps) => {
   if (!kanSaksbehandle) {
     return <IkkeTilgangTilAvdelingslederPanel />;
   }

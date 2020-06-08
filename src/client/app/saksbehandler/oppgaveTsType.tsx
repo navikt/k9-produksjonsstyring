@@ -1,7 +1,7 @@
 import { Kodeverk } from 'kodeverk/kodeverkTsType';
 import { OppgaveStatus } from './oppgaveStatusTsType';
 
-type Oppgave = Readonly<{
+type Oppgave = {
   status: OppgaveStatus;
   saksnummer: string;
   behandlingId: number;
@@ -15,6 +15,6 @@ type Oppgave = Readonly<{
   fagsakYtelseType: Kodeverk;
   erTilSaksbehandling: boolean;
   eksternId: string;
-}>
+};
 
 export default Oppgave;
