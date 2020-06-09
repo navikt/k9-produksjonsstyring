@@ -12,7 +12,7 @@ describe('<SaksbehandlerNokkeltallIndex>', () => {
     const fetchNyeOgFerdigstilteBehandlerForIdagFn = sinon.spy();
 
     const wrapper = shallow(<SaksbehandlerNokkeltallIndex
-      fetchNyeOgFerdigstilteOppgaverNokkeltall={fetchNyeOgFerdigstilteBehandlerForIdagFn}
+      fetchNyeOgFerdigstilte={fetchNyeOgFerdigstilteBehandlerForIdagFn}
       valgtOppgavekoId="2"
     />);
 
@@ -28,7 +28,7 @@ describe('<SaksbehandlerNokkeltallIndex>', () => {
     const fetchNyeOgFerdigstilteBehandlerForIdagFn = sinon.spy();
 
     const wrapper = shallow(<SaksbehandlerNokkeltallIndex
-      fetchNyeOgFerdigstilteOppgaverNokkeltall={fetchNyeOgFerdigstilteBehandlerForIdagFn}
+      fetchNyeOgFerdigstilte={fetchNyeOgFerdigstilteBehandlerForIdagFn}
       valgtOppgavekoId="2"
     />);
 
