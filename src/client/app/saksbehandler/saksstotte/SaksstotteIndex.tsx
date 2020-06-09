@@ -27,6 +27,11 @@ export class SaksstotteIndex extends Component<TsProps> {
     valgtOppgavekoId: undefined,
   };
 
+  fetchNyeOgFerdigeOppgaver = (oppgavekoId: string) => {
+    const { fetchNyeOgFerdigstilteOppgaverNokkeltall: fetchNyeOgFerdigstilte } = this.props;
+    fetchNyeOgFerdigstilte(oppgavekoId);
+  };
+
   componentDidMount = () => {
     const { fetchBehandledeOppgaver: fetch } = this.props;
     fetch();
@@ -37,7 +42,7 @@ export class SaksstotteIndex extends Component<TsProps> {
       valgtOppgavekoId, k9sakUrl,
     } = this.props;
     return (
-      <SaksstottePaneler valgtOppgavekoId={valgtOppgavekoId} k9sakUrl={k9sakUrl} />
+      <SaksstottePaneler valgtOppgavekoId={valgtOppgavekoId} k9sakUrl={k9sakUrl} fetchNyeOgFerdigstilte={this.fetchNyeOgFerdigeOppgaver} />
     );
   }
 }

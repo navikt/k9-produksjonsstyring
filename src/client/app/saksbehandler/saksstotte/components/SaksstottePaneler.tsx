@@ -9,6 +9,7 @@ import SistBehandledeSaker from './SistBehandledeSaker';
 interface OwnProps {
   k9sakUrl: string;
   valgtOppgavekoId?: string;
+  fetchNyeOgFerdigstilte: (oppgavekoId: string) => void;
 }
 
 /**
@@ -17,6 +18,7 @@ interface OwnProps {
 const SaksstottePaneler: FunctionComponent<OwnProps> = ({
   k9sakUrl,
   valgtOppgavekoId,
+  fetchNyeOgFerdigstilte,
 }) => (
   <>
     <SistBehandledeSaker k9sakUrl={k9sakUrl} />
@@ -25,7 +27,7 @@ const SaksstottePaneler: FunctionComponent<OwnProps> = ({
       && (
       <SaksbehandlerNokkeltallIndex
         valgtOppgavekoId={valgtOppgavekoId}
-        fetchNyeOgFerdigstilteOppgaverNokkeltall={fetchNyeOgFerdigstilteOppgaverNokkeltall}
+        fetchNyeOgFerdigstilte={fetchNyeOgFerdigstilte}
       />
       )}
   </>

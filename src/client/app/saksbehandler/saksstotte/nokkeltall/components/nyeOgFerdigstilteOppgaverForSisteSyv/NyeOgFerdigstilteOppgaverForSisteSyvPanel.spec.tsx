@@ -51,7 +51,7 @@ describe('<NyeOgFerdigstilteOppgaverForSisteSyvPanel>', () => {
       dato: iGar,
     }, {
       behandlingType: {
-        kode: behandlingType.DOKUMENTINNSYN,
+        kode: behandlingType.INNSYN,
         navn: 'INNSYN',
       },
       antallNye: 8,

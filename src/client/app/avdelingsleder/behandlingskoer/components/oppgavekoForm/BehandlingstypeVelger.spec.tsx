@@ -25,7 +25,14 @@ const alleKodeverk = {
     }, {
       kode: behandlingType.REVURDERING,
       navn: 'Revurdering',
-    }],
+    }, {
+      kode: behandlingType.AARSKVANTUM,
+      navn: 'Årskvantum',
+    }, {
+      kode: behandlingType.AVKLAR_MEDLEMSKAP,
+      navn: 'Avklar medlemskap',
+    },
+  ],
 };
 
 describe('<BehandlingstypeVelger>', () => {
@@ -37,9 +44,9 @@ describe('<BehandlingstypeVelger>', () => {
     />);
 
     const checkboxer = wrapper.find(CheckboxField);
-    expect(checkboxer).to.have.length(5);
+    expect(checkboxer).to.have.length(7);
     expect(checkboxer.first().prop('name')).to.eql(behandlingType.ANKE);
-    expect(checkboxer.last().prop('name')).to.eql(behandlingType.REVURDERING);
+    expect(checkboxer.last().prop('name')).to.eql(behandlingType.AVKLAR_MEDLEMSKAP);
   });
 
   it('skal lagre behandlingstype ved klikk på checkbox', () => {
