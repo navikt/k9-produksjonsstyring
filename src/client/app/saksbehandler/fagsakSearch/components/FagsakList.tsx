@@ -3,7 +3,7 @@ import React, {
 } from 'react';
 import { connect } from 'react-redux';
 import NavFrontendChevron from 'nav-frontend-chevron';
-import { Oppgave } from 'saksbehandler/oppgaveTsType';
+import Oppgave from 'saksbehandler/oppgaveTsType';
 import { Kodeverk } from 'kodeverk/kodeverkTsType';
 import { getKodeverk } from 'kodeverk/duck';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
@@ -11,6 +11,7 @@ import Table from 'sharedComponents/Table';
 import TableRow from 'sharedComponents/TableRow';
 import TableColumn from 'sharedComponents/TableColumn';
 import { ReserverOppgaveModal } from 'saksbehandler/fagsakSearch/ReserverOppgaveModal';
+import { getNavAnsattKanReservere } from 'app/duck';
 import { getFagsaker, getFagsakOppgaver } from '../fagsakSearchSelectors';
 import { Fagsak } from '../fagsakTsType';
 
@@ -31,6 +32,7 @@ interface OwnProps {
   fagsakStatusTyper: Kodeverk[];
   fagsakYtelseTyper: Kodeverk[];
   fagsakOppgaver: Oppgave[];
+  kanReservere: boolean;
 }
 
 interface OwnState {
@@ -74,6 +76,7 @@ export class FagsakList extends Component<OwnProps, OwnState> {
         sorterteFagsaker,
         fagsakOppgaver,
         selectOppgaveCallback,
+        kanReservere,
       } = this.props;
       const {
         visReserverOppgaveModal,
@@ -96,7 +99,7 @@ export class FagsakList extends Component<OwnProps, OwnState> {
                 <TableColumn>{oppgave.fagsakYtelseType.navn}</TableColumn>
                 <TableColumn>{oppgave.behandlingstype.navn}</TableColumn>
                 <TableColumn><NavFrontendChevron /></TableColumn>
-                {visReserverOppgaveModal && (
+                {visReserverOppgaveModal && kanReservere && (
                 <ReserverOppgaveModal
                   cancel={() => this.onCancel(oppgave, selectOppgaveCallback)}
                   valgtOppgave={oppgave}
@@ -123,6 +126,7 @@ const mapStateToProps = (state) => ({
   fagsakOppgaver: getFagsakOppgaver(state),
   fagsakStatusTyper: getKodeverk(state)[kodeverkTyper.FAGSAK_STATUS],
   fagsakYtelseTyper: getKodeverk(state)[kodeverkTyper.FAGSAK_YTELSE_TYPE],
+  kanReservere: getNavAnsattKanReservere(state),
 });
 
 export default connect(mapStateToProps)(FagsakList);

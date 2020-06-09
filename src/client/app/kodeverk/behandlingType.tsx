@@ -5,9 +5,6 @@ const behandlingType = {
   INNSYN: 'BT-006',
   KLAGE: 'BT-003',
   REVURDERING: 'BT-004',
-  AARSKVANTUM: 'AARSKVANTUM',
-  AVKLAR_MEDLEMSKAP: 'AVKLAR_MEDLEMSKAP',
-
 };
 
 export default behandlingType;
