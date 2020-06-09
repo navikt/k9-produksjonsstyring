@@ -21,7 +21,9 @@ const behandlingstypeOrder = [
   behandlingType.ANKE,
   behandlingType.KLAGE,
   behandlingType.REVURDERING,
-  behandlingType.FORSTEGANGSSOKNAD];
+  behandlingType.FORSTEGANGSSOKNAD,
+  behandlingType.AARSKVANTUM,
+  behandlingType.AVKLAR_MEDLEMSKAP];
 
 const cssText = {
   fontFamily: 'Source Sans Pro, Arial, sans-serif',
