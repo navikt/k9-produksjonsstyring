@@ -4,8 +4,7 @@ const oppgaveStatusPropType = PropTypes.shape({
   erReservert: PropTypes.bool.isRequired,
   reservertTilTidspunkt: PropTypes.string,
   erReservertAvInnloggetBruker: PropTypes.bool,
-  reservertAvUid: PropTypes.string,
-  reservertAvNavn: PropTypes.string,
+  reservertAv: PropTypes.string,
   flyttetReservasjon: PropTypes.shape({
     tidspunkt: PropTypes.string,
     uid: PropTypes.string,

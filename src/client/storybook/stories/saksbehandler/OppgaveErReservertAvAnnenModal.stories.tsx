@@ -46,7 +46,7 @@ export const skalViseAtOppgaveErReservertAvAnnenSaksbehandler = () => (
       opprettetTidspunkt: '2019-01-01',
       behandlingsfrist: '2019-01-01',
       fagsakYtelseType: {
-        kode: fagsakYtelseType.FORELDREPRENGER,
+        kode: fagsakYtelseType.PLEIEPENGER_SYKT_BARN,
         navn: 'Foreldrepenger',
       },
       erTilSaksbehandling: true,
@@ -55,8 +55,7 @@ export const skalViseAtOppgaveErReservertAvAnnenSaksbehandler = () => (
     }}
     oppgaveStatus={{
       erReservert: false,
-      reservertAvNavn: 'Espen Utvikler',
-      reservertAvUid: 'E232323',
+      reservertAv: 'Espen Utvikler',
       reservertTilTidspunkt: '2020-01-01',
     }}
   />

@@ -58,8 +58,7 @@ export const OppgaveErReservertAvAnnenModal: FunctionComponent<TsProps & Wrapped
           <FormattedMessage
             id="OppgaveErReservertAvAnnenModal.ReservertAv"
             values={{
-              saksbehandlernavn: oppgaveStatus.reservertAvNavn,
-              saksbehandlerid: oppgaveStatus.reservertAvUid,
+              saksbehandlerid: oppgaveStatus.reservertAv,
               ...getDateAndTime(oppgaveStatus.reservertTilTidspunkt),
             }}
           />
