@@ -106,8 +106,8 @@ export class OppgaverTabell extends Component<OwnProps & WrappedComponentProps, 
     if (this.nodes && Object.keys(this.nodes).some((key) => this.nodes[key] && this.nodes[key].contains(event.target))) {
       return;
     }
-    reserverOppgave(oppgave);
     this.leggTilBehandletSak(oppgave);
+    reserverOppgave(oppgave);
   };
 
   toggleMenu = (valgtOppgave: Oppgave) => {
