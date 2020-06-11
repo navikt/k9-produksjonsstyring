@@ -1,4 +1,3 @@
-
 const behandlingType = {
   ANKE: 'BT-008',
   FORSTEGANGSSOKNAD: 'BT-002',
