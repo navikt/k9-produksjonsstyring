@@ -182,7 +182,6 @@ export class BehandlingskoerIndex extends Component<OwnProps & DispatchProps, St
     this.setState((prevState) => ({
       ...prevState, reservertAvAnnenSaksbehandler: false, reservertOppgave: undefined, reservertOppgaveStatus: undefined,
     }));
-    this.openSak(oppgave);
   }
 
   render = () => {

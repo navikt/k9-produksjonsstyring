@@ -21,8 +21,7 @@ describe('<OppgaveErReservertAvAnnenModal>', () => {
     status: {
       erReservert: false,
       reservertTilTidspunkt: dato,
-      reservertAvNavn: 'Espen Utvikler',
-      reservertAvUid: '123455',
+      reservertAv: '123455',
     },
     saksnummer: '1',
     behandlingId: 2,
@@ -37,7 +36,7 @@ describe('<OppgaveErReservertAvAnnenModal>', () => {
     behandlingsfrist: '2017-01-01',
     erTilSaksbehandling: true,
     fagsakYtelseType: {
-      kode: fagsakYtelseType.FORELDREPRENGER,
+      kode: fagsakYtelseType.OMSORGSPENGER,
       navn: 'FP',
     },
     behandlingStatus: {
@@ -64,7 +63,6 @@ describe('<OppgaveErReservertAvAnnenModal>', () => {
       date: dagOgTidspunkt.date,
       time: dagOgTidspunkt.time,
       saksbehandlerid: '123455',
-      saksbehandlernavn: 'Espen Utvikler',
     });
   });
 

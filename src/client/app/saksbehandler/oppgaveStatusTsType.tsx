@@ -4,8 +4,7 @@ export type OppgaveStatus = Readonly<{
   erReservert: boolean;
   reservertTilTidspunkt?: string;
   erReservertAvInnloggetBruker?: boolean;
-  reservertAvUid?: string;
-  reservertAvNavn?: string;
+  reservertAv?: string;
   flyttetReservasjon?: {
     tidspunkt: string;
     uid: string;

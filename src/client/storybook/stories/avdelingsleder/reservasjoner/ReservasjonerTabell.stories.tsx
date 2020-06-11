@@ -4,7 +4,7 @@ import { action } from '@storybook/addon-actions';
 import ReservasjonerTabell from 'avdelingsleder/reservasjoner/components/ReservasjonerTabell';
 import behandlingType from 'kodeverk/behandlingType';
 
-import withIntl from '../../../decorators/withIntl';
+import withIntl from '../../../decorators/withIntl.js';
 
 export default {
   title: 'avdelingsleder/reservasjoner/ReservasjonerTabell',
@@ -25,8 +25,7 @@ export const skalViseAtIngenReservasjonerBleFunnet = () => (
 
 export const skalViseTabellMedReservasjoner = () => {
   const [reservasjoner, fjernReservasjon] = useState([{
-    reservertAvUid: 'wsfwer-sdsfd',
-    reservertAvNavn: 'Espen Utvikler',
+    reservertAv: 'Espen Utvikler',
     reservertTilTidspunkt: '2020-01-10',
     oppgaveId: 1,
     oppgaveSaksNr: 122234,
@@ -35,8 +34,7 @@ export const skalViseTabellMedReservasjoner = () => {
       navn: 'Førstegangssøknad',
     },
   }, {
-    reservertAvUid: 'gtfbrt-tbrtb',
-    reservertAvNavn: 'Eirik Utvikler',
+    reservertAv: 'Eirik Utvikler',
     reservertTilTidspunkt: '2020-01-01',
     oppgaveId: 2,
     oppgaveSaksNr: 23454,

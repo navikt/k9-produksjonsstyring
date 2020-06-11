@@ -39,11 +39,13 @@ type NavAnsatt = Readonly<{
   kanSaksbehandle: boolean;
   kanOppgavestyre: boolean;
   kanBehandleKode6: boolean;
+  kanReservere: boolean;
   funksjonellTid: string;
 }>;
 const NavAnsattDefault = {
   navn: undefined,
   kanSaksbehandle: undefined,
+  kanReservere: undefined,
   kanOppgavestyre: undefined,
   kanBehandleKode6: undefined,
   funksjonellTid: undefined,
@@ -56,6 +58,8 @@ export const getNavAnsattKanOppgavestyre = createSelector([k9LosApi.NAV_ANSATT.g
   .kanOppgavestyre);
 export const getNavAnsattKanBehandleKode6 = createSelector([k9LosApi.NAV_ANSATT.getRestApiData()], (navAnsatt: NavAnsatt = NavAnsattDefault) => navAnsatt
   .kanBehandleKode6);
+export const getNavAnsattKanReservere = createSelector([k9LosApi.NAV_ANSATT.getRestApiData()], (navAnsatt: NavAnsatt = NavAnsattDefault) => navAnsatt
+  .kanReservere);
 export const getFunksjonellTid = createSelector([k9LosApi.NAV_ANSATT.getRestApiData()], (navAnsatt: NavAnsatt = NavAnsattDefault) => navAnsatt.funksjonellTid);
 export const getK9sakUrl = createSelector([k9LosApi.K9SAK_URL.getRestApiData()], (k9sakUrl: {verdi: undefined }) => k9sakUrl.verdi);
 export const getK9tilbakeUrl = createSelector([k9LosApi.K9SAK_URL.getRestApiData()], (k9tilbakeUrl: {verdi: undefined }) => k9tilbakeUrl.verdi);

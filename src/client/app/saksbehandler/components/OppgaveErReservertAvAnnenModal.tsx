@@ -7,9 +7,7 @@ import { Normaltekst } from 'nav-frontend-typografi';
 
 import { getDateAndTime } from 'utils/dateUtils';
 import { OppgaveStatus } from 'saksbehandler/oppgaveStatusTsType';
-import { Oppgave } from 'saksbehandler/oppgaveTsType';
-import oppgavePropType from 'saksbehandler/oppgavePropType';
-import oppgaveStatusPropType from 'saksbehandler/oppgaveStatusPropType';
+import Oppgave from 'saksbehandler/oppgaveTsType';
 import Image from 'sharedComponents/Image';
 import Modal from 'sharedComponents/Modal';
 
@@ -56,10 +54,9 @@ export const OppgaveErReservertAvAnnenModal: FunctionComponent<TsProps & Wrapped
       <Column xs="8" className={styles.text}>
         <Normaltekst>
           <FormattedMessage
-            id="OppgaveErReservertAvAnnenModal.ReservertAv"
+            id="OppgaveErReservertAvAnnenModal.ReservertAvEnkel"
             values={{
-              saksbehandlernavn: oppgaveStatus.reservertAvNavn,
-              saksbehandlerid: oppgaveStatus.reservertAvUid,
+              saksbehandlerid: oppgaveStatus.reservertAv,
               ...getDateAndTime(oppgaveStatus.reservertTilTidspunkt),
             }}
           />
