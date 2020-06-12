@@ -130,7 +130,7 @@ export class FagsakSearchIndex extends Component<Props, StateProps> {
 
   sokFagsak = (values: {searchString: string; skalReservere: boolean}) => {
     const {
-      searchFagsaker: search, hentOppgaverForFagsaker, hentReservasjonsstatus,
+      searchFagsaker: search, hentOppgaverForFagsaker,
     } = this.props;
 
     this.setState((prevState) => ({
