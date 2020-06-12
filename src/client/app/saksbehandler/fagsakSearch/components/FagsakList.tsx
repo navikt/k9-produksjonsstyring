@@ -99,7 +99,7 @@ export class FagsakList extends Component<OwnProps, OwnState> {
                 <TableColumn>{oppgave.fagsakYtelseType.navn}</TableColumn>
                 <TableColumn>{oppgave.behandlingstype.navn}</TableColumn>
                 <TableColumn><NavFrontendChevron /></TableColumn>
-                {visReserverOppgaveModal && kanReservere && (
+                {visReserverOppgaveModal && kanReservere && !oppgave.status.erReservertAvInnloggetBruker && (
                 <ReserverOppgaveModal
                   cancel={() => this.onCancel(oppgave, selectOppgaveCallback)}
                   valgtOppgave={oppgave}
