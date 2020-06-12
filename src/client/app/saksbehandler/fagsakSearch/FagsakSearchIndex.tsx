@@ -78,7 +78,6 @@ export class FagsakSearchIndex extends Component<Props, StateProps> {
     goToFagsak: PropTypes.func.isRequired,
     reserverOppgave: PropTypes.func.isRequired,
     leggTilBehandletOppgave: PropTypes.func.isRequired,
-    hentReservasjonsstatus: PropTypes.func.isRequired,
     hentOppgaverForFagsaker: PropTypes.func.isRequired,
   };
 
