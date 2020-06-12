@@ -137,16 +137,16 @@ export const NyeOgFerdigstilteOppgaverForIdagGraf: FunctionComponent<OwnProps & 
           data={ferdigstilteOppgaver}
           onValueMouseOver={leggTilHintVerdi}
           onValueMouseOut={fjernHintVerdi}
-          fill="#38a161"
-          stroke="#38a161"
+          fill="#6AB889"
+          stroke="#6AB889"
           opacity={0.5}
         />
         <HorizontalRectSeries
           data={nyeOppgaver}
           onValueMouseOver={leggTilHintVerdi}
           onValueMouseOut={fjernHintVerdi}
-          fill="#337c9b"
-          stroke="#337c9b"
+          fill="#FFBD66"
+          stroke="#FFBD66"
           opacity={0.5}
         />
         {hintVerdi && (

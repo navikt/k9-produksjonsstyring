@@ -107,15 +107,15 @@ export class NyeOgFerdigstilteOppgaverForSisteSyvGraf extends Component<OwnProps
           <YAxis style={{ text: cssText }} />
           <AreaSeries
             data={ferdigstilteOppgaver}
-            fill="#38a161"
-            stroke="#38a161"
+            fill="#6AB889"
+            stroke="#6AB889"
             opacity={0.5}
             onNearestX={this.onNearestX}
           />
           <AreaSeries
             data={nyeOppgaver}
-            fill="#337c9b"
-            stroke="#337c9b"
+            fill="#FFBD66"
+            stroke="#FFBD66"
             opacity={0.5}
           />
           {crosshairValues.length > 0 && (
@@ -145,7 +145,7 @@ export class NyeOgFerdigstilteOppgaverForSisteSyvGraf extends Component<OwnProps
         <div className={styles.center}>
           <DiscreteColorLegend
             orientation="horizontal"
-            colors={['#38a161', '#337c9b']}
+            colors={['#6AB889', '#FFBD66']}
             items={[
               <Normaltekst className={styles.displayInline}>
                 <FormattedMessage id="NyeOgFerdigstilteOppgaverForSisteSyvGraf.Ferdigstilte" />
