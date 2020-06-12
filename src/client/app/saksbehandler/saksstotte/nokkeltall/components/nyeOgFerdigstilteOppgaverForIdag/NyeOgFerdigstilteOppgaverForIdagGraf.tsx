@@ -21,9 +21,7 @@ const behandlingstypeOrder = [
   behandlingType.ANKE,
   behandlingType.KLAGE,
   behandlingType.REVURDERING,
-  behandlingType.FORSTEGANGSSOKNAD,
-  behandlingType.AARSKVANTUM,
-  behandlingType.AVKLAR_MEDLEMSKAP];
+  behandlingType.FORSTEGANGSSOKNAD];
 
 const cssText = {
   fontFamily: 'Source Sans Pro, Arial, sans-serif',
@@ -162,7 +160,7 @@ export const NyeOgFerdigstilteOppgaverForIdagGraf: FunctionComponent<OwnProps & 
       <div className={styles.center}>
         <DiscreteColorLegend
           orientation="horizontal"
-          colors={['#38a161', '#337c9b']}
+          colors={['#6AB889', '#FFBD66']}
           items={[
             <Normaltekst className={styles.displayInline}>
               <FormattedMessage id="NyeOgFerdigstilteOppgaverForIdagGraf.Ferdigstilte" />
