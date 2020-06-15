@@ -10,12 +10,6 @@ import styles from 'saksbehandler/behandlingskoer/components/menu/oppgaveReserva
 import Modal from 'sharedComponents/Modal';
 import { dateAfterOrEqual, dateBeforeOrEqual, hasValidDate } from 'utils/validation/validators';
 
-const thirtyDaysFromNow = () => {
-  const result = new Date();
-  result.setDate(new Date().getDate() + 30);
-  return result;
-};
-
 interface OwnProps {
   showModal: boolean;
   endreOppgaveReservasjon: (reserverTil: string) => void;
@@ -56,9 +50,9 @@ export class OppgaveReservasjonEndringDatoModal extends Component<OwnProps & Wra
                 <DatepickerField
                   name="reserverTil"
                   onBlurValidation
-                  validate={[hasValidDate, dateAfterOrEqual(new Date()), dateBeforeOrEqual(thirtyDaysFromNow())]}
+                  validate={[hasValidDate, dateAfterOrEqual(new Date())]}
                   alwaysShowCalendar
-                  disabledDays={{ before: new Date(), after: thirtyDaysFromNow() }}
+                  disabledDays={{ before: new Date() }}
                 />
                 <Row className={styles.buttonRow}>
                   <Column>
