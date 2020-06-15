@@ -43,8 +43,8 @@ interface OwnProps{
   onBlur?: (any) => void;
   alwaysShowCalendar?: boolean;
   disabledDays?: {
-    before: Date;
-    after: Date;
+    before?: Date;
+    after?: Date;
   };
 }
 
