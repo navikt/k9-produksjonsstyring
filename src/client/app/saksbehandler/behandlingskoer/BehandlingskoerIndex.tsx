@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 import k9LosApi from 'api/k9LosApi';
@@ -61,7 +61,11 @@ interface StateProps {
  */
 export class BehandlingskoerIndex extends Component<OwnProps & DispatchProps, StateProps> {
   state = {
-    id: undefined, reservertAvAnnenSaksbehandler: false, reservertOppgave: undefined, reservertOppgaveStatus: undefined,
+    id: undefined,
+    reservertAvAnnenSaksbehandler: false,
+    reservertOppgave: undefined,
+    reservertOppgaveStatus: undefined,
+    source: new EventSource('https://k9-los-oidc-auth-proxy.nais.preprod.local/api/k9-los-api/sse'),
   };
 
   static defaultProps = {
@@ -69,6 +73,11 @@ export class BehandlingskoerIndex extends Component<OwnProps & DispatchProps, St
   }
 
   componentDidMount = () => {
+    const { source } = this.state;
+    source.addEventListener('message', (message) => {
+      this.handleEvent(message);
+    });
+
     const { fetchAlleOppgavekoer: getOppgavekoer } = this.props;
     getOppgavekoer();
   }
@@ -80,13 +89,15 @@ export class BehandlingskoerIndex extends Component<OwnProps & DispatchProps, St
     }
   }
 
-  fetchOppgavekoOppgaverPolling = () => {
+  handleEvent = (e: MessageEvent) => {
+    const data = JSON.parse(e.data);
     const { fetchOppgaverTilBehandlingOppgaver: fetchTilBehandling, fetchReserverteOppgaver: fetchReserverte } = this.props;
     const { id } = this.state;
-    fetchReserverte(id);
-    fetchTilBehandling(id).then(() => {
-      setTimeout(() => { this.fetchOppgavekoOppgaverPolling(); }, 5000);
-    }).catch(() => undefined);
+    if (data.message === 'oppdaterReserverte') {
+      fetchReserverte(id);
+    } else if (data.message === 'oppdaterTilBehandling') {
+      fetchTilBehandling(id);
+    }
   }
 
   fetchOppgavekoOppgaver = (id: string) => {
@@ -94,9 +105,7 @@ export class BehandlingskoerIndex extends Component<OwnProps & DispatchProps, St
     const { fetchOppgaverTilBehandling: fetchTilBehandling, fetchReserverteOppgaver: fetchReserverte, setValgtOppgavekoId: setOppgavekoId } = this.props;
     setOppgavekoId(id);
     fetchReserverte(id);
-    fetchTilBehandling(id).then((response) =>
-    // eslint-disable-next-line react/destructuring-assignment,implicit-arrow-linebreak
-      (id === this.state.id ? this.fetchOppgavekoOppgaverPolling(id) : Promise.resolve()));
+    fetchTilBehandling(id);
   }
 
   openSak = (oppgave: Oppgave) => {
