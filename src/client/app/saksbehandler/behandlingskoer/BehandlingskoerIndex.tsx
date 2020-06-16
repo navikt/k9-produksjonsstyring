@@ -4,7 +4,7 @@ import { bindActionCreators, Dispatch } from 'redux';
 import k9LosApi from 'api/k9LosApi';
 import { getK9sakHref, getK9tilbakeHref } from 'app/paths';
 import { Oppgaveko } from 'saksbehandler/behandlingskoer/oppgavekoTsType';
-import { getK9sakUrl, getK9tilbakeUrl } from 'app/duck';
+import { getK9sakUrl, getK9tilbakeUrl, getSseUrl } from 'app/duck';
 import { OppgaveStatus } from 'saksbehandler/oppgaveStatusTsType';
 import Oppgave from 'saksbehandler/oppgaveTsType';
 import OppgaveErReservertAvAnnenModal from 'saksbehandler/components/OppgaveErReservertAvAnnenModal';
@@ -28,6 +28,7 @@ import OppgavekoPanel from './components/OppgavekoPanel';
 interface OwnProps {
   k9sakUrl: string;
   k9tilbakeUrl: string;
+  sseUrl: string;
   oppgavekoer: Oppgaveko[];
   goToUrl: (url: string) => void;
 }
@@ -45,6 +46,7 @@ interface DispatchProps {
   flyttReservasjon: (oppgaveId: string, brukerident: string, begrunnelse: string) => Promise<string>;
   oppgavekoer: Oppgaveko[];
   k9sakUrl: string;
+  sseUrl: string;
   k9tilbakeUrl: string;
   goToUrl: (url: string) => void;
   setValgtOppgavekoId: (id: string) => void;
@@ -65,7 +67,6 @@ export class BehandlingskoerIndex extends Component<OwnProps & DispatchProps, St
     reservertAvAnnenSaksbehandler: false,
     reservertOppgave: undefined,
     reservertOppgaveStatus: undefined,
-    source: new EventSource('api/sse'),
   };
 
   static defaultProps = {
@@ -73,7 +74,8 @@ export class BehandlingskoerIndex extends Component<OwnProps & DispatchProps, St
   }
 
   componentDidMount = () => {
-    const { source } = this.state;
+    const { sseUrl } = this.props;
+    const source = new EventSource(sseUrl);
     source.addEventListener('message', (message) => {
       this.handleEvent(message);
     });
@@ -229,6 +231,7 @@ export class BehandlingskoerIndex extends Component<OwnProps & DispatchProps, St
 const mapStateToProps = (state) => ({
   k9sakUrl: getK9sakUrl(state),
   k9tilbakeUrl: getK9tilbakeUrl(state),
+  sseUrl: getSseUrl(state),
   oppgavekoer: getOppgavekoResult(state),
   goToUrl: (url) => window.location.assign(url),
 });
