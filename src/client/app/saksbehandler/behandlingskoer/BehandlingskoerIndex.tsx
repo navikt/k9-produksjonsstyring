@@ -67,6 +67,7 @@ export class BehandlingskoerIndex extends Component<OwnProps & DispatchProps, St
     reservertAvAnnenSaksbehandler: false,
     reservertOppgave: undefined,
     reservertOppgaveStatus: undefined,
+    source: new EventSource('https://k9-los-oidc-auth-proxy.nais.preprod.local/api/k9-los-api/sse', { withCredentials: true });
   };
 
   static defaultProps = {
@@ -74,8 +75,7 @@ export class BehandlingskoerIndex extends Component<OwnProps & DispatchProps, St
   }
 
   componentDidMount = () => {
-    const { sseUrl } = this.props;
-    const source = new EventSource(sseUrl, { withCredentials: true });
+    const { source } = this.state;
     source.addEventListener('message', (message) => {
       this.handleEvent(message);
     });
