@@ -96,7 +96,7 @@ export class BehandlingskoerIndex extends Component<OwnProps & DispatchProps, St
     fetchReserverte(id);
     fetchTilBehandling(id).then((response) =>
     // eslint-disable-next-line react/destructuring-assignment,implicit-arrow-linebreak
-      (id === this.state.id ? this.fetchOppgavekoOppgaverPolling(id) : Promise.resolve()));
+      (id === this.state.id ? this.fetchOppgavekoOppgaverPolling() : Promise.resolve()));
   }
 
   openSak = (oppgave: Oppgave) => {
