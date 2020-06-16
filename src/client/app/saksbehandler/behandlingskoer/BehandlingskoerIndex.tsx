@@ -75,7 +75,7 @@ export class BehandlingskoerIndex extends Component<OwnProps & DispatchProps, St
 
   componentDidMount = () => {
     const { sseUrl } = this.props;
-    const source = new EventSource(sseUrl);
+    const source = new EventSource(sseUrl, { withCredentials: true });
     source.addEventListener('message', (message) => {
       this.handleEvent(message);
     });
