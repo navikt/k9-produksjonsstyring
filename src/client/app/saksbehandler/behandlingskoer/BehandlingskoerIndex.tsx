@@ -67,7 +67,7 @@ export class BehandlingskoerIndex extends Component<OwnProps & DispatchProps, St
     reservertAvAnnenSaksbehandler: false,
     reservertOppgave: undefined,
     reservertOppgaveStatus: undefined,
-    source: new EventSource('https://k9-los-oidc-auth-proxy.nais.preprod.local/api/k9-los-api/sse', { withCredentials: true });
+    source: new EventSource('https://k9-los-oidc-auth-proxy.nais.preprod.local/api/k9-los-api/sse', { withCredentials: true }),
   };
 
   static defaultProps = {
