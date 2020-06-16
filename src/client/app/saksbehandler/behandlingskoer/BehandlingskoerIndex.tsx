@@ -92,12 +92,11 @@ export class BehandlingskoerIndex extends Component<OwnProps & DispatchProps, St
   }
 
   handleEvent = (e: MessageEvent) => {
-    const data = JSON.parse(e.data);
     const { fetchOppgaverTilBehandlingOppgaver: fetchTilBehandling, fetchReserverteOppgaver: fetchReserverte } = this.props;
     const { id } = this.state;
-    if (data.message === 'oppdaterReserverte') {
+    if (e.data === 'oppdaterReserverte') {
       fetchReserverte(id);
-    } else if (data.message === 'oppdaterTilBehandling') {
+    } else if (e.data === 'oppdaterTilBehandling') {
       fetchTilBehandling(id);
     }
   }
