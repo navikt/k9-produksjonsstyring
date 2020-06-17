@@ -194,7 +194,6 @@ describe('<BehandlingskoerIndex>', () => {
       fetchOppgaverTilBehandlingOppgaver={sinon.spy()}
       flyttReservasjon={flyttReservasjonFn}
       oppgavekoer={oppgavekoer}
-      source={}
       goToUrl={sinon.spy()}
       setValgtOppgavekoId={sinon.spy()}
     />);

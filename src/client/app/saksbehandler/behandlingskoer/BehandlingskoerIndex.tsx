@@ -1,4 +1,4 @@
-import React, { Component, useEffect } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 import k9LosApi from 'api/k9LosApi';
@@ -24,7 +24,6 @@ import {
   leggTilBehandletOppgave,
 } from './duck';
 import OppgavekoPanel from './components/OppgavekoPanel';
-import json = Mocha.reporters.json;
 
 interface OwnProps {
   k9sakUrl: string;
