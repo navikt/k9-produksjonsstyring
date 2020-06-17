@@ -33,7 +33,6 @@ const headerTextCodes = [
   'OppgaverTabell.Soker',
   'OppgaverTabell.Behandlingstype',
   'OppgaverTabell.BehandlingOpprettet',
-  'OppgaverTabell.FristForBehandling',
   'EMPTY_1',
   'EMPTY_2',
 ];
