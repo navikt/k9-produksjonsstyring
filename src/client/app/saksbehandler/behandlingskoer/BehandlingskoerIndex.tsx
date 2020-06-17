@@ -24,6 +24,7 @@ import {
   leggTilBehandletOppgave,
 } from './duck';
 import OppgavekoPanel from './components/OppgavekoPanel';
+import json = Mocha.reporters.json;
 
 interface OwnProps {
   k9sakUrl: string;
@@ -92,12 +93,15 @@ export class BehandlingskoerIndex extends Component<OwnProps & DispatchProps, St
   }
 
   handleEvent = (e: MessageEvent) => {
+    const data = JSON.parse(e.data);
     const { fetchOppgaverTilBehandlingOppgaver: fetchTilBehandling, fetchReserverteOppgaver: fetchReserverte } = this.props;
     const { id } = this.state;
-    if (e.data === 'oppdaterReserverte') {
+    if (data.melding === 'oppdaterReserverte') {
       fetchReserverte(id);
-    } else if (e.data === 'oppdaterTilBehandling') {
-      fetchTilBehandling(id);
+    } else if (data.melding === 'oppdaterTilBehandling') {
+      if (id === data.id) {
+        fetchTilBehandling(id);
+      }
     }
   }
 
