@@ -212,6 +212,7 @@
   "OppgavekoPanel.StartBehandling": "Start behandling",
 
   "Search.SearchFagsakOrPerson": "Søk på sak eller person",
+  "Search.Info": "For å finne saksnummer som kan brukes i k9-los, må man søke opp fnummer i https://app-q1.adeo.no/k9/web/ og kopiere saksnummer, gå til bake til k9-los og søke med rett saksnummer i søkefeltet nedenfor.",
   "Search.SaksnummerOrPersonId": "Saksnummer eller fødselsnummer/D-nummer",
   "Search.Search": "Søk",
   "Search.ReserverBehandling": "Reserver behandlingen ved søk",
