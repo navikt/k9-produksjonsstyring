@@ -12,6 +12,7 @@ const k9LosApiKeys = {
   BEHANDLEDE_OPPGAVER: 'BEHANDLEDE_OPPGAVER',
   K9SAK_URL: 'K9SAK_URL',
   K9TILBAKE_URL: 'K9TILBAKE_URL',
+  SSE_URL: 'SSE_URL',
   FEATURE_TOGGLES: 'FEATURE_TOGGLES',
   OPPGAVEKO: 'OPPGAVEKO',
   RESERVER_OPPGAVE: 'RESERVER_OPPGAVE',
@@ -115,6 +116,7 @@ const endpoints = new RestApiConfigBuilder()
 
   /* /api/konfig */
   .withGet('konfig/k9-sak-url', k9LosApiKeys.K9SAK_URL)
+  .withGet('konfig/sse-url', k9LosApiKeys.SSE_URL)
   .withGet('konfig/k9tilbake-url', k9LosApiKeys.K9TILBAKE_URL)
   .withGet('konfig/feature-toggles', k9LosApiKeys.FEATURE_TOGGLES)
 
