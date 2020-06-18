@@ -16,6 +16,8 @@ import advarselIcon from 'images/advarsel.svg';
 import { hasValidSaksnummerOrFodselsnummerFormat } from 'utils/validation/validators';
 import { InputField } from 'form/FinalFields';
 
+import moment from 'moment';
+import { DDMMYYYY_DATE_FORMAT } from 'utils/formats';
 import styles from './searchForm.less';
 
 const isButtonDisabled = (searchString, searchStarted, searchResultAccessDenied) => (!searchResultAccessDenied.feilmelding && searchStarted) || !searchString;
@@ -31,6 +33,12 @@ interface OwnProps {
   resetSearch: () => void;
   kanSaksbehandle: boolean;
 }
+
+const infoText = {
+  aPdl: <a href="https://navikt.github.io/pdl/">PDL</a>,
+  aK9sak: <a href="https://app-q1.adeo.no/k9/web/"> K9-sak</a>,
+  br: <br />,
+};
 
 /**
  * SearchForm
@@ -48,8 +56,10 @@ export const SearchForm: FunctionComponent<OwnProps & WrappedComponentProps> = (
     onSubmit={onSubmit}
     render={({ handleSubmit, values }) => (
       <form className={styles.container} onSubmit={handleSubmit}>
+        <p className={styles.info}>
+          {intl.formatMessage({ id: 'Search.Info' }, infoText)}
+        </p>
         <Undertittel>{intl.formatMessage({ id: 'Search.SearchFagsakOrPerson' })}</Undertittel>
-        {erIDev && <Undertittel>{intl.formatMessage({ id: 'Search.Info' })}</Undertittel>}
         {kanSaksbehandle && (
         <>
           <VerticalSpacer sixteenPx />
