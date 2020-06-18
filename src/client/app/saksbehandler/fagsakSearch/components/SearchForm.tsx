@@ -56,7 +56,7 @@ export const SearchForm: FunctionComponent<OwnProps & WrappedComponentProps> = (
     onSubmit={onSubmit}
     render={({ handleSubmit, values }) => (
       <form className={styles.container} onSubmit={handleSubmit}>
-        { erIDev && (
+        { erIDev() && (
         <p className={styles.info}>
           {intl.formatMessage({ id: 'Search.Info' }, infoText)}
         </p>
