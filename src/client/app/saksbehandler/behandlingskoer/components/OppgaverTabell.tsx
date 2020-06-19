@@ -33,7 +33,6 @@ const headerTextCodes = [
   'OppgaverTabell.Soker',
   'OppgaverTabell.Behandlingstype',
   'OppgaverTabell.BehandlingOpprettet',
-  'OppgaverTabell.FristForBehandling',
   'EMPTY_1',
   'EMPTY_2',
 ];
@@ -175,7 +174,6 @@ export class OppgaverTabell extends Component<OwnProps & WrappedComponentProps, 
                   <TableColumn>{oppgave.navn ? `${oppgave.navn} ${oppgave.personnummer}` : '<navn>'}</TableColumn>
                   <TableColumn>{oppgave.behandlingstype.navn}</TableColumn>
                   <TableColumn>{oppgave.opprettetTidspunkt && <DateLabel dateString={oppgave.opprettetTidspunkt} />}</TableColumn>
-                  <TableColumn>{oppgave.behandlingsfrist && <DateLabel dateString={oppgave.behandlingsfrist} />}</TableColumn>
                   <TableColumn>
                     {oppgave.status.flyttetReservasjon && (
                     <Image

@@ -92,13 +92,11 @@ describe('<OppgaverTabell>', () => {
     expect(columnsRow1.first().childAt(0).text()).is.eql('Espen Utvikler 123456789');
     expect(columnsRow1.at(1).childAt(0).text()).is.eql('Førstegangssøknad');
     expect(columnsRow1.at(2).find(DateLabel).prop('dateString')).is.eql('2019-01-02');
-    expect(columnsRow1.at(3).find(DateLabel).prop('dateString')).is.eql('2019-03-03');
 
     const columnsRow2 = tableRows.last().find(TableColumn);
     expect(columnsRow2.first().childAt(0).text()).is.eql('Espen Solstråle 657643535');
     expect(columnsRow2.at(1).childAt(0).text()).is.eql('Førstegangssøknad far');
     expect(columnsRow2.at(2).find(DateLabel).prop('dateString')).is.eql('2018-01-02');
-    expect(columnsRow2.at(3).find(DateLabel).prop('dateString')).is.eql('2018-03-03');
 
     const message = wrapper.find(FormattedMessage);
     expect(message).has.length(1);
@@ -179,17 +177,15 @@ describe('<OppgaverTabell>', () => {
     expect(columnsRow1.first().childAt(0).text()).is.eql('Espen Solstråle 657643535');
     expect(columnsRow1.at(1).childAt(0).text()).is.eql('Førstegangssøknad far');
     expect(columnsRow1.at(2).find(DateLabel).prop('dateString')).is.eql('2018-01-02');
-    expect(columnsRow1.at(3).find(DateLabel).prop('dateString')).is.eql('2018-03-03');
-    expect(columnsRow1.at(4).find(Image)).has.length(0);
-    expect(columnsRow1.at(5).find(Image)).has.length(1);
+    expect(columnsRow1.at(3).find(Image)).has.length(0);
+    expect(columnsRow1.at(4).find(Image)).has.length(1);
 
     const columnsRow2 = tableRows.last().find(TableColumn);
     expect(columnsRow2.first().childAt(0).text()).is.eql('Espen Utvikler 123456789');
     expect(columnsRow2.at(1).childAt(0).text()).is.eql('Førstegangssøknad');
     expect(columnsRow2.at(2).find(DateLabel).prop('dateString')).is.eql('2019-01-02');
-    expect(columnsRow2.at(3).find(DateLabel).prop('dateString')).is.eql('2019-03-03');
-    expect(columnsRow2.at(4).find(Image)).has.length(0);
-    expect(columnsRow2.at(5).find(NavFrontendChevron)).has.length(1);
+    expect(columnsRow2.at(3).find(Image)).has.length(0);
+    expect(columnsRow2.at(4).find(NavFrontendChevron)).has.length(1);
   });
 
   it('skal ikke vise liste når en ikke har oppgaver', () => {
@@ -269,11 +265,10 @@ describe('<OppgaverTabell>', () => {
     expect(columnsRow1.first().childAt(0).text()).is.eql('Espen Solstråle 657643535');
     expect(columnsRow1.at(1).childAt(0).text()).is.eql('Førstegangssøknad far');
     expect(columnsRow1.at(2).find(DateLabel).prop('dateString')).is.eql('2018-01-02');
-    expect(columnsRow1.at(3).find(DateLabel).prop('dateString')).is.eql('2018-03-03');
+    expect(columnsRow1.at(3).find(Image)).has.length(1);
     expect(columnsRow1.at(4).find(Image)).has.length(1);
-    expect(columnsRow1.at(5).find(Image)).has.length(1);
 
-    const tooltip = shallowWithIntl(columnsRow1.at(4).find(Image).prop('tooltip'));
+    const tooltip = shallowWithIntl(columnsRow1.at(3).find(Image).prop('tooltip'));
     const values = tooltip.find(FormattedMessage).prop('values') as { dato: string; tid: string; uid: string; navn: string; beskrivelse: string};
 
     expect(values.dato).is.eql('02.01.2018');

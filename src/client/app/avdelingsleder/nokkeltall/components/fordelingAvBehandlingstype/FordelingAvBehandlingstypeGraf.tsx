@@ -132,21 +132,21 @@ const FordelingAvBehandlingstypeGraf: FunctionComponent<OwnProps & WrappedCompon
               <YAxis
                 style={{ text: cssText }}
                 tickFormat={finnBehandlingTypeNavn}
-                tickValues={[1, 2, 3, 4, 5, 6]}
+                tickValues={[1, 2, 3, 4, 5]}
               />
               <HorizontalRectSeries
                 data={settCustomHoydePaSoylene(tilSaksbehandling)}
                 onValueMouseOver={leggTilHintVerdi}
                 onValueMouseOut={fjernHintVerdi}
-                fill="#337c9b"
-                stroke="#337c9b"
+                fill="#634689"
+                stroke="#634689"
               />
               <HorizontalRectSeries
                 data={settCustomHoydePaSoylene(tilBeslutter)}
                 onValueMouseOver={leggTilHintVerdi}
                 onValueMouseOut={fjernHintVerdi}
-                fill="#38a161"
-                stroke="#38a161"
+                fill="#FF9100"
+                stroke="#FF9100"
               />
               {hintVerdi && (
                 <Hint value={hintVerdi}>
@@ -161,7 +161,7 @@ const FordelingAvBehandlingstypeGraf: FunctionComponent<OwnProps & WrappedCompon
           </FlexColumn>
           <FlexColumn>
             <DiscreteColorLegend
-              colors={['#337c9b', '#38a161']}
+              colors={['#634689', '#FF9100']}
               items={[
                 <Normaltekst className={styles.displayInline}>
                   <FormattedMessage id="FordelingAvBehandlingstypeGraf.TilBehandling" />

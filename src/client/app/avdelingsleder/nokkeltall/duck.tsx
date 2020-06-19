@@ -10,7 +10,9 @@ export const fetchAlleOppgaver = () => (dispatch: Dispatch) => dispatch(
 export const getAlleOppgaver = k9LosApi.HENT_OPPGAVER.getRestApiData();
 
 export const fetchOppgaverPerDato = () => (dispatch: Dispatch) => dispatch(
-  k9LosApi.HENT_OPPGAVER_PER_DATO.makeRestApiRequest(),
+  k9LosApi.HENT_OPPGAVER_PER_DATO.makeRestApiRequest()(
+    { }, { keepData: true },
+  ),
 );
 
 export const getOppgaverPerDato = k9LosApi.HENT_OPPGAVER_PER_DATO.getRestApiData();

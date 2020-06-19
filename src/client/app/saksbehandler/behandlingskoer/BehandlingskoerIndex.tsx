@@ -4,7 +4,7 @@ import { bindActionCreators, Dispatch } from 'redux';
 import k9LosApi from 'api/k9LosApi';
 import { getK9sakHref, getK9tilbakeHref } from 'app/paths';
 import { Oppgaveko } from 'saksbehandler/behandlingskoer/oppgavekoTsType';
-import { getK9sakUrl, getK9tilbakeUrl } from 'app/duck';
+import { getK9sakUrl, getK9tilbakeUrl, getSseUrl } from 'app/duck';
 import { OppgaveStatus } from 'saksbehandler/oppgaveStatusTsType';
 import Oppgave from 'saksbehandler/oppgaveTsType';
 import OppgaveErReservertAvAnnenModal from 'saksbehandler/components/OppgaveErReservertAvAnnenModal';
@@ -28,6 +28,7 @@ import OppgavekoPanel from './components/OppgavekoPanel';
 interface OwnProps {
   k9sakUrl: string;
   k9tilbakeUrl: string;
+  sseUrl: string;
   oppgavekoer: Oppgaveko[];
   goToUrl: (url: string) => void;
 }
@@ -45,6 +46,7 @@ interface DispatchProps {
   flyttReservasjon: (oppgaveId: string, brukerident: string, begrunnelse: string) => Promise<string>;
   oppgavekoer: Oppgaveko[];
   k9sakUrl: string;
+  sseUrl: string;
   k9tilbakeUrl: string;
   goToUrl: (url: string) => void;
   setValgtOppgavekoId: (id: string) => void;
@@ -61,7 +63,10 @@ interface StateProps {
  */
 export class BehandlingskoerIndex extends Component<OwnProps & DispatchProps, StateProps> {
   state = {
-    id: undefined, reservertAvAnnenSaksbehandler: false, reservertOppgave: undefined, reservertOppgaveStatus: undefined,
+    id: undefined,
+    reservertAvAnnenSaksbehandler: false,
+    reservertOppgave: undefined,
+    reservertOppgaveStatus: undefined,
   };
 
   static defaultProps = {
@@ -69,6 +74,12 @@ export class BehandlingskoerIndex extends Component<OwnProps & DispatchProps, St
   }
 
   componentDidMount = () => {
+    const { sseUrl } = this.props;
+    const source = new EventSource(sseUrl, { withCredentials: true });
+    source.addEventListener('message', (message) => {
+      this.handleEvent(message);
+    });
+
     const { fetchAlleOppgavekoer: getOppgavekoer } = this.props;
     getOppgavekoer();
   }
@@ -80,13 +91,17 @@ export class BehandlingskoerIndex extends Component<OwnProps & DispatchProps, St
     }
   }
 
-  fetchOppgavekoOppgaverPolling = () => {
+  handleEvent = (e: MessageEvent) => {
+    const data = JSON.parse(e.data);
     const { fetchOppgaverTilBehandlingOppgaver: fetchTilBehandling, fetchReserverteOppgaver: fetchReserverte } = this.props;
     const { id } = this.state;
-    fetchReserverte(id);
-    fetchTilBehandling(id).then(() => {
-      setTimeout(() => { this.fetchOppgavekoOppgaverPolling(); }, 5000);
-    }).catch(() => undefined);
+    if (data.melding === 'oppdaterReserverte') {
+      fetchReserverte(id);
+    } else if (data.melding === 'oppdaterTilBehandling') {
+      if (id === data.id) {
+        fetchTilBehandling(id);
+      }
+    }
   }
 
   fetchOppgavekoOppgaver = (id: string) => {
@@ -94,9 +109,7 @@ export class BehandlingskoerIndex extends Component<OwnProps & DispatchProps, St
     const { fetchOppgaverTilBehandling: fetchTilBehandling, fetchReserverteOppgaver: fetchReserverte, setValgtOppgavekoId: setOppgavekoId } = this.props;
     setOppgavekoId(id);
     fetchReserverte(id);
-    fetchTilBehandling(id).then((response) =>
-    // eslint-disable-next-line react/destructuring-assignment,implicit-arrow-linebreak
-      (id === this.state.id ? this.fetchOppgavekoOppgaverPolling() : Promise.resolve()));
+    fetchTilBehandling(id);
   }
 
   openSak = (oppgave: Oppgave) => {
@@ -220,6 +233,7 @@ export class BehandlingskoerIndex extends Component<OwnProps & DispatchProps, St
 const mapStateToProps = (state) => ({
   k9sakUrl: getK9sakUrl(state),
   k9tilbakeUrl: getK9tilbakeUrl(state),
+  sseUrl: getSseUrl(state),
   oppgavekoer: getOppgavekoResult(state),
   goToUrl: (url) => window.location.assign(url),
 });

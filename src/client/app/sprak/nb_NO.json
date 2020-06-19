@@ -136,7 +136,7 @@
   "NyeOgFerdigstilteOppgaverForIdagGraf.NyeAntall": "Antall nye: {antall}",
   "NyeOgFerdigstilteOppgaverForIdagGraf.Førstegangsbehandling": "Førstegangsbeh.",
 
-  "NyeOgFerdigstilteOppgaverForIdagPanel.NyeOgFerdigstilte": "Alle nye og ferdigstilte behandlinger",
+  "NyeOgFerdigstilteOppgaverForIdagPanel.NyeOgFerdigstilte": "Alle nye og ferdigstilte behandlinger i køen",
   "NyeOgFerdigstilteOppgaverForIdagPanel.IDag": "I dag",
 
   "NyeOgFerdigstilteOppgaverForSisteSyvGraf.Ferdigstilte": "Ferdigstilte",
@@ -212,6 +212,7 @@
   "OppgavekoPanel.StartBehandling": "Start behandling",
 
   "Search.SearchFagsakOrPerson": "Søk på sak eller person",
+  "Search.Info": "{aPdl} er den nye persondataløsningen som skal ta over for TPS. Alle konsumerende tjenester i NAV (med noen unntak skal hente opplysninger fra TPS i januar 2021. Det er uheldig at PDL ikke har koblet seg mot q1 enda (det har blitt lovet at det skal komme). Dette medfører at det ikke er mulig å vise samme navn og fnummer i K9-los. Vi viser derfor saksnummer samt placeholder for navn og fnummer, samt aksjonspunkt. {br}{br} For å finne saksnummer som kan brukes i K9-los, må man søke opp fnummer i {aK9sak} og kopiere saksnummer, gå til bake til K9-los og søke med saksnummeret i søkefeltet nedenfor.",
   "Search.SaksnummerOrPersonId": "Saksnummer eller fødselsnummer/D-nummer",
   "Search.Search": "Søk",
   "Search.ReserverBehandling": "Reserver behandlingen ved søk",

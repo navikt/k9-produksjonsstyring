@@ -44,16 +44,6 @@ const NokkeltallPanel: FunctionComponent = () => {
         width={width}
         height={height}
       />
-      <VerticalSpacer twentyPx />
-      <ManueltPaVentPanel
-        width={width}
-        height={height}
-      />
-      <VerticalSpacer twentyPx />
-      <OppgaverPerForsteStonadsdagPanel
-        width={width}
-        height={height}
-      />
     </div>
   );
 };

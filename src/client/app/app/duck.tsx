@@ -60,6 +60,7 @@ export const getNavAnsattKanBehandleKode6 = createSelector([k9LosApi.NAV_ANSATT.
   .kanBehandleKode6);
 export const getNavAnsattKanReservere = createSelector([k9LosApi.NAV_ANSATT.getRestApiData()], (navAnsatt: NavAnsatt = NavAnsattDefault) => navAnsatt
   .kanReservere);
+export const getSseUrl = createSelector([k9LosApi.SSE_URL.getRestApiData()], (sseUrl: {verdi: undefined }) => sseUrl.verdi);
 export const getFunksjonellTid = createSelector([k9LosApi.NAV_ANSATT.getRestApiData()], (navAnsatt: NavAnsatt = NavAnsattDefault) => navAnsatt.funksjonellTid);
 export const getK9sakUrl = createSelector([k9LosApi.K9SAK_URL.getRestApiData()], (k9sakUrl: {verdi: undefined }) => k9sakUrl.verdi);
 export const getK9tilbakeUrl = createSelector([k9LosApi.K9SAK_URL.getRestApiData()], (k9tilbakeUrl: {verdi: undefined }) => k9tilbakeUrl.verdi);

@@ -94,7 +94,7 @@ FordelingAvBehandlingstypePanel.defaultProps = {
 const formDefaultValues = { valgtYtelseType: ALLE_YTELSETYPER_VALGT };
 
 const mapStateToProps = (state) => ({
-  alleOppgaverForAvdeling: getAlleOppgaver(state),
+  alleOppgaver: getAlleOppgaver(state),
   fagsakYtelseTyper: getKodeverk(state)[kodeverkTyper.FAGSAK_YTELSE_TYPE],
   behandlingTyper: getKodeverk(state)[kodeverkTyper.BEHANDLING_TYPE],
   initialValues: getValuesFromReduxState(state)[formName] || formDefaultValues,

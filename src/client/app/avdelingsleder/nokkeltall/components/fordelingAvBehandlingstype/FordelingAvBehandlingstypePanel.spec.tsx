@@ -56,11 +56,11 @@ describe('<FordelingAvBehandlingstypePanel>', () => {
     />).find(Form).renderProp('render')({ values: valuesMock });
 
     const radioOptions = wrapper.find(RadioOption);
-    expect(radioOptions).to.have.length(4);
-    expect(radioOptions.first().prop('value')).to.eql('FP');
-    expect(radioOptions.first().prop('label')).to.eql('Foreldrepenger');
-    expect(radioOptions.at(1).prop('value')).to.eql('ES');
-    expect(radioOptions.at(1).prop('label')).to.eql('Engangsstønad');
+    expect(radioOptions).to.have.length(3);
+    expect(radioOptions.first().prop('value')).to.eql('OMP');
+    expect(radioOptions.first().prop('label')).to.eql('Omsorgspenger');
+    expect(radioOptions.at(1).prop('value')).to.eql('PSB');
+    expect(radioOptions.at(1).prop('label')).to.eql('Pleiepenger sykt barn');
     expect(radioOptions.last().prop('value')).to.eql('ALLE');
   });
 
@@ -98,7 +98,7 @@ describe('<FordelingAvBehandlingstypePanel>', () => {
 
   it('skal filtrere bort omsorgspenger', () => {
     const valuesMock = {
-      valgtYtelseType: fagsakYtelseType.OMSORGSPENGER,
+      valgtYtelseType: fagsakYtelseType.PLEIEPENGER_SYKT_BARN,
     };
     const alleOppgaver = [{
       fagsakYtelseType: fagsakYtelseTyper[0],

@@ -5,16 +5,12 @@ import { bindActionCreators, Dispatch } from 'redux';
 import {
   fetchAlleOppgaver as fetchAlleOppgaverActionCreator,
   fetchOppgaverPerDato as fetchOppgaverPerDatoActionCreator,
-  fetchOppgaverManueltPaVent as fetchOppgaverManueltPaVentActionCreator,
-  fetchOppgaverPerForsteStonadsdag as fetchOppgaverPerForsteStonadsdagActionCreator,
 } from './duck';
 import NokkeltallPanel from './components/NokkeltallPanel';
 
 interface TsProps {
   fetchAlleOppgaver: () => void;
   fetchOppgaverPerDato: () => void;
-  fetchOppgaverManueltPaVent: () => void;
-  fetchOppgaverPerForsteStonadsdag: () => void;
 }
 
 /**
@@ -23,12 +19,10 @@ interface TsProps {
 export class NokkeltallIndex extends Component<TsProps> {
   componentDidMount = () => {
     const {
-      fetchAlleOppgaver, fetchOppgaverPerDato, fetchOppgaverManueltPaVent, fetchOppgaverPerForsteStonadsdag,
+      fetchAlleOppgaver, fetchOppgaverPerDato,
     } = this.props;
     fetchAlleOppgaver();
     fetchOppgaverPerDato();
-    fetchOppgaverManueltPaVent();
-    fetchOppgaverPerForsteStonadsdag();
   }
 
   render = () => (
@@ -40,8 +34,6 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   ...bindActionCreators({
     fetchAlleOppgaver: fetchAlleOppgaverActionCreator,
     fetchOppgaverPerDato: fetchOppgaverPerDatoActionCreator,
-    fetchOppgaverManueltPaVent: fetchOppgaverManueltPaVentActionCreator,
-    fetchOppgaverPerForsteStonadsdag: fetchOppgaverPerForsteStonadsdagActionCreator,
   }, dispatch),
 });
 

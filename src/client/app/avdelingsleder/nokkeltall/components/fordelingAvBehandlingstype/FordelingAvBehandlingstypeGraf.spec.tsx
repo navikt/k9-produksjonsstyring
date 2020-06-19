@@ -23,14 +23,14 @@ describe('<FordelingAvBehandlingstypeGraf>', () => {
     navn: 'Omsorgspenger',
   }];
   const behandlingTyper = [{
+    kode: behandlingType.ANKE,
+    navn: 'Anke',
+  }, {
     kode: behandlingType.FORSTEGANGSSOKNAD,
     navn: 'Førstegangssøknad',
   }, {
     kode: behandlingType.KLAGE,
     navn: 'Klage',
-  }, {
-    kode: behandlingType.ANKE,
-    navn: 'Anke',
   }, {
     kode: behandlingType.REVURDERING,
     navn: 'Revurdering',
@@ -84,7 +84,7 @@ describe('<FordelingAvBehandlingstypeGraf>', () => {
     const verdiFn = yAksen.prop('tickFormat') as (v, i: number) => void;
 
     const behandlingstyper = verdiIndekser.map((i) => verdiFn(undefined, i - 1));
-    expect(behandlingstyper).is.eql(['Dokumentinnsyn', 'Klage', 'Revurdering', 'Førstegangssøknad', 'Anke']);
+    expect(behandlingstyper).is.eql(['Anke', 'Dokumentinnsyn', 'Klage', 'Revurdering', 'Førstegangssøknad']);
   });
 
   it('skal vise hint med antall og total-antall ved mouseover', () => {
@@ -122,6 +122,6 @@ describe('<FordelingAvBehandlingstypeGraf>', () => {
     const hint = wrapper.find(Hint);
     expect(hint).to.have.length(1);
     expect(hint.childAt(0).html()).to.include('Antall: 1');
-    expect(hint.childAt(0).html()).to.include('Totalt antall: 2');
+    expect(hint.childAt(0).html()).to.include('Totalt antall: 0');
   });
 });

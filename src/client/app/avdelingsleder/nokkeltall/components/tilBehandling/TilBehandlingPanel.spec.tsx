@@ -65,11 +65,11 @@ describe('<TilBehandlingPanel>', () => {
 
 
     const radioOptions = wrapper.find(RadioOption);
-    expect(radioOptions).to.have.length(4);
-    expect(radioOptions.first().prop('value')).to.eql('FP');
-    expect(radioOptions.first().prop('label')).to.eql('Foreldrepenger');
-    expect(radioOptions.at(1).prop('value')).to.eql('ES');
-    expect(radioOptions.at(1).prop('label')).to.eql('Engangsstønad');
+    expect(radioOptions).to.have.length(3);
+    expect(radioOptions.first().prop('value')).to.eql('OMP');
+    expect(radioOptions.first().prop('label')).to.eql('Omsorgspenger');
+    expect(radioOptions.at(1).prop('value')).to.eql('PSB');
+    expect(radioOptions.at(1).prop('label')).to.eql('Pleiepenger sykt barn');
     expect(radioOptions.last().prop('value')).to.eql('ALLE');
   });
 
@@ -97,7 +97,7 @@ describe('<TilBehandlingPanel>', () => {
       fagsakYtelseTyper={fagsakYtelseTyper}
       behandlingTyper={behandlingTyper}
       oppgaverPerDato={oppgaverPerDato}
-      initialValues={{ ytelseType: fagsakYtelseType.OMSORGSPENGER, ukevalg: valuesMock.ukevalg }}
+      initialValues={{ ytelseType: fagsakYtelseType.PLEIEPENGER_SYKT_BARN, ukevalg: valuesMock.ukevalg }}
       // @ts-ignore
     />).find(Form).renderProp('render')({ values: valuesMock });
 
@@ -131,7 +131,7 @@ describe('<TilBehandlingPanel>', () => {
       fagsakYtelseTyper={fagsakYtelseTyper}
       behandlingTyper={behandlingTyper}
       oppgaverPerDato={oppgaverPerDato}
-      initialValues={{ ytelseType: fagsakYtelseType.OMSORGSPENGER, ukevalg: valuesMock.ukevalg }}
+      initialValues={{ ytelseType: fagsakYtelseType.PLEIEPENGER_SYKT_BARN, ukevalg: valuesMock.ukevalg }}
       // @ts-ignore
     />).find(Form).renderProp('render')({ values: valuesMock });
 
@@ -143,7 +143,7 @@ describe('<TilBehandlingPanel>', () => {
 
   it('skal filtrere bort engangsstønader', () => {
     const valuesMock = {
-      ytelseType: fagsakYtelseType.OMSORGSPENGER,
+      ytelseType: fagsakYtelseType.PLEIEPENGER_SYKT_BARN,
       ukevalg: '2',
     };
     const oppgaverPerDato = [{
@@ -174,9 +174,9 @@ describe('<TilBehandlingPanel>', () => {
     expect(graf.prop('oppgaverPerDato')).is.eql([oppgaverPerDato[1]]);
   });
 
-  it('skal filtrere bort foreldrepenger', () => {
+  it('skal filtrere bort omsorgspenger', () => {
     const valuesMock = {
-      ytelseType: fagsakYtelseType.PLEIEPENGER_SYKT_BARN,
+      ytelseType: fagsakYtelseType.OMSORGSPENGER,
       ukevalg: '2',
     };
     const oppgaverPerDato = [{
@@ -198,7 +198,7 @@ describe('<TilBehandlingPanel>', () => {
       fagsakYtelseTyper={fagsakYtelseTyper}
       behandlingTyper={behandlingTyper}
       oppgaverPerDato={oppgaverPerDato}
-      initialValues={{ ytelseType: fagsakYtelseType.OMSORGSPENGER, ukevalg: valuesMock.ukevalg }}
+      initialValues={{ ytelseType: fagsakYtelseType.PLEIEPENGER_SYKT_BARN, ukevalg: valuesMock.ukevalg }}
       // @ts-ignore
     />).find(Form).renderProp('render')({ values: valuesMock });
 

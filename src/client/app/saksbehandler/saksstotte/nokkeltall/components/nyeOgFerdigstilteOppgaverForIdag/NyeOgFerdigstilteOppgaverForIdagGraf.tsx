@@ -21,9 +21,7 @@ const behandlingstypeOrder = [
   behandlingType.ANKE,
   behandlingType.KLAGE,
   behandlingType.REVURDERING,
-  behandlingType.FORSTEGANGSSOKNAD,
-  behandlingType.AARSKVANTUM,
-  behandlingType.AVKLAR_MEDLEMSKAP];
+  behandlingType.FORSTEGANGSSOKNAD];
 
 const cssText = {
   fontFamily: 'Source Sans Pro, Arial, sans-serif',
@@ -139,16 +137,16 @@ export const NyeOgFerdigstilteOppgaverForIdagGraf: FunctionComponent<OwnProps & 
           data={ferdigstilteOppgaver}
           onValueMouseOver={leggTilHintVerdi}
           onValueMouseOut={fjernHintVerdi}
-          fill="#38a161"
-          stroke="#38a161"
+          fill="#634689"
+          stroke="#634689"
           opacity={0.5}
         />
         <HorizontalRectSeries
           data={nyeOppgaver}
           onValueMouseOver={leggTilHintVerdi}
           onValueMouseOut={fjernHintVerdi}
-          fill="#337c9b"
-          stroke="#337c9b"
+          fill="#66CBEC"
+          stroke="#66CBEC"
           opacity={0.5}
         />
         {hintVerdi && (
@@ -162,7 +160,7 @@ export const NyeOgFerdigstilteOppgaverForIdagGraf: FunctionComponent<OwnProps & 
       <div className={styles.center}>
         <DiscreteColorLegend
           orientation="horizontal"
-          colors={['#38a161', '#337c9b']}
+          colors={['#634689', '#66CBEC']}
           items={[
             <Normaltekst className={styles.displayInline}>
               <FormattedMessage id="NyeOgFerdigstilteOppgaverForIdagGraf.Ferdigstilte" />
