@@ -5,8 +5,6 @@ import React, {
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import FordelingAvBehandlingstypePanel from './fordelingAvBehandlingstype/FordelingAvBehandlingstypePanel';
 import TilBehandlingPanel from './tilBehandling/TilBehandlingPanel';
-import ManueltPaVentPanel from './manueltSattPaVent/ManueltPaVentPanel';
-import OppgaverPerForsteStonadsdagPanel from './antallBehandlingerPerForsteStonadsdag/OppgaverPerForsteStonadsdagPanel';
 
 /**
  * NokkeltallPanel.
