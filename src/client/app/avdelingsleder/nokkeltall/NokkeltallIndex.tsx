@@ -5,12 +5,14 @@ import { bindActionCreators, Dispatch } from 'redux';
 import {
   fetchAlleOppgaver as fetchAlleOppgaverActionCreator,
   fetchOppgaverPerDato as fetchOppgaverPerDatoActionCreator,
+  fetchFerdigstilteOppgaver as fetchFerdigstilteOppgaverActionCreator,
 } from './duck';
 import NokkeltallPanel from './components/NokkeltallPanel';
 
 interface TsProps {
   fetchAlleOppgaver: () => void;
   fetchOppgaverPerDato: () => void;
+  fetchFerdigstilteOppgaver: () => void;
 }
 
 /**
@@ -19,10 +21,11 @@ interface TsProps {
 export class NokkeltallIndex extends Component<TsProps> {
   componentDidMount = () => {
     const {
-      fetchAlleOppgaver, fetchOppgaverPerDato,
+      fetchAlleOppgaver, fetchOppgaverPerDato, fetchFerdigstilteOppgaver,
     } = this.props;
     fetchAlleOppgaver();
     fetchOppgaverPerDato();
+    fetchFerdigstilteOppgaver();
   }
 
   render = () => (
@@ -34,6 +37,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   ...bindActionCreators({
     fetchAlleOppgaver: fetchAlleOppgaverActionCreator,
     fetchOppgaverPerDato: fetchOppgaverPerDatoActionCreator,
+    fetchFerdigstilteOppgaver: fetchFerdigstilteOppgaverActionCreator,
   }, dispatch),
 });
 

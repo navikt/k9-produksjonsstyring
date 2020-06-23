@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { FunctionComponent } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Normaltekst } from 'nav-frontend-typografi';
 
-import { Oppgave } from 'saksbehandler/oppgaveTsType';
+import Oppgave from 'saksbehandler/oppgaveTsType';
 import oppgavePropType from 'saksbehandler/oppgavePropType';
 import { Fagsak } from 'saksbehandler/fagsakSearch/fagsakTsType';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
@@ -14,7 +14,7 @@ import FagsakList from './FagsakList';
 
 import styles from './fagsakSearch.less';
 
-interface TsProps {
+interface OwnProps {
   fagsaker: Fagsak[];
   fagsakOppgaver: Oppgave[];
   searchFagsakCallback: ({ searchString: string, skalReservere: boolean }) => void;
@@ -41,7 +41,7 @@ const skalViseListe = (fagsaker, fagsakOppgaver) => {
  * Presentasjonskomponent. Denne setter sammen de ulike komponentene i søkebildet.
  * Er søkeresultat mottatt vises enten trefflisten og relatert person, eller en tekst som viser ingen resultater.
  */
-const FagsakSearch = ({
+const FagsakSearch: FunctionComponent<OwnProps> = ({
   fagsaker,
   fagsakOppgaver,
   searchFagsakCallback,
@@ -51,7 +51,7 @@ const FagsakSearch = ({
   searchStarted,
   searchResultAccessDenied,
   resetSearch,
-}: TsProps) => (
+}) => (
   <div>
     <SearchForm
       onSubmit={searchFagsakCallback}
@@ -73,19 +73,6 @@ const FagsakSearch = ({
     )}
   </div>
 );
-
-FagsakSearch.propTypes = {
-  fagsaker: PropTypes.arrayOf(fagsakPropType).isRequired,
-  fagsakOppgaver: PropTypes.arrayOf(oppgavePropType).isRequired,
-  searchResultReceived: PropTypes.bool.isRequired,
-  searchFagsakCallback: PropTypes.func.isRequired,
-  selectFagsakCallback: PropTypes.func.isRequired,
-  resetSearch: PropTypes.func.isRequired,
-  searchStarted: PropTypes.bool.isRequired,
-  searchResultAccessDenied: PropTypes.shape({
-    feilmelding: PropTypes.string.isRequired,
-  }),
-};
 
 FagsakSearch.defaultProps = {
   searchResultAccessDenied: undefined,

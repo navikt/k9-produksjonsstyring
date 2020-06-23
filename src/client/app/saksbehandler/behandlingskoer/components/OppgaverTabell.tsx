@@ -184,6 +184,12 @@ export class OppgaverTabell extends Component<OwnProps & WrappedComponentProps, 
                     />
                     )}
                   </TableColumn>
+                  {oppgave.underBehandling && (
+                  <TableColumn className={styles.reservertTil}>
+                    Reservert til:
+                    {oppgave.status.reservertTilTidspunkt}
+                  </TableColumn>
+                  )}
                   <TableColumn className={oppgave.underBehandling ? styles.noPadding : undefined}>
                     {!oppgave.underBehandling && <NavFrontendChevron /> }
                     {oppgave.underBehandling && (

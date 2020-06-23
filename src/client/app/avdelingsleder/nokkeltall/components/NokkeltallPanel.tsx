@@ -3,6 +3,7 @@ import React, {
 } from 'react';
 
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
+import FerdigstiltePanel from 'avdelingsleder/nokkeltall/components/ferdigstiltePanel/FerdigstiltePanel';
 import FordelingAvBehandlingstypePanel from './fordelingAvBehandlingstype/FordelingAvBehandlingstypePanel';
 import TilBehandlingPanel from './tilBehandling/TilBehandlingPanel';
 
@@ -33,6 +34,11 @@ const NokkeltallPanel: FunctionComponent = () => {
 
   return (
     <div ref={ref}>
+      <FerdigstiltePanel
+        width={width}
+        height={height}
+      />
+      <VerticalSpacer twentyPx />
       <TilBehandlingPanel
         width={width}
         height={height}

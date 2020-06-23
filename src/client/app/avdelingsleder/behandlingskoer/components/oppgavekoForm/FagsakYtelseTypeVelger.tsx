@@ -16,7 +16,7 @@ const finnFagsakYtelseTypeNavn = (fagsakYtelseTyper, valgtFagsakYtelseType) => {
 interface OwnProps {
   alleKodeverk: {[key: string]: Kodeverk[]};
   valgtOppgavekoId: string;
-  lagreOppgavekoFagsakYtelseType: (oppgavekoId: string, fagsakYtelseType: string) => void;
+  lagreOppgavekoFagsakYtelseType: (oppgavekoId: string, fagsakYtelseType: Kodeverk) => void;
 }
 
 /**

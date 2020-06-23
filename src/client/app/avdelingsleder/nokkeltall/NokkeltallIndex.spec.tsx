@@ -10,10 +10,12 @@ describe('<NokkeltallIndex>', () => {
   it('skal hente statistikk ved lasting av komponent', () => {
     const fetchAlleOppgaverFn = sinon.spy();
     const fetchOppgaverPerDatoFn = sinon.spy();
+    const fetchFerdigstilteOppgaverFn = sinon.spy();
 
     const wrapper = shallow(<NokkeltallIndex
       fetchAlleOppgaver={fetchAlleOppgaverFn}
       fetchOppgaverPerDato={fetchOppgaverPerDatoFn}
+      fetchFerdigstilteOppgaver={fetchFerdigstilteOppgaverFn}
     />);
 
     expect(wrapper.find(NokkeltallPanel)).to.have.length(1);
