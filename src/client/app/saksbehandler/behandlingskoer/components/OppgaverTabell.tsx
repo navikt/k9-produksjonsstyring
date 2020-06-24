@@ -190,6 +190,9 @@ export class OppgaverTabell extends Component<OwnProps & WrappedComponentProps, 
                     {oppgave.status.reservertTilTidspunkt}
                   </TableColumn>
                   )}
+                  {!oppgave.underBehandling && (
+                  <TableColumn />
+                  )}
                   <TableColumn className={oppgave.underBehandling ? styles.noPadding : undefined}>
                     {!oppgave.underBehandling && <NavFrontendChevron /> }
                     {oppgave.underBehandling && (
