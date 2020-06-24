@@ -10,13 +10,15 @@ import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import Panel from 'nav-frontend-paneler';
 import { getFerdigstilteOppgaver } from 'avdelingsleder/nokkeltall/duck';
 import FerdigstilteOppgaver from 'avdelingsleder/nokkeltall/components/ferdigstiltePanel/ferdigstilteOppgaverTsType';
+import { Kodeverk } from 'kodeverk/kodeverkTsType';
 import Teller from './Teller';
 import styles from './ferdigstiltePanel.less';
 
 interface OwnProps {
     width: number;
     height: number;
-    ferdigstilteOppgaver: FerdigstilteOppgaver[]
+    ferdigstilteOppgaver: FerdigstilteOppgaver[];
+    behandlingTyper: Kodeverk[];
 }
 
 export const FerdigstiltePanel: FunctionComponent<OwnProps & WrappedComponentProps> = ({
@@ -24,6 +26,7 @@ export const FerdigstiltePanel: FunctionComponent<OwnProps & WrappedComponentPro
   width,
   height,
   ferdigstilteOppgaver,
+  behandlingTyper,
 }) => (
   <Form
     onSubmit={() => undefined}
@@ -35,12 +38,22 @@ export const FerdigstiltePanel: FunctionComponent<OwnProps & WrappedComponentPro
         <VerticalSpacer eightPx />
         <Panel className={styles.panel}>
           <div className={styles.container}>
-            {ferdigstilteOppgaver.map((bt) => (
+            {ferdigstilteOppgaver.length > 0 && ferdigstilteOppgaver.map((bt) => (
               <Teller
                 key={bt.behandlingType.kode}
-                info={bt}
+                behandlingType={bt.behandlingType}
+                antallIdag={bt.ferdigstilteIdag}
+                antallSyvDager={bt.ferdigstilteSyvDager}
               />
             ))}
+            {ferdigstilteOppgaver.length === 0 && behandlingTyper.map((bt) => (
+              <Teller
+                key={bt.kode}
+                behandlingType={bt}
+                antallIdag={0}
+                antallSyvDager={0}
+              />
+            )) }
           </div>
         </Panel>
       </>

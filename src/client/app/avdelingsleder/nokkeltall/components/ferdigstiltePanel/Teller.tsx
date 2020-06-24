@@ -1,25 +1,27 @@
 import React, { FunctionComponent } from 'react';
-import FerdigstilteOppgaver from 'avdelingsleder/nokkeltall/components/ferdigstiltePanel/ferdigstilteOppgaverTsType';
+import { Kodeverk } from 'kodeverk/kodeverkTsType';
 import styles from './teller.less';
 
 interface OwnProps {
-    info: FerdigstilteOppgaver;
+    behandlingType: Kodeverk;
+    antallIdag: number;
+    antallSyvDager: number
 }
-const Teller: FunctionComponent<OwnProps> = ({ info }) => (
+const Teller: FunctionComponent<OwnProps> = ({ behandlingType, antallIdag, antallSyvDager }) => (
   <div className={styles.frame}>
     <div className={styles.container}>
       <div className={styles.venstre}>
         <p className={styles.periode}>I dag</p>
-        <p className={styles.number}>{info.ferdigstilteIdag}</p>
+        <p className={styles.number}>{antallIdag}</p>
       </div>
       <div className={styles.vl}> </div>
       <div className={styles.hoyre}>
         <p className={styles.periode}>7 dager</p>
-        <p className={styles.number}>{info.ferdigstilteSyvDager}</p>
+        <p className={styles.number}>{antallSyvDager}</p>
       </div>
     </div>
     <div className={styles.beskrivelse}>
-      <p>{info.behandlingType.navn}</p>
+      <p>{behandlingType.navn}</p>
     </div>
   </div>
 );
