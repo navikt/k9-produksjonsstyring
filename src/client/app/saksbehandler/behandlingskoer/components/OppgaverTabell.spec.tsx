@@ -185,7 +185,7 @@ describe('<OppgaverTabell>', () => {
     expect(columnsRow2.at(1).childAt(0).text()).is.eql('Førstegangssøknad');
     expect(columnsRow2.at(2).find(DateLabel).prop('dateString')).is.eql('2019-01-02');
     expect(columnsRow2.at(3).find(Image)).has.length(0);
-    expect(columnsRow2.at(4).find(NavFrontendChevron)).has.length(1);
+    expect(columnsRow2.at(5).find(NavFrontendChevron)).has.length(1);
   });
 
   it('skal ikke vise liste når en ikke har oppgaver', () => {
