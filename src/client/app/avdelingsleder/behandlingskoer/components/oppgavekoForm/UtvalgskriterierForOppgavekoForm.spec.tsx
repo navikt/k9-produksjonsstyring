@@ -25,8 +25,8 @@ describe('<UtvalgskriterierForOppgavekoForm>', () => {
         kode: andreKriterierType.TIL_BESLUTTER,
         navn: 'Til beslutter',
       }, {
-        kode: andreKriterierType.REGISTRER_PAPIRSOKNAD,
-        navn: 'Registrer papirsøknad',
+        kode: andreKriterierType.AARSKVANTUM,
+        navn: 'Årskvantum',
       }],
       saksbehandlere: [],
     };
@@ -172,8 +172,8 @@ describe('<UtvalgskriterierForOppgavekoForm>', () => {
         inkluder: true,
       }, {
         andreKriterierType: {
-          kode: andreKriterierType.REGISTRER_PAPIRSOKNAD,
-          navn: 'Registrer papirsoknad',
+          kode: andreKriterierType.AARSKVANTUM,
+          navn: 'Årskvantum',
         },
         inkluder: false,
       }],
@@ -201,8 +201,8 @@ describe('<UtvalgskriterierForOppgavekoForm>', () => {
       fagsakYtelseType: '',
       fomDato: undefined,
       tomDato: undefined,
-      [andreKriterierType.REGISTRER_PAPIRSOKNAD]: true,
-      [`${andreKriterierType.REGISTRER_PAPIRSOKNAD}_inkluder`]: false,
+      [andreKriterierType.AARSKVANTUM]: true,
+      [`${andreKriterierType.AARSKVANTUM}_inkluder`]: false,
       [andreKriterierType.TIL_BESLUTTER]: true,
       [`${andreKriterierType.TIL_BESLUTTER}_inkluder`]: true,
     });

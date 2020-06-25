@@ -60,6 +60,8 @@
   "FagsakYtelseTypeVelger.Stonadstype": "Stønadstype",
   "FagsakYtelseTypeVelger.Alle": "Alle",
 
+  "FerdigstiltePanel.AntallFerdigstilte": "Antall ferdigstilte behandlinger",
+
   "SkjermetVelger.Skjermet": "Skjermet",
 
   "FlyttReservasjonModal.FlyttReservasjon": "Flytt reservasjonen til annen saksbehandler",
@@ -159,7 +161,7 @@
   "OkAvbrytModal.Ok": "OK",
   "OkAvbrytModal.Avbryt": "Avbryt",
 
-  "OppgaveErReservertAvAnnenModal.ReservertAv": "{saksbehandlernavn} ({saksbehandlerid}) arbeider nå med denne behandlingen (reservert fram t.o.m {date} - {time})",
+  "OppgaveErReservertAvAnnenModal.ReservertAv": "{saksbehandlerid} arbeider nå med denne behandlingen (reservert fram t.o.m {date} - {time})",
   "OppgaveErReservertAvAnnenModal.ReservertAvEnkel": "En annen saksbehandler arbeider nå med denne behandlingen",
   "OppgaveErReservertAvAnnenModal.Ok": "OK",
 

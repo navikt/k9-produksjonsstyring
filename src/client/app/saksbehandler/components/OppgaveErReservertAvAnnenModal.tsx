@@ -1,5 +1,4 @@
 import React, { FunctionComponent } from 'react';
-import PropTypes from 'prop-types';
 import { injectIntl, WrappedComponentProps, FormattedMessage } from 'react-intl';
 import { Row, Column } from 'nav-frontend-grid';
 import { Hovedknapp } from 'nav-frontend-knapper';
@@ -15,8 +14,7 @@ import advarselImageUrl from 'images/advarsel.svg';
 
 import styles from './oppgaveErReservertAvAnnenModal.less';
 
-type TsProps = Readonly<{
-  intl: any;
+type OwnProps = Readonly<{
   lukkErReservertModalOgOpneOppgave: (oppgave: Oppgave) => void;
   oppgave: Oppgave;
   oppgaveStatus: OppgaveStatus;
@@ -29,12 +27,12 @@ const getClickEvent = (lukkErReservertModalOgOpneOppgave, oppgave) => () => lukk
  *
  * Presentasjonskomponent. Modal som vises når en åpner oppgave som er reservert av en annen saksbehandler
  */
-export const OppgaveErReservertAvAnnenModal: FunctionComponent<TsProps & WrappedComponentProps> = ({
+export const OppgaveErReservertAvAnnenModal: FunctionComponent<OwnProps & WrappedComponentProps> = ({
   intl,
   lukkErReservertModalOgOpneOppgave,
   oppgave,
   oppgaveStatus,
-}: TsProps) => (
+}) => (
   <Modal
     className={styles.modal}
     isOpen
@@ -54,7 +52,7 @@ export const OppgaveErReservertAvAnnenModal: FunctionComponent<TsProps & Wrapped
       <Column xs="8" className={styles.text}>
         <Normaltekst>
           <FormattedMessage
-            id="OppgaveErReservertAvAnnenModal.ReservertAvEnkel"
+            id="OppgaveErReservertAvAnnenModal.ReservertAv"
             values={{
               saksbehandlerid: oppgaveStatus.reservertAv,
               ...getDateAndTime(oppgaveStatus.reservertTilTidspunkt),

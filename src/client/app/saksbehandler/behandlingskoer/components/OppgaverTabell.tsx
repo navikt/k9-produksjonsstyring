@@ -20,7 +20,6 @@ import bubbletextUrl from 'images/bubbletext.svg';
 import bubbletextFilledUrl from 'images/bubbletext_filled.svg';
 import { getK9sakHref } from 'app/paths';
 import { getK9sakUrl } from 'app/duck';
-import BehandletOppgave from 'saksbehandler/saksstotte/behandletOppgaveTsType';
 
 import OppgaveHandlingerMenu from './menu/OppgaveHandlingerMenu';
 import {
@@ -184,6 +183,20 @@ export class OppgaverTabell extends Component<OwnProps & WrappedComponentProps, 
                     />
                     )}
                   </TableColumn>
+                  {oppgave.underBehandling && (
+                  <TableColumn className={styles.reservertTil}>
+                    <FormattedMessage
+                      id="OppgaveHandlingerMenu.ReservertTil"
+                      values={{
+                        ...getDateAndTime(oppgave.status.reservertTilTidspunkt),
+                        b: (...chunks) => <b>{chunks}</b>,
+                      }}
+                    />
+                  </TableColumn>
+                  )}
+                  {!oppgave.underBehandling && (
+                  <TableColumn />
+                  )}
                   <TableColumn className={oppgave.underBehandling ? styles.noPadding : undefined}>
                     {!oppgave.underBehandling && <NavFrontendChevron /> }
                     {oppgave.underBehandling && (

@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
-import { createSelector } from 'reselect';
 import classnames from 'classnames/bind';
 import { NavLink } from 'react-router-dom';
 import { Panel } from 'nav-frontend-paneler';
@@ -10,11 +9,12 @@ import Tabs from 'nav-frontend-tabs';
 import { Undertittel } from 'nav-frontend-typografi';
 
 import LoadingPanel from 'sharedComponents/LoadingPanel';
-import { getNavAnsattKanOppgavestyre, getNavAnsattKanBehandleKode6 } from 'app/duck';
+import { getNavAnsattKanOppgavestyre } from 'app/duck';
 import { parseQueryString } from 'utils/urlUtils';
 import { getAvdelingslederPanelLocationCreator } from 'app/paths';
 import trackRouteParam from 'app/data/trackRouteParam';
 import { Location } from 'app/locationTsType';
+import NokkeltallIndex from 'avdelingsleder/nokkeltall/NokkeltallIndex';
 import { getSelectedAvdelingslederPanel, setSelectedAvdelingslederPanel } from './duck';
 import AvdelingslederDashboard from './components/AvdelingslederDashboard';
 import IkkeTilgangTilAvdelingslederPanel from './components/IkkeTilgangTilAvdelingslederPanel';
@@ -32,6 +32,8 @@ const renderAvdelingslederPanel = (avdelingslederPanel) => {
       return <EndreBehandlingskoerIndex />;
     case AvdelingslederPanels.SAKSBEHANDLERE:
       return <EndreSaksbehandlereIndex />;
+    case AvdelingslederPanels.NOKKELTALL:
+      return <NokkeltallIndex />;
     default:
       return null;
   }
@@ -72,7 +74,6 @@ export const AvdelingslederIndex = ({
   activeAvdelingslederPanel,
   getAvdelingslederPanelLocation,
   kanOppgavestyre,
-  kanBehandleKode6,
 }: TsProps) => {
   if (!kanOppgavestyre) {
     return <IkkeTilgangTilAvdelingslederPanel />;
@@ -83,6 +84,7 @@ export const AvdelingslederIndex = ({
           <Tabs tabs={[
             getTab(AvdelingslederPanels.BEHANDLINGSKOER, activeAvdelingslederPanel, getAvdelingslederPanelLocation),
             getTab(AvdelingslederPanels.SAKSBEHANDLERE, activeAvdelingslederPanel, getAvdelingslederPanelLocation),
+            getTab(AvdelingslederPanels.NOKKELTALL, activeAvdelingslederPanel, getAvdelingslederPanelLocation),
           ]}
           />
           <Panel className={styles.panelPadding}>
@@ -99,12 +101,10 @@ AvdelingslederIndex.propTypes = {
   activeAvdelingslederPanel: PropTypes.string.isRequired,
   getAvdelingslederPanelLocation: PropTypes.func.isRequired,
   kanOppgavestyre: PropTypes.bool,
-  kanBehandleKode6: PropTypes.bool,
 };
 
 AvdelingslederIndex.defaultProps = {
   kanOppgavestyre: false,
-  kanBehandleKode6: false,
 };
 
 const getPanelFromUrlOrDefault = (location) => {
@@ -116,7 +116,6 @@ const getPanelFromUrlOrDefault = (location) => {
 const mapStateToProps = (state) => ({
   activeAvdelingslederPanel: getSelectedAvdelingslederPanel(state),
   kanOppgavestyre: getNavAnsattKanOppgavestyre(state),
-  kanBehandleKode6: getNavAnsattKanBehandleKode6(state),
 });
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => ({

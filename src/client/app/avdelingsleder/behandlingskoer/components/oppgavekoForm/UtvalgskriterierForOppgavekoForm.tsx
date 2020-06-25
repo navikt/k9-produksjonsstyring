@@ -151,7 +151,6 @@ export class UtvalgskriterierForOppgavekoForm extends Component<OwnProps & Dispa
                 <FagsakYtelseTypeVelger
                   lagreOppgavekoFagsakYtelseType={lagreOppgavekoFagsakYtelseType}
                   valgtOppgavekoId={valgtOppgaveko.id}
-                  valgtFagsakYtelseType={values ? values.fagsakYtelseType : ''}
                   alleKodeverk={alleKodeverk}
                 />
               </Column>
