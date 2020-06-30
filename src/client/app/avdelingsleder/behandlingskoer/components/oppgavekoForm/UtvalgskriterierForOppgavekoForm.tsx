@@ -135,7 +135,6 @@ export class UtvalgskriterierForOppgavekoForm extends Component<OwnProps & Dispa
                   validate={[required, minLength3, maxLength100, hasValidName]}
                   onBlurValidation
                   bredde="L"
-                  autoFocus
                 />
               </Column>
               <Column xs="3">
