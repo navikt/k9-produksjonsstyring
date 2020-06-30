@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { injectIntl, WrappedComponentProps, FormattedMessage } from 'react-intl';
 
@@ -9,8 +8,7 @@ import { Normaltekst, Element } from 'nav-frontend-typografi';
 
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import { FlexContainer, FlexRow, FlexColumn } from 'sharedComponents/flexGrid';
-import oppgavePropType from 'saksbehandler/oppgavePropType';
-import { Oppgave } from 'saksbehandler/oppgaveTsType';
+import Oppgave from 'saksbehandler/oppgaveTsType';
 import {
   hasValidText, maxLength, minLength, required,
 } from 'utils/validation/validators';
@@ -18,7 +16,6 @@ import { TextAreaField, InputField } from 'form/FinalFields';
 import Modal from 'sharedComponents/Modal';
 import { getSaksbehandler, isSaksbehandlerSokStartet, isSaksbehandlerSokFerdig } from '../../duck';
 import { Saksbehandler } from '../../saksbehandlerTsType';
-import saksbehandlerPropType from '../../saksbehandlerPropType';
 
 import styles from './flyttReservasjonModal.less';
 
