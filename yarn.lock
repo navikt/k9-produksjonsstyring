@@ -11819,10 +11819,10 @@ nav-frontend-etiketter@1.0.28:
   resolved "https://registry.yarnpkg.com/nav-frontend-etiketter/-/nav-frontend-etiketter-1.0.28.tgz#467b3898b35023f2688b3593e64767c1bee05c90"
   integrity sha512-f05Y2SpEofWbjGuqCz5E7uygmhaJrqwe7HFq761eNgPfvtkkWg5D9O76QP5d0dJIpbynptT1Aghr/qkbG8A6+g==
 
-nav-frontend-grid-style@0.2.18:
-  version "0.2.18"
-  resolved "https://registry.yarnpkg.com/nav-frontend-grid-style/-/nav-frontend-grid-style-0.2.18.tgz#4b510a2edd70147b5268563d8320400f994b489b"
-  integrity sha512-+r5JsDxCbgjr+kXnjBmTgM4YvshmTgXqAEa2+UjzlI5KVEeyGksJ1ZmNVFKYISVpyhItWgq9oJ0+B6fScL/vpg==
+nav-frontend-grid-style@0.2.20:
+  version "0.2.20"
+  resolved "https://registry.yarnpkg.com/nav-frontend-grid-style/-/nav-frontend-grid-style-0.2.20.tgz#d744455a2417a0f26b9498e320140cbd99e7235b"
+  integrity sha512-PY6pXJFscPJlnXgSMiO2zqfWoAEby/SbCmxyc3NXxkejBf4OEbHza/BdNhQCZrr+XK4tB9dLgj5xZJ6AGBqIRw==
 
 nav-frontend-grid@1.0.24:
   version "1.0.24"
