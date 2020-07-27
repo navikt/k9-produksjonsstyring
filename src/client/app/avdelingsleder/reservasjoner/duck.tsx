@@ -7,4 +7,10 @@ export const fetchAlleReservasjoner = () => (dispatch: Dispatch) => dispatch(
     { }, { keepData: true },
   ),
 );
+
+export const opphevReservasjon = (oppgaveId: string) => (dispatch: Dispatch) => dispatch(
+  k9LosApi.AVDELINGSLEDER_OPPHEVER_RESERVASJON.makeRestApiRequest()(
+    { oppgaveId },
+  ),
+);
 export const getAlleReservasjoner = k9LosApi.HENT_ALLE_RESERVASJONER.getRestApiData();

@@ -32,7 +32,7 @@ const headerTextCodes = [
 interface OwnProps {
   reservasjoner: Reservasjon[];
   opphevReservasjon: (oppgaveId: string) => Promise<string>;
-  hentAvdelingensReservasjoner: () => void;
+  hentAlleReservasjoner: () => void;
 }
 
 interface StateTsProps {
@@ -79,7 +79,7 @@ class ReservasjonerTabell extends Component<OwnProps, StateTsProps> {
 
   render = (): ReactNode => {
     const {
-      reservasjoner, opphevReservasjon, hentAvdelingensReservasjoner,
+      reservasjoner, opphevReservasjon, hentAlleReservasjoner,
     } = this.props;
     const {
       showReservasjonEndringDatoModal, showFlyttReservasjonModal, valgtReservasjon,
@@ -102,7 +102,7 @@ class ReservasjonerTabell extends Component<OwnProps, StateTsProps> {
             {sorterteReservasjoner.map((reservasjon) => (
               <TableRow key={reservasjon.oppgaveId}>
                 <TableColumn>{reservasjon.reservertAvNavn}</TableColumn>
-                <TableColumn>{reservasjon.oppgaveSaksNr}</TableColumn>
+                <TableColumn>{reservasjon.saksnummer}</TableColumn>
                 <TableColumn>{reservasjon.behandlingType.navn}</TableColumn>
                 <TableColumn>
                   <FormattedMessage
@@ -141,7 +141,7 @@ class ReservasjonerTabell extends Component<OwnProps, StateTsProps> {
               closeModal={this.closeReservasjonEndringDatoModal}
               reserverTilDefault={valgtReservasjon.reservertTilTidspunkt}
               endreReserverasjonState={this.endreReserverasjonState}
-              hentReserverteOppgaver={hentAvdelingensReservasjoner}
+              hentReserverteOppgaver={hentAlleReservasjoner}
               oppgaveId={valgtReservasjon.oppgaveId}
             />
           )}
@@ -151,7 +151,7 @@ class ReservasjonerTabell extends Component<OwnProps, StateTsProps> {
             closeModal={this.closeFlytteModal}
             oppgaveId={valgtReservasjon.oppgaveId}
             toggleMenu={this.toggleMenu}
-            hentReserverteOppgaver={hentAvdelingensReservasjoner}
+            hentReserverteOppgaver={hentAlleReservasjoner}
           />
         )}
       </>

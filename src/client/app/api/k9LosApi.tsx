@@ -54,6 +54,7 @@ const k9LosApiKeys = {
   HENT_NYE_OG_FERDIGSTILTE_OPPGAVER: 'HENT_NYE_OG_FERDIGSTILTE_OPPGAVER',
   LEGG_TIL_BEHANDLET_OPPGAVE: 'LEGG_TIL_BEHANDLET_OPPGAVE',
   HENT_ALLE_RESERVASJONER: 'HENT_ALLE_RESERVASJONER',
+  AVDELINGSLEDER_OPPHEVER_RESERVASJON: 'AVDELINGSLEDER_OPPHEVER_RESERVASJON',
 };
 
 const endpoints = new RestApiConfigBuilder()
@@ -99,6 +100,7 @@ const endpoints = new RestApiConfigBuilder()
   .withPost('avdelingsleder/oppgavekoer/sortering-tidsintervall-dager', k9LosApiKeys.LAGRE_OPPGAVEKO_SORTERING_TIDSINTERVALL_DAGER)
   .withPost('avdelingsleder/oppgavekoer/sortering-tidsintervall-dato', k9LosApiKeys.LAGRE_OPPGAVEKO_SORTERING_TIDSINTERVALL_DATO)
   .withPost('avdelingsleder/oppgavekoer/saksbehandler', k9LosApiKeys.LAGRE_OPPGAVEKO_SAKSBEHANDLER)
+  .withPost('avdelingsleder/reservasjoner/opphev', k9LosApiKeys.AVDELINGSLEDER_OPPHEVER_RESERVASJON)
 
   /* /api/avdelingsleder/saksbehandlere */
   .withPost('avdelingsleder/saksbehandlere/sok', k9LosApiKeys.SAKSBEHANDLER_SOK)

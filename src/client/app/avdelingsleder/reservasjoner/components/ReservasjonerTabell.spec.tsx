@@ -4,10 +4,10 @@ import { shallow } from 'enzyme';
 import sinon from 'sinon';
 import { FormattedMessage } from 'react-intl';
 
-import Table from 'sharedComponents/table/Table';
-import TableRow from 'sharedComponents/table/TableRow';
+import Table from 'sharedComponents/Table';
+import TableRow from 'sharedComponents/TableRow';
 import behandlingType from 'kodeverk/behandlingType';
-import TableColumn from 'sharedComponents/table/TableColumn';
+import TableColumn from 'sharedComponents/TableColumn';
 import ReservasjonerTabell from './ReservasjonerTabell';
 
 describe('<ReservasjonerTabell>', () => {
@@ -15,7 +15,7 @@ describe('<ReservasjonerTabell>', () => {
     const wrapper = shallow(<ReservasjonerTabell
       reservasjoner={[]}
       opphevReservasjon={sinon.spy()}
-      hentAvdelingensReservasjoner={sinon.spy()}
+      hentAlleReservasjoner={sinon.spy()}
     />);
 
     const message = wrapper.find(FormattedMessage);
@@ -27,7 +27,7 @@ describe('<ReservasjonerTabell>', () => {
 
   it('skal vise to reservasjoner sortert i tabell', () => {
     const reservasjoner = [{
-      oppgaveId: 1,
+      oppgaveId: '1',
       reservertAvUid: 'ESPEN',
       reservertAvNavn: 'Espen Utvikler',
       reservertTilTidspunkt: '2020-02-02T14:30:00',
@@ -35,9 +35,9 @@ describe('<ReservasjonerTabell>', () => {
         kode: behandlingType.FORSTEGANGSSOKNAD,
         navn: 'Førstegangsbehandling',
       },
-      oppgaveSaksNr: 10,
+      saksnummer: '10',
     }, {
-      oppgaveId: 2,
+      oppgaveId: '2',
       reservertAvUid: 'JOACHIM',
       reservertAvNavn: 'Auto Joachim',
       reservertTilTidspunkt: '2020-02-01T10:19:00',
@@ -45,12 +45,12 @@ describe('<ReservasjonerTabell>', () => {
         kode: behandlingType.REVURDERING,
         navn: 'Revurdering',
       },
-      oppgaveSaksNr: 25,
+      saksnummer: '25',
     }];
     const wrapper = shallow(<ReservasjonerTabell
       reservasjoner={reservasjoner}
       opphevReservasjon={sinon.spy()}
-      hentAvdelingensReservasjoner={sinon.spy()}
+      hentAlleReservasjoner={sinon.spy()}
     />);
 
     expect(wrapper.find(FormattedMessage)).to.have.length(3);
