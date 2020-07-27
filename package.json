@@ -54,7 +54,7 @@
     "nav-frontend-tabs": "^0.0.36",
     "nav-frontend-tabs-style": "^0.0.22",
     "nav-frontend-typografi": "2.0.16",
-    "nav-frontend-typografi-style": "1.0.17",
+    "nav-frontend-typografi-style": "1.0.22",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-collapse": "^5.0.1",
