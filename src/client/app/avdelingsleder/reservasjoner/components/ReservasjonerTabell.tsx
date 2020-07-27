@@ -140,9 +140,7 @@ class ReservasjonerTabell extends Component<OwnProps, StateTsProps> {
               showModal={showReservasjonEndringDatoModal}
               closeModal={this.closeReservasjonEndringDatoModal}
               reserverTilDefault={valgtReservasjon.reservertTilTidspunkt}
-              endreReserverasjonState={this.endreReserverasjonState}
-              hentReserverteOppgaver={hentAlleReservasjoner}
-              oppgaveId={valgtReservasjon.oppgaveId}
+              endreOppgaveReservasjon={this.endreReserverasjonState}
             />
           )}
         { showFlyttReservasjonModal && (
