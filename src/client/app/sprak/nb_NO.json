@@ -8,6 +8,7 @@
   "AvdelingslederIndex.Behandlingskoer": "Behandlingskøer",
   "AvdelingslederIndex.Saksbehandlere": "Saksbehandlere",
   "AvdelingslederIndex.Nokkeltall": "Nøkkeltall",
+  "AvdelingslederIndex.Reservasjoner": "Reservasjoner",
 
   "BehandlingPollingTimoutModal.TimeoutMelding": "Din økt er gått ut på tid, trykk Fortsett",
   "BehandlingPollingTimoutModal.Oppfrisk": "Fortsett",
@@ -199,6 +200,17 @@
   "ProduksjonPaneler.AvdelingensProduksjon": "Avdelingens produksjon",
 
   "Rest.ErrorMessage.Timeout": "Serverkall har gått ut på tid: {location}",
+
+  "ReservasjonerTabell.Navn": "Navn",
+  "ReservasjonerTabell.Saksnr": "Saksnummer",
+  "ReservasjonerTabell.BehandlingType": "Type",
+  "ReservasjonerTabell.ReservertTil": "Reservert til",
+  "ReservasjonerTabell.ReservertTilFormat": "{time} - {date}",
+  "ReservasjonerTabell.Endre": "Endre",
+  "ReservasjonerTabell.Flytt": "Flytt",
+  "ReservasjonerTabell.Slett": "Slett",
+  "ReservasjonerTabell.Reservasjoner": "Alle reservasjoner",
+  "ReservasjonerTabell.IngenReservasjoner": "Ingen reservasjoner funnet",
 
   "ReserverOppgaveModal.ReserverOppgave": "Ønsker du å reservere behandlingen?",
 

@@ -1,7 +1,7 @@
 import React, { Component, MouseEvent } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { getDateAndTime } from 'utils/dateUtils';
-import { Oppgave } from 'saksbehandler/oppgaveTsType';
+import Oppgave from 'saksbehandler/oppgaveTsType';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import MenuButton from './MenuButton';
 import OpphevReservasjonModal from './OpphevReservasjonModal';
@@ -210,6 +210,7 @@ export class OppgaveHandlingerMenu extends Component<OwnProps, OwnState> {
         {showReservasjonEndringDatoModal && (
         <OppgaveReservasjonEndringDatoModal
           showModal={showReservasjonEndringDatoModal}
+          oppgaveId={oppgave.eksternId}
           endreOppgaveReservasjon={this.endreReservasjon}
           closeModal={this.closeReservasjonEndringDatoModal}
           reserverTilDefault={oppgave.status.reservertTilTidspunkt}
@@ -219,7 +220,7 @@ export class OppgaveHandlingerMenu extends Component<OwnProps, OwnState> {
           && <OppgaveReservasjonForlengetModal oppgave={oppgave} showModal={showForlengetReservasjonModal} closeModal={this.closeForlengReservasjonModal} />}
         { showFlyttReservasjonModal && (
           <FlyttReservasjonModal
-            oppgave={oppgave}
+            oppgaveId={oppgave.eksternId}
             showModal={showFlyttReservasjonModal}
             closeModal={this.closeFlytteModal}
             submit={this.flyttReservasjon}

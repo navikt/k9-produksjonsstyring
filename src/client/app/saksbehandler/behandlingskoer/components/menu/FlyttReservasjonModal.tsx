@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { injectIntl, WrappedComponentProps, FormattedMessage } from 'react-intl';
 
@@ -9,8 +8,6 @@ import { Normaltekst, Element } from 'nav-frontend-typografi';
 
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import { FlexContainer, FlexRow, FlexColumn } from 'sharedComponents/flexGrid';
-import oppgavePropType from 'saksbehandler/oppgavePropType';
-import { Oppgave } from 'saksbehandler/oppgaveTsType';
 import {
   hasValidText, maxLength, minLength, required,
 } from 'utils/validation/validators';
@@ -18,7 +15,6 @@ import { TextAreaField, InputField } from 'form/FinalFields';
 import Modal from 'sharedComponents/Modal';
 import { getSaksbehandler, isSaksbehandlerSokStartet, isSaksbehandlerSokFerdig } from '../../duck';
 import { Saksbehandler } from '../../saksbehandlerTsType';
-import saksbehandlerPropType from '../../saksbehandlerPropType';
 
 import styles from './flyttReservasjonModal.less';
 
@@ -29,7 +25,7 @@ const maxLength7 = maxLength(7);
 
 interface OwnProps {
   showModal: boolean;
-  oppgave: Oppgave;
+  oppgaveId: string;
   closeModal: () => void;
   submit: (oppgaveId: string, brukerident: string, begrunnelse: string) => void;
   finnSaksbehandler: (brukerident: string) => void;
@@ -68,7 +64,7 @@ export class FlyttReservasjonModal extends Component<OwnProps & WrappedComponent
 
    render = () => {
      const {
-       intl, showModal, closeModal, submit, oppgave, finnSaksbehandler, erSaksbehandlerSokStartet, erSaksbehandlerSokFerdig, saksbehandler,
+       intl, showModal, closeModal, submit, oppgaveId, finnSaksbehandler, erSaksbehandlerSokStartet, erSaksbehandlerSokFerdig, saksbehandler,
      } = this.props;
 
      return (
@@ -124,7 +120,7 @@ export class FlyttReservasjonModal extends Component<OwnProps & WrappedComponent
            )}
          />
          <Form
-           onSubmit={(values) => submit(oppgave.eksternId, saksbehandler ? saksbehandler.brukerIdent : '', values.begrunnelse)}
+           onSubmit={(values) => submit(oppgaveId, saksbehandler ? saksbehandler.brukerIdent : '', values.begrunnelse)}
            render={({
              handleSubmit, values,
            }) => (

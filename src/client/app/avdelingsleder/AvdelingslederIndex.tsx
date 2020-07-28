@@ -15,6 +15,7 @@ import { getAvdelingslederPanelLocationCreator } from 'app/paths';
 import trackRouteParam from 'app/data/trackRouteParam';
 import { Location } from 'app/locationTsType';
 import NokkeltallIndex from 'avdelingsleder/nokkeltall/NokkeltallIndex';
+import ReservasjonerIndex from 'avdelingsleder/reservasjoner/ReservasjonerIndex';
 import { getSelectedAvdelingslederPanel, setSelectedAvdelingslederPanel } from './duck';
 import AvdelingslederDashboard from './components/AvdelingslederDashboard';
 import IkkeTilgangTilAvdelingslederPanel from './components/IkkeTilgangTilAvdelingslederPanel';
@@ -34,6 +35,8 @@ const renderAvdelingslederPanel = (avdelingslederPanel) => {
       return <EndreSaksbehandlereIndex />;
     case AvdelingslederPanels.NOKKELTALL:
       return <NokkeltallIndex />;
+    case AvdelingslederPanels.RESERVASJONER:
+      return <ReservasjonerIndex />;
     default:
       return null;
   }
@@ -44,6 +47,7 @@ const messageId = {
   [AvdelingslederPanels.BEHANDLINGSKOER]: 'AvdelingslederIndex.Behandlingskoer',
   [AvdelingslederPanels.SAKSBEHANDLERE]: 'AvdelingslederIndex.Saksbehandlere',
   [AvdelingslederPanels.NOKKELTALL]: 'AvdelingslederIndex.Nokkeltall',
+  [AvdelingslederPanels.RESERVASJONER]: 'AvdelingslederIndex.Reservasjoner',
 };
 
 interface TsProps {
@@ -85,6 +89,7 @@ export const AvdelingslederIndex = ({
             getTab(AvdelingslederPanels.BEHANDLINGSKOER, activeAvdelingslederPanel, getAvdelingslederPanelLocation),
             getTab(AvdelingslederPanels.SAKSBEHANDLERE, activeAvdelingslederPanel, getAvdelingslederPanelLocation),
             getTab(AvdelingslederPanels.NOKKELTALL, activeAvdelingslederPanel, getAvdelingslederPanelLocation),
+            getTab(AvdelingslederPanels.RESERVASJONER, activeAvdelingslederPanel, getAvdelingslederPanelLocation),
           ]}
           />
           <Panel className={styles.panelPadding}>

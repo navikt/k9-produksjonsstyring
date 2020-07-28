@@ -53,6 +53,8 @@ const k9LosApiKeys = {
   BEHANDLINGSKO_OPPGAVE_ANTALL: 'BEHANDLINGSKO_OPPGAVE_ANTALL',
   HENT_NYE_OG_FERDIGSTILTE_OPPGAVER: 'HENT_NYE_OG_FERDIGSTILTE_OPPGAVER',
   LEGG_TIL_BEHANDLET_OPPGAVE: 'LEGG_TIL_BEHANDLET_OPPGAVE',
+  HENT_ALLE_RESERVASJONER: 'HENT_ALLE_RESERVASJONER',
+  AVDELINGSLEDER_OPPHEVER_RESERVASJON: 'AVDELINGSLEDER_OPPHEVER_RESERVASJON',
 };
 
 const endpoints = new RestApiConfigBuilder()
@@ -98,6 +100,7 @@ const endpoints = new RestApiConfigBuilder()
   .withPost('avdelingsleder/oppgavekoer/sortering-tidsintervall-dager', k9LosApiKeys.LAGRE_OPPGAVEKO_SORTERING_TIDSINTERVALL_DAGER)
   .withPost('avdelingsleder/oppgavekoer/sortering-tidsintervall-dato', k9LosApiKeys.LAGRE_OPPGAVEKO_SORTERING_TIDSINTERVALL_DATO)
   .withPost('avdelingsleder/oppgavekoer/saksbehandler', k9LosApiKeys.LAGRE_OPPGAVEKO_SAKSBEHANDLER)
+  .withPost('avdelingsleder/reservasjoner/opphev', k9LosApiKeys.AVDELINGSLEDER_OPPHEVER_RESERVASJON)
 
   /* /api/avdelingsleder/saksbehandlere */
   .withPost('avdelingsleder/saksbehandlere/sok', k9LosApiKeys.SAKSBEHANDLER_SOK)
@@ -115,6 +118,9 @@ const endpoints = new RestApiConfigBuilder()
   .withGet('avdelingsleder/nokkeltall/ferdigstilte-behandlinger-historikk', k9LosApiKeys.HENT_FERDIGSTILTE_OPPGAVER)
   .withGet('avdelingsleder/nokkeltall/behandlinger-manuelt-vent-historikk', k9LosApiKeys.HENT_OPPGAVER_MANUELT_PA_VENT)
   .withGet('avdelingsleder/nokkeltall/behandlinger-forste-stonadsdag', k9LosApiKeys.HENT_OPPGAVER_PER_FORSTE_STONADSDAG)
+
+  .withGet('avdelingsleder/reservasjoner', k9LosApiKeys.HENT_ALLE_RESERVASJONER)
+
 
   /* /api/konfig */
   .withGet('konfig/k9-sak-url', k9LosApiKeys.K9SAK_URL)

@@ -86,12 +86,13 @@ export const endreOppgaveReservasjon = (oppgaveId: string, reserverTil: string) 
   ),
 );
 
-export const finnSaksbehandler = (brukerIdent: string) => (dispatch: Dispatch) => dispatch(
-  k9LosApi.FLYTT_RESERVASJON_SAKSBEHANDLER_SOK.makeRestApiRequest()({ brukerIdent }),
-);
 export const isSaksbehandlerSokStartet = k9LosApi.FLYTT_RESERVASJON_SAKSBEHANDLER_SOK.getRestApiStarted();
 export const isSaksbehandlerSokFerdig = k9LosApi.FLYTT_RESERVASJON_SAKSBEHANDLER_SOK.getRestApiFinished();
 export const getSaksbehandler = k9LosApi.FLYTT_RESERVASJON_SAKSBEHANDLER_SOK.getRestApiData();
+
+export const finnSaksbehandler = (brukerIdent: string) => (dispatch: Dispatch) => dispatch(
+  k9LosApi.FLYTT_RESERVASJON_SAKSBEHANDLER_SOK.makeRestApiRequest()({ brukerIdent }),
+);
 export const resetSaksbehandler = () => (dispatch: Dispatch) => dispatch(k9LosApi.FLYTT_RESERVASJON_SAKSBEHANDLER_SOK.resetRestApi()());
 
 export const flyttReservasjon = (oppgaveId: string, brukerIdent: string, begrunnelse: string) => (dispatch: Dispatch) => dispatch(
