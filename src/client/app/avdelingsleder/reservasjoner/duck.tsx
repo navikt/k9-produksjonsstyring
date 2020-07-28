@@ -8,11 +8,12 @@ export const fetchAlleReservasjoner = () => (dispatch: Dispatch) => dispatch(
   ),
 );
 
-export const opphevReservasjon = (oppgaveId: string) => (dispatch: Dispatch) => dispatch(
+export const opphevReservasjon = (oppgaveId: string) => (dispatch: Dispatch<any>) => dispatch(
   k9LosApi.AVDELINGSLEDER_OPPHEVER_RESERVASJON.makeRestApiRequest()(
     { oppgaveId },
   ),
-);
+).then(() => dispatch(fetchAlleReservasjoner()));
+
 export const getAlleReservasjoner = k9LosApi.HENT_ALLE_RESERVASJONER.getRestApiData();
 
 export const endreOppgaveReservasjon = (oppgaveId: string, reserverTil: string) => (dispatch: Dispatch<any>) => dispatch(
