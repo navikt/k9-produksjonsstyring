@@ -26,3 +26,9 @@ export const finnSaksbehandler = (brukerIdent: string) => (dispatch: Dispatch) =
   k9LosApi.FLYTT_RESERVASJON_SAKSBEHANDLER_SOK.makeRestApiRequest()({ brukerIdent }),
 );
 export const resetSaksbehandler = () => (dispatch: Dispatch) => dispatch(k9LosApi.FLYTT_RESERVASJON_SAKSBEHANDLER_SOK.resetRestApi()());
+
+export const flyttReservasjon = (oppgaveId: string, brukerIdent: string, begrunnelse: string) => (dispatch: Dispatch<any>) => dispatch(
+  k9LosApi.FLYTT_RESERVASJON.makeRestApiRequest()(
+    { oppgaveId, brukerIdent, begrunnelse },
+  ),
+).then(() => dispatch(fetchAlleReservasjoner()));

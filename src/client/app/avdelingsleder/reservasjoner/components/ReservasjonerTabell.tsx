@@ -36,6 +36,7 @@ interface OwnProps {
   endreOppgaveReservasjon: (oppgaveId: string, reserverTil: string) => Promise<string>;
   finnSaksbehandler: (brukerIdent: string) => Promise<string>;
   resetSaksbehandler: () => Promise<string>;
+  flyttReservasjon: (oppgaveId: string, brukerident: string, begrunnelse: string) => Promise<string>;
 }
 
 interface StateTsProps {
@@ -64,10 +65,6 @@ class ReservasjonerTabell extends Component<OwnProps, StateTsProps> {
     this.setState((prevState) => ({ ...prevState, showReservasjonEndringDatoModal: true, valgtReservasjon: reservasjon }));
   }
 
-  endreReserverasjonState = (): void => {
-    this.setState((prevState) => ({ ...prevState, showReservasjonEndringDatoModal: false }));
-  }
-
   showFlytteModal = (reservasjon: Reservasjon): void => {
     this.setState((prevState) => ({ ...prevState, showFlyttReservasjonModal: true, valgtReservasjon: reservasjon }));
   }
@@ -82,9 +79,12 @@ class ReservasjonerTabell extends Component<OwnProps, StateTsProps> {
 
   endreReservasjon = (oppgaveId: string, reserverTil: string) => {
     const { endreOppgaveReservasjon } = this.props;
-    endreOppgaveReservasjon(oppgaveId, reserverTil).then(() => {
-      this.setState((prevState) => ({ ...prevState, showReservasjonEndringDatoModal: false }));
-    });
+    endreOppgaveReservasjon(oppgaveId, reserverTil).then((this.closeReservasjonEndringDatoModal));
+  }
+
+  flyttReservasjon = (oppgaveId: string, brukerident: string, begrunnelse: string) => {
+    const { flyttReservasjon } = this.props;
+    flyttReservasjon(oppgaveId, brukerident, begrunnelse).then((this.closeFlytteModal));
   }
 
   render = (): ReactNode => {
@@ -159,10 +159,9 @@ class ReservasjonerTabell extends Component<OwnProps, StateTsProps> {
             showModal={showFlyttReservasjonModal}
             closeModal={this.closeFlytteModal}
             oppgaveId={valgtReservasjon.oppgaveId}
-            toggleMenu={this.toggleMenu}
             finnSaksbehandler={finnSaksbehandler}
             resetSaksbehandler={resetSaksbehandler}
-            hentReserverteOppgaver={hentAlleReservasjoner}
+            submit={this.flyttReservasjon}
           />
         )}
       </>
