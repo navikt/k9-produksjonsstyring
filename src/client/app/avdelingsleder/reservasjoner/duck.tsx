@@ -14,3 +14,14 @@ export const opphevReservasjon = (oppgaveId: string) => (dispatch: Dispatch) => 
   ),
 );
 export const getAlleReservasjoner = k9LosApi.HENT_ALLE_RESERVASJONER.getRestApiData();
+
+export const endreOppgaveReservasjon = (oppgaveId: string, reserverTil: string) => (dispatch: Dispatch) => dispatch(
+  k9LosApi.ENDRE_OPPGAVERESERVASJON.makeRestApiRequest()(
+    { oppgaveId, reserverTil },
+  ),
+);
+
+export const finnSaksbehandler = (brukerIdent: string) => (dispatch: Dispatch) => dispatch(
+  k9LosApi.FLYTT_RESERVASJON_SAKSBEHANDLER_SOK.makeRestApiRequest()({ brukerIdent }),
+);
+export const resetSaksbehandler = () => (dispatch: Dispatch) => dispatch(k9LosApi.FLYTT_RESERVASJON_SAKSBEHANDLER_SOK.resetRestApi()());

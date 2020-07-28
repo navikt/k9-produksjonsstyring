@@ -33,6 +33,9 @@ interface OwnProps {
   reservasjoner: Reservasjon[];
   opphevReservasjon: (oppgaveId: string) => Promise<string>;
   hentAlleReservasjoner: () => void;
+  endreOppgaveReservasjon: (oppgaveId: string, reserverTil: string) => Promise<string>;
+  finnSaksbehandler: (brukerIdent: string) => Promise<string>;
+  resetSaksbehandler: () => Promise<string>;
 }
 
 interface StateTsProps {
@@ -77,9 +80,16 @@ class ReservasjonerTabell extends Component<OwnProps, StateTsProps> {
     this.setState((prevState) => ({ ...prevState, showFlyttReservasjonModal: false }));
   }
 
+  endreReservasjon = (oppgaveId: string, reserverTil: string) => {
+    const { endreOppgaveReservasjon } = this.props;
+    endreOppgaveReservasjon(oppgaveId, reserverTil).then(() => {
+      this.setState((prevState) => ({ ...prevState, showReservasjonEndringDatoModal: false }));
+    });
+  }
+
   render = (): ReactNode => {
     const {
-      reservasjoner, opphevReservasjon, hentAlleReservasjoner,
+      reservasjoner, opphevReservasjon, hentAlleReservasjoner, finnSaksbehandler, resetSaksbehandler,
     } = this.props;
     const {
       showReservasjonEndringDatoModal, showFlyttReservasjonModal, valgtReservasjon,
@@ -140,7 +150,8 @@ class ReservasjonerTabell extends Component<OwnProps, StateTsProps> {
               showModal={showReservasjonEndringDatoModal}
               closeModal={this.closeReservasjonEndringDatoModal}
               reserverTilDefault={valgtReservasjon.reservertTilTidspunkt}
-              endreOppgaveReservasjon={this.endreReserverasjonState}
+              endreOppgaveReservasjon={this.endreReservasjon}
+              oppgaveId={valgtReservasjon.oppgaveId}
             />
           )}
         { showFlyttReservasjonModal && (
@@ -149,6 +160,8 @@ class ReservasjonerTabell extends Component<OwnProps, StateTsProps> {
             closeModal={this.closeFlytteModal}
             oppgaveId={valgtReservasjon.oppgaveId}
             toggleMenu={this.toggleMenu}
+            finnSaksbehandler={finnSaksbehandler}
+            resetSaksbehandler={resetSaksbehandler}
             hentReserverteOppgaver={hentAlleReservasjoner}
           />
         )}

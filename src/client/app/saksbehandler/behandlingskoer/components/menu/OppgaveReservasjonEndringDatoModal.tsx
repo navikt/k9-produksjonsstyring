@@ -12,9 +12,10 @@ import { dateAfterOrEqual, dateBeforeOrEqual, hasValidDate } from 'utils/validat
 
 interface OwnProps {
   showModal: boolean;
-  endreOppgaveReservasjon: (reserverTil: string) => void;
+  endreOppgaveReservasjon: (oppgaveId: string, reserverTil: string) => void;
   closeModal: (event: MouseEvent<HTMLButtonElement>) => void;
   reserverTilDefault: string;
+  oppgaveId: string;
 }
 
 /**
@@ -27,7 +28,7 @@ export class OppgaveReservasjonEndringDatoModal extends Component<OwnProps & Wra
 
   render = () => {
     const {
-      intl, showModal, endreOppgaveReservasjon, closeModal, reserverTilDefault,
+      intl, showModal, endreOppgaveReservasjon, closeModal, reserverTilDefault, oppgaveId,
     } = this.props;
 
     return (
@@ -39,7 +40,7 @@ export class OppgaveReservasjonEndringDatoModal extends Component<OwnProps & Wra
         onRequestClose={closeModal as () => void}
       >
         <Form
-          onSubmit={(values) => endreOppgaveReservasjon(values.reserverTil)}
+          onSubmit={(values) => endreOppgaveReservasjon(oppgaveId, values.reserverTil)}
           initialValues={this.buildInitialValues(reserverTilDefault)}
           render={({ handleSubmit }) => (
             <form onSubmit={handleSubmit}>

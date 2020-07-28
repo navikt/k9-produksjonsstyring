@@ -8,7 +8,6 @@ import { Normaltekst, Element } from 'nav-frontend-typografi';
 
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import { FlexContainer, FlexRow, FlexColumn } from 'sharedComponents/flexGrid';
-import Oppgave from 'saksbehandler/oppgaveTsType';
 import {
   hasValidText, maxLength, minLength, required,
 } from 'utils/validation/validators';
@@ -26,7 +25,7 @@ const maxLength7 = maxLength(7);
 
 interface OwnProps {
   showModal: boolean;
-  oppgave: Oppgave;
+  oppgaveId: string;
   closeModal: () => void;
   submit: (oppgaveId: string, brukerident: string, begrunnelse: string) => void;
   finnSaksbehandler: (brukerident: string) => void;
@@ -65,7 +64,7 @@ export class FlyttReservasjonModal extends Component<OwnProps & WrappedComponent
 
    render = () => {
      const {
-       intl, showModal, closeModal, submit, oppgave, finnSaksbehandler, erSaksbehandlerSokStartet, erSaksbehandlerSokFerdig, saksbehandler,
+       intl, showModal, closeModal, submit, oppgaveId, finnSaksbehandler, erSaksbehandlerSokStartet, erSaksbehandlerSokFerdig, saksbehandler,
      } = this.props;
 
      return (
@@ -121,7 +120,7 @@ export class FlyttReservasjonModal extends Component<OwnProps & WrappedComponent
            )}
          />
          <Form
-           onSubmit={(values) => submit(oppgave.eksternId, saksbehandler ? saksbehandler.brukerIdent : '', values.begrunnelse)}
+           onSubmit={(values) => submit(oppgaveId, saksbehandler ? saksbehandler.brukerIdent : '', values.begrunnelse)}
            render={({
              handleSubmit, values,
            }) => (

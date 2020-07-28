@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { bindActionCreators, Dispatch } from 'redux';
 import {
   fetchAlleReservasjoner as fetchAllereservasjonerActionCreator,
-  getAlleReservasjoner, opphevReservasjon,
+  getAlleReservasjoner, opphevReservasjon, endreOppgaveReservasjon, finnSaksbehandler, resetSaksbehandler,
 } from 'avdelingsleder/reservasjoner/duck';
 import { connect } from 'react-redux';
 import Reservasjon from 'avdelingsleder/reservasjoner/reservasjonTsType';
@@ -14,6 +14,7 @@ interface TsProps {
   fetchAlleReservasjoner: () => void;
   reservasjoner: Reservasjon[];
   opphevReservasjon: (oppgaveId: string) => Promise<string>;
+  endreOppgaveReservasjon: (oppgaveId: string, reserverTil: string) => Promise<string>;
 }
 
 export class ReservasjonerIndex extends Component<TsProps> {
@@ -28,13 +29,14 @@ export class ReservasjonerIndex extends Component<TsProps> {
 
   render = () => {
     const {
-      reservasjoner, opphevReservasjon: opphevOppgaveReservasjon, fetchAlleReservasjoner,
+      reservasjoner, opphevReservasjon: opphevOppgaveReservasjon, fetchAlleReservasjoner, endreOppgaveReservasjon: endreReservasjonDato,
     } = this.props;
     return (
       <ReservasjonerTabell
         opphevReservasjon={opphevOppgaveReservasjon}
         reservasjoner={reservasjoner}
         hentAlleReservasjoner={fetchAlleReservasjoner}
+        endreOppgaveReservasjon={endreReservasjonDato}
       />
     );
   }
@@ -44,6 +46,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   ...bindActionCreators({
     fetchAlleReservasjoner: fetchAllereservasjonerActionCreator,
     opphevReservasjon,
+    endreOppgaveReservasjon,
+    finnSaksbehandler,
+    resetSaksbehandler,
   }, dispatch),
 });
 
