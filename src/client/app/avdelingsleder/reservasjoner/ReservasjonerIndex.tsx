@@ -15,6 +15,8 @@ interface TsProps {
   reservasjoner: Reservasjon[];
   opphevReservasjon: (oppgaveId: string) => Promise<string>;
   endreOppgaveReservasjon: (oppgaveId: string, reserverTil: string) => Promise<string>;
+  finnSaksbehandler: (brukerIdent: string) => Promise<string>;
+  resetSaksbehandler: () => Promise<string>;
 }
 
 export class ReservasjonerIndex extends Component<TsProps> {
@@ -29,7 +31,12 @@ export class ReservasjonerIndex extends Component<TsProps> {
 
   render = () => {
     const {
-      reservasjoner, opphevReservasjon: opphevOppgaveReservasjon, fetchAlleReservasjoner, endreOppgaveReservasjon: endreReservasjonDato,
+      reservasjoner,
+      opphevReservasjon: opphevOppgaveReservasjon,
+      fetchAlleReservasjoner,
+      finnSaksbehandler: saksbehandlerSok,
+      resetSaksbehandler: nullstillSaksbehandler,
+      endreOppgaveReservasjon: endreReservasjonDato,
     } = this.props;
     return (
       <ReservasjonerTabell
@@ -37,6 +44,8 @@ export class ReservasjonerIndex extends Component<TsProps> {
         reservasjoner={reservasjoner}
         hentAlleReservasjoner={fetchAlleReservasjoner}
         endreOppgaveReservasjon={endreReservasjonDato}
+        finnSaksbehandler={saksbehandlerSok}
+        resetSaksbehandler={nullstillSaksbehandler}
       />
     );
   }
