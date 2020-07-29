@@ -12062,10 +12062,10 @@ nav-frontend-grid@1.0.32:
   resolved "https://registry.yarnpkg.com/nav-frontend-grid/-/nav-frontend-grid-1.0.32.tgz#b559e1e03902b5e274c141bfa523c615665730c7"
   integrity sha512-sVkpXmOoavp13pK3f1M+4fWeE8kRk99nVD6FUo1TrpfJY/B8kFDisnPAFGbqkfAwGY3TKYZTGacId4JTisY67g==
 
-nav-frontend-ikoner-assets@1.0.5:
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/nav-frontend-ikoner-assets/-/nav-frontend-ikoner-assets-1.0.5.tgz#03216fd6c3e16590c9c43ca01d404f2b05a9dad9"
-  integrity sha512-SPXDdvz8dhamhImf2aLQ3jOdXeNPedgnc/5MAd9RRr8T/EBjoZIWHCCg88GiXk6HC1T5MgjohHSFntkk5/phGg==
+nav-frontend-ikoner-assets@2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/nav-frontend-ikoner-assets/-/nav-frontend-ikoner-assets-2.0.3.tgz#b5de7cdc59c470f6077f5a61a978e54f40ee8076"
+  integrity sha512-B8mizkduCh4O2JzD4BBl2SKUwAZgm9bZCkEGv1JoaSUFrnJFDHBh2ZSRGSFGvceJueJ1omuCNgRwjb/1BCcSfg==
 
 nav-frontend-ikoner-assets@^1.0.3:
   version "1.0.4"
