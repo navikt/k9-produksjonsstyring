@@ -7,8 +7,8 @@ export const integerRegex = /^\s*\d+\s*$/;
 export const integerOptionalNegativeRegex = /^\s*-?\d+\s*$/;
 export const decimalRegex = /^\d+(.\d{1,2})?$/;
 export const saksnummerOrFodselsnummerPattern = /^(\w|\d){5}$|(^\d{11}$)/;
-// eslint-disable-next-line no-useless-escape
-export const emailPattern = /[^@]+@[^\.]+\..+/;
+// eslint-disable-next-line no-useless-escape,max-len
+export const emailPattern = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 export const textRegex = /^[0-9a-zA-ZæøåÆØÅAaÁáBbCcČčDdĐđEeFfGgHhIiJjKkLlMmNnŊŋOoPpRrSsŠšTtŦŧUuVvZzŽžéôèÉöüäÖÜÄ .'\-/%§!?@_()+:;,="&\n]*$/;
 export const textGyldigRegex = /[0-9a-zA-ZæøåÆØÅAaÁáBbCcČčDdĐđEeFfGgHhIiJjKkLlMmNnŊŋOoPpRrSsŠšTtŦŧUuVvZzŽžéôèÉöüäÖÜÄ .'\-/%§!?@_()+:;,="&\n]*/g;
