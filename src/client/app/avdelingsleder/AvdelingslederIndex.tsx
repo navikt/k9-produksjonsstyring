@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import classnames from 'classnames/bind';
 import { NavLink } from 'react-router-dom';
-import { Panel } from 'nav-frontend-paneler';
+import Panel from 'nav-frontend-paneler';
 import Tabs from 'nav-frontend-tabs';
 import { Undertittel } from 'nav-frontend-typografi';
 

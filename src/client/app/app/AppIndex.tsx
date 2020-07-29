@@ -45,13 +45,6 @@ interface OwnProps {
  * og kodeverk fra server og lagre desse i klientens state.
  */
 export class AppIndex extends Component<OwnProps> {
-  static defaultProps = {
-    crashMessage: '',
-    navAnsattName: '',
-    funksjonellTid: undefined,
-    errorMessages: [],
-  };
-
   state = {
     headerHeight: 0,
   };
@@ -71,14 +64,15 @@ export class AppIndex extends Component<OwnProps> {
   }
 
   componentDidCatch = (error: Error, info: { componentStack: string }): void => {
-    const { showCrashMessage: showCrashMsg } = this.props;
-    showCrashMsg([
+    const crashMessage = [
       error.toString(),
       info.componentStack
         .split('\n')
         .map((line: string) => line.trim())
         .find((line: string) => !!line),
-    ].join(' '));
+    ].join(' ');
+
+    this.setState((state) => ({ ...state, crashMessage }));
   }
 
   setSiteHeight = (headerHeight: number): void => {
