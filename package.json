@@ -94,7 +94,7 @@
     "@storybook/react": "^5.3.18",
     "@storybook/storybook-deployer": "^2.8.5",
     "@storybook/theming": "^5.3.18",
-    "@commercetools/enzyme-extensions": "^4.0.0",
+    "@commercetools/enzyme-extensions": "^5.0.0",
     "@types/chai": "^4.2.12",
     "@types/classnames": "^2.2.10",
     "@types/enzyme": "^3.10.5",
