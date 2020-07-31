@@ -1,13 +1,10 @@
 import React, { FunctionComponent } from 'react';
-import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Normaltekst } from 'nav-frontend-typografi';
 
 import Oppgave from 'saksbehandler/oppgaveTsType';
-import oppgavePropType from 'saksbehandler/oppgavePropType';
 import { Fagsak } from 'saksbehandler/fagsakSearch/fagsakTsType';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
-import fagsakPropType from '../fagsakPropType';
 import PersonInfo from './person/PersonInfo';
 import SearchForm from './SearchForm';
 import FagsakList from './FagsakList';
