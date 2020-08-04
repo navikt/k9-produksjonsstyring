@@ -92,7 +92,7 @@ export class FlyttReservasjonModal extends Component<OwnProps & WrappedComponent
                        name="brukerIdent"
                        label={intl.formatMessage({ id: 'FlyttReservasjonModal.Brukerident' })}
                        bredde="S"
-                       validate={[required, minLength7, maxLength7]}
+                       validate={[required]}
                        autoFocus
                      />
                    </FlexColumn>
