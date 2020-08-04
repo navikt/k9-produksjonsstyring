@@ -154,14 +154,14 @@ export class OppgaverTabell extends Component<OwnProps & WrappedComponentProps, 
     return (
       <>
         <Element><FormattedMessage id="OppgaverTabell.DineNesteSaker" values={{ antall }} /></Element>
-        {alleOppgaver.length === 0 && (valgtKoSkjermet === false) && (
+        {alleOppgaver.length === 0 && !valgtKoSkjermet && (
           <>
             <VerticalSpacer eightPx />
             <Normaltekst><FormattedMessage id="OppgaverTabell.IngenOppgaver" /></Normaltekst>
           </>
         )}
 
-        {alleOppgaver.length === 0 && (valgtKoSkjermet === true) && (
+        {alleOppgaver.length === 0 && valgtKoSkjermet && (
         <>
           <VerticalSpacer eightPx />
           <Normaltekst><FormattedMessage id="OppgaverTabell.IngenTilgang" /></Normaltekst>
