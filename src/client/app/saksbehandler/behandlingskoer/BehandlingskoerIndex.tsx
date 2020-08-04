@@ -197,12 +197,18 @@ export class BehandlingskoerIndex extends Component<OwnProps & DispatchProps, St
     }));
   }
 
+  sjekkOmKoErSkjermet = () => {
+    const { oppgavekoer } = this.props;
+    const { id } = this.state;
+    return oppgavekoer.find((ko) => ko.id === id).skjermet;
+  }
+
   render = () => {
     const {
       oppgavekoer,
     } = this.props;
     const {
-      reservertAvAnnenSaksbehandler, reservertOppgave, reservertOppgaveStatus,
+      reservertAvAnnenSaksbehandler, reservertOppgave, reservertOppgaveStatus, id,
     } = this.state;
     if (oppgavekoer.length === 0) {
       return null;
@@ -210,6 +216,7 @@ export class BehandlingskoerIndex extends Component<OwnProps & DispatchProps, St
     return (
       <>
         <OppgavekoPanel
+          valgtKoSkjermet={this.sjekkOmKoErSkjermet}
           reserverOppgave={this.reserverOppgaveOgApne}
           oppgavekoer={oppgavekoer}
           endreOppgaveReservasjon={this.endreOppgaveReservasjon}

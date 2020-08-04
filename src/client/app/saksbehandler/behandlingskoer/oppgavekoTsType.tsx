@@ -14,4 +14,5 @@ export type Oppgaveko = Readonly<{
         fomDato?: string;
         tomDato?: string;
     };
+    skjermet: boolean;
 }>
