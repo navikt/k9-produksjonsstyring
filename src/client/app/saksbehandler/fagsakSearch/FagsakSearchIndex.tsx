@@ -38,7 +38,7 @@ type Props = Readonly<{
   leggTilBehandletOppgave: (oppgave: Oppgave) => void;
   reserverOppgave: (oppgaveId: string) => Promise<{payload: OppgaveStatus }>;
   hentReservasjonsstatus: (oppgaveId: string) => Promise<{payload: OppgaveStatus }>;
-  hentOppgaverForFagsaker: (fagsaker: string[]) => Promise<{payload: Oppgave[] }>;
+  hentOppgaverForFagsaker: (fagsaker: string) => Promise<{ payload: Oppgave[] }>;
 }>;
 
 interface StateProps {
@@ -137,9 +137,9 @@ export class FagsakSearchIndex extends Component<Props, StateProps> {
     }));
 
     return search(values).then((data: {payload: Fagsak[] }) => {
-      const fagsaker = data.payload;
-      if (fagsaker.length > 0) {
-        hentOppgaverForFagsaker(fagsaker).then(() => {
+      const fagsaker = new Set(data.payload.map((fagsak) => `${fagsak.saksnummer}`));
+      if (fagsaker.size > 0) {
+        hentOppgaverForFagsaker(Array.from(fagsaker).join(',')).then(() => {
           this.setState((prevState) => ({ ...prevState, sokStartet: false, sokFerdig: true }));
         });
       } else {

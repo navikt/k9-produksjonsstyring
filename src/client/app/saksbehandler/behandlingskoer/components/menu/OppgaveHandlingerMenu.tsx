@@ -124,9 +124,9 @@ export class OppgaveHandlingerMenu extends Component<OwnProps, OwnState> {
     this.setState((prevState) => ({ ...prevState, showFlyttReservasjonModal: false }));
   }
 
-  endreReservasjon = (reserverTil: string) => {
-    const { oppgave, endreOppgaveReservasjon } = this.props;
-    endreOppgaveReservasjon(oppgave.eksternId, reserverTil).then(() => {
+  endreReservasjon = (oppgaveId: string, reserverTil: string) => {
+    const { endreOppgaveReservasjon } = this.props;
+    endreOppgaveReservasjon(oppgaveId, reserverTil).then(() => {
       toggleEventListeners(false, this.handleOutsideClick);
       this.setState((prevState) => ({ ...prevState, showForlengetReservasjonModal: true }));
     });
