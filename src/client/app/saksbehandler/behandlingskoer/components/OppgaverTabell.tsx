@@ -161,7 +161,7 @@ export class OppgaverTabell extends Component<OwnProps & WrappedComponentProps, 
           </>
         )}
 
-        {alleOppgaver.length === 0 && valgtKoSkjermet && (
+        {oppgaverTilBehandling.length === 0 && valgtKoSkjermet && (
         <>
           <VerticalSpacer eightPx />
           <Normaltekst><FormattedMessage id="OppgaverTabell.IngenTilgang" /></Normaltekst>
