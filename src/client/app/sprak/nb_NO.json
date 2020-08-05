@@ -151,7 +151,7 @@
 
   "OppgaverTabell.DineNesteSaker": "Neste behandlinger ({antall} i køen)",
   "OppgaverTabell.IngenOppgaver": "Det er ingen behandlinger i denne køen",
-  "OppgaverTabell.IngenTilgang": "Du har ikke tilgang til noen av behandlingene i denne køen",
+  "OppgaverTabell.IngenTilgang": "Du har ikke tilgang til behandlingene i denne køen",
   "OppgaverTabell.Soker": "Søker",
   "OppgaverTabell.Behandlingstype": "Behandlingstype",
   "OppgaverTabell.BehandlingOpprettet": "Behandling opprettet",
