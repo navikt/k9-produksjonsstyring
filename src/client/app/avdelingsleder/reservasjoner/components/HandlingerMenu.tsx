@@ -121,6 +121,14 @@ export class HandlingerMenu extends Component<OwnProps, OwnState> {
       this.setState((prevState) => ({ ...prevState, showFlyttReservasjonModal: false }));
     }
 
+    endreReservasjon = (oppgaveId: string, reserverTil: string) => {
+      const { endreOppgaveReservasjon } = this.props;
+      endreOppgaveReservasjon(oppgaveId, reserverTil).then(() => {
+        toggleEventListeners(false, this.handleOutsideClick);
+        this.setState((prevState) => ({ ...prevState, showReservasjonEndringDatoModal: false }));
+      });
+    }
+
     closeReservasjonEndringDatoModal = (event: MouseEvent<HTMLButtonElement>) => {
       const { toggleMenu, reservasjon } = this.props;
       toggleMenu(reservasjon);
@@ -150,7 +158,7 @@ export class HandlingerMenu extends Component<OwnProps, OwnState> {
 
     render = () => {
       const {
-        reservasjon, offset, finnSaksbehandler, resetSaksbehandler, endreOppgaveReservasjon,
+        reservasjon, offset, finnSaksbehandler, resetSaksbehandler,
       } = this.props;
       const {
         showOpphevReservasjonModal, showFlyttReservasjonModal, showReservasjonEndringDatoModal,
@@ -182,7 +190,7 @@ export class HandlingerMenu extends Component<OwnProps, OwnState> {
             <OppgaveReservasjonEndringDatoModal
               showModal={showReservasjonEndringDatoModal}
               oppgaveId={reservasjon.oppgaveId}
-              endreOppgaveReservasjon={endreOppgaveReservasjon}
+              endreOppgaveReservasjon={this.endreReservasjon}
               closeModal={this.closeReservasjonEndringDatoModal}
               reserverTilDefault={reservasjon.reservertTilTidspunkt}
             />
