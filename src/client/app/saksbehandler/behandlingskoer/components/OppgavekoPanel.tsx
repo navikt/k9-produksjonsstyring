@@ -11,6 +11,7 @@ import OppgaverTabell from './OppgaverTabell';
 import styles from './oppgavekoPanel.less';
 
 interface OwnProps {
+  valgtKoSkjermet: boolean;
   oppgavekoer: Oppgaveko[];
   fetchOppgavekoOppgaver: (id: string) => void;
   reserverOppgave: (oppgave: Oppgave) => void;
@@ -31,6 +32,7 @@ const OppgavekoPanel: FunctionComponent<OwnProps> = ({
   fetchOppgavekoOppgaver,
   flyttReservasjon,
   endreOppgaveReservasjon,
+  valgtKoSkjermet,
 }) => (
   <>
     <Undertittel><FormattedMessage id="OppgavekoPanel.StartBehandling" /></Undertittel>
@@ -41,6 +43,7 @@ const OppgavekoPanel: FunctionComponent<OwnProps> = ({
       />
       <VerticalSpacer twentyPx />
       <OppgaverTabell
+        valgtKoSkjermet={valgtKoSkjermet}
         reserverOppgave={reserverOppgave}
         opphevOppgaveReservasjon={opphevOppgaveReservasjon}
         forlengOppgaveReservasjon={forlengOppgaveReservasjon}

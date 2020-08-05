@@ -201,6 +201,10 @@ describe('<OppgaverTabell>', () => {
       resetSaksbehandler={sinon.spy()}
       flyttReservasjon={sinon.spy()}
       antall={1}
+      endreOppgaveReservasjon={sinon.spy()}
+      goToFagsak={sinon.spy()}
+      leggTilBehandletOppgave={sinon.spy()}
+      valgtKoSkjermet={false}
     />);
 
     const message = wrapper.find(FormattedMessage);

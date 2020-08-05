@@ -64,6 +64,7 @@ interface OwnProps {
   antall: number;
   goToFagsak: (saknummer: string, behandlingId?: number) => void;
   leggTilBehandletOppgave: (oppgave: Oppgave) => void;
+  valgtKoSkjermet: boolean;
 }
 
 interface State {
@@ -141,7 +142,7 @@ export class OppgaverTabell extends Component<OwnProps & WrappedComponentProps, 
     const {
       oppgaverTilBehandling, reserverteOppgaver, opphevOppgaveReservasjon, forlengOppgaveReservasjon, endreOppgaveReservasjon,
       finnSaksbehandler: findSaksbehandler, flyttReservasjon,
-      resetSaksbehandler: resetBehandler, antall, intl,
+      resetSaksbehandler: resetBehandler, antall, intl, valgtKoSkjermet,
     } = this.props;
     const {
       showMenu, offset, valgtOppgaveId,
@@ -153,11 +154,18 @@ export class OppgaverTabell extends Component<OwnProps & WrappedComponentProps, 
     return (
       <>
         <Element><FormattedMessage id="OppgaverTabell.DineNesteSaker" values={{ antall }} /></Element>
-        {alleOppgaver.length === 0 && (
+        {alleOppgaver.length === 0 && !valgtKoSkjermet && (
           <>
             <VerticalSpacer eightPx />
             <Normaltekst><FormattedMessage id="OppgaverTabell.IngenOppgaver" /></Normaltekst>
           </>
+        )}
+
+        {alleOppgaver.length === 0 && valgtKoSkjermet && (
+        <>
+          <VerticalSpacer eightPx />
+          <Normaltekst><FormattedMessage id="OppgaverTabell.IngenTilgang" /></Normaltekst>
+        </>
         )}
         {alleOppgaver.length > 0 && (
           <>

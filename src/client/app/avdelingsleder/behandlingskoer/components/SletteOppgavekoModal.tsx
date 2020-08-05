@@ -44,7 +44,7 @@ export const SletteOppgavekoModal: FunctionComponent<TsProps & WrappedComponentP
       <Column xs="1">
         <Image
           className={styles.image}
-          alt={intl.formatMessage({ id: 'SletteSakslisteModal.SletteModal' })}
+          alt={intl.formatMessage({ id: 'SletteOppgavekoModal.SletteModal' })}
           src={advarselImageUrl}
         />
         <div className={styles.divider} />
