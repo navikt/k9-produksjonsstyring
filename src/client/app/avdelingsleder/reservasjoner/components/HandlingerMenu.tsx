@@ -125,6 +125,8 @@ export class HandlingerMenu extends Component<OwnProps, OwnState> {
       const { endreOppgaveReservasjon } = this.props;
       endreOppgaveReservasjon(oppgaveId, reserverTil).then(() => {
         toggleEventListeners(false, this.handleOutsideClick);
+        const { toggleMenu, reservasjon } = this.props;
+        toggleMenu(reservasjon);
         this.setState((prevState) => ({ ...prevState, showReservasjonEndringDatoModal: false }));
       });
     }
