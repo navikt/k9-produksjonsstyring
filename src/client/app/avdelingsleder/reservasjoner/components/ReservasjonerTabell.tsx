@@ -85,7 +85,7 @@ export class ReservasjonerTabell extends Component<OwnProps & WrappedComponentPr
 
   endreReservasjon = (oppgaveId: string, reserverTil: string) => {
     const { endreOppgaveReservasjon } = this.props;
-    endreOppgaveReservasjon(oppgaveId, reserverTil);
+    return endreOppgaveReservasjon(oppgaveId, reserverTil);
   }
 
   flyttReservasjon = (oppgaveId: string, brukerident: string, begrunnelse: string) => {
