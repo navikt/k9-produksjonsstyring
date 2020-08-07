@@ -23,7 +23,7 @@ describe('<SaksbehandlereForOppgavekoForm>', () => {
       kode: andreKriterierType.REGISTRER_PAPIRSOKNAD,
       navn: 'Registrer papirsøknad',
     }],
-    saksbehandlere: [],
+    driftsmeldinger: [],
   };
 
   it('skal vise kun en kolonne med saksbehandlere når det er tilordnet en saksbehandler', () => {

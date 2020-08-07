@@ -110,6 +110,16 @@
   "LeggTilSaksbehandlerForm.FinnesAllerede": "E-post adressen finnes allerede i listen",
   "LeggTilSaksbehandlerForm.FinnesIkke": "Kan ikke finne bruker",
 
+
+  "LeggTilDriftsmeldingForm.LeggTil": "Legg til driftsmelding",
+  "LeggTilDriftsmeldingForm.Melding": "Melding",
+  "LeggTilDriftsmeldingForm.Aktiv": "Aktiv",
+  "LeggTilDriftsmeldingForm.Legg_Til": "Legg til",
+  "LeggTilDriftsmeldingForm.LeggTilIListen": "Legg til i listen",
+  "LeggTilDriftsmeldingForm.Nullstill": "Nullstill",
+  "LeggTilDriftsmeldingForm.FinnesAllerede": "E-post adressen finnes allerede i listen",
+  "LeggTilDriftsmeldingForm.FinnesIkke": "Kan ikke finne bruker",
+  
   "ManueltPaVentPanel.FireSisteUker": "4 uker frem",
   "ManueltPaVentPanel.AtteSisteUker": "8 uker frem",
   "ManueltPaVentPanel.SattPaVent": "Antall behandlinger satt på vent manuelt",

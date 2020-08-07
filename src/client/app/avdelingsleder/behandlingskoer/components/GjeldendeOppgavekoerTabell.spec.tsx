@@ -59,7 +59,7 @@ describe('<GjeldendeOppgavekoerTabell>', () => {
       sistEndret: '2017-08-31',
       erTilBeslutter: false,
       erRegistrerPapirsoknad: false,
-      saksbehandlere: [],
+      driftsmeldinger: [],
       skjermet: false,
     }, {
       id: '2',
@@ -67,7 +67,7 @@ describe('<GjeldendeOppgavekoerTabell>', () => {
       sistEndret: '2018-08-31',
       erTilBeslutter: false,
       erRegistrerPapirsoknad: false,
-      saksbehandlere: [],
+      driftsmeldinger: [],
       skjermet: false,
     }];
 
@@ -176,7 +176,7 @@ describe('<GjeldendeOppgavekoerTabell>', () => {
       sistEndret: '2017-08-31',
       erTilBeslutter: false,
       erRegistrerPapirsoknad: false,
-      saksbehandlere: [],
+      driftsmeldinger: [],
       skjermet: false,
     }];
     const setValgtOppgavekoIdFn = sinon.spy();
@@ -207,7 +207,7 @@ describe('<GjeldendeOppgavekoerTabell>', () => {
       sistEndret: '2017-08-31',
       erTilBeslutter: false,
       erRegistrerPapirsoknad: false,
-      saksbehandlere: [],
+      driftsmeldinger: [],
       skjermet: false,
     }];
     const wrapper = shallow(<GjeldendeOppgavekoerTabell
@@ -243,7 +243,7 @@ describe('<GjeldendeOppgavekoerTabell>', () => {
       sistEndret: '2017-08-31',
       erTilBeslutter: false,
       erRegistrerPapirsoknad: false,
-      saksbehandlere: [],
+      driftsmeldinger: [],
       skjermet: false,
     }];
     const wrapper = shallow(<GjeldendeOppgavekoerTabell
@@ -279,7 +279,7 @@ describe('<GjeldendeOppgavekoerTabell>', () => {
       sistEndret: '2017-08-31',
       erTilBeslutter: false,
       erRegistrerPapirsoknad: false,
-      saksbehandlere: [],
+      driftsmeldinger: [],
       skjermet: false,
     }];
     const fjernOppgavekoerFn = sinon.spy();
@@ -322,7 +322,7 @@ describe('<GjeldendeOppgavekoerTabell>', () => {
       erTilBeslutter: false,
       skjermet: false,
       erRegistrerPapirsoknad: false,
-      saksbehandlere: [{
+      driftsmeldinger: [{
         navn: 'Sara',
         brukerIdent: 'fslkjd',
         epost: 'epost',

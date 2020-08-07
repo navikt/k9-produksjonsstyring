@@ -86,7 +86,21 @@ const HeaderWithErrorPanel: FunctionComponent<OwnProps & WrappedComponentProps> 
     window.location.href += 'avdelingsleder';
   };
 
-  const visKnapp = (): boolean => {
+  const goTilAdminPanel = () => {
+    window.location.href += 'admin';
+  };
+
+  const visAvdelingslederKnapp = (): boolean => {
+    if (!kanOppgavestyre) {
+      return false;
+    }
+    if (kanOppgavestyre && window.location.href.includes('avdelingsleder')) {
+      return false;
+    }
+    return true;
+  };
+
+  const visAdminKnapp = (): boolean => {
     if (!kanOppgavestyre) {
       return false;
     }
@@ -100,7 +114,8 @@ const HeaderWithErrorPanel: FunctionComponent<OwnProps & WrappedComponentProps> 
     <header ref={fixedHeaderRef} className={styles.container}>
       <div ref={wrapperRef}>
         <Header title={intl.formatMessage({ id: 'Header.K9Los' })} titleHref="/">
-          {visKnapp() && <KnappBase className={styles.knapp} onClick={goTilAvdlelingslederPanel}>Avdelingslederpanel</KnappBase>}
+          {visAdminKnapp() && <KnappBase className={styles.knapp} onClick={goTilAdminPanel}>Adminpanel</KnappBase>}
+          {visAvdelingslederKnapp() && <KnappBase className={styles.knapp} onClick={goTilAvdlelingslederPanel}>Avdelingslederpanel</KnappBase>}
           <Popover
             popperIsVisible={erLenkePanelApent}
             renderArrowElement

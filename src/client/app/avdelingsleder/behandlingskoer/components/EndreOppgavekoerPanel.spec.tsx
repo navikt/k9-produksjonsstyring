@@ -15,7 +15,7 @@ describe('<EndreOppgavekoerPanel>', () => {
       sistEndret: '2017-08-31',
       erTilBeslutter: false,
       erRegistrerPapirsoknad: false,
-      saksbehandlere: [],
+      driftsmeldinger: [],
       skjermet: false,
     }];
 
@@ -48,7 +48,7 @@ describe('<EndreOppgavekoerPanel>', () => {
       sistEndret: '2017-08-31',
       erTilBeslutter: false,
       erRegistrerPapirsoknad: false,
-      saksbehandlere: [],
+      driftsmeldinger: [],
       skjermet: false,
     }];
 

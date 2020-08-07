@@ -36,6 +36,7 @@ const k9LosApiKeys = {
   LAGRE_OPPGAVEKO_SORTERING_TIDSINTERVALL_DATO: 'LAGRE_OPPGAVEKO_SORTERING_TIDSINTERVALL_DATO',
   SAKSBEHANDLER_SOK: 'SAKSBEHANDLER_SOK',
   SAKSBEHANDLERE: 'SAKSBEHANDLERE',
+  DRIFTSMELDINGER: 'DRIFTSMELDINGER',
   OPPRETT_NY_SAKSBEHANDLER: 'OPPRETT_NY_SAKSBEHANDLER',
   SLETT_SAKSBEHANDLER: 'SLETT_SAKSBEHANDLER',
   LAGRE_OPPGAVEKO_SAKSBEHANDLER: 'LAGRE_OPPGAVEKO_SAKSBEHANDLER',
@@ -63,6 +64,9 @@ const endpoints = new RestApiConfigBuilder()
 
   /* /api/saksbehandler */
   .withGet('saksbehandler', k9LosApiKeys.NAV_ANSATT)
+
+  /* /api/driftsmeldinger */
+  .withGet('driftsmeldinger', k9LosApiKeys.DRIFTSMELDINGER)
 
   /* /api/saksbehandler/saksliste */
   .withGet('saksbehandler/oppgaveko', k9LosApiKeys.OPPGAVEKO)
