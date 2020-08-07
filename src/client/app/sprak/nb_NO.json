@@ -1,4 +1,6 @@
 {
+  "AdminIndex.Driftsmeldinger": "Driftsmeldinger",
+
   "AndreKriterierVelger.TilBeslutter": "Til beslutter",
   "AndreKriterierVelger.RegistrerPapirsoknad": "Registrer papirsøknad",
   "AndreKriterierVelger.AndreKriterier": "Andre kriterier",
@@ -41,6 +43,9 @@
   "Calendar.Month.9": "Oktober",
   "Calendar.Month.10": "November",
   "Calendar.Month.11": "Desember",
+
+  "DriftsmeldingerTabell.IngenDriftsmeldinger": "Ingen driftsmeldinger",
+
 
   "EndreOppgavekoerPanel.KnyttetMotSaksbehandlere": "Behandlingskøen benyttes av disse saksbehandlerne",
   "EndreOppgavekoerPanel.Saksbehandlere": "Tilknyttede saksbehandlere",
@@ -119,7 +124,7 @@
   "LeggTilDriftsmeldingForm.Nullstill": "Nullstill",
   "LeggTilDriftsmeldingForm.FinnesAllerede": "E-post adressen finnes allerede i listen",
   "LeggTilDriftsmeldingForm.FinnesIkke": "Kan ikke finne bruker",
-  
+
   "ManueltPaVentPanel.FireSisteUker": "4 uker frem",
   "ManueltPaVentPanel.AtteSisteUker": "8 uker frem",
   "ManueltPaVentPanel.SattPaVent": "Antall behandlinger satt på vent manuelt",

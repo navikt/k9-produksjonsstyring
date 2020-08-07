@@ -97,7 +97,7 @@ export class DriftsmeldingerTabell extends Component<TsProps, StateTsProps> {
                   className={styles.removeImage}
                   onMouseDown={() => this.showSletteDriftsmeldingModal(driftsmelding)}
                   onKeyDown={() => this.showSletteDriftsmeldingModal(driftsmelding)}
-                  tabIndex="0"
+                  tabIndex={0}
                 />
               </TableColumn>
             </TableRow>

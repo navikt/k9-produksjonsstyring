@@ -14,14 +14,12 @@ import { parseQueryString } from 'utils/urlUtils';
 import { getPanelLocationCreator } from 'app/paths';
 import trackRouteParam from 'app/data/trackRouteParam';
 import { Location } from 'app/locationTsType';
-import NokkeltallIndex from 'avdelingsleder/nokkeltall/NokkeltallIndex';
-import ReservasjonerIndex from 'avdelingsleder/reservasjoner/ReservasjonerIndex';
 import { getSelectedPanel, setSelectedPanel } from './duck';
 import Dashboard from './components/AvdelingslederDashboard';
 import IkkeTilgangTilAvdelingslederPanel from './components/IkkeTilgangTilAvdelingslederPanel';
 import AdminPanels from './AdminPanels';
 import EndreDriftsmeldingerIndex from './driftsmeldinger/EndreDriftsmeldingerIndex';
-import EndreBehandlingskoerIndex from './behandlingskoer/EndreBehandlingskoerIndex';
+
 
 import styles from './adminIndex.less';
 

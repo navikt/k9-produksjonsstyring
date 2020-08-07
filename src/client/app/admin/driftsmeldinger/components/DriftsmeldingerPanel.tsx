@@ -32,6 +32,7 @@ const DriftsmeldingerPanel = ({
       finnDriftsmelding={finnDriftsmelding}
       leggTilDriftsmelding={leggTilDriftsmelding}
       resetDriftsmeldingSok={resetDriftsmeldingSok}
+      driftsmeldinger={driftsmeldinger}
     />
   </>
 );
