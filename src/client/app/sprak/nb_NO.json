@@ -9,6 +9,7 @@
   "AvdelingslederIndex.Saksbehandlere": "Saksbehandlere",
   "AvdelingslederIndex.Nokkeltall": "Nøkkeltall",
   "AvdelingslederIndex.Reservasjoner": "Reservasjoner",
+  "AdminIndex.Driftsmeldinger": "Driftsmeldinger",
 
   "BehandlingPollingTimoutModal.TimeoutMelding": "Din økt er gått ut på tid, trykk Fortsett",
   "BehandlingPollingTimoutModal.Oppfrisk": "Fortsett",
@@ -113,6 +114,10 @@
 
   "LeggTilDriftsmeldingForm.LeggTil": "Legg til driftsmelding",
   "LeggTilDriftsmeldingForm.Melding": "Melding",
+  "DriftsmeldingTabell.Tekst": "Melding",
+  "DriftsmeldingTabell.Dato": "Dato",
+  "DriftsmeldingTabell.Aktiv": "Aktiv",
+  "DriftsmeldingerTabell.Driftsmeldinger": " ",
   "LeggTilDriftsmeldingForm.Aktiv": "Aktiv",
   "LeggTilDriftsmeldingForm.Legg_Til": "Legg til",
   "LeggTilDriftsmeldingForm.LeggTilIListen": "Legg til i listen",
