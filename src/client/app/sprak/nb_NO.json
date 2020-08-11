@@ -149,6 +149,7 @@
   "MottattPanel.MottattRefusjonskrav": "Mottatt refusjonskrav",
 
   "NyeOgFerdigstilteOppgaverForIdagGraf.Ferdigstilte": "Ferdigstilte",
+  "NyeOgFerdigstilteOppgaverForIdagGraf.FerdigstilteMine": "Mine ferdigstilte",
   "NyeOgFerdigstilteOppgaverForIdagGraf.Nye": "Nye",
   "NyeOgFerdigstilteOppgaverForIdagGraf.FerdigstiltAntall": "Antall ferdigstilte: {antall}",
   "NyeOgFerdigstilteOppgaverForIdagGraf.NyeAntall": "Antall nye: {antall}",

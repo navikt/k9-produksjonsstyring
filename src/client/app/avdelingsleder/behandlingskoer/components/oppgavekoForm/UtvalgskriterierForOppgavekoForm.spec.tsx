@@ -28,7 +28,7 @@ describe('<UtvalgskriterierForOppgavekoForm>', () => {
         kode: andreKriterierType.AARSKVANTUM,
         navn: 'Årskvantum',
       }],
-      driftsmeldinger: [],
+      saksbehandlere: [],
     };
 
     const wrapper = shallowWithIntl(<UtvalgskriterierForOppgavekoForm
@@ -55,7 +55,7 @@ describe('<UtvalgskriterierForOppgavekoForm>', () => {
       id: '1',
       navn: undefined,
       sistEndret: '2017-08-31',
-      driftsmeldinger: [],
+      saksbehandlere: [],
       skjermet: false,
     };
 
@@ -89,7 +89,7 @@ describe('<UtvalgskriterierForOppgavekoForm>', () => {
       id: '1',
       navn: 'Nyansatte',
       sistEndret: '2017-08-31',
-      driftsmeldinger: [],
+      saksbehandlere: [],
       skjermet: false,
     };
 
@@ -123,7 +123,7 @@ describe('<UtvalgskriterierForOppgavekoForm>', () => {
       id: '1',
       navn: 'Nyansatte',
       sistEndret: '2017-08-31',
-      driftsmeldinger: [],
+      saksbehandlere: [],
       skjermet: false,
     };
 
@@ -162,7 +162,7 @@ describe('<UtvalgskriterierForOppgavekoForm>', () => {
       id: '1',
       navn: 'Nyansatte',
       sistEndret: '2017-08-31',
-      driftsmeldinger: [],
+      saksbehandlere: [],
       skjermet: false,
       andreKriterier: [{
         andreKriterierType: {
