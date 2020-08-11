@@ -159,6 +159,7 @@
   "NyeOgFerdigstilteOppgaverForIdagPanel.IDag": "I dag",
 
   "NyeOgFerdigstilteOppgaverForSisteSyvGraf.Ferdigstilte": "Ferdigstilte",
+  "NyeOgFerdigstilteOppgaverForSisteSyvGraf.FerdigstilteMine": "Mine ferdigstilte",
   "NyeOgFerdigstilteOppgaverForSisteSyvGraf.Nye": "Nye",
   "NyeOgFerdigstilteOppgaverForSisteSyvGraf.FerdigstiltAntall": "Ferdigstilte: {antall}",
   "NyeOgFerdigstilteOppgaverForSisteSyvGraf.NyeAntall": "Nye: {antall}",
