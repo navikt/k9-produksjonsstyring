@@ -86,8 +86,8 @@ const HeaderWithErrorPanel: FunctionComponent<OwnProps & WrappedComponentProps> 
     window.location.href += 'avdelingsleder';
   };
 
-  const goTilAdminPanel = () => {
-    window.location.href += 'admin';
+  const goTilDriftsmeldingerPanel = () => {
+    window.location.href += 'driftsmeldinger';
   };
 
   const visAvdelingslederKnapp = (): boolean => {
@@ -114,7 +114,7 @@ const HeaderWithErrorPanel: FunctionComponent<OwnProps & WrappedComponentProps> 
     <header ref={fixedHeaderRef} className={styles.container}>
       <div ref={wrapperRef}>
         <Header title={intl.formatMessage({ id: 'Header.K9Los' })} titleHref="/">
-          {visAdminKnapp() && <KnappBase className={styles.knapp} onClick={goTilAdminPanel}>Adminpanel</KnappBase>}
+          {visAdminKnapp() && <KnappBase className={styles.knapp} onClick={goTilDriftsmeldingerPanel}>Driftsmeldinger</KnappBase>}
           {visAvdelingslederKnapp() && <KnappBase className={styles.knapp} onClick={goTilAvdlelingslederPanel}>Avdelingslederpanel</KnappBase>}
           <Popover
             popperIsVisible={erLenkePanelApent}
