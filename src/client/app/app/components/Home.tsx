@@ -3,7 +3,7 @@ import { Route, Switch } from 'react-router-dom';
 
 import AvdelingslederIndex from 'avdelingsleder/AvdelingslederIndex';
 import SaksbehandlerIndex from 'saksbehandler/SaksbehandlerIndex';
-import AdminIndex from '../../admin/AdminIndex';
+import AdminIndex from 'admin/AdminIndex';
 import MissingPage from './MissingPage';
 
 import styles from './home.less';
