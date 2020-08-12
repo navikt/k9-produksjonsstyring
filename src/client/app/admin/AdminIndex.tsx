@@ -11,7 +11,7 @@ import { Undertittel } from 'nav-frontend-typografi';
 import LoadingPanel from 'sharedComponents/LoadingPanel';
 import { getNavAnsattKanOppgavestyre } from 'app/duck';
 import { parseQueryString } from 'utils/urlUtils';
-import { getPanelLocationCreator } from 'app/paths';
+import { getPanelLocationCreator, getPanelLocationCreatorDriftsmeldinger } from 'app/paths';
 import trackRouteParam from 'app/data/trackRouteParam';
 import { Location } from 'app/locationTsType';
 import { getSelectedPanel, setSelectedPanel } from './duck';
@@ -19,7 +19,6 @@ import Dashboard from './components/AvdelingslederDashboard';
 import IkkeTilgangTilAvdelingslederPanel from './components/IkkeTilgangTilAvdelingslederPanel';
 import AdminPanels from './AdminPanels';
 import EndreDriftsmeldingerIndex from './driftsmeldinger/EndreDriftsmeldingerIndex';
-
 
 import styles from './adminIndex.less';
 
@@ -112,7 +111,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
   ...ownProps,
   ...dispatchProps,
   ...stateProps,
-  getDriftsmeldingerPanelLocation: getPanelLocationCreator(ownProps.location), // gets prop 'location' from trackRouteParam
+  getDriftsmeldingerPanelLocation: getPanelLocationCreatorDriftsmeldinger(ownProps.location), // gets prop 'location' from trackRouteParam
   activePanel: stateProps.activeAvdelingslederPanel ? stateProps.activeAvdelingslederPanel : getPanelFromUrlOrDefault(ownProps.location),
 });
 

@@ -31,6 +31,7 @@ interface OwnProps {
   width: number;
   height: number;
   ferdigstilteOppgaver: Koordinat[];
+  mineFerdigstilteOppgaver: Koordinat[];
   nyeOppgaver: Koordinat[];
   isEmpty: boolean;
 }
@@ -74,7 +75,7 @@ export class NyeOgFerdigstilteOppgaverForSisteSyvGraf extends Component<OwnProps
 
   render = () => {
     const {
-      width, height, ferdigstilteOppgaver, nyeOppgaver, isEmpty,
+      width, height, ferdigstilteOppgaver, mineFerdigstilteOppgaver, nyeOppgaver, isEmpty,
     } = this.props;
     const {
       crosshairValues,
@@ -113,6 +114,13 @@ export class NyeOgFerdigstilteOppgaverForSisteSyvGraf extends Component<OwnProps
             onNearestX={this.onNearestX}
           />
           <AreaSeries
+            data={mineFerdigstilteOppgaver}
+            fill="#634689"
+            stroke="#634689"
+            opacity={0.5}
+            onNearestX={this.onNearestX}
+          />
+          <AreaSeries
             data={nyeOppgaver}
             fill="#66CBEC"
             stroke="#66CBEC"
@@ -136,6 +144,12 @@ export class NyeOgFerdigstilteOppgaverForSisteSyvGraf extends Component<OwnProps
                   />
                 </Undertekst>
                 <Undertekst>
+                  <FormattedMessage
+                    id="NyeOgFerdigstilteOppgaverForSisteSyvGraf.FerdigstiltMineAntall"
+                    values={{ antall: this.getAntall(mineFerdigstilteOppgaver) }}
+                  />
+                </Undertekst>
+                <Undertekst>
                   <FormattedMessage id="NyeOgFerdigstilteOppgaverForSisteSyvGraf.NyeAntall" values={{ antall: this.getAntall(nyeOppgaver) }} />
                 </Undertekst>
               </div>
@@ -152,6 +166,9 @@ export class NyeOgFerdigstilteOppgaverForSisteSyvGraf extends Component<OwnProps
               </Normaltekst>,
               <Normaltekst className={styles.displayInline}>
                 <FormattedMessage id="NyeOgFerdigstilteOppgaverForSisteSyvGraf.Nye" />
+              </Normaltekst>,
+              <Normaltekst className={styles.displayInline}>
+                <FormattedMessage id="NyeOgFerdigstilteOppgaverForSisteSyvGraf.FerdigstilteMine" />
               </Normaltekst>,
             ]}
           />
@@ -195,6 +212,11 @@ export const lagDatastrukturForFerdigstilte = createSelector([slaSammenBehandlin
   y: o.antallFerdigstilte,
 })));
 
+export const lagDatastrukturForMineFerdigstilte = createSelector([slaSammenBehandlingstyperOgFyllInnTomme], (oppgaver) => oppgaver.map((o) => ({
+  x: o.dato,
+  y: o.antallFerdigstilteMine,
+})));
+
 export const lagDatastrukturForNye = createSelector([slaSammenBehandlingstyperOgFyllInnTomme], (oppgaver) => oppgaver.map((o) => ({
   x: o.dato,
   y: o.antallNye,
@@ -205,6 +227,7 @@ export const isEmpty = createSelector([(state, ownProps) => ownProps], (ownProps
 const mapStateToProps = (state, ownProps) => ({
   isEmpty: isEmpty(state, ownProps),
   ferdigstilteOppgaver: lagDatastrukturForFerdigstilte(state, ownProps),
+  mineFerdigstilteOppgaver: lagDatastrukturForMineFerdigstilte(state, ownProps),
   nyeOppgaver: lagDatastrukturForNye(state, ownProps),
 });
 

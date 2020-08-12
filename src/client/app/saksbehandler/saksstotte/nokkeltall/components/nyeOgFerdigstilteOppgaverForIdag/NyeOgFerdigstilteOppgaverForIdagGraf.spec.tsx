@@ -55,6 +55,7 @@ describe('<NyeOgFerdigstilteOppgaverForIdagGraf>', () => {
       },
       antallNye: 12,
       antallFerdigstilte: 2,
+      antallFerdigstilteMine: 2,
       dato: moment().format(ISO_DATE_FORMAT),
     }];
 

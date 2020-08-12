@@ -37,6 +37,8 @@ const k9LosApiKeys = {
   SAKSBEHANDLER_SOK: 'SAKSBEHANDLER_SOK',
   SAKSBEHANDLERE: 'SAKSBEHANDLERE',
   DRIFTSMELDINGER: 'DRIFTSMELDINGER',
+  LAGRE_DRIFTSMELDING: 'LAGRE_DRIFTSMELDING',
+  SLETT_DRIFTSMELDING: 'SLETT_DRIFTSMELDING',
   OPPRETT_NY_SAKSBEHANDLER: 'OPPRETT_NY_SAKSBEHANDLER',
   SLETT_SAKSBEHANDLER: 'SLETT_SAKSBEHANDLER',
   LAGRE_OPPGAVEKO_SAKSBEHANDLER: 'LAGRE_OPPGAVEKO_SAKSBEHANDLER',
@@ -67,6 +69,8 @@ const endpoints = new RestApiConfigBuilder()
 
   /* /api/driftsmeldinger */
   .withGet('driftsmeldinger', k9LosApiKeys.DRIFTSMELDINGER)
+  .withPost('driftsmeldinger', k9LosApiKeys.LAGRE_DRIFTSMELDING)
+  .withPost('driftsmeldinger/slett', k9LosApiKeys.SLETT_DRIFTSMELDING)
 
   /* /api/saksbehandler/saksliste */
   .withGet('saksbehandler/oppgaveko', k9LosApiKeys.OPPGAVEKO)

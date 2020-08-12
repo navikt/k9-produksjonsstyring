@@ -88,7 +88,7 @@ export class DriftsmeldingerTabell extends Component<TsProps, StateTsProps> {
         <Table headerTextCodes={headerTextCodes} noHover>
           {sorterteDriftsmeldinger.map((driftsmelding) => (
             <TableRow key={driftsmelding.id}>
-              <TableColumn>{driftsmelding.driftsmelding}</TableColumn>
+              <TableColumn>{driftsmelding.melding}</TableColumn>
               <TableColumn>{driftsmelding.dato}</TableColumn>
               <TableColumn>{driftsmelding.aktiv}</TableColumn>
               <TableColumn>

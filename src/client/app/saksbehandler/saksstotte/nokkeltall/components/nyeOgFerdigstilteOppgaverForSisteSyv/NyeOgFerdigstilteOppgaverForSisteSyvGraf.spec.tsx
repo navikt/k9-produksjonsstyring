@@ -26,6 +26,7 @@ describe('<NyeOgFerdigstilteOppgaverForSisteSyvGraf>', () => {
       width={300}
       height={200}
       ferdigstilteOppgaver={[]}
+      mineFerdigstilteOppgaver={[]}
       nyeOppgaver={[]}
       isEmpty
     />);
@@ -64,12 +65,13 @@ describe('<NyeOgFerdigstilteOppgaverForSisteSyvGraf>', () => {
       width={300}
       height={200}
       ferdigstilteOppgaver={ferdigstilteOppgaver}
+      mineFerdigstilteOppgaver={ferdigstilteOppgaver}
       nyeOppgaver={nyeOppgaver}
       isEmpty={false}
     />);
 
     const areaSeries = wrapper.find(AreaSeries);
-    expect(areaSeries).to.have.length(2);
+    expect(areaSeries).to.have.length(3);
 
     const dataArea1 = areaSeries.first().prop('data');
     expect(dataArea1).to.eql(ferdigstilteOppgaver);
@@ -107,12 +109,13 @@ describe('<NyeOgFerdigstilteOppgaverForSisteSyvGraf>', () => {
       width={300}
       height={200}
       ferdigstilteOppgaver={ferdigstilteOppgaver}
+      mineFerdigstilteOppgaver={ferdigstilteOppgaver}
       nyeOppgaver={nyeOppgaver}
       isEmpty={false}
     />);
 
     const areaSeries = wrapper.find(AreaSeries);
-    expect(areaSeries).to.have.length(2);
+    expect(areaSeries).to.have.length(3);
 
     const valgtPunkt = { x: moment().startOf('day').subtract(1, 'd').toDate(), y: 1 };
     const func = areaSeries.first().prop('onNearestX') as (value: {x: Date; y: number}) => void;
@@ -123,7 +126,7 @@ describe('<NyeOgFerdigstilteOppgaverForSisteSyvGraf>', () => {
 
     expect(crosshair.find(Normaltekst).childAt(0).text()).to.eql(moment().subtract(1, 'd').format(DDMMYYYY_DATE_FORMAT));
     const tekst = crosshair.find(Undertekst);
-    expect(tekst).to.have.length(2);
+    expect(tekst).to.have.length(3);
     expect(tekst.first().childAt(0).prop('values').antall).to.eql(1);
     expect(tekst.last().childAt(0).prop('values').antall).to.eql(11);
   });

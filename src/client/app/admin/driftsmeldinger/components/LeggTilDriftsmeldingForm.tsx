@@ -1,20 +1,19 @@
 import React, { Component, ReactNode } from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
   injectIntl, WrappedComponentProps, FormattedMessage,
 } from 'react-intl';
 
 import { Form } from 'react-final-form';
-import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
+import { Knapp } from 'nav-frontend-knapper';
 import { Normaltekst, Element } from 'nav-frontend-typografi';
 
 import { hasValidEmailFormat } from 'utils/validation/validators';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
-import { CheckboxField, InputField } from 'form/FinalFields';
+import { InputField } from 'form/FinalFields';
 import { FlexContainer, FlexRow, FlexColumn } from 'sharedComponents/flexGrid';
+import { getSaksbehandler, getSaksbehandlere, getSaksbehandlerSokFinished } from 'avdelingsleder/saksbehandlere/duck';
 import { Driftsmelding } from '../driftsmeldingTsType';
-import driftsmeldingPropType from '../driftsmeldingPropType';
 import { getDriftsmeldinger } from '../duck';
 
 import styles from './leggTilDriftsmeldingForm.less';
@@ -60,15 +59,11 @@ export class LeggTilDriftsmeldingForm extends Component<OwnProps & WrappedCompon
         leggTilDriftsmelding, driftsmeldinger, driftsmelding,
       } = this.props;
       this.setState((prevState) => ({ ...prevState, leggerTilNyDriftsmelding: true }));
-      if (driftsmeldinger.some((s) => s.dato.toLowerCase() === driftsmelding.dato.toLowerCase())) {
-        this.setState((prevState) => ({ ...prevState, showWarning: true }));
+
+      leggTilDriftsmelding(melding).then(() => {
+        this.resetDriftsmeldingSok(resetFormValues);
         this.setState((prevState) => ({ ...prevState, leggerTilNyDriftsmelding: false }));
-      } else {
-        leggTilDriftsmelding(melding).then(() => {
-          this.resetDriftsmeldingSok(resetFormValues);
-          this.setState((prevState) => ({ ...prevState, leggerTilNyDriftsmelding: false }));
-        });
-      }
+      });
     }
 
     resetDriftsmeldingSok = (resetFormValues: () => void) => {
