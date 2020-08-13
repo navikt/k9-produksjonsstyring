@@ -38,8 +38,8 @@ interface Koordinat {
 const settCustomHoydePaSoylene = (data, over) => {
   const transformert = data.map((el) => ({
     ...el,
-    y0: el.y + (over ? 0.15 : -0.10),
-    y: el.y + (over ? -0.10 : -0.35),
+    y0: el.y + (over ? 0.15 : -0.13),
+    y: el.y + (over ? -0.07 : -0.35),
   }));
   transformert.unshift({ x: 0, y: 0.5 });
   transformert.push({ x: 0, y: 4.5 });
@@ -50,7 +50,7 @@ const settCustomHoydePaSoylene2 = (data) => {
   const transformert = data.map((el) => ({
     ...el,
     y0: el.y + 0.41,
-    y: el.y + 0.15,
+    y: el.y + 0.21,
   }));
   transformert.unshift({ x: 0, y: 0.5 });
   transformert.push({ x: 0, y: 4.5 });

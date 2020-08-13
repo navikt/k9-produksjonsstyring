@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 import { createSelector } from 'reselect';
 import {
-  XYPlot, XAxis, YAxis, HorizontalGridLines, AreaSeries, DiscreteColorLegend, Crosshair,
+  XYPlot, XAxis, YAxis, HorizontalGridLines, LineSeries, DiscreteColorLegend, Crosshair,
 } from 'react-vis';
 import { FormattedMessage, injectIntl, WrappedComponentProps } from 'react-intl';
 import Panel from 'nav-frontend-paneler';
@@ -106,21 +106,21 @@ export class NyeOgFerdigstilteOppgaverForSisteSyvGraf extends Component<OwnProps
             style={{ text: cssText }}
           />
           <YAxis style={{ text: cssText }} />
-          <AreaSeries
+          <LineSeries
             data={ferdigstilteOppgaver}
             fill="#634689"
             stroke="#634689"
             opacity={0.5}
             onNearestX={this.onNearestX}
           />
-          <AreaSeries
+          <LineSeries
             data={mineFerdigstilteOppgaver}
             fill="#FF9100"
             stroke="#FF9100"
             opacity={0.5}
             onNearestX={this.onNearestX}
           />
-          <AreaSeries
+          <LineSeries
             data={nyeOppgaver}
             fill="#0067C5"
             stroke="#0067C5"
@@ -192,12 +192,14 @@ export const slaSammenBehandlingstyperOgFyllInnTomme = createSelector([(state, o
         oppgaver.push({
           antallNye: 0,
           antallFerdigstilte: 0,
+          antallFerdigstilteMine: 0,
           dato: dato.toDate(),
         });
       } else {
         oppgaver.push({
           antallNye: dataForDato.reduce((acc, d) => acc + d.antallNye, 0),
           antallFerdigstilte: dataForDato.reduce((acc, d) => acc + d.antallFerdigstilte, 0),
+          antallFerdigstilteMine: dataForDato.reduce((acc, d) => acc + d.antallFerdigstilteMine, 0),
           dato: dato.toDate(),
         });
       }
