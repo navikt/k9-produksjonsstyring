@@ -158,6 +158,7 @@
   "NyeOgFerdigstilteOppgaverForIdagGraf.FerdigstilteMine": "Mine",
   "NyeOgFerdigstilteOppgaverForIdagGraf.Nye": "Nye",
   "NyeOgFerdigstilteOppgaverForIdagGraf.FerdigstiltAntall": "Antall ferdigstilte: {antall}",
+  "NyeOgFerdigstilteOppgaverForIdagGraf.MineAntall": "Antall mine: {antall}",
   "NyeOgFerdigstilteOppgaverForIdagGraf.NyeAntall": "Antall nye: {antall}",
   "NyeOgFerdigstilteOppgaverForIdagGraf.Førstegangsbehandling": "Førstegangsbeh.",
 

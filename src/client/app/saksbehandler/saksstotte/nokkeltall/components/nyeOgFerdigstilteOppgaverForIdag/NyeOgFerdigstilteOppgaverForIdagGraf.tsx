@@ -38,9 +38,19 @@ interface Koordinat {
 const settCustomHoydePaSoylene = (data, over) => {
   const transformert = data.map((el) => ({
     ...el,
-    y1: el.y + (over === 1 ? 0.79 : 0.41),
-    y0: el.y + (over === 2 ? 0.41 : -0.03),
-    y: el.y - (over === 3 ? -0.03 : -0.35),
+    y0: el.y + (over ? 0.15 : -0.10),
+    y: el.y + (over ? -0.10 : -0.35),
+  }));
+  transformert.unshift({ x: 0, y: 0.5 });
+  transformert.push({ x: 0, y: 4.5 });
+  return transformert;
+};
+
+const settCustomHoydePaSoylene2 = (data) => {
+  const transformert = data.map((el) => ({
+    ...el,
+    y0: el.y + 0.41,
+    y: el.y + 0.15,
   }));
   transformert.unshift({ x: 0, y: 0.5 });
   transformert.push({ x: 0, y: 4.5 });
@@ -51,21 +61,21 @@ export const lagDatastrukturForFerdigstilte = (nyeOgFerdigstilteOppgaver: NyeOgF
   nyeOgFerdigstilteOppgaver.map((value) => ({
     x: value.antallFerdigstilte,
     y: behandlingstypeOrder.indexOf(value.behandlingType.kode) + 1,
-  })), 1,
+  })), true,
 );
 
-export const lagDatastrukturForFerdigstilteMine = (nyeOgFerdigstilteOppgaver: NyeOgFerdigstilteOppgaver[]): Koordinat[] => settCustomHoydePaSoylene(
+export const lagDatastrukturForFerdigstilteMine = (nyeOgFerdigstilteOppgaver: NyeOgFerdigstilteOppgaver[]): Koordinat[] => settCustomHoydePaSoylene2(
   nyeOgFerdigstilteOppgaver.map((value) => ({
     x: value.antallFerdigstilteMine,
     y: behandlingstypeOrder.indexOf(value.behandlingType.kode) + 1,
-  })), 2,
+  })),
 );
 
 export const lagDatastrukturForNye = (nyeOgFerdigstilteOppgaver: NyeOgFerdigstilteOppgaver[]): Koordinat[] => settCustomHoydePaSoylene(nyeOgFerdigstilteOppgaver
   .map((value) => ({
     x: value.antallNye,
     y: behandlingstypeOrder.indexOf(value.behandlingType.kode) + 1,
-  })), 3);
+  })), false);
 
 
 interface OwnProps {
@@ -107,10 +117,13 @@ export const NyeOgFerdigstilteOppgaverForIdagGraf: FunctionComponent<OwnProps & 
     }
 
     const isFerdigstiltVerdi = ferdigstilteOppgaver.find((b) => b.y === hintVerdi.y);
+    const isMineVerdi = ferdigstilteOppgaverMine.find((b) => b.y === hintVerdi.y);
     return isFerdigstiltVerdi
       ? intl.formatMessage({ id: 'NyeOgFerdigstilteOppgaverForIdagGraf.FerdigstiltAntall' }, { antall: hintVerdi.x })
-      : intl.formatMessage({ id: 'NyeOgFerdigstilteOppgaverForIdagGraf.NyeAntall' }, { antall: hintVerdi.x });
+      : isMineVerdi ? intl.formatMessage({ id: 'NyeOgFerdigstilteOppgaverForIdagGraf.MineAntall' }, { antall: hintVerdi.x })
+        : intl.formatMessage({ id: 'NyeOgFerdigstilteOppgaverForIdagGraf.NyeAntall' }, { antall: hintVerdi.x });
   }, [hintVerdi]);
+
 
   const finnBehandlingTypeNavn = useCallback((_v, i) => {
     if (behandlingstypeOrder[i] === behandlingType.FORSTEGANGSSOKNAD) {
