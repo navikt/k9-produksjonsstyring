@@ -53,11 +53,19 @@ export const lagDatastrukturForFerdigstilte = (nyeOgFerdigstilteOppgaver: NyeOgF
   })), true,
 );
 
+export const lagDatastrukturForFerdigstilteMine = (nyeOgFerdigstilteOppgaver: NyeOgFerdigstilteOppgaver[]): Koordinat[] => settCustomHoydePaSoylene(
+  nyeOgFerdigstilteOppgaver.map((value) => ({
+    x: value.antallFerdigstilteMine,
+    y: behandlingstypeOrder.indexOf(value.behandlingType.kode) + 1,
+  })), true,
+);
+
 export const lagDatastrukturForNye = (nyeOgFerdigstilteOppgaver: NyeOgFerdigstilteOppgaver[]): Koordinat[] => settCustomHoydePaSoylene(nyeOgFerdigstilteOppgaver
   .map((value) => ({
     x: value.antallNye,
     y: behandlingstypeOrder.indexOf(value.behandlingType.kode) + 1,
   })), false);
+
 
 interface OwnProps {
   width: number;
@@ -87,6 +95,7 @@ export const NyeOgFerdigstilteOppgaverForIdagGraf: FunctionComponent<OwnProps & 
   }, []);
 
   const ferdigstilteOppgaver = useMemo(() => lagDatastrukturForFerdigstilte(nyeOgFerdigstilteOppgaver), [nyeOgFerdigstilteOppgaver]);
+  const ferdigstilteOppgaverMine = useMemo(() => lagDatastrukturForFerdigstilteMine(nyeOgFerdigstilteOppgaver), [nyeOgFerdigstilteOppgaver]);
   const nyeOppgaver = useMemo(() => lagDatastrukturForNye(nyeOgFerdigstilteOppgaver), [nyeOgFerdigstilteOppgaver]);
 
   const isEmpty = nyeOgFerdigstilteOppgaver.length === 0;
@@ -111,8 +120,10 @@ export const NyeOgFerdigstilteOppgaverForIdagGraf: FunctionComponent<OwnProps & 
     return type ? type.navn : '';
   }, []);
 
-  const maxXValue = useMemo(() => Math.max(...ferdigstilteOppgaver.map((b) => b.x).concat(nyeOppgaver.map((b) => b.x))) + 2,
-    [ferdigstilteOppgaver, nyeOppgaver]);
+  const maxXValue = useMemo(() => Math.max(...ferdigstilteOppgaver.map((b) => b.x)
+    .concat(nyeOppgaver.map((b) => b.x))
+    .concat(ferdigstilteOppgaverMine.map((b) => b.x))) + 2,
+  [ferdigstilteOppgaver, nyeOppgaver, ferdigstilteOppgaverMine]);
 
   return (
     <Panel>
@@ -142,11 +153,19 @@ export const NyeOgFerdigstilteOppgaverForIdagGraf: FunctionComponent<OwnProps & 
           opacity={0.5}
         />
         <HorizontalRectSeries
+          data={ferdigstilteOppgaverMine}
+          onValueMouseOver={leggTilHintVerdi}
+          onValueMouseOut={fjernHintVerdi}
+          fill="#FF9100"
+          stroke="#FF9100"
+          opacity={0.5}
+        />
+        <HorizontalRectSeries
           data={nyeOppgaver}
           onValueMouseOver={leggTilHintVerdi}
           onValueMouseOut={fjernHintVerdi}
-          fill="#66CBEC"
-          stroke="#66CBEC"
+          fill="#0067C5"
+          stroke="#0067C5"
           opacity={0.5}
         />
         {hintVerdi && (
@@ -160,10 +179,13 @@ export const NyeOgFerdigstilteOppgaverForIdagGraf: FunctionComponent<OwnProps & 
       <div className={styles.center}>
         <DiscreteColorLegend
           orientation="horizontal"
-          colors={['#634689', '#66CBEC']}
+          colors={['#634689', '#FF9100', '#0067C5']}
           items={[
             <Normaltekst className={styles.displayInline}>
               <FormattedMessage id="NyeOgFerdigstilteOppgaverForIdagGraf.Ferdigstilte" />
+            </Normaltekst>,
+            <Normaltekst className={styles.displayInline}>
+              <FormattedMessage id="NyeOgFerdigstilteOppgaverForIdagGraf.FerdigstilteMine" />
             </Normaltekst>,
             <Normaltekst className={styles.displayInline}>
               <FormattedMessage id="NyeOgFerdigstilteOppgaverForIdagGraf.Nye" />
