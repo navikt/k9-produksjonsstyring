@@ -1,4 +1,6 @@
 {
+  "AdminIndex.Driftsmeldinger": "Driftsmeldinger",
+
   "AndreKriterierVelger.TilBeslutter": "Til beslutter",
   "AndreKriterierVelger.RegistrerPapirsoknad": "Registrer papirsøknad",
   "AndreKriterierVelger.AndreKriterier": "Andre kriterier",
@@ -9,6 +11,7 @@
   "AvdelingslederIndex.Saksbehandlere": "Saksbehandlere",
   "AvdelingslederIndex.Nokkeltall": "Nøkkeltall",
   "AvdelingslederIndex.Reservasjoner": "Reservasjoner",
+  "AdminIndex.Driftsmeldinger": "Driftsmeldinger",
 
   "BehandlingPollingTimoutModal.TimeoutMelding": "Din økt er gått ut på tid, trykk Fortsett",
   "BehandlingPollingTimoutModal.Oppfrisk": "Fortsett",
@@ -41,6 +44,10 @@
   "Calendar.Month.9": "Oktober",
   "Calendar.Month.10": "November",
   "Calendar.Month.11": "Desember",
+
+  "DriftsmeldingerTabell.IngenDriftsmeldinger": "Ingen driftsmeldinger",
+  "DriftsmeldingerTabell.Dato": "{date} - {time}",
+
 
   "EndreOppgavekoerPanel.KnyttetMotSaksbehandlere": "Behandlingskøen benyttes av disse saksbehandlerne",
   "EndreOppgavekoerPanel.Saksbehandlere": "Tilknyttede saksbehandlere",
@@ -110,6 +117,20 @@
   "LeggTilSaksbehandlerForm.FinnesAllerede": "E-post adressen finnes allerede i listen",
   "LeggTilSaksbehandlerForm.FinnesIkke": "Kan ikke finne bruker",
 
+
+  "LeggTilDriftsmeldingForm.LeggTil": "Legg til driftsmelding",
+  "LeggTilDriftsmeldingForm.Melding": "Melding",
+  "DriftsmeldingTabell.Tekst": "Melding",
+  "DriftsmeldingTabell.Dato": "Dato",
+  "DriftsmeldingTabell.Aktiv": "Aktiv",
+  "DriftsmeldingerTabell.Driftsmeldinger": " ",
+  "LeggTilDriftsmeldingForm.Aktiv": "Aktiv",
+  "LeggTilDriftsmeldingForm.Legg_Til": "Legg til",
+  "LeggTilDriftsmeldingForm.LeggTilIListen": "Legg til i listen",
+  "LeggTilDriftsmeldingForm.Nullstill": "Nullstill",
+  "LeggTilDriftsmeldingForm.FinnesAllerede": "Meldingen finnes allerede i listen",
+  "LeggTilDriftsmeldingForm.FinnesIkke": "Kan ikke finne bruker",
+
   "ManueltPaVentPanel.FireSisteUker": "4 uker frem",
   "ManueltPaVentPanel.AtteSisteUker": "8 uker frem",
   "ManueltPaVentPanel.SattPaVent": "Antall behandlinger satt på vent manuelt",
@@ -134,18 +155,21 @@
   "MottattPanel.MottattRefusjonskrav": "Mottatt refusjonskrav",
 
   "NyeOgFerdigstilteOppgaverForIdagGraf.Ferdigstilte": "Ferdigstilte",
+  "NyeOgFerdigstilteOppgaverForIdagGraf.FerdigstilteMine": "Mine",
   "NyeOgFerdigstilteOppgaverForIdagGraf.Nye": "Nye",
   "NyeOgFerdigstilteOppgaverForIdagGraf.FerdigstiltAntall": "Antall ferdigstilte: {antall}",
   "NyeOgFerdigstilteOppgaverForIdagGraf.NyeAntall": "Antall nye: {antall}",
   "NyeOgFerdigstilteOppgaverForIdagGraf.Førstegangsbehandling": "Førstegangsbeh.",
 
-  "NyeOgFerdigstilteOppgaverForIdagPanel.NyeOgFerdigstilte": "Alle nye og ferdigstilte behandlinger i køen",
+  "NyeOgFerdigstilteOppgaverForIdagPanel.NyeOgFerdigstilte": "Alle nye og ferdigstilte behandlinger",
   "NyeOgFerdigstilteOppgaverForIdagPanel.IDag": "I dag",
 
   "NyeOgFerdigstilteOppgaverForSisteSyvGraf.Ferdigstilte": "Ferdigstilte",
+  "NyeOgFerdigstilteOppgaverForSisteSyvGraf.FerdigstilteMine": "Mine",
   "NyeOgFerdigstilteOppgaverForSisteSyvGraf.Nye": "Nye",
   "NyeOgFerdigstilteOppgaverForSisteSyvGraf.FerdigstiltAntall": "Ferdigstilte: {antall}",
   "NyeOgFerdigstilteOppgaverForSisteSyvGraf.NyeAntall": "Nye: {antall}",
+  "NyeOgFerdigstilteOppgaverForSisteSyvGraf.FerdigstiltMineAntall": "Mine: {antall}",
 
   "NyeOgFerdigstilteOppgaverForSisteSyvPanel.SisteSyv": "Siste 7 dager",
 
@@ -241,6 +265,10 @@
   "SletteOppgavekoModal.SletteOppgaveko": "Ønsker du å slette {OppgavekoNavn}?",
   "SletteOppgavekoModal.Ja": "Ja",
   "SletteOppgavekoModal.Nei": "Nei",
+
+  "SletteDriftsmeldingModal.SletteDriftsmelding": "Ønsker du å slette driftsmeldingen?",
+  "SletteDriftsmeldingModal.Ja": "Ja",
+  "SletteDriftsmeldingModal.Nei": "Nei",
 
   "SorteringVelger.Sortering": "Sortering",
   "SorteringVelger.FiltrerPaTidsintervall": "Ta kun med behandlinger med dato",
