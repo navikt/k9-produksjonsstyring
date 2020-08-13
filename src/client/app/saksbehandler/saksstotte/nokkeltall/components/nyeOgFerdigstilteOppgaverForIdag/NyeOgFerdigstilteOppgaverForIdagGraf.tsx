@@ -38,8 +38,9 @@ interface Koordinat {
 const settCustomHoydePaSoylene = (data, over) => {
   const transformert = data.map((el) => ({
     ...el,
-    y0: el.y + (over ? 0.41 : -0.03),
-    y: el.y - (over ? -0.03 : -0.35),
+    y1: el.y + (over === 1 ? 0.79 : 0.41),
+    y0: el.y + (over === 2 ? 0.41 : -0.03),
+    y: el.y - (over === 3 ? -0.03 : -0.35),
   }));
   transformert.unshift({ x: 0, y: 0.5 });
   transformert.push({ x: 0, y: 4.5 });
@@ -50,21 +51,21 @@ export const lagDatastrukturForFerdigstilte = (nyeOgFerdigstilteOppgaver: NyeOgF
   nyeOgFerdigstilteOppgaver.map((value) => ({
     x: value.antallFerdigstilte,
     y: behandlingstypeOrder.indexOf(value.behandlingType.kode) + 1,
-  })), true,
+  })), 1,
 );
 
 export const lagDatastrukturForFerdigstilteMine = (nyeOgFerdigstilteOppgaver: NyeOgFerdigstilteOppgaver[]): Koordinat[] => settCustomHoydePaSoylene(
   nyeOgFerdigstilteOppgaver.map((value) => ({
     x: value.antallFerdigstilteMine,
     y: behandlingstypeOrder.indexOf(value.behandlingType.kode) + 1,
-  })), true,
+  })), 2,
 );
 
 export const lagDatastrukturForNye = (nyeOgFerdigstilteOppgaver: NyeOgFerdigstilteOppgaver[]): Koordinat[] => settCustomHoydePaSoylene(nyeOgFerdigstilteOppgaver
   .map((value) => ({
     x: value.antallNye,
     y: behandlingstypeOrder.indexOf(value.behandlingType.kode) + 1,
-  })), false);
+  })), 3);
 
 
 interface OwnProps {
@@ -142,7 +143,7 @@ export const NyeOgFerdigstilteOppgaverForIdagGraf: FunctionComponent<OwnProps & 
         <YAxis
           style={{ text: cssText }}
           tickFormat={finnBehandlingTypeNavn}
-          tickValues={[1, 2, 3, 4, 5, 6]}
+          tickValues={[1, 2, 3, 4, 5]}
         />
         <HorizontalRectSeries
           data={ferdigstilteOppgaver}
