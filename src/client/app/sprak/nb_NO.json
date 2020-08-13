@@ -46,6 +46,7 @@
   "Calendar.Month.11": "Desember",
 
   "DriftsmeldingerTabell.IngenDriftsmeldinger": "Ingen driftsmeldinger",
+  "DriftsmeldingerTabell.Dato": "{date} - {time}",
 
 
   "EndreOppgavekoerPanel.KnyttetMotSaksbehandlere": "Behandlingskøen benyttes av disse saksbehandlerne",
@@ -127,7 +128,7 @@
   "LeggTilDriftsmeldingForm.Legg_Til": "Legg til",
   "LeggTilDriftsmeldingForm.LeggTilIListen": "Legg til i listen",
   "LeggTilDriftsmeldingForm.Nullstill": "Nullstill",
-  "LeggTilDriftsmeldingForm.FinnesAllerede": "E-post adressen finnes allerede i listen",
+  "LeggTilDriftsmeldingForm.FinnesAllerede": "Meldingen finnes allerede i listen",
   "LeggTilDriftsmeldingForm.FinnesIkke": "Kan ikke finne bruker",
 
   "ManueltPaVentPanel.FireSisteUker": "4 uker frem",
@@ -160,7 +161,7 @@
   "NyeOgFerdigstilteOppgaverForIdagGraf.NyeAntall": "Antall nye: {antall}",
   "NyeOgFerdigstilteOppgaverForIdagGraf.Førstegangsbehandling": "Førstegangsbeh.",
 
-  "NyeOgFerdigstilteOppgaverForIdagPanel.NyeOgFerdigstilte": "Alle nye og ferdigstilte behandlinger i køen",
+  "NyeOgFerdigstilteOppgaverForIdagPanel.NyeOgFerdigstilte": "Alle nye og ferdigstilte behandlinger",
   "NyeOgFerdigstilteOppgaverForIdagPanel.IDag": "I dag",
 
   "NyeOgFerdigstilteOppgaverForSisteSyvGraf.Ferdigstilte": "Ferdigstilte",
@@ -168,7 +169,7 @@
   "NyeOgFerdigstilteOppgaverForSisteSyvGraf.Nye": "Nye",
   "NyeOgFerdigstilteOppgaverForSisteSyvGraf.FerdigstiltAntall": "Ferdigstilte: {antall}",
   "NyeOgFerdigstilteOppgaverForSisteSyvGraf.NyeAntall": "Nye: {antall}",
-  "NyeOgFerdigstilteOppgaverForSisteSyvGraf.FerdigstiltMineAntall": "Mine {antall}",
+  "NyeOgFerdigstilteOppgaverForSisteSyvGraf.FerdigstiltMineAntall": "Mine: {antall}",
 
   "NyeOgFerdigstilteOppgaverForSisteSyvPanel.SisteSyv": "Siste 7 dager",
 
@@ -264,6 +265,10 @@
   "SletteOppgavekoModal.SletteOppgaveko": "Ønsker du å slette {OppgavekoNavn}?",
   "SletteOppgavekoModal.Ja": "Ja",
   "SletteOppgavekoModal.Nei": "Nei",
+
+  "SletteDriftsmeldingModal.SletteDriftsmelding": "Ønsker du å slette driftsmeldingen?",
+  "SletteDriftsmeldingModal.Ja": "Ja",
+  "SletteDriftsmeldingModal.Nei": "Nei",
 
   "SorteringVelger.Sortering": "Sortering",
   "SorteringVelger.FiltrerPaTidsintervall": "Ta kun med behandlinger med dato",

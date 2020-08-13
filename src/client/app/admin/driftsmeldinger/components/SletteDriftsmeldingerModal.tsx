@@ -49,7 +49,7 @@ const SletteDriftsmeldingModal: FunctionComponent<TsProps & WrappedComponentProp
       </Column>
       <Column xs="6" className={styles.text}>
         <Normaltekst>
-          <FormattedMessage id="SletteDriftsmeldingModal.SletteDriftsmelding" values={{ driftsmeldingNavn: valgtDriftsmelding.driftsmelding }} />
+          <FormattedMessage id="SletteDriftsmeldingModal.SletteDriftsmelding" />
         </Normaltekst>
       </Column>
       <Column xs="4">

@@ -10,25 +10,31 @@ import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import Table from 'sharedComponents/Table';
 import TableRow from 'sharedComponents/TableRow';
 import TableColumn from 'sharedComponents/TableColumn';
+import { CheckboxField } from 'form/FinalFields';
+import { Checkbox } from 'nav-frontend-skjema';
+import { getDateAndTime } from 'utils/dateUtils';
 import driftsmeldingPropType from '../driftsmeldingPropType';
 import { Driftsmelding } from '../driftsmeldingTsType';
 
 import styles from './driftsmeldingerTabell.less';
 import SletteDriftsmeldingerModal from './SletteDriftsmeldingerModal';
 
+
 const headerTextCodes = [
   'DriftsmeldingTabell.Tekst',
-  'DriftsmeldingTabell.Dato',
   'DriftsmeldingTabell.Aktiv',
+  'DriftsmeldingTabell.Dato',
 ];
 
 interface TsProps {
   driftsmeldinger: Driftsmelding[];
   fjernDriftsmelding : (id: string) => Promise<string>;
+  switchDriftsmelding : (id: string, isChecked: boolean) => Promise<string>;
 }
 
 interface StateTsProps {
   valgtDriftsmelding?: Driftsmelding;
+  showSlettModal: boolean;
 }
 
 /**
@@ -38,6 +44,7 @@ export class DriftsmeldingerTabell extends Component<TsProps, StateTsProps> {
   static propTypes = {
     driftsmeldinger: PropTypes.arrayOf(driftsmeldingPropType).isRequired,
     fjernDriftsmelding: PropTypes.func.isRequired,
+    switchDriftsmelding: PropTypes.func.isRequired,
   };
 
   constructor(props: TsProps) {
@@ -45,15 +52,18 @@ export class DriftsmeldingerTabell extends Component<TsProps, StateTsProps> {
 
     this.state = {
       valgtDriftsmelding: undefined,
+      showSlettModal: false,
     };
   }
 
-  showSletteDriftsmeldingModal = (saksbehandler: Driftsmelding) => {
-    this.setState((prevState) => ({ ...prevState, valgtSaksbehandler: saksbehandler }));
+  showSletteDriftsmeldingModal = (driftsmelding: Driftsmelding) => {
+    this.setState((prevState) => ({ ...prevState, showSlettModal: true }));
+    this.setState((prevState) => ({ ...prevState, valgtDriftsmelding: driftsmelding }));
   }
 
   closeSletteModal = () => {
-    this.setState((prevState) => ({ ...prevState, valgtSaksbehandler: undefined }));
+    this.setState((prevState) => ({ ...prevState, showSlettModal: false }));
+    this.setState((prevState) => ({ ...prevState, valgtDriftsmelding: undefined }));
   }
 
   fjernDriftsmelding = (valgtDriftsmelding: Driftsmelding) => {
@@ -64,12 +74,19 @@ export class DriftsmeldingerTabell extends Component<TsProps, StateTsProps> {
     this.closeSletteModal();
   }
 
+  handleClick = (id: string, e: React.ChangeEvent<HTMLInputElement>) => {
+    const {
+      switchDriftsmelding,
+    } = this.props;
+    switchDriftsmelding(id, e.target.checked);
+  }
+
   render = () => {
     const {
-      driftsmeldinger,
+      driftsmeldinger, switchDriftsmelding,
     } = this.props;
     const {
-      valgtDriftsmelding,
+      valgtDriftsmelding, showSlettModal,
     } = this.state;
 
     const sorterteDriftsmeldinger = driftsmeldinger.sort((d1, d2) => d1.dato.localeCompare(d2.dato));
@@ -89,8 +106,23 @@ export class DriftsmeldingerTabell extends Component<TsProps, StateTsProps> {
           {sorterteDriftsmeldinger.map((driftsmelding) => (
             <TableRow key={driftsmelding.id}>
               <TableColumn>{driftsmelding.melding}</TableColumn>
-              <TableColumn>{driftsmelding.dato}</TableColumn>
-              <TableColumn>{driftsmelding.aktiv}</TableColumn>
+              <TableColumn>
+                <Checkbox
+                  label=""
+                  checked={driftsmelding.aktiv}
+                  onChange={(e) => this.handleClick(driftsmelding.id, e)}
+                  name="aktiv"
+                />
+              </TableColumn>
+              <TableColumn>
+                <FormattedMessage
+                  id="DriftsmeldingerTabell.Dato"
+                  values={{
+                    ...getDateAndTime(driftsmelding.dato),
+                    b: (...chunks) => <b>{chunks}</b>,
+                  }}
+                />
+              </TableColumn>
               <TableColumn>
                 <Image
                   src={removeIcon}
@@ -104,7 +136,7 @@ export class DriftsmeldingerTabell extends Component<TsProps, StateTsProps> {
           ))}
         </Table>
         )}
-        {valgtDriftsmelding && (
+        {showSlettModal && (
         <SletteDriftsmeldingerModal
           valgtDriftsmelding={valgtDriftsmelding}
           closeSletteModal={this.closeSletteModal}

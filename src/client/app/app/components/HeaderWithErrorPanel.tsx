@@ -16,6 +16,7 @@ import styles from './headerWithErrorPanel.less';
 interface OwnProps {
   navAnsattName: string;
   kanOppgavestyre: boolean;
+  kanDrifte: boolean;
   removeErrorMessage: () => void;
   queryStrings: {
     errormessage?: string;
@@ -71,6 +72,7 @@ const HeaderWithErrorPanel: FunctionComponent<OwnProps & WrappedComponentProps> 
   errorMessages = [],
   setSiteHeight,
   kanOppgavestyre,
+  kanDrifte,
 }) => {
   const [erLenkePanelApent, setLenkePanelApent] = useState(false);
   const [erAvdelingerPanelApent, setAvdelingerPanelApent] = useState(false);
@@ -87,7 +89,7 @@ const HeaderWithErrorPanel: FunctionComponent<OwnProps & WrappedComponentProps> 
   };
 
   const goTilDriftsmeldingerPanel = () => {
-    window.location.href += 'driftsmeldinger';
+    window.location.href += 'admin';
   };
 
   const visAvdelingslederKnapp = (): boolean => {
@@ -101,10 +103,10 @@ const HeaderWithErrorPanel: FunctionComponent<OwnProps & WrappedComponentProps> 
   };
 
   const visAdminKnapp = (): boolean => {
-    if (!kanOppgavestyre) {
+    if (!kanDrifte) {
       return false;
     }
-    if (kanOppgavestyre && window.location.href.includes('avdelingsleder')) {
+    if (kanDrifte && window.location.href.includes('admin')) {
       return false;
     }
     return true;
@@ -114,8 +116,8 @@ const HeaderWithErrorPanel: FunctionComponent<OwnProps & WrappedComponentProps> 
     <header ref={fixedHeaderRef} className={styles.container}>
       <div ref={wrapperRef}>
         <Header title={intl.formatMessage({ id: 'Header.K9Los' })} titleHref="/">
-          {visAdminKnapp() && <KnappBase className={styles.knapp} onClick={goTilDriftsmeldingerPanel}>Driftsmeldinger</KnappBase>}
-          {visAvdelingslederKnapp() && <KnappBase className={styles.knapp} onClick={goTilAvdlelingslederPanel}>Avdelingslederpanel</KnappBase>}
+          {visAdminKnapp() && <Knapp className={styles.knapp} onClick={goTilDriftsmeldingerPanel}>Driftsmeldinger</Knapp>}
+          {visAvdelingslederKnapp() && <Knapp className={styles.knapp} onClick={goTilAvdlelingslederPanel}>Avdelingslederpanel</Knapp>}
           <Popover
             popperIsVisible={erLenkePanelApent}
             renderArrowElement

@@ -123,7 +123,7 @@ export const NyeOgFerdigstilteOppgaverForIdagGraf: FunctionComponent<OwnProps & 
   const maxXValue = useMemo(() => Math.max(...ferdigstilteOppgaver.map((b) => b.x)
     .concat(nyeOppgaver.map((b) => b.x))
     .concat(ferdigstilteOppgaverMine.map((b) => b.x))) + 2,
-  [ferdigstilteOppgaver, ferdigstilteOppgaverMine, nyeOppgaver]);
+  [ferdigstilteOppgaver, nyeOppgaver, ferdigstilteOppgaverMine]);
 
   return (
     <Panel>
@@ -156,19 +156,18 @@ export const NyeOgFerdigstilteOppgaverForIdagGraf: FunctionComponent<OwnProps & 
           data={ferdigstilteOppgaverMine}
           onValueMouseOver={leggTilHintVerdi}
           onValueMouseOut={fjernHintVerdi}
-          fill="#897d00"
-          stroke="#897d00"
+          fill="#FF9100"
+          stroke="#FF9100"
           opacity={0.5}
         />
         <HorizontalRectSeries
           data={nyeOppgaver}
           onValueMouseOver={leggTilHintVerdi}
           onValueMouseOut={fjernHintVerdi}
-          fill="#66CBEC"
-          stroke="#66CBEC"
+          fill="#0067C5"
+          stroke="#0067C5"
           opacity={0.5}
         />
-
         {hintVerdi && (
           <Hint value={hintVerdi}>
             <div className={styles.hint}>
@@ -180,16 +179,16 @@ export const NyeOgFerdigstilteOppgaverForIdagGraf: FunctionComponent<OwnProps & 
       <div className={styles.center}>
         <DiscreteColorLegend
           orientation="horizontal"
-          colors={['#634689', '#66CBEC']}
+          colors={['#634689', '#FF9100', '#0067C5']}
           items={[
             <Normaltekst className={styles.displayInline}>
               <FormattedMessage id="NyeOgFerdigstilteOppgaverForIdagGraf.Ferdigstilte" />
             </Normaltekst>,
             <Normaltekst className={styles.displayInline}>
-              <FormattedMessage id="NyeOgFerdigstilteOppgaverForIdagGraf.Nye" />
+              <FormattedMessage id="NyeOgFerdigstilteOppgaverForIdagGraf.FerdigstilteMine" />
             </Normaltekst>,
             <Normaltekst className={styles.displayInline}>
-              <FormattedMessage id="NyeOgFerdigstilteOppgaverForIdagGraf.FerdigstilteMine" />
+              <FormattedMessage id="NyeOgFerdigstilteOppgaverForIdagGraf.Nye" />
             </Normaltekst>,
           ]}
         />

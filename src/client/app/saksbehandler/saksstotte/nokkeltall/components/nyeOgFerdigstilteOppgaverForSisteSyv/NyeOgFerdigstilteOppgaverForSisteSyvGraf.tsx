@@ -115,15 +115,15 @@ export class NyeOgFerdigstilteOppgaverForSisteSyvGraf extends Component<OwnProps
           />
           <AreaSeries
             data={mineFerdigstilteOppgaver}
-            fill="#634689"
-            stroke="#634689"
+            fill="#FF9100"
+            stroke="#FF9100"
             opacity={0.5}
             onNearestX={this.onNearestX}
           />
           <AreaSeries
             data={nyeOppgaver}
-            fill="#66CBEC"
-            stroke="#66CBEC"
+            fill="#0067C5"
+            stroke="#0067C5"
             opacity={0.5}
           />
           {crosshairValues.length > 0 && (
@@ -159,16 +159,16 @@ export class NyeOgFerdigstilteOppgaverForSisteSyvGraf extends Component<OwnProps
         <div className={styles.center}>
           <DiscreteColorLegend
             orientation="horizontal"
-            colors={['#634689', '#66CBEC']}
+            colors={['#634689', '#FF9100', '#0067C5']}
             items={[
               <Normaltekst className={styles.displayInline}>
                 <FormattedMessage id="NyeOgFerdigstilteOppgaverForSisteSyvGraf.Ferdigstilte" />
               </Normaltekst>,
               <Normaltekst className={styles.displayInline}>
-                <FormattedMessage id="NyeOgFerdigstilteOppgaverForSisteSyvGraf.Nye" />
+                <FormattedMessage id="NyeOgFerdigstilteOppgaverForSisteSyvGraf.FerdigstilteMine" />
               </Normaltekst>,
               <Normaltekst className={styles.displayInline}>
-                <FormattedMessage id="NyeOgFerdigstilteOppgaverForSisteSyvGraf.FerdigstilteMine" />
+                <FormattedMessage id="NyeOgFerdigstilteOppgaverForSisteSyvGraf.Nye" />
               </Normaltekst>,
             ]}
           />

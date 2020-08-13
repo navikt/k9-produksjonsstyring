@@ -6,13 +6,12 @@ import {
 
 import { Form } from 'react-final-form';
 import { Knapp } from 'nav-frontend-knapper';
-import { Normaltekst, Element } from 'nav-frontend-typografi';
+import { Element } from 'nav-frontend-typografi';
 
 import { hasValidEmailFormat } from 'utils/validation/validators';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import { InputField } from 'form/FinalFields';
 import { FlexContainer, FlexRow, FlexColumn } from 'sharedComponents/flexGrid';
-import { getSaksbehandler, getSaksbehandlere, getSaksbehandlerSokFinished } from 'avdelingsleder/saksbehandlere/duck';
 import { Driftsmelding } from '../driftsmeldingTsType';
 import { getDriftsmeldinger } from '../duck';
 
@@ -21,16 +20,11 @@ import styles from './leggTilDriftsmeldingForm.less';
 interface OwnProps {
     intl: any;
     leggTilDriftsmelding: (melding: string) => Promise<string>;
-    resetDriftsmeldingSok: () => void;
-    driftsmelding?: Driftsmelding;
-    erSokFerdig: boolean;
     driftsmeldinger: Driftsmelding[];
 }
 
 interface StateTsProps {
     leggerTilNyDriftsmelding: boolean;
-    erLagtTilAllerede: boolean;
-    showWarning: boolean;
 }
 
 /**
@@ -39,56 +33,31 @@ interface StateTsProps {
 export class LeggTilDriftsmeldingForm extends Component<OwnProps & WrappedComponentProps, StateTsProps> {
     nodes: ReactNode[];
 
-    static defaultProps = {
-      driftsmelding: undefined,
-    }
-
     constructor(props: OwnProps) {
       super(props);
 
       this.state = {
         leggerTilNyDriftsmelding: false,
-        erLagtTilAllerede: false,
-        showWarning: false,
       };
       this.nodes = [];
     }
 
-    leggTilDriftsmelding = (melding: string, resetFormValues: () => void) => {
+    leggTilDriftsmelding = (melding: string) => {
       const {
-        leggTilDriftsmelding, driftsmeldinger, driftsmelding,
+        leggTilDriftsmelding,
       } = this.props;
       this.setState((prevState) => ({ ...prevState, leggerTilNyDriftsmelding: true }));
-
       leggTilDriftsmelding(melding).then(() => {
-        this.resetDriftsmeldingSok(resetFormValues);
         this.setState((prevState) => ({ ...prevState, leggerTilNyDriftsmelding: false }));
       });
     }
 
-    resetDriftsmeldingSok = (resetFormValues: () => void) => {
-      const {
-        resetDriftsmeldingSok,
-      } = this.props;
-      resetDriftsmeldingSok();
-      resetFormValues();
-      this.setState((prevState) => ({ ...prevState, showWarning: false }));
-    }
-
-    formatText = () => {
+    render = () => {
       const {
         intl,
       } = this.props;
-      return ` (${intl.formatMessage({ id: 'LeggTilDriftsmeldingForm.FinnesAllerede' })})`;
-    }
-
-    render = () => {
-      const {
-        intl, erSokFerdig,
-      } = this.props;
       const {
         leggerTilNyDriftsmelding,
-        showWarning,
       } = this.state;
 
       return (
@@ -121,30 +90,13 @@ export class LeggTilDriftsmeldingForm extends Component<OwnProps & WrappedCompon
                       spinner={submitting}
                       disabled={submitting || leggerTilNyDriftsmelding}
                       tabIndex={0}
-                      onClick={() => this.leggTilDriftsmelding(values.melding, form.reset)}
+                      onClick={() => this.leggTilDriftsmelding(values.melding)}
                     >
                       <FormattedMessage id="LeggTilDriftsmeldingForm.Legg_Til" />
                     </Knapp>
                   </FlexColumn>
                 </FlexRow>
               </FlexContainer>
-              {showWarning && (
-                <>
-                  <Normaltekst>
-                    {this.formatText()}
-                  </Normaltekst>
-                  <FlexColumn>
-                    <Knapp
-                      mini
-                      htmlType="button"
-                      tabIndex={0}
-                      onClick={() => this.resetDriftsmeldingSok(form.reset)}
-                    >
-                      <FormattedMessage id="LeggTilDriftsmeldingForm.Nullstill" />
-                    </Knapp>
-                  </FlexColumn>
-                </>
-              )}
             </div>
           )}
         />

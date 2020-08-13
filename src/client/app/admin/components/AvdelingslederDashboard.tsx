@@ -10,7 +10,7 @@ type TsProps = Readonly<{
 /**
  * AvdelingslederDashboard
  */
-const AvdelingslederDashboard = ({
+const AdminDashboard = ({
   children,
 }: TsProps) => (
   <div>
@@ -26,8 +26,8 @@ const AvdelingslederDashboard = ({
   </div>
 );
 
-AvdelingslederDashboard.propTypes = {
+AdminDashboard.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
-export default AvdelingslederDashboard;
+export default AdminDashboard;

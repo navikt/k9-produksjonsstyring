@@ -9,13 +9,13 @@ import Tabs from 'nav-frontend-tabs';
 import { Undertittel } from 'nav-frontend-typografi';
 
 import LoadingPanel from 'sharedComponents/LoadingPanel';
-import { getNavAnsattKanOppgavestyre } from 'app/duck';
+import { getNavAnsattKanDrifte } from 'app/duck';
 import { parseQueryString } from 'utils/urlUtils';
-import { getPanelLocationCreator, getPanelLocationCreatorDriftsmeldinger } from 'app/paths';
+import { getPanelLocationCreatorDriftsmeldinger } from 'app/paths';
 import trackRouteParam from 'app/data/trackRouteParam';
 import { Location } from 'app/locationTsType';
 import { getSelectedPanel, setSelectedPanel } from './duck';
-import Dashboard from './components/AvdelingslederDashboard';
+import AvdelingslederDashboard from './components/AvdelingslederDashboard';
 import IkkeTilgangTilAvdelingslederPanel from './components/IkkeTilgangTilAvdelingslederPanel';
 import AdminPanels from './AdminPanels';
 import EndreDriftsmeldingerIndex from './driftsmeldinger/EndreDriftsmeldingerIndex';
@@ -40,7 +40,7 @@ const messageId = {
 interface TsProps {
   activePanel: string;
   getDriftsmeldingerPanelLocation: (panel: string) => Location;
-  kanOppgavestyre?: boolean;
+  kanDrifte?: boolean;
   kanBehandleKode6?: boolean;
 }
 
@@ -64,13 +64,13 @@ const getTab = (avdelingslederPanel, activeAvdelingslederPanel, getDriftsmelding
 export const AdminIndex = ({
   activePanel,
   getDriftsmeldingerPanelLocation,
-  kanOppgavestyre,
+  kanDrifte,
 }: TsProps) => {
-  if (!kanOppgavestyre) {
+  if (!kanDrifte) {
     return <IkkeTilgangTilAvdelingslederPanel />;
   } if (activePanel) {
     return (
-      <Dashboard key={activePanel}>
+      <AvdelingslederDashboard key={activePanel}>
         <div>
           <Tabs tabs={[
             getTab(AdminPanels.DRIFTSMELDINGER, activePanel, getDriftsmeldingerPanelLocation),
@@ -80,7 +80,7 @@ export const AdminIndex = ({
             {renderPanel(activePanel)}
           </Panel>
         </div>
-      </Dashboard>
+      </AvdelingslederDashboard>
     );
   }
   return <LoadingPanel />;
@@ -89,11 +89,11 @@ export const AdminIndex = ({
 AdminIndex.propTypes = {
   activePanel: PropTypes.string.isRequired,
   getDriftsmeldingerPanelLocation: PropTypes.func.isRequired,
-  kanOppgavestyre: PropTypes.bool,
+  kanDrifte: PropTypes.bool,
 };
 
 AdminIndex.defaultProps = {
-  kanOppgavestyre: false,
+  kanDrifte: false,
 };
 
 const getPanelFromUrlOrDefault = (location) => {
@@ -104,7 +104,7 @@ const getPanelFromUrlOrDefault = (location) => {
 
 const mapStateToProps = (state) => ({
   activePanel: getSelectedPanel(state),
-  kanOppgavestyre: getNavAnsattKanOppgavestyre(state),
+  kanDrifte: getNavAnsattKanDrifte(state),
 });
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => ({

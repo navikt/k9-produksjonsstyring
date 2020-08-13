@@ -9,10 +9,10 @@ import DriftsmeldingerTabell from './DriftsmeldingerTabell';
 
 interface TsProps {
     driftsmeldinger: Driftsmelding[];
-    finnDriftsmelding: (brukerIdent: string) => Promise<string>;
-    resetDriftsmeldingSok: () => void;
-    leggTilDriftsmelding: (epost: string) => Promise<string>;
-    fjernDriftsmelding: (epost: string) => Promise<string>;
+    leggTilDriftsmelding: (id: string) => Promise<string>;
+    fjernDriftsmelding: (id: string) => Promise<string>;
+    switchDriftsmelding : (id: string, isChecked: boolean) => Promise<string>;
+
 }
 
 /**
@@ -20,29 +20,24 @@ interface TsProps {
  */
 const DriftsmeldingerPanel = ({
   driftsmeldinger,
-  finnDriftsmelding,
-  resetDriftsmeldingSok,
   leggTilDriftsmelding,
   fjernDriftsmelding,
+  switchDriftsmelding,
 }: TsProps) => (
   <>
-    <DriftsmeldingerTabell driftsmeldinger={driftsmeldinger} fjernDriftsmelding={fjernDriftsmelding} />
+    <DriftsmeldingerTabell driftsmeldinger={driftsmeldinger} fjernDriftsmelding={fjernDriftsmelding} switchDriftsmelding={switchDriftsmelding} />
     <VerticalSpacer sixteenPx />
     <LeggTilDriftsmeldingForm
-      finnDriftsmelding={finnDriftsmelding}
       leggTilDriftsmelding={leggTilDriftsmelding}
-      resetDriftsmeldingSok={resetDriftsmeldingSok}
-      driftsmeldinger={driftsmeldinger}
     />
   </>
 );
 
 DriftsmeldingerPanel.propTypes = {
   driftsmeldinger: PropTypes.arrayOf(driftsmeldingPropType).isRequired,
-  finnDriftsmelding: PropTypes.func.isRequired,
-  resetDriftsmeldingSok: PropTypes.func.isRequired,
   leggTilDriftsmelding: PropTypes.func.isRequired,
   fjernDriftsmelding: PropTypes.func.isRequired,
+  switchDriftsmelding: PropTypes.func.isRequired,
 };
 
 export default DriftsmeldingerPanel;
