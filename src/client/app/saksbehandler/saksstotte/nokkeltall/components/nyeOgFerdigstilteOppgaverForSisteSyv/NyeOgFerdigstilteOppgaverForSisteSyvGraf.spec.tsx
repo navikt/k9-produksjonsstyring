@@ -3,7 +3,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { IntlShape } from 'react-intl';
 import {
-  XYPlot, AreaSeries, Crosshair,
+  XYPlot, LineSeries, Crosshair,
 } from 'react-vis';
 import moment from 'moment';
 import { Normaltekst, Undertekst } from 'nav-frontend-typografi';
@@ -68,7 +68,7 @@ describe('<NyeOgFerdigstilteOppgaverForSisteSyvGraf>', () => {
       isEmpty={false}
     />);
 
-    const areaSeries = wrapper.find(AreaSeries);
+    const areaSeries = wrapper.find(LineSeries);
     expect(areaSeries).to.have.length(3);
 
     const dataArea1 = areaSeries.first().prop('data');
@@ -123,7 +123,7 @@ describe('<NyeOgFerdigstilteOppgaverForSisteSyvGraf>', () => {
       isEmpty={false}
     />);
 
-    const areaSeries = wrapper.find(AreaSeries);
+    const areaSeries = wrapper.find(LineSeries);
     expect(areaSeries).to.have.length(3);
 
     const valgtPunkt = { x: moment().startOf('day').subtract(1, 'd').toDate(), y: 1 };

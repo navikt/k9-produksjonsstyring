@@ -119,12 +119,11 @@ export const NyeOgFerdigstilteOppgaverForIdagGraf: FunctionComponent<OwnProps & 
     const isFerdigstiltVerdi = ferdigstilteOppgaver.find((b) => b.y === hintVerdi.y);
     const isMineVerdi = ferdigstilteOppgaverMine.find((b) => b.y === hintVerdi.y);
     if (isFerdigstiltVerdi) {
-      intl.formatMessage({ id: 'NyeOgFerdigstilteOppgaverForIdagGraf.FerdigstiltAntall' }, { antall: hintVerdi.x })
-    }else if(isMineVerdi){
-      intl.formatMessage({ id: 'NyeOgFerdigstilteOppgaverForIdagGraf.MineAntall' }, { antall: hintVerdi.x })
-    }else{
-      intl.formatMessage({ id: 'NyeOgFerdigstilteOppgaverForIdagGraf.NyeAntall' }, { antall: hintVerdi.x });
+      return intl.formatMessage({ id: 'NyeOgFerdigstilteOppgaverForIdagGraf.FerdigstiltAntall' }, { antall: hintVerdi.x });
+    } if (isMineVerdi) {
+      return intl.formatMessage({ id: 'NyeOgFerdigstilteOppgaverForIdagGraf.MineAntall' }, { antall: hintVerdi.x });
     }
+    return intl.formatMessage({ id: 'NyeOgFerdigstilteOppgaverForIdagGraf.NyeAntall' }, { antall: hintVerdi.x });
   }, [hintVerdi]);
 
 
