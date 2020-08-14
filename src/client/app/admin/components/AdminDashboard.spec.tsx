@@ -3,7 +3,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 
-import AvdelingslederDashboard from './AvdelingslederDashboard';
+import AvdelingslederDashboard from './AdminDashboard';
 
 describe('<AvdelingslederDashboard>', () => {
   it('skal vise dashboard', () => {

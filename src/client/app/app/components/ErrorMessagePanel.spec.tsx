@@ -15,6 +15,7 @@ describe('<ErrorMessagePanel>', () => {
   it('skal vise feilmelding', () => {
     const wrapper = shallowWithIntl(<ErrorMessagePanel.WrappedComponent
       intl={intl as IntlShape}
+      driftsmeldinger={[]}
       queryStrings={{
         errormessage: 'Error!',
       }}
@@ -31,6 +32,7 @@ describe('<ErrorMessagePanel>', () => {
   it('skal erstatte spesialtegn i feilmelding', () => {
     const wrapper = shallowWithIntl(<ErrorMessagePanel.WrappedComponent
       intl={intl as IntlShape}
+      driftsmeldinger={[]}
       queryStrings={{
         errormessage: 'Høna &amp; egget og &#34;test1&#34; og &#39;test2&#39;',
       }}
@@ -45,6 +47,7 @@ describe('<ErrorMessagePanel>', () => {
   it('skal sette sammen feil fra ulike kilder til en struktur', () => {
     const wrapper = shallowWithIntl(<ErrorMessagePanel.WrappedComponent
       intl={intl as IntlShape}
+      driftsmeldinger={[]}
       errorMessages={[{
         type: EventType.REQUEST_ERROR,
         text: 'Feilet',

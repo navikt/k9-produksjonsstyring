@@ -9,25 +9,26 @@ import Tabs from 'nav-frontend-tabs';
 import { Undertittel } from 'nav-frontend-typografi';
 
 import LoadingPanel from 'sharedComponents/LoadingPanel';
-import { getNavAnsattKanDrifte } from 'app/duck';
+import { getAlleDriftsmeldinger, getNavAnsattKanDrifte } from 'app/duck';
 import { parseQueryString } from 'utils/urlUtils';
 import { getPanelLocationCreatorDriftsmeldinger } from 'app/paths';
 import trackRouteParam from 'app/data/trackRouteParam';
 import { Location } from 'app/locationTsType';
 import { getSelectedPanel, setSelectedPanel } from './duck';
-import AvdelingslederDashboard from './components/AvdelingslederDashboard';
 import IkkeTilgangTilAvdelingslederPanel from './components/IkkeTilgangTilAvdelingslederPanel';
 import AdminPanels from './AdminPanels';
 import EndreDriftsmeldingerIndex from './driftsmeldinger/EndreDriftsmeldingerIndex';
 
 import styles from './adminIndex.less';
+import AdminDashboard from './components/AdminDashboard';
+import { Driftsmelding } from './driftsmeldinger/driftsmeldingTsType';
 
 const classNames = classnames.bind(styles);
 
-const renderPanel = (avdelingslederPanel) => {
+const renderPanel = (avdelingslederPanel, driftsmeldinger) => {
   switch (avdelingslederPanel) {
     case AdminPanels.DRIFTSMELDINGER:
-      return <EndreDriftsmeldingerIndex />;
+      return <EndreDriftsmeldingerIndex alleDriftsmeldinger={driftsmeldinger} />;
     default:
       return null;
   }
@@ -42,6 +43,7 @@ interface TsProps {
   getDriftsmeldingerPanelLocation: (panel: string) => Location;
   kanDrifte?: boolean;
   kanBehandleKode6?: boolean;
+  driftsmeldinger: Driftsmelding[];
 }
 
 const getTab = (avdelingslederPanel, activeAvdelingslederPanel, getDriftsmeldingerPanelLocation) => ({
@@ -65,22 +67,23 @@ export const AdminIndex = ({
   activePanel,
   getDriftsmeldingerPanelLocation,
   kanDrifte,
+  driftsmeldinger,
 }: TsProps) => {
   if (!kanDrifte) {
     return <IkkeTilgangTilAvdelingslederPanel />;
   } if (activePanel) {
     return (
-      <AvdelingslederDashboard key={activePanel}>
+      <AdminDashboard key={activePanel}>
         <div>
           <Tabs tabs={[
             getTab(AdminPanels.DRIFTSMELDINGER, activePanel, getDriftsmeldingerPanelLocation),
           ]}
           />
           <Panel className={styles.panelPadding}>
-            {renderPanel(activePanel)}
+            {renderPanel(activePanel, driftsmeldinger)}
           </Panel>
         </div>
-      </AvdelingslederDashboard>
+      </AdminDashboard>
     );
   }
   return <LoadingPanel />;
@@ -105,6 +108,7 @@ const getPanelFromUrlOrDefault = (location) => {
 const mapStateToProps = (state) => ({
   activePanel: getSelectedPanel(state),
   kanDrifte: getNavAnsattKanDrifte(state),
+  driftsmeldinger: getAlleDriftsmeldinger(state),
 });
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => ({

@@ -68,3 +68,4 @@ export const getSseUrl = createSelector([k9LosApi.SSE_URL.getRestApiData()], (ss
 export const getFunksjonellTid = createSelector([k9LosApi.NAV_ANSATT.getRestApiData()], (navAnsatt: NavAnsatt = NavAnsattDefault) => navAnsatt.funksjonellTid);
 export const getK9sakUrl = createSelector([k9LosApi.K9SAK_URL.getRestApiData()], (k9sakUrl: {verdi: undefined }) => k9sakUrl.verdi);
 export const getK9tilbakeUrl = createSelector([k9LosApi.K9SAK_URL.getRestApiData()], (k9tilbakeUrl: {verdi: undefined }) => k9tilbakeUrl.verdi);
+export const getAlleDriftsmeldinger = createSelector([k9LosApi.DRIFTSMELDINGER.getRestApiData()], (driftsmeldinger) => driftsmeldinger);

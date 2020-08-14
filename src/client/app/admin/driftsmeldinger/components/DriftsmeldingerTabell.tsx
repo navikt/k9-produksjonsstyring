@@ -107,12 +107,15 @@ export class DriftsmeldingerTabell extends Component<TsProps, StateTsProps> {
             <TableRow key={driftsmelding.id}>
               <TableColumn>{driftsmelding.melding}</TableColumn>
               <TableColumn>
-                <Checkbox
-                  label=""
-                  checked={driftsmelding.aktiv}
-                  onChange={(e) => this.handleClick(driftsmelding.id, e)}
-                  name="aktiv"
-                />
+                <div className={styles.checkBox}>
+                  <Checkbox
+
+                    label=""
+                    checked={driftsmelding.aktiv}
+                    onChange={(e) => this.handleClick(driftsmelding.id, e)}
+                    name="aktiv"
+                  />
+                </div>
               </TableColumn>
               <TableColumn>
                 <FormattedMessage

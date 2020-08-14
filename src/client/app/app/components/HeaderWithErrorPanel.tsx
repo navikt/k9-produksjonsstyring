@@ -10,8 +10,10 @@ import Header from '@navikt/nap-header';
 import { RETTSKILDE_URL, SYSTEMRUTINE_URL } from 'api/eksterneLenker';
 import KnappBase, { Knapp, Flatknapp } from 'nav-frontend-knapper';
 import EventType from 'api/rest-api/src/requestApi/eventType';
+
 import ErrorMessagePanel from './ErrorMessagePanel';
 import styles from './headerWithErrorPanel.less';
+import { Driftsmelding } from '../../admin/driftsmeldinger/driftsmeldingTsType';
 
 interface OwnProps {
   navAnsattName: string;
@@ -32,6 +34,7 @@ interface OwnProps {
     text?: string;
   }[];
   setSiteHeight: (clientHeight: number) => void;
+  driftsmeldinger: Driftsmelding[];
 }
 
 const useOutsideClickEvent = (erLenkepanelApent, erAvdelingerPanelApent, setLenkePanelApent, setAvdelingerPanelApent) => {
@@ -73,6 +76,7 @@ const HeaderWithErrorPanel: FunctionComponent<OwnProps & WrappedComponentProps> 
   setSiteHeight,
   kanOppgavestyre,
   kanDrifte,
+  driftsmeldinger,
 }) => {
   const [erLenkePanelApent, setLenkePanelApent] = useState(false);
   const [erAvdelingerPanelApent, setAvdelingerPanelApent] = useState(false);
@@ -85,11 +89,11 @@ const HeaderWithErrorPanel: FunctionComponent<OwnProps & WrappedComponentProps> 
 
 
   const goTilAvdlelingslederPanel = () => {
-    window.location.href += 'avdelingsleder';
+    window.location.href = '/avdelingsleder';
   };
 
   const goTilDriftsmeldingerPanel = () => {
-    window.location.href += 'admin';
+    window.location.href = '/admin';
   };
 
   const visAvdelingslederKnapp = (): boolean => {
@@ -162,7 +166,12 @@ const HeaderWithErrorPanel: FunctionComponent<OwnProps & WrappedComponentProps> 
           {brukerPanel}
         </Header>
       </div>
-      <ErrorMessagePanel errorMessages={errorMessages} queryStrings={queryStrings} removeErrorMessage={removeErrorMessage} />
+      <ErrorMessagePanel
+        errorMessages={errorMessages}
+        queryStrings={queryStrings}
+        removeErrorMessage={removeErrorMessage}
+        driftsmeldinger={driftsmeldinger}
+      />
     </header>
   );
 };

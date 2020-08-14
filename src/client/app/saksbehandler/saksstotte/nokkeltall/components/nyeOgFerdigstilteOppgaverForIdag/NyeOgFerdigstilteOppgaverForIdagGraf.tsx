@@ -38,8 +38,19 @@ interface Koordinat {
 const settCustomHoydePaSoylene = (data, over) => {
   const transformert = data.map((el) => ({
     ...el,
-    y0: el.y + (over ? 0.41 : -0.03),
-    y: el.y - (over ? -0.03 : -0.35),
+    y0: el.y + (over ? 0.15 : -0.13),
+    y: el.y + (over ? -0.07 : -0.35),
+  }));
+  transformert.unshift({ x: 0, y: 0.5 });
+  transformert.push({ x: 0, y: 4.5 });
+  return transformert;
+};
+
+const settCustomHoydePaSoylene2 = (data) => {
+  const transformert = data.map((el) => ({
+    ...el,
+    y0: el.y + 0.41,
+    y: el.y + 0.21,
   }));
   transformert.unshift({ x: 0, y: 0.5 });
   transformert.push({ x: 0, y: 4.5 });
@@ -53,11 +64,11 @@ export const lagDatastrukturForFerdigstilte = (nyeOgFerdigstilteOppgaver: NyeOgF
   })), true,
 );
 
-export const lagDatastrukturForFerdigstilteMine = (nyeOgFerdigstilteOppgaver: NyeOgFerdigstilteOppgaver[]): Koordinat[] => settCustomHoydePaSoylene(
+export const lagDatastrukturForFerdigstilteMine = (nyeOgFerdigstilteOppgaver: NyeOgFerdigstilteOppgaver[]): Koordinat[] => settCustomHoydePaSoylene2(
   nyeOgFerdigstilteOppgaver.map((value) => ({
     x: value.antallFerdigstilteMine,
     y: behandlingstypeOrder.indexOf(value.behandlingType.kode) + 1,
-  })), true,
+  })),
 );
 
 export const lagDatastrukturForNye = (nyeOgFerdigstilteOppgaver: NyeOgFerdigstilteOppgaver[]): Koordinat[] => settCustomHoydePaSoylene(nyeOgFerdigstilteOppgaver
@@ -106,10 +117,15 @@ export const NyeOgFerdigstilteOppgaverForIdagGraf: FunctionComponent<OwnProps & 
     }
 
     const isFerdigstiltVerdi = ferdigstilteOppgaver.find((b) => b.y === hintVerdi.y);
-    return isFerdigstiltVerdi
-      ? intl.formatMessage({ id: 'NyeOgFerdigstilteOppgaverForIdagGraf.FerdigstiltAntall' }, { antall: hintVerdi.x })
-      : intl.formatMessage({ id: 'NyeOgFerdigstilteOppgaverForIdagGraf.NyeAntall' }, { antall: hintVerdi.x });
+    const isMineVerdi = ferdigstilteOppgaverMine.find((b) => b.y === hintVerdi.y);
+    if (isFerdigstiltVerdi) {
+      return intl.formatMessage({ id: 'NyeOgFerdigstilteOppgaverForIdagGraf.FerdigstiltAntall' }, { antall: hintVerdi.x });
+    } if (isMineVerdi) {
+      return intl.formatMessage({ id: 'NyeOgFerdigstilteOppgaverForIdagGraf.MineAntall' }, { antall: hintVerdi.x });
+    }
+    return intl.formatMessage({ id: 'NyeOgFerdigstilteOppgaverForIdagGraf.NyeAntall' }, { antall: hintVerdi.x });
   }, [hintVerdi]);
+
 
   const finnBehandlingTypeNavn = useCallback((_v, i) => {
     if (behandlingstypeOrder[i] === behandlingType.FORSTEGANGSSOKNAD) {
@@ -142,7 +158,7 @@ export const NyeOgFerdigstilteOppgaverForIdagGraf: FunctionComponent<OwnProps & 
         <YAxis
           style={{ text: cssText }}
           tickFormat={finnBehandlingTypeNavn}
-          tickValues={[1, 2, 3, 4, 5, 6]}
+          tickValues={[1, 2, 3, 4, 5]}
         />
         <HorizontalRectSeries
           data={ferdigstilteOppgaver}

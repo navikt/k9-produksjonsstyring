@@ -3,7 +3,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { IntlShape } from 'react-intl';
 import {
-  XYPlot, AreaSeries, Crosshair,
+  XYPlot, LineSeries, Crosshair,
 } from 'react-vis';
 import moment from 'moment';
 import { Normaltekst, Undertekst } from 'nav-frontend-typografi';
@@ -26,7 +26,6 @@ describe('<NyeOgFerdigstilteOppgaverForSisteSyvGraf>', () => {
       width={300}
       height={200}
       ferdigstilteOppgaver={[]}
-      mineFerdigstilteOppgaver={[]}
       nyeOppgaver={[]}
       isEmpty
     />);
@@ -65,12 +64,11 @@ describe('<NyeOgFerdigstilteOppgaverForSisteSyvGraf>', () => {
       width={300}
       height={200}
       ferdigstilteOppgaver={ferdigstilteOppgaver}
-      mineFerdigstilteOppgaver={ferdigstilteOppgaver}
       nyeOppgaver={nyeOppgaver}
       isEmpty={false}
     />);
 
-    const areaSeries = wrapper.find(AreaSeries);
+    const areaSeries = wrapper.find(LineSeries);
     expect(areaSeries).to.have.length(3);
 
     const dataArea1 = areaSeries.first().prop('data');
@@ -104,17 +102,28 @@ describe('<NyeOgFerdigstilteOppgaverForSisteSyvGraf>', () => {
       y: 13,
     }];
 
+    const mineFerdigstilte = [{
+      x: moment().startOf('day').subtract(1, 'd').toDate(),
+      y: 4,
+    }, {
+      x: moment().startOf('day').subtract(2, 'd').toDate(),
+      y: 5,
+    }, {
+      x: moment().startOf('day').subtract(3, 'd').toDate(),
+      y: 6,
+    }];
+
     const wrapper = shallowWithIntl(<NyeOgFerdigstilteOppgaverForSisteSyvGraf
       intl={intl as IntlShape}
       width={300}
       height={200}
       ferdigstilteOppgaver={ferdigstilteOppgaver}
-      mineFerdigstilteOppgaver={ferdigstilteOppgaver}
       nyeOppgaver={nyeOppgaver}
+      mineFerdigstilteOppgaver={mineFerdigstilte}
       isEmpty={false}
     />);
 
-    const areaSeries = wrapper.find(AreaSeries);
+    const areaSeries = wrapper.find(LineSeries);
     expect(areaSeries).to.have.length(3);
 
     const valgtPunkt = { x: moment().startOf('day').subtract(1, 'd').toDate(), y: 1 };
