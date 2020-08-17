@@ -2,12 +2,14 @@ import React, { FunctionComponent, useMemo } from 'react';
 import { injectIntl, WrappedComponentProps, IntlShape } from 'react-intl';
 import { Row, Column } from 'nav-frontend-grid';
 import { Undertekst } from 'nav-frontend-typografi';
-import Lukknapp from 'nav-frontend-lukknapp';
+import advarselImageUrl from 'images/advarsel-sirkel-fyll.svg';
 
 import decodeHtmlEntity from 'utils/decodeHtmlEntityUtils';
 import EventType from 'api/rest-api/src/requestApi/eventType';
 
+import Image from 'sharedComponents/Image';
 import styles from './errorMessagePanel.less';
+import { Driftsmelding } from '../../admin/driftsmeldinger/driftsmeldingTsType';
 
 export const getErrorMessageList = (intl: IntlShape, queryStrings: { errorcode?: string; errormessage?: string}, allErrorMessages = []): string[] => {
   const errorMessages = [];
@@ -36,6 +38,7 @@ interface OwnProps {
     errormessage?: string;
     errorcode?: string;
   };
+  driftsmeldinger: Driftsmelding[];
 }
 
 /**
@@ -48,16 +51,17 @@ const ErrorMessagePanel: FunctionComponent<OwnProps & WrappedComponentProps> = (
   errorMessages,
   queryStrings,
   removeErrorMessage,
+  driftsmeldinger,
 }) => {
   const feilmeldinger = useMemo(() => getErrorMessageList(intl, queryStrings, errorMessages), [queryStrings, errorMessages]);
-
-  if (feilmeldinger.length === 0) {
+  const aktiveDriftsmeldinger = driftsmeldinger.filter((message) => message.aktiv);
+  if (feilmeldinger.length === 0 && aktiveDriftsmeldinger.length === 0) {
     return null;
   }
 
   return (
     <div className={styles.container}>
-      {feilmeldinger.map((message) => (
+      {feilmeldinger.length !== 0 && feilmeldinger.map((message) => (
         <Row key={message}>
           <Column xs="11">
             <Undertekst className={styles.wordWrap}>
@@ -66,9 +70,19 @@ const ErrorMessagePanel: FunctionComponent<OwnProps & WrappedComponentProps> = (
           </Column>
         </Row>
       ))}
-      <div className={styles.lukkContainer}>
-        <Lukknapp hvit onClick={removeErrorMessage}>{intl.formatMessage({ id: 'ErrorMessagePanel.Close' })}</Lukknapp>
-      </div>
+      {aktiveDriftsmeldinger.length !== 0 && aktiveDriftsmeldinger.map((message) => (
+        <Row key={message.id}>
+          <Column xs="11" className={styles.column}>
+            <Image
+              className={styles.image}
+              src={advarselImageUrl}
+            />
+            <Undertekst className={styles.wordWrap}>
+              {message.melding}
+            </Undertekst>
+          </Column>
+        </Row>
+      ))}
     </div>
   );
 };

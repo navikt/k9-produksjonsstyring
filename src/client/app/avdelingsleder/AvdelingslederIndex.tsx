@@ -11,7 +11,7 @@ import { Undertittel } from 'nav-frontend-typografi';
 import LoadingPanel from 'sharedComponents/LoadingPanel';
 import { getNavAnsattKanOppgavestyre } from 'app/duck';
 import { parseQueryString } from 'utils/urlUtils';
-import { getAvdelingslederPanelLocationCreator } from 'app/paths';
+import { getPanelLocationCreator } from 'app/paths';
 import trackRouteParam from 'app/data/trackRouteParam';
 import { Location } from 'app/locationTsType';
 import NokkeltallIndex from 'avdelingsleder/nokkeltall/NokkeltallIndex';
@@ -127,7 +127,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
   ...ownProps,
   ...dispatchProps,
   ...stateProps,
-  getAvdelingslederPanelLocation: getAvdelingslederPanelLocationCreator(ownProps.location), // gets prop 'location' from trackRouteParam
+  getAvdelingslederPanelLocation: getPanelLocationCreator(ownProps.location), // gets prop 'location' from trackRouteParam
   activeAvdelingslederPanel: stateProps.activeAvdelingslederPanel ? stateProps.activeAvdelingslederPanel : getPanelFromUrlOrDefault(ownProps.location),
 });
 

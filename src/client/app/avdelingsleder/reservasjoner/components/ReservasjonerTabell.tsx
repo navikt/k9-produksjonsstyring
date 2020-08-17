@@ -9,6 +9,7 @@ import { getDateAndTime } from 'utils/dateUtils';
 import TableColumn from 'sharedComponents/TableColumn';
 import Table from 'sharedComponents/Table';
 import TableRow from 'sharedComponents/TableRow';
+import NavFrontendSpinner from 'nav-frontend-spinner';
 import styles from './reservasjonerTabell.less';
 import HandlingerMenu from './HandlingerMenu';
 import menuIconBlackUrl from '../../../../images/ic-menu-18px_black.svg';
@@ -31,6 +32,7 @@ interface OwnProps {
   finnSaksbehandler: (brukerIdent: string) => Promise<string>;
   resetSaksbehandler: () => Promise<string>;
   flyttReservasjon: (oppgaveId: string, brukerident: string, begrunnelse: string) => Promise<string>;
+  requestFinished: boolean;
 }
 
 interface State {
@@ -95,7 +97,7 @@ export class ReservasjonerTabell extends Component<OwnProps & WrappedComponentPr
 
   render = (): ReactNode => {
     const {
-      reservasjoner, opphevReservasjon, finnSaksbehandler, resetSaksbehandler, intl,
+      reservasjoner, opphevReservasjon, finnSaksbehandler, resetSaksbehandler, intl, requestFinished,
     } = this.props;
     const {
       showMenu, valgtOppgaveId, offset,
@@ -106,7 +108,10 @@ export class ReservasjonerTabell extends Component<OwnProps & WrappedComponentPr
     return (
       <>
         <Element><FormattedMessage id="ReservasjonerTabell.Reservasjoner" /></Element>
-        {sorterteReservasjoner.length === 0 && (
+        {sorterteReservasjoner.length === 0 && !requestFinished && (
+        <NavFrontendSpinner type="XL" className={styles.spinner} />
+        )}
+        {sorterteReservasjoner.length === 0 && requestFinished && (
           <>
             <VerticalSpacer eightPx />
             <Normaltekst><FormattedMessage id="ReservasjonerTabell.IngenReservasjoner" /></Normaltekst>
