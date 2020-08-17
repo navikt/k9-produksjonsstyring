@@ -2,11 +2,12 @@ import React, { FunctionComponent, useMemo } from 'react';
 import { injectIntl, WrappedComponentProps, IntlShape } from 'react-intl';
 import { Row, Column } from 'nav-frontend-grid';
 import { Undertekst } from 'nav-frontend-typografi';
-import Lukknapp from 'nav-frontend-lukknapp';
+import advarselImageUrl from 'images/advarsel.svg';
 
 import decodeHtmlEntity from 'utils/decodeHtmlEntityUtils';
 import EventType from 'api/rest-api/src/requestApi/eventType';
 
+import Image from 'sharedComponents/Image';
 import styles from './errorMessagePanel.less';
 import { Driftsmelding } from '../../admin/driftsmeldinger/driftsmeldingTsType';
 
@@ -71,7 +72,11 @@ const ErrorMessagePanel: FunctionComponent<OwnProps & WrappedComponentProps> = (
       ))}
       {aktiveDriftsmeldinger.length !== 0 && aktiveDriftsmeldinger.map((message) => (
         <Row key={message.id}>
-          <Column xs="11">
+          <Column xs="11" className={styles.column}>
+            <Image
+              className={styles.image}
+              src={advarselImageUrl}
+            />
             <Undertekst className={styles.wordWrap}>
               {message.melding}
             </Undertekst>
