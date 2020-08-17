@@ -161,6 +161,14 @@ export const NyeOgFerdigstilteOppgaverForIdagGraf: FunctionComponent<OwnProps & 
           tickValues={[1, 2, 3, 4, 5]}
         />
         <HorizontalRectSeries
+          data={nyeOppgaver}
+          onValueMouseOver={leggTilHintVerdi}
+          onValueMouseOut={fjernHintVerdi}
+          fill="#0067C5"
+          stroke="#0067C5"
+          opacity={0.5}
+        />
+        <HorizontalRectSeries
           data={ferdigstilteOppgaver}
           onValueMouseOver={leggTilHintVerdi}
           onValueMouseOut={fjernHintVerdi}
@@ -176,14 +184,6 @@ export const NyeOgFerdigstilteOppgaverForIdagGraf: FunctionComponent<OwnProps & 
           stroke="#FF9100"
           opacity={0.5}
         />
-        <HorizontalRectSeries
-          data={nyeOppgaver}
-          onValueMouseOver={leggTilHintVerdi}
-          onValueMouseOut={fjernHintVerdi}
-          fill="#0067C5"
-          stroke="#0067C5"
-          opacity={0.5}
-        />
         {hintVerdi && (
           <Hint value={hintVerdi}>
             <div className={styles.hint}>
@@ -195,16 +195,16 @@ export const NyeOgFerdigstilteOppgaverForIdagGraf: FunctionComponent<OwnProps & 
       <div className={styles.center}>
         <DiscreteColorLegend
           orientation="horizontal"
-          colors={['#634689', '#FF9100', '#0067C5']}
+          colors={['#0067C5', '#634689', '#FF9100']}
           items={[
+            <Normaltekst className={styles.displayInline}>
+              <FormattedMessage id="NyeOgFerdigstilteOppgaverForIdagGraf.Nye" />
+            </Normaltekst>,
             <Normaltekst className={styles.displayInline}>
               <FormattedMessage id="NyeOgFerdigstilteOppgaverForIdagGraf.Ferdigstilte" />
             </Normaltekst>,
             <Normaltekst className={styles.displayInline}>
               <FormattedMessage id="NyeOgFerdigstilteOppgaverForIdagGraf.FerdigstilteMine" />
-            </Normaltekst>,
-            <Normaltekst className={styles.displayInline}>
-              <FormattedMessage id="NyeOgFerdigstilteOppgaverForIdagGraf.Nye" />
             </Normaltekst>,
           ]}
         />

@@ -159,16 +159,16 @@ export class NyeOgFerdigstilteOppgaverForSisteSyvGraf extends Component<OwnProps
         <div className={styles.center}>
           <DiscreteColorLegend
             orientation="horizontal"
-            colors={['#634689', '#FF9100', '#0067C5']}
+            colors={['#0067C5', '#634689', '#FF9100']}
             items={[
+              <Normaltekst className={styles.displayInline}>
+                <FormattedMessage id="NyeOgFerdigstilteOppgaverForSisteSyvGraf.Nye" />
+              </Normaltekst>,
               <Normaltekst className={styles.displayInline}>
                 <FormattedMessage id="NyeOgFerdigstilteOppgaverForSisteSyvGraf.Ferdigstilte" />
               </Normaltekst>,
               <Normaltekst className={styles.displayInline}>
                 <FormattedMessage id="NyeOgFerdigstilteOppgaverForSisteSyvGraf.FerdigstilteMine" />
-              </Normaltekst>,
-              <Normaltekst className={styles.displayInline}>
-                <FormattedMessage id="NyeOgFerdigstilteOppgaverForSisteSyvGraf.Nye" />
               </Normaltekst>,
             ]}
           />
