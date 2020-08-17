@@ -125,7 +125,7 @@ const endpoints = new RestApiConfigBuilder()
 
   /* /api/avdelingsleder/nokkeltall */
   .withGet('avdelingsleder/nokkeltall/behandlinger-under-arbeid', k9LosApiKeys.HENT_OPPGAVER)
-  .withGet('avdelingsleder/nokkeltall/behandlinger-under-arbeid-historikk', k9LosApiKeys.HENT_OPPGAVER_PER_DATO)
+  .withGet('avdelingsleder/nokkeltall/beholdning-historikk', k9LosApiKeys.HENT_OPPGAVER_PER_DATO)
   .withGet('avdelingsleder/nokkeltall/ferdigstilte-behandlinger-historikk', k9LosApiKeys.HENT_FERDIGSTILTE_OPPGAVER)
   .withGet('avdelingsleder/nokkeltall/behandlinger-manuelt-vent-historikk', k9LosApiKeys.HENT_OPPGAVER_MANUELT_PA_VENT)
   .withGet('avdelingsleder/nokkeltall/behandlinger-forste-stonadsdag', k9LosApiKeys.HENT_OPPGAVER_PER_FORSTE_STONADSDAG)
