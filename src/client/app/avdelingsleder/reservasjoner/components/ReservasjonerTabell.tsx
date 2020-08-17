@@ -109,9 +109,9 @@ export class ReservasjonerTabell extends Component<OwnProps & WrappedComponentPr
       <>
         <Element><FormattedMessage id="ReservasjonerTabell.Reservasjoner" /></Element>
         {sorterteReservasjoner.length === 0 && !requestFinished && (
-        <NavFrontendSpinner type="XL" className={styles.container} />
+        <NavFrontendSpinner type="XL" className={styles.spinner} />
         )}
-        {sorterteReservasjoner.length === 0 && (
+        {sorterteReservasjoner.length === 0 && requestFinished && (
           <>
             <VerticalSpacer eightPx />
             <Normaltekst><FormattedMessage id="ReservasjonerTabell.IngenReservasjoner" /></Normaltekst>
