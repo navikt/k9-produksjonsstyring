@@ -64,16 +64,18 @@ export const lagDatastrukturForFerdigstilte = (nyeOgFerdigstilteOppgaver: NyeOgF
   })), true,
 );
 
-export const lagDatastrukturForFerdigstilteMine = (nyeOgFerdigstilteOppgaver: NyeOgFerdigstilteOppgaver[]): Koordinat[] => settCustomHoydePaSoylene2(
+export const lagDatastrukturForNye = (nyeOgFerdigstilteOppgaver: NyeOgFerdigstilteOppgaver[]): Koordinat[] => settCustomHoydePaSoylene2(
   nyeOgFerdigstilteOppgaver.map((value) => ({
-    x: value.antallFerdigstilteMine,
+    x: value.antallNye,
     y: behandlingstypeOrder.indexOf(value.behandlingType.kode) + 1,
   })),
 );
 
-export const lagDatastrukturForNye = (nyeOgFerdigstilteOppgaver: NyeOgFerdigstilteOppgaver[]): Koordinat[] => settCustomHoydePaSoylene(nyeOgFerdigstilteOppgaver
+export const lagDatastrukturForFerdigstilteMine = (
+  nyeOgFerdigstilteOppgaver: NyeOgFerdigstilteOppgaver[],
+): Koordinat[] => settCustomHoydePaSoylene(nyeOgFerdigstilteOppgaver
   .map((value) => ({
-    x: value.antallNye,
+    x: value.antallFerdigstilteMine,
     y: behandlingstypeOrder.indexOf(value.behandlingType.kode) + 1,
   })), false);
 
