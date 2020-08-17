@@ -2,7 +2,7 @@ import React, { FunctionComponent, useMemo } from 'react';
 import { injectIntl, WrappedComponentProps, IntlShape } from 'react-intl';
 import { Row, Column } from 'nav-frontend-grid';
 import { Undertekst } from 'nav-frontend-typografi';
-import advarselImageUrl from 'images/advarsel.svg';
+import advarselImageUrl from 'images/advarsel-sirkel-fyll.svg';
 
 import decodeHtmlEntity from 'utils/decodeHtmlEntityUtils';
 import EventType from 'api/rest-api/src/requestApi/eventType';
