@@ -52,7 +52,7 @@ const sorterBehandlingtyper = (b1, b2) => {
 
 const konverterTilKoordinaterGruppertPaBehandlingstype = (oppgaverForAvdeling) => oppgaverForAvdeling.reduce((acc, o) => {
   const nyKoordinat = {
-    x: moment(o.opprettetDato).startOf('day').toDate(),
+    x: moment(o.dato).startOf('day').toDate(),
     y: o.antall,
   };
 
@@ -93,7 +93,7 @@ const finnBehandlingTypeNavn = (behandlingTyper, behandlingTypeKode: string) => 
 
 export interface OppgaveForDato {
   behandlingType: Kodeverk;
-  opprettetDato: string;
+  dato: string;
   antall: number;
 }
 

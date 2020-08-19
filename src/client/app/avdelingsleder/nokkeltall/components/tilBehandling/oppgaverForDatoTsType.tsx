@@ -3,7 +3,7 @@ import { Kodeverk } from 'kodeverk/kodeverkTsType';
 type OppgaveForDato = Readonly<{
   fagsakYtelseType: Kodeverk;
   behandlingType: Kodeverk;
-  opprettetDato: string;
+  dato: string;
   antall: number;
 }>
 

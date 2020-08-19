@@ -8,6 +8,38 @@ import FagsakSearch from './components/FagsakSearch';
 import { FagsakSearchIndex } from './FagsakSearchIndex';
 
 describe('<FagsakSearchIndex>', () => {
+  const oppgave = {
+    status: {
+      erReservert: false,
+      reservertTilTidspunkt: null,
+      erReservertAvInnloggetBruker: false,
+      reservertAv: null,
+      flyttetReservasjon: null,
+    },
+    saksnummer: '23456',
+    behandlingId: 234,
+    personnummer: '23089076787',
+    navn: 'Walter',
+    system: 'VL',
+    behandlingstype: {
+      navn: 'Førstegangssøknad',
+      kode: 'BT-002',
+    },
+    behandlingStatus: {
+      navn: 'Opprettet',
+      kode: 'OPPRE',
+    },
+    opprettetTidspunkt: '',
+    behandlingsfrist: '',
+    fagsakYtelseType: {
+      navn: 'Omsorgspenger',
+      kode: 'OMS',
+    },
+    erTilSaksbehandling: true,
+    eksternId: '',
+  };
+  const fagsakOppgaver = [oppgave, { ...oppgave, saksnummer: ' 23456' }];
+
   const fagsak = {
     saksnummer: '12345',
     sakstype: {
@@ -32,16 +64,17 @@ describe('<FagsakSearchIndex>', () => {
 
   it('skal sette opp søkeskjermbilde for fagsaker', () => {
     const wrapper = shallowWithIntl(<FagsakSearchIndex
-      fagsaker={fagsaker}
+      fagsakOppgaver={fagsakOppgaver}
       searchFagsaker={sinon.spy()}
       searchResultReceived={false}
       searchStarted
+      fagsaker={fagsaker}
+      kanReservere
       resetFagsakSearch={sinon.spy()}
       goToFagsak={sinon.spy()}
       leggTilBehandletOppgave={sinon.spy()}
       reserverOppgave={sinon.spy()}
       hentReservasjonsstatus={sinon.spy()}
-      fagsakOppgaver={[]}
       hentOppgaverForFagsaker={sinon.spy()}
     />);
 
@@ -53,21 +86,22 @@ describe('<FagsakSearchIndex>', () => {
   it('skal gå til valgt fagsak', () => {
     const goToFagsak = sinon.spy();
     const wrapper = shallowWithIntl(<FagsakSearchIndex
-      fagsaker={fagsaker}
+      fagsakOppgaver={fagsakOppgaver}
       searchFagsaker={sinon.spy()}
       searchResultReceived={false}
       searchStarted
+      fagsaker={fagsaker}
+      kanReservere
       leggTilBehandletOppgave={sinon.spy()}
       resetFagsakSearch={sinon.spy()}
       goToFagsak={goToFagsak}
       reserverOppgave={sinon.spy()}
       hentReservasjonsstatus={sinon.spy()}
-      fagsakOppgaver={[]}
       hentOppgaverForFagsaker={sinon.spy()}
     />);
 
     const fagsakSearchIndex = wrapper.find(FagsakSearch);
-    fagsakSearchIndex.prop('selectFagsakCallback')('', fagsak.saksnummer);
+    fagsakSearchIndex.prop('selectOppgaveCallback')(oppgave, false);
 
     expect(goToFagsak.calledOnce).to.be.true;
   });
@@ -79,6 +113,8 @@ describe('<FagsakSearchIndex>', () => {
       searchResultReceived={false}
       leggTilBehandletOppgave={sinon.spy()}
       searchStarted
+      kanReservere
+      fagsaker={fagsaker}
       resetFagsakSearch={sinon.spy()}
       goToFagsak={goToFagsak}
       reserverOppgave={sinon.spy()}

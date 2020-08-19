@@ -37,7 +37,7 @@ const erDatoInnenforPeriode = (oppgaveForAvdeling, ukevalg) => {
     return true;
   }
   const toUkerSiden = moment().subtract(2, 'w');
-  return moment(oppgaveForAvdeling.opprettetDato).isSameOrAfter(toUkerSiden);
+  return moment(oppgaveForAvdeling.dato).isSameOrAfter(toUkerSiden);
 };
 
 const finnFagsakYtelseTypeNavn = (fagsakYtelseTyper, valgtFagsakYtelseType) => {
@@ -49,13 +49,13 @@ const slaSammenLikeBehandlingstyperOgDatoer = (oppgaverForAvdeling) => {
   const sammenslatte = [];
 
   oppgaverForAvdeling.forEach((o) => {
-    const index = sammenslatte.findIndex((s) => s.behandlingType.kode === o.behandlingType.kode && s.opprettetDato === o.opprettetDato);
+    const index = sammenslatte.findIndex((s) => s.behandlingType.kode === o.behandlingType.kode && s.dato === o.dato);
     if (index === -1) {
       sammenslatte.push(o);
     } else {
       sammenslatte[index] = {
         behandlingType: sammenslatte[index].behandlingType,
-        opprettetDato: sammenslatte[index].opprettetDato,
+        dato: sammenslatte[index].dato,
         antall: sammenslatte[index].antall + o.antall,
       };
     }

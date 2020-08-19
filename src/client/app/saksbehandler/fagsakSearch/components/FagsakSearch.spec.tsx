@@ -31,6 +31,38 @@ describe('<FagsakSearch>', () => {
     },
   };
 
+  const oppgave = {
+    status: {
+      erReservert: false,
+      reservertTilTidspunkt: null,
+      erReservertAvInnloggetBruker: false,
+      reservertAv: null,
+      flyttetReservasjon: null,
+    },
+    saksnummer: '23456',
+    behandlingId: 234,
+    personnummer: '23089076787',
+    navn: 'Walter',
+    system: 'VL',
+    behandlingstype: {
+      navn: 'Førstegangssøknad',
+      kode: 'BT-002',
+    },
+    behandlingStatus: {
+      navn: 'Opprettet',
+      kode: 'OPPRE',
+    },
+    opprettetTidspunkt: '',
+    behandlingsfrist: '',
+    fagsakYtelseType: {
+      navn: 'Omsorgspenger',
+      kode: 'OMS',
+    },
+    erTilSaksbehandling: true,
+    eksternId: '',
+  };
+  const fagsakOppgaver = [oppgave, { ...oppgave, saksnummer: ' 23456' }];
+
   it('skal kun vise søkefelt før søk er startet', () => {
     const searchFagsakFunction = sinon.spy();
     const wrapper = shallow(<FagsakSearch
@@ -39,7 +71,6 @@ describe('<FagsakSearch>', () => {
       searchFagsakCallback={searchFagsakFunction}
       selectOppgaveCallback={sinon.spy()}
       searchResultReceived={false}
-      selectFagsakCallback={sinon.spy()}
       spinner
       searchStarted
       resetSearch={sinon.spy()}
@@ -55,9 +86,8 @@ describe('<FagsakSearch>', () => {
       fagsaker={[]}
       fagsakOppgaver={[]}
       searchFagsakCallback={sinon.spy()}
-      selectOppgaveCallback={sinon.spy()}
       searchResultReceived
-      selectFagsakCallback={sinon.spy()}
+      selectOppgaveCallback={sinon.spy()}
       spinner
       searchStarted
       resetSearch={sinon.spy()}
@@ -67,30 +97,5 @@ describe('<FagsakSearch>', () => {
     const labelComp = wrapper.find('Normaltekst');
     expect(labelComp).to.have.length(1);
     expect(labelComp.find('FormattedMessage').prop('id')).to.eql('FagsakSearch.ZeroSearchResults');
-  });
-
-  it('skal vise søkefelt og søketreff der person og to fagsaker blir vist', () => {
-    const searchFagsakFunction = sinon.spy();
-    const selectFagsakFunction = sinon.spy();
-    const wrapper = shallow(<FagsakSearch
-      fagsaker={[fagsak, fagsak]}
-      fagsakOppgaver={[]}
-      searchFagsakCallback={searchFagsakFunction}
-      selectOppgaveCallback={sinon.spy()}
-      searchResultReceived
-      selectFagsakCallback={selectFagsakFunction}
-      spinner
-      searchStarted
-      resetSearch={sinon.spy()}
-    />);
-
-    expect(wrapper.find(SearchForm)).to.have.length(1);
-
-    const personComp = wrapper.find(PersonInfo);
-    expect(personComp).to.have.length(1);
-
-    const fagsakListComp = wrapper.find(FagsakList);
-    expect(fagsakListComp).to.have.length(1);
-    expect(fagsakListComp.prop('selectFagsakCallback')).to.eql(selectFagsakFunction);
   });
 });

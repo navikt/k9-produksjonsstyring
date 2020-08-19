@@ -22,7 +22,7 @@ export const getPanelLocationCreatorDriftsmeldinger = (location: Location) => (a
   location, { fane: adminPanel },
 );
 
-export const getK9sakHref = (k9sakUrl: string, saksnummer: string, behandlingId?: number) => (behandlingId
+export const getK9sakHref = (k9sakUrl: string, saksnummer: string, behandlingId?: s) => (behandlingId
   ? `${k9sakUrl}/fagsak/${saksnummer}/behandling/${behandlingId}/?punkt=default&fakta=default`
   : `${k9sakUrl}/fagsak/${saksnummer}`);
 
