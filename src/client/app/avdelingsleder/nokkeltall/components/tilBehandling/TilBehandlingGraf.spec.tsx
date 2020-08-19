@@ -55,15 +55,15 @@ describe('<TilBehandlingGraf>', () => {
   it('skal vise graf med en kurve for hver behandlingstype for de siste fjorten dagene', () => {
     const oppgaverPerDato = [{
       behandlingType: behandlingTyper[0],
-      opprettetDato: moment().format(ISO_DATE_FORMAT),
+      dato: moment().format(ISO_DATE_FORMAT),
       antall: 1,
     }, {
       behandlingType: behandlingTyper[0],
-      opprettetDato: moment().subtract(1, 'd').format(ISO_DATE_FORMAT),
+      dato: moment().subtract(1, 'd').format(ISO_DATE_FORMAT),
       antall: 2,
     }, {
       behandlingType: behandlingTyper[1],
-      opprettetDato: moment().format(ISO_DATE_FORMAT),
+      dato: moment().format(ISO_DATE_FORMAT),
       antall: 3,
     }];
 
@@ -94,15 +94,15 @@ describe('<TilBehandlingGraf>', () => {
   it('skal vise graf med en kurve for hver behandlingstype for den siste måneden', () => {
     const oppgaverPerDato = [{
       behandlingType: behandlingTyper[0],
-      opprettetDato: moment().format(ISO_DATE_FORMAT),
+      dato: moment().format(ISO_DATE_FORMAT),
       antall: 1,
     }, {
       behandlingType: behandlingTyper[0],
-      opprettetDato: moment().subtract(1, 'd').format(ISO_DATE_FORMAT),
+      dato: moment().subtract(1, 'd').format(ISO_DATE_FORMAT),
       antall: 2,
     }, {
       behandlingType: behandlingTyper[1],
-      opprettetDato: moment().format(ISO_DATE_FORMAT),
+      dato: moment().format(ISO_DATE_FORMAT),
       antall: 3,
     }];
 
@@ -133,15 +133,15 @@ describe('<TilBehandlingGraf>', () => {
   it('skal vise crosshair med antall for de ulike behandlingspunktene for dato', () => {
     const oppgaverPerDato = [{
       behandlingType: behandlingTyper[0],
-      opprettetDato: moment().format(ISO_DATE_FORMAT),
+      dato: moment().format(ISO_DATE_FORMAT),
       antall: 1,
     }, {
       behandlingType: behandlingTyper[0],
-      opprettetDato: moment().subtract(1, 'd').format(ISO_DATE_FORMAT),
+      dato: moment().subtract(1, 'd').format(ISO_DATE_FORMAT),
       antall: 2,
     }, {
       behandlingType: behandlingTyper[1],
-      opprettetDato: moment().format(ISO_DATE_FORMAT),
+      dato: moment().format(ISO_DATE_FORMAT),
       antall: 3,
     }];
 

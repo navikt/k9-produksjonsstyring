@@ -5,7 +5,7 @@ import { bindActionCreators, Dispatch } from 'redux';
 
 import OppgaveErReservertAvAnnenModal from 'saksbehandler/components/OppgaveErReservertAvAnnenModal';
 import { Fagsak } from 'saksbehandler/fagsakSearch/fagsakTsType';
-import { getK9sakUrl } from 'app/duck';
+import { getK9sakUrl, getNavAnsattKanReservere } from 'app/duck';
 import { getK9sakHref } from 'app/paths';
 import {
   reserverOppgave as reserverOppgaveActionCreator,
@@ -37,8 +37,8 @@ type Props = Readonly<{
   goToFagsak: (saknummer: string, behandlingId?: number) => void;
   leggTilBehandletOppgave: (oppgave: Oppgave) => void;
   reserverOppgave: (oppgaveId: string) => Promise<{payload: OppgaveStatus }>;
-  hentReservasjonsstatus: (oppgaveId: string) => Promise<{payload: OppgaveStatus }>;
   hentOppgaverForFagsaker: (fagsaker: string) => Promise<{ payload: Oppgave[] }>;
+  kanReservere: boolean;
 }>;
 
 interface StateProps {
@@ -79,6 +79,7 @@ export class FagsakSearchIndex extends Component<Props, StateProps> {
     reserverOppgave: PropTypes.func.isRequired,
     leggTilBehandletOppgave: PropTypes.func.isRequired,
     hentOppgaverForFagsaker: PropTypes.func.isRequired,
+    kanReservere: PropTypes.bool.isRequired,
   };
 
   static defaultProps = {
@@ -109,23 +110,22 @@ export class FagsakSearchIndex extends Component<Props, StateProps> {
   };
 
   velgFagsakOperasjoner = (oppgave: Oppgave, reserver: boolean) => {
-    const { reserverOppgave, goToFagsak } = this.props;
+    const { reserverOppgave, goToFagsak, kanReservere } = this.props;
     if (oppgave.status.erReservert && !oppgave.status.erReservertAvInnloggetBruker) {
       this.setState((prevState) => ({ ...prevState, reservertAvAnnenSaksbehandler: true, reservertOppgave: oppgave }));
     }
     if (!reserver) {
       this.goToFagsakEllerApneModal(oppgave);
-    } else {
+    } else if (reserver && kanReservere) {
       reserverOppgave(oppgave.eksternId).then(() => {
         this.leggTilBehandletSak(oppgave);
         goToFagsak(oppgave.saksnummer, oppgave.behandlingId);
       });
+    } else if (!kanReservere) {
+      this.leggTilBehandletSak(oppgave);
+      goToFagsak(oppgave.saksnummer, oppgave.behandlingId);
     }
   };
-
-  reserverOppgaveOgApne = (oppgave: Oppgave, reserver: boolean) => {
-    this.velgFagsakOperasjoner(oppgave, reserver);
-  }
 
   sokFagsak = (values: {searchString: string; skalReservere: boolean}) => {
     const {
@@ -177,8 +177,7 @@ export class FagsakSearchIndex extends Component<Props, StateProps> {
           fagsakOppgaver={fagsakOppgaver || []}
           searchFagsakCallback={this.sokFagsak}
           searchResultReceived={sokFerdig}
-          selectFagsakCallback={goToFagsak}
-          selectOppgaveCallback={this.reserverOppgaveOgApne}
+          selectOppgaveCallback={this.velgFagsakOperasjoner}
           searchStarted={sokStartet}
           searchResultAccessDenied={searchResultAccessDenied}
           resetSearch={this.resetSearch}
@@ -204,6 +203,7 @@ const mapStateToProps = (state) => ({
   fagsakOppgaver: getFagsakOppgaver(state),
   searchResultAccessDenied: getSearchFagsakerAccessDenied(state),
   goToFagsak: getGoToFagsakFn(getK9sakUrl(state)),
+  kanReservere: getNavAnsattKanReservere(state),
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
@@ -212,7 +212,6 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
     resetFagsakSearch,
     reserverOppgave: reserverOppgaveActionCreator,
     leggTilBehandletOppgave,
-    hentReservasjonsstatus: hentReservasjonActionCreator,
     hentOppgaverForFagsaker: hentOppgaverForFagsakerActionCreator,
   }, dispatch),
 });

@@ -26,7 +26,6 @@ const headerTextCodes = [
 ];
 
 interface OwnProps {
-  sorterteFagsaker: Fagsak[];
   selectOppgaveCallback: (oppgave: Oppgave, skalReservere: boolean) => void;
   fagsakStatusTyper: Kodeverk[];
   fagsakYtelseTyper: Kodeverk[];
@@ -72,7 +71,6 @@ export class FagsakList extends Component<OwnProps, OwnState> {
 
   render = () => {
     const {
-      sorterteFagsaker,
       fagsakOppgaver,
       selectOppgaveCallback,
       kanReservere,
