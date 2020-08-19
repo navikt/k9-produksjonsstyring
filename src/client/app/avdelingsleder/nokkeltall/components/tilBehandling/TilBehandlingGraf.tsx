@@ -152,7 +152,7 @@ const TilBehandlingGraf: FunctionComponent<OwnProps> = ({
               width={width - LEGEND_WIDTH > 0 ? width - LEGEND_WIDTH : 100 + LEGEND_WIDTH}
               height={height}
               margin={{
-                left: 40, right: 40, top: 20, bottom: 40,
+                left: 60, right: 40, top: 20, bottom: 40,
               }}
               stackBy="y"
               xType="time"
