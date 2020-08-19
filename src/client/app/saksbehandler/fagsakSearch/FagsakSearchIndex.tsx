@@ -114,6 +114,11 @@ export class FagsakSearchIndex extends Component<Props, StateProps> {
     if (oppgave.status.erReservert && !oppgave.status.erReservertAvInnloggetBruker) {
       this.setState((prevState) => ({ ...prevState, reservertAvAnnenSaksbehandler: true, reservertOppgave: oppgave }));
     }
+
+    if (reserver && !kanReservere) {
+      this.leggTilBehandletSak(oppgave);
+      goToFagsak(oppgave.saksnummer, oppgave.behandlingId);
+    }
     if (!reserver) {
       this.goToFagsakEllerApneModal(oppgave);
     } else if (reserver && kanReservere) {

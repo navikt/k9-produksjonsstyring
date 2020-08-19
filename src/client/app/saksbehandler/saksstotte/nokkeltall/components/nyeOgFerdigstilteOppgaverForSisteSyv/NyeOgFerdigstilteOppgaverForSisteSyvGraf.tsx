@@ -91,7 +91,7 @@ export class NyeOgFerdigstilteOppgaverForSisteSyvGraf extends Component<OwnProps
         <XYPlot
           dontCheckIfEmpty={isEmpty}
           margin={{
-            left: 40, right: 60, top: 10, bottom: 30,
+            left: 60, right: 60, top: 10, bottom: 30,
           }}
           width={width}
           height={height}

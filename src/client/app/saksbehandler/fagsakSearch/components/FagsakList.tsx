@@ -52,6 +52,10 @@ export class FagsakList extends Component<OwnProps, OwnState> {
   }
 
   onClick = (oppgave, selectOppgaveCallback) => {
+    const { kanReservere } = this.props;
+    if (!kanReservere) {
+      selectOppgaveCallback(oppgave, false);
+    }
     if (oppgave.erTilSaksbehandling && !oppgave.status.erReservert) {
       this.setState((prevState) => ({ ...prevState, visReserverOppgaveModal: true }));
     } else {
