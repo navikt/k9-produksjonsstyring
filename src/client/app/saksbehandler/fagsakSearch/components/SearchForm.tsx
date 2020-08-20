@@ -20,7 +20,7 @@ import styles from './searchForm.less';
 
 const isButtonDisabled = (searchString, searchStarted, searchResultAccessDenied) => (!searchResultAccessDenied.feilmelding && searchStarted) || !searchString;
 
-const erIDev = () => window.location.hostname.includes('preprod.local');
+const erIDev = () => window.location.hostname.includes('dev.adeo.no');
 
 interface OwnProps {
   onSubmit: ({ searchString: string, skalReservere: boolean }) => void;

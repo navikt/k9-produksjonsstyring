@@ -4,8 +4,8 @@ import { isHandledError } from './ErrorTypes';
 import TimeoutError from './TimeoutError';
 import { ErrorResponse } from '../ResponseTsType';
 
-const isDev = window.location.hostname.includes('preprod.local');
-const PROXY_REDIRECT_URL = isDev ? 'https://k9-los-oidc-auth-proxy.nais.preprod.local/login?redirect_uri=https://k9-los-web.nais.preprod.local/'
+const isDev = window.location.hostname.includes('dev.adeo.no');
+const PROXY_REDIRECT_URL = isDev ? 'https://k9-los-oidc-auth-proxy.dev.adeo.no/login?redirect_uri=https://k9-los-web.dev.adeo.no/'
   : 'https://k9-los-oidc-auth-proxy.nais.adeo.no/login?redirect_uri=https://k9-los-web.nais.adeo.no/';
 
 type NotificationEmitter = (eventType: keyof typeof EventType, data?: any, isPollingRequest?: boolean) => void
