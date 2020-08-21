@@ -59,7 +59,7 @@ spec:
         - name: SESSION_ID_COOKIE_NAME
           value: k9-los-web
         - name: PROXY_CONFIG
-          value: '{"apis":[{"path":"k9-los-api","url":"https://k9-los-api.nais.dev.adeo.no/api","scopes":"5afad323-c9df-4e14-b481-b278e9d2bf69/.default"}]}'
+          value: '{"apis":[{"path":"k9-los-api","url":"https://k9-los-api.dev.adeo.no/api","scopes":"5afad323-c9df-4e14-b481-b278e9d2bf69/.default"}]}'
         - name: REDIS_HOST
           value: k9-los-oidc-auth-proxy-redis.default.svc.nais.local
         - name: REDIS_PORT
