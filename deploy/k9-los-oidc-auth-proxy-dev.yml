@@ -68,4 +68,4 @@ spec:
         - name: CORS_EXPOSED_HEADERS
           value: 'Location'
         - name: COOKIE_DOMAIN
-          value: '.dev.adeo.no'  
+          value: .dev.adeo.no  
