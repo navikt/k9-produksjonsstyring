@@ -67,6 +67,7 @@ spec:
           value: 'Content-Type,Referer,X-Nav-NorskIdent,cache-control,expires,nav-callid,pragma'
         - name: CORS_EXPOSED_HEADERS
           value: 'Location'
+          
         - name: COOKIE_DOMAIN
           value: .dev.adeo.no  
           
