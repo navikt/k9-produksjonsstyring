@@ -20,7 +20,7 @@ spec:
         timeout: 1
     resources:
         limits:
-            cpu: 1800m
+            cpu: 2000m
             memory: 512Mi
         requests:
             cpu: 50m
@@ -56,7 +56,9 @@ spec:
         - name: ALLOW_PROXY_TO_SELF_SIGNED_CERTIFICATES
           value: 'true'
         - name: SESSION_ID_COOKIE_NAME
-          value: k9-los-web 
+          value: k9-los-web
+        - name: SESSION_ID_COOKIE_DOMAIN
+          value: .dev.adeo.no
         - name: PROXY_CONFIG
           value: '{"apis":[{"path":"k9-los-api","url":"https://k9-los-api.dev.adeo.no/api","scopes":"5afad323-c9df-4e14-b481-b278e9d2bf69/.default"}]}'
         - name: REDIS_HOST
@@ -67,6 +69,4 @@ spec:
           value: 'Content-Type,Referer,X-Nav-NorskIdent,cache-control,expires,nav-callid,pragma'
         - name: CORS_EXPOSED_HEADERS
           value: 'Location'
-        - name: COOKIE_DOMAIN
-          value: .dev.adeo.no  
           
