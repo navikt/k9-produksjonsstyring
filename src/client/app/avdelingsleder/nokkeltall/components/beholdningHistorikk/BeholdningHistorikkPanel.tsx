@@ -9,20 +9,31 @@ import { Row, Column } from 'nav-frontend-grid';
 
 import StoreValuesInReduxState from 'form/reduxBinding/StoreValuesInReduxState';
 import { getValuesFromReduxState } from 'form/reduxBinding/formDuck';
-import { RadioGroupField, RadioOption, SelectField } from 'form/FinalFields';
+import { SelectField } from 'form/FinalFields';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import { Kodeverk } from 'kodeverk/kodeverkTsType';
 import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
 import { getKodeverk } from 'kodeverk/duck';
-import TilBehandlingGraf from './TilBehandlingGraf';
-import BeholdningPerDato from './beholdningPerDatoTsType';
 import { getOppgaverPerDato } from '../../duck';
 
-import styles from './tilBehandlingPanel.less';
+import BeholdningHistorikkGraf from './BeholdningHistorikkGraf';
+import BeholdningPerDato from './beholdningPerDatoTsType';
 
 export const ALLE_YTELSETYPER_VALGT = 'ALLE';
 export const UKE_2 = '2';
+
+const ytelseTyper = [{
+  kode: fagsakYtelseType.OMSORGSPENGER,
+  navn: 'Omsorgspenger',
+}, {
+  kode: fagsakYtelseType.PLEIEPENGER_SYKT_BARN,
+  navn: 'Pleiepenger sykt barn',
+},
+{
+  kode: ALLE_YTELSETYPER_VALGT,
+  navn: 'Alle ytelser',
+}];
 
 const uker = [{
   kode: UKE_2,
@@ -73,7 +84,7 @@ interface OwnProps {
   width: number;
   height: number;
   fagsakYtelseTyper: Kodeverk[];
-  oppgaverPerDato?: BeholdningPerDato[];
+  beholdningPerDato?: BeholdningPerDato[];
   initialValues: InitialValues;
   behandlingTyper: Kodeverk[];
 }
@@ -83,12 +94,11 @@ const formName = 'tilBehandlingForm';
 /**
  * TilBehandlingPanel.
  */
-export const TilBehandlingPanel: FunctionComponent<OwnProps & WrappedComponentProps> = ({
+export const BeholdningHistorikkPanel: FunctionComponent<OwnProps & WrappedComponentProps> = ({
   intl,
   width,
   height,
-  fagsakYtelseTyper,
-  oppgaverPerDato,
+  beholdningPerDato,
   initialValues,
   behandlingTyper,
 }) => (
@@ -99,7 +109,7 @@ export const TilBehandlingPanel: FunctionComponent<OwnProps & WrappedComponentPr
       <>
         <StoreValuesInReduxState onUmount stateKey={formName} values={values} />
         <Element>
-          <FormattedMessage id="TilBehandlingPanel.TilBehandling" />
+          <FormattedMessage id="BeholdningHistorikkPanel.Beholdning" />
         </Element>
         <VerticalSpacer eightPx />
         <Row>
@@ -111,31 +121,22 @@ export const TilBehandlingPanel: FunctionComponent<OwnProps & WrappedComponentPr
               bredde="l"
             />
           </Column>
-          <Column xs="8">
-            <div className={styles.radioPadding}>
-              <RadioGroupField name="ytelseType">
-                <RadioOption
-                  value={fagsakYtelseType.OMSORGSPENGER}
-                  label={finnFagsakYtelseTypeNavn(fagsakYtelseTyper, fagsakYtelseType.OMSORGSPENGER)}
-                />
-                <RadioOption
-                  value={fagsakYtelseType.PLEIEPENGER_SYKT_BARN}
-                  label={finnFagsakYtelseTypeNavn(fagsakYtelseTyper, fagsakYtelseType.PLEIEPENGER_SYKT_BARN)}
-                />
-                <RadioOption
-                  value={ALLE_YTELSETYPER_VALGT}
-                  label={<FormattedMessage id="FordelingAvBehandlingstypePanel.Alle" />}
-                />
-              </RadioGroupField>
-            </div>
+          <Column xs="2">
+            <SelectField
+              name="ytelseType"
+              label=""
+              selectValues={ytelseTyper.map((u) => <option key={u.kode} value={u.kode}>{intl.formatMessage({ id: u.navn })}</option>)}
+              bredde="l"
+            />
           </Column>
         </Row>
-        <TilBehandlingGraf
+        <VerticalSpacer eightPx />
+        <BeholdningHistorikkGraf
           width={width}
           height={height}
           isToUkerValgt={values.ukevalg === UKE_2}
           behandlingTyper={behandlingTyper}
-          oppgaverPerDato={oppgaverPerDato ? slaSammenLikeBehandlingstyperOgDatoer(oppgaverPerDato
+          beholdningPerDato={beholdningPerDato ? slaSammenLikeBehandlingstyperOgDatoer(beholdningPerDato
             .filter((ofa) => (values.ytelseType === ALLE_YTELSETYPER_VALGT ? true : values.ytelseType === ofa.fagsakYtelseType.kode))
             .filter((ofa) => erDatoInnenforPeriode(ofa, values.ukevalg))) : []}
         />
@@ -144,8 +145,8 @@ export const TilBehandlingPanel: FunctionComponent<OwnProps & WrappedComponentPr
   />
 );
 
-TilBehandlingPanel.defaultProps = {
-  oppgaverPerDato: [],
+BeholdningHistorikkPanel.defaultProps = {
+  beholdningPerDato: [],
 };
 
 const formDefaultValues = { ytelseType: ALLE_YTELSETYPER_VALGT, ukevalg: UKE_2 };
@@ -153,8 +154,8 @@ const formDefaultValues = { ytelseType: ALLE_YTELSETYPER_VALGT, ukevalg: UKE_2 }
 const mapStateToProps = (state) => ({
   fagsakYtelseTyper: getKodeverk(state)[kodeverkTyper.FAGSAK_YTELSE_TYPE],
   behandlingTyper: getKodeverk(state)[kodeverkTyper.BEHANDLING_TYPE],
-  oppgaverPerDato: getOppgaverPerDato(state),
+  beholdningPerDato: getOppgaverPerDato(state),
   initialValues: getValuesFromReduxState(state)[formName] || formDefaultValues,
 });
 
-export default connect(mapStateToProps)(injectIntl(TilBehandlingPanel));
+export default connect(mapStateToProps)(injectIntl(BeholdningHistorikkPanel));

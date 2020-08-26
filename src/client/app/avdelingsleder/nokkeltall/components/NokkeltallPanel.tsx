@@ -4,6 +4,8 @@ import React, {
 
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import FerdigstiltePanel from 'avdelingsleder/nokkeltall/components/ferdigstiltePanel/FerdigstiltePanel';
+import BeholdningHistorikkPanel
+  from 'avdelingsleder/nokkeltall/components/beholdningHistorikk/BeholdningHistorikkPanel';
 import FordelingAvBehandlingstypePanel from './fordelingAvBehandlingstype/FordelingAvBehandlingstypePanel';
 import TilBehandlingPanel from './tilBehandling/TilBehandlingPanel';
 
@@ -39,6 +41,11 @@ const NokkeltallPanel: FunctionComponent = () => {
         height={height}
       />
       <VerticalSpacer twentyPx />
+      <BeholdningHistorikkPanel
+        width={width}
+        height={height}
+      />
+      <VerticalSpacer twentyPx />
       <TilBehandlingPanel
         width={width}
         height={height}
@@ -48,6 +55,7 @@ const NokkeltallPanel: FunctionComponent = () => {
         width={width}
         height={height}
       />
+
     </div>
   );
 };
