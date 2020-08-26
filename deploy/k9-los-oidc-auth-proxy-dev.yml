@@ -69,3 +69,4 @@ spec:
           value: 'Location'
         - name: COOKIE_DOMAIN
           value: .dev.adeo.no  
+          
