@@ -29,8 +29,8 @@ spec:
       cpu: 500m
       memory: 64Mi
     requests:
-      cpu: 200m
-      memory: 32Mi
+      cpu: 400m
+      memory: 64Mi
   ingresses:
     - https://k9-los-web.dev.adeo.no
     - https://k9-los-web.dev-fss.nais.io
