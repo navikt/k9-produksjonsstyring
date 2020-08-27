@@ -3,7 +3,7 @@ import React, {
 } from 'react';
 import moment from 'moment';
 import {
-  XYPlot, XAxis, YAxis, HorizontalGridLines, VerticalGridLines, DiscreteColorLegend, VerticalBar, MarkSeries, VerticalBarSeries,
+  XYPlot, XAxis, YAxis, HorizontalGridLines, VerticalGridLines, DiscreteColorLegend, Crosshair, MarkSeries, VerticalBarSeries,
 } from 'react-vis';
 import Panel from 'nav-frontend-paneler';
 import { Normaltekst, Undertekst } from 'nav-frontend-typografi';
@@ -35,6 +35,11 @@ const behandlingstypeFarger = {
   [behandlingType.FORSTEGANGSSOKNAD]: '#85d5f0',
 };
 
+
+const monthNames = ['JANUAR', 'FEBRUAR', 'MARS', 'APRIL', 'MAI', 'JUNI',
+  'JULI', 'AUGUST', 'SEPTEMBER', 'OKTOBER', 'NOVEMBER', 'DESEMBER',
+];
+
 const cssText = {
   fontFamily: 'Source Sans Pro',
   fontSize: '18px',
@@ -57,6 +62,8 @@ const sorterBehandlingtyper = (b1, b2) => {
   }
   return index1 > index2 ? -1 : 1;
 };
+
+const getMonthNameAndYear = () => `${monthNames[moment().month()]} ${moment().year()}`;
 
 const konverterTilKoordinaterGruppertPaBehandlingstype = (oppgaverForAvdeling) => oppgaverForAvdeling.reduce((acc, o) => {
   const nyKoordinat = {
@@ -157,40 +164,37 @@ const BeholdningHistorikkGraf: FunctionComponent<OwnProps> = ({
       <FlexContainer>
         <FlexRow>
           <FlexColumn>
+            <Normaltekst className={styles.month}>
+              {' '}
+              {isToUkerValgt ? 'Siste to uker' : getMonthNameAndYear()}
+            </Normaltekst>
             <XYPlot
+              width={isToUkerValgt ? 1000 : 1450}
+              margin={{
+                left: 60, right: 60, top: 60, bottom: 60,
+              }}
+              height={350}
+              stackBy="y"
               xType="ordinal"
               dontCheckIfEmpty={isEmpty}
-              width={isToUkerValgt ? 1300 : 1800}
-              height={420}
-              margin={{
-                left: 60, right: 40, top: 60, bottom: 20,
-              }}
-              stackBy="y"
-              onMouseLeave={onMouseLeave}
               {...plotPropsWhenEmpty}
             >
-              <MarkSeries data={[{ x: moment().subtract(1, 'd'), y: 0 }]} style={{ display: 'none' }} />
-              <VerticalGridLines
-                style={{ stroke: '#78706A', 'stroke-width': '1px' }}
-              />
               <HorizontalGridLines />
+
               <XAxis
                 orientation="top"
                 tickFormat={(t) => moment(t).format(DD_DATE_FORMAT)}
                 style={{ text: cssText, stroke: 'none' }}
               />
-              <VerticalSpacer />
-              <YAxis style={{ text: cssText }} />
+              <YAxis style={{ text: cssText, stroke: '#78706A', height: 150 }} />
               {sorterteBehandlingstyper.map((k, index) => (
                 <VerticalBarSeries
                   key={k}
                   data={data[k]}
                   fill={behandlingstypeFarger[k]}
                   stroke={behandlingstypeFarger[k]}
-                  style={{ width: '30px' }}
-                  onClick={() => undefined}
-                  margin={{
-                    left: 60,
+                  onSeriesClick={() => {
+                    setValgtDag(data[k]);
                   }}
                 />
               ))}
@@ -200,7 +204,9 @@ const BeholdningHistorikkGraf: FunctionComponent<OwnProps> = ({
             <DiscreteColorLegend
               colors={reversertSorterteBehandlingstyper.map((key) => behandlingstypeFarger[key])}
               items={reversertSorterteBehandlingstyper.map((key) => (
-                <Normaltekst className={styles.displayInline}>{finnBehandlingTypeNavn(behandlingTyper, key)}</Normaltekst>
+                <Normaltekst className={styles.displayInline}>
+                  {finnBehandlingTypeNavn(behandlingTyper, key)}
+                </Normaltekst>
               ))}
             />
           </FlexColumn>

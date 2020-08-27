@@ -125,7 +125,7 @@ export const BeholdningHistorikkPanel: FunctionComponent<OwnProps & WrappedCompo
             <SelectField
               name="ytelseType"
               label=""
-              selectValues={ytelseTyper.map((u) => <option key={u.kode} value={u.kode}>{intl.formatMessage({ id: u.navn })}</option>)}
+              selectValues={ytelseTyper.map((u) => <option key={u.kode} value={u.kode}>{u.navn}</option>)}
               bredde="l"
             />
           </Column>
