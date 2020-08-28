@@ -15,6 +15,8 @@ import { Kodeverk } from 'kodeverk/kodeverkTsType';
 import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
 import { getKodeverk } from 'kodeverk/duck';
+import Panel from 'nav-frontend-paneler';
+import styles from 'avdelingsleder/nokkeltall/components/beholdningHistorikk/beholdningHistorikkGraf.less';
 import { getOppgaverPerDato } from '../../duck';
 
 import BeholdningHistorikkGraf from './BeholdningHistorikkGraf';
@@ -106,7 +108,7 @@ export const BeholdningHistorikkPanel: FunctionComponent<OwnProps & WrappedCompo
     onSubmit={() => undefined}
     initialValues={initialValues}
     render={({ values }) => (
-      <>
+      <Panel className={styles.panel}>
         <StoreValuesInReduxState onUmount stateKey={formName} values={values} />
         <Element>
           <FormattedMessage id="BeholdningHistorikkPanel.Beholdning" />
@@ -130,7 +132,7 @@ export const BeholdningHistorikkPanel: FunctionComponent<OwnProps & WrappedCompo
             />
           </Column>
         </Row>
-        <VerticalSpacer eightPx />
+        <VerticalSpacer sixteenPx />
         <BeholdningHistorikkGraf
           width={width}
           height={height}
@@ -140,7 +142,7 @@ export const BeholdningHistorikkPanel: FunctionComponent<OwnProps & WrappedCompo
             .filter((ofa) => (values.ytelseType === ALLE_YTELSETYPER_VALGT ? true : values.ytelseType === ofa.fagsakYtelseType.kode))
             .filter((ofa) => erDatoInnenforPeriode(ofa, values.ukevalg))) : []}
         />
-      </>
+      </Panel>
     )}
   />
 );

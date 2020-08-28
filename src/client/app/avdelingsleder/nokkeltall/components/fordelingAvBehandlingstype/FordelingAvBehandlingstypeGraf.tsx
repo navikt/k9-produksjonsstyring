@@ -112,69 +112,67 @@ const FordelingAvBehandlingstypeGraf: FunctionComponent<OwnProps & WrappedCompon
   const isEmpty = tilSaksbehandling.length === 0 && tilBeslutter.length === 0;
 
   return (
-    <Panel className={styles.panel}>
-      <FlexContainer>
-        <FlexRow>
-          <FlexColumn>
-            <XYPlot
-              dontCheckIfEmpty={isEmpty}
-              margin={{
-                left: 170, right: 40, top: 40, bottom: 0,
-              }}
-              width={width - LEGEND_WIDTH > 0 ? width - LEGEND_WIDTH : 100 + LEGEND_WIDTH}
-              height={height}
-              stackBy="x"
-              yDomain={[0, 7]}
-              {...(isEmpty ? { xDomain: [0, 100] } : {})}
-            >
-              <VerticalGridLines />
-              <XAxis orientation="top" style={{ text: cssText }} />
-              <YAxis
-                style={{ text: cssText }}
-                tickFormat={finnBehandlingTypeNavn}
-                tickValues={[1, 2, 3, 4, 5]}
-              />
-              <HorizontalRectSeries
-                data={settCustomHoydePaSoylene(tilSaksbehandling)}
-                onValueMouseOver={leggTilHintVerdi}
-                onValueMouseOut={fjernHintVerdi}
-                fill="#634689"
-                stroke="#634689"
-              />
-              <HorizontalRectSeries
-                data={settCustomHoydePaSoylene(tilBeslutter)}
-                onValueMouseOver={leggTilHintVerdi}
-                onValueMouseOut={fjernHintVerdi}
-                fill="#FF9100"
-                stroke="#FF9100"
-              />
-              {hintVerdi && (
-                <Hint value={hintVerdi}>
-                  <div className={styles.hint}>
-                    {getHintAntall(hintVerdi, intl)}
-                    <br />
-                    {getHintTotalAntall(hintVerdi, tilBeslutter, tilSaksbehandling, intl)}
-                  </div>
-                </Hint>
-              )}
-            </XYPlot>
-          </FlexColumn>
-          <FlexColumn>
-            <DiscreteColorLegend
-              colors={['#634689', '#FF9100']}
-              items={[
-                <Normaltekst className={styles.displayInline}>
-                  <FormattedMessage id="FordelingAvBehandlingstypeGraf.TilBehandling" />
-                </Normaltekst>,
-                <Normaltekst className={styles.displayInline}>
-                  <FormattedMessage id="FordelingAvBehandlingstypeGraf.TilBeslutter" />
-                </Normaltekst>,
-              ]}
+    <FlexContainer>
+      <FlexRow>
+        <FlexColumn>
+          <XYPlot
+            dontCheckIfEmpty={isEmpty}
+            margin={{
+              left: 170, right: 40, top: 40, bottom: 0,
+            }}
+            width={width - LEGEND_WIDTH > 0 ? width - LEGEND_WIDTH : 100 + LEGEND_WIDTH}
+            height={height}
+            stackBy="x"
+            yDomain={[0, 7]}
+            {...(isEmpty ? { xDomain: [0, 100] } : {})}
+          >
+            <VerticalGridLines />
+            <XAxis orientation="top" style={{ text: cssText }} />
+            <YAxis
+              style={{ text: cssText }}
+              tickFormat={finnBehandlingTypeNavn}
+              tickValues={[1, 2, 3, 4, 5]}
             />
-          </FlexColumn>
-        </FlexRow>
-      </FlexContainer>
-    </Panel>
+            <HorizontalRectSeries
+              data={settCustomHoydePaSoylene(tilSaksbehandling)}
+              onValueMouseOver={leggTilHintVerdi}
+              onValueMouseOut={fjernHintVerdi}
+              fill="#634689"
+              stroke="#634689"
+            />
+            <HorizontalRectSeries
+              data={settCustomHoydePaSoylene(tilBeslutter)}
+              onValueMouseOver={leggTilHintVerdi}
+              onValueMouseOut={fjernHintVerdi}
+              fill="#FF9100"
+              stroke="#FF9100"
+            />
+            {hintVerdi && (
+            <Hint value={hintVerdi}>
+              <div className={styles.hint}>
+                {getHintAntall(hintVerdi, intl)}
+                <br />
+                {getHintTotalAntall(hintVerdi, tilBeslutter, tilSaksbehandling, intl)}
+              </div>
+            </Hint>
+            )}
+          </XYPlot>
+        </FlexColumn>
+        <FlexColumn>
+          <DiscreteColorLegend
+            colors={['#634689', '#FF9100']}
+            items={[
+              <Normaltekst className={styles.displayInline}>
+                <FormattedMessage id="FordelingAvBehandlingstypeGraf.TilBehandling" />
+              </Normaltekst>,
+              <Normaltekst className={styles.displayInline}>
+                <FormattedMessage id="FordelingAvBehandlingstypeGraf.TilBeslutter" />
+              </Normaltekst>,
+            ]}
+          />
+        </FlexColumn>
+      </FlexRow>
+    </FlexContainer>
   );
 };
 

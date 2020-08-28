@@ -31,32 +31,30 @@ export const FerdigstiltePanel: FunctionComponent<OwnProps & WrappedComponentPro
   <Form
     onSubmit={() => undefined}
     render={({ values }) => (
-      <>
+      <Panel className={styles.panel}>
         <Element>
           <FormattedMessage id="FerdigstiltePanel.AntallFerdigstilte" />
         </Element>
         <VerticalSpacer eightPx />
-        <Panel className={styles.panel}>
-          <div className={styles.container}>
-            {ferdigstilteOppgaver.length > 0 && ferdigstilteOppgaver.map((bt) => (
-              <Teller
-                key={bt.behandlingType.kode}
-                behandlingType={bt.behandlingType}
-                antallIdag={bt.ferdigstilteIdag}
-                antallSyvDager={bt.ferdigstilteSyvDager}
-              />
-            ))}
-            {ferdigstilteOppgaver.length === 0 && behandlingTyper.map((bt) => (
-              <Teller
-                key={bt.kode}
-                behandlingType={bt}
-                antallIdag={0}
-                antallSyvDager={0}
-              />
-            )) }
-          </div>
-        </Panel>
-      </>
+        <div className={styles.container}>
+          {ferdigstilteOppgaver.length > 0 && ferdigstilteOppgaver.map((bt) => (
+            <Teller
+              key={bt.behandlingType.kode}
+              behandlingType={bt.behandlingType}
+              antallIdag={bt.ferdigstilteIdag}
+              antallSyvDager={bt.ferdigstilteSyvDager}
+            />
+          ))}
+          {ferdigstilteOppgaver.length === 0 && behandlingTyper.map((bt) => (
+            <Teller
+              key={bt.kode}
+              behandlingType={bt}
+              antallIdag={0}
+              antallSyvDager={0}
+            />
+          )) }
+        </div>
+      </Panel>
     )}
   />
 );

@@ -9,7 +9,7 @@ import Panel from 'nav-frontend-paneler';
 import { Normaltekst, Undertekst } from 'nav-frontend-typografi';
 
 import { FlexContainer, FlexRow, FlexColumn } from 'sharedComponents/flexGrid';
-import { DD_DATE_FORMAT, DDMMYYYY_DATE_FORMAT } from 'utils/formats';
+import { DD_MM_DATE_FORMAT, DD_DATE_FORMAT } from 'utils/formats';
 import behandlingType from 'kodeverk/behandlingType';
 import { Kodeverk } from 'kodeverk/kodeverkTsType';
 
@@ -63,7 +63,16 @@ const sorterBehandlingtyper = (b1, b2) => {
   return index1 > index2 ? -1 : 1;
 };
 
-const getMonthNameAndYear = () => `${monthNames[moment().month()]} ${moment().year()}`;
+const getMonthNameAndYear = () => {
+  const today = moment();
+  if (today.day() < 28) {
+    return `${monthNames[today.month()]} ${today.year()}`;
+  }
+
+  return today.month() === 1 ? `${monthNames[11]} ${today.year() - 1} - ${monthNames[today.month()]} ${today.year()}`
+    : `${monthNames[today.month() - 1]} - ${monthNames[today.month()]} ${today.year()}`;
+};
+
 
 const konverterTilKoordinaterGruppertPaBehandlingstype = (oppgaverForAvdeling) => oppgaverForAvdeling.reduce((acc, o) => {
   const nyKoordinat = {
@@ -160,59 +169,77 @@ const BeholdningHistorikkGraf: FunctionComponent<OwnProps> = ({
   } : {};
 
   return (
-    <Panel className={styles.panel}>
-      <FlexContainer>
-        <FlexRow>
-          <FlexColumn>
-            <Normaltekst className={styles.month}>
-              {' '}
-              {isToUkerValgt ? 'Siste to uker' : getMonthNameAndYear()}
-            </Normaltekst>
-            <XYPlot
-              width={isToUkerValgt ? 1000 : 1450}
-              margin={{
-                left: 60, right: 60, top: 60, bottom: 60,
-              }}
-              height={350}
-              stackBy="y"
-              xType="ordinal"
-              dontCheckIfEmpty={isEmpty}
-              {...plotPropsWhenEmpty}
-            >
-              <HorizontalGridLines />
-
-              <XAxis
-                orientation="top"
-                tickFormat={(t) => moment(t).format(DD_DATE_FORMAT)}
-                style={{ text: cssText, stroke: 'none' }}
-              />
-              <YAxis style={{ text: cssText, stroke: '#78706A', height: 150 }} />
-              {sorterteBehandlingstyper.map((k, index) => (
-                <VerticalBarSeries
-                  key={k}
-                  data={data[k]}
-                  fill={behandlingstypeFarger[k]}
-                  stroke={behandlingstypeFarger[k]}
-                  onSeriesClick={() => {
-                    setValgtDag(data[k]);
-                  }}
-                />
-              ))}
-            </XYPlot>
-          </FlexColumn>
-          <FlexColumn>
-            <DiscreteColorLegend
-              colors={reversertSorterteBehandlingstyper.map((key) => behandlingstypeFarger[key])}
-              items={reversertSorterteBehandlingstyper.map((key) => (
-                <Normaltekst className={styles.displayInline}>
-                  {finnBehandlingTypeNavn(behandlingTyper, key)}
-                </Normaltekst>
-              ))}
+    <FlexContainer>
+      <FlexRow>
+        <FlexColumn>
+          <Normaltekst className={styles.month}>
+            {' '}
+            {isToUkerValgt ? '2 siste uker' : getMonthNameAndYear()}
+          </Normaltekst>
+          <XYPlot
+            width={isToUkerValgt ? 1000 : 1450}
+            margin={{
+              left: 60, right: 60, top: 60, bottom: 20,
+            }}
+            height={350}
+            stackBy="y"
+            xType="ordinal"
+            dontCheckIfEmpty={isEmpty}
+            {...plotPropsWhenEmpty}
+          >
+            <HorizontalGridLines />
+            <XAxis
+              orientation="top"
+              tickFormat={(t) => moment(t).format(DD_MM_DATE_FORMAT)}
+              style={{ text: cssText, stroke: 'none' }}
             />
-          </FlexColumn>
-        </FlexRow>
-      </FlexContainer>
-    </Panel>
+            <YAxis style={{ text: cssText, stroke: '#78706A' }} />
+            {sorterteBehandlingstyper.map((k, index) => (
+              <VerticalBarSeries
+                key={k}
+                data={data[k]}
+                fill={behandlingstypeFarger[k]}
+                stroke={behandlingstypeFarger[k]}
+                onNearestX={index === 0 ? onNearestX : () => undefined}
+                onSeriesClick={() => {
+                  setValgtDag(data[k]);
+                }}
+              />
+            ))}
+            {crosshairValues.length > 0 && (
+            <Crosshair
+              values={crosshairValues}
+              style={{
+                line: {
+                  background: 'none',
+                },
+              }}
+            >
+              <div className={styles.crosshair}>
+                <Normaltekst>{`${moment(crosshairValues[0].x).format(DD_MM_DATE_FORMAT)}`}</Normaltekst>
+                { reversertSorterteBehandlingstyper.map((key) => (
+                  <Undertekst key={key}>
+                    {`${finnBehandlingTypeNavn(behandlingTyper, key)}: ${finnAntallForBehandlingstypeOgDato(data, key, crosshairValues[0].x)}`}
+                  </Undertekst>
+                ))}
+              </div>
+            </Crosshair>
+            )}
+          </XYPlot>
+        </FlexColumn>
+        <FlexColumn>
+          <DiscreteColorLegend
+            className={styles.legend}
+            colors={reversertSorterteBehandlingstyper.map((key) => behandlingstypeFarger[key])}
+            items={reversertSorterteBehandlingstyper.map((key) => (
+              <Normaltekst className={styles.displayInline}>
+                {finnBehandlingTypeNavn(behandlingTyper, key)}
+              </Normaltekst>
+            ))}
+          />
+        </FlexColumn>
+      </FlexRow>
+    </FlexContainer>
   );
 };
 
