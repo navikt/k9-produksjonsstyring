@@ -63,6 +63,7 @@
   "FagsakList.Navn": "Navn",
 
   "FagsakSearch.ZeroSearchResults": "Søket ga ingen treff",
+  "FagsakSearch.IkkeTilgang": "Du har ikke tilgang til å slå opp denne personen",
   "FagsakSearch.FlereApneBehandlinger": "Velg behandlingen du ønsker å åpne/reservere.",
 
   "FagsakYtelseTypeVelger.Stonadstype": "Stønadstype",

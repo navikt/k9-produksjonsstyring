@@ -60,7 +60,7 @@ describe('<FagsakSearchIndex>', () => {
     },
     opprettet: '13‎.‎02‎.‎2017‎ ‎09‎:‎54‎:‎22',
   };
-  const fagsaker = [fagsak, { ...fagsak, saksnummer: ' 23456' }];
+  const fagsaker = { ikkeTilgang: false, fagsaker: [fagsak, { ...fagsak, saksnummer: ' 23456' }] };
 
   it('skal sette opp søkeskjermbilde for fagsaker', () => {
     const wrapper = shallowWithIntl(<FagsakSearchIndex
