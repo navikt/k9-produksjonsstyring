@@ -105,7 +105,7 @@ const getSorteringsnavn = (oppgaveko?: Oppgaveko, intl: IntlShape) => {
  */
 export class OppgavekoVelgerForm extends Component<OwnProps & WrappedComponentProps> {
   static defaultProps = {
-    driftsmeldinger: [],
+    saksbehandlere: [],
   };
 
   componentDidMount = () => {
@@ -220,7 +220,7 @@ export class OppgavekoVelgerForm extends Component<OwnProps & WrappedComponentPr
 }
 
 const mapStateToProps = (state) => ({
-  driftsmeldinger: getOppgavekoensSaksbehandlere(state),
+  saksbehandlere: getOppgavekoensSaksbehandlere(state),
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
