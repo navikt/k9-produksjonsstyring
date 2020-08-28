@@ -3,8 +3,9 @@ import { FormattedMessage } from 'react-intl';
 import { Normaltekst } from 'nav-frontend-typografi';
 
 import Oppgave from 'saksbehandler/oppgaveTsType';
-import { Fagsak } from 'saksbehandler/fagsakSearch/fagsakTsType';
+
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
+import { SokeResultat } from 'saksbehandler/fagsakSearch/sokeResultatTsType';
 import PersonInfo from './person/PersonInfo';
 import SearchForm from './SearchForm';
 import FagsakList from './FagsakList';
@@ -12,7 +13,7 @@ import FagsakList from './FagsakList';
 import styles from './fagsakSearch.less';
 
 interface OwnProps {
-  fagsaker: Fagsak[];
+  fagsaker: SokeResultat;
   fagsakOppgaver: Oppgave[];
   searchFagsakCallback: ({ searchString: string, skalReservere: boolean }) => void;
   searchResultReceived: boolean;
@@ -54,11 +55,13 @@ const FagsakSearch: FunctionComponent<OwnProps> = ({
       searchResultAccessDenied={searchResultAccessDenied}
       resetSearch={resetSearch}
     />
-    {searchResultReceived && fagsaker && fagsaker.length === 0
+    {searchResultReceived && fagsaker && fagsaker.fagsaker.length === 0 && fagsaker.ikkeTilgang === false
       && <Normaltekst className={styles.label}><FormattedMessage id="FagsakSearch.ZeroSearchResults" /></Normaltekst>}
-    {searchResultReceived && skalViseListe(fagsaker, fagsakOppgaver) && (
+    {searchResultReceived && fagsaker && fagsaker.fagsaker.length === 0 && fagsaker.ikkeTilgang === true
+    && <Normaltekst className={styles.label}><FormattedMessage id="FagsakSearch.IkkeTilgang" /></Normaltekst>}
+    {searchResultReceived && skalViseListe(fagsaker.fagsaker, fagsakOppgaver) && (
       <>
-        <PersonInfo person={fagsaker[0].person} />
+        <PersonInfo person={fagsaker.fagsaker[0].person} />
         <VerticalSpacer sixteenPx />
         <Normaltekst>
           <FormattedMessage id="FagsakSearch.FlereApneBehandlinger" />
