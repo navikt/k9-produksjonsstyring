@@ -9,13 +9,13 @@ import { getK9sakUrl, getNavAnsattKanReservere } from 'app/duck';
 import { getK9sakHref } from 'app/paths';
 import {
   reserverOppgave as reserverOppgaveActionCreator,
-  hentReservasjonsstatus as hentReservasjonActionCreator,
   leggTilBehandletOppgave,
 } from 'saksbehandler/behandlingskoer/duck';
 import { OppgaveStatus } from 'saksbehandler/oppgaveStatusTsType';
 import Oppgave from 'saksbehandler/oppgaveTsType';
 import oppgavePropType from 'saksbehandler/oppgavePropType';
-import fagsakPropType from './fagsakPropType';
+import { SokeResultat } from 'saksbehandler/fagsakSearch/sokeResultatTsType';
+import sokeResultatPropType from 'saksbehandler/fagsakSearch/sokeResultatPropType';
 import { searchFagsaker, resetFagsakSearch, hentOppgaverForFagsaker as hentOppgaverForFagsakerActionCreator } from './duck';
 import {
   getFagsaker,
@@ -29,7 +29,7 @@ interface SearchResultAccessDenied {
 }
 
 type Props = Readonly<{
-  fagsaker: Fagsak[];
+  fagsaker: SokeResultat;
   fagsakOppgaver: Oppgave[];
   searchFagsaker: ({ searchString: string, skalReservere: boolean }) => void;
   searchResultAccessDenied?: SearchResultAccessDenied;
@@ -68,7 +68,7 @@ export class FagsakSearchIndex extends Component<Props, StateProps> {
     /**
      * Saksnummer eller fødselsnummer/D-nummer
      */
-    fagsaker: PropTypes.arrayOf(fagsakPropType),
+    fagsaker: sokeResultatPropType,
     fagsakOppgaver: PropTypes.arrayOf(oppgavePropType),
     searchFagsaker: PropTypes.func.isRequired,
     searchResultAccessDenied: PropTypes.shape({
@@ -83,7 +83,10 @@ export class FagsakSearchIndex extends Component<Props, StateProps> {
   };
 
   static defaultProps = {
-    fagsaker: [],
+    fagsaker: {
+      ikkeTilgang: false,
+      fagsaker: [],
+    },
     searchResultAccessDenied: undefined,
   };
 
@@ -141,8 +144,8 @@ export class FagsakSearchIndex extends Component<Props, StateProps> {
       ...prevState, skalReservere: values.skalReservere, sokStartet: true, sokFerdig: false,
     }));
 
-    return search(values).then((data: {payload: Fagsak[] }) => {
-      const fagsaker = new Set(data.payload.map((fagsak) => `${fagsak.saksnummer}`));
+    return search(values).then((data: {payload: SokeResultat }) => {
+      const fagsaker = new Set(data.payload.fagsaker.map((fagsak) => `${fagsak.saksnummer}`));
       if (fagsaker.size > 0) {
         hentOppgaverForFagsaker(Array.from(fagsaker).join(',')).then(() => {
           this.setState((prevState) => ({ ...prevState, sokStartet: false, sokFerdig: true }));
@@ -178,7 +181,7 @@ export class FagsakSearchIndex extends Component<Props, StateProps> {
     return (
       <>
         <FagsakSearch
-          fagsaker={fagsaker || []}
+          fagsaker={fagsaker}
           fagsakOppgaver={fagsakOppgaver || []}
           searchFagsakCallback={this.sokFagsak}
           searchResultReceived={sokFerdig}

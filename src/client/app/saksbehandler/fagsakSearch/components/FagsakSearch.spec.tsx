@@ -83,7 +83,7 @@ describe('<FagsakSearch>', () => {
 
   it('skal vise søkefelt og label for ingen søketreff når ingen fagsaker blir hentet', () => {
     const wrapper = shallow(<FagsakSearch
-      fagsaker={[]}
+      fagsaker={{ ikkeTilgang: false, fagsaker: [] }}
       fagsakOppgaver={[]}
       searchFagsakCallback={sinon.spy()}
       searchResultReceived
