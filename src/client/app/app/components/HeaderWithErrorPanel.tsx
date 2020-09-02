@@ -99,9 +99,13 @@ const HeaderWithErrorPanel: FunctionComponent<OwnProps & WrappedComponentProps> 
     window.location.href = '/admin';
   };
 
+  const goToHomepage = () => {
+    window.location.href = '/';
+  };
+
   const loggUt = () => {
     window.location.assign('https://k9-los-oidc-auth-proxy.dev.adeo.no/logout');
-    window.location.href = '/';
+    setTimeout(() => { goToHomepage(); }, 5000);
   };
 
   const visAvdelingslederKnapp = (): boolean => {
@@ -172,7 +176,7 @@ const HeaderWithErrorPanel: FunctionComponent<OwnProps & WrappedComponentProps> 
             }}
           />
           {brukerPanel}
-          {isDev && <Knapp className={styles.kanpp} onClick={loggUt}>Logg ut</Knapp>}
+          {isDev && <Knapp className={styles.knapp} onClick={loggUt}>Logg ut</Knapp>}
         </Header>
       </div>
       <ErrorMessagePanel
