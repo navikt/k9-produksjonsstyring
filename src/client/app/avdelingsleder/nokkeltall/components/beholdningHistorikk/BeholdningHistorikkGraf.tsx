@@ -9,13 +9,14 @@ import Panel from 'nav-frontend-paneler';
 import { Normaltekst, Undertekst } from 'nav-frontend-typografi';
 
 import { FlexContainer, FlexRow, FlexColumn } from 'sharedComponents/flexGrid';
-import { DD_MM_DATE_FORMAT, DD_DATE_FORMAT } from 'utils/formats';
+import { DD_MM_DATE_FORMAT, DDMMYYYY_DATE_FORMAT } from 'utils/formats';
 import behandlingType from 'kodeverk/behandlingType';
 import { Kodeverk } from 'kodeverk/kodeverkTsType';
 
 import 'react-vis/dist/style.css';
 
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
+import { background } from '@storybook/theming';
 import styles from './beholdningHistorikkGraf.less';
 
 const LEGEND_WIDTH = 260;
@@ -39,6 +40,8 @@ const behandlingstypeFarger = {
 const monthNames = ['JANUAR', 'FEBRUAR', 'MARS', 'APRIL', 'MAI', 'JUNI',
   'JULI', 'AUGUST', 'SEPTEMBER', 'OKTOBER', 'NOVEMBER', 'DESEMBER',
 ];
+
+const weekdays = ['Mandag', 'Tirsdag', 'Onsdag', 'Torsdag', 'Fredag', 'Lørdag', 'Søndag'];
 
 const cssText = {
   fontFamily: 'Source Sans Pro',
@@ -65,7 +68,7 @@ const sorterBehandlingtyper = (b1, b2) => {
 
 const getMonthNameAndYear = () => {
   const today = moment();
-  if (today.day() < 28) {
+  if (today.day() > 28) {
     return `${monthNames[today.month()]} ${today.year()}`;
   }
 
@@ -145,6 +148,7 @@ const BeholdningHistorikkGraf: FunctionComponent<OwnProps> = ({
   behandlingTyper,
 }) => {
   const [crosshairValues, setCrosshairValues] = useState<CrosshairValue[]>([]);
+  const [valgtValues, setValgtValues] = useState<CrosshairValue[]>([]);
 
   const onMouseLeave = useCallback(() => setCrosshairValues([]), []);
   const onNearestX = useCallback((value: {x: Date; y: number}) => {
@@ -161,7 +165,6 @@ const BeholdningHistorikkGraf: FunctionComponent<OwnProps> = ({
   const sorterteBehandlingstyper = Object.keys(data).sort(sorterBehandlingtyper);
   const reversertSorterteBehandlingstyper = sorterteBehandlingstyper.slice().reverse();
 
-  const [valgtDag, setValgtDag] = useState<BeholdningPerDato>(data[sorterteBehandlingstyper[1]]);
   const isEmpty = sorterteBehandlingstyper.length === 0;
   const plotPropsWhenEmpty = isEmpty ? {
     yDomain: [0, 5],
@@ -202,7 +205,7 @@ const BeholdningHistorikkGraf: FunctionComponent<OwnProps> = ({
                 stroke={behandlingstypeFarger[k]}
                 onNearestX={index === 0 ? onNearestX : () => undefined}
                 onSeriesClick={() => {
-                  setValgtDag(data[k]);
+                  setValgtValues(crosshairValues);
                 }}
               />
             ))}
@@ -227,16 +230,20 @@ const BeholdningHistorikkGraf: FunctionComponent<OwnProps> = ({
             )}
           </XYPlot>
         </FlexColumn>
-        <FlexColumn>
-          <DiscreteColorLegend
-            className={styles.legend}
-            colors={reversertSorterteBehandlingstyper.map((key) => behandlingstypeFarger[key])}
-            items={reversertSorterteBehandlingstyper.map((key) => (
-              <Normaltekst className={styles.displayInline}>
-                {finnBehandlingTypeNavn(behandlingTyper, key)}
-              </Normaltekst>
+        <FlexColumn className={styles.legendContainer}>
+          <div>
+            { valgtValues.length > 0
+            && <Normaltekst className={styles.date}>{`${moment(valgtValues[0].x).format(DDMMYYYY_DATE_FORMAT)}`}</Normaltekst>}
+            {valgtValues.length > 0 && <Normaltekst className={styles.weekday}>{`${weekdays[moment(valgtValues[0].x).day()]}`}</Normaltekst>}
+            {valgtValues.length > 0 && reversertSorterteBehandlingstyper.map((key) => (
+              <div className={styles.legend}>
+                <span key={key} className={styles.dot} style={{ backgroundColor: behandlingstypeFarger[key] }} />
+                <Undertekst key={key} className={styles.valgtValues}>
+                  {`${finnBehandlingTypeNavn(behandlingTyper, key)} (${finnAntallForBehandlingstypeOgDato(data, key, valgtValues[0].x)})`}
+                </Undertekst>
+              </div>
             ))}
-          />
+          </div>
         </FlexColumn>
       </FlexRow>
     </FlexContainer>
