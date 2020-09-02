@@ -11,6 +11,7 @@ import { RETTSKILDE_URL, SYSTEMRUTINE_URL } from 'api/eksterneLenker';
 import KnappBase, { Knapp, Flatknapp } from 'nav-frontend-knapper';
 import EventType from 'api/rest-api/src/requestApi/eventType';
 
+import { getK9sakHref } from 'app/paths';
 import ErrorMessagePanel from './ErrorMessagePanel';
 import styles from './headerWithErrorPanel.less';
 import { Driftsmelding } from '../../admin/driftsmeldinger/driftsmeldingTsType';
@@ -36,6 +37,8 @@ interface OwnProps {
   setSiteHeight: (clientHeight: number) => void;
   driftsmeldinger: Driftsmelding[];
 }
+
+const isDev = window.location.hostname.includes('dev.adeo.no');
 
 const useOutsideClickEvent = (erLenkepanelApent, erAvdelingerPanelApent, setLenkePanelApent, setAvdelingerPanelApent) => {
   const wrapperRef = useRef(null);
@@ -94,6 +97,15 @@ const HeaderWithErrorPanel: FunctionComponent<OwnProps & WrappedComponentProps> 
 
   const goTilDriftsmeldingerPanel = () => {
     window.location.href = '/admin';
+  };
+
+  const goToHomepage = () => {
+    window.location.href = '/';
+  };
+
+  const loggUt = () => {
+    window.location.assign('https://k9-los-oidc-auth-proxy.dev.adeo.no/logout');
+    setTimeout(() => { goToHomepage(); }, 1000);
   };
 
   const visAvdelingslederKnapp = (): boolean => {
@@ -164,6 +176,7 @@ const HeaderWithErrorPanel: FunctionComponent<OwnProps & WrappedComponentProps> 
             }}
           />
           {brukerPanel}
+          {isDev && <Knapp className={styles.knapp} onClick={loggUt}>Logg ut</Knapp>}
         </Header>
       </div>
       <ErrorMessagePanel
