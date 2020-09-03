@@ -191,7 +191,6 @@ const BeholdningHistorikkGraf: FunctionComponent<OwnProps> = ({
               {...plotPropsWhenEmpty}
             >
               <HorizontalGridLines />
-              <VerticalGridLines />
               <XAxis
                 orientation="top"
                 tickFormat={(t) => moment(t).format(DD_MM_DATE_FORMAT)}
@@ -211,25 +210,6 @@ const BeholdningHistorikkGraf: FunctionComponent<OwnProps> = ({
                   }}
                 />
               ))}
-              {crosshairValues.length > 0 && (
-              <Crosshair
-                values={crosshairValues}
-                style={{
-                  line: {
-                    background: 'none',
-                  },
-                }}
-              >
-                <div className={styles.crosshair}>
-                  <Normaltekst>{`${moment(crosshairValues[0].x).format(DD_MM_DATE_FORMAT)}`}</Normaltekst>
-                  { reversertSorterteBehandlingstyper.map((key) => (
-                    <Undertekst key={key}>
-                      {`${finnBehandlingTypeNavn(behandlingTyper, key)}: ${finnAntallForBehandlingstypeOgDato(data, key, crosshairValues[0].x)}`}
-                    </Undertekst>
-                  ))}
-                </div>
-              </Crosshair>
-              )}
             </XYPlot>
             <div className={styles.legendContainer}>
               { valgtValues.length > 0
