@@ -8,7 +8,7 @@ import {
 import { Normaltekst, Undertekst } from 'nav-frontend-typografi';
 
 import { FlexContainer, FlexRow, FlexColumn } from 'sharedComponents/flexGrid';
-import { DD_MM_DATE_FORMAT, DDMMYYYY_DATE_FORMAT } from 'utils/formats';
+import { DD_DATE_FORMAT, DD_MM_DATE_FORMAT, DDMMYYYY_DATE_FORMAT } from 'utils/formats';
 import behandlingType from 'kodeverk/behandlingType';
 import { Kodeverk } from 'kodeverk/kodeverkTsType';
 
@@ -18,11 +18,12 @@ import styles from './beholdningHistorikkGraf.less';
 const LEGEND_WIDTH = 260;
 
 const behandlingstypeOrder = [
+  behandlingType.FORSTEGANGSSOKNAD,
+  behandlingType.REVURDERING,
   behandlingType.ANKE,
   behandlingType.INNSYN,
   behandlingType.KLAGE,
-  behandlingType.REVURDERING,
-  behandlingType.FORSTEGANGSSOKNAD];
+];
 
 const behandlingstypeFarger = {
   [behandlingType.ANKE]: '#ff842f',
@@ -165,9 +166,9 @@ const BeholdningHistorikkGraf: FunctionComponent<OwnProps> = ({
 
   const getPlotWidth = () => {
     if (isToUkerValgt) {
-      return 1000;
+      return smallScreen ? 850 : 1000;
     }
-    return smallScreen ? 1150 : 1450;
+    return smallScreen ? 850 : 1370;
   };
 
   return (
@@ -193,7 +194,8 @@ const BeholdningHistorikkGraf: FunctionComponent<OwnProps> = ({
               <HorizontalGridLines />
               <XAxis
                 orientation="top"
-                tickFormat={(t) => moment(t).format(DD_MM_DATE_FORMAT)}
+                tickFormat={((smallScreen && isToUkerValgt) || !smallScreen)
+                  ? (t) => moment(t).format(DD_MM_DATE_FORMAT) : (t) => moment(t).format(DD_DATE_FORMAT)}
                 style={{ text: cssText, stroke: 'none' }}
               />
               <YAxis style={{ text: cssText, stroke: '#78706A' }} />
@@ -210,6 +212,25 @@ const BeholdningHistorikkGraf: FunctionComponent<OwnProps> = ({
                   }}
                 />
               ))}
+              {crosshairValues.length > 0 && (
+              <Crosshair
+                values={crosshairValues}
+                style={{
+                  line: {
+                    background: 'none',
+                  },
+                }}
+              >
+                <div className={styles.crosshair}>
+                  <Normaltekst>{`${moment(crosshairValues[0].x).format(DD_MM_DATE_FORMAT)}`}</Normaltekst>
+                  { reversertSorterteBehandlingstyper.map((key) => (
+                    <Undertekst key={key}>
+                      {`${finnBehandlingTypeNavn(behandlingTyper, key)}: ${finnAntallForBehandlingstypeOgDato(data, key, crosshairValues[0].x)}`}
+                    </Undertekst>
+                  ))}
+                </div>
+              </Crosshair>
+              )}
             </XYPlot>
             <div className={styles.legendContainer}>
               { valgtValues.length > 0
