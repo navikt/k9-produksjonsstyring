@@ -184,7 +184,7 @@ const BeholdningHistorikkGraf: FunctionComponent<OwnProps> = ({
               margin={{
                 left: 60, right: 60, top: 60, bottom: 20,
               }}
-              height={350}
+              height={250}
               stackBy="y"
               xType="ordinal"
               dontCheckIfEmpty={isEmpty}
