@@ -46,11 +46,6 @@ const NokkeltallPanel: FunctionComponent = () => {
         height={height}
       />
       <VerticalSpacer twentyPx />
-      <TilBehandlingPanel
-        width={width}
-        height={height}
-      />
-      <VerticalSpacer twentyPx />
       <FordelingAvBehandlingstypePanel
         width={width}
         height={height}
