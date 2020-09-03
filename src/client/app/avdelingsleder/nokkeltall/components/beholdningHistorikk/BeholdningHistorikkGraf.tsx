@@ -3,9 +3,8 @@ import React, {
 } from 'react';
 import moment from 'moment';
 import {
-  XYPlot, XAxis, YAxis, HorizontalGridLines, VerticalGridLines, DiscreteColorLegend, Crosshair, MarkSeries, VerticalBarSeries,
+  XYPlot, XAxis, YAxis, HorizontalGridLines, VerticalGridLines, Crosshair, VerticalBarSeries,
 } from 'react-vis';
-import Panel from 'nav-frontend-paneler';
 import { Normaltekst, Undertekst } from 'nav-frontend-typografi';
 
 import { FlexContainer, FlexRow, FlexColumn } from 'sharedComponents/flexGrid';
@@ -14,9 +13,6 @@ import behandlingType from 'kodeverk/behandlingType';
 import { Kodeverk } from 'kodeverk/kodeverkTsType';
 
 import 'react-vis/dist/style.css';
-
-import VerticalSpacer from 'sharedComponents/VerticalSpacer';
-import { background } from '@storybook/theming';
 import styles from './beholdningHistorikkGraf.less';
 
 const LEGEND_WIDTH = 260;
@@ -195,6 +191,7 @@ const BeholdningHistorikkGraf: FunctionComponent<OwnProps> = ({
               {...plotPropsWhenEmpty}
             >
               <HorizontalGridLines />
+              <VerticalGridLines />
               <XAxis
                 orientation="top"
                 tickFormat={(t) => moment(t).format(DD_MM_DATE_FORMAT)}
