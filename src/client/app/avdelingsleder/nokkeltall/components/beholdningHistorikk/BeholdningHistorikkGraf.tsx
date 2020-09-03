@@ -36,6 +36,7 @@ const behandlingstypeFarger = {
   [behandlingType.FORSTEGANGSSOKNAD]: '#85d5f0',
 };
 
+const smallScreen = window.innerWidth < 1600;
 
 const monthNames = ['JANUAR', 'FEBRUAR', 'MARS', 'APRIL', 'MAI', 'JUNI',
   'JULI', 'AUGUST', 'SEPTEMBER', 'OKTOBER', 'NOVEMBER', 'DESEMBER',
@@ -50,11 +51,6 @@ const cssText = {
   fontWeight: 400,
   color: '#3E3832',
 
-};
-
-const gridStyle = {
-  stroke: 'black',
-  'stroke-width': '20px',
 };
 
 const sorterBehandlingtyper = (b1, b2) => {
@@ -171,6 +167,13 @@ const BeholdningHistorikkGraf: FunctionComponent<OwnProps> = ({
     xDomain: [periodeStart.toDate(), periodeSlutt.toDate()],
   } : {};
 
+  const getPlotWidth = () => {
+    if (isToUkerValgt) {
+      return 1000;
+    }
+    return smallScreen ? 1150 : 1450;
+  };
+
   return (
     <FlexContainer>
       <FlexRow>
@@ -179,72 +182,76 @@ const BeholdningHistorikkGraf: FunctionComponent<OwnProps> = ({
             {' '}
             {isToUkerValgt ? '2 siste uker' : getMonthNameAndYear()}
           </Normaltekst>
-          <XYPlot
-            width={isToUkerValgt ? 1000 : 1450}
-            margin={{
-              left: 60, right: 60, top: 60, bottom: 20,
-            }}
-            height={350}
-            stackBy="y"
-            xType="ordinal"
-            dontCheckIfEmpty={isEmpty}
-            {...plotPropsWhenEmpty}
-          >
-            <HorizontalGridLines />
-            <XAxis
-              orientation="top"
-              tickFormat={(t) => moment(t).format(DD_MM_DATE_FORMAT)}
-              style={{ text: cssText, stroke: 'none' }}
-            />
-            <YAxis style={{ text: cssText, stroke: '#78706A' }} />
-            {sorterteBehandlingstyper.map((k, index) => (
-              <VerticalBarSeries
-                key={k}
-                data={data[k]}
-                fill={behandlingstypeFarger[k]}
-                stroke={behandlingstypeFarger[k]}
-                onNearestX={index === 0 ? onNearestX : () => undefined}
-                onSeriesClick={() => {
-                  setValgtValues(crosshairValues);
-                }}
-              />
-            ))}
-            {crosshairValues.length > 0 && (
-            <Crosshair
-              values={crosshairValues}
-              style={{
-                line: {
-                  background: 'none',
-                },
+          <div className={styles.container}>
+            <XYPlot
+              width={getPlotWidth()}
+              margin={{
+                left: 60, right: 60, top: 60, bottom: 20,
               }}
+              height={350}
+              stackBy="y"
+              xType="ordinal"
+              dontCheckIfEmpty={isEmpty}
+              {...plotPropsWhenEmpty}
             >
-              <div className={styles.crosshair}>
-                <Normaltekst>{`${moment(crosshairValues[0].x).format(DD_MM_DATE_FORMAT)}`}</Normaltekst>
-                { reversertSorterteBehandlingstyper.map((key) => (
-                  <Undertekst key={key}>
-                    {`${finnBehandlingTypeNavn(behandlingTyper, key)}: ${finnAntallForBehandlingstypeOgDato(data, key, crosshairValues[0].x)}`}
+              <HorizontalGridLines />
+              <XAxis
+                orientation="top"
+                tickFormat={(t) => moment(t).format(DD_MM_DATE_FORMAT)}
+                style={{ text: cssText, stroke: 'none' }}
+              />
+              <YAxis style={{ text: cssText, stroke: '#78706A' }} />
+              {sorterteBehandlingstyper.map((k, index) => (
+                <VerticalBarSeries
+                  className={styles.bar}
+                  key={k}
+                  data={data[k]}
+                  fill={behandlingstypeFarger[k]}
+                  stroke={behandlingstypeFarger[k]}
+                  onNearestX={index === 0 ? onNearestX : () => undefined}
+                  onSeriesClick={() => {
+                    setValgtValues(crosshairValues);
+                  }}
+                />
+              ))}
+              {crosshairValues.length > 0 && (
+              <Crosshair
+                values={crosshairValues}
+                style={{
+                  line: {
+                    background: 'none',
+                  },
+                }}
+              >
+                <div className={styles.crosshair}>
+                  <Normaltekst>{`${moment(crosshairValues[0].x).format(DD_MM_DATE_FORMAT)}`}</Normaltekst>
+                  { reversertSorterteBehandlingstyper.map((key) => (
+                    <Undertekst key={key}>
+                      {`${finnBehandlingTypeNavn(behandlingTyper, key)}: ${finnAntallForBehandlingstypeOgDato(data, key, crosshairValues[0].x)}`}
+                    </Undertekst>
+                  ))}
+                </div>
+              </Crosshair>
+              )}
+            </XYPlot>
+            <div className={styles.legendContainer}>
+              { valgtValues.length > 0
+                ? <Normaltekst className={styles.date}>{`${moment(valgtValues[0].x).format(DDMMYYYY_DATE_FORMAT)}`}</Normaltekst>
+                : <Normaltekst className={styles.date}>{`${moment().format(DDMMYYYY_DATE_FORMAT)}`}</Normaltekst>}
+              {valgtValues.length > 0 ? <Normaltekst className={styles.weekday}>{`${weekdays[moment(valgtValues[0].x).day()]}`}</Normaltekst>
+                : <Normaltekst className={styles.weekday}>{`${weekdays[moment().day()]}`}</Normaltekst>}
+              {valgtValues.length > 0 && reversertSorterteBehandlingstyper.map((key) => (
+                <div className={styles.legend}>
+                  <span key={key} className={styles.dot} style={{ backgroundColor: behandlingstypeFarger[key] }} />
+                  <Undertekst key={key} className={styles.valgtValues}>
+                    {`${finnBehandlingTypeNavn(behandlingTyper, key)} (${finnAntallForBehandlingstypeOgDato(data, key, valgtValues[0].x)})`}
                   </Undertekst>
-                ))}
-              </div>
-            </Crosshair>
-            )}
-          </XYPlot>
-        </FlexColumn>
-        <FlexColumn className={styles.legendContainer}>
-          <div>
-            { valgtValues.length > 0
-            && <Normaltekst className={styles.date}>{`${moment(valgtValues[0].x).format(DDMMYYYY_DATE_FORMAT)}`}</Normaltekst>}
-            {valgtValues.length > 0 && <Normaltekst className={styles.weekday}>{`${weekdays[moment(valgtValues[0].x).day()]}`}</Normaltekst>}
-            {valgtValues.length > 0 && reversertSorterteBehandlingstyper.map((key) => (
-              <div className={styles.legend}>
-                <span key={key} className={styles.dot} style={{ backgroundColor: behandlingstypeFarger[key] }} />
-                <Undertekst key={key} className={styles.valgtValues}>
-                  {`${finnBehandlingTypeNavn(behandlingTyper, key)} (${finnAntallForBehandlingstypeOgDato(data, key, valgtValues[0].x)})`}
-                </Undertekst>
-              </div>
-            ))}
+                </div>
+              ))}
+            </div>
           </div>
         </FlexColumn>
+        <FlexColumn className={styles.legendContainer} />
       </FlexRow>
     </FlexContainer>
   );
