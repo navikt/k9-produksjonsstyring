@@ -1,7 +1,7 @@
 import React, {
   useMemo, useState, FunctionComponent, useCallback,
 } from 'react';
-import moment from 'moment';
+import moment, { now } from 'moment';
 import {
   XYPlot, XAxis, YAxis, HorizontalGridLines, VerticalGridLines, Crosshair, VerticalBarSeries,
 } from 'react-vis';
@@ -40,7 +40,7 @@ const monthNames = ['JANUAR', 'FEBRUAR', 'MARS', 'APRIL', 'MAI', 'JUNI',
   'JULI', 'AUGUST', 'SEPTEMBER', 'OKTOBER', 'NOVEMBER', 'DESEMBER',
 ];
 
-const weekdays = ['', 'Mandag', 'Tirsdag', 'Onsdag', 'Torsdag', 'Fredag', 'Lørdag', 'Søndag'];
+const weekdays = ['Mandag', 'Tirsdag', 'Onsdag', 'Torsdag', 'Fredag', 'Lørdag', 'Søndag'];
 
 const cssText = {
   fontFamily: 'Source Sans Pro',
@@ -241,8 +241,8 @@ const BeholdningHistorikkGraf: FunctionComponent<OwnProps> = ({
               { valgtValues.length > 0
                 ? <Normaltekst className={styles.date}>{`${moment(valgtValues[0].x).format(DDMMYYYY_DATE_FORMAT)}`}</Normaltekst>
                 : <Normaltekst className={styles.date}>{`${moment().format(DDMMYYYY_DATE_FORMAT)}`}</Normaltekst>}
-              {valgtValues.length > 0 ? <Normaltekst className={styles.weekday}>{`${weekdays[moment(valgtValues[0].x).day()]}`}</Normaltekst>
-                : <Normaltekst className={styles.weekday}>{`${weekdays[moment().day()]}`}</Normaltekst>}
+              {valgtValues.length > 0 ? <Normaltekst className={styles.weekday}>{`${weekdays[moment(valgtValues[0].x).day() - 1]}`}</Normaltekst>
+                : <Normaltekst className={styles.weekday}>{`${weekdays[(new Date().getDay() - 1)]}`}</Normaltekst>}
               {valgtValues.length > 0 && reversertSorterteBehandlingstyper.map((key) => (
                 <div className={styles.legend}>
                   <span key={key} className={styles.dot} style={{ backgroundColor: behandlingstypeFarger[key] }} />
