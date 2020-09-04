@@ -34,7 +34,7 @@ const behandlingstypeFarger = {
 };
 
 const smallScreen = window.innerWidth < 1600;
-const largeScreen = window.innerWidth > 2500;
+const largeScreen = window.innerWidth > 2700;
 
 const monthNames = ['JANUAR', 'FEBRUAR', 'MARS', 'APRIL', 'MAI', 'JUNI',
   'JULI', 'AUGUST', 'SEPTEMBER', 'OKTOBER', 'NOVEMBER', 'DESEMBER',
@@ -172,7 +172,7 @@ const BeholdningHistorikkGraf: FunctionComponent<OwnProps> = ({
       return 1000;
     }
     if (smallScreen) return 850;
-    if (largeScreen) return 1670;
+    if (largeScreen) return 1800;
     return 1370;
   };
 
