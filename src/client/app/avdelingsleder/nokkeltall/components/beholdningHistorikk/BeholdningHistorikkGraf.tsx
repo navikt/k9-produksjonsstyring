@@ -241,8 +241,18 @@ const BeholdningHistorikkGraf: FunctionComponent<OwnProps> = ({
               { valgtValues.length > 0
                 ? <Normaltekst className={styles.date}>{`${moment(valgtValues[0].x).format(DDMMYYYY_DATE_FORMAT)}`}</Normaltekst>
                 : <Normaltekst className={styles.date}>{`${moment().format(DDMMYYYY_DATE_FORMAT)}`}</Normaltekst>}
-              {valgtValues.length > 0 ? <Normaltekst className={styles.weekday}>{`${weekdays[new Date(valgtValues[0].x).getDay() - 1]}`}</Normaltekst>
-                : <Normaltekst className={styles.weekday}>{`${weekdays[(new Date().getDay() - 1)]}`}</Normaltekst>}
+              {valgtValues.length > 0 ? (
+                <Normaltekst className={styles.weekday}>
+                  {new Date(valgtValues[0].x).getDay() === 0 ? `${weekdays[6]}`
+                    : `${weekdays[new Date(valgtValues[0].x).getDay() - 1]}`}
+                </Normaltekst>
+              )
+                : (
+                  <Normaltekst className={styles.weekday}>
+                    {new Date().getDay() === 0 ? `${weekdays[6]}`
+                      : `${weekdays[(new Date().getDay() - 1)]}`}
+                  </Normaltekst>
+                )}
               {valgtValues.length > 0 && reversertSorterteBehandlingstyper.map((key) => (
                 <div className={styles.legend}>
                   <span key={key} className={styles.dot} style={{ backgroundColor: behandlingstypeFarger[key] }} />
