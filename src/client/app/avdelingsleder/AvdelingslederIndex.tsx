@@ -5,8 +5,7 @@ import { FormattedMessage } from 'react-intl';
 import classnames from 'classnames/bind';
 import { NavLink } from 'react-router-dom';
 import Panel from 'nav-frontend-paneler';
-import Tabs from 'nav-frontend-tabs';
-import { Undertittel } from 'nav-frontend-typografi';
+import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
 
 import LoadingPanel from 'sharedComponents/LoadingPanel';
 import { getNavAnsattKanOppgavestyre } from 'app/duck';
@@ -16,6 +15,7 @@ import trackRouteParam from 'app/data/trackRouteParam';
 import { Location } from 'app/locationTsType';
 import NokkeltallIndex from 'avdelingsleder/nokkeltall/NokkeltallIndex';
 import ReservasjonerIndex from 'avdelingsleder/reservasjoner/ReservasjonerIndex';
+import Tabs from 'nav-frontend-tabs';
 import { getSelectedAvdelingslederPanel, setSelectedAvdelingslederPanel } from './duck';
 import AvdelingslederDashboard from './components/AvdelingslederDashboard';
 import IkkeTilgangTilAvdelingslederPanel from './components/IkkeTilgangTilAvdelingslederPanel';
@@ -84,10 +84,10 @@ export const AvdelingslederIndex = ({
   } if (activeAvdelingslederPanel) {
     return (
       <AvdelingslederDashboard key={activeAvdelingslederPanel}>
+        <Normaltekst className={styles.paneltekst}>Avdelingslederpanel</Normaltekst>
         <div>
           <Tabs tabs={[
             getTab(AvdelingslederPanels.BEHANDLINGSKOER, activeAvdelingslederPanel, getAvdelingslederPanelLocation),
-            getTab(AvdelingslederPanels.SAKSBEHANDLERE, activeAvdelingslederPanel, getAvdelingslederPanelLocation),
             getTab(AvdelingslederPanels.NOKKELTALL, activeAvdelingslederPanel, getAvdelingslederPanelLocation),
             getTab(AvdelingslederPanels.RESERVASJONER, activeAvdelingslederPanel, getAvdelingslederPanelLocation),
           ]}

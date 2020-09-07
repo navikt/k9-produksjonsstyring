@@ -20,6 +20,7 @@ import DateLabel from 'sharedComponents/DateLabel';
 import addCircleIcon from 'images/add-circle.svg';
 import removeIcon from 'images/remove.svg';
 import { Column, Row } from 'nav-frontend-grid';
+import Chevron from 'nav-frontend-chevron';
 import SletteOppgavekoModal from './SletteOppgavekoModal';
 import { Oppgaveko } from '../oppgavekoTsType';
 import oppgavekoPropType from '../oppgavekoPropType';
@@ -210,15 +211,7 @@ export class GjeldendeOppgavekoerTabell extends Component<TsProps, StateTsProps>
                 <DateLabel dateString={oppgaveko.sistEndret} />
               </TableColumn>
               <TableColumn>
-                <div ref={(node) => { this.nodes.push(node); }}>
-                  <Image
-                    src={removeIcon}
-                    className={styles.removeImage}
-                    onMouseDown={() => this.visFjernOppgavekoModal(oppgaveko)}
-                    onKeyDown={() => this.visFjernOppgavekoModal(oppgaveko)}
-                    tabIndex="0"
-                  />
-                </div>
+                <Chevron key={oppgaveko.id} type={(valgtOppgavekoId && valgtOppgavekoId === oppgaveko.id) ? 'opp' : 'ned'} className={styles.chevron} />
               </TableColumn>
             </TableRow>
           ))}
