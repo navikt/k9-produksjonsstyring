@@ -26,9 +26,7 @@ export const fetchAlleOppgavekoer = () => (dispatch: Dispatch<any>) => dispatch(
 );
 
 export const fetchOppgaveko = (id: string) => (dispatch: Dispatch<any>) => dispatch(
-  k9LosApi.HENT_OPPGAVEKO.makeRestApiRequest()(
-    { id }, { keepData: true },
-  ),
+  k9LosApi.HENT_OPPGAVEKO.makeRestApiRequest()({ id }, { keepData: true }),
 );
 export const getOppgaveko = k9LosApi.HENT_OPPGAVEKO.getRestApiData();
 export const getAlleOppgavekoer = k9LosApi.OPPGAVEKOER.getRestApiData();
@@ -63,7 +61,7 @@ export const fjernOppgaveko = (id: string) => (dispatch: Dispatch<any>) => dispa
 
 export const lagreOppgavekoNavn = (id: string, navn: string) => (dispatch: Dispatch<any>) => dispatch(
   k9LosApi.LAGRE_OPPGAVEKO_NAVN.makeRestApiRequest()({ id, navn }),
-).then(() => dispatch(fetchOppgaveko(id)));
+).then(() => dispatch(fetchOppgaveko(id))).then(() => dispatch(fetchAlleOppgavekoer()));
 
 export const lagreOppgavekoBehandlingstype = (id: string, behandlingType: string, isChecked: boolean) => (dispatch: Dispatch<any>) => dispatch(
   k9LosApi.LAGRE_OPPGAVEKO_BEHANDLINGSTYPE.makeRestApiRequest()({
