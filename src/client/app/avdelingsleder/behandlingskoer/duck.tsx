@@ -1,7 +1,7 @@
 
 import { Dispatch } from 'redux';
-
 import k9LosApi from 'api/k9LosApi';
+
 
 /* Action types */
 const actionType = (name) => `saksliste/${name}`;
@@ -48,7 +48,7 @@ export const getAntallOppgaverForOppgavekoResultat = k9LosApi.OPPGAVE_ANTALL.get
 
 export const lagNyOppgaveko = () => (dispatch: Dispatch<any>) => dispatch(k9LosApi
   .OPPRETT_NY_OPPGAVEKO.makeRestApiRequest()({ }))
-  .then((id) => dispatch(fetchOppgaveko(id)))
+  .then(((data: {payload: { id: string } }) => dispatch(fetchOppgaveko(data.payload.id))))
   .then(() => dispatch(resetValgtOppgavekoId()))
   .then(() => dispatch(fetchAlleOppgavekoer()));
 
