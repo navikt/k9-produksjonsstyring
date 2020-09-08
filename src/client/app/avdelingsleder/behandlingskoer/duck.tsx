@@ -25,6 +25,10 @@ export const fetchAlleOppgavekoer = () => (dispatch: Dispatch<any>) => dispatch(
   ),
 );
 
+export const fetchOppgaveko = (id: string) => (dispatch: Dispatch<any>) => dispatch(
+  k9LosApi.HENT_OPPGAVEKO.makeRestApiRequest()({ id }, { keepData: true }),
+);
+export const getOppgaveko = k9LosApi.HENT_OPPGAVEKO.getRestApiData();
 export const getAlleOppgavekoer = k9LosApi.OPPGAVEKOER.getRestApiData();
 
 export const fetchAntallOppgaverTotalt = () => (dispatch: Dispatch<any>) => dispatch(
@@ -33,7 +37,7 @@ export const fetchAntallOppgaverTotalt = () => (dispatch: Dispatch<any>) => disp
 
 export const fetchAntallOppgaverForOppgaveko = (id: string) => (dispatch: Dispatch<any>) => dispatch(
   k9LosApi.OPPGAVE_ANTALL.makeRestApiRequest()({ id }),
-).then(() => dispatch(fetchAntallOppgaverTotalt()));
+);
 
 
 export const getAntallOppgaverTotaltResultat = k9LosApi.OPPGAVE_ANTALL_TOTALT.getRestApiData();
@@ -57,7 +61,7 @@ export const fjernOppgaveko = (id: string) => (dispatch: Dispatch<any>) => dispa
 
 export const lagreOppgavekoNavn = (id: string, navn: string) => (dispatch: Dispatch<any>) => dispatch(
   k9LosApi.LAGRE_OPPGAVEKO_NAVN.makeRestApiRequest()({ id, navn }),
-).then(() => dispatch(fetchAlleOppgavekoer()));
+).then(() => dispatch(fetchOppgaveko(id))).then(() => dispatch(fetchAlleOppgavekoer()));
 
 export const lagreOppgavekoBehandlingstype = (id: string, behandlingType: string, isChecked: boolean) => (dispatch: Dispatch<any>) => dispatch(
   k9LosApi.LAGRE_OPPGAVEKO_BEHANDLINGSTYPE.makeRestApiRequest()({
@@ -66,13 +70,13 @@ export const lagreOppgavekoBehandlingstype = (id: string, behandlingType: string
     checked: isChecked,
   }),
 ).then(() => dispatch(fetchAntallOppgaverForOppgaveko(id)))
-  .then(() => dispatch(fetchAlleOppgavekoer()));
+  .then(() => dispatch(fetchOppgaveko(id)));
 
 export const lagreOppgavekoFagsakYtelseType = (id: string, fagsakYtelseType: string) => (dispatch: Dispatch<any>) => {
   const data = fagsakYtelseType !== '' ? { id, fagsakYtelseType } : { id };
   return dispatch(k9LosApi.LAGRE_OPPGAVEKO_FAGSAK_YTELSE_TYPE.makeRestApiRequest()(data))
     .then(() => dispatch(fetchAntallOppgaverForOppgaveko(id)))
-    .then(() => dispatch(fetchAlleOppgavekoer()));
+    .then(() => dispatch(fetchOppgaveko(id)));
 };
 
 export const lagreOppgavekoAndreKriterier = (id: string, andreKriterierType: string, isChecked: boolean, inkluder: boolean) => (
@@ -85,7 +89,7 @@ export const lagreOppgavekoAndreKriterier = (id: string, andreKriterierType: str
     inkluder,
   }),
 ).then(() => dispatch(fetchAntallOppgaverForOppgaveko(id)))
-  .then(() => dispatch(fetchAlleOppgavekoer()));
+  .then(() => dispatch(fetchOppgaveko(id)));
 
 export const lagreOppgavekoSkjermet = (id: string, isChecked: boolean) => (dispatch: Dispatch<any>) => dispatch(
   k9LosApi.LAGRE_OPPGAVEKO_SKJERMET.makeRestApiRequest()({
@@ -93,20 +97,20 @@ export const lagreOppgavekoSkjermet = (id: string, isChecked: boolean) => (dispa
     skjermet: isChecked,
   }),
 ).then(() => dispatch(fetchAntallOppgaverForOppgaveko(id)))
-  .then(() => dispatch(fetchAlleOppgavekoer()));
+  .then(() => dispatch(fetchOppgaveko(id)));
 
 
 export const lagreOppgavekoSortering = (id: string, oppgavekoSorteringValg: string) => (dispatch: Dispatch<any>) => dispatch(
   k9LosApi.LAGRE_OPPGAVEKO_SORTERING.makeRestApiRequest()({ id, oppgavekoSorteringValg }),
 ).then(() => dispatch(fetchAntallOppgaverForOppgaveko(id)))
-  .then(() => dispatch(fetchAlleOppgavekoer()));
+  .then(() => dispatch(fetchOppgaveko(id)));
 
 export const lagreOppgavekoSorteringTidsintervallDato = (id: string, fomDato: string, tomDato: string) => (dispatch: Dispatch<any>) => dispatch(
   k9LosApi.LAGRE_OPPGAVEKO_SORTERING_TIDSINTERVALL_DATO.makeRestApiRequest()({
     id, fomDato, tomDato,
   }),
 ).then(() => dispatch(fetchAntallOppgaverForOppgaveko(id)))
-  .then(() => dispatch(fetchAlleOppgavekoer()));
+  .then(() => dispatch(fetchOppgaveko(id)));
 
 export const knyttSaksbehandlerTilOppgaveko = (id: string, epost: string, isChecked: boolean) => (dispatch: Dispatch<any>) => dispatch(
   k9LosApi.LAGRE_OPPGAVEKO_SAKSBEHANDLER.makeRestApiRequest()({
@@ -114,7 +118,7 @@ export const knyttSaksbehandlerTilOppgaveko = (id: string, epost: string, isChec
     epost,
     checked: isChecked,
   }),
-).then(() => dispatch(fetchAlleOppgavekoer()));
+).then(() => dispatch(fetchOppgaveko(id)));
 
 /* Reducer */
 const initialState = {
