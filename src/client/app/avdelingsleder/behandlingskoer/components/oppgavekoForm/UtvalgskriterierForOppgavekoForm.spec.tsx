@@ -33,7 +33,7 @@ describe('<UtvalgskriterierForOppgavekoForm>', () => {
 
     const wrapper = shallowWithIntl(<UtvalgskriterierForOppgavekoForm
       intl={intl as IntlShape}
-      valgtOppgaveko={oppgaveko}
+      gjeldendeKo={oppgaveko}
       alleKodeverk={{}}
       lagreOppgavekoNavn={sinon.spy()}
       lagreOppgavekoBehandlingstype={sinon.spy()}
@@ -61,7 +61,7 @@ describe('<UtvalgskriterierForOppgavekoForm>', () => {
 
     const wrapper = shallowWithIntl(<UtvalgskriterierForOppgavekoForm
       intl={intl as IntlShape}
-      valgtOppgaveko={oppgaveko}
+      gjeldendeKo={oppgaveko}
       alleKodeverk={{}}
       lagreOppgavekoNavn={sinon.spy()}
       lagreOppgavekoBehandlingstype={sinon.spy()}
@@ -95,7 +95,7 @@ describe('<UtvalgskriterierForOppgavekoForm>', () => {
 
     const wrapper = shallowWithIntl(<UtvalgskriterierForOppgavekoForm
       intl={intl as IntlShape}
-      valgtOppgaveko={oppgaveko}
+      gjeldendeKo={oppgaveko}
       alleKodeverk={{}}
       lagreOppgavekoNavn={sinon.spy()}
       lagreOppgavekoBehandlingstype={sinon.spy()}
@@ -131,7 +131,7 @@ describe('<UtvalgskriterierForOppgavekoForm>', () => {
 
     const wrapper = shallowWithIntl(<UtvalgskriterierForOppgavekoForm
       intl={intl as IntlShape}
-      valgtOppgaveko={oppgaveko}
+      gjeldendeKo={oppgaveko}
       alleKodeverk={{}}
       lagreOppgavekoNavn={lagreOppgavekoNavnFn}
       lagreOppgavekoBehandlingstype={sinon.spy()}
@@ -181,7 +181,7 @@ describe('<UtvalgskriterierForOppgavekoForm>', () => {
 
     const wrapper = shallowWithIntl(<UtvalgskriterierForOppgavekoForm
       intl={intl as IntlShape}
-      valgtOppgaveko={oppgaveko}
+      gjeldendeKo={oppgaveko}
       alleKodeverk={{}}
       lagreOppgavekoNavn={sinon.spy()}
       lagreOppgavekoBehandlingstype={sinon.spy()}

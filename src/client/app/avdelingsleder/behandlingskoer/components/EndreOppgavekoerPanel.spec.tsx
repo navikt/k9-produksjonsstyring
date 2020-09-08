@@ -21,6 +21,7 @@ describe('<EndreOppgavekoerPanel>', () => {
 
     const wrapper = shallow(<EndreOppgavekoerPanel
       oppgavekoer={oppgavekoer}
+      hentKo={sinon.spy()}
       setValgtOppgavekoId={sinon.spy()}
       lagNyOppgaveko={sinon.spy()}
       fjernOppgaveko={sinon.spy()}
@@ -56,6 +57,7 @@ describe('<EndreOppgavekoerPanel>', () => {
       oppgavekoer={oppgavekoer}
       setValgtOppgavekoId={sinon.spy()}
       lagNyOppgaveko={sinon.spy()}
+      hentKo={sinon.spy()}
       fjernOppgaveko={sinon.spy()}
       lagreOppgavekoNavn={sinon.spy()}
       lagreOppgavekoBehandlingstype={sinon.spy()}

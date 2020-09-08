@@ -46,9 +46,9 @@ interface TsProps {
   valgtOppgavekoId?: string;
   behandlingTyper: Kodeverk[];
   fagsakYtelseTyper: Kodeverk[];
-  hentOppgavekoer: () => Oppgaveko[];
   oppgaverTotalt?: number;
   hentAntallOppgaverTotalt: () => Promise<string>;
+  hentKo: (id: string) => Promise<string>;
 }
 
 interface StateTsProps {
@@ -71,9 +71,9 @@ export class GjeldendeOppgavekoerTabell extends Component<TsProps, StateTsProps>
     valgtOppgavekoId: PropTypes.string,
     behandlingTyper: PropTypes.arrayOf(kodeverkPropType).isRequired,
     fagsakYtelseTyper: PropTypes.arrayOf(kodeverkPropType).isRequired,
-    hentOppgavekoer: PropTypes.func.isRequired,
     oppgaverTotalt: PropTypes.number,
     hentAntallOppgaverTotalt: PropTypes.func.isRequired,
+    hentKo: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -97,7 +97,7 @@ export class GjeldendeOppgavekoerTabell extends Component<TsProps, StateTsProps>
   }
 
   setValgtOppgaveko = async (event: Event, id: string) => {
-    const { setValgtOppgavekoId, hentOppgavekoer } = this.props;
+    const { setValgtOppgavekoId, hentKo } = this.props;
     if (this.nodes.some((node) => node && node.contains(event.target))) {
       return;
     }
@@ -107,7 +107,7 @@ export class GjeldendeOppgavekoerTabell extends Component<TsProps, StateTsProps>
     await wait(100);
 
     setValgtOppgavekoId(id);
-    hentOppgavekoer();
+    hentKo(id);
   }
 
   lagNyOppgaveko = (event: KeyboardEvent) => {
