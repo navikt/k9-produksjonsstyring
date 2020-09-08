@@ -229,7 +229,7 @@ export class GjeldendeOppgavekoerTabell extends Component<TsProps, StateTsProps>
           role="button"
           tabIndex={0}
           className={styles.addPeriode}
-          onClick={() => lagNyOppgaveko()}
+          onClick={() => this.lagNyOppgaveko}
           onKeyDown={this.lagNyOppgaveko}
         >
           <Image className={styles.addCircleIcon} src={addCircleIcon} />
