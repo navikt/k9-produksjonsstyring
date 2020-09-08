@@ -31,6 +31,7 @@ interface TsProps {
   hentOppgavekoer: () => Oppgaveko[];
   hentAntallOppgaverForOppgaveko: (id: string) => Promise<string>;
   hentAntallOppgaverTotalt: () => Promise<string>;
+  hentKo: (id: string) => Promise<string>;
 }
 
 /**
@@ -51,24 +52,24 @@ const EndreOppgavekoerPanel = ({
   hentAntallOppgaverForOppgaveko,
   hentAntallOppgaverTotalt,
   lagreOppgavekoSkjermet,
+  hentKo,
 }: TsProps) => {
   const valgtOppgaveko = oppgavekoer.find((s) => s.id === valgtOppgavekoId);
   return (
     <>
       <GjeldendeOppgavekoerTabell
         oppgavekoer={oppgavekoer}
+        hentKo={hentKo}
         setValgtOppgavekoId={setValgtOppgavekoId}
         valgtOppgavekoId={valgtOppgavekoId}
         lagNyOppgaveko={lagNyOppgaveko}
         fjernOppgaveko={fjernOppgaveko}
-        hentOppgavekoer={hentOppgavekoer}
         hentAntallOppgaverTotalt={hentAntallOppgaverTotalt}
       />
       <VerticalSpacer sixteenPx />
       {valgtOppgavekoId && valgtOppgaveko && (
         <>
           <UtvalgskriterierForOppgavekoForm
-            valgtOppgaveko={valgtOppgaveko}
             lagreOppgavekoNavn={lagreOppgavekoNavn}
             lagreOppgavekoBehandlingstype={lagreOppgavekoBehandlingstype}
             lagreOppgavekoFagsakYtelseType={lagreOppgavekoFagsakYtelseType}
@@ -98,6 +99,7 @@ const EndreOppgavekoerPanel = ({
 EndreOppgavekoerPanel.propTypes = {
   oppgavekoer: PropTypes.arrayOf(oppgavekoPropType).isRequired,
   setValgtOppgavekoId: PropTypes.func.isRequired,
+  hentKo: PropTypes.func.isRequired,
   lagNyOppgaveko: PropTypes.func.isRequired,
   fjernOppgaveko: PropTypes.func.isRequired,
   lagreOppgavekoNavn: PropTypes.func.isRequired,
