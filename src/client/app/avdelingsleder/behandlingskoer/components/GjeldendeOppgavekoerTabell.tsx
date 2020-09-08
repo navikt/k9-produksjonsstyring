@@ -97,7 +97,7 @@ export class GjeldendeOppgavekoerTabell extends Component<TsProps, StateTsProps>
   }
 
   setValgtOppgaveko = async (event: Event, id: string) => {
-    const { setValgtOppgavekoId, hentKo } = this.props;
+    const { setValgtOppgavekoId, hentKo, valgtOppgavekoId } = this.props;
     if (this.nodes.some((node) => node && node.contains(event.target))) {
       return;
     }
@@ -106,8 +106,12 @@ export class GjeldendeOppgavekoerTabell extends Component<TsProps, StateTsProps>
     // der en endrer navn og så trykker direkte på en annen behandlingskø vil ikke lagringen skje før etter at ny kø er valgt.
     await wait(100);
 
-    setValgtOppgavekoId(id);
-    hentKo(id);
+    if (valgtOppgavekoId !== id) {
+      setValgtOppgavekoId(id);
+      hentKo(id);
+    } else {
+      setValgtOppgavekoId(undefined);
+    }
   }
 
   lagNyOppgaveko = (event: KeyboardEvent) => {
@@ -169,22 +173,6 @@ export class GjeldendeOppgavekoerTabell extends Component<TsProps, StateTsProps>
 
     return (
       <>
-
-        <Row>
-          <Column xs="9">
-            <Element>
-              <FormattedMessage id="GjeldendeOppgavekoerTabell.GjeldendeLister" />
-            </Element>
-          </Column>
-          <Column xs="3">
-            <div className={styles.grayBox}>
-              <Normaltekst>
-                <FormattedMessage id="GjeldendeOppgavekoerTabell.OppgaverTotalt" />
-                <Undertittel>{oppgaverTotalt || '0'}</Undertittel>
-              </Normaltekst>
-            </div>
-          </Column>
-        </Row>
         {oppgavekoer.length === 0 && (
           <>
             <VerticalSpacer eightPx />

@@ -33,10 +33,21 @@
   margin-bottom: 24px;
 }
 
+.reservasjoner {
+
+}
+
 @import '@{coreModulePath}nav-frontend-core/less/_variabler';
 
 .linkElement() {
-  text-decoration: none;
+  border: none;
+  text-decoration: underline;
+  &:hover,
+  &:focus {
+    border-color: transparent;
+    box-shadow: none;
+    outline: none;
+  }
 }
 
 .disabled {
@@ -53,13 +64,17 @@
 .link {
   .linkElement();
 
-  background-color: #d8d8d8;
-  color: black;
+  background-color: transparent;
+  color: #0067c5;
+  font-family: "Source Sans Pro";
+  font-size: 18px;
+  letter-spacing: 0;
+  line-height: 23px;
   padding: 0.5rem 2.5rem 0.5rem 2.5rem;
 
   &.isActive,
   &:active {
-    color: @navDypBla;
+    color: #3e3832;
     padding: 0.7rem 2.5rem 0.5rem 2.5rem;
     text-decoration: none;
 
