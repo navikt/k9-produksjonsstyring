@@ -37,7 +37,7 @@ export const fetchAntallOppgaverTotalt = () => (dispatch: Dispatch<any>) => disp
 
 export const fetchAntallOppgaverForOppgaveko = (id: string) => (dispatch: Dispatch<any>) => dispatch(
   k9LosApi.OPPGAVE_ANTALL.makeRestApiRequest()({ id }),
-).then(() => dispatch(fetchAntallOppgaverTotalt()));
+);
 
 
 export const getAntallOppgaverTotaltResultat = k9LosApi.OPPGAVE_ANTALL_TOTALT.getRestApiData();
