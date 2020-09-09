@@ -47,7 +47,7 @@ describe('<GjeldendeOppgavekoerTabell>', () => {
     />);
 
     const tekstComp = wrapper.find(FormattedMessage);
-    expect(tekstComp).to.have.length(4);
+    expect(tekstComp).to.have.length(2);
     expect(tekstComp.at(2).prop('id')).to.eql('GjeldendeOppgavekoerTabell.IngenLister');
 
     expect(wrapper.find(Table)).to.have.length(0);
@@ -90,7 +90,7 @@ describe('<GjeldendeOppgavekoerTabell>', () => {
     expect(rader).to.have.length(2);
 
     const kolonnerForRad1 = rader.first().find(TableColumn);
-    expect(kolonnerForRad1).to.have.length(7);
+    expect(kolonnerForRad1).to.have.length(5);
     expect(kolonnerForRad1.first().childAt(0).text()).to.eql('Nyansatte');
 
     const kolonnerForRad2 = rader.last().find(TableColumn);

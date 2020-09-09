@@ -6,9 +6,12 @@ import classnames from 'classnames/bind';
 import { NavLink } from 'react-router-dom';
 import Panel from 'nav-frontend-paneler';
 import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
-import reservasjonIcon from 'images/reservasjon.svg';
-import nokkelIcon from 'images/keyhole.svg';
-import koerIcon from 'images/drawer.svg';
+import reservasjonBla from 'images/delete-1.svg';
+import reservasjonSvart from 'images/delete-11.svg';
+import nokkelSvart from 'images/key-hole-1.svg';
+import nokkelBla from 'images/key-hole-11.svg';
+import koerBla from 'images/drawer-2.svg';
+import koerSvart from 'images/drawerSvart.svg';
 import LoadingPanel from 'sharedComponents/LoadingPanel';
 import { getNavAnsattKanOppgavestyre } from 'app/duck';
 import { parseQueryString } from 'utils/urlUtils';
@@ -54,9 +57,9 @@ const messageId = {
 };
 
 const tabStyle = {
-  [AvdelingslederPanels.BEHANDLINGSKOER]: [styles.koer, koerIcon],
-  [AvdelingslederPanels.NOKKELTALL]: [styles.nokkeltall, nokkelIcon],
-  [AvdelingslederPanels.RESERVASJONER]: [styles.reservasjoner, reservasjonIcon],
+  [AvdelingslederPanels.BEHANDLINGSKOER]: [koerSvart, koerBla],
+  [AvdelingslederPanels.NOKKELTALL]: [nokkelSvart, nokkelBla],
+  [AvdelingslederPanels.RESERVASJONER]: [reservasjonSvart, reservasjonBla],
 };
 
 interface TsProps {
@@ -67,14 +70,17 @@ interface TsProps {
 }
 
 const getTab = (avdelingslederPanel, activeAvdelingslederPanel, getAvdelingslederPanelLocation) => ({
-  label: (<div>
-    <Image className={tabStyle[avdelingslederPanel][0]} src={tabStyle[avdelingslederPanel][1]} />
-    <Undertittel><FormattedMessage id={messageId[avdelingslederPanel]} /></Undertittel>
-          </div>),
+  label: (
+    <div className={styles.tabLabel}>
+      <Image
+        className={styles.tabIcon}
+        src={activeAvdelingslederPanel === avdelingslederPanel ? tabStyle[avdelingslederPanel][0] : tabStyle[avdelingslederPanel][1]}
+      />
+      <Undertittel><FormattedMessage id={messageId[avdelingslederPanel]} /></Undertittel>
+    </div>),
   aktiv: avdelingslederPanel === activeAvdelingslederPanel,
   // eslint-disable-next-line react/prop-types
   linkCreator: ({ children, className }) => (
-
     <NavLink
       to={getAvdelingslederPanelLocation(avdelingslederPanel)}
       className={classNames(className, 'link', { isActive: activeAvdelingslederPanel === avdelingslederPanel })}
@@ -110,6 +116,7 @@ export const AvdelingslederIndex = ({
           </Panel>
         </div>
       </AvdelingslederDashboard>
+
     );
   }
   return <LoadingPanel />;

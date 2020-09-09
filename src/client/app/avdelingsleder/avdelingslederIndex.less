@@ -13,7 +13,7 @@
 }
 
 .paneltekst {
-  color: #3e3832;
+  color: @navMorkGra;
   font-family: "Source Sans Pro";
   font-size: 40px;
   font-weight: 600;
@@ -33,8 +33,14 @@
   margin-bottom: 24px;
 }
 
-.reservasjoner {
+.tabIcon {
+  height: 23px;
+  margin-right: 10px;
+  width: 24px;
+}
 
+.tabLabel {
+  display: flex;
 }
 
 @import '@{coreModulePath}nav-frontend-core/less/_variabler';
@@ -65,7 +71,7 @@
   .linkElement();
 
   background-color: transparent;
-  color: #0067c5;
+  color: @navBla;
   font-family: "Source Sans Pro";
   font-size: 18px;
   letter-spacing: 0;
@@ -74,7 +80,7 @@
 
   &.isActive,
   &:active {
-    color: #3e3832;
+    color: @navMorkGra;
     padding: 0.7rem 2.5rem 0.5rem 2.5rem;
     text-decoration: none;
 
