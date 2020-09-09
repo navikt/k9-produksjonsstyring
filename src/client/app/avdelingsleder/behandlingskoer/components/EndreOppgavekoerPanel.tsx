@@ -30,7 +30,6 @@ interface TsProps {
   valgtOppgavekoId?: string;
   hentOppgavekoer: () => Oppgaveko[];
   hentAntallOppgaverForOppgaveko: (id: string) => Promise<string>;
-  hentAntallOppgaverTotalt: () => Promise<string>;
   hentKo: (id: string) => Promise<string>;
 }
 
@@ -48,9 +47,7 @@ const EndreOppgavekoerPanel = ({
   lagreOppgavekoFagsakYtelseType,
   lagreOppgavekoAndreKriterier,
   knyttSaksbehandlerTilOppgaveko,
-  hentOppgavekoer,
   hentAntallOppgaverForOppgaveko,
-  hentAntallOppgaverTotalt,
   lagreOppgavekoSkjermet,
   hentKo,
 }: TsProps) => {
@@ -64,7 +61,6 @@ const EndreOppgavekoerPanel = ({
         valgtOppgavekoId={valgtOppgavekoId}
         lagNyOppgaveko={lagNyOppgaveko}
         fjernOppgaveko={fjernOppgaveko}
-        hentAntallOppgaverTotalt={hentAntallOppgaverTotalt}
       />
       <VerticalSpacer sixteenPx />
       {valgtOppgavekoId && valgtOppgaveko && (
@@ -109,7 +105,6 @@ EndreOppgavekoerPanel.propTypes = {
   lagreOppgavekoAndreKriterier: PropTypes.func.isRequired,
   valgtOppgavekoId: PropTypes.string,
   hentAntallOppgaverForOppgaveko: PropTypes.func.isRequired,
-  hentAntallOppgaverTotalt: PropTypes.func.isRequired,
   lagreOppgavekoSkjermet: PropTypes.func.isRequired,
 };
 
