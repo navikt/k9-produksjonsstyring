@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import {
-  Normaltekst, Undertekst, Element, Undertittel,
+  Normaltekst,
 } from 'nav-frontend-typografi';
 
 import { getKodeverk } from 'kodeverk/duck';
@@ -17,16 +17,15 @@ import Table from 'sharedComponents/Table';
 import TableRow from 'sharedComponents/TableRow';
 import TableColumn from 'sharedComponents/TableColumn';
 import DateLabel from 'sharedComponents/DateLabel';
-import addCircleIcon from 'images/add-circle.svg';
-import removeIcon from 'images/remove.svg';
-import { Column, Row } from 'nav-frontend-grid';
 import Chevron from 'nav-frontend-chevron';
+import { Knapp } from 'nav-frontend-knapper';
 import SletteOppgavekoModal from './SletteOppgavekoModal';
 import { Oppgaveko } from '../oppgavekoTsType';
 import oppgavekoPropType from '../oppgavekoPropType';
 import { getAntallOppgaverTotaltResultat } from '../duck';
 
 import styles from './gjeldendeOppgavekoerTabell.less';
+import addCircle from '../../../../images/add-circle-bla.svg';
 
 const headerTextCodes = [
   'GjeldendeOppgavekoerTabell.Listenavn',
@@ -173,6 +172,15 @@ export class GjeldendeOppgavekoerTabell extends Component<TsProps, StateTsProps>
 
     return (
       <>
+        <Knapp
+          mini
+          className={styles.addKnapp}
+          tabIndex={0}
+          onClick={() => lagNyOppgaveko()}
+        >
+          <Image src={addCircle} className={styles.addIcon} />
+          <FormattedMessage id="GjeldendeOppgavekoerTabell.LeggTilListe" />
+        </Knapp>
         {oppgavekoer.length === 0 && (
           <>
             <VerticalSpacer eightPx />
@@ -205,19 +213,6 @@ export class GjeldendeOppgavekoerTabell extends Component<TsProps, StateTsProps>
           ))}
         </Table>
         )}
-        <div
-          id="leggTilListe"
-          role="button"
-          tabIndex={0}
-          className={styles.addPeriode}
-          onClick={() => lagNyOppgaveko()}
-          onKeyDown={this.lagNyOppgaveko}
-        >
-          <Image className={styles.addCircleIcon} src={addCircleIcon} />
-          <Undertekst className={styles.imageText}>
-            <FormattedMessage id="GjeldendeOppgavekoerTabell.LeggTilListe" />
-          </Undertekst>
-        </div>
         {valgtOppgaveko && (
           <SletteOppgavekoModal
             valgtOppgaveko={valgtOppgaveko}

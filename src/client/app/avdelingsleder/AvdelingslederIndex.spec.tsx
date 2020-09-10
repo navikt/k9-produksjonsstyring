@@ -6,7 +6,7 @@ import Tabs from 'nav-frontend-tabs';
 import LoadingPanel from 'sharedComponents/LoadingPanel';
 import { BehandlingskoerIndex } from 'saksbehandler/behandlingskoer/BehandlingskoerIndex';
 import IkkeTilgangTilAvdelingslederPanel from './components/IkkeTilgangTilAvdelingslederPanel';
-import EndreSaksbehandlereIndex from './saksbehandlere/EndreSaksbehandlereIndex';
+import EndreSaksbehandlereIndex from './bemanning/BemanningIndex';
 import EndreBehandlingskoerIndex from './behandlingskoer/EndreBehandlingskoerIndex';
 import AvdelingslederDashboard from './components/AvdelingslederDashboard';
 import AvdelingslederPanels from './avdelingslederPanels';

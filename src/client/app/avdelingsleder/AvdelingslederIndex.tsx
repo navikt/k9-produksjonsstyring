@@ -10,8 +10,8 @@ import reservasjonBla from 'images/delete-1.svg';
 import reservasjonSvart from 'images/delete-11.svg';
 import nokkelSvart from 'images/key-hole-1.svg';
 import nokkelBla from 'images/key-hole-11.svg';
-import koerBla from 'images/drawer-2.svg';
-import koerSvart from 'images/drawerSvart.svg';
+import koerBla from 'images/drawer-23.svg';
+import koerSvart from 'images/drawer-22.svg';
 import LoadingPanel from 'sharedComponents/LoadingPanel';
 import { getNavAnsattKanOppgavestyre } from 'app/duck';
 import { parseQueryString } from 'utils/urlUtils';
@@ -22,11 +22,13 @@ import NokkeltallIndex from 'avdelingsleder/nokkeltall/NokkeltallIndex';
 import ReservasjonerIndex from 'avdelingsleder/reservasjoner/ReservasjonerIndex';
 import Tabs from 'nav-frontend-tabs';
 import Image from 'sharedComponents/Image';
+import { FlexRow } from 'sharedComponents/flexGrid';
+import { Row } from 'nav-frontend-grid';
 import { getSelectedAvdelingslederPanel, setSelectedAvdelingslederPanel } from './duck';
 import AvdelingslederDashboard from './components/AvdelingslederDashboard';
 import IkkeTilgangTilAvdelingslederPanel from './components/IkkeTilgangTilAvdelingslederPanel';
 import AvdelingslederPanels from './avdelingslederPanels';
-import EndreSaksbehandlereIndex from './saksbehandlere/EndreSaksbehandlereIndex';
+import EndreSaksbehandlereIndex from './bemanning/BemanningIndex';
 import EndreBehandlingskoerIndex from './behandlingskoer/EndreBehandlingskoerIndex';
 
 import styles from './avdelingslederIndex.less';
@@ -47,7 +49,6 @@ const renderAvdelingslederPanel = (avdelingslederPanel) => {
       return null;
   }
 };
-
 
 const messageId = {
   [AvdelingslederPanels.BEHANDLINGSKOER]: 'AvdelingslederIndex.Behandlingskoer',
@@ -102,21 +103,26 @@ export const AvdelingslederIndex = ({
     return <IkkeTilgangTilAvdelingslederPanel />;
   } if (activeAvdelingslederPanel) {
     return (
-      <AvdelingslederDashboard key={activeAvdelingslederPanel}>
-        <Normaltekst className={styles.paneltekst}>Avdelingslederpanel</Normaltekst>
-        <div>
-          <Tabs tabs={[
-            getTab(AvdelingslederPanels.BEHANDLINGSKOER, activeAvdelingslederPanel, getAvdelingslederPanelLocation),
-            getTab(AvdelingslederPanels.NOKKELTALL, activeAvdelingslederPanel, getAvdelingslederPanelLocation),
-            getTab(AvdelingslederPanels.RESERVASJONER, activeAvdelingslederPanel, getAvdelingslederPanelLocation),
-          ]}
-          />
-          <Panel className={styles.panelPadding}>
-            {renderAvdelingslederPanel(activeAvdelingslederPanel)}
-          </Panel>
-        </div>
-      </AvdelingslederDashboard>
-
+      <>
+        <Row>
+          <Normaltekst className={styles.paneltekst}>Avdelingslederpanel</Normaltekst>
+        </Row>
+        <Row>
+          <AvdelingslederDashboard key={activeAvdelingslederPanel}>
+            <div>
+              <Tabs tabs={[
+                getTab(AvdelingslederPanels.BEHANDLINGSKOER, activeAvdelingslederPanel, getAvdelingslederPanelLocation),
+                getTab(AvdelingslederPanels.NOKKELTALL, activeAvdelingslederPanel, getAvdelingslederPanelLocation),
+                getTab(AvdelingslederPanels.RESERVASJONER, activeAvdelingslederPanel, getAvdelingslederPanelLocation),
+              ]}
+              />
+              <Panel className={styles.panelPadding}>
+                {renderAvdelingslederPanel(activeAvdelingslederPanel)}
+              </Panel>
+            </div>
+          </AvdelingslederDashboard>
+        </Row>
+      </>
     );
   }
   return <LoadingPanel />;

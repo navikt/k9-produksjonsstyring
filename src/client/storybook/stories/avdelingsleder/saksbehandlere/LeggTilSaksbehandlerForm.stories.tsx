@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { action } from '@storybook/addon-actions';
 
-import { LeggTilSaksbehandlerForm } from 'avdelingsleder/saksbehandlere/components/LeggTilSaksbehandlerForm';
-import Saksbehandler from 'avdelingsleder/saksbehandlere/saksbehandlerTsType';
+import { LeggTilSaksbehandlerForm } from 'avdelingsleder/bemanning/components/LeggTilSaksbehandlerForm';
+import Saksbehandler from 'avdelingsleder/bemanning/saksbehandlerTsType';
 
 import withIntl from '../../../decorators/withIntl';
 

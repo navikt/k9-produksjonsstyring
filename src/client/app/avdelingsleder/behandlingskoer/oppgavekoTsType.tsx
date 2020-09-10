@@ -1,6 +1,6 @@
 import { Kodeverk } from 'kodeverk/kodeverkTsType';
 import { KoSorteringType } from 'kodeverk/KoSorteringTsType';
-import { Saksbehandler } from 'avdelingsleder/saksbehandlere/saksbehandlerTsType';
+import { Saksbehandler } from 'avdelingsleder/bemanning/saksbehandlerTsType';
 
 // TODO (TOR) default export feilar for yarn:coverage
 // eslint-disable-next-line import/prefer-default-export

@@ -1,16 +1,30 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { bindActionCreators, Dispatch } from 'redux';
-
-import { Saksbehandler } from './saksbehandlerTsType';
-import saksbehandlerPropType from './saksbehandlerPropType';
-import SaksbehandlerePanel from './components/SaksbehandlerePanel';
 import {
-  fetchAlleSaksbehandlere, getSaksbehandlere, findSaksbehandler, addSaksbehandler, resetSaksbehandlerSok, removeSaksbehandler,
-} from './duck';
+  addSaksbehandler,
+  fetchAlleSaksbehandlere,
+  findSaksbehandler,
+  getSaksbehandlere, removeSaksbehandler,
+  resetSaksbehandlerSok,
+} from 'avdelingsleder/bemanning/duck';
+import { bindActionCreators, Dispatch } from 'redux';
+import { connect } from 'react-redux';
+import Tabs from 'nav-frontend-tabs';
+import { getPanelLocationCreator } from 'app/paths';
+import Panel from 'nav-frontend-paneler';
+import styles from 'avdelingsleder/avdelingslederIndex.less';
+import Image from 'sharedComponents/Image';
+import { Undertittel } from 'nav-frontend-typografi';
+import { FormattedMessage } from 'react-intl';
+import { NavLink } from 'react-router-dom';
+import BemanningPanels from 'avdelingsleder/bemanningPanels';
+import classNames from 'classnames';
 
-interface TsProps {
+import saksbehandlereGra from '../../../images/saksbehandlereGra.svg';
+import saksbehandlereBla from '../../../images/saksbehandlereBla.svg';
+import { Saksbehandler } from './saksbehandlerTsType';
+import SaksbehandlerePanel from './components/SaksbehandlerePanel';
+
+interface OwnProps {
     fetchAlleSaksbehandlere: () => void;
     findSaksbehandler: (brukerIdent: string) => Promise<string>;
     resetSaksbehandlerSok: () => void;
@@ -20,18 +34,9 @@ interface TsProps {
 }
 
 /**
- * EndreSaksbehandlereIndex
+ * BemanningIndex
  */
-export class EndreSaksbehandlereIndex extends Component<TsProps> {
-    static propTypes = {
-      fetchAlleSaksbehandlere: PropTypes.func.isRequired,
-      findSaksbehandler: PropTypes.func.isRequired,
-      addSaksbehandler: PropTypes.func.isRequired,
-      resetSaksbehandlerSok: PropTypes.func.isRequired,
-      removeSaksbehandler: PropTypes.func.isRequired,
-      alleSaksbehandlere: PropTypes.arrayOf(saksbehandlerPropType),
-    };
-
+export class BemanningIndex extends Component<OwnProps> {
     static defaultProps = {
       alleSaksbehandlere: [],
     }
@@ -43,13 +48,13 @@ export class EndreSaksbehandlereIndex extends Component<TsProps> {
 
     render = () => {
       const {
-        alleSaksbehandlere, findSaksbehandler: finnSaksbehandler, addSaksbehandler: leggTilSaksbehandler, resetSaksbehandlerSok: reset,
+        alleSaksbehandlere, addSaksbehandler: leggTilSaksbehandler, resetSaksbehandlerSok: reset,
         removeSaksbehandler: fjernSaksbehandler,
       } = this.props;
+
       return (
         <SaksbehandlerePanel
           saksbehandlere={alleSaksbehandlere}
-          finnSaksbehandler={finnSaksbehandler}
           resetSaksbehandlerSok={reset}
           leggTilSaksbehandler={leggTilSaksbehandler}
           fjernSaksbehandler={fjernSaksbehandler}
@@ -73,4 +78,4 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 });
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(EndreSaksbehandlereIndex);
+export default connect(mapStateToProps, mapDispatchToProps)(BemanningIndex);

@@ -20,8 +20,7 @@
   height: 50px;
   letter-spacing: 0;
   line-height: 44px;
-  margin-bottom: 20px;
-  margin-top: 20px;
+  margin: 20px 0 20px 60px;
   width: 352px;
 }
 
@@ -35,22 +34,32 @@
 
 .tabIcon {
   height: 23px;
-  margin-right: 10px;
+  margin-right: 5px;
   width: 24px;
 }
 
 .tabLabel {
   display: flex;
+  margin-left: -25px;
+  margin-right: -20px;
+
+  h2 {
+    font-family: "Source Sans Pro";
+    font-size: 18px;
+    letter-spacing: 0;
+    line-height: 23px;
+  }
 }
 
 @import '@{coreModulePath}nav-frontend-core/less/_variabler';
 
 .linkElement() {
-  border: none;
   text-decoration: underline;
+  border: 1px solid @navGra20;
+  border-bottom: none;
+
   &:hover,
   &:focus {
-    border-color: transparent;
     box-shadow: none;
     outline: none;
   }
@@ -72,10 +81,6 @@
 
   background-color: transparent;
   color: @navBla;
-  font-family: "Source Sans Pro";
-  font-size: 18px;
-  letter-spacing: 0;
-  line-height: 23px;
   padding: 0.5rem 2.5rem 0.5rem 2.5rem;
 
   &.isActive,
@@ -83,6 +88,7 @@
     color: @navMorkGra;
     padding: 0.7rem 2.5rem 0.5rem 2.5rem;
     text-decoration: none;
+    border: none;
 
     &:focus {
       color: @navLilla;

@@ -95,10 +95,10 @@
   "GjeldendeOppgavekoerTabell.Listenavn": "Navn",
   "GjeldendeOppgavekoerTabell.SistEndret": "Sist endret",
   "GjeldendeOppgavekoerTabell.LeggTilListe": "Legg til behandlingskø",
-  "GjeldendeOppgavekoerTabell.Behandlingtype": "Behandlingstype",
-  "GjeldendeOppgavekoerTabell.Stonadstype": "Stønadstype",
+  "GjeldendeOppgavekoerTabell.Behandlingtype": "Behandling",
+  "GjeldendeOppgavekoerTabell.Stonadstype": "Stønad",
   "GjeldendeOppgavekoerTabell.Alle": "Alle",
-  "GjeldendeOppgavekoerTabell.AntallSaksbehandlere": "Antall saksbehandlere",
+  "GjeldendeOppgavekoerTabell.AntallSaksbehandlere": "Saksbehandlere",
   "GjeldendeOppgavekoerTabell.AntallBehandlinger": "Antall behandlinger",
   "GjeldendeOppgavekoerTabell.OppgaverTotalt": "Antall åpne behandlinger totalt",
 
@@ -249,7 +249,7 @@
   "SaksbehandlereTabell.Navn": "Navn",
   "SaksbehandlereTabell.Brukerident": "Brukerident",
   "SaksbehandlereTabell.Epost": "E-post adresse",
-  "SaksbehandlereTabell.Saksbehandlere": "Tilgjengelige saksbehandlere",
+  "SaksbehandlereTabell.Saksbehandlere": "Saksbehandlere",
   "SaksbehandlereTabell.IngenSaksbehandlere": "Ingen saksbehandlere lagt til",
 
   "OppgavekoPanel.StartBehandling": "Start behandling",

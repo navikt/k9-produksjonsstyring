@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 
 import { Kodeverk } from 'kodeverk/kodeverkTsType';
-import { fetchAlleSaksbehandlere } from '../saksbehandlere/duck';
+import { fetchAlleSaksbehandlere } from '../bemanning/duck';
 import {
   fetchAlleOppgavekoer,
   getAlleOppgavekoer,

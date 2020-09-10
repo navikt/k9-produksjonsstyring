@@ -1,5 +1,4 @@
 import React, { FunctionComponent } from 'react';
-import PropTypes from 'prop-types';
 import { injectIntl, WrappedComponentProps, FormattedMessage } from 'react-intl';
 import { Row, Column } from 'nav-frontend-grid';
 import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
@@ -13,7 +12,7 @@ import { Saksbehandler } from '../saksbehandlerTsType';
 
 import styles from './sletteSaksbehandlerModal.less';
 
-type TsProps = Readonly<{
+type OwnProps = Readonly<{
   intl: any;
   valgtSaksbehandler: Saksbehandler;
   closeSletteModal: () => void;
@@ -25,12 +24,12 @@ type TsProps = Readonly<{
  *
  * Presentasjonskomponent. Modal som lar en avdelingsleder fjerne tilgjengelige saksbehandlere.
  */
-const SletteSaksbehandlerModal: FunctionComponent<TsProps & WrappedComponentProps> = ({
+const SletteSaksbehandlerModal: FunctionComponent<OwnProps & WrappedComponentProps> = ({
   intl,
   valgtSaksbehandler,
   closeSletteModal,
   fjernSaksbehandler,
-}: TsProps) => (
+}) => (
   <Modal
     className={styles.modal}
     closeButton={false}

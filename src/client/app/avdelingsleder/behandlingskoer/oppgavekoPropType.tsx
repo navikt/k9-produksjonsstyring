@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 
 import kodeverkPropType from 'kodeverk/kodeverkPropType';
-import saksbehandlerPropType from 'avdelingsleder/saksbehandlere/saksbehandlerPropType';
+import saksbehandlerPropType from 'avdelingsleder/bemanning/saksbehandlerPropType';
 
 const oppgavekoPropType = PropTypes.shape({
   id: PropTypes.string.isRequired,
