@@ -83,7 +83,6 @@ const EndreOppgavekoerPanel = ({
             </Column>
           </Row>
           <SaksbehandlereForOppgavekoForm
-            valgtOppgaveko={valgtOppgaveko}
             knyttSaksbehandlerTilOppgaveko={knyttSaksbehandlerTilOppgaveko}
           />
         </>
