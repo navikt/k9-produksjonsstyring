@@ -114,7 +114,6 @@ export class EndreBehandlingskoerIndex extends Component<TsProps> {
         lagreOppgavekoSkjermet={lagreSkjermet}
         hentOppgavekoer={hentAlleOppgavekoer}
         hentAntallOppgaverForOppgaveko={hentAntallOppgaverForOppgaveko}
-        hentAntallOppgaverTotalt={hentAntallOppgaverTotalt}
       />
     );
   }

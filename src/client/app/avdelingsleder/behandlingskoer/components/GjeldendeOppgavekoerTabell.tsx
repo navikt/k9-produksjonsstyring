@@ -46,7 +46,6 @@ interface TsProps {
   behandlingTyper: Kodeverk[];
   fagsakYtelseTyper: Kodeverk[];
   oppgaverTotalt?: number;
-  hentAntallOppgaverTotalt: () => Promise<string>;
   hentKo: (id: string) => Promise<string>;
 }
 
@@ -71,7 +70,6 @@ export class GjeldendeOppgavekoerTabell extends Component<TsProps, StateTsProps>
     behandlingTyper: PropTypes.arrayOf(kodeverkPropType).isRequired,
     fagsakYtelseTyper: PropTypes.arrayOf(kodeverkPropType).isRequired,
     oppgaverTotalt: PropTypes.number,
-    hentAntallOppgaverTotalt: PropTypes.func.isRequired,
     hentKo: PropTypes.func.isRequired,
   };
 
@@ -86,13 +84,6 @@ export class GjeldendeOppgavekoerTabell extends Component<TsProps, StateTsProps>
       valgtOppgaveko: undefined,
     };
     this.nodes = [];
-  }
-
-  componentDidMount = () => {
-    const {
-      hentAntallOppgaverTotalt,
-    } = this.props;
-    hentAntallOppgaverTotalt();
   }
 
   setValgtOppgaveko = async (event: Event, id: string) => {
