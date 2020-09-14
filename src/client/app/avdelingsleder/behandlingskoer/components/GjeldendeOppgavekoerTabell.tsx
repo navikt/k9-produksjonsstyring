@@ -19,6 +19,11 @@ import TableColumn from 'sharedComponents/TableColumn';
 import DateLabel from 'sharedComponents/DateLabel';
 import Chevron from 'nav-frontend-chevron';
 import { Knapp } from 'nav-frontend-knapper';
+import UtvalgskriterierForOppgavekoForm
+  from 'avdelingsleder/behandlingskoer/components/oppgavekoForm/UtvalgskriterierForOppgavekoForm';
+import { Column, Row } from 'nav-frontend-grid';
+import SaksbehandlereForOppgavekoForm
+  from 'avdelingsleder/behandlingskoer/components/saksbehandlerForm/SaksbehandlereForOppgavekoForm';
 import SletteOppgavekoModal from './SletteOppgavekoModal';
 import { Oppgaveko } from '../oppgavekoTsType';
 import oppgavekoPropType from '../oppgavekoPropType';
@@ -26,6 +31,7 @@ import { getAntallOppgaverTotaltResultat } from '../duck';
 
 import styles from './gjeldendeOppgavekoerTabell.less';
 import addCircle from '../../../../images/add-circle-bla.svg';
+import pilNedUrl from '../../../../images/pil-ned.svg';
 
 const headerTextCodes = [
   'GjeldendeOppgavekoerTabell.Listenavn',
@@ -40,13 +46,20 @@ const headerTextCodes = [
 interface TsProps {
   oppgavekoer: Oppgaveko[];
   setValgtOppgavekoId: (id: string) => void;
-  lagNyOppgaveko: () => void;
+  lagNyOppgaveko: () => Promise<string>;
   fjernOppgaveko: (id: string) => void;
   valgtOppgavekoId?: string;
   behandlingTyper: Kodeverk[];
   fagsakYtelseTyper: Kodeverk[];
   oppgaverTotalt?: number;
   hentKo: (id: string) => Promise<string>;
+  lagreOppgavekoNavn: (oppgaveko: {id: string; navn: string}) => void;
+  lagreOppgavekoBehandlingstype: (id: string, behandlingType: Kodeverk, isChecked: boolean) => void;
+  lagreOppgavekoFagsakYtelseType: (id: string, fagsakYtelseType: string) => void;
+  lagreOppgavekoAndreKriterier: (id: string, andreKriterierType: Kodeverk, isChecked: boolean, inkluder: boolean) => void;
+  lagreOppgavekoSkjermet: (id: string, isChecked: boolean) => void;
+  knyttSaksbehandlerTilOppgaveko: (id: string, epost: string, isChecked: boolean) => void;
+  hentAntallOppgaverForOppgaveko: (id: string) => Promise<string>;
 }
 
 interface StateTsProps {
@@ -155,7 +168,16 @@ export class GjeldendeOppgavekoerTabell extends Component<TsProps, StateTsProps>
 
   render = () => {
     const {
-      oppgavekoer, valgtOppgavekoId, lagNyOppgaveko, oppgaverTotalt,
+      oppgavekoer,
+      valgtOppgavekoId,
+      lagNyOppgaveko,
+      lagreOppgavekoNavn,
+      lagreOppgavekoAndreKriterier,
+      lagreOppgavekoBehandlingstype,
+      lagreOppgavekoFagsakYtelseType,
+      lagreOppgavekoSkjermet,
+      knyttSaksbehandlerTilOppgaveko,
+      hentAntallOppgaverForOppgaveko,
     } = this.props;
     const {
       valgtOppgaveko,
@@ -182,25 +204,40 @@ export class GjeldendeOppgavekoerTabell extends Component<TsProps, StateTsProps>
         {oppgavekoer.length > 0 && (
         <Table headerTextCodes={headerTextCodes}>
           {oppgavekoer.map((oppgaveko) => (
-            <TableRow
-              key={oppgaveko.id}
-              className={oppgaveko.id === valgtOppgavekoId ? styles.isSelected : undefined}
-              id={oppgaveko.id}
-              onMouseDown={this.setValgtOppgaveko}
-              onKeyDown={this.setValgtOppgaveko}
-            >
-              <TableColumn>{oppgaveko.navn}</TableColumn>
-              <TableColumn>{this.formatStonadstyper(oppgaveko.fagsakYtelseTyper)}</TableColumn>
-              <TableColumn>{this.formatBehandlingstyper(oppgaveko.behandlingTyper)}</TableColumn>
-              <TableColumn>{oppgaveko.saksbehandlere.length > 0 ? oppgaveko.saksbehandlere.length : ''}</TableColumn>
-              <TableColumn>{oppgaveko.antallBehandlinger}</TableColumn>
-              <TableColumn>
-                <DateLabel dateString={oppgaveko.sistEndret} />
-              </TableColumn>
-              <TableColumn>
-                <Chevron key={oppgaveko.id} type={(valgtOppgavekoId && valgtOppgavekoId === oppgaveko.id) ? 'opp' : 'ned'} className={styles.chevron} />
-              </TableColumn>
-            </TableRow>
+            <>
+              <TableRow
+                key={oppgaveko.id}
+                className={oppgaveko.id === valgtOppgavekoId ? styles.isSelected : undefined}
+                id={oppgaveko.id}
+                onMouseDown={this.setValgtOppgaveko}
+                onKeyDown={this.setValgtOppgaveko}
+              >
+                <TableColumn>{oppgaveko.navn}</TableColumn>
+                <TableColumn>{this.formatStonadstyper(oppgaveko.fagsakYtelseTyper)}</TableColumn>
+                <TableColumn>{this.formatBehandlingstyper(oppgaveko.behandlingTyper)}</TableColumn>
+                <TableColumn>{oppgaveko.saksbehandlere.length > 0 ? oppgaveko.saksbehandlere.length : ''}</TableColumn>
+                <TableColumn>{oppgaveko.antallBehandlinger}</TableColumn>
+                <TableColumn>
+                  <DateLabel dateString={oppgaveko.sistEndret} />
+                </TableColumn>
+                <TableColumn>
+                  <Chevron key={oppgaveko.id} type={(valgtOppgavekoId && valgtOppgavekoId === oppgaveko.id) ? 'opp' : 'ned'} className={styles.chevron} />
+                </TableColumn>
+              </TableRow>
+              {valgtOppgavekoId && valgtOppgavekoId === oppgaveko.id && (
+                <Row>
+                  <UtvalgskriterierForOppgavekoForm
+                    lagreOppgavekoNavn={lagreOppgavekoNavn}
+                    lagreOppgavekoBehandlingstype={lagreOppgavekoBehandlingstype}
+                    lagreOppgavekoFagsakYtelseType={lagreOppgavekoFagsakYtelseType}
+                    lagreOppgavekoAndreKriterier={lagreOppgavekoAndreKriterier}
+                    lagreOppgavekoSkjermet={lagreOppgavekoSkjermet}
+                    hentAntallOppgaverForOppgaveko={hentAntallOppgaverForOppgaveko}
+                  />
+                </Row>
+
+              )}
+            </>
           ))}
         </Table>
         )}

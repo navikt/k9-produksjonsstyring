@@ -119,74 +119,73 @@ export class UtvalgskriterierForOppgavekoForm extends Component<OwnProps & Dispa
     } = this.props;
 
     return (
-      <Form
-        onSubmit={() => undefined}
-        initialValues={this.buildInitialValues(intl)}
-        render={({ values }) => (
-          <Panel className={styles.panel}>
-            <AutoLagringVedBlur lagre={this.tranformValues} fieldNames={['navn']} />
-            <Element>
-              <FormattedMessage id="UtvalgskriterierForOppgavekoForm.Utvalgskriterier" />
-            </Element>
-            <VerticalSpacer eightPx />
-            <Row>
-              <Column xs="9">
-                <InputField
-                  name="navn"
-                  label={intl.formatMessage({ id: 'UtvalgskriterierForOppgavekoForm.Navn' })}
-                  validate={[required, minLength3, maxLength100, hasValidName]}
-                  onBlurValidation
-                  bredde="L"
-                />
-              </Column>
-              <Column xs="3">
-                <div className={styles.grayBox}>
-                  <Normaltekst><FormattedMessage id="UtvalgskriterierForOppgavekoForm.AntallSaker" /></Normaltekst>
-                  <Undertittel>{antallOppgaver || '0'}</Undertittel>
-                </div>
-              </Column>
-            </Row>
-            <Row>
-              <SkjermetVelger valgtOppgavekoId={gjeldendeKo.id} lagreSkjermet={lagreOppgavekoSkjermet} />
-              <Column xs="6" className={styles.stonadstypeRadios}>
-                <FagsakYtelseTypeVelger
-                  lagreOppgavekoFagsakYtelseType={lagreOppgavekoFagsakYtelseType}
-                  valgtOppgavekoId={gjeldendeKo.id}
-                  alleKodeverk={alleKodeverk}
-                />
-              </Column>
-            </Row>
-            <Row>
-              <Column xs="3">
-                <BehandlingstypeVelger
-                  lagreOppgavekoBehandlingstype={lagreOppgavekoBehandlingstype}
-                  valgtOppgavekoId={gjeldendeKo.id}
-                  alleKodeverk={alleKodeverk}
-                />
-              </Column>
-              <Column xs="4">
-                <AndreKriterierVelger
-                  lagreOppgavekoAndreKriterier={lagreOppgavekoAndreKriterier}
-                  valgtOppgavekoId={gjeldendeKo.id}
-                  values={values}
-                  alleKodeverk={alleKodeverk}
-                />
-              </Column>
-              <Column xs="4">
-                <SorteringVelger
-                  valgtOppgavekoId={gjeldendeKo.id}
-                  valgteBehandlingtyper={gjeldendeKo.behandlingTyper}
-                  fomDato={values.fomDato}
-                  tomDato={values.tomDato}
-                  alleKodeverk={alleKodeverk as {[key: string]: KoSorteringType[]}}
-                  lagreOppgavekoSortering={lagreOppgavekoSortering}
-                  lagreOppgavekoSorteringTidsintervallDato={lagreOppgavekoSorteringTidsintervallDato}
-                />
-              </Column>
-            </Row>
-          </Panel>
-        )}
-      />
+      <div className={styles.form}>
+        <Form
+          onSubmit={() => undefined}
+          initialValues={this.buildInitialValues(intl)}
+          render={({ values }) => (
+            <>
+              <AutoLagringVedBlur lagre={this.tranformValues} fieldNames={['navn']} />
+              <Row>
+                <Column xs="9">
+                  <InputField
+                    name="navn"
+                    label={intl.formatMessage({ id: 'UtvalgskriterierForOppgavekoForm.Navn' })}
+                    validate={[required, minLength3, maxLength100, hasValidName]}
+                    onBlurValidation
+                    bredde="L"
+                  />
+                </Column>
+                <Column className={styles.antall}>
+                  <div className={styles.grayBox}>
+                    <Normaltekst><FormattedMessage id="UtvalgskriterierForOppgavekoForm.AntallSaker" /></Normaltekst>
+                    <Undertittel>{antallOppgaver || '0'}</Undertittel>
+                  </div>
+                </Column>
+              </Row>
+              <Row>
+                <SkjermetVelger valgtOppgavekoId={gjeldendeKo.id} lagreSkjermet={lagreOppgavekoSkjermet} />
+                <Column xs="12" className={styles.stonadstypeRadios}>
+                  <FagsakYtelseTypeVelger
+                    lagreOppgavekoFagsakYtelseType={lagreOppgavekoFagsakYtelseType}
+                    valgtOppgavekoId={gjeldendeKo.id}
+                    alleKodeverk={alleKodeverk}
+                  />
+                </Column>
+              </Row>
+              <Row>
+                <Column xs="6">
+                  <BehandlingstypeVelger
+                    lagreOppgavekoBehandlingstype={lagreOppgavekoBehandlingstype}
+                    valgtOppgavekoId={gjeldendeKo.id}
+                    alleKodeverk={alleKodeverk}
+                  />
+                </Column>
+                <Column className={styles.kriterier}>
+                  <AndreKriterierVelger
+                    lagreOppgavekoAndreKriterier={lagreOppgavekoAndreKriterier}
+                    valgtOppgavekoId={gjeldendeKo.id}
+                    values={values}
+                    alleKodeverk={alleKodeverk}
+                  />
+                </Column>
+                <Column className={styles.sortering}>
+                  <SorteringVelger
+                    valgtOppgavekoId={gjeldendeKo.id}
+                    valgteBehandlingtyper={gjeldendeKo.behandlingTyper}
+                    fomDato={values.fomDato}
+                    tomDato={values.tomDato}
+                    alleKodeverk={alleKodeverk as {[key: string]: KoSorteringType[]}}
+                    lagreOppgavekoSortering={lagreOppgavekoSortering}
+                    lagreOppgavekoSorteringTidsintervallDato={lagreOppgavekoSorteringTidsintervallDato}
+                  />
+                </Column>
+              </Row>
+
+            </>
+          )}
+        />
+      </div>
     );
   }
 }

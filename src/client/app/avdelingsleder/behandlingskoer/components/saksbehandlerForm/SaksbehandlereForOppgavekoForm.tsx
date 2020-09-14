@@ -12,16 +12,11 @@ import { Row, Column } from 'nav-frontend-grid';
 
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import { CheckboxField } from 'form/FinalFields';
-<<<<<<< HEAD
+
 import { getSaksbehandlere } from 'avdelingsleder/bemanning/duck';
 import { Saksbehandler } from 'avdelingsleder/bemanning/saksbehandlerTsType';
 import saksbehandlerPropType from 'avdelingsleder/bemanning/saksbehandlerPropType';
-=======
-import { getSaksbehandlere } from 'avdelingsleder/saksbehandlere/duck';
-import { Saksbehandler } from 'avdelingsleder/saksbehandlere/saksbehandlerTsType';
-import saksbehandlerPropType from 'avdelingsleder/saksbehandlere/saksbehandlerPropType';
 import { getOppgaveko } from 'avdelingsleder/behandlingskoer/duck';
->>>>>>> master
 import { Oppgaveko } from '../../oppgavekoTsType';
 import oppgavekoPropType from '../../oppgavekoPropType';
 

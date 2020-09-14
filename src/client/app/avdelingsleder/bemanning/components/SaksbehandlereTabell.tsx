@@ -98,7 +98,18 @@ const SaksbehandlereTabell: FunctionComponent<OwnProps> = ({
                   />
                 </TableColumn>
               </TableRow>
-              {valgtSaksbehandler === saksbehandler && <TableRow><SaksbehandlerInfo saksbehandler={valgtSaksbehandler} /></TableRow>}
+              {valgtSaksbehandler === saksbehandler && (
+              <TableRow>
+                <TableColumn>
+                  <SaksbehandlerInfo
+                    saksbehandler={saksbehandler}
+                    fjernSaksbehandler={fjernSaksbehandler}
+                  />
+                </TableColumn>
+                <TableColumn />
+
+              </TableRow>
+              )}
             </>
           ))}
         </Table>

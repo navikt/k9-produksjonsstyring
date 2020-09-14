@@ -16,7 +16,7 @@ type OwnProps = Readonly<{
   intl: any;
   valgtSaksbehandler: Saksbehandler;
   closeSletteModal: () => void;
-  fjernSaksbehandler: (saksbehandler: Saksbehandler) => void;
+  fjernSaksbehandler: (epost: string) => Promise<string>;
 }>;
 
 /**
@@ -37,30 +37,13 @@ const SletteSaksbehandlerModal: FunctionComponent<OwnProps & WrappedComponentPro
     contentLabel={intl.formatMessage({ id: 'SletteSaksbehandlerModal.SletteModal' })}
     onRequestClose={closeSletteModal}
   >
-    <Row>
-      <Column xs="1">
-        <Image
-          className={styles.image}
-          alt={intl.formatMessage({ id: 'SletteSaksbehandlerModal.SletteModal' })}
-          src={advarselImageUrl}
-        />
-        <div className={styles.divider} />
-      </Column>
-      <Column xs="6" className={styles.text}>
-        <Normaltekst>
-          <FormattedMessage id="SletteSaksbehandlerModal.SletteSaksbehandler" values={{ saksbehandlerNavn: valgtSaksbehandler.navn }} />
-        </Normaltekst>
-      </Column>
-      <Column xs="4">
-        <Hovedknapp
-          className={styles.submitButton}
-          mini
-          htmlType="submit"
-          onClick={() => fjernSaksbehandler(valgtSaksbehandler)}
-          autoFocus
-        >
-          {intl.formatMessage({ id: 'SletteSaksbehandlerModal.Ja' })}
-        </Hovedknapp>
+    <div className={styles.text}>
+      <Normaltekst>
+        <FormattedMessage id="SletteSaksbehandlerModal.SletteSaksbehandler" values={{ saksbehandlerNavn: valgtSaksbehandler.navn }} />
+      </Normaltekst>
+    </div>
+    <div className={styles.buttons}>
+      <Column>
         <Knapp
           className={styles.cancelButton}
           mini
@@ -70,7 +53,18 @@ const SletteSaksbehandlerModal: FunctionComponent<OwnProps & WrappedComponentPro
           {intl.formatMessage({ id: 'SletteSaksbehandlerModal.Nei' })}
         </Knapp>
       </Column>
-    </Row>
+      <Column xs="4">
+        <Hovedknapp
+          className={styles.submitButton}
+          mini
+          htmlType="submit"
+          onClick={() => fjernSaksbehandler(valgtSaksbehandler.epost)}
+          autoFocus
+        >
+          {intl.formatMessage({ id: 'SletteSaksbehandlerModal.Ja' })}
+        </Hovedknapp>
+      </Column>
+    </div>
   </Modal>
 );
 

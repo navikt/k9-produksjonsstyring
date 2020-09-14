@@ -288,9 +288,9 @@
   "SorteringVelger.Til": "Til",
 
   "SletteSaksbehandlerModal.SletteModal": "Ønsker du å slette saksbehandler?",
-  "SletteSaksbehandlerModal.SletteSaksbehandler": "Ønsker du å slette {saksbehandlerNavn}?",
-  "SletteSaksbehandlerModal.Ja": "Ja",
-  "SletteSaksbehandlerModal.Nei": "Nei",
+  "SletteSaksbehandlerModal.SletteSaksbehandler": "Er du sikker på at du vil slette {saksbehandlerNavn}?",
+  "SletteSaksbehandlerModal.Ja": "Slett saksbehandleren",
+  "SletteSaksbehandlerModal.Nei": "Avbryt",
 
   "TilBehandlingPanel.TilBehandling": "Antall til behandling",
   "TilBehandlingPanel.ToSisteUker": "2 siste uker",
