@@ -1,6 +1,7 @@
 
 import { Dispatch } from 'redux';
 import k9LosApi from 'api/k9LosApi';
+import { fetchAlleSaksbehandlere } from 'avdelingsleder/bemanning/duck';
 
 
 /* Action types */
@@ -119,7 +120,8 @@ export const knyttSaksbehandlerTilOppgaveko = (id: string, epost: string, isChec
     epost,
     checked: isChecked,
   }),
-).then(() => dispatch(fetchOppgaveko(id)));
+).then(() => dispatch(fetchOppgaveko(id)))
+  .then(() => dispatch(fetchAlleSaksbehandlere()));
 
 /* Reducer */
 const initialState = {

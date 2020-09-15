@@ -15,7 +15,8 @@ describe('<SletteSaksbehandlerModal>', () => {
     const saksbehandler = {
       brukerIdent: 'TEST1',
       navn: 'Espen Utvikler',
-      avdelingsnavn: ['NAV Oslo'],
+      epost: 'epost',
+      oppgavekoer: ['OMP'],
     };
 
     const wrapper = shallowWithIntl(<SletteSaksbehandlerModal.WrappedComponent
@@ -33,7 +34,8 @@ describe('<SletteSaksbehandlerModal>', () => {
     const saksbehandler = {
       brukerIdent: 'TEST1',
       navn: 'Espen Utvikler',
-      avdelingsnavn: ['NAV Oslo'],
+      epost: 'epost',
+      oppgavekoer: ['OMP'],
     };
     const submitFn = sinon.spy();
 
@@ -53,6 +55,6 @@ describe('<SletteSaksbehandlerModal>', () => {
     expect(submitFn.calledOnce).to.be.true;
     const { args } = submitFn.getCalls()[0];
     expect(args).to.have.length(1);
-    expect(args[0]).to.eql(saksbehandler);
+    expect(args[0]).to.eql(saksbehandler.epost);
   });
 });

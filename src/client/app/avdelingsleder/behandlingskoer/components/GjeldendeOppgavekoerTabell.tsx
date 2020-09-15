@@ -82,7 +82,6 @@ export class GjeldendeOppgavekoerTabell extends Component<TsProps, StateTsProps>
     valgtOppgavekoId: PropTypes.string,
     behandlingTyper: PropTypes.arrayOf(kodeverkPropType).isRequired,
     fagsakYtelseTyper: PropTypes.arrayOf(kodeverkPropType).isRequired,
-    oppgaverTotalt: PropTypes.number,
     hentKo: PropTypes.func.isRequired,
   };
 
@@ -190,6 +189,7 @@ export class GjeldendeOppgavekoerTabell extends Component<TsProps, StateTsProps>
           className={styles.addKnapp}
           tabIndex={0}
           onClick={() => lagNyOppgaveko()}
+          onKeyDown={() => lagNyOppgaveko()}
         >
           <Image src={addCircle} className={styles.addIcon} />
           <FormattedMessage id="GjeldendeOppgavekoerTabell.LeggTilListe" />
@@ -207,7 +207,7 @@ export class GjeldendeOppgavekoerTabell extends Component<TsProps, StateTsProps>
             <>
               <TableRow
                 key={oppgaveko.id}
-                className={oppgaveko.id === valgtOppgavekoId ? styles.isSelected : undefined}
+                className={oppgaveko.id === valgtOppgavekoId ? styles.isSelected : styles.notSelected}
                 id={oppgaveko.id}
                 onMouseDown={this.setValgtOppgaveko}
                 onKeyDown={this.setValgtOppgaveko}
@@ -224,7 +224,9 @@ export class GjeldendeOppgavekoerTabell extends Component<TsProps, StateTsProps>
                   <Chevron key={oppgaveko.id} type={(valgtOppgavekoId && valgtOppgavekoId === oppgaveko.id) ? 'opp' : 'ned'} className={styles.chevron} />
                 </TableColumn>
               </TableRow>
+
               {valgtOppgavekoId && valgtOppgavekoId === oppgaveko.id && (
+              <>
                 <Row>
                   <UtvalgskriterierForOppgavekoForm
                     lagreOppgavekoNavn={lagreOppgavekoNavn}
@@ -235,6 +237,11 @@ export class GjeldendeOppgavekoerTabell extends Component<TsProps, StateTsProps>
                     hentAntallOppgaverForOppgaveko={hentAntallOppgaverForOppgaveko}
                   />
                 </Row>
+                <SaksbehandlereForOppgavekoForm
+                  valgtOppgaveko={oppgaveko}
+                  knyttSaksbehandlerTilOppgaveko={knyttSaksbehandlerTilOppgaveko}
+                />
+              </>
 
               )}
             </>

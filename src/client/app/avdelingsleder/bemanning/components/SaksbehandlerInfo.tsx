@@ -15,7 +15,6 @@ interface OwnProps {
 const SaksbehandlerInfo: FunctionComponent<OwnProps & WrappedComponentProps> = ({
   saksbehandler,
   fjernSaksbehandler,
-  intl,
 }) => {
   const [visSlettModal, setVisSlettModal] = useState(false);
   const lukkSlettModal = () => {
@@ -27,6 +26,7 @@ const SaksbehandlerInfo: FunctionComponent<OwnProps & WrappedComponentProps> = (
       <FlexRow>
         <FlexColumn className={styles.koer}>
           <Normaltekst className={styles.overskrift}>Køer</Normaltekst>
+          {saksbehandler.oppgavekoer.length === 0 && <Normaltekst className={styles.info}>Ingen køer tildelt</Normaltekst>}
           {saksbehandler.oppgavekoer.length > 0 && saksbehandler.oppgavekoer.map((ko) => <Normaltekst className={styles.info}>{ko}</Normaltekst>)}
         </FlexColumn>
       </FlexRow>
@@ -50,7 +50,16 @@ const SaksbehandlerInfo: FunctionComponent<OwnProps & WrappedComponentProps> = (
         </FlexRow>
       </div>
       <FlexRow>
-        <div id="slett" className={styles.slett} role="button" onClick={() => { setVisSlettModal(true); }}>Slett saksbehandler</div>
+        {/* eslint-disable-next-line jsx-a11y/interactive-supports-focus */}
+        <div
+          id="slett"
+          className={styles.slett}
+          role="button"
+          onClick={() => { setVisSlettModal(true); }}
+          onKeyDown={() => { setVisSlettModal(true); }}
+        >
+          Slett saksbehandler
+        </div>
       </FlexRow>
       {visSlettModal === true && (
       <SletteSaksbehandlerModal

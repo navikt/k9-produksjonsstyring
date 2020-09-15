@@ -10,6 +10,8 @@ import TableColumn from 'sharedComponents/TableColumn';
 import { Knapp } from 'nav-frontend-knapper';
 import Chevron from 'nav-frontend-chevron';
 import SaksbehandlerInfo from 'avdelingsleder/bemanning/components/SaksbehandlerInfo';
+import { SaksbehandlereForOppgavekoForm } from 'avdelingsleder/behandlingskoer/components/saksbehandlerForm/SaksbehandlereForOppgavekoForm';
+import { LeggTilSaksbehandlerForm } from 'avdelingsleder/bemanning/components/LeggTilSaksbehandlerForm';
 import saksbehandlereGra from '../../../../images/saksbehandlereGra.svg';
 import SletteSaksbehandlerModal from './SletteSaksbehandlerModal';
 import { Saksbehandler } from '../saksbehandlerTsType';
@@ -24,6 +26,8 @@ const headerTextCodes = [
 interface OwnProps {
   saksbehandlere: Saksbehandler[];
   fjernSaksbehandler: (epost: string) => Promise<string>;
+  leggTilSaksbehandler: (brukerIdent: string) => Promise<string>;
+  resetSaksbehandlerSok: () => void;
 }
 
 /**
@@ -32,20 +36,18 @@ interface OwnProps {
 const SaksbehandlereTabell: FunctionComponent<OwnProps> = ({
   saksbehandlere,
   fjernSaksbehandler,
+  leggTilSaksbehandler,
+  resetSaksbehandlerSok,
 }) => {
   const [valgtSaksbehandler, setValgtSaksbehandler] = useState<Saksbehandler>();
-
-  const showSletteSaksbehandlerModal = (saksbehandler: Saksbehandler) => {
-    setValgtSaksbehandler(saksbehandler);
-  };
+  const [visAddSaksbehadler, setVisAddSaksbehandler] = useState(false);
 
   const closeSletteModal = () => {
     setValgtSaksbehandler(undefined);
   };
 
-  const slettSaksbehandler = (saksbehandler: Saksbehandler) => {
-    fjernSaksbehandler(saksbehandler.epost);
-    closeSletteModal();
+  const lukkForm = () => {
+    setVisAddSaksbehandler(false);
   };
 
   const onClick = (saksbehandler: Saksbehandler) => {
@@ -56,6 +58,7 @@ const SaksbehandlereTabell: FunctionComponent<OwnProps> = ({
     }
   };
 
+  const onAddClick = () => { setVisAddSaksbehandler(true); };
 
   const sorterteSaksbehandlere = saksbehandlere.sort((saksbehandler1, saksbehandler2) => saksbehandler1.epost.localeCompare(saksbehandler2.epost));
 
@@ -69,6 +72,7 @@ const SaksbehandlereTabell: FunctionComponent<OwnProps> = ({
         mini
         className={styles.addKnapp}
         tabIndex={0}
+        onClick={onAddClick}
       >
         <Image src={addCircle} className={styles.addIcon} />
         <FormattedMessage id="LeggTilSaksbehandlerForm.LeggTil" />
@@ -89,7 +93,7 @@ const SaksbehandlereTabell: FunctionComponent<OwnProps> = ({
                 onMouseDown={() => onClick(saksbehandler)}
                 onKeyDown={() => onClick(saksbehandler)}
               >
-                <TableColumn>{saksbehandler.navn}</TableColumn>
+                <TableColumn>{saksbehandler.navn != null ? saksbehandler.navn : saksbehandler.epost}</TableColumn>
                 <TableColumn>
                   <Chevron
                     key={saksbehandler.brukerIdent}
@@ -106,13 +110,22 @@ const SaksbehandlereTabell: FunctionComponent<OwnProps> = ({
                     fjernSaksbehandler={fjernSaksbehandler}
                   />
                 </TableColumn>
-                <TableColumn />
-
               </TableRow>
+
+
               )}
             </>
           ))}
         </Table>
+      )}
+      {visAddSaksbehadler
+      && (
+      <LeggTilSaksbehandlerForm
+        leggTilSaksbehandler={leggTilSaksbehandler}
+        resetSaksbehandlerSok={resetSaksbehandlerSok}
+        saksbehandlere={saksbehandlere}
+        lukkForm={lukkForm}
+      />
       )}
     </>
   );

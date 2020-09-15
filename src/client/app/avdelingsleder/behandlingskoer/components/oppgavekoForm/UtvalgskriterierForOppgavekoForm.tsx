@@ -196,12 +196,4 @@ const mapStateToProps = (state) => ({
   gjeldendeKo: getOppgaveko(state),
 });
 
-const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => ({
-  ...bindActionCreators({
-    lagreOppgavekoSortering: lagreOppgavekoSorteringActionCreator,
-    lagreOppgavekoSorteringTidsintervallDato: lagreOppgavekoSorteringTidsintervallDatoActionCreator,
-    fetchOppgaveko,
-  }, dispatch),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(injectIntl(UtvalgskriterierForOppgavekoForm));
+export default connect(mapStateToProps)(injectIntl(UtvalgskriterierForOppgavekoForm));

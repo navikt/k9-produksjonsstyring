@@ -1,20 +1,19 @@
 import React, { FunctionComponent } from 'react';
 
 import Panel from 'nav-frontend-paneler';
-import SaksstotteIndex from 'saksbehandler/saksstotte/SaksstotteIndex';
-import { SaksbehandlerIndex } from 'saksbehandler/SaksbehandlerIndex';
 import BemanningIndex from 'avdelingsleder/bemanning/BemanningIndex';
 import styles from './avdelingslederDashboard.less';
 
 type OwnProps = Readonly<{
   children: any;
+  visSaksbehandlere: boolean;
 }>;
 
 /**
  * AvdelingslederDashboard
  */
 const AvdelingslederDashboard: FunctionComponent<OwnProps> = ({
-  children,
+  children, visSaksbehandlere,
 }) => (
   <div>
     <div className={styles.oppgaveContainer}>
@@ -25,10 +24,11 @@ const AvdelingslederDashboard: FunctionComponent<OwnProps> = ({
           </div>
         </div>
         <div className={styles.rightColumn}>
+          {visSaksbehandlere && (
           <Panel>
-            {' '}
             <BemanningIndex />
           </Panel>
+          )}
 
         </div>
       </div>

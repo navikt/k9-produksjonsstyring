@@ -67,7 +67,7 @@ export class SaksbehandlereForOppgavekoForm extends Component<TsProps> {
         onSubmit={() => undefined}
         initialValues={this.buildInitialValues()}
         render={() => (
-          <Panel className={styles.panel}>
+          <div className={styles.panel}>
             <Element>
               <FormattedMessage id="SaksbehandlereForOppgavekoForm.Saksbehandlere" />
             </Element>
@@ -79,27 +79,31 @@ export class SaksbehandlereForOppgavekoForm extends Component<TsProps> {
             <Row>
               <Column xs="6">
                 {alleSaksbehandlereVenstreListe.map((s) => (
-                  <CheckboxField
-                    key={s.epost}
-                    name={s.epost.replace(/\./g, '')}
-                    label={s.epost}
-                    onChange={(isChecked) => knyttSaksbehandlerTilOppgaveko(valgtOppgaveko.id, s.epost, isChecked)}
-                  />
+                  <div className={styles.checkBox}>
+                    <CheckboxField
+                      key={s.epost}
+                      name={s.epost.replace(/\./g, '')}
+                      label={s.epost}
+                      onChange={(isChecked) => knyttSaksbehandlerTilOppgaveko(valgtOppgaveko.id, s.epost, isChecked)}
+                    />
+                  </div>
                 ))}
               </Column>
               <Column xs="6">
                 {alleSaksbehandlereHoyreListe.map((s) => (
-                  <CheckboxField
-                    key={s.epost}
-                    name={s.epost.replace(/\./g, '')}
-                    label={s.epost}
-                    onChange={(isChecked) => knyttSaksbehandlerTilOppgaveko(valgtOppgaveko.id, s.epost, isChecked)}
-                  />
+                  <div className={styles.checkBox}>
+                    <CheckboxField
+                      key={s.epost}
+                      name={s.epost.replace(/\./g, '')}
+                      label={s.epost}
+                      onChange={(isChecked) => knyttSaksbehandlerTilOppgaveko(valgtOppgaveko.id, s.epost, isChecked)}
+                    />
+                  </div>
                 ))}
               </Column>
             </Row>
             )}
-          </Panel>
+          </div>
         )}
       />
     );

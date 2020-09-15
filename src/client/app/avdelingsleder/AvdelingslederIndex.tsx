@@ -108,7 +108,7 @@ export const AvdelingslederIndex = ({
           <Normaltekst className={styles.paneltekst}>Avdelingslederpanel</Normaltekst>
         </Row>
         <Row>
-          <AvdelingslederDashboard key={activeAvdelingslederPanel}>
+          <AvdelingslederDashboard key={activeAvdelingslederPanel} visSaksbehandlere={activeAvdelingslederPanel === AvdelingslederPanels.BEHANDLINGSKOER}>
             <div>
               <Tabs tabs={[
                 getTab(AvdelingslederPanels.BEHANDLINGSKOER, activeAvdelingslederPanel, getAvdelingslederPanelLocation),

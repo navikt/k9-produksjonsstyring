@@ -3,14 +3,14 @@ import { shallow } from 'enzyme';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { FormattedMessage } from 'react-intl';
-
-import Image from 'sharedComponents/Image';
 import behandlingType from 'kodeverk/behandlingType';
 import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
 import Table from 'sharedComponents/Table';
 import TableRow from 'sharedComponents/TableRow';
 import TableColumn from 'sharedComponents/TableColumn';
-import SletteOppgavekoModal from './SletteOppgavekoModal';
+import UtvalgskriterierForOppgavekoForm
+  from 'avdelingsleder/behandlingskoer/components/oppgavekoForm/UtvalgskriterierForOppgavekoForm';
+import { Knapp } from 'nav-frontend-knapper';
 import { GjeldendeOppgavekoerTabell } from './GjeldendeOppgavekoerTabell';
 
 describe('<GjeldendeOppgavekoerTabell>', () => {
@@ -42,13 +42,18 @@ describe('<GjeldendeOppgavekoerTabell>', () => {
       hentKo={sinon.spy()}
       behandlingTyper={behandlingstyper}
       fagsakYtelseTyper={fagsakYtelseTyper}
-      hentOppgavekoer={sinon.spy()}
-      hentAntallOppgaverTotalt={sinon.spy()}
+      hentAntallOppgaverForOppgaveko={sinon.spy()}
+      knyttSaksbehandlerTilOppgaveko={sinon.spy()}
+      lagreOppgavekoAndreKriterier={sinon.spy()}
+      lagreOppgavekoBehandlingstype={sinon.spy()}
+      lagreOppgavekoFagsakYtelseType={sinon.spy()}
+      lagreOppgavekoNavn={sinon.spy()}
+      lagreOppgavekoSkjermet={sinon.spy()}
     />);
 
     const tekstComp = wrapper.find(FormattedMessage);
     expect(tekstComp).to.have.length(2);
-    expect(tekstComp.at(2).prop('id')).to.eql('GjeldendeOppgavekoerTabell.IngenLister');
+    expect(tekstComp.at(1).prop('id')).to.eql('GjeldendeOppgavekoerTabell.IngenLister');
 
     expect(wrapper.find(Table)).to.have.length(0);
   });
@@ -62,6 +67,7 @@ describe('<GjeldendeOppgavekoerTabell>', () => {
       erRegistrerPapirsoknad: false,
       saksbehandlere: [],
       skjermet: false,
+      antallBehandlinger: 38,
     }, {
       id: '2',
       navn: 'Kun foreldrepenger',
@@ -70,6 +76,7 @@ describe('<GjeldendeOppgavekoerTabell>', () => {
       erRegistrerPapirsoknad: false,
       saksbehandlere: [],
       skjermet: false,
+      antallBehandlinger: 54,
     }];
 
     const wrapper = shallow(<GjeldendeOppgavekoerTabell
@@ -80,17 +87,22 @@ describe('<GjeldendeOppgavekoerTabell>', () => {
       hentKo={sinon.spy()}
       behandlingTyper={behandlingstyper}
       fagsakYtelseTyper={fagsakYtelseTyper}
-      hentOppgavekoer={sinon.spy()}
-      hentAntallOppgaverTotalt={sinon.spy()}
+      hentAntallOppgaverForOppgaveko={sinon.spy()}
+      knyttSaksbehandlerTilOppgaveko={sinon.spy()}
+      lagreOppgavekoAndreKriterier={sinon.spy()}
+      lagreOppgavekoBehandlingstype={sinon.spy()}
+      lagreOppgavekoFagsakYtelseType={sinon.spy()}
+      lagreOppgavekoNavn={sinon.spy()}
+      lagreOppgavekoSkjermet={sinon.spy()}
     />);
 
-    expect(wrapper.find(FormattedMessage)).to.have.length(7);
+    expect(wrapper.find(FormattedMessage)).to.have.length(5);
     expect(wrapper.find(Table)).to.have.length(1);
     const rader = wrapper.find(TableRow);
     expect(rader).to.have.length(2);
 
     const kolonnerForRad1 = rader.first().find(TableColumn);
-    expect(kolonnerForRad1).to.have.length(5);
+    expect(kolonnerForRad1).to.have.length(7);
     expect(kolonnerForRad1.first().childAt(0).text()).to.eql('Nyansatte');
 
     const kolonnerForRad2 = rader.last().find(TableColumn);
@@ -110,10 +122,16 @@ describe('<GjeldendeOppgavekoerTabell>', () => {
       behandlingTyper={behandlingstyper}
       fagsakYtelseTyper={fagsakYtelseTyper}
       hentKo={sinon.spy()}
-      hentAntallOppgaverTotalt={sinon.spy()}
+      hentAntallOppgaverForOppgaveko={sinon.spy()}
+      knyttSaksbehandlerTilOppgaveko={sinon.spy()}
+      lagreOppgavekoAndreKriterier={sinon.spy()}
+      lagreOppgavekoBehandlingstype={sinon.spy()}
+      lagreOppgavekoFagsakYtelseType={sinon.spy()}
+      lagreOppgavekoNavn={sinon.spy()}
+      lagreOppgavekoSkjermet={sinon.spy()}
     />);
 
-    const leggTilListe = wrapper.find('div#leggTilListe');
+    const leggTilListe = wrapper.find(Knapp).first();
     expect(leggTilListe).to.have.length(1);
 
     leggTilListe.prop('onClick')();
@@ -132,11 +150,17 @@ describe('<GjeldendeOppgavekoerTabell>', () => {
       fjernOppgaveko={sinon.spy()}
       behandlingTyper={behandlingstyper}
       fagsakYtelseTyper={fagsakYtelseTyper}
+      hentAntallOppgaverForOppgaveko={sinon.spy()}
+      knyttSaksbehandlerTilOppgaveko={sinon.spy()}
+      lagreOppgavekoAndreKriterier={sinon.spy()}
+      lagreOppgavekoBehandlingstype={sinon.spy()}
+      lagreOppgavekoFagsakYtelseType={sinon.spy()}
+      lagreOppgavekoNavn={sinon.spy()}
+      lagreOppgavekoSkjermet={sinon.spy()}
       hentKo={sinon.spy()}
-      hentAntallOppgaverTotalt={sinon.spy()}
     />);
 
-    const leggTilListe = wrapper.find('div#leggTilListe');
+    const leggTilListe = wrapper.find(Knapp).first();
     expect(leggTilListe).to.have.length(1);
 
     leggTilListe.prop('onKeyDown')({
@@ -144,31 +168,6 @@ describe('<GjeldendeOppgavekoerTabell>', () => {
     });
 
     expect(lagNyOppgavekoFn.calledOnce).to.be.true;
-  });
-
-  it('skal ikke legge til ny oppgavekø ved trykk på annen knapp enn enter', () => {
-    const oppgavekoer = [];
-    const lagNyOppgavekoFn = sinon.spy();
-
-    const wrapper = shallow(<GjeldendeOppgavekoerTabell
-      oppgavekoer={oppgavekoer}
-      setValgtOppgavekoId={sinon.spy()}
-      lagNyOppgaveko={lagNyOppgavekoFn}
-      fjernOppgaveko={sinon.spy()}
-      behandlingTyper={behandlingstyper}
-      fagsakYtelseTyper={fagsakYtelseTyper}
-      hentKo={sinon.spy()}
-      hentAntallOppgaverTotalt={sinon.spy()}
-    />);
-
-    const leggTilListe = wrapper.find('div#leggTilListe');
-    expect(leggTilListe).to.have.length(1);
-
-    leggTilListe.prop('onKeyDown')({
-      keyCode: 10,
-    });
-
-    expect(lagNyOppgavekoFn.calledOnce).to.be.false;
   });
 
   it('skal sette valgt oppgavekø ved trykk på rad i tabell', async () => {
@@ -180,6 +179,7 @@ describe('<GjeldendeOppgavekoerTabell>', () => {
       erRegistrerPapirsoknad: false,
       saksbehandlere: [],
       skjermet: false,
+      antallBehandlinger: 78,
     }];
     const setValgtOppgavekoIdFn = sinon.spy();
 
@@ -189,10 +189,15 @@ describe('<GjeldendeOppgavekoerTabell>', () => {
       hentKo={sinon.spy()}
       lagNyOppgaveko={sinon.spy()}
       fjernOppgaveko={sinon.spy()}
+      hentAntallOppgaverForOppgaveko={sinon.spy()}
+      knyttSaksbehandlerTilOppgaveko={sinon.spy()}
+      lagreOppgavekoAndreKriterier={sinon.spy()}
+      lagreOppgavekoBehandlingstype={sinon.spy()}
+      lagreOppgavekoFagsakYtelseType={sinon.spy()}
+      lagreOppgavekoNavn={sinon.spy()}
+      lagreOppgavekoSkjermet={sinon.spy()}
       behandlingTyper={behandlingstyper}
       fagsakYtelseTyper={fagsakYtelseTyper}
-      hentOppgavekoer={sinon.spy()}
-      hentAntallOppgaverTotalt={sinon.spy()}
     />);
 
     const rader = wrapper.find(TableRow);
@@ -203,122 +208,6 @@ describe('<GjeldendeOppgavekoerTabell>', () => {
     expect(setValgtOppgavekoIdFn.calledOnce).to.be.true;
   });
 
-  it('skal vise modal for å slette oppgavekø ved trykk på slette-knapp', () => {
-    const oppgavekoer = [{
-      id: '1',
-      navn: 'Nyansatte',
-      sistEndret: '2017-08-31',
-      erTilBeslutter: false,
-      erRegistrerPapirsoknad: false,
-      saksbehandlere: [],
-      skjermet: false,
-    }];
-    const wrapper = shallow(<GjeldendeOppgavekoerTabell
-      oppgavekoer={oppgavekoer}
-      hentKo={sinon.spy()}
-      setValgtOppgavekoId={sinon.spy()}
-      lagNyOppgaveko={sinon.spy()}
-      fjernOppgaveko={sinon.spy()}
-      behandlingTyper={behandlingstyper}
-      fagsakYtelseTyper={fagsakYtelseTyper}
-      hentOppgavekoer={sinon.spy()}
-      hentAntallOppgaverTotalt={sinon.spy()}
-    />);
-
-    const rader = wrapper.find(TableRow);
-    expect(rader).to.have.length(1);
-
-    const kolonner = rader.first().find(TableColumn);
-    const bildeKnapp = kolonner.last().find(Image);
-    expect(bildeKnapp).to.have.length(1);
-
-    expect(wrapper.find(SletteOppgavekoModal)).to.have.length(0);
-
-    bildeKnapp.prop('onMouseDown')();
-
-    expect(wrapper.find(SletteOppgavekoModal)).to.have.length(1);
-    expect(wrapper.state().valgtOppgaveko).is.eql(oppgavekoer[0]);
-  });
-
-  it('skal lukke modal ved trykk på avbryt i modal', () => {
-    const oppgavekoer = [{
-      id: '1',
-      navn: 'Nyansatte',
-      sistEndret: '2017-08-31',
-      erTilBeslutter: false,
-      erRegistrerPapirsoknad: false,
-      saksbehandlere: [],
-      skjermet: false,
-    }];
-    const wrapper = shallow(<GjeldendeOppgavekoerTabell
-      oppgavekoer={oppgavekoer}
-      setValgtOppgavekoId={sinon.spy()}
-      lagNyOppgaveko={sinon.spy()}
-      fjernOppgaveko={sinon.spy()}
-      hentKo={sinon.spy()}
-      behandlingTyper={behandlingstyper}
-      fagsakYtelseTyper={fagsakYtelseTyper}
-      hentOppgavekoer={sinon.spy()}
-      hentAntallOppgaverTotalt={sinon.spy()}
-    />);
-
-    const rader = wrapper.find(TableRow);
-    const kolonner = rader.first().find(TableColumn);
-    const bildeKnapp = kolonner.last().find(Image);
-
-    bildeKnapp.prop('onMouseDown')();
-
-    const modal = wrapper.find(SletteOppgavekoModal);
-    expect(modal).to.have.length(1);
-
-    modal.prop('cancel')();
-
-    expect(wrapper.find(SletteOppgavekoModal)).to.have.length(0);
-    expect(wrapper.state().valgtOppgaveko).is.undefined;
-  });
-
-  it('skal fjerne oppgavekø ved trykk på ok i modal', () => {
-    const oppgavekoer = [{
-      id: '1',
-      navn: 'Nyansatte',
-      sistEndret: '2017-08-31',
-      erTilBeslutter: false,
-      erRegistrerPapirsoknad: false,
-      saksbehandlere: [],
-      skjermet: false,
-    }];
-    const fjernOppgavekoerFn = sinon.spy();
-    const wrapper = shallow(<GjeldendeOppgavekoerTabell
-      oppgavekoer={oppgavekoer}
-      setValgtOppgavekoId={sinon.spy()}
-      lagNyOppgaveko={sinon.spy()}
-      hentKo={sinon.spy()}
-      fjernOppgaveko={fjernOppgavekoerFn}
-      behandlingTyper={behandlingstyper}
-      fagsakYtelseTyper={fagsakYtelseTyper}
-      hentOppgavekoer={sinon.spy()}
-      hentAntallOppgaverTotalt={sinon.spy()}
-    />);
-
-    const rader = wrapper.find(TableRow);
-    const kolonner = rader.first().find(TableColumn);
-    const bildeKnapp = kolonner.last().find(Image);
-
-    bildeKnapp.prop('onMouseDown')();
-
-    const modal = wrapper.find(SletteOppgavekoModal);
-    expect(modal).to.have.length(1);
-
-    modal.prop('submit')(oppgavekoer[0]);
-
-    expect(wrapper.find(SletteOppgavekoModal)).to.have.length(0);
-    expect(wrapper.state().valgtOppgaveko).is.undefined;
-
-    expect(fjernOppgavekoerFn.calledOnce).to.be.true;
-    const { args } = fjernOppgavekoerFn.getCalls()[0];
-    expect(args).to.have.length(1);
-    expect(args[0]).to.eql(oppgavekoer[0].id);
-  });
 
   it('skal vise antall saksbehandlere tilknyttet oppgavekøen', () => {
     const oppgavekoer = [{
@@ -332,8 +221,10 @@ describe('<GjeldendeOppgavekoerTabell>', () => {
         navn: 'Sara',
         brukerIdent: 'fslkjd',
         epost: 'epost',
+        oppgavekoer: ['OMP'],
 
       }],
+      antallBehandlinger: 78,
     }];
 
     const wrapper = shallow(<GjeldendeOppgavekoerTabell
@@ -342,10 +233,15 @@ describe('<GjeldendeOppgavekoerTabell>', () => {
       lagNyOppgaveko={sinon.spy()}
       fjernOppgaveko={sinon.spy()}
       hentKo={sinon.spy()}
+      hentAntallOppgaverForOppgaveko={sinon.spy()}
+      knyttSaksbehandlerTilOppgaveko={sinon.spy()}
+      lagreOppgavekoAndreKriterier={sinon.spy()}
+      lagreOppgavekoBehandlingstype={sinon.spy()}
+      lagreOppgavekoFagsakYtelseType={sinon.spy()}
+      lagreOppgavekoNavn={sinon.spy()}
+      lagreOppgavekoSkjermet={sinon.spy()}
       behandlingTyper={behandlingstyper}
       fagsakYtelseTyper={fagsakYtelseTyper}
-      hentOppgavekoer={sinon.spy()}
-      hentAntallOppgaverTotalt={sinon.spy()}
     />);
 
     expect(wrapper.find(Table)).to.have.length(1);
@@ -355,5 +251,41 @@ describe('<GjeldendeOppgavekoerTabell>', () => {
     const kolonnerForRad = rader.first().find(TableColumn);
     expect(kolonnerForRad).to.have.length(7);
     expect(kolonnerForRad.at(3).childAt(0).text()).to.eql('1');
+  });
+
+  it('skal vise editeringspanel når en har valgt tabellrad', () => {
+    const oppgavekoer = [{
+      id: '1',
+      navn: 'Espen Utvikler',
+      sistEndret: '2017-08-31',
+      erTilBeslutter: false,
+      erRegistrerPapirsoknad: false,
+      saksbehandlere: [],
+      skjermet: false,
+      antallBehandlinger: 78,
+    }];
+
+    const wrapper = shallow(<GjeldendeOppgavekoerTabell
+      oppgavekoer={oppgavekoer}
+      setValgtOppgavekoId={sinon.spy()}
+      lagNyOppgaveko={sinon.spy()}
+      hentKo={sinon.spy()}
+      behandlingTyper={behandlingstyper}
+      fagsakYtelseTyper={fagsakYtelseTyper}
+      fjernOppgaveko={sinon.spy()}
+      lagreOppgavekoNavn={sinon.spy()}
+      lagreOppgavekoBehandlingstype={sinon.spy()}
+      lagreOppgavekoFagsakYtelseType={sinon.spy()}
+      lagreOppgavekoAndreKriterier={sinon.spy()}
+      lagreOppgavekoSkjermet={sinon.spy()}
+      valgtOppgavekoId="1"
+      knyttSaksbehandlerTilOppgaveko={sinon.spy()}
+      hentOppgavekonsSaksbehandlere={sinon.spy()}
+      hentAntallOppgaverForOppgaveko={sinon.spy()}
+      hentAntallOppgaverTotalt={sinon.spy()}
+      showSaksbehandlerPanel
+    />);
+
+    expect(wrapper.find(UtvalgskriterierForOppgavekoForm)).to.have.length(1);
   });
 });
