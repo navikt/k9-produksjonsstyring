@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Hente kode
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
       - name: Deploy til testmiljø
         uses: nais/deploy/actions/deploy@v1
         env:
@@ -27,7 +27,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Hente kode
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
       - name: Deploy til prod
         uses: nais/deploy/actions/deploy@v1
         env:

@@ -5,6 +5,7 @@ const driftsmeldingPropType = PropTypes.shape({
   melding: PropTypes.string.isRequired,
   dato: PropTypes.string.isRequired,
   aktiv: PropTypes.bool.isRequired,
+  aktivert: PropTypes.string,
 });
 
 export default driftsmeldingPropType;
