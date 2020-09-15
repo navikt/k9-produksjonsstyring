@@ -99,10 +99,8 @@ export class FagsakSearchIndex extends Component<Props, StateProps> {
   goToFagsakEllerApneModal = (oppgave: Oppgave) => {
     const { goToFagsak } = this.props;
     if (!oppgave.status.erReservert || (oppgave.status.erReservert && oppgave.status.erReservertAvInnloggetBruker)) {
-      this.leggTilBehandletSak(oppgave);
       goToFagsak(oppgave.saksnummer, oppgave.behandlingId);
     } else if (oppgave.status.erReservert && !oppgave.status.erReservertAvInnloggetBruker) {
-      this.leggTilBehandletSak(oppgave);
       this.setState((prevState) => ({ ...prevState, reservertAvAnnenSaksbehandler: true, reservertOppgave: oppgave }));
     }
   }
@@ -123,6 +121,7 @@ export class FagsakSearchIndex extends Component<Props, StateProps> {
       goToFagsak(oppgave.saksnummer, oppgave.behandlingId);
     }
     if (!reserver) {
+      this.leggTilBehandletSak(oppgave);
       this.goToFagsakEllerApneModal(oppgave);
     } else if (reserver && kanReservere) {
       reserverOppgave(oppgave.eksternId).then(() => {

@@ -151,7 +151,7 @@ const BeholdningHistorikkGraf: FunctionComponent<OwnProps> = ({
 
 
   const periodeStart = moment().subtract(isToUkerValgt ? 2 : 4, 'w').add(1, 'd');
-  const periodeSlutt = moment();
+  const periodeSlutt = moment().subtract(1, 'd');
 
   const koordinater = useMemo(() => konverterTilKoordinaterGruppertPaBehandlingstype(beholdningPerDato), [beholdningPerDato]);
   const data = useMemo(() => fyllInnManglendeDatoerOgSorterEtterDato(koordinater, periodeStart, periodeSlutt), [koordinater, periodeStart, periodeSlutt]);
@@ -238,21 +238,18 @@ const BeholdningHistorikkGraf: FunctionComponent<OwnProps> = ({
               )}
             </XYPlot>
             <div className={styles.legendContainer}>
-              { valgtValues.length > 0
-                ? <Normaltekst className={styles.date}>{`${moment(valgtValues[0].x).format(DDMMYYYY_DATE_FORMAT)}`}</Normaltekst>
-                : <Normaltekst className={styles.date}>{`${moment().format(DDMMYYYY_DATE_FORMAT)}`}</Normaltekst>}
-              {valgtValues.length > 0 ? (
-                <Normaltekst className={styles.weekday}>
-                  {new Date(valgtValues[0].x).getDay() === 0 ? `${weekdays[6]}`
-                    : `${weekdays[new Date(valgtValues[0].x).getDay() - 1]}`}
-                </Normaltekst>
-              )
-                : (
-                  <Normaltekst className={styles.weekday}>
-                    {new Date().getDay() === 0 ? `${weekdays[6]}`
-                      : `${weekdays[(new Date().getDay() - 1)]}`}
-                  </Normaltekst>
-                )}
+              { valgtValues.length === 0
+                && <Normaltekst className={styles.noDate}>Ingen dato valgt</Normaltekst>}
+              {valgtValues.length > 0
+                  && (
+                  <div>
+                    <Normaltekst className={styles.date}>{`${moment(valgtValues[0].x).format(DDMMYYYY_DATE_FORMAT)}`}</Normaltekst>
+                    <Normaltekst className={styles.weekday}>
+                      {new Date(valgtValues[0].x).getDay() === 0 ? `${weekdays[6]}`
+                        : `${weekdays[new Date(valgtValues[0].x).getDay() - 1]}`}
+                    </Normaltekst>
+                  </div>
+                  )}
               {valgtValues.length > 0 && reversertSorterteBehandlingstyper.map((key) => (
                 <div className={styles.legend}>
                   <span key={key} className={styles.dot} style={{ backgroundColor: behandlingstypeFarger[key] }} />

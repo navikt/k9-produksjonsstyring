@@ -15,6 +15,7 @@ const k9LosApiKeys = {
   SSE_URL: 'SSE_URL',
   FEATURE_TOGGLES: 'FEATURE_TOGGLES',
   OPPGAVEKO: 'OPPGAVEKO',
+  HENT_OPPGAVEKO: 'HENT_OPPGAVEKO',
   RESERVER_OPPGAVE: 'RESERVER_OPPGAVE',
   ENDRE_OPPGAVERESERVASJON: 'ENDRE_OPPGAVERESERVASJON',
   HENT_RESERVASJONSSTATUS: 'HENT_RESERVASJONSSTATUS',
@@ -100,6 +101,7 @@ const endpoints = new RestApiConfigBuilder()
   /* /api/avdelingsleder/sakslister */
   .withGet('avdelingsleder/oppgavekoer', k9LosApiKeys.OPPGAVEKOER)
   .withPost('avdelingsleder/oppgavekoer', k9LosApiKeys.OPPRETT_NY_OPPGAVEKO)
+  .withGet('avdelingsleder/oppgavekoer/hent', k9LosApiKeys.HENT_OPPGAVEKO)
   .withPost('avdelingsleder/oppgavekoer/slett', k9LosApiKeys.SLETT_OPPGAVEKO)
   .withPost('avdelingsleder/oppgavekoer/navn', k9LosApiKeys.LAGRE_OPPGAVEKO_NAVN)
   .withPost('avdelingsleder/oppgavekoer/behandlingstype', k9LosApiKeys.LAGRE_OPPGAVEKO_BEHANDLINGSTYPE)
