@@ -30,7 +30,7 @@ interface TsProps {
   valgtOppgavekoId?: string;
   hentOppgavekoer: () => Oppgaveko[];
   hentAntallOppgaverForOppgaveko: (id: string) => Promise<string>;
-  hentAntallOppgaverTotalt: () => Promise<string>;
+  hentKo: (id: string) => Promise<string>;
 }
 
 /**
@@ -47,28 +47,25 @@ const EndreOppgavekoerPanel = ({
   lagreOppgavekoFagsakYtelseType,
   lagreOppgavekoAndreKriterier,
   knyttSaksbehandlerTilOppgaveko,
-  hentOppgavekoer,
   hentAntallOppgaverForOppgaveko,
-  hentAntallOppgaverTotalt,
   lagreOppgavekoSkjermet,
+  hentKo,
 }: TsProps) => {
   const valgtOppgaveko = oppgavekoer.find((s) => s.id === valgtOppgavekoId);
   return (
     <>
       <GjeldendeOppgavekoerTabell
         oppgavekoer={oppgavekoer}
+        hentKo={hentKo}
         setValgtOppgavekoId={setValgtOppgavekoId}
         valgtOppgavekoId={valgtOppgavekoId}
         lagNyOppgaveko={lagNyOppgaveko}
         fjernOppgaveko={fjernOppgaveko}
-        hentOppgavekoer={hentOppgavekoer}
-        hentAntallOppgaverTotalt={hentAntallOppgaverTotalt}
       />
       <VerticalSpacer sixteenPx />
       {valgtOppgavekoId && valgtOppgaveko && (
         <>
           <UtvalgskriterierForOppgavekoForm
-            valgtOppgaveko={valgtOppgaveko}
             lagreOppgavekoNavn={lagreOppgavekoNavn}
             lagreOppgavekoBehandlingstype={lagreOppgavekoBehandlingstype}
             lagreOppgavekoFagsakYtelseType={lagreOppgavekoFagsakYtelseType}
@@ -86,7 +83,6 @@ const EndreOppgavekoerPanel = ({
             </Column>
           </Row>
           <SaksbehandlereForOppgavekoForm
-            valgtOppgaveko={valgtOppgaveko}
             knyttSaksbehandlerTilOppgaveko={knyttSaksbehandlerTilOppgaveko}
           />
         </>
@@ -98,6 +94,7 @@ const EndreOppgavekoerPanel = ({
 EndreOppgavekoerPanel.propTypes = {
   oppgavekoer: PropTypes.arrayOf(oppgavekoPropType).isRequired,
   setValgtOppgavekoId: PropTypes.func.isRequired,
+  hentKo: PropTypes.func.isRequired,
   lagNyOppgaveko: PropTypes.func.isRequired,
   fjernOppgaveko: PropTypes.func.isRequired,
   lagreOppgavekoNavn: PropTypes.func.isRequired,
@@ -107,7 +104,6 @@ EndreOppgavekoerPanel.propTypes = {
   lagreOppgavekoAndreKriterier: PropTypes.func.isRequired,
   valgtOppgavekoId: PropTypes.string,
   hentAntallOppgaverForOppgaveko: PropTypes.func.isRequired,
-  hentAntallOppgaverTotalt: PropTypes.func.isRequired,
   lagreOppgavekoSkjermet: PropTypes.func.isRequired,
 };
 
