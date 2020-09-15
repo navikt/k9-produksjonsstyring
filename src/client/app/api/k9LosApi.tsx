@@ -15,6 +15,7 @@ const k9LosApiKeys = {
   SSE_URL: 'SSE_URL',
   FEATURE_TOGGLES: 'FEATURE_TOGGLES',
   OPPGAVEKO: 'OPPGAVEKO',
+  HENT_OPPGAVEKO: 'HENT_OPPGAVEKO',
   RESERVER_OPPGAVE: 'RESERVER_OPPGAVE',
   ENDRE_OPPGAVERESERVASJON: 'ENDRE_OPPGAVERESERVASJON',
   HENT_RESERVASJONSSTATUS: 'HENT_RESERVASJONSSTATUS',
@@ -36,6 +37,11 @@ const k9LosApiKeys = {
   LAGRE_OPPGAVEKO_SORTERING_TIDSINTERVALL_DATO: 'LAGRE_OPPGAVEKO_SORTERING_TIDSINTERVALL_DATO',
   SAKSBEHANDLER_SOK: 'SAKSBEHANDLER_SOK',
   SAKSBEHANDLERE: 'SAKSBEHANDLERE',
+  DRIFTSMELDINGER: 'DRIFTSMELDINGER',
+  DRIFTSMELDINGER_SOK: 'DRIFTSMELDINGER_SOK',
+  LAGRE_DRIFTSMELDING: 'LAGRE_DRIFTSMELDING',
+  SLETT_DRIFTSMELDING: 'SLETT_DRIFTSMELDING',
+  TOGGLE_DRIFTSMELDING: 'TOGGLE_DRIFTSMELDING',
   OPPRETT_NY_SAKSBEHANDLER: 'OPPRETT_NY_SAKSBEHANDLER',
   SLETT_SAKSBEHANDLER: 'SLETT_SAKSBEHANDLER',
   LAGRE_OPPGAVEKO_SAKSBEHANDLER: 'LAGRE_OPPGAVEKO_SAKSBEHANDLER',
@@ -64,6 +70,12 @@ const endpoints = new RestApiConfigBuilder()
   /* /api/saksbehandler */
   .withGet('saksbehandler', k9LosApiKeys.NAV_ANSATT)
 
+  /* /api/driftsmeldinger */
+  .withGet('driftsmeldinger', k9LosApiKeys.DRIFTSMELDINGER)
+  .withPost('driftsmeldinger/slett', k9LosApiKeys.SLETT_DRIFTSMELDING)
+  .withPost('driftsmeldinger', k9LosApiKeys.LAGRE_DRIFTSMELDING)
+  .withPost('driftsmeldinger/toggle', k9LosApiKeys.TOGGLE_DRIFTSMELDING)
+
   /* /api/saksbehandler/saksliste */
   .withGet('saksbehandler/oppgaveko', k9LosApiKeys.OPPGAVEKO)
   .withGet('saksbehandler/oppgaveko/saksbehandlere', k9LosApiKeys.OPPGAVEKO_SAKSBEHANDLERE)
@@ -89,6 +101,7 @@ const endpoints = new RestApiConfigBuilder()
   /* /api/avdelingsleder/sakslister */
   .withGet('avdelingsleder/oppgavekoer', k9LosApiKeys.OPPGAVEKOER)
   .withPost('avdelingsleder/oppgavekoer', k9LosApiKeys.OPPRETT_NY_OPPGAVEKO)
+  .withGet('avdelingsleder/oppgavekoer/hent', k9LosApiKeys.HENT_OPPGAVEKO)
   .withPost('avdelingsleder/oppgavekoer/slett', k9LosApiKeys.SLETT_OPPGAVEKO)
   .withPost('avdelingsleder/oppgavekoer/navn', k9LosApiKeys.LAGRE_OPPGAVEKO_NAVN)
   .withPost('avdelingsleder/oppgavekoer/behandlingstype', k9LosApiKeys.LAGRE_OPPGAVEKO_BEHANDLINGSTYPE)
@@ -114,7 +127,7 @@ const endpoints = new RestApiConfigBuilder()
 
   /* /api/avdelingsleder/nokkeltall */
   .withGet('avdelingsleder/nokkeltall/behandlinger-under-arbeid', k9LosApiKeys.HENT_OPPGAVER)
-  .withGet('avdelingsleder/nokkeltall/behandlinger-under-arbeid-historikk', k9LosApiKeys.HENT_OPPGAVER_PER_DATO)
+  .withGet('avdelingsleder/nokkeltall/beholdning-historikk', k9LosApiKeys.HENT_OPPGAVER_PER_DATO)
   .withGet('avdelingsleder/nokkeltall/ferdigstilte-behandlinger-historikk', k9LosApiKeys.HENT_FERDIGSTILTE_OPPGAVER)
   .withGet('avdelingsleder/nokkeltall/behandlinger-manuelt-vent-historikk', k9LosApiKeys.HENT_OPPGAVER_MANUELT_PA_VENT)
   .withGet('avdelingsleder/nokkeltall/behandlinger-forste-stonadsdag', k9LosApiKeys.HENT_OPPGAVER_PER_FORSTE_STONADSDAG)

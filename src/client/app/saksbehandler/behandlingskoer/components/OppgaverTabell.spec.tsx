@@ -83,6 +83,7 @@ describe('<OppgaverTabell>', () => {
       resetSaksbehandler={sinon.spy()}
       flyttReservasjon={sinon.spy()}
       antall={1}
+      requestFinished
     />);
 
     const tableRows = wrapper.find(TableRow);
@@ -168,6 +169,7 @@ describe('<OppgaverTabell>', () => {
       resetSaksbehandler={sinon.spy()}
       flyttReservasjon={sinon.spy()}
       antall={1}
+      requestFinished
     />);
 
     const tableRows = wrapper.find(TableRow);
@@ -205,6 +207,7 @@ describe('<OppgaverTabell>', () => {
       goToFagsak={sinon.spy()}
       leggTilBehandletOppgave={sinon.spy()}
       valgtKoSkjermet={false}
+      requestFinished
     />);
 
     const message = wrapper.find(FormattedMessage);
@@ -260,6 +263,7 @@ describe('<OppgaverTabell>', () => {
       resetSaksbehandler={sinon.spy()}
       flyttReservasjon={sinon.spy()}
       antall={1}
+      requestFinished
     />);
 
     const tableRows = wrapper.find(TableRow);

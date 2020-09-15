@@ -26,7 +26,6 @@ const headerTextCodes = [
 ];
 
 interface OwnProps {
-  sorterteFagsaker: Fagsak[];
   selectOppgaveCallback: (oppgave: Oppgave, skalReservere: boolean) => void;
   fagsakStatusTyper: Kodeverk[];
   fagsakYtelseTyper: Kodeverk[];
@@ -53,6 +52,10 @@ export class FagsakList extends Component<OwnProps, OwnState> {
   }
 
   onClick = (oppgave, selectOppgaveCallback) => {
+    const { kanReservere } = this.props;
+    if (!kanReservere) {
+      selectOppgaveCallback(oppgave, false);
+    }
     if (oppgave.erTilSaksbehandling && !oppgave.status.erReservert) {
       this.setState((prevState) => ({ ...prevState, visReserverOppgaveModal: true }));
     } else {
@@ -72,7 +75,6 @@ export class FagsakList extends Component<OwnProps, OwnState> {
 
   render = () => {
     const {
-      sorterteFagsaker,
       fagsakOppgaver,
       selectOppgaveCallback,
       kanReservere,

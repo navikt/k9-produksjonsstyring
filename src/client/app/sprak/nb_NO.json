@@ -16,6 +16,8 @@
   "BehandlingPollingTimoutModal.TimeoutMelding": "Din økt er gått ut på tid, trykk Fortsett",
   "BehandlingPollingTimoutModal.Oppfrisk": "Fortsett",
 
+  "BeholdningHistorikkPanel.Beholdning": "Beholdning per dato",
+
   "Calendar.Day.0": "søndag",
   "Calendar.Day.1": "mandag",
   "Calendar.Day.2": "tirsdag",
@@ -63,6 +65,7 @@
   "FagsakList.Navn": "Navn",
 
   "FagsakSearch.ZeroSearchResults": "Søket ga ingen treff",
+  "FagsakSearch.IkkeTilgang": "Du har ikke tilgang til å slå opp denne personen",
   "FagsakSearch.FlereApneBehandlinger": "Velg behandlingen du ønsker å åpne/reservere.",
 
   "FagsakYtelseTypeVelger.Stonadstype": "Stønadstype",
@@ -70,7 +73,7 @@
 
   "FerdigstiltePanel.AntallFerdigstilte": "Antall ferdigstilte behandlinger",
 
-  "SkjermetVelger.Skjermet": "Skjermet",
+  "SkjermetVelger.Skjermet": "Egne ansatte og kode 7",
 
   "FlyttReservasjonModal.FlyttReservasjon": "Flytt reservasjonen til annen saksbehandler",
   "FlyttReservasjonModal.Brukerident": "Brukerident",
