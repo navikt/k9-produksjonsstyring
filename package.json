@@ -92,7 +92,7 @@
     "@storybook/addon-centered": "^5.3.18",
     "@storybook/addon-docs": "^6.0.21",
     "@storybook/addon-knobs": "^6.0.21",
-    "@storybook/addons": "^5.3.18",
+    "@storybook/addons": "^6.0.21",
     "@storybook/cli": "^5.3.18",
     "@storybook/react": "^5.3.18",
     "@storybook/storybook-deployer": "^2.8.5",
