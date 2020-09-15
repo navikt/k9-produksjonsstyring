@@ -1,6 +1,7 @@
 import { Dispatch } from 'redux';
 import k9LosApi from 'api/k9LosApi';
 import { fetchAlleSaksbehandlere } from 'avdelingsleder/bemanning/duck';
+import { Oppgaveko } from 'avdelingsleder/behandlingskoer/oppgavekoTsType';
 
 /* Action types */
 const actionType = (name) => `saksliste/${name}`;
@@ -46,7 +47,7 @@ export const getAntallOppgaverForOppgavekoResultat = k9LosApi.OPPGAVE_ANTALL.get
 export const lagNyOppgaveko = () => (dispatch: Dispatch<any>) => dispatch(k9LosApi
   .OPPRETT_NY_OPPGAVEKO.makeRestApiRequest()({ }))
   .then(((data: {payload: { id: string } }) => dispatch(fetchOppgaveko(data.payload.id))))
-  .then(() => dispatch(resetValgtOppgavekoId()))
+  .then((data: {payload: { ko: Oppgaveko } }) => dispatch(setValgtOppgavekoId(data.payload.ko.id)))
   .then(() => dispatch(fetchAlleOppgavekoer()));
 
 export const getNyOppgavekoId = k9LosApi.OPPRETT_NY_OPPGAVEKO.getRestApiData();
