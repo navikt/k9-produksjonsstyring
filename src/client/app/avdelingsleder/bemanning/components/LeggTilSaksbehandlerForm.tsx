@@ -39,7 +39,6 @@ export const LeggTilSaksbehandlerForm: FunctionComponent<OwnProps & WrappedCompo
     setShowWarning(false);
   };
 
-
   const addSaksbehandler = (epost: string, resetFormValues: () => void) => {
     setLeggerTilNySaksbehandler(true);
     if (saksbehandlere.some((s) => s.epost.toLowerCase() === epost.toLowerCase())) {
@@ -115,6 +114,5 @@ export const LeggTilSaksbehandlerForm: FunctionComponent<OwnProps & WrappedCompo
     />
   );
 };
-
 
 export default injectIntl(LeggTilSaksbehandlerForm);

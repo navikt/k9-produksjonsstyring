@@ -112,7 +112,6 @@ const SaksbehandlereTabell: FunctionComponent<OwnProps> = ({
                 </TableColumn>
               </TableRow>
 
-
               )}
             </>
           ))}

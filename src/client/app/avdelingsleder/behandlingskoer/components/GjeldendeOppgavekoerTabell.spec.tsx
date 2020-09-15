@@ -208,7 +208,6 @@ describe('<GjeldendeOppgavekoerTabell>', () => {
     expect(setValgtOppgavekoIdFn.calledOnce).to.be.true;
   });
 
-
   it('skal vise antall saksbehandlere tilknyttet oppgavekøen', () => {
     const oppgavekoer = [{
       id: '1',

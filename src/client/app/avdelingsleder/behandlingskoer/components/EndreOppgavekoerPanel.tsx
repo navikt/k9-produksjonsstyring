@@ -1,4 +1,3 @@
-
 import React, { FunctionComponent } from 'react';
 import { WrappedComponentProps, injectIntl } from 'react-intl';
 import { Kodeverk } from 'kodeverk/kodeverkTsType';
@@ -59,6 +58,5 @@ const EndreOppgavekoerPanel: FunctionComponent<OwnProps & WrappedComponentProps>
     />
   );
 };
-
 
 export default injectIntl(EndreOppgavekoerPanel);
