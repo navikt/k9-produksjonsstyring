@@ -157,7 +157,6 @@ export class HandlingerMenu extends Component<OwnProps, OwnState> {
       toggleMenu(reservasjon);
     }
 
-
     render = () => {
       const {
         reservasjon, offset, finnSaksbehandler, resetSaksbehandler,

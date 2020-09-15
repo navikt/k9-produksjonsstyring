@@ -6,7 +6,6 @@ import { getNavAnsattKanSaksbehandle } from 'app/duck';
 import { connect } from 'react-redux';
 import SaksbehandlerDashboard from './components/SaksbehandlerDashboard';
 
-
 /**
  * SaksbehandlerIndex
  */

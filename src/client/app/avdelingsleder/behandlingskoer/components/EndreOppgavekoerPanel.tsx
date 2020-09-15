@@ -1,4 +1,3 @@
-
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
@@ -28,7 +27,6 @@ interface TsProps {
   lagreOppgavekoSkjermet: (id: string, isChecked: boolean) => void;
   knyttSaksbehandlerTilOppgaveko: (id: string, epost: string, isChecked: boolean) => void;
   valgtOppgavekoId?: string;
-  hentOppgavekoer: () => Oppgaveko[];
   hentAntallOppgaverForOppgaveko: (id: string) => Promise<string>;
   hentKo: (id: string) => Promise<string>;
 }

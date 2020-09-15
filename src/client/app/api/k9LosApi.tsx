@@ -134,7 +134,6 @@ const endpoints = new RestApiConfigBuilder()
 
   .withGet('avdelingsleder/reservasjoner', k9LosApiKeys.HENT_ALLE_RESERVASJONER)
 
-
   /* /api/konfig */
   .withGet('konfig/k9-sak-url', k9LosApiKeys.K9SAK_URL)
   .withGet('konfig/sse-url', k9LosApiKeys.SSE_URL)

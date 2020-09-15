@@ -1,4 +1,3 @@
-
 import { Dispatch } from 'redux';
 
 import k9LosApi from 'api/k9LosApi';

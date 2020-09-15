@@ -63,7 +63,6 @@ describe('<TilBehandlingPanel>', () => {
     expect(options[1].props.value).to.eql('4');
     expect(options[1].props.children).to.eql('4 siste uker');
 
-
     const radioOptions = wrapper.find(RadioOption);
     expect(radioOptions).to.have.length(3);
     expect(radioOptions.first().prop('value')).to.eql('OMP');

@@ -1,4 +1,3 @@
-
 const KoSortering = {
   OPPRETT_BEHANDLING: 'OPPRBEH',
   FORSTE_STONADSDAG: 'FORSTONAD',

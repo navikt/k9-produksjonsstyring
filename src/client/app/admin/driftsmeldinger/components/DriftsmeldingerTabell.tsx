@@ -19,7 +19,6 @@ import { Driftsmelding } from '../driftsmeldingTsType';
 import styles from './driftsmeldingerTabell.less';
 import SletteDriftsmeldingerModal from './SletteDriftsmeldingerModal';
 
-
 const headerTextCodes = [
   'DriftsmeldingTabell.Tekst',
   'DriftsmeldingTabell.Aktiv',
@@ -150,6 +149,5 @@ export class DriftsmeldingerTabell extends Component<TsProps, StateTsProps> {
     );
   }
 }
-
 
 export default DriftsmeldingerTabell;

@@ -5,7 +5,6 @@ import { range } from 'utils/arrayUtils';
 import EditedIcon from 'sharedComponents/EditedIcon';
 import styles from './optionGrid.less';
 
-
 export const OptionGrid = ({
   id, columns, rows, options, spaceBetween, isEdited, direction,
 }) => {

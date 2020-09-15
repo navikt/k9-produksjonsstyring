@@ -18,7 +18,6 @@ import '../../styles/global.less';
 import { fetchAlleDriftsmeldinger, getDriftsmeldinger } from '../admin/driftsmeldinger/duck';
 import { Driftsmelding } from '../admin/driftsmeldinger/driftsmeldingTsType';
 
-
 interface OwnProps {
   errorMessages?: {
     type: EventType;

@@ -116,5 +116,4 @@ export class SaksbehandlereTabell extends Component<TsProps, StateTsProps> {
   }
 }
 
-
 export default SaksbehandlereTabell;

@@ -1,11 +1,9 @@
-
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 
 import SistBehandledeSaker from './SistBehandledeSaker';
 import SaksstottePaneler from './SaksstottePaneler';
-
 
 describe('<SaksstottePaneler>', () => {
   it('skal vise sist behandlede saker', () => {
