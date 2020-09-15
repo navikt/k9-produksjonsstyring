@@ -90,7 +90,6 @@ export class FagsakSearchIndex extends Component<Props, StateProps> {
     searchResultAccessDenied: undefined,
   };
 
-
   componentWillUnmount = () => {
     const { resetFagsakSearch: resetSearch } = this.props;
     resetSearch();

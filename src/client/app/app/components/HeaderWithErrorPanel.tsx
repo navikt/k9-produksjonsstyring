@@ -90,7 +90,6 @@ const HeaderWithErrorPanel: FunctionComponent<OwnProps & WrappedComponentProps> 
     setSiteHeight(fixedHeaderRef.current.clientHeight);
   }, [errorMessages.length]);
 
-
   const goTilAvdlelingslederPanel = () => {
     window.location.href = '/avdelingsleder';
   };

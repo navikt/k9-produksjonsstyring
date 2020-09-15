@@ -17,7 +17,6 @@ import { Fagsak } from '../fagsakTsType';
 
 import styles from './fagsakList.less';
 
-
 const headerTextCodes = [
   'FagsakList.Saksnummer',
   'FagsakList.Navn',
@@ -112,7 +111,6 @@ export class FagsakList extends Component<OwnProps, OwnState> {
     );
   };
 }
-
 
 const mapStateToProps = (state) => ({
   fagsakOppgaver: getFagsakOppgaver(state),

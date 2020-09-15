@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { expect } from 'chai';
 import moment from 'moment';
@@ -31,7 +30,6 @@ describe('<NyeOgFerdigstilteOppgaverForIdagGraf>', () => {
     kode: behandlingType.ANKE,
     navn: 'Tilbakebetaling',
   }];
-
 
   it('skal vise graf med 10 satt på x-linja når graf er tom', () => {
     const wrapper = shallowWithIntl(<NyeOgFerdigstilteOppgaverForIdagGraf.WrappedComponent

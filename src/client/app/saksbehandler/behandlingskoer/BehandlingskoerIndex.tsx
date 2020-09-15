@@ -33,7 +33,6 @@ interface OwnProps {
   goToUrl: (url: string) => void;
 }
 
-
 interface DispatchProps {
   fetchOppgaverTilBehandling: (id: string) => Promise<{payload: any }>;
   fetchOppgaverTilBehandlingOppgaver: (id: string) => Promise<{payload: any }>;
@@ -263,6 +262,5 @@ const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => ({
     setValgtOppgavekoId,
   }, dispatch),
 });
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(BehandlingskoerIndex);

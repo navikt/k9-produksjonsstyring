@@ -166,7 +166,6 @@ export class OppgaveHandlingerMenu extends Component<OwnProps, OwnState> {
     toggleMenu(oppgave);
   }
 
-
   render = () => {
     const {
       oppgave, offset, finnSaksbehandler, resetSaksbehandler,

@@ -42,7 +42,6 @@ interface TsProps {
   activePanel: string;
   getDriftsmeldingerPanelLocation: (panel: string) => Location;
   kanDrifte?: boolean;
-  kanBehandleKode6?: boolean;
   driftsmeldinger: Driftsmelding[];
 }
 
@@ -103,7 +102,6 @@ const getPanelFromUrlOrDefault = (location) => {
   const panelFromUrl = parseQueryString(location.search);
   return panelFromUrl.avdelingsleder ? panelFromUrl.avdelingsleder : AdminPanels.DRIFTSMELDINGER;
 };
-
 
 const mapStateToProps = (state) => ({
   activePanel: getSelectedPanel(state),

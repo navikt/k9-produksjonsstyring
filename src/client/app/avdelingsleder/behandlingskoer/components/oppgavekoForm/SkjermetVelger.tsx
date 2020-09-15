@@ -7,7 +7,6 @@ import { CheckboxField } from 'form/FinalFields';
 
 import styles from './skjermetVelger.less';
 
-
 interface TsProps {
     valgtOppgavekoId: string;
     lagreSkjermet: (oppgavekoId: string, skjermet: boolean) => void;

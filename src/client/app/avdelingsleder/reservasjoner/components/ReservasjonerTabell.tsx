@@ -23,7 +23,6 @@ const headerTextCodes = [
   'EMPTY_1',
 ];
 
-
 interface OwnProps {
   reservasjoner: Reservasjon[];
   opphevReservasjon: (oppgaveId: string) => Promise<string>;
@@ -60,7 +59,6 @@ export class ReservasjonerTabell extends Component<OwnProps & WrappedComponentPr
       },
     };
   }
-
 
   closeReservasjonEndringDatoModal = (): void => {
     this.setState((prevState) => ({ ...prevState, showReservasjonEndringDatoModal: false }));

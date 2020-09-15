@@ -1,8 +1,6 @@
-
 import { Dispatch } from 'redux';
 import k9LosApi from 'api/k9LosApi';
 import { fetchAlleSaksbehandlere } from 'avdelingsleder/bemanning/duck';
-
 
 /* Action types */
 const actionType = (name) => `saksliste/${name}`;
@@ -14,7 +12,6 @@ export const setValgtOppgavekoId = (valgtOppgavekoId: string) => ({
   type: SET_VALGT_OPPGAVEKO_ID,
   payload: valgtOppgavekoId,
 });
-
 
 export const resetValgtOppgavekoId = () => ({
   type: RESET_VALGT_OPPGAVEKO_ID,
@@ -39,7 +36,6 @@ export const fetchAntallOppgaverTotalt = () => (dispatch: Dispatch<any>) => disp
 export const fetchAntallOppgaverForOppgaveko = (id: string) => (dispatch: Dispatch<any>) => dispatch(
   k9LosApi.OPPGAVE_ANTALL.makeRestApiRequest()({ id }),
 );
-
 
 export const getAntallOppgaverTotaltResultat = k9LosApi.OPPGAVE_ANTALL_TOTALT.getRestApiData();
 
@@ -100,7 +96,6 @@ export const lagreOppgavekoSkjermet = (id: string, isChecked: boolean) => (dispa
   }),
 ).then(() => dispatch(fetchAntallOppgaverForOppgaveko(id)))
   .then(() => dispatch(fetchOppgaveko(id)));
-
 
 export const lagreOppgavekoSortering = (id: string, oppgavekoSorteringValg: string) => (dispatch: Dispatch<any>) => dispatch(
   k9LosApi.LAGRE_OPPGAVEKO_SORTERING.makeRestApiRequest()({ id, oppgavekoSorteringValg }),

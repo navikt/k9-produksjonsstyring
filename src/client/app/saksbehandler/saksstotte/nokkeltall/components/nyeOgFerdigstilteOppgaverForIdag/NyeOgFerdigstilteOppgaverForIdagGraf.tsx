@@ -79,7 +79,6 @@ export const lagDatastrukturForFerdigstilteMine = (
     y: behandlingstypeOrder.indexOf(value.behandlingType.kode) + 1,
   })), false);
 
-
 interface OwnProps {
   width: number;
   height: number;
@@ -127,7 +126,6 @@ export const NyeOgFerdigstilteOppgaverForIdagGraf: FunctionComponent<OwnProps & 
     }
     return intl.formatMessage({ id: 'NyeOgFerdigstilteOppgaverForIdagGraf.NyeAntall' }, { antall: hintVerdi.x });
   }, [hintVerdi]);
-
 
   const finnBehandlingTypeNavn = useCallback((_v, i) => {
     if (behandlingstypeOrder[i] === behandlingType.FORSTEGANGSSOKNAD) {

@@ -70,7 +70,6 @@ const getMonthNameAndYear = () => {
     : `${monthNames[today.month() - 1]} - ${monthNames[today.month()]} ${today.year()}`;
 };
 
-
 const konverterTilKoordinaterGruppertPaBehandlingstype = (oppgaverForAvdeling) => oppgaverForAvdeling.reduce((acc, o) => {
   const nyKoordinat = {
     x: moment(o.dato).startOf('day').toDate(),
@@ -148,7 +147,6 @@ const BeholdningHistorikkGraf: FunctionComponent<OwnProps> = ({
   const onNearestX = useCallback((value: {x: Date; y: number}) => {
     setCrosshairValues([value]);
   }, []);
-
 
   const periodeStart = moment().subtract(isToUkerValgt ? 2 : 4, 'w').add(1, 'd');
   const periodeSlutt = moment().subtract(1, 'd');

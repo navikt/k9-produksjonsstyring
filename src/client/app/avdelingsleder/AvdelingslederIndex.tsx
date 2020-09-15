@@ -67,7 +67,6 @@ interface TsProps {
   activeAvdelingslederPanel: string;
   getAvdelingslederPanelLocation: (panel: string) => Location;
   kanOppgavestyre?: boolean;
-  kanBehandleKode6?: boolean;
 }
 
 const getTab = (avdelingslederPanel, activeAvdelingslederPanel, getAvdelingslederPanelLocation) => ({
@@ -142,7 +141,6 @@ const getPanelFromUrlOrDefault = (location) => {
   const panelFromUrl = parseQueryString(location.search);
   return panelFromUrl.avdelingsleder ? panelFromUrl.avdelingsleder : AvdelingslederPanels.BEHANDLINGSKOER;
 };
-
 
 const mapStateToProps = (state) => ({
   activeAvdelingslederPanel: getSelectedAvdelingslederPanel(state),

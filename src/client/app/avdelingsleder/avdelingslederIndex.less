@@ -54,9 +54,9 @@
 @import '@{coreModulePath}nav-frontend-core/less/_variabler';
 
 .linkElement() {
-  text-decoration: underline;
   border: 1px solid @navGra20;
   border-bottom: none;
+  text-decoration: underline;
 
   &:hover,
   &:focus {
@@ -85,10 +85,10 @@
 
   &.isActive,
   &:active {
+    border: none;
     color: @navMorkGra;
     padding: 0.7rem 2.5rem 0.5rem 2.5rem;
     text-decoration: none;
-    border: none;
 
     &:focus {
       color: @navLilla;
