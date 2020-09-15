@@ -8,6 +8,8 @@ import decodeHtmlEntity from 'utils/decodeHtmlEntityUtils';
 import EventType from 'api/rest-api/src/requestApi/eventType';
 
 import Image from 'sharedComponents/Image';
+import moment from 'moment';
+import { DD_MM_HHMM, DDMMYYYY_DATE_FORMAT } from 'utils/formats';
 import styles from './errorMessagePanel.less';
 import { Driftsmelding } from '../../admin/driftsmeldinger/driftsmeldingTsType';
 
@@ -78,7 +80,7 @@ const ErrorMessagePanel: FunctionComponent<OwnProps & WrappedComponentProps> = (
               src={advarselImageUrl}
             />
             <Undertekst className={styles.wordWrap}>
-              {message.melding}
+              {`${message.melding}. (Registrert ${moment(message.aktivert).format(DD_MM_HHMM)})`}
             </Undertekst>
           </Column>
         </Row>
