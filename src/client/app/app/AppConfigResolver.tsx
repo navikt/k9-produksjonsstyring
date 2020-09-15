@@ -13,7 +13,7 @@ type TsProps = Readonly<{
   fetchKodeverk: () => void;
   fetchK9sakUrl: () => void;
   fetchSseUrl: () => void;
- // fetchFeatureToggles: () => void;
+  fetchDriftsmeldinger: () => void;
 }>
 
 class AppConfigResolver extends Component<TsProps> {
@@ -24,7 +24,7 @@ class AppConfigResolver extends Component<TsProps> {
     fetchKodeverk: PropTypes.func.isRequired,
     fetchK9sakUrl: PropTypes.func.isRequired,
     fetchSseUrl: PropTypes.func.isRequired,
-    //   fetchFeatureToggles: PropTypes.func.isRequired,
+    fetchDriftsmeldinger: PropTypes.func.isRequired,
   };
 
   constructor(props: TsProps) {
@@ -38,14 +38,14 @@ class AppConfigResolver extends Component<TsProps> {
       fetchKodeverk,
       fetchK9sakUrl,
       fetchSseUrl,
-      //    fetchFptilbakeUrl,
-      //    fetchFeatureToggles,
+      fetchDriftsmeldinger,
     } = this.props;
 
     fetchNavAnsatt();
     fetchKodeverk();
     fetchK9sakUrl();
     fetchSseUrl();
+    fetchDriftsmeldinger();
   }
 
   render = () => {
@@ -63,7 +63,7 @@ const mapStateToProps = (state: any) => {
     k9LosApi.KODEVERK.getRestApiFinished()(state),
     k9LosApi.K9SAK_URL.getRestApiFinished()(state),
     k9LosApi.SSE_URL.getRestApiFinished()(state),
-    //    k9LosApi.FEATURE_TOGGLES.getRestApiFinished()(state),
+    k9LosApi.DRIFTSMELDINGER.getRestApiFinished()(state),
   ];
   return {
     finishedLoadingBlockers: blockers.every((finished) => finished),
@@ -75,7 +75,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({
   fetchKodeverk: k9LosApi.KODEVERK.makeRestApiRequest(),
   fetchK9sakUrl: k9LosApi.K9SAK_URL.makeRestApiRequest(),
   fetchSseUrl: k9LosApi.SSE_URL.makeRestApiRequest(),
-//  fetchFeatureToggles: k9LosApi.FEATURE_TOGGLES.makeRestApiRequest(),
+  fetchDriftsmeldinger: k9LosApi.DRIFTSMELDINGER.makeRestApiRequest(),
 }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(AppConfigResolver);

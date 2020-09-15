@@ -133,7 +133,7 @@ export class OppgavekoVelgerForm extends Component<OwnProps & WrappedComponentPr
     return (
       <div>
         <Element><FormattedMessage id="OppgavekoVelgerForm.SaksbehandlerToolip" /></Element>
-        {saksbehandlere.map((s) => s.epost).sort((n1, n2) => n1.localeCompare(n2)).map((epost) => (<Normaltekst key={epost}>{epost}</Normaltekst>))}
+        {saksbehandlere.sort((n1, n2) => n1.epost.localeCompare(n2.epost)).map((s) => (<Normaltekst key={s.epost}>{s.navn ? s.navn : s.epost}</Normaltekst>))}
       </div>
     );
   }

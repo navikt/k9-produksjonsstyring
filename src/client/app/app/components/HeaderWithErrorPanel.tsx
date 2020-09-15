@@ -10,12 +10,16 @@ import Header from '@navikt/nap-header';
 import { RETTSKILDE_URL, SYSTEMRUTINE_URL } from 'api/eksterneLenker';
 import KnappBase, { Knapp, Flatknapp } from 'nav-frontend-knapper';
 import EventType from 'api/rest-api/src/requestApi/eventType';
+
+import { getK9sakHref } from 'app/paths';
 import ErrorMessagePanel from './ErrorMessagePanel';
 import styles from './headerWithErrorPanel.less';
+import { Driftsmelding } from '../../admin/driftsmeldinger/driftsmeldingTsType';
 
 interface OwnProps {
   navAnsattName: string;
   kanOppgavestyre: boolean;
+  kanDrifte: boolean;
   removeErrorMessage: () => void;
   queryStrings: {
     errormessage?: string;
@@ -31,7 +35,10 @@ interface OwnProps {
     text?: string;
   }[];
   setSiteHeight: (clientHeight: number) => void;
+  driftsmeldinger: Driftsmelding[];
 }
+
+const isDev = window.location.hostname.includes('dev.adeo.no');
 
 const useOutsideClickEvent = (erLenkepanelApent, erAvdelingerPanelApent, setLenkePanelApent, setAvdelingerPanelApent) => {
   const wrapperRef = useRef(null);
@@ -71,6 +78,8 @@ const HeaderWithErrorPanel: FunctionComponent<OwnProps & WrappedComponentProps> 
   errorMessages = [],
   setSiteHeight,
   kanOppgavestyre,
+  kanDrifte,
+  driftsmeldinger,
 }) => {
   const [erLenkePanelApent, setLenkePanelApent] = useState(false);
   const [erAvdelingerPanelApent, setAvdelingerPanelApent] = useState(false);
@@ -83,10 +92,23 @@ const HeaderWithErrorPanel: FunctionComponent<OwnProps & WrappedComponentProps> 
 
 
   const goTilAvdlelingslederPanel = () => {
-    window.location.href += 'avdelingsleder';
+    window.location.href = '/avdelingsleder';
   };
 
-  const visKnapp = (): boolean => {
+  const goTilDriftsmeldingerPanel = () => {
+    window.location.href = '/admin';
+  };
+
+  const goToHomepage = () => {
+    window.location.href = '/';
+  };
+
+  const loggUt = () => {
+    window.location.assign('https://k9-los-oidc-auth-proxy.dev.adeo.no/logout');
+    setTimeout(() => { goToHomepage(); }, 1000);
+  };
+
+  const visAvdelingslederKnapp = (): boolean => {
     if (!kanOppgavestyre) {
       return false;
     }
@@ -96,11 +118,22 @@ const HeaderWithErrorPanel: FunctionComponent<OwnProps & WrappedComponentProps> 
     return true;
   };
 
+  const visAdminKnapp = (): boolean => {
+    if (!kanDrifte) {
+      return false;
+    }
+    if (kanDrifte && window.location.href.includes('admin')) {
+      return false;
+    }
+    return true;
+  };
+
   return (
     <header ref={fixedHeaderRef} className={styles.container}>
       <div ref={wrapperRef}>
         <Header title={intl.formatMessage({ id: 'Header.K9Los' })} titleHref="/">
-          {visKnapp() && <KnappBase className={styles.knapp} onClick={goTilAvdlelingslederPanel}>Avdelingslederpanel</KnappBase>}
+          {visAdminKnapp() && <Knapp className={styles.knapp} onClick={goTilDriftsmeldingerPanel}>Driftsmeldinger</Knapp>}
+          {visAvdelingslederKnapp() && <Knapp className={styles.knapp} onClick={goTilAvdlelingslederPanel}>Avdelingslederpanel</Knapp>}
           <Popover
             popperIsVisible={erLenkePanelApent}
             renderArrowElement
@@ -143,9 +176,15 @@ const HeaderWithErrorPanel: FunctionComponent<OwnProps & WrappedComponentProps> 
             }}
           />
           {brukerPanel}
+          {isDev && <Knapp className={styles.knapp} onClick={loggUt}>Logg ut</Knapp>}
         </Header>
       </div>
-      <ErrorMessagePanel errorMessages={errorMessages} queryStrings={queryStrings} removeErrorMessage={removeErrorMessage} />
+      <ErrorMessagePanel
+        errorMessages={errorMessages}
+        queryStrings={queryStrings}
+        removeErrorMessage={removeErrorMessage}
+        driftsmeldinger={driftsmeldinger}
+      />
     </header>
   );
 };

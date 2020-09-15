@@ -3,6 +3,7 @@ import { Route, Switch } from 'react-router-dom';
 
 import AvdelingslederIndex from 'avdelingsleder/AvdelingslederIndex';
 import SaksbehandlerIndex from 'saksbehandler/SaksbehandlerIndex';
+import AdminIndex from '../../admin/AdminIndex';
 import MissingPage from './MissingPage';
 
 import styles from './home.less';
@@ -23,6 +24,7 @@ const Home: FunctionComponent<OwnProps> = ({
     <Switch>
       <Route exact path="/" component={SaksbehandlerIndex} />
       <Route exact path="/avdelingsleder" component={AvdelingslederIndex} />
+      <Route exact path="/admin" component={AdminIndex} />
       <Route component={MissingPage} />
     </Switch>
   </div>

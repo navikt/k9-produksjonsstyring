@@ -13,6 +13,7 @@ const oppgavekoPropType = PropTypes.shape({
     fomDato: PropTypes.string,
     tomDato: PropTypes.string,
   }),
+  skjermet: PropTypes.bool.isRequired,
 });
 
 export default oppgavekoPropType;

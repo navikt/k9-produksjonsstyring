@@ -1,6 +1,5 @@
 
 import React, { FunctionComponent } from 'react';
-import PropTypes from 'prop-types';
 import { injectIntl, WrappedComponentProps, FormattedMessage } from 'react-intl';
 import { Row, Column } from 'nav-frontend-grid';
 import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
@@ -11,7 +10,6 @@ import Modal from 'sharedComponents/Modal';
 
 import advarselImageUrl from 'images/advarsel.svg';
 import { Oppgaveko } from '../oppgavekoTsType';
-import oppgavekoPropType from '../oppgavekoPropType';
 
 import styles from './sletteOppgavekoModal.less';
 
@@ -44,7 +42,7 @@ export const SletteOppgavekoModal: FunctionComponent<TsProps & WrappedComponentP
       <Column xs="1">
         <Image
           className={styles.image}
-          alt={intl.formatMessage({ id: 'SletteSakslisteModal.SletteModal' })}
+          alt={intl.formatMessage({ id: 'SletteOppgavekoModal.SletteModal' })}
           src={advarselImageUrl}
         />
         <div className={styles.divider} />
