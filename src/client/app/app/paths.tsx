@@ -15,8 +15,11 @@ const updateQueryParams = (queryString, nextParams) => {
 
 const getLocationWithQueryParams = (location, queryParams) => ({ ...location, search: updateQueryParams(location.search, queryParams) });
 
-export const getAvdelingslederPanelLocationCreator = (location: Location) => (avdelingslederPanel: string) => getLocationWithQueryParams(
+export const getPanelLocationCreator = (location: Location) => (avdelingslederPanel: string) => getLocationWithQueryParams(
   location, { fane: avdelingslederPanel },
+);
+export const getPanelLocationCreatorDriftsmeldinger = (location: Location) => (adminPanel: string) => getLocationWithQueryParams(
+  location, { fane: adminPanel },
 );
 
 export const getK9sakHref = (k9sakUrl: string, saksnummer: string, behandlingId?: number) => (behandlingId

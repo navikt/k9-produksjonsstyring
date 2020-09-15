@@ -22,8 +22,9 @@ import KoSorteringType from 'kodeverk/KoSorteringTsType';
 import { Oppgaveko } from '../../oppgavekoTsType';
 import {
   getAntallOppgaverForOppgavekoResultat,
+  fetchOppgaveko,
   lagreOppgavekoSortering as lagreOppgavekoSorteringActionCreator,
-  lagreOppgavekoSorteringTidsintervallDato as lagreOppgavekoSorteringTidsintervallDatoActionCreator,
+  lagreOppgavekoSorteringTidsintervallDato as lagreOppgavekoSorteringTidsintervallDatoActionCreator, getOppgaveko,
 } from '../../duck';
 import AutoLagringVedBlur from './AutoLagringVedBlur';
 import BehandlingstypeVelger from './BehandlingstypeVelger';
@@ -39,7 +40,7 @@ const maxLength100 = maxLength(100);
 interface OwnProps {
   intl: any;
   alleKodeverk: {[key: string]: Kodeverk[]};
-  valgtOppgaveko: Oppgaveko;
+  gjeldendeKo: Oppgaveko;
   lagreOppgavekoNavn: (id: string, navn: string) => void;
   lagreOppgavekoBehandlingstype: (oppgavekoId: string, behandlingType: Kodeverk, isChecked: boolean) => void;
   lagreOppgavekoFagsakYtelseType: (oppgavekoId: string, fagsakYtelseType: Kodeverk) => void;
@@ -50,6 +51,7 @@ interface OwnProps {
 }
 
 interface DispatchProps {
+  fetchOppgaveko: (id: string) => Promise<string>;
   lagreOppgavekoSortering: (oppgavekoId: string, oppgavekoSorteringValg: KoSorteringType) => void;
   lagreOppgavekoSorteringTidsintervallDato: (oppgavekoId: string, fomDato: string, tomDato: string) => void;
 }
@@ -60,41 +62,41 @@ interface DispatchProps {
 export class UtvalgskriterierForOppgavekoForm extends Component<OwnProps & DispatchProps & WrappedComponentProps> {
   componentDidMount = () => {
     const {
-      valgtOppgaveko, hentAntallOppgaverForOppgaveko,
+      gjeldendeKo, hentAntallOppgaverForOppgaveko, fetchOppgaveko: hentKo,
     } = this.props;
-    hentAntallOppgaverForOppgaveko(valgtOppgaveko.id);
+    hentAntallOppgaverForOppgaveko(gjeldendeKo.id);
   }
 
   componentDidUpdate = (prevProps: OwnProps) => {
     const {
-      valgtOppgaveko, hentAntallOppgaverForOppgaveko,
+      gjeldendeKo, hentAntallOppgaverForOppgaveko, fetchOppgaveko: hentKo,
     } = this.props;
-    if (prevProps.valgtOppgaveko.id !== valgtOppgaveko.id) {
-      hentAntallOppgaverForOppgaveko(valgtOppgaveko.id);
+    if (prevProps.gjeldendeKo.id !== gjeldendeKo.id) {
+      hentAntallOppgaverForOppgaveko(gjeldendeKo.id);
     }
   }
 
   buildInitialValues = (intl: IntlShape) => {
     const {
-      valgtOppgaveko,
+      gjeldendeKo,
     } = this.props;
 
-    const behandlingTypes = valgtOppgaveko.behandlingTyper ? valgtOppgaveko.behandlingTyper.reduce((acc, bt) => ({ ...acc, [bt.kode]: true }), {}) : {};
-    const fagsakYtelseType = valgtOppgaveko.fagsakYtelseTyper && valgtOppgaveko.fagsakYtelseTyper.length > 0
-      ? valgtOppgaveko.fagsakYtelseTyper[0].kode : '';
+    const behandlingTypes = gjeldendeKo.behandlingTyper ? gjeldendeKo.behandlingTyper.reduce((acc, bt) => ({ ...acc, [bt.kode]: true }), {}) : {};
+    const fagsakYtelseType = gjeldendeKo.fagsakYtelseTyper && gjeldendeKo.fagsakYtelseTyper.length > 0
+      ? gjeldendeKo.fagsakYtelseTyper[0].kode : '';
 
-    const andreKriterierTyper = valgtOppgaveko.andreKriterier
-      ? valgtOppgaveko.andreKriterier.reduce((acc, ak) => ({ ...acc, [ak.andreKriterierType.kode]: true }), {}) : {};
-    const andreKriterierInkluder = valgtOppgaveko.andreKriterier
-      ? valgtOppgaveko.andreKriterier.reduce((acc, ak) => ({ ...acc, [`${ak.andreKriterierType.kode}_inkluder`]: ak.inkluder }), {}) : {};
+    const andreKriterierTyper = gjeldendeKo.andreKriterier
+      ? gjeldendeKo.andreKriterier.reduce((acc, ak) => ({ ...acc, [ak.andreKriterierType.kode]: true }), {}) : {};
+    const andreKriterierInkluder = gjeldendeKo.andreKriterier
+      ? gjeldendeKo.andreKriterier.reduce((acc, ak) => ({ ...acc, [`${ak.andreKriterierType.kode}_inkluder`]: ak.inkluder }), {}) : {};
 
     return {
-      id: valgtOppgaveko.id,
-      navn: valgtOppgaveko.navn ? valgtOppgaveko.navn : intl.formatMessage({ id: 'UtvalgskriterierForOppgavekoForm.NyListe' }),
-      sortering: valgtOppgaveko.sortering ? valgtOppgaveko.sortering.sorteringType.kode : undefined,
-      fomDato: valgtOppgaveko.sortering ? valgtOppgaveko.sortering.fomDato : undefined,
-      tomDato: valgtOppgaveko.sortering ? valgtOppgaveko.sortering.tomDato : undefined,
-      skjermet: valgtOppgaveko.skjermet,
+      id: gjeldendeKo.id,
+      navn: gjeldendeKo.navn ? gjeldendeKo.navn : intl.formatMessage({ id: 'UtvalgskriterierForOppgavekoForm.NyListe' }),
+      sortering: gjeldendeKo.sortering ? gjeldendeKo.sortering.sorteringType.kode : undefined,
+      fomDato: gjeldendeKo.sortering ? gjeldendeKo.sortering.fomDato : undefined,
+      tomDato: gjeldendeKo.sortering ? gjeldendeKo.sortering.tomDato : undefined,
+      skjermet: gjeldendeKo.skjermet,
       fagsakYtelseType,
       ...andreKriterierTyper,
       ...andreKriterierInkluder,
@@ -111,7 +113,7 @@ export class UtvalgskriterierForOppgavekoForm extends Component<OwnProps & Dispa
 
   render = (): ReactNode => {
     const {
-      intl, lagreOppgavekoBehandlingstype, lagreOppgavekoFagsakYtelseType, valgtOppgaveko, antallOppgaver,
+      intl, lagreOppgavekoBehandlingstype, lagreOppgavekoFagsakYtelseType, gjeldendeKo, antallOppgaver,
       lagreOppgavekoAndreKriterier, lagreOppgavekoSkjermet, alleKodeverk, lagreOppgavekoSortering,
       lagreOppgavekoSorteringTidsintervallDato,
     } = this.props;
@@ -145,11 +147,11 @@ export class UtvalgskriterierForOppgavekoForm extends Component<OwnProps & Dispa
               </Column>
             </Row>
             <Row>
-              <SkjermetVelger valgtOppgavekoId={valgtOppgaveko.id} lagreSkjermet={lagreOppgavekoSkjermet} />
+              <SkjermetVelger valgtOppgavekoId={gjeldendeKo.id} lagreSkjermet={lagreOppgavekoSkjermet} />
               <Column xs="6" className={styles.stonadstypeRadios}>
                 <FagsakYtelseTypeVelger
                   lagreOppgavekoFagsakYtelseType={lagreOppgavekoFagsakYtelseType}
-                  valgtOppgavekoId={valgtOppgaveko.id}
+                  valgtOppgavekoId={gjeldendeKo.id}
                   alleKodeverk={alleKodeverk}
                 />
               </Column>
@@ -158,22 +160,22 @@ export class UtvalgskriterierForOppgavekoForm extends Component<OwnProps & Dispa
               <Column xs="3">
                 <BehandlingstypeVelger
                   lagreOppgavekoBehandlingstype={lagreOppgavekoBehandlingstype}
-                  valgtOppgavekoId={valgtOppgaveko.id}
+                  valgtOppgavekoId={gjeldendeKo.id}
                   alleKodeverk={alleKodeverk}
                 />
               </Column>
               <Column xs="4">
                 <AndreKriterierVelger
                   lagreOppgavekoAndreKriterier={lagreOppgavekoAndreKriterier}
-                  valgtOppgavekoId={valgtOppgaveko.id}
+                  valgtOppgavekoId={gjeldendeKo.id}
                   values={values}
                   alleKodeverk={alleKodeverk}
                 />
               </Column>
               <Column xs="4">
                 <SorteringVelger
-                  valgtOppgavekoId={valgtOppgaveko.id}
-                  valgteBehandlingtyper={valgtOppgaveko.behandlingTyper}
+                  valgtOppgavekoId={gjeldendeKo.id}
+                  valgteBehandlingtyper={gjeldendeKo.behandlingTyper}
                   fomDato={values.fomDato}
                   tomDato={values.tomDato}
                   alleKodeverk={alleKodeverk as {[key: string]: KoSorteringType[]}}
@@ -192,12 +194,14 @@ export class UtvalgskriterierForOppgavekoForm extends Component<OwnProps & Dispa
 const mapStateToProps = (state) => ({
   antallOppgaver: getAntallOppgaverForOppgavekoResultat(state),
   alleKodeverk: getKodeverk(state),
+  gjeldendeKo: getOppgaveko(state),
 });
 
 const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => ({
   ...bindActionCreators({
     lagreOppgavekoSortering: lagreOppgavekoSorteringActionCreator,
     lagreOppgavekoSorteringTidsintervallDato: lagreOppgavekoSorteringTidsintervallDatoActionCreator,
+    fetchOppgaveko,
   }, dispatch),
 });
 

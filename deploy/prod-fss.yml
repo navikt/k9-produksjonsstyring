@@ -27,7 +27,7 @@ spec:
   resources:
     limits:
       cpu: 500m
-      memory: 64Mi
+      memory: 128Mi
     requests:
       cpu: 200m
       memory: 32Mi
@@ -46,4 +46,5 @@ spec:
       value: https://k9-los-web.nais.adeo.no
     - name: REDIRECT_URL
       value: https://k9-los-oidc-auth-proxy.nais.adeo.no/login?redirect_uri=https://k9-los-web.nais.adeo.no/
+
 
