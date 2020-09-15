@@ -88,7 +88,7 @@ export class SaksbehandlereForOppgavekoForm extends Component<TsProps> {
                   </div>
                 ))}
               </Column>
-              <Column xs="6">
+              <Column xs="6" className={styles.hoyre}>
                 {alleSaksbehandlereHoyreListe.map((s) => (
                   <div className={styles.checkBox}>
                     <CheckboxField
