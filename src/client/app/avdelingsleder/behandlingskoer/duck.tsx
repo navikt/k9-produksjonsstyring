@@ -47,7 +47,7 @@ export const getAntallOppgaverForOppgavekoResultat = k9LosApi.OPPGAVE_ANTALL.get
 export const lagNyOppgaveko = () => (dispatch: Dispatch<any>) => dispatch(k9LosApi
   .OPPRETT_NY_OPPGAVEKO.makeRestApiRequest()({ }))
   .then(((data: {payload: { id: string } }) => dispatch(fetchOppgaveko(data.payload.id))))
-  .then((data: {payload: { ko: Oppgaveko } }) => dispatch(setValgtOppgavekoId(data.payload.ko.id)))
+  .then((data: {payload: Oppgaveko }) => dispatch(setValgtOppgavekoId(data.payload.id)))
   .then(() => dispatch(fetchAlleOppgavekoer()));
 
 export const getNyOppgavekoId = k9LosApi.OPPRETT_NY_OPPGAVEKO.getRestApiData();
