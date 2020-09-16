@@ -9,7 +9,6 @@ import { fetchBehandledeOppgaver } from './duck';
 import { getValgtOppgavekoId } from '../behandlingskoer/duck';
 import SaksstottePaneler from './components/SaksstottePaneler';
 
-
 interface TsProps {
   fetchBehandledeOppgaver: () => any;
   fetchNyeOgFerdigstilteOppgaverNokkeltall: (oppgavekoId: string) => any;
@@ -58,6 +57,5 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
     fetchNyeOgFerdigstilteOppgaverNokkeltall,
   }, dispatch),
 });
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(SaksstotteIndex);

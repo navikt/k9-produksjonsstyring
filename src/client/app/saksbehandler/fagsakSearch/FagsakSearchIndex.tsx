@@ -5,17 +5,17 @@ import { bindActionCreators, Dispatch } from 'redux';
 
 import OppgaveErReservertAvAnnenModal from 'saksbehandler/components/OppgaveErReservertAvAnnenModal';
 import { Fagsak } from 'saksbehandler/fagsakSearch/fagsakTsType';
-import { getK9sakUrl } from 'app/duck';
+import { getK9sakUrl, getNavAnsattKanReservere } from 'app/duck';
 import { getK9sakHref } from 'app/paths';
 import {
   reserverOppgave as reserverOppgaveActionCreator,
-  hentReservasjonsstatus as hentReservasjonActionCreator,
   leggTilBehandletOppgave,
 } from 'saksbehandler/behandlingskoer/duck';
 import { OppgaveStatus } from 'saksbehandler/oppgaveStatusTsType';
 import Oppgave from 'saksbehandler/oppgaveTsType';
 import oppgavePropType from 'saksbehandler/oppgavePropType';
-import fagsakPropType from './fagsakPropType';
+import { SokeResultat } from 'saksbehandler/fagsakSearch/sokeResultatTsType';
+import sokeResultatPropType from 'saksbehandler/fagsakSearch/sokeResultatPropType';
 import { searchFagsaker, resetFagsakSearch, hentOppgaverForFagsaker as hentOppgaverForFagsakerActionCreator } from './duck';
 import {
   getFagsaker,
@@ -29,7 +29,7 @@ interface SearchResultAccessDenied {
 }
 
 type Props = Readonly<{
-  fagsaker: Fagsak[];
+  fagsaker: SokeResultat;
   fagsakOppgaver: Oppgave[];
   searchFagsaker: ({ searchString: string, skalReservere: boolean }) => void;
   searchResultAccessDenied?: SearchResultAccessDenied;
@@ -37,8 +37,8 @@ type Props = Readonly<{
   goToFagsak: (saknummer: string, behandlingId?: number) => void;
   leggTilBehandletOppgave: (oppgave: Oppgave) => void;
   reserverOppgave: (oppgaveId: string) => Promise<{payload: OppgaveStatus }>;
-  hentReservasjonsstatus: (oppgaveId: string) => Promise<{payload: OppgaveStatus }>;
   hentOppgaverForFagsaker: (fagsaker: string) => Promise<{ payload: Oppgave[] }>;
+  kanReservere: boolean;
 }>;
 
 interface StateProps {
@@ -68,7 +68,7 @@ export class FagsakSearchIndex extends Component<Props, StateProps> {
     /**
      * Saksnummer eller fødselsnummer/D-nummer
      */
-    fagsaker: PropTypes.arrayOf(fagsakPropType),
+    fagsaker: sokeResultatPropType,
     fagsakOppgaver: PropTypes.arrayOf(oppgavePropType),
     searchFagsaker: PropTypes.func.isRequired,
     searchResultAccessDenied: PropTypes.shape({
@@ -79,13 +79,16 @@ export class FagsakSearchIndex extends Component<Props, StateProps> {
     reserverOppgave: PropTypes.func.isRequired,
     leggTilBehandletOppgave: PropTypes.func.isRequired,
     hentOppgaverForFagsaker: PropTypes.func.isRequired,
+    kanReservere: PropTypes.bool.isRequired,
   };
 
   static defaultProps = {
-    fagsaker: [],
+    fagsaker: {
+      ikkeTilgang: false,
+      fagsaker: [],
+    },
     searchResultAccessDenied: undefined,
   };
-
 
   componentWillUnmount = () => {
     const { resetFagsakSearch: resetSearch } = this.props;
@@ -95,10 +98,8 @@ export class FagsakSearchIndex extends Component<Props, StateProps> {
   goToFagsakEllerApneModal = (oppgave: Oppgave) => {
     const { goToFagsak } = this.props;
     if (!oppgave.status.erReservert || (oppgave.status.erReservert && oppgave.status.erReservertAvInnloggetBruker)) {
-      this.leggTilBehandletSak(oppgave);
       goToFagsak(oppgave.saksnummer, oppgave.behandlingId);
     } else if (oppgave.status.erReservert && !oppgave.status.erReservertAvInnloggetBruker) {
-      this.leggTilBehandletSak(oppgave);
       this.setState((prevState) => ({ ...prevState, reservertAvAnnenSaksbehandler: true, reservertOppgave: oppgave }));
     }
   }
@@ -109,23 +110,28 @@ export class FagsakSearchIndex extends Component<Props, StateProps> {
   };
 
   velgFagsakOperasjoner = (oppgave: Oppgave, reserver: boolean) => {
-    const { reserverOppgave, goToFagsak } = this.props;
+    const { reserverOppgave, goToFagsak, kanReservere } = this.props;
     if (oppgave.status.erReservert && !oppgave.status.erReservertAvInnloggetBruker) {
       this.setState((prevState) => ({ ...prevState, reservertAvAnnenSaksbehandler: true, reservertOppgave: oppgave }));
     }
+
+    if (reserver && !kanReservere) {
+      this.leggTilBehandletSak(oppgave);
+      goToFagsak(oppgave.saksnummer, oppgave.behandlingId);
+    }
     if (!reserver) {
+      this.leggTilBehandletSak(oppgave);
       this.goToFagsakEllerApneModal(oppgave);
-    } else {
+    } else if (reserver && kanReservere) {
       reserverOppgave(oppgave.eksternId).then(() => {
         this.leggTilBehandletSak(oppgave);
         goToFagsak(oppgave.saksnummer, oppgave.behandlingId);
       });
+    } else if (!kanReservere) {
+      this.leggTilBehandletSak(oppgave);
+      goToFagsak(oppgave.saksnummer, oppgave.behandlingId);
     }
   };
-
-  reserverOppgaveOgApne = (oppgave: Oppgave, reserver: boolean) => {
-    this.velgFagsakOperasjoner(oppgave, reserver);
-  }
 
   sokFagsak = (values: {searchString: string; skalReservere: boolean}) => {
     const {
@@ -136,8 +142,8 @@ export class FagsakSearchIndex extends Component<Props, StateProps> {
       ...prevState, skalReservere: values.skalReservere, sokStartet: true, sokFerdig: false,
     }));
 
-    return search(values).then((data: {payload: Fagsak[] }) => {
-      const fagsaker = new Set(data.payload.map((fagsak) => `${fagsak.saksnummer}`));
+    return search(values).then((data: {payload: SokeResultat }) => {
+      const fagsaker = new Set(data.payload.fagsaker.map((fagsak) => `${fagsak.saksnummer}`));
       if (fagsaker.size > 0) {
         hentOppgaverForFagsaker(Array.from(fagsaker).join(',')).then(() => {
           this.setState((prevState) => ({ ...prevState, sokStartet: false, sokFerdig: true }));
@@ -173,12 +179,11 @@ export class FagsakSearchIndex extends Component<Props, StateProps> {
     return (
       <>
         <FagsakSearch
-          fagsaker={fagsaker || []}
+          fagsaker={fagsaker}
           fagsakOppgaver={fagsakOppgaver || []}
           searchFagsakCallback={this.sokFagsak}
           searchResultReceived={sokFerdig}
-          selectFagsakCallback={goToFagsak}
-          selectOppgaveCallback={this.reserverOppgaveOgApne}
+          selectOppgaveCallback={this.velgFagsakOperasjoner}
           searchStarted={sokStartet}
           searchResultAccessDenied={searchResultAccessDenied}
           resetSearch={this.resetSearch}
@@ -204,6 +209,7 @@ const mapStateToProps = (state) => ({
   fagsakOppgaver: getFagsakOppgaver(state),
   searchResultAccessDenied: getSearchFagsakerAccessDenied(state),
   goToFagsak: getGoToFagsakFn(getK9sakUrl(state)),
+  kanReservere: getNavAnsattKanReservere(state),
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
@@ -212,7 +218,6 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
     resetFagsakSearch,
     reserverOppgave: reserverOppgaveActionCreator,
     leggTilBehandletOppgave,
-    hentReservasjonsstatus: hentReservasjonActionCreator,
     hentOppgaverForFagsaker: hentOppgaverForFagsakerActionCreator,
   }, dispatch),
 });

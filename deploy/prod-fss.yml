@@ -47,3 +47,4 @@ spec:
     - name: REDIRECT_URL
       value: https://k9-los-oidc-auth-proxy.nais.adeo.no/login?redirect_uri=https://k9-los-web.nais.adeo.no/
 
+
