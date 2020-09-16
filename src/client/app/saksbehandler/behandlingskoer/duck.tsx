@@ -1,4 +1,3 @@
-
 import { createSelector } from 'reselect';
 import { Dispatch } from 'redux';
 
@@ -61,7 +60,6 @@ export const leggTilBehandletOppgave = (behandletOppgave: Oppgave) => (dispatch:
   ),
 ).then(() => dispatch(fetchBehandledeOppgaver()));
 
-
 export const hentReservasjonsstatus = (oppgaveId: string) => (dispatch: Dispatch<any>) => dispatch(
   k9LosApi.HENT_RESERVASJONSSTATUS.makeRestApiRequest()(
     { oppgaveId },
@@ -112,7 +110,6 @@ export const fetchAntallOppgaverForBehandlingsko = (id: string) => (dispatch: Di
   k9LosApi.BEHANDLINGSKO_OPPGAVE_ANTALL.makeRestApiRequest()({ id }),
 );
 export const getAntallOppgaverForBehandlingskoResultat = k9LosApi.BEHANDLINGSKO_OPPGAVE_ANTALL.getRestApiData();
-
 
 /* Reducers */
 const initialState = {

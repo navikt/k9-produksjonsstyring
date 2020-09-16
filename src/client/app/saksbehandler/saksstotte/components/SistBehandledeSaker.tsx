@@ -1,4 +1,3 @@
-
 import React, { Component, Fragment } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
@@ -9,7 +8,6 @@ import { getK9sakHref } from 'app/paths';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import { getBehandledeOppgaver } from 'saksbehandler/saksstotte/duck';
 import BehandletOppgave from 'saksbehandler/saksstotte/behandletOppgaveTsType';
-
 
 interface OwnProps {
   k9sakUrl: string;
@@ -61,6 +59,5 @@ export class SistBehandledeSaker extends Component<OwnProps> {
 const mapStateToProps = (state) => ({
   sistBehandledeSaker: getBehandledeOppgaver(state) || [],
 });
-
 
 export default connect(mapStateToProps)(SistBehandledeSaker);

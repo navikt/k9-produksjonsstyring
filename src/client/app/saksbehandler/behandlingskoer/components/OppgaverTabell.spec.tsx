@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
@@ -83,6 +82,7 @@ describe('<OppgaverTabell>', () => {
       resetSaksbehandler={sinon.spy()}
       flyttReservasjon={sinon.spy()}
       antall={1}
+      requestFinished
     />);
 
     const tableRows = wrapper.find(TableRow);
@@ -168,6 +168,7 @@ describe('<OppgaverTabell>', () => {
       resetSaksbehandler={sinon.spy()}
       flyttReservasjon={sinon.spy()}
       antall={1}
+      requestFinished
     />);
 
     const tableRows = wrapper.find(TableRow);
@@ -201,6 +202,11 @@ describe('<OppgaverTabell>', () => {
       resetSaksbehandler={sinon.spy()}
       flyttReservasjon={sinon.spy()}
       antall={1}
+      endreOppgaveReservasjon={sinon.spy()}
+      goToFagsak={sinon.spy()}
+      leggTilBehandletOppgave={sinon.spy()}
+      valgtKoSkjermet={false}
+      requestFinished
     />);
 
     const message = wrapper.find(FormattedMessage);
@@ -256,6 +262,7 @@ describe('<OppgaverTabell>', () => {
       resetSaksbehandler={sinon.spy()}
       flyttReservasjon={sinon.spy()}
       antall={1}
+      requestFinished
     />);
 
     const tableRows = wrapper.find(TableRow);

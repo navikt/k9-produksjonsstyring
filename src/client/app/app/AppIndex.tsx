@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 import { withRouter } from 'react-router-dom';
@@ -9,14 +8,15 @@ import errorHandler from 'api/error-api-redux';
 import EventType from 'api/rest-api/src/requestApi/eventType';
 import AppConfigResolver from './AppConfigResolver';
 import {
-  getFunksjonellTid, getNavAnsattName, getNavAnsattKanOppgavestyre,
+  getFunksjonellTid, getNavAnsattName, getNavAnsattKanOppgavestyre, getNavAnsattKanDrifte, getAlleDriftsmeldinger,
 } from './duck';
 import { Location } from './locationTsType';
 import LanguageProvider from './LanguageProvider';
 import HeaderWithErrorPanel from './components/HeaderWithErrorPanel';
 import Home from './components/Home';
 import '../../styles/global.less';
-
+import { fetchAlleDriftsmeldinger, getDriftsmeldinger } from '../admin/driftsmeldinger/duck';
+import { Driftsmelding } from '../admin/driftsmeldinger/driftsmeldingTsType';
 
 interface OwnProps {
   errorMessages?: {
@@ -34,6 +34,8 @@ interface OwnProps {
   funksjonellTid?: string;
   location: Location;
   kanOppgavestyre: boolean;
+  kanDrifte: boolean;
+  driftsmeldinger: Driftsmelding[];
 }
 
 /**
@@ -83,7 +85,7 @@ export class AppIndex extends Component<OwnProps> {
   render = () => {
     const {
       location, crashMessage, navAnsattName,
-      removeErrorMessage: removeErrorMsg, kanOppgavestyre,
+      removeErrorMessage: removeErrorMsg, kanOppgavestyre, kanDrifte, driftsmeldinger,
     } = this.props;
     const { headerHeight } = this.state;
     const queryStrings = parseQueryString(location.search);
@@ -93,10 +95,12 @@ export class AppIndex extends Component<OwnProps> {
         <LanguageProvider>
           <HeaderWithErrorPanel
             kanOppgavestyre={kanOppgavestyre}
+            kanDrifte={kanDrifte}
             queryStrings={queryStrings}
             navAnsattName={navAnsattName}
             removeErrorMessage={removeErrorMsg}
             setSiteHeight={this.setSiteHeight}
+            driftsmeldinger={driftsmeldinger}
           />
           {!crashMessage && (
             <Home headerHeight={headerHeight} />
@@ -113,6 +117,8 @@ const mapStateToProps = (state: any) => ({
   navAnsattName: getNavAnsattName(state),
   funksjonellTid: getFunksjonellTid(state),
   kanOppgavestyre: getNavAnsattKanOppgavestyre(state),
+  kanDrifte: getNavAnsattKanDrifte(state),
+  driftsmeldinger: getAlleDriftsmeldinger(state),
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({

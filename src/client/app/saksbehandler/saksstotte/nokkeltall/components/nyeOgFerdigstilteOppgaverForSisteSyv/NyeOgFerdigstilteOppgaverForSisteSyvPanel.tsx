@@ -1,4 +1,3 @@
-
 import React, { FunctionComponent } from 'react';
 import moment from 'moment';
 import { connect } from 'react-redux';

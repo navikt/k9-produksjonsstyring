@@ -19,6 +19,7 @@ const config = {
   ],
 
   output: {
+    globalObject: 'this',
     filename: '[name].js',
     path: ROOT_DIR,
     publicPath: '/',

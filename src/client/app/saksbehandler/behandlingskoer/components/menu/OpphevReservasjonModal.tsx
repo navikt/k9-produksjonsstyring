@@ -1,12 +1,9 @@
-
 import React, { FunctionComponent } from 'react';
 import { injectIntl, WrappedComponentProps, FormattedMessage } from 'react-intl';
 
 import { Form } from 'react-final-form';
 import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
 import { Undertittel } from 'nav-frontend-typografi';
-
-import { Oppgave } from 'saksbehandler/oppgaveTsType';
 import {
   hasValidText, maxLength, minLength, required,
 } from 'utils/validation/validators';
@@ -21,7 +18,7 @@ const maxLength1500 = maxLength(1500);
 type OwnProps = Readonly<{
   intl: any;
   showModal: boolean;
-  oppgave: Oppgave;
+  oppgaveId: string;
   cancel: () => void;
   submit: (oppgaveId: string, begrunnelse: string) => void;
 }>;
@@ -36,7 +33,7 @@ export const OpphevReservasjonModal: FunctionComponent<OwnProps & WrappedCompone
   showModal,
   cancel,
   submit,
-  oppgave,
+  oppgaveId,
 }) => (
   <Modal
     className={styles.modal}
@@ -46,7 +43,7 @@ export const OpphevReservasjonModal: FunctionComponent<OwnProps & WrappedCompone
     onRequestClose={cancel}
   >
     <Form
-      onSubmit={(values) => submit(oppgave.eksternId, values.begrunnelse)}
+      onSubmit={(values) => submit(oppgaveId, values.begrunnelse)}
       render={({ handleSubmit }) => (
         <form onSubmit={handleSubmit}>
           <Undertittel><FormattedMessage id="OpphevReservasjonModal.Begrunnelse" /></Undertittel>

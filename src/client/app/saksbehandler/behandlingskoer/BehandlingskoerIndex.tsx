@@ -33,7 +33,6 @@ interface OwnProps {
   goToUrl: (url: string) => void;
 }
 
-
 interface DispatchProps {
   fetchOppgaverTilBehandling: (id: string) => Promise<{payload: any }>;
   fetchOppgaverTilBehandlingOppgaver: (id: string) => Promise<{payload: any }>;
@@ -57,6 +56,7 @@ interface StateProps {
   reservertAvAnnenSaksbehandler: boolean;
   reservertOppgave?: Oppgave;
   reservertOppgaveStatus?: OppgaveStatus;
+  skjermet: boolean;
 }
 /**
  * BehandlingskoerIndex
@@ -67,6 +67,7 @@ export class BehandlingskoerIndex extends Component<OwnProps & DispatchProps, St
     reservertAvAnnenSaksbehandler: false,
     reservertOppgave: undefined,
     reservertOppgaveStatus: undefined,
+    skjermet: undefined,
   };
 
   static defaultProps = {
@@ -95,6 +96,7 @@ export class BehandlingskoerIndex extends Component<OwnProps & DispatchProps, St
     const data = JSON.parse(e.data);
     const { fetchOppgaverTilBehandlingOppgaver: fetchTilBehandling, fetchReserverteOppgaver: fetchReserverte } = this.props;
     const { id } = this.state;
+    const { oppgavekoer } = this.props;
     if (data.melding === 'oppdaterReserverte') {
       fetchReserverte(id);
     } else if (data.melding === 'oppdaterTilBehandling') {
@@ -106,6 +108,7 @@ export class BehandlingskoerIndex extends Component<OwnProps & DispatchProps, St
 
   fetchOppgavekoOppgaver = (id: string) => {
     this.setState((prevState) => ({ ...prevState, id }));
+    this.setState((prevState) => ({ ...prevState, skjermet: this.sjekkOmKoErSkjermet(id) }));
     const { fetchOppgaverTilBehandling: fetchTilBehandling, fetchReserverteOppgaver: fetchReserverte, setValgtOppgavekoId: setOppgavekoId } = this.props;
     setOppgavekoId(id);
     fetchReserverte(id);
@@ -197,12 +200,17 @@ export class BehandlingskoerIndex extends Component<OwnProps & DispatchProps, St
     }));
   }
 
+  sjekkOmKoErSkjermet = (id: string) => {
+    const { oppgavekoer } = this.props;
+    return oppgavekoer.find((ko) => ko.id === id).skjermet;
+  }
+
   render = () => {
     const {
       oppgavekoer,
     } = this.props;
     const {
-      reservertAvAnnenSaksbehandler, reservertOppgave, reservertOppgaveStatus,
+      reservertAvAnnenSaksbehandler, reservertOppgave, reservertOppgaveStatus, skjermet,
     } = this.state;
     if (oppgavekoer.length === 0) {
       return null;
@@ -210,6 +218,7 @@ export class BehandlingskoerIndex extends Component<OwnProps & DispatchProps, St
     return (
       <>
         <OppgavekoPanel
+          valgtKoSkjermet={skjermet}
           reserverOppgave={this.reserverOppgaveOgApne}
           oppgavekoer={oppgavekoer}
           endreOppgaveReservasjon={this.endreOppgaveReservasjon}
@@ -253,6 +262,5 @@ const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => ({
     setValgtOppgavekoId,
   }, dispatch),
 });
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(BehandlingskoerIndex);

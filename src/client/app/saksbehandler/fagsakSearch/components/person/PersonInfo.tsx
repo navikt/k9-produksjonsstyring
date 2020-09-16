@@ -1,4 +1,3 @@
-
 import React from 'react';
 
 import { Undertittel, Undertekst } from 'nav-frontend-typografi';

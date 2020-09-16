@@ -126,7 +126,6 @@ export const addDaysToDate = (dateString, nrOfDays) => (dateString === TIDENES_E
   ? dateString
   : moment(dateString, ISO_DATE_FORMAT).add(nrOfDays, 'days').format(ISO_DATE_FORMAT));
 
-
 export const findDifferenceInMonthsAndDays = (fomDate, tomDate) => {
   const fDate = moment(fomDate, ISO_DATE_FORMAT, true);
   const tDate = moment(tomDate, ISO_DATE_FORMAT, true).add(1, 'days');

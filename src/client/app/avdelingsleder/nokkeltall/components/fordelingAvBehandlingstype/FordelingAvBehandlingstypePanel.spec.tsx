@@ -64,7 +64,6 @@ describe('<FordelingAvBehandlingstypePanel>', () => {
     expect(radioOptions.last().prop('value')).to.eql('ALLE');
   });
 
-
   it('skal filtrere bort engangsstønader', () => {
     const valuesMock = {
       valgtYtelseType: fagsakYtelseType.OMSORGSPENGER,

@@ -19,6 +19,7 @@ const config = {
   ],
 
   output: {
+    globalObject: 'this',
     filename: '[name]-[contenthash].js',
     chunkFilename: '[name].[contenthash].chunk.js',
     path: path.resolve(__dirname, '../dist/public'),

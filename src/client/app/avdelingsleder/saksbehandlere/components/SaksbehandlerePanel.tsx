@@ -9,7 +9,6 @@ import SaksbehandlereTabell from './SaksbehandlereTabell';
 
 interface TsProps {
   saksbehandlere: Saksbehandler[];
-  finnSaksbehandler: (brukerIdent: string) => Promise<string>;
   resetSaksbehandlerSok: () => void;
   leggTilSaksbehandler: (epost: string) => Promise<string>;
   fjernSaksbehandler: (epost: string) => Promise<string>;
@@ -20,7 +19,6 @@ interface TsProps {
  */
 const SaksbehandlerePanel = ({
   saksbehandlere,
-  finnSaksbehandler,
   resetSaksbehandlerSok,
   leggTilSaksbehandler,
   fjernSaksbehandler,
@@ -29,7 +27,6 @@ const SaksbehandlerePanel = ({
     <SaksbehandlereTabell saksbehandlere={saksbehandlere} fjernSaksbehandler={fjernSaksbehandler} />
     <VerticalSpacer sixteenPx />
     <LeggTilSaksbehandlerForm
-      finnSaksbehandler={finnSaksbehandler}
       leggTilSaksbehandler={leggTilSaksbehandler}
       resetSaksbehandlerSok={resetSaksbehandlerSok}
     />
@@ -38,7 +35,6 @@ const SaksbehandlerePanel = ({
 
 SaksbehandlerePanel.propTypes = {
   saksbehandlere: PropTypes.arrayOf(saksbehandlerPropType).isRequired,
-  finnSaksbehandler: PropTypes.func.isRequired,
   resetSaksbehandlerSok: PropTypes.func.isRequired,
   leggTilSaksbehandler: PropTypes.func.isRequired,
   fjernSaksbehandler: PropTypes.func.isRequired,

@@ -6,7 +6,6 @@ import behandlingStatus from 'kodeverk/behandlingStatus';
 import behandlingType from 'kodeverk/behandlingType';
 import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
 
-
 import withIntl from '../../../decorators/withIntl';
 
 export default {

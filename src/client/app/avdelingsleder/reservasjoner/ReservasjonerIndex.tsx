@@ -6,6 +6,7 @@ import {
 } from 'avdelingsleder/reservasjoner/duck';
 import { connect } from 'react-redux';
 import Reservasjon from 'avdelingsleder/reservasjoner/reservasjonTsType';
+import k9LosApi from 'api/k9LosApi';
 import ReservasjonerTabell from './components/ReservasjonerTabell';
 
 const EMPTY_ARRAY = [];
@@ -18,6 +19,7 @@ interface TsProps {
   finnSaksbehandler: (brukerIdent: string) => Promise<string>;
   resetSaksbehandler: () => Promise<string>;
   flyttReservasjon: (oppgaveId: string, brukerident: string, begrunnelse: string) => Promise<string>;
+  requestFinished: boolean;
 }
 
 export class ReservasjonerIndex extends Component<TsProps> {
@@ -33,6 +35,7 @@ export class ReservasjonerIndex extends Component<TsProps> {
   render = () => {
     const {
       reservasjoner,
+      requestFinished,
       opphevReservasjon: opphevOppgaveReservasjon,
       fetchAlleReservasjoner,
       finnSaksbehandler: saksbehandlerSok,
@@ -49,6 +52,7 @@ export class ReservasjonerIndex extends Component<TsProps> {
         finnSaksbehandler={saksbehandlerSok}
         resetSaksbehandler={nullstillSaksbehandler}
         flyttReservasjon={flyttOppgaveReservasjon}
+        requestFinished={requestFinished}
       />
     );
   }
@@ -67,6 +71,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 
 const mapStateToProps = (state) => ({
   reservasjoner: getAlleReservasjoner(state),
+  requestFinished: k9LosApi.HENT_ALLE_RESERVASJONER.getRestApiFinished()(state),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ReservasjonerIndex);

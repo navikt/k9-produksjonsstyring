@@ -17,17 +17,14 @@ import { Fagsak } from '../fagsakTsType';
 
 import styles from './fagsakList.less';
 
-
 const headerTextCodes = [
   'FagsakList.Saksnummer',
   'FagsakList.Navn',
   'FagsakList.Stonadstype',
-  'FagsakList.Behandlingstype',
   'EMPTY_1',
 ];
 
 interface OwnProps {
-  sorterteFagsaker: Fagsak[];
   selectOppgaveCallback: (oppgave: Oppgave, skalReservere: boolean) => void;
   fagsakStatusTyper: Kodeverk[];
   fagsakYtelseTyper: Kodeverk[];
@@ -54,6 +51,10 @@ export class FagsakList extends Component<OwnProps, OwnState> {
   }
 
   onClick = (oppgave, selectOppgaveCallback) => {
+    const { kanReservere } = this.props;
+    if (!kanReservere) {
+      selectOppgaveCallback(oppgave, false);
+    }
     if (oppgave.erTilSaksbehandling && !oppgave.status.erReservert) {
       this.setState((prevState) => ({ ...prevState, visReserverOppgaveModal: true }));
     } else {
@@ -71,58 +72,47 @@ export class FagsakList extends Component<OwnProps, OwnState> {
     selectOppgaveCallback(oppgave, false);
   };
 
-    render = () => {
-      const {
-        sorterteFagsaker,
-        fagsakOppgaver,
-        selectOppgaveCallback,
-        kanReservere,
-      } = this.props;
-      const {
-        visReserverOppgaveModal,
-      } = this.state;
+  render = () => {
+    const {
+      fagsakOppgaver,
+      selectOppgaveCallback,
+      kanReservere,
+    } = this.props;
+    const {
+      visReserverOppgaveModal,
+    } = this.state;
 
-      return (
-        <Table headerTextCodes={headerTextCodes} classNameTable={styles.table}>
-          {sorterteFagsaker.map((fagsak) => {
-            const filtrerteOppgaver = fagsakOppgaver.filter((o) => o.saksnummer === fagsak.saksnummer);
-            const oppgaver = filtrerteOppgaver.map((oppgave, index) => (
-              <TableRow
-                key={`oppgave${oppgave.eksternId}`}
-                id={oppgave.eksternId}
-                onMouseDown={() => this.onClick(oppgave, selectOppgaveCallback)}
-                onKeyDown={() => this.onClick(oppgave, selectOppgaveCallback)}
-                isDashedBottomBorder={filtrerteOppgaver.length > index + 1}
-              >
-                <TableColumn>{oppgave.saksnummer}</TableColumn>
-                <TableColumn>{oppgave.navn}</TableColumn>
-                <TableColumn>{oppgave.fagsakYtelseType.navn}</TableColumn>
-                <TableColumn>{oppgave.behandlingstype.navn}</TableColumn>
-                <TableColumn><NavFrontendChevron /></TableColumn>
-                {visReserverOppgaveModal && kanReservere && !oppgave.status.erReservertAvInnloggetBruker && (
-                <ReserverOppgaveModal
-                  cancel={() => this.onCancel(oppgave, selectOppgaveCallback)}
-                  valgtOppgave={oppgave}
-                  submit={() => this.onSubmit(oppgave, selectOppgaveCallback)}
-                  selectOppgaveCallback={() => selectOppgaveCallback}
-                />
-                )}
-              </TableRow>
-            ));
+    return (
+      <Table headerTextCodes={headerTextCodes} classNameTable={styles.table}>
+        {fagsakOppgaver.map((oppgave, index) => (
+          <TableRow
+            key={`oppgave${oppgave.eksternId}`}
+            id={oppgave.eksternId}
+            onMouseDown={() => this.onClick(oppgave, selectOppgaveCallback)}
+            onKeyDown={() => this.onClick(oppgave, selectOppgaveCallback)}
+            isDashedBottomBorder={fagsakOppgaver.length > index + 1}
+          >
+            <TableColumn>{oppgave.saksnummer}</TableColumn>
+            <TableColumn>{oppgave.navn}</TableColumn>
+            <TableColumn>{oppgave.fagsakYtelseType.navn}</TableColumn>
+            <TableColumn><NavFrontendChevron /></TableColumn>
+            {visReserverOppgaveModal && kanReservere && !oppgave.status.erReservertAvInnloggetBruker && (
+            <ReserverOppgaveModal
+              cancel={() => this.onCancel(oppgave, selectOppgaveCallback)}
+              valgtOppgave={oppgave}
+              submit={() => this.onSubmit(oppgave, selectOppgaveCallback)}
+              selectOppgaveCallback={() => selectOppgaveCallback}
+            />
+            )}
+          </TableRow>
+        ))}
 
-            return (
-              <Fragment key={`fagsak${fagsak.saksnummer}`}>
-                {oppgaver.length > 0 && oppgaver}
-              </Fragment>
-            );
-          })}
-        </Table>
-      );
-    }
+      </Table>
+    );
+  };
 }
 
 const mapStateToProps = (state) => ({
-  sorterteFagsaker: getFagsaker(state),
   fagsakOppgaver: getFagsakOppgaver(state),
   fagsakStatusTyper: getKodeverk(state)[kodeverkTyper.FAGSAK_STATUS],
   fagsakYtelseTyper: getKodeverk(state)[kodeverkTyper.FAGSAK_YTELSE_TYPE],

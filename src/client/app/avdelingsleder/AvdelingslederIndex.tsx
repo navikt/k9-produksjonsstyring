@@ -11,7 +11,7 @@ import { Undertittel } from 'nav-frontend-typografi';
 import LoadingPanel from 'sharedComponents/LoadingPanel';
 import { getNavAnsattKanOppgavestyre } from 'app/duck';
 import { parseQueryString } from 'utils/urlUtils';
-import { getAvdelingslederPanelLocationCreator } from 'app/paths';
+import { getPanelLocationCreator } from 'app/paths';
 import trackRouteParam from 'app/data/trackRouteParam';
 import { Location } from 'app/locationTsType';
 import NokkeltallIndex from 'avdelingsleder/nokkeltall/NokkeltallIndex';
@@ -42,7 +42,6 @@ const renderAvdelingslederPanel = (avdelingslederPanel) => {
   }
 };
 
-
 const messageId = {
   [AvdelingslederPanels.BEHANDLINGSKOER]: 'AvdelingslederIndex.Behandlingskoer',
   [AvdelingslederPanels.SAKSBEHANDLERE]: 'AvdelingslederIndex.Saksbehandlere',
@@ -54,7 +53,6 @@ interface TsProps {
   activeAvdelingslederPanel: string;
   getAvdelingslederPanelLocation: (panel: string) => Location;
   kanOppgavestyre?: boolean;
-  kanBehandleKode6?: boolean;
 }
 
 const getTab = (avdelingslederPanel, activeAvdelingslederPanel, getAvdelingslederPanelLocation) => ({
@@ -117,7 +115,6 @@ const getPanelFromUrlOrDefault = (location) => {
   return panelFromUrl.avdelingsleder ? panelFromUrl.avdelingsleder : AvdelingslederPanels.BEHANDLINGSKOER;
 };
 
-
 const mapStateToProps = (state) => ({
   activeAvdelingslederPanel: getSelectedAvdelingslederPanel(state),
   kanOppgavestyre: getNavAnsattKanOppgavestyre(state),
@@ -127,7 +124,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
   ...ownProps,
   ...dispatchProps,
   ...stateProps,
-  getAvdelingslederPanelLocation: getAvdelingslederPanelLocationCreator(ownProps.location), // gets prop 'location' from trackRouteParam
+  getAvdelingslederPanelLocation: getPanelLocationCreator(ownProps.location), // gets prop 'location' from trackRouteParam
   activeAvdelingslederPanel: stateProps.activeAvdelingslederPanel ? stateProps.activeAvdelingslederPanel : getPanelFromUrlOrDefault(ownProps.location),
 });
 

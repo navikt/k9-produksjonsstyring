@@ -39,7 +39,6 @@ export const formReducer = (state: StateTsType = initialState, action: ActionTsT
   }
 };
 
-
 /* Selectors */
 const getFormContext = (state) => state.default.formContext;
 
