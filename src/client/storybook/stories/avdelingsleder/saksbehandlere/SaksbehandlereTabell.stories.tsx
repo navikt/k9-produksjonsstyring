@@ -5,7 +5,7 @@ import { SaksbehandlereTabell } from 'avdelingsleder/saksbehandlere/components/S
 import withIntl from '../../../decorators/withIntl';
 
 export default {
-  title: 'avdelingsleder/saksbehandlere/SaksbehandlereTabell',
+  title: 'avdelingsleder/saksbehandlere/DriftsmeldingerTabell',
   component: SaksbehandlereTabell,
   decorators: [withIntl],
 };

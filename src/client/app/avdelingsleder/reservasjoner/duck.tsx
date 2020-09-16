@@ -22,7 +22,6 @@ export const endreOppgaveReservasjon = (oppgaveId: string, reserverTil: string) 
   ),
 ).then(() => dispatch(fetchAlleReservasjoner()));
 
-
 export const finnSaksbehandler = (brukerIdent: string) => (dispatch: Dispatch) => dispatch(
   k9LosApi.FLYTT_RESERVASJON_SAKSBEHANDLER_SOK.makeRestApiRequest()({ brukerIdent }),
 );

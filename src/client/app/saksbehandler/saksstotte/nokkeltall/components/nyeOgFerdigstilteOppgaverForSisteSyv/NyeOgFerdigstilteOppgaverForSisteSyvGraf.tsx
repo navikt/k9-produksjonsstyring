@@ -3,14 +3,13 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 import { createSelector } from 'reselect';
 import {
-  XYPlot, XAxis, YAxis, HorizontalGridLines, AreaSeries, DiscreteColorLegend, Crosshair,
+  XYPlot, XAxis, YAxis, HorizontalGridLines, LineSeries, DiscreteColorLegend, Crosshair,
 } from 'react-vis';
 import { FormattedMessage, injectIntl, WrappedComponentProps } from 'react-intl';
 import Panel from 'nav-frontend-paneler';
 import { Normaltekst, Undertekst } from 'nav-frontend-typografi';
 
 import { DDMMYYYY_DATE_FORMAT } from 'utils/formats';
-
 
 import 'react-vis/dist/style.css';
 import styles from './nyeOgFerdigstilteOppgaverForSisteSyvGraf.less';
@@ -31,6 +30,7 @@ interface OwnProps {
   width: number;
   height: number;
   ferdigstilteOppgaver: Koordinat[];
+  mineFerdigstilteOppgaver: Koordinat[];
   nyeOppgaver: Koordinat[];
   isEmpty: boolean;
 }
@@ -74,7 +74,7 @@ export class NyeOgFerdigstilteOppgaverForSisteSyvGraf extends Component<OwnProps
 
   render = () => {
     const {
-      width, height, ferdigstilteOppgaver, nyeOppgaver, isEmpty,
+      width, height, ferdigstilteOppgaver, mineFerdigstilteOppgaver, nyeOppgaver, isEmpty,
     } = this.props;
     const {
       crosshairValues,
@@ -90,7 +90,7 @@ export class NyeOgFerdigstilteOppgaverForSisteSyvGraf extends Component<OwnProps
         <XYPlot
           dontCheckIfEmpty={isEmpty}
           margin={{
-            left: 40, right: 60, top: 10, bottom: 30,
+            left: 60, right: 60, top: 10, bottom: 30,
           }}
           width={width}
           height={height}
@@ -105,17 +105,24 @@ export class NyeOgFerdigstilteOppgaverForSisteSyvGraf extends Component<OwnProps
             style={{ text: cssText }}
           />
           <YAxis style={{ text: cssText }} />
-          <AreaSeries
+          <LineSeries
             data={ferdigstilteOppgaver}
             fill="#634689"
             stroke="#634689"
             opacity={0.5}
             onNearestX={this.onNearestX}
           />
-          <AreaSeries
+          <LineSeries
+            data={mineFerdigstilteOppgaver}
+            fill="#FF9100"
+            stroke="#FF9100"
+            opacity={0.5}
+            onNearestX={this.onNearestX}
+          />
+          <LineSeries
             data={nyeOppgaver}
-            fill="#66CBEC"
-            stroke="#66CBEC"
+            fill="#0067C5"
+            stroke="#0067C5"
             opacity={0.5}
           />
           {crosshairValues.length > 0 && (
@@ -136,6 +143,12 @@ export class NyeOgFerdigstilteOppgaverForSisteSyvGraf extends Component<OwnProps
                   />
                 </Undertekst>
                 <Undertekst>
+                  <FormattedMessage
+                    id="NyeOgFerdigstilteOppgaverForSisteSyvGraf.FerdigstiltMineAntall"
+                    values={{ antall: this.getAntall(mineFerdigstilteOppgaver) }}
+                  />
+                </Undertekst>
+                <Undertekst>
                   <FormattedMessage id="NyeOgFerdigstilteOppgaverForSisteSyvGraf.NyeAntall" values={{ antall: this.getAntall(nyeOppgaver) }} />
                 </Undertekst>
               </div>
@@ -145,13 +158,16 @@ export class NyeOgFerdigstilteOppgaverForSisteSyvGraf extends Component<OwnProps
         <div className={styles.center}>
           <DiscreteColorLegend
             orientation="horizontal"
-            colors={['#634689', '#66CBEC']}
+            colors={['#0067C5', '#634689', '#FF9100']}
             items={[
+              <Normaltekst className={styles.displayInline}>
+                <FormattedMessage id="NyeOgFerdigstilteOppgaverForSisteSyvGraf.Nye" />
+              </Normaltekst>,
               <Normaltekst className={styles.displayInline}>
                 <FormattedMessage id="NyeOgFerdigstilteOppgaverForSisteSyvGraf.Ferdigstilte" />
               </Normaltekst>,
               <Normaltekst className={styles.displayInline}>
-                <FormattedMessage id="NyeOgFerdigstilteOppgaverForSisteSyvGraf.Nye" />
+                <FormattedMessage id="NyeOgFerdigstilteOppgaverForSisteSyvGraf.FerdigstilteMine" />
               </Normaltekst>,
             ]}
           />
@@ -175,12 +191,14 @@ export const slaSammenBehandlingstyperOgFyllInnTomme = createSelector([(state, o
         oppgaver.push({
           antallNye: 0,
           antallFerdigstilte: 0,
+          antallFerdigstilteMine: 0,
           dato: dato.toDate(),
         });
       } else {
         oppgaver.push({
           antallNye: dataForDato.reduce((acc, d) => acc + d.antallNye, 0),
           antallFerdigstilte: dataForDato.reduce((acc, d) => acc + d.antallFerdigstilte, 0),
+          antallFerdigstilteMine: dataForDato.reduce((acc, d) => acc + d.antallFerdigstilteMine, 0),
           dato: dato.toDate(),
         });
       }
@@ -195,6 +213,11 @@ export const lagDatastrukturForFerdigstilte = createSelector([slaSammenBehandlin
   y: o.antallFerdigstilte,
 })));
 
+export const lagDatastrukturForMineFerdigstilte = createSelector([slaSammenBehandlingstyperOgFyllInnTomme], (oppgaver) => oppgaver.map((o) => ({
+  x: o.dato,
+  y: o.antallFerdigstilteMine,
+})));
+
 export const lagDatastrukturForNye = createSelector([slaSammenBehandlingstyperOgFyllInnTomme], (oppgaver) => oppgaver.map((o) => ({
   x: o.dato,
   y: o.antallNye,
@@ -205,6 +228,7 @@ export const isEmpty = createSelector([(state, ownProps) => ownProps], (ownProps
 const mapStateToProps = (state, ownProps) => ({
   isEmpty: isEmpty(state, ownProps),
   ferdigstilteOppgaver: lagDatastrukturForFerdigstilte(state, ownProps),
+  mineFerdigstilteOppgaver: lagDatastrukturForMineFerdigstilte(state, ownProps),
   nyeOppgaver: lagDatastrukturForNye(state, ownProps),
 });
 

@@ -1,4 +1,3 @@
-
 import { expect } from 'chai';
 
 import { ErrorTypes } from 'app/ErrorTypes';

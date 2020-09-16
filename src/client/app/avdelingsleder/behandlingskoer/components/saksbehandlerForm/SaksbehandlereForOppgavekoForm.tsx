@@ -1,4 +1,3 @@
-
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -15,6 +14,7 @@ import { CheckboxField } from 'form/FinalFields';
 import { getSaksbehandlere } from 'avdelingsleder/saksbehandlere/duck';
 import { Saksbehandler } from 'avdelingsleder/saksbehandlere/saksbehandlerTsType';
 import saksbehandlerPropType from 'avdelingsleder/saksbehandlere/saksbehandlerPropType';
+import { getOppgaveko } from 'avdelingsleder/behandlingskoer/duck';
 import { Oppgaveko } from '../../oppgavekoTsType';
 import oppgavekoPropType from '../../oppgavekoPropType';
 
@@ -110,6 +110,7 @@ const sortSaksbehandlere = createSelector([getSaksbehandlere], (saksbehandlere) 
 
 const mapStateToProps = (state) => ({
   alleSaksbehandlere: sortSaksbehandlere(state),
+  valgtOppgaveko: getOppgaveko(state),
 });
 
 export default connect(mapStateToProps)(SaksbehandlereForOppgavekoForm);

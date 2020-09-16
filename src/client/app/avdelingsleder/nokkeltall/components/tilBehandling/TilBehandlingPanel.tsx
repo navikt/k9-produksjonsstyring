@@ -16,7 +16,7 @@ import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
 import { getKodeverk } from 'kodeverk/duck';
 import TilBehandlingGraf from './TilBehandlingGraf';
-import OppgaveForDato from './oppgaverForDatoTsType';
+import BeholdningPerDato from './beholdningPerDatoTsType';
 import { getOppgaverPerDato } from '../../duck';
 
 import styles from './tilBehandlingPanel.less';
@@ -37,7 +37,7 @@ const erDatoInnenforPeriode = (oppgaveForAvdeling, ukevalg) => {
     return true;
   }
   const toUkerSiden = moment().subtract(2, 'w');
-  return moment(oppgaveForAvdeling.opprettetDato).isSameOrAfter(toUkerSiden);
+  return moment(oppgaveForAvdeling.dato).isSameOrAfter(toUkerSiden);
 };
 
 const finnFagsakYtelseTypeNavn = (fagsakYtelseTyper, valgtFagsakYtelseType) => {
@@ -49,13 +49,13 @@ const slaSammenLikeBehandlingstyperOgDatoer = (oppgaverForAvdeling) => {
   const sammenslatte = [];
 
   oppgaverForAvdeling.forEach((o) => {
-    const index = sammenslatte.findIndex((s) => s.behandlingType.kode === o.behandlingType.kode && s.opprettetDato === o.opprettetDato);
+    const index = sammenslatte.findIndex((s) => s.behandlingType.kode === o.behandlingType.kode && s.dato === o.dato);
     if (index === -1) {
       sammenslatte.push(o);
     } else {
       sammenslatte[index] = {
         behandlingType: sammenslatte[index].behandlingType,
-        opprettetDato: sammenslatte[index].opprettetDato,
+        dato: sammenslatte[index].dato,
         antall: sammenslatte[index].antall + o.antall,
       };
     }
@@ -73,7 +73,7 @@ interface OwnProps {
   width: number;
   height: number;
   fagsakYtelseTyper: Kodeverk[];
-  oppgaverPerDato?: OppgaveForDato[];
+  oppgaverPerDato?: BeholdningPerDato[];
   initialValues: InitialValues;
   behandlingTyper: Kodeverk[];
 }

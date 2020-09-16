@@ -16,13 +16,11 @@ import advarselIcon from 'images/advarsel.svg';
 import { hasValidSaksnummerOrFodselsnummerFormat } from 'utils/validation/validators';
 import { InputField } from 'form/FinalFields';
 
-import moment from 'moment';
-import { DDMMYYYY_DATE_FORMAT } from 'utils/formats';
 import styles from './searchForm.less';
 
 const isButtonDisabled = (searchString, searchStarted, searchResultAccessDenied) => (!searchResultAccessDenied.feilmelding && searchStarted) || !searchString;
 
-const erIDev = () => window.location.hostname.includes('preprod.local');
+const erIDev = () => window.location.hostname.includes('dev.adeo.no');
 
 interface OwnProps {
   onSubmit: ({ searchString: string, skalReservere: boolean }) => void;

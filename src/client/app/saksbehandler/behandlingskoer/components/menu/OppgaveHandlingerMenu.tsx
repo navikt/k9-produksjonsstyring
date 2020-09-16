@@ -166,7 +166,6 @@ export class OppgaveHandlingerMenu extends Component<OwnProps, OwnState> {
     toggleMenu(oppgave);
   }
 
-
   render = () => {
     const {
       oppgave, offset, finnSaksbehandler, resetSaksbehandler,
@@ -201,7 +200,7 @@ export class OppgaveHandlingerMenu extends Component<OwnProps, OwnState> {
         </div>
         {showOpphevReservasjonModal && (
           <OpphevReservasjonModal
-            oppgave={oppgave}
+            oppgaveId={oppgave.eksternId}
             showModal={showOpphevReservasjonModal}
             cancel={this.closeBegrunnelseModal}
             submit={this.opphevReserverasjon}

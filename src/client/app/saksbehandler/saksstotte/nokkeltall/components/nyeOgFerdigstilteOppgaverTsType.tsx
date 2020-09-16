@@ -4,6 +4,7 @@ type NyeOgFerdigstilteOppgaver = Readonly<{
   behandlingType: Kodeverk;
   antallNye: number;
   antallFerdigstilte: number;
+  antallFerdigstilteMine: number;
   dato: string;
 }>
 

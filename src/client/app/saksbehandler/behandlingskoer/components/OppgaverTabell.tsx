@@ -21,6 +21,8 @@ import bubbletextFilledUrl from 'images/bubbletext_filled.svg';
 import { getK9sakHref } from 'app/paths';
 import { getK9sakUrl } from 'app/duck';
 
+import k9LosApi from 'api/k9LosApi';
+import NavFrontendSpinner from 'nav-frontend-spinner';
 import OppgaveHandlingerMenu from './menu/OppgaveHandlingerMenu';
 import {
   getAntallOppgaverForBehandlingskoResultat, getOppgaverTilBehandling, getReserverteOppgaver, finnSaksbehandler, leggTilBehandletOppgave, resetSaksbehandler,
@@ -64,6 +66,8 @@ interface OwnProps {
   antall: number;
   goToFagsak: (saknummer: string, behandlingId?: number) => void;
   leggTilBehandletOppgave: (oppgave: Oppgave) => void;
+  valgtKoSkjermet: boolean;
+  requestFinished: boolean;
 }
 
 interface State {
@@ -141,7 +145,7 @@ export class OppgaverTabell extends Component<OwnProps & WrappedComponentProps, 
     const {
       oppgaverTilBehandling, reserverteOppgaver, opphevOppgaveReservasjon, forlengOppgaveReservasjon, endreOppgaveReservasjon,
       finnSaksbehandler: findSaksbehandler, flyttReservasjon,
-      resetSaksbehandler: resetBehandler, antall, intl,
+      resetSaksbehandler: resetBehandler, antall, intl, valgtKoSkjermet, requestFinished,
     } = this.props;
     const {
       showMenu, offset, valgtOppgaveId,
@@ -153,13 +157,23 @@ export class OppgaverTabell extends Component<OwnProps & WrappedComponentProps, 
     return (
       <>
         <Element><FormattedMessage id="OppgaverTabell.DineNesteSaker" values={{ antall }} /></Element>
-        {alleOppgaver.length === 0 && (
+        {alleOppgaver.length === 0 && !requestFinished && (
+        <NavFrontendSpinner type="XL" className={styles.spinner} />
+        )}
+        {alleOppgaver.length === 0 && !valgtKoSkjermet && requestFinished && (
           <>
             <VerticalSpacer eightPx />
             <Normaltekst><FormattedMessage id="OppgaverTabell.IngenOppgaver" /></Normaltekst>
           </>
         )}
-        {alleOppgaver.length > 0 && (
+
+        {oppgaverTilBehandling.length === 0 && valgtKoSkjermet && requestFinished && (
+        <>
+          <VerticalSpacer eightPx />
+          <Normaltekst><FormattedMessage id="OppgaverTabell.IngenTilgang" /></Normaltekst>
+        </>
+        )}
+        {alleOppgaver.length > 0 && requestFinished && (
           <>
             <Table headerTextCodes={headerTextCodes}>
               {alleOppgaver.map((oppgave) => (
@@ -245,6 +259,7 @@ const mapStateToProps = (state) => ({
   oppgaverTilBehandling: getOppgaverTilBehandling(state) || [],
   reserverteOppgaver: getReserverteOppgaver(state) || [],
   goToFagsak: getGoToFagsakFn(getK9sakUrl(state)),
+  requestFinished: k9LosApi.OPPGAVER_TIL_BEHANDLING.getRestApiFinished()(state),
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({

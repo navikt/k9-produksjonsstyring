@@ -1,4 +1,3 @@
-
 import React, { FunctionComponent } from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
@@ -15,8 +14,10 @@ import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
 import { getKodeverk } from 'kodeverk/duck';
 import AlleOppgaver from 'avdelingsleder/nokkeltall/components/fordelingAvBehandlingstype/alleOppgaverTsType';
+import Panel from 'nav-frontend-paneler';
 import FordelingAvBehandlingstypeGraf from './FordelingAvBehandlingstypeGraf';
 import { getAlleOppgaver } from '../../duck';
+import styles from './fordelingAvBehandlingstypeGraf.less';
 
 const finnFagsakYtelseTypeNavn = (fagsakYtelseTyper, valgtFagsakYtelseType) => {
   const type = fagsakYtelseTyper.find((fyt) => fyt.kode === valgtFagsakYtelseType);
@@ -55,7 +56,7 @@ export const FordelingAvBehandlingstypePanel: FunctionComponent<OwnProps> = ({
     onSubmit={() => undefined}
     initialValues={initialValues}
     render={({ values }) => (
-      <div>
+      <Panel className={styles.panel}>
         <StoreValuesInReduxState onUmount stateKey={formName} values={values} />
         <Element>
           <FormattedMessage id="FordelingAvBehandlingstypePanel.Fordeling" />
@@ -82,7 +83,7 @@ export const FordelingAvBehandlingstypePanel: FunctionComponent<OwnProps> = ({
           alleOppgaver={alleOppgaver ? alleOppgaver
             .filter((ofa) => (values.valgtYtelseType === ALLE_YTELSETYPER_VALGT ? true : values.valgtYtelseType === ofa.fagsakYtelseType.kode)) : []}
         />
-      </div>
+      </Panel>
     )}
   />
 );

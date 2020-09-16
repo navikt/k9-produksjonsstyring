@@ -1,4 +1,3 @@
-
 import k9LosApi from 'api/k9LosApi';
 import { Dispatch } from 'redux';
 import Oppgave from 'saksbehandler/oppgaveTsType';

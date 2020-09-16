@@ -1,10 +1,10 @@
 import { Kodeverk } from 'kodeverk/kodeverkTsType';
 
-type OppgaveForDato = Readonly<{
+type BeholdningPerDato = Readonly<{
   fagsakYtelseType: Kodeverk;
   behandlingType: Kodeverk;
-  opprettetDato: string;
+  dato: string;
   antall: number;
 }>
 
-export default OppgaveForDato;
+export default BeholdningPerDato;

@@ -1,4 +1,3 @@
-
 import { createSelector } from 'reselect';
 
 import { errorOfType, ErrorTypes, getErrorResponseData } from 'app/ErrorTypes';

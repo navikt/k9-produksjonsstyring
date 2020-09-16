@@ -6,9 +6,22 @@ import { bindActionCreators, Dispatch } from 'redux';
 import { Kodeverk } from 'kodeverk/kodeverkTsType';
 import { fetchAlleSaksbehandlere } from '../saksbehandlere/duck';
 import {
-  fetchAlleOppgavekoer, getAlleOppgavekoer, setValgtOppgavekoId, getValgtOppgavekoId, lagNyOppgaveko, getNyOppgavekoId,
-  fjernOppgaveko, lagreOppgavekoNavn, lagreOppgavekoBehandlingstype, lagreOppgavekoSkjermet, knyttSaksbehandlerTilOppgaveko,
-  lagreOppgavekoFagsakYtelseType, fetchAntallOppgaverForOppgaveko, fetchAntallOppgaverTotalt, lagreOppgavekoAndreKriterier,
+  fetchAlleOppgavekoer,
+  getAlleOppgavekoer,
+  setValgtOppgavekoId,
+  getValgtOppgavekoId,
+  lagNyOppgaveko,
+  getNyOppgavekoId,
+  fjernOppgaveko,
+  lagreOppgavekoNavn,
+  lagreOppgavekoBehandlingstype,
+  lagreOppgavekoSkjermet,
+  knyttSaksbehandlerTilOppgaveko,
+  lagreOppgavekoFagsakYtelseType,
+  fetchAntallOppgaverForOppgaveko,
+  fetchAntallOppgaverTotalt,
+  lagreOppgavekoAndreKriterier,
+  fetchOppgaveko,
 } from './duck';
 import EndreOppgavekoerPanel from './components/EndreOppgavekoerPanel';
 import { Oppgaveko } from './oppgavekoTsType';
@@ -27,10 +40,10 @@ interface TsProps {
   knyttSaksbehandlerTilOppgaveko: (id: string, brukerIdent: string, isChecked: boolean,) => void;
   lagreOppgavekoAndreKriterier: (id: string, andreKriterierType: Kodeverk, isChecked: boolean, inkluder: boolean) => void;
   lagreOppgavekoSkjermet: (id: string, isChecked: boolean) => void;
-  lagreOppgavekoSkjermet: (id: string, isChecked: boolean) => void;
   oppgavekoer: Oppgaveko[];
   valgtOppgavekoId?: string;
   fetchAlleSaksbehandlere: () => void;
+  fetchOppgaveko: (id: string) => Promise<string>;
 }
 
 /**
@@ -53,6 +66,7 @@ export class EndreBehandlingskoerIndex extends Component<TsProps> {
     lagreOppgavekoSkjermet: PropTypes.func.isRequired,
     oppgavekoer: PropTypes.arrayOf(oppgavekoPropType),
     valgtOppgavekoId: PropTypes.string,
+    fetchOppgaveko: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -82,9 +96,11 @@ export class EndreBehandlingskoerIndex extends Component<TsProps> {
       fetchAntallOppgaverTotalt: hentAntallOppgaverTotalt,
       lagreOppgavekoAndreKriterier: lagreAndreKriterier,
       lagreOppgavekoSkjermet: lagreSkjermet,
+      fetchOppgaveko: hentKo,
     } = this.props;
     return (
       <EndreOppgavekoerPanel
+        hentKo={hentKo}
         oppgavekoer={oppgavekoer}
         setValgtOppgavekoId={setValgtId}
         valgtOppgavekoId={valgtOppgavekoId}
@@ -98,7 +114,6 @@ export class EndreBehandlingskoerIndex extends Component<TsProps> {
         lagreOppgavekoSkjermet={lagreSkjermet}
         hentOppgavekoer={hentAlleOppgavekoer}
         hentAntallOppgaverForOppgaveko={hentAntallOppgaverForOppgaveko}
-        hentAntallOppgaverTotalt={hentAntallOppgaverTotalt}
       />
     );
   }
@@ -117,6 +132,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   ...bindActionCreators({
     fetchAlleOppgavekoer,
+    fetchOppgaveko,
     setValgtOppgavekoId,
     lagNyOppgaveko,
     fjernOppgaveko,
@@ -131,6 +147,5 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
     fetchAntallOppgaverTotalt,
   }, dispatch),
 });
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(EndreBehandlingskoerIndex);

@@ -41,5 +41,4 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   }, dispatch),
 });
 
-
 export default connect(null, mapDispatchToProps)(NokkeltallIndex);

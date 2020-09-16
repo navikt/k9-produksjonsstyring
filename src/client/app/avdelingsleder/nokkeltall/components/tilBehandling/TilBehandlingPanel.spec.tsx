@@ -63,7 +63,6 @@ describe('<TilBehandlingPanel>', () => {
     expect(options[1].props.value).to.eql('4');
     expect(options[1].props.children).to.eql('4 siste uker');
 
-
     const radioOptions = wrapper.find(RadioOption);
     expect(radioOptions).to.have.length(3);
     expect(radioOptions.first().prop('value')).to.eql('OMP');
@@ -81,12 +80,12 @@ describe('<TilBehandlingPanel>', () => {
     const oppgaverPerDato = [{
       fagsakYtelseType: fagsakYtelseTyper[0],
       behandlingType: forstegangssoknad,
-      opprettetDato: moment().subtract(13, 'd').format(ISO_DATE_FORMAT),
+      dato: moment().subtract(13, 'd').format(ISO_DATE_FORMAT),
       antall: 1,
     }, {
       fagsakYtelseType: fagsakYtelseTyper[1],
       behandlingType: forstegangssoknad,
-      opprettetDato: moment().subtract(14, 'd').format(ISO_DATE_FORMAT),
+      dato: moment().subtract(14, 'd').format(ISO_DATE_FORMAT),
       antall: 1,
     }];
 
@@ -115,12 +114,12 @@ describe('<TilBehandlingPanel>', () => {
     const oppgaverPerDato = [{
       fagsakYtelseType: fagsakYtelseTyper[0],
       behandlingType: forstegangssoknad,
-      opprettetDato: moment().subtract(13, 'd').format(ISO_DATE_FORMAT),
+      dato: moment().subtract(13, 'd').format(ISO_DATE_FORMAT),
       antall: 1,
     }, {
       fagsakYtelseType: fagsakYtelseTyper[1],
       behandlingType: forstegangssoknad,
-      opprettetDato: moment().subtract(14, 'd').format(ISO_DATE_FORMAT),
+      dato: moment().subtract(14, 'd').format(ISO_DATE_FORMAT),
       antall: 1,
     }];
 
@@ -149,12 +148,12 @@ describe('<TilBehandlingPanel>', () => {
     const oppgaverPerDato = [{
       fagsakYtelseType: fagsakYtelseTyper[0],
       behandlingType: forstegangssoknad,
-      opprettetDato: moment().format(ISO_DATE_FORMAT),
+      dato: moment().format(ISO_DATE_FORMAT),
       antall: 1,
     }, {
       fagsakYtelseType: fagsakYtelseTyper[1],
       behandlingType: forstegangssoknad,
-      opprettetDato: moment().format(ISO_DATE_FORMAT),
+      dato: moment().format(ISO_DATE_FORMAT),
       antall: 1,
     }];
 
@@ -182,12 +181,12 @@ describe('<TilBehandlingPanel>', () => {
     const oppgaverPerDato = [{
       fagsakYtelseType: fagsakYtelseTyper[0],
       behandlingType: forstegangssoknad,
-      opprettetDato: moment().format(ISO_DATE_FORMAT),
+      dato: moment().format(ISO_DATE_FORMAT),
       antall: 1,
     }, {
       fagsakYtelseType: fagsakYtelseTyper[1],
       behandlingType: forstegangssoknad,
-      opprettetDato: moment().format(ISO_DATE_FORMAT),
+      dato: moment().format(ISO_DATE_FORMAT),
       antall: 1,
     }];
 
@@ -207,7 +206,7 @@ describe('<TilBehandlingPanel>', () => {
     expect(graf.prop('oppgaverPerDato')).is.eql([oppgaverPerDato[0]]);
   });
 
-  it('skal slå sammen like behandlingstyper og opprettetDatoer', () => {
+  it('skal slå sammen like behandlingstyper og datoer', () => {
     const valuesMock = {
       ytelseType: ALLE_YTELSETYPER_VALGT,
       ukevalg: '2',
@@ -215,12 +214,12 @@ describe('<TilBehandlingPanel>', () => {
     const oppgaverPerDato = [{
       fagsakYtelseType: fagsakYtelseTyper[0],
       behandlingType: forstegangssoknad,
-      opprettetDato: moment().format(ISO_DATE_FORMAT),
+      dato: moment().format(ISO_DATE_FORMAT),
       antall: 1,
     }, {
       fagsakYtelseType: fagsakYtelseTyper[1],
       behandlingType: forstegangssoknad,
-      opprettetDato: moment().format(ISO_DATE_FORMAT),
+      dato: moment().format(ISO_DATE_FORMAT),
       antall: 1,
     }];
 
@@ -239,7 +238,7 @@ describe('<TilBehandlingPanel>', () => {
     expect(graf).to.have.length(1);
     expect(graf.prop('oppgaverPerDato')).is.eql([{
       behandlingType: forstegangssoknad,
-      opprettetDato: moment().format(ISO_DATE_FORMAT),
+      dato: moment().format(ISO_DATE_FORMAT),
       antall: 2,
     }]);
   });
