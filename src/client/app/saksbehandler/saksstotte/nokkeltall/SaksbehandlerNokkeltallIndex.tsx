@@ -13,7 +13,9 @@ interface OwnProps {
  */
 export class SaksbehandlerNokkeltallIndex extends Component<OwnProps> {
   componentDidMount = (): void => {
-    const { fetchNyeOgFerdigstilte } = this.props;
+    const {
+      fetchNyeOgFerdigstilte,
+    } = this.props;
     fetchNyeOgFerdigstilte();
   }
 
