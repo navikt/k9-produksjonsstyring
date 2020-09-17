@@ -101,7 +101,6 @@ export class GjeldendeOppgavekoerTabell extends Component<TsProps, StateTsProps>
   setValgtOppgaveko = async (event: Event, id: string) => {
     const { setValgtOppgavekoId, hentKo, valgtOppgavekoId } = this.props;
 
-
     // Må vente 100 ms før en byttar behandlingskø i tabell. Dette fordi lagring av navn skjer som blur-event. Så i tilfellet
     // der en endrer navn og så trykker direkte på en annen behandlingskø vil ikke lagringen skje før etter at ny kø er valgt.
     await wait(100);
