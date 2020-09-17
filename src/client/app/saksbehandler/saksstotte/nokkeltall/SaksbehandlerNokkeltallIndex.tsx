@@ -5,6 +5,7 @@ import SaksbehandlerNokkeltallPanel from './components/SaksbehandlerNokkeltallPa
 
 interface OwnProps {
   fetchNyeOgFerdigstilte: () => void;
+  valgtOppgavekoId: string;
 }
 
 /**
@@ -14,6 +15,15 @@ export class SaksbehandlerNokkeltallIndex extends Component<OwnProps> {
   componentDidMount = (): void => {
     const { fetchNyeOgFerdigstilte } = this.props;
     fetchNyeOgFerdigstilte();
+  }
+
+  componentDidUpdate = (prevProps: OwnProps): void => {
+    const {
+      valgtOppgavekoId, fetchNyeOgFerdigstilte,
+    } = this.props;
+    if (prevProps.valgtOppgavekoId !== valgtOppgavekoId) {
+      fetchNyeOgFerdigstilte();
+    }
   }
 
   render = (): ReactNode => (
