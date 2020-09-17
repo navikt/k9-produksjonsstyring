@@ -138,7 +138,9 @@ export class UtvalgskriterierForOppgavekoForm extends Component<OwnProps & Dispa
                 </Column>
                 <Column className={styles.antall}>
                   <div className={styles.grayBox}>
-                    <Normaltekst><FormattedMessage id="UtvalgskriterierForOppgavekoForm.AntallSaker" /></Normaltekst>
+                    <Normaltekst className={styles.antallTekst}>
+                      <FormattedMessage id="UtvalgskriterierForOppgavekoForm.AntallSaker" />
+                    </Normaltekst>
                     <Undertittel>{antallOppgaver || '0'}</Undertittel>
                   </div>
                 </Column>

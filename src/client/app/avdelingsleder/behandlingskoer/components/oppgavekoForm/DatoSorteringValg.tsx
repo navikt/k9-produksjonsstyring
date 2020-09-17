@@ -48,7 +48,7 @@ export const DatoSorteringValg: FunctionComponent<OwnProps & WrappedComponentPro
     <>
       <FlexContainer>
         <FlexRow>
-          <FlexColumn>
+          <FlexColumn className={styles.kalender}>
             <DatepickerField
               name="fomDato"
               label={{ id: 'SorteringVelger.Fom' }}

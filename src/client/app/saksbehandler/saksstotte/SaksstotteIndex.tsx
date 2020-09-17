@@ -6,14 +6,12 @@ import { fetchNyeOgFerdigstilteOppgaverNokkeltall } from 'saksbehandler/saksstot
 import { getK9sakUrl } from 'app/duck';
 import Oppgave from '../oppgaveTsType';
 import { fetchBehandledeOppgaver } from './duck';
-import { getValgtOppgavekoId } from '../behandlingskoer/duck';
 import SaksstottePaneler from './components/SaksstottePaneler';
 
 interface TsProps {
   fetchBehandledeOppgaver: () => any;
   fetchNyeOgFerdigstilteOppgaverNokkeltall: (oppgavekoId: string) => any;
   sistBehandledeSaker: Oppgave[];
-  valgtOppgavekoId?: string;
   k9sakUrl: string;
 }
 
@@ -38,16 +36,15 @@ export class SaksstotteIndex extends Component<TsProps> {
 
   render = () => {
     const {
-      valgtOppgavekoId, k9sakUrl,
+      k9sakUrl,
     } = this.props;
     return (
-      <SaksstottePaneler valgtOppgavekoId={valgtOppgavekoId} k9sakUrl={k9sakUrl} fetchNyeOgFerdigstilte={this.fetchNyeOgFerdigeOppgaver} />
+      <SaksstottePaneler k9sakUrl={k9sakUrl} fetchNyeOgFerdigstilte={this.fetchNyeOgFerdigeOppgaver} />
     );
   }
 }
 
 const mapStateToProps = (state) => ({
-  valgtOppgavekoId: getValgtOppgavekoId(state),
   k9sakUrl: getK9sakUrl(state),
 });
 

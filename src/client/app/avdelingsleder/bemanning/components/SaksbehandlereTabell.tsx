@@ -10,10 +10,8 @@ import TableColumn from 'sharedComponents/TableColumn';
 import { Knapp } from 'nav-frontend-knapper';
 import Chevron from 'nav-frontend-chevron';
 import SaksbehandlerInfo from 'avdelingsleder/bemanning/components/SaksbehandlerInfo';
-import { SaksbehandlereForOppgavekoForm } from 'avdelingsleder/behandlingskoer/components/saksbehandlerForm/SaksbehandlereForOppgavekoForm';
 import { LeggTilSaksbehandlerForm } from 'avdelingsleder/bemanning/components/LeggTilSaksbehandlerForm';
 import saksbehandlereGra from '../../../../images/saksbehandlereGra.svg';
-import SletteSaksbehandlerModal from './SletteSaksbehandlerModal';
 import { Saksbehandler } from '../saksbehandlerTsType';
 
 import styles from './saksbehandlereTabell.less';
@@ -41,10 +39,6 @@ const SaksbehandlereTabell: FunctionComponent<OwnProps> = ({
 }) => {
   const [valgtSaksbehandler, setValgtSaksbehandler] = useState<Saksbehandler>();
   const [visAddSaksbehadler, setVisAddSaksbehandler] = useState(false);
-
-  const closeSletteModal = () => {
-    setValgtSaksbehandler(undefined);
-  };
 
   const lukkForm = () => {
     setVisAddSaksbehandler(false);

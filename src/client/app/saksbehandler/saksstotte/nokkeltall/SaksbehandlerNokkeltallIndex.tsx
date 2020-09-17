@@ -4,8 +4,7 @@ import { bindActionCreators, Dispatch } from 'redux';
 import SaksbehandlerNokkeltallPanel from './components/SaksbehandlerNokkeltallPanel';
 
 interface OwnProps {
-  fetchNyeOgFerdigstilte: (oppgavekoId: string) => void;
-  valgtOppgavekoId: string;
+  fetchNyeOgFerdigstilte: () => void;
 }
 
 /**
@@ -13,19 +12,8 @@ interface OwnProps {
  */
 export class SaksbehandlerNokkeltallIndex extends Component<OwnProps> {
   componentDidMount = (): void => {
-    const {
-      valgtOppgavekoId, fetchNyeOgFerdigstilte,
-    } = this.props;
-    fetchNyeOgFerdigstilte(valgtOppgavekoId);
-  }
-
-  componentDidUpdate = (prevProps: OwnProps): void => {
-    const {
-      valgtOppgavekoId, fetchNyeOgFerdigstilte,
-    } = this.props;
-    if (prevProps.valgtOppgavekoId !== valgtOppgavekoId) {
-      fetchNyeOgFerdigstilte(valgtOppgavekoId);
-    }
+    const { fetchNyeOgFerdigstilte } = this.props;
+    fetchNyeOgFerdigstilte();
   }
 
   render = (): ReactNode => (

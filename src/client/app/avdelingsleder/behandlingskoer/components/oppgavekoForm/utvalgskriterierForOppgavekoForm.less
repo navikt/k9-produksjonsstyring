@@ -3,6 +3,17 @@
 .grayBox {
   background-color: @navLysGra;
   padding: 5px 15px 5px 15px;
+
+  @media only screen and (max-width: 2000px) {
+    font-size: 13px;
+    padding: 5px 5px 5px 5px;
+  }
+}
+
+.antallTekst {
+  @media only screen and (max-width: 2000px) {
+    font-size: 13px;
+  }
 }
 
 .form {
@@ -20,11 +31,19 @@
 
 .antall {
   float: right;
-  margin-right: -800px;
+  margin-right: -700px;
   margin-top: 10px;
 
   @media only screen and (max-width: 2000px) {
-    margin-right: -35rem;
+    margin-right: -650px;
+  }
+
+  @media only screen and (min-width: 2500px) {
+    margin-right: -900px;
+  }
+
+  @media only screen and (min-width: 3000px) {
+    margin-right: -1200px;
   }
 }
 
@@ -33,7 +52,7 @@
   margin-right: -150px;
 
   @media only screen and (max-width: 2000px) {
-    margin-right: -12rem;
+    margin-right: -150px;
   }
 }
 
@@ -42,6 +61,7 @@
   margin-right: -700px;
 
   @media only screen and (max-width: 2000px) {
-    margin-right: -43rem;
+    margin-right: -400px;
+    width: 100px;
   }
 }

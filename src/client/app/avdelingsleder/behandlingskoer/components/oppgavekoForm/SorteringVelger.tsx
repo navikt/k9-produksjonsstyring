@@ -10,7 +10,7 @@ import kodeverkTyper from 'kodeverk/kodeverkTyper';
 import KoSorteringType from 'kodeverk/KoSorteringTsType';
 import { Kodeverk } from 'kodeverk/kodeverkTsType';
 import DatoSorteringValg from './DatoSorteringValg';
-import BelopSorteringValg from './BelopSorteringValg';
+import styles from './sorteringVelger.less';
 
 interface OwnProps {
   intl: any;
@@ -41,31 +41,33 @@ const SorteringVelger: FunctionComponent<OwnProps & WrappedComponentProps> = ({
       <FormattedMessage id="SorteringVelger.Sortering" />
     </Undertekst>
     <VerticalSpacer eightPx />
-    <RadioGroupField
-      name="sortering"
-      direction="vertical"
-      onChange={(sorteringType) => lagreOppgavekoSortering(valgtOppgavekoId, sorteringType)}
-    >
-      {alleKodeverk[kodeverkTyper.KO_SORTERING].map((koSortering) => (
-        (koSortering.feltkategori !== 'TILBAKEKREVING' || (valgteBehandlingtyper.length === 1 && valgteBehandlingtyper[0].kode === 'BT-009')) && (
-        <RadioOption
-          key={koSortering.kode}
-          value={koSortering.kode}
-          label={koSortering.navn}
-        >
-          {(koSortering.felttype === 'DATO') && (
-          <DatoSorteringValg
-            intl={intl}
-            valgtOppgavekoId={valgtOppgavekoId}
-            lagreOppgavekoSorteringTidsintervallDato={lagreOppgavekoSorteringTidsintervallDato}
-            fomDato={fomDato}
-            tomDato={tomDato}
-          />
-          )}
-        </RadioOption>
-        )
-      ))}
-    </RadioGroupField>
+    <div>
+      <RadioGroupField
+        name="sortering"
+        direction="vertical"
+        onChange={(sorteringType) => lagreOppgavekoSortering(valgtOppgavekoId, sorteringType)}
+      >
+        {alleKodeverk[kodeverkTyper.KO_SORTERING].map((koSortering) => (
+          (koSortering.feltkategori !== 'TILBAKEKREVING' || (valgteBehandlingtyper.length === 1 && valgteBehandlingtyper[0].kode === 'BT-009')) && (
+          <RadioOption
+            key={koSortering.kode}
+            value={koSortering.kode}
+            label={koSortering.navn}
+          >
+            {(koSortering.felttype === 'DATO') && (
+            <DatoSorteringValg
+              intl={intl}
+              valgtOppgavekoId={valgtOppgavekoId}
+              lagreOppgavekoSorteringTidsintervallDato={lagreOppgavekoSorteringTidsintervallDato}
+              fomDato={fomDato}
+              tomDato={tomDato}
+            />
+            )}
+          </RadioOption>
+          )
+        ))}
+      </RadioGroupField>
+    </div>
   </>
 );
 
