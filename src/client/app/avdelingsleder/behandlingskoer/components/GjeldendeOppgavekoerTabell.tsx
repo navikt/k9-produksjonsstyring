@@ -23,10 +23,11 @@ import UtvalgskriterierForOppgavekoForm
 import { Column, Row } from 'nav-frontend-grid';
 import SaksbehandlereForOppgavekoForm
   from 'avdelingsleder/behandlingskoer/components/saksbehandlerForm/SaksbehandlereForOppgavekoForm';
+import { OppgaveStatus } from 'saksbehandler/oppgaveStatusTsType';
 import SletteOppgavekoModal from './SletteOppgavekoModal';
 import { Oppgaveko } from '../oppgavekoTsType';
 import oppgavekoPropType from '../oppgavekoPropType';
-import { getAntallOppgaverTotaltResultat } from '../duck';
+import { fetchOppgaveko, getAntallOppgaverTotaltResultat, getOppgaveko } from '../duck';
 
 import styles from './gjeldendeOppgavekoerTabell.less';
 import addCircle from '../../../../images/add-circle-bla.svg';
@@ -99,9 +100,7 @@ export class GjeldendeOppgavekoerTabell extends Component<TsProps, StateTsProps>
 
   setValgtOppgaveko = async (event: Event, id: string) => {
     const { setValgtOppgavekoId, hentKo, valgtOppgavekoId } = this.props;
-    if (this.nodes.some((node) => node && node.contains(event.target))) {
-      return;
-    }
+
 
     // Må vente 100 ms før en byttar behandlingskø i tabell. Dette fordi lagring av navn skjer som blur-event. Så i tilfellet
     // der en endrer navn og så trykker direkte på en annen behandlingskø vil ikke lagringen skje før etter at ny kø er valgt.
@@ -115,12 +114,17 @@ export class GjeldendeOppgavekoerTabell extends Component<TsProps, StateTsProps>
     }
   }
 
-  lagNyOppgaveko = (event: KeyboardEvent) => {
+  lagNyOppgaveko = (event: React.KeyboardEvent<HTMLButtonElement>) => {
     if (event.keyCode === 13) {
       const { lagNyOppgaveko } = this.props;
       lagNyOppgaveko();
     }
   };
+
+  lagNyOppgavekoOgSettSomValgt = () => {
+    const { lagNyOppgaveko, valgtOppgavekoId } = this.props;
+    lagNyOppgaveko();
+  }
 
   visFjernOppgavekoModal = (valgtOppgaveko: Oppgaveko) => {
     this.setState((prevState) => ({ ...prevState, valgtOppgaveko }));
@@ -187,8 +191,8 @@ export class GjeldendeOppgavekoerTabell extends Component<TsProps, StateTsProps>
           mini
           className={styles.addKnapp}
           tabIndex={0}
-          onClick={() => lagNyOppgaveko()}
-          onKeyDown={() => lagNyOppgaveko()}
+          onClick={this.lagNyOppgavekoOgSettSomValgt}
+          onKeyDown={(e) => this.lagNyOppgaveko(e)}
         >
           <Image src={addCircle} className={styles.addIcon} />
           <FormattedMessage id="GjeldendeOppgavekoerTabell.LeggTilListe" />
@@ -224,7 +228,7 @@ export class GjeldendeOppgavekoerTabell extends Component<TsProps, StateTsProps>
                 </TableColumn>
               </TableRow>
 
-              {valgtOppgavekoId && valgtOppgavekoId === oppgaveko.id && (
+              { valgtOppgavekoId === oppgaveko.id && (
               <>
                 <Row>
                   <UtvalgskriterierForOppgavekoForm
@@ -263,6 +267,7 @@ const mapStateToProps = (state) => ({
   behandlingTyper: getKodeverk(state)[kodeverkTyper.BEHANDLING_TYPE],
   fagsakYtelseTyper: getKodeverk(state)[kodeverkTyper.FAGSAK_YTELSE_TYPE],
   oppgaverTotalt: getAntallOppgaverTotaltResultat(state),
+  gjeldendeKo: getOppgaveko(state),
 });
 
 export default connect(mapStateToProps)(GjeldendeOppgavekoerTabell);

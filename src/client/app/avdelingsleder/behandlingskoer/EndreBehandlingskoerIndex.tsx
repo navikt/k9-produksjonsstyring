@@ -21,7 +21,7 @@ import {
   fetchAntallOppgaverForOppgaveko,
   fetchAntallOppgaverTotalt,
   lagreOppgavekoAndreKriterier,
-  fetchOppgaveko,
+  fetchOppgaveko, fetchDagensTall,
 } from './duck';
 import EndreOppgavekoerPanel from './components/EndreOppgavekoerPanel';
 import { Oppgaveko } from './oppgavekoTsType';
@@ -44,6 +44,7 @@ interface TsProps {
   valgtOppgavekoId?: string;
   fetchAlleSaksbehandlere: () => void;
   fetchOppgaveko: (id: string) => Promise<string>;
+  fetchDagensTall: () => Promise<string>;
 }
 
 /**
@@ -79,10 +80,12 @@ export class EndreBehandlingskoerIndex extends Component<TsProps> {
       fetchAlleOppgavekoer: fetchOppgavekoer,
       fetchAlleSaksbehandlere: fetchSaksbehandlere,
       fetchAntallOppgaverTotalt: fetchAntallOppgaver,
+      fetchDagensTall: fetchDagens,
     } = this.props;
     fetchOppgavekoer();
     fetchSaksbehandlere();
     fetchAntallOppgaver();
+    fetchDagens();
   }
 
   render = () => {
@@ -143,6 +146,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
     lagreOppgavekoSkjermet,
     knyttSaksbehandlerTilOppgaveko,
     fetchAlleSaksbehandlere,
+    fetchDagensTall,
     fetchAntallOppgaverForOppgaveko,
     fetchAntallOppgaverTotalt,
   }, dispatch),

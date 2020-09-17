@@ -22,8 +22,9 @@ import NokkeltallIndex from 'avdelingsleder/nokkeltall/NokkeltallIndex';
 import ReservasjonerIndex from 'avdelingsleder/reservasjoner/ReservasjonerIndex';
 import Tabs from 'nav-frontend-tabs';
 import Image from 'sharedComponents/Image';
-import { FlexRow } from 'sharedComponents/flexGrid';
 import { Row } from 'nav-frontend-grid';
+import DagensTallPanel from 'avdelingsleder/dagensTall/DagensTallPanel';
+import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import { getSelectedAvdelingslederPanel, setSelectedAvdelingslederPanel } from './duck';
 import AvdelingslederDashboard from './components/AvdelingslederDashboard';
 import IkkeTilgangTilAvdelingslederPanel from './components/IkkeTilgangTilAvdelingslederPanel';
@@ -106,6 +107,10 @@ export const AvdelingslederIndex = ({
         <Row>
           <Normaltekst className={styles.paneltekst}>Avdelingslederpanel</Normaltekst>
         </Row>
+        <Row>
+          <DagensTallPanel />
+        </Row>
+        <VerticalSpacer twentyPx />
         <Row>
           <AvdelingslederDashboard key={activeAvdelingslederPanel} visSaksbehandlere={activeAvdelingslederPanel === AvdelingslederPanels.BEHANDLINGSKOER}>
             <div>
