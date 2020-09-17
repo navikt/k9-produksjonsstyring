@@ -10,7 +10,7 @@
     "@navikt/boxed-list-with-selection": "1.0.1",
     "@navikt/fnrvalidator": "1.1.2",
     "@navikt/nap-header": "1.0.10",
-    "@navikt/nap-popover": "1.0.4",
+    "@navikt/nap-popover": "1.0.6",
     "@navikt/nap-system-button": "1.0.0",
     "@navikt/nap-user-panel": "1.0.0",
     "@popperjs/core": "^2.4.4",
