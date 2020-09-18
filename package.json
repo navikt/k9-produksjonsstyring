@@ -15,7 +15,7 @@
     "@navikt/nap-user-panel": "1.0.0",
     "@popperjs/core": "^2.4.4",
     "@sentry/browser": "^5.21.3",
-    "axios": "^0.19.2",
+    "axios": "^0.20.0",
     "babel-polyfill": "^6.26.0",
     "babel-runtime": "^6.26.0",
     "circular-dependency-plugin": "^5.2.0",
