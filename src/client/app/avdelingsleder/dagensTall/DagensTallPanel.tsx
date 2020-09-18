@@ -7,7 +7,6 @@ import {
   getAntallOppgaverTotaltResultat, getDagensTallResultat,
 } from 'avdelingsleder/behandlingskoer/duck';
 import { connect } from 'react-redux';
-import { bindActionCreators, Dispatch } from 'redux';
 import ApneBehandlinger from 'avdelingsleder/dagensTall/apneBehandlingerTsType';
 import styles from './dagensTallPanel.less';
 
@@ -17,7 +16,7 @@ interface OwnProps {
 }
 const DagensTallPanel: FunctionComponent<OwnProps & WrappedComponentProps> = ({ totaltIdag, dagensTall }) => (
   <>
-    <Normaltekst className={styles.header}>Dagens tall</Normaltekst>
+    <Normaltekst className={styles.header}>Status</Normaltekst>
     <VerticalSpacer twentyPx />
     <div className={styles.container}>
       <EnkelTeller antall={totaltIdag} tekst="Åpne behandlinger" />

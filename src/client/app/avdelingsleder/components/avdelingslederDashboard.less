@@ -3,17 +3,18 @@
 .oppgaveContainer {
   margin-left: 60px;
   margin-right: auto;
-  width: 90%;
+  width: 100%;
 }
 
 .leftColumn {
   float: left;
   margin-right: 30px;
-  width: 70%;
+  width: 65%;
 }
 
 .rightColumn {
   float: left;
+  margin-top: -145px;
   width: 25%;
 
   & > div {
@@ -21,7 +22,11 @@
   }
 }
 
-@media all and (max-width: 1450px) {
+@media all and (max-width: 1650px) {
+  .oppgaveContainer {
+    margin-left: 30px;
+  }
+
   .leftColumn {
     width: 100%;
   }
@@ -41,6 +46,10 @@
   .sakslisteContent {
     order: 3;
   }
+
+  .avdelingslederContent {
+    max-width: 1000px;
+  }
 }
 
 @media all and (max-width: 800px) {
@@ -51,4 +60,7 @@
 
 .avdelingslederContent {
   margin-bottom: 20px;
+  margin-right: 20px;
+  min-width: -webkit-fill-available;
+  width: fit-content;
 }

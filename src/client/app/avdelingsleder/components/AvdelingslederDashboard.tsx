@@ -25,9 +25,9 @@ const AvdelingslederDashboard: FunctionComponent<OwnProps> = ({
         </div>
         <div className={styles.rightColumn}>
           {visSaksbehandlere && (
-          <Panel>
+          <>
             <BemanningIndex />
-          </Panel>
+          </>
           )}
 
         </div>

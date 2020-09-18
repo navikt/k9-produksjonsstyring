@@ -129,6 +129,7 @@ export class UtvalgskriterierForOppgavekoForm extends Component<OwnProps & Dispa
               <Row>
                 <Column xs="9">
                   <InputField
+                    className={styles.navn}
                     name="navn"
                     label={intl.formatMessage({ id: 'UtvalgskriterierForOppgavekoForm.Navn' })}
                     validate={[required, minLength3, maxLength100, hasValidName]}
@@ -136,7 +137,7 @@ export class UtvalgskriterierForOppgavekoForm extends Component<OwnProps & Dispa
                     bredde="L"
                   />
                 </Column>
-                <Column className={styles.antall}>
+                <Column xs="3" className={styles.antall}>
                   <div className={styles.grayBox}>
                     <Normaltekst className={styles.antallTekst}>
                       <FormattedMessage id="UtvalgskriterierForOppgavekoForm.AntallSaker" />
@@ -155,8 +156,8 @@ export class UtvalgskriterierForOppgavekoForm extends Component<OwnProps & Dispa
                   />
                 </Column>
               </Row>
-              <Row>
-                <Column xs="6">
+              <Row className={styles.radios}>
+                <Column>
                   <BehandlingstypeVelger
                     lagreOppgavekoBehandlingstype={lagreOppgavekoBehandlingstype}
                     valgtOppgavekoId={gjeldendeKo.id}

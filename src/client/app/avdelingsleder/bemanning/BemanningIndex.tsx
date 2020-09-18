@@ -8,19 +8,7 @@ import {
 } from 'avdelingsleder/bemanning/duck';
 import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import Tabs from 'nav-frontend-tabs';
-import { getPanelLocationCreator } from 'app/paths';
-import Panel from 'nav-frontend-paneler';
-import styles from 'avdelingsleder/avdelingslederIndex.less';
-import Image from 'sharedComponents/Image';
-import { Undertittel } from 'nav-frontend-typografi';
-import { FormattedMessage } from 'react-intl';
-import { NavLink } from 'react-router-dom';
-import BemanningPanels from 'avdelingsleder/bemanningPanels';
-import classNames from 'classnames';
-
-import saksbehandlereGra from '../../../images/saksbehandlereGra.svg';
-import saksbehandlereBla from '../../../images/saksbehandlereBla.svg';
+import EnkelTeller from 'avdelingsleder/dagensTall/EnkelTeller';
 import { Saksbehandler } from './saksbehandlerTsType';
 import SaksbehandlerePanel from './components/SaksbehandlerePanel';
 
@@ -32,6 +20,8 @@ interface OwnProps {
     alleSaksbehandlere: Saksbehandler[];
     removeSaksbehandler: (brukerIdent: string) => Promise<string>;
 }
+
+const smallScreen = window.innerWidth < 1650;
 
 /**
  * BemanningIndex
@@ -53,12 +43,15 @@ export class BemanningIndex extends Component<OwnProps> {
       } = this.props;
 
       return (
-        <SaksbehandlerePanel
-          saksbehandlere={alleSaksbehandlere}
-          resetSaksbehandlerSok={reset}
-          leggTilSaksbehandler={leggTilSaksbehandler}
-          fjernSaksbehandler={fjernSaksbehandler}
-        />
+        <>
+          {!smallScreen && <EnkelTeller antall={alleSaksbehandlere.length} tekst="Saksbehandlere"> </EnkelTeller>}
+          <SaksbehandlerePanel
+            saksbehandlere={alleSaksbehandlere}
+            resetSaksbehandlerSok={reset}
+            leggTilSaksbehandler={leggTilSaksbehandler}
+            fjernSaksbehandler={fjernSaksbehandler}
+          />
+        </>
       );
     }
 }

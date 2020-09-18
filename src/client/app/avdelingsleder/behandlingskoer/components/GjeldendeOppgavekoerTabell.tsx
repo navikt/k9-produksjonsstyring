@@ -214,7 +214,7 @@ export class GjeldendeOppgavekoerTabell extends Component<TsProps, StateTsProps>
                 onMouseDown={this.setValgtOppgaveko}
                 onKeyDown={this.setValgtOppgaveko}
               >
-                <TableColumn>{oppgaveko.navn}</TableColumn>
+                <TableColumn xs="3">{oppgaveko.navn}</TableColumn>
                 <TableColumn>{this.formatStonadstyper(oppgaveko.fagsakYtelseTyper)}</TableColumn>
                 <TableColumn>{this.formatBehandlingstyper(oppgaveko.behandlingTyper)}</TableColumn>
                 <TableColumn>{oppgaveko.saksbehandlere.length > 0 ? oppgaveko.saksbehandlere.length : ''}</TableColumn>

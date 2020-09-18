@@ -1,7 +1,10 @@
 import React, { FunctionComponent } from 'react';
 
+import Panel from 'nav-frontend-paneler';
 import { Saksbehandler } from '../saksbehandlerTsType';
 import SaksbehandlereTabell from './SaksbehandlereTabell';
+
+import styles from './saksbehandlereTabell.less';
 
 interface OwnProps {
   saksbehandlere: Saksbehandler[];
@@ -19,12 +22,14 @@ const SaksbehandlerePanel: FunctionComponent<OwnProps> = ({
   leggTilSaksbehandler,
   fjernSaksbehandler,
 }) => (
-  <SaksbehandlereTabell
-    saksbehandlere={saksbehandlere}
-    fjernSaksbehandler={fjernSaksbehandler}
-    leggTilSaksbehandler={leggTilSaksbehandler}
-    resetSaksbehandlerSok={resetSaksbehandlerSok}
-  />
+  <Panel className={styles.panel}>
+    <SaksbehandlereTabell
+      saksbehandlere={saksbehandlere}
+      fjernSaksbehandler={fjernSaksbehandler}
+      leggTilSaksbehandler={leggTilSaksbehandler}
+      resetSaksbehandlerSok={resetSaksbehandlerSok}
+    />
+  </Panel>
 );
 
 export default SaksbehandlerePanel;
