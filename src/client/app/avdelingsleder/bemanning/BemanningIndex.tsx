@@ -12,6 +12,8 @@ import EnkelTeller from 'avdelingsleder/dagensTall/EnkelTeller';
 import { Saksbehandler } from './saksbehandlerTsType';
 import SaksbehandlerePanel from './components/SaksbehandlerePanel';
 
+import styles from './components/saksbehandlereTabell.less';
+
 interface OwnProps {
     fetchAlleSaksbehandlere: () => void;
     findSaksbehandler: (brukerIdent: string) => Promise<string>;
@@ -43,7 +45,7 @@ export class BemanningIndex extends Component<OwnProps> {
       } = this.props;
 
       return (
-        <>
+        <div className={styles.saksbehandlereContent}>
           {!smallScreen && <EnkelTeller antall={alleSaksbehandlere.length} tekst="Saksbehandlere"> </EnkelTeller>}
           <SaksbehandlerePanel
             saksbehandlere={alleSaksbehandlere}
@@ -51,7 +53,7 @@ export class BemanningIndex extends Component<OwnProps> {
             leggTilSaksbehandler={leggTilSaksbehandler}
             fjernSaksbehandler={fjernSaksbehandler}
           />
-        </>
+        </div>
       );
     }
 }
