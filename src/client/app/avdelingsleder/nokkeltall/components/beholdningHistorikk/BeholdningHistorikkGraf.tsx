@@ -3,16 +3,17 @@ import React, {
 } from 'react';
 import moment, { now } from 'moment';
 import {
-  XYPlot, XAxis, YAxis, HorizontalGridLines, VerticalGridLines, Crosshair, VerticalBarSeries,
+  XYPlot, XAxis, YAxis, HorizontalGridLines, DiscreteColorLegend, Crosshair, MarkSeries, AreaSeries,
 } from 'react-vis';
 import { Normaltekst, Undertekst } from 'nav-frontend-typografi';
 
 import { FlexContainer, FlexRow, FlexColumn } from 'sharedComponents/flexGrid';
-import { DD_DATE_FORMAT, DD_MM_DATE_FORMAT, DDMMYYYY_DATE_FORMAT } from 'utils/formats';
+import { DDMMYYYY_DATE_FORMAT } from 'utils/formats';
 import behandlingType from 'kodeverk/behandlingType';
 import { Kodeverk } from 'kodeverk/kodeverkTsType';
 
 import 'react-vis/dist/style.css';
+import { Row } from 'nav-frontend-grid';
 import styles from './beholdningHistorikkGraf.less';
 
 const LEGEND_WIDTH = 260;
@@ -122,7 +123,7 @@ interface OwnProps {
   height: number;
   behandlingTyper: Kodeverk[];
   beholdningPerDato: BeholdningPerDato[];
-  isToUkerValgt: boolean;
+  isFireUkerValgt: boolean;
 }
 
 interface CrosshairValue {
@@ -137,7 +138,7 @@ const BeholdningHistorikkGraf: FunctionComponent<OwnProps> = ({
   width,
   height,
   beholdningPerDato,
-  isToUkerValgt,
+  isFireUkerValgt,
   behandlingTyper,
 }) => {
   const [crosshairValues, setCrosshairValues] = useState<CrosshairValue[]>([]);
@@ -148,7 +149,7 @@ const BeholdningHistorikkGraf: FunctionComponent<OwnProps> = ({
     setCrosshairValues([value]);
   }, []);
 
-  const periodeStart = moment().subtract(isToUkerValgt ? 2 : 4, 'w').add(1, 'd');
+  const periodeStart = moment().subtract(isFireUkerValgt ? 4 : 8, 'w').add(1, 'd');
   const periodeSlutt = moment().subtract(1, 'd');
 
   const koordinater = useMemo(() => konverterTilKoordinaterGruppertPaBehandlingstype(beholdningPerDato), [beholdningPerDato]);
@@ -163,69 +164,50 @@ const BeholdningHistorikkGraf: FunctionComponent<OwnProps> = ({
     xDomain: [periodeStart.toDate(), periodeSlutt.toDate()],
   } : {};
 
-  const getPlotWidth = () => {
-    if (isToUkerValgt) {
-      if (smallScreen) return 850;
-      if (largeScreen) return 1500;
-      return 1000;
-    }
-    if (smallScreen) return 850;
-    if (largeScreen) return 1800;
-    return 1370;
-  };
-
   return (
     <FlexContainer>
       <FlexRow>
         <FlexColumn>
-          <Normaltekst className={styles.month}>
-            {' '}
-            {isToUkerValgt ? '2 siste uker' : getMonthNameAndYear()}
-          </Normaltekst>
-          <div className={styles.container}>
-            <XYPlot
-              width={getPlotWidth()}
-              margin={{
-                left: 60, right: 60, top: 60, bottom: 20,
-              }}
-              height={250}
-              stackBy="y"
-              xType="ordinal"
-              dontCheckIfEmpty={isEmpty}
-              {...plotPropsWhenEmpty}
-            >
-              <HorizontalGridLines />
-              <XAxis
-                orientation="top"
-                tickFormat={((smallScreen && isToUkerValgt) || !smallScreen)
-                  ? (t) => moment(t).format(DD_MM_DATE_FORMAT) : (t) => moment(t).format(DD_DATE_FORMAT)}
-                style={{ text: cssText, stroke: 'none' }}
+          <XYPlot
+            dontCheckIfEmpty={isEmpty}
+            width={width - LEGEND_WIDTH > 0 ? width - LEGEND_WIDTH : 100 + LEGEND_WIDTH}
+            height={height}
+            margin={{
+              left: 40, right: 40, top: 20, bottom: 40,
+            }}
+            stackBy="y"
+            xType="time"
+            onMouseLeave={onMouseLeave}
+            {...plotPropsWhenEmpty}
+          >
+            <MarkSeries data={[{ x: moment().subtract(1, 'd'), y: 0 }]} style={{ display: 'none' }} />
+            <HorizontalGridLines />
+            <XAxis
+              tickTotal={5}
+              tickFormat={(t) => moment(t).format(DDMMYYYY_DATE_FORMAT)}
+              style={{ text: cssText }}
+            />
+            <YAxis style={{ text: cssText }} />
+            {sorterteBehandlingstyper.map((k, index) => (
+              <AreaSeries
+                key={k}
+                data={data[k]}
+                onNearestX={index === 0 ? onNearestX : () => undefined}
+                fill={behandlingstypeFarger[k]}
+                stroke={behandlingstypeFarger[k]}
               />
-              <YAxis style={{ text: cssText, stroke: '#78706A' }} />
-              {sorterteBehandlingstyper.map((k, index) => (
-                <VerticalBarSeries
-                  className={styles.bar}
-                  key={k}
-                  data={data[k]}
-                  fill={behandlingstypeFarger[k]}
-                  stroke={behandlingstypeFarger[k]}
-                  onNearestX={index === 0 ? onNearestX : () => undefined}
-                  onSeriesClick={() => {
-                    setValgtValues(crosshairValues);
-                  }}
-                />
-              ))}
-              {crosshairValues.length > 0 && (
+            ))}
+            {crosshairValues.length > 0 && (
               <Crosshair
                 values={crosshairValues}
                 style={{
                   line: {
-                    background: 'none',
+                    background: '#3e3832',
                   },
                 }}
               >
                 <div className={styles.crosshair}>
-                  <Normaltekst>{`${moment(crosshairValues[0].x).format(DD_MM_DATE_FORMAT)}`}</Normaltekst>
+                  <Normaltekst>{`${moment(crosshairValues[0].x).format(DDMMYYYY_DATE_FORMAT)}`}</Normaltekst>
                   { reversertSorterteBehandlingstyper.map((key) => (
                     <Undertekst key={key}>
                       {`${finnBehandlingTypeNavn(behandlingTyper, key)}: ${finnAntallForBehandlingstypeOgDato(data, key, crosshairValues[0].x)}`}
@@ -233,34 +215,19 @@ const BeholdningHistorikkGraf: FunctionComponent<OwnProps> = ({
                   ))}
                 </div>
               </Crosshair>
-              )}
-            </XYPlot>
-            <div className={styles.legendContainer}>
-              { valgtValues.length === 0
-                && <Normaltekst className={styles.noDate}>Ingen dato valgt</Normaltekst>}
-              {valgtValues.length > 0
-                  && (
-                  <div>
-                    <Normaltekst className={styles.date}>{`${moment(valgtValues[0].x).format(DDMMYYYY_DATE_FORMAT)}`}</Normaltekst>
-                    <Normaltekst className={styles.weekday}>
-                      {new Date(valgtValues[0].x).getDay() === 0 ? `${weekdays[6]}`
-                        : `${weekdays[new Date(valgtValues[0].x).getDay() - 1]}`}
-                    </Normaltekst>
-                  </div>
-                  )}
-              {valgtValues.length > 0 && reversertSorterteBehandlingstyper.map((key) => (
-                <div className={styles.legend}>
-                  <span key={key} className={styles.dot} style={{ backgroundColor: behandlingstypeFarger[key] }} />
-                  <Undertekst key={key} className={styles.valgtValues}>
-                    {`${finnBehandlingTypeNavn(behandlingTyper, key)} (${finnAntallForBehandlingstypeOgDato(data, key, valgtValues[0].x)})`}
-                  </Undertekst>
-                </div>
-              ))}
-            </div>
-          </div>
+            )}
+          </XYPlot>
         </FlexColumn>
-        <FlexColumn className={styles.legendContainer} />
       </FlexRow>
+      <Row className={styles.legends}>
+        <DiscreteColorLegend
+          orientation="horizontal"
+          colors={reversertSorterteBehandlingstyper.map((key) => behandlingstypeFarger[key])}
+          items={reversertSorterteBehandlingstyper.map((key) => (
+            <Normaltekst className={styles.displayInline}>{finnBehandlingTypeNavn(behandlingTyper, key)}</Normaltekst>
+          ))}
+        />
+      </Row>
     </FlexContainer>
   );
 };

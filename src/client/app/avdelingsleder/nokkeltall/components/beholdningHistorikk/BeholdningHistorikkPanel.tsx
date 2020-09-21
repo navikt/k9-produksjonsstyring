@@ -39,10 +39,10 @@ const ytelseTyper = [{
 
 const uker = [{
   kode: UKE_2,
-  tekstKode: 'TilBehandlingPanel.ToSisteUker',
+  tekstKode: 'TilBehandlingPanel.FireSisteUker',
 }, {
   kode: '4',
-  tekstKode: 'TilBehandlingPanel.FireSisteUker',
+  tekstKode: 'TilBehandlingPanel.8SisteUker',
 }];
 
 const erDatoInnenforPeriode = (oppgaveForAvdeling, ukevalg) => {
