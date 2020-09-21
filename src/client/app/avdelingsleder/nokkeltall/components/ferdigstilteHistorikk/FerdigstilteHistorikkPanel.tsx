@@ -32,7 +32,6 @@ const uker = [{
   tekstKode: '8 siste uker',
 }];
 
-
 interface InitialValues {
     ytelseType: string;
     ukevalg: string;
@@ -50,7 +49,6 @@ interface OwnProps {
 const formName = 'tilBehandlingForm';
 
 export const FerdigstilteHistorikkPanel: FunctionComponent<OwnProps & WrappedComponentProps> = ({
-  intl,
   width,
   height,
   ferdigstiltePerDato,

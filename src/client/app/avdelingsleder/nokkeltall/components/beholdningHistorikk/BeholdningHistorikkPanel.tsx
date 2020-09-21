@@ -53,7 +53,6 @@ export const erDatoInnenforPeriode = (oppgaveForAvdeling, ukevalg) => {
   return moment(oppgaveForAvdeling.dato).isSameOrAfter(toUkerSiden);
 };
 
-
 export const slaSammenLikeBehandlingstyperOgDatoer = (oppgaver) => {
   const sammenslatte = [];
 
