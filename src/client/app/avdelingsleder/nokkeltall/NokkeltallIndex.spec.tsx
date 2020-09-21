@@ -11,16 +11,20 @@ describe('<NokkeltallIndex>', () => {
     const fetchAlleOppgaverFn = sinon.spy();
     const fetchOppgaverPerDatoFn = sinon.spy();
     const fetchFerdigstilteOppgaverFn = sinon.spy();
+    const fetchFerdigstilteHistorikkFn = sinon.spy();
 
     const wrapper = shallow(<NokkeltallIndex
       fetchAlleOppgaver={fetchAlleOppgaverFn}
       fetchOppgaverPerDato={fetchOppgaverPerDatoFn}
       fetchFerdigstilteOppgaver={fetchFerdigstilteOppgaverFn}
+      fetchFerdigstiltePerDato={fetchFerdigstilteHistorikkFn}
     />);
 
     expect(wrapper.find(NokkeltallPanel)).to.have.length(1);
 
     expect(fetchAlleOppgaverFn.calledOnce).to.be.true;
     expect(fetchOppgaverPerDatoFn.calledOnce).to.be.true;
+    expect(fetchFerdigstilteOppgaverFn.calledOnce).to.be.true;
+    expect(fetchFerdigstilteHistorikkFn.calledOnce).to.be.true;
   });
 });
