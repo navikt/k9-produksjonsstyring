@@ -48,6 +48,7 @@ const k9LosApiKeys = {
   HENT_OPPGAVER: 'HENT_OPPGAVER',
   HENT_OPPGAVER_PER_DATO: 'HENT_OPPGAVER_PER_DATO',
   HENT_FERDIGSTILTE_OPPGAVER: 'HENT_FERDIGSTILTE_OPPGAVER',
+  HENT_FERDIGSTILTE_HISTORIKK: 'HENT_FERDIGSTILTE_HISTORIKK',
   HENT_OPPGAVER_PER_FORSTE_STONADSDAG: 'HENT_OPPGAVER_PER_FORSTE_STONADSDAG',
   HENT_DAGENS_TALL: 'HENT_DAGENS_TALL',
   HENT_OPPGAVER_MANUELT_PA_VENT: 'HENT_OPPGAVER_MANUELT_PA_VENT',
@@ -129,7 +130,8 @@ const endpoints = new RestApiConfigBuilder()
   /* /api/avdelingsleder/nokkeltall */
   .withGet('avdelingsleder/nokkeltall/behandlinger-under-arbeid', k9LosApiKeys.HENT_OPPGAVER)
   .withGet('avdelingsleder/nokkeltall/beholdning-historikk', k9LosApiKeys.HENT_OPPGAVER_PER_DATO)
-  .withGet('avdelingsleder/nokkeltall/ferdigstilte-behandlinger-historikk', k9LosApiKeys.HENT_FERDIGSTILTE_OPPGAVER)
+  .withGet('avdelingsleder/nokkeltall/ferdigstilte-oppsummering', k9LosApiKeys.HENT_FERDIGSTILTE_OPPGAVER)
+  .withGet('avdelingsleder/nokkeltall/ferdigstilte-historikk', k9LosApiKeys.HENT_FERDIGSTILTE_HISTORIKK)
   .withGet('avdelingsleder/nokkeltall/behandlinger-manuelt-vent-historikk', k9LosApiKeys.HENT_OPPGAVER_MANUELT_PA_VENT)
   .withGet('avdelingsleder/nokkeltall/behandlinger-forste-stonadsdag', k9LosApiKeys.HENT_OPPGAVER_PER_FORSTE_STONADSDAG)
   .withGet('avdelingsleder/nokkeltall//dagens-tall', k9LosApiKeys.HENT_DAGENS_TALL)

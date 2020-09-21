@@ -6,6 +6,7 @@ import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import FerdigstiltePanel from 'avdelingsleder/nokkeltall/components/ferdigstiltePanel/FerdigstiltePanel';
 import BeholdningHistorikkPanel
   from 'avdelingsleder/nokkeltall/components/beholdningHistorikk/BeholdningHistorikkPanel';
+import { FerdigstilteHistorikkPanel } from 'avdelingsleder/nokkeltall/components/ferdigstilteHistorikk/FerdigstilteHistorikkPanel';
 import FordelingAvBehandlingstypePanel from './fordelingAvBehandlingstype/FordelingAvBehandlingstypePanel';
 
 /**
@@ -41,6 +42,11 @@ const NokkeltallPanel: FunctionComponent = () => {
       />
       <VerticalSpacer twentyPx />
       <BeholdningHistorikkPanel
+        width={width}
+        height={height}
+      />
+      <VerticalSpacer twentyPx />
+      <FerdigstilteHistorikkPanel
         width={width}
         height={height}
       />

@@ -1,0 +1,49 @@
+@import '@{coreModulePath}nav-frontend-core/less/_variabler';
+
+.panel {
+  border: 1px solid @navGra40;
+  border-radius: 0;
+}
+
+.crosshair {
+  background: @navLysBlaLighten80;
+  border: 4px solid #3385d1;
+  border-radius: 4px;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.25);
+  color: @navMorkGra;
+  font-size: 12px;
+  opacity: 0.8;
+  padding: 7px 10px;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.displayInline {
+  color: #3e3832;
+  display: inline;
+  font-family: "Source Sans Pro";
+  font-size: 16px;
+  letter-spacing: 0;
+}
+
+.container {
+  display: inline-flex;
+}
+
+.weekday {
+  color: #3e3832;
+  font-family: "Source Sans Pro";
+  font-size: 32px;
+  height: 72px;
+  letter-spacing: 0;
+  line-height: 36px;
+
+  @media only screen and (max-width: 1600px) {
+    font-size: 20px;
+    height: 52px;
+  }
+}
+
+.legends {
+  text-align: center;
+}

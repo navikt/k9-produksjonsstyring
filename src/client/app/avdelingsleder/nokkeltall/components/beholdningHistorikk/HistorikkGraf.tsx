@@ -14,7 +14,7 @@ import { Kodeverk } from 'kodeverk/kodeverkTsType';
 
 import 'react-vis/dist/style.css';
 import { Row } from 'nav-frontend-grid';
-import styles from './beholdningHistorikkGraf.less';
+import styles from './historikkGraf.less';
 
 const LEGEND_WIDTH = 260;
 
@@ -27,11 +27,11 @@ const behandlingstypeOrder = [
 ];
 
 const behandlingstypeFarger = {
-  [behandlingType.ANKE]: '#ff842f',
-  [behandlingType.INNSYN]: '#ffd23b',
-  [behandlingType.KLAGE]: '#826ba1',
-  [behandlingType.REVURDERING]: '#0067C5',
-  [behandlingType.FORSTEGANGSSOKNAD]: '#85d5f0',
+  [behandlingType.ANKE]: '#C86151',
+  [behandlingType.INNSYN]: '#38A161',
+  [behandlingType.KLAGE]: '#634689',
+  [behandlingType.REVURDERING]: '#3385D1',
+  [behandlingType.FORSTEGANGSSOKNAD]: '#FF9100',
 };
 
 const smallScreen = window.innerWidth < 1600;
@@ -112,7 +112,7 @@ const finnBehandlingTypeNavn = (behandlingTyper, behandlingTypeKode: string) => 
   return type ? type.navn : '';
 };
 
-export interface BeholdningPerDato {
+export interface HistoriskData {
   behandlingType: Kodeverk;
   dato: string;
   antall: number;
@@ -122,7 +122,7 @@ interface OwnProps {
   width: number;
   height: number;
   behandlingTyper: Kodeverk[];
-  beholdningPerDato: BeholdningPerDato[];
+  historiskData: HistoriskData[];
   isFireUkerValgt: boolean;
 }
 
@@ -134,10 +134,10 @@ interface CrosshairValue {
 /**
  * TilBehandlingGraf.
  */
-const BeholdningHistorikkGraf: FunctionComponent<OwnProps> = ({
+const HistorikkGraf: FunctionComponent<OwnProps> = ({
   width,
   height,
-  beholdningPerDato,
+  historiskData,
   isFireUkerValgt,
   behandlingTyper,
 }) => {
@@ -152,7 +152,7 @@ const BeholdningHistorikkGraf: FunctionComponent<OwnProps> = ({
   const periodeStart = moment().subtract(isFireUkerValgt ? 4 : 8, 'w').add(1, 'd');
   const periodeSlutt = moment().subtract(1, 'd');
 
-  const koordinater = useMemo(() => konverterTilKoordinaterGruppertPaBehandlingstype(beholdningPerDato), [beholdningPerDato]);
+  const koordinater = useMemo(() => konverterTilKoordinaterGruppertPaBehandlingstype(historiskData), [historiskData]);
   const data = useMemo(() => fyllInnManglendeDatoerOgSorterEtterDato(koordinater, periodeStart, periodeSlutt), [koordinater, periodeStart, periodeSlutt]);
 
   const sorterteBehandlingstyper = Object.keys(data).sort(sorterBehandlingtyper);
@@ -232,4 +232,4 @@ const BeholdningHistorikkGraf: FunctionComponent<OwnProps> = ({
   );
 };
 
-export default BeholdningHistorikkGraf;
+export default HistorikkGraf;

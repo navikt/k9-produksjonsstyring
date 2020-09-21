@@ -15,7 +15,15 @@ export const fetchOppgaverPerDato = () => (dispatch: Dispatch) => dispatch(
   ),
 );
 
+export const fetchFerdigstiltePerDato = () => (dispatch: Dispatch) => dispatch(
+  k9LosApi.HENT_FERDIGSTILTE_HISTORIKK.makeRestApiRequest()(
+    { }, { keepData: true },
+  ),
+);
+
 export const getOppgaverPerDato = k9LosApi.HENT_OPPGAVER_PER_DATO.getRestApiData();
+
+export const getFerdigstiltePerDato = k9LosApi.HENT_FERDIGSTILTE_HISTORIKK.getRestApiData();
 
 export const fetchFerdigstilteOppgaver = () => (dispatch: Dispatch) => dispatch(
   k9LosApi.HENT_FERDIGSTILTE_OPPGAVER.makeRestApiRequest()(
