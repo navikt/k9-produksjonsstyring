@@ -75,7 +75,7 @@ const ReservasjonerTabell: FunctionComponent<OwnProps & WrappedComponentProps> =
   };
 
   const leggTilbake = (oppgaveId: string) => {
-    opphevReservasjon(oppgaveId).then(() => setShowFlyttReservasjonModal(false));
+    opphevReservasjon(oppgaveId).then(() => setShowOpphevReservasjonModal(false));
   };
 
   return (
