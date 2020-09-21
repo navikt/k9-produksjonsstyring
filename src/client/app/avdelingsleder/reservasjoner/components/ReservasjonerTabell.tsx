@@ -1,5 +1,5 @@
 import React, {
-  Component, FunctionComponent, ReactNode, useState,
+  FunctionComponent, useState,
 } from 'react';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import { FormattedMessage, injectIntl, WrappedComponentProps } from 'react-intl';
@@ -58,7 +58,6 @@ const ReservasjonerTabell: FunctionComponent<OwnProps & WrappedComponentProps> =
   const [showFlyttReservasjonModal, setShowFlyttReservasjonModal] = useState(false);
   const [showOpphevReservasjonModal, setShowOpphevReservasjonModal] = useState(false);
 
-
   const velgReservasjon = (res: Reservasjon) => {
     if (valgtReservasjon === undefined || valgtReservasjon.oppgaveId !== res.oppgaveId) {
       setValgtReservasjon(res);
@@ -75,7 +74,7 @@ const ReservasjonerTabell: FunctionComponent<OwnProps & WrappedComponentProps> =
     flyttReservasjon(oppgaveId, brukerident, begrunnelse).then(() => setShowFlyttReservasjonModal(false));
   };
 
-  const leggTilbake = (oppgaveId: string, brukerident: string, begrunnelse: string) => {
+  const leggTilbake = (oppgaveId: string) => {
     opphevReservasjon(oppgaveId).then(() => setShowFlyttReservasjonModal(false));
   };
 
