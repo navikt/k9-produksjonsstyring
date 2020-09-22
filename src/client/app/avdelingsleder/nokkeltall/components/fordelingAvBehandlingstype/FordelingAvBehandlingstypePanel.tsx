@@ -15,6 +15,7 @@ import kodeverkTyper from 'kodeverk/kodeverkTyper';
 import { getKodeverk } from 'kodeverk/duck';
 import AlleOppgaver from 'avdelingsleder/nokkeltall/components/fordelingAvBehandlingstype/alleOppgaverTsType';
 import Panel from 'nav-frontend-paneler';
+import { ALLE_YTELSETYPER_VALGT } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
 import FordelingAvBehandlingstypeGraf from './FordelingAvBehandlingstypeGraf';
 import { getAlleOppgaver } from '../../duck';
 import styles from './fordelingAvBehandlingstypeGraf.less';
@@ -23,8 +24,6 @@ const finnFagsakYtelseTypeNavn = (fagsakYtelseTyper, valgtFagsakYtelseType) => {
   const type = fagsakYtelseTyper.find((fyt) => fyt.kode === valgtFagsakYtelseType);
   return type ? type.navn : '';
 };
-
-export const ALLE_YTELSETYPER_VALGT = 'ALLE';
 
 interface InitialValues {
   valgtYtelseType: string;

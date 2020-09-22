@@ -8,12 +8,13 @@ import {
 import { Normaltekst, Undertekst } from 'nav-frontend-typografi';
 
 import { FlexContainer, FlexRow, FlexColumn } from 'sharedComponents/flexGrid';
-import { DDMMYYYY_DATE_FORMAT } from 'utils/formats';
+import { DD_MM_DATE_FORMAT } from 'utils/formats';
 import behandlingType from 'kodeverk/behandlingType';
 import { Kodeverk } from 'kodeverk/kodeverkTsType';
 
 import 'react-vis/dist/style.css';
 import { Row } from 'nav-frontend-grid';
+import HistoriskData from 'avdelingsleder/nokkeltall/historiskDataTsType';
 import styles from './historikkGraf.less';
 
 const LEGEND_WIDTH = 260;
@@ -112,11 +113,6 @@ const finnBehandlingTypeNavn = (behandlingTyper, behandlingTypeKode: string) => 
   return type ? type.navn : '';
 };
 
-export interface HistoriskData {
-  behandlingType: Kodeverk;
-  dato: string;
-  antall: number;
-}
 
 interface OwnProps {
   width: number;
@@ -142,7 +138,6 @@ const HistorikkGraf: FunctionComponent<OwnProps> = ({
   behandlingTyper,
 }) => {
   const [crosshairValues, setCrosshairValues] = useState<CrosshairValue[]>([]);
-  const [valgtValues, setValgtValues] = useState<CrosshairValue[]>([]);
 
   const onMouseLeave = useCallback(() => setCrosshairValues([]), []);
   const onNearestX = useCallback((value: {x: Date; y: number}) => {
@@ -183,8 +178,8 @@ const HistorikkGraf: FunctionComponent<OwnProps> = ({
             <MarkSeries data={[{ x: moment().subtract(1, 'd'), y: 0 }]} style={{ display: 'none' }} />
             <HorizontalGridLines />
             <XAxis
-              tickTotal={5}
-              tickFormat={(t) => moment(t).format(DDMMYYYY_DATE_FORMAT)}
+              tickTotal={9}
+              tickFormat={(t) => moment(t).format(DD_MM_DATE_FORMAT)}
               style={{ text: cssText }}
             />
             <YAxis style={{ text: cssText }} />
@@ -207,7 +202,7 @@ const HistorikkGraf: FunctionComponent<OwnProps> = ({
                 }}
               >
                 <div className={styles.crosshair}>
-                  <Normaltekst>{`${moment(crosshairValues[0].x).format(DDMMYYYY_DATE_FORMAT)}`}</Normaltekst>
+                  <Normaltekst>{`${moment(crosshairValues[0].x).format(DD_MM_DATE_FORMAT)}`}</Normaltekst>
                   { reversertSorterteBehandlingstyper.map((key) => (
                     <Undertekst key={key}>
                       {`${finnBehandlingTypeNavn(behandlingTyper, key)}: ${finnAntallForBehandlingstypeOgDato(data, key, crosshairValues[0].x)}`}

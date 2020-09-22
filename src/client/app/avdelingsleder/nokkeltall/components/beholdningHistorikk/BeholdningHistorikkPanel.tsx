@@ -1,6 +1,5 @@
 import React, { FunctionComponent } from 'react';
 import { connect } from 'react-redux';
-import moment from 'moment';
 import { injectIntl, WrappedComponentProps, FormattedMessage } from 'react-intl';
 
 import { Form } from 'react-final-form';
@@ -12,65 +11,21 @@ import { getValuesFromReduxState } from 'form/reduxBinding/formDuck';
 import { SelectField } from 'form/FinalFields';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import { Kodeverk } from 'kodeverk/kodeverkTsType';
-import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
 import { getKodeverk } from 'kodeverk/duck';
 import Panel from 'nav-frontend-paneler';
-import styles from 'avdelingsleder/nokkeltall/components/beholdningHistorikk/historikkGraf.less';
+import styles from 'avdelingsleder/nokkeltall/historikkGraf.less';
+import {
+  ALLE_YTELSETYPER_VALGT,
+  erDatoInnenforPeriode, slaSammenLikeBehandlingstyperOgDatoer,
+  UKE_4,
+  uker,
+  ytelseTyper,
+} from 'avdelingsleder/nokkeltall/nokkeltallUtils';
 import { getOppgaverPerDato } from '../../duck';
 
-import HistorikkGraf from './HistorikkGraf';
-import BeholdningPerDato from './historiskDataTsType';
-
-export const ALLE_YTELSETYPER_VALGT = 'ALLE';
-export const UKE_4 = '4';
-
-export const ytelseTyper = [{
-  kode: fagsakYtelseType.OMSORGSPENGER,
-  navn: 'Omsorgspenger',
-}, {
-  kode: fagsakYtelseType.PLEIEPENGER_SYKT_BARN,
-  navn: 'Pleiepenger sykt barn',
-},
-{
-  kode: ALLE_YTELSETYPER_VALGT,
-  navn: 'Alle ytelser',
-}];
-
-export const uker = [{
-  kode: UKE_4,
-  tekstKode: 'TilBehandlingPanel.FireSisteUker',
-}, {
-  kode: '8',
-  tekstKode: 'TilBehandlingPanel.8SisteUker',
-}];
-
-export const erDatoInnenforPeriode = (oppgaveForAvdeling, ukevalg) => {
-  if (ukevalg === uker[1].kode) {
-    return true;
-  }
-  const toUkerSiden = moment().subtract(2, 'w');
-  return moment(oppgaveForAvdeling.dato).isSameOrAfter(toUkerSiden);
-};
-
-export const slaSammenLikeBehandlingstyperOgDatoer = (oppgaver) => {
-  const sammenslatte = [];
-
-  oppgaver.forEach((o) => {
-    const index = sammenslatte.findIndex((s) => s.behandlingType.kode === o.behandlingType.kode && s.dato === o.dato);
-    if (index === -1) {
-      sammenslatte.push(o);
-    } else {
-      sammenslatte[index] = {
-        behandlingType: sammenslatte[index].behandlingType,
-        dato: sammenslatte[index].dato,
-        antall: sammenslatte[index].antall + o.antall,
-      };
-    }
-  });
-
-  return sammenslatte;
-};
+import HistorikkGraf from '../../HistorikkGraf';
+import HistoriskData from '../../historiskDataTsType';
 
 interface InitialValues {
   ytelseType: string;
@@ -81,15 +36,15 @@ interface OwnProps {
   width: number;
   height: number;
   fagsakYtelseTyper: Kodeverk[];
-  beholdningPerDato?: BeholdningPerDato[];
+  beholdningPerDato?: HistoriskData[];
   initialValues: InitialValues;
   behandlingTyper: Kodeverk[];
 }
 
-const formName = 'tilBehandlingForm';
+const formName = 'beholdningForm';
 
 /**
- * TilBehandlingPanel.
+ * BeholdningHistorikkPanel.
  */
 export const BeholdningHistorikkPanel: FunctionComponent<OwnProps & WrappedComponentProps> = ({
   intl,

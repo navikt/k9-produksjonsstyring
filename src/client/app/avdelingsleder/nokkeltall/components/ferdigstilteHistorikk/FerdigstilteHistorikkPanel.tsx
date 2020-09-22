@@ -14,23 +14,18 @@ import { Kodeverk } from 'kodeverk/kodeverkTsType';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
 import { getKodeverk } from 'kodeverk/duck';
 import Panel from 'nav-frontend-paneler';
-import styles from 'avdelingsleder/nokkeltall/components/beholdningHistorikk/historikkGraf.less';
+import styles from 'avdelingsleder/nokkeltall/historikkGraf.less';
+
 import {
-  ALLE_YTELSETYPER_VALGT, erDatoInnenforPeriode,
-  slaSammenLikeBehandlingstyperOgDatoer, UKE_4, ytelseTyper,
-} from 'avdelingsleder/nokkeltall/components/beholdningHistorikk/BeholdningHistorikkPanel';
+  ALLE_YTELSETYPER_VALGT,
+  erDatoInnenforPeriode, slaSammenLikeBehandlingstyperOgDatoer,
+  UKE_4, uker,
+  ytelseTyper,
+} from 'avdelingsleder/nokkeltall/nokkeltallUtils';
 import { getFerdigstiltePerDato } from '../../duck';
 
-import HistorikkGraf from '../beholdningHistorikk/HistorikkGraf';
-import BeholdningPerDato from '../beholdningHistorikk/historiskDataTsType';
-
-const uker = [{
-  kode: '4',
-  tekstKode: '4 siste uker',
-}, {
-  kode: '8',
-  tekstKode: '8 siste uker',
-}];
+import HistorikkGraf from '../../HistorikkGraf';
+import HistoriskData from '../../historiskDataTsType';
 
 interface InitialValues {
     ytelseType: string;
@@ -41,14 +36,20 @@ interface OwnProps {
     width: number;
     height: number;
     fagsakYtelseTyper: Kodeverk[];
-    ferdigstiltePerDato?: BeholdningPerDato[];
+    ferdigstiltePerDato?: HistoriskData[];
     initialValues: InitialValues;
     behandlingTyper: Kodeverk[];
 }
 
-const formName = 'tilBehandlingForm';
+const formName = 'ferdigstilteForm';
+
+/**
+ * FerdigstilteHistorikkPanel.
+ */
+
 
 export const FerdigstilteHistorikkPanel: FunctionComponent<OwnProps & WrappedComponentProps> = ({
+  intl,
   width,
   height,
   ferdigstiltePerDato,
@@ -70,7 +71,7 @@ export const FerdigstilteHistorikkPanel: FunctionComponent<OwnProps & WrappedCom
             <SelectField
               name="ukevalg"
               label=""
-              selectValues={uker.map((u) => <option key={u.kode} value={u.kode}>{u.tekstKode}</option>)}
+              selectValues={uker.map((u) => <option key={u.kode} value={u.kode}>{intl.formatMessage({ id: u.tekstKode })}</option>)}
               bredde="l"
             />
           </Column>
@@ -102,7 +103,7 @@ FerdigstilteHistorikkPanel.defaultProps = {
   ferdigstiltePerDato: [],
 };
 
-const formDefaultValues = { ytelseType: ALLE_YTELSETYPER_VALGT, ukevalg: '4' };
+const formDefaultValues = { ytelseType: ALLE_YTELSETYPER_VALGT, ukevalg: UKE_4 };
 
 const mapStateToProps = (state) => ({
   fagsakYtelseTyper: getKodeverk(state)[kodeverkTyper.FAGSAK_YTELSE_TYPE],

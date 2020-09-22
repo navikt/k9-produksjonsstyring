@@ -3,8 +3,9 @@ import moment from 'moment';
 
 import { ISO_DATE_FORMAT } from 'utils/formats';
 import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
-import { ManueltPaVentPanel, ALLE_YTELSETYPER_VALGT, UKE_4 } from 'avdelingsleder/nokkeltall/components/manueltSattPaVent/ManueltPaVentPanel';
+import { ManueltPaVentPanel } from 'avdelingsleder/nokkeltall/components/manueltSattPaVent/ManueltPaVentPanel';
 
+import { ALLE_YTELSETYPER_VALGT, UKE_4 } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
 import withIntl from '../../../decorators/withIntl';
 import withRedux from '../../../decorators/withRedux';
 
@@ -21,39 +22,29 @@ export const skalViseGrafForAntallBehandlingerSomErSattManueltPåVent = (intl) =
     height={300}
     oppgaverManueltPaVent={[{
       fagsakYtelseType: {
-        kode: fagsakYtelseType.FORELDREPRENGER,
+        kode: fagsakYtelseType.OMSORGSPENGER,
         navn: 'Foreldreprenger',
       },
       behandlingFrist: moment().format(ISO_DATE_FORMAT),
       antall: 10,
     }, {
       fagsakYtelseType: {
-        kode: fagsakYtelseType.ENGANGSSTONAD,
+        kode: fagsakYtelseType.PLEIEPENGER_SYKT_BARN,
         navn: 'Engangsstønad',
       },
       behandlingFrist: moment().add(5, 'd').format(ISO_DATE_FORMAT),
       antall: 4,
-    }, {
-      fagsakYtelseType: {
-        kode: fagsakYtelseType.ENGANGSSTONAD,
-        navn: 'Engangsstønad',
-      },
-      behandlingFrist: moment().add(5, 'w').format(ISO_DATE_FORMAT),
-      antall: 14,
     }]}
     initialValues={{
       valgtYtelsetype: ALLE_YTELSETYPER_VALGT,
       ukevalg: UKE_4,
     }}
     fagsakYtelseTyper={[{
-      kode: fagsakYtelseType.FORELDREPRENGER,
+      kode: fagsakYtelseType.OMSORGSPENGER,
       navn: 'Foreldreprenger',
     }, {
-      kode: fagsakYtelseType.ENGANGSSTONAD,
+      kode: fagsakYtelseType.PLEIEPENGER_SYKT_BARN,
       navn: 'Engangsstønad',
-    }, {
-      kode: fagsakYtelseType.SVANGERSKAPPENGER,
-      navn: 'Svangerskapspenger',
     }]}
   />
 );
