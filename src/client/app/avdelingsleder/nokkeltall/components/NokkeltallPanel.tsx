@@ -7,6 +7,7 @@ import FerdigstiltePanel from 'avdelingsleder/nokkeltall/components/ferdigstilte
 import BeholdningHistorikkPanel
   from 'avdelingsleder/nokkeltall/components/beholdningHistorikk/BeholdningHistorikkPanel';
 import FerdigstilteHistorikkPanel from 'avdelingsleder/nokkeltall/components/ferdigstilteHistorikk/FerdigstilteHistorikkPanel';
+import NyeHistorikkPanel from 'avdelingsleder/nokkeltall/components/nyeHistorikk/NyeHistorikkPanel';
 import FordelingAvBehandlingstypePanel from './fordelingAvBehandlingstype/FordelingAvBehandlingstypePanel';
 
 /**
@@ -41,12 +42,17 @@ const NokkeltallPanel: FunctionComponent = () => {
         height={height}
       />
       <VerticalSpacer twentyPx />
-      <BeholdningHistorikkPanel
+      <NyeHistorikkPanel
         width={width}
         height={height}
       />
       <VerticalSpacer twentyPx />
       <FerdigstilteHistorikkPanel
+        width={width}
+        height={height}
+      />
+      <VerticalSpacer twentyPx />
+      <BeholdningHistorikkPanel
         width={width}
         height={height}
       />
