@@ -47,7 +47,6 @@ const formName = 'ferdigstilteForm';
  * FerdigstilteHistorikkPanel.
  */
 
-
 export const FerdigstilteHistorikkPanel: FunctionComponent<OwnProps & WrappedComponentProps> = ({
   intl,
   width,

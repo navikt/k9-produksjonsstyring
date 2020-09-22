@@ -1,11 +1,9 @@
 import moment from 'moment';
 import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
-import behandlingType from 'kodeverk/behandlingType';
 
 export const ALLE_YTELSETYPER_VALGT = 'ALLE';
 export const UKE_4 = '4';
 export const UKE_2 = '2';
-
 
 export const ytelseTyper = [{
   kode: fagsakYtelseType.OMSORGSPENGER,

@@ -113,7 +113,6 @@ const finnBehandlingTypeNavn = (behandlingTyper, behandlingTypeKode: string) => 
   return type ? type.navn : '';
 };
 
-
 interface OwnProps {
   width: number;
   height: number;
