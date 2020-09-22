@@ -29,14 +29,11 @@ const behandlingstypeOrder = [
 
 const behandlingstypeFarger = {
   [behandlingType.ANKE]: '#C86151',
-  [behandlingType.INNSYN]: '#38A161',
+  [behandlingType.INNSYN]: '#FF9100',
   [behandlingType.KLAGE]: '#634689',
   [behandlingType.REVURDERING]: '#3385D1',
-  [behandlingType.FORSTEGANGSSOKNAD]: '#FF9100',
+  [behandlingType.FORSTEGANGSSOKNAD]: '#38A161',
 };
-
-const smallScreen = window.innerWidth < 1600;
-const largeScreen = window.innerWidth > 2700;
 
 const monthNames = ['JANUAR', 'FEBRUAR', 'MARS', 'APRIL', 'MAI', 'JUNI',
   'JULI', 'AUGUST', 'SEPTEMBER', 'OKTOBER', 'NOVEMBER', 'DESEMBER',
