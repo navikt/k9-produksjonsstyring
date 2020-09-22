@@ -9,6 +9,7 @@ import {
   fetchFerdigstiltePerDato as fetchFerdigstiltePerDatoActionCreator,
   fetchNyePerDato as fetchNyePerDatoActionCreator,
 } from './duck';
+import { fetchNyeOgFerdigstilteOppgaverNokkeltall as fetchNyeOgFerdigstilteActionCreator } from '../../saksbehandler/saksstotte/nokkeltall/duck';
 import NokkeltallPanel from './components/NokkeltallPanel';
 
 interface TsProps {
@@ -17,6 +18,7 @@ interface TsProps {
   fetchFerdigstilteOppgaver: () => void;
   fetchFerdigstiltePerDato: () => void;
   fetchNyePerDato: () => void;
+  fetchNyeOgFerdigstilte: () => void;
 }
 
 /**
@@ -25,13 +27,14 @@ interface TsProps {
 export class NokkeltallIndex extends Component<TsProps> {
   componentDidMount = () => {
     const {
-      fetchAlleOppgaver, fetchOppgaverPerDato, fetchFerdigstilteOppgaver, fetchFerdigstiltePerDato, fetchNyePerDato,
+      fetchAlleOppgaver, fetchOppgaverPerDato, fetchFerdigstilteOppgaver, fetchFerdigstiltePerDato, fetchNyePerDato, fetchNyeOgFerdigstilte,
     } = this.props;
     fetchAlleOppgaver();
     fetchOppgaverPerDato();
     fetchFerdigstilteOppgaver();
     fetchFerdigstiltePerDato();
     fetchNyePerDato();
+    fetchNyeOgFerdigstilte();
   }
 
   render = () => (
@@ -46,6 +49,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
     fetchFerdigstilteOppgaver: fetchFerdigstilteOppgaverActionCreator,
     fetchFerdigstiltePerDato: fetchFerdigstiltePerDatoActionCreator,
     fetchNyePerDato: fetchNyePerDatoActionCreator,
+    fetchNyeOgFerdigstilte: fetchNyeOgFerdigstilteActionCreator,
   }, dispatch),
 });
 

@@ -3,7 +3,6 @@ import React, { FunctionComponent } from 'react';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import { SaksbehandlerNokkeltallIndex } from 'saksbehandler/saksstotte/nokkeltall/SaksbehandlerNokkeltallIndex';
 
-import { fetchNyeOgFerdigstilteOppgaverNokkeltall } from 'saksbehandler/saksstotte/nokkeltall/duck';
 import SistBehandledeSaker from './SistBehandledeSaker';
 
 interface OwnProps {
