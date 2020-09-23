@@ -1,15 +1,12 @@
 import React, { FunctionComponent } from 'react';
 import { injectIntl, WrappedComponentProps, FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
-
 import { Form } from 'react-final-form';
 import { Element } from 'nav-frontend-typografi';
 import { getKodeverk } from 'kodeverk/duck';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import Panel from 'nav-frontend-paneler';
-import { getFerdigstilteOppgaver } from 'avdelingsleder/nokkeltall/duck';
-import FerdigstilteOppgaver from 'avdelingsleder/nokkeltall/components/dagensTallPanel/ferdigstilteOppgaverTsType';
 import { Kodeverk } from 'kodeverk/kodeverkTsType';
 import { getNyeOgFerdigstilteOppgaverNokkeltall } from 'saksbehandler/saksstotte/nokkeltall/duck';
 import { createSelector } from 'reselect';
@@ -38,7 +35,6 @@ export const InngangOgFerdigstiltePanel: FunctionComponent<OwnProps & WrappedCom
     nyeOgFerdigstilteOppgaverIdag.forEach((n) => { ferdigstilte += n.antallFerdigstilte; });
     return ferdigstilte;
   };
-
 
   return (
     <Form

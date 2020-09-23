@@ -1,16 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { connect } from 'react-redux';
 import { Normaltekst, Element } from 'nav-frontend-typografi';
-
 import Image from 'sharedComponents/Image';
 import removeIcon from 'images/remove.svg';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import Table from 'sharedComponents/Table';
 import TableRow from 'sharedComponents/TableRow';
 import TableColumn from 'sharedComponents/TableColumn';
-import { CheckboxField } from 'form/FinalFields';
 import { Checkbox } from 'nav-frontend-skjema';
 import { getDateAndTime } from 'utils/dateUtils';
 import driftsmeldingPropType from '../driftsmeldingPropType';
@@ -82,7 +79,7 @@ export class DriftsmeldingerTabell extends Component<TsProps, StateTsProps> {
 
   render = () => {
     const {
-      driftsmeldinger, switchDriftsmelding,
+      driftsmeldinger,
     } = this.props;
     const {
       valgtDriftsmelding, showSlettModal,
@@ -108,7 +105,6 @@ export class DriftsmeldingerTabell extends Component<TsProps, StateTsProps> {
               <TableColumn>
                 <div className={styles.checkBox}>
                   <Checkbox
-
                     label=""
                     checked={driftsmelding.aktiv}
                     onChange={(e) => this.handleClick(driftsmelding.id, e)}
