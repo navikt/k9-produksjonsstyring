@@ -20,11 +20,9 @@ import Chevron from 'nav-frontend-chevron';
 import { Knapp } from 'nav-frontend-knapper';
 import UtvalgskriterierForOppgavekoForm
   from 'avdelingsleder/behandlingskoer/components/oppgavekoForm/UtvalgskriterierForOppgavekoForm';
-import { Column, Row } from 'nav-frontend-grid';
-import SaksbehandlereForOppgavekoForm
-  from 'avdelingsleder/behandlingskoer/components/saksbehandlerForm/SaksbehandlereForOppgavekoForm';
-import { OppgaveStatus } from 'saksbehandler/oppgaveStatusTsType';
 import NavFrontendSpinner from 'nav-frontend-spinner';
+import { Saksbehandler } from 'avdelingsleder/bemanning/saksbehandlerTsType';
+import { getSaksbehandlere } from 'avdelingsleder/bemanning/duck';
 import SletteOppgavekoModal from './SletteOppgavekoModal';
 import { Oppgaveko } from '../oppgavekoTsType';
 import oppgavekoPropType from '../oppgavekoPropType';
@@ -32,7 +30,6 @@ import { fetchOppgaveko, getAntallOppgaverTotaltResultat, getOppgaveko } from '.
 
 import styles from './gjeldendeOppgavekoerTabell.less';
 import addCircle from '../../../../images/add-circle-bla.svg';
-import pilNedUrl from '../../../../images/pil-ned.svg';
 
 const headerTextCodes = [
   'GjeldendeOppgavekoerTabell.Listenavn',
@@ -62,10 +59,12 @@ interface TsProps {
   knyttSaksbehandlerTilOppgaveko: (id: string, epost: string, isChecked: boolean) => void;
   hentAntallOppgaverForOppgaveko: (id: string) => Promise<string>;
   requestFinished: boolean;
+  saksbehandlere: Saksbehandler[];
 }
 
 interface StateTsProps {
   valgtOppgaveko?: Oppgaveko;
+  visSlettModal: boolean;
 }
 
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -96,6 +95,7 @@ export class GjeldendeOppgavekoerTabell extends Component<TsProps, StateTsProps>
 
     this.state = {
       valgtOppgaveko: undefined,
+      visSlettModal: false,
     };
     this.nodes = [];
   }
@@ -127,12 +127,12 @@ export class GjeldendeOppgavekoerTabell extends Component<TsProps, StateTsProps>
     lagNyOppgaveko();
   }
 
-  visFjernOppgavekoModal = (valgtOppgaveko: Oppgaveko) => {
-    this.setState((prevState) => ({ ...prevState, valgtOppgaveko }));
+  visFjernOppgavekoModal = () => {
+    this.setState((prevState) => ({ ...prevState, visSlettModal: true }));
   }
 
   closeSletteModal = () => {
-    this.setState((prevState) => ({ ...prevState, valgtOppgaveko: undefined }));
+    this.setState((prevState) => ({ ...prevState, visSlettModal: false }));
   }
 
   fjernOppgaveko = (oppgaveko: Oppgaveko) => {
@@ -179,11 +179,12 @@ export class GjeldendeOppgavekoerTabell extends Component<TsProps, StateTsProps>
       lagreOppgavekoBehandlingstype,
       lagreOppgavekoFagsakYtelseType,
       lagreOppgavekoSkjermet,
+      saksbehandlere,
       knyttSaksbehandlerTilOppgaveko,
       hentAntallOppgaverForOppgaveko,
     } = this.props;
     const {
-      valgtOppgaveko,
+      valgtOppgaveko, visSlettModal,
     } = this.state;
 
     return (
@@ -221,7 +222,7 @@ export class GjeldendeOppgavekoerTabell extends Component<TsProps, StateTsProps>
                 onMouseDown={this.setValgtOppgaveko}
                 onKeyDown={this.setValgtOppgaveko}
               >
-                <TableColumn xs="3">{oppgaveko.navn}</TableColumn>
+                <TableColumn>{oppgaveko.navn}</TableColumn>
                 <TableColumn>{this.formatStonadstyper(oppgaveko.fagsakYtelseTyper)}</TableColumn>
                 <TableColumn>{this.formatBehandlingstyper(oppgaveko.behandlingTyper)}</TableColumn>
                 <TableColumn>{oppgaveko.saksbehandlere.length > 0 ? oppgaveko.saksbehandlere.length : ''}</TableColumn>
@@ -234,36 +235,32 @@ export class GjeldendeOppgavekoerTabell extends Component<TsProps, StateTsProps>
                 </TableColumn>
               </TableRow>
 
-              { valgtOppgavekoId === oppgaveko.id && (
-              <>
-                <Row>
-                  <UtvalgskriterierForOppgavekoForm
-                    lagreOppgavekoNavn={lagreOppgavekoNavn}
-                    lagreOppgavekoBehandlingstype={lagreOppgavekoBehandlingstype}
-                    lagreOppgavekoFagsakYtelseType={lagreOppgavekoFagsakYtelseType}
-                    lagreOppgavekoAndreKriterier={lagreOppgavekoAndreKriterier}
-                    lagreOppgavekoSkjermet={lagreOppgavekoSkjermet}
-                    hentAntallOppgaverForOppgaveko={hentAntallOppgaverForOppgaveko}
-                  />
-                </Row>
-                <SaksbehandlereForOppgavekoForm
-                  valgtOppgaveko={oppgaveko}
+              {valgtOppgavekoId === oppgaveko.id && (
+                <UtvalgskriterierForOppgavekoForm
+                  lagreOppgavekoNavn={lagreOppgavekoNavn}
+                  lagreOppgavekoBehandlingstype={lagreOppgavekoBehandlingstype}
+                  lagreOppgavekoFagsakYtelseType={lagreOppgavekoFagsakYtelseType}
+                  lagreOppgavekoAndreKriterier={lagreOppgavekoAndreKriterier}
+                  lagreOppgavekoSkjermet={lagreOppgavekoSkjermet}
+                  hentAntallOppgaverForOppgaveko={hentAntallOppgaverForOppgaveko}
                   knyttSaksbehandlerTilOppgaveko={knyttSaksbehandlerTilOppgaveko}
+                  visModal={this.visFjernOppgavekoModal}
+                  saksbehandlere={saksbehandlere}
                 />
-              </>
+              )}
 
+              {valgtOppgavekoId === oppgaveko.id && visSlettModal && (
+              <SletteOppgavekoModal
+                valgtOppgaveko={oppgaveko}
+                cancel={this.closeSletteModal}
+                submit={this.fjernOppgaveko}
+              />
               )}
             </>
           ))}
         </Table>
         )}
-        {valgtOppgaveko && (
-          <SletteOppgavekoModal
-            valgtOppgaveko={valgtOppgaveko}
-            cancel={this.closeSletteModal}
-            submit={this.fjernOppgaveko}
-          />
-        )}
+
       </>
     );
   }
@@ -274,6 +271,7 @@ const mapStateToProps = (state) => ({
   fagsakYtelseTyper: getKodeverk(state)[kodeverkTyper.FAGSAK_YTELSE_TYPE],
   oppgaverTotalt: getAntallOppgaverTotaltResultat(state),
   gjeldendeKo: getOppgaveko(state),
+  saksbehandlere: getSaksbehandlere(state),
 });
 
 export default connect(mapStateToProps)(GjeldendeOppgavekoerTabell);

@@ -20,8 +20,8 @@ describe('<SaksbehandlereForOppgavekoForm>', () => {
       kode: andreKriterierType.TIL_BESLUTTER,
       navn: 'Til beslutter',
     }, {
-      kode: andreKriterierType.REGISTRER_PAPIRSOKNAD,
-      navn: 'Registrer papirsøknad',
+      kode: andreKriterierType.AVKLAR_MEDLEMSKAP,
+      navn: 'Avklar medlemskap',
     }],
     saksbehandlere: [],
   };
@@ -38,8 +38,6 @@ describe('<SaksbehandlereForOppgavekoForm>', () => {
       alleSaksbehandlere={saksbehandlere}
       knyttSaksbehandlerTilOppgaveko={sinon.spy()}
     />).find(Form).renderProp('render')();
-
-    expect(wrapper.find(FormattedMessage)).to.have.length(1);
 
     const kolonner = wrapper.find(Column);
     expect(kolonner).to.have.length(2);
@@ -68,8 +66,6 @@ describe('<SaksbehandlereForOppgavekoForm>', () => {
       alleSaksbehandlere={saksbehandlere}
       knyttSaksbehandlerTilOppgaveko={sinon.spy()}
     />).find(Form).renderProp('render')();
-
-    expect(wrapper.find(FormattedMessage)).to.have.length(1);
 
     const kolonner = wrapper.find(Column);
     expect(kolonner).to.have.length(2);

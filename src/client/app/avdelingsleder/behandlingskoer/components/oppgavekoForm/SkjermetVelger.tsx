@@ -3,17 +3,19 @@ import { FormattedMessage } from 'react-intl';
 import { Undertekst } from 'nav-frontend-typografi';
 
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
-import { CheckboxField } from 'form/FinalFields';
+import { CheckboxField, RadioGroupField, RadioOption } from 'form/FinalFields';
 
+import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
+import { Oppgaveko } from 'avdelingsleder/behandlingskoer/oppgavekoTsType';
 import styles from './skjermetVelger.less';
 
 interface TsProps {
-    valgtOppgavekoId: string;
+    valgtOppgaveko: Oppgaveko;
     lagreSkjermet: (oppgavekoId: string, skjermet: boolean) => void;
 }
 
 export const SkjermetVelger = ({
-  lagreSkjermet, valgtOppgavekoId,
+  lagreSkjermet, valgtOppgaveko,
 }: TsProps) => (
   <div className={styles.skjermet}>
     <Undertekst>
@@ -22,7 +24,7 @@ export const SkjermetVelger = ({
     <VerticalSpacer eightPx />
     <CheckboxField
       label="Ja"
-      onChange={(isChecked) => lagreSkjermet(valgtOppgavekoId, isChecked)}
+      onChange={(isChecked) => lagreSkjermet(valgtOppgaveko.id, isChecked)}
       name="skjermet"
     />
   </div>

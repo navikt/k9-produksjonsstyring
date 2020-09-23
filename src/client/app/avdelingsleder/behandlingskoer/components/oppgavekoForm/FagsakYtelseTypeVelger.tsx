@@ -8,6 +8,8 @@ import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
 import { RadioGroupField, RadioOption } from 'form/FinalFields';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
 
+import styles from './utvalgskriterierForOppgavekoForm.less';
+
 const finnFagsakYtelseTypeNavn = (fagsakYtelseTyper, valgtFagsakYtelseType) => {
   const type = fagsakYtelseTyper.find((fyt) => fyt.kode === valgtFagsakYtelseType);
   return type ? type.navn : '';
@@ -30,12 +32,13 @@ const FagsakYtelseTypeVelger: FunctionComponent<OwnProps> = ({
   const fagsakYtelseTyper = useMemo(() => alleKodeverk[kodeverkTyper.FAGSAK_YTELSE_TYPE],
     []);
   return (
-    <>
+    <div className={styles.stonadsVelger}>
       <Undertekst>
         <FormattedMessage id="FagsakYtelseTypeVelger.Stonadstype" />
       </Undertekst>
       <VerticalSpacer eightPx />
       <RadioGroupField
+        direction="vertical"
         name="fagsakYtelseType"
         onChange={(fyt) => lagreOppgavekoFagsakYtelseType(valgtOppgavekoId, fyt)}
       >
@@ -52,7 +55,7 @@ const FagsakYtelseTypeVelger: FunctionComponent<OwnProps> = ({
           label={<FormattedMessage id="FagsakYtelseTypeVelger.Alle" />}
         />
       </RadioGroupField>
-    </>
+    </div>
   );
 };
 

@@ -19,6 +19,10 @@ import SkjermetVelger from 'avdelingsleder/behandlingskoer/components/oppgavekoF
 import { getKodeverk } from 'kodeverk/duck';
 import { bindActionCreators, Dispatch } from 'redux';
 import KoSorteringType from 'kodeverk/KoSorteringTsType';
+import { SaksbehandlereForOppgavekoForm } from 'avdelingsleder/behandlingskoer/components/saksbehandlerForm/SaksbehandlereForOppgavekoForm';
+import Image from 'sharedComponents/Image';
+import { SletteOppgavekoModal } from 'avdelingsleder/behandlingskoer/components/SletteOppgavekoModal';
+import { Saksbehandler } from 'avdelingsleder/bemanning/saksbehandlerTsType';
 import { Oppgaveko } from '../../oppgavekoTsType';
 import {
   getAntallOppgaverForOppgavekoResultat,
@@ -33,6 +37,7 @@ import FagsakYtelseTypeVelger from './FagsakYtelseTypeVelger';
 import SorteringVelger from './SorteringVelger';
 
 import styles from './utvalgskriterierForOppgavekoForm.less';
+import binIcon from '../../../../../images/bin-1.svg';
 
 const minLength3 = minLength(3);
 const maxLength100 = maxLength(100);
@@ -48,6 +53,9 @@ interface OwnProps {
   lagreOppgavekoSkjermet: (id: string, isChecked: boolean) => void;
   antallOppgaver?: number;
   hentAntallOppgaverForOppgaveko: (oppgavekoId: string) => Promise<string>;
+  knyttSaksbehandlerTilOppgaveko: (id: string, epost: string, isChecked: boolean) => void;
+  visModal: () => void;
+  saksbehandlere: Saksbehandler[];
 }
 
 interface DispatchProps {
@@ -56,10 +64,14 @@ interface DispatchProps {
   lagreOppgavekoSorteringTidsintervallDato: (oppgavekoId: string, fomDato: string, tomDato: string) => void;
 }
 
+interface StateTsProps {
+  visSlettModal: boolean;
+}
+
 /**
  * UtvalgskriterierForOppgavekoForm
  */
-export class UtvalgskriterierForOppgavekoForm extends Component<OwnProps & DispatchProps & WrappedComponentProps> {
+export class UtvalgskriterierForOppgavekoForm extends Component<OwnProps & DispatchProps & StateTsProps> {
   componentDidMount = () => {
     const {
       gjeldendeKo, hentAntallOppgaverForOppgaveko, fetchOppgaveko: hentKo,
@@ -113,9 +125,9 @@ export class UtvalgskriterierForOppgavekoForm extends Component<OwnProps & Dispa
 
   render = (): ReactNode => {
     const {
-      intl, lagreOppgavekoBehandlingstype, lagreOppgavekoFagsakYtelseType, gjeldendeKo, antallOppgaver,
+      intl, lagreOppgavekoBehandlingstype, lagreOppgavekoFagsakYtelseType, gjeldendeKo,
       lagreOppgavekoAndreKriterier, lagreOppgavekoSkjermet, alleKodeverk, lagreOppgavekoSortering,
-      lagreOppgavekoSorteringTidsintervallDato,
+      lagreOppgavekoSorteringTidsintervallDato, knyttSaksbehandlerTilOppgaveko, visModal, saksbehandlere,
     } = this.props;
 
     return (
@@ -126,69 +138,89 @@ export class UtvalgskriterierForOppgavekoForm extends Component<OwnProps & Dispa
           render={({ values }) => (
             <>
               <AutoLagringVedBlur lagre={this.tranformValues} fieldNames={['navn']} />
-              <Row>
-                <Column xs="9">
+              <Row className={styles.row}>
+                <Column xs="4" className={styles.leftColumn}>
+                  <Normaltekst className={styles.header}>
+                    <FormattedMessage id="UtvalgskriterierForOppgavekoForm.OmKoen" />
+                  </Normaltekst>
+                  <hr className={styles.line} />
                   <InputField
                     className={styles.navn}
                     name="navn"
                     label={intl.formatMessage({ id: 'UtvalgskriterierForOppgavekoForm.Navn' })}
                     validate={[required, minLength3, maxLength100, hasValidName]}
                     onBlurValidation
-                    bredde="L"
+                    bredde="M"
                   />
-                </Column>
-                <Column xs="3" className={styles.antall}>
-                  <div className={styles.grayBox}>
-                    <Normaltekst className={styles.antallTekst}>
-                      <FormattedMessage id="UtvalgskriterierForOppgavekoForm.AntallSaker" />
-                    </Normaltekst>
-                    <Undertittel>{antallOppgaver || '0'}</Undertittel>
-                  </div>
-                </Column>
-              </Row>
-              <Row>
-                <SkjermetVelger valgtOppgavekoId={gjeldendeKo.id} lagreSkjermet={lagreOppgavekoSkjermet} />
-                <Column xs="12" className={styles.stonadstypeRadios}>
                   <FagsakYtelseTypeVelger
                     lagreOppgavekoFagsakYtelseType={lagreOppgavekoFagsakYtelseType}
                     valgtOppgavekoId={gjeldendeKo.id}
                     alleKodeverk={alleKodeverk}
                   />
-                </Column>
-              </Row>
-              <Row className={styles.radios}>
-                <Column>
+                  <SkjermetVelger valgtOppgaveko={gjeldendeKo} lagreSkjermet={lagreOppgavekoSkjermet} />
                   <BehandlingstypeVelger
                     lagreOppgavekoBehandlingstype={lagreOppgavekoBehandlingstype}
                     valgtOppgavekoId={gjeldendeKo.id}
                     alleKodeverk={alleKodeverk}
                   />
                 </Column>
-                <Column className={styles.kriterier}>
-                  <AndreKriterierVelger
-                    lagreOppgavekoAndreKriterier={lagreOppgavekoAndreKriterier}
-                    valgtOppgavekoId={gjeldendeKo.id}
-                    values={values}
-                    alleKodeverk={alleKodeverk}
-                  />
-                </Column>
-                <Column className={styles.sortering}>
-                  <SorteringVelger
-                    valgtOppgavekoId={gjeldendeKo.id}
-                    valgteBehandlingtyper={gjeldendeKo.behandlingTyper}
-                    fomDato={values.fomDato}
-                    tomDato={values.tomDato}
-                    alleKodeverk={alleKodeverk as {[key: string]: KoSorteringType[]}}
-                    lagreOppgavekoSortering={lagreOppgavekoSortering}
-                    lagreOppgavekoSorteringTidsintervallDato={lagreOppgavekoSorteringTidsintervallDato}
-                  />
+                <Column xs="7" className={styles.middle}>
+                  <Column className={styles.middleColumn}>
+                    <Normaltekst className={styles.header}>
+                      <FormattedMessage id="UtvalgskriterierForOppgavekoForm.Kriterier" />
+                    </Normaltekst>
+                    <hr className={styles.line} />
+                    <AndreKriterierVelger
+                      lagreOppgavekoAndreKriterier={lagreOppgavekoAndreKriterier}
+                      valgtOppgavekoId={gjeldendeKo.id}
+                      values={values}
+                      alleKodeverk={alleKodeverk}
+                    />
+                    <SorteringVelger
+                      valgtOppgavekoId={gjeldendeKo.id}
+                      valgteBehandlingtyper={gjeldendeKo.behandlingTyper}
+                      fomDato={values.fomDato}
+                      tomDato={values.tomDato}
+                      alleKodeverk={alleKodeverk as {[key: string]: KoSorteringType[]}}
+                      lagreOppgavekoSortering={lagreOppgavekoSortering}
+                      lagreOppgavekoSorteringTidsintervallDato={lagreOppgavekoSorteringTidsintervallDato}
+                    />
+                  </Column>
+                  <Column className={styles.saksbehandlere}>
+                    <Column>
+                      <Normaltekst className={styles.header}>
+                        <FormattedMessage id="UtvalgskriterierForOppgavekoForm.Saksbehandlere" />
+                      </Normaltekst>
+                      <hr className={styles.line1} />
+                      <SaksbehandlereForOppgavekoForm
+                        valgtOppgaveko={gjeldendeKo}
+                        alleSaksbehandlere={saksbehandlere}
+                        knyttSaksbehandlerTilOppgaveko={knyttSaksbehandlerTilOppgaveko}
+                      />
+                    </Column>
+                    <Column>
+                      <div className={styles.slettContainer}>
+                        <Image src={binIcon} />
+                        <div
+                          id="slett"
+                          className={styles.slett}
+                          role="button"
+                          onClick={visModal}
+                          onKeyDown={visModal}
+                          tabIndex={0}
+                        >
+                          Slett kø
+                        </div>
+                      </div>
+                    </Column>
+                  </Column>
                 </Column>
               </Row>
-
             </>
           )}
         />
       </div>
+
     );
   }
 }

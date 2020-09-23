@@ -67,9 +67,6 @@ export class SaksbehandlereForOppgavekoForm extends Component<TsProps> {
         initialValues={this.buildInitialValues()}
         render={() => (
           <div className={styles.panel}>
-            <Element>
-              <FormattedMessage id="SaksbehandlereForOppgavekoForm.Saksbehandlere" />
-            </Element>
             <VerticalSpacer sixteenPx />
             {alleSaksbehandlere.length === 0 && (
               <FormattedMessage id="SaksbehandlereForOppgavekoForm.IngenSaksbehandlere" />
@@ -114,7 +111,7 @@ const sortSaksbehandlere = createSelector([getSaksbehandlere], (saksbehandlere) 
   : saksbehandlere));
 
 const mapStateToProps = (state) => ({
-  alleSaksbehandlere: sortSaksbehandlere(state),
+  alleSaksbehandlere: getSaksbehandlere(state),
   valgtOppgaveko: getOppgaveko(state),
 });
 
