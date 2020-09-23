@@ -40,8 +40,8 @@ export const InngangOgFerdigstiltePanel: FunctionComponent<OwnProps & WrappedCom
             <Teller
               key={bt.behandlingType.kode}
               forklaring={bt.behandlingType.navn}
-              hoyreTall={bt.antallNye}
-              venstreTall={bt.antallFerdigstilte}
+              hoyreTall={bt.antallFerdigstilte}
+              venstreTall={bt.antallNye}
             />
           ))}
         </div>
