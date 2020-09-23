@@ -13,6 +13,8 @@ import { createSelector } from 'reselect';
 import moment from 'moment';
 import { ISO_DATE_FORMAT } from 'utils/formats';
 import NyeOgFerdigstilteOppgaver from 'saksbehandler/saksstotte/nokkeltall/components/nyeOgFerdigstilteOppgaverTsType';
+import k9LosApi from 'api/k9LosApi';
+import NavFrontendSpinner from 'nav-frontend-spinner';
 import styles from './ferdigstiltePanel.less';
 import Teller from './Teller';
 
@@ -21,9 +23,10 @@ interface OwnProps {
     height: number;
     nyeOgFerdigstilteOppgaverIdag: NyeOgFerdigstilteOppgaver[];
     behandlingTyper: Kodeverk[];
+    requestFinished: boolean;
 }
 
-export const InngangOgFerdigstiltePanel: FunctionComponent<OwnProps & WrappedComponentProps> = ({ nyeOgFerdigstilteOppgaverIdag }) => {
+export const InngangOgFerdigstiltePanel: FunctionComponent<OwnProps & WrappedComponentProps> = ({ nyeOgFerdigstilteOppgaverIdag, requestFinished }) => {
   const getNyeIdagTotalt = () => {
     let nye = 0;
     nyeOgFerdigstilteOppgaverIdag.forEach((n) => { nye += n.antallNye; });
@@ -45,6 +48,14 @@ export const InngangOgFerdigstiltePanel: FunctionComponent<OwnProps & WrappedCom
             <FormattedMessage id="InngangOgFerdigstiltePanel.Header" />
           </Element>
           <VerticalSpacer eightPx />
+          {requestFinished && nyeOgFerdigstilteOppgaverIdag.length === 0 && (
+          <Element>
+            <FormattedMessage id="InngangOgFerdigstiltePanel.IngenTall" />
+          </Element>
+          )}
+          {nyeOgFerdigstilteOppgaverIdag.length === 0 && !requestFinished && (
+            <NavFrontendSpinner type="XL" className={styles.spinner} />
+          )}
           <div className={styles.container}>
             <Teller forklaring="Totalt" venstreTall={getNyeIdagTotalt()} hoyreTall={getFerdigstilteIdagTotalt()} />
             {nyeOgFerdigstilteOppgaverIdag.length > 0 && nyeOgFerdigstilteOppgaverIdag.map((bt) => (
@@ -81,6 +92,7 @@ const mapStateToProps = (state) => ({
   behandlingTyper: getKodeverk(state)[kodeverkTyper.BEHANDLING_TYPE],
   nyeOgFerdigstilteOppgaverIdag: getNyeOgFerdigstilteForIDag(state),
   nyeOgFerdigstilteOppgaver7dager: getNyeOgFerdigstilteForSisteSyvDager(state),
+  requestFinished: k9LosApi.HENT_NYE_OG_FERDIGSTILTE_OPPGAVER.getRestApiFinished()(state),
 });
 
 export default connect(mapStateToProps)(injectIntl(InngangOgFerdigstiltePanel));

@@ -162,6 +162,7 @@
   "NyeHistorikkPanel.Nye": "Historikk over nye oppgaver",
 
   "InngangOgFerdigstiltePanel.Header": "Dagens tall",
+  "InngangOgFerdigstiltePanel.IngenTall": "Ingen data for øyeblikket",
 
   "NyeOgFerdigstilteOppgaverForIdagGraf.Ferdigstilte": "Ferdigstilte",
   "NyeOgFerdigstilteOppgaverForIdagGraf.FerdigstilteMine": "Mine",

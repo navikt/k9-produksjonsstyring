@@ -31,8 +31,8 @@ const behandlingstypeFarger = {
   [behandlingType.ANKE]: '#C86151',
   [behandlingType.INNSYN]: '#FF9100',
   [behandlingType.KLAGE]: '#634689',
-  [behandlingType.REVURDERING]: '#3385D1',
-  [behandlingType.FORSTEGANGSSOKNAD]: '#38A161',
+  [behandlingType.REVURDERING]: '#66CBEC',
+  [behandlingType.FORSTEGANGSSOKNAD]: '#0067C5',
 };
 
 const monthNames = ['JANUAR', 'FEBRUAR', 'MARS', 'APRIL', 'MAI', 'JUNI',
