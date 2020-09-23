@@ -40,6 +40,7 @@ describe('<GjeldendeOppgavekoerTabell>', () => {
       lagNyOppgaveko={sinon.spy()}
       fjernOppgaveko={sinon.spy()}
       hentKo={sinon.spy()}
+      requestFinished
       behandlingTyper={behandlingstyper}
       fagsakYtelseTyper={fagsakYtelseTyper}
       hentAntallOppgaverForOppgaveko={sinon.spy()}
@@ -85,6 +86,7 @@ describe('<GjeldendeOppgavekoerTabell>', () => {
       lagNyOppgaveko={sinon.spy()}
       fjernOppgaveko={sinon.spy()}
       hentKo={sinon.spy()}
+      requestFinished
       behandlingTyper={behandlingstyper}
       fagsakYtelseTyper={fagsakYtelseTyper}
       hentAntallOppgaverForOppgaveko={sinon.spy()}
@@ -116,6 +118,7 @@ describe('<GjeldendeOppgavekoerTabell>', () => {
 
     const wrapper = shallow(<GjeldendeOppgavekoerTabell
       oppgavekoer={oppgavekoer}
+      requestFinished
       setValgtOppgavekoId={sinon.spy()}
       lagNyOppgaveko={lagNyOppgavekoFn}
       fjernOppgaveko={sinon.spy()}
@@ -145,6 +148,7 @@ describe('<GjeldendeOppgavekoerTabell>', () => {
 
     const wrapper = shallow(<GjeldendeOppgavekoerTabell
       oppgavekoer={oppgavekoer}
+      requestFinished
       setValgtOppgavekoId={sinon.spy()}
       lagNyOppgaveko={lagNyOppgavekoFn}
       fjernOppgaveko={sinon.spy()}

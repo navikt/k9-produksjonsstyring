@@ -19,6 +19,7 @@ interface OwnProps {
   hentOppgavekoer: () => Oppgaveko[];
   hentAntallOppgaverForOppgaveko: (id: string) => Promise<string>;
   hentKo: (id: string) => Promise<string>;
+  requestFinished: boolean;
 }
 
 /**
@@ -37,13 +38,14 @@ const EndreOppgavekoerPanel: FunctionComponent<OwnProps & WrappedComponentProps>
   knyttSaksbehandlerTilOppgaveko,
   hentAntallOppgaverForOppgaveko,
   lagreOppgavekoSkjermet,
-  hentKo,
+  hentKo, requestFinished,
 }) => {
   const valgtOppgaveko = oppgavekoer.find((s) => s.id === valgtOppgavekoId);
   return (
     <GjeldendeOppgavekoerTabell
       oppgavekoer={oppgavekoer}
       hentKo={hentKo}
+      requestFinished={requestFinished}
       setValgtOppgavekoId={setValgtOppgavekoId}
       valgtOppgavekoId={valgtOppgavekoId}
       lagNyOppgaveko={lagNyOppgaveko}

@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 
 import { Kodeverk } from 'kodeverk/kodeverkTsType';
+import k9LosApi from 'api/k9LosApi';
 import { fetchAlleSaksbehandlere } from '../bemanning/duck';
 import {
   fetchAlleOppgavekoer,
@@ -45,6 +46,7 @@ interface TsProps {
   fetchAlleSaksbehandlere: () => void;
   fetchOppgaveko: (id: string) => Promise<string>;
   fetchDagensTall: () => Promise<string>;
+  requestFinished: boolean;
 }
 
 /**
@@ -99,7 +101,7 @@ export class EndreBehandlingskoerIndex extends Component<TsProps> {
       fetchAntallOppgaverTotalt: hentAntallOppgaverTotalt,
       lagreOppgavekoAndreKriterier: lagreAndreKriterier,
       lagreOppgavekoSkjermet: lagreSkjermet,
-      fetchOppgaveko: hentKo,
+      fetchOppgaveko: hentKo, requestFinished,
     } = this.props;
     return (
       <EndreOppgavekoerPanel
@@ -108,6 +110,7 @@ export class EndreBehandlingskoerIndex extends Component<TsProps> {
         setValgtOppgavekoId={setValgtId}
         valgtOppgavekoId={valgtOppgavekoId}
         lagNyOppgaveko={lagNyListe}
+        requestFinished={requestFinished}
         fjernOppgaveko={fjernListe}
         lagreOppgavekoNavn={lagreListeNavn}
         lagreOppgavekoBehandlingstype={lagreListeBehandlingstype}
@@ -129,6 +132,7 @@ const mapStateToProps = (state) => {
   return {
     oppgavekoer: getAlleOppgavekoer(state),
     valgtOppgavekoId: id !== undefined ? id : nyId,
+    requestFinished: k9LosApi.OPPGAVEKOER.getRestApiFinished()(state),
   };
 };
 

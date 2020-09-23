@@ -24,6 +24,7 @@ import { Column, Row } from 'nav-frontend-grid';
 import SaksbehandlereForOppgavekoForm
   from 'avdelingsleder/behandlingskoer/components/saksbehandlerForm/SaksbehandlereForOppgavekoForm';
 import { OppgaveStatus } from 'saksbehandler/oppgaveStatusTsType';
+import NavFrontendSpinner from 'nav-frontend-spinner';
 import SletteOppgavekoModal from './SletteOppgavekoModal';
 import { Oppgaveko } from '../oppgavekoTsType';
 import oppgavekoPropType from '../oppgavekoPropType';
@@ -60,6 +61,7 @@ interface TsProps {
   lagreOppgavekoSkjermet: (id: string, isChecked: boolean) => void;
   knyttSaksbehandlerTilOppgaveko: (id: string, epost: string, isChecked: boolean) => void;
   hentAntallOppgaverForOppgaveko: (id: string) => Promise<string>;
+  requestFinished: boolean;
 }
 
 interface StateTsProps {
@@ -171,7 +173,7 @@ export class GjeldendeOppgavekoerTabell extends Component<TsProps, StateTsProps>
     const {
       oppgavekoer,
       valgtOppgavekoId,
-      lagNyOppgaveko,
+      requestFinished,
       lagreOppgavekoNavn,
       lagreOppgavekoAndreKriterier,
       lagreOppgavekoBehandlingstype,
@@ -186,6 +188,7 @@ export class GjeldendeOppgavekoerTabell extends Component<TsProps, StateTsProps>
 
     return (
       <>
+        {requestFinished && (
         <Knapp
           mini
           className={styles.addKnapp}
@@ -196,7 +199,11 @@ export class GjeldendeOppgavekoerTabell extends Component<TsProps, StateTsProps>
           <Image src={addCircle} className={styles.addIcon} />
           <FormattedMessage id="GjeldendeOppgavekoerTabell.LeggTilListe" />
         </Knapp>
-        {oppgavekoer.length === 0 && (
+        )}
+        {oppgavekoer.length === 0 && !requestFinished && (
+        <NavFrontendSpinner type="XL" className={styles.spinner} />
+        )}
+        {oppgavekoer.length === 0 && requestFinished && (
           <>
             <VerticalSpacer eightPx />
             <Normaltekst><FormattedMessage id="GjeldendeOppgavekoerTabell.IngenLister" /></Normaltekst>
