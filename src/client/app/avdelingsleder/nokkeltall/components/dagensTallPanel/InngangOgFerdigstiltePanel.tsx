@@ -26,29 +26,45 @@ interface OwnProps {
     behandlingTyper: Kodeverk[];
 }
 
-export const InngangOgFerdigstiltePanel: FunctionComponent<OwnProps & WrappedComponentProps> = ({ nyeOgFerdigstilteOppgaverIdag }) => (
-  <Form
-    onSubmit={() => undefined}
-    render={({ values }) => (
-      <Panel className={styles.panel}>
-        <Element>
-          <FormattedMessage id="InngangOgFerdigstiltePanel.Header" />
-        </Element>
-        <VerticalSpacer eightPx />
-        <div className={styles.container}>
-          {nyeOgFerdigstilteOppgaverIdag.length > 0 && nyeOgFerdigstilteOppgaverIdag.map((bt) => (
-            <Teller
-              key={bt.behandlingType.kode}
-              forklaring={bt.behandlingType.navn}
-              hoyreTall={bt.antallFerdigstilte}
-              venstreTall={bt.antallNye}
-            />
-          ))}
-        </div>
-      </Panel>
-    )}
-  />
-);
+export const InngangOgFerdigstiltePanel: FunctionComponent<OwnProps & WrappedComponentProps> = ({ nyeOgFerdigstilteOppgaverIdag }) => {
+  const getNyeIdagTotalt = () => {
+    let nye = 0;
+    nyeOgFerdigstilteOppgaverIdag.forEach((n) => { nye += n.antallNye; });
+    return nye;
+  };
+
+  const getFerdigstilteIdagTotalt = () => {
+    let ferdigstilte = 0;
+    nyeOgFerdigstilteOppgaverIdag.forEach((n) => { ferdigstilte += n.antallFerdigstilte; });
+    return ferdigstilte;
+  };
+
+
+  return (
+    <Form
+      onSubmit={() => undefined}
+      render={({ values }) => (
+        <Panel className={styles.panel}>
+          <Element>
+            <FormattedMessage id="InngangOgFerdigstiltePanel.Header" />
+          </Element>
+          <VerticalSpacer eightPx />
+          <div className={styles.container}>
+            <Teller forklaring="Totalt" venstreTall={getNyeIdagTotalt()} hoyreTall={getFerdigstilteIdagTotalt()} />
+            {nyeOgFerdigstilteOppgaverIdag.length > 0 && nyeOgFerdigstilteOppgaverIdag.map((bt) => (
+              <Teller
+                key={bt.behandlingType.kode}
+                forklaring={bt.behandlingType.navn}
+                hoyreTall={bt.antallFerdigstilte}
+                venstreTall={bt.antallNye}
+              />
+            ))}
+          </div>
+        </Panel>
+      )}
+    />
+  );
+};
 
 export const getNyeOgFerdigstilteForIDag = createSelector([getNyeOgFerdigstilteOppgaverNokkeltall], (nyeOgFerdigstilte: { dato: string }[] = []) => {
   const iDag = moment();
