@@ -1,18 +1,19 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { FunctionComponent } from 'react';
 
+import BemanningIndex from 'avdelingsleder/bemanning/BemanningIndex';
 import styles from './avdelingslederDashboard.less';
 
-type TsProps = Readonly<{
+type OwnProps = Readonly<{
   children: any;
+  visSaksbehandlere: boolean;
 }>;
 
 /**
  * AvdelingslederDashboard
  */
-const AvdelingslederDashboard = ({
-  children,
-}: TsProps) => (
+const AvdelingslederDashboard: FunctionComponent<OwnProps> = ({
+  children, visSaksbehandlere,
+}) => (
   <div>
     <div className={styles.oppgaveContainer}>
       <div className={styles.gridContainer}>
@@ -21,13 +22,17 @@ const AvdelingslederDashboard = ({
             {children}
           </div>
         </div>
+        <div className={styles.rightColumn}>
+          {visSaksbehandlere && (
+          <div className={styles.saksbehandlereContent}>
+            <BemanningIndex />
+          </div>
+          )}
+
+        </div>
       </div>
     </div>
   </div>
 );
-
-AvdelingslederDashboard.propTypes = {
-  children: PropTypes.node.isRequired,
-};
 
 export default AvdelingslederDashboard;

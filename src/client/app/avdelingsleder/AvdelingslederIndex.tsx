@@ -5,9 +5,13 @@ import { FormattedMessage } from 'react-intl';
 import classnames from 'classnames/bind';
 import { NavLink } from 'react-router-dom';
 import Panel from 'nav-frontend-paneler';
-import Tabs from 'nav-frontend-tabs';
-import { Undertittel } from 'nav-frontend-typografi';
-
+import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
+import reservasjonBla from 'images/delete-1.svg';
+import reservasjonSvart from 'images/delete-11.svg';
+import nokkelSvart from 'images/key-hole-1.svg';
+import nokkelBla from 'images/key-hole-11.svg';
+import koerBla from 'images/drawer-23.svg';
+import koerSvart from 'images/drawer-22.svg';
 import LoadingPanel from 'sharedComponents/LoadingPanel';
 import { getNavAnsattKanOppgavestyre } from 'app/duck';
 import { parseQueryString } from 'utils/urlUtils';
@@ -16,11 +20,16 @@ import trackRouteParam from 'app/data/trackRouteParam';
 import { Location } from 'app/locationTsType';
 import NokkeltallIndex from 'avdelingsleder/nokkeltall/NokkeltallIndex';
 import ReservasjonerIndex from 'avdelingsleder/reservasjoner/ReservasjonerIndex';
+import Tabs from 'nav-frontend-tabs';
+import Image from 'sharedComponents/Image';
+import { Row } from 'nav-frontend-grid';
+import DagensTallPanel from 'avdelingsleder/dagensTall/DagensTallPanel';
+import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import { getSelectedAvdelingslederPanel, setSelectedAvdelingslederPanel } from './duck';
 import AvdelingslederDashboard from './components/AvdelingslederDashboard';
 import IkkeTilgangTilAvdelingslederPanel from './components/IkkeTilgangTilAvdelingslederPanel';
 import AvdelingslederPanels from './avdelingslederPanels';
-import EndreSaksbehandlereIndex from './saksbehandlere/EndreSaksbehandlereIndex';
+import EndreSaksbehandlereIndex from './bemanning/BemanningIndex';
 import EndreBehandlingskoerIndex from './behandlingskoer/EndreBehandlingskoerIndex';
 
 import styles from './avdelingslederIndex.less';
@@ -49,6 +58,12 @@ const messageId = {
   [AvdelingslederPanels.RESERVASJONER]: 'AvdelingslederIndex.Reservasjoner',
 };
 
+const tabStyle = {
+  [AvdelingslederPanels.BEHANDLINGSKOER]: [koerSvart, koerBla],
+  [AvdelingslederPanels.NOKKELTALL]: [nokkelSvart, nokkelBla],
+  [AvdelingslederPanels.RESERVASJONER]: [reservasjonSvart, reservasjonBla],
+};
+
 interface TsProps {
   activeAvdelingslederPanel: string;
   getAvdelingslederPanelLocation: (panel: string) => Location;
@@ -56,7 +71,14 @@ interface TsProps {
 }
 
 const getTab = (avdelingslederPanel, activeAvdelingslederPanel, getAvdelingslederPanelLocation) => ({
-  label: (<Undertittel><FormattedMessage id={messageId[avdelingslederPanel]} /></Undertittel>),
+  label: (
+    <div className={styles.tabLabel}>
+      <Image
+        className={styles.tabIcon}
+        src={activeAvdelingslederPanel === avdelingslederPanel ? tabStyle[avdelingslederPanel][0] : tabStyle[avdelingslederPanel][1]}
+      />
+      <Undertittel><FormattedMessage id={messageId[avdelingslederPanel]} /></Undertittel>
+    </div>),
   aktiv: avdelingslederPanel === activeAvdelingslederPanel,
   // eslint-disable-next-line react/prop-types
   linkCreator: ({ children, className }) => (
@@ -81,20 +103,30 @@ export const AvdelingslederIndex = ({
     return <IkkeTilgangTilAvdelingslederPanel />;
   } if (activeAvdelingslederPanel) {
     return (
-      <AvdelingslederDashboard key={activeAvdelingslederPanel}>
-        <div>
-          <Tabs tabs={[
-            getTab(AvdelingslederPanels.BEHANDLINGSKOER, activeAvdelingslederPanel, getAvdelingslederPanelLocation),
-            getTab(AvdelingslederPanels.SAKSBEHANDLERE, activeAvdelingslederPanel, getAvdelingslederPanelLocation),
-            getTab(AvdelingslederPanels.NOKKELTALL, activeAvdelingslederPanel, getAvdelingslederPanelLocation),
-            getTab(AvdelingslederPanels.RESERVASJONER, activeAvdelingslederPanel, getAvdelingslederPanelLocation),
-          ]}
-          />
-          <Panel className={styles.panelPadding}>
-            {renderAvdelingslederPanel(activeAvdelingslederPanel)}
-          </Panel>
-        </div>
-      </AvdelingslederDashboard>
+      <>
+        <Row>
+          <Normaltekst className={styles.paneltekst}>Avdelingslederpanel</Normaltekst>
+        </Row>
+        <Row>
+          <DagensTallPanel />
+        </Row>
+        <VerticalSpacer twentyPx />
+        <Row>
+          <AvdelingslederDashboard key={activeAvdelingslederPanel} visSaksbehandlere={activeAvdelingslederPanel === AvdelingslederPanels.BEHANDLINGSKOER}>
+            <div>
+              <Tabs tabs={[
+                getTab(AvdelingslederPanels.BEHANDLINGSKOER, activeAvdelingslederPanel, getAvdelingslederPanelLocation),
+                getTab(AvdelingslederPanels.NOKKELTALL, activeAvdelingslederPanel, getAvdelingslederPanelLocation),
+                getTab(AvdelingslederPanels.RESERVASJONER, activeAvdelingslederPanel, getAvdelingslederPanelLocation),
+              ]}
+              />
+              <Panel className={styles.panelPadding}>
+                {renderAvdelingslederPanel(activeAvdelingslederPanel)}
+              </Panel>
+            </div>
+          </AvdelingslederDashboard>
+        </Row>
+      </>
     );
   }
   return <LoadingPanel />;

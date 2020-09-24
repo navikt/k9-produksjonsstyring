@@ -16,6 +16,7 @@ describe('<EndreBehandlingskoerIndex>', () => {
       lagNyOppgaveko={sinon.spy()}
       fjernOppgaveko={sinon.spy()}
       fetchOppgaveko={sinon.spy()}
+      fetchDagensTall={sinon.spy()}
       lagreOppgavekoNavn={sinon.spy()}
       lagreOppgavekoBehandlingstype={sinon.spy()}
       lagreOppgavekoFagsakYtelseType={sinon.spy()}

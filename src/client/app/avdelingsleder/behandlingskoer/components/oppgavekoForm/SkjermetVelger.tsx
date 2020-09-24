@@ -1,30 +1,40 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Undertekst } from 'nav-frontend-typografi';
+import { Normaltekst, Undertekst } from 'nav-frontend-typografi';
 
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
-import { CheckboxField } from 'form/FinalFields';
+import { RadioGroupField, RadioOption } from 'form/FinalFields';
 
-import styles from './skjermetVelger.less';
+import { Oppgaveko } from 'avdelingsleder/behandlingskoer/oppgavekoTsType';
+import styles from './utvalgskriterierForOppgavekoForm.less';
 
 interface TsProps {
-    valgtOppgavekoId: string;
+    valgtOppgaveko: Oppgaveko;
     lagreSkjermet: (oppgavekoId: string, skjermet: boolean) => void;
 }
 
 export const SkjermetVelger = ({
-  lagreSkjermet, valgtOppgavekoId,
+  lagreSkjermet, valgtOppgaveko,
 }: TsProps) => (
   <div className={styles.skjermet}>
-    <Undertekst>
+    <Normaltekst className={styles.label}>
       <FormattedMessage id="SkjermetVelger.Skjermet" />
-    </Undertekst>
+    </Normaltekst>
     <VerticalSpacer eightPx />
-    <CheckboxField
-      label="Ja"
-      onChange={(isChecked) => lagreSkjermet(valgtOppgavekoId, isChecked)}
+    <RadioGroupField
+      direction="vertical"
       name="skjermet"
-    />
+      onChange={(isChecked) => lagreSkjermet(valgtOppgaveko.id, isChecked)}
+    >
+      <RadioOption
+        label="Ja"
+        value
+      />
+      <RadioOption
+        label="Nei"
+        value={false}
+      />
+    </RadioGroupField>
   </div>
 );
 

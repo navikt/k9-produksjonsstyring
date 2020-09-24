@@ -11,7 +11,7 @@ import SaksstottePaneler from './components/SaksstottePaneler';
 
 interface TsProps {
   fetchBehandledeOppgaver: () => any;
-  fetchNyeOgFerdigstilteOppgaverNokkeltall: (oppgavekoId: string) => any;
+  fetchNyeOgFerdigstilteOppgaverNokkeltall: () => any;
   sistBehandledeSaker: Oppgave[];
   valgtOppgavekoId?: string;
   k9sakUrl: string;
@@ -26,9 +26,9 @@ export class SaksstotteIndex extends Component<TsProps> {
     valgtOppgavekoId: undefined,
   };
 
-  fetchNyeOgFerdigeOppgaver = (oppgavekoId: string) => {
+  fetchNyeOgFerdigeOppgaver = () => {
     const { fetchNyeOgFerdigstilteOppgaverNokkeltall: fetchNyeOgFerdigstilte } = this.props;
-    fetchNyeOgFerdigstilte(oppgavekoId);
+    fetchNyeOgFerdigstilte();
   };
 
   componentDidMount = () => {

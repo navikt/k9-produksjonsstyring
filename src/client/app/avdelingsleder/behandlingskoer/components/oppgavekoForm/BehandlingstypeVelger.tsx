@@ -1,12 +1,13 @@
 import React, { FunctionComponent, useMemo } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Undertekst } from 'nav-frontend-typografi';
+import { Normaltekst } from 'nav-frontend-typografi';
 
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import { Kodeverk } from 'kodeverk/kodeverkTsType';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
 import behandlingType from 'kodeverk/behandlingType';
 import { CheckboxField } from 'form/FinalFields';
+import styles from './utvalgskriterierForOppgavekoForm.less';
 
 const behandlingstypeOrder = Object.values(behandlingType);
 
@@ -28,9 +29,9 @@ const BehandlingstypeVelger: FunctionComponent<OwnProps> = ({
     []);
   return (
     <>
-      <Undertekst>
+      <Normaltekst className={styles.label}>
         <FormattedMessage id="BehandlingstypeVelger.Behandlingstype" />
-      </Undertekst>
+      </Normaltekst>
       <VerticalSpacer eightPx />
       {behandlingTyper.map((bt) => (
         <React.Fragment key={bt.kode}>

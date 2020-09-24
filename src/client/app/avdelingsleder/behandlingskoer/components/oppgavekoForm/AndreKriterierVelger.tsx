@@ -26,11 +26,7 @@ const AndreKriterierVelger: FunctionComponent<OwnProps> = ({
   lagreOppgavekoAndreKriterier,
   values,
 }) => (
-  <>
-    <Undertekst>
-      <FormattedMessage id="AndreKriterierVelger.AndreKriterier" />
-    </Undertekst>
-    <VerticalSpacer eightPx />
+  <div className={styles.container}>
     {alleKodeverk[kodeverkTyper.ANDRE_KRITERIER_TYPE].map((akt) => (
       <Fragment key={akt.kode}>
         <VerticalSpacer fourPx />
@@ -64,7 +60,7 @@ const AndreKriterierVelger: FunctionComponent<OwnProps> = ({
         )}
       </Fragment>
     ))}
-  </>
+  </div>
 );
 
 export default AndreKriterierVelger;

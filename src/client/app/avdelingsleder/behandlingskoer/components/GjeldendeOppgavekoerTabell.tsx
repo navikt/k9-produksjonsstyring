@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import {
-  Normaltekst, Undertekst, Element, Undertittel,
+  Normaltekst,
 } from 'nav-frontend-typografi';
 
 import { getKodeverk } from 'kodeverk/duck';
@@ -16,20 +16,24 @@ import Table from 'sharedComponents/Table';
 import TableRow from 'sharedComponents/TableRow';
 import TableColumn from 'sharedComponents/TableColumn';
 import DateLabel from 'sharedComponents/DateLabel';
-import addCircleIcon from 'images/add-circle.svg';
-import removeIcon from 'images/remove.svg';
-import { Column, Row } from 'nav-frontend-grid';
+import Chevron from 'nav-frontend-chevron';
+import { Knapp } from 'nav-frontend-knapper';
+import UtvalgskriterierForOppgavekoForm
+  from 'avdelingsleder/behandlingskoer/components/oppgavekoForm/UtvalgskriterierForOppgavekoForm';
+import NavFrontendSpinner from 'nav-frontend-spinner';
+import { Saksbehandler } from 'avdelingsleder/bemanning/saksbehandlerTsType';
+import { getSaksbehandlere } from 'avdelingsleder/bemanning/duck';
 import SletteOppgavekoModal from './SletteOppgavekoModal';
 import { Oppgaveko } from '../oppgavekoTsType';
 import oppgavekoPropType from '../oppgavekoPropType';
-import { getAntallOppgaverTotaltResultat } from '../duck';
+import { fetchOppgaveko, getAntallOppgaverTotaltResultat, getOppgaveko } from '../duck';
 
 import styles from './gjeldendeOppgavekoerTabell.less';
+import addCircle from '../../../../images/add-circle-bla.svg';
 
 const headerTextCodes = [
   'GjeldendeOppgavekoerTabell.Listenavn',
   'GjeldendeOppgavekoerTabell.Stonadstype',
-  'GjeldendeOppgavekoerTabell.Behandlingtype',
   'GjeldendeOppgavekoerTabell.AntallSaksbehandlere',
   'GjeldendeOppgavekoerTabell.AntallBehandlinger',
   'GjeldendeOppgavekoerTabell.SistEndret',
@@ -39,17 +43,27 @@ const headerTextCodes = [
 interface TsProps {
   oppgavekoer: Oppgaveko[];
   setValgtOppgavekoId: (id: string) => void;
-  lagNyOppgaveko: () => void;
+  lagNyOppgaveko: () => Promise<string>;
   fjernOppgaveko: (id: string) => void;
   valgtOppgavekoId?: string;
   behandlingTyper: Kodeverk[];
   fagsakYtelseTyper: Kodeverk[];
   oppgaverTotalt?: number;
   hentKo: (id: string) => Promise<string>;
+  lagreOppgavekoNavn: (oppgaveko: {id: string; navn: string}) => void;
+  lagreOppgavekoBehandlingstype: (id: string, behandlingType: Kodeverk, isChecked: boolean) => void;
+  lagreOppgavekoFagsakYtelseType: (id: string, fagsakYtelseType: string) => void;
+  lagreOppgavekoAndreKriterier: (id: string, andreKriterierType: Kodeverk, isChecked: boolean, inkluder: boolean) => void;
+  lagreOppgavekoSkjermet: (id: string, isChecked: boolean) => void;
+  knyttSaksbehandlerTilOppgaveko: (id: string, epost: string, isChecked: boolean) => void;
+  hentAntallOppgaverForOppgaveko: (id: string) => Promise<string>;
+  requestFinished: boolean;
+  saksbehandlere: Saksbehandler[];
 }
 
 interface StateTsProps {
   valgtOppgaveko?: Oppgaveko;
+  visSlettModal: boolean;
 }
 
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -68,7 +82,6 @@ export class GjeldendeOppgavekoerTabell extends Component<TsProps, StateTsProps>
     valgtOppgavekoId: PropTypes.string,
     behandlingTyper: PropTypes.arrayOf(kodeverkPropType).isRequired,
     fagsakYtelseTyper: PropTypes.arrayOf(kodeverkPropType).isRequired,
-    oppgaverTotalt: PropTypes.number,
     hentKo: PropTypes.func.isRequired,
   };
 
@@ -81,37 +94,44 @@ export class GjeldendeOppgavekoerTabell extends Component<TsProps, StateTsProps>
 
     this.state = {
       valgtOppgaveko: undefined,
+      visSlettModal: false,
     };
     this.nodes = [];
   }
 
   setValgtOppgaveko = async (event: Event, id: string) => {
-    const { setValgtOppgavekoId, hentKo } = this.props;
-    if (this.nodes.some((node) => node && node.contains(event.target))) {
-      return;
-    }
+    const { setValgtOppgavekoId, hentKo, valgtOppgavekoId } = this.props;
 
     // Må vente 100 ms før en byttar behandlingskø i tabell. Dette fordi lagring av navn skjer som blur-event. Så i tilfellet
     // der en endrer navn og så trykker direkte på en annen behandlingskø vil ikke lagringen skje før etter at ny kø er valgt.
     await wait(100);
 
-    setValgtOppgavekoId(id);
-    hentKo(id);
+    if (valgtOppgavekoId !== id) {
+      setValgtOppgavekoId(id);
+      hentKo(id);
+    } else {
+      setValgtOppgavekoId(undefined);
+    }
   }
 
-  lagNyOppgaveko = (event: KeyboardEvent) => {
+  lagNyOppgaveko = (event: React.KeyboardEvent<HTMLButtonElement>) => {
     if (event.keyCode === 13) {
       const { lagNyOppgaveko } = this.props;
       lagNyOppgaveko();
     }
   };
 
-  visFjernOppgavekoModal = (valgtOppgaveko: Oppgaveko) => {
-    this.setState((prevState) => ({ ...prevState, valgtOppgaveko }));
+  lagNyOppgavekoOgSettSomValgt = () => {
+    const { lagNyOppgaveko, valgtOppgavekoId } = this.props;
+    lagNyOppgaveko();
+  }
+
+  visFjernOppgavekoModal = () => {
+    this.setState((prevState) => ({ ...prevState, visSlettModal: true }));
   }
 
   closeSletteModal = () => {
-    this.setState((prevState) => ({ ...prevState, valgtOppgaveko: undefined }));
+    this.setState((prevState) => ({ ...prevState, visSlettModal: false }));
   }
 
   fjernOppgaveko = (oppgaveko: Oppgaveko) => {
@@ -150,31 +170,40 @@ export class GjeldendeOppgavekoerTabell extends Component<TsProps, StateTsProps>
 
   render = () => {
     const {
-      oppgavekoer, valgtOppgavekoId, lagNyOppgaveko, oppgaverTotalt,
+      oppgavekoer,
+      valgtOppgavekoId,
+      requestFinished,
+      lagreOppgavekoNavn,
+      lagreOppgavekoAndreKriterier,
+      lagreOppgavekoBehandlingstype,
+      lagreOppgavekoFagsakYtelseType,
+      lagreOppgavekoSkjermet,
+      saksbehandlere,
+      knyttSaksbehandlerTilOppgaveko,
+      hentAntallOppgaverForOppgaveko,
     } = this.props;
     const {
-      valgtOppgaveko,
+      valgtOppgaveko, visSlettModal,
     } = this.state;
 
     return (
       <>
-
-        <Row>
-          <Column xs="9">
-            <Element>
-              <FormattedMessage id="GjeldendeOppgavekoerTabell.GjeldendeLister" />
-            </Element>
-          </Column>
-          <Column xs="3">
-            <div className={styles.grayBox}>
-              <Normaltekst>
-                <FormattedMessage id="GjeldendeOppgavekoerTabell.OppgaverTotalt" />
-                <Undertittel>{oppgaverTotalt || '0'}</Undertittel>
-              </Normaltekst>
-            </div>
-          </Column>
-        </Row>
-        {oppgavekoer.length === 0 && (
+        {requestFinished && (
+        <Knapp
+          mini
+          className={styles.addKnapp}
+          tabIndex={0}
+          onClick={this.lagNyOppgavekoOgSettSomValgt}
+          onKeyDown={(e) => this.lagNyOppgaveko(e)}
+        >
+          <Image src={addCircle} className={styles.addIcon} />
+          <FormattedMessage id="GjeldendeOppgavekoerTabell.LeggTilListe" />
+        </Knapp>
+        )}
+        {oppgavekoer.length === 0 && !requestFinished && (
+        <NavFrontendSpinner type="XL" className={styles.spinner} />
+        )}
+        {oppgavekoer.length === 0 && requestFinished && (
           <>
             <VerticalSpacer eightPx />
             <Normaltekst><FormattedMessage id="GjeldendeOppgavekoerTabell.IngenLister" /></Normaltekst>
@@ -184,56 +213,52 @@ export class GjeldendeOppgavekoerTabell extends Component<TsProps, StateTsProps>
         {oppgavekoer.length > 0 && (
         <Table headerTextCodes={headerTextCodes}>
           {oppgavekoer.map((oppgaveko) => (
-            <TableRow
-              key={oppgaveko.id}
-              className={oppgaveko.id === valgtOppgavekoId ? styles.isSelected : undefined}
-              id={oppgaveko.id}
-              onMouseDown={this.setValgtOppgaveko}
-              onKeyDown={this.setValgtOppgaveko}
-            >
-              <TableColumn>{oppgaveko.navn}</TableColumn>
-              <TableColumn>{this.formatStonadstyper(oppgaveko.fagsakYtelseTyper)}</TableColumn>
-              <TableColumn>{this.formatBehandlingstyper(oppgaveko.behandlingTyper)}</TableColumn>
-              <TableColumn>{oppgaveko.saksbehandlere.length > 0 ? oppgaveko.saksbehandlere.length : ''}</TableColumn>
-              <TableColumn>{oppgaveko.antallBehandlinger}</TableColumn>
-              <TableColumn>
-                <DateLabel dateString={oppgaveko.sistEndret} />
-              </TableColumn>
-              <TableColumn>
-                <div ref={(node) => { this.nodes.push(node); }}>
-                  <Image
-                    src={removeIcon}
-                    className={styles.removeImage}
-                    onMouseDown={() => this.visFjernOppgavekoModal(oppgaveko)}
-                    onKeyDown={() => this.visFjernOppgavekoModal(oppgaveko)}
-                    tabIndex="0"
-                  />
-                </div>
-              </TableColumn>
-            </TableRow>
+            <>
+              <TableRow
+                key={oppgaveko.id}
+                className={oppgaveko.id === valgtOppgavekoId ? styles.isSelected : styles.notSelected}
+                id={oppgaveko.id}
+                onMouseDown={this.setValgtOppgaveko}
+                onKeyDown={this.setValgtOppgaveko}
+              >
+                <TableColumn>{oppgaveko.navn}</TableColumn>
+                <TableColumn>{this.formatStonadstyper(oppgaveko.fagsakYtelseTyper)}</TableColumn>
+                <TableColumn>{oppgaveko.saksbehandlere.length > 0 ? oppgaveko.saksbehandlere.length : ''}</TableColumn>
+                <TableColumn>{oppgaveko.antallBehandlinger}</TableColumn>
+                <TableColumn>
+                  <DateLabel dateString={oppgaveko.sistEndret} />
+                </TableColumn>
+                <TableColumn>
+                  <Chevron key={oppgaveko.id} type={(valgtOppgavekoId && valgtOppgavekoId === oppgaveko.id) ? 'opp' : 'ned'} className={styles.chevron} />
+                </TableColumn>
+              </TableRow>
+
+              {valgtOppgavekoId === oppgaveko.id && (
+                <UtvalgskriterierForOppgavekoForm
+                  lagreOppgavekoNavn={lagreOppgavekoNavn}
+                  lagreOppgavekoBehandlingstype={lagreOppgavekoBehandlingstype}
+                  lagreOppgavekoFagsakYtelseType={lagreOppgavekoFagsakYtelseType}
+                  lagreOppgavekoAndreKriterier={lagreOppgavekoAndreKriterier}
+                  lagreOppgavekoSkjermet={lagreOppgavekoSkjermet}
+                  hentAntallOppgaverForOppgaveko={hentAntallOppgaverForOppgaveko}
+                  knyttSaksbehandlerTilOppgaveko={knyttSaksbehandlerTilOppgaveko}
+                  visModal={this.visFjernOppgavekoModal}
+                  saksbehandlere={saksbehandlere}
+                />
+              )}
+
+              {valgtOppgavekoId === oppgaveko.id && visSlettModal && (
+              <SletteOppgavekoModal
+                valgtOppgaveko={oppgaveko}
+                cancel={this.closeSletteModal}
+                submit={this.fjernOppgaveko}
+              />
+              )}
+            </>
           ))}
         </Table>
         )}
-        <div
-          id="leggTilListe"
-          role="button"
-          tabIndex={0}
-          className={styles.addPeriode}
-          onClick={() => lagNyOppgaveko()}
-          onKeyDown={this.lagNyOppgaveko}
-        >
-          <Image className={styles.addCircleIcon} src={addCircleIcon} />
-          <Undertekst className={styles.imageText}>
-            <FormattedMessage id="GjeldendeOppgavekoerTabell.LeggTilListe" />
-          </Undertekst>
-        </div>
-        {valgtOppgaveko && (
-          <SletteOppgavekoModal
-            valgtOppgaveko={valgtOppgaveko}
-            cancel={this.closeSletteModal}
-            submit={this.fjernOppgaveko}
-          />
-        )}
+
       </>
     );
   }
@@ -243,6 +268,8 @@ const mapStateToProps = (state) => ({
   behandlingTyper: getKodeverk(state)[kodeverkTyper.BEHANDLING_TYPE],
   fagsakYtelseTyper: getKodeverk(state)[kodeverkTyper.FAGSAK_YTELSE_TYPE],
   oppgaverTotalt: getAntallOppgaverTotaltResultat(state),
+  gjeldendeKo: getOppgaveko(state),
+  saksbehandlere: getSaksbehandlere(state),
 });
 
 export default connect(mapStateToProps)(GjeldendeOppgavekoerTabell);

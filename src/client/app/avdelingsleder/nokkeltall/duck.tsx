@@ -15,7 +15,22 @@ export const fetchOppgaverPerDato = () => (dispatch: Dispatch) => dispatch(
   ),
 );
 
+export const fetchFerdigstiltePerDato = () => (dispatch: Dispatch) => dispatch(
+  k9LosApi.HENT_FERDIGSTILTE_HISTORIKK.makeRestApiRequest()(
+    { }, { keepData: true },
+  ),
+);
+
+export const fetchNyePerDato = () => (dispatch: Dispatch) => dispatch(
+  k9LosApi.HENT_NYE_HISTORIKK.makeRestApiRequest()(
+    { }, { keepData: true },
+  ),
+);
+
 export const getOppgaverPerDato = k9LosApi.HENT_OPPGAVER_PER_DATO.getRestApiData();
+
+export const getFerdigstiltePerDato = k9LosApi.HENT_FERDIGSTILTE_HISTORIKK.getRestApiData();
+export const getNyePerDato = k9LosApi.HENT_NYE_HISTORIKK.getRestApiData();
 
 export const fetchFerdigstilteOppgaver = () => (dispatch: Dispatch) => dispatch(
   k9LosApi.HENT_FERDIGSTILTE_OPPGAVER.makeRestApiRequest()(
@@ -24,13 +39,3 @@ export const fetchFerdigstilteOppgaver = () => (dispatch: Dispatch) => dispatch(
 );
 
 export const getFerdigstilteOppgaver = k9LosApi.HENT_FERDIGSTILTE_OPPGAVER.getRestApiData();
-
-export const fetchOppgaverManueltPaVent = () => (dispatch: Dispatch) => dispatch(
-  k9LosApi.HENT_OPPGAVER_MANUELT_PA_VENT.makeRestApiRequest(),
-);
-export const getOppgaverManueltPaVent = k9LosApi.HENT_OPPGAVER_MANUELT_PA_VENT.getRestApiData();
-
-export const fetchOppgaverPerForsteStonadsdag = () => (dispatch: Dispatch) => dispatch(
-  k9LosApi.HENT_OPPGAVER_PER_FORSTE_STONADSDAG.makeRestApiRequest(),
-);
-export const getOppgaverPerForsteStonadsdag = k9LosApi.HENT_OPPGAVER_PER_FORSTE_STONADSDAG.getRestApiData();

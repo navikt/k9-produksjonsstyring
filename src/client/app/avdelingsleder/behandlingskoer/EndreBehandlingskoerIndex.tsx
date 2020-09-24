@@ -4,7 +4,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 
 import { Kodeverk } from 'kodeverk/kodeverkTsType';
-import { fetchAlleSaksbehandlere } from '../saksbehandlere/duck';
+import k9LosApi from 'api/k9LosApi';
+import { fetchAlleSaksbehandlere } from '../bemanning/duck';
 import {
   fetchAlleOppgavekoer,
   getAlleOppgavekoer,
@@ -21,7 +22,7 @@ import {
   fetchAntallOppgaverForOppgaveko,
   fetchAntallOppgaverTotalt,
   lagreOppgavekoAndreKriterier,
-  fetchOppgaveko,
+  fetchOppgaveko, fetchDagensTall,
 } from './duck';
 import EndreOppgavekoerPanel from './components/EndreOppgavekoerPanel';
 import { Oppgaveko } from './oppgavekoTsType';
@@ -44,6 +45,8 @@ interface TsProps {
   valgtOppgavekoId?: string;
   fetchAlleSaksbehandlere: () => void;
   fetchOppgaveko: (id: string) => Promise<string>;
+  fetchDagensTall: () => Promise<string>;
+  requestFinished: boolean;
 }
 
 /**
@@ -79,10 +82,12 @@ export class EndreBehandlingskoerIndex extends Component<TsProps> {
       fetchAlleOppgavekoer: fetchOppgavekoer,
       fetchAlleSaksbehandlere: fetchSaksbehandlere,
       fetchAntallOppgaverTotalt: fetchAntallOppgaver,
+      fetchDagensTall: fetchDagens,
     } = this.props;
     fetchOppgavekoer();
     fetchSaksbehandlere();
     fetchAntallOppgaver();
+    fetchDagens();
   }
 
   render = () => {
@@ -93,10 +98,9 @@ export class EndreBehandlingskoerIndex extends Component<TsProps> {
       lagreOppgavekoFagsakYtelseType: lagreListeFagsakYtelseType,
       fetchAlleOppgavekoer: hentAlleOppgavekoer,
       fetchAntallOppgaverForOppgaveko: hentAntallOppgaverForOppgaveko,
-      fetchAntallOppgaverTotalt: hentAntallOppgaverTotalt,
       lagreOppgavekoAndreKriterier: lagreAndreKriterier,
       lagreOppgavekoSkjermet: lagreSkjermet,
-      fetchOppgaveko: hentKo,
+      fetchOppgaveko: hentKo, requestFinished,
     } = this.props;
     return (
       <EndreOppgavekoerPanel
@@ -105,6 +109,7 @@ export class EndreBehandlingskoerIndex extends Component<TsProps> {
         setValgtOppgavekoId={setValgtId}
         valgtOppgavekoId={valgtOppgavekoId}
         lagNyOppgaveko={lagNyListe}
+        requestFinished={requestFinished}
         fjernOppgaveko={fjernListe}
         lagreOppgavekoNavn={lagreListeNavn}
         lagreOppgavekoBehandlingstype={lagreListeBehandlingstype}
@@ -126,6 +131,7 @@ const mapStateToProps = (state) => {
   return {
     oppgavekoer: getAlleOppgavekoer(state),
     valgtOppgavekoId: id !== undefined ? id : nyId,
+    requestFinished: k9LosApi.OPPGAVEKOER.getRestApiFinished()(state),
   };
 };
 
@@ -143,6 +149,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
     lagreOppgavekoSkjermet,
     knyttSaksbehandlerTilOppgaveko,
     fetchAlleSaksbehandlere,
+    fetchDagensTall,
     fetchAntallOppgaverForOppgaveko,
     fetchAntallOppgaverTotalt,
   }, dispatch),

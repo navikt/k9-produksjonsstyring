@@ -12,6 +12,24 @@
   animation-timing-function: ease-out;
 }
 
+.paneltekst {
+  color: @navMorkGra;
+  font-family: "Source Sans Pro";
+  font-size: 40px;
+  font-weight: 600;
+  height: 50px;
+  letter-spacing: 0;
+  line-height: 44px;
+  margin: 20px 0 20px 60px;
+  width: 352px;
+}
+
+@media all and (max-width: 1650px) {
+  .paneltekst {
+    margin: 20px 0 20px 30px;
+  }
+}
+
 .panelPadding {
   padding: 20px;
 }
@@ -20,10 +38,37 @@
   margin-bottom: 24px;
 }
 
+.tabIcon {
+  height: 23px;
+  margin-right: 5px;
+  width: 24px;
+}
+
+.tabLabel {
+  display: flex;
+  margin-left: -25px;
+  margin-right: -20px;
+
+  h2 {
+    font-family: "Source Sans Pro";
+    font-size: 18px;
+    letter-spacing: 0;
+    line-height: 23px;
+  }
+}
+
 @import '@{coreModulePath}nav-frontend-core/less/_variabler';
 
 .linkElement() {
-  text-decoration: none;
+  border: 1px solid @navGra20;
+  border-bottom: none;
+  text-decoration: underline;
+
+  &:hover,
+  &:focus {
+    box-shadow: none;
+    outline: none;
+  }
 }
 
 .disabled {
@@ -40,13 +85,14 @@
 .link {
   .linkElement();
 
-  background-color: #d8d8d8;
-  color: black;
+  background-color: transparent;
+  color: @navBla;
   padding: 0.5rem 2.5rem 0.5rem 2.5rem;
 
   &.isActive,
   &:active {
-    color: @navDypBla;
+    border: none;
+    color: @navMorkGra;
     padding: 0.7rem 2.5rem 0.5rem 2.5rem;
     text-decoration: none;
 

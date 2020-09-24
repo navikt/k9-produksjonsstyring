@@ -12,27 +12,9 @@ describe('<SaksbehandlerNokkeltallIndex>', () => {
 
     const wrapper = shallow(<SaksbehandlerNokkeltallIndex
       fetchNyeOgFerdigstilte={fetchNyeOgFerdigstilteBehandlerForIdagFn}
-      valgtOppgavekoId="2"
     />);
 
     expect(wrapper.find(SaksbehandlerNokkeltallPanel)).to.have.length(1);
-
     expect(fetchNyeOgFerdigstilteBehandlerForIdagFn.calledOnce).to.be.true;
-    const { args: args1 } = fetchNyeOgFerdigstilteBehandlerForIdagFn.getCalls()[0];
-    expect(args1).to.have.length(1);
-    expect(args1[0]).to.eql('2');
-  });
-
-  it('skal hente statistikk ved oppdatering av komponent', () => {
-    const fetchNyeOgFerdigstilteBehandlerForIdagFn = sinon.spy();
-
-    const wrapper = shallow(<SaksbehandlerNokkeltallIndex
-      fetchNyeOgFerdigstilte={fetchNyeOgFerdigstilteBehandlerForIdagFn}
-      valgtOppgavekoId="2"
-    />);
-
-    wrapper.setProps({ valgtOppgavekoId: '1' });
-
-    expect(fetchNyeOgFerdigstilteBehandlerForIdagFn.calledTwice).to.be.true;
   });
 });

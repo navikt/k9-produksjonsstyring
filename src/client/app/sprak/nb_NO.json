@@ -73,7 +73,9 @@
 
   "FerdigstiltePanel.AntallFerdigstilte": "Antall ferdigstilte behandlinger",
 
-  "SkjermetVelger.Skjermet": "Egne ansatte og kode 7",
+  "SkjermetVelger.Skjermet": "Gjelder køen egne ansatte eller kode 7?",
+
+  "FerdigstilteHistorikkPanel.Ferdigstilte": "Historikk over ferdigstilte oppgaver",
 
   "FlyttReservasjonModal.FlyttReservasjon": "Flytt reservasjonen til annen saksbehandler",
   "FlyttReservasjonModal.Brukerident": "Brukerident",
@@ -95,10 +97,10 @@
   "GjeldendeOppgavekoerTabell.Listenavn": "Navn",
   "GjeldendeOppgavekoerTabell.SistEndret": "Sist endret",
   "GjeldendeOppgavekoerTabell.LeggTilListe": "Legg til behandlingskø",
-  "GjeldendeOppgavekoerTabell.Behandlingtype": "Behandlingstype",
-  "GjeldendeOppgavekoerTabell.Stonadstype": "Stønadstype",
+  "GjeldendeOppgavekoerTabell.Behandlingtype": "Behandling",
+  "GjeldendeOppgavekoerTabell.Stonadstype": "Stønad",
   "GjeldendeOppgavekoerTabell.Alle": "Alle",
-  "GjeldendeOppgavekoerTabell.AntallSaksbehandlere": "Antall saksbehandlere",
+  "GjeldendeOppgavekoerTabell.AntallSaksbehandlere": "Saksbehandlere",
   "GjeldendeOppgavekoerTabell.AntallBehandlinger": "Antall behandlinger",
   "GjeldendeOppgavekoerTabell.OppgaverTotalt": "Antall åpne behandlinger totalt",
 
@@ -156,6 +158,11 @@
   "MissingPage.Home": "Hjem",
 
   "MottattPanel.MottattRefusjonskrav": "Mottatt refusjonskrav",
+
+  "NyeHistorikkPanel.Nye": "Historikk over nye oppgaver",
+
+  "InngangOgFerdigstiltePanel.Header": "Dagens tall",
+  "InngangOgFerdigstiltePanel.IngenTall": "Ingen data for øyeblikket",
 
   "NyeOgFerdigstilteOppgaverForIdagGraf.Ferdigstilte": "Ferdigstilte",
   "NyeOgFerdigstilteOppgaverForIdagGraf.FerdigstilteMine": "Mine",
@@ -240,6 +247,9 @@
   "ReservasjonerTabell.Slett": "Slett",
   "ReservasjonerTabell.Reservasjoner": "Alle reservasjoner",
   "ReservasjonerTabell.IngenReservasjoner": "Ingen reservasjoner funnet",
+  "ReservasjonerTabell.LeggTilbake": "Legg behandling tilbake i felles kø",
+  "ReservasjonerTabell.EndreReservasjon": "Reserver behandlingen med dato",
+  "ReservasjonerTabell.FlyttReservasjon": "Flytt reservasjonen til annen saksbehandler",
 
   "ReserverOppgaveModal.ReserverOppgave": "Ønsker du å reservere behandlingen?",
 
@@ -249,7 +259,7 @@
   "SaksbehandlereTabell.Navn": "Navn",
   "SaksbehandlereTabell.Brukerident": "Brukerident",
   "SaksbehandlereTabell.Epost": "E-post adresse",
-  "SaksbehandlereTabell.Saksbehandlere": "Tilgjengelige saksbehandlere",
+  "SaksbehandlereTabell.Saksbehandlere": "Saksbehandlere",
   "SaksbehandlereTabell.IngenSaksbehandlere": "Ingen saksbehandlere lagt til",
 
   "OppgavekoPanel.StartBehandling": "Start behandling",
@@ -288,13 +298,14 @@
   "SorteringVelger.Til": "Til",
 
   "SletteSaksbehandlerModal.SletteModal": "Ønsker du å slette saksbehandler?",
-  "SletteSaksbehandlerModal.SletteSaksbehandler": "Ønsker du å slette {saksbehandlerNavn}?",
-  "SletteSaksbehandlerModal.Ja": "Ja",
-  "SletteSaksbehandlerModal.Nei": "Nei",
+  "SletteSaksbehandlerModal.SletteSaksbehandler": "Er du sikker på at du vil slette {saksbehandlerNavn}?",
+  "SletteSaksbehandlerModal.Ja": "Slett saksbehandleren",
+  "SletteSaksbehandlerModal.Nei": "Avbryt",
 
   "TilBehandlingPanel.TilBehandling": "Antall til behandling",
   "TilBehandlingPanel.ToSisteUker": "2 siste uker",
   "TilBehandlingPanel.FireSisteUker": "4 siste uker",
+  "TilBehandlingPanel.8SisteUker": "8 siste uker",
 
   "OppgavekoVelgerForm.Oppgaveko": "Behandlingskø",
   "OppgavekoVelgerForm.Utvalgskriterier": "Utvalgskriterier",
@@ -314,6 +325,9 @@
   "UtvalgskriterierForOppgavekoForm.Navn": "Navn",
   "UtvalgskriterierForOppgavekoForm.AntallSaker": "Antall behandlinger",
   "UtvalgskriterierForOppgavekoForm.NyListe": "Ny behandlingskø",
+  "UtvalgskriterierForOppgavekoForm.OmKoen": "Om køen",
+  "UtvalgskriterierForOppgavekoForm.Kriterier": "Andre kriterier",
+  "UtvalgskriterierForOppgavekoForm.Saksbehandlere": "Saksbehandlere",
 
   "ValidationMessage.NotEmpty": "Feltet må fylles ut",
   "ValidationMessage.MinLength": "Du må skrive minst {length} tegn",

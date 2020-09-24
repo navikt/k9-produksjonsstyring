@@ -11,9 +11,10 @@ import { Row, Column } from 'nav-frontend-grid';
 
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import { CheckboxField } from 'form/FinalFields';
-import { getSaksbehandlere } from 'avdelingsleder/saksbehandlere/duck';
-import { Saksbehandler } from 'avdelingsleder/saksbehandlere/saksbehandlerTsType';
-import saksbehandlerPropType from 'avdelingsleder/saksbehandlere/saksbehandlerPropType';
+
+import { getSaksbehandlere } from 'avdelingsleder/bemanning/duck';
+import { Saksbehandler } from 'avdelingsleder/bemanning/saksbehandlerTsType';
+import saksbehandlerPropType from 'avdelingsleder/bemanning/saksbehandlerPropType';
 import { getOppgaveko } from 'avdelingsleder/behandlingskoer/duck';
 import { Oppgaveko } from '../../oppgavekoTsType';
 import oppgavekoPropType from '../../oppgavekoPropType';
@@ -56,19 +57,18 @@ export class SaksbehandlereForOppgavekoForm extends Component<TsProps> {
       alleSaksbehandlere, knyttSaksbehandlerTilOppgaveko, valgtOppgaveko,
     } = this.props;
 
-    const pos = Math.ceil(alleSaksbehandlere.length / 2);
-    const alleSaksbehandlereVenstreListe = alleSaksbehandlere.slice(0, pos);
-    const alleSaksbehandlereHoyreListe = alleSaksbehandlere.slice(pos);
+    const sorterteSaksbehandlere = alleSaksbehandlere.sort((saksbehandler1, saksbehandler2) => saksbehandler1.epost.localeCompare(saksbehandler2.epost));
+
+    const pos = Math.ceil(sorterteSaksbehandlere.length / 2);
+    const alleSaksbehandlereVenstreListe = sorterteSaksbehandlere.slice(0, pos);
+    const alleSaksbehandlereHoyreListe = sorterteSaksbehandlere.slice(pos);
 
     return (
       <Form
         onSubmit={() => undefined}
         initialValues={this.buildInitialValues()}
         render={() => (
-          <Panel className={styles.panel}>
-            <Element>
-              <FormattedMessage id="SaksbehandlereForOppgavekoForm.Saksbehandlere" />
-            </Element>
+          <div className={styles.panel}>
             <VerticalSpacer sixteenPx />
             {alleSaksbehandlere.length === 0 && (
               <FormattedMessage id="SaksbehandlereForOppgavekoForm.IngenSaksbehandlere" />
@@ -77,39 +77,39 @@ export class SaksbehandlereForOppgavekoForm extends Component<TsProps> {
             <Row>
               <Column xs="6">
                 {alleSaksbehandlereVenstreListe.map((s) => (
-                  <CheckboxField
-                    key={s.epost}
-                    name={s.epost.replace(/\./g, '')}
-                    label={s.epost}
-                    onChange={(isChecked) => knyttSaksbehandlerTilOppgaveko(valgtOppgaveko.id, s.epost, isChecked)}
-                  />
+                  <div className={styles.checkBox}>
+                    <CheckboxField
+                      key={s.epost}
+                      name={s.epost.replace(/\./g, '')}
+                      label={s.navn ? s.navn : s.epost}
+                      onChange={(isChecked) => knyttSaksbehandlerTilOppgaveko(valgtOppgaveko.id, s.epost, isChecked)}
+                    />
+                  </div>
                 ))}
               </Column>
-              <Column xs="6">
+              <Column xs="6" className={styles.hoyre}>
                 {alleSaksbehandlereHoyreListe.map((s) => (
-                  <CheckboxField
-                    key={s.epost}
-                    name={s.epost.replace(/\./g, '')}
-                    label={s.epost}
-                    onChange={(isChecked) => knyttSaksbehandlerTilOppgaveko(valgtOppgaveko.id, s.epost, isChecked)}
-                  />
+                  <div className={styles.checkBox}>
+                    <CheckboxField
+                      key={s.epost}
+                      name={s.epost.replace(/\./g, '')}
+                      label={s.navn ? s.navn : s.epost}
+                      onChange={(isChecked) => knyttSaksbehandlerTilOppgaveko(valgtOppgaveko.id, s.epost, isChecked)}
+                    />
+                  </div>
                 ))}
               </Column>
             </Row>
             )}
-          </Panel>
+          </div>
         )}
       />
     );
   }
 }
 
-const sortSaksbehandlere = createSelector([getSaksbehandlere], (saksbehandlere) => (saksbehandlere && saksbehandlere instanceof Array
-  ? saksbehandlere.sort((saksbehandler1, saksbehandler2) => saksbehandler1.epost.localeCompare(saksbehandler2.epost))
-  : saksbehandlere));
-
 const mapStateToProps = (state) => ({
-  alleSaksbehandlere: sortSaksbehandlere(state),
+  alleSaksbehandlere: getSaksbehandlere(state),
   valgtOppgaveko: getOppgaveko(state),
 });
 

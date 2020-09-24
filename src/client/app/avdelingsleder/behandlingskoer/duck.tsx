@@ -1,5 +1,7 @@
 import { Dispatch } from 'redux';
 import k9LosApi from 'api/k9LosApi';
+import { fetchAlleSaksbehandlere } from 'avdelingsleder/bemanning/duck';
+import { Oppgaveko } from 'avdelingsleder/behandlingskoer/oppgavekoTsType';
 
 /* Action types */
 const actionType = (name) => `saksliste/${name}`;
@@ -29,7 +31,15 @@ export const getOppgaveko = k9LosApi.HENT_OPPGAVEKO.getRestApiData();
 export const getAlleOppgavekoer = k9LosApi.OPPGAVEKOER.getRestApiData();
 
 export const fetchAntallOppgaverTotalt = () => (dispatch: Dispatch<any>) => dispatch(
-  k9LosApi.OPPGAVE_ANTALL_TOTALT.makeRestApiRequest()({ }),
+  k9LosApi.OPPGAVE_ANTALL_TOTALT.makeRestApiRequest()(
+    { }, { keepData: true },
+  ),
+);
+
+export const fetchDagensTall = () => (dispatch: Dispatch<any>) => dispatch(
+  k9LosApi.HENT_DAGENS_TALL.makeRestApiRequest()(
+    { }, { keepData: true },
+  ),
 );
 
 export const fetchAntallOppgaverForOppgaveko = (id: string) => (dispatch: Dispatch<any>) => dispatch(
@@ -40,12 +50,14 @@ export const getAntallOppgaverTotaltResultat = k9LosApi.OPPGAVE_ANTALL_TOTALT.ge
 
 export const getAntallOppgaverForOppgavekoResultat = k9LosApi.OPPGAVE_ANTALL.getRestApiData();
 
+export const getDagensTallResultat = k9LosApi.HENT_DAGENS_TALL.getRestApiData();
+
 // k9LosApi.OPPGAVE_ANTALL.getRestApiData();
 
 export const lagNyOppgaveko = () => (dispatch: Dispatch<any>) => dispatch(k9LosApi
   .OPPRETT_NY_OPPGAVEKO.makeRestApiRequest()({ }))
   .then(((data: {payload: { id: string } }) => dispatch(fetchOppgaveko(data.payload.id))))
-  .then(() => dispatch(resetValgtOppgavekoId()))
+  .then((data: {payload: Oppgaveko }) => dispatch(setValgtOppgavekoId(data.payload.id)))
   .then(() => dispatch(fetchAlleOppgavekoer()));
 
 export const getNyOppgavekoId = k9LosApi.OPPRETT_NY_OPPGAVEKO.getRestApiData();
@@ -114,7 +126,8 @@ export const knyttSaksbehandlerTilOppgaveko = (id: string, epost: string, isChec
     epost,
     checked: isChecked,
   }),
-).then(() => dispatch(fetchOppgaveko(id)));
+).then(() => dispatch(fetchOppgaveko(id)))
+  .then(() => dispatch(fetchAlleSaksbehandlere()));
 
 /* Reducer */
 const initialState = {

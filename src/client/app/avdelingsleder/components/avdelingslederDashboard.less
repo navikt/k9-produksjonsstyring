@@ -1,33 +1,40 @@
 @import '@{coreModulePath}nav-frontend-core/less/_variabler';
 
 .oppgaveContainer {
-  margin-left: auto;
+  margin-left: 60px;
   margin-right: auto;
-  width: 90%;
+  width: 100%;
 }
 
 .leftColumn {
   float: left;
-  width: 79%;
+  margin-right: 40px;
+  width: 65%;
 }
 
 .rightColumn {
   float: left;
-  margin-left: 24px;
-  width: 29%;
+  margin-top: -145px;
+  padding-left: 20px;
+  width: 25%;
 
   & > div {
     margin-bottom: 16px;
   }
 }
 
-@media all and (max-width: 1450px) {
+@media all and (max-width: 1650px) {
+  .oppgaveContainer {
+    margin-left: 30px;
+  }
+
   .leftColumn {
     width: 100%;
   }
 
   .rightColumn {
     margin-left: 0;
+    margin-top: 20px;
     width: 100%;
   }
 
@@ -41,6 +48,10 @@
   .sakslisteContent {
     order: 3;
   }
+
+  .avdelingslederContent {
+    max-width: 1000px;
+  }
 }
 
 @media all and (max-width: 800px) {
@@ -51,4 +62,7 @@
 
 .avdelingslederContent {
   margin-bottom: 20px;
+  margin-right: 20px;
+  min-width: -webkit-fill-available;
+  width: fit-content;
 }

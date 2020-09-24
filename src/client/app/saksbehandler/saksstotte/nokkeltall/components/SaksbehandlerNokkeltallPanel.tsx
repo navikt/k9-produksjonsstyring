@@ -6,11 +6,6 @@ import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import NyeOgFerdigstilteOppgaverForIdagPanel from './nyeOgFerdigstilteOppgaverForIdag/NyeOgFerdigstilteOppgaverForIdagPanel';
 import NyeOgFerdigstilteOppgaverForSisteSyvPanel from './nyeOgFerdigstilteOppgaverForSisteSyv/NyeOgFerdigstilteOppgaverForSisteSyvPanel';
 
-interface StateProps {
-  width: number;
-  height: number;
-}
-
 /**
  * SaksbehandlerNokkeltallPanel.
  */
