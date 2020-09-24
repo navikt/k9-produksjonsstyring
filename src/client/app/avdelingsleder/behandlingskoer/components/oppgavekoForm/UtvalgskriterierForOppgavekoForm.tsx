@@ -3,32 +3,25 @@ import { connect } from 'react-redux';
 
 import { Form } from 'react-final-form';
 import {
-  injectIntl, WrappedComponentProps, FormattedMessage, IntlShape,
+  injectIntl, FormattedMessage, IntlShape,
 } from 'react-intl';
-import Panel from 'nav-frontend-paneler';
-import { Undertittel, Element, Normaltekst } from 'nav-frontend-typografi';
-
+import { Normaltekst } from 'nav-frontend-typografi';
 import { Row, Column } from 'nav-frontend-grid';
 import {
   required, minLength, maxLength, hasValidName,
 } from 'utils/validation/validators';
 import { Kodeverk } from 'kodeverk/kodeverkTsType';
-import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import { InputField } from 'form/FinalFields';
 import SkjermetVelger from 'avdelingsleder/behandlingskoer/components/oppgavekoForm/SkjermetVelger';
 import { getKodeverk } from 'kodeverk/duck';
-import { bindActionCreators, Dispatch } from 'redux';
 import KoSorteringType from 'kodeverk/KoSorteringTsType';
 import { SaksbehandlereForOppgavekoForm } from 'avdelingsleder/behandlingskoer/components/saksbehandlerForm/SaksbehandlereForOppgavekoForm';
 import Image from 'sharedComponents/Image';
-import { SletteOppgavekoModal } from 'avdelingsleder/behandlingskoer/components/SletteOppgavekoModal';
 import { Saksbehandler } from 'avdelingsleder/bemanning/saksbehandlerTsType';
 import { Oppgaveko } from '../../oppgavekoTsType';
 import {
   getAntallOppgaverForOppgavekoResultat,
-  fetchOppgaveko,
-  lagreOppgavekoSortering as lagreOppgavekoSorteringActionCreator,
-  lagreOppgavekoSorteringTidsintervallDato as lagreOppgavekoSorteringTidsintervallDatoActionCreator, getOppgaveko,
+  getOppgaveko,
 } from '../../duck';
 import AutoLagringVedBlur from './AutoLagringVedBlur';
 import BehandlingstypeVelger from './BehandlingstypeVelger';
@@ -101,7 +94,6 @@ export class UtvalgskriterierForOppgavekoForm extends Component<OwnProps & Dispa
       ? gjeldendeKo.andreKriterier.reduce((acc, ak) => ({ ...acc, [ak.andreKriterierType.kode]: true }), {}) : {};
     const andreKriterierInkluder = gjeldendeKo.andreKriterier
       ? gjeldendeKo.andreKriterier.reduce((acc, ak) => ({ ...acc, [`${ak.andreKriterierType.kode}_inkluder`]: ak.inkluder }), {}) : {};
-
 
     return {
       id: gjeldendeKo.id,
