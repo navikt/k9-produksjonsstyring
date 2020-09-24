@@ -57,9 +57,11 @@ export class SaksbehandlereForOppgavekoForm extends Component<TsProps> {
       alleSaksbehandlere, knyttSaksbehandlerTilOppgaveko, valgtOppgaveko,
     } = this.props;
 
-    const pos = Math.ceil(alleSaksbehandlere.length / 2);
-    const alleSaksbehandlereVenstreListe = alleSaksbehandlere.slice(0, pos);
-    const alleSaksbehandlereHoyreListe = alleSaksbehandlere.slice(pos);
+    const sorterteSaksbehandlere = alleSaksbehandlere.sort((saksbehandler1, saksbehandler2) => saksbehandler1.epost.localeCompare(saksbehandler2.epost));
+
+    const pos = Math.ceil(sorterteSaksbehandlere.length / 2);
+    const alleSaksbehandlereVenstreListe = sorterteSaksbehandlere.slice(0, pos);
+    const alleSaksbehandlereHoyreListe = sorterteSaksbehandlere.slice(pos);
 
     return (
       <Form
@@ -105,10 +107,6 @@ export class SaksbehandlereForOppgavekoForm extends Component<TsProps> {
     );
   }
 }
-
-const sortSaksbehandlere = createSelector([getSaksbehandlere], (saksbehandlere) => (saksbehandlere && saksbehandlere instanceof Array
-  ? saksbehandlere.sort((saksbehandler1, saksbehandler2) => saksbehandler1.epost.localeCompare(saksbehandler2.epost))
-  : saksbehandlere));
 
 const mapStateToProps = (state) => ({
   alleSaksbehandlere: getSaksbehandlere(state),
