@@ -98,7 +98,6 @@ export class EndreBehandlingskoerIndex extends Component<TsProps> {
       lagreOppgavekoFagsakYtelseType: lagreListeFagsakYtelseType,
       fetchAlleOppgavekoer: hentAlleOppgavekoer,
       fetchAntallOppgaverForOppgaveko: hentAntallOppgaverForOppgaveko,
-      fetchAntallOppgaverTotalt: hentAntallOppgaverTotalt,
       lagreOppgavekoAndreKriterier: lagreAndreKriterier,
       lagreOppgavekoSkjermet: lagreSkjermet,
       fetchOppgaveko: hentKo, requestFinished,

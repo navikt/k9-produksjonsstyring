@@ -57,7 +57,8 @@ export const InngangOgFerdigstiltePanel: FunctionComponent<OwnProps & WrappedCom
             <NavFrontendSpinner type="XL" className={styles.spinner} />
           )}
           <div className={styles.container}>
-            <Teller forklaring="Totalt" venstreTall={getNyeIdagTotalt()} hoyreTall={getFerdigstilteIdagTotalt()} />
+            {nyeOgFerdigstilteOppgaverIdag.length > 0 && (
+              <Teller forklaring="Totalt" venstreTall={getNyeIdagTotalt()} hoyreTall={getFerdigstilteIdagTotalt()} />)}
             {nyeOgFerdigstilteOppgaverIdag.length > 0 && nyeOgFerdigstilteOppgaverIdag.map((bt) => (
               <Teller
                 key={bt.behandlingType.kode}

@@ -22,11 +22,22 @@ export const SkjermetVelger = ({
       <FormattedMessage id="SkjermetVelger.Skjermet" />
     </Undertekst>
     <VerticalSpacer eightPx />
-    <CheckboxField
-      label="Ja"
+    <RadioGroupField
+      direction="vertical"
+      name="fagsakYtelseType"
       onChange={(isChecked) => lagreSkjermet(valgtOppgaveko.id, isChecked)}
-      name="skjermet"
-    />
+    >
+      <RadioOption
+        name="skjermet"
+        label="Ja"
+        value="true"
+      />
+      <RadioOption
+        name="ikkeSkjermet"
+        label="Nei"
+        value="false"
+      />
+    </RadioGroupField>
   </div>
 );
 

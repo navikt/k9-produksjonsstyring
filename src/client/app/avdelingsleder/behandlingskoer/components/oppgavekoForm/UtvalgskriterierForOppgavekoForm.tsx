@@ -102,13 +102,15 @@ export class UtvalgskriterierForOppgavekoForm extends Component<OwnProps & Dispa
     const andreKriterierInkluder = gjeldendeKo.andreKriterier
       ? gjeldendeKo.andreKriterier.reduce((acc, ak) => ({ ...acc, [`${ak.andreKriterierType.kode}_inkluder`]: ak.inkluder }), {}) : {};
 
+    const skjermetKo = gjeldendeKo.skjermet ? ['skjermet'] : gjeldendeKo.skjermet;
+
     return {
       id: gjeldendeKo.id,
       navn: gjeldendeKo.navn ? gjeldendeKo.navn : intl.formatMessage({ id: 'UtvalgskriterierForOppgavekoForm.NyListe' }),
       sortering: gjeldendeKo.sortering ? gjeldendeKo.sortering.sorteringType.kode : undefined,
       fomDato: gjeldendeKo.sortering ? gjeldendeKo.sortering.fomDato : undefined,
       tomDato: gjeldendeKo.sortering ? gjeldendeKo.sortering.tomDato : undefined,
-      skjermet: gjeldendeKo.skjermet,
+      skjermet: skjermetKo,
       fagsakYtelseType,
       ...andreKriterierTyper,
       ...andreKriterierInkluder,
