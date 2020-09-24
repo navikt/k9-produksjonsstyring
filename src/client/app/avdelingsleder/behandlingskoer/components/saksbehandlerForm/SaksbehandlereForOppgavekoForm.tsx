@@ -79,7 +79,7 @@ export class SaksbehandlereForOppgavekoForm extends Component<TsProps> {
                     <CheckboxField
                       key={s.epost}
                       name={s.epost.replace(/\./g, '')}
-                      label={s.epost}
+                      label={s.navn ? s.navn : s.epost}
                       onChange={(isChecked) => knyttSaksbehandlerTilOppgaveko(valgtOppgaveko.id, s.epost, isChecked)}
                     />
                   </div>
@@ -91,7 +91,7 @@ export class SaksbehandlereForOppgavekoForm extends Component<TsProps> {
                     <CheckboxField
                       key={s.epost}
                       name={s.epost.replace(/\./g, '')}
-                      label={s.epost}
+                      label={s.navn ? s.navn : s.epost}
                       onChange={(isChecked) => knyttSaksbehandlerTilOppgaveko(valgtOppgaveko.id, s.epost, isChecked)}
                     />
                   </div>
