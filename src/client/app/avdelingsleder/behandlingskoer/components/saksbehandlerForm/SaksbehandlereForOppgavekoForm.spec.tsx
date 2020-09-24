@@ -45,7 +45,7 @@ describe('<SaksbehandlereForOppgavekoForm>', () => {
     const checkBox = kolonner.first().find(CheckboxField);
     expect(checkBox).to.have.length(1);
     expect(checkBox.prop('name')).is.eql('epost');
-    expect(checkBox.prop('label')).is.eql('epost');
+    expect(checkBox.prop('label')).is.eql('Espen Utvikler');
 
     expect(kolonner.last().find(CheckboxField)).to.have.length(0);
   });
@@ -73,11 +73,11 @@ describe('<SaksbehandlereForOppgavekoForm>', () => {
     const checkBox1 = kolonner.first().find(CheckboxField);
     expect(checkBox1).to.have.length(1);
     expect(checkBox1.prop('name')).is.eql('epost');
-    expect(checkBox1.prop('label')).is.eql('epost');
+    expect(checkBox1.prop('label')).is.eql('Espen Utvikler');
 
     const checkBox2 = kolonner.last().find(CheckboxField);
     expect(checkBox2).to.have.length(1);
     expect(checkBox2.prop('name')).is.eql('epost');
-    expect(checkBox2.prop('label')).is.eql('epost');
+    expect(checkBox2.prop('label')).is.eql('Auto Joachim');
   });
 });
