@@ -102,7 +102,6 @@ export class UtvalgskriterierForOppgavekoForm extends Component<OwnProps & Dispa
     const andreKriterierInkluder = gjeldendeKo.andreKriterier
       ? gjeldendeKo.andreKriterier.reduce((acc, ak) => ({ ...acc, [`${ak.andreKriterierType.kode}_inkluder`]: ak.inkluder }), {}) : {};
 
-    const skjermetKo = gjeldendeKo.skjermet ? ['skjermet'] : gjeldendeKo.skjermet;
 
     return {
       id: gjeldendeKo.id,
@@ -110,7 +109,7 @@ export class UtvalgskriterierForOppgavekoForm extends Component<OwnProps & Dispa
       sortering: gjeldendeKo.sortering ? gjeldendeKo.sortering.sorteringType.kode : undefined,
       fomDato: gjeldendeKo.sortering ? gjeldendeKo.sortering.fomDato : undefined,
       tomDato: gjeldendeKo.sortering ? gjeldendeKo.sortering.tomDato : undefined,
-      skjermet: skjermetKo,
+      skjermet: gjeldendeKo.skjermet,
       fagsakYtelseType,
       ...andreKriterierTyper,
       ...andreKriterierInkluder,
@@ -146,10 +145,10 @@ export class UtvalgskriterierForOppgavekoForm extends Component<OwnProps & Dispa
                     <FormattedMessage id="UtvalgskriterierForOppgavekoForm.OmKoen" />
                   </Normaltekst>
                   <hr className={styles.line} />
+                  <Normaltekst className={styles.label}>{intl.formatMessage({ id: 'UtvalgskriterierForOppgavekoForm.Navn' })}</Normaltekst>
                   <InputField
                     className={styles.navn}
                     name="navn"
-                    label={intl.formatMessage({ id: 'UtvalgskriterierForOppgavekoForm.Navn' })}
                     validate={[required, minLength3, maxLength100, hasValidName]}
                     onBlurValidation
                     bredde="M"

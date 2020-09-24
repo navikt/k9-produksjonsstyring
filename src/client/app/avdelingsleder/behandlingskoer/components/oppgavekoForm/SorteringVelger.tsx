@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import { FormattedMessage, injectIntl, WrappedComponentProps } from 'react-intl';
-import { Undertekst } from 'nav-frontend-typografi';
+import { Normaltekst, Undertekst } from 'nav-frontend-typografi';
 
 import {
   RadioGroupField, RadioOption,
@@ -10,7 +10,7 @@ import kodeverkTyper from 'kodeverk/kodeverkTyper';
 import KoSorteringType from 'kodeverk/KoSorteringTsType';
 import { Kodeverk } from 'kodeverk/kodeverkTsType';
 import DatoSorteringValg from './DatoSorteringValg';
-import styles from './sorteringVelger.less';
+import styles from './utvalgskriterierForOppgavekoForm.less';
 
 interface OwnProps {
   intl: any;
@@ -37,9 +37,9 @@ const SorteringVelger: FunctionComponent<OwnProps & WrappedComponentProps> = ({
   alleKodeverk,
 }) => (
   <>
-    <Undertekst>
+    <Normaltekst className={styles.label}>
       <FormattedMessage id="SorteringVelger.Sortering" />
-    </Undertekst>
+    </Normaltekst>
     <VerticalSpacer eightPx />
     <div>
       <RadioGroupField

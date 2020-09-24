@@ -33,7 +33,6 @@ import addCircle from '../../../../images/add-circle-bla.svg';
 
 const headerTextCodes = [
   'GjeldendeOppgavekoerTabell.Listenavn',
-  'GjeldendeOppgavekoerTabell.Stonadstype',
   'GjeldendeOppgavekoerTabell.Behandlingtype',
   'GjeldendeOppgavekoerTabell.AntallSaksbehandlere',
   'GjeldendeOppgavekoerTabell.AntallBehandlinger',
@@ -223,7 +222,6 @@ export class GjeldendeOppgavekoerTabell extends Component<TsProps, StateTsProps>
                 onKeyDown={this.setValgtOppgaveko}
               >
                 <TableColumn>{oppgaveko.navn}</TableColumn>
-                <TableColumn>{this.formatStonadstyper(oppgaveko.fagsakYtelseTyper)}</TableColumn>
                 <TableColumn>{this.formatBehandlingstyper(oppgaveko.behandlingTyper)}</TableColumn>
                 <TableColumn>{oppgaveko.saksbehandlere.length > 0 ? oppgaveko.saksbehandlere.length : ''}</TableColumn>
                 <TableColumn>{oppgaveko.antallBehandlinger}</TableColumn>

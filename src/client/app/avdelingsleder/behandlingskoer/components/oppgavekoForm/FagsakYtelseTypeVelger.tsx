@@ -1,6 +1,6 @@
-import React, { Fragment, FunctionComponent, useMemo } from 'react';
+import React, { FunctionComponent, useMemo } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Undertekst } from 'nav-frontend-typografi';
+import { Normaltekst } from 'nav-frontend-typografi';
 
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import { Kodeverk } from 'kodeverk/kodeverkTsType';
@@ -33,9 +33,9 @@ const FagsakYtelseTypeVelger: FunctionComponent<OwnProps> = ({
     []);
   return (
     <div className={styles.stonadsVelger}>
-      <Undertekst>
+      <Normaltekst className={styles.label}>
         <FormattedMessage id="FagsakYtelseTypeVelger.Stonadstype" />
-      </Undertekst>
+      </Normaltekst>
       <VerticalSpacer eightPx />
       <RadioGroupField
         direction="vertical"

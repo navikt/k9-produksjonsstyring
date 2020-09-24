@@ -1,6 +1,5 @@
 import React, { FunctionComponent } from 'react';
 
-import Panel from 'nav-frontend-paneler';
 import BemanningIndex from 'avdelingsleder/bemanning/BemanningIndex';
 import styles from './avdelingslederDashboard.less';
 
