@@ -57,11 +57,9 @@ export class SaksbehandlereForOppgavekoForm extends Component<TsProps> {
       alleSaksbehandlere, knyttSaksbehandlerTilOppgaveko, valgtOppgaveko,
     } = this.props;
 
-    const sorterteSaksbehandlere = alleSaksbehandlere.sort((saksbehandler1, saksbehandler2) => saksbehandler1.epost.localeCompare(saksbehandler2.epost));
-
-    const pos = Math.ceil(sorterteSaksbehandlere.length / 2);
-    const alleSaksbehandlereVenstreListe = sorterteSaksbehandlere.slice(0, pos);
-    const alleSaksbehandlereHoyreListe = sorterteSaksbehandlere.slice(pos);
+    const pos = Math.ceil(alleSaksbehandlere.length / 2);
+    const alleSaksbehandlereVenstreListe = alleSaksbehandlere.slice(0, pos);
+    const alleSaksbehandlereHoyreListe = alleSaksbehandlere.slice(pos);
 
     return (
       <Form

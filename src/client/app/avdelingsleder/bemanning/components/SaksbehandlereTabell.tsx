@@ -54,8 +54,6 @@ const SaksbehandlereTabell: FunctionComponent<OwnProps> = ({
 
   const onAddClick = () => { setVisAddSaksbehandler(true); };
 
-  const sorterteSaksbehandlere = saksbehandlere.sort((saksbehandler1, saksbehandler2) => saksbehandler1.epost.localeCompare(saksbehandler2.epost));
-
   return (
     <>
       <Element className={styles.tableHeader}>
@@ -71,16 +69,25 @@ const SaksbehandlereTabell: FunctionComponent<OwnProps> = ({
         <Image src={addCircle} className={styles.addIcon} />
         <FormattedMessage id="LeggTilSaksbehandlerForm.LeggTil" />
       </Knapp>
-      {sorterteSaksbehandlere.length === 0 && (
+      {visAddSaksbehadler
+      && (
+      <LeggTilSaksbehandlerForm
+        leggTilSaksbehandler={leggTilSaksbehandler}
+        resetSaksbehandlerSok={resetSaksbehandlerSok}
+        saksbehandlere={saksbehandlere}
+        lukkForm={lukkForm}
+      />
+      )}
+      {saksbehandlere.length === 0 && (
       <>
         <VerticalSpacer eightPx />
         <Normaltekst><FormattedMessage id="SaksbehandlereTabell.IngenSaksbehandlere" /></Normaltekst>
         <VerticalSpacer eightPx />
       </>
       )}
-      {sorterteSaksbehandlere.length > 0 && (
+      {saksbehandlere.length > 0 && (
         <Table headerTextCodes={headerTextCodes} noHover>
-          {sorterteSaksbehandlere.map((saksbehandler) => (
+          {saksbehandlere.map((saksbehandler) => (
             <>
               <TableRow
                 key={saksbehandler.brukerIdent}
@@ -110,15 +117,6 @@ const SaksbehandlereTabell: FunctionComponent<OwnProps> = ({
             </>
           ))}
         </Table>
-      )}
-      {visAddSaksbehadler
-      && (
-      <LeggTilSaksbehandlerForm
-        leggTilSaksbehandler={leggTilSaksbehandler}
-        resetSaksbehandlerSok={resetSaksbehandlerSok}
-        saksbehandlere={saksbehandlere}
-        lukkForm={lukkForm}
-      />
       )}
     </>
   );
