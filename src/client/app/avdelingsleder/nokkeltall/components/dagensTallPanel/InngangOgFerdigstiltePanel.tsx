@@ -15,8 +15,13 @@ import { ISO_DATE_FORMAT } from 'utils/formats';
 import NyeOgFerdigstilteOppgaver from 'saksbehandler/saksstotte/nokkeltall/components/nyeOgFerdigstilteOppgaverTsType';
 import k9LosApi from 'api/k9LosApi';
 import NavFrontendSpinner from 'nav-frontend-spinner';
-import styles from './ferdigstiltePanel.less';
+import { SelectField } from 'form/FinalFields';
+import { ALLE_YTELSETYPER_VALGT, UKE_4, ytelseTyper } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
+import { Column } from 'nav-frontend-grid';
+import { getValuesFromReduxState } from 'form/reduxBinding/formDuck';
+import { ToggleGruppePure } from 'nav-frontend-toggle';
 import Teller from './Teller';
+import styles from './ferdigstiltePanel.less';
 
 interface OwnProps {
     width: number;
@@ -24,9 +29,25 @@ interface OwnProps {
     nyeOgFerdigstilteOppgaverIdag: NyeOgFerdigstilteOppgaver[];
     behandlingTyper: Kodeverk[];
     requestFinished: boolean;
+    initialValues: InitialValues;
 }
 
-export const InngangOgFerdigstiltePanel: FunctionComponent<OwnProps & WrappedComponentProps> = ({ nyeOgFerdigstilteOppgaverIdag, requestFinished }) => {
+interface InitialValues {
+    ytelseType: string;
+    periodeValg: string;
+}
+
+const formName = 'inngangOgFerdigstilteForm';
+
+/**
+ * InngangOgFerdigstiltePanel.
+ */
+
+export const InngangOgFerdigstiltePanel: FunctionComponent<OwnProps & WrappedComponentProps> = ({
+  nyeOgFerdigstilteOppgaverIdag,
+  requestFinished,
+  initialValues,
+}) => {
   const getNyeIdagTotalt = () => {
     let nye = 0;
     nyeOgFerdigstilteOppgaverIdag.forEach((n) => { nye += n.antallNye; });
@@ -42,12 +63,27 @@ export const InngangOgFerdigstiltePanel: FunctionComponent<OwnProps & WrappedCom
   return (
     <Form
       onSubmit={() => undefined}
+      initialValues={initialValues}
       render={({ values }) => (
         <Panel className={styles.panel}>
           <Element>
             <FormattedMessage id="InngangOgFerdigstiltePanel.Header" />
           </Element>
           <VerticalSpacer eightPx />
+          <div className={styles.valgPanel}>
+            <SelectField
+              name="ytelseType"
+              label=""
+              selectValues={ytelseTyper.map((u) => <option key={u.kode} value={u.kode}>{u.navn}</option>)}
+              bredde="m"
+            />
+            <ToggleGruppePure
+              className={styles.toggle}
+              kompakt
+              toggles={[{ children: 'I dag', pressed: true },
+                { children: 'Denne uken' }]}
+            />
+          </div>
           {requestFinished && nyeOgFerdigstilteOppgaverIdag.length === 0 && (
           <Element>
             <FormattedMessage id="InngangOgFerdigstiltePanel.IngenTall" />
@@ -74,6 +110,8 @@ export const InngangOgFerdigstiltePanel: FunctionComponent<OwnProps & WrappedCom
   );
 };
 
+const formDefaultValues = { ytelseType: ALLE_YTELSETYPER_VALGT, periodeValg: ALLE_YTELSETYPER_VALGT };
+
 export const getNyeOgFerdigstilteForIDag = createSelector([getNyeOgFerdigstilteOppgaverNokkeltall], (nyeOgFerdigstilte: { dato: string }[] = []) => {
   const iDag = moment();
   return nyeOgFerdigstilte.filter((oppgave) => iDag.isSame(moment(oppgave.dato, ISO_DATE_FORMAT), 'day'));
@@ -85,15 +123,12 @@ export const getNyeOgFerdigstilteForSisteSyvDager = createSelector([getNyeOgFerd
     return nyeOgFerdigstilte.filter((oppgave) => iDag.isAfter(moment(oppgave.dato, ISO_DATE_FORMAT)));
   });
 
-InngangOgFerdigstiltePanel.defaultProps = {
-  nyeOgFerdigstilteOppgaverIdag: [],
-};
-
 const mapStateToProps = (state) => ({
   behandlingTyper: getKodeverk(state)[kodeverkTyper.BEHANDLING_TYPE],
   nyeOgFerdigstilteOppgaverIdag: getNyeOgFerdigstilteForIDag(state),
   nyeOgFerdigstilteOppgaver7dager: getNyeOgFerdigstilteForSisteSyvDager(state),
   requestFinished: k9LosApi.HENT_NYE_OG_FERDIGSTILTE_OPPGAVER.getRestApiFinished()(state),
+  initialValues: getValuesFromReduxState(state)[formName] || formDefaultValues,
 });
 
 export default connect(mapStateToProps)(injectIntl(InngangOgFerdigstiltePanel));
