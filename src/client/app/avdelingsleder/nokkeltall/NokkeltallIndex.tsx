@@ -5,7 +5,7 @@ import { bindActionCreators, Dispatch } from 'redux';
 import {
   fetchAlleOppgaver as fetchAlleOppgaverActionCreator,
   fetchOppgaverPerDato as fetchOppgaverPerDatoActionCreator,
-  fetchFerdigstilteOppgaver as fetchFerdigstilteOppgaverActionCreator,
+  fetchNyeOgFerdigstilteOppgaverMedStonadstype as fetchNyeOgFerdigstilteOppgaverMedStonadstypeActionCreator,
   fetchFerdigstiltePerDato as fetchFerdigstiltePerDatoActionCreator,
   fetchNyePerDato as fetchNyePerDatoActionCreator,
 } from './duck';
@@ -15,7 +15,7 @@ import NokkeltallPanel from './components/NokkeltallPanel';
 interface TsProps {
   fetchAlleOppgaver: () => void;
   fetchOppgaverPerDato: () => void;
-  fetchFerdigstilteOppgaver: () => void;
+  fetchNyeOgFerdigstilteOppgaverMedStonadstype: () => void;
   fetchFerdigstiltePerDato: () => void;
   fetchNyePerDato: () => void;
   fetchNyeOgFerdigstilte: () => void;
@@ -27,11 +27,11 @@ interface TsProps {
 export class NokkeltallIndex extends Component<TsProps> {
   componentDidMount = () => {
     const {
-      fetchAlleOppgaver, fetchOppgaverPerDato, fetchFerdigstilteOppgaver, fetchFerdigstiltePerDato, fetchNyePerDato, fetchNyeOgFerdigstilte,
+      fetchAlleOppgaver, fetchOppgaverPerDato, fetchNyeOgFerdigstilteOppgaverMedStonadstype, fetchFerdigstiltePerDato, fetchNyePerDato, fetchNyeOgFerdigstilte,
     } = this.props;
     fetchAlleOppgaver();
     fetchOppgaverPerDato();
-    fetchFerdigstilteOppgaver();
+    fetchNyeOgFerdigstilteOppgaverMedStonadstype();
     fetchFerdigstiltePerDato();
     fetchNyePerDato();
     fetchNyeOgFerdigstilte();
@@ -46,7 +46,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   ...bindActionCreators({
     fetchAlleOppgaver: fetchAlleOppgaverActionCreator,
     fetchOppgaverPerDato: fetchOppgaverPerDatoActionCreator,
-    fetchFerdigstilteOppgaver: fetchFerdigstilteOppgaverActionCreator,
+    fetchNyeOgFerdigstilteOppgaverMedStonadstype: fetchNyeOgFerdigstilteOppgaverMedStonadstypeActionCreator,
     fetchFerdigstiltePerDato: fetchFerdigstiltePerDatoActionCreator,
     fetchNyePerDato: fetchNyePerDatoActionCreator,
     fetchNyeOgFerdigstilte: fetchNyeOgFerdigstilteActionCreator,

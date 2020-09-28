@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useState } from 'react';
 import { injectIntl, WrappedComponentProps, FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import { Form } from 'react-final-form';
@@ -8,7 +8,6 @@ import kodeverkTyper from 'kodeverk/kodeverkTyper';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import Panel from 'nav-frontend-paneler';
 import { Kodeverk } from 'kodeverk/kodeverkTsType';
-import { getNyeOgFerdigstilteOppgaverNokkeltall } from 'saksbehandler/saksstotte/nokkeltall/duck';
 import { createSelector } from 'reselect';
 import moment from 'moment';
 import { ISO_DATE_FORMAT } from 'utils/formats';
@@ -17,16 +16,18 @@ import k9LosApi from 'api/k9LosApi';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import { SelectField } from 'form/FinalFields';
 import { ALLE_YTELSETYPER_VALGT, UKE_4, ytelseTyper } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
-import { Column } from 'nav-frontend-grid';
 import { getValuesFromReduxState } from 'form/reduxBinding/formDuck';
-import { ToggleGruppePure } from 'nav-frontend-toggle';
+import { ToggleKnapp } from 'nav-frontend-toggle';
+import { getNyeOgFerdigstilteOppgaverMedStonadstype } from 'avdelingsleder/nokkeltall/duck';
+import NyeOgFerdigstilteMedStonadstype from 'avdelingsleder/nokkeltall/nyeOgFerdigstilteMedStonadstypeTsType';
 import Teller from './Teller';
-import styles from './ferdigstiltePanel.less';
+import styles from './inngangOgFerdigstiltePanel.less';
 
 interface OwnProps {
     width: number;
     height: number;
-    nyeOgFerdigstilteOppgaverIdag: NyeOgFerdigstilteOppgaver[];
+    nyeOgFerdigstilteOppgaverIdag: NyeOgFerdigstilteMedStonadstype[];
+    nyeOgFerdigstilteOppgaver7dager: NyeOgFerdigstilteMedStonadstype[];
     behandlingTyper: Kodeverk[];
     requestFinished: boolean;
     initialValues: InitialValues;
@@ -45,20 +46,29 @@ const formName = 'inngangOgFerdigstilteForm';
 
 export const InngangOgFerdigstiltePanel: FunctionComponent<OwnProps & WrappedComponentProps> = ({
   nyeOgFerdigstilteOppgaverIdag,
+  nyeOgFerdigstilteOppgaver7dager,
   requestFinished,
   initialValues,
 }) => {
-  const getNyeIdagTotalt = () => {
+  const [erIdagValgt, setErIdagValgt] = useState(true);
+
+  const getNyeTotalt = (oppgaver: NyeOgFerdigstilteMedStonadstype[], ytelseType: string) => {
     let nye = 0;
-    nyeOgFerdigstilteOppgaverIdag.forEach((n) => { nye += n.antallNye; });
+    oppgaver
+      .filter((o) => (ytelseType === ALLE_YTELSETYPER_VALGT ? true : ytelseType === o.fagsakYtelseType.kode)).forEach((n) => { nye += n.nye.length; });
     return nye;
   };
 
-  const getFerdigstilteIdagTotalt = () => {
+  const getFerdigstilteTotalt = (oppgaver: NyeOgFerdigstilteMedStonadstype[], ytelseType: string) => {
     let ferdigstilte = 0;
-    nyeOgFerdigstilteOppgaverIdag.forEach((n) => { ferdigstilte += n.antallFerdigstilte; });
+    oppgaver
+      .filter((o) => (
+        ytelseType === ALLE_YTELSETYPER_VALGT ? true : ytelseType === o.fagsakYtelseType.kode)).forEach((n) => { ferdigstilte += n.ferdigstilte.length; });
     return ferdigstilte;
   };
+
+  const getOppgaverStonadstype = (oppgaver: NyeOgFerdigstilteMedStonadstype[], ytelseType: string) => oppgaver
+    .filter((o) => (ytelseType === ALLE_YTELSETYPER_VALGT ? true : ytelseType === o.fagsakYtelseType.kode));
 
   return (
     <Form
@@ -77,12 +87,21 @@ export const InngangOgFerdigstiltePanel: FunctionComponent<OwnProps & WrappedCom
               selectValues={ytelseTyper.map((u) => <option key={u.kode} value={u.kode}>{u.navn}</option>)}
               bredde="m"
             />
-            <ToggleGruppePure
-              className={styles.toggle}
-              kompakt
-              toggles={[{ children: 'I dag', pressed: true },
-                { children: 'Denne uken' }]}
-            />
+            <div className={styles.toggles}>
+              <ToggleKnapp
+                pressed
+                className={erIdagValgt ? styles.venstreKnappAktiv : styles.venstreKnapp}
+                onClick={() => setErIdagValgt(true)}
+              >
+                I dag
+              </ToggleKnapp>
+              <ToggleKnapp
+                className={erIdagValgt ? styles.hoyreKnapp : styles.hoyreKnappAktiv}
+                onClick={() => setErIdagValgt(false)}
+              >
+                Siste 7 dager
+              </ToggleKnapp>
+            </div>
           </div>
           {requestFinished && nyeOgFerdigstilteOppgaverIdag.length === 0 && (
           <Element>
@@ -94,13 +113,32 @@ export const InngangOgFerdigstiltePanel: FunctionComponent<OwnProps & WrappedCom
           )}
           <div className={styles.container}>
             {nyeOgFerdigstilteOppgaverIdag.length > 0 && (
-              <Teller forklaring="Totalt" venstreTall={getNyeIdagTotalt()} hoyreTall={getFerdigstilteIdagTotalt()} />)}
-            {nyeOgFerdigstilteOppgaverIdag.length > 0 && nyeOgFerdigstilteOppgaverIdag.map((bt) => (
+              <Teller
+                forklaring="Totalt"
+                venstreTall={erIdagValgt
+                  ? getNyeTotalt(nyeOgFerdigstilteOppgaverIdag, values.ytelseType)
+                  : getNyeTotalt(nyeOgFerdigstilteOppgaver7dager, values.ytelseType)}
+                hoyreTall={erIdagValgt
+                  ? getFerdigstilteTotalt(nyeOgFerdigstilteOppgaverIdag, values.ytelseType)
+                  : getFerdigstilteTotalt(nyeOgFerdigstilteOppgaver7dager, values.ytelseType)}
+              />
+            )}
+            {erIdagValgt && nyeOgFerdigstilteOppgaverIdag.length > 0
+            && getOppgaverStonadstype(nyeOgFerdigstilteOppgaverIdag, values.ytelseType).map((bt) => (
               <Teller
                 key={bt.behandlingType.kode}
                 forklaring={bt.behandlingType.navn}
-                hoyreTall={bt.antallFerdigstilte}
-                venstreTall={bt.antallNye}
+                hoyreTall={bt.ferdigstilte.length}
+                venstreTall={bt.nye.length}
+              />
+            ))}
+            {!erIdagValgt && nyeOgFerdigstilteOppgaver7dager.length > 0
+            && getOppgaverStonadstype(nyeOgFerdigstilteOppgaver7dager, values.ytelseType).map((bt) => (
+              <Teller
+                key={bt.behandlingType.kode}
+                forklaring={bt.behandlingType.navn}
+                hoyreTall={bt.ferdigstilte.length}
+                venstreTall={bt.nye.length}
               />
             ))}
           </div>
@@ -112,12 +150,12 @@ export const InngangOgFerdigstiltePanel: FunctionComponent<OwnProps & WrappedCom
 
 const formDefaultValues = { ytelseType: ALLE_YTELSETYPER_VALGT, periodeValg: ALLE_YTELSETYPER_VALGT };
 
-export const getNyeOgFerdigstilteForIDag = createSelector([getNyeOgFerdigstilteOppgaverNokkeltall], (nyeOgFerdigstilte: { dato: string }[] = []) => {
+export const getNyeOgFerdigstilteForIDag = createSelector([getNyeOgFerdigstilteOppgaverMedStonadstype], (nyeOgFerdigstilte: { dato: string }[] = []) => {
   const iDag = moment();
   return nyeOgFerdigstilte.filter((oppgave) => iDag.isSame(moment(oppgave.dato, ISO_DATE_FORMAT), 'day'));
 });
 
-export const getNyeOgFerdigstilteForSisteSyvDager = createSelector([getNyeOgFerdigstilteOppgaverNokkeltall],
+export const getNyeOgFerdigstilteForSisteSyvDager = createSelector([getNyeOgFerdigstilteOppgaverMedStonadstype],
   (nyeOgFerdigstilte: { dato: string }[] = []) => {
     const iDag = moment().startOf('day');
     return nyeOgFerdigstilte.filter((oppgave) => iDag.isAfter(moment(oppgave.dato, ISO_DATE_FORMAT)));
