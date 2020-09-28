@@ -158,7 +158,7 @@ export class UtvalgskriterierForOppgavekoForm extends Component<OwnProps & Dispa
                     alleKodeverk={alleKodeverk}
                   />
                 </Column>
-                <Column xs="7" className={styles.middle}>
+                <Column xs="8" className={styles.middle}>
                   <Column className={styles.middleColumn}>
                     <Normaltekst className={styles.header}>
                       <FormattedMessage id="UtvalgskriterierForOppgavekoForm.Kriterier" />
