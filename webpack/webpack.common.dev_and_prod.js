@@ -1,7 +1,7 @@
 const CircularDependencyPlugin = require('circular-dependency-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 const path = require('path');
-const merge = require('webpack-merge');
+const { merge } = require('webpack-merge');
 const common = require('./webpack.common.js');
 
 const CORE_DIR = path.resolve(__dirname, '../node_modules');
