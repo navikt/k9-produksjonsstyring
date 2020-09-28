@@ -23,6 +23,7 @@ import UtvalgskriterierForOppgavekoForm
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import { Saksbehandler } from 'avdelingsleder/bemanning/saksbehandlerTsType';
 import { getSaksbehandlere } from 'avdelingsleder/bemanning/duck';
+import KoSorteringType from 'kodeverk/KoSorteringTsType';
 import SletteOppgavekoModal from './SletteOppgavekoModal';
 import { Oppgaveko } from '../oppgavekoTsType';
 import oppgavekoPropType from '../oppgavekoPropType';
@@ -57,6 +58,8 @@ interface TsProps {
   lagreOppgavekoSkjermet: (id: string, isChecked: boolean) => void;
   knyttSaksbehandlerTilOppgaveko: (id: string, epost: string, isChecked: boolean) => void;
   hentAntallOppgaverForOppgaveko: (id: string) => Promise<string>;
+  lagreOppgavekoSorteringTidsintervallDato: (oppgavekoId: string, fomDato: string, tomDato: string) => void;
+  lagreOppgavekoSortering: (oppgavekoId: string, oppgavekoSorteringValg: KoSorteringType) => void;
   requestFinished: boolean;
   saksbehandlere: Saksbehandler[];
 }
@@ -179,6 +182,8 @@ export class GjeldendeOppgavekoerTabell extends Component<TsProps, StateTsProps>
       lagreOppgavekoFagsakYtelseType,
       lagreOppgavekoSkjermet,
       saksbehandlere,
+      lagreOppgavekoSorteringTidsintervallDato,
+      lagreOppgavekoSortering,
       knyttSaksbehandlerTilOppgaveko,
       hentAntallOppgaverForOppgaveko,
     } = this.props;
@@ -241,6 +246,8 @@ export class GjeldendeOppgavekoerTabell extends Component<TsProps, StateTsProps>
                   lagreOppgavekoAndreKriterier={lagreOppgavekoAndreKriterier}
                   lagreOppgavekoSkjermet={lagreOppgavekoSkjermet}
                   hentAntallOppgaverForOppgaveko={hentAntallOppgaverForOppgaveko}
+                  lagreOppgavekoSorteringTidsintervallDato={lagreOppgavekoSorteringTidsintervallDato}
+                  lagreOppgavekoSortering={lagreOppgavekoSortering}
                   knyttSaksbehandlerTilOppgaveko={knyttSaksbehandlerTilOppgaveko}
                   visModal={this.visFjernOppgavekoModal}
                   saksbehandlere={saksbehandlere}

@@ -1,6 +1,6 @@
 const HappyPack = require('happypack');
 const path = require('path');
-const merge = require('webpack-merge');
+const { merge } = require('webpack-merge');
 const common = require('./webpack.common.js');
 
 const APP_DIR = path.resolve(__dirname, '../src/client/app');

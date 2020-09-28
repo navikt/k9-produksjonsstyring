@@ -1,5 +1,5 @@
 const path = require('path');
-const merge = require('webpack-merge');
+const { merge } = require('webpack-merge');
 const commonTest = require('./webpack.common.test.js');
 
 const APP_DIR = path.resolve(__dirname, '../src/client/app');
