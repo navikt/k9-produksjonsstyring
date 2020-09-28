@@ -11,11 +11,13 @@ import { Kodeverk } from 'kodeverk/kodeverkTsType';
 import { createSelector } from 'reselect';
 import moment from 'moment';
 import { ISO_DATE_FORMAT } from 'utils/formats';
-import NyeOgFerdigstilteOppgaver from 'saksbehandler/saksstotte/nokkeltall/components/nyeOgFerdigstilteOppgaverTsType';
 import k9LosApi from 'api/k9LosApi';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import { SelectField } from 'form/FinalFields';
-import { ALLE_YTELSETYPER_VALGT, UKE_4, ytelseTyper } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
+import {
+  ALLE_YTELSETYPER_VALGT,
+  ytelseTyper,
+} from 'avdelingsleder/nokkeltall/nokkeltallUtils';
 import { getValuesFromReduxState } from 'form/reduxBinding/formDuck';
 import { ToggleKnapp } from 'nav-frontend-toggle';
 import { getNyeOgFerdigstilteOppgaverMedStonadstype } from 'avdelingsleder/nokkeltall/duck';
@@ -37,6 +39,29 @@ interface InitialValues {
     ytelseType: string;
     periodeValg: string;
 }
+
+export const slaSammenLikeBehandlingstyper = (oppgaver) => {
+  const sammenslatte = [];
+
+  oppgaver.forEach((o) => {
+    const index = sammenslatte.findIndex((s) => s.behandlingType.kode === o.behandlingType.kode);
+    if (index === -1) {
+      sammenslatte.push({
+        behandlingType: o.behandlingType,
+        nye: o.nye.length,
+        ferdigstilte: o.ferdigstilte.length,
+      });
+    } else {
+      sammenslatte[index] = {
+        behandlingType: sammenslatte[index].behandlingType,
+        nye: sammenslatte[index].nye + o.nye.length,
+        ferdigstilte: sammenslatte[index].ferdigstilte + o.ferdigstilte.length,
+      };
+    }
+  });
+
+  return sammenslatte;
+};
 
 const formName = 'inngangOgFerdigstilteForm';
 
@@ -67,8 +92,9 @@ export const InngangOgFerdigstiltePanel: FunctionComponent<OwnProps & WrappedCom
     return ferdigstilte;
   };
 
-  const getOppgaverStonadstype = (oppgaver: NyeOgFerdigstilteMedStonadstype[], ytelseType: string) => oppgaver
-    .filter((o) => (ytelseType === ALLE_YTELSETYPER_VALGT ? true : ytelseType === o.fagsakYtelseType.kode));
+  const getOppgaverStonadstype = (oppgaver: NyeOgFerdigstilteMedStonadstype[], ytelseType: string) => slaSammenLikeBehandlingstyper(oppgaver.filter(
+    (o) => (ytelseType === ALLE_YTELSETYPER_VALGT ? true : ytelseType === o.fagsakYtelseType.kode),
+  ));
 
   return (
     <Form
@@ -124,21 +150,21 @@ export const InngangOgFerdigstiltePanel: FunctionComponent<OwnProps & WrappedCom
               />
             )}
             {erIdagValgt && nyeOgFerdigstilteOppgaverIdag.length > 0
-            && getOppgaverStonadstype(nyeOgFerdigstilteOppgaverIdag, values.ytelseType).map((bt) => (
+            && getOppgaverStonadstype(nyeOgFerdigstilteOppgaverIdag, values.ytelseType).map((o) => (
               <Teller
-                key={bt.behandlingType.kode}
-                forklaring={bt.behandlingType.navn}
-                hoyreTall={bt.ferdigstilte.length}
-                venstreTall={bt.nye.length}
+                key={o.behandlingType.kode}
+                forklaring={o.behandlingType.navn}
+                hoyreTall={o.ferdigstilte}
+                venstreTall={o.nye}
               />
             ))}
             {!erIdagValgt && nyeOgFerdigstilteOppgaver7dager.length > 0
-            && getOppgaverStonadstype(nyeOgFerdigstilteOppgaver7dager, values.ytelseType).map((bt) => (
+            && getOppgaverStonadstype(nyeOgFerdigstilteOppgaver7dager, values.ytelseType).map((o) => (
               <Teller
-                key={bt.behandlingType.kode}
-                forklaring={bt.behandlingType.navn}
-                hoyreTall={bt.ferdigstilte.length}
-                venstreTall={bt.nye.length}
+                key={o.behandlingType.kode}
+                forklaring={o.behandlingType.navn}
+                hoyreTall={o.ferdigstilte}
+                venstreTall={o.nye}
               />
             ))}
           </div>
@@ -158,14 +184,14 @@ export const getNyeOgFerdigstilteForIDag = createSelector([getNyeOgFerdigstilteO
 export const getNyeOgFerdigstilteForSisteSyvDager = createSelector([getNyeOgFerdigstilteOppgaverMedStonadstype],
   (nyeOgFerdigstilte: { dato: string }[] = []) => {
     const iDag = moment().startOf('day');
-    return nyeOgFerdigstilte.filter((oppgave) => iDag.isAfter(moment(oppgave.dato, ISO_DATE_FORMAT)));
+    return nyeOgFerdigstilte.filter((oppgave) => iDag.isSameOrAfter(moment(oppgave.dato, ISO_DATE_FORMAT)));
   });
 
 const mapStateToProps = (state) => ({
   behandlingTyper: getKodeverk(state)[kodeverkTyper.BEHANDLING_TYPE],
   nyeOgFerdigstilteOppgaverIdag: getNyeOgFerdigstilteForIDag(state),
   nyeOgFerdigstilteOppgaver7dager: getNyeOgFerdigstilteForSisteSyvDager(state),
-  requestFinished: k9LosApi.HENT_NYE_OG_FERDIGSTILTE_OPPGAVER.getRestApiFinished()(state),
+  requestFinished: k9LosApi.HENT_OPPSUMMERING.getRestApiFinished()(state),
   initialValues: getValuesFromReduxState(state)[formName] || formDefaultValues,
 });
 
