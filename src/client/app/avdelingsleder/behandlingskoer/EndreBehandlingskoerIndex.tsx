@@ -5,6 +5,7 @@ import { bindActionCreators, Dispatch } from 'redux';
 
 import { Kodeverk } from 'kodeverk/kodeverkTsType';
 import k9LosApi from 'api/k9LosApi';
+import KoSorteringType from 'kodeverk/KoSorteringTsType';
 import { fetchAlleSaksbehandlere } from '../bemanning/duck';
 import {
   fetchAlleOppgavekoer,
@@ -21,6 +22,8 @@ import {
   lagreOppgavekoFagsakYtelseType,
   fetchAntallOppgaverForOppgaveko,
   fetchAntallOppgaverTotalt,
+  lagreOppgavekoSortering,
+  lagreOppgavekoSorteringTidsintervallDato,
   lagreOppgavekoAndreKriterier,
   fetchOppgaveko, fetchDagensTall,
 } from './duck';
@@ -40,6 +43,8 @@ interface TsProps {
   lagreOppgavekoFagsakYtelseType: (id: string, fagsakYtelseType: string) => void;
   knyttSaksbehandlerTilOppgaveko: (id: string, brukerIdent: string, isChecked: boolean,) => void;
   lagreOppgavekoAndreKriterier: (id: string, andreKriterierType: Kodeverk, isChecked: boolean, inkluder: boolean) => void;
+  lagreOppgavekoSorteringTidsintervallDato: (oppgavekoId: string, fomDato: string, tomDato: string) => void;
+  lagreOppgavekoSortering: (oppgavekoId: string, oppgavekoSorteringValg: KoSorteringType) => void;
   lagreOppgavekoSkjermet: (id: string, isChecked: boolean) => void;
   oppgavekoer: Oppgaveko[];
   valgtOppgavekoId?: string;
@@ -100,6 +105,8 @@ export class EndreBehandlingskoerIndex extends Component<TsProps> {
       fetchAntallOppgaverForOppgaveko: hentAntallOppgaverForOppgaveko,
       lagreOppgavekoAndreKriterier: lagreAndreKriterier,
       lagreOppgavekoSkjermet: lagreSkjermet,
+      lagreOppgavekoSortering: lagreSortering,
+      lagreOppgavekoSorteringTidsintervallDato: lagreSorteringDato,
       fetchOppgaveko: hentKo, requestFinished,
     } = this.props;
     return (
@@ -112,6 +119,8 @@ export class EndreBehandlingskoerIndex extends Component<TsProps> {
         requestFinished={requestFinished}
         fjernOppgaveko={fjernListe}
         lagreOppgavekoNavn={lagreListeNavn}
+        lagreOppgavekoSortering={lagreSortering}
+        lagreOppgavekoSorteringTidsintervallDato={lagreSorteringDato}
         lagreOppgavekoBehandlingstype={lagreListeBehandlingstype}
         lagreOppgavekoFagsakYtelseType={lagreListeFagsakYtelseType}
         lagreOppgavekoAndreKriterier={lagreAndreKriterier}
@@ -148,6 +157,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
     lagreOppgavekoAndreKriterier,
     lagreOppgavekoSkjermet,
     knyttSaksbehandlerTilOppgaveko,
+    lagreOppgavekoSortering,
+    lagreOppgavekoSorteringTidsintervallDato,
     fetchAlleSaksbehandlere,
     fetchDagensTall,
     fetchAntallOppgaverForOppgaveko,

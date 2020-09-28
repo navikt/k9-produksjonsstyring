@@ -213,9 +213,9 @@ const HistorikkGraf: FunctionComponent<OwnProps> = ({
       <Row className={styles.legends}>
         <DiscreteColorLegend
           orientation="horizontal"
-          colors={reversertSorterteBehandlingstyper.map((key) => behandlingstypeFarger[key])}
-          items={reversertSorterteBehandlingstyper.map((key) => (
-            <Normaltekst className={styles.displayInline}>{finnBehandlingTypeNavn(behandlingTyper, key)}</Normaltekst>
+          colors={behandlingstypeOrder.map((bt) => behandlingstypeFarger[bt])}
+          items={behandlingstypeOrder.map((bt) => (
+            <Normaltekst className={styles.displayInline}>{finnBehandlingTypeNavn(behandlingTyper, bt)}</Normaltekst>
           ))}
         />
       </Row>

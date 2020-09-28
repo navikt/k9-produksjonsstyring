@@ -1,6 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import { WrappedComponentProps, injectIntl } from 'react-intl';
 import { Kodeverk } from 'kodeverk/kodeverkTsType';
+import KoSorteringType from 'kodeverk/KoSorteringTsType';
 import GjeldendeOppgavekoerTabell from './GjeldendeOppgavekoerTabell';
 import { Oppgaveko } from '../oppgavekoTsType';
 
@@ -15,6 +16,8 @@ interface OwnProps {
   lagreOppgavekoAndreKriterier: (id: string, andreKriterierType: Kodeverk, isChecked: boolean, inkluder: boolean) => void;
   lagreOppgavekoSkjermet: (id: string, isChecked: boolean) => void;
   knyttSaksbehandlerTilOppgaveko: (id: string, epost: string, isChecked: boolean) => void;
+  lagreOppgavekoSorteringTidsintervallDato: (oppgavekoId: string, fomDato: string, tomDato: string) => void;
+  lagreOppgavekoSortering: (oppgavekoId: string, oppgavekoSorteringValg: KoSorteringType) => void;
   valgtOppgavekoId?: string;
   hentOppgavekoer: () => Oppgaveko[];
   hentAntallOppgaverForOppgaveko: (id: string) => Promise<string>;
@@ -38,6 +41,8 @@ const EndreOppgavekoerPanel: FunctionComponent<OwnProps & WrappedComponentProps>
   knyttSaksbehandlerTilOppgaveko,
   hentAntallOppgaverForOppgaveko,
   lagreOppgavekoSkjermet,
+  lagreOppgavekoSortering,
+  lagreOppgavekoSorteringTidsintervallDato,
   hentKo, requestFinished,
 }) => {
   const valgtOppgaveko = oppgavekoer.find((s) => s.id === valgtOppgavekoId);
@@ -51,6 +56,8 @@ const EndreOppgavekoerPanel: FunctionComponent<OwnProps & WrappedComponentProps>
       lagNyOppgaveko={lagNyOppgaveko}
       fjernOppgaveko={fjernOppgaveko}
       lagreOppgavekoNavn={lagreOppgavekoNavn}
+      lagreOppgavekoSortering={lagreOppgavekoSortering}
+      lagreOppgavekoSorteringTidsintervallDato={lagreOppgavekoSorteringTidsintervallDato}
       lagreOppgavekoBehandlingstype={lagreOppgavekoBehandlingstype}
       lagreOppgavekoFagsakYtelseType={lagreOppgavekoFagsakYtelseType}
       lagreOppgavekoAndreKriterier={lagreOppgavekoAndreKriterier}

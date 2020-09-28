@@ -44,6 +44,8 @@ interface OwnProps {
   lagreOppgavekoFagsakYtelseType: (oppgavekoId: string, fagsakYtelseType: Kodeverk) => void;
   lagreOppgavekoAndreKriterier: (id: string, andreKriterierType: Kodeverk, isChecked: boolean, inkluder: boolean) => void;
   lagreOppgavekoSkjermet: (id: string, isChecked: boolean) => void;
+  lagreOppgavekoSorteringTidsintervallDato: (oppgavekoId: string, fomDato: string, tomDato: string) => void;
+  lagreOppgavekoSortering: (oppgavekoId: string, oppgavekoSorteringValg: KoSorteringType) => void;
   antallOppgaver?: number;
   hentAntallOppgaverForOppgaveko: (oppgavekoId: string) => Promise<string>;
   knyttSaksbehandlerTilOppgaveko: (id: string, epost: string, isChecked: boolean) => void;
@@ -53,8 +55,7 @@ interface OwnProps {
 
 interface DispatchProps {
   fetchOppgaveko: (id: string) => Promise<string>;
-  lagreOppgavekoSortering: (oppgavekoId: string, oppgavekoSorteringValg: KoSorteringType) => void;
-  lagreOppgavekoSorteringTidsintervallDato: (oppgavekoId: string, fomDato: string, tomDato: string) => void;
+
 }
 
 interface StateTsProps {
@@ -219,7 +220,6 @@ export class UtvalgskriterierForOppgavekoForm extends Component<OwnProps & Dispa
 }
 
 const mapStateToProps = (state) => ({
-  antallOppgaver: getAntallOppgaverForOppgavekoResultat(state),
   alleKodeverk: getKodeverk(state),
   gjeldendeKo: getOppgaveko(state),
 });
