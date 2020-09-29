@@ -125,7 +125,7 @@ export class GjeldendeOppgavekoerTabell extends Component<TsProps, StateTsProps>
   };
 
   lagNyOppgavekoOgSettSomValgt = () => {
-    const { lagNyOppgaveko, valgtOppgavekoId } = this.props;
+    const { lagNyOppgaveko } = this.props;
     lagNyOppgaveko();
   }
 

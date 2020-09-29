@@ -3,7 +3,7 @@ import React, {
 } from 'react';
 
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
-import NyeOgFerdigstiltePanel from 'avdelingsleder/nokkeltall/components/dagensTallPanel/InngangOgFerdigstiltePanel';
+import InngangOgFerdigstiltePanel from 'avdelingsleder/nokkeltall/components/dagensTallPanel/InngangOgFerdigstiltePanel';
 import BeholdningHistorikkPanel
   from 'avdelingsleder/nokkeltall/components/beholdningHistorikk/BeholdningHistorikkPanel';
 import FerdigstilteHistorikkPanel from 'avdelingsleder/nokkeltall/components/ferdigstilteHistorikk/FerdigstilteHistorikkPanel';
@@ -37,7 +37,7 @@ const NokkeltallPanel: FunctionComponent = () => {
 
   return (
     <div ref={ref}>
-      <NyeOgFerdigstiltePanel
+      <InngangOgFerdigstiltePanel
         width={width}
         height={height}
       />

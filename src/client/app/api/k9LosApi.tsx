@@ -47,7 +47,7 @@ const k9LosApiKeys = {
   LAGRE_OPPGAVEKO_SAKSBEHANDLER: 'LAGRE_OPPGAVEKO_SAKSBEHANDLER',
   HENT_OPPGAVER: 'HENT_OPPGAVER',
   HENT_OPPGAVER_PER_DATO: 'HENT_OPPGAVER_PER_DATO',
-  HENT_FERDIGSTILTE_OPPGAVER: 'HENT_FERDIGSTILTE_OPPGAVER',
+  HENT_OPPSUMMERING: 'HENT_OPPSUMMERING',
   HENT_FERDIGSTILTE_HISTORIKK: 'HENT_FERDIGSTILTE_HISTORIKK',
   HENT_NYE_HISTORIKK: 'HENT_NYE_HISTORIKK',
   HENT_OPPGAVER_PER_FORSTE_STONADSDAG: 'HENT_OPPGAVER_PER_FORSTE_STONADSDAG',
@@ -131,7 +131,7 @@ const endpoints = new RestApiConfigBuilder()
   /* /api/avdelingsleder/nokkeltall */
   .withGet('avdelingsleder/nokkeltall/behandlinger-under-arbeid', k9LosApiKeys.HENT_OPPGAVER)
   .withGet('avdelingsleder/nokkeltall/beholdning-historikk', k9LosApiKeys.HENT_OPPGAVER_PER_DATO)
-  .withGet('avdelingsleder/nokkeltall/ferdigstilte-oppsummering', k9LosApiKeys.HENT_FERDIGSTILTE_OPPGAVER)
+  .withGet('avdelingsleder/nokkeltall/nye-ferdigstilte-oppsummering', k9LosApiKeys.HENT_OPPSUMMERING)
   .withGet('avdelingsleder/nokkeltall/ferdigstilte-historikk', k9LosApiKeys.HENT_FERDIGSTILTE_HISTORIKK)
   .withGet('avdelingsleder/nokkeltall/nye-historikk', k9LosApiKeys.HENT_NYE_HISTORIKK)
   .withGet('avdelingsleder/nokkeltall/behandlinger-manuelt-vent-historikk', k9LosApiKeys.HENT_OPPGAVER_MANUELT_PA_VENT)
