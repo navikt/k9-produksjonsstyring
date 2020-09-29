@@ -129,10 +129,11 @@ export const InngangOgFerdigstiltePanel: FunctionComponent<OwnProps & WrappedCom
               </ToggleKnapp>
             </div>
           </div>
-          {requestFinished && nyeOgFerdigstilteOppgaverIdag.length === 0 && (
-          <Element>
-            <FormattedMessage id="InngangOgFerdigstiltePanel.IngenTall" />
-          </Element>
+          {((erIdagValgt && requestFinished && nyeOgFerdigstilteOppgaverIdag.length === 0)
+              || (!erIdagValgt && requestFinished && nyeOgFerdigstilteOppgaver7dager.length === 0)) && (
+              <Element>
+                <FormattedMessage id="InngangOgFerdigstiltePanel.IngenTall" />
+              </Element>
           )}
           {nyeOgFerdigstilteOppgaverIdag.length === 0 && !requestFinished && (
             <NavFrontendSpinner type="XL" className={styles.spinner} />
