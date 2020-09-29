@@ -2,37 +2,23 @@ import React from 'react';
 
 import IkkeTilgangTilAvdelingslederPanel from 'avdelingsleder/components/IkkeTilgangTilAvdelingslederPanel';
 import PropTypes from 'prop-types';
-import { getNavAnsattKanSaksbehandle } from 'app/duck';
+
 import { connect } from 'react-redux';
+import useGlobalStateRestApiData from 'api/global-data/useGlobalStateRestApiData';
+import NavAnsatt from 'app/navAnsattTsType';
+import { RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
 import SaksbehandlerDashboard from './components/SaksbehandlerDashboard';
 
 /**
  * SaksbehandlerIndex
  */
 
-interface OwnProps {
-    kanSaksbehandle: boolean;
-}
-
-export const SaksbehandlerIndex = ({
-  kanSaksbehandle,
-}: OwnProps) => {
+const SaksbehandlerIndex = () => {
+  const { kanSaksbehandle } = useGlobalStateRestApiData<NavAnsatt>(RestApiGlobalStatePathsKeys.NAV_ANSATT);
   if (!kanSaksbehandle) {
     return <IkkeTilgangTilAvdelingslederPanel />;
   }
   return <SaksbehandlerDashboard />;
 };
 
-SaksbehandlerIndex.propTypes = {
-  kanSaksbehandle: PropTypes.bool,
-};
-
-const mapStateToProps = (state) => ({
-  kanSaksbehandle: getNavAnsattKanSaksbehandle(state),
-});
-
-SaksbehandlerIndex.defaultProps = {
-  kanSaksbehandle: false,
-};
-
-export default (connect(mapStateToProps)(SaksbehandlerIndex));
+export default SaksbehandlerIndex;

@@ -1,8 +1,8 @@
+import NotificationMapper from 'api/rest-api/src/requestApi/NotificationMapper';
 import RequestRunner from './RequestRunner';
 import RestApiRequestContext from './RestApiRequestContext';
 import HttpClientApi from '../HttpClientApiTsType';
 import RequestConfig from '../RequestConfig';
-import Link from './LinkTsType';
 
 /**
  * RequestApi
@@ -15,33 +15,17 @@ class RequestApi {
 
   requestRunnersMappedByName: {[key: string]: RequestRunner};
 
-  constructor(httpClientApi: HttpClientApi, contextPath: string, configs: RequestConfig[]) {
-    this.httpClientApi = httpClientApi;
+  constructor(httpClientApi: HttpClientApi, configs: RequestConfig[]) {
     this.requestRunnersMappedByName = configs.reduce((acc, config) => ({
       ...acc,
-      [config.name]: new RequestRunner(httpClientApi, new RestApiRequestContext(contextPath, config)),
+      [config.name]: new RequestRunner(httpClientApi, new RestApiRequestContext(config)),
     }), {});
   }
 
-  getEndpointNames = (): string[] => Object.keys(this.requestRunnersMappedByName)
+  public startRequest = (endpointName: string, params: any, notificationMapper?: NotificationMapper) => this.requestRunnersMappedByName[endpointName]
+    .startProcess(params, notificationMapper);
 
-  getRequestRunner = (endpointName: string): RequestRunner => this.requestRunnersMappedByName[endpointName];
-
-  injectPaths = (links: Link[]) => {
-    Object.values(this.requestRunnersMappedByName).forEach((runner) => {
-      const { rel } = runner.getConfig();
-      if (rel) {
-        const link = links.find((l) => l.rel === rel);
-        if (link) {
-          runner.injectLink(link);
-        } else {
-          runner.resetLink(rel);
-        }
-      }
-    });
-  }
-
-  getHttpClientApi = () => this.httpClientApi;
+  public cancelRequest = (endpointName: string) => this.requestRunnersMappedByName[endpointName].cancelRequest();
 }
 
 export default RequestApi;

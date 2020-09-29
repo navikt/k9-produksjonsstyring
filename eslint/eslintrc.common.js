@@ -44,8 +44,6 @@ const config = {
     'react/static-property-placement': OFF,
     'react/state-in-constructor': OFF,
     'react/prop-types': OFF,
-
-    // TODO (TOR) Ignorert inntil videre grunnet kost/nytte
     'react/jsx-props-no-spreading': OFF,
     'jsx-a11y/control-has-associated-label': OFF,
     '@typescript-eslint/no-explicit-any': OFF,

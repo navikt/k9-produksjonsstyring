@@ -47,10 +47,6 @@ class NotificationMapper {
 
   addUpdatePollingMessageEventHandler = (callback: EventCallback) => this.addEventHandler(EventType.UPDATE_POLLING_MESSAGE, callback);
 
-  addPollingTimeoutEventHandler = (callback: EventCallback) => this.addEventHandler(EventType.POLLING_TIMEOUT, callback);
-
-  addHaltedOrDelayedEventHandler = (callback: EventCallback) => this.addEventHandler(EventType.POLLING_HALTED_OR_DELAYED, callback);
-
   getNotificationEmitter = () => (eventType: keyof typeof EventType, data?: any, isAsync?: boolean) => {
     const eventHandlers = this.eventTypes[eventType];
     eventHandlers.forEach((handler) => handler(data, eventType, isAsync));

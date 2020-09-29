@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FunctionComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
@@ -25,6 +25,10 @@ import Image from 'sharedComponents/Image';
 import { Row } from 'nav-frontend-grid';
 import DagensTallPanel from 'avdelingsleder/dagensTall/DagensTallPanel';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
+import useGlobalStateRestApiData from 'api/global-data/useGlobalStateRestApiData';
+import { RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
+import NavAnsatt from 'app/navAnsattTsType';
+import useTrackRouteParam from 'app/data/trackRouteParam';
 import { getSelectedAvdelingslederPanel, setSelectedAvdelingslederPanel } from './duck';
 import AvdelingslederDashboard from './components/AvdelingslederDashboard';
 import IkkeTilgangTilAvdelingslederPanel from './components/IkkeTilgangTilAvdelingslederPanel';
@@ -64,12 +68,6 @@ const tabStyle = {
   [AvdelingslederPanels.RESERVASJONER]: [reservasjonSvart, reservasjonBla],
 };
 
-interface TsProps {
-  activeAvdelingslederPanel: string;
-  getAvdelingslederPanelLocation: (panel: string) => Location;
-  kanOppgavestyre?: boolean;
-}
-
 const getTab = (avdelingslederPanel, activeAvdelingslederPanel, getAvdelingslederPanelLocation) => ({
   label: (
     <div className={styles.tabLabel}>
@@ -91,14 +89,25 @@ const getTab = (avdelingslederPanel, activeAvdelingslederPanel, getAvdelingslede
   ),
 });
 
+const getPanelFromUrlOrDefault = (location) => {
+  const panelFromUrl = parseQueryString(location.search);
+  return panelFromUrl.avdelingsleder ? panelFromUrl.avdelingsleder : AvdelingslederPanels.BEHANDLINGSKOER;
+};
+
 /**
  * AvdelingslederIndex
  */
-export const AvdelingslederIndex = ({
-  activeAvdelingslederPanel,
-  getAvdelingslederPanelLocation,
-  kanOppgavestyre,
-}: TsProps) => {
+export const AvdelingslederIndex: FunctionComponent = (
+) => {
+  const { selected: activeAvdelingslederPanelTemp, location } = useTrackRouteParam({
+    paramName: 'fane',
+    isQueryParam: true,
+  });
+  const { kanOppgavestyre } = useGlobalStateRestApiData<NavAnsatt>(RestApiGlobalStatePathsKeys.NAV_ANSATT);
+
+  const getAvdelingslederPanelLocation = getPanelLocationCreator(location);
+  const activeAvdelingslederPanel = activeAvdelingslederPanelTemp || getPanelFromUrlOrDefault(location);
+
   if (!kanOppgavestyre) {
     return <IkkeTilgangTilAvdelingslederPanel />;
   } if (activeAvdelingslederPanel) {
@@ -132,38 +141,4 @@ export const AvdelingslederIndex = ({
   return <LoadingPanel />;
 };
 
-AvdelingslederIndex.propTypes = {
-  activeAvdelingslederPanel: PropTypes.string.isRequired,
-  getAvdelingslederPanelLocation: PropTypes.func.isRequired,
-  kanOppgavestyre: PropTypes.bool,
-};
-
-AvdelingslederIndex.defaultProps = {
-  kanOppgavestyre: false,
-};
-
-const getPanelFromUrlOrDefault = (location) => {
-  const panelFromUrl = parseQueryString(location.search);
-  return panelFromUrl.avdelingsleder ? panelFromUrl.avdelingsleder : AvdelingslederPanels.BEHANDLINGSKOER;
-};
-
-const mapStateToProps = (state) => ({
-  activeAvdelingslederPanel: getSelectedAvdelingslederPanel(state),
-  kanOppgavestyre: getNavAnsattKanOppgavestyre(state),
-});
-
-const mergeProps = (stateProps, dispatchProps, ownProps) => ({
-  ...ownProps,
-  ...dispatchProps,
-  ...stateProps,
-  getAvdelingslederPanelLocation: getPanelLocationCreator(ownProps.location), // gets prop 'location' from trackRouteParam
-  activeAvdelingslederPanel: stateProps.activeAvdelingslederPanel ? stateProps.activeAvdelingslederPanel : getPanelFromUrlOrDefault(ownProps.location),
-});
-
-export default trackRouteParam({
-  paramName: 'fane',
-  paramPropType: PropTypes.string,
-  storeParam: setSelectedAvdelingslederPanel,
-  getParamFromStore: getSelectedAvdelingslederPanel,
-  isQueryParam: true,
-})(connect(mapStateToProps, null, mergeProps)(AvdelingslederIndex));
+export default AvdelingslederIndex;

@@ -11,6 +11,12 @@ const createConfigWithPathAndConfig = (name, path, config) => new RequestConfig(
 class RestApiConfigBuilder {
   endpoints: RequestConfig[] = [];
 
+  contextPath?: string = '';
+
+  constructor(contextPath?: string) {
+    this.contextPath = contextPath;
+  }
+
   withGet(path: string, name: string, config?: RequestAdditionalConfig) {
     this.endpoints.push(createConfigWithPathAndConfig(name, path, config).withGetMethod());
     return this;

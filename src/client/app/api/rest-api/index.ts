@@ -11,4 +11,4 @@ export { default as RestApiConfigBuilder } from './src/RestApiConfigBuilder';
 export { default as getAxiosHttpClientApi } from './src/axios/axiosHttpClientApi';
 export { ErrorTypes, errorOfType, getErrorResponseData } from './src/requestApi/error/ErrorTypes';
 
-export const createRequestApi = (contextPath: string, configs: RequestConfig[]) => new RequestApi(getAxiosHttpClientApi(), contextPath, configs);
+export const createRequestApi = (configs: RequestConfig[]) => new RequestApi(getAxiosHttpClientApi(), configs);

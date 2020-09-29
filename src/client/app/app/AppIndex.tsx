@@ -6,6 +6,8 @@ import moment from 'moment';
 import { parseQueryString } from 'utils/urlUtils';
 import errorHandler from 'api/error-api-redux';
 import EventType from 'api/rest-api/src/requestApi/eventType';
+import { RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
+import useGlobalStateRestApiData from 'api/global-data/useGlobalStateRestApiData';
 import AppConfigResolver from './AppConfigResolver';
 import {
   getFunksjonellTid, getNavAnsattName, getNavAnsattKanOppgavestyre, getNavAnsattKanDrifte, getAlleDriftsmeldinger,
@@ -17,8 +19,9 @@ import Home from './components/Home';
 import '../../styles/global.less';
 import { fetchAlleDriftsmeldinger, getDriftsmeldinger } from '../admin/driftsmeldinger/duck';
 import { Driftsmelding } from '../admin/driftsmeldinger/driftsmeldingTsType';
+import NavAnsatt from 'app/navAnsattTsType';
 
-interface OwnProps {
+interface StateProps {
   errorMessages?: {
     type: EventType;
     code?: string;
@@ -33,8 +36,6 @@ interface OwnProps {
   navAnsattName: string;
   funksjonellTid?: string;
   location: Location;
-  kanOppgavestyre: boolean;
-  kanDrifte: boolean;
   driftsmeldinger: Driftsmelding[];
 }
 
@@ -46,24 +47,10 @@ interface OwnProps {
  * Komponenten er også ansvarlig for å hente innlogget NAV-ansatt, rettskilde-url, systemrutine-url
  * og kodeverk fra server og lagre desse i klientens state.
  */
-export class AppIndex extends Component<OwnProps> {
+export class AppIndex extends Component<StateProps> {
   state = {
     headerHeight: 0,
   };
-
-  componentDidUpdate = (prevProps: OwnProps) => {
-    const { funksjonellTid } = this.props;
-
-    if (funksjonellTid && prevProps.funksjonellTid !== funksjonellTid) {
-      // TODO (TOR) Dette endrar jo berre moment. Kva med kode som brukar Date direkte?
-      const diffInMinutes = moment().diff(funksjonellTid, 'minutes');
-      // Hvis diffInMinutes har avvik på over 5min: override moment.now (ref. http://momentjs.com/docs/#/customization/now/)
-      if (diffInMinutes >= 5 || diffInMinutes <= -5) {
-        const diff = moment().diff(funksjonellTid);
-        moment.now = () => Date.now() - diff;
-      }
-    }
-  }
 
   componentDidCatch = (error: Error, info: { componentStack: string }): void => {
     const crashMessage = [
@@ -84,9 +71,10 @@ export class AppIndex extends Component<OwnProps> {
 
   render = () => {
     const {
-      location, crashMessage, navAnsattName,
-      removeErrorMessage: removeErrorMsg, kanOppgavestyre, kanDrifte, driftsmeldinger,
+      location, crashMessage,
+      removeErrorMessage: removeErrorMsg, driftsmeldinger,
     } = this.props;
+    const { navn, kanOppgavestyre, kanDrifte } = useGlobalStateRestApiData<NavAnsatt>(RestApiGlobalStatePathsKeys.NAV_ANSATT);
     const { headerHeight } = this.state;
     const queryStrings = parseQueryString(location.search);
 
@@ -97,7 +85,7 @@ export class AppIndex extends Component<OwnProps> {
             kanOppgavestyre={kanOppgavestyre}
             kanDrifte={kanDrifte}
             queryStrings={queryStrings}
-            navAnsattName={navAnsattName}
+            navAnsattName={navn}
             removeErrorMessage={removeErrorMsg}
             setSiteHeight={this.setSiteHeight}
             driftsmeldinger={driftsmeldinger}
