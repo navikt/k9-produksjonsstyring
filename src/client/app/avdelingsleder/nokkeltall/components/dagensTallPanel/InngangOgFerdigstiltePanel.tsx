@@ -139,7 +139,7 @@ export const InngangOgFerdigstiltePanel: FunctionComponent<OwnProps & WrappedCom
             <NavFrontendSpinner type="XL" className={styles.spinner} />
           )}
           <div className={styles.container}>
-            {nyeOgFerdigstilteOppgaverIdag.length > 0 && (
+            {((erIdagValgt && nyeOgFerdigstilteOppgaverIdag.length > 0) || (!erIdagValgt && nyeOgFerdigstilteOppgaver7dager.length > 0)) && (
               <Teller
                 forklaring="Totalt"
                 venstreTall={erIdagValgt
