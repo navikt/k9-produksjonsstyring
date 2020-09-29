@@ -2,7 +2,7 @@ import React, { FunctionComponent, useState } from 'react';
 import { injectIntl, WrappedComponentProps, FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import { Form } from 'react-final-form';
-import { Element } from 'nav-frontend-typografi';
+import { Element, Normaltekst, Undertekst } from 'nav-frontend-typografi';
 import { getKodeverk } from 'kodeverk/duck';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
@@ -111,7 +111,7 @@ export const InngangOgFerdigstiltePanel: FunctionComponent<OwnProps & WrappedCom
               name="ytelseType"
               label=""
               selectValues={ytelseTyper.map((u) => <option key={u.kode} value={u.kode}>{u.navn}</option>)}
-              bredde="m"
+              bredde="L"
             />
             <div className={styles.toggles}>
               <ToggleKnapp
@@ -131,9 +131,9 @@ export const InngangOgFerdigstiltePanel: FunctionComponent<OwnProps & WrappedCom
           </div>
           {((erIdagValgt && requestFinished && nyeOgFerdigstilteOppgaverIdag.length === 0)
               || (!erIdagValgt && requestFinished && nyeOgFerdigstilteOppgaver7dager.length === 0)) && (
-              <Element>
+              <Normaltekst className={styles.ingenTall}>
                 <FormattedMessage id="InngangOgFerdigstiltePanel.IngenTall" />
-              </Element>
+              </Normaltekst>
           )}
           {nyeOgFerdigstilteOppgaverIdag.length === 0 && !requestFinished && (
             <NavFrontendSpinner type="XL" className={styles.spinner} />
