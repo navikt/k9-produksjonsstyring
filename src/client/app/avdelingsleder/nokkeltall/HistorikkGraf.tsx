@@ -1,7 +1,7 @@
 import React, {
   useMemo, useState, FunctionComponent, useCallback,
 } from 'react';
-import moment, { now } from 'moment';
+import moment from 'moment';
 import {
   XYPlot, XAxis, YAxis, HorizontalGridLines, DiscreteColorLegend, Crosshair, MarkSeries, AreaSeries,
 } from 'react-vis';
@@ -15,17 +15,10 @@ import { Kodeverk } from 'kodeverk/kodeverkTsType';
 import 'react-vis/dist/style.css';
 import { Row } from 'nav-frontend-grid';
 import HistoriskData from 'avdelingsleder/nokkeltall/historiskDataTsType';
+import { behandlingstypeOrder } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
 import styles from './historikkGraf.less';
 
 const LEGEND_WIDTH = 260;
-
-const behandlingstypeOrder = [
-  behandlingType.FORSTEGANGSSOKNAD,
-  behandlingType.REVURDERING,
-  behandlingType.ANKE,
-  behandlingType.INNSYN,
-  behandlingType.KLAGE,
-];
 
 const behandlingstypeFarger = {
   [behandlingType.ANKE]: '#C86151',

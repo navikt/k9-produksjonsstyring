@@ -1,5 +1,6 @@
 import moment from 'moment';
 import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
+import behandlingType from 'kodeverk/behandlingType';
 
 export const ALLE_YTELSETYPER_VALGT = 'ALLE';
 export const UKE_4 = '4';
@@ -24,6 +25,14 @@ export const uker = [{
   kode: '8',
   tekstKode: 'TilBehandlingPanel.8SisteUker',
 }];
+
+export const behandlingstypeOrder = [
+  behandlingType.FORSTEGANGSSOKNAD,
+  behandlingType.REVURDERING,
+  behandlingType.ANKE,
+  behandlingType.INNSYN,
+  behandlingType.KLAGE,
+];
 
 export const erDatoInnenforPeriode = (oppgaveForAvdeling, ukevalg) => {
   if (ukevalg === uker[1].kode) {
