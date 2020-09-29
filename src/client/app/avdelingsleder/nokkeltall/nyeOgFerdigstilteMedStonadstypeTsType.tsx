@@ -3,8 +3,8 @@ import { Kodeverk } from 'kodeverk/kodeverkTsType';
 type NyeOgFerdigstilteMedStonadstype = Readonly<{
     behandlingType: Kodeverk;
     fagsakYtelseType: Kodeverk;
-    nye: string[];
-    ferdigstilte: string[];
+    nye: number;
+    ferdigstilte: number;
     dato: string;
 }>
 
