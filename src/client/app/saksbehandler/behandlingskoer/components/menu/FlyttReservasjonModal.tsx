@@ -1,5 +1,4 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { FunctionComponent, useCallback, useEffect } from 'react';
 import { injectIntl, WrappedComponentProps, FormattedMessage } from 'react-intl';
 
 import { Form } from 'react-final-form';
@@ -13,26 +12,22 @@ import {
 } from 'utils/validation/validators';
 import { TextAreaField, InputField } from 'form/FinalFields';
 import Modal from 'sharedComponents/Modal';
-import { getSaksbehandler, isSaksbehandlerSokStartet, isSaksbehandlerSokFerdig } from '../../duck';
+import useRestApiRunner from 'api/rest-api-hooks/local-data/useRestApiRunner';
+import { K9LosApiKeys } from 'api/k9LosApi';
+import RestApiState from 'api/rest-api-hooks/RestApiState';
 import { Saksbehandler } from '../../saksbehandlerTsType';
 
 import styles from './flyttReservasjonModal.less';
 
 const minLength3 = minLength(3);
 const maxLength1500 = maxLength(1500);
-const minLength7 = minLength(7);
-const maxLength7 = maxLength(7);
 
 interface OwnProps {
   showModal: boolean;
   oppgaveId: string;
   closeModal: () => void;
-  submit: (oppgaveId: string, brukerident: string, begrunnelse: string) => void;
-  finnSaksbehandler: (brukerident: string) => void;
-  resetSaksbehandler: () => Promise<string>;
   saksbehandler?: Saksbehandler;
-  erSaksbehandlerSokStartet: boolean;
-  erSaksbehandlerSokFerdig: boolean;
+ hentAlleReservasjonerEllerOppgaver: (params: any, keepData: boolean) => void;
 }
 
 /**
@@ -40,125 +35,119 @@ interface OwnProps {
  *
  * Presentasjonskomponent. Modal som lar en søke opp en saksbehandler som saken skal flyttes til. En kan også begrunne hvorfor saken skal flyttes.
  */
-export class FlyttReservasjonModal extends Component<OwnProps & WrappedComponentProps> {
-   componentWillUnmount = () => {
-     const {
-       resetSaksbehandler,
-     } = this.props;
-     resetSaksbehandler();
-   }
+export const FlyttReservasjonModal: FunctionComponent<OwnProps & WrappedComponentProps> = ({
+  intl, showModal, closeModal, oppgaveId, hentAlleReservasjonerEllerOppgaver,
+}) => {
+  const {
+    startRequest, state, data: saksbehandler, resetRequestData,
+  } = useRestApiRunner<Saksbehandler>(K9LosApiKeys.FLYTT_RESERVASJON_SAKSBEHANDLER_SOK);
+  const finnSaksbehandler = useCallback((brukerIdent) => startRequest(brukerIdent), []);
 
-   formatText = () => {
-     const {
-       intl, saksbehandler, erSaksbehandlerSokFerdig,
-     } = this.props;
+  const { startRequest: flyttOppgaveReservasjon } = useRestApiRunner(K9LosApiKeys.FLYTT_RESERVASJON);
+  const flyttOppgaveReservasjonFn = useCallback(
+    (brukerIdent: string, begrunnelse: string): Promise<any> => flyttOppgaveReservasjon({ oppgaveId, brukerIdent, begrunnelse })
+      .then(() => hentAlleReservasjonerEllerOppgaver({}, true)),
+    [],
+  );
 
-     if (erSaksbehandlerSokFerdig && !saksbehandler) {
-       return intl.formatMessage({ id: 'LeggTilSaksbehandlerForm.FinnesIkke' });
-     }
+  const formatText = () => {
+    if (state === RestApiState.SUCCESS && !saksbehandler) {
+      return intl.formatMessage({ id: 'LeggTilSaksbehandlerForm.FinnesIkke' });
+    }
 
-     return saksbehandler
-       ? `${saksbehandler.navn}`
-       : '';
-   }
+    return saksbehandler
+      ? `${saksbehandler.navn}`
+      : '';
+  };
 
-   render = () => {
-     const {
-       intl, showModal, closeModal, submit, oppgaveId, finnSaksbehandler, erSaksbehandlerSokStartet, erSaksbehandlerSokFerdig, saksbehandler,
-     } = this.props;
+  useEffect(() => () => {
+    resetRequestData();
+  }, []);
 
-     return (
-       <Modal
-         className={styles.modal}
-         isOpen={showModal}
-         closeButton={false}
-         contentLabel={intl.formatMessage({ id: 'FlyttReservasjonModal.FlyttReservasjon' })}
-         onRequestClose={closeModal}
-       >
-         <Form
-           onSubmit={(values) => finnSaksbehandler(values.brukerIdent)}
-           render={({
-             handleSubmit, values,
-           }) => (
-             <form onSubmit={handleSubmit}>
-               <Element>
-                 <FormattedMessage id="FlyttReservasjonModal.FlyttReservasjon" />
-               </Element>
-               <VerticalSpacer eightPx />
-               <FlexContainer fluid>
-                 <FlexRow>
-                   <FlexColumn>
-                     <InputField
-                       name="brukerIdent"
-                       label={intl.formatMessage({ id: 'FlyttReservasjonModal.Brukerident' })}
-                       bredde="S"
-                       validate={[required]}
-                       autoFocus
-                     />
-                   </FlexColumn>
-                   <FlexColumn>
-                     <Hovedknapp
-                       mini
-                       htmlType="submit"
-                       className={styles.button}
-                       spinner={erSaksbehandlerSokStartet}
-                       disabled={!values.brukerIdent || erSaksbehandlerSokStartet}
-                       tabIndex="0"
-                     >
-                       <FormattedMessage id="FlyttReservasjonModal.Sok" />
-                     </Hovedknapp>
-                   </FlexColumn>
-                 </FlexRow>
-               </FlexContainer>
-               {erSaksbehandlerSokFerdig && (
-               <>
-                 <Normaltekst>{this.formatText()}</Normaltekst>
-                 <VerticalSpacer sixteenPx />
-               </>
-               )}
-             </form>
-           )}
-         />
-         <Form
-           onSubmit={(values) => submit(oppgaveId, saksbehandler ? saksbehandler.brukerIdent : '', values.begrunnelse)}
-           render={({
-             handleSubmit, values,
-           }) => (
-             <form onSubmit={handleSubmit}>
-               <TextAreaField
-                 name="begrunnelse"
-                 label={intl.formatMessage({ id: 'FlyttReservasjonModal.Begrunn' })}
-                 validate={[required, maxLength1500, minLength3, hasValidText]}
-                 maxLength={1500}
-               />
-               <Hovedknapp
-                 className={styles.submitButton}
-                 mini
-                 htmlType="submit"
-                 disabled={!saksbehandler || (!values.begrunnelse || values.begrunnelse.length < 3)}
-               >
-                 {intl.formatMessage({ id: 'FlyttReservasjonModal.Ok' })}
-               </Hovedknapp>
-               <Knapp
-                 className={styles.cancelButton}
-                 mini
-                 htmlType="reset"
-                 onClick={closeModal}
-               >
-                 {intl.formatMessage({ id: 'FlyttReservasjonModal.Avbryt' })}
-               </Knapp>
-             </form>
-           )}
-         />
-       </Modal>
-     );
-   }
-}
+  return (
+    <Modal
+      className={styles.modal}
+      isOpen={showModal}
+      closeButton={false}
+      contentLabel={intl.formatMessage({ id: 'FlyttReservasjonModal.FlyttReservasjon' })}
+      onRequestClose={closeModal}
+    >
+      <Form
+        onSubmit={(values) => finnSaksbehandler(values.brukerIdent)}
+        render={({
+          handleSubmit, values,
+        }) => (
+          <form onSubmit={handleSubmit}>
+            <Element>
+              <FormattedMessage id="FlyttReservasjonModal.FlyttReservasjon" />
+            </Element>
+            <VerticalSpacer eightPx />
+            <FlexContainer>
+              <FlexRow>
+                <FlexColumn>
+                  <InputField
+                    name="brukerIdent"
+                    label={intl.formatMessage({ id: 'FlyttReservasjonModal.Brukerident' })}
+                    bredde="S"
+                    validate={[required]}
+                    autoFocus
+                  />
+                </FlexColumn>
+                <FlexColumn>
+                  <Hovedknapp
+                    mini
+                    htmlType="submit"
+                    className={styles.button}
+                    spinner={state === RestApiState.LOADING}
+                    disabled={!values.brukerIdent || state === RestApiState.LOADING}
+                  >
+                    <FormattedMessage id="FlyttReservasjonModal.Sok" />
+                  </Hovedknapp>
+                </FlexColumn>
+              </FlexRow>
+            </FlexContainer>
+            {state === RestApiState.SUCCESS && (
+            <>
+              <Normaltekst>{formatText()}</Normaltekst>
+              <VerticalSpacer sixteenPx />
+            </>
+            )}
+          </form>
+        )}
+      />
+      <Form
+        onSubmit={(values) => flyttOppgaveReservasjonFn(saksbehandler ? saksbehandler.brukerIdent : '', values.begrunnelse)}
+        render={({
+          handleSubmit, values,
+        }) => (
+          <form onSubmit={handleSubmit}>
+            <TextAreaField
+              name="begrunnelse"
+              label={intl.formatMessage({ id: 'FlyttReservasjonModal.Begrunn' })}
+              validate={[required, maxLength1500, minLength3, hasValidText]}
+              maxLength={1500}
+            />
+            <Hovedknapp
+              className={styles.submitButton}
+              mini
+              htmlType="submit"
+              disabled={!saksbehandler || (!values.begrunnelse || values.begrunnelse.length < 3)}
+            >
+              {intl.formatMessage({ id: 'FlyttReservasjonModal.Ok' })}
+            </Hovedknapp>
+            <Knapp
+              className={styles.cancelButton}
+              mini
+              htmlType="reset"
+              onClick={closeModal}
+            >
+              {intl.formatMessage({ id: 'FlyttReservasjonModal.Avbryt' })}
+            </Knapp>
+          </form>
+        )}
+      />
+    </Modal>
+  );
+};
 
-const mapStateToProps = (state) => ({
-  erSaksbehandlerSokStartet: isSaksbehandlerSokStartet(state),
-  erSaksbehandlerSokFerdig: isSaksbehandlerSokFerdig(state),
-  saksbehandler: getSaksbehandler(state),
-});
-
-export default connect(mapStateToProps)(injectIntl(FlyttReservasjonModal));
+export default injectIntl(FlyttReservasjonModal);

@@ -1,52 +1,20 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { bindActionCreators, Dispatch } from 'redux';
-
+import React, { FunctionComponent, useState } from 'react';
 import OppgaveErReservertAvAnnenModal from 'saksbehandler/components/OppgaveErReservertAvAnnenModal';
-import { Fagsak } from 'saksbehandler/fagsakSearch/fagsakTsType';
-import { getK9sakUrl, getNavAnsattKanReservere } from 'app/duck';
 import { getK9sakHref } from 'app/paths';
-import {
-  reserverOppgave as reserverOppgaveActionCreator,
-  leggTilBehandletOppgave,
-} from 'saksbehandler/behandlingskoer/duck';
+
 import { OppgaveStatus } from 'saksbehandler/oppgaveStatusTsType';
 import Oppgave from 'saksbehandler/oppgaveTsType';
-import oppgavePropType from 'saksbehandler/oppgavePropType';
 import { SokeResultat } from 'saksbehandler/fagsakSearch/sokeResultatTsType';
-import sokeResultatPropType from 'saksbehandler/fagsakSearch/sokeResultatPropType';
-import { searchFagsaker, resetFagsakSearch, hentOppgaverForFagsaker as hentOppgaverForFagsakerActionCreator } from './duck';
-import {
-  getFagsaker,
-  getFagsakOppgaver,
-  getSearchFagsakerAccessDenied,
-} from './fagsakSearchSelectors';
+import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
+import useRestApiRunner from 'api/rest-api-hooks/local-data/useRestApiRunner';
+import useGlobalStateRestApiData from 'api/rest-api-hooks/global-data/useGlobalStateRestApiData';
+import NavAnsatt from 'app/navAnsattTsType';
+import { errorOfType, ErrorTypes, getErrorResponseData } from 'api/rest-api';
 import FagsakSearch from './components/FagsakSearch';
 
-interface SearchResultAccessDenied {
-  feilmelding?: string;
-}
-
-type Props = Readonly<{
-  fagsaker: SokeResultat;
-  fagsakOppgaver: Oppgave[];
-  searchFagsaker: ({ searchString: string, skalReservere: boolean }) => void;
-  searchResultAccessDenied?: SearchResultAccessDenied;
-  resetFagsakSearch: () => void;
-  goToFagsak: (saknummer: string, behandlingId?: number) => void;
-  leggTilBehandletOppgave: (oppgave: Oppgave) => void;
-  reserverOppgave: (oppgaveId: string) => Promise<{payload: OppgaveStatus }>;
-  hentOppgaverForFagsaker: (fagsaker: string) => Promise<{ payload: Oppgave[] }>;
-  kanReservere: boolean;
-}>;
-
-interface StateProps {
-  skalReservere: boolean;
-  reservertAvAnnenSaksbehandler: boolean;
-  reservertOppgave?: Oppgave;
-  sokStartet: boolean;
-  sokFerdig: boolean;
+interface OwnProps {
+  k9sakUrl: string;
+  k9tilbakeUrl: string;
 }
 
 /** s
@@ -55,171 +23,116 @@ interface StateProps {
  * Container komponent. Har ansvar for å vise søkeskjermbildet og å håndtere fagsaksøket
  * mot server og lagringen av resultatet i klientens state.
  */
-export class FagsakSearchIndex extends Component<Props, StateProps> {
-   state = {
-     skalReservere: false,
-     reservertAvAnnenSaksbehandler: false,
-     reservertOppgave: undefined,
-     sokStartet: false,
-     sokFerdig: false,
-   };
+const FagsakSearchIndex: FunctionComponent<OwnProps> = ({
+  k9sakUrl,
+  k9tilbakeUrl,
+}) => {
+  const [reservertAvAnnenSaksbehandler, setReservertAvAnnenSaksbehandler] = useState(false);
+  const [reservertOppgave, setReservertOppgave] = useState<Oppgave>();
+  const [sokStartet, setSokStartet] = useState(false);
+  const [sokFerdig, setSokFerdig] = useState(false);
+  const [skalReservere, setSkalReservere] = useState(false);
+  const { kanReservere } = useGlobalStateRestApiData<NavAnsatt>(RestApiGlobalStatePathsKeys.NAV_ANSATT);
 
-  static propTypes = {
-    /**
-     * Saksnummer eller fødselsnummer/D-nummer
-     */
-    fagsaker: sokeResultatPropType,
-    fagsakOppgaver: PropTypes.arrayOf(oppgavePropType),
-    searchFagsaker: PropTypes.func.isRequired,
-    searchResultAccessDenied: PropTypes.shape({
-      feilmelding: PropTypes.string.isRequired,
-    }),
-    resetFagsakSearch: PropTypes.func.isRequired,
-    goToFagsak: PropTypes.func.isRequired,
-    reserverOppgave: PropTypes.func.isRequired,
-    leggTilBehandletOppgave: PropTypes.func.isRequired,
-    hentOppgaverForFagsaker: PropTypes.func.isRequired,
-    kanReservere: PropTypes.bool.isRequired,
+  const goToFagsak = (saksnummer, behandlingId) => {
+    window.location.assign(getK9sakHref(k9sakUrl, saksnummer, behandlingId));
   };
 
-  static defaultProps = {
-    fagsaker: {
-      ikkeTilgang: false,
-      fagsaker: [],
-    },
-    searchResultAccessDenied: undefined,
-  };
+  const {
+    startRequest: sokFagsak, resetRequestData: resetFagsakSok, data: fagsaker = [], error: fagsakError,
+  } = useRestApiRunner<SokeResultat>(K9LosApiKeys.SEARCH_FAGSAK);
 
-  componentWillUnmount = () => {
-    const { resetFagsakSearch: resetSearch } = this.props;
-    resetSearch();
-  }
+  const searchResultAccessDenied = fagsakError && errorOfType(fagsakError, ErrorTypes.MANGLER_TILGANG_FEIL) ? getErrorResponseData(fagsakError) : undefined;
 
-  goToFagsakEllerApneModal = (oppgave: Oppgave) => {
-    const { goToFagsak } = this.props;
+  const { startRequest: reserverOppgave } = useRestApiRunner<OppgaveStatus>(K9LosApiKeys.RESERVER_OPPGAVE);
+  const { startRequest: leggTilBehandletOppgave } = useRestApiRunner(K9LosApiKeys.LEGG_TIL_BEHANDLET_OPPGAVE);
+  const { startRequest: hentOppgaverForFagsaker, data: fagsakOppgaver } = useRestApiRunner<Oppgave[]>(K9LosApiKeys.OPPGAVER_FOR_FAGSAKER);
+
+  const goToFagsakEllerApneModal = (oppgave: Oppgave) => {
     if (!oppgave.status.erReservert || (oppgave.status.erReservert && oppgave.status.erReservertAvInnloggetBruker)) {
       goToFagsak(oppgave.saksnummer, oppgave.behandlingId);
     } else if (oppgave.status.erReservert && !oppgave.status.erReservertAvInnloggetBruker) {
-      this.setState((prevState) => ({ ...prevState, reservertAvAnnenSaksbehandler: true, reservertOppgave: oppgave }));
+      setReservertAvAnnenSaksbehandler(true);
+      setReservertOppgave(oppgave);
     }
-  }
-
-  leggTilBehandletSak = (oppgave: Oppgave) => {
-    const { leggTilBehandletOppgave: leggTilBehandlet } = this.props;
-    leggTilBehandlet(oppgave);
   };
 
-  velgFagsakOperasjoner = (oppgave: Oppgave, reserver: boolean) => {
-    const { reserverOppgave, goToFagsak, kanReservere } = this.props;
+  const velgFagsakOperasjoner = (oppgave: Oppgave, reserver: boolean) => {
     if (oppgave.status.erReservert && !oppgave.status.erReservertAvInnloggetBruker) {
-      this.setState((prevState) => ({ ...prevState, reservertAvAnnenSaksbehandler: true, reservertOppgave: oppgave }));
+      setReservertOppgave(oppgave);
+      setReservertAvAnnenSaksbehandler(true);
     }
 
     if (reserver && !kanReservere) {
-      this.leggTilBehandletSak(oppgave);
+      leggTilBehandletOppgave(oppgave);
       goToFagsak(oppgave.saksnummer, oppgave.behandlingId);
     }
     if (!reserver) {
-      this.leggTilBehandletSak(oppgave);
-      this.goToFagsakEllerApneModal(oppgave);
+      leggTilBehandletOppgave(oppgave);
+      goToFagsakEllerApneModal(oppgave);
     } else if (reserver && kanReservere) {
       reserverOppgave(oppgave.eksternId).then(() => {
-        this.leggTilBehandletSak(oppgave);
+        leggTilBehandletOppgave(oppgave);
         goToFagsak(oppgave.saksnummer, oppgave.behandlingId);
       });
     } else if (!kanReservere) {
-      this.leggTilBehandletSak(oppgave);
+      leggTilBehandletOppgave(oppgave);
       goToFagsak(oppgave.saksnummer, oppgave.behandlingId);
     }
   };
 
-  sokFagsak = (values: {searchString: string; skalReservere: boolean}) => {
-    const {
-      searchFagsaker: search, hentOppgaverForFagsaker,
-    } = this.props;
+  const sokFagsakFn = (values: {searchString: string; skalReservere: boolean}) => {
+    setSkalReservere(values.skalReservere);
+    setSokStartet(true);
+    setSokFerdig(false);
 
-    this.setState((prevState) => ({
-      ...prevState, skalReservere: values.skalReservere, sokStartet: true, sokFerdig: false,
-    }));
-
-    return search(values).then((data: {payload: SokeResultat }) => {
-      const fagsaker = new Set(data.payload.fagsaker.map((fagsak) => `${fagsak.saksnummer}`));
-      if (fagsaker.size > 0) {
-        hentOppgaverForFagsaker(Array.from(fagsaker).join(',')).then(() => {
-          this.setState((prevState) => ({ ...prevState, sokStartet: false, sokFerdig: true }));
+    return sokFagsak(values).then((fagsakerResultat) => {
+      if (fagsakerResultat.fagsaker.length > 0) {
+        hentOppgaverForFagsaker({ saksnummerListe: fagsakerResultat.fagsaker.map((fagsak) => `${fagsak.saksnummer}`).join(',') }).then(() => {
+          setSokStartet(false);
+          setSokFerdig(true);
         });
       } else {
-        this.setState((prevState) => ({ ...prevState, sokStartet: false, sokFerdig: true }));
+        setSokStartet(false);
+        setSokFerdig(true);
       }
     });
-  }
+  };
 
-  lukkErReservertModalOgApneOppgave = (oppgave: Oppgave) => {
-    const { goToFagsak } = this.props;
-    this.setState((prevState) => ({
-      ...prevState, reservertAvAnnenSaksbehandler: false, reservertOppgave: undefined,
-    }));
-    this.leggTilBehandletSak(oppgave);
+  const lukkErReservertModalOgApneOppgave = (oppgave: Oppgave) => {
+    setReservertOppgave(undefined);
+    setReservertAvAnnenSaksbehandler(false);
+    leggTilBehandletOppgave(oppgave);
     goToFagsak(oppgave.saksnummer, oppgave.behandlingId);
-  }
+  };
 
-  resetSearch = () => {
-    const { resetFagsakSearch: resetSearch } = this.props;
-    resetSearch();
-    this.setState((prevState) => ({ ...prevState, sokStartet: false, sokFerdig: false }));
-  }
+  const resetSearchFn = () => {
+    resetFagsakSok();
+    setSokStartet(false);
+    setSokFerdig(false);
+  };
 
-  render = () => {
-    const {
-      fagsaker, fagsakOppgaver, searchResultAccessDenied, goToFagsak,
-    } = this.props;
-    const {
-      reservertAvAnnenSaksbehandler, reservertOppgave, sokStartet, sokFerdig,
-    } = this.state;
-    return (
-      <>
-        <FagsakSearch
-          fagsaker={fagsaker}
-          fagsakOppgaver={fagsakOppgaver || []}
-          searchFagsakCallback={this.sokFagsak}
-          searchResultReceived={sokFerdig}
-          selectOppgaveCallback={this.velgFagsakOperasjoner}
-          searchStarted={sokStartet}
-          searchResultAccessDenied={searchResultAccessDenied}
-          resetSearch={this.resetSearch}
-        />
-        {reservertAvAnnenSaksbehandler && reservertOppgave && (
+  return (
+    <>
+      <FagsakSearch
+        fagsaker={fagsaker}
+        fagsakOppgaver={fagsakOppgaver || []}
+        searchFagsakCallback={sokFagsakFn}
+        searchResultReceived={sokFerdig}
+        selectOppgaveCallback={velgFagsakOperasjoner}
+        searchStarted={sokStartet}
+        searchResultAccessDenied={searchResultAccessDenied}
+        resetSearch={resetSearchFn}
+      />
+      {reservertAvAnnenSaksbehandler && reservertOppgave && (
         <OppgaveErReservertAvAnnenModal
-          lukkErReservertModalOgOpneOppgave={this.lukkErReservertModalOgApneOppgave}
+          lukkErReservertModalOgOpneOppgave={lukkErReservertModalOgApneOppgave}
           oppgave={reservertOppgave}
           oppgaveStatus={reservertOppgave.status}
         />
-        )}
-      </>
-    );
-  }
-}
-
-const getGoToFagsakFn = (k9sakUrl) => (saksnummer, behandlingId) => {
-  window.location.assign(getK9sakHref(k9sakUrl, saksnummer, behandlingId));
+      )}
+    </>
+  );
 };
 
-const mapStateToProps = (state) => ({
-  fagsaker: getFagsaker(state),
-  fagsakOppgaver: getFagsakOppgaver(state),
-  searchResultAccessDenied: getSearchFagsakerAccessDenied(state),
-  goToFagsak: getGoToFagsakFn(getK9sakUrl(state)),
-  kanReservere: getNavAnsattKanReservere(state),
-});
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  ...bindActionCreators({
-    searchFagsaker,
-    resetFagsakSearch,
-    reserverOppgave: reserverOppgaveActionCreator,
-    leggTilBehandletOppgave,
-    hentOppgaverForFagsaker: hentOppgaverForFagsakerActionCreator,
-  }, dispatch),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(FagsakSearchIndex);
+export default FagsakSearchIndex;

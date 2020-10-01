@@ -4,20 +4,18 @@ import { Undertittel } from 'nav-frontend-typografi';
 import { Oppgaveko } from 'saksbehandler/behandlingskoer/oppgavekoTsType';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import Oppgave from 'saksbehandler/oppgaveTsType';
+import useRestApiRunner from 'api/rest-api-hooks/local-data/useRestApiRunner';
+import { K9LosApiKeys } from 'api/k9LosApi';
 import OppgavekoVelgerForm from './OppgavekoVelgerForm';
 import OppgaverTabell from './OppgaverTabell';
 
 import styles from './oppgavekoPanel.less';
 
 interface OwnProps {
-  valgtKoSkjermet: boolean;
+  setValgtOppgavekoId: (id: string) => void;
+  valgtOppgavekoId: string;
   oppgavekoer: Oppgaveko[];
-  fetchOppgavekoOppgaver: (id: string) => void;
   reserverOppgave: (oppgave: Oppgave) => void;
-  opphevOppgaveReservasjon: (oppgaveId: string, begrunnelse: string) => Promise<string>;
-  forlengOppgaveReservasjon: (oppgaveId: string) => Promise<string>;
-  endreOppgaveReservasjon: (oppgaveId: string, reserverTil: string) => Promise<string>;
-  flyttReservasjon: (oppgaveId: string, brukerident: string, begrunnelse: string) => Promise<string>;
 }
 
 /**
@@ -25,32 +23,30 @@ interface OwnProps {
  */
 const OppgavekoPanel: FunctionComponent<OwnProps> = ({
   reserverOppgave,
-  opphevOppgaveReservasjon,
-  forlengOppgaveReservasjon,
   oppgavekoer,
-  fetchOppgavekoOppgaver,
-  flyttReservasjon,
-  endreOppgaveReservasjon,
-  valgtKoSkjermet,
-}) => (
-  <>
-    <Undertittel><FormattedMessage id="OppgavekoPanel.StartBehandling" /></Undertittel>
-    <div className={styles.container}>
-      <OppgavekoVelgerForm
-        oppgavekoer={oppgavekoer}
-        fetchOppgavekoOppgaver={fetchOppgavekoOppgaver}
-      />
-      <VerticalSpacer twentyPx />
-      <OppgaverTabell
-        valgtKoSkjermet={valgtKoSkjermet}
-        reserverOppgave={reserverOppgave}
-        opphevOppgaveReservasjon={opphevOppgaveReservasjon}
-        forlengOppgaveReservasjon={forlengOppgaveReservasjon}
-        flyttReservasjon={flyttReservasjon}
-        endreOppgaveReservasjon={endreOppgaveReservasjon}
-      />
-    </div>
-  </>
-);
+  setValgtOppgavekoId,
+  valgtOppgavekoId,
+}) => {
+  const { startRequest: hentAntallOppgaver, data: antallOppgaver } = useRestApiRunner<number>(K9LosApiKeys.BEHANDLINGSKO_OPPGAVE_ANTALL);
+
+  return (
+    <>
+      <Undertittel><FormattedMessage id="OppgavekoPanel.StartBehandling" /></Undertittel>
+      <div className={styles.container}>
+        <OppgavekoVelgerForm
+          oppgavekoer={oppgavekoer}
+          setValgtOppgavekoId={setValgtOppgavekoId}
+          hentAntallOppgaverForBehandlingsko={hentAntallOppgaver}
+        />
+        <VerticalSpacer twentyPx />
+        <OppgaverTabell
+          antallOppgaver={antallOppgaver}
+          reserverOppgave={reserverOppgave}
+          valgtOppgavekoId={valgtOppgavekoId}
+        />
+      </div>
+    </>
+  );
+};
 
 export default OppgavekoPanel;

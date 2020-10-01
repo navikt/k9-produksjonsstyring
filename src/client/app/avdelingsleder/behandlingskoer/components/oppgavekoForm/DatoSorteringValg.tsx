@@ -10,26 +10,39 @@ import { ISO_DATE_FORMAT, DDMMYYYY_DATE_FORMAT } from 'utils/formats';
 import moment from 'moment';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import ArrowBox from 'sharedComponents/ArrowBox';
-import AutoLagringVedBlur from './AutoLagringVedBlur';
 import styles from './sorteringVelger.less';
 
 const finnDato = (antallDager) => moment().add(antallDager, 'd').format();
-const getLagreDatoFn = (lagreOppgavekoSorteringTidsintervallDato, valgtOppgavekoId, annenDato, erFomDato) => (e) => {
+
+const getLagreDatoFn = (lagreOppgavekoSorteringTidsintervallDato, valgtOppgavekoId, annenDato, erFomDato, hentKo) => (e) => {
   let dato = e.target.value;
   if (dato) {
     dato = moment(dato, DDMMYYYY_DATE_FORMAT, true);
   }
   if (!dato || dato.isValid()) {
     const d = dato ? dato.format(ISO_DATE_FORMAT) : dato;
-    return erFomDato
-      ? lagreOppgavekoSorteringTidsintervallDato(valgtOppgavekoId, d, annenDato)
-      : lagreOppgavekoSorteringTidsintervallDato(valgtOppgavekoId, annenDato, d);
+
+    const params = erFomDato ? {
+      id: valgtOppgavekoId,
+      fomDato: d,
+      tomDato: annenDato,
+    } : {
+      id: valgtOppgavekoId,
+      fomDato: annenDato,
+      tomDato: d,
+    };
+
+    return lagreOppgavekoSorteringTidsintervallDato(params)
+      .then(() => {
+        hentKo({ id: valgtOppgavekoId });
+      });
   }
   return undefined;
 };
 interface OwnProps {
     valgtOppgavekoId: string;
-    lagreOppgavekoSorteringTidsintervallDato: (oppgavekoId: string, fomDato: string, tomDato: string) => void;
+    lagreOppgavekoSorteringTidsintervallDato: (params: {id: string, fomDato: string, tomDato: string}) => void;
+    hentOppgaveko: () => void;
     fomDato: string;
     tomDato: string;
 }
@@ -40,6 +53,7 @@ export const DatoSorteringValg: FunctionComponent<OwnProps & WrappedComponentPro
   lagreOppgavekoSorteringTidsintervallDato,
   fomDato,
   tomDato,
+  hentOppgaveko,
 }) => (
   <ArrowBox>
     <Undertekst>
@@ -54,7 +68,7 @@ export const DatoSorteringValg: FunctionComponent<OwnProps & WrappedComponentPro
               label={{ id: 'SorteringVelger.Fom' }}
               onBlurValidation
               validate={[hasValidDate]}
-              onBlur={getLagreDatoFn(lagreOppgavekoSorteringTidsintervallDato, valgtOppgavekoId, tomDato, true)}
+              onBlur={getLagreDatoFn(lagreOppgavekoSorteringTidsintervallDato, valgtOppgavekoId, tomDato, true, hentOppgaveko)}
             />
           </FlexColumn>
           <FlexColumn>
@@ -68,7 +82,7 @@ export const DatoSorteringValg: FunctionComponent<OwnProps & WrappedComponentPro
               label={{ id: 'SorteringVelger.Tom' }}
               onBlurValidation
               validate={[hasValidDate]}
-              onBlur={getLagreDatoFn(lagreOppgavekoSorteringTidsintervallDato, valgtOppgavekoId, fomDato, false)}
+              onBlur={getLagreDatoFn(lagreOppgavekoSorteringTidsintervallDato, valgtOppgavekoId, fomDato, false, hentOppgaveko)}
             />
           </FlexColumn>
         </FlexRow>

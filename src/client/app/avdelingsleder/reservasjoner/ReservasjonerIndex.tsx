@@ -1,77 +1,37 @@
-import React, { Component } from 'react';
-import { bindActionCreators, Dispatch } from 'redux';
-import {
-  fetchAlleReservasjoner as fetchAllereservasjonerActionCreator,
-  getAlleReservasjoner, opphevReservasjon, endreOppgaveReservasjon, finnSaksbehandler, resetSaksbehandler, flyttReservasjon,
-} from 'avdelingsleder/reservasjoner/duck';
-import { connect } from 'react-redux';
+import React, { FunctionComponent, useCallback, useEffect } from 'react';
 import Reservasjon from 'avdelingsleder/reservasjoner/reservasjonTsType';
-import k9LosApi from 'api/k9LosApi';
+import { K9LosApiKeys } from 'api/k9LosApi';
+import useRestApiRunner from 'api/rest-api-hooks/local-data/useRestApiRunner';
+import RestApiState from 'api/rest-api-hooks/RestApiState';
 import ReservasjonerTabell from './components/ReservasjonerTabell';
 
 const EMPTY_ARRAY = [];
 
-interface TsProps {
-  fetchAlleReservasjoner: () => void;
-  reservasjoner: Reservasjon[];
-  opphevReservasjon: (oppgaveId: string) => Promise<string>;
-  endreOppgaveReservasjon: (oppgaveId: string, reserverTil: string) => Promise<string>;
-  finnSaksbehandler: (brukerIdent: string) => Promise<string>;
-  resetSaksbehandler: () => Promise<string>;
-  flyttReservasjon: (oppgaveId: string, brukerident: string, begrunnelse: string) => Promise<string>;
-  requestFinished: boolean;
-}
+export const ReservasjonerIndex: FunctionComponent = () => {
+  const { data: reservasjoner = EMPTY_ARRAY, state, startRequest: hentAlleReservasjoner } = useRestApiRunner<Reservasjon[]>(
+    K9LosApiKeys.HENT_ALLE_RESERVASJONER,
+  );
 
-export class ReservasjonerIndex extends Component<TsProps> {
-  static defaultProps = {
-    reservasjoner: EMPTY_ARRAY,
-  }
+  const requestFinished = state === RestApiState.SUCCESS;
 
-  componentDidMount = () => {
-    const { fetchAlleReservasjoner: fetchReservasjoner } = this.props;
-    fetchReservasjoner();
-  }
+  const { startRequest: opphevOppgaveReservasjon } = useRestApiRunner(K9LosApiKeys.AVDELINGSLEDER_OPPHEVER_RESERVASJON);
 
-  render = () => {
-    const {
-      reservasjoner,
-      requestFinished,
-      opphevReservasjon: opphevOppgaveReservasjon,
-      fetchAlleReservasjoner,
-      finnSaksbehandler: saksbehandlerSok,
-      resetSaksbehandler: nullstillSaksbehandler,
-      flyttReservasjon: flyttOppgaveReservasjon,
-      endreOppgaveReservasjon: endreReservasjonDato,
-    } = this.props;
-    return (
-      <ReservasjonerTabell
-        opphevReservasjon={opphevOppgaveReservasjon}
-        reservasjoner={reservasjoner}
-        hentAlleReservasjoner={fetchAlleReservasjoner}
-        endreOppgaveReservasjon={endreReservasjonDato}
-        finnSaksbehandler={saksbehandlerSok}
-        resetSaksbehandler={nullstillSaksbehandler}
-        flyttReservasjon={flyttOppgaveReservasjon}
-        requestFinished={requestFinished}
-      />
-    );
-  }
-}
+  const opphevOppgaveReservasjonFn = useCallback((oppgaveId: string): Promise<any> => opphevOppgaveReservasjon({ oppgaveId })
+    .then(() => hentAlleReservasjoner()),
+  []);
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  ...bindActionCreators({
-    fetchAlleReservasjoner: fetchAllereservasjonerActionCreator,
-    opphevReservasjon,
-    endreOppgaveReservasjon,
-    finnSaksbehandler,
-    resetSaksbehandler,
-    flyttReservasjon,
-  }, dispatch),
-});
+  useEffect(() => {
+    hentAlleReservasjoner();
+  }, []);
 
-const mapStateToProps = (state) => ({
-  reservasjoner: getAlleReservasjoner(state),
-  requestFinished: k9LosApi.HENT_ALLE_RESERVASJONER.getRestApiFinished()(state),
-});
+  return (
+    <ReservasjonerTabell
+      opphevReservasjon={opphevOppgaveReservasjonFn}
+      reservasjoner={reservasjoner}
+      hentAlleReservasjoner={hentAlleReservasjoner}
+      requestFinished={requestFinished}
+    />
+  );
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(ReservasjonerIndex);
+export default ReservasjonerIndex;

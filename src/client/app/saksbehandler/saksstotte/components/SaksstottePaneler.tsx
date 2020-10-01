@@ -6,27 +6,22 @@ import { SaksbehandlerNokkeltallIndex } from 'saksbehandler/saksstotte/nokkeltal
 import SistBehandledeSaker from './SistBehandledeSaker';
 
 interface OwnProps {
-  k9sakUrl: string;
   valgtOppgavekoId?: string;
-  fetchNyeOgFerdigstilte: (oppgavekoId: string) => void;
 }
 
 /**
  * SaksstottePaneler
  */
 const SaksstottePaneler: FunctionComponent<OwnProps> = ({
-  k9sakUrl,
   valgtOppgavekoId,
-  fetchNyeOgFerdigstilte,
 }) => (
   <>
-    <SistBehandledeSaker k9sakUrl={k9sakUrl} />
+    <SistBehandledeSaker />
     <VerticalSpacer twentyPx />
     {valgtOppgavekoId
       && (
       <SaksbehandlerNokkeltallIndex
         valgtOppgavekoId={valgtOppgavekoId}
-        fetchNyeOgFerdigstilte={fetchNyeOgFerdigstilte}
       />
       )}
   </>

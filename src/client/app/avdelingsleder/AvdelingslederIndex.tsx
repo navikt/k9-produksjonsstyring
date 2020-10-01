@@ -25,15 +25,14 @@ import Image from 'sharedComponents/Image';
 import { Row } from 'nav-frontend-grid';
 import DagensTallPanel from 'avdelingsleder/dagensTall/DagensTallPanel';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
-import useGlobalStateRestApiData from 'api/global-data/useGlobalStateRestApiData';
+import useGlobalStateRestApiData from 'api/rest-api-hooks/global-data/useGlobalStateRestApiData';
 import { RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
 import NavAnsatt from 'app/navAnsattTsType';
 import useTrackRouteParam from 'app/data/trackRouteParam';
-import { getSelectedAvdelingslederPanel, setSelectedAvdelingslederPanel } from './duck';
 import AvdelingslederDashboard from './components/AvdelingslederDashboard';
 import IkkeTilgangTilAvdelingslederPanel from './components/IkkeTilgangTilAvdelingslederPanel';
 import AvdelingslederPanels from './avdelingslederPanels';
-import EndreSaksbehandlereIndex from './bemanning/BemanningIndex';
+import BemanningIndex from './bemanning/BemanningIndex';
 import EndreBehandlingskoerIndex from './behandlingskoer/EndreBehandlingskoerIndex';
 
 import styles from './avdelingslederIndex.less';
@@ -45,7 +44,7 @@ const renderAvdelingslederPanel = (avdelingslederPanel) => {
     case AvdelingslederPanels.BEHANDLINGSKOER:
       return <EndreBehandlingskoerIndex />;
     case AvdelingslederPanels.SAKSBEHANDLERE:
-      return <EndreSaksbehandlereIndex />;
+      return <BemanningIndex />;
     case AvdelingslederPanels.NOKKELTALL:
       return <NokkeltallIndex />;
     case AvdelingslederPanels.RESERVASJONER:

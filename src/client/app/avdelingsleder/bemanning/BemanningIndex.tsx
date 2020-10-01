@@ -1,75 +1,29 @@
-import React, { Component } from 'react';
-import {
-  addSaksbehandler,
-  fetchAlleSaksbehandlere,
-  findSaksbehandler,
-  getSaksbehandlere, removeSaksbehandler,
-  resetSaksbehandlerSok,
-} from 'avdelingsleder/bemanning/duck';
-import { bindActionCreators, Dispatch } from 'redux';
-import { connect } from 'react-redux';
+import React, { FunctionComponent } from 'react';
 import EnkelTeller from 'avdelingsleder/dagensTall/EnkelTeller';
+import { K9LosApiKeys } from 'api/k9LosApi';
+import useRestApiRunner from 'api/rest-api-hooks/local-data/useRestApiRunner';
 import { Saksbehandler } from './saksbehandlerTsType';
 import SaksbehandlerePanel from './components/SaksbehandlerePanel';
 
 import styles from './components/saksbehandlereTabell.less';
-
-interface OwnProps {
-    fetchAlleSaksbehandlere: () => void;
-    findSaksbehandler: (brukerIdent: string) => Promise<string>;
-    resetSaksbehandlerSok: () => void;
-    addSaksbehandler: (brukerIdent: string) => Promise<string>;
-    alleSaksbehandlere: Saksbehandler[];
-    removeSaksbehandler: (brukerIdent: string) => Promise<string>;
-}
 
 const smallScreen = window.innerWidth < 1650;
 
 /**
  * BemanningIndex
  */
-export class BemanningIndex extends Component<OwnProps> {
-    static defaultProps = {
-      alleSaksbehandlere: [],
-    }
+const BemanningIndex: FunctionComponent = () => {
+  const { startRequest: hentAlleSaksbehandlere, data: alleSaksbehandlere = [] } = useRestApiRunner<Saksbehandler[]>(K9LosApiKeys.SAKSBEHANDLERE);
 
-    componentDidMount = () => {
-      const { fetchAlleSaksbehandlere: fetchSaksbehandlere } = this.props;
-      fetchSaksbehandlere();
-    }
+  return (
+    <div className={styles.saksbehandlereContent}>
+      {!smallScreen && <EnkelTeller antall={alleSaksbehandlere.length} tekst="Saksbehandlere"> </EnkelTeller>}
+      <SaksbehandlerePanel
+        saksbehandlere={alleSaksbehandlere}
+        hentAlleSaksbehandlere={hentAlleSaksbehandlere}
+      />
+    </div>
+  );
+};
 
-    render = () => {
-      const {
-        alleSaksbehandlere, addSaksbehandler: leggTilSaksbehandler, resetSaksbehandlerSok: reset,
-        removeSaksbehandler: fjernSaksbehandler,
-      } = this.props;
-
-      return (
-        <div className={styles.saksbehandlereContent}>
-          {!smallScreen && <EnkelTeller antall={alleSaksbehandlere.length} tekst="Saksbehandlere"> </EnkelTeller>}
-          <SaksbehandlerePanel
-            saksbehandlere={alleSaksbehandlere}
-            resetSaksbehandlerSok={reset}
-            leggTilSaksbehandler={leggTilSaksbehandler}
-            fjernSaksbehandler={fjernSaksbehandler}
-          />
-        </div>
-      );
-    }
-}
-
-const mapStateToProps = (state) => ({
-  alleSaksbehandlere: getSaksbehandlere(state),
-});
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  ...bindActionCreators({
-    fetchAlleSaksbehandlere,
-    findSaksbehandler,
-    resetSaksbehandlerSok,
-    addSaksbehandler,
-    removeSaksbehandler,
-  }, dispatch),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(BemanningIndex);
+export default BemanningIndex;

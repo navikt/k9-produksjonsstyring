@@ -8,9 +8,7 @@ import styles from './saksbehandlereTabell.less';
 
 interface OwnProps {
   saksbehandlere: Saksbehandler[];
-  resetSaksbehandlerSok: () => void;
-  leggTilSaksbehandler: (epost: string) => Promise<string>;
-  fjernSaksbehandler: (epost: string) => Promise<string>;
+  hentAlleSaksbehandlere: () => void;
 }
 
 /**
@@ -18,16 +16,12 @@ interface OwnProps {
  */
 const SaksbehandlerePanel: FunctionComponent<OwnProps> = ({
   saksbehandlere,
-  resetSaksbehandlerSok,
-  leggTilSaksbehandler,
-  fjernSaksbehandler,
+  hentAlleSaksbehandlere,
 }) => (
   <Panel className={styles.panel}>
     <SaksbehandlereTabell
       saksbehandlere={saksbehandlere}
-      fjernSaksbehandler={fjernSaksbehandler}
-      leggTilSaksbehandler={leggTilSaksbehandler}
-      resetSaksbehandlerSok={resetSaksbehandlerSok}
+      hentAlleSaksbehandlere={hentAlleSaksbehandlere}
     />
   </Panel>
 );

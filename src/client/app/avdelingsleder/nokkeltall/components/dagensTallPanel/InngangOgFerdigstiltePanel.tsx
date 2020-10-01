@@ -1,38 +1,29 @@
 import React, { FunctionComponent, useState } from 'react';
 import { injectIntl, WrappedComponentProps, FormattedMessage } from 'react-intl';
-import { connect } from 'react-redux';
 import { Form } from 'react-final-form';
-import { Element, Normaltekst, Undertekst } from 'nav-frontend-typografi';
-import { getKodeverk } from 'kodeverk/duck';
-import kodeverkTyper from 'kodeverk/kodeverkTyper';
+import { Element, Normaltekst } from 'nav-frontend-typografi';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import Panel from 'nav-frontend-paneler';
-import { Kodeverk } from 'kodeverk/kodeverkTsType';
-import { createSelector } from 'reselect';
 import moment from 'moment';
 import { ISO_DATE_FORMAT } from 'utils/formats';
-import k9LosApi from 'api/k9LosApi';
+import { K9LosApiKeys } from 'api/k9LosApi';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import { SelectField } from 'form/FinalFields';
 import {
   ALLE_YTELSETYPER_VALGT,
   ytelseTyper,
 } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
-import { getValuesFromReduxState } from 'form/reduxBinding/formDuck';
 import { ToggleKnapp } from 'nav-frontend-toggle';
-import { getNyeOgFerdigstilteOppgaverMedStonadstype } from 'avdelingsleder/nokkeltall/duck';
 import NyeOgFerdigstilteMedStonadstype from 'avdelingsleder/nokkeltall/nyeOgFerdigstilteMedStonadstypeTsType';
+import useRestApi from 'api/rest-api-hooks/local-data/useRestApi';
+import RestApiState from 'api/rest-api-hooks/RestApiState';
 import Teller from './Teller';
 import styles from './inngangOgFerdigstiltePanel.less';
 
 interface OwnProps {
     width: number;
     height: number;
-    nyeOgFerdigstilteOppgaverIdag: NyeOgFerdigstilteMedStonadstype[];
-    nyeOgFerdigstilteOppgaver7dager: NyeOgFerdigstilteMedStonadstype[];
-    behandlingTyper: Kodeverk[];
-    requestFinished: boolean;
-    initialValues: InitialValues;
+    getValueFromLocalStorage: (key: string) => string;
 }
 
 interface InitialValues {
@@ -64,18 +55,27 @@ export const slaSammenLikeBehandlingstyper = (oppgaver) => {
 };
 
 const formName = 'inngangOgFerdigstilteForm';
+const formDefaultValues: InitialValues = { ytelseType: ALLE_YTELSETYPER_VALGT, periodeValg: ALLE_YTELSETYPER_VALGT };
 
 /**
  * InngangOgFerdigstiltePanel.
  */
 
 export const InngangOgFerdigstiltePanel: FunctionComponent<OwnProps & WrappedComponentProps> = ({
-  nyeOgFerdigstilteOppgaverIdag,
-  nyeOgFerdigstilteOppgaver7dager,
-  requestFinished,
-  initialValues,
+  getValueFromLocalStorage,
 }) => {
   const [erIdagValgt, setErIdagValgt] = useState(true);
+  const stringFromStorage = getValueFromLocalStorage(formName);
+  const lagredeVerdier = stringFromStorage ? JSON.parse(stringFromStorage) : undefined;
+
+  const {
+    data: nyeOgFerdigstilteOppgaverMedStonadstype = [], state,
+  } = useRestApi<NyeOgFerdigstilteMedStonadstype[]>(K9LosApiKeys.HENT_OPPSUMMERING);
+
+  const requestFinished = state === RestApiState.SUCCESS;
+
+  const nyeOgFerdigstilteOppgaverIdag = nyeOgFerdigstilteOppgaverMedStonadstype.filter((oppgave) => moment().isSame(moment(oppgave.dato, ISO_DATE_FORMAT), 'day'));
+  const nyeOgFerdigstilteOppgaver7dager = nyeOgFerdigstilteOppgaverMedStonadstype.filter((oppgave) => moment().startOf('day').isSameOrAfter(moment(oppgave.dato, ISO_DATE_FORMAT)));
 
   const getNyeTotalt = (oppgaver: NyeOgFerdigstilteMedStonadstype[], ytelseType: string) => {
     let nye = 0;
@@ -99,7 +99,7 @@ export const InngangOgFerdigstiltePanel: FunctionComponent<OwnProps & WrappedCom
   return (
     <Form
       onSubmit={() => undefined}
-      initialValues={initialValues}
+      initialValues={lagredeVerdier || formDefaultValues}
       render={({ values }) => (
         <Panel className={styles.panel}>
           <Element>
@@ -175,25 +175,4 @@ export const InngangOgFerdigstiltePanel: FunctionComponent<OwnProps & WrappedCom
   );
 };
 
-const formDefaultValues = { ytelseType: ALLE_YTELSETYPER_VALGT, periodeValg: ALLE_YTELSETYPER_VALGT };
-
-export const getNyeOgFerdigstilteForIDag = createSelector([getNyeOgFerdigstilteOppgaverMedStonadstype], (nyeOgFerdigstilte: { dato: string }[] = []) => {
-  const iDag = moment();
-  return nyeOgFerdigstilte.filter((oppgave) => iDag.isSame(moment(oppgave.dato, ISO_DATE_FORMAT), 'day'));
-});
-
-export const getNyeOgFerdigstilteForSisteSyvDager = createSelector([getNyeOgFerdigstilteOppgaverMedStonadstype],
-  (nyeOgFerdigstilte: { dato: string }[] = []) => {
-    const iDag = moment().startOf('day');
-    return nyeOgFerdigstilte.filter((oppgave) => iDag.isSameOrAfter(moment(oppgave.dato, ISO_DATE_FORMAT)));
-  });
-
-const mapStateToProps = (state) => ({
-  behandlingTyper: getKodeverk(state)[kodeverkTyper.BEHANDLING_TYPE],
-  nyeOgFerdigstilteOppgaverIdag: getNyeOgFerdigstilteForIDag(state),
-  nyeOgFerdigstilteOppgaver7dager: getNyeOgFerdigstilteForSisteSyvDager(state),
-  requestFinished: k9LosApi.HENT_OPPSUMMERING.getRestApiFinished()(state),
-  initialValues: getValuesFromReduxState(state)[formName] || formDefaultValues,
-});
-
-export default connect(mapStateToProps)(injectIntl(InngangOgFerdigstiltePanel));
+export default injectIntl(InngangOgFerdigstiltePanel);

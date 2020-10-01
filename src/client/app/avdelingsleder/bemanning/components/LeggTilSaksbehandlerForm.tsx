@@ -11,14 +11,15 @@ import { hasValidEmailFormat } from 'utils/validation/validators';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import { InputField } from 'form/FinalFields';
 import { FlexContainer, FlexRow, FlexColumn } from 'sharedComponents/flexGrid';
+import useRestApiRunner from 'api/rest-api-hooks/local-data/useRestApiRunner';
+import { K9LosApiKeys } from 'api/k9LosApi';
 import { Saksbehandler } from '../saksbehandlerTsType';
 
 import styles from './leggTilSaksbehandlerForm.less';
 
 interface OwnProps {
-  leggTilSaksbehandler: (brukerIdent: string) => Promise<string>;
-  resetSaksbehandlerSok: () => void;
   saksbehandlere: Saksbehandler[];
+  hentAlleSaksbehandlere: () => void;
   lukkForm: () => void;
 }
 
@@ -26,12 +27,15 @@ interface OwnProps {
  * LeggTilSaksbehandlerForm
  */
 export const LeggTilSaksbehandlerForm: FunctionComponent<OwnProps & WrappedComponentProps> = ({
-  resetSaksbehandlerSok,
+  intl,
   saksbehandlere,
-  leggTilSaksbehandler, lukkForm,
+  lukkForm,
+  hentAlleSaksbehandlere,
 }) => {
   const [showWarning, setShowWarning] = useState(false);
   const [leggerTilNySaksbehandler, setLeggerTilNySaksbehandler] = useState(false);
+
+  const { startRequest: leggTilSaksbehandler, resetRequestData: resetSaksbehandlerSok } = useRestApiRunner<Saksbehandler>(K9LosApiKeys.SAKSBEHANDLER_SOK);
 
   const resetSok = (resetFormValues: () => void) => {
     resetSaksbehandlerSok();
@@ -50,6 +54,7 @@ export const LeggTilSaksbehandlerForm: FunctionComponent<OwnProps & WrappedCompo
         setLeggerTilNySaksbehandler(false);
         lukkForm();
       });
+      hentAlleSaksbehandlere();
     }
   };
 

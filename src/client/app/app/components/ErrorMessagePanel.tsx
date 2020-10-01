@@ -10,8 +10,8 @@ import EventType from 'api/rest-api/src/requestApi/eventType';
 import Image from 'sharedComponents/Image';
 import moment from 'moment';
 import { DD_MM_HHMM } from 'utils/formats';
-import useGlobalStateRestApiData from 'api/global-data/useGlobalStateRestApiData';
 import { K9LosApiKeys } from 'api/k9LosApi';
+import useRestApi from 'api/rest-api-hooks/local-data/useRestApi';
 import styles from './errorMessagePanel.less';
 import { Driftsmelding } from '../../admin/driftsmeldinger/driftsmeldingTsType';
 
@@ -55,7 +55,7 @@ const ErrorMessagePanel: FunctionComponent<OwnProps & WrappedComponentProps> = (
 }) => {
   const feilmeldinger = useMemo(() => getErrorMessageList(intl, queryStrings, errorMessages), [queryStrings, errorMessages]);
 
-  const driftsmeldinger = useGlobalStateRestApiData<Driftsmelding[]>(K9LosApiKeys.DRIFTSMELDINGER);
+  const { data: driftsmeldinger = [] } = useRestApi<Driftsmelding[]>(K9LosApiKeys.DRIFTSMELDINGER);
   const aktiveDriftsmeldinger = driftsmeldinger.filter((message) => message.aktiv);
 
   if (feilmeldinger.length === 0 && aktiveDriftsmeldinger.length === 0) {

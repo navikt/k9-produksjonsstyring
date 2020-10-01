@@ -1,28 +1,22 @@
-import React, { Component, ReactNode } from 'react';
-import { connect } from 'react-redux';
+import React, { FunctionComponent } from 'react';
 
 import { Form } from 'react-final-form';
 import {
-  injectIntl, FormattedMessage, IntlShape,
+  injectIntl, FormattedMessage, WrappedComponentProps,
 } from 'react-intl';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { Row, Column } from 'nav-frontend-grid';
 import {
   required, minLength, maxLength, hasValidName,
 } from 'utils/validation/validators';
-import { Kodeverk } from 'kodeverk/kodeverkTsType';
 import { InputField } from 'form/FinalFields';
-import SkjermetVelger from 'avdelingsleder/behandlingskoer/components/oppgavekoForm/SkjermetVelger';
-import { getKodeverk } from 'kodeverk/duck';
-import KoSorteringType from 'kodeverk/KoSorteringTsType';
-import { SaksbehandlereForOppgavekoForm } from 'avdelingsleder/behandlingskoer/components/saksbehandlerForm/SaksbehandlereForOppgavekoForm';
 import Image from 'sharedComponents/Image';
+import SkjermetVelger from 'avdelingsleder/behandlingskoer/components/oppgavekoForm/SkjermetVelger';
+import SaksbehandlereForOppgavekoForm from 'avdelingsleder/behandlingskoer/components/saksbehandlerForm/SaksbehandlereForOppgavekoForm';
+import useRestApiRunner from 'api/rest-api-hooks/local-data/useRestApiRunner';
+import { K9LosApiKeys } from 'api/k9LosApi';
 import { Saksbehandler } from 'avdelingsleder/bemanning/saksbehandlerTsType';
 import { Oppgaveko } from '../../oppgavekoTsType';
-import {
-  getAntallOppgaverForOppgavekoResultat,
-  getOppgaveko,
-} from '../../duck';
 import AutoLagringVedBlur from './AutoLagringVedBlur';
 import BehandlingstypeVelger from './BehandlingstypeVelger';
 import AndreKriterierVelger from './AndreKriterierVelger';
@@ -36,192 +30,136 @@ const minLength3 = minLength(3);
 const maxLength100 = maxLength(100);
 
 interface OwnProps {
-  intl: any;
-  alleKodeverk: {[key: string]: Kodeverk[]};
-  gjeldendeKo: Oppgaveko;
-  lagreOppgavekoNavn: (id: string, navn: string) => void;
-  lagreOppgavekoBehandlingstype: (oppgavekoId: string, behandlingType: Kodeverk, isChecked: boolean) => void;
-  lagreOppgavekoFagsakYtelseType: (oppgavekoId: string, fagsakYtelseType: Kodeverk) => void;
-  lagreOppgavekoAndreKriterier: (id: string, andreKriterierType: Kodeverk, isChecked: boolean, inkluder: boolean) => void;
-  lagreOppgavekoSkjermet: (id: string, isChecked: boolean) => void;
-  lagreOppgavekoSorteringTidsintervallDato: (oppgavekoId: string, fomDato: string, tomDato: string) => void;
-  lagreOppgavekoSortering: (oppgavekoId: string, oppgavekoSorteringValg: KoSorteringType) => void;
-  antallOppgaver?: number;
-  hentAntallOppgaverForOppgaveko: (oppgavekoId: string) => Promise<string>;
-  knyttSaksbehandlerTilOppgaveko: (id: string, epost: string, isChecked: boolean) => void;
+  valgtOppgaveko: Oppgaveko;
+  hentAlleOppgavekoer: () => void;
   visModal: () => void;
-  saksbehandlere: Saksbehandler[];
-}
-
-interface DispatchProps {
-  fetchOppgaveko: (id: string) => Promise<string>;
-
-}
-
-interface StateTsProps {
-  visSlettModal: boolean;
 }
 
 /**
  * UtvalgskriterierForOppgavekoForm
  */
-export class UtvalgskriterierForOppgavekoForm extends Component<OwnProps & DispatchProps & StateTsProps> {
-  componentDidMount = () => {
-    const {
-      gjeldendeKo, hentAntallOppgaverForOppgaveko, fetchOppgaveko: hentKo,
-    } = this.props;
-    hentAntallOppgaverForOppgaveko(gjeldendeKo.id);
-  }
+export const UtvalgskriterierForOppgavekoForm: FunctionComponent<OwnProps & WrappedComponentProps> = ({
+  intl,
+  valgtOppgaveko,
+  hentAlleOppgavekoer,
+  visModal,
+}) => {
+  const buildInitialValues = () => {
+    const behandlingTypes = valgtOppgaveko.behandlingTyper ? valgtOppgaveko.behandlingTyper.reduce((acc, bt) => ({ ...acc, [bt.kode]: true }), {}) : {};
+    const fagsakYtelseType = valgtOppgaveko.fagsakYtelseTyper && valgtOppgaveko.fagsakYtelseTyper.length > 0
+      ? valgtOppgaveko.fagsakYtelseTyper[0].kode : '';
 
-  componentDidUpdate = (prevProps: OwnProps) => {
-    const {
-      gjeldendeKo, hentAntallOppgaverForOppgaveko, fetchOppgaveko: hentKo,
-    } = this.props;
-    if (prevProps.gjeldendeKo.id !== gjeldendeKo.id) {
-      hentAntallOppgaverForOppgaveko(gjeldendeKo.id);
-    }
-  }
-
-  buildInitialValues = (intl: IntlShape) => {
-    const {
-      gjeldendeKo,
-    } = this.props;
-
-    const behandlingTypes = gjeldendeKo.behandlingTyper ? gjeldendeKo.behandlingTyper.reduce((acc, bt) => ({ ...acc, [bt.kode]: true }), {}) : {};
-    const fagsakYtelseType = gjeldendeKo.fagsakYtelseTyper && gjeldendeKo.fagsakYtelseTyper.length > 0
-      ? gjeldendeKo.fagsakYtelseTyper[0].kode : '';
-
-    const andreKriterierTyper = gjeldendeKo.andreKriterier
-      ? gjeldendeKo.andreKriterier.reduce((acc, ak) => ({ ...acc, [ak.andreKriterierType.kode]: true }), {}) : {};
-    const andreKriterierInkluder = gjeldendeKo.andreKriterier
-      ? gjeldendeKo.andreKriterier.reduce((acc, ak) => ({ ...acc, [`${ak.andreKriterierType.kode}_inkluder`]: ak.inkluder }), {}) : {};
+    const andreKriterierTyper = valgtOppgaveko.andreKriterier
+      ? valgtOppgaveko.andreKriterier.reduce((acc, ak) => ({ ...acc, [ak.andreKriterierType.kode]: true }), {}) : {};
+    const andreKriterierInkluder = valgtOppgaveko.andreKriterier
+      ? valgtOppgaveko.andreKriterier.reduce((acc, ak) => ({ ...acc, [`${ak.andreKriterierType.kode}_inkluder`]: ak.inkluder }), {}) : {};
 
     return {
-      id: gjeldendeKo.id,
-      navn: gjeldendeKo.navn ? gjeldendeKo.navn : intl.formatMessage({ id: 'UtvalgskriterierForOppgavekoForm.NyListe' }),
-      sortering: gjeldendeKo.sortering ? gjeldendeKo.sortering.sorteringType.kode : undefined,
-      fomDato: gjeldendeKo.sortering ? gjeldendeKo.sortering.fomDato : undefined,
-      tomDato: gjeldendeKo.sortering ? gjeldendeKo.sortering.tomDato : undefined,
-      skjermet: gjeldendeKo.skjermet,
+      id: valgtOppgaveko.id,
+      navn: valgtOppgaveko.navn ? valgtOppgaveko.navn : intl.formatMessage({ id: 'UtvalgskriterierForOppgavekoForm.NyListe' }),
+      sortering: valgtOppgaveko.sortering ? valgtOppgaveko.sortering.sorteringType.kode : undefined,
+      fomDato: valgtOppgaveko.sortering ? valgtOppgaveko.sortering.fomDato : undefined,
+      tomDato: valgtOppgaveko.sortering ? valgtOppgaveko.sortering.tomDato : undefined,
+      skjermet: valgtOppgaveko.skjermet,
       fagsakYtelseType,
       ...andreKriterierTyper,
       ...andreKriterierInkluder,
       ...behandlingTypes,
     };
-  }
+  };
 
-  tranformValues = (values: {id: string; navn: string}) => {
-    const {
-      lagreOppgavekoNavn,
-    } = this.props;
-    lagreOppgavekoNavn(values.id, values.navn);
-  }
+  const { startRequest: lagreOppgavekoNavn } = useRestApiRunner(K9LosApiKeys.LAGRE_OPPGAVEKO_NAVN);
 
-  render = (): ReactNode => {
-    const {
-      intl, lagreOppgavekoBehandlingstype, lagreOppgavekoFagsakYtelseType, gjeldendeKo,
-      lagreOppgavekoAndreKriterier, lagreOppgavekoSkjermet, alleKodeverk, lagreOppgavekoSortering,
-      lagreOppgavekoSorteringTidsintervallDato, knyttSaksbehandlerTilOppgaveko, visModal, saksbehandlere,
-    } = this.props;
+  const transformValues = (values: {id: string; navn: string}) => {
+    lagreOppgavekoNavn({ id: values.id, navn: values.navn }).then(() => hentAlleOppgavekoer());
+  };
 
-    return (
-      <div className={styles.form}>
-        <Form
-          onSubmit={() => undefined}
-          initialValues={this.buildInitialValues(intl)}
-          render={({ values }) => (
-            <>
-              <AutoLagringVedBlur lagre={this.tranformValues} fieldNames={['navn']} />
-              <Row className={styles.row}>
-                <Column xs="4" className={styles.leftColumn}>
+  const {
+    startRequest: hentSaksbehandlere, data: alleSaksbehandlere = [],
+  } = useRestApiRunner<Saksbehandler[]>(K9LosApiKeys.SAKSBEHANDLERE);
+
+  return (
+    <div className={styles.form}>
+      <Form
+        onSubmit={() => undefined}
+        initialValues={buildInitialValues()}
+        render={({ values }) => (
+          <>
+            <AutoLagringVedBlur lagre={transformValues} fieldNames={['navn']} />
+            <Row className={styles.row}>
+              <Column xs="4" className={styles.leftColumn}>
+                <Normaltekst className={styles.header}>
+                  <FormattedMessage id="UtvalgskriterierForOppgavekoForm.OmKoen" />
+                </Normaltekst>
+                <hr className={styles.line} />
+                <Normaltekst className={styles.label}>{intl.formatMessage({ id: 'UtvalgskriterierForOppgavekoForm.Navn' })}</Normaltekst>
+                <InputField
+                  className={styles.navn}
+                  name="navn"
+                  validate={[required, minLength3, maxLength100, hasValidName]}
+                  onBlurValidation
+                  bredde="M"
+                />
+                <FagsakYtelseTypeVelger
+                  valgtOppgavekoId={valgtOppgaveko.id}
+                />
+                <SkjermetVelger valgtOppgaveko={valgtOppgaveko} />
+                <BehandlingstypeVelger
+                  valgtOppgavekoId={valgtOppgaveko.id}
+                />
+              </Column>
+              <Column xs="8" className={styles.middle}>
+                <Column className={styles.middleColumn}>
                   <Normaltekst className={styles.header}>
-                    <FormattedMessage id="UtvalgskriterierForOppgavekoForm.OmKoen" />
+                    <FormattedMessage id="UtvalgskriterierForOppgavekoForm.Kriterier" />
                   </Normaltekst>
                   <hr className={styles.line} />
-                  <Normaltekst className={styles.label}>{intl.formatMessage({ id: 'UtvalgskriterierForOppgavekoForm.Navn' })}</Normaltekst>
-                  <InputField
-                    className={styles.navn}
-                    name="navn"
-                    validate={[required, minLength3, maxLength100, hasValidName]}
-                    onBlurValidation
-                    bredde="M"
+                  <AndreKriterierVelger
+                    valgtOppgavekoId={valgtOppgaveko.id}
+                    values={values}
                   />
-                  <FagsakYtelseTypeVelger
-                    lagreOppgavekoFagsakYtelseType={lagreOppgavekoFagsakYtelseType}
-                    valgtOppgavekoId={gjeldendeKo.id}
-                    alleKodeverk={alleKodeverk}
-                  />
-                  <SkjermetVelger valgtOppgaveko={gjeldendeKo} lagreSkjermet={lagreOppgavekoSkjermet} />
-                  <BehandlingstypeVelger
-                    lagreOppgavekoBehandlingstype={lagreOppgavekoBehandlingstype}
-                    valgtOppgavekoId={gjeldendeKo.id}
-                    alleKodeverk={alleKodeverk}
+                  <SorteringVelger
+                    valgtOppgavekoId={valgtOppgaveko.id}
+                    valgteBehandlingtyper={valgtOppgaveko.behandlingTyper}
+                    fomDato={values.fomDato}
+                    tomDato={values.tomDato}
                   />
                 </Column>
-                <Column xs="8" className={styles.middle}>
-                  <Column className={styles.middleColumn}>
+                <Column className={styles.saksbehandlere}>
+                  <Column>
                     <Normaltekst className={styles.header}>
-                      <FormattedMessage id="UtvalgskriterierForOppgavekoForm.Kriterier" />
+                      <FormattedMessage id="UtvalgskriterierForOppgavekoForm.Saksbehandlere" />
                     </Normaltekst>
-                    <hr className={styles.line} />
-                    <AndreKriterierVelger
-                      lagreOppgavekoAndreKriterier={lagreOppgavekoAndreKriterier}
-                      valgtOppgavekoId={gjeldendeKo.id}
-                      values={values}
-                      alleKodeverk={alleKodeverk}
-                    />
-                    <SorteringVelger
-                      valgtOppgavekoId={gjeldendeKo.id}
-                      valgteBehandlingtyper={gjeldendeKo.behandlingTyper}
-                      fomDato={values.fomDato}
-                      tomDato={values.tomDato}
-                      alleKodeverk={alleKodeverk as {[key: string]: KoSorteringType[]}}
-                      lagreOppgavekoSortering={lagreOppgavekoSortering}
-                      lagreOppgavekoSorteringTidsintervallDato={lagreOppgavekoSorteringTidsintervallDato}
+                    <hr className={styles.line1} />
+                    <SaksbehandlereForOppgavekoForm
+                      valgtOppgaveko={valgtOppgaveko}
+                      alleSaksbehandlere={alleSaksbehandlere}
                     />
                   </Column>
-                  <Column className={styles.saksbehandlere}>
-                    <Column>
-                      <Normaltekst className={styles.header}>
-                        <FormattedMessage id="UtvalgskriterierForOppgavekoForm.Saksbehandlere" />
-                      </Normaltekst>
-                      <hr className={styles.line1} />
-                      <SaksbehandlereForOppgavekoForm
-                        valgtOppgaveko={gjeldendeKo}
-                        alleSaksbehandlere={saksbehandlere}
-                        knyttSaksbehandlerTilOppgaveko={knyttSaksbehandlerTilOppgaveko}
-                      />
-                    </Column>
-                    <Column>
-                      <div className={styles.slettContainer}>
-                        <Image src={binIcon} />
-                        <div
-                          id="slett"
-                          className={styles.slett}
-                          role="button"
-                          onClick={visModal}
-                          onKeyDown={visModal}
-                          tabIndex={0}
-                        >
-                          Slett kø
-                        </div>
+                  <Column>
+                    <div className={styles.slettContainer}>
+                      <Image src={binIcon} />
+                      <div
+                        id="slett"
+                        className={styles.slett}
+                        role="button"
+                        onClick={visModal}
+                        onKeyDown={visModal}
+                        tabIndex={0}
+                      >
+                        Slett kø
                       </div>
-                    </Column>
+                    </div>
                   </Column>
                 </Column>
-              </Row>
-            </>
-          )}
-        />
-      </div>
+              </Column>
+            </Row>
+          </>
+        )}
+      />
+    </div>
 
-    );
-  }
-}
+  );
+};
 
-const mapStateToProps = (state) => ({
-  alleKodeverk: getKodeverk(state),
-  gjeldendeKo: getOppgaveko(state),
-});
-
-export default connect(mapStateToProps)(injectIntl(UtvalgskriterierForOppgavekoForm));
+export default injectIntl(UtvalgskriterierForOppgavekoForm);

@@ -1,4 +1,6 @@
-import React, { Component, FunctionComponent, useState } from 'react';
+import React, {
+  Component, FunctionComponent, useCallback, useState,
+} from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Normaltekst, Element } from 'nav-frontend-typografi';
 import Image from 'sharedComponents/Image';
@@ -10,7 +12,9 @@ import TableColumn from 'sharedComponents/TableColumn';
 import { Knapp } from 'nav-frontend-knapper';
 import Chevron from 'nav-frontend-chevron';
 import SaksbehandlerInfo from 'avdelingsleder/bemanning/components/SaksbehandlerInfo';
-import { LeggTilSaksbehandlerForm } from 'avdelingsleder/bemanning/components/LeggTilSaksbehandlerForm';
+import LeggTilSaksbehandlerForm from 'avdelingsleder/bemanning/components/LeggTilSaksbehandlerForm';
+import useRestApiRunner from 'api/rest-api-hooks/local-data/useRestApiRunner';
+import { K9LosApiKeys } from 'api/k9LosApi';
 import saksbehandlereGra from '../../../../images/saksbehandlereGra.svg';
 import { Saksbehandler } from '../saksbehandlerTsType';
 
@@ -23,9 +27,7 @@ const headerTextCodes = [
 
 interface OwnProps {
   saksbehandlere: Saksbehandler[];
-  fjernSaksbehandler: (epost: string) => Promise<string>;
-  leggTilSaksbehandler: (brukerIdent: string) => Promise<string>;
-  resetSaksbehandlerSok: () => void;
+  hentAlleSaksbehandlere: () => void;
 }
 
 /**
@@ -33,12 +35,16 @@ interface OwnProps {
  */
 const SaksbehandlereTabell: FunctionComponent<OwnProps> = ({
   saksbehandlere,
-  fjernSaksbehandler,
-  leggTilSaksbehandler,
-  resetSaksbehandlerSok,
+  hentAlleSaksbehandlere,
 }) => {
   const [valgtSaksbehandler, setValgtSaksbehandler] = useState<Saksbehandler>();
   const [visAddSaksbehadler, setVisAddSaksbehandler] = useState(false);
+
+  const { startRequest: fjernSaksbehandler } = useRestApiRunner<Saksbehandler>(K9LosApiKeys.SLETT_SAKSBEHANDLER);
+  const fjernSaksbehandlerFn = useCallback((epost: string) => {
+    fjernSaksbehandler({ epost }).then(() => hentAlleSaksbehandlere());
+    setValgtSaksbehandler(undefined);
+  }, []);
 
   const lukkForm = () => {
     setVisAddSaksbehandler(false);
@@ -72,8 +78,7 @@ const SaksbehandlereTabell: FunctionComponent<OwnProps> = ({
       {visAddSaksbehadler
       && (
       <LeggTilSaksbehandlerForm
-        leggTilSaksbehandler={leggTilSaksbehandler}
-        resetSaksbehandlerSok={resetSaksbehandlerSok}
+        hentAlleSaksbehandlere={hentAlleSaksbehandlere}
         saksbehandlere={saksbehandlere}
         lukkForm={lukkForm}
       />
@@ -108,7 +113,7 @@ const SaksbehandlereTabell: FunctionComponent<OwnProps> = ({
                 <TableColumn>
                   <SaksbehandlerInfo
                     saksbehandler={saksbehandler}
-                    fjernSaksbehandler={fjernSaksbehandler}
+                    fjernSaksbehandler={fjernSaksbehandlerFn}
                   />
                 </TableColumn>
               </TableRow>

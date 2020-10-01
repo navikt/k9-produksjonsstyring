@@ -1,56 +1,40 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators, Dispatch } from 'redux';
-
-import {
-  fetchAlleOppgaver as fetchAlleOppgaverActionCreator,
-  fetchOppgaverPerDato as fetchOppgaverPerDatoActionCreator,
-  fetchNyeOgFerdigstilteOppgaverMedStonadstype as fetchNyeOgFerdigstilteOppgaverMedStonadstypeActionCreator,
-  fetchFerdigstiltePerDato as fetchFerdigstiltePerDatoActionCreator,
-  fetchNyePerDato as fetchNyePerDatoActionCreator,
-} from './duck';
-import { fetchNyeOgFerdigstilteOppgaverNokkeltall as fetchNyeOgFerdigstilteActionCreator } from '../../saksbehandler/saksstotte/nokkeltall/duck';
+import React, { FunctionComponent } from 'react';
+import useRestApi from 'api/rest-api-hooks/local-data/useRestApi';
+import { K9LosApiKeys } from 'api/k9LosApi';
+import AlleOppgaver from 'avdelingsleder/nokkeltall/components/fordelingAvBehandlingstype/alleOppgaverTsType';
+import HistoriskData from 'avdelingsleder/nokkeltall/historiskDataTsType';
+import NyeOgFerdigstilteMedStonadstype from 'avdelingsleder/nokkeltall/nyeOgFerdigstilteMedStonadstypeTsType';
 import NokkeltallPanel from './components/NokkeltallPanel';
 
-interface TsProps {
-  fetchAlleOppgaver: () => void;
-  fetchOppgaverPerDato: () => void;
-  fetchNyeOgFerdigstilteOppgaverMedStonadstype: () => void;
-  fetchFerdigstiltePerDato: () => void;
-  fetchNyePerDato: () => void;
-  fetchNyeOgFerdigstilte: () => void;
-}
+const EMPTY_ARRAY = [];
 
 /**
  * NokkeltallIndex
  */
-export class NokkeltallIndex extends Component<TsProps> {
-  componentDidMount = () => {
-    const {
-      fetchAlleOppgaver, fetchOppgaverPerDato, fetchNyeOgFerdigstilteOppgaverMedStonadstype, fetchFerdigstiltePerDato, fetchNyePerDato, fetchNyeOgFerdigstilte,
-    } = this.props;
-    fetchAlleOppgaver();
-    fetchOppgaverPerDato();
-    fetchNyeOgFerdigstilteOppgaverMedStonadstype();
-    fetchFerdigstiltePerDato();
-    fetchNyePerDato();
-    fetchNyeOgFerdigstilte();
-  }
 
-  render = () => (
-    <NokkeltallPanel />
-  )
-}
+const NokkeltallIndex: FunctionComponent = (
+) => {
+  const {
+    data: alleOppgaver = EMPTY_ARRAY,
+  } = useRestApi<AlleOppgaver[]>(K9LosApiKeys.HENT_OPPGAVER);
+  const {
+    data: ferdigstiltePerDato = EMPTY_ARRAY,
+  } = useRestApi<HistoriskData[]>(K9LosApiKeys.HENT_FERDIGSTILTE_HISTORIKK);
+  const {
+    data: nyePerDato = EMPTY_ARRAY,
+  } = useRestApi<HistoriskData[]>(K9LosApiKeys.HENT_NYE_HISTORIKK);
+  const {
+    data: beholdningPerDato = EMPTY_ARRAY,
+  } = useRestApi<HistoriskData[]>(K9LosApiKeys.HENT_OPPGAVER_PER_DATO);
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  ...bindActionCreators({
-    fetchAlleOppgaver: fetchAlleOppgaverActionCreator,
-    fetchOppgaverPerDato: fetchOppgaverPerDatoActionCreator,
-    fetchNyeOgFerdigstilteOppgaverMedStonadstype: fetchNyeOgFerdigstilteOppgaverMedStonadstypeActionCreator,
-    fetchFerdigstiltePerDato: fetchFerdigstiltePerDatoActionCreator,
-    fetchNyePerDato: fetchNyePerDatoActionCreator,
-    fetchNyeOgFerdigstilte: fetchNyeOgFerdigstilteActionCreator,
-  }, dispatch),
-});
+  return (
+    <NokkeltallPanel
+      alleOppgaver={alleOppgaver}
+      ferdigstiltePerDato={ferdigstiltePerDato}
+      beholdningPerDato={beholdningPerDato}
+      nyePerDato={nyePerDato}
+    />
+  );
+};
 
-export default connect(null, mapDispatchToProps)(NokkeltallIndex);
+export default NokkeltallIndex;

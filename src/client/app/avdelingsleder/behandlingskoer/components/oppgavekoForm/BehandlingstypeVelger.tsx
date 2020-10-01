@@ -3,18 +3,18 @@ import { FormattedMessage } from 'react-intl';
 import { Normaltekst } from 'nav-frontend-typografi';
 
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
-import { Kodeverk } from 'kodeverk/kodeverkTsType';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
 import behandlingType from 'kodeverk/behandlingType';
 import { CheckboxField } from 'form/FinalFields';
+import useRestApiRunner from 'api/rest-api-hooks/local-data/useRestApiRunner';
+import { K9LosApiKeys } from 'api/k9LosApi';
+import useKodeverk from 'api/rest-api-hooks/global-data/useKodeverk';
 import styles from './utvalgskriterierForOppgavekoForm.less';
 
 const behandlingstypeOrder = Object.values(behandlingType);
 
 interface OwnProps {
     valgtOppgavekoId: string;
-    lagreOppgavekoBehandlingstype: (oppgavekoId: string, behandlingType: Kodeverk, isChecked: boolean) => void;
-    alleKodeverk: {[key: string]: Kodeverk[]};
 }
 
 /**
@@ -22,10 +22,11 @@ interface OwnProps {
  */
 const BehandlingstypeVelger: FunctionComponent<OwnProps> = ({
   valgtOppgavekoId,
-  lagreOppgavekoBehandlingstype,
-  alleKodeverk,
 }) => {
-  const behandlingTyper = useMemo(() => behandlingstypeOrder.map((kode) => alleKodeverk[kodeverkTyper.BEHANDLING_TYPE].find((bt) => bt.kode === kode)),
+  const { startRequest: lagreOppgavekoBehandlingstype } = useRestApiRunner(K9LosApiKeys.LAGRE_OPPGAVEKO_BEHANDLINGSTYPE);
+  const { startRequest: hentOppgaveko } = useRestApiRunner(K9LosApiKeys.HENT_OPPGAVEKO);
+  const alleBehandlingTyper = useKodeverk(kodeverkTyper.BEHANDLING_TYPE);
+  const behandlingTyper = useMemo(() => behandlingstypeOrder.map((kode) => alleBehandlingTyper.find((bt) => bt.kode === kode)),
     []);
   return (
     <>
@@ -39,7 +40,9 @@ const BehandlingstypeVelger: FunctionComponent<OwnProps> = ({
           <CheckboxField
             name={bt.kode}
             label={bt.navn}
-            onChange={(isChecked) => lagreOppgavekoBehandlingstype(valgtOppgavekoId, bt, isChecked)}
+            onChange={(isChecked) => lagreOppgavekoBehandlingstype({ id: valgtOppgavekoId, behandlingType: bt, checked: isChecked }).then(() => {
+              hentOppgaveko({ id: valgtOppgavekoId });
+            })}
           />
         </React.Fragment>
       ))}

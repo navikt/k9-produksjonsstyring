@@ -1,77 +1,53 @@
-import React, { Component } from 'react';
+import React, { FunctionComponent } from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { createSelector } from 'reselect';
 
 import { Form } from 'react-final-form';
 import { FormattedMessage } from 'react-intl';
-import Panel from 'nav-frontend-paneler';
-import { Element } from 'nav-frontend-typografi';
 import { Row, Column } from 'nav-frontend-grid';
-
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import { CheckboxField } from 'form/FinalFields';
-
-import { getSaksbehandlere } from 'avdelingsleder/bemanning/duck';
 import { Saksbehandler } from 'avdelingsleder/bemanning/saksbehandlerTsType';
-import saksbehandlerPropType from 'avdelingsleder/bemanning/saksbehandlerPropType';
-import { getOppgaveko } from 'avdelingsleder/behandlingskoer/duck';
+import useRestApiRunner from 'api/rest-api-hooks/local-data/useRestApiRunner';
+import { K9LosApiKeys } from 'api/k9LosApi';
 import { Oppgaveko } from '../../oppgavekoTsType';
-import oppgavekoPropType from '../../oppgavekoPropType';
 
 import styles from './saksbehandlereForOppgavekoForm.less';
 
-interface TsProps {
+interface OwnProps {
   valgtOppgaveko: Oppgaveko;
   alleSaksbehandlere: Saksbehandler[];
-  knyttSaksbehandlerTilOppgaveko: (oppgavekoId: string, epost: string, isChecked: boolean) => void;
 }
 
 /**
  * SaksbehandlereForOppgavekoForm
  */
-export class SaksbehandlereForOppgavekoForm extends Component<TsProps> {
-  static propTypes = {
-    valgtOppgaveko: oppgavekoPropType.isRequired,
-    alleSaksbehandlere: PropTypes.arrayOf(saksbehandlerPropType),
-    knyttSaksbehandlerTilOppgaveko: PropTypes.func.isRequired,
-  };
-
-  static defaultProps = {
-    alleSaksbehandlere: [],
-  }
-
-  buildInitialValues = () => {
-    const {
-      valgtOppgaveko,
-    } = this.props;
+const SaksbehandlereForOppgavekoForm: FunctionComponent<OwnProps> = ({ valgtOppgaveko, alleSaksbehandlere }) => {
+  const buildInitialValues = () => {
     const identer = valgtOppgaveko.saksbehandlere ? valgtOppgaveko.saksbehandlere.reduce((acc, sb) => (
       { ...acc, [sb.epost.replace(/\./g, '')]: true }), {}) : {};
     return {
       ...identer,
     };
-  }
+  };
 
-  render = () => {
-    const {
-      alleSaksbehandlere, knyttSaksbehandlerTilOppgaveko, valgtOppgaveko,
-    } = this.props;
+  const pos = Math.ceil(alleSaksbehandlere.length / 2);
+  const alleSaksbehandlereVenstreListe = alleSaksbehandlere.slice(0, pos);
+  const alleSaksbehandlereHoyreListe = alleSaksbehandlere.slice(pos);
 
-    const pos = Math.ceil(alleSaksbehandlere.length / 2);
-    const alleSaksbehandlereVenstreListe = alleSaksbehandlere.slice(0, pos);
-    const alleSaksbehandlereHoyreListe = alleSaksbehandlere.slice(pos);
+  const { startRequest: knyttSaksbehandlerTilOppgaveko } = useRestApiRunner(K9LosApiKeys.LAGRE_OPPGAVEKO_SAKSBEHANDLER);
+  const { startRequest: hentOppgaveko } = useRestApiRunner(K9LosApiKeys.HENT_OPPGAVEKO);
 
-    return (
-      <Form
-        onSubmit={() => undefined}
-        initialValues={this.buildInitialValues()}
-        render={() => (
-          <div className={styles.panel}>
-            <VerticalSpacer sixteenPx />
-            {alleSaksbehandlere.length === 0 && (
-              <FormattedMessage id="SaksbehandlereForOppgavekoForm.IngenSaksbehandlere" />
-            )}
-            {alleSaksbehandlere.length > 0 && (
+  return (
+    <Form
+      onSubmit={() => undefined}
+      initialValues={buildInitialValues()}
+      render={() => (
+        <div className={styles.panel}>
+          <VerticalSpacer sixteenPx />
+          {alleSaksbehandlere.length === 0 && (
+          <FormattedMessage id="SaksbehandlereForOppgavekoForm.IngenSaksbehandlere" />
+          )}
+          {alleSaksbehandlere.length > 0 && (
             <Row>
               <Column xs="4">
                 {alleSaksbehandlereVenstreListe.map((s) => (
@@ -80,7 +56,9 @@ export class SaksbehandlereForOppgavekoForm extends Component<TsProps> {
                       key={s.epost}
                       name={s.epost.replace(/\./g, '')}
                       label={s.navn ? s.navn : s.epost}
-                      onChange={(isChecked) => knyttSaksbehandlerTilOppgaveko(valgtOppgaveko.id, s.epost, isChecked)}
+                      onChange={(isChecked) => knyttSaksbehandlerTilOppgaveko({ id: valgtOppgaveko.id, epost: s.epost, checked: isChecked }).then(() => {
+                        hentOppgaveko({ id: valgtOppgaveko.id });
+                      })}
                     />
                   </div>
                 ))}
@@ -92,23 +70,19 @@ export class SaksbehandlereForOppgavekoForm extends Component<TsProps> {
                       key={s.epost}
                       name={s.epost.replace(/\./g, '')}
                       label={s.navn ? s.navn : s.epost}
-                      onChange={(isChecked) => knyttSaksbehandlerTilOppgaveko(valgtOppgaveko.id, s.epost, isChecked)}
+                      onChange={(isChecked) => knyttSaksbehandlerTilOppgaveko({ id: valgtOppgaveko.id, epost: s.epost, checked: isChecked }).then(() => {
+                        hentOppgaveko({ id: valgtOppgaveko.id });
+                      })}
                     />
                   </div>
                 ))}
               </Column>
             </Row>
-            )}
-          </div>
-        )}
-      />
-    );
-  }
-}
+          )}
+        </div>
+      )}
+    />
+  );
+};
 
-const mapStateToProps = (state) => ({
-  alleSaksbehandlere: getSaksbehandlere(state),
-  valgtOppgaveko: getOppgaveko(state),
-});
-
-export default connect(mapStateToProps)(SaksbehandlereForOppgavekoForm);
+export default SaksbehandlereForOppgavekoForm;
