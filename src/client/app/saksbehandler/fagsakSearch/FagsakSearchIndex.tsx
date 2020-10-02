@@ -39,7 +39,7 @@ const FagsakSearchIndex: FunctionComponent<OwnProps> = ({
   };
 
   const {
-    startRequest: sokFagsak, resetRequestData: resetFagsakSok, data: fagsaker = [], error: fagsakError,
+    startRequest: sokFagsak, resetRequestData: resetFagsakSok, data: fagsakerResultat = [], error: fagsakError,
   } = useRestApiRunner<SokeResultat>(K9LosApiKeys.SEARCH_FAGSAK);
 
   const searchResultAccessDenied = fagsakError && errorOfType(fagsakError, ErrorTypes.MANGLER_TILGANG_FEIL) ? getErrorResponseData(fagsakError) : undefined;
@@ -115,7 +115,7 @@ const FagsakSearchIndex: FunctionComponent<OwnProps> = ({
   return (
     <>
       <FagsakSearch
-        fagsaker={fagsaker}
+        fagsaker={fagsakerResultat}
         fagsakOppgaver={fagsakOppgaver || []}
         searchFagsakCallback={sokFagsakFn}
         searchResultReceived={sokFerdig}

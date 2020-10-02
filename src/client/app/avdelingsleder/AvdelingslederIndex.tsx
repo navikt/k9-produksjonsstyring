@@ -1,6 +1,4 @@
 import React, { FunctionComponent } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import classnames from 'classnames/bind';
 import { NavLink } from 'react-router-dom';
@@ -13,11 +11,8 @@ import nokkelBla from 'images/key-hole-11.svg';
 import koerBla from 'images/drawer-23.svg';
 import koerSvart from 'images/drawer-22.svg';
 import LoadingPanel from 'sharedComponents/LoadingPanel';
-import { getNavAnsattKanOppgavestyre } from 'app/duck';
 import { parseQueryString } from 'utils/urlUtils';
 import { getPanelLocationCreator } from 'app/paths';
-import trackRouteParam from 'app/data/trackRouteParam';
-import { Location } from 'app/locationTsType';
 import NokkeltallIndex from 'avdelingsleder/nokkeltall/NokkeltallIndex';
 import ReservasjonerIndex from 'avdelingsleder/reservasjoner/ReservasjonerIndex';
 import Tabs from 'nav-frontend-tabs';
