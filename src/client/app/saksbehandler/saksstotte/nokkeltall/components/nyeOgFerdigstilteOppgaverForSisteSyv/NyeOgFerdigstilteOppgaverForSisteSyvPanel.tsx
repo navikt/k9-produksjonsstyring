@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useMemo } from 'react';
 import moment from 'moment';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
@@ -10,6 +10,11 @@ import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import NyeOgFerdigstilteOppgaverForSisteSyvGraf from './NyeOgFerdigstilteOppgaverForSisteSyvGraf';
 import { getNyeOgFerdigstilteOppgaverNokkeltall } from '../../duck';
 import NyeOgFerdigstilteOppgaver from '../nyeOgFerdigstilteOppgaverTsType';
+
+export const getNyeOgFerdigstilteForSisteSyvDager = (nyeOgFerdigstilte: NyeOgFerdigstilteOppgaver[] = []) => {
+  const iDag = moment().startOf('day');
+  return nyeOgFerdigstilte.filter((oppgave) => iDag.isAfter(moment(oppgave.dato, ISO_DATE_FORMAT)));
+};
 
 interface OwnProps {
   width: number;
@@ -24,19 +29,22 @@ export const NyeOgFerdigstilteOppgaverForSisteSyvPanel: FunctionComponent<OwnPro
   width,
   height,
   nyeOgFerdigstilteOppgaver,
-}) => (
-  <>
-    <VerticalSpacer eightPx />
-    <Element>
-      <FormattedMessage id="NyeOgFerdigstilteOppgaverForSisteSyvPanel.SisteSyv" />
-    </Element>
-    <NyeOgFerdigstilteOppgaverForSisteSyvGraf
-      width={width}
-      height={height}
-      nyeOgFerdigstilteOppgaver={nyeOgFerdigstilteOppgaver}
-    />
-  </>
-);
+}) => {
+  const filtrertenyeOgFerdigstilteOppgaverSisteSyv = useMemo(() => getNyeOgFerdigstilteForSisteSyvDager(nyeOgFerdigstilteOppgaver), [nyeOgFerdigstilteOppgaver]);
+  return (
+    <>
+      <VerticalSpacer eightPx />
+      <Element>
+        <FormattedMessage id="NyeOgFerdigstilteOppgaverForSisteSyvPanel.SisteSyv" />
+      </Element>
+      <NyeOgFerdigstilteOppgaverForSisteSyvGraf
+        width={width}
+        height={height}
+        nyeOgFerdigstilteOppgaver={filtrertenyeOgFerdigstilteOppgaverSisteSyv}
+      />
+    </>
+  );
+};
 
 export const getNyeOgFerdigstilteForSisteSyvDager = createSelector([getNyeOgFerdigstilteOppgaverNokkeltall],
   (nyeOgFerdigstilte: { dato: string }[] = []) => {
@@ -48,4 +56,4 @@ const mapStateToProps = (state) => ({
   nyeOgFerdigstilteOppgaver: getNyeOgFerdigstilteForSisteSyvDager(state),
 });
 
-export default connect(mapStateToProps)(NyeOgFerdigstilteOppgaverForSisteSyvPanel);
+export default NyeOgFerdigstilteOppgaverForSisteSyvPanel;
