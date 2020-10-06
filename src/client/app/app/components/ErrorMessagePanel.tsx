@@ -41,6 +41,7 @@ interface OwnProps {
     errormessage?: string;
     errorcode?: string;
   };
+  driftsmeldinger: Driftsmelding[];
 }
 
 /**
@@ -52,10 +53,10 @@ const ErrorMessagePanel: FunctionComponent<OwnProps & WrappedComponentProps> = (
   intl,
   errorMessages,
   queryStrings,
+  driftsmeldinger,
 }) => {
   const feilmeldinger = useMemo(() => getErrorMessageList(intl, queryStrings, errorMessages), [queryStrings, errorMessages]);
 
-  const { data: driftsmeldinger = [] } = useRestApi<Driftsmelding[]>(K9LosApiKeys.DRIFTSMELDINGER);
   const aktiveDriftsmeldinger = driftsmeldinger.filter((message) => message.aktiv);
 
   if (feilmeldinger.length === 0 && aktiveDriftsmeldinger.length === 0) {

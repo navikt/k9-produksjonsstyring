@@ -11,23 +11,21 @@ import { parseQueryString } from 'utils/urlUtils';
 import { getPanelLocationCreator } from 'app/paths';
 import useGlobalStateRestApiData from 'api/rest-api-hooks/src/global-data/useGlobalStateRestApiData';
 import NavAnsatt from 'app/navAnsattTsType';
-import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
-import useRestApi from 'api/rest-api-hooks/src/local-data/useRestApi';
+import { RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
 import useTrackRouteParam from 'app/data/trackRouteParam';
 import IkkeTilgangTilAvdelingslederPanel from './components/IkkeTilgangTilAvdelingslederPanel';
 import AdminPanels from './AdminPanels';
-import EndreDriftsmeldingerIndex from './driftsmeldinger/EndreDriftsmeldingerIndex';
 
 import styles from './adminIndex.less';
 import AdminDashboard from './components/AdminDashboard';
-import { Driftsmelding } from './driftsmeldinger/driftsmeldingTsType';
+import EndreDriftsmeldingerIndex from './driftsmeldinger/EndreDriftsmeldingerIndex';
 
 const classNames = classnames.bind(styles);
 
-const renderPanel = (avdelingslederPanel, driftsmeldinger) => {
+const renderPanel = (avdelingslederPanel) => {
   switch (avdelingslederPanel) {
     case AdminPanels.DRIFTSMELDINGER:
-      return <EndreDriftsmeldingerIndex alleDriftsmeldinger={driftsmeldinger} />;
+      return <EndreDriftsmeldingerIndex />;
     default:
       return null;
   }
@@ -68,7 +66,6 @@ export const AdminIndex: FunctionComponent = () => {
   const activePanel = activePanelTemp || hentPanelFromUrlOrDefault(location);
 
   const { kanDrifte } = useGlobalStateRestApiData<NavAnsatt>(RestApiGlobalStatePathsKeys.NAV_ANSATT);
-  const { data: driftsmeldinger = [] } = useRestApi<Driftsmelding[]>(K9LosApiKeys.DRIFTSMELDINGER);
 
   if (!kanDrifte) {
     return <IkkeTilgangTilAvdelingslederPanel />;
@@ -81,7 +78,7 @@ export const AdminIndex: FunctionComponent = () => {
           ]}
           />
           <Panel className={styles.panelPadding}>
-            {renderPanel(activePanel, driftsmeldinger)}
+            {renderPanel(activePanel)}
           </Panel>
         </div>
       </AdminDashboard>

@@ -3,9 +3,12 @@ import { expect } from 'chai';
 import moment from 'moment';
 import { IntlShape } from 'react-intl';
 import { Form } from 'react-final-form';
+import sinon from 'sinon';
 
 import { ISO_DATE_FORMAT } from 'utils/formats';
-import { RadioOption, SelectField } from 'form/FinalFields';
+import { SelectField } from 'form/FinalFields';
+import kodeverkTyper from 'kodeverk/kodeverkTyper';
+import * as useKodeverk from 'api/rest-api-hooks/src/global-data/useKodeverk';
 import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
 import behandlingType from 'kodeverk/behandlingType';
 import { shallowWithIntl, intlMock } from 'testHelpers/intl-enzyme-test-helper';
@@ -35,6 +38,18 @@ describe('<TilBehandlingPanel>', () => {
     navn: 'Førstegangssøknad',
   };
 
+  let contextStub;
+  beforeEach(() => {
+    contextStub = sinon.stub(useKodeverk, 'default');
+    contextStub.withArgs(kodeverkTyper.BEHANDLING_TYPE).callsFake(() => behandlingTyper)
+      .withArgs(kodeverkTyper.FAGSAK_YTELSE_TYPE)
+      .callsFake(() => fagsakYtelseTyper);
+  });
+
+  afterEach(() => {
+    contextStub.restore();
+  });
+
   it('skal vise ukevalg i dropdown', () => {
     const valuesMock = {
       [fagsakYtelseType.OMSORGSPENGER]: true,
@@ -47,10 +62,8 @@ describe('<TilBehandlingPanel>', () => {
       intl={intl as IntlShape}
       width={300}
       height={200}
-      fagsakYtelseTyper={fagsakYtelseTyper}
-      behandlingTyper={behandlingTyper}
       beholdningPerDato={beholdningPerDato}
-      initialValues={{ ytelseType: fagsakYtelseType.OMSORGSPENGER, ukevalg: valuesMock.ukevalg }}
+      getValueFromLocalStorage={sinon.spy()}
       // @ts-ignore
     />).find(Form).renderProp('render')({ values: valuesMock });
 
@@ -86,10 +99,8 @@ describe('<TilBehandlingPanel>', () => {
       intl={intl as IntlShape}
       width={300}
       height={200}
-      fagsakYtelseTyper={fagsakYtelseTyper}
-      behandlingTyper={behandlingTyper}
       beholdningPerDato={beholdningPerDato}
-      initialValues={{ ytelseType: fagsakYtelseType.PLEIEPENGER_SYKT_BARN, ukevalg: valuesMock.ukevalg }}
+      getValueFromLocalStorage={sinon.spy()}
       // @ts-ignore
     />).find(Form).renderProp('render')({ values: valuesMock });
 
@@ -120,10 +131,8 @@ describe('<TilBehandlingPanel>', () => {
       intl={intl as IntlShape}
       width={300}
       height={200}
-      fagsakYtelseTyper={fagsakYtelseTyper}
-      behandlingTyper={behandlingTyper}
       beholdningPerDato={beholdningPerDato}
-      initialValues={{ ytelseType: fagsakYtelseType.PLEIEPENGER_SYKT_BARN, ukevalg: valuesMock.ukevalg }}
+      getValueFromLocalStorage={sinon.spy()}
       // @ts-ignore
     />).find(Form).renderProp('render')({ values: valuesMock });
 
@@ -154,10 +163,8 @@ describe('<TilBehandlingPanel>', () => {
       intl={intl as IntlShape}
       width={300}
       height={200}
-      fagsakYtelseTyper={fagsakYtelseTyper}
-      behandlingTyper={behandlingTyper}
       beholdningPerDato={beholdningPerDato}
-      initialValues={{ ytelseType: fagsakYtelseType.OMSORGSPENGER, ukevalg: valuesMock.ukevalg }}
+      getValueFromLocalStorage={sinon.spy()}
       // @ts-ignore
     />).find(Form).renderProp('render')({ values: valuesMock });
 
@@ -187,10 +194,8 @@ describe('<TilBehandlingPanel>', () => {
       intl={intl as IntlShape}
       width={300}
       height={200}
-      fagsakYtelseTyper={fagsakYtelseTyper}
-      behandlingTyper={behandlingTyper}
       beholdningPerDato={beholdningPerDato}
-      initialValues={{ ytelseType: fagsakYtelseType.PLEIEPENGER_SYKT_BARN, ukevalg: valuesMock.ukevalg }}
+      getValueFromLocalStorage={sinon.spy()}
       // @ts-ignore
     />).find(Form).renderProp('render')({ values: valuesMock });
 
@@ -220,10 +225,8 @@ describe('<TilBehandlingPanel>', () => {
       intl={intl as IntlShape}
       width={300}
       height={200}
-      fagsakYtelseTyper={fagsakYtelseTyper}
-      behandlingTyper={behandlingTyper}
       beholdningPerDato={beholdningPerDato}
-      initialValues={{ ytelseType: fagsakYtelseType.OMSORGSPENGER, ukevalg: valuesMock.ukevalg }}
+      getValueFromLocalStorage={sinon.spy()}
       // @ts-ignore
     />).find(Form).renderProp('render')({ values: valuesMock });
 

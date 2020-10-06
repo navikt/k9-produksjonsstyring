@@ -1,12 +1,10 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useEffect } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Undertittel } from 'nav-frontend-typografi';
 import { Oppgaveko } from 'saksbehandler/behandlingskoer/oppgavekoTsType';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import Oppgave from 'saksbehandler/oppgaveTsType';
-import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
 import { getValueFromLocalStorage, setValueInLocalStorage, removeValueFromLocalStorage } from 'utils/localStorageHelper';
-import { K9LosApiKeys } from 'api/k9LosApi';
 import OppgavekoVelgerForm from './OppgavekoVelgerForm';
 import OppgaverTabell from './OppgaverTabell';
 
@@ -27,30 +25,24 @@ const OppgavekoPanel: FunctionComponent<OwnProps> = ({
   oppgavekoer,
   setValgtOppgavekoId,
   valgtOppgavekoId,
-}) => {
-  const { startRequest: hentAntallOppgaver, data: antallOppgaver } = useRestApiRunner<number>(K9LosApiKeys.BEHANDLINGSKO_OPPGAVE_ANTALL);
-
-  return (
-    <>
-      <Undertittel><FormattedMessage id="OppgavekoPanel.StartBehandling" /></Undertittel>
-      <div className={styles.container}>
-        <OppgavekoVelgerForm
-          oppgavekoer={oppgavekoer}
-          setValgtOppgavekoId={setValgtOppgavekoId}
-          hentAntallOppgaverForBehandlingsko={hentAntallOppgaver}
-          getValueFromLocalStorage={getValueFromLocalStorage}
-          setValueInLocalStorage={setValueInLocalStorage}
-          removeValueFromLocalStorage={removeValueFromLocalStorage}
-        />
-        <VerticalSpacer twentyPx />
-        <OppgaverTabell
-          antallOppgaver={antallOppgaver}
-          reserverOppgave={reserverOppgave}
-          valgtOppgavekoId={valgtOppgavekoId}
-        />
-      </div>
-    </>
-  );
-};
+}) => (
+  <>
+    <Undertittel><FormattedMessage id="OppgavekoPanel.StartBehandling" /></Undertittel>
+    <div className={styles.container}>
+      <OppgavekoVelgerForm
+        oppgavekoer={oppgavekoer}
+        setValgtOppgavekoId={setValgtOppgavekoId}
+        getValueFromLocalStorage={getValueFromLocalStorage}
+        setValueInLocalStorage={setValueInLocalStorage}
+        removeValueFromLocalStorage={removeValueFromLocalStorage}
+      />
+      <VerticalSpacer twentyPx />
+      <OppgaverTabell
+        reserverOppgave={reserverOppgave}
+        valgtOppgavekoId={valgtOppgavekoId}
+      />
+    </div>
+  </>
+);
 
 export default OppgavekoPanel;

@@ -11,12 +11,14 @@ import { RETTSKILDE_URL, SYSTEMRUTINE_URL } from 'api/eksterneLenker';
 import Knapp from 'nav-frontend-knapper';
 
 import useRestApiError from 'api/rest-api/error/useRestApiError';
-import { RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
+import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
 import NavAnsatt from 'app/navAnsattTsType';
 import useGlobalStateRestApiData from 'api/rest-api-hooks/src/global-data/useGlobalStateRestApiData';
 import ErrorFormatter from 'app/feilhandtering/ErrorFormatter';
+import useRestApi from 'api/rest-api-hooks/src/local-data/useRestApi';
 import styles from './headerWithErrorPanel.less';
 import ErrorMessagePanel from './ErrorMessagePanel';
+import { Driftsmelding } from '../../admin/driftsmeldinger/driftsmeldingTsType';
 
 interface OwnProps {
   queryStrings: {
@@ -69,6 +71,7 @@ const HeaderWithErrorPanel: FunctionComponent<OwnProps & WrappedComponentProps> 
   const [erAvdelingerPanelApent, setAvdelingerPanelApent] = useState(false);
 
   const navAnsatt = useGlobalStateRestApiData<NavAnsatt>(RestApiGlobalStatePathsKeys.NAV_ANSATT);
+  const { data: driftsmeldinger = [] } = useRestApi<Driftsmelding[]>(K9LosApiKeys.DRIFTSMELDINGER);
 
   const errorMessages = useRestApiError() || [];
   const formaterteFeilmeldinger = useMemo(() => new ErrorFormatter().format(errorMessages, crashMessage), [errorMessages]);
@@ -77,7 +80,7 @@ const HeaderWithErrorPanel: FunctionComponent<OwnProps & WrappedComponentProps> 
   const fixedHeaderRef = useRef(null);
   useEffect(() => {
     setSiteHeight(fixedHeaderRef.current.clientHeight);
-  }, [errorMessages.length]);
+  }, [errorMessages.length, driftsmeldinger.length]);
 
   const goTilAvdlelingslederPanel = () => {
     window.location.href = '/avdelingsleder';
@@ -168,6 +171,7 @@ const HeaderWithErrorPanel: FunctionComponent<OwnProps & WrappedComponentProps> 
         </Header>
       </div>
       <ErrorMessagePanel
+        driftsmeldinger={driftsmeldinger}
         errorMessages={formaterteFeilmeldinger}
         queryStrings={queryStrings}
       />

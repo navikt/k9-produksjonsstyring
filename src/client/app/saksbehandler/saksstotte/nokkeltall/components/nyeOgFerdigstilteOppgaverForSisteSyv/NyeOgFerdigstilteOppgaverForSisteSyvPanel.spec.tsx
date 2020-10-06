@@ -4,7 +4,7 @@ import { shallow } from 'enzyme';
 import moment from 'moment';
 
 import behandlingType from 'kodeverk/behandlingType';
-import { NyeOgFerdigstilteOppgaverForSisteSyvPanel, getNyeOgFerdigstilteForSisteSyvDager } from './NyeOgFerdigstilteOppgaverForSisteSyvPanel';
+import NyeOgFerdigstilteOppgaverForSisteSyvPanel from './NyeOgFerdigstilteOppgaverForSisteSyvPanel';
 import NyeOgFerdigstilteOppgaverForSisteSyvGraf from './NyeOgFerdigstilteOppgaverForSisteSyvGraf';
 
 describe('<NyeOgFerdigstilteOppgaverForSisteSyvPanel>', () => {
@@ -16,6 +16,7 @@ describe('<NyeOgFerdigstilteOppgaverForSisteSyvPanel>', () => {
       },
       antallNye: 12,
       antallFerdigstilte: 2,
+      antallFerdigstilteMine: 1,
       dato: '2019-01-01',
     }];
 
@@ -39,6 +40,7 @@ describe('<NyeOgFerdigstilteOppgaverForSisteSyvPanel>', () => {
       },
       antallNye: 12,
       antallFerdigstilte: 2,
+      antallFerdigstilteMine: 1,
       dato: iDag,
     }, {
       behandlingType: {
@@ -47,6 +49,7 @@ describe('<NyeOgFerdigstilteOppgaverForSisteSyvPanel>', () => {
       },
       antallNye: 1,
       antallFerdigstilte: 6,
+      antallFerdigstilteMine: 1,
       dato: iGar,
     }, {
       behandlingType: {
@@ -55,13 +58,22 @@ describe('<NyeOgFerdigstilteOppgaverForSisteSyvPanel>', () => {
       },
       antallNye: 8,
       antallFerdigstilte: 9,
+      antallFerdigstilteMine: 1,
       dato: atteDagerSiden,
     }];
 
-    const filtrerteOppgaver = getNyeOgFerdigstilteForSisteSyvDager.resultFunc(nyeOgFerdigstilteOppgaver);
+    const wrapper = shallow(<NyeOgFerdigstilteOppgaverForSisteSyvPanel
+      width={300}
+      height={200}
+      nyeOgFerdigstilteOppgaver={nyeOgFerdigstilteOppgaver}
+    />);
 
-    expect(filtrerteOppgaver).to.have.length(2);
-    expect(filtrerteOppgaver[0].dato).is.eql(iGar);
-    expect(filtrerteOppgaver[1].dato).is.eql(atteDagerSiden);
+    const graf = wrapper.find(NyeOgFerdigstilteOppgaverForSisteSyvGraf);
+    expect(graf).to.have.length(1);
+    const oppgaver = graf.props().nyeOgFerdigstilteOppgaver;
+
+    expect(oppgaver).to.have.length(2);
+    expect(oppgaver[0].dato).is.eql(iGar);
+    expect(oppgaver[1].dato).is.eql(atteDagerSiden);
   });
 });

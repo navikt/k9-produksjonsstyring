@@ -39,14 +39,14 @@ export const slaSammenLikeBehandlingstyper = (oppgaver) => {
     if (index === -1) {
       sammenslatte.push({
         behandlingType: o.behandlingType,
-        nye: o.nye.length,
-        ferdigstilte: o.ferdigstilte.length,
+        nye: o.nye,
+        ferdigstilte: o.ferdigstilte,
       });
     } else {
       sammenslatte[index] = {
         behandlingType: sammenslatte[index].behandlingType,
-        nye: sammenslatte[index].nye + o.nye.length,
-        ferdigstilte: sammenslatte[index].ferdigstilte + o.ferdigstilte.length,
+        nye: sammenslatte[index].nye + o.nye,
+        ferdigstilte: sammenslatte[index].ferdigstilte + o.ferdigstilte,
       };
     }
   });
@@ -74,13 +74,17 @@ export const InngangOgFerdigstiltePanel: FunctionComponent<OwnProps & WrappedCom
 
   const requestFinished = state === RestApiState.SUCCESS;
 
-  const nyeOgFerdigstilteOppgaverIdag = nyeOgFerdigstilteOppgaverMedStonadstype.filter((oppgave) => moment().isSame(moment(oppgave.dato, ISO_DATE_FORMAT), 'day'));
-  const nyeOgFerdigstilteOppgaver7dager = nyeOgFerdigstilteOppgaverMedStonadstype.filter((oppgave) => moment().startOf('day').isSameOrAfter(moment(oppgave.dato, ISO_DATE_FORMAT)));
+  const nyeOgFerdigstilteOppgaverIdag = nyeOgFerdigstilteOppgaverMedStonadstype.filter(
+    (oppgave) => moment().isSame(moment(oppgave.dato, ISO_DATE_FORMAT), 'day'),
+  );
+  const nyeOgFerdigstilteOppgaver7dager = nyeOgFerdigstilteOppgaverMedStonadstype.filter(
+    (oppgave) => moment().startOf('day').isSameOrAfter(moment(oppgave.dato, ISO_DATE_FORMAT)),
+  );
 
   const getNyeTotalt = (oppgaver: NyeOgFerdigstilteMedStonadstype[], ytelseType: string) => {
     let nye = 0;
     oppgaver
-      .filter((o) => (ytelseType === ALLE_YTELSETYPER_VALGT ? true : ytelseType === o.fagsakYtelseType.kode)).forEach((n) => { nye += n.nye.length; });
+      .filter((o) => (ytelseType === ALLE_YTELSETYPER_VALGT ? true : ytelseType === o.fagsakYtelseType.kode)).forEach((n) => { nye += n.nye; });
     return nye;
   };
 
@@ -88,7 +92,7 @@ export const InngangOgFerdigstiltePanel: FunctionComponent<OwnProps & WrappedCom
     let ferdigstilte = 0;
     oppgaver
       .filter((o) => (
-        ytelseType === ALLE_YTELSETYPER_VALGT ? true : ytelseType === o.fagsakYtelseType.kode)).forEach((n) => { ferdigstilte += n.ferdigstilte.length; });
+        ytelseType === ALLE_YTELSETYPER_VALGT ? true : ytelseType === o.fagsakYtelseType.kode)).forEach((n) => { ferdigstilte += n.ferdigstilte; });
     return ferdigstilte;
   };
 

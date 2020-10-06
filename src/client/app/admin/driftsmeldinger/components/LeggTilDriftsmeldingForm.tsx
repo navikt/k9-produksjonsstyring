@@ -13,7 +13,6 @@ import { InputField } from 'form/FinalFields';
 import { FlexContainer, FlexRow, FlexColumn } from 'sharedComponents/flexGrid';
 
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
-import { Saksbehandler } from 'avdelingsleder/bemanning/saksbehandlerTsType';
 import { K9LosApiKeys } from 'api/k9LosApi';
 import styles from './leggTilDriftsmeldingForm.less';
 import { Driftsmelding } from '../driftsmeldingTsType';
@@ -21,15 +20,19 @@ import { Driftsmelding } from '../driftsmeldingTsType';
 /**
  * LeggTilDriftsmeldingForm
  */
-export const LeggTilDriftsmeldingForm: FunctionComponent = () => {
+interface OwnProps {
+    hentAlleDriftsmeldinger: () => void;
+}
+
+export const LeggTilDriftsmeldingForm: FunctionComponent<OwnProps> = ({ hentAlleDriftsmeldinger }) => {
   const [leggerTilNyDriftsmelding, setLeggerTilNyDriftsmelding] = useState(false);
 
-  const { startRequest: leggTilDriftsmelding } = useRestApiRunner<Saksbehandler>(K9LosApiKeys.LAGRE_DRIFTSMELDING);
-  const { startRequest: hentAlleDriftsmeldinger, data: driftsmeldinger } = useRestApiRunner<Driftsmelding[]>(K9LosApiKeys.DRIFTSMELDINGER);
+  const { startRequest: leggTilDriftsmelding } = useRestApiRunner<Driftsmelding>(K9LosApiKeys.LAGRE_DRIFTSMELDING);
 
-  const addDriftsmelding = (melding: string) => {
+  const addDriftsmelding = (melding: string, resetFormValues: () => void) => {
     setLeggerTilNyDriftsmelding(true);
-    leggTilDriftsmelding({ melding }).then(() => hentAlleDriftsmeldinger()).then(() => setLeggerTilNyDriftsmelding(false));
+    leggTilDriftsmelding({ driftsmelding: melding }).then(() => hentAlleDriftsmeldinger()).then(() => setLeggerTilNyDriftsmelding(false));
+    resetFormValues();
   };
 
   return (
@@ -62,7 +65,7 @@ export const LeggTilDriftsmeldingForm: FunctionComponent = () => {
                   spinner={submitting}
                   disabled={submitting || leggerTilNyDriftsmelding}
                   tabIndex={0}
-                  onClick={() => addDriftsmelding(values.melding)}
+                  onClick={() => addDriftsmelding(values.melding, form.reset)}
                 >
                   <FormattedMessage id="LeggTilDriftsmeldingForm.Legg_Til" />
                 </Knapp>

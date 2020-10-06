@@ -1,15 +1,11 @@
 import React, { FunctionComponent } from 'react';
 import SaksstottePaneler from './components/SaksstottePaneler';
 
-interface OwnProps {
-  valgtOppgavekoId?: string;
-}
-
 /**
  * SaksstotteIndex
  */
-const SaksstotteIndex: FunctionComponent<OwnProps> = ({ valgtOppgavekoId }) => (
-  <SaksstottePaneler valgtOppgavekoId={valgtOppgavekoId} />
+const SaksstotteIndex: FunctionComponent = () => (
+  <SaksstottePaneler />
 );
 
 export default SaksstotteIndex;

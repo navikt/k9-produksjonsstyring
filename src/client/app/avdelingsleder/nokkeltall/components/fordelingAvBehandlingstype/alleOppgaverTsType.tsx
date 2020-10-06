@@ -1,4 +1,4 @@
-import { Kodeverk } from 'kodeverk/kodeverkTsType';
+import Kodeverk from 'kodeverk/kodeverkTsType';
 
 type AlleOppgaver = Readonly<{
   fagsakYtelseType: Kodeverk;

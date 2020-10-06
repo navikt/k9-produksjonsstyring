@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Normaltekst, Element } from 'nav-frontend-typografi';
 import Image from 'sharedComponents/Image';
@@ -22,14 +22,21 @@ const headerTextCodes = [
   'DriftsmeldingTabell.Dato',
 ];
 
+interface OwnProps {
+  driftsmeldinger: Driftsmelding[];
+  hentAlleDriftsmeldinger: () => void;
+}
+
 /**
  * DriftsmeldingerTabell
  */
-const DriftsmeldingerTabell: FunctionComponent = () => {
+const DriftsmeldingerTabell: FunctionComponent<OwnProps> = ({
+  driftsmeldinger,
+  hentAlleDriftsmeldinger,
+}) => {
   const [showSlettModal, setShowSlettModal] = useState(false);
   const [valgtDriftsmelding, setValgtDriftsmelding] = useState<Driftsmelding>(undefined);
 
-  const { startRequest: hentAlleDriftsmeldinger, data: driftsmeldinger } = useRestApiRunner<Driftsmelding[]>(K9LosApiKeys.DRIFTSMELDINGER);
   const { startRequest: fjernDriftsmelding } = useRestApiRunner<Driftsmelding>(K9LosApiKeys.SLETT_DRIFTSMELDING);
   const { startRequest: switchDriftsmelding } = useRestApiRunner<Driftsmelding>(K9LosApiKeys.TOGGLE_DRIFTSMELDING);
 
@@ -69,7 +76,7 @@ const DriftsmeldingerTabell: FunctionComponent = () => {
                   <Checkbox
                     label=""
                     checked={driftsmelding.aktiv}
-                    onChange={(e) => switchDriftsmelding({ id: driftsmelding.id, checked: e.target.checked }).then(() => hentAlleDriftsmeldinger())}
+                    onChange={(e) => switchDriftsmelding({ id: driftsmelding.id, aktiv: e.target.checked }).then(() => hentAlleDriftsmeldinger())}
                     name="aktiv"
                   />
                 </div>

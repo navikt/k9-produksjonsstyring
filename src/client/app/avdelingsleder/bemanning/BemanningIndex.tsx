@@ -1,7 +1,6 @@
 import React, { FunctionComponent, useEffect } from 'react';
 import EnkelTeller from 'avdelingsleder/dagensTall/EnkelTeller';
 import { K9LosApiKeys } from 'api/k9LosApi';
-import useRestApi from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
 import { Saksbehandler } from './saksbehandlerTsType';
 import SaksbehandlerePanel from './components/SaksbehandlerePanel';

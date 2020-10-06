@@ -22,7 +22,6 @@ import styles from './oppgavekoVelgerForm.less';
 
 interface OwnProps {
   oppgavekoer: Oppgaveko[];
-  hentAntallOppgaverForBehandlingsko: (params: {id: string}) => void;
   saksbehandlere?: Saksbehandler[];
   setValgtOppgavekoId: (id: string) => void;
   getValueFromLocalStorage: (key: string) => string;
@@ -106,7 +105,6 @@ export const OppgavekoVelgerForm: FunctionComponent<OwnProps & WrappedComponentP
   intl,
   oppgavekoer,
   setValgtOppgavekoId,
-  hentAntallOppgaverForBehandlingsko,
   getValueFromLocalStorage,
   setValueInLocalStorage,
   removeValueFromLocalStorage,
@@ -119,7 +117,6 @@ export const OppgavekoVelgerForm: FunctionComponent<OwnProps & WrappedComponentP
       if (defaultOppgavekoId) {
         setValgtOppgavekoId(defaultOppgavekoId);
         hentSaksbehandlere({ id: defaultOppgavekoId });
-        hentAntallOppgaverForBehandlingsko({ id: defaultOppgavekoId });
       }
     }
   }, []);
@@ -151,7 +148,6 @@ export const OppgavekoVelgerForm: FunctionComponent<OwnProps & WrappedComponentP
                 const { id } = val.values;
                 setValgtOppgavekoId(id);
                 hentSaksbehandlere({ id });
-                hentAntallOppgaverForBehandlingsko({ id });
               }
             }}
             subscription={{ values: true, dirtyFields: true }}
