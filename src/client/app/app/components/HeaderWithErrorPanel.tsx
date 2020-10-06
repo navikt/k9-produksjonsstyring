@@ -8,16 +8,13 @@ import UserPanel from '@navikt/nap-user-panel';
 import BoxedListWithLinks from '@navikt/boxed-list-with-links';
 import Header from '@navikt/nap-header';
 import { RETTSKILDE_URL, SYSTEMRUTINE_URL } from 'api/eksterneLenker';
-import KnappBase, { Knapp, Flatknapp } from 'nav-frontend-knapper';
-import EventType from 'api/rest-api/src/requestApi/eventType';
+import Knapp from 'nav-frontend-knapper';
 
-import { getK9sakHref } from 'app/paths';
-import ErrorFormatter from 'api/error-api-redux/src/ErrorFormatter';
 import useRestApiError from 'api/rest-api/error/useRestApiError';
 import { RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
 import NavAnsatt from 'app/navAnsattTsType';
-import useGlobalStateRestApiData from 'api/rest-api-hooks/global-data/useGlobalStateRestApiData';
-import { Driftsmelding } from '../../admin/driftsmeldinger/driftsmeldingTsType';
+import useGlobalStateRestApiData from 'api/rest-api-hooks/src/global-data/useGlobalStateRestApiData';
+import ErrorFormatter from 'app/feilhandtering/ErrorFormatter';
 import styles from './headerWithErrorPanel.less';
 import ErrorMessagePanel from './ErrorMessagePanel';
 

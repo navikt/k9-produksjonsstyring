@@ -3,7 +3,6 @@ import { FormattedMessage } from 'react-intl';
 
 import { Form } from 'react-final-form';
 import { Element } from 'nav-frontend-typografi';
-import StoreValuesInReduxState from 'form/reduxBinding/StoreValuesInReduxState';
 import { RadioGroupField, RadioOption } from 'form/FinalFields';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
@@ -11,7 +10,8 @@ import kodeverkTyper from 'kodeverk/kodeverkTyper';
 import AlleOppgaver from 'avdelingsleder/nokkeltall/components/fordelingAvBehandlingstype/alleOppgaverTsType';
 import Panel from 'nav-frontend-paneler';
 import { ALLE_YTELSETYPER_VALGT } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
-import useKodeverk from 'api/rest-api-hooks/global-data/useKodeverk';
+import useKodeverk from 'api/rest-api-hooks/src/global-data/useKodeverk';
+import StoreValuesInLocalStorage from 'form/StoreValuesInLocalStorage';
 import FordelingAvBehandlingstypeGraf from './FordelingAvBehandlingstypeGraf';
 import styles from './fordelingAvBehandlingstypeGraf.less';
 
@@ -54,7 +54,7 @@ export const FordelingAvBehandlingstypePanel: FunctionComponent<OwnProps> = ({
       initialValues={lagredeVerdier || formDefaultValues}
       render={({ values }) => (
         <Panel className={styles.panel}>
-          <StoreValuesInReduxState onUmount stateKey={formName} values={values} />
+          <StoreValuesInLocalStorage stateKey={formName} values={values} />
           <Element>
             <FormattedMessage id="FordelingAvBehandlingstypePanel.Fordeling" />
           </Element>

@@ -1,13 +1,11 @@
 import React, { FunctionComponent } from 'react';
-import { connect } from 'react-redux';
-
 import { Form } from 'react-final-form';
 import { FormattedMessage } from 'react-intl';
 import { Row, Column } from 'nav-frontend-grid';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import { CheckboxField } from 'form/FinalFields';
 import { Saksbehandler } from 'avdelingsleder/bemanning/saksbehandlerTsType';
-import useRestApiRunner from 'api/rest-api-hooks/local-data/useRestApiRunner';
+import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
 import { K9LosApiKeys } from 'api/k9LosApi';
 import { Oppgaveko } from '../../oppgavekoTsType';
 
@@ -16,12 +14,13 @@ import styles from './saksbehandlereForOppgavekoForm.less';
 interface OwnProps {
   valgtOppgaveko: Oppgaveko;
   alleSaksbehandlere: Saksbehandler[];
+  hentOppgaveko:(id: string) => void;
 }
 
 /**
  * SaksbehandlereForOppgavekoForm
  */
-const SaksbehandlereForOppgavekoForm: FunctionComponent<OwnProps> = ({ valgtOppgaveko, alleSaksbehandlere }) => {
+const SaksbehandlereForOppgavekoForm: FunctionComponent<OwnProps> = ({ valgtOppgaveko, alleSaksbehandlere, hentOppgaveko }) => {
   const buildInitialValues = () => {
     const identer = valgtOppgaveko.saksbehandlere ? valgtOppgaveko.saksbehandlere.reduce((acc, sb) => (
       { ...acc, [sb.epost.replace(/\./g, '')]: true }), {}) : {};
@@ -35,7 +34,6 @@ const SaksbehandlereForOppgavekoForm: FunctionComponent<OwnProps> = ({ valgtOppg
   const alleSaksbehandlereHoyreListe = alleSaksbehandlere.slice(pos);
 
   const { startRequest: knyttSaksbehandlerTilOppgaveko } = useRestApiRunner(K9LosApiKeys.LAGRE_OPPGAVEKO_SAKSBEHANDLER);
-  const { startRequest: hentOppgaveko } = useRestApiRunner(K9LosApiKeys.HENT_OPPGAVEKO);
 
   return (
     <Form
@@ -57,7 +55,7 @@ const SaksbehandlereForOppgavekoForm: FunctionComponent<OwnProps> = ({ valgtOppg
                       name={s.epost.replace(/\./g, '')}
                       label={s.navn ? s.navn : s.epost}
                       onChange={(isChecked) => knyttSaksbehandlerTilOppgaveko({ id: valgtOppgaveko.id, epost: s.epost, checked: isChecked }).then(() => {
-                        hentOppgaveko({ id: valgtOppgaveko.id });
+                        hentOppgaveko(valgtOppgaveko.id);
                       })}
                     />
                   </div>
@@ -71,7 +69,7 @@ const SaksbehandlereForOppgavekoForm: FunctionComponent<OwnProps> = ({ valgtOppg
                       name={s.epost.replace(/\./g, '')}
                       label={s.navn ? s.navn : s.epost}
                       onChange={(isChecked) => knyttSaksbehandlerTilOppgaveko({ id: valgtOppgaveko.id, epost: s.epost, checked: isChecked }).then(() => {
-                        hentOppgaveko({ id: valgtOppgaveko.id });
+                        hentOppgaveko(valgtOppgaveko.id);
                       })}
                     />
                   </div>

@@ -4,7 +4,6 @@ import { injectIntl, WrappedComponentProps, FormattedMessage } from 'react-intl'
 import { Form } from 'react-final-form';
 import { Element } from 'nav-frontend-typografi';
 import { Row, Column } from 'nav-frontend-grid';
-import StoreValuesInReduxState from 'form/reduxBinding/StoreValuesInReduxState';
 import { SelectField } from 'form/FinalFields';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
@@ -17,7 +16,8 @@ import {
   uker,
   ytelseTyper,
 } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
-import useKodeverk from 'api/rest-api-hooks/global-data/useKodeverk';
+import useKodeverk from 'api/rest-api-hooks/src/global-data/useKodeverk';
+import StoreValuesInLocalStorage from 'form/StoreValuesInLocalStorage';
 import HistorikkGraf from '../../HistorikkGraf';
 import HistoriskData from '../../historiskDataTsType';
 
@@ -57,7 +57,7 @@ export const BeholdningHistorikkPanel: FunctionComponent<OwnProps & WrappedCompo
       initialValues={lagredeVerdier || formDefaultValues}
       render={({ values }) => (
         <Panel className={styles.panel}>
-          <StoreValuesInReduxState onUmount stateKey={formName} values={values} />
+          <StoreValuesInLocalStorage stateKey={formName} values={values} />
           <Element>
             <FormattedMessage id="BeholdningHistorikkPanel.Beholdning" />
           </Element>

@@ -1,7 +1,8 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useEffect } from 'react';
 import EnkelTeller from 'avdelingsleder/dagensTall/EnkelTeller';
 import { K9LosApiKeys } from 'api/k9LosApi';
-import useRestApiRunner from 'api/rest-api-hooks/local-data/useRestApiRunner';
+import useRestApi from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
+import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
 import { Saksbehandler } from './saksbehandlerTsType';
 import SaksbehandlerePanel from './components/SaksbehandlerePanel';
 
@@ -14,6 +15,10 @@ const smallScreen = window.innerWidth < 1650;
  */
 const BemanningIndex: FunctionComponent = () => {
   const { startRequest: hentAlleSaksbehandlere, data: alleSaksbehandlere = [] } = useRestApiRunner<Saksbehandler[]>(K9LosApiKeys.SAKSBEHANDLERE);
+
+  useEffect(() => {
+    hentAlleSaksbehandlere();
+  }, []);
 
   return (
     <div className={styles.saksbehandlereContent}>

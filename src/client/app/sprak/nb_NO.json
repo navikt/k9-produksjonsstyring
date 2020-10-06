@@ -276,7 +276,7 @@
   "SistBehandledeSaker.Behandling": "Behandling {index}",
 
   "SletteOppgavekoModal.SletteModal": "Ønsker du å slette behandlingskøen?",
-  "SletteOppgavekoModal.SletteOppgaveko": "Ønsker du å slette {OppgavekoNavn}?",
+  "SletteOppgavekoModal.SletteOppgaveko": "Er du sikker på at du vil slette {OppgavekoNavn}?",
   "SletteOppgavekoModal.Ja": "Ja",
   "SletteOppgavekoModal.Nei": "Nei",
 

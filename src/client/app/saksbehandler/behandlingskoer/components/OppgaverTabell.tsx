@@ -2,7 +2,6 @@ import React, {
   FunctionComponent, ReactNode, useCallback, useEffect, useRef, useState,
 } from 'react';
 import { FormattedMessage, injectIntl, WrappedComponentProps } from 'react-intl';
-import { bindActionCreators, Dispatch } from 'redux';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import NavFrontendChevron from 'nav-frontend-chevron';
 
@@ -19,15 +18,14 @@ import menuIconBlueUrl from 'images/ic-menu-18px_blue.svg';
 import menuIconBlackUrl from 'images/ic-menu-18px_black.svg';
 import bubbletextUrl from 'images/bubbletext.svg';
 import bubbletextFilledUrl from 'images/bubbletext_filled.svg';
-import { getK9sakHref } from 'app/paths';
 
-import k9LosApi, { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
+import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 
-import useRestApiRunner from 'api/rest-api-hooks/local-data/useRestApiRunner';
+import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
 import { Oppgaveko } from 'saksbehandler/behandlingskoer/oppgavekoTsType';
-import useGlobalStateRestApiData from 'api/rest-api-hooks/global-data/useGlobalStateRestApiData';
-import RestApiState from 'api/rest-api-hooks/RestApiState';
+import useGlobalStateRestApiData from 'api/rest-api-hooks/src/global-data/useGlobalStateRestApiData';
+import RestApiState from 'api/rest-api-hooks/src/RestApiState';
 import Reservasjon from 'avdelingsleder/reservasjoner/reservasjonTsType';
 import styles from './oppgaverTabell.less';
 import OppgaveHandlingerMenu from './menu/OppgaveHandlingerMenu';
@@ -61,16 +59,7 @@ interface OwnProps {
   valgtOppgavekoId: string;
   sseUrl: string;
   reserverOppgave: (oppgave: Oppgave) => void;
-  opphevOppgaveReservasjon: (oppgaveId: string, begrunnelse: string) => Promise<any>;
-  forlengOppgaveReservasjon: (oppgaveId: string) => Promise<any>;
-  endreOppgaveReservasjon: (oppgaveId: string, reserverTil: string) => Promise<string>;
-  finnSaksbehandler: (brukerIdent: string) => Promise<string>;
-  resetSaksbehandler: () => Promise<string>;
-  flyttReservasjon: (oppgaveId: string, brukerident: string, begrunnelse: string) => Promise<string>;
   antallOppgaver: number;
-  goToFagsak: (saknummer: string, behandlingId?: number) => void;
-  valgtKoSkjermet: boolean;
-  requestFinished: boolean;
 }
 
 /**
@@ -81,7 +70,6 @@ export const OppgaverTabell: FunctionComponent<OwnProps & WrappedComponentProps>
   valgtOppgavekoId,
   antallOppgaver,
   reserverOppgave,
-  valgtKoSkjermet,
 }) => {
   const [showMenu, setShowMenu] = useState(false);
   const [valgtOppgaveId, setValgtOppgaveId] = useState<string>();
@@ -121,6 +109,9 @@ export const OppgaverTabell: FunctionComponent<OwnProps & WrappedComponentProps>
       handleEvent(message);
     });
     hentSaksbehandlersOppgavekoer();
+    if (valgtOppgavekoId) {
+      hentOppgaverTilBehandling({ id: valgtOppgavekoId });
+    }
   }, [valgtOppgavekoId]);
 
   const goToFagsak = useCallback((event: Event, id: number, oppgave: Oppgave) => {
@@ -162,18 +153,18 @@ export const OppgaverTabell: FunctionComponent<OwnProps & WrappedComponentProps>
 
   return (
     <>
-      <Element><FormattedMessage id="OppgaverTabell.DineNesteSaker" values={{ antallOppgaver }} /></Element>
+      <Element><FormattedMessage id="OppgaverTabell.DineNesteSaker" values={{ antall: antallOppgaver }} /></Element>
       {alleOppgaver.length === 0 && state === RestApiState.LOADING && (
         <NavFrontendSpinner type="XL" className={styles.spinner} />
       )}
-      {alleOppgaver.length === 0 && !valgtKoSkjermet && state === RestApiState.SUCCESS && (
+      {alleOppgaver.length === 0 && state === RestApiState.SUCCESS && (
       <>
         <VerticalSpacer eightPx />
         <Normaltekst><FormattedMessage id="OppgaverTabell.IngenOppgaver" /></Normaltekst>
       </>
       )}
 
-      {oppgaverTilBehandling.length === 0 && valgtKoSkjermet && state === RestApiState.SUCCESS && (
+      {oppgaverTilBehandling.length === 0 && state === RestApiState.SUCCESS && (
         <>
           <VerticalSpacer eightPx />
           <Normaltekst><FormattedMessage id="OppgaverTabell.IngenTilgang" /></Normaltekst>

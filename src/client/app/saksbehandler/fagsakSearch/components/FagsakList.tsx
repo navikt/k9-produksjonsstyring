@@ -7,8 +7,8 @@ import TableColumn from 'sharedComponents/TableColumn';
 import { ReserverOppgaveModal } from 'saksbehandler/fagsakSearch/ReserverOppgaveModal';
 
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
-import useKodeverk from 'api/rest-api-hooks/global-data/useKodeverk';
-import useGlobalStateRestApiData from 'api/rest-api-hooks/global-data/useGlobalStateRestApiData';
+import useKodeverk from 'api/rest-api-hooks/src/global-data/useKodeverk';
+import useGlobalStateRestApiData from 'api/rest-api-hooks/src/global-data/useGlobalStateRestApiData';
 import NavAnsatt from 'app/navAnsattTsType';
 import { RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
 import styles from './fagsakList.less';

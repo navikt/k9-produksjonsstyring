@@ -7,8 +7,8 @@ import { getK9sakHref } from 'app/paths';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import BehandletOppgave from 'saksbehandler/saksstotte/behandletOppgaveTsType';
 import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
-import useGlobalStateRestApiData from 'api/rest-api-hooks/global-data/useGlobalStateRestApiData';
-import useRestApi from 'api/rest-api-hooks/local-data/useRestApi';
+import useGlobalStateRestApiData from 'api/rest-api-hooks/src/global-data/useGlobalStateRestApiData';
+import useRestApi from 'api/rest-api-hooks/src/local-data/useRestApi';
 
 const EMPTY_ARRAY = [];
 

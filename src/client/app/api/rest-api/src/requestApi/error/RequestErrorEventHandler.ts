@@ -49,8 +49,11 @@ interface FormatedError {
 class RequestErrorEventHandler {
   notify: NotificationEmitter
 
-  constructor(notificationEmitter: NotificationEmitter) {
+  isPollingRequest: boolean
+
+  constructor(notificationEmitter: NotificationEmitter, isPollingRequest: boolean) {
     this.notify = notificationEmitter;
+    this.isPollingRequest = isPollingRequest;
   }
 
   handleError = async (error: ErrorType | TimeoutError): Promise<string> => {
@@ -67,15 +70,19 @@ class RequestErrorEventHandler {
         formattedError.data = JSON.parse(jsonErrorString);
       }
     }
-    if (formattedError.isUnauthorized) {
-      this.notify(EventType.REQUEST_ERROR, { message: error.message });
+
+    if (formattedError.isGatewayTimeoutOrNotFound) {
+      this.notify(EventType.REQUEST_GATEWAY_TIMEOUT_OR_NOT_FOUND, { location: formattedError.location }, this.isPollingRequest);
+    } else if (formattedError.isUnauthorized) {
       window.location.href = PROXY_REDIRECT_URL;
+    } else if (formattedError.isForbidden) {
+      this.notify(EventType.REQUEST_FORBIDDEN, formattedError.data ? formattedError.data : { message: error.message });
     } else if (formattedError.is418) {
       this.notify(EventType.POLLING_HALTED_OR_DELAYED, formattedError.data);
     } else if (!error.response && error.message) {
-      this.notify(EventType.REQUEST_ERROR, { message: error.message });
+      this.notify(EventType.REQUEST_ERROR, { message: error.message }, this.isPollingRequest);
     } else if (!isHandledError(formattedError.type)) {
-      this.notify(EventType.REQUEST_ERROR, this.getFormattedData(formattedError.data));
+      this.notify(EventType.REQUEST_ERROR, this.getFormattedData(formattedError.data), this.isPollingRequest);
     }
   };
 

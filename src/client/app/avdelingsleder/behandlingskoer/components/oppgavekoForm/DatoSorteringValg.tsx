@@ -34,7 +34,7 @@ const getLagreDatoFn = (lagreOppgavekoSorteringTidsintervallDato, valgtOppgaveko
 
     return lagreOppgavekoSorteringTidsintervallDato(params)
       .then(() => {
-        hentKo({ id: valgtOppgavekoId });
+        hentKo(valgtOppgavekoId);
       });
   }
   return undefined;
@@ -42,7 +42,7 @@ const getLagreDatoFn = (lagreOppgavekoSorteringTidsintervallDato, valgtOppgaveko
 interface OwnProps {
     valgtOppgavekoId: string;
     lagreOppgavekoSorteringTidsintervallDato: (params: {id: string, fomDato: string, tomDato: string}) => void;
-    hentOppgaveko: () => void;
+    hentOppgaveko:(id: string) => void;
     fomDato: string;
     tomDato: string;
 }

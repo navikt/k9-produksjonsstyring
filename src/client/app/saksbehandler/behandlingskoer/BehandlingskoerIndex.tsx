@@ -1,21 +1,19 @@
 import React, {
-  FunctionComponent, useCallback, useEffect, useState,
+  FunctionComponent, useCallback, useState,
 } from 'react';
 import { K9LosApiKeys } from 'api/k9LosApi';
-import { getK9sakHref, getK9tilbakeHref } from 'app/paths';
+import { getK9sakHref } from 'app/paths';
 import { Oppgaveko } from 'saksbehandler/behandlingskoer/oppgavekoTsType';
 import { OppgaveStatus } from 'saksbehandler/oppgaveStatusTsType';
 import Oppgave from 'saksbehandler/oppgaveTsType';
 import OppgaveErReservertAvAnnenModal from 'saksbehandler/components/OppgaveErReservertAvAnnenModal';
-import useRestApiRunner from 'api/rest-api-hooks/local-data/useRestApiRunner';
+import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
+import { useRestApi } from 'api/rest-api-hooks';
 import OppgavekoPanel from './components/OppgavekoPanel';
 
 interface OwnProps {
   k9sakUrl: string;
-  k9tilbakeUrl: string;
-  sseUrl: string;
-  oppgavekoer: Oppgaveko[];
-  valgtOppgavekoId: string;
+  valgtOppgavekoId?: string;
   setValgtOppgavekoId: (id: string) => void;
 }
 
@@ -24,16 +22,14 @@ interface OwnProps {
  */
 const BehandlingskoerIndex: FunctionComponent<OwnProps> = ({
   k9sakUrl,
-  k9tilbakeUrl,
   setValgtOppgavekoId,
   valgtOppgavekoId,
 }) => {
-  const [id, setId] = useState(undefined);
   const [reservertOppgave, setReservertOppgave] = useState<Oppgave>();
   const [reservertAvAnnenSaksbehandler, setReservertAvAnnenSaksbehandler] = useState<boolean>(false);
   const [reservertOppgaveStatus, setReservertOppgaveStatus] = useState<OppgaveStatus>();
 
-  const { startRequest: hentSaksbehandlersOppgavekoer, data: oppgavekoer = [] } = useRestApiRunner<Oppgaveko[]>(K9LosApiKeys.OPPGAVEKO);
+  const { data: oppgavekoer = [] } = useRestApi<Oppgaveko[]>(K9LosApiKeys.OPPGAVEKO);
   const { startRequest: hentReserverteOppgaver, data: reserverteOppgaver = [] } = useRestApiRunner<Oppgave[]>(K9LosApiKeys.RESERVERTE_OPPGAVER);
   const { startRequest: leggTilBehandletOppgave } = useRestApiRunner(K9LosApiKeys.LEGG_TIL_BEHANDLET_OPPGAVE);
 
@@ -44,13 +40,8 @@ const BehandlingskoerIndex: FunctionComponent<OwnProps> = ({
     window.location.assign(getK9sakHref(k9sakUrl, oppgave.saksnummer, oppgave.behandlingId));
   };
 
-  const openTilbakesak = (oppgave: Oppgave) => {
-    window.location.assign(getK9tilbakeHref(k9tilbakeUrl, oppgave.saksnummer, oppgave.eksternId));
-  };
-
   const openSak = (oppgave: Oppgave) => {
     if (oppgave.system === 'K9SAK') openFagsak(oppgave);
-    else if (oppgave.system === 'K9TILBAKE') openTilbakesak(oppgave);
     else throw new Error('Fagsystemet for oppgaven er ukjent');
   };
 
@@ -68,14 +59,18 @@ const BehandlingskoerIndex: FunctionComponent<OwnProps> = ({
         }
       }).then(() => hentReserverteOppgaver());
     }
-  }, [k9sakUrl, k9tilbakeUrl]);
+  }, [k9sakUrl]);
 
   const lukkErReservertModalOgOpneOppgave = useCallback((oppgave: Oppgave) => {
     setReservertAvAnnenSaksbehandler(false);
     setReservertOppgave(undefined);
     setReservertOppgaveStatus(undefined);
     openSak(oppgave);
-  }, [k9sakUrl, k9tilbakeUrl]);
+  }, [k9sakUrl]);
+
+  if (oppgavekoer.length === 0) {
+    return null;
+  }
 
   return (
     <>
@@ -84,7 +79,6 @@ const BehandlingskoerIndex: FunctionComponent<OwnProps> = ({
         setValgtOppgavekoId={setValgtOppgavekoId}
         reserverOppgave={reserverOppgaveOgApne}
         oppgavekoer={oppgavekoer}
-        valgtKoSkjermet={oppgavekoer.find((ko) => ko.id === valgtOppgavekoId).skjermet}
       />
       {reservertAvAnnenSaksbehandler && reservertOppgave && reservertOppgaveStatus && (
       <OppgaveErReservertAvAnnenModal

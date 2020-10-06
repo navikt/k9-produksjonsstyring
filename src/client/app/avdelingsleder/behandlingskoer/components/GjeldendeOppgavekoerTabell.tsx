@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl';
 import {
   Normaltekst,
 } from 'nav-frontend-typografi';
-import { Kodeverk } from 'kodeverk/kodeverkTsType';
+import Kodeverk from 'kodeverk/kodeverkTsType';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
 import Image from 'sharedComponents/Image';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
@@ -16,10 +16,9 @@ import { Knapp } from 'nav-frontend-knapper';
 import UtvalgskriterierForOppgavekoForm
   from 'avdelingsleder/behandlingskoer/components/oppgavekoForm/UtvalgskriterierForOppgavekoForm';
 import NavFrontendSpinner from 'nav-frontend-spinner';
-import { Saksbehandler } from 'avdelingsleder/bemanning/saksbehandlerTsType';
-import useRestApiRunner from 'api/rest-api-hooks/local-data/useRestApiRunner';
+import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
 import { K9LosApiKeys } from 'api/k9LosApi';
-import useKodeverk from 'api/rest-api-hooks/global-data/useKodeverk';
+import useKodeverk from 'api/rest-api-hooks/src/global-data/useKodeverk';
 import SletteOppgavekoModal from './SletteOppgavekoModal';
 import { Oppgaveko } from '../oppgavekoTsType';
 
@@ -38,7 +37,6 @@ const headerTextCodes = [
 interface OwnProps {
   oppgavekoer: Oppgaveko[];
   setValgtOppgavekoId: (id: string) => void;
-  lagNyOppgaveko: () => void;
   resetValgtOppgavekoId: () => void;
   valgtOppgavekoId?: string;
   oppgaverTotalt?: number;
@@ -55,15 +53,28 @@ export const GjeldendeOppgavekoerTabell: FunctionComponent<OwnProps> = ({
   oppgavekoer,
   valgtOppgavekoId,
   setValgtOppgavekoId,
-  lagNyOppgaveko,
-  oppgaverTotalt,
   requestFinished,
   hentAlleOppgavekoer,
   resetValgtOppgavekoId,
 }) => {
   const [visSlettModal, setVisSlettModal] = useState(false);
+  const [valgtKo, setValgtKo] = useState(undefined);
   const { startRequest: fjernOppgaveko } = useRestApiRunner(K9LosApiKeys.SLETT_OPPGAVEKO);
-  const { startRequest: hentOppgaveko } = useRestApiRunner(K9LosApiKeys.HENT_OPPGAVEKO);
+  const { startRequest: hentOppgaveko } = useRestApiRunner<Oppgaveko>(K9LosApiKeys.HENT_OPPGAVEKO);
+
+  const { data: nyOppgavekoObject, startRequest: lagNyOppgaveko } = useRestApiRunner<{id: string}>(K9LosApiKeys.OPPRETT_NY_OPPGAVEKO);
+
+  const hentOppgaveKoFn = (id: string) => {
+    hentOppgaveko({ id }).then((ko) => setValgtKo(ko));
+  };
+
+  const lagNyOppgavekoFn = useCallback(() => {
+    lagNyOppgaveko().then((data) => {
+      setValgtOppgavekoId(data.id);
+      hentAlleOppgavekoer();
+      hentOppgaveKoFn(data.id);
+    });
+  }, []);
 
   const fagsakYtelseTyper = useKodeverk(kodeverkTyper.FAGSAK_YTELSE_TYPE);
 
@@ -74,14 +85,14 @@ export const GjeldendeOppgavekoerTabell: FunctionComponent<OwnProps> = ({
 
     if (valgtOppgavekoId !== id) {
       setValgtOppgavekoId(id);
-      hentOppgaveko({ id });
+      hentOppgaveKoFn(id);
     } else {
       setValgtOppgavekoId(undefined);
     }
   };
 
   const closeSletteModal = () => {
-    setVisSlettModal(true);
+    setVisSlettModal(false);
   };
 
   const fjernOppgavekoFn = useCallback((oppgaveko: Oppgaveko): void => {
@@ -95,12 +106,12 @@ export const GjeldendeOppgavekoerTabell: FunctionComponent<OwnProps> = ({
 
   const lagNyOppgavekoOnKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>) => {
     if (event.keyCode === 13) {
-      lagNyOppgaveko();
+      lagNyOppgavekoFn();
     }
   };
 
   const lagNyOppgavekoOnClick = () => {
-    lagNyOppgaveko();
+    lagNyOppgavekoFn();
   };
 
   const visFjernOppgavekoModal = () => {
@@ -164,15 +175,16 @@ export const GjeldendeOppgavekoerTabell: FunctionComponent<OwnProps> = ({
                 </TableColumn>
               </TableRow>
 
-              {valgtOppgavekoId === oppgaveko.id && (
+              {valgtKo && valgtOppgavekoId === oppgaveko.id && (
                 <UtvalgskriterierForOppgavekoForm
-                  valgtOppgaveko={oppgaveko}
+                  valgtOppgaveko={valgtKo}
+                  hentKo={hentOppgaveKoFn}
                   hentAlleOppgavekoer={hentAlleOppgavekoer}
                   visModal={visFjernOppgavekoModal}
                 />
               )}
 
-              {valgtOppgavekoId === oppgaveko.id && visSlettModal && (
+              { visSlettModal && (
               <SletteOppgavekoModal
                 valgtOppgaveko={oppgaveko}
                 cancel={closeSletteModal}

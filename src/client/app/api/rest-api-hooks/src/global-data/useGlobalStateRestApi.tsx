@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from 'react';
-import { RestApiGlobalStatePathsKeys } from 'data/restApiPaths';
+import { RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
 
-import { NotificationMapper } from 'data/rest-api';
+import { NotificationMapper } from 'api/rest-api';
 import useRestApiErrorDispatcher from '../error/useRestApiErrorDispatcher';
 import { RestApiDispatchContext, RestApiRequestContext } from '../RestApiContext';
 import RestApiState from '../RestApiState';

@@ -7,7 +7,6 @@ import {
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import { DDMMYYYY_DATE_FORMAT } from 'utils/formats';
 import Image from 'sharedComponents/Image';
-import { getValueFromLocalStorage, setValueInLocalStorage, removeValueFromLocalStorage } from 'utils/localStorageHelper';
 import { FlexContainer, FlexRow, FlexColumn } from 'sharedComponents/flexGrid';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import LabelWithHeader from 'sharedComponents/LabelWithHeader';
@@ -15,7 +14,7 @@ import { Oppgaveko } from 'saksbehandler/behandlingskoer/oppgavekoTsType';
 import { SelectField } from 'form/FinalFields';
 import gruppeHoverUrl from 'images/gruppe_hover.svg';
 import gruppeUrl from 'images/gruppe.svg';
-import useRestApiRunner from 'api/rest-api-hooks/local-data/useRestApiRunner';
+import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
 import { K9LosApiKeys } from 'api/k9LosApi';
 import { Saksbehandler } from '../saksbehandlerTsType';
 
@@ -26,9 +25,12 @@ interface OwnProps {
   hentAntallOppgaverForBehandlingsko: (params: {id: string}) => void;
   saksbehandlere?: Saksbehandler[];
   setValgtOppgavekoId: (id: string) => void;
+  getValueFromLocalStorage: (key: string) => string;
+  setValueInLocalStorage: (key: string, value: string) => void;
+  removeValueFromLocalStorage: (key: string) => void;
 }
 
-const getDefaultOppgaveko = (oppgavekoer) => {
+const getDefaultOppgaveko = (oppgavekoer, getValueFromLocalStorage, removeValueFromLocalStorage) => {
   const lagretOppgavekoId = getValueFromLocalStorage('id');
   if (lagretOppgavekoId) {
     if (oppgavekoer.some((s) => `${s.id}` === lagretOppgavekoId)) {
@@ -41,13 +43,13 @@ const getDefaultOppgaveko = (oppgavekoer) => {
   return sortertOppgavekoer.length > 0 ? sortertOppgavekoer[0].id : undefined;
 };
 
-const getInitialValues = (oppgavekoer) => {
+const getInitialValues = (oppgavekoer, getValueFromLocalStorage, removeValueFromLocalStorage) => {
   if (oppgavekoer.length === 0) {
     return {
       id: undefined,
     };
   }
-  const defaultOppgaveko = getDefaultOppgaveko(oppgavekoer);
+  const defaultOppgaveko = getDefaultOppgaveko(oppgavekoer, getValueFromLocalStorage, removeValueFromLocalStorage);
   return {
     id: defaultOppgaveko ? `${defaultOppgaveko}` : undefined,
   };
@@ -105,12 +107,15 @@ export const OppgavekoVelgerForm: FunctionComponent<OwnProps & WrappedComponentP
   oppgavekoer,
   setValgtOppgavekoId,
   hentAntallOppgaverForBehandlingsko,
+  getValueFromLocalStorage,
+  setValueInLocalStorage,
+  removeValueFromLocalStorage,
 }) => {
   const { data: saksbehandlere, startRequest: hentSaksbehandlere } = useRestApiRunner<Saksbehandler[]>(K9LosApiKeys.OPPGAVEKO_SAKSBEHANDLERE);
 
   useEffect(() => {
     if (oppgavekoer.length > 0) {
-      const defaultOppgavekoId = getDefaultOppgaveko(oppgavekoer);
+      const defaultOppgavekoId = getDefaultOppgaveko(oppgavekoer, getValueFromLocalStorage, removeValueFromLocalStorage);
       if (defaultOppgavekoId) {
         setValgtOppgavekoId(defaultOppgavekoId);
         hentSaksbehandlere({ id: defaultOppgavekoId });
@@ -134,7 +139,7 @@ export const OppgavekoVelgerForm: FunctionComponent<OwnProps & WrappedComponentP
   return (
     <Form
       onSubmit={() => undefined}
-      initialValues={getInitialValues(oppgavekoer)}
+      initialValues={getInitialValues(oppgavekoer, getValueFromLocalStorage, removeValueFromLocalStorage)}
       render={({ values = {} }) => (
         <form>
           <Element><FormattedMessage id="OppgavekoVelgerForm.Utvalgskriterier" /></Element>

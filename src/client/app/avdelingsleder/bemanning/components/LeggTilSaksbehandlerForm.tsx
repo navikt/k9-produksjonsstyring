@@ -11,7 +11,7 @@ import { hasValidEmailFormat } from 'utils/validation/validators';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import { InputField } from 'form/FinalFields';
 import { FlexContainer, FlexRow, FlexColumn } from 'sharedComponents/flexGrid';
-import useRestApiRunner from 'api/rest-api-hooks/local-data/useRestApiRunner';
+import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
 import { K9LosApiKeys } from 'api/k9LosApi';
 import { Saksbehandler } from '../saksbehandlerTsType';
 
@@ -49,12 +49,11 @@ export const LeggTilSaksbehandlerForm: FunctionComponent<OwnProps & WrappedCompo
       setShowWarning(true);
       setLeggerTilNySaksbehandler(false);
     } else {
-      leggTilSaksbehandler(epost).then(() => {
+      leggTilSaksbehandler({ epost }).then(() => {
         resetSok(resetFormValues);
         setLeggerTilNySaksbehandler(false);
         lukkForm();
-      });
-      hentAlleSaksbehandlere();
+      }).then(() => (hentAlleSaksbehandlere()));
     }
   };
 

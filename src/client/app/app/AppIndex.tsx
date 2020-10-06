@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { parseQueryString } from 'utils/urlUtils';
-import { RestApiStateContext } from 'api/rest-api-hooks/RestApiContext';
+import { RestApiStateContext } from 'api/rest-api-hooks/src/RestApiContext';
 import AppConfigResolver from './AppConfigResolver';
 import { Location } from './locationTsType';
 import LanguageProvider from './LanguageProvider';

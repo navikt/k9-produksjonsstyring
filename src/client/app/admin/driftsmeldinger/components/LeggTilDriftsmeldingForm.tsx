@@ -1,7 +1,6 @@
-import React, { Component, ReactNode } from 'react';
-import { connect } from 'react-redux';
+import React, { FunctionComponent, useState } from 'react';
 import {
-  injectIntl, WrappedComponentProps, FormattedMessage,
+  injectIntl, FormattedMessage,
 } from 'react-intl';
 
 import { Form } from 'react-final-form';
@@ -12,100 +11,68 @@ import { hasValidEmailFormat } from 'utils/validation/validators';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import { InputField } from 'form/FinalFields';
 import { FlexContainer, FlexRow, FlexColumn } from 'sharedComponents/flexGrid';
-import { Driftsmelding } from '../driftsmeldingTsType';
-import { getDriftsmeldinger } from '../duck';
 
+import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
+import { Saksbehandler } from 'avdelingsleder/bemanning/saksbehandlerTsType';
+import { K9LosApiKeys } from 'api/k9LosApi';
 import styles from './leggTilDriftsmeldingForm.less';
-
-interface OwnProps {
-    intl: any;
-    leggTilDriftsmelding: (melding: string) => Promise<string>;
-    driftsmeldinger: Driftsmelding[];
-}
-
-interface StateTsProps {
-    leggerTilNyDriftsmelding: boolean;
-}
+import { Driftsmelding } from '../driftsmeldingTsType';
 
 /**
  * LeggTilDriftsmeldingForm
  */
-export class LeggTilDriftsmeldingForm extends Component<OwnProps & WrappedComponentProps, StateTsProps> {
-    nodes: ReactNode[];
+export const LeggTilDriftsmeldingForm: FunctionComponent = () => {
+  const [leggerTilNyDriftsmelding, setLeggerTilNyDriftsmelding] = useState(false);
 
-    constructor(props: OwnProps) {
-      super(props);
+  const { startRequest: leggTilDriftsmelding } = useRestApiRunner<Saksbehandler>(K9LosApiKeys.LAGRE_DRIFTSMELDING);
+  const { startRequest: hentAlleDriftsmeldinger, data: driftsmeldinger } = useRestApiRunner<Driftsmelding[]>(K9LosApiKeys.DRIFTSMELDINGER);
 
-      this.state = {
-        leggerTilNyDriftsmelding: false,
-      };
-      this.nodes = [];
-    }
+  const addDriftsmelding = (melding: string) => {
+    setLeggerTilNyDriftsmelding(true);
+    leggTilDriftsmelding({ melding }).then(() => hentAlleDriftsmeldinger()).then(() => setLeggerTilNyDriftsmelding(false));
+  };
 
-    leggTilDriftsmelding = (melding: string) => {
-      const {
-        leggTilDriftsmelding,
-      } = this.props;
-      this.setState((prevState) => ({ ...prevState, leggerTilNyDriftsmelding: true }));
-      leggTilDriftsmelding(melding).then(() => {
-        this.setState((prevState) => ({ ...prevState, leggerTilNyDriftsmelding: false }));
-      });
-    }
+  return (
+    <Form
+      onSubmit={() => undefined}
+      render={({
+        submitting, handleSubmit, form, values,
+      }) => (
+        <div>
+          <Element>
+            <FormattedMessage id="LeggTilDriftsmeldingForm.LeggTil" />
+          </Element>
+          <VerticalSpacer eightPx />
+          <FlexContainer>
+            <FlexRow>
+              <FlexColumn>
+                <InputField
+                  name="melding"
+                  className={styles.epost}
+                  label={<FormattedMessage id="LeggTilDriftsmeldingForm.Melding" />}
+                  bredde="L"
+                  validate={[hasValidEmailFormat]}
+                />
+              </FlexColumn>
+              <FlexColumn>
+                <Knapp
+                  mini
+                  htmlType="submit"
+                  className={styles.button}
+                  spinner={submitting}
+                  disabled={submitting || leggerTilNyDriftsmelding}
+                  tabIndex={0}
+                  onClick={() => addDriftsmelding(values.melding)}
+                >
+                  <FormattedMessage id="LeggTilDriftsmeldingForm.Legg_Til" />
+                </Knapp>
+              </FlexColumn>
+            </FlexRow>
+          </FlexContainer>
+        </div>
+      )}
+    />
+  );
+};
 
-    render = () => {
-      const {
-        intl,
-      } = this.props;
-      const {
-        leggerTilNyDriftsmelding,
-      } = this.state;
-
-      return (
-        <Form
-          onSubmit={() => undefined}
-          render={({
-            submitting, handleSubmit, form, values,
-          }) => (
-            <div>
-              <Element>
-                <FormattedMessage id="LeggTilDriftsmeldingForm.LeggTil" />
-              </Element>
-              <VerticalSpacer eightPx />
-              <FlexContainer>
-                <FlexRow>
-                  <FlexColumn>
-                    <InputField
-                      name="melding"
-                      className={styles.epost}
-                      label={intl.formatMessage({ id: 'LeggTilDriftsmeldingForm.Melding' })}
-                      bredde="L"
-                      validate={[hasValidEmailFormat]}
-                    />
-                  </FlexColumn>
-                  <FlexColumn>
-                    <Knapp
-                      mini
-                      htmlType="submit"
-                      className={styles.button}
-                      spinner={submitting}
-                      disabled={submitting || leggerTilNyDriftsmelding}
-                      tabIndex={0}
-                      onClick={() => this.leggTilDriftsmelding(values.melding)}
-                    >
-                      <FormattedMessage id="LeggTilDriftsmeldingForm.Legg_Til" />
-                    </Knapp>
-                  </FlexColumn>
-                </FlexRow>
-              </FlexContainer>
-            </div>
-          )}
-        />
-      );
-    }
-}
-
-const mapStateToProps = (state) => ({
-  driftsmeldinger: getDriftsmeldinger(state),
-});
-
-export default connect(mapStateToProps)(injectIntl(LeggTilDriftsmeldingForm));
+export default injectIntl(LeggTilDriftsmeldingForm);

@@ -10,11 +10,6 @@ export const RequestType = {
   POST_AND_OPEN_BLOB: 'POST_AND_OPEN_BLOB',
 };
 
-const isLocal = process.env.NODE_ENV === 'development';
-const isDev = window.location.hostname.includes('dev.adeo.no');
-const proxyUrl = isDev ? 'https://k9-los-oidc-auth-proxy.dev.adeo.no/api/k9-los-api/'
-  : 'https://k9-los-oidc-auth-proxy.nais.adeo.no/api/k9-los-api/';
-
 /**
  * maxPollingLimit: Maksimum antall ganger en skal forsøke å polle når en venter på ressurs (long polling). Kun aktuell ved metodene som inkluderer "Async".
  * saveResponseIn: Bruk denne når en utfører long-polling og resultatet skal lagres på en annen nøkkel en den som initierer kallet.

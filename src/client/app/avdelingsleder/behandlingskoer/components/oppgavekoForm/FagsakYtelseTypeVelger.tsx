@@ -7,8 +7,8 @@ import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
 import { RadioGroupField, RadioOption } from 'form/FinalFields';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
 
-import useKodeverk from 'api/rest-api-hooks/global-data/useKodeverk';
-import useRestApiRunner from 'api/rest-api-hooks/local-data/useRestApiRunner';
+import useKodeverk from 'api/rest-api-hooks/src/global-data/useKodeverk';
+import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
 import { K9LosApiKeys } from 'api/k9LosApi';
 import styles from './utvalgskriterierForOppgavekoForm.less';
 
@@ -19,6 +19,8 @@ const finnFagsakYtelseTypeNavn = (fagsakYtelseTyper, valgtFagsakYtelseType) => {
 
 interface OwnProps {
   valgtOppgavekoId: string;
+  hentOppgaveko:(id: string) => void;
+    hentAlleOppgavekoer: () => void;
 }
 
 /**
@@ -26,9 +28,10 @@ interface OwnProps {
  */
 const FagsakYtelseTypeVelger: FunctionComponent<OwnProps> = ({
   valgtOppgavekoId,
+  hentOppgaveko,
+  hentAlleOppgavekoer,
 }) => {
   const { startRequest: lagreOppgavekoFagsakYtelseType } = useRestApiRunner(K9LosApiKeys.LAGRE_OPPGAVEKO_FAGSAK_YTELSE_TYPE);
-  const { startRequest: hentOppgaveko } = useRestApiRunner(K9LosApiKeys.HENT_OPPGAVEKO);
   const alleFagsakYtelseTyper = useKodeverk(kodeverkTyper.FAGSAK_YTELSE_TYPE);
   return (
     <div className={styles.stonadsVelger}>
@@ -39,8 +42,8 @@ const FagsakYtelseTypeVelger: FunctionComponent<OwnProps> = ({
       <RadioGroupField
         direction="vertical"
         name="fagsakYtelseType"
-        onChange={(fyt) => lagreOppgavekoFagsakYtelseType({ id: valgtOppgavekoId, fagsakYtelseType: fyt }).then(() => {
-          hentOppgaveko({ id: valgtOppgavekoId });
+        onChange={(fyt) => lagreOppgavekoFagsakYtelseType(fyt !== '' ? { id: valgtOppgavekoId, fagsakYtelseType: fyt } : { id: valgtOppgavekoId }).then(() => {
+          hentOppgaveko(valgtOppgavekoId);
         })}
       >
         <RadioOption

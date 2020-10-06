@@ -10,7 +10,7 @@ import {
 import { TextAreaField } from 'form/FinalFields';
 import Modal from 'sharedComponents/Modal';
 
-import useRestApiRunner from 'api/rest-api-hooks/local-data/useRestApiRunner';
+import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
 import { K9LosApiKeys } from 'api/k9LosApi';
 import styles from './opphevReservasjonModal.less';
 

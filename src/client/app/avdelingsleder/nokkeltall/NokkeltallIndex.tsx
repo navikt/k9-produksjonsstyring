@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import useRestApi from 'api/rest-api-hooks/local-data/useRestApi';
+import useRestApi from 'api/rest-api-hooks/src/local-data/useRestApi';
 import { K9LosApiKeys } from 'api/k9LosApi';
 import AlleOppgaver from 'avdelingsleder/nokkeltall/components/fordelingAvBehandlingstype/alleOppgaverTsType';
 import HistoriskData from 'avdelingsleder/nokkeltall/historiskDataTsType';

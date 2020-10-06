@@ -5,14 +5,15 @@ import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import ArrowBox from 'sharedComponents/ArrowBox';
 import { CheckboxField, RadioGroupField, RadioOption } from 'form/FinalFields';
 
-import useRestApiRunner from 'api/rest-api-hooks/local-data/useRestApiRunner';
-import useKodeverk from 'api/rest-api-hooks/global-data/useKodeverk';
+import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
+import useKodeverk from 'api/rest-api-hooks/src/global-data/useKodeverk';
 import { K9LosApiKeys } from 'api/k9LosApi';
 import styles from './andreKriterierVelger.less';
 
 interface OwnProps {
   valgtOppgavekoId: string;
   values: any;
+  hentOppgaveko:(id: string) => void;
 }
 
 /**
@@ -21,10 +22,10 @@ interface OwnProps {
 const AndreKriterierVelger: FunctionComponent<OwnProps> = ({
   valgtOppgavekoId,
   values,
+  hentOppgaveko,
 }) => {
   const andreKriterierTyper = useKodeverk(kodeverkTyper.ANDRE_KRITERIER_TYPE);
   const { startRequest: lagreOppgavekoAndreKriterier } = useRestApiRunner(K9LosApiKeys.LAGRE_OPPGAVEKO_ANDRE_KRITERIER);
-  const { startRequest: hentOppgaveko } = useRestApiRunner(K9LosApiKeys.HENT_OPPGAVEKO);
 
   return (
     <div className={styles.container}>
@@ -38,7 +39,7 @@ const AndreKriterierVelger: FunctionComponent<OwnProps> = ({
             onChange={(isChecked) => lagreOppgavekoAndreKriterier({
               id: valgtOppgavekoId, andreKriterierType: akt, checked: isChecked, inkluder: true,
             }).then(() => {
-              hentOppgaveko({ id: valgtOppgavekoId });
+              hentOppgaveko(valgtOppgavekoId);
             })}
           />
           {values[akt.kode] && (
@@ -51,7 +52,7 @@ const AndreKriterierVelger: FunctionComponent<OwnProps> = ({
                   onChange={(skalInkludere) => lagreOppgavekoAndreKriterier({
                     id: valgtOppgavekoId, andreKriterierType: akt, checked: true, inkluder: skalInkludere,
                   }).then(() => {
-                    hentOppgaveko({ id: valgtOppgavekoId });
+                    hentOppgaveko(valgtOppgavekoId);
                   })}
                 >
                   <RadioOption

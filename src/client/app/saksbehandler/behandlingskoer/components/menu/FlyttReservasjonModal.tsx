@@ -12,9 +12,9 @@ import {
 } from 'utils/validation/validators';
 import { TextAreaField, InputField } from 'form/FinalFields';
 import Modal from 'sharedComponents/Modal';
-import useRestApiRunner from 'api/rest-api-hooks/local-data/useRestApiRunner';
+import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
 import { K9LosApiKeys } from 'api/k9LosApi';
-import RestApiState from 'api/rest-api-hooks/RestApiState';
+import RestApiState from 'api/rest-api-hooks/src/RestApiState';
 import { Saksbehandler } from '../../saksbehandlerTsType';
 
 import styles from './flyttReservasjonModal.less';

@@ -1,8 +1,8 @@
-import NotificationMapper from 'api/rest-api/src/requestApi/NotificationMapper';
 import RequestRunner from './RequestRunner';
 import RestApiRequestContext from './RestApiRequestContext';
 import HttpClientApi from '../HttpClientApiTsType';
 import RequestConfig from '../RequestConfig';
+import NotificationMapper from './NotificationMapper';
 
 /**
  * RequestApi
@@ -11,8 +11,6 @@ import RequestConfig from '../RequestConfig';
  * de enkelte endepunktene. Det blir så satt opp RequestRunner's for endepunktene. Desse kan hentes via metoden @see getRequestRunner.
  */
 class RequestApi {
-  httpClientApi: HttpClientApi;
-
   requestRunnersMappedByName: {[key: string]: RequestRunner};
 
   constructor(httpClientApi: HttpClientApi, configs: RequestConfig[]) {

@@ -1,30 +1,28 @@
-import {
-  useState, useEffect, DependencyList, useContext,
-} from 'react';
+import { useState, useCallback, useContext } from 'react';
 
-import { NotificationMapper } from 'api/rest-api';
 import { K9LosApiKeys } from 'api/k9LosApi';
-
-import { REQUEST_POLLING_CANCELLED } from 'api/rest-api/src/requestApi/RequestProcess';
+import { NotificationMapper, ErrorType, REQUEST_POLLING_CANCELLED } from 'api/rest-api';
 import { RestApiRequestContext } from '../RestApiContext';
 import useRestApiErrorDispatcher from '../error/useRestApiErrorDispatcher';
 import RestApiState from '../RestApiState';
 
 interface RestApiData<T> {
+  startRequest: (params?: any, keepData?: boolean) => Promise<T>;
+  resetRequestData: () => void;
   state: RestApiState;
-  error?: Error;
+  error?: ErrorType;
   data?: T;
+  cancelRequest: () => void;
 }
 
 /**
-  * Hook som utfører et restkall ved mount. En kan i tillegg legge ved en dependencies-liste som kan trigge ny henting når data
-  * blir oppdatert. Hook returnerer rest-kallets status/resultat/feil
-  */
-function useRestApi<T>(key: K9LosApiKeys, params: any = {}, keepData = false, dependencies: DependencyList = []):RestApiData<T> {
+ * Hook som gir deg ein funksjon til å starte restkall, i tillegg til kallets status/resultat/feil
+ */
+function useRestApiRunner<T>(key: K9LosApiKeys):RestApiData<T> {
   const [data, setData] = useState({
     state: RestApiState.NOT_STARTED,
-    error: undefined,
     data: undefined,
+    error: undefined,
   });
 
   const { addErrorMessage } = useRestApiErrorDispatcher();
@@ -35,14 +33,14 @@ function useRestApi<T>(key: K9LosApiKeys, params: any = {}, keepData = false, de
 
   const requestApi = useContext(RestApiRequestContext);
 
-  useEffect(() => {
+  const startRequest = useCallback((params: any = {}, keepData = false):Promise<T> => {
     setData((oldState) => ({
       state: RestApiState.LOADING,
-      error: undefined,
       data: keepData ? oldState.data : undefined,
+      error: undefined,
     }));
 
-    requestApi.startRequest(key, params, notif)
+    return requestApi.startRequest(key, params, notif)
       .then((dataRes) => {
         if (dataRes.payload !== REQUEST_POLLING_CANCELLED) {
           setData({
@@ -51,6 +49,7 @@ function useRestApi<T>(key: K9LosApiKeys, params: any = {}, keepData = false, de
             error: undefined,
           });
         }
+        return Promise.resolve(dataRes.payload);
       })
       .catch((error) => {
         setData({
@@ -58,10 +57,24 @@ function useRestApi<T>(key: K9LosApiKeys, params: any = {}, keepData = false, de
           data: undefined,
           error,
         });
+        throw error;
       });
-  }, dependencies);
+  }, []);
 
-  return data;
+  const resetRequestData = useCallback(() => {
+    setData({
+      state: RestApiState.NOT_STARTED,
+      data: undefined,
+      error: undefined,
+    });
+  }, []);
+
+  return {
+    startRequest,
+    resetRequestData,
+    cancelRequest: () => requestApi.cancelRequest(key),
+    ...data,
+  };
 }
 
-export default useRestApi;
+export default useRestApiRunner;

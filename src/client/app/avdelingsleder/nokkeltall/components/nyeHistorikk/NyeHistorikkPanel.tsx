@@ -3,7 +3,6 @@ import { WrappedComponentProps, FormattedMessage, injectIntl } from 'react-intl'
 import { Element } from 'nav-frontend-typografi';
 import { Row, Column } from 'nav-frontend-grid';
 import { Form } from 'react-final-form';
-import StoreValuesInReduxState from 'form/reduxBinding/StoreValuesInReduxState';
 import { SelectField } from 'form/FinalFields';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import Panel from 'nav-frontend-paneler';
@@ -14,8 +13,9 @@ import {
   UKE_4, uker,
   ytelseTyper,
 } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
-import useKodeverk from 'api/rest-api-hooks/global-data/useKodeverk';
+import useKodeverk from 'api/rest-api-hooks/src/global-data/useKodeverk';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
+import StoreValuesInLocalStorage from 'form/StoreValuesInLocalStorage';
 import HistorikkGraf from '../../HistorikkGraf';
 import HistoriskData from '../../historiskDataTsType';
 
@@ -54,7 +54,7 @@ export const NyeHistorikkPanel: FunctionComponent<OwnProps & WrappedComponentPro
       initialValues={lagredeVerdier || formDefaultValues}
       render={({ values }) => (
         <Panel className={styles.panel}>
-          <StoreValuesInReduxState onUmount stateKey={formName} values={values} />
+          <StoreValuesInLocalStorage stateKey={formName} values={values} />
           <Element>
             <FormattedMessage id="NyeHistorikkPanel.Nye" />
           </Element>

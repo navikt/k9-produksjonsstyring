@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 
-import { RestApiGlobalStatePathsKeys } from 'data/restApiPaths';
+import { RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
 
 import { RestApiStateContext } from '../RestApiContext';
 

@@ -1,5 +1,5 @@
 import React, {
-  Component, FunctionComponent, useCallback, useState,
+  FunctionComponent, useCallback, useState,
 } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Normaltekst, Element } from 'nav-frontend-typografi';
@@ -13,7 +13,7 @@ import { Knapp } from 'nav-frontend-knapper';
 import Chevron from 'nav-frontend-chevron';
 import SaksbehandlerInfo from 'avdelingsleder/bemanning/components/SaksbehandlerInfo';
 import LeggTilSaksbehandlerForm from 'avdelingsleder/bemanning/components/LeggTilSaksbehandlerForm';
-import useRestApiRunner from 'api/rest-api-hooks/local-data/useRestApiRunner';
+import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
 import { K9LosApiKeys } from 'api/k9LosApi';
 import saksbehandlereGra from '../../../../images/saksbehandlereGra.svg';
 import { Saksbehandler } from '../saksbehandlerTsType';

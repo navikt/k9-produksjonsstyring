@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useEffect } from 'react';
 import { FormattedMessage } from 'react-intl';
 import classnames from 'classnames/bind';
 import { NavLink } from 'react-router-dom';
@@ -20,10 +20,12 @@ import Image from 'sharedComponents/Image';
 import { Row } from 'nav-frontend-grid';
 import DagensTallPanel from 'avdelingsleder/dagensTall/DagensTallPanel';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
-import useGlobalStateRestApiData from 'api/rest-api-hooks/global-data/useGlobalStateRestApiData';
-import { RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
+import useGlobalStateRestApiData from 'api/rest-api-hooks/src/global-data/useGlobalStateRestApiData';
+import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
 import NavAnsatt from 'app/navAnsattTsType';
 import useTrackRouteParam from 'app/data/trackRouteParam';
+import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
+import ApneBehandlinger from 'avdelingsleder/dagensTall/apneBehandlingerTsType';
 import AvdelingslederDashboard from './components/AvdelingslederDashboard';
 import IkkeTilgangTilAvdelingslederPanel from './components/IkkeTilgangTilAvdelingslederPanel';
 import AvdelingslederPanels from './avdelingslederPanels';
@@ -83,11 +85,6 @@ const getTab = (avdelingslederPanel, activeAvdelingslederPanel, getAvdelingslede
   ),
 });
 
-const getPanelFromUrlOrDefault = (location) => {
-  const panelFromUrl = parseQueryString(location.search);
-  return panelFromUrl.avdelingsleder ? panelFromUrl.avdelingsleder : AvdelingslederPanels.BEHANDLINGSKOER;
-};
-
 /**
  * AvdelingslederIndex
  */
@@ -97,6 +94,20 @@ export const AvdelingslederIndex: FunctionComponent = (
     paramName: 'fane',
     isQueryParam: true,
   });
+
+  const { startRequest: hentAntallIdag, data: totaltIdag } = useRestApiRunner<number>(K9LosApiKeys.OPPGAVE_ANTALL_TOTALT);
+  const { startRequest: hentDagensTall, data: dagensTall = [] } = useRestApiRunner<ApneBehandlinger[]>(K9LosApiKeys.HENT_DAGENS_TALL);
+
+  useEffect(() => {
+    hentAntallIdag();
+    hentDagensTall();
+  }, []);
+
+  const getPanelFromUrlOrDefault = (loc) => {
+    const panelFromUrl = parseQueryString(loc.search);
+    return panelFromUrl.avdelingsleder ? panelFromUrl.avdelingsleder : AvdelingslederPanels.BEHANDLINGSKOER;
+  };
+
   const { kanOppgavestyre } = useGlobalStateRestApiData<NavAnsatt>(RestApiGlobalStatePathsKeys.NAV_ANSATT);
 
   const getAvdelingslederPanelLocation = getPanelLocationCreator(location);
@@ -111,7 +122,7 @@ export const AvdelingslederIndex: FunctionComponent = (
           <Normaltekst className={styles.paneltekst}>Avdelingslederpanel</Normaltekst>
         </Row>
         <Row>
-          <DagensTallPanel />
+          <DagensTallPanel totaltIdag={totaltIdag} dagensTall={dagensTall} />
         </Row>
         <VerticalSpacer twentyPx />
         <Row>

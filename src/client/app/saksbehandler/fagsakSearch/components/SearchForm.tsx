@@ -15,7 +15,7 @@ import { InputField } from 'form/FinalFields';
 
 import { RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
 import NavAnsatt from 'app/navAnsattTsType';
-import useGlobalStateRestApiData from 'api/rest-api-hooks/global-data/useGlobalStateRestApiData';
+import useGlobalStateRestApiData from 'api/rest-api-hooks/src/global-data/useGlobalStateRestApiData';
 import styles from './searchForm.less';
 
 const isButtonDisabled = (searchString, searchStarted, searchResultAccessDenied) => (!searchResultAccessDenied.feilmelding && searchStarted) || !searchString;

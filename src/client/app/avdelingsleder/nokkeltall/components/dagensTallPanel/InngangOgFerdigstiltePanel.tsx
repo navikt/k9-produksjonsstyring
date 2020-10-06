@@ -15,8 +15,8 @@ import {
 } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
 import { ToggleKnapp } from 'nav-frontend-toggle';
 import NyeOgFerdigstilteMedStonadstype from 'avdelingsleder/nokkeltall/nyeOgFerdigstilteMedStonadstypeTsType';
-import useRestApi from 'api/rest-api-hooks/local-data/useRestApi';
-import RestApiState from 'api/rest-api-hooks/RestApiState';
+import useRestApi from 'api/rest-api-hooks/src/local-data/useRestApi';
+import RestApiState from 'api/rest-api-hooks/src/RestApiState';
 import Teller from './Teller';
 import styles from './inngangOgFerdigstiltePanel.less';
 

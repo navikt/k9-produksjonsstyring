@@ -6,15 +6,14 @@ import { OppgaveStatus } from 'saksbehandler/oppgaveStatusTsType';
 import Oppgave from 'saksbehandler/oppgaveTsType';
 import { SokeResultat } from 'saksbehandler/fagsakSearch/sokeResultatTsType';
 import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
-import useRestApiRunner from 'api/rest-api-hooks/local-data/useRestApiRunner';
-import useGlobalStateRestApiData from 'api/rest-api-hooks/global-data/useGlobalStateRestApiData';
+import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
+import useGlobalStateRestApiData from 'api/rest-api-hooks/src/global-data/useGlobalStateRestApiData';
 import NavAnsatt from 'app/navAnsattTsType';
 import { errorOfType, ErrorTypes, getErrorResponseData } from 'api/rest-api';
 import FagsakSearch from './components/FagsakSearch';
 
 interface OwnProps {
   k9sakUrl: string;
-  k9tilbakeUrl: string;
 }
 
 /** s
@@ -25,7 +24,6 @@ interface OwnProps {
  */
 const FagsakSearchIndex: FunctionComponent<OwnProps> = ({
   k9sakUrl,
-  k9tilbakeUrl,
 }) => {
   const [reservertAvAnnenSaksbehandler, setReservertAvAnnenSaksbehandler] = useState(false);
   const [reservertOppgave, setReservertOppgave] = useState<Oppgave>();
@@ -86,9 +84,9 @@ const FagsakSearchIndex: FunctionComponent<OwnProps> = ({
     setSokStartet(true);
     setSokFerdig(false);
 
-    return sokFagsak(values).then((fagsakerResultat) => {
-      if (fagsakerResultat.fagsaker.length > 0) {
-        hentOppgaverForFagsaker({ saksnummerListe: fagsakerResultat.fagsaker.map((fagsak) => `${fagsak.saksnummer}`).join(',') }).then(() => {
+    return sokFagsak(values).then((resultat) => {
+      if (resultat.fagsaker.length > 0) {
+        hentOppgaverForFagsaker({ saksnummerListe: resultat.fagsaker.map((fagsak) => `${fagsak.saksnummer}`).join(',') }).then(() => {
           setSokStartet(false);
           setSokFerdig(true);
         });

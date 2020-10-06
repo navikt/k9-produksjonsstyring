@@ -7,10 +7,10 @@ import {
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
 import KoSorteringType from 'kodeverk/KoSorteringTsType';
-import { Kodeverk } from 'kodeverk/kodeverkTsType';
-import useRestApiRunner from 'api/rest-api-hooks/local-data/useRestApiRunner';
+import Kodeverk from 'kodeverk/kodeverkTsType';
+import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
 import { K9LosApiKeys } from 'api/k9LosApi';
-import useKodeverk from 'api/rest-api-hooks/global-data/useKodeverk';
+import useKodeverk from 'api/rest-api-hooks/src/global-data/useKodeverk';
 import styles from './utvalgskriterierForOppgavekoForm.less';
 import DatoSorteringValg from './DatoSorteringValg';
 
@@ -20,6 +20,7 @@ interface OwnProps {
   valgteBehandlingtyper: Kodeverk[];
   fomDato: string;
   tomDato: string;
+  hentOppgaveko:(id: string) => void;
 }
 
 /**
@@ -31,11 +32,11 @@ const SorteringVelger: FunctionComponent<OwnProps & WrappedComponentProps> = ({
   valgteBehandlingtyper,
   fomDato,
   tomDato,
+  hentOppgaveko,
 }) => {
   const { startRequest: lagreOppgavekoSortering } = useRestApiRunner(K9LosApiKeys.LAGRE_OPPGAVEKO_SORTERING);
   const { startRequest: lagreOppgavekoSorteringTidsintervallDato } = useRestApiRunner(K9LosApiKeys.LAGRE_OPPGAVEKO_SORTERING_TIDSINTERVALL_DATO);
   const koSorteringer = useKodeverk<KoSorteringType>(kodeverkTyper.KO_SORTERING);
-  const { startRequest: hentOppgaveko } = useRestApiRunner(K9LosApiKeys.HENT_OPPGAVEKO);
 
   return (
     <>
@@ -48,7 +49,7 @@ const SorteringVelger: FunctionComponent<OwnProps & WrappedComponentProps> = ({
           name="sortering"
           direction="vertical"
           onChange={(sorteringType) => lagreOppgavekoSortering({ id: valgtOppgavekoId, oppgavekoSorteringValg: sorteringType }).then(() => {
-            hentOppgaveko({ id: valgtOppgavekoId });
+            hentOppgaveko(valgtOppgavekoId);
           })}
         >
           {koSorteringer.map((koSortering) => (

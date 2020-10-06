@@ -1,14 +1,14 @@
 import React, { FunctionComponent } from 'react';
-import useRestApiRunner from 'api/rest-api-hooks/local-data/useRestApiRunner';
-import { K9LosApiKeys } from 'api/k9LosApi';
+import K9LosApiKeys from 'api/k9LosApi';
 import NyeOgFerdigstilteOppgaver from 'saksbehandler/saksstotte/nokkeltall/components/nyeOgFerdigstilteOppgaverTsType';
+import useRestApi from 'api/rest-api-hooks/src/local-data/useRestApi';
 import SaksbehandlerNokkeltallPanel from './components/SaksbehandlerNokkeltallPanel';
 
 /**
  * SaksbehandlerNokkeltallIndex
  */
 const SaksbehandlerNokkeltallIndex: FunctionComponent = () => {
-  const { startRequest: hentNyeOgFerdigstilte, data: nyeOgFerdigstilteOppgaver = [] } = useRestApiRunner<NyeOgFerdigstilteOppgaver[]>(K9LosApiKeys.HENT_NYE_OG_FERDIGSTILTE_OPPGAVER);
+  const { data: nyeOgFerdigstilteOppgaver = [] } = useRestApi<NyeOgFerdigstilteOppgaver[]>(K9LosApiKeys.HENT_NYE_OG_FERDIGSTILTE_OPPGAVER, {}, true);
   return (
     <SaksbehandlerNokkeltallPanel nyeOgFerdigstilteOppgaver={nyeOgFerdigstilteOppgaver} />
   );

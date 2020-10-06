@@ -1,6 +1,5 @@
 import { useContext, useCallback } from 'react';
-
-import { RestApiErrorDispatchContext } from './RestApiErrorContext';
+import { RestApiErrorDispatchContext } from 'api/rest-api-hooks/src/error/RestApiErrorContext';
 
 /**
  * Hook for å legge til eller fjerne feil fra rest-kall
