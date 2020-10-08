@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl';
 import {
   Normaltekst,
 } from 'nav-frontend-typografi';
-import Kodeverk from 'kodeverk/kodeverkTsType';
+import { Kodeverk } from 'kodeverk/kodeverkTsType';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
 import Image from 'sharedComponents/Image';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';

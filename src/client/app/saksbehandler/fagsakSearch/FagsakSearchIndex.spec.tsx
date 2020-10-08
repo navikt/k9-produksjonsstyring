@@ -38,6 +38,7 @@ describe('<FagsakSearchIndex>', () => {
     new RestApiTestMocker()
       .withRestCallRunner(K9LosApiKeys.SEARCH_FAGSAK, { data: fagsaker })
       .withRestCallRunner(K9LosApiKeys.RESERVER_OPPGAVE, { startRequest: () => undefined })
+      .withRestCallRunner(K9LosApiKeys.LEGG_TIL_BEHANDLET_OPPGAVE, { startRequest: () => undefined })
       .withRestCallRunner(K9LosApiKeys.OPPGAVER_FOR_FAGSAKER, { startRequest: () => undefined })
       .withGlobalData(RestApiGlobalStatePathsKeys.NAV_ANSATT, navAnsatt)
       .runTest(() => {

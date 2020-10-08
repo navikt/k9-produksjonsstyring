@@ -1,35 +1,23 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
-import sinon from 'sinon';
 
-import { NokkeltallIndex } from './NokkeltallIndex';
+import { K9LosApiKeys } from 'api/k9LosApi';
+import RestApiTestMocker from 'testHelpers/RestApiTestMocker';
+import NokkeltallIndex from './NokkeltallIndex';
 import NokkeltallPanel from './components/NokkeltallPanel';
 
 describe('<NokkeltallIndex>', () => {
   it('skal hente statistikk ved lasting av komponent', () => {
-    const fetchAlleOppgaverFn = sinon.spy();
-    const fetchOppgaverPerDatoFn = sinon.spy();
-    const fetchFerdigstilteOppgaverFn = sinon.spy();
-    const fetchFerdigstilteHistorikkFn = sinon.spy();
-    const fetchNyePerDatoFn = sinon.spy();
-    const fetchNyeOgFerdigstilteFn = sinon.spy();
+    new RestApiTestMocker()
+      .withRestCall(K9LosApiKeys.HENT_OPPGAVER, [])
+      .withRestCall(K9LosApiKeys.HENT_FERDIGSTILTE_HISTORIKK, [])
+      .withRestCall(K9LosApiKeys.HENT_NYE_HISTORIKK, [])
+      .withRestCall(K9LosApiKeys.HENT_OPPGAVER_PER_DATO, [])
+      .runTest(() => {
+        const wrapper = shallow(<NokkeltallIndex />);
 
-    const wrapper = shallow(<NokkeltallIndex
-      fetchAlleOppgaver={fetchAlleOppgaverFn}
-      fetchOppgaverPerDato={fetchOppgaverPerDatoFn}
-      fetchNyeOgFerdigstilteOppgaverMedStonadstype={fetchFerdigstilteOppgaverFn}
-      fetchFerdigstiltePerDato={fetchFerdigstilteHistorikkFn}
-      fetchNyePerDato={fetchNyePerDatoFn}
-      fetchNyeOgFerdigstilte={fetchNyeOgFerdigstilteFn}
-    />);
-
-    expect(wrapper.find(NokkeltallPanel)).to.have.length(1);
-
-    expect(fetchAlleOppgaverFn.calledOnce).to.be.true;
-    expect(fetchOppgaverPerDatoFn.calledOnce).to.be.true;
-    expect(fetchFerdigstilteOppgaverFn.calledOnce).to.be.true;
-    expect(fetchFerdigstilteHistorikkFn.calledOnce).to.be.true;
-    expect(fetchNyePerDatoFn.calledOnce).to.be.true;
+        expect(wrapper.find(NokkeltallPanel)).to.have.length(1);
+      });
   });
 });

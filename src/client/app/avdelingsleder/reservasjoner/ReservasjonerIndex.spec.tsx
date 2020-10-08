@@ -2,22 +2,35 @@ import { shallow } from 'enzyme';
 import { expect } from 'chai';
 import React from 'react';
 
-import sinon from 'sinon';
+import { K9LosApiKeys } from 'api/k9LosApi';
+import behandlingType from 'kodeverk/behandlingType';
+import RestApiTestMocker from 'testHelpers/RestApiTestMocker';
 import { ReservasjonerIndex } from './ReservasjonerIndex';
 import ReservasjonerTabell from './components/ReservasjonerTabell';
 
 describe('<ReservasjonerIndex>', () => {
   it('skal hente reservasjoner ved lasting av komponent og så vise dem i panel', () => {
-    const fetchAlleReservasjoner = sinon.spy();
+    const reservasjoner = [{
+      reservertAvUid: '2323',
+      reservertAvNavn: 'Espen Utvikler',
+      reservertTilTidspunkt: '2019-01-01',
+      oppgaveId: 1,
+      oppgaveSaksNr: 2,
+      behandlingType: {
+        kode: behandlingType.FORSTEGANGSSOKNAD,
+        kodeverk: '',
+      },
+    }];
 
-    const wrapper = shallow(<ReservasjonerIndex
-      fetchAlleReservasjoner={fetchAlleReservasjoner}
-      opphevReservasjon={sinon.spy()}
-    />);
+    new RestApiTestMocker()
+      .withRestCallRunner(K9LosApiKeys.HENT_ALLE_RESERVASJONER, { data: reservasjoner, startRequest: () => undefined })
+      .withRestCallRunner(K9LosApiKeys.AVDELINGSLEDER_OPPHEVER_RESERVASJON, { startRequest: () => undefined })
+      .runTest(() => {
+        const wrapper = shallow(<ReservasjonerIndex />);
 
-    expect(wrapper.find(ReservasjonerTabell)).to.have.length(1);
-    expect(fetchAlleReservasjoner.calledOnce).to.be.true;
-    const { args } = fetchAlleReservasjoner.getCalls()[0];
-    expect(args).to.have.length(0);
+        const tabell = wrapper.find(ReservasjonerTabell);
+        expect(tabell).to.have.length(1);
+        expect(tabell.prop('reservasjoner')).is.eql(reservasjoner);
+      });
   });
 });
