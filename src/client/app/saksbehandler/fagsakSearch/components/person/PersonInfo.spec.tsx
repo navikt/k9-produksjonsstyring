@@ -19,8 +19,6 @@ describe('<PersonInfo>', () => {
       kjoenn: 'KVINNE',
       erDod: false,
       erVerge: true,
-      diskresjonskode: '6',
-      dodsdato: '2017.01.01',
       personstatusType: {
         kode: 'test',
         navn: 'test',
@@ -38,7 +36,5 @@ describe('<PersonInfo>', () => {
     expect(innholdstittel.childAt(0).text()).to.eql('frida');
     const normaltekst = wrapper.find(Undertekst);
     expect(normaltekst.childAt(0).text()).to.eql('12345678910');
-    const merkepanel = wrapper.find(MerkePanel);
-    expect(merkepanel.prop('diskresjonskode')).to.eql('6');
   });
 });

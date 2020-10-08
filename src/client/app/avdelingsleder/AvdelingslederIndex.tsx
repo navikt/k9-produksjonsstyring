@@ -40,8 +40,6 @@ const renderAvdelingslederPanel = (avdelingslederPanel) => {
   switch (avdelingslederPanel) {
     case AvdelingslederPanels.BEHANDLINGSKOER:
       return <EndreBehandlingskoerIndex />;
-    case AvdelingslederPanels.SAKSBEHANDLERE:
-      return <BemanningIndex />;
     case AvdelingslederPanels.NOKKELTALL:
       return <NokkeltallIndex />;
     case AvdelingslederPanels.RESERVASJONER:
@@ -53,7 +51,6 @@ const renderAvdelingslederPanel = (avdelingslederPanel) => {
 
 const messageId = {
   [AvdelingslederPanels.BEHANDLINGSKOER]: 'AvdelingslederIndex.Behandlingskoer',
-  [AvdelingslederPanels.SAKSBEHANDLERE]: 'AvdelingslederIndex.Saksbehandlere',
   [AvdelingslederPanels.NOKKELTALL]: 'AvdelingslederIndex.Nokkeltall',
   [AvdelingslederPanels.RESERVASJONER]: 'AvdelingslederIndex.Reservasjoner',
 };

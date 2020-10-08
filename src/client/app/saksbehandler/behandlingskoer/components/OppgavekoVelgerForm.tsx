@@ -62,8 +62,13 @@ const getStonadstyper = (intl: IntlShape, oppgaveko?: Oppgaveko) => (oppgaveko &
 const getBehandlingstyper = (intl: IntlShape, oppgaveko?: Oppgaveko) => (oppgaveko && oppgaveko.behandlingTyper.length > 0
   ? oppgaveko.behandlingTyper.map((type) => type.navn) : [intl.formatMessage({ id: 'OppgavekoVelgerForm.Alle' })]);
 
-const getAndreKriterier = (intl: IntlShape, oppgaveko?: Oppgaveko) => (oppgaveko && oppgaveko.andreKriterier.length > 0
-  ? oppgaveko.andreKriterier.map((ak) => ak.navn) : [intl.formatMessage({ id: 'OppgavekoVelgerForm.Alle' })]);
+const getAndreKriterier = (intl: IntlShape, oppgaveko?: Oppgaveko) => {
+  if (oppgaveko && oppgaveko.andreKriterier.length > 0) {
+    return oppgaveko.andreKriterier.map((ak) => (ak.inkluder ? ak.andreKriterierType.navn
+      : intl.formatMessage({ id: 'OppgavekoVelgerForm.Uten' }, { kriterie: ak.andreKriterierType.navn })));
+  }
+  return [intl.formatMessage({ id: 'OppgavekoVelgerForm.Alle' })];
+};
 
 const getSorteringsnavn = (intl: IntlShape, oppgaveko?: Oppgaveko) => {
   if (!oppgaveko || !oppgaveko.sortering) {

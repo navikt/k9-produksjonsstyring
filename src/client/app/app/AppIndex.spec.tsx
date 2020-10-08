@@ -1,46 +1,31 @@
 import React from 'react';
 import { expect } from 'chai';
-import sinon from 'sinon';
-
-import { shallowWithIntl } from 'testHelpers/intl-enzyme-test-helper';
-import EventType from 'api/rest-api/src/requestApi/eventType';
+import { Location } from 'history';
+import { shallow } from 'enzyme';
 import HeaderWithErrorPanel from './components/HeaderWithErrorPanel';
 
 import { AppIndex } from './AppIndex';
 
 describe('<AppIndex>', () => {
   it('skal vise hjem-skjermbilde inkludert header men ikke feilmelding', () => {
-    const wrapper = shallowWithIntl(<AppIndex
-      navAnsattName="Peder"
-      showCrashMessage={sinon.spy()}
-      removeErrorMessage={sinon.spy()}
-      errorMessages={[]}
-      location={{ search: undefined, state: {} }}
+    const wrapper = shallow(<AppIndex
+      location={{ search: undefined, state: {} } as Location}
     />);
 
     const headerComp = wrapper.find(HeaderWithErrorPanel);
     expect(headerComp).to.have.length(1);
-    expect(headerComp.prop('navAnsattName')).to.eql('Peder');
 
     const homeComp = wrapper.find('Home');
     expect(homeComp).to.have.length(1);
   });
 
   it('skal vise hjem-skjermbilde inkludert header og feilmelding', () => {
-    const wrapper = shallowWithIntl(<AppIndex
-      navAnsattName="Peder"
-      showCrashMessage={sinon.spy()}
-      removeErrorMessage={sinon.spy()}
-      errorMessages={[{
-        type: EventType.REQUEST_ERROR,
-      }]}
-      kanOppgavestyre
-      location={{ search: undefined, state: {} }}
+    const wrapper = shallow(<AppIndex
+      location={{ search: undefined, state: {} } as Location}
     />);
 
     const headerComp = wrapper.find(HeaderWithErrorPanel);
     expect(headerComp).to.have.length(1);
-    expect(headerComp.prop('navAnsattName')).to.eql('Peder');
 
     const homeComp = wrapper.find('Home');
     expect(homeComp).to.have.length(1);
@@ -52,15 +37,8 @@ describe('<AppIndex>', () => {
       state: {},
     };
 
-    const wrapper = shallowWithIntl(<AppIndex
-      navAnsattName="Peder"
-      removeErrorMessage={sinon.spy()}
-      showCrashMessage={sinon.spy()}
-      errorMessages={[{
-        type: EventType.REQUEST_ERROR,
-      }]}
-      kanOppgavestyre
-      location={location}
+    const wrapper = shallow(<AppIndex
+      location={location as Location}
     />);
 
     const headerComp = wrapper.find(HeaderWithErrorPanel);

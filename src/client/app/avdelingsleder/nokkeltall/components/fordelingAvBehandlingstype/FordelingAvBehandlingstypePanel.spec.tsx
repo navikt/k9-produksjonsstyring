@@ -47,24 +47,28 @@ describe('<FordelingAvBehandlingstypePanel>', () => {
     };
     const alleOppgaver = [];
 
-    const wrapper = shallowWithIntl(<FordelingAvBehandlingstypePanel
-      width={300}
-      height={200}
-      alleOppgaver={alleOppgaver}
-      getValueFromLocalStorage={sinon.spy()}
-      // @ts-ignore
-    />).find(Form).renderProp('render')({ values: valuesMock });
+    new RestApiTestMocker()
+      .withKodeverk(kodeverkTyper.BEHANDLING_TYPE, behandlingTyper)
+      .withKodeverk(kodeverkTyper.FAGSAK_YTELSE_TYPE, fagsakYtelseTyper)
+      .runTest(() => {
+        const wrapper = shallowWithIntl(<FordelingAvBehandlingstypePanel
+          width={300}
+          height={200}
+          alleOppgaver={alleOppgaver}
+          getValueFromLocalStorage={sinon.spy()}
+        />).find(Form).renderProp('render')({ values: valuesMock });
 
-    const radioOptions = wrapper.find(RadioOption);
-    expect(radioOptions).to.have.length(3);
-    expect(radioOptions.first().prop('value')).to.eql('OMP');
-    expect(radioOptions.first().prop('label')).to.eql('Omsorgspenger');
-    expect(radioOptions.at(1).prop('value')).to.eql('PSB');
-    expect(radioOptions.at(1).prop('label')).to.eql('Pleiepenger sykt barn');
-    expect(radioOptions.last().prop('value')).to.eql('ALLE');
+        const radioOptions = wrapper.find(RadioOption);
+        expect(radioOptions).to.have.length(3);
+        expect(radioOptions.first().prop('value')).to.eql('OMP');
+        expect(radioOptions.first().prop('label')).to.eql('Omsorgspenger');
+        expect(radioOptions.at(1).prop('value')).to.eql('PSB');
+        expect(radioOptions.at(1).prop('label')).to.eql('Pleiepenger sykt barn');
+        expect(radioOptions.last().prop('value')).to.eql('ALLE');
+      });
   });
 
-  it('skal filtrere bort engangsstønader', () => {
+  it('skal filtrere bort pleiepenger', () => {
     const valuesMock = {
       valgtYtelseType: fagsakYtelseType.OMSORGSPENGER,
     };
@@ -80,17 +84,21 @@ describe('<FordelingAvBehandlingstypePanel>', () => {
       antall: 1,
     }];
 
-    const wrapper = shallowWithIntl(<FordelingAvBehandlingstypePanel
-      width={300}
-      height={200}
-      alleOppgaver={alleOppgaver}
-      getValueFromLocalStorage={sinon.spy()}
-      // @ts-ignore
-    />).find(Form).renderProp('render')({ values: valuesMock });
+    new RestApiTestMocker()
+      .withKodeverk(kodeverkTyper.BEHANDLING_TYPE, behandlingTyper)
+      .withKodeverk(kodeverkTyper.FAGSAK_YTELSE_TYPE, fagsakYtelseTyper)
+      .runTest(() => {
+        const wrapper = shallowWithIntl(<FordelingAvBehandlingstypePanel
+          width={300}
+          height={200}
+          alleOppgaver={alleOppgaver}
+          getValueFromLocalStorage={sinon.spy()}
+        />).find(Form).renderProp('render')({ values: valuesMock });
 
-    const graf = wrapper.find(FordelingAvBehandlingstypeGraf);
-    expect(graf).to.have.length(1);
-    expect(graf.prop('alleOppgaver')).is.eql([alleOppgaver[1]]);
+        const graf = wrapper.find(FordelingAvBehandlingstypeGraf);
+        expect(graf).to.have.length(1);
+        expect(graf.prop('alleOppgaver')).is.eql([alleOppgaver[1]]);
+      });
   });
 
   it('skal filtrere bort omsorgspenger', () => {

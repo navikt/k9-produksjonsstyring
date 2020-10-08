@@ -20,7 +20,6 @@ const finnFagsakYtelseTypeNavn = (fagsakYtelseTyper, valgtFagsakYtelseType) => {
 interface OwnProps {
   valgtOppgavekoId: string;
   hentOppgaveko:(id: string) => void;
-    hentAlleOppgavekoer: () => void;
 }
 
 /**
@@ -29,7 +28,6 @@ interface OwnProps {
 const FagsakYtelseTypeVelger: FunctionComponent<OwnProps> = ({
   valgtOppgavekoId,
   hentOppgaveko,
-  hentAlleOppgavekoer,
 }) => {
   const { startRequest: lagreOppgavekoFagsakYtelseType } = useRestApiRunner(K9LosApiKeys.LAGRE_OPPGAVEKO_FAGSAK_YTELSE_TYPE);
   const alleFagsakYtelseTyper = useKodeverk(kodeverkTyper.FAGSAK_YTELSE_TYPE);

@@ -29,7 +29,6 @@ interface OwnProps {
 const SorteringVelger: FunctionComponent<OwnProps & WrappedComponentProps> = ({
   intl,
   valgtOppgavekoId,
-  valgteBehandlingtyper,
   fomDato,
   tomDato,
   hentOppgaveko,
@@ -53,7 +52,6 @@ const SorteringVelger: FunctionComponent<OwnProps & WrappedComponentProps> = ({
           })}
         >
           {koSorteringer.map((koSortering) => (
-            (koSortering.feltkategori !== 'TILBAKEKREVING' || (valgteBehandlingtyper.length === 1 && valgteBehandlingtyper[0].kode === 'BT-009')) && (
             <RadioOption
               key={koSortering.kode}
               value={koSortering.kode}
@@ -70,7 +68,6 @@ const SorteringVelger: FunctionComponent<OwnProps & WrappedComponentProps> = ({
               />
               )}
             </RadioOption>
-            )
           ))}
         </RadioGroupField>
       </div>
