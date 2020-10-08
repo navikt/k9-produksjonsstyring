@@ -124,7 +124,7 @@ export class BehandlingskoerIndex extends Component<OwnProps & DispatchProps, St
   openFagsak = (oppgave: Oppgave) => {
     const { k9sakUrl, goToUrl } = this.props;
     leggTilBehandletOppgave(oppgave);
-    goToUrl(getK9sakHref(k9sakUrl, oppgave.saksnummer, oppgave.behandlingId));
+    // goToUrl(getK9sakHref(k9sakUrl, oppgave.saksnummer, oppgave.behandlingId));
   }
 
   openTilbakesak = (oppgave: Oppgave) => {
