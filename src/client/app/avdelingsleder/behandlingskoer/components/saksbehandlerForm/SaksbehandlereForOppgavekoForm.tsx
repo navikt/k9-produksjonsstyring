@@ -61,7 +61,7 @@ const SaksbehandlereForOppgavekoForm: FunctionComponent<OwnProps> = ({ valgtOppg
                   </div>
                 ))}
               </Column>
-              <Column xs="8" className={styles.hoyre}>
+              <Column xs="7" className={styles.hoyre}>
                 {alleSaksbehandlereHoyreListe.map((s) => (
                   <div className={styles.checkBox}>
                     <CheckboxField
