@@ -17,7 +17,7 @@ const cancellable = (axiosInstance, config) => {
     cancelToken: new axiosInstance.CancelToken((c) => { cancel = c; }),
   });
   request.cancel = cancel;
-  return request.catch((error) => (Promise.reject(error)));
+  return request.catch((error) => (axiosInstance.isCancel(error) ? Promise.reject(new Error(null)) : Promise.reject(error)));
 };
 
 const defaultHeaders = {

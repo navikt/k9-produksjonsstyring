@@ -64,6 +64,10 @@ class RequestErrorEventHandler {
 
     const formattedError = this.formatError(error);
 
+    if (formattedError.isUnauthorized) {
+      window.location.assign(formattedError.location);
+    }
+
     if (isOfTypeBlob(error)) {
       const jsonErrorString = await blobParser(formattedError.data);
       if (isString(jsonErrorString)) {
