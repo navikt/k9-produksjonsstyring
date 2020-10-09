@@ -14,16 +14,12 @@ const PROXY_REDIRECT_URL = isDev ? 'https://k9-los-oidc-auth-proxy.dev.adeo.no/l
   : 'https://k9-los-oidc-auth-proxy.nais.adeo.no/login?redirect_uri=https://k9-los-web.nais.adeo.no/';
 
 const cancellable = (axiosInstance, config) => {
-  let cancel;
   const request = axiosInstance({
     ...config,
-    cancelToken: new axiosInstance.CancelToken((c) => { cancel = c; }),
   });
-  request.cancel = cancel;
-  if (request.status === 401) {
-    request.redirect(PROXY_REDIRECT_URL);
+  if (request.status.kode === 401) {
+    window.location.replace(PROXY_REDIRECT_URL);
   }
-
   return request.catch((error) => (axiosInstance.isCancel(error) ? Promise.reject(new Error(null)) : Promise.reject(error)));
 };
 
