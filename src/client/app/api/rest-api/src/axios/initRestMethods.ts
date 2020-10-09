@@ -17,10 +17,15 @@ const cancellable = (axiosInstance, config) => {
   const request = axiosInstance({
     ...config,
   });
-  if (request.status.kode === 401) {
-    window.location.replace(PROXY_REDIRECT_URL);
-  }
-  return request.catch((error) => (axiosInstance.isCancel(error) ? Promise.reject(new Error(null)) : Promise.reject(error)));
+
+  // eslint-disable-next-line consistent-return
+  return request.catch((error) => {
+    if (error.response.status === 401) {
+      window.location.replace(PROXY_REDIRECT_URL);
+    } else {
+      return axiosInstance.isCancel(error) ? Promise.reject(new Error(null)) : Promise.reject(error);
+    }
+  });
 };
 
 const defaultHeaders = {
