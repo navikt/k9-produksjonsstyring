@@ -62,6 +62,11 @@ class RequestErrorEventHandler {
       return;
     }
 
+    if (error.response.status === 401) {
+      window.location.replace(PROXY_REDIRECT_URL);
+      return;
+    }
+
     const formattedError = this.formatError(error);
 
     if (isOfTypeBlob(error)) {

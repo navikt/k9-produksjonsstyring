@@ -10,22 +10,14 @@ const isDev = window.location.hostname.includes('dev.adeo.no');
 const proxyUrl = isDev ? 'https://k9-los-oidc-auth-proxy.dev.adeo.no/api/k9-los-api'
   : 'https://k9-los-oidc-auth-proxy.nais.adeo.no/api/k9-los-api';
 
-const PROXY_REDIRECT_URL = isDev ? 'https://k9-los-oidc-auth-proxy.dev.adeo.no/login?redirect_uri=https://k9-los-web.dev.adeo.no/'
-  : 'https://k9-los-oidc-auth-proxy.nais.adeo.no/login?redirect_uri=https://k9-los-web.nais.adeo.no/';
-
 const cancellable = (axiosInstance, config) => {
+  let cancel;
   const request = axiosInstance({
     ...config,
+    cancelToken: new axiosInstance.CancelToken((c) => { cancel = c; }),
   });
-
-  // eslint-disable-next-line consistent-return
-  return request.catch((error) => {
-    if (request.response.status === 401) {
-      window.location.replace(PROXY_REDIRECT_URL);
-    } else {
-      return axiosInstance.isCancel(error) ? Promise.reject(new Error(null)) : Promise.reject(error);
-    }
-  });
+  request.cancel = cancel;
+  return request.catch((error) => (axiosInstance.isCancel(error) ? Promise.reject(new Error(null)) : Promise.reject(error)));
 };
 
 const defaultHeaders = {
