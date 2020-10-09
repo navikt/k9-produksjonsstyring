@@ -17,7 +17,7 @@ const hasLocationAndStatusDelayedOrHalted = (responseData) => responseData.locat
 
 const isDev = window.location.hostname.includes('dev.adeo.no');
 const PROXY_REDIRECT_URL = isDev ? 'https://k9-los-oidc-auth-proxy.dev.adeo.no/login?redirect_uri=https://k9-los-web.dev.adeo.no/'
-    : 'https://k9-los-oidc-auth-proxy.nais.adeo.no/login?redirect_uri=https://k9-los-web.nais.adeo.no/';
+  : 'https://k9-los-oidc-auth-proxy.nais.adeo.no/login?redirect_uri=https://k9-los-web.nais.adeo.no/';
 
 type Notify = (eventType: keyof typeof EventType, data?: any, isPolling?: boolean) => void
 type NotificationEmitter = (eventType: keyof typeof EventType, data?: any) => void
@@ -132,8 +132,6 @@ class RequestProcess {
       this.notify(EventType.REQUEST_FINISHED, responseData, this.isPollingRequest);
       return responseData ? { payload: responseData } : { payload: undefined };
     } catch (error) {
-
-      if()
       new RequestErrorEventHandler(this.notify, this.isPollingRequest).handleError(error);
       throw error;
     }
