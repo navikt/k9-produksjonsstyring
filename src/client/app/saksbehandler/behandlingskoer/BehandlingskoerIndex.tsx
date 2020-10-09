@@ -57,6 +57,8 @@ const BehandlingskoerIndex: FunctionComponent<OwnProps> = ({
     source.addEventListener('message', (message) => {
       handleEvent(message);
     });
+    hentOppgaverTilBehandling();
+    hentReserverteOppgaver();
   }, [valgtOppgavekoId]);
 
   const openFagsak = (oppgave: Oppgave) => {
