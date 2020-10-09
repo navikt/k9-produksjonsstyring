@@ -19,13 +19,11 @@ import menuIconBlackUrl from 'images/ic-menu-18px_black.svg';
 import bubbletextUrl from 'images/bubbletext.svg';
 import bubbletextFilledUrl from 'images/bubbletext_filled.svg';
 
-import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
+import { K9LosApiKeys } from 'api/k9LosApi';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
 import { Oppgaveko } from 'saksbehandler/behandlingskoer/oppgavekoTsType';
-import useGlobalStateRestApiData from 'api/rest-api-hooks/src/global-data/useGlobalStateRestApiData';
-import RestApiState from 'api/rest-api-hooks/src/RestApiState';
 import Reservasjon from 'avdelingsleder/reservasjoner/reservasjonTsType';
 import styles from './oppgaverTabell.less';
 import OppgaveHandlingerMenu from './menu/OppgaveHandlingerMenu';
@@ -59,6 +57,10 @@ interface OwnProps {
   valgtOppgavekoId: string;
   reserverOppgave: (oppgave: Oppgave) => void;
   antallOppgaver?: number;
+  reserverteOppgaver: Oppgave[];
+  oppgaverTilBehandling: Oppgave[];
+  hentReserverteOppgaver: () => void;
+  requestFinished: boolean;
 }
 
 /**
@@ -69,6 +71,10 @@ export const OppgaverTabell: FunctionComponent<OwnProps & WrappedComponentProps>
   valgtOppgavekoId,
   reserverOppgave,
   antallOppgaver = 0,
+  reserverteOppgaver,
+  oppgaverTilBehandling,
+  hentReserverteOppgaver,
+  requestFinished,
 }) => {
   const [showMenu, setShowMenu] = useState(false);
   const [valgtOppgaveId, setValgtOppgaveId] = useState<string>();
@@ -77,40 +83,17 @@ export const OppgaverTabell: FunctionComponent<OwnProps & WrappedComponentProps>
     top: 0,
   });
 
-  const sseUrl = useGlobalStateRestApiData<{ verdi?: string }>(RestApiGlobalStatePathsKeys.SSE_URL);
   const { startRequest: hentSaksbehandlersOppgavekoer, data: oppgavekoer = EMPTY_ARRAY } = useRestApiRunner<Oppgaveko[]>(K9LosApiKeys.OPPGAVEKO);
-  const { startRequest: hentReserverteOppgaver, data: reserverteOppgaver = EMPTY_ARRAY } = useRestApiRunner<Oppgave[]>(K9LosApiKeys.RESERVERTE_OPPGAVER);
   const { startRequest: leggTilBehandletOppgave } = useRestApiRunner(K9LosApiKeys.LEGG_TIL_BEHANDLET_OPPGAVE);
   const { startRequest: forlengOppgavereservasjon } = useRestApiRunner<Reservasjon[]>(K9LosApiKeys.FORLENG_OPPGAVERESERVASJON);
-  const {
-    startRequest: hentOppgaverTilBehandling, state, data: oppgaverTilBehandling = EMPTY_ARRAY, error: hentOppgaverTilBehandlingError,
-  } = useRestApiRunner<Oppgave[] | string>(K9LosApiKeys.OPPGAVER_TIL_BEHANDLING);
 
   const forlengOppgaveReservasjonFn = useCallback((oppgaveId: string): Promise<any> => forlengOppgavereservasjon({ oppgaveId })
-    .then(() => hentReserverteOppgaver({}, true)), []);
+    .then(() => hentReserverteOppgaver()), []);
 
   const ref = useRef({});
 
-  const handleEvent = (e: MessageEvent) => {
-    const data = JSON.parse(e.data);
-    if (data.melding === 'oppdaterReserverte') {
-      hentReserverteOppgaver();
-    } else if (data.melding === 'oppdaterTilBehandling') {
-      if (valgtOppgavekoId === data.id) {
-        hentOppgaverTilBehandling({ id: valgtOppgavekoId });
-      }
-    }
-  };
-
   useEffect(() => {
-    const source = new EventSource(sseUrl.verdi, { withCredentials: true });
-    source.addEventListener('message', (message) => {
-      handleEvent(message);
-    });
     hentSaksbehandlersOppgavekoer();
-    if (valgtOppgavekoId) {
-      hentOppgaverTilBehandling({ id: valgtOppgavekoId });
-    }
   }, [valgtOppgavekoId]);
 
   const goToFagsak = useCallback((event: Event, id: number, oppgave: Oppgave) => {
@@ -153,23 +136,23 @@ export const OppgaverTabell: FunctionComponent<OwnProps & WrappedComponentProps>
   return (
     <>
       <Element><FormattedMessage id="OppgaverTabell.DineNesteSaker" values={{ antall: antallOppgaver }} /></Element>
-      {alleOppgaver.length === 0 && state === RestApiState.LOADING && (
+      {alleOppgaver.length === 0 && !requestFinished && (
         <NavFrontendSpinner type="XL" className={styles.spinner} />
       )}
-      {alleOppgaver.length === 0 && state === RestApiState.SUCCESS && (
+      {alleOppgaver.length === 0 && requestFinished && (
       <>
         <VerticalSpacer eightPx />
         <Normaltekst><FormattedMessage id="OppgaverTabell.IngenOppgaver" /></Normaltekst>
       </>
       )}
 
-      {oppgaverTilBehandling.length === 0 && state === RestApiState.SUCCESS && (
+      {oppgaverTilBehandling.length === 0 && requestFinished && (
         <>
           <VerticalSpacer eightPx />
           <Normaltekst><FormattedMessage id="OppgaverTabell.IngenTilgang" /></Normaltekst>
         </>
       )}
-      {alleOppgaver.length > 0 && state === RestApiState.SUCCESS && (
+      {alleOppgaver.length > 0 && requestFinished && (
       <>
         <Table headerTextCodes={headerTextCodes}>
           {alleOppgaver.map((oppgave) => (

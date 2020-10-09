@@ -62,10 +62,6 @@ class RequestErrorEventHandler {
       return;
     }
 
-    if (error.response.status === 401) {
-      window.location.replace(PROXY_REDIRECT_URL);
-    }
-
     const formattedError = this.formatError(error);
 
     if (isOfTypeBlob(error)) {
@@ -77,6 +73,8 @@ class RequestErrorEventHandler {
 
     if (formattedError.isGatewayTimeoutOrNotFound) {
       this.notify(EventType.REQUEST_GATEWAY_TIMEOUT_OR_NOT_FOUND, { location: formattedError.location }, this.isPollingRequest);
+    } else if (formattedError.isUnauthorized) {
+      window.location.href = PROXY_REDIRECT_URL;
     } else if (formattedError.isForbidden) {
       this.notify(EventType.REQUEST_FORBIDDEN, formattedError.data ? formattedError.data : { message: error.message });
     } else if (formattedError.is418) {

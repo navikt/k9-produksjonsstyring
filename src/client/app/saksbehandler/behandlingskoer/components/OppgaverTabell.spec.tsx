@@ -14,7 +14,6 @@ import Image from 'sharedComponents/Image';
 import { intlMock, shallowWithIntl } from 'testHelpers/intl-enzyme-test-helper';
 import { K9LosApiKeys } from 'api/k9LosApi';
 import RestApiTestMocker from 'testHelpers/RestApiTestMocker';
-import RestApiState from 'api/rest-api-hooks/src/RestApiState';
 import { OppgaverTabell } from './OppgaverTabell';
 
 describe('<OppgaverTabell>', () => {
@@ -77,8 +76,6 @@ describe('<OppgaverTabell>', () => {
     new RestApiTestMocker()
       .withRestCallRunner(K9LosApiKeys.FORLENG_OPPGAVERESERVASJON, { startRequest: () => undefined, data: undefined })
       .withRestCallRunner(K9LosApiKeys.LEGG_TIL_BEHANDLET_OPPGAVE, { startRequest: () => undefined, data: undefined })
-      .withRestCallRunner(K9LosApiKeys.RESERVERTE_OPPGAVER, { state: RestApiState.SUCCESS, startRequest: () => undefined, data: [] })
-      .withRestCallRunner(K9LosApiKeys.OPPGAVER_TIL_BEHANDLING, { state: RestApiState.SUCCESS, startRequest: () => undefined, data: oppgaverTilBehandling })
       .withRestCallRunner(K9LosApiKeys.BEHANDLINGSKO_OPPGAVE_ANTALL, { startRequest: () => undefined, data: undefined })
       .withRestCallRunner(K9LosApiKeys.OPPGAVEKO, { startRequest: () => undefined, data: undefined })
       .runTest(() => {
@@ -86,6 +83,10 @@ describe('<OppgaverTabell>', () => {
           intl={intl as IntlShape}
           reserverOppgave={sinon.spy()}
           valgtOppgavekoId="1"
+          oppgaverTilBehandling={oppgaverTilBehandling}
+          reserverteOppgaver={[]}
+          requestFinished
+          hentReserverteOppgaver={sinon.spy()}
         />);
 
         const tableRows = wrapper.find(TableRow);
@@ -164,8 +165,6 @@ describe('<OppgaverTabell>', () => {
     new RestApiTestMocker()
       .withRestCallRunner(K9LosApiKeys.FORLENG_OPPGAVERESERVASJON, { startRequest: () => undefined, data: undefined })
       .withRestCallRunner(K9LosApiKeys.LEGG_TIL_BEHANDLET_OPPGAVE, { startRequest: () => undefined, data: undefined })
-      .withRestCallRunner(K9LosApiKeys.RESERVERTE_OPPGAVER, { startRequest: () => undefined, data: reserverteOppgaver })
-      .withRestCallRunner(K9LosApiKeys.OPPGAVER_TIL_BEHANDLING, { state: RestApiState.SUCCESS, startRequest: () => undefined, data: oppgaverTilBehandling })
       .withRestCallRunner(K9LosApiKeys.BEHANDLINGSKO_OPPGAVE_ANTALL, { startRequest: () => undefined, data: undefined })
       .withRestCallRunner(K9LosApiKeys.OPPGAVEKO, { startRequest: () => undefined, data: undefined })
       .runTest(() => {
@@ -173,6 +172,10 @@ describe('<OppgaverTabell>', () => {
           intl={intl as IntlShape}
           reserverOppgave={sinon.spy()}
           valgtOppgavekoId="1"
+          oppgaverTilBehandling={oppgaverTilBehandling}
+          reserverteOppgaver={reserverteOppgaver}
+          requestFinished
+          hentReserverteOppgaver={sinon.spy()}
         />);
 
         const tableRows = wrapper.find(TableRow);
@@ -198,8 +201,6 @@ describe('<OppgaverTabell>', () => {
     new RestApiTestMocker()
       .withRestCallRunner(K9LosApiKeys.FORLENG_OPPGAVERESERVASJON, { startRequest: () => undefined, data: undefined })
       .withRestCallRunner(K9LosApiKeys.LEGG_TIL_BEHANDLET_OPPGAVE, { startRequest: () => undefined, data: undefined })
-      .withRestCallRunner(K9LosApiKeys.RESERVERTE_OPPGAVER, { startRequest: () => undefined, data: [] })
-      .withRestCallRunner(K9LosApiKeys.OPPGAVER_TIL_BEHANDLING, { state: RestApiState.SUCCESS, startRequest: () => undefined, data: [] })
       .withRestCallRunner(K9LosApiKeys.BEHANDLINGSKO_OPPGAVE_ANTALL, { startRequest: () => undefined, data: undefined })
       .withRestCallRunner(K9LosApiKeys.OPPGAVEKO, { startRequest: () => undefined, data: undefined })
       .runTest(() => {
@@ -207,6 +208,10 @@ describe('<OppgaverTabell>', () => {
           intl={intl as IntlShape}
           reserverOppgave={sinon.spy()}
           valgtOppgavekoId="1"
+          oppgaverTilBehandling={[]}
+          reserverteOppgaver={[]}
+          requestFinished
+          hentReserverteOppgaver={sinon.spy()}
 
         />);
 
@@ -256,8 +261,6 @@ describe('<OppgaverTabell>', () => {
     new RestApiTestMocker()
       .withRestCallRunner(K9LosApiKeys.FORLENG_OPPGAVERESERVASJON, { startRequest: () => undefined, data: undefined })
       .withRestCallRunner(K9LosApiKeys.LEGG_TIL_BEHANDLET_OPPGAVE, { startRequest: () => undefined, data: undefined })
-      .withRestCallRunner(K9LosApiKeys.RESERVERTE_OPPGAVER, { startRequest: () => undefined, data: reserverteOppgaver })
-      .withRestCallRunner(K9LosApiKeys.OPPGAVER_TIL_BEHANDLING, { state: RestApiState.SUCCESS, startRequest: () => undefined, data: [] })
       .withRestCallRunner(K9LosApiKeys.BEHANDLINGSKO_OPPGAVE_ANTALL, { startRequest: () => undefined, data: undefined })
       .withRestCallRunner(K9LosApiKeys.OPPGAVEKO, { startRequest: () => undefined, data: undefined })
       .runTest(() => {
@@ -265,6 +268,10 @@ describe('<OppgaverTabell>', () => {
           intl={intl as IntlShape}
           reserverOppgave={sinon.spy()}
           valgtOppgavekoId="1"
+          oppgaverTilBehandling={[]}
+          reserverteOppgaver={reserverteOppgaver}
+          requestFinished
+          hentReserverteOppgaver={sinon.spy()}
         />);
 
         const tableRows = wrapper.find(TableRow);

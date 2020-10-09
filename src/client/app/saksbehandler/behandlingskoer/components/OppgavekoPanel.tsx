@@ -17,6 +17,10 @@ interface OwnProps {
   valgtOppgavekoId: string;
   oppgavekoer: Oppgaveko[];
   reserverOppgave: (oppgave: Oppgave) => void;
+  reserverteOppgaver: Oppgave[];
+  oppgaverTilBehandling: Oppgave[];
+  hentReserverteOppgaver: () => void;
+  requestFinished: boolean;
 }
 
 /**
@@ -27,6 +31,10 @@ const OppgavekoPanel: FunctionComponent<OwnProps> = ({
   oppgavekoer,
   setValgtOppgavekoId,
   valgtOppgavekoId,
+  hentReserverteOppgaver,
+  reserverteOppgaver,
+  requestFinished,
+  oppgaverTilBehandling,
 }) => {
   const { startRequest: fetchAntallOppgaver, data: antallOppgaver } = useRestApiRunner<number>(K9LosApiKeys.BEHANDLINGSKO_OPPGAVE_ANTALL);
   return (
@@ -46,6 +54,10 @@ const OppgavekoPanel: FunctionComponent<OwnProps> = ({
           reserverOppgave={reserverOppgave}
           valgtOppgavekoId={valgtOppgavekoId}
           antallOppgaver={antallOppgaver}
+          oppgaverTilBehandling={oppgaverTilBehandling}
+          requestFinished={requestFinished}
+          reserverteOppgaver={reserverteOppgaver}
+          hentReserverteOppgaver={hentReserverteOppgaver}
         />
       </div>
     </>
