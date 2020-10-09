@@ -57,7 +57,7 @@ const BehandlingskoerIndex: FunctionComponent<OwnProps> = ({
     source.addEventListener('message', (message) => {
       handleEvent(message);
     });
-    hentOppgaverTilBehandling();
+    hentOppgaverTilBehandling({ id: valgtOppgavekoId });
     hentReserverteOppgaver();
   }, [valgtOppgavekoId]);
 
