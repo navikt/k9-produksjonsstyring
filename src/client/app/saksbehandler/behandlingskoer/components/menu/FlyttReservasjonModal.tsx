@@ -27,7 +27,7 @@ interface OwnProps {
   oppgaveId: string;
   closeModal: () => void;
   saksbehandler?: Saksbehandler;
- hentAlleReservasjonerEllerOppgaver: (params: any, keepData: boolean) => void;
+ hentAlleReservasjonerEllerOppgaver: () => void;
 }
 
 /**
@@ -41,12 +41,15 @@ export const FlyttReservasjonModal: FunctionComponent<OwnProps & WrappedComponen
   const {
     startRequest, state, data: saksbehandler, resetRequestData,
   } = useRestApiRunner<Saksbehandler>(K9LosApiKeys.FLYTT_RESERVASJON_SAKSBEHANDLER_SOK);
-  const finnSaksbehandler = useCallback((brukerIdent) => startRequest(brukerIdent), []);
+  const finnSaksbehandler = useCallback((brukerIdent) => startRequest({ brukerIdent }), []);
 
   const { startRequest: flyttOppgaveReservasjon } = useRestApiRunner(K9LosApiKeys.FLYTT_RESERVASJON);
   const flyttOppgaveReservasjonFn = useCallback(
     (brukerIdent: string, begrunnelse: string): Promise<any> => flyttOppgaveReservasjon({ oppgaveId, brukerIdent, begrunnelse })
-      .then(() => hentAlleReservasjonerEllerOppgaver({}, true)),
+      .then(() => {
+        hentAlleReservasjonerEllerOppgaver();
+        closeModal();
+      }),
     [],
   );
 

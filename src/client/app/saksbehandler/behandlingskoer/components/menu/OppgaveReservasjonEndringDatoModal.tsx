@@ -16,10 +16,10 @@ import { K9LosApiKeys } from 'api/k9LosApi';
 
 interface OwnProps {
   showModal: boolean;
-  closeModal: (event: MouseEvent<HTMLButtonElement>) => void;
+  closeModal: () => void;
   reserverTilDefault: string;
   oppgaveId: string;
-  hentAlleReservasjonerEllerOppgaver: (params: any, keepData: boolean) => void;
+  hentAlleReservasjonerEllerOppgaver: () => void;
 }
 
 /**
@@ -40,7 +40,10 @@ const OppgaveReservasjonEndringDatoModal: FunctionComponent<OwnProps & WrappedCo
   const { startRequest: endreOppgaveReservasjon } = useRestApiRunner(K9LosApiKeys.ENDRE_OPPGAVERESERVASJON);
 
   const endreReservasjonDatoFn = useCallback((reserverTil: string): Promise<any> => endreOppgaveReservasjon({ oppgaveId, reserverTil })
-    .then(() => hentAlleReservasjonerEllerOppgaver({}, true)),
+    .then(() => {
+      hentAlleReservasjonerEllerOppgaver();
+      closeModal();
+    }),
   []);
 
   return (

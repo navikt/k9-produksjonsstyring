@@ -24,6 +24,7 @@ interface OwnProps {
   oppgavekoer: Oppgaveko[];
   saksbehandlere?: Saksbehandler[];
   setValgtOppgavekoId: (id: string) => void;
+  fetchAntallOppgaver: (data: {id: string}) => void;
   getValueFromLocalStorage: (key: string) => string;
   setValueInLocalStorage: (key: string, value: string) => void;
   removeValueFromLocalStorage: (key: string) => void;
@@ -113,6 +114,7 @@ export const OppgavekoVelgerForm: FunctionComponent<OwnProps & WrappedComponentP
   getValueFromLocalStorage,
   setValueInLocalStorage,
   removeValueFromLocalStorage,
+  fetchAntallOppgaver,
 }) => {
   const { data: saksbehandlere, startRequest: hentSaksbehandlere } = useRestApiRunner<Saksbehandler[]>(K9LosApiKeys.OPPGAVEKO_SAKSBEHANDLERE);
 
@@ -122,6 +124,7 @@ export const OppgavekoVelgerForm: FunctionComponent<OwnProps & WrappedComponentP
       if (defaultOppgavekoId) {
         setValgtOppgavekoId(defaultOppgavekoId);
         hentSaksbehandlere({ id: defaultOppgavekoId });
+        fetchAntallOppgaver({ id: defaultOppgavekoId });
       }
     }
   }, []);
@@ -153,6 +156,7 @@ export const OppgavekoVelgerForm: FunctionComponent<OwnProps & WrappedComponentP
                 const { id } = val.values;
                 setValgtOppgavekoId(id);
                 hentSaksbehandlere({ id });
+                fetchAntallOppgaver({ id });
               }
             }}
             subscription={{ values: true, dirtyFields: true }}

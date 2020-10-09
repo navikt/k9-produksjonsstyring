@@ -58,6 +58,7 @@ const getToggleMenuEvent = (oppgave: OppgaveMedReservertIndikator, toggleMenu) =
 interface OwnProps {
   valgtOppgavekoId: string;
   reserverOppgave: (oppgave: Oppgave) => void;
+  antallOppgaver?: number;
 }
 
 /**
@@ -67,6 +68,7 @@ export const OppgaverTabell: FunctionComponent<OwnProps & WrappedComponentProps>
   intl,
   valgtOppgavekoId,
   reserverOppgave,
+  antallOppgaver = 0,
 }) => {
   const [showMenu, setShowMenu] = useState(false);
   const [valgtOppgaveId, setValgtOppgaveId] = useState<string>();
@@ -80,7 +82,6 @@ export const OppgaverTabell: FunctionComponent<OwnProps & WrappedComponentProps>
   const { startRequest: hentReserverteOppgaver, data: reserverteOppgaver = EMPTY_ARRAY } = useRestApiRunner<Oppgave[]>(K9LosApiKeys.RESERVERTE_OPPGAVER);
   const { startRequest: leggTilBehandletOppgave } = useRestApiRunner(K9LosApiKeys.LEGG_TIL_BEHANDLET_OPPGAVE);
   const { startRequest: forlengOppgavereservasjon } = useRestApiRunner<Reservasjon[]>(K9LosApiKeys.FORLENG_OPPGAVERESERVASJON);
-  const { startRequest: hentAntallOppgaver, data: antallOppgaver } = useRestApiRunner<number>(K9LosApiKeys.BEHANDLINGSKO_OPPGAVE_ANTALL);
   const {
     startRequest: hentOppgaverTilBehandling, state, data: oppgaverTilBehandling = EMPTY_ARRAY, error: hentOppgaverTilBehandlingError,
   } = useRestApiRunner<Oppgave[] | string>(K9LosApiKeys.OPPGAVER_TIL_BEHANDLING);
@@ -102,7 +103,6 @@ export const OppgaverTabell: FunctionComponent<OwnProps & WrappedComponentProps>
   };
 
   useEffect(() => {
-    hentAntallOppgaver({ id: valgtOppgavekoId });
     const source = new EventSource(sseUrl.verdi, { withCredentials: true });
     source.addEventListener('message', (message) => {
       handleEvent(message);

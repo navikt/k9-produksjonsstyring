@@ -146,36 +146,36 @@ const ReservasjonerTabell: FunctionComponent<OwnProps & WrappedComponentProps> =
                   </Row>
                 </Row>
                 )}
-                {showOpphevReservasjonModal && (
-                <OpphevReservasjonModal
-                  oppgaveId={reservasjon.oppgaveId}
-                  showModal={showOpphevReservasjonModal}
-                  cancel={() => setShowOpphevReservasjonModal(false)}
-                  hentReserverteOppgaver={hentAlleReservasjoner}
-                />
-                )}
-                {showReservasjonEndringDatoModal && (
-                <OppgaveReservasjonEndringDatoModal
-                  showModal={showReservasjonEndringDatoModal}
-                  oppgaveId={reservasjon.oppgaveId}
-                  closeModal={() => setShowReservasjonEndringDatoModal(false)}
-                  hentAlleReservasjonerEllerOppgaver={hentAlleReservasjoner}
-                  reserverTilDefault={reservasjon.reservertTilTidspunkt}
-                />
-                )}
-                { showFlyttReservasjonModal && (
-                <FlyttReservasjonModal
-                  oppgaveId={reservasjon.oppgaveId}
-                  showModal={showFlyttReservasjonModal}
-                  closeModal={() => setShowFlyttReservasjonModal(false)}
-                  hentAlleReservasjonerEllerOppgaver={hentAlleReservasjoner}
-                />
-                )}
               </>
             ))}
           </Table>
 
         </>
+      )}
+      {showOpphevReservasjonModal && (
+      <OpphevReservasjonModal
+        oppgaveId={valgtReservasjon.oppgaveId}
+        showModal={showOpphevReservasjonModal}
+        cancel={() => setShowOpphevReservasjonModal(false)}
+        hentReserverteOppgaver={hentAlleReservasjoner}
+      />
+      )}
+      {showReservasjonEndringDatoModal && (
+      <OppgaveReservasjonEndringDatoModal
+        showModal={showReservasjonEndringDatoModal}
+        oppgaveId={valgtReservasjon.oppgaveId}
+        closeModal={() => setShowReservasjonEndringDatoModal(false)}
+        hentAlleReservasjonerEllerOppgaver={hentAlleReservasjoner}
+        reserverTilDefault={valgtReservasjon.reservertTilTidspunkt}
+      />
+      )}
+      { showFlyttReservasjonModal && (
+      <FlyttReservasjonModal
+        oppgaveId={valgtReservasjon.oppgaveId}
+        showModal={showFlyttReservasjonModal}
+        closeModal={() => setShowFlyttReservasjonModal(false)}
+        hentAlleReservasjonerEllerOppgaver={hentAlleReservasjoner}
+      />
       )}
     </>
   );

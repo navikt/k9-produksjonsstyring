@@ -22,7 +22,7 @@ type OwnProps = Readonly<{
   showModal: boolean;
   oppgaveId: string;
   cancel: () => void;
-    hentReserverteOppgaver: (params: any, keepData: boolean) => void;
+  hentReserverteOppgaver: () => void;
 }>;
 
 /**
@@ -41,7 +41,8 @@ export const OpphevReservasjonModal: FunctionComponent<OwnProps & WrappedCompone
 
   const opphevReservasjonFn = useCallback((begrunnelse: string) => opphevOppgavereservasjon({ oppgaveId, begrunnelse })
     .then(() => {
-      hentReserverteOppgaver({}, true);
+      hentReserverteOppgaver();
+      cancel();
     }),
   [oppgaveId]);
 
