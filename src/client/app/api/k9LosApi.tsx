@@ -68,7 +68,7 @@ export enum K9LosApiKeys {
   AVDELINGSLEDER_OPPHEVER_RESERVASJON = 'AVDELINGSLEDER_OPPHEVER_RESERVASJON',
 }
 
-const CONTEXT_PATH = 'api';
+const CONTEXT_PATH = isDevelopment ? 'api' : '';
 
 export const endpoints = new RestApiConfigBuilder(CONTEXT_PATH)
   /* /api/fagsak */
