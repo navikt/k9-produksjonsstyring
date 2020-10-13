@@ -132,7 +132,7 @@ class RequestProcess {
       this.notify(EventType.REQUEST_FINISHED, responseData, this.isPollingRequest);
       return responseData ? { payload: responseData } : { payload: undefined };
     } catch (error) {
-      await new RequestErrorEventHandler(this.notify, this.isPollingRequest).handleError(error);
+      new RequestErrorEventHandler(this.notify, this.isPollingRequest).handleError(error);
       throw error;
     }
   }

@@ -64,10 +64,6 @@ class RequestErrorEventHandler {
 
     const formattedError = this.formatError(error);
 
-    if (formattedError.isUnauthorized) {
-      window.location.assign(formattedError.location);
-    }
-
     if (isOfTypeBlob(error)) {
       const jsonErrorString = await blobParser(formattedError.data);
       if (isString(jsonErrorString)) {
@@ -78,7 +74,7 @@ class RequestErrorEventHandler {
     if (formattedError.isGatewayTimeoutOrNotFound) {
       this.notify(EventType.REQUEST_GATEWAY_TIMEOUT_OR_NOT_FOUND, { location: formattedError.location }, this.isPollingRequest);
     } else if (formattedError.isUnauthorized) {
-      window.location.href = PROXY_REDIRECT_URL;
+      window.location.assign(PROXY_REDIRECT_URL);
     } else if (formattedError.isForbidden) {
       this.notify(EventType.REQUEST_FORBIDDEN, formattedError.data ? formattedError.data : { message: error.message });
     } else if (formattedError.is418) {
