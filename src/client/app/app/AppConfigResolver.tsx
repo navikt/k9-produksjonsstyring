@@ -17,18 +17,16 @@ const AppConfigResolver: FunctionComponent<OwnProps> = ({
   children,
 }) => {
   const { state: stateNavAnsatt } = useGlobalStateRestApi(RestApiGlobalStatePathsKeys.NAV_ANSATT);
+
+  const { state: stateK9sakUrl } = useGlobalStateRestApi(RestApiGlobalStatePathsKeys.K9SAK_URL, { suspendRequest: stateNavAnsatt !== RestApiState.SUCCESS });
+  const { state: stateKodeverk } = useGlobalStateRestApi(RestApiGlobalStatePathsKeys.KODEVERK, { suspendRequest: stateNavAnsatt !== RestApiState.SUCCESS });
+  const { state: stateSseUrl } = useGlobalStateRestApi(RestApiGlobalStatePathsKeys.SSE_URL, { suspendRequest: stateNavAnsatt !== RestApiState.SUCCESS });
+
   if (stateNavAnsatt === RestApiState.ERROR) {
     window.location.assign(PROXY_REDIRECT_URL);
   }
-  if (stateNavAnsatt === RestApiState.LOADING) {
-    return <LoadingPanel />;
-  }
 
-  const { state: stateK9sakUrl } = useGlobalStateRestApi(RestApiGlobalStatePathsKeys.K9SAK_URL);
-  const { state: stateKodeverk } = useGlobalStateRestApi(RestApiGlobalStatePathsKeys.KODEVERK);
-  const { state: stateSseUrl } = useGlobalStateRestApi(RestApiGlobalStatePathsKeys.SSE_URL);
-
-  if (stateK9sakUrl === RestApiState.LOADING
+  if (stateK9sakUrl === RestApiState.LOADING || stateNavAnsatt === RestApiState.LOADING
       || stateKodeverk === RestApiState.LOADING || stateSseUrl === RestApiState.LOADING) {
     return <LoadingPanel />;
   }
