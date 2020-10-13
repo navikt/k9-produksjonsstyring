@@ -132,8 +132,12 @@ class RequestProcess {
       this.notify(EventType.REQUEST_FINISHED, responseData, this.isPollingRequest);
       return responseData ? { payload: responseData } : { payload: undefined };
     } catch (error) {
+      if (error.response.status === 401) {
+        window.location.assign(PROXY_REDIRECT_URL);
+        throw error;
+      }
       new RequestErrorEventHandler(this.notify, this.isPollingRequest).handleError(error);
-      return { payload: undefined };
+      throw error;
     }
   }
 }
