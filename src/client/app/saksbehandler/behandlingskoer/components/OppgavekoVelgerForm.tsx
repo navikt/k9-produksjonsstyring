@@ -136,8 +136,8 @@ export const OppgavekoVelgerForm: FunctionComponent<OwnProps & WrappedComponentP
 
     return (
       <div>
-        <Element><FormattedMessage id="OppgavekoVelgerForm.SaksbehandlerToolip" /></Element>
-        {saksbehandlere.sort((n1, n2) => n1.epost.localeCompare(n2.epost)).map((s) => (<Normaltekst key={s.epost}>{s.navn ? s.navn : s.epost}</Normaltekst>))}
+        <Element className={styles.tooltipHeader}><FormattedMessage id="OppgavekoVelgerForm.SaksbehandlerToolip" /></Element>
+        {saksbehandlere.sort((n1, n2) => n1.epost.localeCompare(n2.epost)).map((s) => (<li key={s.epost}>{s.navn ? s.navn : s.epost}</li>))}
       </div>
     );
   };

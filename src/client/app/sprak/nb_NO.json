@@ -316,7 +316,7 @@
   "OppgavekoVelgerForm.AndreKriterier": "Andre filter",
   "OppgavekoVelgerForm.Uten": "Uten: {kriterie}",
   "OppgavekoVelgerForm.Saksbehandlere": "Saksbehandlere tilknyttet denne køen",
-  "OppgavekoVelgerForm.SaksbehandlerToolip": "Saksbehandlere",
+  "OppgavekoVelgerForm.SaksbehandlerToolip": "Andre saksbehandlere på denne køen:",
   "OppgavekoVelgerForm.Sorteringsinfo": "{navn}{br}Gjeldende intervall:{br}{fomDato} - {tomDato}",
   "OppgavekoVelgerForm.SorteringsinfoFom": "{navn}{br}Fra og med: {fomDato}",
   "OppgavekoVelgerForm.SorteringsinfoTom": "{navn}{br}Til og med: {tomDato}",
