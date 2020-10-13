@@ -6,7 +6,7 @@ export enum RestApiGlobalStatePathsKeys {
   KODEVERK = 'KODEVERK',
   NAV_ANSATT = 'NAV_ANSATT',
   K9SAK_URL = 'K9SAK_URL',
-
+  SSE_URL = 'SSE_URL',
 }
 
 export enum K9LosApiKeys {

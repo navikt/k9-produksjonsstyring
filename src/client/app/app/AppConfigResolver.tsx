@@ -11,10 +11,10 @@ interface OwnProps {
 const AppConfigResolver: FunctionComponent<OwnProps> = ({
   children,
 }) => {
-  const { state: stateNavAnsatt } = useRestApiRunner(K9LosApiKeys.NAV_ANSATT);
-  const { state: stateKodeverk } = useRestApiRunner(K9LosApiKeys.KODEVERK);
-  const { state: stateK9sakUrl } = useRestApiRunner(K9LosApiKeys.K9SAK_URL);
-  const { state: stateSsseUrl } = useRestApiRunner(K9LosApiKeys.SSE_URL);
+  const { state: stateNavAnsatt } = useGlobalStateRestApi(RestApiGlobalStatePathsKeys.NAV_ANSATT);
+  const { state: stateKodeverk } = useGlobalStateRestApi(RestApiGlobalStatePathsKeys.KODEVERK);
+  const { state: stateK9sakUrl } = useGlobalStateRestApi(RestApiGlobalStatePathsKeys.K9SAK_URL);
+  const { state: stateSsseUrl } = useGlobalStateRestApi(RestApiGlobalStatePathsKeys.SSE_URL);
 
   if (stateNavAnsatt === RestApiState.LOADING
       || stateKodeverk === RestApiState.LOADING

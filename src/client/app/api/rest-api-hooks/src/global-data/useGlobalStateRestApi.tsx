@@ -12,6 +12,9 @@ interface RestApiData<T> {
   data?: T;
 }
 
+const isDev = window.location.hostname.includes('dev.adeo.no');
+const PROXY_REDIRECT_URL = isDev ? 'https://k9-los-oidc-auth-proxy.dev.adeo.no/login?redirect_uri=https://k9-los-web.dev.adeo.no/'
+  : 'https://k9-los-oidc-auth-proxy.nais.adeo.no/login?redirect_uri=https://k9-los-web.nais.adeo.no/';
 /**
  * Hook som henter data fra backend (ved mount) og deretter lagrer i @see RestApiContext
  */
@@ -44,6 +47,9 @@ function useGlobalStateRestApi<T>(key: RestApiGlobalStatePathsKeys, params: any 
         });
       })
       .catch((error) => {
+        if (error.response && error.response.status === 401) {
+          window.location.assign(PROXY_REDIRECT_URL);
+        }
         setData({
           state: RestApiState.ERROR,
           data: undefined,
