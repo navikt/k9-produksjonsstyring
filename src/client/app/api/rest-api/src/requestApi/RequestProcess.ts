@@ -133,6 +133,7 @@ class RequestProcess {
       return responseData ? { payload: responseData } : { payload: undefined };
     } catch (error) {
       new RequestErrorEventHandler(this.notify, this.isPollingRequest).handleError(error);
+      return { payload: undefined };
     }
   }
 }
