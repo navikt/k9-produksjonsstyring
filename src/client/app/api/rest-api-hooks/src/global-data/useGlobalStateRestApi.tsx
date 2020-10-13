@@ -1,4 +1,6 @@
-import { useState, useEffect, useContext } from 'react';
+import {
+  useState, useEffect, useContext, DependencyList,
+} from 'react';
 import { RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
 
 import { NotificationMapper } from 'api/rest-api';
@@ -12,10 +14,20 @@ interface RestApiData<T> {
   data?: T;
 }
 
+interface Options {
+  updateTriggers?: DependencyList;
+  suspendRequest?: boolean;
+}
+
+const defaultOptions = {
+  updateTriggers: [],
+  suspendRequest: false,
+};
+
 /**
  * Hook som henter data fra backend (ved mount) og deretter lagrer i @see RestApiContext
  */
-function useGlobalStateRestApi<T>(key: RestApiGlobalStatePathsKeys, params: any = {}):RestApiData<T> {
+function useGlobalStateRestApi<T>(key: RestApiGlobalStatePathsKeys, params: any = {}, options: Options = defaultOptions):RestApiData<T> {
   const [data, setData] = useState({
     state: RestApiState.LOADING,
     error: undefined,
@@ -32,25 +44,33 @@ function useGlobalStateRestApi<T>(key: RestApiGlobalStatePathsKeys, params: any 
   const requestApi = useContext(RestApiRequestContext);
 
   useEffect(() => {
-    dispatch({ type: 'remove', key });
+    if (!options.suspendRequest) {
+      dispatch({ type: 'remove', key });
 
-    requestApi.startRequest(key, params, notif)
-      .then((dataRes) => {
-        dispatch({ type: 'success', key, data: dataRes.payload });
-        setData({
-          state: RestApiState.SUCCESS,
-          data: dataRes.payload,
-          error: undefined,
-        });
-      })
-      .catch((error) => {
-        setData({
-          state: RestApiState.ERROR,
-          data: undefined,
-          error,
-        });
+      setData({
+        state: RestApiState.LOADING,
+        error: undefined,
+        data: undefined,
       });
-  }, []);
+
+      requestApi.startRequest(key, params)
+        .then((dataRes) => {
+          dispatch({ type: 'success', key, data: dataRes.payload });
+          setData({
+            state: RestApiState.SUCCESS,
+            data: dataRes.payload,
+            error: undefined,
+          });
+        })
+        .catch((error) => {
+          setData({
+            state: RestApiState.ERROR,
+            data: undefined,
+            error,
+          });
+        });
+    }
+  }, options.updateTriggers);
 
   return data;
 }

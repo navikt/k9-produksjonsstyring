@@ -18,9 +18,12 @@ const AppConfigResolver: FunctionComponent<OwnProps> = ({
 }) => {
   const { state: stateNavAnsatt } = useGlobalStateRestApi(RestApiGlobalStatePathsKeys.NAV_ANSATT);
 
-  const { state: stateK9sakUrl } = useGlobalStateRestApi(RestApiGlobalStatePathsKeys.K9SAK_URL, { suspendRequest: stateNavAnsatt !== RestApiState.SUCCESS });
-  const { state: stateKodeverk } = useGlobalStateRestApi(RestApiGlobalStatePathsKeys.KODEVERK, { suspendRequest: stateNavAnsatt !== RestApiState.SUCCESS });
-  const { state: stateSseUrl } = useGlobalStateRestApi(RestApiGlobalStatePathsKeys.SSE_URL, { suspendRequest: stateNavAnsatt !== RestApiState.SUCCESS });
+  const { state: stateK9sakUrl } = useGlobalStateRestApi(RestApiGlobalStatePathsKeys.K9SAK_URL, undefined,
+    { suspendRequest: stateNavAnsatt !== RestApiState.SUCCESS, updateTriggers: [stateNavAnsatt] });
+  const { state: stateKodeverk } = useGlobalStateRestApi(RestApiGlobalStatePathsKeys.KODEVERK, undefined,
+    { suspendRequest: stateNavAnsatt !== RestApiState.SUCCESS, updateTriggers: [stateNavAnsatt] });
+  const { state: stateSseUrl } = useGlobalStateRestApi(RestApiGlobalStatePathsKeys.SSE_URL, undefined,
+    { suspendRequest: stateNavAnsatt !== RestApiState.SUCCESS, updateTriggers: [stateNavAnsatt] });
 
   if (stateNavAnsatt === RestApiState.ERROR) {
     window.location.assign(PROXY_REDIRECT_URL);
