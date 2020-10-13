@@ -6,12 +6,13 @@ export enum RestApiGlobalStatePathsKeys {
   KODEVERK = 'KODEVERK',
   NAV_ANSATT = 'NAV_ANSATT',
   K9SAK_URL = 'K9SAK_URL',
-  SSE_URL = 'SSE_URL',
+
 }
 
 export enum K9LosApiKeys {
   KODEVERK = 'KODEVERK',
   NAV_ANSATT = 'NAV_ANSATT',
+  SSE_URL = 'SSE_URL',
   SEARCH_FAGSAK = 'SEARCH_FAGSAK',
   BEHANDLEDE_OPPGAVER = 'BEHANDLEDE_OPPGAVER',
   K9SAK_URL = 'K9SAK_URL',
@@ -145,11 +146,11 @@ export const endpoints = new RestApiConfigBuilder(CONTEXT_PATH)
   .withGet('/avdelingsleder/reservasjoner', K9LosApiKeys.HENT_ALLE_RESERVASJONER)
 
   /* /api/konfig */
-  .withGet('/konfig/k9-sak-url', RestApiGlobalStatePathsKeys.K9SAK_URL)
-  .withGet('/konfig/sse-url', RestApiGlobalStatePathsKeys.SSE_URL)
+  .withGet('/konfig/k9-sak-url', K9LosApiKeys.K9SAK_URL)
+  .withGet('/konfig/sse-url', K9LosApiKeys.SSE_URL)
 
   /* /api/kodeverk */
-  .withGet('/kodeverk', RestApiGlobalStatePathsKeys.KODEVERK)
+  .withGet('/kodeverk', K9LosApiKeys.KODEVERK)
 
   .build();
 
