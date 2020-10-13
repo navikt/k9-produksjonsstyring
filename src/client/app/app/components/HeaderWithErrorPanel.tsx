@@ -1,5 +1,5 @@
 import React, {
-  useState, useEffect, FunctionComponent, useRef, useCallback, useMemo,
+  FunctionComponent, useCallback, useEffect, useMemo, useRef, useState,
 } from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import Popover from '@navikt/nap-popover';
@@ -12,10 +12,10 @@ import Knapp from 'nav-frontend-knapper';
 
 import useRestApiError from 'api/rest-api/error/useRestApiError';
 import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
-import NavAnsatt from 'app/navAnsattTsType';
-import useGlobalStateRestApiData from 'api/rest-api-hooks/src/global-data/useGlobalStateRestApiData';
 import ErrorFormatter from 'app/feilhandtering/ErrorFormatter';
 import useRestApi from 'api/rest-api-hooks/src/local-data/useRestApi';
+import { useGlobalStateRestApiData, useRestApiRunner } from 'api/rest-api-hooks';
+import NavAnsatt from 'app/navAnsattTsType';
 import styles from './headerWithErrorPanel.less';
 import ErrorMessagePanel from './ErrorMessagePanel';
 import { Driftsmelding } from '../../admin/driftsmeldinger/driftsmeldingTsType';

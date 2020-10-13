@@ -1,6 +1,6 @@
 import React, { FunctionComponent, ReactElement } from 'react';
 
-import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
+import { RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
 import LoadingPanel from 'sharedComponents/LoadingPanel';
 import { RestApiState, useGlobalStateRestApi, useRestApiRunner } from 'api/rest-api-hooks';
 

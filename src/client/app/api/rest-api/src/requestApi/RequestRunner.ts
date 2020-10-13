@@ -62,7 +62,7 @@ class RequestRunner {
   }
 
   public startProcess = (params: any, notificationMapper?: NotificationMapper) => {
-    this.cancelRequest();
+    // this.cancelRequest();
 
     this.process = new RequestProcess(this.httpClientApi, this.getRestMethod(), this.getPath(), this.getConfig().config);
     if (notificationMapper) {

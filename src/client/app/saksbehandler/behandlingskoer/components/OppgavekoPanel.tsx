@@ -37,6 +37,7 @@ const OppgavekoPanel: FunctionComponent<OwnProps> = ({
   oppgaverTilBehandling,
 }) => {
   const { startRequest: fetchAntallOppgaver, data: antallOppgaver } = useRestApiRunner<number>(K9LosApiKeys.BEHANDLINGSKO_OPPGAVE_ANTALL);
+
   return (
     <>
       <Undertittel><FormattedMessage id="OppgavekoPanel.StartBehandling" /></Undertittel>
