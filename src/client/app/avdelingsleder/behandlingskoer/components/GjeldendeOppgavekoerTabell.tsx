@@ -184,9 +184,9 @@ export const GjeldendeOppgavekoerTabell: FunctionComponent<OwnProps> = ({
                 />
               )}
 
-              { visSlettModal && (
+              {visSlettModal && (
               <SletteOppgavekoModal
-                valgtOppgaveko={oppgaveko}
+                valgtOppgaveko={valgtKo}
                 cancel={closeSletteModal}
                 submit={fjernOppgavekoFn}
               />
