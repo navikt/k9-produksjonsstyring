@@ -53,7 +53,7 @@ const SaksbehandlereForOppgavekoForm: FunctionComponent<OwnProps> = ({ valgtOppg
                     <CheckboxField
                       key={s.epost}
                       name={s.epost.replace(/\./g, '')}
-                      label={s.navn ? s.navn : s.epost}
+                      label={s.navn ? s.navn : s.epost.split('@')[0]}
                       onChange={(isChecked) => knyttSaksbehandlerTilOppgaveko({ id: valgtOppgaveko.id, epost: s.epost, checked: isChecked }).then(() => {
                         hentOppgaveko(valgtOppgaveko.id);
                       })}
