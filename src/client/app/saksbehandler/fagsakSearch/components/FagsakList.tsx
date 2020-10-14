@@ -25,10 +25,6 @@ interface OwnProps {
   selectOppgaveCallback: (oppgave: Oppgave, skalReservere: boolean) => void;
 }
 
-interface OwnState {
-  visReserverOppgaveModal: boolean;
-}
-
 /**
  * FagsakList
  *
