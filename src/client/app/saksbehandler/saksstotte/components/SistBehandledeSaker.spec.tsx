@@ -3,7 +3,9 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import Lenke from 'nav-frontend-lenker';
 
-import { SistBehandledeSaker } from './SistBehandledeSaker';
+import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
+import RestApiTestMocker from 'testHelpers/RestApiTestMocker';
+import SistBehandledeSaker from './SistBehandledeSaker';
 
 describe('<SistBehandledeSaker>', () => {
   it('skal vise sist behandlede saker som lenker i en liste', () => {
@@ -59,26 +61,31 @@ describe('<SistBehandledeSaker>', () => {
       erTilSaksbehandling: true,
     }];
 
-    const wrapper = shallow(<SistBehandledeSaker
-      k9sakUrl="www.k9sak.no"
-      sistBehandledeSaker={oppgaver}
-    />);
+    new RestApiTestMocker()
+      .withGlobalData(RestApiGlobalStatePathsKeys.K9SAK_URL, { verdi: 'url' })
+      .withRestCall(K9LosApiKeys.BEHANDLEDE_OPPGAVER, oppgaver)
+      .withDummyRunner()
+      .runTest(() => {
+        const wrapper = shallow(<SistBehandledeSaker />);
 
-    const links = wrapper.find(Lenke);
-    expect(links).to.have.length(2);
-    expect(links.first().prop('href')).to.eql('www.k9sak.no/fagsak/1/behandling/1/?punkt=default&fakta=default');
-    expect(links.first().childAt(0).text()).to.eql('Espen Utvikler 123456789');
-    expect(links.last().prop('href')).to.eql('www.k9sak.no/fagsak/2/behandling/2/?punkt=default&fakta=default');
-    expect(links.last().childAt(0).text()).to.eql('Espen Solstråle 657643535');
+        const links = wrapper.find(Lenke);
+        expect(links).to.have.length(2);
+        expect(links.first().childAt(0).text()).to.eql('Espen Utvikler 123456789');
+        expect(links.last().childAt(0).text()).to.eql('Espen Solstråle 657643535');
+      });
   });
 
   it('skal ikke vise noen lenker når ingen behandlede saker blir funnet', () => {
     const oppgaver = [];
-    const wrapper = shallow(<SistBehandledeSaker
-      k9sakUrl="www.k9sak.no"
-      sistBehandledeSaker={oppgaver}
-    />);
 
-    expect(wrapper.find(Lenke)).to.have.length(0);
+    new RestApiTestMocker()
+      .withGlobalData(RestApiGlobalStatePathsKeys.K9SAK_URL, { verdi: 'url' })
+      .withRestCall(K9LosApiKeys.BEHANDLEDE_OPPGAVER, oppgaver)
+      .withDummyRunner()
+      .runTest(() => {
+        const wrapper = shallow(<SistBehandledeSaker />);
+
+        expect(wrapper.find(Lenke)).to.have.length(0);
+      });
   });
 });

@@ -1,69 +1,46 @@
-import React, { FunctionComponent } from 'react';
-import { WrappedComponentProps, injectIntl } from 'react-intl';
-import { Kodeverk } from 'kodeverk/kodeverkTsType';
-import KoSorteringType from 'kodeverk/KoSorteringTsType';
-import GjeldendeOppgavekoerTabell from './GjeldendeOppgavekoerTabell';
+import React, { FunctionComponent, useCallback, useEffect } from 'react';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
+import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
+import { K9LosApiKeys } from 'api/k9LosApi';
+import RestApiState from 'api/rest-api-hooks/src/RestApiState';
 import { Oppgaveko } from '../oppgavekoTsType';
+import GjeldendeOppgavekoerTabell from './GjeldendeOppgavekoerTabell';
 
 interface OwnProps {
-  oppgavekoer: Oppgaveko[];
   setValgtOppgavekoId: (id: string) => void;
-  lagNyOppgaveko: () => void;
-  fjernOppgaveko: (id: string) => void;
-  lagreOppgavekoNavn: (oppgaveko: {id: string; navn: string}) => void;
-  lagreOppgavekoBehandlingstype: (id: string, behandlingType: Kodeverk, isChecked: boolean) => void;
-  lagreOppgavekoFagsakYtelseType: (id: string, fagsakYtelseType: string) => void;
-  lagreOppgavekoAndreKriterier: (id: string, andreKriterierType: Kodeverk, isChecked: boolean, inkluder: boolean) => void;
-  lagreOppgavekoSkjermet: (id: string, isChecked: boolean) => void;
-  knyttSaksbehandlerTilOppgaveko: (id: string, epost: string, isChecked: boolean) => void;
-  lagreOppgavekoSorteringTidsintervallDato: (oppgavekoId: string, fomDato: string, tomDato: string) => void;
-  lagreOppgavekoSortering: (oppgavekoId: string, oppgavekoSorteringValg: KoSorteringType) => void;
   valgtOppgavekoId?: string;
-  hentOppgavekoer: () => Oppgaveko[];
-  hentAntallOppgaverForOppgaveko: (id: string) => Promise<string>;
-  hentKo: (id: string) => Promise<string>;
-  requestFinished: boolean;
+  resetValgtOppgavekoId: () => void;
 }
 
 /**
  * EndreOppgavekoerPanel
  */
 const EndreOppgavekoerPanel: FunctionComponent<OwnProps & WrappedComponentProps> = ({
-  oppgavekoer,
   setValgtOppgavekoId,
   valgtOppgavekoId,
-  lagNyOppgaveko,
-  fjernOppgaveko,
-  lagreOppgavekoNavn,
-  lagreOppgavekoBehandlingstype,
-  lagreOppgavekoFagsakYtelseType,
-  lagreOppgavekoAndreKriterier,
-  knyttSaksbehandlerTilOppgaveko,
-  hentAntallOppgaverForOppgaveko,
-  lagreOppgavekoSkjermet,
-  lagreOppgavekoSortering,
-  lagreOppgavekoSorteringTidsintervallDato,
-  hentKo, requestFinished,
+  resetValgtOppgavekoId,
 }) => {
-  const valgtOppgaveko = oppgavekoer.find((s) => s.id === valgtOppgavekoId);
+  const { data: oppgaverAntallTotalt, startRequest: hentOppgaverAntallTotalt } = useRestApiRunner<number>(K9LosApiKeys.OPPGAVE_ANTALL_TOTALT);
+  const { data: oppgavekoer = [], startRequest: hentAlleOppgavekoer, state } = useRestApiRunner<Oppgaveko[]>(K9LosApiKeys.OPPGAVEKOER);
+  const requestFinished = state === RestApiState.SUCCESS;
+
+  // const nyId = nyOppgavekoObject ? nyOppgavekoObject.id : undefined;
+  // const valgtId = valgtOppgavekoId !== undefined ? valgtOppgavekoId : nyId;
+
+  useEffect(() => {
+    hentOppgaverAntallTotalt();
+    hentAlleOppgavekoer();
+  }, [hentAlleOppgavekoer]);
+
   return (
     <GjeldendeOppgavekoerTabell
       oppgavekoer={oppgavekoer}
-      hentKo={hentKo}
+      resetValgtOppgavekoId={resetValgtOppgavekoId}
       requestFinished={requestFinished}
       setValgtOppgavekoId={setValgtOppgavekoId}
       valgtOppgavekoId={valgtOppgavekoId}
-      lagNyOppgaveko={lagNyOppgaveko}
-      fjernOppgaveko={fjernOppgaveko}
-      lagreOppgavekoNavn={lagreOppgavekoNavn}
-      lagreOppgavekoSortering={lagreOppgavekoSortering}
-      lagreOppgavekoSorteringTidsintervallDato={lagreOppgavekoSorteringTidsintervallDato}
-      lagreOppgavekoBehandlingstype={lagreOppgavekoBehandlingstype}
-      lagreOppgavekoFagsakYtelseType={lagreOppgavekoFagsakYtelseType}
-      lagreOppgavekoAndreKriterier={lagreOppgavekoAndreKriterier}
-      knyttSaksbehandlerTilOppgaveko={knyttSaksbehandlerTilOppgaveko}
-      hentAntallOppgaverForOppgaveko={hentAntallOppgaverForOppgaveko}
-      lagreOppgavekoSkjermet={lagreOppgavekoSkjermet}
+      oppgaverTotalt={oppgaverAntallTotalt}
+      hentAlleOppgavekoer={hentAlleOppgavekoer}
     />
   );
 };

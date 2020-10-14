@@ -6,55 +6,58 @@ import { shallow } from 'enzyme';
 import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
 import { RadioOption, RadioGroupField } from 'form/FinalFields';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
+import RestApiTestMocker from 'testHelpers/RestApiTestMocker';
+import { K9LosApiKeys } from 'api/k9LosApi';
 import FagsakYtelseTypeVelger from './FagsakYtelseTypeVelger';
 
 describe('<FagsakYtelseTypeVelger>', () => {
+  const fagsakYtelseTyper = [{
+    kode: fagsakYtelseType.OMSORGSPENGER,
+    navn: 'Engangsstønad',
+  }, {
+    kode: fagsakYtelseType.PLEIEPENGER_SYKT_BARN,
+    navn: 'Foreldrepenger',
+  }];
+
   it('skal vise checkboxer for ytelsetyper', () => {
-    const alleKodeverk = {
-      [kodeverkTyper.FAGSAK_YTELSE_TYPE]: [{
-        kode: fagsakYtelseType.OMSORGSPENGER,
-        navn: 'Omsorgspenger',
-      }, {
-        kode: fagsakYtelseType.PLEIEPENGER_SYKT_BARN,
-        navn: 'Pleiepenger sykt barn',
-      }],
-    };
+    new RestApiTestMocker()
+      .withKodeverk(kodeverkTyper.FAGSAK_YTELSE_TYPE, fagsakYtelseTyper)
+      .withDummyRunner()
+      .runTest(() => {
+        const wrapper = shallow(<FagsakYtelseTypeVelger
+          valgtOppgavekoId="1"
+          hentOppgaveko={sinon.spy()}
+        />);
 
-    const wrapper = shallow(<FagsakYtelseTypeVelger
-      alleKodeverk={alleKodeverk}
-      valgtOppgavekoId="1"
-      lagreOppgavekoFagsakYtelseType={sinon.spy()}
-    />);
-
-    const radios = wrapper.find(RadioOption);
-    expect(radios).to.have.length(3);
-    expect(radios.first().prop('value')).to.eql(fagsakYtelseType.OMSORGSPENGER);
-    expect(radios.at(1).prop('value')).to.eql(fagsakYtelseType.PLEIEPENGER_SYKT_BARN);
-    expect(radios.last().prop('value')).to.eql('');
+        const radios = wrapper.find(RadioOption);
+        expect(radios).to.have.length(3);
+        expect(radios.first().prop('value')).to.eql(fagsakYtelseType.OMSORGSPENGER);
+        expect(radios.at(1).prop('value')).to.eql(fagsakYtelseType.PLEIEPENGER_SYKT_BARN);
+        expect(radios.last().prop('value')).to.eql('');
+      });
   });
 
   it('skal lagre ytelsetype ved klikk på checkbox', () => {
-    const alleKodeverk = {
-      [kodeverkTyper.FAGSAK_YTELSE_TYPE]: [{
-        kode: fagsakYtelseType.OMSORGSPENGER,
-        navn: 'Engangsstønad',
-      }],
-    };
     const lagreYtelseTypeFn = sinon.spy();
 
-    const wrapper = shallow(<FagsakYtelseTypeVelger
-      alleKodeverk={alleKodeverk}
-      valgtOppgavekoId="1"
-      lagreOppgavekoFagsakYtelseType={lagreYtelseTypeFn}
-    />);
+    new RestApiTestMocker()
+      .withKodeverk(kodeverkTyper.FAGSAK_YTELSE_TYPE, fagsakYtelseTyper)
+      .withRestCallRunner(K9LosApiKeys.LAGRE_OPPGAVEKO_FAGSAK_YTELSE_TYPE,
+        { startRequest: (params) => { lagreYtelseTypeFn(params); return Promise.resolve(); } })
+      .runTest(() => {
+        const wrapper = shallow(<FagsakYtelseTypeVelger
+          valgtOppgavekoId="1"
+          hentOppgaveko={sinon.spy()}
+        />);
 
-    const radioGroup = wrapper.find(RadioGroupField);
-    radioGroup.prop('onChange')(fagsakYtelseType.OMSORGSPENGER);
+        const radioGroup = wrapper.find(RadioGroupField);
+        radioGroup.prop('onChange')(fagsakYtelseType.OMSORGSPENGER);
 
-    expect(lagreYtelseTypeFn.calledOnce).to.be.true;
-    const { args } = lagreYtelseTypeFn.getCalls()[0];
-    expect(args).to.have.length(2);
-    expect(args[0]).to.eql('1');
-    expect(args[1]).to.eql(fagsakYtelseType.OMSORGSPENGER);
+        expect(lagreYtelseTypeFn.calledOnce).to.be.true;
+        const { args } = lagreYtelseTypeFn.getCalls()[0];
+        expect(args).to.have.length(1);
+        expect(args[0].id).to.eql('1');
+        expect(args[0].fagsakYtelseType).to.eql(fagsakYtelseType.OMSORGSPENGER);
+      });
   });
 });

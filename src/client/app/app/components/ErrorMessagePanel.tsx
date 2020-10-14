@@ -9,7 +9,9 @@ import EventType from 'api/rest-api/src/requestApi/eventType';
 
 import Image from 'sharedComponents/Image';
 import moment from 'moment';
-import { DD_MM_HHMM, DDMMYYYY_DATE_FORMAT } from 'utils/formats';
+import { DD_MM_HHMM } from 'utils/formats';
+import { K9LosApiKeys } from 'api/k9LosApi';
+import useRestApi from 'api/rest-api-hooks/src/local-data/useRestApi';
 import styles from './errorMessagePanel.less';
 import { Driftsmelding } from '../../admin/driftsmeldinger/driftsmeldingTsType';
 
@@ -26,7 +28,6 @@ export const getErrorMessageList = (intl: IntlShape, queryStrings: { errorcode?:
 };
 
 interface OwnProps {
-  removeErrorMessage: () => void;
   errorMessages?: {
     type: EventType;
     code?: string;
@@ -52,11 +53,12 @@ const ErrorMessagePanel: FunctionComponent<OwnProps & WrappedComponentProps> = (
   intl,
   errorMessages,
   queryStrings,
-  removeErrorMessage,
   driftsmeldinger,
 }) => {
   const feilmeldinger = useMemo(() => getErrorMessageList(intl, queryStrings, errorMessages), [queryStrings, errorMessages]);
+
   const aktiveDriftsmeldinger = driftsmeldinger.filter((message) => message.aktiv);
+
   if (feilmeldinger.length === 0 && aktiveDriftsmeldinger.length === 0) {
     return null;
   }

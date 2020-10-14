@@ -1,6 +1,4 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import React, { FunctionComponent } from 'react';
 import { FormattedMessage } from 'react-intl';
 import classnames from 'classnames/bind';
 import { NavLink } from 'react-router-dom';
@@ -9,26 +7,25 @@ import Tabs from 'nav-frontend-tabs';
 import { Undertittel } from 'nav-frontend-typografi';
 
 import LoadingPanel from 'sharedComponents/LoadingPanel';
-import { getAlleDriftsmeldinger, getNavAnsattKanDrifte } from 'app/duck';
 import { parseQueryString } from 'utils/urlUtils';
-import { getPanelLocationCreatorDriftsmeldinger } from 'app/paths';
-import trackRouteParam from 'app/data/trackRouteParam';
-import { Location } from 'app/locationTsType';
-import { getSelectedPanel, setSelectedPanel } from './duck';
+import { getPanelLocationCreator } from 'app/paths';
+import useGlobalStateRestApiData from 'api/rest-api-hooks/src/global-data/useGlobalStateRestApiData';
+import NavAnsatt from 'app/navAnsattTsType';
+import { RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
+import useTrackRouteParam from 'app/data/trackRouteParam';
 import IkkeTilgangTilAvdelingslederPanel from './components/IkkeTilgangTilAvdelingslederPanel';
 import AdminPanels from './AdminPanels';
-import EndreDriftsmeldingerIndex from './driftsmeldinger/EndreDriftsmeldingerIndex';
 
 import styles from './adminIndex.less';
 import AdminDashboard from './components/AdminDashboard';
-import { Driftsmelding } from './driftsmeldinger/driftsmeldingTsType';
+import EndreDriftsmeldingerIndex from './driftsmeldinger/EndreDriftsmeldingerIndex';
 
 const classNames = classnames.bind(styles);
 
-const renderPanel = (avdelingslederPanel, driftsmeldinger) => {
+const renderPanel = (avdelingslederPanel) => {
   switch (avdelingslederPanel) {
     case AdminPanels.DRIFTSMELDINGER:
-      return <EndreDriftsmeldingerIndex alleDriftsmeldinger={driftsmeldinger} />;
+      return <EndreDriftsmeldingerIndex />;
     default:
       return null;
   }
@@ -37,13 +34,6 @@ const renderPanel = (avdelingslederPanel, driftsmeldinger) => {
 const messageId = {
   [AdminPanels.DRIFTSMELDINGER]: 'AdminIndex.Driftsmeldinger',
 };
-
-interface TsProps {
-  activePanel: string;
-  getDriftsmeldingerPanelLocation: (panel: string) => Location;
-  kanDrifte?: boolean;
-  driftsmeldinger: Driftsmelding[];
-}
 
 const getTab = (avdelingslederPanel, activeAvdelingslederPanel, getDriftsmeldingerPanelLocation) => ({
   label: (<Undertittel><FormattedMessage id={messageId[avdelingslederPanel]} /></Undertittel>),
@@ -59,15 +49,24 @@ const getTab = (avdelingslederPanel, activeAvdelingslederPanel, getDriftsmelding
   ),
 });
 
+const hentPanelFromUrlOrDefault = (location) => {
+  const panelFromUrl = parseQueryString(location.search);
+  return panelFromUrl.avdelingsleder ? panelFromUrl.avdelingsleder : AdminPanels.DRIFTSMELDINGER;
+};
+
 /**
  * AdminIndex
  */
-export const AdminIndex = ({
-  activePanel,
-  getDriftsmeldingerPanelLocation,
-  kanDrifte,
-  driftsmeldinger,
-}: TsProps) => {
+export const AdminIndex: FunctionComponent = () => {
+  const { selected: activePanelTemp, location } = useTrackRouteParam({
+    paramName: 'fane',
+    isQueryParam: true,
+  });
+  const getDriftsmeldingerPanelLocation = getPanelLocationCreator(location);
+  const activePanel = activePanelTemp || hentPanelFromUrlOrDefault(location);
+
+  const { kanDrifte } = useGlobalStateRestApiData<NavAnsatt>(RestApiGlobalStatePathsKeys.NAV_ANSATT);
+
   if (!kanDrifte) {
     return <IkkeTilgangTilAvdelingslederPanel />;
   } if (activePanel) {
@@ -79,7 +78,7 @@ export const AdminIndex = ({
           ]}
           />
           <Panel className={styles.panelPadding}>
-            {renderPanel(activePanel, driftsmeldinger)}
+            {renderPanel(activePanel)}
           </Panel>
         </div>
       </AdminDashboard>
@@ -88,39 +87,4 @@ export const AdminIndex = ({
   return <LoadingPanel />;
 };
 
-AdminIndex.propTypes = {
-  activePanel: PropTypes.string.isRequired,
-  getDriftsmeldingerPanelLocation: PropTypes.func.isRequired,
-  kanDrifte: PropTypes.bool,
-};
-
-AdminIndex.defaultProps = {
-  kanDrifte: false,
-};
-
-const getPanelFromUrlOrDefault = (location) => {
-  const panelFromUrl = parseQueryString(location.search);
-  return panelFromUrl.avdelingsleder ? panelFromUrl.avdelingsleder : AdminPanels.DRIFTSMELDINGER;
-};
-
-const mapStateToProps = (state) => ({
-  activePanel: getSelectedPanel(state),
-  kanDrifte: getNavAnsattKanDrifte(state),
-  driftsmeldinger: getAlleDriftsmeldinger(state),
-});
-
-const mergeProps = (stateProps, dispatchProps, ownProps) => ({
-  ...ownProps,
-  ...dispatchProps,
-  ...stateProps,
-  getDriftsmeldingerPanelLocation: getPanelLocationCreatorDriftsmeldinger(ownProps.location), // gets prop 'location' from trackRouteParam
-  activePanel: stateProps.activeAvdelingslederPanel ? stateProps.activeAvdelingslederPanel : getPanelFromUrlOrDefault(ownProps.location),
-});
-
-export default trackRouteParam({
-  paramName: 'fane',
-  paramPropType: PropTypes.string,
-  storeParam: setSelectedPanel,
-  getParamFromStore: getSelectedPanel,
-  isQueryParam: true,
-})(connect(mapStateToProps, null, mergeProps)(AdminIndex));
+export default AdminIndex;

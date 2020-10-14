@@ -12,7 +12,9 @@ import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
 import andreKriterierType from 'kodeverk/andreKriterierType';
 import { SelectField } from 'form/FinalFields';
 import { shallowWithIntl, intlMock } from 'testHelpers/intl-enzyme-test-helper';
-import { OppgavekoVelgerForm } from './OppgavekoVelgerForm';
+import RestApiTestMocker from 'testHelpers/RestApiTestMocker';
+import { K9LosApiKeys } from 'api/k9LosApi';
+import OppgavekoVelgerForm from './OppgavekoVelgerForm';
 
 describe('<OppgavekoVelgerForm>', () => {
   const intl: Partial<IntlShape> = {
@@ -26,6 +28,7 @@ describe('<OppgavekoVelgerForm>', () => {
       behandlingTyper: [],
       fagsakYtelseTyper: [],
       andreKriterier: [],
+      skjermet: false,
       sortering: {
         sorteringType: {
           kode: 'test',
@@ -42,6 +45,7 @@ describe('<OppgavekoVelgerForm>', () => {
       behandlingTyper: [],
       fagsakYtelseTyper: [],
       andreKriterier: [],
+      skjermet: false,
       sortering: {
         sorteringType: {
           kode: 'test',
@@ -53,23 +57,28 @@ describe('<OppgavekoVelgerForm>', () => {
         tomDato: '2019-01-10',
       },
     }];
-    const wrapper = shallowWithIntl(<OppgavekoVelgerForm
-      intl={intl as IntlShape}
-      oppgavekoer={oppgavekoer}
-      fetchOppgavekoOppgaver={sinon.spy()}
-      fetchOppgavekoensSaksbehandlere={sinon.spy()}
-      fetchAntallOppgaverForBehandlingsko={sinon.spy()}
-    />).find(Form).renderProp('render')(formProps);
+    new RestApiTestMocker()
+      .withDummyRunner()
+      .runTest(() => {
+        const wrapper = shallowWithIntl(<OppgavekoVelgerForm.WrappedComponent
+          intl={intl as IntlShape}
+          oppgavekoer={oppgavekoer}
+          setValgtOppgavekoId={sinon.spy()}
+          getValueFromLocalStorage={sinon.spy()}
+          setValueInLocalStorage={sinon.spy()}
+          removeValueFromLocalStorage={sinon.spy()}
+        />).find(Form).renderProp('render')(formProps);
 
-    const select = wrapper.find(SelectField);
-    expect(select).to.have.length(1);
-    const options = select.prop('selectValues') as { key: number; props: { value: string; children: string }}[];
-    expect(options[0].key).to.eql('1');
-    expect(options[0].props.value).to.eql('1');
-    expect(options[0].props.children).to.eql('Testliste 1');
-    expect(options[1].key).to.eql('2');
-    expect(options[1].props.value).to.eql('2');
-    expect(options[1].props.children).to.eql('Testliste 2');
+        const select = wrapper.find(SelectField);
+        expect(select).to.have.length(1);
+        const options = select.prop('selectValues') as { key: number; props: { value: string; children: string }}[];
+        expect(options[0].key).to.eql('1');
+        expect(options[0].props.value).to.eql('1');
+        expect(options[0].props.children).to.eql('Testliste 1');
+        expect(options[1].key).to.eql('2');
+        expect(options[1].props.value).to.eql('2');
+        expect(options[1].props.children).to.eql('Testliste 2');
+      });
   });
 
   it('skal ikke vise informasjon om oppgavekø når ingen oppgavekø er valgt', () => {
@@ -79,6 +88,7 @@ describe('<OppgavekoVelgerForm>', () => {
       behandlingTyper: [],
       fagsakYtelseTyper: [],
       andreKriterier: [],
+      skjermet: false,
       sortering: {
         sorteringType: {
           kode: 'test',
@@ -92,15 +102,20 @@ describe('<OppgavekoVelgerForm>', () => {
     }];
 
     const formProps = { values: { id: undefined } };
-    const wrapper = shallowWithIntl(<OppgavekoVelgerForm
-      intl={intl as IntlShape}
-      oppgavekoer={oppgavekoer}
-      fetchOppgavekoOppgaver={sinon.spy()}
-      fetchOppgavekoensSaksbehandlere={sinon.spy()}
-      fetchAntallOppgaverForBehandlingsko={sinon.spy()}
-    />).find(Form).renderProp('render')(formProps);
+    new RestApiTestMocker()
+      .withDummyRunner()
+      .runTest(() => {
+        const wrapper = shallowWithIntl(<OppgavekoVelgerForm.WrappedComponent
+          intl={intl as IntlShape}
+          oppgavekoer={oppgavekoer}
+          setValgtOppgavekoId={sinon.spy()}
+          getValueFromLocalStorage={sinon.spy()}
+          setValueInLocalStorage={sinon.spy()}
+          removeValueFromLocalStorage={sinon.spy()}
+        />).find(Form).renderProp('render')(formProps);
 
-    expect(wrapper.find(LabelWithHeader)).to.have.length(0);
+        expect(wrapper.find(LabelWithHeader)).to.have.length(0);
+      });
   });
 
   it('skal vise at alle behandlingstyper og fagsakYtelseTyper er valgt når ingen verdier er oppgitt', () => {
@@ -110,6 +125,7 @@ describe('<OppgavekoVelgerForm>', () => {
       behandlingTyper: [],
       fagsakYtelseTyper: [],
       andreKriterier: [],
+      skjermet: false,
       sortering: {
         sorteringType: {
           kode: 'test',
@@ -123,19 +139,24 @@ describe('<OppgavekoVelgerForm>', () => {
     }];
 
     const formProps = { values: { id: '1' } };
-    const wrapper = shallowWithIntl(<OppgavekoVelgerForm
-      intl={intl as IntlShape}
-      oppgavekoer={oppgavekoer}
-      fetchOppgavekoOppgaver={sinon.spy()}
-      fetchOppgavekoensSaksbehandlere={sinon.spy()}
-      fetchAntallOppgaverForBehandlingsko={sinon.spy()}
-    />).find(Form).renderProp('render')(formProps);
+    new RestApiTestMocker()
+      .withDummyRunner()
+      .runTest(() => {
+        const wrapper = shallowWithIntl(<OppgavekoVelgerForm.WrappedComponent
+          intl={intl as IntlShape}
+          oppgavekoer={oppgavekoer}
+          setValgtOppgavekoId={sinon.spy()}
+          getValueFromLocalStorage={sinon.spy()}
+          setValueInLocalStorage={sinon.spy()}
+          removeValueFromLocalStorage={sinon.spy()}
+        />).find(Form).renderProp('render')(formProps);
 
-    const labels = wrapper.find(LabelWithHeader);
-    expect(labels).to.have.length(4);
-    expect(labels.first().prop('texts')).to.eql(['Alle']);
-    expect(labels.at(0).prop('texts')).to.eql(['Alle']);
-    expect(labels.at(1).prop('texts')).to.eql(['Alle']);
+        const labels = wrapper.find(LabelWithHeader);
+        expect(labels).to.have.length(4);
+        expect(labels.first().prop('texts')).to.eql(['Alle']);
+        expect(labels.at(0).prop('texts')).to.eql(['Alle']);
+        expect(labels.at(1).prop('texts')).to.eql(['Alle']);
+      });
   });
 
   it('skal vise at alle behandlingstyper er valgt når alle verdiene er oppgitt', () => {
@@ -148,6 +169,7 @@ describe('<OppgavekoVelgerForm>', () => {
       }],
       fagsakYtelseTyper: [],
       andreKriterier: [],
+      skjermet: false,
       sortering: {
         sorteringType: {
           kode: 'test',
@@ -161,19 +183,24 @@ describe('<OppgavekoVelgerForm>', () => {
     }];
 
     const formProps = { values: { id: '1' } };
-    // totaltBehandlingTypeAntall er satt til 1 som er lik antall behandlingstypar satt på oppgavekøen
-    const wrapper = shallowWithIntl(<OppgavekoVelgerForm
-      intl={intl as IntlShape}
-      oppgavekoer={oppgavekoer}
-      fetchOppgavekoOppgaver={sinon.spy()}
-      fetchOppgavekoensSaksbehandlere={sinon.spy()}
-      fetchAntallOppgaverForBehandlingsko={sinon.spy()}
-    />).find(Form).renderProp('render')(formProps);
+    new RestApiTestMocker()
+      .withDummyRunner()
+      .runTest(() => {
+        // totaltBehandlingTypeAntall er satt til 1 som er lik antall behandlingstypar satt på sakslisten
+        const wrapper = shallowWithIntl(<OppgavekoVelgerForm.WrappedComponent
+          intl={intl as IntlShape}
+          oppgavekoer={oppgavekoer}
+          setValgtOppgavekoId={sinon.spy()}
+          getValueFromLocalStorage={sinon.spy()}
+          setValueInLocalStorage={sinon.spy()}
+          removeValueFromLocalStorage={sinon.spy()}
+        />).find(Form).renderProp('render')(formProps);
 
-    const labels = wrapper.find(LabelWithHeader);
-    expect(labels).to.have.length(4);
-    expect(labels.first().prop('texts')).to.eql(['Alle']);
-    expect(labels.at(1).prop('texts')).to.eql(['Førstegangssøknad']);
+        const labels = wrapper.find(LabelWithHeader);
+        expect(labels).to.have.length(4);
+        expect(labels.first().prop('texts')).to.eql(['Alle']);
+        expect(labels.at(1).prop('texts')).to.eql(['Førstegangssøknad']);
+      });
   });
 
   it('skal vise valgte behandlingstyper og fagsakYtelseTyper', () => {
@@ -189,9 +216,10 @@ describe('<OppgavekoVelgerForm>', () => {
       }],
       fagsakYtelseTyper: [{
         kode: fagsakYtelseType.PLEIEPENGER_SYKT_BARN,
-        navn: 'Engangsstønad',
+        navn: 'Pleiepenger',
       }],
       andreKriterier: [],
+      skjermet: false,
       sortering: {
         sorteringType: {
           kode: 'test',
@@ -205,31 +233,39 @@ describe('<OppgavekoVelgerForm>', () => {
     }];
 
     const formProps = { values: { id: '1' } };
-    const wrapper = shallowWithIntl(<OppgavekoVelgerForm
-      intl={intl as IntlShape}
-      oppgavekoer={oppgavekoer}
-      fetchOppgavekoOppgaver={sinon.spy()}
-      fetchOppgavekoensSaksbehandlere={sinon.spy()}
-      fetchAntallOppgaverForBehandlingsko={sinon.spy()}
-    />).find(Form).renderProp('render')(formProps);
+    new RestApiTestMocker()
+      .withDummyRunner()
+      .runTest(() => {
+        const wrapper = shallowWithIntl(<OppgavekoVelgerForm.WrappedComponent
+          intl={intl as IntlShape}
+          oppgavekoer={oppgavekoer}
+          setValgtOppgavekoId={sinon.spy()}
+          getValueFromLocalStorage={sinon.spy()}
+          setValueInLocalStorage={sinon.spy()}
+          removeValueFromLocalStorage={sinon.spy()}
+        />).find(Form).renderProp('render')(formProps);
 
-    const labels = wrapper.find(LabelWithHeader);
-    expect(labels).to.have.length(4);
-    expect(labels.first().prop('texts')).to.eql(['Engangsstønad']);
-    expect(labels.at(1).prop('texts')).to.eql(['Førstegangssøknad', 'Klage']);
+        const labels = wrapper.find(LabelWithHeader);
+        expect(labels).to.have.length(4);
+        expect(labels.first().prop('texts')).to.eql(['Pleiepenger']);
+        expect(labels.at(1).prop('texts')).to.eql(['Førstegangssøknad', 'Klage']);
+      });
   });
 
-  it('skal vise valgte andre kriterier', () => {
+  it('skal vise valgte andre kriterier som er inkluderte', () => {
     const oppgavekoer = [{
       id: '1',
       navn: 'Testliste 1',
       behandlingTyper: [],
       fagsakYtelseTyper: [],
       andreKriterier: [{
-        kode: andreKriterierType.TIL_BESLUTTER,
-        navn: 'Til beslutter',
-      },
-      ],
+        andreKriterierType: {
+          kode: andreKriterierType.TIL_BESLUTTER,
+          navn: 'Til beslutter',
+        },
+        inkluder: true,
+      }],
+      skjermet: false,
       sortering: {
         sorteringType: {
           kode: 'test',
@@ -241,17 +277,66 @@ describe('<OppgavekoVelgerForm>', () => {
     }];
 
     const formProps = { values: { id: '1' } };
-    const wrapper = shallowWithIntl(<OppgavekoVelgerForm
-      intl={intl as IntlShape}
-      oppgavekoer={oppgavekoer}
-      fetchOppgavekoOppgaver={sinon.spy()}
-      fetchOppgavekoensSaksbehandlere={sinon.spy()}
-      fetchAntallOppgaverForBehandlingsko={sinon.spy()}
-    />).find(Form).renderProp('render')(formProps);
+    new RestApiTestMocker()
+      .withDummyRunner()
+      .runTest(() => {
+        const wrapper = shallowWithIntl(<OppgavekoVelgerForm.WrappedComponent
+          intl={intl as IntlShape}
+          oppgavekoer={oppgavekoer}
+          setValgtOppgavekoId={sinon.spy()}
+          getValueFromLocalStorage={sinon.spy()}
+          setValueInLocalStorage={sinon.spy()}
+          removeValueFromLocalStorage={sinon.spy()}
+        />).find(Form).renderProp('render')(formProps);
 
-    const labels = wrapper.find(LabelWithHeader);
-    expect(labels).to.have.length(4);
-    expect(labels.at(2).prop('texts')).to.eql(['Til beslutter']);
+        const labels = wrapper.find(LabelWithHeader);
+        expect(labels).to.have.length(4);
+        expect(labels.at(2).prop('texts')).to.eql(['Til beslutter']);
+      });
+  });
+
+  it('skal vise valgte andre kriterier som er ekskludert', () => {
+    const oppgavekoer = [{
+      id: '1',
+      navn: 'Testliste 1',
+      behandlingTyper: [],
+      fagsakYtelseTyper: [],
+      andreKriterier: [{
+        andreKriterierType: {
+          kode: andreKriterierType.TIL_BESLUTTER,
+          navn: 'Til beslutter',
+        },
+        inkluder: false,
+      }],
+      skjermet: false,
+      sortering: {
+        sorteringType: {
+          kode: 'test',
+          navn: 'test',
+        },
+        fomDato: '2019-01-01',
+        tomDato: '2019-01-10',
+      },
+    }];
+
+    const formProps = { values: { id: '1' } };
+
+    new RestApiTestMocker()
+      .withDummyRunner()
+      .runTest(() => {
+        const wrapper = shallowWithIntl(<OppgavekoVelgerForm.WrappedComponent
+          intl={intl as IntlShape}
+          oppgavekoer={oppgavekoer}
+          setValgtOppgavekoId={sinon.spy()}
+          getValueFromLocalStorage={sinon.spy()}
+          setValueInLocalStorage={sinon.spy()}
+          removeValueFromLocalStorage={sinon.spy()}
+        />).find(Form).renderProp('render')(formProps);
+
+        const labels = wrapper.find(LabelWithHeader);
+        expect(labels).to.have.length(4);
+        expect(labels.at(2).prop('texts')).to.eql(['Uten: Til beslutter']);
+      });
   });
 
   it('skal vise at alle andre kriterier er valgte', () => {
@@ -261,30 +346,34 @@ describe('<OppgavekoVelgerForm>', () => {
       behandlingTyper: [],
       fagsakYtelseTyper: [],
       andreKriterier: [],
+      skjermet: false,
       sortering: {
         sorteringType: {
           kode: 'test',
           navn: 'test',
         },
-        fra: 1,
-        til: 2,
         fomDato: '2019-01-01',
         tomDato: '2019-01-10',
       },
     }];
 
     const formProps = { values: { id: '1' } };
-    const wrapper = shallowWithIntl(<OppgavekoVelgerForm
-      intl={intl as IntlShape}
-      oppgavekoer={oppgavekoer}
-      fetchOppgavekoOppgaver={sinon.spy()}
-      fetchOppgavekoensSaksbehandlere={sinon.spy()}
-      fetchAntallOppgaverForBehandlingsko={sinon.spy()}
-    />).find(Form).renderProp('render')(formProps);
+    new RestApiTestMocker()
+      .withDummyRunner()
+      .runTest(() => {
+        const wrapper = shallowWithIntl(<OppgavekoVelgerForm.WrappedComponent
+          intl={intl as IntlShape}
+          oppgavekoer={oppgavekoer}
+          setValgtOppgavekoId={sinon.spy()}
+          getValueFromLocalStorage={sinon.spy()}
+          setValueInLocalStorage={sinon.spy()}
+          removeValueFromLocalStorage={sinon.spy()}
+        />).find(Form).renderProp('render')(formProps);
 
-    const labels = wrapper.find(LabelWithHeader);
-    expect(labels).to.have.length(4);
-    expect(labels.at(2).prop('texts')).to.eql(['Alle']);
+        const labels = wrapper.find(LabelWithHeader);
+        expect(labels).to.have.length(4);
+        expect(labels.at(2).prop('texts')).to.eql(['Alle']);
+      });
   });
 
   it('skal vise køens saksbehandlere i tooltip', () => {
@@ -294,6 +383,7 @@ describe('<OppgavekoVelgerForm>', () => {
       behandlingTyper: [],
       fagsakYtelseTyper: [],
       andreKriterier: [],
+      skjermet: false,
       sortering: {
         sorteringType: {
           kode: 'test',
@@ -306,31 +396,37 @@ describe('<OppgavekoVelgerForm>', () => {
       },
     }];
 
-    const formProps = { values: { id: '1' } };
-    const wrapper = shallowWithIntl(<OppgavekoVelgerForm
-      intl={intl as IntlShape}
-      oppgavekoer={oppgavekoer}
-      fetchOppgavekoOppgaver={sinon.spy()}
-      fetchOppgavekoensSaksbehandlere={sinon.spy()}
-      fetchAntallOppgaverForBehandlingsko={sinon.spy()}
-      saksbehandlere={[{
-        brukerIdent: 'T120101',
-        navn: 'Espen Utvikler',
-        epost: 'epost',
-      }, {
-        brukerIdent: 'A120102',
-        navn: 'Auto Joachim',
-        epost: 'epost',
-      }, {
-        brukerIdent: 'T120102',
-        navn: 'Helge Ingstad',
-        epost: 'epost',
-      }]}
-    />).find(Form).renderProp('render')(formProps);
+    const saksbehandlere = [{
+      brukerIdent: 'T120101',
+      navn: 'Espen Utvikler',
+      epost: 'epost',
+    }, {
+      brukerIdent: 'A120102',
+      navn: 'Auto Joachim',
+      epost: 'epost',
+    }, {
+      brukerIdent: 'T120102',
+      navn: 'Helge Ingstad',
+      epost: 'epost',
+    }];
 
-    const image = wrapper.find(Image);
-    expect(image).to.have.length(1);
-    const tooltip = shallowWithIntl(image.first().prop('tooltip'));
-    expect(tooltip.find(FormattedMessage).prop('id')).to.eql('OppgavekoVelgerForm.SaksbehandlerToolip');
+    const formProps = { values: { id: '1' } };
+    new RestApiTestMocker()
+      .withRestCallRunner(K9LosApiKeys.OPPGAVEKO_SAKSBEHANDLERE, { data: saksbehandlere })
+      .runTest(() => {
+        const wrapper = shallowWithIntl(<OppgavekoVelgerForm.WrappedComponent
+          intl={intl as IntlShape}
+          oppgavekoer={oppgavekoer}
+          setValgtOppgavekoId={sinon.spy()}
+          getValueFromLocalStorage={sinon.spy()}
+          setValueInLocalStorage={sinon.spy()}
+          removeValueFromLocalStorage={sinon.spy()}
+        />).find(Form).renderProp('render')(formProps);
+
+        const image = wrapper.find(Image);
+        expect(image).to.have.length(1);
+        const tooltip = shallowWithIntl(image.first().prop('tooltip'));
+        expect(tooltip.find(FormattedMessage).prop('id')).to.eql('OppgavekoVelgerForm.SaksbehandlerToolip');
+      });
   });
 });

@@ -1,4 +1,4 @@
-import { Kodeverk } from 'kodeverk/kodeverkTsType';
+import Kodeverk from 'kodeverk/kodeverkTsType';
 
 type NyeOgFerdigstilteOppgaver = Readonly<{
   behandlingType: Kodeverk;

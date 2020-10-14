@@ -1,6 +1,4 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import React, { FunctionComponent, useEffect } from 'react';
 import { FormattedMessage } from 'react-intl';
 import classnames from 'classnames/bind';
 import { NavLink } from 'react-router-dom';
@@ -13,11 +11,8 @@ import nokkelBla from 'images/key-hole-11.svg';
 import koerBla from 'images/drawer-23.svg';
 import koerSvart from 'images/drawer-22.svg';
 import LoadingPanel from 'sharedComponents/LoadingPanel';
-import { getNavAnsattKanOppgavestyre } from 'app/duck';
 import { parseQueryString } from 'utils/urlUtils';
 import { getPanelLocationCreator } from 'app/paths';
-import trackRouteParam from 'app/data/trackRouteParam';
-import { Location } from 'app/locationTsType';
 import NokkeltallIndex from 'avdelingsleder/nokkeltall/NokkeltallIndex';
 import ReservasjonerIndex from 'avdelingsleder/reservasjoner/ReservasjonerIndex';
 import Tabs from 'nav-frontend-tabs';
@@ -25,11 +20,15 @@ import Image from 'sharedComponents/Image';
 import { Row } from 'nav-frontend-grid';
 import DagensTallPanel from 'avdelingsleder/dagensTall/DagensTallPanel';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
-import { getSelectedAvdelingslederPanel, setSelectedAvdelingslederPanel } from './duck';
+import useGlobalStateRestApiData from 'api/rest-api-hooks/src/global-data/useGlobalStateRestApiData';
+import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
+import NavAnsatt from 'app/navAnsattTsType';
+import useTrackRouteParam from 'app/data/trackRouteParam';
+import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
+import ApneBehandlinger from 'avdelingsleder/dagensTall/apneBehandlingerTsType';
 import AvdelingslederDashboard from './components/AvdelingslederDashboard';
 import IkkeTilgangTilAvdelingslederPanel from './components/IkkeTilgangTilAvdelingslederPanel';
 import AvdelingslederPanels from './avdelingslederPanels';
-import EndreSaksbehandlereIndex from './bemanning/BemanningIndex';
 import EndreBehandlingskoerIndex from './behandlingskoer/EndreBehandlingskoerIndex';
 
 import styles from './avdelingslederIndex.less';
@@ -40,8 +39,6 @@ const renderAvdelingslederPanel = (avdelingslederPanel) => {
   switch (avdelingslederPanel) {
     case AvdelingslederPanels.BEHANDLINGSKOER:
       return <EndreBehandlingskoerIndex />;
-    case AvdelingslederPanels.SAKSBEHANDLERE:
-      return <EndreSaksbehandlereIndex />;
     case AvdelingslederPanels.NOKKELTALL:
       return <NokkeltallIndex />;
     case AvdelingslederPanels.RESERVASJONER:
@@ -53,7 +50,6 @@ const renderAvdelingslederPanel = (avdelingslederPanel) => {
 
 const messageId = {
   [AvdelingslederPanels.BEHANDLINGSKOER]: 'AvdelingslederIndex.Behandlingskoer',
-  [AvdelingslederPanels.SAKSBEHANDLERE]: 'AvdelingslederIndex.Saksbehandlere',
   [AvdelingslederPanels.NOKKELTALL]: 'AvdelingslederIndex.Nokkeltall',
   [AvdelingslederPanels.RESERVASJONER]: 'AvdelingslederIndex.Reservasjoner',
 };
@@ -63,12 +59,6 @@ const tabStyle = {
   [AvdelingslederPanels.NOKKELTALL]: [nokkelSvart, nokkelBla],
   [AvdelingslederPanels.RESERVASJONER]: [reservasjonSvart, reservasjonBla],
 };
-
-interface TsProps {
-  activeAvdelingslederPanel: string;
-  getAvdelingslederPanelLocation: (panel: string) => Location;
-  kanOppgavestyre?: boolean;
-}
 
 const getTab = (avdelingslederPanel, activeAvdelingslederPanel, getAvdelingslederPanelLocation) => ({
   label: (
@@ -94,11 +84,31 @@ const getTab = (avdelingslederPanel, activeAvdelingslederPanel, getAvdelingslede
 /**
  * AvdelingslederIndex
  */
-export const AvdelingslederIndex = ({
-  activeAvdelingslederPanel,
-  getAvdelingslederPanelLocation,
-  kanOppgavestyre,
-}: TsProps) => {
+export const AvdelingslederIndex: FunctionComponent = (
+) => {
+  const { selected: activeAvdelingslederPanelTemp, location } = useTrackRouteParam({
+    paramName: 'fane',
+    isQueryParam: true,
+  });
+
+  const { startRequest: hentAntallIdag, data: totaltIdag } = useRestApiRunner<number>(K9LosApiKeys.OPPGAVE_ANTALL_TOTALT);
+  const { startRequest: hentDagensTall, data: dagensTall = [] } = useRestApiRunner<ApneBehandlinger[]>(K9LosApiKeys.HENT_DAGENS_TALL);
+
+  useEffect(() => {
+    hentAntallIdag();
+    hentDagensTall();
+  }, []);
+
+  const getPanelFromUrlOrDefault = (loc) => {
+    const panelFromUrl = parseQueryString(loc.search);
+    return panelFromUrl.avdelingsleder ? panelFromUrl.avdelingsleder : AvdelingslederPanels.BEHANDLINGSKOER;
+  };
+
+  const { kanOppgavestyre } = useGlobalStateRestApiData<NavAnsatt>(RestApiGlobalStatePathsKeys.NAV_ANSATT);
+
+  const getAvdelingslederPanelLocation = getPanelLocationCreator(location);
+  const activeAvdelingslederPanel = activeAvdelingslederPanelTemp || getPanelFromUrlOrDefault(location);
+
   if (!kanOppgavestyre) {
     return <IkkeTilgangTilAvdelingslederPanel />;
   } if (activeAvdelingslederPanel) {
@@ -108,7 +118,7 @@ export const AvdelingslederIndex = ({
           <Normaltekst className={styles.paneltekst}>Avdelingslederpanel</Normaltekst>
         </Row>
         <Row>
-          <DagensTallPanel />
+          <DagensTallPanel totaltIdag={totaltIdag} dagensTall={dagensTall} />
         </Row>
         <VerticalSpacer twentyPx />
         <Row>
@@ -132,38 +142,4 @@ export const AvdelingslederIndex = ({
   return <LoadingPanel />;
 };
 
-AvdelingslederIndex.propTypes = {
-  activeAvdelingslederPanel: PropTypes.string.isRequired,
-  getAvdelingslederPanelLocation: PropTypes.func.isRequired,
-  kanOppgavestyre: PropTypes.bool,
-};
-
-AvdelingslederIndex.defaultProps = {
-  kanOppgavestyre: false,
-};
-
-const getPanelFromUrlOrDefault = (location) => {
-  const panelFromUrl = parseQueryString(location.search);
-  return panelFromUrl.avdelingsleder ? panelFromUrl.avdelingsleder : AvdelingslederPanels.BEHANDLINGSKOER;
-};
-
-const mapStateToProps = (state) => ({
-  activeAvdelingslederPanel: getSelectedAvdelingslederPanel(state),
-  kanOppgavestyre: getNavAnsattKanOppgavestyre(state),
-});
-
-const mergeProps = (stateProps, dispatchProps, ownProps) => ({
-  ...ownProps,
-  ...dispatchProps,
-  ...stateProps,
-  getAvdelingslederPanelLocation: getPanelLocationCreator(ownProps.location), // gets prop 'location' from trackRouteParam
-  activeAvdelingslederPanel: stateProps.activeAvdelingslederPanel ? stateProps.activeAvdelingslederPanel : getPanelFromUrlOrDefault(ownProps.location),
-});
-
-export default trackRouteParam({
-  paramName: 'fane',
-  paramPropType: PropTypes.string,
-  storeParam: setSelectedAvdelingslederPanel,
-  getParamFromStore: getSelectedAvdelingslederPanel,
-  isQueryParam: true,
-})(connect(mapStateToProps, null, mergeProps)(AvdelingslederIndex));
+export default AvdelingslederIndex;

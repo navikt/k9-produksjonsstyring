@@ -7,7 +7,6 @@ import { Normaltekst } from 'nav-frontend-typografi';
 import Image from 'sharedComponents/Image';
 import Modal from 'sharedComponents/Modal';
 
-import advarselImageUrl from 'images/advarsel.svg';
 import { Oppgaveko } from '../oppgavekoTsType';
 
 import styles from './sletteOppgavekoModal.less';
@@ -38,14 +37,6 @@ export const SletteOppgavekoModal: FunctionComponent<TsProps & WrappedComponentP
     onRequestClose={cancel}
   >
     <Row>
-      <Column xs="1">
-        <Image
-          className={styles.image}
-          alt={intl.formatMessage({ id: 'SletteOppgavekoModal.SletteModal' })}
-          src={advarselImageUrl}
-        />
-        <div className={styles.divider} />
-      </Column>
       <Column xs="6" className={styles.text}>
         <Normaltekst>
           <FormattedMessage id="SletteOppgavekoModal.SletteOppgaveko" values={{ OppgavekoNavn: valgtOppgaveko.navn }} />

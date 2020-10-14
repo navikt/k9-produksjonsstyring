@@ -1,5 +1,5 @@
 import React, {
-  useState, useEffect, FunctionComponent, useRef, useCallback,
+  FunctionComponent, useCallback, useEffect, useMemo, useRef, useState,
 } from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import Popover from '@navikt/nap-popover';
@@ -8,34 +8,25 @@ import UserPanel from '@navikt/nap-user-panel';
 import BoxedListWithLinks from '@navikt/boxed-list-with-links';
 import Header from '@navikt/nap-header';
 import { RETTSKILDE_URL, SYSTEMRUTINE_URL } from 'api/eksterneLenker';
-import KnappBase, { Knapp, Flatknapp } from 'nav-frontend-knapper';
-import EventType from 'api/rest-api/src/requestApi/eventType';
+import Knapp from 'nav-frontend-knapper';
 
-import { getK9sakHref } from 'app/paths';
-import ErrorMessagePanel from './ErrorMessagePanel';
+import useRestApiError from 'api/rest-api/error/useRestApiError';
+import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
+import ErrorFormatter from 'app/feilhandtering/ErrorFormatter';
+import useRestApi from 'api/rest-api-hooks/src/local-data/useRestApi';
+import { useGlobalStateRestApiData, useRestApiRunner } from 'api/rest-api-hooks';
+import NavAnsatt from 'app/navAnsattTsType';
 import styles from './headerWithErrorPanel.less';
+import ErrorMessagePanel from './ErrorMessagePanel';
 import { Driftsmelding } from '../../admin/driftsmeldinger/driftsmeldingTsType';
 
 interface OwnProps {
-  navAnsattName: string;
-  kanOppgavestyre: boolean;
-  kanDrifte: boolean;
-  removeErrorMessage: () => void;
   queryStrings: {
     errormessage?: string;
     errorcode?: string;
   };
-  errorMessages?: {
-    type: EventType;
-    code?: string;
-    params?: {
-      errorDetails?: string;
-      location?: string;
-    };
-    text?: string;
-  }[];
+  crashMessage?: string;
   setSiteHeight: (clientHeight: number) => void;
-  driftsmeldinger: Driftsmelding[];
 }
 
 const isDev = window.location.hostname.includes('dev.adeo.no');
@@ -72,23 +63,24 @@ const useOutsideClickEvent = (erLenkepanelApent, erAvdelingerPanelApent, setLenk
  */
 const HeaderWithErrorPanel: FunctionComponent<OwnProps & WrappedComponentProps> = ({
   intl,
-  navAnsattName,
-  removeErrorMessage,
   queryStrings,
-  errorMessages = [],
+  crashMessage,
   setSiteHeight,
-  kanOppgavestyre,
-  kanDrifte,
-  driftsmeldinger,
 }) => {
   const [erLenkePanelApent, setLenkePanelApent] = useState(false);
   const [erAvdelingerPanelApent, setAvdelingerPanelApent] = useState(false);
+
+  const navAnsatt = useGlobalStateRestApiData<NavAnsatt>(RestApiGlobalStatePathsKeys.NAV_ANSATT);
+  const { data: driftsmeldinger = [] } = useRestApi<Driftsmelding[]>(K9LosApiKeys.DRIFTSMELDINGER);
+
+  const errorMessages = useRestApiError() || [];
+  const formaterteFeilmeldinger = useMemo(() => new ErrorFormatter().format(errorMessages, crashMessage), [errorMessages]);
   const wrapperRef = useOutsideClickEvent(erLenkePanelApent, erAvdelingerPanelApent, setLenkePanelApent, setAvdelingerPanelApent);
-  const brukerPanel = <UserPanel name={navAnsattName} />;
+  const brukerPanel = <UserPanel name={navAnsatt.navn} />;
   const fixedHeaderRef = useRef(null);
   useEffect(() => {
     setSiteHeight(fixedHeaderRef.current.clientHeight);
-  }, [errorMessages.length]);
+  }, [errorMessages.length, driftsmeldinger.length]);
 
   const goTilAvdlelingslederPanel = () => {
     window.location.href = '/avdelingsleder';
@@ -108,20 +100,20 @@ const HeaderWithErrorPanel: FunctionComponent<OwnProps & WrappedComponentProps> 
   };
 
   const visAvdelingslederKnapp = (): boolean => {
-    if (!kanOppgavestyre) {
+    if (!navAnsatt.kanOppgavestyre) {
       return false;
     }
-    if (kanOppgavestyre && window.location.href.includes('avdelingsleder')) {
+    if (navAnsatt.kanOppgavestyre && window.location.href.includes('avdelingsleder')) {
       return false;
     }
     return true;
   };
 
   const visAdminKnapp = (): boolean => {
-    if (!kanDrifte) {
+    if (!navAnsatt.kanDrifte) {
       return false;
     }
-    if (kanDrifte && window.location.href.includes('admin')) {
+    if (navAnsatt.kanDrifte && window.location.href.includes('admin')) {
       return false;
     }
     return true;
@@ -179,10 +171,9 @@ const HeaderWithErrorPanel: FunctionComponent<OwnProps & WrappedComponentProps> 
         </Header>
       </div>
       <ErrorMessagePanel
-        errorMessages={errorMessages}
-        queryStrings={queryStrings}
-        removeErrorMessage={removeErrorMessage}
         driftsmeldinger={driftsmeldinger}
+        errorMessages={formaterteFeilmeldinger}
+        queryStrings={queryStrings}
       />
     </header>
   );

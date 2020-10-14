@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useCallback } from 'react';
 import { injectIntl, WrappedComponentProps, FormattedMessage } from 'react-intl';
 
 import { Form } from 'react-final-form';
@@ -10,6 +10,8 @@ import {
 import { TextAreaField } from 'form/FinalFields';
 import Modal from 'sharedComponents/Modal';
 
+import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
+import { K9LosApiKeys } from 'api/k9LosApi';
 import styles from './opphevReservasjonModal.less';
 
 const minLength3 = minLength(3);
@@ -20,7 +22,7 @@ type OwnProps = Readonly<{
   showModal: boolean;
   oppgaveId: string;
   cancel: () => void;
-  submit: (oppgaveId: string, begrunnelse: string) => void;
+  hentReserverteOppgaver: () => void;
 }>;
 
 /**
@@ -32,47 +34,58 @@ export const OpphevReservasjonModal: FunctionComponent<OwnProps & WrappedCompone
   intl,
   showModal,
   cancel,
-  submit,
+  hentReserverteOppgaver,
   oppgaveId,
-}) => (
-  <Modal
-    className={styles.modal}
-    isOpen={showModal}
-    closeButton={false}
-    contentLabel={intl.formatMessage({ id: 'OpphevReservasjonModal.Begrunnelse' })}
-    onRequestClose={cancel}
-  >
-    <Form
-      onSubmit={(values) => submit(oppgaveId, values.begrunnelse)}
-      render={({ handleSubmit }) => (
-        <form onSubmit={handleSubmit}>
-          <Undertittel><FormattedMessage id="OpphevReservasjonModal.Begrunnelse" /></Undertittel>
-          <TextAreaField
-            name="begrunnelse"
-            label={intl.formatMessage({ id: 'OpphevReservasjonModal.Hjelpetekst' })}
-            validate={[required, maxLength1500, minLength3, hasValidText]}
-            maxLength={1500}
-          />
-          <Hovedknapp
-            className={styles.submitButton}
-            mini
-            htmlType="submit"
-            autoFocus
-          >
-            {intl.formatMessage({ id: 'OpphevReservasjonModal.Ok' })}
-          </Hovedknapp>
-          <Knapp
-            className={styles.cancelButton}
-            mini
-            htmlType="reset"
-            onClick={cancel}
-          >
-            {intl.formatMessage({ id: 'OpphevReservasjonModal.Avbryt' })}
-          </Knapp>
-        </form>
-      )}
-    />
-  </Modal>
-);
+}) => {
+  const { startRequest: opphevOppgavereservasjon } = useRestApiRunner(K9LosApiKeys.OPPHEV_OPPGAVERESERVASJON);
+
+  const opphevReservasjonFn = useCallback((begrunnelse: string) => opphevOppgavereservasjon({ oppgaveId, begrunnelse })
+    .then(() => {
+      hentReserverteOppgaver();
+      cancel();
+    }),
+  [oppgaveId]);
+
+  return (
+    <Modal
+      className={styles.modal}
+      isOpen={showModal}
+      closeButton={false}
+      contentLabel={intl.formatMessage({ id: 'OpphevReservasjonModal.Begrunnelse' })}
+      onRequestClose={cancel}
+    >
+      <Form
+        onSubmit={(values) => opphevReservasjonFn(values.begrunnelse)}
+        render={({ handleSubmit }) => (
+          <form onSubmit={handleSubmit}>
+            <Undertittel><FormattedMessage id="OpphevReservasjonModal.Begrunnelse" /></Undertittel>
+            <TextAreaField
+              name="begrunnelse"
+              label={intl.formatMessage({ id: 'OpphevReservasjonModal.Hjelpetekst' })}
+              validate={[required, maxLength1500, minLength3, hasValidText]}
+              maxLength={1500}
+            />
+            <Hovedknapp
+              className={styles.submitButton}
+              mini
+              htmlType="submit"
+              autoFocus
+            >
+              {intl.formatMessage({ id: 'OpphevReservasjonModal.Ok' })}
+            </Hovedknapp>
+            <Knapp
+              className={styles.cancelButton}
+              mini
+              htmlType="reset"
+              onClick={cancel}
+            >
+              {intl.formatMessage({ id: 'OpphevReservasjonModal.Avbryt' })}
+            </Knapp>
+          </form>
+        )}
+      />
+    </Modal>
+  );
+};
 
 export default injectIntl(OpphevReservasjonModal);

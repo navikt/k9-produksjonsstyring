@@ -8,7 +8,7 @@ import NyeOgFerdigstilteOppgaverForSisteSyvPanel from './nyeOgFerdigstilteOppgav
 
 describe('<SaksbehandlerNokkeltallPanel>', () => {
   it('skal vise grafpaneler', () => {
-    const wrapper = shallow(<SaksbehandlerNokkeltallPanel />);
+    const wrapper = shallow(<SaksbehandlerNokkeltallPanel nyeOgFerdigstilteOppgaver={[]} />);
 
     expect(wrapper.find(NyeOgFerdigstilteOppgaverForIdagPanel)).to.have.length(1);
     expect(wrapper.find(NyeOgFerdigstilteOppgaverForSisteSyvPanel)).to.have.length(1);

@@ -7,8 +7,8 @@ const openPreview = (data) => {
 };
 const isLocal = process.env.NODE_ENV === 'development';
 const isDev = window.location.hostname.includes('dev.adeo.no');
-const proxyUrl = isDev ? 'https://k9-los-oidc-auth-proxy.dev.adeo.no/api/k9-los-api/'
-  : 'https://k9-los-oidc-auth-proxy.nais.adeo.no/api/k9-los-api/';
+const proxyUrl = isDev ? 'https://k9-los-oidc-auth-proxy.dev.adeo.no/api/k9-los-api'
+  : 'https://k9-los-oidc-auth-proxy.nais.adeo.no/api/k9-los-api';
 
 const cancellable = (axiosInstance, config) => {
   let cancel;
@@ -32,7 +32,7 @@ const defaultPostHeaders = {
 
 const get = (axiosInstance) => (url: string, params: any, responseType = 'json') => {
   let urlRedir = url ? `${proxyUrl}${url}` : null;
-  if (isLocal) urlRedir = url;
+  if (isLocal) urlRedir = `http://localhost:8030${url}`;
   return cancellable(axiosInstance, {
     url: urlRedir,
     params,
@@ -46,7 +46,7 @@ const get = (axiosInstance) => (url: string, params: any, responseType = 'json')
 
 const post = (axiosInstance) => (url: string, data: any, responseType = 'json') => {
   let urlRedir = url ? `${proxyUrl}${url}` : null;
-  if (isLocal) urlRedir = url;
+  if (isLocal) urlRedir = `http://localhost:8030${url}`;
   return cancellable(axiosInstance, {
     url: urlRedir,
     responseType,
@@ -62,7 +62,7 @@ const post = (axiosInstance) => (url: string, data: any, responseType = 'json') 
 
 const put = (axiosInstance) => (url: string, data: any, responseType = 'json') => {
   let urlRedir = url ? `${proxyUrl}${url}` : null;
-  if (isLocal) urlRedir = url;
+  if (isLocal) urlRedir = `http://localhost:8030${url}`;
   return cancellable(axiosInstance, {
     url: urlRedir,
     responseType,

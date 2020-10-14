@@ -1,44 +1,17 @@
-import React, { Component, ReactNode } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators, Dispatch } from 'redux';
+import React, { FunctionComponent } from 'react';
+import { K9LosApiKeys } from 'api/k9LosApi';
+import NyeOgFerdigstilteOppgaver from 'saksbehandler/saksstotte/nokkeltall/components/nyeOgFerdigstilteOppgaverTsType';
+import { useRestApi } from 'api/rest-api-hooks';
 import SaksbehandlerNokkeltallPanel from './components/SaksbehandlerNokkeltallPanel';
-
-interface OwnProps {
-  fetchNyeOgFerdigstilte: () => void;
-  valgtOppgavekoId: string;
-}
 
 /**
  * SaksbehandlerNokkeltallIndex
  */
-export class SaksbehandlerNokkeltallIndex extends Component<OwnProps> {
-  componentDidMount = (): void => {
-    const {
-      fetchNyeOgFerdigstilte,
-    } = this.props;
-    fetchNyeOgFerdigstilte();
-  }
+const SaksbehandlerNokkeltallIndex: FunctionComponent = () => {
+  const { data: nyeOgFerdigstilteOppgaver = [] } = useRestApi<NyeOgFerdigstilteOppgaver[]>(K9LosApiKeys.HENT_NYE_OG_FERDIGSTILTE_OPPGAVER, {}, true);
+  return (
+    <SaksbehandlerNokkeltallPanel nyeOgFerdigstilteOppgaver={nyeOgFerdigstilteOppgaver} />
+  );
+};
 
-  componentDidUpdate = (prevProps: OwnProps): void => {
-    const {
-      valgtOppgavekoId, fetchNyeOgFerdigstilte,
-    } = this.props;
-    if (prevProps.valgtOppgavekoId !== valgtOppgavekoId) {
-      fetchNyeOgFerdigstilte();
-    }
-  }
-
-  render = (): ReactNode => (
-    <SaksbehandlerNokkeltallPanel />
-  )
-}
-
-const mapStateToProps = () => ({
-});
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  ...bindActionCreators({
-  }, dispatch),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(SaksbehandlerNokkeltallIndex);
+export default SaksbehandlerNokkeltallIndex;

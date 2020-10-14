@@ -1,43 +1,27 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { FunctionComponent } from 'react';
 
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
-import { Driftsmelding } from '../driftsmeldingTsType';
-import driftsmeldingPropType from '../driftsmeldingPropType';
 import LeggTilDriftsmeldingForm from './LeggTilDriftsmeldingForm';
 import DriftsmeldingerTabell from './DriftsmeldingerTabell';
-
-interface TsProps {
-    driftsmeldinger: Driftsmelding[];
-    leggTilDriftsmelding: (id: string) => Promise<string>;
-    fjernDriftsmelding: (id: string) => Promise<string>;
-    switchDriftsmelding : (id: string, isChecked: boolean) => Promise<string>;
-
-}
+import { Driftsmelding } from '../driftsmeldingTsType';
 
 /**
  * DriftsmeldingerPanel
  */
-const DriftsmeldingerPanel = ({
+
+interface OwnProps {
+    driftsmeldinger: Driftsmelding[];
+    hentAlleDriftsmeldinger: () => void;
+}
+const DriftsmeldingerPanel: FunctionComponent<OwnProps> = ({
   driftsmeldinger,
-  leggTilDriftsmelding,
-  fjernDriftsmelding,
-  switchDriftsmelding,
-}: TsProps) => (
+  hentAlleDriftsmeldinger,
+}) => (
   <>
-    <DriftsmeldingerTabell driftsmeldinger={driftsmeldinger} fjernDriftsmelding={fjernDriftsmelding} switchDriftsmelding={switchDriftsmelding} />
+    <DriftsmeldingerTabell driftsmeldinger={driftsmeldinger} hentAlleDriftsmeldinger={hentAlleDriftsmeldinger} />
     <VerticalSpacer sixteenPx />
-    <LeggTilDriftsmeldingForm
-      leggTilDriftsmelding={leggTilDriftsmelding}
-    />
+    <LeggTilDriftsmeldingForm hentAlleDriftsmeldinger={hentAlleDriftsmeldinger} />
   </>
 );
-
-DriftsmeldingerPanel.propTypes = {
-  driftsmeldinger: PropTypes.arrayOf(driftsmeldingPropType).isRequired,
-  leggTilDriftsmelding: PropTypes.func.isRequired,
-  fjernDriftsmelding: PropTypes.func.isRequired,
-  switchDriftsmelding: PropTypes.func.isRequired,
-};
 
 export default DriftsmeldingerPanel;

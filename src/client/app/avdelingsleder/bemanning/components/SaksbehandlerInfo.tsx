@@ -9,7 +9,7 @@ import styles from './saksbehandlerInfo.less';
 
 interface OwnProps {
     saksbehandler: Saksbehandler
-    fjernSaksbehandler: (epost: string) => Promise<string>;
+    fjernSaksbehandler: (epost: string) => void;
 }
 
 const SaksbehandlerInfo: FunctionComponent<OwnProps & WrappedComponentProps> = ({

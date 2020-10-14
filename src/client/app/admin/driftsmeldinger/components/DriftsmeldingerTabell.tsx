@@ -1,5 +1,4 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Normaltekst, Element } from 'nav-frontend-typografi';
 import Image from 'sharedComponents/Image';
@@ -10,7 +9,8 @@ import TableRow from 'sharedComponents/TableRow';
 import TableColumn from 'sharedComponents/TableColumn';
 import { Checkbox } from 'nav-frontend-skjema';
 import { getDateAndTime } from 'utils/dateUtils';
-import driftsmeldingPropType from '../driftsmeldingPropType';
+import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
+import { K9LosApiKeys } from 'api/k9LosApi';
 import { Driftsmelding } from '../driftsmeldingTsType';
 
 import styles from './driftsmeldingerTabell.less';
@@ -22,82 +22,51 @@ const headerTextCodes = [
   'DriftsmeldingTabell.Dato',
 ];
 
-interface TsProps {
+interface OwnProps {
   driftsmeldinger: Driftsmelding[];
-  fjernDriftsmelding : (id: string) => Promise<string>;
-  switchDriftsmelding : (id: string, isChecked: boolean) => Promise<string>;
-}
-
-interface StateTsProps {
-  valgtDriftsmelding?: Driftsmelding;
-  showSlettModal: boolean;
+  hentAlleDriftsmeldinger: () => void;
 }
 
 /**
  * DriftsmeldingerTabell
  */
-export class DriftsmeldingerTabell extends Component<TsProps, StateTsProps> {
-  static propTypes = {
-    driftsmeldinger: PropTypes.arrayOf(driftsmeldingPropType).isRequired,
-    fjernDriftsmelding: PropTypes.func.isRequired,
-    switchDriftsmelding: PropTypes.func.isRequired,
+const DriftsmeldingerTabell: FunctionComponent<OwnProps> = ({
+  driftsmeldinger,
+  hentAlleDriftsmeldinger,
+}) => {
+  const [showSlettModal, setShowSlettModal] = useState(false);
+  const [valgtDriftsmelding, setValgtDriftsmelding] = useState<Driftsmelding>(undefined);
+
+  const { startRequest: fjernDriftsmelding } = useRestApiRunner<Driftsmelding>(K9LosApiKeys.SLETT_DRIFTSMELDING);
+  const { startRequest: switchDriftsmelding } = useRestApiRunner<Driftsmelding>(K9LosApiKeys.TOGGLE_DRIFTSMELDING);
+
+  const showSletteDriftsmeldingModal = (driftsmelding: Driftsmelding) => {
+    setShowSlettModal(true);
+    setValgtDriftsmelding(driftsmelding);
   };
 
-  constructor(props: TsProps) {
-    super(props);
+  const closeSletteModal = () => {
+    setShowSlettModal(false);
+    setValgtDriftsmelding(undefined);
+  };
 
-    this.state = {
-      valgtDriftsmelding: undefined,
-      showSlettModal: false,
-    };
-  }
+  const slettDriftsmelding = (dm: Driftsmelding) => {
+    fjernDriftsmelding({ id: dm.id }).then(() => hentAlleDriftsmeldinger());
+    closeSletteModal();
+  };
+  const sorterteDriftsmeldinger = driftsmeldinger.sort((d1, d2) => d1.dato.localeCompare(d2.dato));
 
-  showSletteDriftsmeldingModal = (driftsmelding: Driftsmelding) => {
-    this.setState((prevState) => ({ ...prevState, showSlettModal: true }));
-    this.setState((prevState) => ({ ...prevState, valgtDriftsmelding: driftsmelding }));
-  }
-
-  closeSletteModal = () => {
-    this.setState((prevState) => ({ ...prevState, showSlettModal: false }));
-    this.setState((prevState) => ({ ...prevState, valgtDriftsmelding: undefined }));
-  }
-
-  fjernDriftsmelding = (valgtDriftsmelding: Driftsmelding) => {
-    const {
-      fjernDriftsmelding,
-    } = this.props;
-    fjernDriftsmelding(valgtDriftsmelding.id);
-    this.closeSletteModal();
-  }
-
-  handleClick = (id: string, e: React.ChangeEvent<HTMLInputElement>) => {
-    const {
-      switchDriftsmelding,
-    } = this.props;
-    switchDriftsmelding(id, e.target.checked);
-  }
-
-  render = () => {
-    const {
-      driftsmeldinger,
-    } = this.props;
-    const {
-      valgtDriftsmelding, showSlettModal,
-    } = this.state;
-
-    const sorterteDriftsmeldinger = driftsmeldinger.sort((d1, d2) => d1.dato.localeCompare(d2.dato));
-
-    return (
+  return (
+    <>
+      <Element><FormattedMessage id="DriftsmeldingerTabell.Driftsmeldinger" /></Element>
+      {sorterteDriftsmeldinger.length === 0 && (
       <>
-        <Element><FormattedMessage id="DriftsmeldingerTabell.Driftsmeldinger" /></Element>
-        {sorterteDriftsmeldinger.length === 0 && (
-          <>
-            <VerticalSpacer eightPx />
-            <Normaltekst><FormattedMessage id="DriftsmeldingerTabell.IngenDriftsmeldinger" /></Normaltekst>
-            <VerticalSpacer eightPx />
-          </>
-        )}
-        {sorterteDriftsmeldinger.length > 0 && (
+        <VerticalSpacer eightPx />
+        <Normaltekst><FormattedMessage id="DriftsmeldingerTabell.IngenDriftsmeldinger" /></Normaltekst>
+        <VerticalSpacer eightPx />
+      </>
+      )}
+      {sorterteDriftsmeldinger.length > 0 && (
         <Table headerTextCodes={headerTextCodes} noHover>
           {sorterteDriftsmeldinger.map((driftsmelding) => (
             <TableRow key={driftsmelding.id}>
@@ -107,7 +76,7 @@ export class DriftsmeldingerTabell extends Component<TsProps, StateTsProps> {
                   <Checkbox
                     label=""
                     checked={driftsmelding.aktiv}
-                    onChange={(e) => this.handleClick(driftsmelding.id, e)}
+                    onChange={(e) => switchDriftsmelding({ id: driftsmelding.id, aktiv: e.target.checked }).then(() => hentAlleDriftsmeldinger())}
                     name="aktiv"
                   />
                 </div>
@@ -125,25 +94,24 @@ export class DriftsmeldingerTabell extends Component<TsProps, StateTsProps> {
                 <Image
                   src={removeIcon}
                   className={styles.removeImage}
-                  onMouseDown={() => this.showSletteDriftsmeldingModal(driftsmelding)}
-                  onKeyDown={() => this.showSletteDriftsmeldingModal(driftsmelding)}
+                  onMouseDown={() => showSletteDriftsmeldingModal(driftsmelding)}
+                  onKeyDown={() => showSletteDriftsmeldingModal(driftsmelding)}
                   tabIndex={0}
                 />
               </TableColumn>
             </TableRow>
           ))}
         </Table>
-        )}
-        {showSlettModal && (
+      )}
+      {showSlettModal && (
         <SletteDriftsmeldingerModal
           valgtDriftsmelding={valgtDriftsmelding}
-          closeSletteModal={this.closeSletteModal}
-          fjernDriftsmelding={this.fjernDriftsmelding}
+          closeSletteModal={closeSletteModal}
+          fjernDriftsmelding={slettDriftsmelding}
         />
-        )}
-      </>
-    );
-  }
-}
+      )}
+    </>
+  );
+};
 
 export default DriftsmeldingerTabell;

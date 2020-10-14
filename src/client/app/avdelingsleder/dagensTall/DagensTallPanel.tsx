@@ -3,10 +3,6 @@ import { Normaltekst } from 'nav-frontend-typografi';
 import EnkelTeller from 'avdelingsleder/dagensTall/EnkelTeller';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import { WrappedComponentProps, injectIntl } from 'react-intl';
-import {
-  getAntallOppgaverTotaltResultat, getDagensTallResultat,
-} from 'avdelingsleder/behandlingskoer/duck';
-import { connect } from 'react-redux';
 import ApneBehandlinger from 'avdelingsleder/dagensTall/apneBehandlingerTsType';
 import { behandlingstypeOrder } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
 import styles from './dagensTallPanel.less';
@@ -18,7 +14,6 @@ interface OwnProps {
 const DagensTallPanel: FunctionComponent<OwnProps & WrappedComponentProps> = ({ totaltIdag, dagensTall }) => {
   const sortedDagensTall = (tall: ApneBehandlinger[]) => useMemo(() => tall
     .sort((dt1, dt2) => behandlingstypeOrder.indexOf(dt1.behandlingType.kode) - behandlingstypeOrder.indexOf(dt2.behandlingType.kode)), [dagensTall]);
-
   return (
     <>
       <Normaltekst className={styles.header}>Status</Normaltekst>
@@ -35,9 +30,4 @@ const DagensTallPanel: FunctionComponent<OwnProps & WrappedComponentProps> = ({ 
   );
 };
 
-const mapStateToProps = (state) => ({
-  totaltIdag: getAntallOppgaverTotaltResultat(state),
-  dagensTall: getDagensTallResultat(state),
-});
-
-export default connect(mapStateToProps, null)(injectIntl(DagensTallPanel));
+export default injectIntl(DagensTallPanel);

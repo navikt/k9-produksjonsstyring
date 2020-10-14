@@ -1,34 +1,18 @@
 import React, { FunctionComponent } from 'react';
 
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
-import { SaksbehandlerNokkeltallIndex } from 'saksbehandler/saksstotte/nokkeltall/SaksbehandlerNokkeltallIndex';
+import SaksbehandlerNokkeltallIndex from 'saksbehandler/saksstotte/nokkeltall/SaksbehandlerNokkeltallIndex';
 
 import SistBehandledeSaker from './SistBehandledeSaker';
-
-interface OwnProps {
-  k9sakUrl: string;
-  valgtOppgavekoId?: string;
-  fetchNyeOgFerdigstilte: (oppgavekoId: string) => void;
-}
 
 /**
  * SaksstottePaneler
  */
-const SaksstottePaneler: FunctionComponent<OwnProps> = ({
-  k9sakUrl,
-  valgtOppgavekoId,
-  fetchNyeOgFerdigstilte,
-}) => (
+const SaksstottePaneler: FunctionComponent = () => (
   <>
-    <SistBehandledeSaker k9sakUrl={k9sakUrl} />
+    <SistBehandledeSaker />
     <VerticalSpacer twentyPx />
-    {valgtOppgavekoId
-      && (
-      <SaksbehandlerNokkeltallIndex
-        valgtOppgavekoId={valgtOppgavekoId}
-        fetchNyeOgFerdigstilte={fetchNyeOgFerdigstilte}
-      />
-      )}
+    <SaksbehandlerNokkeltallIndex />
   </>
 );
 

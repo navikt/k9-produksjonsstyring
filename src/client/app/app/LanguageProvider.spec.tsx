@@ -4,19 +4,20 @@ import { FormattedMessage } from 'react-intl';
 
 import { mountWithIntl } from 'testHelpers/intl-enzyme-test-helper';
 
-import { LanguageProvider } from './LanguageProvider';
+import data from '../sprak/nb_NO.json';
+import LanguageProvider from './LanguageProvider';
 
 describe('<LanguageProvider>', () => {
   it('skal sette opp react-intl', () => {
     const wrapper = mountWithIntl((
-      <LanguageProvider nbMessages={{ 'Header.K9Los': 'Omsorgspenger, pleiepenger og frisinn' }}>
+      <LanguageProvider>
         <FormattedMessage id="Header.K9Los" tagName="span" />
       </LanguageProvider>
     ));
 
     const intlProvider = wrapper.find('IntlProvider');
     expect(intlProvider).to.have.length(1);
-    expect(intlProvider.prop('messages')).to.eql({ 'Header.K9Los': 'Omsorgspenger, pleiepenger og frisinn' });
+    expect(intlProvider.prop('messages')).to.eql(data);
     const span = wrapper.find('span');
     expect(span).to.have.length(1);
     expect(span.text()).to.eql('Omsorgspenger, pleiepenger og frisinn');

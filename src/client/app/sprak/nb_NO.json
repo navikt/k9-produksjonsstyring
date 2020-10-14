@@ -276,7 +276,7 @@
   "SistBehandledeSaker.Behandling": "Behandling {index}",
 
   "SletteOppgavekoModal.SletteModal": "Ønsker du å slette behandlingskøen?",
-  "SletteOppgavekoModal.SletteOppgaveko": "Ønsker du å slette {OppgavekoNavn}?",
+  "SletteOppgavekoModal.SletteOppgaveko": "Er du sikker på at du vil slette {OppgavekoNavn}?",
   "SletteOppgavekoModal.Ja": "Ja",
   "SletteOppgavekoModal.Nei": "Nei",
 
@@ -316,7 +316,7 @@
   "OppgavekoVelgerForm.AndreKriterier": "Andre filter",
   "OppgavekoVelgerForm.Uten": "Uten: {kriterie}",
   "OppgavekoVelgerForm.Saksbehandlere": "Saksbehandlere tilknyttet denne køen",
-  "OppgavekoVelgerForm.SaksbehandlerToolip": "Saksbehandlere",
+  "OppgavekoVelgerForm.SaksbehandlerToolip": "Andre saksbehandlere på denne køen:",
   "OppgavekoVelgerForm.Sorteringsinfo": "{navn}{br}Gjeldende intervall:{br}{fomDato} - {tomDato}",
   "OppgavekoVelgerForm.SorteringsinfoFom": "{navn}{br}Fra og med: {fomDato}",
   "OppgavekoVelgerForm.SorteringsinfoTom": "{navn}{br}Til og med: {tomDato}",

@@ -33,23 +33,14 @@ const headerTextCodes = [
 
 interface OwnProps {
   reservasjoner: Reservasjon[];
-  opphevReservasjon: (oppgaveId: string) => Promise<string>;
   hentAlleReservasjoner: () => void;
-  endreOppgaveReservasjon: (oppgaveId: string, reserverTil: string) => Promise<string>;
-  finnSaksbehandler: (brukerIdent: string) => Promise<string>;
-  resetSaksbehandler: () => Promise<string>;
-  flyttReservasjon: (oppgaveId: string, brukerident: string, begrunnelse: string) => Promise<string>;
   requestFinished: boolean;
 }
 
 const ReservasjonerTabell: FunctionComponent<OwnProps & WrappedComponentProps> = ({
   reservasjoner,
+  hentAlleReservasjoner,
   requestFinished,
-  flyttReservasjon,
-  endreOppgaveReservasjon,
-  opphevReservasjon,
-  finnSaksbehandler,
-  resetSaksbehandler,
 }) => {
   const sorterteReservasjoner = reservasjoner.sort((reservasjon1, reservasjon2) => reservasjon1.reservertAvNavn.localeCompare(reservasjon2.reservertAvNavn));
 
@@ -64,18 +55,6 @@ const ReservasjonerTabell: FunctionComponent<OwnProps & WrappedComponentProps> =
     } else {
       setValgtReservasjon(undefined);
     }
-  };
-
-  const endreReservasjon = (oppgaveId: string, reserverTil: string) => {
-    endreOppgaveReservasjon(oppgaveId, reserverTil).then(() => setShowReservasjonEndringDatoModal(false));
-  };
-
-  const flyttReservasjonTilEnAnnen = (oppgaveId: string, brukerident: string, begrunnelse: string) => {
-    flyttReservasjon(oppgaveId, brukerident, begrunnelse).then(() => setShowFlyttReservasjonModal(false));
-  };
-
-  const leggTilbake = (oppgaveId: string) => {
-    opphevReservasjon(oppgaveId).then(() => setShowOpphevReservasjonModal(false));
   };
 
   return (
@@ -167,38 +146,36 @@ const ReservasjonerTabell: FunctionComponent<OwnProps & WrappedComponentProps> =
                   </Row>
                 </Row>
                 )}
-                {showOpphevReservasjonModal && (
-                <OpphevReservasjonModal
-                  oppgaveId={reservasjon.oppgaveId}
-                  showModal={showOpphevReservasjonModal}
-                  cancel={() => setShowOpphevReservasjonModal(false)}
-                  submit={leggTilbake}
-                />
-                )}
-                {showReservasjonEndringDatoModal && (
-                <OppgaveReservasjonEndringDatoModal
-                  showModal={showReservasjonEndringDatoModal}
-                  oppgaveId={reservasjon.oppgaveId}
-                  endreOppgaveReservasjon={endreReservasjon}
-                  closeModal={() => setShowReservasjonEndringDatoModal(false)}
-                  reserverTilDefault={reservasjon.reservertTilTidspunkt}
-                />
-                )}
-                { showFlyttReservasjonModal && (
-                <FlyttReservasjonModal
-                  oppgaveId={reservasjon.oppgaveId}
-                  showModal={showFlyttReservasjonModal}
-                  closeModal={() => setShowFlyttReservasjonModal(false)}
-                  submit={flyttReservasjonTilEnAnnen}
-                  finnSaksbehandler={finnSaksbehandler}
-                  resetSaksbehandler={resetSaksbehandler}
-                />
-                )}
               </>
             ))}
           </Table>
 
         </>
+      )}
+      {showOpphevReservasjonModal && (
+      <OpphevReservasjonModal
+        oppgaveId={valgtReservasjon.oppgaveId}
+        showModal={showOpphevReservasjonModal}
+        cancel={() => setShowOpphevReservasjonModal(false)}
+        hentReserverteOppgaver={hentAlleReservasjoner}
+      />
+      )}
+      {showReservasjonEndringDatoModal && (
+      <OppgaveReservasjonEndringDatoModal
+        showModal={showReservasjonEndringDatoModal}
+        oppgaveId={valgtReservasjon.oppgaveId}
+        closeModal={() => setShowReservasjonEndringDatoModal(false)}
+        hentAlleReservasjonerEllerOppgaver={hentAlleReservasjoner}
+        reserverTilDefault={valgtReservasjon.reservertTilTidspunkt}
+      />
+      )}
+      { showFlyttReservasjonModal && (
+      <FlyttReservasjonModal
+        oppgaveId={valgtReservasjon.oppgaveId}
+        showModal={showFlyttReservasjonModal}
+        closeModal={() => setShowFlyttReservasjonModal(false)}
+        hentAlleReservasjonerEllerOppgaver={hentAlleReservasjoner}
+      />
       )}
     </>
   );

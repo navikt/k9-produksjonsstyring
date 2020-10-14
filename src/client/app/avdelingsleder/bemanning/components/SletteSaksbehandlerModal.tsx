@@ -16,7 +16,7 @@ type OwnProps = Readonly<{
   intl: any;
   valgtSaksbehandler: Saksbehandler;
   closeSletteModal: () => void;
-  fjernSaksbehandler: (epost: string) => Promise<string>;
+  fjernSaksbehandler: (epost: string) => void;
 }>;
 
 /**
