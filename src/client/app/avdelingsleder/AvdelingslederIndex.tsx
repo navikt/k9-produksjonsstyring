@@ -29,7 +29,6 @@ import ApneBehandlinger from 'avdelingsleder/dagensTall/apneBehandlingerTsType';
 import AvdelingslederDashboard from './components/AvdelingslederDashboard';
 import IkkeTilgangTilAvdelingslederPanel from './components/IkkeTilgangTilAvdelingslederPanel';
 import AvdelingslederPanels from './avdelingslederPanels';
-import BemanningIndex from './bemanning/BemanningIndex';
 import EndreBehandlingskoerIndex from './behandlingskoer/EndreBehandlingskoerIndex';
 
 import styles from './avdelingslederIndex.less';
