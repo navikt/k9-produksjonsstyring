@@ -69,7 +69,7 @@ const FagsakSearchIndex: FunctionComponent<OwnProps> = ({
       leggTilBehandletOppgave(oppgave);
       goToFagsakEllerApneModal(oppgave);
     } else if (reserver && kanReservere) {
-      reserverOppgave(oppgave.eksternId).then(() => {
+      reserverOppgave({ id: oppgave.eksternId }).then(() => {
         leggTilBehandletOppgave(oppgave);
         goToFagsak(oppgave.saksnummer, oppgave.behandlingId);
       });
