@@ -52,6 +52,7 @@ const SorteringVelger: FunctionComponent<OwnProps & WrappedComponentProps> = ({
           })}
         >
           {koSorteringer.map((koSortering) => (
+            koSortering.kode !== 'FORSTONAD' && (
             <RadioOption
               key={koSortering.kode}
               value={koSortering.kode}
@@ -68,6 +69,7 @@ const SorteringVelger: FunctionComponent<OwnProps & WrappedComponentProps> = ({
               />
               )}
             </RadioOption>
+            )
           ))}
         </RadioGroupField>
       </div>

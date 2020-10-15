@@ -20,11 +20,6 @@ describe('<SorteringVelger>', () => {
     navn: 'opprett',
     felttype: '',
     feltkategori: '',
-  }, {
-    kode: KoSortering.FORSTE_STONADSDAG,
-    navn: 'frist',
-    felttype: '',
-    feltkategori: '',
   }];
 
   it('skal vise radioknapper for alle sorteringsvalg', () => {
@@ -42,9 +37,8 @@ describe('<SorteringVelger>', () => {
         />);
 
         const options = wrapper.find(RadioOption);
-        expect(options).to.have.length(2);
+        expect(options).to.have.length(1);
         expect(options.first().prop('value')).to.eql(KoSortering.OPPRETT_BEHANDLING);
-        expect(options.last().prop('value')).to.eql(KoSortering.FORSTE_STONADSDAG);
       });
   });
 
