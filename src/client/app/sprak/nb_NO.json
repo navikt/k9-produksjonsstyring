@@ -75,7 +75,7 @@
 
   "SkjermetVelger.Skjermet": "Gjelder køen egne ansatte eller kode 7?",
 
-  "FerdigstilteHistorikkPanel.Ferdigstilte": "Historikk over ferdigstilte oppgaver",
+  "FerdigstilteHistorikkPanel.Ferdigstilte": "Historikk over ferdigstilte behandlinger",
 
   "FlyttReservasjonModal.FlyttReservasjon": "Flytt reservasjonen til annen saksbehandler",
   "FlyttReservasjonModal.Brukerident": "Brukerident",
@@ -159,7 +159,7 @@
 
   "MottattPanel.MottattRefusjonskrav": "Mottatt refusjonskrav",
 
-  "NyeHistorikkPanel.Nye": "Historikk over nye oppgaver",
+  "NyeHistorikkPanel.Nye": "Historikk over nye behandlinger",
 
   "InngangOgFerdigstiltePanel.Header": "Dagens tall",
   "InngangOgFerdigstiltePanel.IngenTall": "Ingen data for øyeblikket",
