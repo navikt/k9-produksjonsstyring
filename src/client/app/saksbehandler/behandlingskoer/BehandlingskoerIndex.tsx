@@ -2,7 +2,7 @@ import React, {
   FunctionComponent, useCallback, useEffect, useState,
 } from 'react';
 import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
-import { getK9sakHref } from 'app/paths';
+import { getK9punsjRef, getK9sakHref } from 'app/paths';
 import { Oppgaveko } from 'saksbehandler/behandlingskoer/oppgavekoTsType';
 import { OppgaveStatus } from 'saksbehandler/oppgaveStatusTsType';
 import Oppgave from 'saksbehandler/oppgaveTsType';
@@ -11,10 +11,12 @@ import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner
 import { useRestApi } from 'api/rest-api-hooks';
 import useGlobalStateRestApiData from 'api/rest-api-hooks/src/global-data/useGlobalStateRestApiData';
 import RestApiState from 'api/rest-api-hooks/src/RestApiState';
+import behandlingType from 'kodeverk/behandlingType';
 import OppgavekoPanel from './components/OppgavekoPanel';
 
 interface OwnProps {
   k9sakUrl: string;
+  k9punsjUrl: string;
   valgtOppgavekoId?: string;
   setValgtOppgavekoId: (id: string) => void;
 }
@@ -24,6 +26,7 @@ interface OwnProps {
  */
 const BehandlingskoerIndex: FunctionComponent<OwnProps> = ({
   k9sakUrl,
+  k9punsjUrl,
   setValgtOppgavekoId,
   valgtOppgavekoId,
 }) => {
@@ -63,7 +66,11 @@ const BehandlingskoerIndex: FunctionComponent<OwnProps> = ({
 
   const openFagsak = (oppgave: Oppgave) => {
     leggTilBehandletOppgave(oppgave);
-    window.location.assign(getK9sakHref(k9sakUrl, oppgave.saksnummer, oppgave.behandlingId));
+    if (oppgave.behandlingstype === behandlingType.PUNSJ && oppgave.journalpostId !== null) {
+      window.location.assign(getK9punsjRef(k9punsjUrl, oppgave.journalpostId));
+    } else {
+      window.location.assign(getK9sakHref(k9sakUrl, oppgave.saksnummer, oppgave.behandlingId));
+    }
   };
 
   const openSak = (oppgave: Oppgave) => {
