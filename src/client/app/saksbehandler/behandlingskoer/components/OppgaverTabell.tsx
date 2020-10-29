@@ -61,6 +61,7 @@ interface OwnProps {
   oppgaverTilBehandling: Oppgave[];
   hentReserverteOppgaver: () => void;
   requestFinished: boolean;
+  valgtKo: Oppgaveko;
 }
 
 /**
@@ -75,6 +76,7 @@ export const OppgaverTabell: FunctionComponent<OwnProps & WrappedComponentProps>
   oppgaverTilBehandling,
   hentReserverteOppgaver,
   requestFinished,
+  valgtKo,
 }) => {
   const [showMenu, setShowMenu] = useState(false);
   const [valgtOppgaveId, setValgtOppgaveId] = useState<string>();
@@ -139,14 +141,14 @@ export const OppgaverTabell: FunctionComponent<OwnProps & WrappedComponentProps>
       {alleOppgaver.length === 0 && !requestFinished && (
         <NavFrontendSpinner type="XL" className={styles.spinner} />
       )}
-      {alleOppgaver.length === 0 && requestFinished && (
+      {alleOppgaver.length === 0 && requestFinished && !valgtKo.skjermet && (
       <>
         <VerticalSpacer eightPx />
         <Normaltekst><FormattedMessage id="OppgaverTabell.IngenOppgaver" /></Normaltekst>
       </>
       )}
 
-      {oppgaverTilBehandling.length === 0 && requestFinished && (
+      {oppgaverTilBehandling.length === 0 && requestFinished && valgtKo.skjermet && (
         <>
           <VerticalSpacer eightPx />
           <Normaltekst><FormattedMessage id="OppgaverTabell.IngenTilgang" /></Normaltekst>
