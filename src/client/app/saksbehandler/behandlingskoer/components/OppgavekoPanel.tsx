@@ -38,6 +38,8 @@ const OppgavekoPanel: FunctionComponent<OwnProps> = ({
 }) => {
   const { startRequest: fetchAntallOppgaver, data: antallOppgaver } = useRestApiRunner<number>(K9LosApiKeys.BEHANDLINGSKO_OPPGAVE_ANTALL);
 
+  const valgtKo = oppgavekoer.find((ko) => ko.id === valgtOppgavekoId);
+
   return (
     <>
       <Undertittel><FormattedMessage id="OppgavekoPanel.StartBehandling" /></Undertittel>
@@ -52,6 +54,7 @@ const OppgavekoPanel: FunctionComponent<OwnProps> = ({
         />
         <VerticalSpacer twentyPx />
         <OppgaverTabell
+          valgtKo={valgtKo}
           reserverOppgave={reserverOppgave}
           valgtOppgavekoId={valgtOppgavekoId}
           antallOppgaver={antallOppgaver}

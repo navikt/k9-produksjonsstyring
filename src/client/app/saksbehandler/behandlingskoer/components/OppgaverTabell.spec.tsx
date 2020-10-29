@@ -14,6 +14,7 @@ import Image from 'sharedComponents/Image';
 import { intlMock, shallowWithIntl } from 'testHelpers/intl-enzyme-test-helper';
 import { K9LosApiKeys } from 'api/k9LosApi';
 import RestApiTestMocker from 'testHelpers/RestApiTestMocker';
+import andreKriterierType from 'kodeverk/andreKriterierType';
 import { OppgaverTabell } from './OppgaverTabell';
 
 describe('<OppgaverTabell>', () => {
@@ -198,6 +199,22 @@ describe('<OppgaverTabell>', () => {
   });
 
   it('skal ikke vise liste når en ikke har oppgaver', () => {
+    const oppgaveko = {
+      id: '1',
+      navn: 'Nyansatte',
+      sistEndret: '2017-08-31',
+      skjermet: false,
+      andreKriterierTyper: [{
+        kode: andreKriterierType.TIL_BESLUTTER,
+        navn: 'Til beslutter',
+      }, {
+        kode: andreKriterierType.AVKLAR_MEDLEMSKAP,
+        navn: 'Avklar medlemskap',
+      }],
+      antallBehandlinger: 68,
+      saksbehandlere: [],
+    };
+
     new RestApiTestMocker()
       .withRestCallRunner(K9LosApiKeys.FORLENG_OPPGAVERESERVASJON, { startRequest: () => undefined, data: undefined })
       .withRestCallRunner(K9LosApiKeys.LEGG_TIL_BEHANDLET_OPPGAVE, { startRequest: () => undefined, data: undefined })
@@ -211,14 +228,15 @@ describe('<OppgaverTabell>', () => {
           oppgaverTilBehandling={[]}
           reserverteOppgaver={[]}
           requestFinished
+          valgtKo={oppgaveko}
           hentReserverteOppgaver={sinon.spy()}
 
         />);
 
         const message = wrapper.find(FormattedMessage);
-        expect(message).has.length(3);
+        expect(message).has.length(2);
         expect(message.first().prop('id')).is.eql('OppgaverTabell.DineNesteSaker');
-        expect(message.last().prop('id')).is.eql('OppgaverTabell.IngenTilgang');
+        expect(message.last().prop('id')).is.eql('OppgaverTabell.IngenOppgaver');
 
         expect(wrapper.find(TableRow)).has.length(0);
       });
@@ -258,6 +276,22 @@ describe('<OppgaverTabell>', () => {
       },
     }];
 
+    const oppgaveko = {
+      id: '1',
+      navn: 'Nyansatte',
+      sistEndret: '2017-08-31',
+      skjermet: false,
+      andreKriterierTyper: [{
+        kode: andreKriterierType.TIL_BESLUTTER,
+        navn: 'Til beslutter',
+      }, {
+        kode: andreKriterierType.AVKLAR_MEDLEMSKAP,
+        navn: 'Avklar medlemskap',
+      }],
+      antallBehandlinger: 68,
+      saksbehandlere: [],
+    };
+
     new RestApiTestMocker()
       .withRestCallRunner(K9LosApiKeys.FORLENG_OPPGAVERESERVASJON, { startRequest: () => undefined, data: undefined })
       .withRestCallRunner(K9LosApiKeys.LEGG_TIL_BEHANDLET_OPPGAVE, { startRequest: () => undefined, data: undefined })
@@ -272,6 +306,7 @@ describe('<OppgaverTabell>', () => {
           reserverteOppgaver={reserverteOppgaver}
           requestFinished
           hentReserverteOppgaver={sinon.spy()}
+          valgtKo={oppgaveko}
         />);
 
         const tableRows = wrapper.find(TableRow);
