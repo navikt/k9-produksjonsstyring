@@ -74,7 +74,7 @@ const BehandlingskoerIndex: FunctionComponent<OwnProps> = ({
   };
 
   const openSak = (oppgave: Oppgave) => {
-    if (oppgave.system === 'K9SAK') openFagsak(oppgave);
+    if (oppgave.system === 'K9SAK' || oppgave.system === 'PUNSJ') openFagsak(oppgave);
     else throw new Error('Fagsystemet for oppgaven er ukjent');
   };
 
