@@ -66,7 +66,7 @@ const BehandlingskoerIndex: FunctionComponent<OwnProps> = ({
 
   const openFagsak = (oppgave: Oppgave) => {
     leggTilBehandletOppgave(oppgave);
-    if (oppgave.behandlingstype === behandlingType.PUNSJ && oppgave.journalpostId !== null) {
+    if (oppgave.journalpostId !== null) {
       window.location.assign(getK9punsjRef(k9punsjUrl, oppgave.journalpostId));
     } else {
       window.location.assign(getK9sakHref(k9sakUrl, oppgave.saksnummer, oppgave.behandlingId));
