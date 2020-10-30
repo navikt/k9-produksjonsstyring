@@ -5,6 +5,7 @@ type Oppgave = {
   status: OppgaveStatus;
   saksnummer: string;
   behandlingId: number;
+  journalpostId: string;
   personnummer: string;
   navn: string;
   system: string;

@@ -24,13 +24,16 @@ const AppConfigResolver: FunctionComponent<OwnProps> = ({
     { suspendRequest: stateNavAnsatt !== RestApiState.SUCCESS, updateTriggers: [stateNavAnsatt] });
   const { state: stateSseUrl } = useGlobalStateRestApi(RestApiGlobalStatePathsKeys.SSE_URL, undefined,
     { suspendRequest: stateNavAnsatt !== RestApiState.SUCCESS, updateTriggers: [stateNavAnsatt] });
+  const { state: stateK9punsjUrl } = useGlobalStateRestApi(RestApiGlobalStatePathsKeys.PUNSJ_URL, undefined,
+    { suspendRequest: stateNavAnsatt !== RestApiState.SUCCESS, updateTriggers: [stateNavAnsatt] });
 
   if (stateNavAnsatt === RestApiState.ERROR) {
     window.location.assign(PROXY_REDIRECT_URL);
   }
 
   if (stateK9sakUrl === RestApiState.LOADING || stateNavAnsatt === RestApiState.LOADING
-      || stateKodeverk === RestApiState.LOADING || stateSseUrl === RestApiState.LOADING) {
+      || stateKodeverk === RestApiState.LOADING || stateSseUrl === RestApiState.LOADING
+      || stateK9punsjUrl === RestApiState.LOADING) {
     return <LoadingPanel />;
   }
 

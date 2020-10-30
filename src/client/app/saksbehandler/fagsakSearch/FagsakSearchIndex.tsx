@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useState } from 'react';
 import OppgaveErReservertAvAnnenModal from 'saksbehandler/components/OppgaveErReservertAvAnnenModal';
-import { getK9sakHref } from 'app/paths';
+import { getK9punsjRef, getK9sakHref } from 'app/paths';
 
 import { OppgaveStatus } from 'saksbehandler/oppgaveStatusTsType';
 import Oppgave from 'saksbehandler/oppgaveTsType';
@@ -14,6 +14,7 @@ import FagsakSearch from './components/FagsakSearch';
 
 interface OwnProps {
   k9sakUrl: string;
+  k9punsjUrl: string;
 }
 
 /** s
@@ -24,6 +25,7 @@ interface OwnProps {
  */
 const FagsakSearchIndex: FunctionComponent<OwnProps> = ({
   k9sakUrl,
+  k9punsjUrl,
 }) => {
   const [reservertAvAnnenSaksbehandler, setReservertAvAnnenSaksbehandler] = useState(false);
   const [reservertOppgave, setReservertOppgave] = useState<Oppgave>();
@@ -32,8 +34,12 @@ const FagsakSearchIndex: FunctionComponent<OwnProps> = ({
   const [skalReservere, setSkalReservere] = useState(false);
   const { kanReservere } = useGlobalStateRestApiData<NavAnsatt>(RestApiGlobalStatePathsKeys.NAV_ANSATT);
 
-  const goToFagsak = (saksnummer, behandlingId) => {
-    window.location.assign(getK9sakHref(k9sakUrl, saksnummer, behandlingId));
+  const goToFagsak = (oppgave: Oppgave) => {
+    if (oppgave.journalpostId !== null) {
+      window.location.assign(getK9punsjRef(k9punsjUrl, k9oppgave.journalpostId));
+    } else {
+      window.location.assign(getK9sakHref(k9sakUrl, oppgave.saksnummer, oppgave.behandlingId));
+    }
   };
 
   const {
@@ -48,7 +54,7 @@ const FagsakSearchIndex: FunctionComponent<OwnProps> = ({
 
   const goToFagsakEllerApneModal = (oppgave: Oppgave) => {
     if (!oppgave.status.erReservert || (oppgave.status.erReservert && oppgave.status.erReservertAvInnloggetBruker)) {
-      goToFagsak(oppgave.saksnummer, oppgave.behandlingId);
+      goToFagsak(oppgave);
     } else if (oppgave.status.erReservert && !oppgave.status.erReservertAvInnloggetBruker) {
       setReservertAvAnnenSaksbehandler(true);
       setReservertOppgave(oppgave);
@@ -63,7 +69,7 @@ const FagsakSearchIndex: FunctionComponent<OwnProps> = ({
 
     if (reserver && !kanReservere) {
       leggTilBehandletOppgave(oppgave);
-      goToFagsak(oppgave.saksnummer, oppgave.behandlingId);
+      goToFagsak(oppgave);
     }
     if (!reserver) {
       leggTilBehandletOppgave(oppgave);
@@ -71,11 +77,11 @@ const FagsakSearchIndex: FunctionComponent<OwnProps> = ({
     } else if (reserver && kanReservere) {
       reserverOppgave({ oppgaveId: oppgave.eksternId }).then(() => {
         leggTilBehandletOppgave(oppgave);
-        goToFagsak(oppgave.saksnummer, oppgave.behandlingId);
+        goToFagsak(oppgave);
       });
     } else if (!kanReservere) {
       leggTilBehandletOppgave(oppgave);
-      goToFagsak(oppgave.saksnummer, oppgave.behandlingId);
+      goToFagsak(oppgave);
     }
   };
 
@@ -101,7 +107,7 @@ const FagsakSearchIndex: FunctionComponent<OwnProps> = ({
     setReservertOppgave(undefined);
     setReservertAvAnnenSaksbehandler(false);
     leggTilBehandletOppgave(oppgave);
-    goToFagsak(oppgave.saksnummer, oppgave.behandlingId);
+    goToFagsak(oppgave);
   };
 
   const resetSearchFn = () => {

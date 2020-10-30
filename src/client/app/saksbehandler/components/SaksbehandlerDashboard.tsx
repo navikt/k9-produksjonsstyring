@@ -22,6 +22,7 @@ export const SaksbehandlerDashboard: FunctionComponent<OwnProps> = ({
   setValgtOppgavekoId,
 }) => {
   const k9sakUrl = useGlobalStateRestApiData<{ verdi?: string }>(RestApiGlobalStatePathsKeys.K9SAK_URL);
+  const k9punsjUrl = useGlobalStateRestApiData<{ verdi?: string }>(RestApiGlobalStatePathsKeys.PUNSJ_URL);
 
   return (
     <div>
@@ -32,10 +33,11 @@ export const SaksbehandlerDashboard: FunctionComponent<OwnProps> = ({
               <Panel className={styles.sakslistePanel}>
                 <BehandlingskoerIndex
                   k9sakUrl={k9sakUrl.verdi}
+                  k9punsjUrl={k9punsjUrl.verdi}
                   setValgtOppgavekoId={setValgtOppgavekoId}
                   valgtOppgavekoId={valgtOppgavekoId}
                 />
-                <FagsakSearchIndex k9sakUrl={k9sakUrl.verdi} />
+                <FagsakSearchIndex k9punsjUrl={k9punsjUrl.verdi} k9sakUrl={k9sakUrl.verdi} />
               </Panel>
             </div>
           </div>
