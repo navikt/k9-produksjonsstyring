@@ -43,14 +43,14 @@ jobs:
           echo "TAG=${TAG}$(date +"%Y%m%d%H%M%S")-$(echo $GITHUB_SHA | cut -c1-7)" >> $GITHUB_ENV
           echo "IMAGE=${IMAGE}$IMAGE_BASE:$(date +"%Y%m%d%H%M%S")-$(echo $GITHUB_SHA | cut -c1-7)" >> $GITHUB_ENV
       - name: Bygg og laste opp docker-image
+        run: |
+          docker pull node:alpine
+          docker build --tag ${IMAGE} --tag ${IMAGE_BASE}:latest .
+          docker login docker.pkg.github.com -u ${GITHUB_REPOSITORY} -p ${GITHUB_TOKEN}
+          docker push ${IMAGE_BASE}:latest
+          docker push ${IMAGE}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          run: |
-            docker pull node:alpine
-            docker build --tag ${IMAGE} --tag ${IMAGE_BASE}:latest .
-            docker login docker.pkg.github.com -u ${GITHUB_REPOSITORY} -p ${GITHUB_TOKEN}
-            docker push ${IMAGE_BASE}:latest
-            docker push ${IMAGE}
       - name: Trigger verdikjede test
         if: success()
         shell: bash
@@ -102,14 +102,14 @@ jobs:
           echo "TAG=${TAG}$(date +"%Y%m%d%H%M%S")-$(echo $GITHUB_SHA | cut -c1-7)" >> $GITHUB_ENV
           echo "IMAGE=${IMAGE}$IMAGE_BASE:$(date +"%Y%m%d%H%M%S")-$(echo $GITHUB_SHA | cut -c1-7)" >> $GITHUB_ENV
       - name: Bygg og laste opp docker-image
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           docker pull node:alpine
           docker build --tag ${IMAGE} --tag ${IMAGE_BASE}:latest .
           docker login docker.pkg.github.com -u ${GITHUB_REPOSITORY} -p ${GITHUB_TOKEN}
           docker push ${IMAGE_BASE}:latest
           docker push ${IMAGE}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Trigger verdikjede test
         if: success()
         shell: bash
