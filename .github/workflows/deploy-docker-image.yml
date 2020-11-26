@@ -106,14 +106,14 @@ jobs:
           echo $DOCKER_IMAGE > .docker_image
           echo "$(date "+%Y.%m.%d")-$(git rev-parse --short HEAD)" > .docker_tag
           echo "IMAGE=${IMAGE}$(cat .docker_image):$(cat .docker_tag)" >> $GITHUB_ENV
-          - name: Bygg og laste opp docker-image
-            env:
-              GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-              run: |
-                docker build --tag ${IMAGE} --tag ${BASE_IMAGE}:latest .
-                docker login docker.pkg.github.com -u ${GITHUB_REPOSITORY} -p ${GITHUB_TOKEN}
-                docker push $BASE_IMAGE:latest
-                docker push $IMAGE
+      - name: Bygg og laste opp docker-image
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          run: |
+            docker build --tag ${IMAGE} --tag ${BASE_IMAGE}:latest .
+            docker login docker.pkg.github.com -u ${GITHUB_REPOSITORY} -p ${GITHUB_TOKEN}
+            docker push $BASE_IMAGE:latest
+            docker push $IMAGE
       - name: Trigger verdikjede test
         if: success()
         shell: bash
