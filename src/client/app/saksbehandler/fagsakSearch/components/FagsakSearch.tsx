@@ -59,7 +59,7 @@ const FagsakSearch: FunctionComponent<OwnProps> = ({
     && <Normaltekst className={styles.label}><FormattedMessage id="FagsakSearch.IkkeTilgang" /></Normaltekst>}
     {searchResultReceived && skalViseListe(resultat) && (
       <>
-        <PersonInfo person={resultat.person} />
+      {resultat.person && <PersonInfo person={resultat.person} />}
         <VerticalSpacer sixteenPx />
         <Normaltekst>
           <FormattedMessage id="FagsakSearch.FlereApneBehandlinger" />
