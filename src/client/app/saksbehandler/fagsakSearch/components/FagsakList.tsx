@@ -15,7 +15,6 @@ import styles from './fagsakList.less';
 
 const headerTextCodes = [
   'FagsakList.Saksnummer',
-  'FagsakList.Fagsystem',
   'FagsakList.Navn',
   'FagsakList.Stonadstype',
   'EMPTY_1',
@@ -74,7 +73,6 @@ const FagsakList: FunctionComponent<OwnProps> = ({
           isDashedBottomBorder={fagsakOppgaver.length > index + 1}
         >
           <TableColumn>{oppgave.saksnummer}</TableColumn>
-          <TableColumn>{oppgave.system}</TableColumn>
           <TableColumn>{oppgave.navn}</TableColumn>
           <TableColumn>{oppgave.fagsakYtelseType.navn}</TableColumn>
           <TableColumn><NavFrontendChevron /></TableColumn>
