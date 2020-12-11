@@ -4,6 +4,7 @@ const kodeverkTyper = {
   KO_SORTERING: 'KøSortering',
   FAGSAK_STATUS: 'FagsakStatus',
   ANDRE_KRITERIER_TYPE: 'AndreKriterierType',
+  FAGSYSTEM: 'Fagsystem',
 };
 
 export default kodeverkTyper;
