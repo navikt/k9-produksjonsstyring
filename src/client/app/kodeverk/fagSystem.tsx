@@ -1,0 +1,5 @@
+const Fagsystem = {
+  K9SAK: 'K9SAK',
+  OMSORGSPENGER: 'OMSORGSPENGER',
+  K9TILBAKE: 'K9TILBAKE',
+};

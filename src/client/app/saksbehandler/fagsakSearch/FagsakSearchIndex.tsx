@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useState } from 'react';
 import OppgaveErReservertAvAnnenModal from 'saksbehandler/components/OppgaveErReservertAvAnnenModal';
-import { getK9punsjRef, getK9sakHref } from 'app/paths';
+import { getK9punsjRef, getK9sakHref, getOmsorgspengerRef } from 'app/paths';
 
 import { OppgaveStatus } from 'saksbehandler/oppgaveStatusTsType';
 import Oppgave from 'saksbehandler/oppgaveTsType';
@@ -15,6 +15,7 @@ import FagsakSearch from './components/FagsakSearch';
 interface OwnProps {
   k9sakUrl: string;
   k9punsjUrl: string;
+  omsorgspengerUrl: string;
 }
 
 /** s
@@ -26,6 +27,7 @@ interface OwnProps {
 const FagsakSearchIndex: FunctionComponent<OwnProps> = ({
   k9sakUrl,
   k9punsjUrl,
+  omsorgspengerUrl,
 }) => {
   const [reservertAvAnnenSaksbehandler, setReservertAvAnnenSaksbehandler] = useState(false);
   const [reservertOppgave, setReservertOppgave] = useState<Oppgave>();
@@ -36,7 +38,9 @@ const FagsakSearchIndex: FunctionComponent<OwnProps> = ({
 
   const goToFagsak = (oppgave: Oppgave) => {
     if (oppgave.journalpostId !== null) {
-      window.location.assign(getK9punsjRef(k9punsjUrl, k9oppgave.journalpostId));
+      window.location.assign(getK9punsjRef(k9punsjUrl, oppgave.journalpostId));
+    } if (oppgave.system === 'OMSORGSPENGER') {
+      window.location.assign(getOmsorgspengerRef(omsorgspengerUrl, oppgave.saksnummer));
     } else {
       window.location.assign(getK9sakHref(k9sakUrl, oppgave.saksnummer, oppgave.behandlingId));
     }
@@ -50,7 +54,6 @@ const FagsakSearchIndex: FunctionComponent<OwnProps> = ({
 
   const { startRequest: reserverOppgave } = useRestApiRunner<OppgaveStatus>(K9LosApiKeys.RESERVER_OPPGAVE);
   const { startRequest: leggTilBehandletOppgave } = useRestApiRunner(K9LosApiKeys.LEGG_TIL_BEHANDLET_OPPGAVE);
-  const { startRequest: hentOppgaverForFagsaker, data: fagsakOppgaver } = useRestApiRunner<Oppgave[]>(K9LosApiKeys.OPPGAVER_FOR_FAGSAKER);
 
   const goToFagsakEllerApneModal = (oppgave: Oppgave) => {
     if (!oppgave.status.erReservert || (oppgave.status.erReservert && oppgave.status.erReservertAvInnloggetBruker)) {
@@ -91,15 +94,8 @@ const FagsakSearchIndex: FunctionComponent<OwnProps> = ({
     setSokFerdig(false);
 
     return sokFagsak(values).then((resultat) => {
-      if (resultat.fagsaker.length > 0) {
-        hentOppgaverForFagsaker({ saksnummerListe: resultat.fagsaker.map((fagsak) => `${fagsak.saksnummer}`).join(',') }).then(() => {
-          setSokStartet(false);
-          setSokFerdig(true);
-        });
-      } else {
-        setSokStartet(false);
-        setSokFerdig(true);
-      }
+      setSokStartet(false);
+      setSokFerdig(true);
     });
   };
 
@@ -119,8 +115,7 @@ const FagsakSearchIndex: FunctionComponent<OwnProps> = ({
   return (
     <>
       <FagsakSearch
-        fagsaker={fagsakerResultat}
-        fagsakOppgaver={fagsakOppgaver || []}
+        resultat={fagsakerResultat}
         searchFagsakCallback={sokFagsakFn}
         searchResultReceived={sokFerdig}
         selectOppgaveCallback={velgFagsakOperasjoner}
