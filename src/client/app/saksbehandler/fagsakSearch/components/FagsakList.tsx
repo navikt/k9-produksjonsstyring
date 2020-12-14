@@ -45,7 +45,7 @@ const FagsakList: FunctionComponent<OwnProps> = ({
     if (!kanReservere) {
       selectCallback(oppgave, false);
     }
-    if (oppgave.erTilSaksbehandling && !oppgave.status.erReservert) {
+    if (oppgave.erTilSaksbehandling && !oppgave.status.erReservert && oppgave.system === 'K9SAK') {
       setVisReserverOppgaveModal(true);
     } else {
       selectCallback(oppgave, false);
