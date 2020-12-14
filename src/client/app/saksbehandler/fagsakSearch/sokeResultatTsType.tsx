@@ -1,8 +1,6 @@
-import Oppgave from 'saksbehandler/fagsakSearch/fagsakTsType';
-import Person from 'saksbehandler/fagsakSearch/personTsType';
+import { Fagsak } from 'saksbehandler/fagsakSearch/fagsakTsType';
 
 export type SokeResultat = Readonly<{
     ikkeTilgang: boolean;
-    oppgaver: Oppgave[];
-    person: Person;
+    fagsaker: Fagsak[]
 }>;

@@ -65,7 +65,8 @@ describe('<FagsakSearch>', () => {
   it('skal kun vise søkefelt før søk er startet', () => {
     const searchFagsakFunction = sinon.spy();
     const wrapper = shallow(<FagsakSearch
-      resultat={[]}
+      fagsaker={[]}
+      fagsakOppgaver={[]}
       searchFagsakCallback={searchFagsakFunction}
       selectOppgaveCallback={sinon.spy()}
       searchResultReceived={false}
@@ -81,7 +82,8 @@ describe('<FagsakSearch>', () => {
 
   it('skal vise søkefelt og label for ingen søketreff når ingen fagsaker blir hentet', () => {
     const wrapper = shallow(<FagsakSearch
-      resultat={{ ikkeTilgang: false, oppgaver: [], person: null }}
+      fagsaker={{ ikkeTilgang: false, fagsaker: [] }}
+      fagsakOppgaver={[]}
       searchFagsakCallback={sinon.spy()}
       searchResultReceived
       selectOppgaveCallback={sinon.spy()}

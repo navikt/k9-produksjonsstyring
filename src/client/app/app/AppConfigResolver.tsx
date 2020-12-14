@@ -26,8 +26,6 @@ const AppConfigResolver: FunctionComponent<OwnProps> = ({
     { suspendRequest: stateNavAnsatt !== RestApiState.SUCCESS, updateTriggers: [stateNavAnsatt] });
   const { state: stateK9punsjUrl } = useGlobalStateRestApi(RestApiGlobalStatePathsKeys.PUNSJ_URL, undefined,
     { suspendRequest: stateNavAnsatt !== RestApiState.SUCCESS, updateTriggers: [stateNavAnsatt] });
-  const { state: stateOmsorgspengerUrl } = useGlobalStateRestApi(RestApiGlobalStatePathsKeys.OMSORGSPENGER_URL, undefined,
-    { suspendRequest: stateNavAnsatt !== RestApiState.SUCCESS, updateTriggers: [stateNavAnsatt] });
 
   if (stateNavAnsatt === RestApiState.ERROR) {
     window.location.assign(PROXY_REDIRECT_URL);
@@ -35,7 +33,7 @@ const AppConfigResolver: FunctionComponent<OwnProps> = ({
 
   if (stateK9sakUrl === RestApiState.LOADING || stateNavAnsatt === RestApiState.LOADING
       || stateKodeverk === RestApiState.LOADING || stateSseUrl === RestApiState.LOADING
-      || stateK9punsjUrl === RestApiState.LOADING || stateOmsorgspengerUrl === RestApiState.LOADING) {
+      || stateK9punsjUrl === RestApiState.LOADING) {
     return <LoadingPanel />;
   }
 

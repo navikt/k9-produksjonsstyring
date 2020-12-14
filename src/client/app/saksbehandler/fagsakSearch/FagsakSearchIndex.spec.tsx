@@ -12,7 +12,7 @@ describe('<FagsakSearchIndex>', () => {
     kanSaksbehandle: true,
   };
 
-  const oppgave = {
+  const fagsak = {
     saksnummer: '12345',
     sakstype: {
       kode: 'ES',
@@ -32,28 +32,23 @@ describe('<FagsakSearchIndex>', () => {
     },
     opprettet: '13‎.‎02‎.‎2017‎ ‎09‎:‎54‎:‎22',
   };
-  const resultat = { ikkeTilgang: false, oppgaver: [oppgave, { ...oppgave, saksnummer: ' 23456' }], person: {
-      navn: "Navn",
-      personnummer: "8857575754845",
-      kjoenn: "KVINNE"
-    } };
+  const fagsaker = { ikkeTilgang: false, fagsaker: [fagsak, { ...fagsak, saksnummer: ' 23456' }] };
 
   it('skal sette opp søkeskjermbilde for fagsaker', () => {
     new RestApiTestMocker()
-      .withRestCallRunner(K9LosApiKeys.SEARCH_FAGSAK, { data: resultat })
+      .withRestCallRunner(K9LosApiKeys.SEARCH_FAGSAK, { data: fagsaker })
       .withRestCallRunner(K9LosApiKeys.RESERVER_OPPGAVE, { startRequest: () => undefined })
       .withRestCallRunner(K9LosApiKeys.LEGG_TIL_BEHANDLET_OPPGAVE, { startRequest: () => undefined })
+      .withRestCallRunner(K9LosApiKeys.OPPGAVER_FOR_FAGSAKER, { startRequest: () => undefined })
       .withGlobalData(RestApiGlobalStatePathsKeys.NAV_ANSATT, navAnsatt)
       .runTest(() => {
         const wrapper = shallow(<FagsakSearchIndex
           k9sakUrl="k9/sak/"
-          k9punsjUrl="k9-punsj"
-          omsorgspengerUrl="omsorgspenger"
         />);
 
         const fagsakSearchIndex = wrapper.find(FagsakSearch);
         expect(fagsakSearchIndex).to.have.length(1);
-        expect(fagsakSearchIndex.prop('resultat')).to.eql(resultat);
+        expect(fagsakSearchIndex.prop('fagsaker')).to.eql(fagsaker);
       });
   });
 });

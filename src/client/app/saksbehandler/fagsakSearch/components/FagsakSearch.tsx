@@ -13,7 +13,8 @@ import FagsakList from './FagsakList';
 import styles from './fagsakSearch.less';
 
 interface OwnProps {
-  resultat: SokeResultat;
+  fagsaker: SokeResultat;
+  fagsakOppgaver: Oppgave[];
   searchFagsakCallback: ({ searchString: string, skalReservere: boolean }) => void;
   searchResultReceived: boolean;
   selectOppgaveCallback: (oppgave: Oppgave, reserver: boolean) => void;
@@ -24,11 +25,11 @@ interface OwnProps {
   resetSearch: () => void;
 }
 
-const skalViseListe = (resultat) => {
-  if (!resultat && !resultat.oppgaver) {
+const skalViseListe = (fagsaker, fagsakOppgaver) => {
+  if (!fagsaker && !fagsakOppgaver) {
     return false;
   }
-  return resultat.oppgaver.length >= 1;
+  return fagsaker.length >= 1 || (fagsaker.length >= 1 && fagsakOppgaver.filter((oppgave) => oppgave.saksnummer === fagsaker[0].saksnummer).length > 1);
 };
 
 /**
@@ -38,7 +39,8 @@ const skalViseListe = (resultat) => {
  * Er søkeresultat mottatt vises enten trefflisten og relatert person, eller en tekst som viser ingen resultater.
  */
 const FagsakSearch: FunctionComponent<OwnProps> = ({
-  resultat,
+  fagsaker,
+  fagsakOppgaver,
   searchFagsakCallback,
   selectOppgaveCallback,
   searchResultReceived,
@@ -53,18 +55,18 @@ const FagsakSearch: FunctionComponent<OwnProps> = ({
       searchResultAccessDenied={searchResultAccessDenied}
       resetSearch={resetSearch}
     />
-    {searchResultReceived && resultat && resultat.oppgaver.length === 0 && resultat.ikkeTilgang === false
+    {searchResultReceived && fagsaker && fagsaker.fagsaker.length === 0 && fagsaker.ikkeTilgang === false
       && <Normaltekst className={styles.label}><FormattedMessage id="FagsakSearch.ZeroSearchResults" /></Normaltekst>}
-    {searchResultReceived && resultat && resultat.oppgaver.length === 0 && resultat.ikkeTilgang === true
+    {searchResultReceived && fagsaker && fagsaker.fagsaker.length === 0 && fagsaker.ikkeTilgang === true
     && <Normaltekst className={styles.label}><FormattedMessage id="FagsakSearch.IkkeTilgang" /></Normaltekst>}
-    {searchResultReceived && skalViseListe(resultat) && (
+    {searchResultReceived && skalViseListe(fagsaker.fagsaker, fagsakOppgaver) && (
       <>
-      {resultat.person && <PersonInfo person={resultat.person} />}
+        <PersonInfo person={fagsaker.fagsaker[0].person} />
         <VerticalSpacer sixteenPx />
         <Normaltekst>
           <FormattedMessage id="FagsakSearch.FlereApneBehandlinger" />
         </Normaltekst>
-        <FagsakList fagsakOppgaver={resultat.oppgaver} selectOppgaveCallback={selectOppgaveCallback} />
+        <FagsakList fagsakOppgaver={fagsakOppgaver} selectOppgaveCallback={selectOppgaveCallback} />
       </>
     )}
   </div>

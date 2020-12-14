@@ -7,13 +7,11 @@ export enum RestApiGlobalStatePathsKeys {
   NAV_ANSATT = 'NAV_ANSATT',
   K9SAK_URL = 'K9SAK_URL',
   SSE_URL = 'SSE_URL',
-  PUNSJ_URL = 'PUNSJ_URL',
-  OMSORGSPENGER_URL = 'OMSORGSPENGER_URL',
+  PUNSJ_URL = 'PUNSJ_URL'
 }
 
 export enum K9LosApiKeys {
   KODEVERK = 'KODEVERK',
-  OMSORGSPENGER_URL = 'OMSORGSPENGER_URL',
   NAV_ANSATT = 'NAV_ANSATT',
   SSE_URL = 'SSE_URL',
   PUNSJ_URL = 'PUNSJ_URL',
@@ -153,7 +151,6 @@ export const endpoints = new RestApiConfigBuilder(CONTEXT_PATH)
   .withGet('/konfig/k9-sak-url', K9LosApiKeys.K9SAK_URL)
   .withGet('/konfig/sse-url', K9LosApiKeys.SSE_URL)
   .withGet('/konfig/k9-punsj-url', K9LosApiKeys.PUNSJ_URL)
-  .withGet('/konfig/omsorgspenger-url', K9LosApiKeys.OMSORGSPENGER_URL)
 
   /* /api/kodeverk */
   .withGet('/kodeverk', K9LosApiKeys.KODEVERK)
