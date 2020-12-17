@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl';
 import Lenke from 'nav-frontend-lenker';
 import { Undertittel, Normaltekst } from 'nav-frontend-typografi';
 
-import { getK9punsjRef, getK9sakHref } from 'app/paths';
+import {getK9punsjRef, getK9sakHref, getOmsorgspengerRef} from 'app/paths';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import BehandletOppgave from 'saksbehandler/saksstotte/behandletOppgaveTsType';
 import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
@@ -21,10 +21,14 @@ const SistBehandledeSaker: FunctionComponent = () => {
   const { data: sistBehandledeSaker = EMPTY_ARRAY } = useRestApi<BehandletOppgave[]>(K9LosApiKeys.BEHANDLEDE_OPPGAVER);
   const k9sakUrl = useGlobalStateRestApiData<{ verdi?: string }>(RestApiGlobalStatePathsKeys.K9SAK_URL);
   const k9punsjUrl = useGlobalStateRestApiData<{ verdi?: string }>(RestApiGlobalStatePathsKeys.PUNSJ_URL);
+  const omsorgspengerUrl = useGlobalStateRestApiData<{ verdi?: string }>(RestApiGlobalStatePathsKeys.OMSORGSPENGER_URL);
 
   const getUrl = (oppgave: BehandletOppgave) => {
     if (oppgave.journalpostId !== null) {
       return getK9punsjRef(k9punsjUrl.verdi, oppgave.journalpostId);
+    }
+    if (oppgave.system === 'OMSORGSPENGER') {
+      return getOmsorgspengerRef(omsorgspengerUrl.verdi, oppgave.saksnummer);
     }
     return getK9sakHref(k9sakUrl.verdi, oppgave.saksnummer, oppgave.behandlingId);
   };
