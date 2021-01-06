@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl';
 import Lenke from 'nav-frontend-lenker';
 import { Undertittel, Normaltekst } from 'nav-frontend-typografi';
 
-import {getK9punsjRef, getK9sakHref, getOmsorgspengerRef} from 'app/paths';
+import { getK9punsjRef, getK9sakHref, getOmsorgspengerRef } from 'app/paths';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import BehandletOppgave from 'saksbehandler/saksstotte/behandletOppgaveTsType';
 import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';

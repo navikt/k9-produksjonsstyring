@@ -7,6 +7,7 @@ import AdminIndex from '../../admin/AdminIndex';
 import MissingPage from './MissingPage';
 
 import styles from './home.less';
+import AktoerIndex from '../../aktoer/AktoerIndex';
 
 interface OwnProps {
     headerHeight: number;
@@ -25,6 +26,7 @@ const Home: FunctionComponent<OwnProps> = ({
       <Route exact path="/" component={SaksbehandlerIndex} />
       <Route exact path="/avdelingsleder" component={AvdelingslederIndex} />
       <Route exact path="/admin" component={AdminIndex} />
+      <Route strict path="/aktoer/:aktoerId" component={AktoerIndex} />
       <Route component={MissingPage} />
     </Switch>
   </div>
