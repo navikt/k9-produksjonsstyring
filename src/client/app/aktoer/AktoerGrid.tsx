@@ -31,7 +31,6 @@ export const AktoerGrid: FunctionComponent<OwnProps> = ({ resultat }) => {
   };
 
   return (
-
     <div className={styles.list}>
       {resultat.person && (
         <div className={styles.personInfo}>
