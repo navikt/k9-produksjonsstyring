@@ -21,7 +21,7 @@ server.get('/admin', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
-server.get('/aktoer/:aktoerId', (req, res) => {
+server.get('/aktoer/:aktoerId(\\d+)', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
