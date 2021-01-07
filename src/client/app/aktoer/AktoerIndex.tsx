@@ -19,6 +19,7 @@ import styles from './aktoerIndex.less';
 export const AktoerIndex: FunctionComponent = () => {
   const { selected: selectedAktoerId } = useTrackRouteParam<string>({
     paramName: 'aktoerId',
+    parse: (aktoerIdFromUrl) => Number.parseInt(aktoerIdFromUrl, 10),
   });
 
   const {
