@@ -25,7 +25,7 @@ const Home: FunctionComponent<OwnProps> = ({
     <Switch>
       <Route exact path="/" component={SaksbehandlerIndex} />
       <Route exact path="/avdelingsleder" component={AvdelingslederIndex} />
-      <Route exact path="/admin" component={AdminIndex} />
+      <Route exact path="/admin" component={AktoerIndex} />
       <Route exact path="/aktoer/:aktoerId" component={AktoerIndex} />
       <Route component={MissingPage} />
     </Switch>
