@@ -116,7 +116,7 @@ module.exports = async ({ config, mode }) => {
     filename: 'style.css',
     ignoreOrder: true,
   }));
-  
+
   config.resolve.alias =  {
     styles: path.join(APP_DIR, 'styles'),
     images: path.join(APP_DIR, 'images'),
@@ -126,6 +126,7 @@ module.exports = async ({ config, mode }) => {
     form: path.join(APP_DIR, 'app/form'),
     saksbehandler: path.join(APP_DIR, 'app/saksbehandler'),
     avdelingsleder: path.join(APP_DIR, 'app/avdelingsleder'),
+    aktoer: path.join(APP_DIR, 'app/aktoer'),
     data: path.join(APP_DIR, 'app/data'),
     kodeverk: path.join(APP_DIR, 'app/kodeverk'),
     sharedComponents: path.join(APP_DIR, 'app/sharedComponents'),

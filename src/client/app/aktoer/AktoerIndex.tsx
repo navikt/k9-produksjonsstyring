@@ -4,12 +4,13 @@ import { SokeResultat } from 'saksbehandler/fagsakSearch/sokeResultatTsType';
 import { K9LosApiKeys } from 'api/k9LosApi';
 import { RestApiState } from 'api/rest-api-hooks';
 import LoadingPanel from 'sharedComponents/LoadingPanel';
-import styles from 'avdelingsleder/components/ikkeTilgangTilKode6AvdelingPanel.less';
 import { Undertittel } from 'nav-frontend-typografi';
 import { FormattedMessage } from 'react-intl';
 import Panel from 'nav-frontend-paneler';
 import useRestApiRunner from '../api/rest-api-hooks/src/local-data/useRestApiRunner';
 import AktoerGrid from './AktoerGrid';
+
+import styles from './aktoerIndex.less';
 
 /**
  * AktoerIndex
