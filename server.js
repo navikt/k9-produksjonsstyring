@@ -1,3 +1,5 @@
+import { numberRegex } from './src/client/app/utils/validation/validatorsHelper';
+
 const express = require('express');
 const path = require('path');
 
@@ -21,7 +23,7 @@ server.get('/admin', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
-server.use('/:aktoerId(\\d+)/info', (req, res) => {
+server.use(`/aktoer/${numberRegex}`, (req, res) => {
   res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
