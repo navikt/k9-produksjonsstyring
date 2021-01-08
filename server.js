@@ -9,22 +9,6 @@ const PORT = process.env.PORT || 8030;
 server.get('/isAlive', (req, res) => res.sendStatus(200));
 server.get('/isReady', (req, res) => res.sendStatus(200));
 
-server.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
-});
-
-server.get('/avdelingsleder', (req, res) => {
-  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
-});
-
-server.get('/admin', (req, res) => {
-  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
-});
-
-server.get('/aktoer/:aktoerId(\\d+)', (req, res) => {
-  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
-});
-
 server.get(/^\/(?!.*dist).*$/, (req, res) => {
   res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
