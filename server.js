@@ -23,7 +23,7 @@ server.get('/admin', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
-server.use(`/aktoer/${numberRegex}`, (req, res) => {
+server.get(`/aktoer/${/^\\d+/}`, (req, res) => {
   res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
