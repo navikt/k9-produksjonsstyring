@@ -9,7 +9,7 @@ import MissingPage from './MissingPage';
 import styles from './home.less';
 import AktoerIndex from '../../aktoer/AktoerIndex';
 
-export const aktoerPath = '/aktoer/:aktoerId(\\d+)';
+export const aktoerPath = '/aktoer';
 
 interface OwnProps {
     headerHeight: number;
