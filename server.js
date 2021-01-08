@@ -1,5 +1,3 @@
-import { numberRegex } from './src/client/app/utils/validation/validatorsHelper';
-
 const express = require('express');
 const path = require('path');
 
@@ -23,7 +21,7 @@ server.get('/admin', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
-server.get(/^\/\\d+/, (req, res) => {
+server.get('aktoer/:aktoerId([0-9]+)', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
