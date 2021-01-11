@@ -53,7 +53,7 @@ export const AktoerIndex: FunctionComponent = () => {
   }
 
   return (
-    <p>{`Ugyldig aktørId: ${selectedAktoerId}`}</p>
+    <p className={styles.ugyldig}>{`Ugyldig aktørId: ${selectedAktoerId}`}</p>
   );
 };
 
