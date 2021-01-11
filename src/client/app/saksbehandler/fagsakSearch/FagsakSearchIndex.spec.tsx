@@ -32,11 +32,15 @@ describe('<FagsakSearchIndex>', () => {
     },
     opprettet: '13‎.‎02‎.‎2017‎ ‎09‎:‎54‎:‎22',
   };
-  const resultat = { ikkeTilgang: false, oppgaver: [oppgave, { ...oppgave, saksnummer: ' 23456' }], person: {
-      navn: "Navn",
-      personnummer: "8857575754845",
-      kjoenn: "KVINNE"
-    } };
+  const resultat = {
+    ikkeTilgang: false,
+    oppgaver: [oppgave, { ...oppgave, saksnummer: ' 23456' }],
+    person: {
+      navn: 'Navn',
+      personnummer: '8857575754845',
+      kjoenn: 'KVINNE',
+    },
+  };
 
   it('skal sette opp søkeskjermbilde for fagsaker', () => {
     new RestApiTestMocker()

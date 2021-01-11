@@ -71,6 +71,7 @@ export enum K9LosApiKeys {
   LEGG_TIL_BEHANDLET_OPPGAVE = 'LEGG_TIL_BEHANDLET_OPPGAVE',
   HENT_ALLE_RESERVASJONER = 'HENT_ALLE_RESERVASJONER',
   AVDELINGSLEDER_OPPHEVER_RESERVASJON = 'AVDELINGSLEDER_OPPHEVER_RESERVASJON',
+  SEARCH_AKTOERID= 'SEARCH_AKTOERID',
 }
 
 const CONTEXT_PATH = isDevelopment ? 'api' : '';
@@ -78,6 +79,7 @@ const CONTEXT_PATH = isDevelopment ? 'api' : '';
 export const endpoints = new RestApiConfigBuilder(CONTEXT_PATH)
   /* /api/fagsak */
   .withPost('/fagsak/sok', K9LosApiKeys.SEARCH_FAGSAK)
+  .withPost('/fagsak/aktoerid-sok/', K9LosApiKeys.SEARCH_AKTOERID)
 
   /* /api/saksbehandler */
   .withGet('/saksbehandler', K9LosApiKeys.NAV_ANSATT)
