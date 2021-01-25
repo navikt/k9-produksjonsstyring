@@ -14,6 +14,7 @@ const config = {
       form: path.join(APP_DIR, 'form'),
       saksbehandler: path.join(APP_DIR, 'saksbehandler'),
       avdelingsleder: path.join(APP_DIR, 'avdelingsleder'),
+      aktoer: path.join(APP_DIR, 'aktoer'),
       api: path.join(APP_DIR, 'api'),
       kodeverk: path.join(APP_DIR, 'kodeverk'),
       sharedComponents: path.join(APP_DIR, 'sharedComponents'),
