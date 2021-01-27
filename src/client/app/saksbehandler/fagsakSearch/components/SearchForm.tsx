@@ -20,8 +20,6 @@ import styles from './searchForm.less';
 
 const isButtonDisabled = (searchString, searchStarted, searchResultAccessDenied) => (!searchResultAccessDenied.feilmelding && searchStarted) || !searchString;
 
-const erIDev = () => window.location.hostname.includes('dev.adeo.no');
-
 interface OwnProps {
   onSubmit: ({ searchString: string, skalReservere: boolean }) => void;
   searchStarted: boolean;
@@ -54,11 +52,6 @@ export const SearchForm: FunctionComponent<OwnProps & WrappedComponentProps> = (
       onSubmit={onSubmit}
       render={({ handleSubmit, values }) => (
         <form className={styles.container} onSubmit={handleSubmit}>
-          { erIDev() && (
-            <p className={styles.info}>
-              {intl.formatMessage({ id: 'Search.Info' }, infoText)}
-            </p>
-          )}
           <Undertittel>{intl.formatMessage({ id: 'Search.SearchFagsakOrPerson' })}</Undertittel>
           {kanSaksbehandle && (
             <>
