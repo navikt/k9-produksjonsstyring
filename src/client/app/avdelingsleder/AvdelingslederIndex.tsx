@@ -91,7 +91,7 @@ export const AvdelingslederIndex: FunctionComponent = (
     isQueryParam: true,
   });
 
-  const { startRequest: hentAntallIdag, data: totaltIdag } = useRestApiRunner<number>(K9LosApiKeys.OPPGAVE_ANTALL_TOTALT);
+  const { startRequest: hentAntallIdag, data: totaltIdag = 0 } = useRestApiRunner<number>(K9LosApiKeys.OPPGAVE_ANTALL_TOTALT);
   const { startRequest: hentDagensTall, data: dagensTall = [] } = useRestApiRunner<ApneBehandlinger[]>(K9LosApiKeys.HENT_DAGENS_TALL);
 
   useEffect(() => {
