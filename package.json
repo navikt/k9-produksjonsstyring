@@ -81,7 +81,7 @@
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
     "reselect": "^4.0.0",
-    "sass-loader": "10.0.2",
+    "sass-loader": "10.1.1",
     "xregexp": "^4.2.4",
     "yarn": "^1.22.4"
   },
