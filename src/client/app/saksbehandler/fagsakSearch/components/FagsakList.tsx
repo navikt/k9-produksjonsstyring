@@ -11,6 +11,7 @@ import useKodeverk from 'api/rest-api-hooks/src/global-data/useKodeverk';
 import useGlobalStateRestApiData from 'api/rest-api-hooks/src/global-data/useGlobalStateRestApiData';
 import NavAnsatt from 'app/navAnsattTsType';
 import { RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
+import Panel from 'nav-frontend-paneler';
 import styles from './fagsakList.less';
 
 const headerTextCodes = [
@@ -21,8 +22,8 @@ const headerTextCodes = [
 ];
 
 interface OwnProps {
-  fagsakOppgaver: Oppgave[];
-  selectOppgaveCallback: (oppgave: Oppgave, skalReservere: boolean) => void;
+    fagsakOppgaver: Oppgave[];
+    selectOppgaveCallback: (oppgave: Oppgave, skalReservere: boolean) => void;
 }
 
 /**
@@ -63,31 +64,33 @@ const FagsakList: FunctionComponent<OwnProps> = ({
   };
 
   return (
-    <Table headerTextCodes={headerTextCodes} classNameTable={styles.table}>
-      {fagsakOppgaver.map((oppgave, index) => (
-        <TableRow
-          key={`oppgave${oppgave.eksternId}`}
-          id={oppgave.eksternId}
-          onMouseDown={() => onClick(oppgave, selectOppgaveCallback)}
-          onKeyDown={() => onClick(oppgave, selectOppgaveCallback)}
-          isDashedBottomBorder={fagsakOppgaver.length > index + 1}
-        >
-          <TableColumn>{oppgave.saksnummer}</TableColumn>
-          <TableColumn>{oppgave.navn}</TableColumn>
-          <TableColumn>{oppgave.fagsakYtelseType.navn}</TableColumn>
-          <TableColumn><NavFrontendChevron /></TableColumn>
-          {visReserverOppgaveModal && kanReservere && !oppgave.status.erReservertAvInnloggetBruker && (
+    <Panel>
+      <Table headerTextCodes={headerTextCodes} classNameTable={styles.table}>
+        {fagsakOppgaver.map((oppgave, index) => (
+          <TableRow
+            key={`oppgave${oppgave.eksternId}`}
+            id={oppgave.eksternId}
+            onMouseDown={() => onClick(oppgave, selectOppgaveCallback)}
+            onKeyDown={() => onClick(oppgave, selectOppgaveCallback)}
+            isDashedBottomBorder={fagsakOppgaver.length > index + 1}
+          >
+            <TableColumn>{oppgave.saksnummer}</TableColumn>
+            <TableColumn>{oppgave.navn}</TableColumn>
+            <TableColumn>{oppgave.fagsakYtelseType.navn}</TableColumn>
+            <TableColumn><NavFrontendChevron /></TableColumn>
+            {visReserverOppgaveModal && kanReservere && !oppgave.status.erReservertAvInnloggetBruker && (
             <ReserverOppgaveModal
               cancel={() => onCancel(oppgave, selectOppgaveCallback)}
               valgtOppgave={oppgave}
               submit={() => onSubmit(oppgave, selectOppgaveCallback)}
               selectOppgaveCallback={() => selectOppgaveCallback}
             />
-          )}
-        </TableRow>
-      ))}
+            )}
+          </TableRow>
+        ))}
 
-    </Table>
+      </Table>
+    </Panel>
   );
 };
 
