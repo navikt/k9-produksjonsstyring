@@ -5,9 +5,6 @@ import Table from 'sharedComponents/Table';
 import TableRow from 'sharedComponents/TableRow';
 import TableColumn from 'sharedComponents/TableColumn';
 import { ReserverOppgaveModal } from 'saksbehandler/fagsakSearch/ReserverOppgaveModal';
-
-import kodeverkTyper from 'kodeverk/kodeverkTyper';
-import useKodeverk from 'api/rest-api-hooks/src/global-data/useKodeverk';
 import useGlobalStateRestApiData from 'api/rest-api-hooks/src/global-data/useGlobalStateRestApiData';
 import NavAnsatt from 'app/navAnsattTsType';
 import { RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
@@ -21,8 +18,8 @@ const headerTextCodes = [
 ];
 
 interface OwnProps {
-  fagsakOppgaver: Oppgave[];
-  selectOppgaveCallback: (oppgave: Oppgave, skalReservere: boolean) => void;
+    fagsakOppgaver: Oppgave[];
+    selectOppgaveCallback: (oppgave: Oppgave, skalReservere: boolean) => void;
 }
 
 /**
@@ -34,9 +31,6 @@ const FagsakList: FunctionComponent<OwnProps> = ({
   fagsakOppgaver,
   selectOppgaveCallback,
 }) => {
-  const fagsakStatuser = useKodeverk(kodeverkTyper.FAGSAK_STATUS);
-  const fagsakYtelseTyper = useKodeverk(kodeverkTyper.FAGSAK_YTELSE_TYPE);
-
   const [visReserverOppgaveModal, setVisReserverOppgaveModal] = useState(false);
 
   const { kanReservere } = useGlobalStateRestApiData<NavAnsatt>(RestApiGlobalStatePathsKeys.NAV_ANSATT);
@@ -77,16 +71,15 @@ const FagsakList: FunctionComponent<OwnProps> = ({
           <TableColumn>{oppgave.fagsakYtelseType.navn}</TableColumn>
           <TableColumn><NavFrontendChevron /></TableColumn>
           {visReserverOppgaveModal && kanReservere && !oppgave.status.erReservertAvInnloggetBruker && (
-            <ReserverOppgaveModal
-              cancel={() => onCancel(oppgave, selectOppgaveCallback)}
-              valgtOppgave={oppgave}
-              submit={() => onSubmit(oppgave, selectOppgaveCallback)}
-              selectOppgaveCallback={() => selectOppgaveCallback}
-            />
+          <ReserverOppgaveModal
+            cancel={() => onCancel(oppgave, selectOppgaveCallback)}
+            valgtOppgave={oppgave}
+            submit={() => onSubmit(oppgave, selectOppgaveCallback)}
+            selectOppgaveCallback={() => selectOppgaveCallback}
+          />
           )}
         </TableRow>
       ))}
-
     </Table>
   );
 };

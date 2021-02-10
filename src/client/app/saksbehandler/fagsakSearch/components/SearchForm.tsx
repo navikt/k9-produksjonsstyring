@@ -29,12 +29,6 @@ interface OwnProps {
   resetSearch: () => void;
 }
 
-const infoText = {
-  aPdl: <a href="https://navikt.github.io/pdl/">PDL</a>,
-  aK9sak: <a href="https://app-q1.adeo.no/k9/web/"> K9-sak</a>,
-  br: <br />,
-};
-
 /**
  * SearchForm
  *
