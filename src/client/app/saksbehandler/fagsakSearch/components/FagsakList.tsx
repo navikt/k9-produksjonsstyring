@@ -64,7 +64,6 @@ const FagsakList: FunctionComponent<OwnProps> = ({
   };
 
   return (
-    <Panel>
       <Table headerTextCodes={headerTextCodes} classNameTable={styles.table}>
         {fagsakOppgaver.map((oppgave, index) => (
           <TableRow
@@ -88,9 +87,7 @@ const FagsakList: FunctionComponent<OwnProps> = ({
             )}
           </TableRow>
         ))}
-
       </Table>
-    </Panel>
   );
 };
 

@@ -30,8 +30,10 @@ export const SaksbehandlerDashboard: FunctionComponent<OwnProps> = ({
       <div className={styles.oppgaveContainer}>
         <div className={styles.gridContainer}>
           <div className={styles.leftColumn}>
-            <div className={styles.sakslisteContent}>
+            <Panel className={styles.sakslistePanel}>
               <FagsakSearchIndex k9punsjUrl={k9punsjUrl.verdi} k9sakUrl={k9sakUrl.verdi} omsorgspengerUrl={omsorgspengerUrl.verdi} />
+            </Panel>
+            <div>
               <Panel className={styles.sakslistePanel}>
                 <BehandlingskoerIndex
                   k9sakUrl={k9sakUrl.verdi}
