@@ -82,7 +82,7 @@
     "redux-thunk": "^2.3.0",
     "reselect": "^4.0.0",
     "sass-loader": "11.0.1",
-    "xregexp": "^4.2.4",
+    "xregexp": "^5.0.1",
     "yarn": "^1.22.4"
   },
   "devDependencies": {
