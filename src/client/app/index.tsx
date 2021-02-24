@@ -1,6 +1,6 @@
 import React from 'react';
 import { Router } from 'react-router-dom';
-import createBrowserHistory from 'history/createBrowserHistory';
+import { createBrowserHistory } from 'history';
 import { render } from 'react-dom';
 import { init } from '@sentry/browser';
 
@@ -17,9 +17,7 @@ init({
   environment,
 });
 
-const history = createBrowserHistory({
-  basename: '',
-});
+const history = createBrowserHistory({});
 
 const renderFunc = (Component) => {
   const app = document.getElementById('app');
