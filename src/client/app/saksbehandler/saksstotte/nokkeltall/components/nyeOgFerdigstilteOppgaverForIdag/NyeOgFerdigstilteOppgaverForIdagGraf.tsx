@@ -17,6 +17,7 @@ import 'react-vis/dist/style.css';
 import styles from './nyeOgFerdigstilteOppgaverForIdagGraf.less';
 
 const behandlingstypeOrder = [
+  behandlingType.TILBAKEBETALING,
   behandlingType.INNSYN,
   behandlingType.ANKE,
   behandlingType.KLAGE,
