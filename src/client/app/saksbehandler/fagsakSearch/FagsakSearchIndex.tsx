@@ -37,17 +37,19 @@ const FagsakSearchIndex: FunctionComponent<OwnProps> = ({
   const { kanReservere } = useGlobalStateRestApiData<NavAnsatt>(RestApiGlobalStatePathsKeys.NAV_ANSATT);
 
   const goToFagsak = (oppgave: Oppgave) => {
-    if (oppgave.journalpostId !== null) {
+    if (oppgave.system === 'K9PUNSJ') {
       window.location.assign(getK9punsjRef(k9punsjUrl, oppgave.journalpostId));
     } if (oppgave.system === 'OMSORGSPENGER') {
       window.location.assign(getOmsorgspengerRef(omsorgspengerUrl, oppgave.saksnummer));
+    } if (oppgave.system === 'K9SAK') {
+      window.location.assign(getK9sakHref(k9sakUrl, oppgave.saksnummer, oppgave.behandlingId));
     } else {
       window.location.assign(getK9sakHref(k9sakUrl, oppgave.saksnummer, oppgave.behandlingId));
     }
   };
 
   const {
-    startRequest: sokFagsak, resetRequestData: resetFagsakSok, data: fagsakerResultat = [], error: fagsakError,
+    startRequest: sokFagsak, resetRequestData: resetFagsakSok, data: fagsakerResultat = {}, error: fagsakError,
   } = useRestApiRunner<SokeResultat>(K9LosApiKeys.SEARCH_FAGSAK);
 
   const searchResultAccessDenied = fagsakError && errorOfType(fagsakError, ErrorTypes.MANGLER_TILGANG_FEIL) ? getErrorResponseData(fagsakError) : undefined;
