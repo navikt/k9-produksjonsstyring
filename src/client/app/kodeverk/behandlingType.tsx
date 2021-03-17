@@ -4,6 +4,7 @@ const behandlingType = {
   INNSYN: 'BT-006',
   KLAGE: 'BT-003',
   REVURDERING: 'BT-004',
+  TILBAKEBETALING: 'BT-007',
 };
 
 export default behandlingType;

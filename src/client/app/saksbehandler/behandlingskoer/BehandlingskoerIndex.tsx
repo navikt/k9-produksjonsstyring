@@ -11,7 +11,6 @@ import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner
 import { useRestApi } from 'api/rest-api-hooks';
 import useGlobalStateRestApiData from 'api/rest-api-hooks/src/global-data/useGlobalStateRestApiData';
 import RestApiState from 'api/rest-api-hooks/src/RestApiState';
-import behandlingType from 'kodeverk/behandlingType';
 import OppgavekoPanel from './components/OppgavekoPanel';
 
 interface OwnProps {
