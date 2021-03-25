@@ -79,7 +79,7 @@ const CONTEXT_PATH = isDevelopment ? 'api' : '';
 export const endpoints = new RestApiConfigBuilder(CONTEXT_PATH)
   /* /api/fagsak */
   .withPost('/fagsak/sok', K9LosApiKeys.SEARCH_FAGSAK)
-  .withPost('/fagsak/aktoerid-sok/', K9LosApiKeys.SEARCH_AKTOERID)
+  .withPost('/fagsak/aktoerid-sok', K9LosApiKeys.SEARCH_AKTOERID)
 
   /* /api/saksbehandler */
   .withGet('/saksbehandler', K9LosApiKeys.NAV_ANSATT)
