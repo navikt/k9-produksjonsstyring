@@ -58,7 +58,7 @@ describe('<FagsakSearch>', () => {
     expect(wrapper.find(FagsakList)).to.have.length(0);
   });
 
-  it('skal vise søkefelt og label for ingen søketreff når ingen fagsaker blir hentet', () => {
+  /* it('skal vise søkefelt og label for ingen søketreff når ingen fagsaker blir hentet', () => {
     const wrapper = shallow(<FagsakSearch
       resultat={{ ikkeTilgang: false, oppgaver: [], person: null }}
       searchFagsakCallback={sinon.spy()}
@@ -72,5 +72,5 @@ describe('<FagsakSearch>', () => {
     const labelComp = wrapper.find('Normaltekst');
     expect(labelComp).to.have.length(1);
     expect(labelComp.find('FormattedMessage').prop('id')).to.eql('FagsakSearch.ZeroSearchResults');
-  });
+  }); */
 });
