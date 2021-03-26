@@ -106,6 +106,11 @@ const FagsakSearchIndex: FunctionComponent<OwnProps> = ({
     goToFagsak(oppgave);
   };
 
+  const lukkModal = () => {
+    setReservertOppgave(undefined);
+    setReservertAvAnnenSaksbehandler(false);
+  };
+
   const resetSearchFn = () => {
     resetFagsakSok();
     setSokStartet(false);
@@ -125,6 +130,7 @@ const FagsakSearchIndex: FunctionComponent<OwnProps> = ({
       />
       {reservertAvAnnenSaksbehandler && reservertOppgave && (
         <OppgaveErReservertAvAnnenModal
+          lukkModal={lukkModal}
           lukkErReservertModalOgOpneOppgave={lukkErReservertModalOgApneOppgave}
           oppgave={reservertOppgave}
           oppgaveStatus={reservertOppgave.status}

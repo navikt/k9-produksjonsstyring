@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import { injectIntl, WrappedComponentProps, FormattedMessage } from 'react-intl';
 import { Row, Column } from 'nav-frontend-grid';
-import { Hovedknapp } from 'nav-frontend-knapper';
+import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
 import { Normaltekst } from 'nav-frontend-typografi';
 
 import { getDateAndTime } from 'utils/dateUtils';
@@ -15,9 +15,10 @@ import advarselImageUrl from 'images/advarsel.svg';
 import styles from './oppgaveErReservertAvAnnenModal.less';
 
 type OwnProps = Readonly<{
-  lukkErReservertModalOgOpneOppgave: (oppgave: Oppgave) => void;
-  oppgave: Oppgave;
-  oppgaveStatus: OppgaveStatus;
+    lukkErReservertModalOgOpneOppgave: (oppgave: Oppgave) => void;
+    oppgave: Oppgave;
+    oppgaveStatus: OppgaveStatus;
+    lukkModal: () => void;
 }>
 
 const getClickEvent = (lukkErReservertModalOgOpneOppgave, oppgave) => () => lukkErReservertModalOgOpneOppgave(oppgave);
@@ -32,6 +33,7 @@ export const OppgaveErReservertAvAnnenModal: FunctionComponent<OwnProps & Wrappe
   lukkErReservertModalOgOpneOppgave,
   oppgave,
   oppgaveStatus,
+  lukkModal,
 }) => (
   <Modal
     className={styles.modal}
@@ -60,7 +62,18 @@ export const OppgaveErReservertAvAnnenModal: FunctionComponent<OwnProps & Wrappe
           />
         </Normaltekst>
       </Column>
-      <Column xs="2">
+    </Row>
+    <Row>
+      <div className={styles.knappContainer}>
+        <Knapp
+          className={styles.tilbakeButton}
+          mini
+          htmlType="button"
+          onClick={() => lukkModal()}
+          autoFocus
+        >
+          {intl.formatMessage({ id: 'OppgaveErReservertAvAnnenModal.GåTilKøen' })}
+        </Knapp>
         <Hovedknapp
           className={styles.okButton}
           mini
@@ -70,7 +83,7 @@ export const OppgaveErReservertAvAnnenModal: FunctionComponent<OwnProps & Wrappe
         >
           {intl.formatMessage({ id: 'OppgaveErReservertAvAnnenModal.Ok' })}
         </Hovedknapp>
-      </Column>
+      </div>
     </Row>
   </Modal>
 );
