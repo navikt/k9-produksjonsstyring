@@ -15,10 +15,10 @@ import advarselImageUrl from 'images/advarsel.svg';
 import styles from './oppgaveErReservertAvAnnenModal.less';
 
 type OwnProps = Readonly<{
-  lukkErReservertModalOgOpneOppgave: (oppgave: Oppgave) => void;
-  oppgave: Oppgave;
-  oppgaveStatus: OppgaveStatus;
-  lukkModal: () => void;
+    lukkErReservertModalOgOpneOppgave: (oppgave: Oppgave) => void;
+    oppgave: Oppgave;
+    oppgaveStatus: OppgaveStatus;
+    lukkModal: () => void;
 }>
 
 const getClickEvent = (lukkErReservertModalOgOpneOppgave, oppgave) => () => lukkErReservertModalOgOpneOppgave(oppgave);
@@ -62,7 +62,9 @@ export const OppgaveErReservertAvAnnenModal: FunctionComponent<OwnProps & Wrappe
           />
         </Normaltekst>
       </Column>
-      <Column xs="2">
+    </Row>
+    <Row>
+      <div className={styles.knappContainer}>
         <Knapp
           className={styles.okButton}
           mini
@@ -81,7 +83,7 @@ export const OppgaveErReservertAvAnnenModal: FunctionComponent<OwnProps & Wrappe
         >
           {intl.formatMessage({ id: 'OppgaveErReservertAvAnnenModal.Ok' })}
         </Hovedknapp>
-      </Column>
+      </div>
     </Row>
   </Modal>
 );
