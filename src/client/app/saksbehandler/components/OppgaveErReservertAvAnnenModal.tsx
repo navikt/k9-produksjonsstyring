@@ -66,7 +66,7 @@ export const OppgaveErReservertAvAnnenModal: FunctionComponent<OwnProps & Wrappe
     <Row>
       <div className={styles.knappContainer}>
         <Knapp
-          className={styles.okButton}
+          className={styles.tilbakeButton}
           mini
           htmlType="button"
           onClick={() => lukkModal()}
