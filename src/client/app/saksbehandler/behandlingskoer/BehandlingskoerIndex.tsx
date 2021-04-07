@@ -77,6 +77,12 @@ const BehandlingskoerIndex: FunctionComponent<OwnProps> = ({
     else throw new Error('Fagsystemet for oppgaven er ukjent');
   };
 
+  const lukkModal = () => {
+    setReservertAvAnnenSaksbehandler(false);
+    setReservertOppgave(null);
+    setReservertOppgaveStatus(null);
+  };
+
   const reserverOppgaveOgApne = useCallback((oppgave: Oppgave) => {
     if (oppgave.status.erReservert) {
       openSak(oppgave);
@@ -121,6 +127,7 @@ const BehandlingskoerIndex: FunctionComponent<OwnProps> = ({
         lukkErReservertModalOgOpneOppgave={lukkErReservertModalOgOpneOppgave}
         oppgave={reservertOppgave}
         oppgaveStatus={reservertOppgaveStatus}
+        lukkModal={lukkModal}
       />
       )}
     </>
