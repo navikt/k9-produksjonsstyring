@@ -72,7 +72,6 @@ const BehandlingskoerIndex: FunctionComponent<OwnProps> = ({
     //  console.log('disconnected');
       // automatically try to reconnect on connection loss
     };
-
     if (valgtOppgavekoId !== undefined) { hentOppgaverTilBehandling({ id: valgtOppgavekoId }); }
     hentReserverteOppgaver();
   }, [valgtOppgavekoId]);
