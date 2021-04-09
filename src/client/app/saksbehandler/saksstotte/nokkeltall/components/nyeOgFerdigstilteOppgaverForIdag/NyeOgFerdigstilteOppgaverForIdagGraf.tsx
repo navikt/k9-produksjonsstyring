@@ -129,9 +129,9 @@ export const NyeOgFerdigstilteOppgaverForIdagGraf: FunctionComponent<OwnProps & 
   }, [hintVerdi]);
 
   const finnBehandlingTypeNavn = useCallback((_v, i) => {
-    //    if (behandlingstypeOrder[i] === behandlingType.FORSTEGANGSSOKNAD) {
-    //      return intl.formatMessage({ id: 'NyeOgFerdigstilteOppgaverForIdagGraf.Førstegangsbehandling' });
-    //    }
+    if (behandlingstypeOrder[i] === behandlingType.FORSTEGANGSSOKNAD) {
+      return intl.formatMessage({ id: 'NyeOgFerdigstilteOppgaverForIdagGraf.Førstegangsbehandling' });
+    }
 
     const type = behandlingTyper.find((bt) => bt.kode === behandlingstypeOrder[i]);
     return type ? type.navn : '';
@@ -159,7 +159,7 @@ export const NyeOgFerdigstilteOppgaverForIdagGraf: FunctionComponent<OwnProps & 
         <YAxis
           style={{ text: cssText }}
           tickFormat={finnBehandlingTypeNavn}
-          tickValues={[1, 2, 3, 4, 5]}
+          tickValues={[1, 2, 3, 4, 5, 6]}
         />
         <HorizontalRectSeries
           data={nyeOppgaver}
