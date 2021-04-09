@@ -159,7 +159,7 @@ export const NyeOgFerdigstilteOppgaverForIdagGraf: FunctionComponent<OwnProps & 
         <YAxis
           style={{ text: cssText }}
           tickFormat={finnBehandlingTypeNavn}
-          tickValues={[1, 2, 3, 4, 5]}
+          tickValues={[1, 2, 3, 4, 5, 6]}
         />
         <HorizontalRectSeries
           data={nyeOppgaver}
