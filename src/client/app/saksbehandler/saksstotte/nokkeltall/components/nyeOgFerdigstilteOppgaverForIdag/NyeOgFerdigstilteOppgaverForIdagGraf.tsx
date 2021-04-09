@@ -129,9 +129,9 @@ export const NyeOgFerdigstilteOppgaverForIdagGraf: FunctionComponent<OwnProps & 
   }, [hintVerdi]);
 
   const finnBehandlingTypeNavn = useCallback((_v, i) => {
-    if (behandlingstypeOrder[i] === behandlingType.FORSTEGANGSSOKNAD) {
-      return intl.formatMessage({ id: 'NyeOgFerdigstilteOppgaverForIdagGraf.Førstegangsbehandling' });
-    }
+    //    if (behandlingstypeOrder[i] === behandlingType.FORSTEGANGSSOKNAD) {
+    //      return intl.formatMessage({ id: 'NyeOgFerdigstilteOppgaverForIdagGraf.Førstegangsbehandling' });
+    //    }
 
     const type = behandlingTyper.find((bt) => bt.kode === behandlingstypeOrder[i]);
     return type ? type.navn : '';

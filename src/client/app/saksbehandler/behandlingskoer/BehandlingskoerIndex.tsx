@@ -29,7 +29,7 @@ const BehandlingskoerIndex: FunctionComponent<OwnProps> = ({
   setValgtOppgavekoId,
   valgtOppgavekoId,
 }) => {
-  const sseUrl = useGlobalStateRestApiData<{ verdi?: string }>(RestApiGlobalStatePathsKeys.SSE_URL);
+  const refreshUrl = useGlobalStateRestApiData<{ verdi?: string }>(RestApiGlobalStatePathsKeys.REFRESH_URL);
   const [reservertOppgave, setReservertOppgave] = useState<Oppgave>();
   const [reservertAvAnnenSaksbehandler, setReservertAvAnnenSaksbehandler] = useState<boolean>(false);
   const [reservertOppgaveStatus, setReservertOppgaveStatus] = useState<OppgaveStatus>();
@@ -54,11 +54,25 @@ const BehandlingskoerIndex: FunctionComponent<OwnProps> = ({
     }
   };
 
+  const socket = new WebSocket(refreshUrl.verdi);
+
   useEffect(() => {
-    const source = new EventSource(sseUrl.verdi, { withCredentials: true });
-    source.addEventListener('message', (message) => {
+    socket.onopen = () => {
+      // on connecting, do nothing but log it to the console
+      // console.log('connected');
+    };
+
+    socket.onmessage = (evt) => {
+      // listen to data sent from the websocket server
+      const message = JSON.parse(evt.data);
       handleEvent(message);
-    });
+    };
+
+    socket.onclose = () => {
+    //  console.log('disconnected');
+      // automatically try to reconnect on connection loss
+    };
+
     if (valgtOppgavekoId !== undefined) { hentOppgaverTilBehandling({ id: valgtOppgavekoId }); }
     hentReserverteOppgaver();
   }, [valgtOppgavekoId]);

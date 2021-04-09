@@ -22,7 +22,7 @@ const AppConfigResolver: FunctionComponent<OwnProps> = ({
     { suspendRequest: stateNavAnsatt !== RestApiState.SUCCESS, updateTriggers: [stateNavAnsatt] });
   const { state: stateKodeverk } = useGlobalStateRestApi(RestApiGlobalStatePathsKeys.KODEVERK, undefined,
     { suspendRequest: stateNavAnsatt !== RestApiState.SUCCESS, updateTriggers: [stateNavAnsatt] });
-  const { state: stateSseUrl } = useGlobalStateRestApi(RestApiGlobalStatePathsKeys.SSE_URL, undefined,
+  const { state: stateSseUrl } = useGlobalStateRestApi(RestApiGlobalStatePathsKeys.REFRESH_URL, undefined,
     { suspendRequest: stateNavAnsatt !== RestApiState.SUCCESS, updateTriggers: [stateNavAnsatt] });
   const { state: stateK9punsjUrl } = useGlobalStateRestApi(RestApiGlobalStatePathsKeys.PUNSJ_URL, undefined,
     { suspendRequest: stateNavAnsatt !== RestApiState.SUCCESS, updateTriggers: [stateNavAnsatt] });
