@@ -59,6 +59,7 @@ const BehandlingskoerIndex: FunctionComponent<OwnProps> = ({
   useEffect(() => {
     socket.onopen = () => {
       // on connecting, do nothing but log it to the console
+      // eslint-disable-next-line no-console
       console.log('connected');
     };
 
@@ -68,10 +69,22 @@ const BehandlingskoerIndex: FunctionComponent<OwnProps> = ({
       handleEvent(message);
     };
 
-    socket.onclose = () => {
-      console.log('disconnected');
+    socket.onclose = (ev) => {
+      // eslint-disable-next-line no-console
+      console.log(`disconnected, reason: ${ev.reason}`);
       // automatically try to reconnect on connection loss
     };
+
+    socket.onerror = (err) => {
+      console.error(
+        'Socket encountered error: ',
+        err,
+        'Closing socket',
+      );
+
+      socket.close();
+    };
+
     if (valgtOppgavekoId !== undefined) { hentOppgaverTilBehandling({ id: valgtOppgavekoId }); }
     hentReserverteOppgaver();
   }, [valgtOppgavekoId]);

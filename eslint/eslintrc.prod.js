@@ -13,7 +13,7 @@ const config = {
   },
 
   rules: {
-    'no-console': 'off',
+    'no-console': ERROR,
   },
 };
 
