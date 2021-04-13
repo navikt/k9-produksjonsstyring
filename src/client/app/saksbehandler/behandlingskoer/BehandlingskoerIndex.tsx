@@ -65,8 +65,7 @@ const BehandlingskoerIndex: FunctionComponent<OwnProps> = ({
 
     socket.onmessage = (evt) => {
       // listen to data sent from the websocket server
-      const message = JSON.parse(evt.data);
-      handleEvent(message);
+      handleEvent(evt);
     };
 
     socket.onclose = (ev) => {
