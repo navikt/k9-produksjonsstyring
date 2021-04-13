@@ -59,7 +59,7 @@ const BehandlingskoerIndex: FunctionComponent<OwnProps> = ({
   useEffect(() => {
     socket.onopen = () => {
       // on connecting, do nothing but log it to the console
-      // console.log('connected');
+      console.log('connected');
     };
 
     socket.onmessage = (evt) => {
@@ -69,7 +69,7 @@ const BehandlingskoerIndex: FunctionComponent<OwnProps> = ({
     };
 
     socket.onclose = () => {
-    //  console.log('disconnected');
+      console.log('disconnected');
       // automatically try to reconnect on connection loss
     };
     if (valgtOppgavekoId !== undefined) { hentOppgaverTilBehandling({ id: valgtOppgavekoId }); }
