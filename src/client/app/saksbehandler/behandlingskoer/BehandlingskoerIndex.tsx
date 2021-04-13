@@ -76,6 +76,7 @@ const BehandlingskoerIndex: FunctionComponent<OwnProps> = ({
     };
 
     socket.onerror = (err) => {
+      // eslint-disable-next-line no-console
       console.error(
         'Socket encountered error: ',
         err,
