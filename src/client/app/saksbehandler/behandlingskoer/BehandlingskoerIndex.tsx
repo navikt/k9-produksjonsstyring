@@ -54,8 +54,9 @@ const BehandlingskoerIndex: FunctionComponent<OwnProps> = ({
     }
   };
 
+  const socket = new WebSocket(refreshUrl.verdi);
+
   useEffect(() => {
-    const socket = new WebSocket(refreshUrl.verdi);
     socket.onopen = () => {
       // on connecting, do nothing but log it to the console
       // eslint-disable-next-line no-console
