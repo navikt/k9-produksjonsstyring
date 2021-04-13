@@ -44,7 +44,7 @@ const BehandlingskoerIndex: FunctionComponent<OwnProps> = ({
   const { startRequest: reserverOppgave } = useRestApiRunner<OppgaveStatus>(K9LosApiKeys.RESERVER_OPPGAVE);
 
   const handleEvent = (e: MessageEvent) => {
-    const { data } = JSON.parse(e.data);
+    const data = JSON.parse(e.data);
     if (data.melding === 'oppdaterReserverte') {
       hentReserverteOppgaver();
     } else if (data.melding === 'oppdaterTilBehandling') {
