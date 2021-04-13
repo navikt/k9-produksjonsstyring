@@ -6,7 +6,7 @@ metadata:
     labels:
         team: k9saksbehandling
 spec:
-    image: ghcr.io/navikt/oidc-auth-proxy:2021.04.13-2b87c94
+    image: ghcr.io/navikt/oidc-auth-proxy:2021.04.13-4e00a7a
     port: 8080
     liveness:
         path: isalive
@@ -58,7 +58,7 @@ spec:
         - name: SESSION_ID_COOKIE_NAME
           value: k9-los-web
         - name: PROXY_CONFIG
-          value: '{"apis":[{"path":"k9-los-api","url":"https://k9-los-api.dev.adeo.no/api","scopes":"5afad323-c9df-4e14-b481-b278e9d2bf69/.default","enableWebSocket":true}]}'
+          value: '{"apis":[{"path":"k9-los-api","url":"https://k9-los-api.dev.adeo.no/api","scopes":"5afad323-c9df-4e14-b481-b278e9d2bf69/.default","webSocketUrl":"ws://k9-los-api.default.svc.nais.local/ws"}]}'
         - name: REDIS_HOST
           value: k9-los-oidc-auth-proxy-redis.default.svc.nais.local
         - name: REDIS_PORT
