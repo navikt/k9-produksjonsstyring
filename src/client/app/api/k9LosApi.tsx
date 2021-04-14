@@ -6,7 +6,7 @@ export enum RestApiGlobalStatePathsKeys {
   KODEVERK = 'KODEVERK',
   NAV_ANSATT = 'NAV_ANSATT',
   K9SAK_URL = 'K9SAK_URL',
-  SSE_URL = 'SSE_URL',
+  REFRESH_URL = 'REFRESH_URL',
   PUNSJ_URL = 'PUNSJ_URL',
   OMSORGSPENGER_URL = 'OMSORGSPENGER_URL',
 }
@@ -15,7 +15,7 @@ export enum K9LosApiKeys {
   KODEVERK = 'KODEVERK',
   OMSORGSPENGER_URL = 'OMSORGSPENGER_URL',
   NAV_ANSATT = 'NAV_ANSATT',
-  SSE_URL = 'SSE_URL',
+  REFRESH_URL = 'REFRESH_URL',
   PUNSJ_URL = 'PUNSJ_URL',
   SEARCH_FAGSAK = 'SEARCH_FAGSAK',
   BEHANDLEDE_OPPGAVER = 'BEHANDLEDE_OPPGAVER',
@@ -138,7 +138,6 @@ export const endpoints = new RestApiConfigBuilder(CONTEXT_PATH)
   /* /api/avdelingsleder/oppgaver */
   .withGet('/avdelingsleder/oppgaver/antall', K9LosApiKeys.OPPGAVE_ANTALL)
   .withGet('/avdelingsleder/oppgaver/antall-totalt', K9LosApiKeys.OPPGAVE_ANTALL_TOTALT)
-
   /* /api/avdelingsleder/nokkeltall */
   .withGet('/avdelingsleder/nokkeltall/behandlinger-under-arbeid', K9LosApiKeys.HENT_OPPGAVER)
   .withGet('/avdelingsleder/nokkeltall/beholdning-historikk', K9LosApiKeys.HENT_OPPGAVER_PER_DATO)
@@ -153,7 +152,7 @@ export const endpoints = new RestApiConfigBuilder(CONTEXT_PATH)
 
   /* /api/konfig */
   .withGet('/konfig/k9-sak-url', K9LosApiKeys.K9SAK_URL)
-  .withGet('/konfig/sse-url', K9LosApiKeys.SSE_URL)
+  .withGet('/konfig/refresh-url', K9LosApiKeys.REFRESH_URL)
   .withGet('/konfig/k9-punsj-url', K9LosApiKeys.PUNSJ_URL)
   .withGet('/konfig/omsorgspenger-url', K9LosApiKeys.OMSORGSPENGER_URL)
 
