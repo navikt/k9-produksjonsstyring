@@ -37,12 +37,18 @@ const FagsakSearchIndex: FunctionComponent<OwnProps> = ({
   const { kanReservere } = useGlobalStateRestApiData<NavAnsatt>(RestApiGlobalStatePathsKeys.NAV_ANSATT);
 
   const goToFagsak = (oppgave: Oppgave) => {
-    if (oppgave.journalpostId !== null) {
-      window.location.assign(getK9punsjRef(k9punsjUrl, oppgave.journalpostId));
-    } if (oppgave.system === 'OMSORGSPENGER') {
-      window.location.assign(getOmsorgspengerRef(omsorgspengerUrl, oppgave.saksnummer));
-    } else {
-      window.location.assign(getK9sakHref(k9sakUrl, oppgave.saksnummer, oppgave.behandlingId));
+    switch (oppgave.system) {
+      case 'K9SAK':
+        window.location.assign(getK9sakHref(k9sakUrl, oppgave.saksnummer, oppgave.behandlingId));
+        break;
+      case 'PUNSJ':
+        window.location.assign(getK9punsjRef(k9punsjUrl, oppgave.journalpostId));
+        break;
+      case 'OMSORGSPENGER':
+        window.location.assign(getOmsorgspengerRef(omsorgspengerUrl, oppgave.saksnummer));
+        break;
+      default:
+        window.location.assign(getK9sakHref(k9sakUrl, oppgave.saksnummer, oppgave.behandlingId));
     }
   };
 
