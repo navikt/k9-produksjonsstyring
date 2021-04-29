@@ -59,7 +59,7 @@
 
   "ErrorMessagePanel.Close": "Lukk",
 
-  "FagsakList.Saksnummer": "Saksnummer",
+  "FagsakList.Saksnummer": "Saksnummer/JournalpostID",
   "FagsakList.Stonadstype": "Stønadstype",
   "FagsakList.Behandlingstype": "Behandlingstype",
   "FagsakList.Status": "Status",
@@ -242,7 +242,7 @@
   "Rest.ErrorMessage.Timeout": "Serverkall har gått ut på tid: {location}",
 
   "ReservasjonerTabell.Navn": "Navn",
-  "ReservasjonerTabell.Saksnr": "Saksnummer",
+  "ReservasjonerTabell.Saksnr": "Saksnummer/jounalpostid",
   "ReservasjonerTabell.BehandlingType": "Type",
   "ReservasjonerTabell.ReservertTil": "Reservert til",
   "ReservasjonerTabell.ReservertTilFormat": "{time} - {date}",

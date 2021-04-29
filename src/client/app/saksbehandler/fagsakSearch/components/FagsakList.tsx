@@ -66,7 +66,7 @@ const FagsakList: FunctionComponent<OwnProps> = ({
           onKeyDown={() => onClick(oppgave, selectOppgaveCallback)}
           isDashedBottomBorder={fagsakOppgaver.length > index + 1}
         >
-          <TableColumn>{oppgave.saksnummer}</TableColumn>
+          <TableColumn>{oppgave.saksnummer ? oppgave.saksnummer : oppgave.journalpostId}</TableColumn>
           <TableColumn>{oppgave.navn}</TableColumn>
           <TableColumn>{oppgave.fagsakYtelseType.navn}</TableColumn>
           <TableColumn><NavFrontendChevron /></TableColumn>
