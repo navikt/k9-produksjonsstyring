@@ -8,12 +8,14 @@ import { ReserverOppgaveModal } from 'saksbehandler/fagsakSearch/ReserverOppgave
 import useGlobalStateRestApiData from 'api/rest-api-hooks/src/global-data/useGlobalStateRestApiData';
 import NavAnsatt from 'app/navAnsattTsType';
 import { RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
+import { getYearFromString } from 'utils/dateUtils';
 import styles from './fagsakList.less';
 
 const headerTextCodes = [
   'FagsakList.Saksnummer',
   'FagsakList.Navn',
   'FagsakList.Stonadstype',
+  'FagsakList.Status',
   'EMPTY_1',
 ];
 
@@ -66,9 +68,10 @@ const FagsakList: FunctionComponent<OwnProps> = ({
           onKeyDown={() => onClick(oppgave, selectOppgaveCallback)}
           isDashedBottomBorder={fagsakOppgaver.length > index + 1}
         >
-          <TableColumn>{oppgave.saksnummer}</TableColumn>
+          <TableColumn>{`${oppgave.saksnummer} (${getYearFromString(oppgave.fagsakPeriode.fom)})`}</TableColumn>
           <TableColumn>{oppgave.navn}</TableColumn>
           <TableColumn>{oppgave.fagsakYtelseType.navn}</TableColumn>
+          <TableColumn>{oppgave.behandlingStatus.navn}</TableColumn>
           <TableColumn><NavFrontendChevron /></TableColumn>
           {visReserverOppgaveModal && kanReservere && !oppgave.status.erReservertAvInnloggetBruker && (
           <ReserverOppgaveModal
