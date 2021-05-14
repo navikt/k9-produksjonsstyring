@@ -164,3 +164,8 @@ export const getDateAndTime = (tidspunkt) => {
   const time = dateTime.format(HHMM_TIME_FORMAT);
   return { date, time };
 };
+
+export const getYearFromString = (dato) => {
+  const dateTime = moment(dato);
+  return dateTime.year();
+};
