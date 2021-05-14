@@ -14,6 +14,10 @@ type Oppgave = {
   opprettetTidspunkt: string;
   behandlingsfrist: string;
   fagsakYtelseType: Kodeverk;
+  fagsakPeriode?: {
+    fom: string;
+    tom: string;
+  };
   erTilSaksbehandling: boolean;
   eksternId: string;
 };
