@@ -14,7 +14,7 @@ type Oppgave = {
   opprettetTidspunkt: string;
   behandlingsfrist: string;
   fagsakYtelseType: Kodeverk;
-  fagsakPeriode: {
+  fagsakPeriode?: {
     fom: string;
     tom: string;
   };

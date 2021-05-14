@@ -58,6 +58,8 @@ const FagsakList: FunctionComponent<OwnProps> = ({
     selectCallback(oppgave, false);
   };
 
+  const fagsaksperiodeÅr = (oppgave) => (oppgave.fagsakPeriode ? `(${getYearFromString(oppgave.fagsakPeriode.fom)})` : '');
+
   return (
     <Table headerTextCodes={headerTextCodes} classNameTable={styles.table}>
       {fagsakOppgaver.map((oppgave, index) => (
@@ -68,7 +70,7 @@ const FagsakList: FunctionComponent<OwnProps> = ({
           onKeyDown={() => onClick(oppgave, selectOppgaveCallback)}
           isDashedBottomBorder={fagsakOppgaver.length > index + 1}
         >
-          <TableColumn>{`${oppgave.saksnummer} (${getYearFromString(oppgave.fagsakPeriode.fom)})`}</TableColumn>
+          <TableColumn>{`${oppgave.saksnummer} ${fagsaksperiodeÅr(oppgave)}`}</TableColumn>
           <TableColumn>{oppgave.navn}</TableColumn>
           <TableColumn>{oppgave.fagsakYtelseType.navn}</TableColumn>
           <TableColumn>{oppgave.behandlingStatus.navn}</TableColumn>
