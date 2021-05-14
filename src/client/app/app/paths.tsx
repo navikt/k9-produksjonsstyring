@@ -25,7 +25,7 @@ export const getPanelLocationCreatorDriftsmeldinger = (location: Location) => (a
 
 export const getK9sakHref = (k9sakUrl: string, saksnummer: string, behandlingId?: number) => (behandlingId
   ? `${k9sakUrl}/fagsak/${saksnummer}/behandling/${behandlingId}/?punkt=default&fakta=default`
-  : `${k9sakUrl}/fagsak/${saksnummer}`);
+  : `${k9sakUrl}/fagsak/${saksnummer}/`);
 
 export const getK9tilbakeHref = (k9tilbakeUrl: string, saksnummer: string, eksternId?: string) => (eksternId
   ? `${k9tilbakeUrl}/tilbake/${saksnummer}/behandling/${eksternId}/?punkt=default&fakta=default`
