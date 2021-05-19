@@ -15,6 +15,9 @@ on:
 env:
   IMAGE_BASE: docker.pkg.github.com/${{ github.repository }}/k9-los-web
   IMAGE_BASE_CR: ghcr.io/${{ github.repository }}
+  CLUSER: dev
+  NAMESPACE: default
+  
 jobs:
   build-og-deploy-master:
     name: Build og Deploy til Dev
