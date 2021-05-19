@@ -1,4 +1,4 @@
-name: Deploy Docker image
+name: Deploy Docker image 
 on:
   push:
     paths-ignore:
@@ -16,7 +16,7 @@ env:
   IMAGE_BASE: docker.pkg.github.com/${{ github.repository }}/k9-los-web
   IMAGE_BASE_CR: ghcr.io/${{ github.repository }}
 jobs:
-  deploy-prod-fss:
+  build-og-deploy-master:
     name: Build og Deploy til Dev
     runs-on: ubuntu-latest
     steps:
