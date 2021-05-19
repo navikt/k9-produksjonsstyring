@@ -95,7 +95,7 @@ jobs:
         if: success()
         uses: actions/github-script@v4
         with:
-          github-token: ${{secrets.DEPLOY_KEY}}
+          github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
             const issue = { owner: context.issue.owner,
                             repo: context.issue.repo,
