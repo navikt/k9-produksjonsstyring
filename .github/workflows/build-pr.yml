@@ -41,3 +41,5 @@ jobs:
         run: yarn install --ignore-optional --no-progress --frozen-lockfile
       - name: Tester og linting
         run: yarn test && yarn less:lint
+      - name: Bygge 
+        run: yarn build
