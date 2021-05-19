@@ -47,7 +47,8 @@ jobs:
         run: |
           docker pull node:alpine
           docker build --tag ${IMAGE_BASE}:${TAG} --tag ${IMAGE_BASE}:latest --tag ${IMAGE_BASE_CR}:${TAG} --tag ${IMAGE_BASE_CR}:latest .
-          docker login docker.pkg.github.com -u ${GITHUB_REPOSITORY} -p ${GITHUB_TOKEN}
+          echo "${{ secrets.GITHUB_TOKEN }}" | docker login -u ${GITHUB_REPOSITORY} --password-stdin  docker.pkg.github.com 
+          echo "${{ secrets.GITHUB_TOKEN }}" | docker login -u "x-access-token" --password-stdin ghcr.io
           docker push ${IMAGE_BASE_CR} --all-tags
           docker push ${IMAGE_BASE} --all-tags
         env:
