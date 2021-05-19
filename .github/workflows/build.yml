@@ -1,4 +1,4 @@
-name: Deploy Docker image 
+name: Bygg og deploy test
 on:
   push:
     paths-ignore:
