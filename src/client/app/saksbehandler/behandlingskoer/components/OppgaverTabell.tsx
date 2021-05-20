@@ -154,6 +154,7 @@ export const OppgaverTabell: FunctionComponent<OwnProps & WrappedComponentProps>
           <Normaltekst><FormattedMessage id="OppgaverTabell.IngenTilgang" /></Normaltekst>
         </>
       )}
+
       {alleOppgaver.length > 0 && requestFinished && (
       <>
         <Table headerTextCodes={headerTextCodes}>
