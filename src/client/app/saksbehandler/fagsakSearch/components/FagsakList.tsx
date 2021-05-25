@@ -50,7 +50,7 @@ const FagsakList: FunctionComponent<OwnProps> = ({
       setVisReserverOppgaveModal(true);
     } else if (typeof oppgave.paaVent !== 'undefined' && oppgave.paaVent) {
       setVisOppgavePåVentModel(true);
-    } else if (e.target.type !== 'reset' && e.target.innerHTML !== oppgavePåVentMulighetBTekst) {
+    } else {
       selectCallback(oppgave, false);
     }
   };
