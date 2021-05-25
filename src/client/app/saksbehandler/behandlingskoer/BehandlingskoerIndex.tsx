@@ -95,10 +95,14 @@ const BehandlingskoerIndex: FunctionComponent<OwnProps> = ({
 
   const openFagsak = (oppgave: Oppgave) => {
     leggTilBehandletOppgave(oppgave);
-    if (oppgave.journalpostId !== null) {
-      window.location.assign(getK9punsjRef(k9punsjUrl, oppgave.journalpostId));
-    } else {
-      window.location.assign(getK9sakHref(k9sakUrl, oppgave.saksnummer, oppgave.behandlingId));
+    switch (oppgave.system) {
+      case 'PUNSJ':
+        window.location.assign(getK9punsjRef(k9punsjUrl, oppgave.journalpostId));
+        break;
+      case 'K9SAK':
+        window.location.assign(getK9sakHref(k9sakUrl, oppgave.saksnummer, oppgave.behandlingId));
+        break;
+      default: window.location.assign(getK9sakHref(k9sakUrl, oppgave.saksnummer, oppgave.behandlingId));
     }
   };
 

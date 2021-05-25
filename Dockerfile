@@ -1,5 +1,7 @@
 FROM node:alpine
 
+LABEL org.opencontainers.image.source=https://github.com/navikt/k9-sak-web
+
 WORKDIR /usr/src/client/app
 
 COPY dist ./dist

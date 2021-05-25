@@ -24,13 +24,19 @@ const SistBehandledeSaker: FunctionComponent = () => {
   const omsorgspengerUrl = useGlobalStateRestApiData<{ verdi?: string }>(RestApiGlobalStatePathsKeys.OMSORGSPENGER_URL);
 
   const getUrl = (oppgave: BehandletOppgave) => {
-    if (oppgave.journalpostId !== null) {
-      return getK9punsjRef(k9punsjUrl.verdi, oppgave.journalpostId);
+    switch (oppgave.system) {
+      case 'K9SAK':
+        return getK9sakHref(k9sakUrl.verdi, oppgave.saksnummer, oppgave.behandlingId);
+        break;
+      case 'PUNSJ':
+        return getK9punsjRef(k9punsjUrl.verdi, oppgave.journalpostId);
+        break;
+      case 'OMSORGSPENGER':
+        return getOmsorgspengerRef(omsorgspengerUrl.verdi, oppgave.saksnummer);
+        break;
+      default:
+        return getK9sakHref(k9sakUrl.verdi, oppgave.saksnummer, oppgave.behandlingId);
     }
-    if (oppgave.system === 'OMSORGSPENGER') {
-      return getOmsorgspengerRef(omsorgspengerUrl.verdi, oppgave.saksnummer);
-    }
-    return getK9sakHref(k9sakUrl.verdi, oppgave.saksnummer, oppgave.behandlingId);
   };
 
   return (
