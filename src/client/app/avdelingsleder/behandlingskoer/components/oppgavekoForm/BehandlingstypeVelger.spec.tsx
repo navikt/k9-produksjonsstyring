@@ -29,7 +29,29 @@ const behandlingTyper = [{
 {
   kode: behandlingType.TILBAKEBETALING,
   navn: 'Tilbakebetaling',
-}];
+}, {
+  kode: behandlingType.PAPIRSØKNAD,
+  navn: 'Papirsøknad',
+}, {
+  kode: behandlingType.PAPIRETTERSENDELSE,
+  navn: 'Papirettersendelse',
+}, {
+  kode: behandlingType.DIGITAL_ETTERSENDELSE,
+  navn: 'Digital ettersendelse',
+}, {
+  kode: behandlingType.PAPIRINNTEKTSOPPLYSNINGER,
+  navn: 'Papirinntektsopplysninger',
+}, {
+  kode: behandlingType.INNLOGGET_CHAT,
+  navn: 'Innlogget chat',
+}, {
+  kode: behandlingType.SKRIV_TIL_OSS_SPØRMSÅL,
+  navn: 'Skriv til oss spørmsål',
+}, {
+  kode: behandlingType.SKRIV_TIL_OSS_SVAR,
+  navn: 'Srkiv til oss svar',
+},
+];
 
 describe('<BehandlingstypeVelger>', () => {
   it('skal vise checkboxer for behandlingstyper', () => {
