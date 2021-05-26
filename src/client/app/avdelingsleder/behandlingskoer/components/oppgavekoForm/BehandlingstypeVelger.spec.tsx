@@ -67,7 +67,7 @@ describe('<BehandlingstypeVelger>', () => {
         const checkboxer = wrapper.find(CheckboxField);
         expect(checkboxer).to.have.length(13);
         expect(checkboxer.first().prop('name')).to.eql(behandlingType.ANKE);
-        expect(checkboxer.last().prop('name')).to.eql(behandlingType.TILBAKEBETALING);
+        expect(checkboxer.last().prop('name')).to.eql(behandlingType.SKRIV_TIL_OSS_SVAR);
       });
   });
 
