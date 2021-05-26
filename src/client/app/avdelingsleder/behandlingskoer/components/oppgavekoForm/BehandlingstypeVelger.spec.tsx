@@ -29,7 +29,29 @@ const behandlingTyper = [{
 {
   kode: behandlingType.TILBAKEBETALING,
   navn: 'Tilbakebetaling',
-}];
+}, {
+  kode: behandlingType.PAPIRSØKNAD,
+  navn: 'Papirsøknad',
+}, {
+  kode: behandlingType.PAPIRETTERSENDELSE,
+  navn: 'Papirettersendelse',
+}, {
+  kode: behandlingType.DIGITAL_ETTERSENDELSE,
+  navn: 'Digital ettersendelse',
+}, {
+  kode: behandlingType.PAPIRINNTEKTSOPPLYSNINGER,
+  navn: 'Papirinntektsopplysninger',
+}, {
+  kode: behandlingType.INNLOGGET_CHAT,
+  navn: 'Innlogget chat',
+}, {
+  kode: behandlingType.SKRIV_TIL_OSS_SPØRMSÅL,
+  navn: 'Skriv til oss spørmsål',
+}, {
+  kode: behandlingType.SKRIV_TIL_OSS_SVAR,
+  navn: 'Srkiv til oss svar',
+},
+];
 
 describe('<BehandlingstypeVelger>', () => {
   it('skal vise checkboxer for behandlingstyper', () => {
@@ -43,9 +65,9 @@ describe('<BehandlingstypeVelger>', () => {
         />);
 
         const checkboxer = wrapper.find(CheckboxField);
-        expect(checkboxer).to.have.length(6);
+        expect(checkboxer).to.have.length(13);
         expect(checkboxer.first().prop('name')).to.eql(behandlingType.ANKE);
-        expect(checkboxer.last().prop('name')).to.eql(behandlingType.TILBAKEBETALING);
+        expect(checkboxer.last().prop('name')).to.eql(behandlingType.SKRIV_TIL_OSS_SVAR);
       });
   });
 
