@@ -1,0 +1,46 @@
+name: Deploy til preprod
+
+on: [workflow_dispatch]
+
+jobs:
+  deploy-dev:
+    name: Deploy til DEV
+    runs-on: ubuntu-latest
+    steps:
+      - name: Hente kode
+        uses: actions/checkout@v2.3.4
+      - name: Sette opp Node
+        uses: actions/setup-node@v2.1.5
+        with:
+          node-version: 12.x
+      - name: Installere moduler
+        run: yarn install --ignore-optional --no-progress --frozen-lockfile
+      - name: Sjekke opp mot Lint-regler
+        run: yarn less:lint
+      - name: Kjøre tester
+        run: yarn test
+      - name: Bygge kode
+        run: yarn build
+      - name: Sette Docker-navn og -tag
+        env:
+          DOCKER_IMAGE: docker.pkg.github.com/${{ github.repository }}/k9-los-web
+        run: |
+          echo $DOCKER_IMAGE > .docker_image
+          echo "$(date "+%Y.%m.%d")-$(git rev-parse --short HEAD)" > .docker_tag
+          echo "IMAGE=${IMAGE}$(cat .docker_image):$(cat .docker_tag)" >> $GITHUB_ENV
+      - name: Bygg og laste opp docker-image
+        run: |
+          docker pull node:alpine
+          docker build --tag ${IMAGE_BASE}:${TAG} --tag ${IMAGE_BASE}:latest --tag ${IMAGE_BASE_CR}:${TAG} --tag ${IMAGE_BASE_CR}:latest .
+          echo "${{ secrets.GITHUB_TOKEN }}" | docker login -u ${GITHUB_REPOSITORY} --password-stdin  docker.pkg.github.com
+          echo "${{ secrets.GITHUB_TOKEN }}" | docker login -u "x-access-token" --password-stdin ghcr.io
+          docker push ${IMAGE_BASE_CR} --all-tags
+          docker push ${IMAGE_BASE} --all-tags
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Deploye til dev
+        uses: nais/deploy/actions/deploy@v1
+        env:
+          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
+          CLUSTER: dev-fss
+          RESOURCE: deploy/dev-fss.yml
