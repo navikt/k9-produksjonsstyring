@@ -12,6 +12,7 @@ const behandlingType = {
   INNLOGGET_CHAT: 'INNLOGGET_CHAT',
   SKRIV_TIL_OSS_SPØRMSÅL: 'SKRIV_TIL_OSS_SPØRMSÅL',
   SKRIV_TIL_OSS_SVAR: 'SKRIV_TIL_OSS_SVAR',
+  UKJENT: 'UKJENT',
 };
 
 export default behandlingType;
