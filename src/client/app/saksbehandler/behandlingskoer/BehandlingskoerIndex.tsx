@@ -2,7 +2,7 @@ import React, {
   FunctionComponent, useCallback, useEffect, useState,
 } from 'react';
 import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
-import { getK9punsjRef, getK9sakHref } from 'app/paths';
+import { getK9punsjRef, getK9sakHref, getOmsorgspengerRef } from 'app/paths';
 import { Oppgaveko } from 'saksbehandler/behandlingskoer/oppgavekoTsType';
 import { OppgaveStatus } from 'saksbehandler/oppgaveStatusTsType';
 import Oppgave from 'saksbehandler/oppgaveTsType';
@@ -18,6 +18,7 @@ interface OwnProps {
   k9punsjUrl: string;
   valgtOppgavekoId?: string;
   setValgtOppgavekoId: (id: string) => void;
+  omsorgspengerUrl: string;
 }
 
 /**
@@ -28,6 +29,7 @@ const BehandlingskoerIndex: FunctionComponent<OwnProps> = ({
   k9punsjUrl,
   setValgtOppgavekoId,
   valgtOppgavekoId,
+  omsorgspengerUrl,
 }) => {
   const refreshUrl = useGlobalStateRestApiData<{ verdi?: string }>(RestApiGlobalStatePathsKeys.REFRESH_URL);
   const [reservertOppgave, setReservertOppgave] = useState<Oppgave>();
@@ -97,6 +99,9 @@ const BehandlingskoerIndex: FunctionComponent<OwnProps> = ({
         break;
       case 'K9SAK':
         window.location.assign(getK9sakHref(k9sakUrl, oppgave.saksnummer, oppgave.behandlingId));
+        break;
+      case 'OMSORGSPENGER':
+        window.location.assign(getOmsorgspengerRef(omsorgspengerUrl, oppgave.saksnummer));
         break;
       default: window.location.assign(getK9sakHref(k9sakUrl, oppgave.saksnummer, oppgave.behandlingId));
     }
