@@ -12,7 +12,7 @@ import { getYearFromString } from 'utils/dateUtils';
 import styles from './fagsakList.less';
 
 const headerTextCodes = [
-  'FagsakList.Saksnummer',
+  'FagsakList.Saksnummer/Journalpost-ID',
   'FagsakList.Navn',
   'FagsakList.Stonadstype',
   'FagsakList.Status',
@@ -70,7 +70,7 @@ const FagsakList: FunctionComponent<OwnProps> = ({
           onKeyDown={() => onClick(oppgave, selectOppgaveCallback)}
           isDashedBottomBorder={fagsakOppgaver.length > index + 1}
         >
-          <TableColumn>{`${oppgave.saksnummer} ${fagsaksperiodeÅr(oppgave)}`}</TableColumn>
+          <TableColumn>{oppgave.saksnummer ? (`${oppgave.saksnummer} ${fagsaksperiodeÅr(oppgave)}`) : `${oppgave.journalpostId}`}</TableColumn>
           <TableColumn>{oppgave.navn}</TableColumn>
           <TableColumn>{oppgave.fagsakYtelseType.navn}</TableColumn>
           <TableColumn>{oppgave.behandlingStatus.navn}</TableColumn>
