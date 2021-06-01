@@ -12,7 +12,7 @@ import { getYearFromString } from 'utils/dateUtils';
 import styles from './fagsakList.less';
 
 const headerTextCodes = [
-  'FagsakList.Saksnummer/Journalpost-ID',
+  'FagsakList.Saksnummer',
   'FagsakList.Navn',
   'FagsakList.Stonadstype',
   'FagsakList.Status',
