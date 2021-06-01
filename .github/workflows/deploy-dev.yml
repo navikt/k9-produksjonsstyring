@@ -34,7 +34,7 @@ jobs:
           echo "${{ secrets.GITHUB_TOKEN }}" | docker login -u "x-access-token" --password-stdin ghcr.io
           docker push ${IMAGE_BASE_CR} --all-tags
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
       - name: Deploye til dev
         uses: nais/deploy/actions/deploy@v1
         env:
