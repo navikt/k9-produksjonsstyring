@@ -51,7 +51,7 @@ const SistBehandledeSaker: FunctionComponent = () => {
             {sbs.navn
               ? (
                 <Lenke
-                  href={getK9sakHref(k9sakUrl.verdi, sbs.saksnummer, sbs.behandlingId)}
+                  href={getUrl(sbs)}
                 >
                   {`${sbs.navn} ${sbs.personnummer}`}
                 </Lenke>
