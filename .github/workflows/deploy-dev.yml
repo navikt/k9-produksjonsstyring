@@ -36,8 +36,13 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
       - name: Deploye til dev
-        uses: nais/deploy/actions/deploy@v1
-        env:
-          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
-          CLUSTER: dev-fss
-          RESOURCE: deploy/dev-fss.yml
+        uses: actions/github-script@v4
+        with:
+          github-token: ${{secrets.GH_ACCESS_TOKEN}}
+          script: |
+            const issue = { owner: context.issue.owner,
+                            repo: context.issue.repo,
+                            issue_number: ${{ steps.createdeployissue.outputs.number }} }
+            github.issues.createComment({...issue,
+                                    title: 'Deploy av ${{ env.TAG }}',
+                                    body: '/promote ${{ env.CLUSTER }} ${{ env.NAMESPACE }}'})
