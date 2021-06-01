@@ -2,6 +2,9 @@ name: Deploy til preprod
 
 on: [workflow_dispatch]
 
+env:
+  IMAGE_BASE_CR: ghcr.io/${{ github.repository }}
+
 jobs:
   deploy-dev:
     name: Deploy til DEV
