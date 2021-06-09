@@ -3,7 +3,7 @@ name: Deploy til preprod
 on: [workflow_dispatch]
 
 env:
-  BASE_IMAGE: ghcr.io/${{ github.repository }}
+  IMAGE_BASE_CR: ghcr.io/${{ github.repository }}
   GITHUB_USERNAME: x-access-token
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -26,17 +26,13 @@ jobs:
         run: yarn build
       - name: Sette Docker-navn og -tag
         run: |
-          echo BASE_IMAGE > .docker_image
-          echo "$(date "+%Y.%m.%d")-$(git rev-parse --short HEAD)" > .docker_tag
-          echo "IMAGE=${IMAGE}$(cat .docker_image):$(cat .docker_tag)" >> $GITHUB_ENV
-      - name: Bygge Docker image
-        run: docker build . --pull -t $(cat .docker_image):$(cat .docker_tag)
-      - name: Laste opp Docker image
+          echo "TAG=${TAG}$(date +"%Y%m%d%H%M%S")-$(echo $GITHUB_SHA | cut -c1-7)" >> $GITHUB_ENV
+      - name: Bygg og laste opp docker-image
         run: |
-          docker login docker.pkg.github.com -u ${GITHUB_REPOSITORY} -p ${GITHUB_TOKEN}
-          docker push $(cat .docker_image):$(cat .docker_tag)
-          docker tag $(cat .docker_image):$(cat .docker_tag) $(cat .docker_image):latest
-          docker push $(cat .docker_image):latest
+          docker pull node:alpine
+          docker build --tag ${IMAGE_BASE_CR}:${TAG} --tag ${IMAGE_BASE_CR}:latest .
+          echo "${{ secrets.GITHUB_TOKEN }}" | docker login -u "x-access-token" --password-stdin ghcr.io
+          docker push ${IMAGE_BASE_CR} --all-tags
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Deploye til dev
