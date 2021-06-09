@@ -27,6 +27,7 @@ jobs:
       - name: Sette Docker-navn og -tag
         run: |
           echo "TAG=${TAG}$(date +"%Y%m%d%H%M%S")-$(echo $GITHUB_SHA | cut -c1-7)" >> $GITHUB_ENV
+          echo "IMAGE=${IMAGE_BASE_CR}$(cat .docker_image):$(cat .docker_tag)" >> $GITHUB_ENV
       - name: Bygg og laste opp docker-image
         run: |
           docker pull node:alpine
@@ -42,3 +43,4 @@ jobs:
           CLUSTER: dev-fss
           RESOURCE: deploy/dev-fss.yml
           NAMESPACE: default
+          VAR: image=${{ env.IMAGE_BASE_CR }}
