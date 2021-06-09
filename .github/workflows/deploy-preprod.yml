@@ -19,13 +19,11 @@ jobs:
         with:
           node-version: 12.x
       - name: Installere moduler
-        run: npm install
-      - name: Sjekke opp mot Lint-regler
-        run: npm run lint
-      - name: Kjøre tester
-        run: npm run test
+        run: yarn install --ignore-optional --no-progress --frozen-lockfile
+      - name: Tester og linting
+        run: yarn test && yarn less:lint
       - name: Bygge kode
-        run: npm run build
+        run: yarn build
       - name: Sette Docker-navn og -tag
         run: |
           echo BASE_IMAGE > .docker_image
