@@ -120,7 +120,7 @@ const HeaderWithErrorPanel: FunctionComponent<OwnProps & WrappedComponentProps> 
   };
 
   return (
-    <header ref={fixedHeaderRef} className={styles.container}>
+    <header ref={fixedHeaderRef} className={isDev ? styles.containerDev : styles.container}>
       <div ref={wrapperRef}>
         <Header title={intl.formatMessage({ id: 'Header.K9Los' })} titleHref="/">
           {visAdminKnapp() && <Knapp className={styles.knapp} onClick={goTilDriftsmeldingerPanel}>Driftsmeldinger</Knapp>}
