@@ -11,8 +11,8 @@ import classnames from 'classnames/bind';
 import styles from './modalMedIkon.less';
 
 type TsProps = Readonly<{
-  cancel: (...args: any) => void;
-  submit: (...args: any) => void;
+  cancel: () => void;
+  submit: () => void;
     tekst: {
       formattedMessageId: string;
       values?: Record<string, boolean | string | number>;

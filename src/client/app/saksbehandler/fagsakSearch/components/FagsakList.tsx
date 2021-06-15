@@ -23,9 +23,10 @@ const headerTextCodes = [
 ];
 
 interface OwnProps {
-    fagsakOppgaver: Oppgave[];
-    selectOppgaveCallback: (oppgave: Oppgave, skalReservere: boolean) => void;
+  fagsakOppgaver: Oppgave[];
+  selectOppgaveCallback: (oppgave: Oppgave, skalReservere: boolean) => void;
 }
+
 /**
  * FagsakList
  *
@@ -40,13 +41,14 @@ const FagsakList: FunctionComponent<OwnProps> = ({
 
   const { kanReservere } = useGlobalStateRestApiData<NavAnsatt>(RestApiGlobalStatePathsKeys.NAV_ANSATT);
   const oppgavePåVentMulighetBTekst = 'Tilbake';
+  const [valgtOppgave, setValgtOppgave] = useState<Oppgave>(null);
 
   const onClick = (e, oppgave, selectCallback) => {
     if (!kanReservere) {
       selectCallback(oppgave, false);
     }
-    if (oppgave.erTilSaksbehandling && !oppgave.status.erReservert && oppgave.system === 'K9SAK'
-      && (typeof oppgave.paaVent === 'undefined' || (typeof oppgave.paaVent !== 'undefined' && !oppgave.paaVent))) {
+    setValgtOppgave(oppgave);
+    if (oppgave.erTilSaksbehandling && !oppgave.status.erReservert && oppgave.system === 'K9SAK' && !oppgave.status.erReservertAvInnloggetBruker) {
       setVisReserverOppgaveModal(true);
     } else if (typeof oppgave.paaVent !== 'undefined' && oppgave.paaVent) {
       setVisOppgavePåVentModel(true);
@@ -55,65 +57,72 @@ const FagsakList: FunctionComponent<OwnProps> = ({
     }
   };
 
-  const onSubmit = (oppgave: Oppgave, selectCallback) => {
+  const onSubmit = () => {
     setVisReserverOppgaveModal(false);
-    selectCallback(oppgave, true);
+    selectOppgaveCallback(valgtOppgave, true);
   };
 
-  const onCancel = (oppgave: Oppgave, selectCallback) => {
-    setVisReserverOppgaveModal(true);
-    selectCallback(oppgave, false);
+  const onCancel = () => {
+    selectOppgaveCallback(valgtOppgave, false);
   };
 
   const fagsaksperiodeÅr = (oppgave) => (oppgave.fagsakPeriode ? `(${getYearFromString(oppgave.fagsakPeriode.fom)})` : '');
 
   return (
-    <Table headerTextCodes={headerTextCodes} classNameTable={styles.table}>
-      {fagsakOppgaver.map((oppgave, index) => (
-        <TableRow
-          key={`oppgave${oppgave.eksternId}`}
-          id={oppgave.eksternId}
-          onMouseDown={(e) => onClick(e, oppgave, selectOppgaveCallback)}
-          onKeyDown={(e) => onClick(e, oppgave, selectOppgaveCallback)}
-          isDashedBottomBorder={fagsakOppgaver.length > index + 1}
-        >
-          <TableColumn>{`${oppgave.saksnummer} ${fagsaksperiodeÅr(oppgave)}`}</TableColumn>
-          <TableColumn>{oppgave.navn}</TableColumn>
-          <TableColumn>{oppgave.fagsakYtelseType.navn}</TableColumn>
-          <TableColumn>{oppgave.behandlingStatus.navn}</TableColumn>
-          <TableColumn><NavFrontendChevron /></TableColumn>
-          {visReserverOppgaveModal && kanReservere && !oppgave.status.erReservertAvInnloggetBruker && (
-            <ModalMedIkon
-              cancel={() => onCancel(oppgave, selectOppgaveCallback)}
-              submit={() => onSubmit(oppgave, selectOppgaveCallback)}
-              tekst={{
-                valgmulighetA: 'Ja',
-                valgmulighetB: 'Nei',
-                formattedMessageId: 'ReserverOppgaveModal.ReserverOppgave',
-              }}
-              ikonUrl={advarselImageUrl}
-              ikonAlt="Varseltrekant"
-            />
-          )}
+    <>
+      <Table headerTextCodes={headerTextCodes} classNameTable={styles.table}>
+        {fagsakOppgaver.map((oppgave, index) => (
+          <TableRow
+            key={`oppgave${oppgave.eksternId}`}
+            id={oppgave.eksternId}
+            onMouseDown={(e) => onClick(e, oppgave, selectOppgaveCallback)}
+            onKeyDown={(e) => onClick(e, oppgave, selectOppgaveCallback)}
+            isDashedBottomBorder={fagsakOppgaver.length > index + 1}
+          >
+            <TableColumn>{`${oppgave.saksnummer} ${fagsaksperiodeÅr(oppgave)}`}</TableColumn>
+            <TableColumn>{oppgave.navn}</TableColumn>
+            <TableColumn>{oppgave.fagsakYtelseType.navn}</TableColumn>
+            <TableColumn>{oppgave.behandlingStatus.navn}</TableColumn>
+            <TableColumn>
+              {' '}
+              <NavFrontendChevron />
+              {' '}
+            </TableColumn>
+          </TableRow>
+        ))}
+      </Table>
 
-          {visOppgavePåVentModel && (
-            <ModalMedIkon
-              cancel={() => { setVisOppgavePåVentModel(false); }}
-              submit={() => onSubmit(oppgave, selectOppgaveCallback)}
-              tekst={{
-                valgmulighetA: 'Åpne',
-                valgmulighetB: oppgavePåVentMulighetBTekst,
-                formattedMessageId: 'OppgavePåVentModal.OppgavePåVent',
-                values: { dato: oppgave.behandlingsfrist.substring(0, 10).replaceAll('-', '.') },
-              }}
-              ikonUrl={timeglassUrl}
-              ikonAlt="Timeglass"
-            />
-          )}
+      {visReserverOppgaveModal && kanReservere && (
+        <ModalMedIkon
+          cancel={() => onCancel()}
+          submit={() => onSubmit()}
+          tekst={{
+            valgmulighetA: 'Ja',
+            valgmulighetB: 'Nei',
+            formattedMessageId: 'ReserverOppgaveModal.ReserverOppgave',
+          }}
+          ikonUrl={advarselImageUrl}
+          ikonAlt="Varseltrekant"
+        />
+      )}
 
-        </TableRow>
-      ))}
-    </Table>
+      {visOppgavePåVentModel && !visReserverOppgaveModal && (
+        <ModalMedIkon
+          cancel={() => {
+            setVisOppgavePåVentModel(false);
+          }}
+          submit={() => onCancel()}
+          tekst={{
+            valgmulighetA: 'Åpne',
+            valgmulighetB: oppgavePåVentMulighetBTekst,
+            formattedMessageId: 'OppgavePåVentModal.OppgavePåVent',
+            values: { dato: valgtOppgave.behandlingsfrist.substring(0, 10).replaceAll('-', '.') },
+          }}
+          ikonUrl={timeglassUrl}
+          ikonAlt="Timeglass"
+        />
+      )}
+    </>
   );
 };
 
