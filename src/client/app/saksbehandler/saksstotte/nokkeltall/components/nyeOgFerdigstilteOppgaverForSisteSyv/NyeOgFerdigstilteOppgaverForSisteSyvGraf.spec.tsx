@@ -37,6 +37,10 @@ describe('<NyeOgFerdigstilteOppgaverForSisteSyvGraf>', () => {
         kode: behandlingType.FORSTEGANGSSOKNAD,
         navn: 'FORSTEGANGSSOKNAD',
       },
+      fagsakYtelseType: {
+        kode: 'PSB',
+        navn: 'Pleiepenger',
+      },
       antallNye: 11,
       antallFerdigstilte: 1,
       antallFerdigstilteMine: 1,
@@ -45,6 +49,10 @@ describe('<NyeOgFerdigstilteOppgaverForSisteSyvGraf>', () => {
       behandlingType: {
         kode: behandlingType.FORSTEGANGSSOKNAD,
         navn: 'FORSTEGANGSSOKNAD',
+      },
+      fagsakYtelseType: {
+        kode: 'PSB',
+        navn: 'Pleiepenger',
       },
       antallNye: 12,
       antallFerdigstilte: 2,
@@ -55,6 +63,10 @@ describe('<NyeOgFerdigstilteOppgaverForSisteSyvGraf>', () => {
         kode: behandlingType.FORSTEGANGSSOKNAD,
         navn: 'FORSTEGANGSSOKNAD',
       },
+      fagsakYtelseType: {
+        kode: 'PSB',
+        navn: 'Pleiepenger',
+      },
       antallNye: 13,
       antallFerdigstilte: 3,
       antallFerdigstilteMine: 1,
@@ -63,6 +75,10 @@ describe('<NyeOgFerdigstilteOppgaverForSisteSyvGraf>', () => {
       behandlingType: {
         kode: behandlingType.FORSTEGANGSSOKNAD,
         navn: 'FORSTEGANGSSOKNAD',
+      },
+      fagsakYtelseType: {
+        kode: 'PSB',
+        navn: 'Pleiepenger',
       },
       antallNye: 14,
       antallFerdigstilte: 4,
@@ -73,6 +89,10 @@ describe('<NyeOgFerdigstilteOppgaverForSisteSyvGraf>', () => {
         kode: behandlingType.FORSTEGANGSSOKNAD,
         navn: 'FORSTEGANGSSOKNAD',
       },
+      fagsakYtelseType: {
+        kode: 'PSB',
+        navn: 'Pleiepenger',
+      },
       antallNye: 15,
       antallFerdigstilte: 5,
       antallFerdigstilteMine: 1,
@@ -82,6 +102,10 @@ describe('<NyeOgFerdigstilteOppgaverForSisteSyvGraf>', () => {
         kode: behandlingType.FORSTEGANGSSOKNAD,
         navn: 'FORSTEGANGSSOKNAD',
       },
+      fagsakYtelseType: {
+        kode: 'PSB',
+        navn: 'Pleiepenger',
+      },
       antallNye: 16,
       antallFerdigstilte: 6,
       antallFerdigstilteMine: 1,
@@ -90,6 +114,10 @@ describe('<NyeOgFerdigstilteOppgaverForSisteSyvGraf>', () => {
       behandlingType: {
         kode: behandlingType.FORSTEGANGSSOKNAD,
         navn: 'FORSTEGANGSSOKNAD',
+      },
+      fagsakYtelseType: {
+        kode: 'PSB',
+        navn: 'Pleiepenger',
       },
       antallNye: 17,
       antallFerdigstilte: 7,
@@ -163,6 +191,10 @@ describe('<NyeOgFerdigstilteOppgaverForSisteSyvGraf>', () => {
       behandlingType: {
         kode: behandlingType.FORSTEGANGSSOKNAD,
         navn: 'FORSTEGANGSSOKNAD',
+      },
+      fagsakYtelseType: {
+        kode: 'PSB',
+        navn: 'Pleiepenger',
       },
       antallNye: 12,
       antallFerdigstilte: 2,

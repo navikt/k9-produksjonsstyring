@@ -14,6 +14,10 @@ describe('<NyeOgFerdigstilteOppgaverForSisteSyvPanel>', () => {
         kode: behandlingType.FORSTEGANGSSOKNAD,
         navn: 'FORSTEGANGSSOKNAD',
       },
+      fagsakYtelseType: {
+        kode: 'PSB',
+        navn: 'Pleiepenger',
+      },
       antallNye: 12,
       antallFerdigstilte: 2,
       antallFerdigstilteMine: 1,
@@ -38,6 +42,10 @@ describe('<NyeOgFerdigstilteOppgaverForSisteSyvPanel>', () => {
         kode: behandlingType.FORSTEGANGSSOKNAD,
         navn: 'FORSTEGANGSSOKNAD',
       },
+      fagsakYtelseType: {
+        kode: 'PSB',
+        navn: 'Pleiepenger',
+      },
       antallNye: 12,
       antallFerdigstilte: 2,
       antallFerdigstilteMine: 1,
@@ -47,6 +55,10 @@ describe('<NyeOgFerdigstilteOppgaverForSisteSyvPanel>', () => {
         kode: behandlingType.KLAGE,
         navn: 'KLAGE',
       },
+      fagsakYtelseType: {
+        kode: 'PSB',
+        navn: 'Pleiepenger',
+      },
       antallNye: 1,
       antallFerdigstilte: 6,
       antallFerdigstilteMine: 1,
@@ -55,6 +67,10 @@ describe('<NyeOgFerdigstilteOppgaverForSisteSyvPanel>', () => {
       behandlingType: {
         kode: behandlingType.INNSYN,
         navn: 'INNSYN',
+      },
+      fagsakYtelseType: {
+        kode: 'PSB',
+        navn: 'Pleiepenger',
       },
       antallNye: 8,
       antallFerdigstilte: 9,
