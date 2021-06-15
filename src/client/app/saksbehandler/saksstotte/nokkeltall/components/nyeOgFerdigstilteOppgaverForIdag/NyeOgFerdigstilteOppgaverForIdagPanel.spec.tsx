@@ -21,6 +21,10 @@ describe('<NyeOgFerdigstilteOppgaverForIdagPanel>', () => {
         kode: behandlingType.FORSTEGANGSSOKNAD,
         navn: 'FORSTEGANGSSOKNAD',
       },
+      fagsakYtelseType: {
+        kode: 'OMP',
+        navn: 'Omsorgspenger',
+      },
       antallNye: 12,
       antallFerdigstilte: 2,
       antallFerdigstilteMine: 1,
@@ -44,6 +48,10 @@ describe('<NyeOgFerdigstilteOppgaverForIdagPanel>', () => {
         kode: behandlingType.FORSTEGANGSSOKNAD,
         navn: 'FORSTEGANGSSOKNAD',
       },
+      fagsakYtelseType: {
+        kode: 'OMP',
+        navn: 'Omsorgspenger',
+      },
       antallNye: 12,
       antallFerdigstilte: 2,
       antallFerdigstilteMine: 1,
@@ -53,6 +61,10 @@ describe('<NyeOgFerdigstilteOppgaverForIdagPanel>', () => {
         kode: behandlingType.KLAGE,
         navn: 'KLAGE',
       },
+      fagsakYtelseType: {
+        kode: 'PSB',
+        navn: 'Pleiepenger',
+      },
       antallNye: 1,
       antallFerdigstilte: 6,
       antallFerdigstilteMine: 1,
@@ -61,6 +73,10 @@ describe('<NyeOgFerdigstilteOppgaverForIdagPanel>', () => {
       behandlingType: {
         kode: behandlingType.FORSTEGANGSSOKNAD,
         navn: 'INNSYN',
+      },
+      fagsakYtelseType: {
+        kode: 'PSB',
+        navn: 'Pleiepenger',
       },
       antallNye: 8,
       antallFerdigstilte: 9,

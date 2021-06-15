@@ -1,6 +1,6 @@
 FROM node:alpine
 
-LABEL org.opencontainers.image.source=https://github.com/navikt/k9-sak-web
+LABEL org.opencontainers.image.source=https://github.com/navikt/k9-los-web
 
 WORKDIR /usr/src/client/app
 

@@ -51,6 +51,10 @@ describe('<NyeOgFerdigstilteOppgaverForIdagGraf>', () => {
         kode: behandlingType.FORSTEGANGSSOKNAD,
         navn: 'FORSTEGANGSSOKNAD',
       },
+      fagsakYtelseType: {
+        kode: 'OMP',
+        navn: 'Omsorgspenger',
+      },
       antallNye: 12,
       antallFerdigstilte: 2,
       antallFerdigstilteMine: 2,
@@ -75,6 +79,10 @@ describe('<NyeOgFerdigstilteOppgaverForIdagGraf>', () => {
       behandlingType: {
         kode: behandlingType.FORSTEGANGSSOKNAD,
         navn: 'FORSTEGANGSSOKNAD',
+      },
+      fagsakYtelseType: {
+        kode: 'OMP',
+        navn: 'Omsorgspenger',
       },
       antallNye: 12,
       antallFerdigstilte: 2,

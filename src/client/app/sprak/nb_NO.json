@@ -59,7 +59,7 @@
 
   "ErrorMessagePanel.Close": "Lukk",
 
-  "FagsakList.Saksnummer": "Saksnummer",
+  "FagsakList.Saksnummer": "Saksnummer/Journalpost-ID",
   "FagsakList.Stonadstype": "Stønadstype",
   "FagsakList.Behandlingstype": "Behandlingstype",
   "FagsakList.Status": "Status",

@@ -43,6 +43,7 @@ export const SaksbehandlerDashboard: FunctionComponent<OwnProps> = ({
                   omsorgspengerUrl={k9sakUrl.verdi}
                   k9sakUrl={k9sakUrl.verdi}
                   k9punsjUrl={k9punsjUrl.verdi}
+                  omsorgspengerUrl={omsorgspengerUrl.verdi}
                   setValgtOppgavekoId={setValgtOppgavekoId}
                   valgtOppgavekoId={valgtOppgavekoId}
                 />
