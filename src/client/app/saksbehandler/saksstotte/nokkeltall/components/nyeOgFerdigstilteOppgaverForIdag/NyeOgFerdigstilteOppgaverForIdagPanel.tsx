@@ -47,7 +47,7 @@ export const NyeOgFerdigstilteOppgaverForIdagPanel: FunctionComponent<OwnProps> 
     (oppgave) => oppgave.fagsakYtelseType.kode === fagsakYtelseType.PLEIEPENGER_SYKT_BARN,
   );
 
-  const samlet = slaSammenLikeFagsakstyperOgDatoer(nyeOgFerdigstilteOppgaver);
+  const samlet = slaSammenLikeFagsakstyperOgDatoer(nyeOgFerdigstilteOppgaverForIdag);
 
   const hentOppgave = () => {
     switch (selectValue) {

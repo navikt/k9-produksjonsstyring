@@ -18,7 +18,6 @@ import NyeOgFerdigstilteOppgaver from '../nyeOgFerdigstilteOppgaverTsType';
 export const getNyeOgFerdigstilteForSisteSyvDager = (nyeOgFerdigstilte: NyeOgFerdigstilteOppgaver[] = []) => {
   const iDag = moment().startOf('day');
   const arr = nyeOgFerdigstilte.filter((oppgave) => iDag.isAfter(moment(oppgave.dato, ISO_DATE_FORMAT)));
-  console.log(arr);
   return arr;
 };
 
@@ -48,7 +47,7 @@ export const NyeOgFerdigstilteOppgaverForSisteSyvPanel: FunctionComponent<OwnPro
     (oppgave) => oppgave.fagsakYtelseType.kode === fagsakYtelseType.PLEIEPENGER_SYKT_BARN,
   );
 
-  const samlet = slaSammenLikeFagsakstyperOgDatoer(nyeOgFerdigstilteOppgaver);
+  const samlet = slaSammenLikeFagsakstyperOgDatoer(filtrertenyeOgFerdigstilteOppgaverSisteSyv);
 
   const hentOppgaver = () => {
     switch (selectValue) {
