@@ -13,6 +13,7 @@ import { RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
 import { getYearFromString } from 'utils/dateUtils';
 import ModalMedIkon from 'sharedComponents/modal/ModalMedIkon';
 import styles from './fagsakList.less';
+import OppgaveSystem from '../../../types/OppgaveSystem';
 
 const headerTextCodes = [
   'FagsakList.Saksnummer',
@@ -48,7 +49,8 @@ const FagsakList: FunctionComponent<OwnProps> = ({
       selectCallback(oppgave, false);
     }
     setValgtOppgave(oppgave);
-    if (oppgave.erTilSaksbehandling && !oppgave.status.erReservert && oppgave.system === 'K9SAK' && !oppgave.status.erReservertAvInnloggetBruker) {
+
+    if (oppgave.erTilSaksbehandling && !oppgave.status.erReservert && !oppgave.status.erReservertAvInnloggetBruker && (oppgave.system === OppgaveSystem.K9SAK || oppgave.system === OppgaveSystem.PUNSJ)) {
       setVisReserverOppgaveModal(true);
     } else if (typeof oppgave.paaVent !== 'undefined' && oppgave.paaVent) {
       setVisOppgavePåVentModel(true);
