@@ -17,10 +17,7 @@ const SaksbehandlerIndex = () => {
     return <IkkeTilgangTilAvdelingslederPanel />;
   }
   return (
-    <SaksbehandlerDashboard
-      valgtOppgavekoId={valgtOppgavekoId}
-      setValgtOppgavekoId={setValgtOppgavekoId}
-    />
+ <div>Hei</div>
   );
 };
 

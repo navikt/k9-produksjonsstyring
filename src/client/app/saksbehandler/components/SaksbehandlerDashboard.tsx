@@ -39,7 +39,13 @@ export const SaksbehandlerDashboard: FunctionComponent<OwnProps> = ({
             </Panel>
             <div>
               <Panel className={styles.sakslistePanel}>
-               
+                <BehandlingskoerIndex
+                  k9sakUrl={k9sakUrl.verdi}
+                  k9punsjUrl={k9punsjUrl.verdi}
+                  setValgtOppgavekoId={setValgtOppgavekoId}
+                  valgtOppgavekoId={valgtOppgavekoId}
+                  omsorgspengerUrl={omsorgspengerUrl.verdi}
+                />
               </Panel>
             </div>
           </div>
