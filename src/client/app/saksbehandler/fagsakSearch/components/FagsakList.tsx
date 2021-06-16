@@ -10,6 +10,7 @@ import NavAnsatt from 'app/navAnsattTsType';
 import { RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
 import { getYearFromString } from 'utils/dateUtils';
 import styles from './fagsakList.less';
+import OppgaveSystem from '../../../types/OppgaveSystem';
 
 const headerTextCodes = [
   'FagsakList.Saksnummer',
@@ -41,7 +42,7 @@ const FagsakList: FunctionComponent<OwnProps> = ({
     if (!kanReservere) {
       selectCallback(oppgave, false);
     }
-    if (oppgave.erTilSaksbehandling && !oppgave.status.erReservert && oppgave.system === 'K9SAK') {
+    if (oppgave.erTilSaksbehandling && !oppgave.status.erReservert && (oppgave.system === OppgaveSystem.K9SAK || oppgave.system === OppgaveSystem.PUNSJ)) {
       setVisReserverOppgaveModal(true);
     } else {
       selectCallback(oppgave, false);
