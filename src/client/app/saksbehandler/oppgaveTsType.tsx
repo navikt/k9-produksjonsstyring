@@ -20,6 +20,7 @@ type Oppgave = {
   };
   erTilSaksbehandling: boolean;
   eksternId: string;
+  paaVent?: boolean;
 };
 
 export default Oppgave;

@@ -256,6 +256,7 @@
   "ReservasjonerTabell.FlyttReservasjon": "Flytt reservasjonen til annen saksbehandler",
 
   "ReserverOppgaveModal.ReserverOppgave": "Ønsker du å reservere behandlingen?",
+  "OppgavePåVentModal.OppgavePåVent": "Saken er satt på vent til {dato}",
 
   "SaksbehandlereForOppgavekoForm.Saksbehandlere": "Saksbehandlere",
   "SaksbehandlereForOppgavekoForm.IngenSaksbehandlere": "Ingen saksbehandlere",

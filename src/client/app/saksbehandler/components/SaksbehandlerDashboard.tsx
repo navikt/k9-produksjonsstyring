@@ -10,8 +10,8 @@ import SaksstotteIndex from '../saksstotte/SaksstotteIndex';
 import styles from './saksbehandlerDashboard.less';
 
 interface OwnProps {
-  valgtOppgavekoId?: string;
-  setValgtOppgavekoId: (id: string) => void;
+    valgtOppgavekoId?: string;
+    setValgtOppgavekoId: (id: string) => void;
 }
 
 /**
@@ -31,11 +31,16 @@ export const SaksbehandlerDashboard: FunctionComponent<OwnProps> = ({
         <div className={styles.gridContainer}>
           <div className={styles.leftColumn}>
             <Panel className={styles.sakslistePanel}>
-              <FagsakSearchIndex k9punsjUrl={k9punsjUrl.verdi} k9sakUrl={k9sakUrl.verdi} omsorgspengerUrl={omsorgspengerUrl.verdi} />
+              <FagsakSearchIndex
+                k9punsjUrl={k9punsjUrl.verdi}
+                k9sakUrl={k9sakUrl.verdi}
+                omsorgspengerUrl={omsorgspengerUrl.verdi}
+              />
             </Panel>
             <div>
               <Panel className={styles.sakslistePanel}>
                 <BehandlingskoerIndex
+                  omsorgspengerUrl={k9sakUrl.verdi}
                   k9sakUrl={k9sakUrl.verdi}
                   k9punsjUrl={k9punsjUrl.verdi}
                   omsorgspengerUrl={omsorgspengerUrl.verdi}

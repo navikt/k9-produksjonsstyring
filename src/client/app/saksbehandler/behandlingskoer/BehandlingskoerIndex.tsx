@@ -11,11 +11,14 @@ import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner
 import { useRestApi } from 'api/rest-api-hooks';
 import useGlobalStateRestApiData from 'api/rest-api-hooks/src/global-data/useGlobalStateRestApiData';
 import RestApiState from 'api/rest-api-hooks/src/RestApiState';
+import ModalMedIkon from 'sharedComponents/modal/ModalMedIkon';
 import OppgavekoPanel from './components/OppgavekoPanel';
+import timeglassUrl from '../../../images/timeglass.svg';
 
 interface OwnProps {
   k9sakUrl: string;
   k9punsjUrl: string;
+  omsorgspengerUrl: string;
   valgtOppgavekoId?: string;
   setValgtOppgavekoId: (id: string) => void;
   omsorgspengerUrl: string;
@@ -35,6 +38,8 @@ const BehandlingskoerIndex: FunctionComponent<OwnProps> = ({
   const [reservertOppgave, setReservertOppgave] = useState<Oppgave>();
   const [reservertAvAnnenSaksbehandler, setReservertAvAnnenSaksbehandler] = useState<boolean>(false);
   const [reservertOppgaveStatus, setReservertOppgaveStatus] = useState<OppgaveStatus>();
+  const [visModalForOppgavePåVent, setVisModalForOppgavePåVent] = useState<boolean>(false);
+  const [oppgavePåVent, setOppgavePåVent] = useState<Oppgave>();
 
   const { data: oppgavekoer = [] } = useRestApi<Oppgaveko[]>(K9LosApiKeys.OPPGAVEKO);
   const {
@@ -108,7 +113,7 @@ const BehandlingskoerIndex: FunctionComponent<OwnProps> = ({
   };
 
   const openSak = (oppgave: Oppgave) => {
-    if (oppgave.system === 'K9SAK' || oppgave.system === 'PUNSJ') openFagsak(oppgave);
+    if (oppgave.system === 'K9SAK' || oppgave.system === 'PUNSJ' || oppgave.system === 'OMSORGSPENGER') openFagsak(oppgave);
     else throw new Error('Fagsystemet for oppgaven er ukjent');
   };
 
@@ -116,11 +121,16 @@ const BehandlingskoerIndex: FunctionComponent<OwnProps> = ({
     setReservertAvAnnenSaksbehandler(false);
     setReservertOppgave(null);
     setReservertOppgaveStatus(null);
+    setVisModalForOppgavePåVent(false);
+    setOppgavePåVent(null);
   };
 
   const reserverOppgaveOgApne = useCallback((oppgave: Oppgave) => {
     if (oppgave.status.erReservert) {
       openSak(oppgave);
+    } else if (typeof oppgave.paaVent !== 'undefined' && oppgave.paaVent) {
+      setVisModalForOppgavePåVent(true);
+      setOppgavePåVent(oppgave);
     } else {
       reserverOppgave({ oppgaveId: oppgave.eksternId }).then((nyOppgaveStatus) => {
         if (nyOppgaveStatus.erReservert && nyOppgaveStatus.erReservertAvInnloggetBruker) {
@@ -164,6 +174,20 @@ const BehandlingskoerIndex: FunctionComponent<OwnProps> = ({
         oppgaveStatus={reservertOppgaveStatus}
         lukkModal={lukkModal}
       />
+      )}
+      {visModalForOppgavePåVent && (
+        <ModalMedIkon
+          cancel={() => lukkModal()}
+          submit={() => openSak(oppgavePåVent)}
+          tekst={{
+            valgmulighetA: 'Åpne',
+            valgmulighetB: 'Tilbake',
+            formattedMessageId: 'OppgavePåVentModal.OppgavePåVent',
+            values: { dato: oppgavePåVent.behandlingsfrist.substring(0, 10).replaceAll('-', '.') },
+          }}
+          ikonUrl={timeglassUrl}
+          ikonAlt="Timeglass"
+        />
       )}
     </>
   );
