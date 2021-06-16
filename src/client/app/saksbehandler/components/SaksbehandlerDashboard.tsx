@@ -27,35 +27,7 @@ export const SaksbehandlerDashboard: FunctionComponent<OwnProps> = ({
 
   return (
     <div>
-      <div className={styles.oppgaveContainer}>
-        <div className={styles.gridContainer}>
-          <div className={styles.leftColumn}>
-            <Panel className={styles.sakslistePanel}>
-              <FagsakSearchIndex
-                k9punsjUrl={k9punsjUrl.verdi}
-                k9sakUrl={k9sakUrl.verdi}
-                omsorgspengerUrl={omsorgspengerUrl.verdi}
-              />
-            </Panel>
-            <div>
-              <Panel className={styles.sakslistePanel}>
-                <BehandlingskoerIndex
-                  k9sakUrl={k9sakUrl.verdi}
-                  k9punsjUrl={k9punsjUrl.verdi}
-                  setValgtOppgavekoId={setValgtOppgavekoId}
-                  valgtOppgavekoId={valgtOppgavekoId}
-                  omsorgspengerUrl={omsorgspengerUrl.verdi}
-                />
-              </Panel>
-            </div>
-          </div>
-          <div className={styles.rightColumn}>
-            <Panel>
-              <SaksstotteIndex />
-            </Panel>
-          </div>
-        </div>
-      </div>
+      Hei
     </div>
   );
 };
