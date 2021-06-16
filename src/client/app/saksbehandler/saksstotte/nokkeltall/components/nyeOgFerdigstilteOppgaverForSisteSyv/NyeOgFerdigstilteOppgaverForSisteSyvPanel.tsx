@@ -37,12 +37,13 @@ export const NyeOgFerdigstilteOppgaverForSisteSyvPanel: FunctionComponent<OwnPro
     () => getNyeOgFerdigstilteForSisteSyvDager(nyeOgFerdigstilteOppgaver), [nyeOgFerdigstilteOppgaver],
   );
 
-  const omsorgspengerFerdigstilteOppgaver = filtrertenyeOgFerdigstilteOppgaverSisteSyv.filter(
+  const omsorgspengerFerdigstilteOppgaver = slaSammenLikeFagsakstyperOgDatoer(filtrertenyeOgFerdigstilteOppgaverSisteSyv.filter(
     (oppgave) => oppgave.fagsakYtelseType.kode === fagsakYtelseType.OMSORGSPENGER,
-  );
-  const pleiepengerFerdigstilteOppgaver = filtrertenyeOgFerdigstilteOppgaverSisteSyv.filter(
+  ));
+
+  const pleiepengerFerdigstilteOppgaver = slaSammenLikeFagsakstyperOgDatoer(filtrertenyeOgFerdigstilteOppgaverSisteSyv.filter(
     (oppgave) => oppgave.fagsakYtelseType.kode === fagsakYtelseType.PLEIEPENGER_SYKT_BARN,
-  );
+  ));
 
   const samlet = slaSammenLikeFagsakstyperOgDatoer(filtrertenyeOgFerdigstilteOppgaverSisteSyv);
 

@@ -38,12 +38,13 @@ export const NyeOgFerdigstilteOppgaverForIdagPanel: FunctionComponent<OwnProps> 
   const behandlingTyper = useKodeverk(kodeverkTyper.BEHANDLING_TYPE);
   const [selectValue, setSelectValue] = useState<string>('');
   const nyeOgFerdigstilteOppgaverForIdag = useMemo(() => getNyeOgFerdigstilteForIDag(nyeOgFerdigstilteOppgaver), [nyeOgFerdigstilteOppgaver]);
-  const omsorgspengerFerdigstilteOppgaver = nyeOgFerdigstilteOppgaverForIdag.filter(
+  const omsorgspengerFerdigstilteOppgaver = slaSammenLikeFagsakstyperOgDatoer(nyeOgFerdigstilteOppgaverForIdag.filter(
     (oppgave) => oppgave.fagsakYtelseType.kode === fagsakYtelseType.OMSORGSPENGER,
-  );
-  const pleiepengerFerdigstilteOppgaver = nyeOgFerdigstilteOppgaverForIdag.filter(
+  ));
+
+  const pleiepengerFerdigstilteOppgaver = slaSammenLikeFagsakstyperOgDatoer(nyeOgFerdigstilteOppgaverForIdag.filter(
     (oppgave) => oppgave.fagsakYtelseType.kode === fagsakYtelseType.PLEIEPENGER_SYKT_BARN,
-  );
+  ));
 
   const samlet = slaSammenLikeFagsakstyperOgDatoer(nyeOgFerdigstilteOppgaverForIdag);
 
