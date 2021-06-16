@@ -11,7 +11,7 @@ import styles from './saksbehandlerDashboard.less';
 
 interface OwnProps {
     valgtOppgavekoId?: string;
-    setValgtOppgavekoId: (id: string) => void;
+    setValgtOppgaveko: (id: string) => void;
 }
 
 /**
@@ -19,7 +19,7 @@ interface OwnProps {
  */
 export const SaksbehandlerDashboard: FunctionComponent<OwnProps> = ({
   valgtOppgavekoId,
-  setValgtOppgavekoId,
+  setValgtOppgaveko,
 }) => {
   const k9sakUrl = useGlobalStateRestApiData<{ verdi?: string }>(RestApiGlobalStatePathsKeys.K9SAK_URL);
   const k9punsjUrl = useGlobalStateRestApiData<{ verdi?: string }>(RestApiGlobalStatePathsKeys.PUNSJ_URL);
@@ -43,7 +43,7 @@ export const SaksbehandlerDashboard: FunctionComponent<OwnProps> = ({
                   k9sakUrl={k9sakUrl.verdi}
                   k9punsjUrl={k9punsjUrl.verdi}
                   omsorgspengerUrl={omsorgspengerUrl.verdi}
-                  setValgtOppgavekoId={setValgtOppgavekoId}
+                  setValgtOppgavekoId={setValgtOppgaveko}
                   valgtOppgavekoId={valgtOppgavekoId}
                 />
               </Panel>

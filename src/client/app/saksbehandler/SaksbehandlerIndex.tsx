@@ -19,7 +19,7 @@ const SaksbehandlerIndex = () => {
   return (
     <SaksbehandlerDashboard
       valgtOppgavekoId={valgtOppgavekoId}
-      setValgtOppgavekoId={setValgtOppgavekoId}
+      setValgtOppgaveko={setValgtOppgavekoId}
     />
   );
 };
