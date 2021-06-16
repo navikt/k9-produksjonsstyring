@@ -18,7 +18,6 @@ import timeglassUrl from '../../../images/timeglass.svg';
 interface OwnProps {
   k9sakUrl: string;
   k9punsjUrl: string;
-  omsorgspengerUrl: string;
   valgtOppgavekoId?: string;
   setValgtOppgavekoId: (id: string) => void;
   omsorgspengerUrl: string;
