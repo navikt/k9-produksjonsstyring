@@ -6,7 +6,6 @@ import {
 } from 'react-vis';
 import { FormattedMessage, injectIntl, WrappedComponentProps } from 'react-intl';
 import { Normaltekst } from 'nav-frontend-typografi';
-import Panel from 'nav-frontend-paneler';
 
 import { FlexContainer, FlexRow, FlexColumn } from 'sharedComponents/flexGrid';
 import { Kodeverk } from 'kodeverk/kodeverkTsType';
