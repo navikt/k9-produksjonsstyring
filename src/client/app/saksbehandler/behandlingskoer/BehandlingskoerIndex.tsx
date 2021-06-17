@@ -21,7 +21,6 @@ interface OwnProps {
   omsorgspengerUrl: string;
   valgtOppgavekoId?: string;
   setValgtOppgavekoId: (id: string) => void;
-  omsorgspengerUrl: string;
 }
 
 /**
