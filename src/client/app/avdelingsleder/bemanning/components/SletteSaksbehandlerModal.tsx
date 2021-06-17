@@ -1,13 +1,11 @@
 import React, { FunctionComponent } from 'react';
 import { injectIntl, WrappedComponentProps, FormattedMessage } from 'react-intl';
-import { Row, Column } from 'nav-frontend-grid';
+import { Column } from 'nav-frontend-grid';
 import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
 import { Normaltekst } from 'nav-frontend-typografi';
 
-import Image from 'sharedComponents/Image';
 import Modal from 'sharedComponents/Modal';
 
-import advarselImageUrl from 'images/advarsel.svg';
 import { Saksbehandler } from '../saksbehandlerTsType';
 
 import styles from './sletteSaksbehandlerModal.less';

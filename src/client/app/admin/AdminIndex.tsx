@@ -69,7 +69,8 @@ export const AdminIndex: FunctionComponent = () => {
 
   if (!kanDrifte) {
     return <IkkeTilgangTilAvdelingslederPanel />;
-  } if (activePanel) {
+  }
+  if (activePanel) {
     return (
       <AdminDashboard key={activePanel}>
         <div>

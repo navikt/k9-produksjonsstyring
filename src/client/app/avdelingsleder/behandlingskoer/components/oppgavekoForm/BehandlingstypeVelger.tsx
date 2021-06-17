@@ -9,7 +9,6 @@ import { CheckboxField } from 'form/FinalFields';
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
 import { K9LosApiKeys } from 'api/k9LosApi';
 import useKodeverk from 'api/rest-api-hooks/src/global-data/useKodeverk';
-import { Oppgaveko } from 'avdelingsleder/behandlingskoer/oppgavekoTsType';
 import styles from './utvalgskriterierForOppgavekoForm.less';
 
 const behandlingstypeOrder = Object.values(behandlingType);

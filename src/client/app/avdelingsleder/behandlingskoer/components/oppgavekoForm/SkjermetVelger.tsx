@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Normaltekst, Undertekst } from 'nav-frontend-typografi';
+import { Normaltekst } from 'nav-frontend-typografi';
 
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import { RadioGroupField, RadioOption } from 'form/FinalFields';

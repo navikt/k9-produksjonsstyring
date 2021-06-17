@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useCallback, useEffect } from 'react';
+import React, { FunctionComponent, useEffect } from 'react';
 import Reservasjon from 'avdelingsleder/reservasjoner/reservasjonTsType';
 import { K9LosApiKeys } from 'api/k9LosApi';
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';

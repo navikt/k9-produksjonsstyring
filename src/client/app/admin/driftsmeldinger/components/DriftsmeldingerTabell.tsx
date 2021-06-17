@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import React, { FunctionComponent, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Normaltekst, Element } from 'nav-frontend-typografi';
 import Image from 'sharedComponents/Image';

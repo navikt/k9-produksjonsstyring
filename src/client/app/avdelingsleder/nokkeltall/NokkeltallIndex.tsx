@@ -3,7 +3,6 @@ import useRestApi from 'api/rest-api-hooks/src/local-data/useRestApi';
 import { K9LosApiKeys } from 'api/k9LosApi';
 import AlleOppgaver from 'avdelingsleder/nokkeltall/components/fordelingAvBehandlingstype/alleOppgaverTsType';
 import HistoriskData from 'avdelingsleder/nokkeltall/historiskDataTsType';
-import NyeOgFerdigstilteMedStonadstype from 'avdelingsleder/nokkeltall/nyeOgFerdigstilteMedStonadstypeTsType';
 import NokkeltallPanel from './components/NokkeltallPanel';
 
 const EMPTY_ARRAY = [];
