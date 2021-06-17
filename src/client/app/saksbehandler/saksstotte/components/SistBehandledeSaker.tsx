@@ -27,13 +27,10 @@ const SistBehandledeSaker: FunctionComponent = () => {
     switch (oppgave.system) {
       case 'K9SAK':
         return getK9sakHref(k9sakUrl.verdi, oppgave.saksnummer, oppgave.behandlingId);
-        break;
       case 'PUNSJ':
         return getK9punsjRef(k9punsjUrl.verdi, oppgave.journalpostId);
-        break;
       case 'OMSORGSPENGER':
         return getOmsorgspengerRef(omsorgspengerUrl.verdi, oppgave.saksnummer);
-        break;
       default:
         return getK9sakHref(k9sakUrl.verdi, oppgave.saksnummer, oppgave.behandlingId);
     }
