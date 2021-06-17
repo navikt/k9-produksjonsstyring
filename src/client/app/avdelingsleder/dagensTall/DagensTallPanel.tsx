@@ -1,7 +1,6 @@
 import React, { FunctionComponent, useMemo } from 'react';
 import { Normaltekst } from 'nav-frontend-typografi';
 import EnkelTeller from 'avdelingsleder/dagensTall/EnkelTeller';
-import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import { WrappedComponentProps, injectIntl } from 'react-intl';
 import ApneBehandlinger from 'avdelingsleder/dagensTall/apneBehandlingerTsType';
 import { behandlingstypeOrder } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
