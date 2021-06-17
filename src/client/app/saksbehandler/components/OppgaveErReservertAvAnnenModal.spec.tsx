@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import moment from 'moment';
 import { FormattedMessage } from 'react-intl';
-import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
+import { Hovedknapp } from 'nav-frontend-knapper';
 
 import Modal from 'sharedComponents/Modal';
 import { getDateAndTime } from 'utils/dateUtils';

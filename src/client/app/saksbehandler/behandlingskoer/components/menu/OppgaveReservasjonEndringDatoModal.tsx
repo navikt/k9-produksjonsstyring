@@ -1,6 +1,4 @@
-import React, {
-  Component, FunctionComponent, MouseEvent, useCallback,
-} from 'react';
+import React, { FunctionComponent, useCallback } from 'react';
 import { Form } from 'react-final-form';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { Column, Row } from 'nav-frontend-grid';
@@ -10,7 +8,7 @@ import Panel from 'nav-frontend-paneler';
 import { DatepickerField } from 'form/FinalFields';
 import styles from 'saksbehandler/behandlingskoer/components/menu/oppgaveReservasjonEndringDatoModal.less';
 import Modal from 'sharedComponents/Modal';
-import { dateAfterOrEqual, dateBeforeOrEqual, hasValidDate } from 'utils/validation/validators';
+import { dateAfterOrEqual, hasValidDate } from 'utils/validation/validators';
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
 import { K9LosApiKeys } from 'api/k9LosApi';
 

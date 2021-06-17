@@ -4,7 +4,7 @@ import { Form, FormSpy } from 'react-final-form';
 import {
   injectIntl, WrappedComponentProps, FormattedMessage, IntlShape,
 } from 'react-intl';
-import { Element, Normaltekst } from 'nav-frontend-typografi';
+import { Element } from 'nav-frontend-typografi';
 import { DDMMYYYY_DATE_FORMAT } from 'utils/formats';
 import Image from 'sharedComponents/Image';
 import { FlexContainer, FlexRow, FlexColumn } from 'sharedComponents/flexGrid';
@@ -97,7 +97,8 @@ const getSorteringsnavn = (intl: IntlShape, oppgaveko?: Oppgaveko) => {
 
   if (!values.fomDato) {
     return intl.formatMessage({ id: 'OppgavekoVelgerForm.SorteringsinfoTom' }, values) as string;
-  } if (!values.tomDato) {
+  }
+  if (!values.tomDato) {
     return intl.formatMessage({ id: 'OppgavekoVelgerForm.SorteringsinfoFom' }, values) as string;
   }
   return intl.formatMessage({ id: 'OppgavekoVelgerForm.Sorteringsinfo' }, values) as string;

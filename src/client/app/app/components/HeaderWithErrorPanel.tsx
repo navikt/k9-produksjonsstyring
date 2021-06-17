@@ -14,7 +14,7 @@ import useRestApiError from 'api/rest-api/error/useRestApiError';
 import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
 import ErrorFormatter from 'app/feilhandtering/ErrorFormatter';
 import useRestApi from 'api/rest-api-hooks/src/local-data/useRestApi';
-import { useGlobalStateRestApiData, useRestApiRunner } from 'api/rest-api-hooks';
+import { useGlobalStateRestApiData } from 'api/rest-api-hooks';
 import NavAnsatt from 'app/navAnsattTsType';
 import styles from './headerWithErrorPanel.less';
 import ErrorMessagePanel from './ErrorMessagePanel';
