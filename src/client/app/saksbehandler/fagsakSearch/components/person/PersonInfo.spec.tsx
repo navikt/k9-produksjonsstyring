@@ -6,7 +6,6 @@ import Image from 'sharedComponents/Image';
 import { IntlShape } from 'react-intl';
 import { shallowWithIntl, intlMock } from 'testHelpers/intl-enzyme-test-helper';
 import PersonInfo from './PersonInfo';
-import MerkePanel from './Merkepanel';
 
 describe('<PersonInfo>', () => {
   const intl: Partial<IntlShape> = {

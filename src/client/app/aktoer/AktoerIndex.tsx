@@ -1,5 +1,4 @@
 import React, { FunctionComponent, useEffect } from 'react';
-import { useParams } from 'react-router';
 import { SokeResultat } from 'saksbehandler/fagsakSearch/sokeResultatTsType';
 import { K9LosApiKeys } from 'api/k9LosApi';
 import { RestApiState } from 'api/rest-api-hooks';

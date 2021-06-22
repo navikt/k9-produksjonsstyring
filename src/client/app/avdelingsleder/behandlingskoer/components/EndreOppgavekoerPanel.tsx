@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useCallback, useEffect } from 'react';
+import React, { FunctionComponent, useEffect } from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
 import { K9LosApiKeys } from 'api/k9LosApi';
@@ -23,9 +23,6 @@ const EndreOppgavekoerPanel: FunctionComponent<OwnProps & WrappedComponentProps>
   const { data: oppgaverAntallTotalt, startRequest: hentOppgaverAntallTotalt } = useRestApiRunner<number>(K9LosApiKeys.OPPGAVE_ANTALL_TOTALT);
   const { data: oppgavekoer = [], startRequest: hentAlleOppgavekoer, state } = useRestApiRunner<Oppgaveko[]>(K9LosApiKeys.OPPGAVEKOER);
   const requestFinished = state === RestApiState.SUCCESS;
-
-  // const nyId = nyOppgavekoObject ? nyOppgavekoObject.id : undefined;
-  // const valgtId = valgtOppgavekoId !== undefined ? valgtOppgavekoId : nyId;
 
   useEffect(() => {
     hentOppgaverAntallTotalt();

@@ -10,8 +10,6 @@ import EventType from 'api/rest-api/src/requestApi/eventType';
 import Image from 'sharedComponents/Image';
 import moment from 'moment';
 import { DD_MM_HHMM } from 'utils/formats';
-import { K9LosApiKeys } from 'api/k9LosApi';
-import useRestApi from 'api/rest-api-hooks/src/local-data/useRestApi';
 import styles from './errorMessagePanel.less';
 import { Driftsmelding } from '../../admin/driftsmeldinger/driftsmeldingTsType';
 
