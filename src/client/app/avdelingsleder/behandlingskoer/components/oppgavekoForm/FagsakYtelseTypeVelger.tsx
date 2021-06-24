@@ -50,7 +50,7 @@ const FagsakYtelseTypeVelger: FunctionComponent<OwnProps> = ({
         />
         <RadioOption
           value={fagsakYtelseType.OMSORGSDAGER}
-          label={finnFagsakYtelseTypeNavn(alleFagsakYtelseTyper, fagsakYtelseType.OMSORGSDAGER)}
+          label={<FormattedMessage id="FagsakYtelseTypeVelger.Omsorgsdager" />}
         />
         <RadioOption
           value={fagsakYtelseType.PLEIEPENGER_SYKT_BARN}
