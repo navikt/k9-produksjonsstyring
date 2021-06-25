@@ -30,9 +30,10 @@ describe('<FagsakYtelseTypeVelger>', () => {
         />);
 
         const radios = wrapper.find(RadioOption);
-        expect(radios).to.have.length(3);
+        expect(radios).to.have.length(4);
         expect(radios.first().prop('value')).to.eql(fagsakYtelseType.OMSORGSPENGER);
-        expect(radios.at(1).prop('value')).to.eql(fagsakYtelseType.PLEIEPENGER_SYKT_BARN);
+        expect(radios.at(1).prop('value')).to.eql(fagsakYtelseType.OMSORGSDAGER);
+        expect(radios.at(2).prop('value')).to.eql(fagsakYtelseType.PLEIEPENGER_SYKT_BARN);
         expect(radios.last().prop('value')).to.eql('');
       });
   });
