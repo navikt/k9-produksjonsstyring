@@ -129,7 +129,7 @@ export const GjeldendeOppgavekoerTabell: FunctionComponent<OwnProps> = ({
     }
 
     return <FormattedMessage id="GjeldendeOppgavekoerTabell.Alle" />;
-   /* return valgteFagsakYtelseTyper.map((fyt) => {
+    /* return valgteFagsakYtelseTyper.map((fyt) => {
       const type = fagsakYtelseTyper.find((def) => def.kode === fyt.kode);
       return type ? type.navn : '';
     }).join(', '); */
