@@ -23,7 +23,7 @@ const EndreOppgavekoerPanel: FunctionComponent<OwnProps & WrappedComponentProps>
   const { data: oppgaverAntallTotalt, startRequest: hentOppgaverAntallTotalt } = useRestApiRunner<number>(K9LosApiKeys.OPPGAVE_ANTALL_TOTALT);
   const { data: oppgavekoer = [], startRequest: hentAlleOppgavekoer, state } = useRestApiRunner<Oppgaveko[]>(K9LosApiKeys.OPPGAVEKOER);
   const requestFinished = state === RestApiState.SUCCESS;
-
+  // eslint-disable-next-line
   console.log('EndreOppgavekoerPanel');
   useEffect(() => {
     hentOppgaverAntallTotalt();
