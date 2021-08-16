@@ -24,6 +24,7 @@ const EndreOppgavekoerPanel: FunctionComponent<OwnProps & WrappedComponentProps>
   const { data: oppgavekoer = [], startRequest: hentAlleOppgavekoer, state } = useRestApiRunner<Oppgaveko[]>(K9LosApiKeys.OPPGAVEKOER);
   const requestFinished = state === RestApiState.SUCCESS;
 
+  console.log('EndreOppgavekoerPanel');
   useEffect(() => {
     hentOppgaverAntallTotalt();
     hentAlleOppgavekoer();

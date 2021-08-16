@@ -127,10 +127,12 @@ export const GjeldendeOppgavekoerTabell: FunctionComponent<OwnProps> = ({
     if (valgteFagsakYtelseTyper.length >= antallFagytelseTyper) {
       return <FormattedMessage id="GjeldendeOppgavekoerTabell.Alle" />;
     }
-    return valgteFagsakYtelseTyper.map((fyt) => {
+
+    return <FormattedMessage id="GjeldendeOppgavekoerTabell.Alle" />;
+   /* return valgteFagsakYtelseTyper.map((fyt) => {
       const type = fagsakYtelseTyper.find((def) => def.kode === fyt.kode);
       return type ? type.navn : '';
-    }).join(', ');
+    }).join(', ');*/
   };
 
   return (
@@ -169,6 +171,7 @@ export const GjeldendeOppgavekoerTabell: FunctionComponent<OwnProps> = ({
                 onKeyDown={setValgtOppgaveko}
               >
                 <TableColumn>{oppgaveko.navn}</TableColumn>
+                <TableColumn>{formatStonadstyper(oppgaveko.fagsakYtelseTyper)}</TableColumn>
                 <TableColumn>{oppgaveko.saksbehandlere.length > 0 ? oppgaveko.saksbehandlere.length : ''}</TableColumn>
                 <TableColumn>{oppgaveko.antallBehandlinger}</TableColumn>
                 <TableColumn>
