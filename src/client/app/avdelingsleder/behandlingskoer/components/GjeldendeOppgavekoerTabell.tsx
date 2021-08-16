@@ -169,7 +169,6 @@ export const GjeldendeOppgavekoerTabell: FunctionComponent<OwnProps> = ({
                 onKeyDown={setValgtOppgaveko}
               >
                 <TableColumn>{oppgaveko.navn}</TableColumn>
-                <TableColumn>{formatStonadstyper(oppgaveko.fagsakYtelseTyper)}</TableColumn>
                 <TableColumn>{oppgaveko.saksbehandlere.length > 0 ? oppgaveko.saksbehandlere.length : ''}</TableColumn>
                 <TableColumn>{oppgaveko.antallBehandlinger}</TableColumn>
                 <TableColumn>
