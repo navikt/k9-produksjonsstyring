@@ -118,8 +118,13 @@ export const GjeldendeOppgavekoerTabell: FunctionComponent<OwnProps> = ({
     setVisSlettModal(true);
   };
 
+  const antallFagytelseTyper = 6;
   const formatStonadstyper = (valgteFagsakYtelseTyper?: Kodeverk[]) => {
     if (!valgteFagsakYtelseTyper || valgteFagsakYtelseTyper.length === 0) {
+      return <FormattedMessage id="" />;
+    }
+
+    if (valgteFagsakYtelseTyper.length >= antallFagytelseTyper) {
       return <FormattedMessage id="GjeldendeOppgavekoerTabell.Alle" />;
     }
     return valgteFagsakYtelseTyper.map((fyt) => {

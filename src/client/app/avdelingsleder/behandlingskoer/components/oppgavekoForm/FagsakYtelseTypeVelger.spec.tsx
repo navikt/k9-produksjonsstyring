@@ -26,15 +26,18 @@ describe('<FagsakYtelseTypeVelger>', () => {
       .runTest(() => {
         const wrapper = shallow(<FagsakYtelseTypeVelger
           valgtOppgavekoId="1"
+          fagsakYtelseTyper={[fagsakYtelseTyper[0]]}
           hentOppgaveko={sinon.spy()}
         />);
 
-        const radios = wrapper.find(RadioOption);
-        expect(radios).to.have.length(4);
-        expect(radios.first().prop('value')).to.eql(fagsakYtelseType.OMSORGSPENGER);
-        expect(radios.at(1).prop('value')).to.eql(fagsakYtelseType.OMSORGSDAGER);
-        expect(radios.at(2).prop('value')).to.eql(fagsakYtelseType.PLEIEPENGER_SYKT_BARN);
-        expect(radios.last().prop('value')).to.eql('');
+        const radios = wrapper.find('CheckboxField');
+        expect(radios).to.have.length(3);
+        expect(radios.at(0).prop('name')).to.eql(fagsakYtelseType.OMSORGSPENGER);
+        expect(radios.at(0).prop('checked')).to.eql(true);
+        expect(radios.at(1).prop('name')).to.eql(fagsakYtelseType.OMSORGSDAGER);
+        expect(radios.at(1).prop('checked')).to.eql(false);
+        expect(radios.at(2).prop('name')).to.eql(fagsakYtelseType.PLEIEPENGER_SYKT_BARN);
+        expect(radios.at(2).prop('checked')).to.eql(false);
       });
   });
 
@@ -48,17 +51,19 @@ describe('<FagsakYtelseTypeVelger>', () => {
       .runTest(() => {
         const wrapper = shallow(<FagsakYtelseTypeVelger
           valgtOppgavekoId="1"
+          fagsakYtelseTyper={[]}
           hentOppgaveko={sinon.spy()}
         />);
 
-        const radioGroup = wrapper.find(RadioGroupField);
-        radioGroup.prop('onChange')(fagsakYtelseType.OMSORGSPENGER);
+        const radio = wrapper.find('CheckboxField').at(0);
+
+        radio.prop('onChange')(true);
 
         expect(lagreYtelseTypeFn.calledOnce).to.be.true;
         const { args } = lagreYtelseTypeFn.getCalls()[0];
         expect(args).to.have.length(1);
         expect(args[0].id).to.eql('1');
-        expect(args[0].fagsakYtelseType).to.eql(fagsakYtelseType.OMSORGSPENGER);
+        expect(args[0].fagsakYtelseType).to.eql([fagsakYtelseType.OMSORGSPENGER]);
       });
   });
 });
