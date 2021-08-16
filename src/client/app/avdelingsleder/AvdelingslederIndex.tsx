@@ -131,6 +131,7 @@ export const AvdelingslederIndex: FunctionComponent = (
               ]}
               />
               <Panel className={styles.panelPadding}>
+                <>Hello</>
               </Panel>
             </div>
           </AvdelingslederDashboard>
