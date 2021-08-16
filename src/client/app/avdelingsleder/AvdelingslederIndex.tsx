@@ -95,8 +95,8 @@ export const AvdelingslederIndex: FunctionComponent = (
   const { startRequest: hentDagensTall, data: dagensTall = [] } = useRestApiRunner<ApneBehandlinger[]>(K9LosApiKeys.HENT_DAGENS_TALL);
 
   useEffect(() => {
-    hentAntallIdag();
-    hentDagensTall();
+    /* hentAntallIdag();
+    hentDagensTall(); */
   }, []);
 
   const getPanelFromUrlOrDefault = (loc) => {
@@ -118,7 +118,7 @@ export const AvdelingslederIndex: FunctionComponent = (
           <Normaltekst className={styles.paneltekst}>Avdelingslederpanel</Normaltekst>
         </Row>
         <Row>
-          <DagensTallPanel totaltIdag={totaltIdag} dagensTall={dagensTall} />
+          <DagensTallPanel totaltIdag={0} dagensTall={[]} />
         </Row>
         <VerticalSpacer twentyPx />
         <Row>
@@ -131,7 +131,7 @@ export const AvdelingslederIndex: FunctionComponent = (
               ]}
               />
               <Panel className={styles.panelPadding}>
-                <>Hello</>
+                {renderAvdelingslederPanel(activeAvdelingslederPanel)}
               </Panel>
             </div>
           </AvdelingslederDashboard>
