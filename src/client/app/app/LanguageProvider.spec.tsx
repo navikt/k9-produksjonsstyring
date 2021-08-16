@@ -20,6 +20,6 @@ describe('<LanguageProvider>', () => {
     expect(intlProvider.prop('messages')).to.eql(data);
     const span = wrapper.find('span');
     expect(span).to.have.length(1);
-    expect(span.text()).to.eql('Omsorgspenger, pleiepenger og frisinn');
+    expect(span.text()).to.eql('NY HEADER');
   });
 });
