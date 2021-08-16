@@ -121,7 +121,7 @@ export const GjeldendeOppgavekoerTabell: FunctionComponent<OwnProps> = ({
   const antallFagytelseTyper = 6;
   const formatStonadstyper = (valgteFagsakYtelseTyper?: Kodeverk[]) => {
     if (!valgteFagsakYtelseTyper || valgteFagsakYtelseTyper.length === 0) {
-      return '';
+      return <FormattedMessage id="GjeldendeOppgavekoerTabell.Ingen" />;
     }
 
     if (valgteFagsakYtelseTyper.length >= antallFagytelseTyper) {

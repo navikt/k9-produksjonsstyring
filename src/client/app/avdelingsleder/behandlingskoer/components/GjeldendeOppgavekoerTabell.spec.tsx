@@ -92,7 +92,7 @@ describe('<GjeldendeOppgavekoerTabell>', () => {
           requestFinished
         />);
 
-        expect(wrapper.find(FormattedMessage)).to.have.length(1);
+        expect(wrapper.find(FormattedMessage)).to.have.length(3);
         expect(wrapper.find(Table)).to.have.length(1);
         const rader = wrapper.find(TableRow);
         expect(rader).to.have.length(2);
