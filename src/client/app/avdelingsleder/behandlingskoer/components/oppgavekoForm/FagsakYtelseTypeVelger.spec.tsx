@@ -4,7 +4,6 @@ import sinon from 'sinon';
 import { shallow } from 'enzyme';
 
 import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
-import { RadioOption, RadioGroupField } from 'form/FinalFields';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
 import RestApiTestMocker from 'testHelpers/RestApiTestMocker';
 import { K9LosApiKeys } from 'api/k9LosApi';
