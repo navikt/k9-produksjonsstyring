@@ -85,61 +85,6 @@ const getTab = (avdelingslederPanel, activeAvdelingslederPanel, getAvdelingslede
  * AvdelingslederIndex
  */
 export const AvdelingslederIndex: FunctionComponent = (
-) => {
-  const { selected: activeAvdelingslederPanelTemp, location } = useTrackRouteParam({
-    paramName: 'fane',
-    isQueryParam: true,
-  });
-
-  const { startRequest: hentAntallIdag, data: totaltIdag = 0 } = useRestApiRunner<number>(K9LosApiKeys.OPPGAVE_ANTALL_TOTALT);
-  const { startRequest: hentDagensTall, data: dagensTall = [] } = useRestApiRunner<ApneBehandlinger[]>(K9LosApiKeys.HENT_DAGENS_TALL);
-
-  useEffect(() => {
-    /* hentAntallIdag();
-    hentDagensTall(); */
-  }, []);
-
-  const getPanelFromUrlOrDefault = (loc) => {
-    const panelFromUrl = parseQueryString(loc.search);
-    return panelFromUrl.avdelingsleder ? panelFromUrl.avdelingsleder : AvdelingslederPanels.BEHANDLINGSKOER;
-  };
-
-  const { kanOppgavestyre } = useGlobalStateRestApiData<NavAnsatt>(RestApiGlobalStatePathsKeys.NAV_ANSATT);
-
-  const getAvdelingslederPanelLocation = getPanelLocationCreator(location);
-  const activeAvdelingslederPanel = activeAvdelingslederPanelTemp || getPanelFromUrlOrDefault(location);
-
-  if (!kanOppgavestyre) {
-    return <IkkeTilgangTilAvdelingslederPanel />;
-  } if (activeAvdelingslederPanel) {
-    return (
-      <>
-        <Row>
-          <Normaltekst className={styles.paneltekst}>Avdelingslederpanel</Normaltekst>
-        </Row>
-        <Row>
-          <DagensTallPanel totaltIdag={0} dagensTall={[]} />
-        </Row>
-        <VerticalSpacer twentyPx />
-        <Row>
-          <AvdelingslederDashboard key={activeAvdelingslederPanel} visSaksbehandlere={activeAvdelingslederPanel === AvdelingslederPanels.BEHANDLINGSKOER}>
-            <div>
-              <Tabs tabs={[
-                getTab(AvdelingslederPanels.BEHANDLINGSKOER, activeAvdelingslederPanel, getAvdelingslederPanelLocation),
-                getTab(AvdelingslederPanels.NOKKELTALL, activeAvdelingslederPanel, getAvdelingslederPanelLocation),
-                getTab(AvdelingslederPanels.RESERVASJONER, activeAvdelingslederPanel, getAvdelingslederPanelLocation),
-              ]}
-              />
-              <Panel className={styles.panelPadding}>
-                {renderAvdelingslederPanel(activeAvdelingslederPanel)}
-              </Panel>
-            </div>
-          </AvdelingslederDashboard>
-        </Row>
-      </>
-    );
-  }
-  return <LoadingPanel />;
-};
+) => <LoadingPanel />;
 
 export default AvdelingslederIndex;
