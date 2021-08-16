@@ -24,6 +24,7 @@ interface OwnProps {
   readOnly?: boolean;
   onClick?: () => void;
   onChange?: (any) => void;
+  checked?: boolean;
 }
 
 const CheckboxField: FunctionComponent<OwnProps> = ({

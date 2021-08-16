@@ -104,11 +104,12 @@
   "GjeldendeOppgavekoerTabell.Behandlingtype": "Behandling",
   "GjeldendeOppgavekoerTabell.Stonadstype": "Stønad",
   "GjeldendeOppgavekoerTabell.Alle": "Alle",
+  "GjeldendeOppgavekoerTabell.Ingen": " ",
   "GjeldendeOppgavekoerTabell.AntallSaksbehandlere": "Saksbehandlere",
   "GjeldendeOppgavekoerTabell.AntallBehandlinger": "Antall behandlinger",
   "GjeldendeOppgavekoerTabell.OppgaverTotalt": "Antall åpne behandlinger totalt",
 
-  "Header.K9Los": "Omsorgspenger, pleiepenger og frisinn",
+  "Header.K9Los": "NY HEADER",
   "Header.NavAnsatt": "NAV-ansatt",
   "Header.Rettskilde": "Rettskildene",
   "Header.Systemrutine": "Systemrutine",

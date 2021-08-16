@@ -39,8 +39,8 @@ interface OwnProps {
 
 const buildInitialValues = (intl: IntlShape, ko: Oppgaveko) => {
   const behandlingTypes = ko.behandlingTyper ? ko.behandlingTyper.reduce((acc, bt) => ({ ...acc, [bt.kode]: true }), {}) : {};
-  const fagsakYtelseType = ko.fagsakYtelseTyper && ko.fagsakYtelseTyper.length > 0
-    ? ko.fagsakYtelseTyper[0].kode : '';
+  const fagsakYtelseTyper = ko.fagsakYtelseTyper && ko.fagsakYtelseTyper.length > 0
+    ? ko.fagsakYtelseTyper : [];
 
   const andreKriterierTyper = ko.andreKriterier
     ? ko.andreKriterier.reduce((acc, ak) => ({ ...acc, [ak.andreKriterierType.kode]: true }), {}) : {};
@@ -54,7 +54,7 @@ const buildInitialValues = (intl: IntlShape, ko: Oppgaveko) => {
     fomDato: ko.sortering ? ko.sortering.fomDato : undefined,
     tomDato: ko.sortering ? ko.sortering.tomDato : undefined,
     skjermet: ko.skjermet,
-    fagsakYtelseType,
+    fagsakYtelseTyper,
     ...andreKriterierTyper,
     ...andreKriterierInkluder,
     ...behandlingTypes,
@@ -103,6 +103,7 @@ export const UtvalgskriterierForOppgavekoForm: FunctionComponent<OwnProps & Wrap
                 />
                 <FagsakYtelseTypeVelger
                   valgtOppgavekoId={valgtOppgaveko.id}
+                  fagsakYtelseTyper={values.fagsakYtelseTyper}
                   hentOppgaveko={hentKo}
                   hentAlleOppgavekoer={hentAlleOppgavekoer}
                 />
