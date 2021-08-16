@@ -38,7 +38,7 @@ const classNames = classnames.bind(styles);
 const renderAvdelingslederPanel = (avdelingslederPanel) => {
   switch (avdelingslederPanel) {
     case AvdelingslederPanels.BEHANDLINGSKOER:
-      return <></>;
+      return <EndreBehandlingskoerIndex />;
     case AvdelingslederPanels.NOKKELTALL:
       return <NokkeltallIndex />;
     case AvdelingslederPanels.RESERVASJONER:
@@ -131,7 +131,6 @@ export const AvdelingslederIndex: FunctionComponent = (
               ]}
               />
               <Panel className={styles.panelPadding}>
-                {renderAvdelingslederPanel(activeAvdelingslederPanel)}
               </Panel>
             </div>
           </AvdelingslederDashboard>
