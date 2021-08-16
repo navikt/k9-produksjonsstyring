@@ -127,12 +127,10 @@ export const GjeldendeOppgavekoerTabell: FunctionComponent<OwnProps> = ({
     if (valgteFagsakYtelseTyper.length >= antallFagytelseTyper) {
       return <FormattedMessage id="GjeldendeOppgavekoerTabell.Alle" />;
     }
-
-    return <FormattedMessage id="GjeldendeOppgavekoerTabell.Alle" />;
-    /* return valgteFagsakYtelseTyper.map((fyt) => {
+    return valgteFagsakYtelseTyper.map((fyt) => {
       const type = fagsakYtelseTyper.find((def) => def.kode === fyt.kode);
       return type ? type.navn : '';
-    }).join(', '); */
+    }).join(', ');
   };
 
   return (

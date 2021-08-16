@@ -36,11 +36,9 @@ import styles from './avdelingslederIndex.less';
 const classNames = classnames.bind(styles);
 
 const renderAvdelingslederPanel = (avdelingslederPanel) => {
-  // eslint-disable-next-line
-  console.log('RENDERAVDELNIGNSLEDERPANEL');
   switch (avdelingslederPanel) {
     case AvdelingslederPanels.BEHANDLINGSKOER:
-      return <EndreBehandlingskoerIndex />;
+      return <></>;
     case AvdelingslederPanels.NOKKELTALL:
       return <NokkeltallIndex />;
     case AvdelingslederPanels.RESERVASJONER:
