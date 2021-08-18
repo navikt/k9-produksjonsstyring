@@ -73,7 +73,7 @@ describe('<FagsakYtelseTypeVelger>', () => {
         expect(args[0].id).to.eql('1');
         // eslint-disable-next-line
         console.log(args[0]);
-        expect(args[0].fagsakYtelseType).to.eql([fagsakYtelseType.OMSORGSPENGER, fagsakYtelseType.OMSORGSDAGER, fagsakYtelseType.PLEIEPENGER_SYKT_BARN]);
+        expect(args[0].fagsakYtelseType).to.eql([fagsakYtelseType.OMSORGSDAGER, fagsakYtelseType.PLEIEPENGER_SYKT_BARN]);
       });
   });
 });
