@@ -21,7 +21,7 @@ const finnFagsakYtelseTypeNavn = (fagsakYtelseTyper, valgtFagsakYtelseType) => {
 interface OwnProps {
   valgtOppgavekoId: string;
   fagsakYtelseTyper: Kodeverk[];
-  hentOppgaveko:(id: string) => void;
+  hentOppgaveko: (id: string) => void;
 }
 
 /**
@@ -42,15 +42,12 @@ const FagsakYtelseTypeVelger: FunctionComponent<OwnProps> = ({
     fagsakYtelseType.OMSORGSDAGER_MIDLERTIDIGALENE,
   ];
 
-  if (Array.isArray(fagsakYtelseTyper)) {
-    fagsakYtelseTyper.forEach((type) => {
-      if (!fagytelseTyperValt.includes(type.kode) && !fagytelseTyperKnyttetTilOmsorgsdager.includes(type.kode)) {
-        fagytelseTyperValt.push(type.kode);
-      }
-    });
-  } else if (typeof fagsakYtelseTyper === 'string') {
-    fagytelseTyperValt.push(fagsakYtelseTyper);
-  }
+  fagsakYtelseTyper.forEach((type) => {
+    if (!fagytelseTyperValt.includes(type.kode) && !fagytelseTyperKnyttetTilOmsorgsdager.includes(type.kode)) {
+      fagytelseTyperValt.push(type.kode);
+    }
+  });
+
   const lagreFagytelserTyper = () => {
     lagreOppgavekoFagsakYtelseType({ id: valgtOppgavekoId, fagsakYtelseType: fagytelseTyperValt }).then(() => {
       hentOppgaveko(valgtOppgavekoId);
