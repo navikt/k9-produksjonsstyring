@@ -54,15 +54,15 @@ describe('<FagsakYtelseTypeVelger>', () => {
           hentOppgaveko={sinon.spy()}
         />);
 
-        const radio = wrapper.find('CheckboxField').at(0);
+        const radioOMD = wrapper.find('CheckboxField').at(1);
 
-        radio.prop('onChange')(true);
+        radioOMD.prop('onChange')(false);
 
         expect(lagreYtelseTypeFn.calledOnce).to.be.true;
         const { args } = lagreYtelseTypeFn.getCalls()[0];
         expect(args).to.have.length(1);
         expect(args[0].id).to.eql('1');
-        expect(args[0].fagsakYtelseType).to.eql([fagsakYtelseType.OMSORGSPENGER]);
+        expect(args[0].fagsakYtelseType).to.eql([fagsakYtelseType.OMSORGSPENGER, fagsakYtelseType.PLEIEPENGER_SYKT_BARN]);
       });
   });
 });
