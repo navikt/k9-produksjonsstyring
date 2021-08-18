@@ -40,7 +40,7 @@ describe('<FagsakYtelseTypeVelger>', () => {
       });
   });
 
-  it('skal lagre ytelsetype ved klikk på checkbox', () => {
+  it('skal lagre ytelsetype ved klikk på checkboks', () => {
     const lagreYtelseTypeFn = sinon.spy();
 
     new RestApiTestMocker()
@@ -71,6 +71,8 @@ describe('<FagsakYtelseTypeVelger>', () => {
         const { args } = lagreYtelseTypeFn.getCalls()[0];
         expect(args).to.have.length(1);
         expect(args[0].id).to.eql('1');
+        // eslint-disable-next-line
+        console.log(args[0]);
         expect(args[0].fagsakYtelseType).to.eql([fagsakYtelseType.OMSORGSDAGER, fagsakYtelseType.PLEIEPENGER_SYKT_BARN]);
       });
   });
