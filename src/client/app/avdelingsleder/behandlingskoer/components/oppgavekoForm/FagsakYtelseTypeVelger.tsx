@@ -42,11 +42,17 @@ const FagsakYtelseTypeVelger: FunctionComponent<OwnProps> = ({
     fagsakYtelseType.OMSORGSDAGER_MIDLERTIDIGALENE,
   ];
 
-  fagsakYtelseTyper.forEach((type) => {
-    if (!fagytelseTyperValt.includes(type.kode) && !fagytelseTyperKnyttetTilOmsorgsdager.includes(type.kode)) {
-      fagytelseTyperValt.push(type.kode);
-    }
-  });
+  if (fagsakYtelseTyper.length === 0) {
+    fagytelseTyperValt.push(fagsakYtelseType.OMSORGSPENGER);
+    fagytelseTyperValt.push(fagsakYtelseType.OMSORGSDAGER);
+    fagytelseTyperValt.push(fagsakYtelseType.PLEIEPENGER_SYKT_BARN);
+  } else {
+    fagsakYtelseTyper.forEach((type) => {
+      if (!fagytelseTyperValt.includes(type.kode) && !fagytelseTyperKnyttetTilOmsorgsdager.includes(type.kode)) {
+        fagytelseTyperValt.push(type.kode);
+      }
+    });
+  }
 
   const lagreFagytelserTyper = () => {
     lagreOppgavekoFagsakYtelseType({ id: valgtOppgavekoId, fagsakYtelseType: fagytelseTyperValt }).then(() => {
