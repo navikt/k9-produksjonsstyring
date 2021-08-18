@@ -4,12 +4,13 @@ import { Normaltekst } from 'nav-frontend-typografi';
 
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
-import { RadioGroupField, RadioOption } from 'form/FinalFields';
+import { CheckboxField } from 'form/FinalFields';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
 
 import useKodeverk from 'api/rest-api-hooks/src/global-data/useKodeverk';
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
 import { K9LosApiKeys } from 'api/k9LosApi';
+import Kodeverk from 'kodeverk/kodeverkTsType';
 import styles from './utvalgskriterierForOppgavekoForm.less';
 
 const finnFagsakYtelseTypeNavn = (fagsakYtelseTyper, valgtFagsakYtelseType) => {
@@ -19,6 +20,7 @@ const finnFagsakYtelseTypeNavn = (fagsakYtelseTyper, valgtFagsakYtelseType) => {
 
 interface OwnProps {
   valgtOppgavekoId: string;
+  fagsakYtelseTyper: Kodeverk[];
   hentOppgaveko:(id: string) => void;
 }
 
@@ -27,40 +29,70 @@ interface OwnProps {
  */
 const FagsakYtelseTypeVelger: FunctionComponent<OwnProps> = ({
   valgtOppgavekoId,
+  fagsakYtelseTyper,
   hentOppgaveko,
 }) => {
   const { startRequest: lagreOppgavekoFagsakYtelseType } = useRestApiRunner(K9LosApiKeys.LAGRE_OPPGAVEKO_FAGSAK_YTELSE_TYPE);
   const alleFagsakYtelseTyper = useKodeverk(kodeverkTyper.FAGSAK_YTELSE_TYPE);
+
+  const fagytelseTyperValt = [];
+  const fagytelseTyperKnyttetTilOmsorgsdager = [
+    fagsakYtelseType.OMSORGSDAGER_KRONISKSYK,
+    fagsakYtelseType.OMSORGSDAGER_ALENEOMOMSORGEN,
+    fagsakYtelseType.OMSORGSDAGER_MIDLERTIDIGALENE,
+  ];
+
+  if (Array.isArray(fagsakYtelseTyper)) {
+    fagsakYtelseTyper.forEach((type) => {
+      if (!fagytelseTyperValt.includes(type.kode) && !fagytelseTyperKnyttetTilOmsorgsdager.includes(type.kode)) {
+        fagytelseTyperValt.push(type.kode);
+      }
+    });
+  } else if (typeof fagsakYtelseTyper === 'string') {
+    fagytelseTyperValt.push(fagsakYtelseTyper);
+  }
+  const lagreFagytelserTyper = () => {
+    lagreOppgavekoFagsakYtelseType({ id: valgtOppgavekoId, fagsakYtelseType: fagytelseTyperValt }).then(() => {
+      hentOppgaveko(valgtOppgavekoId);
+    });
+  };
+
+  const hantereFagytelsetypeValg = (type: string, checked: boolean) => {
+    if (checked && !fagytelseTyperValt.includes(type) && !fagytelseTyperKnyttetTilOmsorgsdager.includes(type)) {
+      fagytelseTyperValt.push(type);
+    } else if (!checked && fagytelseTyperValt.includes(type)) {
+      const indexTilTypeSomSkalSlettes = fagytelseTyperValt.indexOf(type, 0);
+      if (indexTilTypeSomSkalSlettes > -1) fagytelseTyperValt.splice(indexTilTypeSomSkalSlettes, 1);
+    }
+    lagreFagytelserTyper();
+  };
+
   return (
     <div className={styles.stonadsVelger}>
       <Normaltekst className={styles.label}>
         <FormattedMessage id="FagsakYtelseTypeVelger.Stonadstype" />
       </Normaltekst>
       <VerticalSpacer eightPx />
-      <RadioGroupField
-        direction="vertical"
-        name="fagsakYtelseType"
-        onChange={(fyt) => lagreOppgavekoFagsakYtelseType(fyt !== '' ? { id: valgtOppgavekoId, fagsakYtelseType: fyt } : { id: valgtOppgavekoId }).then(() => {
-          hentOppgaveko(valgtOppgavekoId);
-        })}
-      >
-        <RadioOption
-          value={fagsakYtelseType.OMSORGSPENGER}
-          label={finnFagsakYtelseTypeNavn(alleFagsakYtelseTyper, fagsakYtelseType.OMSORGSPENGER)}
-        />
-        <RadioOption
-          value={fagsakYtelseType.OMSORGSDAGER}
-          label={<FormattedMessage id="FagsakYtelseTypeVelger.Omsorgsdager" />}
-        />
-        <RadioOption
-          value={fagsakYtelseType.PLEIEPENGER_SYKT_BARN}
-          label={finnFagsakYtelseTypeNavn(alleFagsakYtelseTyper, fagsakYtelseType.PLEIEPENGER_SYKT_BARN)}
-        />
-        <RadioOption
-          value=""
-          label={<FormattedMessage id="FagsakYtelseTypeVelger.Alle" />}
-        />
-      </RadioGroupField>
+      <CheckboxField
+        name={fagsakYtelseType.OMSORGSPENGER}
+        label={finnFagsakYtelseTypeNavn(alleFagsakYtelseTyper, fagsakYtelseType.OMSORGSPENGER)}
+        onChange={(checked) => hantereFagytelsetypeValg(fagsakYtelseType.OMSORGSPENGER, checked)}
+        checked={fagytelseTyperValt.includes(fagsakYtelseType.OMSORGSPENGER)}
+      />
+      <VerticalSpacer fourPx />
+      <CheckboxField
+        name={fagsakYtelseType.OMSORGSDAGER}
+        label="Omsorgsdager"
+        onChange={(checked) => hantereFagytelsetypeValg(fagsakYtelseType.OMSORGSDAGER, checked)}
+        checked={fagytelseTyperValt.includes(fagsakYtelseType.OMSORGSDAGER)}
+      />
+      <VerticalSpacer fourPx />
+      <CheckboxField
+        name={fagsakYtelseType.PLEIEPENGER_SYKT_BARN}
+        label={finnFagsakYtelseTypeNavn(alleFagsakYtelseTyper, fagsakYtelseType.PLEIEPENGER_SYKT_BARN)}
+        onChange={(checked) => hantereFagytelsetypeValg(fagsakYtelseType.PLEIEPENGER_SYKT_BARN, checked)}
+        checked={fagytelseTyperValt.includes(fagsakYtelseType.PLEIEPENGER_SYKT_BARN)}
+      />
     </div>
   );
 };
