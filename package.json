@@ -152,7 +152,6 @@
     "null-loader": "^4.0.0",
     "nyc": "15.1.0",
     "optimize-css-assets-webpack-plugin": "^5.0.3",
-    "react-asciidoc-generator": "^1.5.8",
     "react-test-renderer": "^16.13.1",
     "redux-mock-store": "^1.5.4",
     "sinon": "^11.1.2",
@@ -179,8 +178,7 @@
     "ts-check": "tsc --pretty",
     "less:lint": "stylelint \"src/**/*.less\"",
     "up": "docker-compose up -d --remove-orphans --build",
-    "down": "docker-compose down",
-    "doc": "react-asciidoc-generator ./src/client/app/ -o ../../docs/generated/react.adoc --handlebar-template src/docs/asciidoc-template.handlebars "
+    "down": "docker-compose down"
   },
   "nyc": {
     "require": [
