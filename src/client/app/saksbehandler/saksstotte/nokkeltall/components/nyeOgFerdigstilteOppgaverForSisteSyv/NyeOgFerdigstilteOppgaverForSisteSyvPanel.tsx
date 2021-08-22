@@ -12,6 +12,7 @@ import styles
 import { Select } from 'nav-frontend-skjema';
 import NyeOgFerdigstilteOppgaverForSisteSyvGraf from './NyeOgFerdigstilteOppgaverForSisteSyvGraf';
 import NyeOgFerdigstilteOppgaver, { fagytelsetyperForOppgaveFiltrering } from '../nyeOgFerdigstilteOppgaverTsType';
+import punsjBehandlingstyper from '../../../../../types/PunsjBehandlingstyper';
 
 export const getNyeOgFerdigstilteForSisteSyvDager = (nyeOgFerdigstilte: NyeOgFerdigstilteOppgaver[] = []) => {
   const iDag = moment().startOf('day');
@@ -45,12 +46,17 @@ export const NyeOgFerdigstilteOppgaverForSisteSyvPanel: FunctionComponent<OwnPro
     (oppgave) => oppgave.fagsakYtelseType.kode === fagsakYtelseType.PLEIEPENGER_SYKT_BARN,
   ));
 
+  const punsjFerdigstilteOppgaver = slaSammenLikeFagsakstyperOgDatoer(filtrertenyeOgFerdigstilteOppgaverSisteSyv.filter(
+    (oppgave) => punsjBehandlingstyper.includes(oppgave.behandlingType.kode),
+  ));
+
   const samlet = slaSammenLikeFagsakstyperOgDatoer(filtrertenyeOgFerdigstilteOppgaverSisteSyv);
 
   const hentOppgaver = () => {
     switch (selectValue) {
       case fagytelsetyperForOppgaveFiltrering.OMSORGSPENGER: return omsorgspengerFerdigstilteOppgaver;
       case fagytelsetyperForOppgaveFiltrering.PLEIEPENGER_SYKT_BARN: return pleiepengerFerdigstilteOppgaver;
+      case fagytelsetyperForOppgaveFiltrering.PUNSJ: return punsjFerdigstilteOppgaver;
       default: return samlet;
     }
   };
@@ -65,10 +71,10 @@ export const NyeOgFerdigstilteOppgaverForSisteSyvPanel: FunctionComponent<OwnPro
 
         <Select
           value={selectValue}
-          aria-label="Velg ytelsetype"
+          aria-label="Velg ytelse"
           onChange={(e) => setSelectValue(e.target.value)}
         >
-          <option value="" disabled selected>Velg ytelsetype </option>
+          <option value="" disabled selected>Velg ytelse</option>
           {Object.values(fagytelsetyperForOppgaveFiltrering).map((rel) => <option key={rel} value={rel}>{rel}</option>)}
         </Select>
       </div>

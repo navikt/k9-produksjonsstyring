@@ -1,5 +1,5 @@
 import React, {
-  useState, useMemo, useCallback, FunctionComponent,
+  useState, useMemo, useCallback, FunctionComponent, useRef,
 } from 'react';
 import {
   XYPlot, XAxis, YAxis, VerticalGridLines, HorizontalRectSeries, Hint, DiscreteColorLegend,
@@ -15,6 +15,7 @@ import NyeOgFerdigstilteOppgaver from '../nyeOgFerdigstilteOppgaverTsType';
 
 import 'react-vis/dist/style.css';
 import styles from './nyeOgFerdigstilteOppgaverForIdagGraf.less';
+import punsjBehandlingstyper from '../../../../../types/PunsjBehandlingstyper';
 
 const behandlingstypeOrder = [
   behandlingType.TILBAKEBETALING,
@@ -58,26 +59,27 @@ const settCustomHoydePaSoylene2 = (data) => {
   return transformert;
 };
 
-export const lagDatastrukturForFerdigstilte = (nyeOgFerdigstilteOppgaver: NyeOgFerdigstilteOppgaver[]): Koordinat[] => settCustomHoydePaSoylene(
+const lagDatastrukturForFerdigstilte = (nyeOgFerdigstilteOppgaver: NyeOgFerdigstilteOppgaver[], skalPunsjVises: boolean): Koordinat[] => settCustomHoydePaSoylene(
   nyeOgFerdigstilteOppgaver.map((value) => ({
     x: value.antallFerdigstilte,
-    y: behandlingstypeOrder.indexOf(value.behandlingType.kode) + 1,
+    y: skalPunsjVises ? punsjBehandlingstyper.indexOf(value.behandlingType.kode) + 1 : behandlingstypeOrder.indexOf(value.behandlingType.kode) + 1,
   })), true,
 );
 
-export const lagDatastrukturForNye = (nyeOgFerdigstilteOppgaver: NyeOgFerdigstilteOppgaver[]): Koordinat[] => settCustomHoydePaSoylene2(
+const lagDatastrukturForNye = (nyeOgFerdigstilteOppgaver: NyeOgFerdigstilteOppgaver[], skalPunsjVises: boolean): Koordinat[] => settCustomHoydePaSoylene2(
   nyeOgFerdigstilteOppgaver.map((value) => ({
     x: value.antallNye,
-    y: behandlingstypeOrder.indexOf(value.behandlingType.kode) + 1,
+    y: skalPunsjVises ? punsjBehandlingstyper.indexOf(value.behandlingType.kode) + 1 : behandlingstypeOrder.indexOf(value.behandlingType.kode) + 1,
   })),
 );
 
 export const lagDatastrukturForFerdigstilteMine = (
   nyeOgFerdigstilteOppgaver: NyeOgFerdigstilteOppgaver[],
+  skalPunsjVises: boolean,
 ): Koordinat[] => settCustomHoydePaSoylene(nyeOgFerdigstilteOppgaver
   .map((value) => ({
     x: value.antallFerdigstilteMine,
-    y: behandlingstypeOrder.indexOf(value.behandlingType.kode) + 1,
+    y: skalPunsjVises ? punsjBehandlingstyper.indexOf(value.behandlingType.kode) + 1 : behandlingstypeOrder.indexOf(value.behandlingType.kode) + 1,
   })), false);
 
 interface OwnProps {
@@ -85,6 +87,7 @@ interface OwnProps {
   height: number;
   behandlingTyper: Kodeverk[];
   nyeOgFerdigstilteOppgaver: NyeOgFerdigstilteOppgaver[];
+  skalPunsjbehandlingerVises: boolean;
 }
 
 /**
@@ -96,6 +99,7 @@ export const NyeOgFerdigstilteOppgaverForIdagGraf: FunctionComponent<OwnProps & 
   height,
   nyeOgFerdigstilteOppgaver,
   behandlingTyper,
+  skalPunsjbehandlingerVises,
 }) => {
   const [hintVerdi, setHintVerdi] = useState<Koordinat>();
 
@@ -107,11 +111,13 @@ export const NyeOgFerdigstilteOppgaverForIdagGraf: FunctionComponent<OwnProps & 
     setHintVerdi(undefined);
   }, []);
 
-  const ferdigstilteOppgaver = useMemo(() => lagDatastrukturForFerdigstilte(nyeOgFerdigstilteOppgaver), [nyeOgFerdigstilteOppgaver]);
-  const ferdigstilteOppgaverMine = useMemo(() => lagDatastrukturForFerdigstilteMine(nyeOgFerdigstilteOppgaver), [nyeOgFerdigstilteOppgaver]);
-  const nyeOppgaver = useMemo(() => lagDatastrukturForNye(nyeOgFerdigstilteOppgaver), [nyeOgFerdigstilteOppgaver]);
-
   const isEmpty = nyeOgFerdigstilteOppgaver.length === 0;
+  const stateRef = useRef({ skalPunsjbehandlingerVises });
+  stateRef.current.skalPunsjbehandlingerVises = skalPunsjbehandlingerVises;
+
+  const ferdigstilteOppgaver = useMemo(() => lagDatastrukturForFerdigstilte(nyeOgFerdigstilteOppgaver, stateRef.current.skalPunsjbehandlingerVises), [nyeOgFerdigstilteOppgaver]);
+  const ferdigstilteOppgaverMine = useMemo(() => lagDatastrukturForFerdigstilteMine(nyeOgFerdigstilteOppgaver, stateRef.current.skalPunsjbehandlingerVises), [nyeOgFerdigstilteOppgaver]);
+  const nyeOppgaver = useMemo(() => lagDatastrukturForNye(nyeOgFerdigstilteOppgaver, stateRef.current.skalPunsjbehandlingerVises), [nyeOgFerdigstilteOppgaver]);
 
   const hintAntall = useMemo(() => {
     if (!hintVerdi) {
@@ -130,11 +136,10 @@ export const NyeOgFerdigstilteOppgaverForIdagGraf: FunctionComponent<OwnProps & 
   }, [hintVerdi]);
 
   const finnBehandlingTypeNavn = useCallback((_v, i) => {
-    if (behandlingstypeOrder[i] === behandlingType.FORSTEGANGSSOKNAD) {
+    if (behandlingstypeOrder[i] === behandlingType.FORSTEGANGSSOKNAD && !stateRef.current.skalPunsjbehandlingerVises) {
       return intl.formatMessage({ id: 'NyeOgFerdigstilteOppgaverForIdagGraf.Førstegangsbehandling' });
     }
-
-    const type = behandlingTyper.find((bt) => bt.kode === behandlingstypeOrder[i]);
+    const type = behandlingTyper.find((bt) => bt.kode === (stateRef.current.skalPunsjbehandlingerVises ? punsjBehandlingstyper[i] : behandlingstypeOrder[i]));
     return type ? type.navn : '';
   }, []);
 
@@ -142,17 +147,16 @@ export const NyeOgFerdigstilteOppgaverForIdagGraf: FunctionComponent<OwnProps & 
     .concat(nyeOppgaver.map((b) => b.x))
     .concat(ferdigstilteOppgaverMine.map((b) => b.x))) + 2,
   [ferdigstilteOppgaver, nyeOppgaver, ferdigstilteOppgaverMine]);
-
   return (
     <Panel>
       <XYPlot
         dontCheckIfEmpty={isEmpty}
         margin={{
-          left: 127, right: 30, top: 0, bottom: 30,
+          left: stateRef.current.skalPunsjbehandlingerVises ? 190 : 127, right: 30, top: 0, bottom: 30,
         }}
         width={width}
-        height={height}
-        yDomain={[0, 7]}
+        height={stateRef.current.skalPunsjbehandlingerVises ? height + 100 : height}
+        yDomain={stateRef.current.skalPunsjbehandlingerVises ? [0, 11] : [0, 7]}
         xDomain={[0, isEmpty ? 10 : maxXValue]}
       >
         <VerticalGridLines />
@@ -160,7 +164,7 @@ export const NyeOgFerdigstilteOppgaverForIdagGraf: FunctionComponent<OwnProps & 
         <YAxis
           style={{ text: cssText }}
           tickFormat={finnBehandlingTypeNavn}
-          tickValues={[1, 2, 3, 4, 5, 6]}
+          tickValues={stateRef.current.skalPunsjbehandlingerVises ? [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] : [1, 2, 3, 4, 5, 6]}
         />
         <HorizontalRectSeries
           data={nyeOppgaver}

@@ -15,6 +15,7 @@ import { Select } from 'nav-frontend-skjema';
 import styles from './nyeOgFerdigstilteOppgaverForIdagGraf.less';
 import NyeOgFerdigstilteOppgaverForIdagGraf from './NyeOgFerdigstilteOppgaverForIdagGraf';
 import NyeOgFerdigstilteOppgaver, { fagytelsetyperForOppgaveFiltrering } from '../nyeOgFerdigstilteOppgaverTsType';
+import punsjBehandlingstyper from '../../../../../types/PunsjBehandlingstyper';
 
 export const getNyeOgFerdigstilteForIDag = (nyeOgFerdigstilte: NyeOgFerdigstilteOppgaver[] = []) => {
   const iDag = moment();
@@ -36,22 +37,31 @@ export const NyeOgFerdigstilteOppgaverForIdagPanel: FunctionComponent<OwnProps> 
   nyeOgFerdigstilteOppgaver,
 }) => {
   const behandlingTyper = useKodeverk(kodeverkTyper.BEHANDLING_TYPE);
+  let skalPunsjVises = false;
   const [selectValue, setSelectValue] = useState<string>('');
   const nyeOgFerdigstilteOppgaverForIdag = useMemo(() => getNyeOgFerdigstilteForIDag(nyeOgFerdigstilteOppgaver), [nyeOgFerdigstilteOppgaver]);
   const omsorgspengerFerdigstilteOppgaver = slaSammenLikeFagsakstyperOgDatoer(nyeOgFerdigstilteOppgaverForIdag.filter(
-    (oppgave) => oppgave.fagsakYtelseType.kode === fagsakYtelseType.OMSORGSPENGER,
+    (oppgave) => oppgave.fagsakYtelseType.kode === fagsakYtelseType.OMSORGSPENGER && !punsjBehandlingstyper.includes(oppgave.behandlingType.kode),
   ));
 
   const pleiepengerFerdigstilteOppgaver = slaSammenLikeFagsakstyperOgDatoer(nyeOgFerdigstilteOppgaverForIdag.filter(
-    (oppgave) => oppgave.fagsakYtelseType.kode === fagsakYtelseType.PLEIEPENGER_SYKT_BARN,
+    (oppgave) => oppgave.fagsakYtelseType.kode === fagsakYtelseType.PLEIEPENGER_SYKT_BARN && !punsjBehandlingstyper.includes(oppgave.behandlingType.kode),
   ));
 
-  const samlet = slaSammenLikeFagsakstyperOgDatoer(nyeOgFerdigstilteOppgaverForIdag);
+  const punsjFerdigstilteOppgaver = slaSammenLikeFagsakstyperOgDatoer(nyeOgFerdigstilteOppgaverForIdag.filter(
+    (oppgave) => punsjBehandlingstyper.includes(oppgave.behandlingType.kode),
+  ));
+
+  const samlet = slaSammenLikeFagsakstyperOgDatoer(nyeOgFerdigstilteOppgaverForIdag.filter(
+    (oppgave) => !punsjBehandlingstyper.includes(oppgave.behandlingType.kode),
+  ));
 
   const hentOppgave = () => {
+    skalPunsjVises = false;
     switch (selectValue) {
       case fagytelsetyperForOppgaveFiltrering.OMSORGSPENGER: return omsorgspengerFerdigstilteOppgaver;
       case fagytelsetyperForOppgaveFiltrering.PLEIEPENGER_SYKT_BARN: return pleiepengerFerdigstilteOppgaver;
+      case fagytelsetyperForOppgaveFiltrering.PUNSJ: { skalPunsjVises = true; return punsjFerdigstilteOppgaver; }
       default: return samlet;
     }
   };
@@ -69,10 +79,10 @@ export const NyeOgFerdigstilteOppgaverForIdagPanel: FunctionComponent<OwnProps> 
 
         <Select
           value={selectValue}
-          aria-label="Velg ytelsetype"
+          aria-label="Velg ytelse"
           onChange={(e) => setSelectValue(e.target.value)}
         >
-          <option value="" disabled selected>Velg ytelsetype </option>
+          <option value="" disabled selected>Velg ytelse</option>
           {Object.values(fagytelsetyperForOppgaveFiltrering).map((rel) => <option key={rel} value={rel}>{rel}</option>)}
         </Select>
       </div>
@@ -82,6 +92,7 @@ export const NyeOgFerdigstilteOppgaverForIdagPanel: FunctionComponent<OwnProps> 
         height={height}
         nyeOgFerdigstilteOppgaver={hentOppgave()}
         behandlingTyper={behandlingTyper}
+        skalPunsjbehandlingerVises={skalPunsjVises}
       />
 
     </>
