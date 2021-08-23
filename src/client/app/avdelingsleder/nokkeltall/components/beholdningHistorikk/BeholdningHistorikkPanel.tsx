@@ -11,13 +11,14 @@ import Panel from 'nav-frontend-paneler';
 import styles from 'avdelingsleder/nokkeltall/historikkGraf.less';
 import {
   ALLE_YTELSETYPER_VALGT,
-  erDatoInnenforPeriode, slaSammenLikeBehandlingstyperOgDatoer,
+  erDatoInnenforPeriode, sjekkOmOppgaveSkalLeggesTil, slaSammenLikeBehandlingstyperOgDatoer,
   UKE_4,
   uker,
   ytelseTyper,
 } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
 import useKodeverk from 'api/rest-api-hooks/src/global-data/useKodeverk';
 import StoreValuesInLocalStorage from 'form/StoreValuesInLocalStorage';
+import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
 import HistorikkGraf from '../../HistorikkGraf';
 import HistoriskData from '../../historiskDataTsType';
 
@@ -87,8 +88,9 @@ export const BeholdningHistorikkPanel: FunctionComponent<OwnProps & WrappedCompo
             isFireUkerValgt={values.ukevalg === UKE_4}
             behandlingTyper={behandlingTyper}
             historiskData={beholdningPerDato ? slaSammenLikeBehandlingstyperOgDatoer(beholdningPerDato
-              .filter((ofa) => (values.ytelseType === ALLE_YTELSETYPER_VALGT ? true : values.ytelseType === ofa.fagsakYtelseType.kode))
+              .filter((ofa) => sjekkOmOppgaveSkalLeggesTil(values.ytelseType, ofa))
               .filter((ofa) => erDatoInnenforPeriode(ofa, values.ukevalg))) : []}
+            erPunsjValgt={values.ytelseType === fagsakYtelseType.PUNSJ}
           />
         </Panel>
       )}

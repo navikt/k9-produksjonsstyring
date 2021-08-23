@@ -23,7 +23,7 @@ const ferdigstilteHistorikk = [{
     navn: 'Tilbakekreving',
     kodeverk: 'ae0203',
   },
-  dato: '2021-07-19',
+  dato: '2021-08-19',
   antall: 1,
 },
 {
