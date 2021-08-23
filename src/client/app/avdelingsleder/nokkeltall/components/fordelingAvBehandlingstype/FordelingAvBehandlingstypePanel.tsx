@@ -65,6 +65,10 @@ export const FordelingAvBehandlingstypePanel: FunctionComponent<OwnProps> = ({
               label={finnFagsakYtelseTypeNavn(fagsakYtelseTyper, fagsakYtelseType.OMSORGSPENGER)}
             />
             <RadioOption
+              value={fagsakYtelseType.OMSORGSDAGER}
+              label="Omsorgsdager"
+            />
+            <RadioOption
               value={fagsakYtelseType.PLEIEPENGER_SYKT_BARN}
               label={finnFagsakYtelseTypeNavn(fagsakYtelseTyper, fagsakYtelseType.PLEIEPENGER_SYKT_BARN)}
             />

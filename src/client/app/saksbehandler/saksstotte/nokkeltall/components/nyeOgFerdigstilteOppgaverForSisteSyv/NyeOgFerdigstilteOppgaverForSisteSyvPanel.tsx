@@ -6,13 +6,18 @@ import { Element } from 'nav-frontend-typografi';
 import { ISO_DATE_FORMAT } from 'utils/formats';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
-import { slaSammenLikeFagsakstyperOgDatoer } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
+import {
+  ALLE_YTELSETYPER_VALGT,
+  sjekkOmOppgaveSkalLeggesTil,
+  slaSammenLikeFagsakstyperOgDatoer,
+} from 'avdelingsleder/nokkeltall/nokkeltallUtils';
 import styles
   from 'saksbehandler/saksstotte/nokkeltall/components/nyeOgFerdigstilteOppgaverForSisteSyv/nyeOgFerdigstilteOppgaverForSisteSyvGraf.less';
 import { Select } from 'nav-frontend-skjema';
 import NyeOgFerdigstilteOppgaverForSisteSyvGraf from './NyeOgFerdigstilteOppgaverForSisteSyvGraf';
 import NyeOgFerdigstilteOppgaver, { fagytelsetyperForOppgaveFiltrering } from '../nyeOgFerdigstilteOppgaverTsType';
 import punsjBehandlingstyper from '../../../../../types/PunsjBehandlingstyper';
+import omsorgsdagerYtelsetyper from '../../../../../types/OmsorgsdagerYtelsetyper';
 
 export const getNyeOgFerdigstilteForSisteSyvDager = (nyeOgFerdigstilte: NyeOgFerdigstilteOppgaver[] = []) => {
   const iDag = moment().startOf('day');
@@ -39,23 +44,30 @@ export const NyeOgFerdigstilteOppgaverForSisteSyvPanel: FunctionComponent<OwnPro
   );
 
   const omsorgspengerFerdigstilteOppgaver = slaSammenLikeFagsakstyperOgDatoer(filtrertenyeOgFerdigstilteOppgaverSisteSyv.filter(
-    (oppgave) => oppgave.fagsakYtelseType.kode === fagsakYtelseType.OMSORGSPENGER,
+    (oppgave) => sjekkOmOppgaveSkalLeggesTil(fagsakYtelseType.OMSORGSPENGER, oppgave),
+  ));
+
+  const omsorgsdagerFerdigstilteOppgaver = slaSammenLikeFagsakstyperOgDatoer(filtrertenyeOgFerdigstilteOppgaverSisteSyv.filter(
+    (oppgave) => sjekkOmOppgaveSkalLeggesTil(fagsakYtelseType.OMSORGSDAGER, oppgave),
   ));
 
   const pleiepengerFerdigstilteOppgaver = slaSammenLikeFagsakstyperOgDatoer(filtrertenyeOgFerdigstilteOppgaverSisteSyv.filter(
-    (oppgave) => oppgave.fagsakYtelseType.kode === fagsakYtelseType.PLEIEPENGER_SYKT_BARN,
+    (oppgave) => sjekkOmOppgaveSkalLeggesTil(fagsakYtelseType.PLEIEPENGER_SYKT_BARN, oppgave),
   ));
 
   const punsjFerdigstilteOppgaver = slaSammenLikeFagsakstyperOgDatoer(filtrertenyeOgFerdigstilteOppgaverSisteSyv.filter(
-    (oppgave) => punsjBehandlingstyper.includes(oppgave.behandlingType.kode),
+    (oppgave) => sjekkOmOppgaveSkalLeggesTil(fagsakYtelseType.PUNSJ, oppgave),
   ));
 
-  const samlet = slaSammenLikeFagsakstyperOgDatoer(filtrertenyeOgFerdigstilteOppgaverSisteSyv);
+  const samlet = slaSammenLikeFagsakstyperOgDatoer(filtrertenyeOgFerdigstilteOppgaverSisteSyv.filter(
+    (oppgave) => sjekkOmOppgaveSkalLeggesTil(ALLE_YTELSETYPER_VALGT, oppgave),
+  ));
 
   const hentOppgaver = () => {
     switch (selectValue) {
       case fagytelsetyperForOppgaveFiltrering.OMSORGSPENGER: return omsorgspengerFerdigstilteOppgaver;
       case fagytelsetyperForOppgaveFiltrering.PLEIEPENGER_SYKT_BARN: return pleiepengerFerdigstilteOppgaver;
+      case fagytelsetyperForOppgaveFiltrering.OMSORGSDAGER: return omsorgsdagerFerdigstilteOppgaver;
       case fagytelsetyperForOppgaveFiltrering.PUNSJ: return punsjFerdigstilteOppgaver;
       default: return samlet;
     }

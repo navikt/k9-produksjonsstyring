@@ -4,7 +4,9 @@ import behandlingType from 'kodeverk/behandlingType';
 import NyeOgFerdigstilteMedStonadstype from 'avdelingsleder/nokkeltall/nyeOgFerdigstilteMedStonadstypeTsType';
 import HistoriskData from 'avdelingsleder/nokkeltall/historiskDataTsType';
 import AlleOppgaver from 'avdelingsleder/nokkeltall/components/fordelingAvBehandlingstype/alleOppgaverTsType';
+import NyeOgFerdigstilteOppgaver from 'saksbehandler/saksstotte/nokkeltall/components/nyeOgFerdigstilteOppgaverTsType';
 import punsjBehandlingstyper from '../../types/PunsjBehandlingstyper';
+import omsorgsdagerYtelsetyper from '../../types/OmsorgsdagerYtelsetyper';
 
 export const ALLE_YTELSETYPER_VALGT = 'ALLE';
 export const UKE_4 = '4';
@@ -13,7 +15,12 @@ export const UKE_2 = '2';
 export const ytelseTyper = [{
   kode: fagsakYtelseType.OMSORGSPENGER,
   navn: 'Omsorgspenger',
-}, {
+},
+{
+  kode: fagsakYtelseType.OMSORGSDAGER,
+  navn: 'Omsorgsdager',
+},
+{
   kode: fagsakYtelseType.PLEIEPENGER_SYKT_BARN,
   navn: 'Pleiepenger sykt barn',
 },
@@ -89,12 +96,20 @@ export const slaSammenLikeFagsakstyperOgDatoer = (oppgaver) => {
 
   return sammenslatte;
 };
-export const sjekkOmOppgaveSkalLeggesTil = (ytelse: string, oppgave: NyeOgFerdigstilteMedStonadstype | HistoriskData | AlleOppgaver): boolean => {
+export const sjekkOmOppgaveSkalLeggesTil = (
+  ytelse: string,
+  oppgave: NyeOgFerdigstilteMedStonadstype | HistoriskData | AlleOppgaver | NyeOgFerdigstilteOppgaver,
+): boolean => {
   switch (ytelse) {
     case fagsakYtelseType.PUNSJ:
       return punsjBehandlingstyper.includes(oppgave.behandlingType.kode);
-    case ALLE_YTELSETYPER_VALGT:
-      return !punsjBehandlingstyper.includes(oppgave.behandlingType.kode);
+    case fagsakYtelseType.OMSORGSDAGER: return omsorgsdagerYtelsetyper.includes(oppgave.fagsakYtelseType.kode);
+    case ALLE_YTELSETYPER_VALGT: {
+      return !punsjBehandlingstyper.includes(oppgave.behandlingType.kode)
+        && (omsorgsdagerYtelsetyper.includes(oppgave.fagsakYtelseType.kode)
+          || oppgave.fagsakYtelseType.kode === fagsakYtelseType.OMSORGSPENGER
+          || oppgave.fagsakYtelseType.kode === fagsakYtelseType.PLEIEPENGER_SYKT_BARN);
+    }
     default:
       return ytelse === oppgave.fagsakYtelseType.kode && !punsjBehandlingstyper.includes(oppgave.behandlingType.kode);
   }
