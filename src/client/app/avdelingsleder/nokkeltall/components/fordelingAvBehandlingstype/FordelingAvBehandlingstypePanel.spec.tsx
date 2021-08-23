@@ -59,11 +59,13 @@ describe('<FordelingAvBehandlingstypePanel>', () => {
         />).find(Form).renderProp('render')({ values: valuesMock });
 
         const radioOptions = wrapper.find(RadioOption);
-        expect(radioOptions).to.have.length(3);
+        expect(radioOptions).to.have.length(4);
         expect(radioOptions.first().prop('value')).to.eql('OMP');
         expect(radioOptions.first().prop('label')).to.eql('Omsorgspenger');
         expect(radioOptions.at(1).prop('value')).to.eql('PSB');
         expect(radioOptions.at(1).prop('label')).to.eql('Pleiepenger sykt barn');
+        expect(radioOptions.at(2).prop('value')).to.eql('PUNSJ');
+        expect(radioOptions.at(2).prop('label')).to.eql('Punsj');
         expect(radioOptions.last().prop('value')).to.eql('ALLE');
       });
   });

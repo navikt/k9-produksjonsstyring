@@ -106,6 +106,7 @@ describe('<FordelingAvBehandlingstypeGraf>', () => {
       height={200}
       alleOppgaver={alleOppgaver}
       behandlingTyper={behandlingTyper}
+      erPunsjValgt={false}
     />);
 
     const hRectSeries = wrapper.find(HorizontalRectSeries);

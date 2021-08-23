@@ -53,10 +53,12 @@ const behandlingTyper = [{
 }, {
   kode: behandlingType.UKJENT,
   navn: 'Ukjent',
-},
-{
+}, {
   kode: behandlingType.SAMTALEREFERAT,
   navn: 'Samtalereferat',
+}, {
+  kode: behandlingType.KOPI,
+  navn: 'Kopi',
 },
 ];
 
@@ -72,7 +74,7 @@ describe('<BehandlingstypeVelger>', () => {
         />);
 
         const checkboxer = wrapper.find(CheckboxField);
-        expect(checkboxer).to.have.length(15);
+        expect(checkboxer).to.have.length(16);
         expect(checkboxer.first().prop('name')).to.eql(behandlingType.ANKE);
         expect(checkboxer.last().prop('name')).to.eql(behandlingType.UKJENT);
       });
