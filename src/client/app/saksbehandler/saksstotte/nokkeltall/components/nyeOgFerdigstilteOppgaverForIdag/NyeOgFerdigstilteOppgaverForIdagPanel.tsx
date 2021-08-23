@@ -17,8 +17,6 @@ import { Select } from 'nav-frontend-skjema';
 import styles from './nyeOgFerdigstilteOppgaverForIdagGraf.less';
 import NyeOgFerdigstilteOppgaverForIdagGraf from './NyeOgFerdigstilteOppgaverForIdagGraf';
 import NyeOgFerdigstilteOppgaver, { fagytelsetyperForOppgaveFiltrering } from '../nyeOgFerdigstilteOppgaverTsType';
-import punsjBehandlingstyper from '../../../../../types/PunsjBehandlingstyper';
-import omsorgsdagerYtelsetyper from '../../../../../types/OmsorgsdagerYtelsetyper';
 
 export const getNyeOgFerdigstilteForIDag = (nyeOgFerdigstilte: NyeOgFerdigstilteOppgaver[] = []) => {
   const iDag = moment();

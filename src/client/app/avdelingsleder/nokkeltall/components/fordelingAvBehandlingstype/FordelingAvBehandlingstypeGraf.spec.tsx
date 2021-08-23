@@ -8,9 +8,7 @@ import {
 import behandlingType from 'kodeverk/behandlingType';
 import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
 import { shallowWithIntl, intlMock } from 'testHelpers/intl-enzyme-test-helper';
-import kodeverkTyper from 'kodeverk/kodeverkTyper';
 import FordelingAvBehandlingstypeGraf from './FordelingAvBehandlingstypeGraf';
-import useKodeverk from '../../../../api/rest-api-hooks/src/global-data/useKodeverk';
 
 describe('<FordelingAvBehandlingstypeGraf>', () => {
   const intl: Partial<IntlShape> = {
