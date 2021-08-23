@@ -1,5 +1,5 @@
 import React, {
-  useMemo, useState, FunctionComponent, useCallback
+  useMemo, useState, FunctionComponent, useCallback,
 } from 'react';
 import moment from 'moment';
 import {
