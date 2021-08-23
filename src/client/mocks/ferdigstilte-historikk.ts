@@ -10,7 +10,7 @@ const ferdigstilteHistorikk = [{
     kodeverk: 'ae0034',
   },
   dato: '2021-07-01',
-  antall: 1,
+  antall: 10,
 },
 {
   fagsakYtelseType: {
@@ -23,7 +23,7 @@ const ferdigstilteHistorikk = [{
     navn: 'Tilbakekreving',
     kodeverk: 'ae0203',
   },
-  dato: '2021-07-01',
+  dato: '2021-07-19',
   antall: 1,
 },
 {
