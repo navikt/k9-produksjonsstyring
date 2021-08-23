@@ -121,7 +121,7 @@ const ferdigstilteHistorikk = [{
     navn: 'Kopi',
     kodeverk: 'PUNSJ_INNSENDING_TYPE',
   },
-  dato: '2021-07-01',
+  dato: '2021-07-06',
   antall: 1,
 },
 {
