@@ -10,7 +10,7 @@ const ferdigstilteHistorikk = [{
     kodeverk: 'ae0034',
   },
   dato: '2021-07-01',
-  antall: 10,
+  antall: 1,
 },
 {
   fagsakYtelseType: {
@@ -54,6 +54,20 @@ const ferdigstilteHistorikk = [{
   dato: '2021-07-01',
   antall: 1,
 },
+  {
+    fagsakYtelseType: {
+      kode: 'OMP_KS',
+      navn: 'Omsorgsdager: midlertidig alene',
+      kodeverk: 'FAGSAK_YTELSE_TYPE',
+    },
+    behandlingType: {
+      kode: 'BT-004',
+      navn: 'Revurdering',
+      kodeverk: 'ae0028',
+    },
+    dato: '2021-07-10',
+    antall: 1,
+  },
 {
   fagsakYtelseType: {
     kode: 'PSB',
