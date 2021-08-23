@@ -59,7 +59,10 @@ const settCustomHoydePaSoylene2 = (data) => {
   return transformert;
 };
 
-const lagDatastrukturForFerdigstilte = (nyeOgFerdigstilteOppgaver: NyeOgFerdigstilteOppgaver[], skalPunsjVises: boolean): Koordinat[] => settCustomHoydePaSoylene(
+const lagDatastrukturForFerdigstilte = (
+  nyeOgFerdigstilteOppgaver: NyeOgFerdigstilteOppgaver[],
+  skalPunsjVises: boolean,
+): Koordinat[] => settCustomHoydePaSoylene(
   nyeOgFerdigstilteOppgaver.map((value) => ({
     x: value.antallFerdigstilte,
     y: skalPunsjVises ? punsjBehandlingstyper.indexOf(value.behandlingType.kode) + 1 : behandlingstypeOrder.indexOf(value.behandlingType.kode) + 1,
@@ -115,8 +118,12 @@ export const NyeOgFerdigstilteOppgaverForIdagGraf: FunctionComponent<OwnProps & 
   const stateRef = useRef({ skalPunsjbehandlingerVises });
   stateRef.current.skalPunsjbehandlingerVises = skalPunsjbehandlingerVises;
 
-  const ferdigstilteOppgaver = useMemo(() => lagDatastrukturForFerdigstilte(nyeOgFerdigstilteOppgaver, stateRef.current.skalPunsjbehandlingerVises), [nyeOgFerdigstilteOppgaver]);
-  const ferdigstilteOppgaverMine = useMemo(() => lagDatastrukturForFerdigstilteMine(nyeOgFerdigstilteOppgaver, stateRef.current.skalPunsjbehandlingerVises), [nyeOgFerdigstilteOppgaver]);
+  const ferdigstilteOppgaver = useMemo(
+    () => lagDatastrukturForFerdigstilte(nyeOgFerdigstilteOppgaver, stateRef.current.skalPunsjbehandlingerVises), [nyeOgFerdigstilteOppgaver],
+  );
+  const ferdigstilteOppgaverMine = useMemo(
+    () => lagDatastrukturForFerdigstilteMine(nyeOgFerdigstilteOppgaver, stateRef.current.skalPunsjbehandlingerVises), [nyeOgFerdigstilteOppgaver],
+  );
   const nyeOppgaver = useMemo(() => lagDatastrukturForNye(nyeOgFerdigstilteOppgaver, stateRef.current.skalPunsjbehandlingerVises), [nyeOgFerdigstilteOppgaver]);
 
   const hintAntall = useMemo(() => {
