@@ -1,6 +1,10 @@
 import moment from 'moment';
 import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
 import behandlingType from 'kodeverk/behandlingType';
+import NyeOgFerdigstilteMedStonadstype from 'avdelingsleder/nokkeltall/nyeOgFerdigstilteMedStonadstypeTsType';
+import HistoriskData from 'avdelingsleder/nokkeltall/historiskDataTsType';
+import AlleOppgaver from 'avdelingsleder/nokkeltall/components/fordelingAvBehandlingstype/alleOppgaverTsType';
+import punsjBehandlingstyper from '../../types/PunsjBehandlingstyper';
 
 export const ALLE_YTELSETYPER_VALGT = 'ALLE';
 export const UKE_4 = '4';
@@ -12,6 +16,10 @@ export const ytelseTyper = [{
 }, {
   kode: fagsakYtelseType.PLEIEPENGER_SYKT_BARN,
   navn: 'Pleiepenger sykt barn',
+},
+{
+  kode: fagsakYtelseType.PUNSJ,
+  navn: 'Punsj',
 },
 {
   kode: ALLE_YTELSETYPER_VALGT,
@@ -80,4 +88,14 @@ export const slaSammenLikeFagsakstyperOgDatoer = (oppgaver) => {
   });
 
   return sammenslatte;
+};
+export const sjekkOmOppgaveSkalLeggesTil = (ytelse: string, oppgave: NyeOgFerdigstilteMedStonadstype | HistoriskData | AlleOppgaver): boolean => {
+  switch (ytelse) {
+    case fagsakYtelseType.PUNSJ:
+      return punsjBehandlingstyper.includes(oppgave.behandlingType.kode);
+    case ALLE_YTELSETYPER_VALGT:
+      return !punsjBehandlingstyper.includes(oppgave.behandlingType.kode);
+    default:
+      return ytelse === oppgave.fagsakYtelseType.kode && !punsjBehandlingstyper.includes(oppgave.behandlingType.kode);
+  }
 };
