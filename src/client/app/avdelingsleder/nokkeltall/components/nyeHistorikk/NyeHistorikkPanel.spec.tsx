@@ -12,47 +12,41 @@ import kodeverkTyper from 'kodeverk/kodeverkTyper';
 import { IntlShape } from 'react-intl';
 import { NyeHistorikkPanel } from './NyeHistorikkPanel';
 
+const intl: Partial<IntlShape> = {
+  ...intlMock,
+};
+const fagsakYtelseTyper = [{
+  kode: fagsakYtelseType.PLEIEPENGER_SYKT_BARN,
+  navn: 'Pleiepenger sykt barn',
+}, {
+  kode: fagsakYtelseType.OMSORGSPENGER,
+  navn: 'Omsorgspenger',
+}, {
+  kode: fagsakYtelseType.OMSORGSDAGER,
+  navn: 'Omsorgsdager',
+}, {
+  kode: fagsakYtelseType.PUNSJ,
+  navn: 'Punsj',
+}];
+
+const behandlingTyper = [{
+  kode: behandlingType.FORSTEGANGSSOKNAD,
+  navn: 'Førstegangssøknad',
+}, {
+  kode: behandlingType.KLAGE,
+  navn: 'Klage',
+}, {
+  kode: behandlingType.INNSYN,
+  navn: 'Dokumentinnsyn',
+}, {
+  kode: behandlingType.REVURDERING,
+  navn: 'Revurdering',
+}, {
+  kode: behandlingType.ANKE,
+  navn: 'Anke',
+}];
+
 describe('<NyeHistorikkPanel>', () => {
-  const intl: Partial<IntlShape> = {
-    ...intlMock,
-  };
-  const fagsakYtelseTyper = [{
-    kode: fagsakYtelseType.PLEIEPENGER_SYKT_BARN,
-    navn: 'Pleiepenger sykt barn',
-  }, {
-    kode: fagsakYtelseType.OMSORGSPENGER,
-    navn: 'Omsorgspenger',
-  },
-  {
-    kode: fagsakYtelseType.OMSORGSDAGER,
-    navn: 'Omsorgsdager',
-  }, {
-    kode: fagsakYtelseType.PUNSJ,
-    navn: 'Punsj',
-  }];
-
-  const behandlingTyper = [{
-    kode: behandlingType.FORSTEGANGSSOKNAD,
-    navn: 'Førstegangssøknad',
-  }, {
-    kode: behandlingType.KLAGE,
-    navn: 'Klage',
-  }, {
-    kode: behandlingType.INNSYN,
-    navn: 'Dokumentinnsyn',
-  }, {
-    kode: behandlingType.REVURDERING,
-    navn: 'Revurdering',
-  }, {
-    kode: behandlingType.ANKE,
-    navn: 'Anke',
-  }];
-
-  const forstegangssoknad = {
-    kode: behandlingType.FORSTEGANGSSOKNAD,
-    navn: 'Førstegangssøknad',
-  };
-
   it('skal vise ytelsetyper i radioknapper', () => {
     const valuesMock = {
       valgtYtelseType: 'ALLE',
