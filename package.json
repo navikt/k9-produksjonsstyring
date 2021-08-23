@@ -15,7 +15,7 @@
     "@navikt/nap-user-panel": "1.1.0",
     "@popperjs/core": "^2.9.3",
     "@sentry/browser": "^6.11.0",
-    "@typescript-eslint/eslint-plugin": "^4.29.2",
+    "@typescript-eslint/eslint-plugin": "^4.29.3",
     "@typescript-eslint/parser": "^2.30.0",
     "axios": "^0.21.1",
     "babel-polyfill": "^6.26.0",
