@@ -1,0 +1,13 @@
+{
+    "azureTenant": "nav.no",
+    "oidcAuthProxyImage": "ghcr.io/navikt/oidc-auth-proxy:2.2021.08.06-d968e8a",
+    "ingresses": [
+        "https://k9-los-oidc-auth-proxy.intern.nav.no"
+    ],
+    "k9LosApiScopes": "api://prod-fss.k9saksbehandling.k9-los-api/.default",
+    "env": {
+        "LOGIN_SCOPES": "value:openid profile api://prod-fss.k9saksbehandling.k9-los-oidc-auth-proxy/.default",
+        "OIDC_AUTH_PROXY_BASE_URL": "value:https://k9-los-oidc-auth-proxy.intern.nav.no",
+        "APPLICATION_BASE_URL": "value:https://k9-los-web.nais.adeo.no"
+    }
+}
