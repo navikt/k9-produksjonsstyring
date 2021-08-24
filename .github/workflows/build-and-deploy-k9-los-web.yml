@@ -9,7 +9,6 @@ on:
       - 'nais/proxy/*'
     branches:
       - master
-      - teamnamespace
 
 env:
   IMAGE_BASE_CR: ghcr.io/${{ github.repository }}
@@ -59,7 +58,6 @@ jobs:
           RESOURCE: nais/frontend/k9-los-web.yml
           VARS: nais/frontend/dev.json
       - name: Deploye til prod
-        if: github.ref == 'refs/heads/master'
         uses: nais/deploy/actions/deploy@v1
         env:
           APIKEY: ${{ secrets.DEPLOY_KEY }}
