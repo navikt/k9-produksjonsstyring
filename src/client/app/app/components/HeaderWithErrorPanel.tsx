@@ -95,7 +95,7 @@ const HeaderWithErrorPanel: FunctionComponent<OwnProps & WrappedComponentProps> 
   };
 
   const loggUt = () => {
-    window.location.assign('https://k9-los-oidc-auth-proxy.dev.adeo.no/logout');
+    window.location.assign('https://k9-los-oidc-auth-proxy.dev.intern.nav.no/logout');
     setTimeout(() => { goToHomepage(); }, 1000);
   };
 
