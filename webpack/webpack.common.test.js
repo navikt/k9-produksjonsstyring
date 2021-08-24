@@ -28,7 +28,7 @@ const config = {
           },
         },
       ],
-    },],
+    }],
   },
 
   plugins: [],
