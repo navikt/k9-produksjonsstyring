@@ -78,3 +78,4 @@ spec:
       value: path:/var/run/secrets/cookie/SESSION_ID_COOKIE_SIGN_SECRET
     - name: SESSION_ID_COOKIE_VERIFY_SECRET
       value: path:/var/run/secrets/cookie/SESSION_ID_COOKIE_VERIFY_SECRET
+      
