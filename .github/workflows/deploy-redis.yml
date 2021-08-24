@@ -13,13 +13,13 @@ jobs:
       - name: Deploy dev-fss
         uses: nais/deploy/actions/deploy@v1
         env:
-          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
+          APIKEY: ${{ secrets.DEPLOY_KEY }}
           CLUSTER: dev-fss
           RESOURCE: nais/proxy/k9-los-oidc-auth-proxy-redis.yml
       - name: Deploy prod-fss
         if: github.ref == 'refs/heads/master'
         uses: nais/deploy/actions/deploy@v1
         env:
-          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
+          APIKEY: ${{ secrets.DEPLOY_KEY }}
           CLUSTER: prod-fss
           RESOURCE: nais/proxy/k9-los-oidc-auth-proxy-redis.yml
