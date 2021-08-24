@@ -15,8 +15,8 @@ env:
   IMAGE_BASE_CR: ghcr.io/${{ github.repository }}
   
 jobs:
-  build-og-deploy-master:
-    name: Build og Deploy til Dev
+  build-og-deploy:
+    name: Deploye til DEV og PROD 
     runs-on: ubuntu-latest
     steps:
       - name: Hente kode
@@ -56,7 +56,7 @@ jobs:
         env:
           APIKEY: ${{ secrets.DEPLOY_KEY }}
           CLUSTER: dev-fss
-          RESOURCE: nais/frontend/k9-los-frontend.yml
+          RESOURCE: nais/frontend/k9-los-web.yml
           VARS: nais/frontend/dev.json
       - name: Deploye til prod
         if: github.ref == 'refs/heads/master'
@@ -64,7 +64,7 @@ jobs:
         env:
           APIKEY: ${{ secrets.DEPLOY_KEY }}
           CLUSTER: prod-fss
-          RESOURCE: nais/frontend/k9-los-frontend.yml
+          RESOURCE: nais/frontend/k9-los-web.yml
           VARS: nais/frontend/prod.json
 
 
