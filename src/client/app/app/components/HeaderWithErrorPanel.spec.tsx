@@ -1,9 +1,9 @@
 import React from 'react';
 import sinon from 'sinon';
 import { expect } from 'chai';
-import Header from '@navikt/nap-header';
-import BoxedListWithSelection from '@navikt/boxed-list-with-selection';
-import BoxedListWithLinks from '@navikt/boxed-list-with-links';
+import {
+  BoxedListWithSelection, BoxedListWithLinks, Header,
+} from '@navikt/k9-react-components';
 
 import { shallowWithIntl, intlMock } from 'testHelpers/intl-enzyme-test-helper';
 import { RETTSKILDE_URL, SYSTEMRUTINE_URL } from 'api/eksterneLenker';
