@@ -166,7 +166,7 @@
   },
   "scripts": {
     "start-express": "node ./server.js",
-    "test": "mochapack --r jsdom-global/register --include ./src/client/testHelpers/setup-enzyme.js --webpack-config webpack/webpack.test.js \"src/client/app/**/*.spec.ts*\"",
+    "test": "mochapack --r jsdom-global/register ./src/client/testHelpers/setup.js --include ./src/client/testHelpers/setup-enzyme.js --webpack-config webpack/webpack.test.js \"src/client/app/**/*.spec.ts*\"",
     "test:watch": "mochapack --watch --webpack-config webpack/webpack.test.watch.js \"src/client/app/**/*.spec.ts*\"",
     "test:coverage": "nyc mochapack --webpack-config webpack/webpack.test.coverage.js  \"src/client/app/*/**/*.ts*\"",
     "dev": "cross-env NODE_ENV=development NODE_ICU_DATA=./node_modules/full-icu node webpack/webpack.dev.server.js --config webpack/webpack.dev.js",
