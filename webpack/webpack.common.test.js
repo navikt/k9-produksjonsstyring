@@ -17,7 +17,7 @@ const config = {
           loader: 'thread-loader',
           options: {
             workers: process.env.CIRCLE_NODE_TOTAL || require('os')
-              .cpus() - 1,
+              .cpus().length - 1,
             workerParallelJobs: 50,
           },
         },
