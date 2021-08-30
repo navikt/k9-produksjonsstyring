@@ -45,7 +45,7 @@ const behandlingTyper = [{
   kode: behandlingType.INNLOGGET_CHAT,
   navn: 'Innlogget chat',
 }, {
-  kode: behandlingType.SKRIV_TIL_OSS_SPØRSMÅL,
+  kode: behandlingType.SKRIV_TIL_OSS_SPØRMSÅL,
   navn: 'Skriv til oss spørsmål',
 }, {
   kode: behandlingType.SKRIV_TIL_OSS_SVAR,
