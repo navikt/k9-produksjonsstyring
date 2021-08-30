@@ -59,20 +59,22 @@ const settCustomHoydePaSoylene2 = (data) => {
   return transformert;
 };
 
+export const punsjYKoordinat = 3;
+
 const lagDatastrukturForFerdigstilte = (
   nyeOgFerdigstilteOppgaver: NyeOgFerdigstilteOppgaver[],
   skalPunsjVises: boolean,
 ): Koordinat[] => settCustomHoydePaSoylene(
   nyeOgFerdigstilteOppgaver.map((value) => ({
     x: value.antallFerdigstilte,
-    y: skalPunsjVises ? punsjBehandlingstyper.indexOf(value.behandlingType.kode) + 1 : behandlingstypeOrder.indexOf(value.behandlingType.kode) + 1,
+    y: skalPunsjVises ? punsjYKoordinat : behandlingstypeOrder.indexOf(value.behandlingType.kode) + 1,
   })), true,
 );
 
 const lagDatastrukturForNye = (nyeOgFerdigstilteOppgaver: NyeOgFerdigstilteOppgaver[], skalPunsjVises: boolean): Koordinat[] => settCustomHoydePaSoylene2(
   nyeOgFerdigstilteOppgaver.map((value) => ({
     x: value.antallNye,
-    y: skalPunsjVises ? punsjBehandlingstyper.indexOf(value.behandlingType.kode) + 1 : behandlingstypeOrder.indexOf(value.behandlingType.kode) + 1,
+    y: skalPunsjVises ? punsjYKoordinat : behandlingstypeOrder.indexOf(value.behandlingType.kode) + 1,
   })),
 );
 
@@ -82,7 +84,7 @@ export const lagDatastrukturForFerdigstilteMine = (
 ): Koordinat[] => settCustomHoydePaSoylene(nyeOgFerdigstilteOppgaver
   .map((value) => ({
     x: value.antallFerdigstilteMine,
-    y: skalPunsjVises ? punsjBehandlingstyper.indexOf(value.behandlingType.kode) + 1 : behandlingstypeOrder.indexOf(value.behandlingType.kode) + 1,
+    y: skalPunsjVises ? punsjYKoordinat : behandlingstypeOrder.indexOf(value.behandlingType.kode) + 1,
   })), false);
 
 interface OwnProps {
@@ -146,6 +148,7 @@ export const NyeOgFerdigstilteOppgaverForIdagGraf: FunctionComponent<OwnProps & 
     if (behandlingstypeOrder[i] === behandlingType.FORSTEGANGSSOKNAD && !stateRef.current.skalPunsjbehandlingerVises) {
       return intl.formatMessage({ id: 'NyeOgFerdigstilteOppgaverForIdagGraf.Førstegangsbehandling' });
     }
+    if (stateRef.current.skalPunsjbehandlingerVises) return 'Punsj';
     const type = behandlingTyper.find((bt) => bt.kode === (stateRef.current.skalPunsjbehandlingerVises ? punsjBehandlingstyper[i] : behandlingstypeOrder[i]));
     return type ? type.navn : '';
   }, []);
@@ -159,11 +162,11 @@ export const NyeOgFerdigstilteOppgaverForIdagGraf: FunctionComponent<OwnProps & 
       <XYPlot
         dontCheckIfEmpty={isEmpty}
         margin={{
-          left: stateRef.current.skalPunsjbehandlingerVises ? 190 : 127, right: 30, top: 0, bottom: 30,
+          left: stateRef.current.skalPunsjbehandlingerVises ? 55 : 127, right: 30, top: 0, bottom: 30,
         }}
         width={width}
-        height={stateRef.current.skalPunsjbehandlingerVises ? height + 100 : height}
-        yDomain={stateRef.current.skalPunsjbehandlingerVises ? [0, 11] : [0, 7]}
+        height={height}
+        yDomain={stateRef.current.skalPunsjbehandlingerVises ? [0, 6] : [0, 7]}
         xDomain={[0, isEmpty ? 10 : maxXValue]}
       >
         <VerticalGridLines />
@@ -171,7 +174,7 @@ export const NyeOgFerdigstilteOppgaverForIdagGraf: FunctionComponent<OwnProps & 
         <YAxis
           style={{ text: cssText }}
           tickFormat={finnBehandlingTypeNavn}
-          tickValues={stateRef.current.skalPunsjbehandlingerVises ? [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] : [1, 2, 3, 4, 5, 6]}
+          tickValues={stateRef.current.skalPunsjbehandlingerVises ? [punsjYKoordinat] : [1, 2, 3, 4, 5, 6]}
         />
         <HorizontalRectSeries
           data={nyeOppgaver}

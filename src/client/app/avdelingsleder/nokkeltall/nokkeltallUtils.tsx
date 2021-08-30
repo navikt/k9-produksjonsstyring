@@ -96,6 +96,28 @@ export const slaSammenLikeFagsakstyperOgDatoer = (oppgaver) => {
 
   return sammenslatte;
 };
+
+export const slaSammenAllePunsjBehandlingstyper = (oppgaver) => {
+  const sammenslatte = [];
+
+  oppgaver.forEach((o) => {
+    const index = sammenslatte.findIndex((s) => s.behandlingType.kodeverk === 'PUNSJ_INNSENDING_TYPE' && s.dato === o.dato);
+    if (index === -1) {
+      sammenslatte.push(o);
+    } else {
+      sammenslatte[index] = {
+        behandlingType: sammenslatte[index].behandlingType,
+        dato: sammenslatte[index].dato,
+        antallNye: sammenslatte[index].antallNye + o.antallNye,
+        antallFerdigstilte: sammenslatte[index].antallFerdigstilte + o.antallFerdigstilte,
+        antallFerdigstilteMine: sammenslatte[index].antallFerdigstilteMine + o.antallFerdigstilteMine,
+      };
+    }
+  });
+
+  return sammenslatte;
+};
+
 export const sjekkOmOppgaveSkalLeggesTil = (
   ytelse: string,
   oppgave: NyeOgFerdigstilteMedStonadstype | HistoriskData | AlleOppgaver | NyeOgFerdigstilteOppgaver,

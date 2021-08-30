@@ -10,7 +10,7 @@ import useKodeverk from 'api/rest-api-hooks/src/global-data/useKodeverk';
 import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
 import {
   ALLE_YTELSETYPER_VALGT,
-  sjekkOmOppgaveSkalLeggesTil,
+  sjekkOmOppgaveSkalLeggesTil, slaSammenAllePunsjBehandlingstyper,
   slaSammenLikeFagsakstyperOgDatoer,
 } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
 import { Select } from 'nav-frontend-skjema';
@@ -53,7 +53,7 @@ export const NyeOgFerdigstilteOppgaverForIdagPanel: FunctionComponent<OwnProps> 
     (oppgave) => sjekkOmOppgaveSkalLeggesTil(fagsakYtelseType.PLEIEPENGER_SYKT_BARN, oppgave),
   ));
 
-  const punsjFerdigstilteOppgaver = slaSammenLikeFagsakstyperOgDatoer(nyeOgFerdigstilteOppgaverForIdag.filter(
+  const punsjFerdigstilteOppgaver = slaSammenAllePunsjBehandlingstyper(nyeOgFerdigstilteOppgaverForIdag.filter(
     (oppgave) => sjekkOmOppgaveSkalLeggesTil(fagsakYtelseType.PUNSJ, oppgave),
   ));
 

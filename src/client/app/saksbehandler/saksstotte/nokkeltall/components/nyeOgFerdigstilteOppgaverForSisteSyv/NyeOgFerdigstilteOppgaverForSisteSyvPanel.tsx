@@ -8,7 +8,7 @@ import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
 import {
   ALLE_YTELSETYPER_VALGT,
-  sjekkOmOppgaveSkalLeggesTil,
+  sjekkOmOppgaveSkalLeggesTil, slaSammenAllePunsjBehandlingstyper,
   slaSammenLikeFagsakstyperOgDatoer,
 } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
 import styles
@@ -53,7 +53,7 @@ export const NyeOgFerdigstilteOppgaverForSisteSyvPanel: FunctionComponent<OwnPro
     (oppgave) => sjekkOmOppgaveSkalLeggesTil(fagsakYtelseType.PLEIEPENGER_SYKT_BARN, oppgave),
   ));
 
-  const punsjFerdigstilteOppgaver = slaSammenLikeFagsakstyperOgDatoer(filtrertenyeOgFerdigstilteOppgaverSisteSyv.filter(
+  const punsjFerdigstilteOppgaver = slaSammenAllePunsjBehandlingstyper(filtrertenyeOgFerdigstilteOppgaverSisteSyv.filter(
     (oppgave) => sjekkOmOppgaveSkalLeggesTil(fagsakYtelseType.PUNSJ, oppgave),
   ));
 
