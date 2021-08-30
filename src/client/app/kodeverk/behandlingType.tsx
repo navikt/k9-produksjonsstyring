@@ -14,7 +14,6 @@ const behandlingType = {
   SKRIV_TIL_OSS_SVAR: 'SKRIV_TIL_OSS_SVAR',
   SAMTALEREFERAT: 'SAMTALEREFERAT',
   UKJENT: 'UKJENT',
-  KOPI: 'KOPI',
 };
 
 export default behandlingType;
