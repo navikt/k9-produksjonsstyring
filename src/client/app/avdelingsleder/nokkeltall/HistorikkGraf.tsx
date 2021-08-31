@@ -27,6 +27,7 @@ const behandlingstypeFarger = {
   [behandlingType.KLAGE]: '#634689',
   [behandlingType.REVURDERING]: '#66CBEC',
   [behandlingType.FORSTEGANGSSOKNAD]: '#0067C5',
+  [behandlingType.TILBAKEBETALING]: '#69CA20',
 };
 
 const behandlingstypeFargerPunsj = {

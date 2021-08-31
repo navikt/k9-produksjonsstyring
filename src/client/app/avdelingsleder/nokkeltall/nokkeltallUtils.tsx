@@ -47,6 +47,7 @@ export const behandlingstypeOrder = [
   behandlingType.ANKE,
   behandlingType.INNSYN,
   behandlingType.KLAGE,
+  behandlingType.TILBAKEBETALING,
 ];
 
 export const erDatoInnenforPeriode = (oppgaveForAvdeling, ukevalg) => {
