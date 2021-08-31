@@ -42,7 +42,7 @@ export const NyeOgFerdigstilteOppgaverForIdagPanel: FunctionComponent<OwnProps> 
   const [selectValue, setSelectValue] = useState<string>('');
   const nyeOgFerdigstilteOppgaverForIdag = useMemo(() => getNyeOgFerdigstilteForIDag(nyeOgFerdigstilteOppgaver), [nyeOgFerdigstilteOppgaver]);
   const omsorgspengerFerdigstilteOppgaver = slaSammenLikeFagsakstyperOgDatoer(nyeOgFerdigstilteOppgaverForIdag.filter(
-    (oppgave) => sjekkOmOppgaveSkalLeggesTil(fagsakYtelseType.OMSORGSDAGER, oppgave),
+    (oppgave) => sjekkOmOppgaveSkalLeggesTil(fagsakYtelseType.OMSORGSPENGER, oppgave),
   ));
 
   const omsorgsdagerFerdigstilteOppgaver = slaSammenLikeFagsakstyperOgDatoer(nyeOgFerdigstilteOppgaverForIdag.filter(
