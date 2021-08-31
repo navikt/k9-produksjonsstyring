@@ -25,7 +25,6 @@ import NavFrontendSpinner from 'nav-frontend-spinner';
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
 import { Oppgaveko } from 'saksbehandler/behandlingskoer/oppgavekoTsType';
 import Reservasjon from 'avdelingsleder/reservasjoner/reservasjonTsType';
-import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
 import styles from './oppgaverTabell.less';
 import OppgaveHandlingerMenu from './menu/OppgaveHandlingerMenu';
 
