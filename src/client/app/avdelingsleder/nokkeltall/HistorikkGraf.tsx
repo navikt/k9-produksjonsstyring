@@ -189,9 +189,10 @@ const HistorikkGraf: FunctionComponent<OwnProps> = ({
               >
                 <div className={styles.crosshair}>
                   <Normaltekst>{`${moment(crosshairValues[0].x).format(DD_MM_DATE_FORMAT)}`}</Normaltekst>
-                  { reversertSorterteBehandlingstyper.map((key) => (
+                  {reversertSorterteBehandlingstyper.map((key) => (
                     <Undertekst key={key}>
-                      {`${finnBehandlingTypeNavn(behandlingTyper, key)}: ${finnAntallForBehandlingstypeOgDato(data, key, crosshairValues[0].x)}`}
+                      {`${erPunsjValgt
+                        ? 'Punsj' : finnBehandlingTypeNavn(behandlingTyper, key)}: ${finnAntallForBehandlingstypeOgDato(data, key, crosshairValues[0].x)}`}
                     </Undertekst>
                   ))}
                 </div>
@@ -206,10 +207,7 @@ const HistorikkGraf: FunctionComponent<OwnProps> = ({
           colors={erPunsjValgt
             ? punsjBehandlingstyper.map((bt) => behandlingstypeFargerPunsj[bt])
             : behandlingstypeOrder.map((bt) => behandlingstypeFarger[bt])}
-          items={erPunsjValgt
-            ? punsjBehandlingstyper.map((bt) => (
-              <Normaltekst className={styles.displayInline}>{finnBehandlingTypeNavn(behandlingTyper, bt)}</Normaltekst>
-            ))
+          items={erPunsjValgt ? []
             : behandlingstypeOrder.map((bt) => (
               <Normaltekst className={styles.displayInline}>{finnBehandlingTypeNavn(behandlingTyper, bt)}</Normaltekst>
             ))}
