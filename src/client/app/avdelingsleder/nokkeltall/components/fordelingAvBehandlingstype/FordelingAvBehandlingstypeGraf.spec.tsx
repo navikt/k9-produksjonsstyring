@@ -128,10 +128,10 @@ describe('<FordelingAvBehandlingstypeGraf>', () => {
     const verdiFn = yAksen.prop('tickFormat') as (v, i: number) => void;
 
     const behandlingstyper = verdiIndekser.map((i) => verdiFn(undefined, i - 1));
-    expect(behandlingstyper).is.eql(['Anke', 'Dokumentinnsyn', 'Klage', 'Revurdering', 'Førstegangssøknad', 'Tilbakebetaling']);
+    expect(behandlingstyper).is.eql(['Tilbakebetaling', 'Anke', 'Dokumentinnsyn', 'Klage', 'Revurdering', 'Førstegangssøknad']);
   });
 
-  it('skal vise behandlingstyper for Punsj på y-aksen', () => {
+  it('skal vise en behandlingstype for Punsj på y-aksen', () => {
     const alleOppgaver = [{
       fagsakYtelseType: fagsakYtelseTyper[0],
       behandlingType: behandlingTyper[0],
@@ -152,24 +152,13 @@ describe('<FordelingAvBehandlingstypeGraf>', () => {
     expect(yAksen).to.have.length(1);
 
     const verdiIndekser = yAksen.prop('tickValues') as number[];
-    expect(verdiIndekser).to.have.length(10);
+    expect(verdiIndekser).to.have.length(1);
 
     const verdiFn = yAksen.prop('tickFormat') as (v, i: number) => void;
 
     const behandlingstyper = verdiIndekser.map((i) => verdiFn(undefined, i - 1));
 
-    expect(behandlingstyper).is.eql([
-      'Papirsøknad',
-      'Papirettersendelse',
-      'Papirinntektsopplysninger',
-      'Digital ettersendelse',
-      'Innlogget chat',
-      'Skriv til oss spørmsål',
-      'Skriv til oss svar',
-      'Samtalereferat',
-      'Ukjent',
-      'Kopi',
-    ]);
+    expect(behandlingstyper).is.eql(['Punsj']);
   });
 
   it('skal vise hint med antall og total-antall ved mouseover', () => {
