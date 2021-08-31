@@ -96,6 +96,13 @@ const FagsakYtelseTypeVelger: FunctionComponent<OwnProps> = ({
         onChange={(checked) => hantereFagytelsetypeValg(fagsakYtelseType.PLEIEPENGER_SYKT_BARN, checked)}
         checked={fagytelseTyperValt.includes(fagsakYtelseType.PLEIEPENGER_SYKT_BARN)}
       />
+      <VerticalSpacer fourPx />
+      <CheckboxField
+        name={fagsakYtelseType.UKJENT}
+        label={finnFagsakYtelseTypeNavn(alleFagsakYtelseTyper, fagsakYtelseType.UKJENT)}
+        onChange={(checked) => hantereFagytelsetypeValg(fagsakYtelseType.UKJENT, checked)}
+        checked={fagytelseTyperValt.includes(fagsakYtelseType.UKJENT)}
+      />
     </div>
   );
 };
