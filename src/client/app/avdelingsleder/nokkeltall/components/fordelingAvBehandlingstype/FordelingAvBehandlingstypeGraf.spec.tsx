@@ -138,14 +138,14 @@ describe('<FordelingAvBehandlingstypeGraf>', () => {
       tilBehandling: true,
       antall: 1,
     }];
-    const lol = true;
+
     const wrapper = shallowWithIntl(<FordelingAvBehandlingstypeGraf.WrappedComponent
       intl={intl as IntlShape}
       width={300}
       height={200}
       alleOppgaver={alleOppgaver}
       behandlingTyper={behandlingTyper}
-      erPunsjValgt={lol}
+      erPunsjValgt
     />);
 
     const yAksen = wrapper.find(YAxis);

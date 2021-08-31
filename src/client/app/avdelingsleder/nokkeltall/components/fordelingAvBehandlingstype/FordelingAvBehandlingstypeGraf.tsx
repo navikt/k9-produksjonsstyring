@@ -15,7 +15,6 @@ import AlleOppgaver from './alleOppgaverTsType';
 
 import 'react-vis/dist/style.css';
 import styles from './fordelingAvBehandlingstypeGraf.less';
-import punsjBehandlingstyper from '../../../../types/PunsjBehandlingstyper';
 
 const LEGEND_WIDTH = 210;
 

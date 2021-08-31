@@ -55,20 +55,20 @@ const ferdigstilteHistorikk = [{
   dato,
   antall: 1,
 },
-  {
-    fagsakYtelseType: {
-      kode: 'OMP_KS',
-      navn: 'Omsorgsdager: midlertidig alene',
-      kodeverk: 'FAGSAK_YTELSE_TYPE',
-    },
-    behandlingType: {
-      kode: 'BT-004',
-      navn: 'Revurdering',
-      kodeverk: 'ae0028',
-    },
-    dato,
-    antall: 1,
+{
+  fagsakYtelseType: {
+    kode: 'OMP_KS',
+    navn: 'Omsorgsdager: midlertidig alene',
+    kodeverk: 'FAGSAK_YTELSE_TYPE',
   },
+  behandlingType: {
+    kode: 'BT-004',
+    navn: 'Revurdering',
+    kodeverk: 'ae0028',
+  },
+  dato,
+  antall: 1,
+},
 {
   fagsakYtelseType: {
     kode: 'PSB',
