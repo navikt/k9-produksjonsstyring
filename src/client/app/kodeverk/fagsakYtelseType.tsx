@@ -6,6 +6,7 @@ const fagsakYtelseType = {
   OMSORGSDAGER_KRONISKSYK: 'OMP_KS',
   OMSORGSDAGER_ALENEOMOMSORGEN: 'OMP_AO',
   PUNSJ: 'PUNSJ',
+  UKJENT: 'UKJENT',
 };
 
 export default fagsakYtelseType;
