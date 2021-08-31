@@ -40,7 +40,7 @@ describe('<FagsakYtelseTypeVelger>', () => {
       });
   });
 
-  it('skal lagre ytelsetype ved klikk på checkbox', () => {
+  it('skal lagre ytelsetype ved klikk på checkboks', () => {
     const lagreYtelseTypeFn = sinon.spy();
 
     new RestApiTestMocker()
@@ -54,15 +54,26 @@ describe('<FagsakYtelseTypeVelger>', () => {
           hentOppgaveko={sinon.spy()}
         />);
 
-        const radio = wrapper.find('CheckboxField').at(0);
+        const radios = wrapper.find('CheckboxField');
+        expect(radios).to.have.length(3);
+        expect(radios.at(0).prop('name')).to.eql(fagsakYtelseType.OMSORGSPENGER);
+        expect(radios.at(0).prop('checked')).to.eql(true);
+        expect(radios.at(1).prop('name')).to.eql(fagsakYtelseType.OMSORGSDAGER);
+        expect(radios.at(1).prop('checked')).to.eql(true);
+        expect(radios.at(2).prop('name')).to.eql(fagsakYtelseType.PLEIEPENGER_SYKT_BARN);
+        expect(radios.at(2).prop('checked')).to.eql(true);
 
-        radio.prop('onChange')(true);
+        const radioOMP = radios.at(0);
+
+        radioOMP.prop('onChange')(false);
 
         expect(lagreYtelseTypeFn.calledOnce).to.be.true;
         const { args } = lagreYtelseTypeFn.getCalls()[0];
         expect(args).to.have.length(1);
         expect(args[0].id).to.eql('1');
-        expect(args[0].fagsakYtelseType).to.eql([fagsakYtelseType.OMSORGSPENGER]);
+        // eslint-disable-next-line
+        console.log(args[0]);
+        expect(args[0].fagsakYtelseType).to.eql([fagsakYtelseType.OMSORGSDAGER, fagsakYtelseType.PLEIEPENGER_SYKT_BARN]);
       });
   });
 });
