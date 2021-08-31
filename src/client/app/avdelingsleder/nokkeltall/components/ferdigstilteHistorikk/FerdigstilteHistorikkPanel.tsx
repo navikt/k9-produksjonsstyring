@@ -11,7 +11,7 @@ import styles from 'avdelingsleder/nokkeltall/historikkGraf.less';
 
 import {
   ALLE_YTELSETYPER_VALGT,
-  erDatoInnenforPeriode, sjekkOmOppgaveSkalLeggesTil, slaSammenLikeBehandlingstyperOgDatoer,
+  filtrereNyePerDato,
   UKE_4, uker,
   ytelseTyper,
 } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
@@ -88,9 +88,7 @@ export const FerdigstilteHistorikkPanel: FunctionComponent<OwnProps & WrappedCom
             height={height}
             isFireUkerValgt={values.ukevalg === UKE_4}
             behandlingTyper={behandlingTyper}
-            historiskData={ferdigstiltePerDato ? slaSammenLikeBehandlingstyperOgDatoer(ferdigstiltePerDato
-              .filter((ofa) => sjekkOmOppgaveSkalLeggesTil(values.ytelseType, ofa))
-              .filter((ofa) => erDatoInnenforPeriode(ofa, values.ukevalg))) : []}
+            historiskData={filtrereNyePerDato(values.ytelseType, values.ukevalg, ferdigstiltePerDato)}
             erPunsjValgt={values.ytelseType === fagsakYtelseType.PUNSJ}
           />
         </Panel>
