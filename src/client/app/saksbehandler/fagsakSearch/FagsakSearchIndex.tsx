@@ -11,6 +11,7 @@ import useGlobalStateRestApiData from 'api/rest-api-hooks/src/global-data/useGlo
 import NavAnsatt from 'app/navAnsattTsType';
 import { errorOfType, ErrorTypes, getErrorResponseData } from 'api/rest-api';
 import FagsakSearch from './components/FagsakSearch';
+import OppgaveSystem from '../../types/OppgaveSystem';
 
 interface OwnProps {
   k9sakUrl: string;
@@ -38,13 +39,16 @@ const FagsakSearchIndex: FunctionComponent<OwnProps> = ({
 
   const goToFagsak = (oppgave: Oppgave) => {
     switch (oppgave.system) {
-      case 'K9SAK':
+      case OppgaveSystem.K9SAK:
         window.location.assign(getK9sakHref(k9sakUrl, oppgave.saksnummer, oppgave.behandlingId));
         break;
-      case 'PUNSJ':
+      case OppgaveSystem.K9TILBAKE:
+        window.location.assign(getK9sakHref(k9sakUrl, oppgave.saksnummer, oppgave.behandlingId));
+        break;
+      case OppgaveSystem.PUNSJ:
         window.location.assign(getK9punsjRef(k9punsjUrl, oppgave.journalpostId));
         break;
-      case 'OMSORGSPENGER':
+      case OppgaveSystem.OMSORGSPENGER:
         window.location.assign(getOmsorgspengerRef(omsorgspengerUrl, oppgave.saksnummer));
         break;
       default:
