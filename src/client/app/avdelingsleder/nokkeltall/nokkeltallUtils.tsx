@@ -118,6 +118,25 @@ export const slaSammenAllePunsjBehandlingstyper = (oppgaver) => {
   return sammenslatte;
 };
 
+export const slaSammenPunsjBehandlingstyperOgDatoer = (oppgaver) => {
+  const sammenslatte = [];
+
+  oppgaver.forEach((o) => {
+    const index = sammenslatte.findIndex((s) => s.behandlingType.kodeverk === 'PUNSJ_INNSENDING_TYPE' && s.dato === o.dato);
+    if (index === -1) {
+      sammenslatte.push(o);
+    } else {
+      sammenslatte[index] = {
+        behandlingType: sammenslatte[index].behandlingType,
+        dato: sammenslatte[index].dato,
+        antall: sammenslatte[index].antall + o.antall,
+      };
+    }
+  });
+
+  return sammenslatte;
+};
+
 export const sjekkOmOppgaveSkalLeggesTil = (
   ytelse: string,
   oppgave: NyeOgFerdigstilteMedStonadstype | HistoriskData | AlleOppgaver | NyeOgFerdigstilteOppgaver,
@@ -135,4 +154,18 @@ export const sjekkOmOppgaveSkalLeggesTil = (
     default:
       return ytelse === oppgave.fagsakYtelseType.kode && !punsjBehandlingstyper.includes(oppgave.behandlingType.kode);
   }
+};
+
+export const filtrereNyePerDato = (ytelseType: string, ukevalg : string, nyePerDato: HistoriskData[]): HistoriskData[] => {
+  if (nyePerDato) {
+    if (ytelseType === 'PUNSJ') {
+      return slaSammenPunsjBehandlingstyperOgDatoer(nyePerDato
+        .filter((ofa) => sjekkOmOppgaveSkalLeggesTil(ytelseType, ofa))
+        .filter((ofa) => erDatoInnenforPeriode(ofa, ukevalg)));
+    }
+    return slaSammenLikeBehandlingstyperOgDatoer(nyePerDato
+      .filter((ofa) => sjekkOmOppgaveSkalLeggesTil(ytelseType, ofa))
+      .filter((ofa) => erDatoInnenforPeriode(ofa, ukevalg)));
+  }
+  return [];
 };
