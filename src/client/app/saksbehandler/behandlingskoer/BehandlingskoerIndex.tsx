@@ -14,6 +14,7 @@ import RestApiState from 'api/rest-api-hooks/src/RestApiState';
 import ModalMedIkon from 'sharedComponents/modal/ModalMedIkon';
 import OppgavekoPanel from './components/OppgavekoPanel';
 import timeglassUrl from '../../../images/timeglass.svg';
+import OppgaveSystem from '../../types/OppgaveSystem';
 
 interface OwnProps {
   k9sakUrl: string;
@@ -98,13 +99,16 @@ const BehandlingskoerIndex: FunctionComponent<OwnProps> = ({
   const openFagsak = (oppgave: Oppgave) => {
     leggTilBehandletOppgave(oppgave);
     switch (oppgave.system) {
-      case 'PUNSJ':
+      case OppgaveSystem.PUNSJ:
         window.location.assign(getK9punsjRef(k9punsjUrl, oppgave.journalpostId));
         break;
-      case 'K9SAK':
+      case OppgaveSystem.K9SAK:
         window.location.assign(getK9sakHref(k9sakUrl, oppgave.saksnummer, oppgave.behandlingId));
         break;
-      case 'OMSORGSPENGER':
+      case OppgaveSystem.K9TILBAKE:
+        window.location.assign(getK9sakHref(k9sakUrl, oppgave.saksnummer, oppgave.behandlingId));
+        break;
+      case OppgaveSystem.OMSORGSPENGER:
         window.location.assign(getOmsorgspengerRef(omsorgspengerUrl, oppgave.saksnummer));
         break;
       default: window.location.assign(getK9sakHref(k9sakUrl, oppgave.saksnummer, oppgave.behandlingId));
@@ -112,8 +116,12 @@ const BehandlingskoerIndex: FunctionComponent<OwnProps> = ({
   };
 
   const openSak = (oppgave: Oppgave) => {
-    if (oppgave.system === 'K9SAK' || oppgave.system === 'PUNSJ' || oppgave.system === 'OMSORGSPENGER') openFagsak(oppgave);
-    else throw new Error('Fagsystemet for oppgaven er ukjent');
+    if (oppgave.system === OppgaveSystem.K9SAK
+      || oppgave.system === OppgaveSystem.K9TILBAKE
+      || oppgave.system === OppgaveSystem.PUNSJ
+      || oppgave.system === OppgaveSystem.OMSORGSPENGER) {
+      openFagsak(oppgave);
+    } else throw new Error('Fagsystemet for oppgaven er ukjent');
   };
 
   const lukkModal = () => {
