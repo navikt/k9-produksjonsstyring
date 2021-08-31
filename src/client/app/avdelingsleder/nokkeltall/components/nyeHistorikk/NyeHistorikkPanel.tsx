@@ -9,8 +9,9 @@ import Panel from 'nav-frontend-paneler';
 import styles from 'avdelingsleder/nokkeltall/historikkGraf.less';
 import {
   ALLE_YTELSETYPER_VALGT,
-  erDatoInnenforPeriode, sjekkOmOppgaveSkalLeggesTil, slaSammenLikeBehandlingstyperOgDatoer,
-  UKE_4, uker,
+  filtrereNyePerDato,
+  UKE_4,
+  uker,
   ytelseTyper,
 } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
 import useKodeverk from 'api/rest-api-hooks/src/global-data/useKodeverk';
@@ -84,9 +85,7 @@ export const NyeHistorikkPanel: FunctionComponent<OwnProps & WrappedComponentPro
             height={height}
             isFireUkerValgt={values.ukevalg === UKE_4}
             behandlingTyper={behandlingTyper}
-            historiskData={nyePerDato ? slaSammenLikeBehandlingstyperOgDatoer(nyePerDato
-              .filter((ofa) => sjekkOmOppgaveSkalLeggesTil(values.ytelseType, ofa))
-              .filter((ofa) => erDatoInnenforPeriode(ofa, values.ukevalg))) : []}
+            historiskData={filtrereNyePerDato(values.ytelseType, values.ukevalg, nyePerDato)}
             erPunsjValgt={values.ytelseType === fagsakYtelseType.PUNSJ}
           />
         </Panel>

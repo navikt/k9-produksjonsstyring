@@ -151,7 +151,7 @@ export const InngangOgFerdigstiltePanel: FunctionComponent<OwnProps & WrappedCom
                   : getFerdigstilteTotalt(nyeOgFerdigstilteOppgaver7dager, values.ytelseType)}
               />
             )}
-            {erIdagValgt && nyeOgFerdigstilteOppgaverIdag.length > 0
+            {erIdagValgt && nyeOgFerdigstilteOppgaverIdag.length > 0 && values.ytelseType !== 'PUNSJ'
             && getOppgaverStonadstype(nyeOgFerdigstilteOppgaverIdag, values.ytelseType).map((o) => (
               <Teller
                 key={o.behandlingType.kode}
@@ -160,7 +160,7 @@ export const InngangOgFerdigstiltePanel: FunctionComponent<OwnProps & WrappedCom
                 venstreTall={o.nye}
               />
             ))}
-            {!erIdagValgt && nyeOgFerdigstilteOppgaver7dager.length > 0
+            {!erIdagValgt && nyeOgFerdigstilteOppgaver7dager.length > 0 && values.ytelseType !== 'PUNSJ'
             && getOppgaverStonadstype(nyeOgFerdigstilteOppgaver7dager, values.ytelseType).map((o) => (
               <Teller
                 key={o.behandlingType.kode}

@@ -10,8 +10,7 @@ import kodeverkTyper from 'kodeverk/kodeverkTyper';
 import Panel from 'nav-frontend-paneler';
 import styles from 'avdelingsleder/nokkeltall/historikkGraf.less';
 import {
-  ALLE_YTELSETYPER_VALGT,
-  erDatoInnenforPeriode, sjekkOmOppgaveSkalLeggesTil, slaSammenLikeBehandlingstyperOgDatoer,
+  ALLE_YTELSETYPER_VALGT, filtrereNyePerDato,
   UKE_4,
   uker,
   ytelseTyper,
@@ -87,9 +86,7 @@ export const BeholdningHistorikkPanel: FunctionComponent<OwnProps & WrappedCompo
             height={height}
             isFireUkerValgt={values.ukevalg === UKE_4}
             behandlingTyper={behandlingTyper}
-            historiskData={beholdningPerDato ? slaSammenLikeBehandlingstyperOgDatoer(beholdningPerDato
-              .filter((ofa) => sjekkOmOppgaveSkalLeggesTil(values.ytelseType, ofa))
-              .filter((ofa) => erDatoInnenforPeriode(ofa, values.ukevalg))) : []}
+            historiskData={filtrereNyePerDato(values.ytelseType, values.ukevalg, beholdningPerDato)}
             erPunsjValgt={values.ytelseType === fagsakYtelseType.PUNSJ}
           />
         </Panel>
