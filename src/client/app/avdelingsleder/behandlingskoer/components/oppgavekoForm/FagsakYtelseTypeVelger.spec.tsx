@@ -68,8 +68,8 @@ describe('<FagsakYtelseTypeVelger>', () => {
         expect(radios.at(2).prop('checked')).to.eql(true);
         expect(radios.at(3).prop('name')).to.eql(fagsakYtelseType.PPN);
         expect(radios.at(3).prop('checked')).to.eql(false);
-        expect(radios.at(3).prop('name')).to.eql(fagsakYtelseType.UKJENT);
-        expect(radios.at(3).prop('checked')).to.eql(false);
+        expect(radios.at(4).prop('name')).to.eql(fagsakYtelseType.UKJENT);
+        expect(radios.at(4).prop('checked')).to.eql(false);
 
         const radioOMP = radios.at(0);
 
