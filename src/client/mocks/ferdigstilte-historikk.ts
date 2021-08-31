@@ -1,3 +1,4 @@
+const dato = '2021-08-22';
 const ferdigstilteHistorikk = [{
   fagsakYtelseType: {
     kode: 'OMP',
@@ -9,7 +10,7 @@ const ferdigstilteHistorikk = [{
     navn: 'Førstegangsbehandling',
     kodeverk: 'ae0034',
   },
-  dato: '2021-07-01',
+  dato,
   antall: 1,
 },
 {
@@ -23,7 +24,7 @@ const ferdigstilteHistorikk = [{
     navn: 'Tilbakekreving',
     kodeverk: 'ae0203',
   },
-  dato: '2021-08-19',
+  dato,
   antall: 1,
 },
 {
@@ -37,7 +38,7 @@ const ferdigstilteHistorikk = [{
     navn: 'Revurdering',
     kodeverk: 'ae0028',
   },
-  dato: '2021-07-01',
+  dato,
   antall: 1,
 },
 {
@@ -51,7 +52,7 @@ const ferdigstilteHistorikk = [{
     navn: 'Revurdering',
     kodeverk: 'ae0028',
   },
-  dato: '2021-07-01',
+  dato,
   antall: 1,
 },
   {
@@ -65,7 +66,7 @@ const ferdigstilteHistorikk = [{
       navn: 'Revurdering',
       kodeverk: 'ae0028',
     },
-    dato: '2021-07-10',
+    dato,
     antall: 1,
   },
 {
@@ -79,7 +80,7 @@ const ferdigstilteHistorikk = [{
     navn: 'Førstegangsbehandling',
     kodeverk: 'ae0034',
   },
-  dato: '2021-07-01',
+  dato,
   antall: 1,
 },
 {
@@ -93,7 +94,7 @@ const ferdigstilteHistorikk = [{
     navn: 'Tilbakekreving',
     kodeverk: 'ae0203',
   },
-  dato: '2021-07-01',
+  dato,
   antall: 1,
 },
 {
@@ -107,7 +108,7 @@ const ferdigstilteHistorikk = [{
     navn: 'Revurdering',
     kodeverk: 'ae0028',
   },
-  dato: '2021-07-01',
+  dato,
   antall: 1,
 },
 {
@@ -121,7 +122,7 @@ const ferdigstilteHistorikk = [{
     navn: 'Papirinntektsopplysninger',
     kodeverk: 'PUNSJ_INNSENDING_TYPE',
   },
-  dato: '2021-07-01',
+  dato,
   antall: 1,
 },
 {
@@ -135,7 +136,7 @@ const ferdigstilteHistorikk = [{
     navn: 'Kopi',
     kodeverk: 'PUNSJ_INNSENDING_TYPE',
   },
-  dato: '2021-07-06',
+  dato,
   antall: 1,
 },
 {
@@ -149,7 +150,7 @@ const ferdigstilteHistorikk = [{
     navn: 'Digital ettersendelse',
     kodeverk: 'PUNSJ_INNSENDING_TYPE',
   },
-  dato: '2021-07-01',
+  dato,
   antall: 1,
 },
 {
@@ -163,7 +164,7 @@ const ferdigstilteHistorikk = [{
     navn: 'Samtalereferat',
     kodeverk: 'PUNSJ_INNSENDING_TYPE',
   },
-  dato: '2021-07-01',
+  dato,
   antall: 1,
 },
 {
@@ -177,7 +178,7 @@ const ferdigstilteHistorikk = [{
     navn: 'Skriv til oss spørmsål',
     kodeverk: 'PUNSJ_INNSENDING_TYPE',
   },
-  dato: '2021-07-01',
+  dato,
   antall: 1,
 },
 {
@@ -191,7 +192,7 @@ const ferdigstilteHistorikk = [{
     navn: 'Skriv til oss svar',
     kodeverk: 'PUNSJ_INNSENDING_TYPE',
   },
-  dato: '2021-07-01',
+  dato,
   antall: 1,
 },
 {
@@ -205,7 +206,7 @@ const ferdigstilteHistorikk = [{
     navn: 'Papirsøknad',
     kodeverk: 'PUNSJ_INNSENDING_TYPE',
   },
-  dato: '2021-07-01',
+  dato,
   antall: 1,
 },
 {
@@ -219,7 +220,7 @@ const ferdigstilteHistorikk = [{
     navn: 'Papirettersendelse',
     kodeverk: 'PUNSJ_INNSENDING_TYPE',
   },
-  dato: '2021-07-01',
+  dato,
   antall: 1,
 },
 {
@@ -233,7 +234,7 @@ const ferdigstilteHistorikk = [{
     navn: 'Innlogget chat',
     kodeverk: 'PUNSJ_INNSENDING_TYPE',
   },
-  dato: '2021-07-01',
+  dato,
   antall: 1,
 },
 {
@@ -247,7 +248,7 @@ const ferdigstilteHistorikk = [{
     navn: 'Ukjent',
     kodeverk: 'PUNSJ_INNSENDING_TYPE',
   },
-  dato: '2021-07-01',
+  dato,
   antall: 1,
 },
 {
@@ -261,7 +262,7 @@ const ferdigstilteHistorikk = [{
     navn: 'Førstegangsbehandling',
     kodeverk: 'ae0034',
   },
-  dato: '2021-07-01',
+  dato,
   antall: 1,
 }];
 
