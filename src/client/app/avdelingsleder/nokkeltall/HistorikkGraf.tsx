@@ -17,6 +17,7 @@ import { Row } from 'nav-frontend-grid';
 import HistoriskData from 'avdelingsleder/nokkeltall/historiskDataTsType';
 import { behandlingstypeOrder } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
 import styles from './historikkGraf.less';
+import punsjBehandlingstyper from '../../types/PunsjBehandlingstyper';
 
 const LEGEND_WIDTH = 260;
 
@@ -26,13 +27,20 @@ const behandlingstypeFarger = {
   [behandlingType.KLAGE]: '#634689',
   [behandlingType.REVURDERING]: '#66CBEC',
   [behandlingType.FORSTEGANGSSOKNAD]: '#0067C5',
+  [behandlingType.TILBAKEBETALING]: '#69CA20',
 };
 
-const monthNames = ['JANUAR', 'FEBRUAR', 'MARS', 'APRIL', 'MAI', 'JUNI',
-  'JULI', 'AUGUST', 'SEPTEMBER', 'OKTOBER', 'NOVEMBER', 'DESEMBER',
-];
-
-const weekdays = ['Mandag', 'Tirsdag', 'Onsdag', 'Torsdag', 'Fredag', 'Lørdag', 'Søndag'];
+const behandlingstypeFargerPunsj = {
+  [behandlingType.PAPIRSØKNAD]: '#C86151',
+  [behandlingType.PAPIRETTERSENDELSE]: '#FF9100',
+  [behandlingType.PAPIRINNTEKTSOPPLYSNINGER]: '#634689',
+  [behandlingType.DIGITAL_ETTERSENDELSE]: '#66CBEC',
+  [behandlingType.INNLOGGET_CHAT]: '#0067C5',
+  [behandlingType.SKRIV_TIL_OSS_SPØRMSÅL]: '#69CA20',
+  [behandlingType.SKRIV_TIL_OSS_SVAR]: '#9A1788',
+  [behandlingType.UKJENT]: '#000000',
+  [behandlingType.KOPI]: '#EEED1D',
+};
 
 const cssText = {
   fontFamily: 'Source Sans Pro',
@@ -40,7 +48,6 @@ const cssText = {
   lineHeight: '1.375rem',
   fontWeight: 400,
   color: '#3E3832',
-
 };
 
 const sorterBehandlingtyper = (b1, b2) => {
@@ -50,16 +57,6 @@ const sorterBehandlingtyper = (b1, b2) => {
     return 0;
   }
   return index1 > index2 ? -1 : 1;
-};
-
-const getMonthNameAndYear = () => {
-  const today = moment();
-  if (today.day() > 28) {
-    return `${monthNames[today.month()]} ${today.year()}`;
-  }
-
-  return today.month() === 1 ? `${monthNames[11]} ${today.year() - 1} - ${monthNames[today.month()]} ${today.year()}`
-    : `${monthNames[today.month() - 1]} - ${monthNames[today.month()]} ${today.year()}`;
 };
 
 const konverterTilKoordinaterGruppertPaBehandlingstype = (oppgaverForAvdeling) => oppgaverForAvdeling.reduce((acc, o) => {
@@ -109,6 +106,7 @@ interface OwnProps {
   behandlingTyper: Kodeverk[];
   historiskData: HistoriskData[];
   isFireUkerValgt: boolean;
+  erPunsjValgt: boolean;
 }
 
 interface CrosshairValue {
@@ -125,9 +123,9 @@ const HistorikkGraf: FunctionComponent<OwnProps> = ({
   historiskData,
   isFireUkerValgt,
   behandlingTyper,
+  erPunsjValgt,
 }) => {
   const [crosshairValues, setCrosshairValues] = useState<CrosshairValue[]>([]);
-
   const onMouseLeave = useCallback(() => setCrosshairValues([]), []);
   const onNearestX = useCallback((value: {x: Date; y: number}) => {
     setCrosshairValues([value]);
@@ -177,8 +175,8 @@ const HistorikkGraf: FunctionComponent<OwnProps> = ({
                 key={k}
                 data={data[k]}
                 onNearestX={index === 0 ? onNearestX : () => undefined}
-                fill={behandlingstypeFarger[k]}
-                stroke={behandlingstypeFarger[k]}
+                fill={erPunsjValgt ? behandlingstypeFargerPunsj[k] : behandlingstypeFarger[k]}
+                stroke={erPunsjValgt ? behandlingstypeFargerPunsj[k] : behandlingstypeFarger[k]}
               />
             ))}
             {crosshairValues.length > 0 && (
@@ -192,9 +190,10 @@ const HistorikkGraf: FunctionComponent<OwnProps> = ({
               >
                 <div className={styles.crosshair}>
                   <Normaltekst>{`${moment(crosshairValues[0].x).format(DD_MM_DATE_FORMAT)}`}</Normaltekst>
-                  { reversertSorterteBehandlingstyper.map((key) => (
+                  {reversertSorterteBehandlingstyper.map((key) => (
                     <Undertekst key={key}>
-                      {`${finnBehandlingTypeNavn(behandlingTyper, key)}: ${finnAntallForBehandlingstypeOgDato(data, key, crosshairValues[0].x)}`}
+                      {`${erPunsjValgt
+                        ? 'Punsj' : finnBehandlingTypeNavn(behandlingTyper, key)}: ${finnAntallForBehandlingstypeOgDato(data, key, crosshairValues[0].x)}`}
                     </Undertekst>
                   ))}
                 </div>
@@ -206,10 +205,13 @@ const HistorikkGraf: FunctionComponent<OwnProps> = ({
       <Row className={styles.legends}>
         <DiscreteColorLegend
           orientation="horizontal"
-          colors={behandlingstypeOrder.map((bt) => behandlingstypeFarger[bt])}
-          items={behandlingstypeOrder.map((bt) => (
-            <Normaltekst className={styles.displayInline}>{finnBehandlingTypeNavn(behandlingTyper, bt)}</Normaltekst>
-          ))}
+          colors={erPunsjValgt
+            ? punsjBehandlingstyper.map((bt) => behandlingstypeFargerPunsj[bt])
+            : behandlingstypeOrder.map((bt) => behandlingstypeFarger[bt])}
+          items={erPunsjValgt ? []
+            : behandlingstypeOrder.map((bt) => (
+              <Normaltekst className={styles.displayInline}>{finnBehandlingTypeNavn(behandlingTyper, bt)}</Normaltekst>
+            ))}
         />
       </Row>
     </FlexContainer>
