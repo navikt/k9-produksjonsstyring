@@ -55,7 +55,10 @@ const slaSammenOgMarkerReserverte = (reserverteOppgaver, oppgaverTilBehandling):
 const getToggleMenuEvent = (oppgave: OppgaveMedReservertIndikator, toggleMenu) => (oppgave.underBehandling ? () => toggleMenu(oppgave) : undefined);
 
 const hentIDFraSak = (oppgave: OppgaveMedReservertIndikator): string => {
-  if (oppgave.behandlingstype.kodeverk === 'PUNSJ_INNSENDING_TYPE' && typeof oppgave.journalpostId !== 'undefined' && !!oppgave.journalpostId) {
+  if (typeof oppgave.behandlingstype.kodeverk !== 'undefined'
+    && oppgave.behandlingstype.kodeverk === 'PUNSJ_INNSENDING_TYPE'
+    && typeof oppgave.journalpostId !== 'undefined'
+    && !!oppgave.journalpostId) {
     return oppgave.journalpostId;
   }
   if (typeof oppgave.saksnummer !== 'undefined' && !!oppgave.saksnummer) {
