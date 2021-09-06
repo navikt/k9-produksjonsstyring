@@ -1,12 +1,12 @@
 import sinon from 'sinon';
 
-import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
-import * as useRestApi from 'api/rest-api-hooks/src/local-data/useRestApi';
-import * as useGlobalStateRestApi from 'api/rest-api-hooks/src/global-data/useGlobalStateRestApi';
-import * as useGlobalStateRestApiData from 'api/rest-api-hooks/src/global-data/useGlobalStateRestApiData';
-import * as useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
-import * as useKodeverk from 'api/rest-api-hooks/src/global-data/useKodeverk';
-import { RestApiState } from 'api/rest-api-hooks';
+import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from '../../src/client/app/api/k9LosApi';
+import * as useRestApi from '../../src/client/app/api/rest-api-hooks/src/local-data/useRestApi';
+import * as useGlobalStateRestApi from '../../src/client/app/api/rest-api-hooks/src/global-data/useGlobalStateRestApi';
+import * as useGlobalStateRestApiData from '../../src/client/app/api/rest-api-hooks/src/global-data/useGlobalStateRestApiData';
+import * as useRestApiRunner from '../../src/client/app/api/rest-api-hooks/src/local-data/useRestApiRunner';
+import * as useKodeverk from '../../src/client/app/api/rest-api-hooks/src/global-data/useKodeverk';
+import { RestApiState } from '../../src/client/app/api/rest-api-hooks';
 
 class RestApiTestMocker {
   globalRestCallData =[];

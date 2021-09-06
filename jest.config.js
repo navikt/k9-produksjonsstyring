@@ -2,6 +2,7 @@ module.exports = {
   projects: [
     {
       verbose: true,
+      expand: true,
       displayName: 'test',
       cacheDirectory: '<rootDir>/jest_cache/',
       coverageDirectory: '<rootDir>/coverage/',
@@ -21,15 +22,8 @@ module.exports = {
         '^.+\\.(ts|tsx|js|jsx)?$': 'babel-jest',
         '^.+.(css|less)$': 'jest-transform-stub',
       },
-      // transformIgnorePatterns: ['<rootDir>.*(node_modules)(?!.*(nav).*).*$'],
-      // transformIgnorePatterns: ['<rootDir>.*(node_modules).*$'],
+      transformIgnorePatterns: ['<rootDir>.*(node_modules)(?!.*(nav).*).*$'],
       moduleDirectories: ['node_modules', 'src/client', 'src/client/app'],
     },
-    // {
-    //   displayName: 'lint',
-    //   runner: 'jest-runner-eslint',
-    //   testMatch: ['**/?(*.)+(spec).+(js|jsx|ts|tsx)'],
-    // },
-  ],
-  // watchPlugins: ['jest-runner-eslint/watch-fix'],
+  ]
 };

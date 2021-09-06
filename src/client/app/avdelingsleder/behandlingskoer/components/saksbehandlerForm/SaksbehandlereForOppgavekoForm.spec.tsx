@@ -7,7 +7,7 @@ import { Column } from 'nav-frontend-grid';
 
 import andreKriterierType from 'kodeverk/andreKriterierType';
 import { CheckboxField } from 'form/FinalFields';
-import RestApiTestMocker from 'testHelpers/RestApiTestMocker';
+import RestApiTestMocker from '../../../../../../../setup/testHelpers/RestApiTestMocker';
 import SaksbehandlereForOppgavekoForm from './SaksbehandlereForOppgavekoForm';
 
 describe('<SaksbehandlereForOppgavekoForm>', () => {
