@@ -39,7 +39,6 @@ interface OwnProps {
   setValgtOppgavekoId: (id: string) => void;
   resetValgtOppgavekoId: () => void;
   valgtOppgavekoId?: string;
-  oppgaverTotalt?: number;
   requestFinished: boolean;
   hentAlleOppgavekoer:() => void;
 }

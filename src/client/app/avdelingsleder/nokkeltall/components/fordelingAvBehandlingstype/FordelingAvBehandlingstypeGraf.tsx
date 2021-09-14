@@ -10,6 +10,7 @@ import { Normaltekst } from 'nav-frontend-typografi';
 import { FlexContainer, FlexRow, FlexColumn } from 'sharedComponents/flexGrid';
 import { Kodeverk } from 'kodeverk/kodeverkTsType';
 import behandlingType from 'kodeverk/behandlingType';
+import { v4 as uuid4 } from 'uuid';
 import AlleOppgaver from './alleOppgaverTsType';
 
 import 'react-vis/dist/style.css';
@@ -161,10 +162,10 @@ const FordelingAvBehandlingstypeGraf: FunctionComponent<OwnProps & WrappedCompon
           <DiscreteColorLegend
             colors={['#634689', '#FF9100']}
             items={[
-              <Normaltekst className={styles.displayInline}>
+              <Normaltekst key={uuid4()} className={styles.displayInline}>
                 <FormattedMessage id="FordelingAvBehandlingstypeGraf.TilBehandling" />
               </Normaltekst>,
-              <Normaltekst className={styles.displayInline}>
+              <Normaltekst key={uuid4()} className={styles.displayInline}>
                 <FormattedMessage id="FordelingAvBehandlingstypeGraf.TilBeslutter" />
               </Normaltekst>,
             ]}

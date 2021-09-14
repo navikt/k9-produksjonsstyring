@@ -4,7 +4,7 @@ import sinon from 'sinon';
 import { IntlShape } from 'react-intl';
 import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
 
-import { shallowWithIntl, intlMock } from 'testHelpers/intl-enzyme-test-helper';
+import { shallowWithIntl, intlMock } from '../../../../../../setup/testHelpers/intl-enzyme-test-helper';
 import SletteSaksbehandlerModal from './SletteSaksbehandlerModal';
 
 describe('<SletteSaksbehandlerModal>', () => {

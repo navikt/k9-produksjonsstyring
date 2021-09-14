@@ -3,11 +3,11 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { IntlShape } from 'react-intl';
 
-import { shallowWithIntl, intlMock } from 'testHelpers/intl-enzyme-test-helper';
+import { shallowWithIntl, intlMock } from '../../../../../../../setup/testHelpers/intl-enzyme-test-helper';
 import KoSortering from 'kodeverk/KoSortering';
 import { RadioGroupField, RadioOption } from 'form/FinalFields';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
-import RestApiTestMocker from 'testHelpers/RestApiTestMocker';
+import RestApiTestMocker from '../../../../../../../setup/testHelpers/RestApiTestMocker';
 import { K9LosApiKeys } from 'api/k9LosApi';
 import SorteringVelger from './SorteringVelger';
 

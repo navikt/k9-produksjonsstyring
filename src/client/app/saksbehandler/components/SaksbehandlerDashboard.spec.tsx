@@ -12,32 +12,44 @@ import { SaksbehandlerDashboard } from './SaksbehandlerDashboard';
 
 describe('<SaksbehandlerDashboard>', () => {
   let contextStub;
-  before(() => {
-    contextStub = sinon.stub(useRestApiData, 'default').callsFake(() => 'url');
-  });
+  // before(() => {
+  //   contextStub = sinon.stub(useRestApiData, 'default').callsFake(() => 'url');
+  // });
 
-  after(() => {
-    contextStub.restore();
-  });
+  // after(() => {
+  //   contextStub.restore();
+  // });
 
   it('skal vise dashboard uten fagsak-søk', () => {
-    const wrapper = shallow(<SaksbehandlerDashboard
-      valgtOppgavekoId="1"
-      setValgtOppgavekoId={() => undefined}
-    />);
+    contextStub = sinon.stub(useRestApiData, 'default').callsFake(() => 'url');
+
+    const wrapper = shallow(
+      <SaksbehandlerDashboard
+        valgtOppgavekoId="1"
+        setValgtOppgavekoId={() => undefined}
+      />
+    );
 
     expect(wrapper.find(BehandlingskoerIndex)).to.have.length(1);
     expect(wrapper.find(SaksstotteIndex)).to.have.length(1);
+
+    contextStub.restore();
   });
 
   it('skal vise dashboard med fagsak-søk', () => {
-    const wrapper = shallow(<SaksbehandlerDashboard
-      valgtOppgavekoId="1"
-      setValgtOppgavekoId={() => undefined}
-    />);
+    contextStub = sinon.stub(useRestApiData, 'default').callsFake(() => 'url');
+
+    const wrapper = shallow(
+      <SaksbehandlerDashboard
+        valgtOppgavekoId="1"
+        setValgtOppgavekoId={() => undefined}
+      />
+    );
 
     expect(wrapper.find(FagsakSearchIndex)).to.have.length(1);
     expect(wrapper.find(BehandlingskoerIndex)).to.have.length(1);
     expect(wrapper.find(SaksstotteIndex)).to.have.length(1);
+
+    contextStub.restore();
   });
 });

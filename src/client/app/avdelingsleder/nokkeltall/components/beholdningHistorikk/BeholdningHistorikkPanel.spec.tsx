@@ -11,7 +11,7 @@ import kodeverkTyper from 'kodeverk/kodeverkTyper';
 import * as useKodeverk from 'api/rest-api-hooks/src/global-data/useKodeverk';
 import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
 import behandlingType from 'kodeverk/behandlingType';
-import { shallowWithIntl, intlMock } from 'testHelpers/intl-enzyme-test-helper';
+import { shallowWithIntl, intlMock } from '../../../../../../../setup/testHelpers/intl-enzyme-test-helper';
 import { ALLE_YTELSETYPER_VALGT } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
 import { BeholdningHistorikkPanel } from 'avdelingsleder/nokkeltall/components/beholdningHistorikk/BeholdningHistorikkPanel';
 import HistorikkGraf from 'avdelingsleder/nokkeltall/HistorikkGraf';

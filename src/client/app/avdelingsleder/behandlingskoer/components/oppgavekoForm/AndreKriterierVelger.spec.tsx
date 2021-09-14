@@ -6,7 +6,7 @@ import { shallow } from 'enzyme';
 import andreKriterierType from 'kodeverk/andreKriterierType';
 import { CheckboxField, RadioGroupField, RadioOption } from 'form/FinalFields';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
-import RestApiTestMocker from 'testHelpers/RestApiTestMocker';
+import RestApiTestMocker from '../../../../../../../setup/testHelpers/RestApiTestMocker';
 import { K9LosApiKeys } from 'api/k9LosApi';
 import AndreKriterierVelger from './AndreKriterierVelger';
 

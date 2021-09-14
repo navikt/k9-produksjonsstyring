@@ -5,7 +5,7 @@ import { shallow } from 'enzyme';
 
 import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
-import RestApiTestMocker from 'testHelpers/RestApiTestMocker';
+import RestApiTestMocker from '../../../../../../../setup/testHelpers/RestApiTestMocker';
 import { K9LosApiKeys } from 'api/k9LosApi';
 import FagsakYtelseTypeVelger from './FagsakYtelseTypeVelger';
 

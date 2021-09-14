@@ -34,13 +34,13 @@ const BehandlingskoerIndex: FunctionComponent<OwnProps> = ({
   valgtOppgavekoId,
   omsorgspengerUrl,
 }) => {
-  const refreshUrl = useGlobalStateRestApiData<{ verdi?: string }>(RestApiGlobalStatePathsKeys.REFRESH_URL);
   const [reservertOppgave, setReservertOppgave] = useState<Oppgave>();
   const [reservertAvAnnenSaksbehandler, setReservertAvAnnenSaksbehandler] = useState<boolean>(false);
   const [reservertOppgaveStatus, setReservertOppgaveStatus] = useState<OppgaveStatus>();
   const [visModalForOppgavePåVent, setVisModalForOppgavePåVent] = useState<boolean>(false);
   const [oppgavePåVent, setOppgavePåVent] = useState<Oppgave>();
 
+  const refreshUrl = useGlobalStateRestApiData<{ verdi?: string }>(RestApiGlobalStatePathsKeys.REFRESH_URL);
   const { data: oppgavekoer = [] } = useRestApi<Oppgaveko[]>(K9LosApiKeys.OPPGAVEKO);
   const {
     startRequest: hentOppgaverTilBehandling, state, data: oppgaverTilBehandling = [],

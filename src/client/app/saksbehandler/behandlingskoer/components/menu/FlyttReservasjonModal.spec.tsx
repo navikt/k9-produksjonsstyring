@@ -7,8 +7,8 @@ import { Hovedknapp } from 'nav-frontend-knapper';
 import { Normaltekst } from 'nav-frontend-typografi';
 
 import { K9LosApiKeys } from 'api/k9LosApi';
-import RestApiTestMocker from 'testHelpers/RestApiTestMocker';
-import { shallowWithIntl, intlMock } from 'testHelpers/intl-enzyme-test-helper';
+import RestApiTestMocker from '../../../../../../../setup/testHelpers/RestApiTestMocker';
+import { shallowWithIntl, intlMock } from '../../../../../../../setup/testHelpers/intl-enzyme-test-helper';
 import { RestApiState } from 'api/rest-api-hooks';
 import FlyttReservasjonModal from './FlyttReservasjonModal';
 

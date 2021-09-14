@@ -8,7 +8,7 @@ import moment from 'moment';
 import { Normaltekst, Undertekst } from 'nav-frontend-typografi';
 
 import { ISO_DATE_FORMAT, DDMMYYYY_DATE_FORMAT } from 'utils/formats';
-import { shallowWithIntl, intlMock } from 'testHelpers/intl-enzyme-test-helper';
+import { shallowWithIntl, intlMock } from '../../../../../../../../setup/testHelpers/intl-enzyme-test-helper';
 
 import behandlingType from 'kodeverk/behandlingType';
 import NyeOgFerdigstilteOppgaverForSisteSyvGraf from './NyeOgFerdigstilteOppgaverForSisteSyvGraf';

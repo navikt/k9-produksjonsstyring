@@ -35,8 +35,8 @@ export const NyeOgFerdigstilteOppgaverForIdagPanel: FunctionComponent<OwnProps> 
   height,
   nyeOgFerdigstilteOppgaver,
 }) => {
-  const behandlingTyper = useKodeverk(kodeverkTyper.BEHANDLING_TYPE);
   const [selectValue, setSelectValue] = useState<string>('');
+  const behandlingTyper = useKodeverk(kodeverkTyper.BEHANDLING_TYPE);
   const nyeOgFerdigstilteOppgaverForIdag = useMemo(() => getNyeOgFerdigstilteForIDag(nyeOgFerdigstilteOppgaver), [nyeOgFerdigstilteOppgaver]);
   const omsorgspengerFerdigstilteOppgaver = slaSammenLikeFagsakstyperOgDatoer(nyeOgFerdigstilteOppgaverForIdag.filter(
     (oppgave) => oppgave.fagsakYtelseType.kode === fagsakYtelseType.OMSORGSPENGER,

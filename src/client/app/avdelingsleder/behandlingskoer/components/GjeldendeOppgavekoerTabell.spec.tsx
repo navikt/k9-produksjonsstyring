@@ -8,7 +8,7 @@ import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
 import Table from 'sharedComponents/Table';
 import TableRow from 'sharedComponents/TableRow';
 import TableColumn from 'sharedComponents/TableColumn';
-import RestApiTestMocker from 'testHelpers/RestApiTestMocker';
+import RestApiTestMocker from '../../../../../../setup/testHelpers/RestApiTestMocker';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
 import { K9LosApiKeys } from 'api/k9LosApi';
 import { GjeldendeOppgavekoerTabell } from './GjeldendeOppgavekoerTabell';

@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import { IntlShape } from 'react-intl';
 import { Form } from 'react-final-form';
 
-import { intlMock, shallowWithIntl } from 'testHelpers/intl-enzyme-test-helper';
+import { intlMock, shallowWithIntl } from '../../../../../../../setup/testHelpers/intl-enzyme-test-helper';
 import OppgaveReservasjonEndringDatoModal from 'saksbehandler/behandlingskoer/components/menu/OppgaveReservasjonEndringDatoModal';
 import { DatepickerField } from 'form/FinalFields';
 
