@@ -16,6 +16,7 @@ import 'react-vis/dist/style.css';
 import { Row } from 'nav-frontend-grid';
 import HistoriskData from 'avdelingsleder/nokkeltall/historiskDataTsType';
 import { behandlingstypeOrder } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
+import { v4 as uuid4 } from 'uuid';
 import styles from './historikkGraf.less';
 
 const LEGEND_WIDTH = 260;
@@ -208,7 +209,7 @@ const HistorikkGraf: FunctionComponent<OwnProps> = ({
           orientation="horizontal"
           colors={behandlingstypeOrder.map((bt) => behandlingstypeFarger[bt])}
           items={behandlingstypeOrder.map((bt) => (
-            <Normaltekst className={styles.displayInline}>{finnBehandlingTypeNavn(behandlingTyper, bt)}</Normaltekst>
+            <Normaltekst key={uuid4()} className={styles.displayInline}>{finnBehandlingTypeNavn(behandlingTyper, bt)}</Normaltekst>
           ))}
         />
       </Row>
