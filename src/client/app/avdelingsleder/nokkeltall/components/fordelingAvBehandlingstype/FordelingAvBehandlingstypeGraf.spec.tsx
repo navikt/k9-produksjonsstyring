@@ -21,7 +21,11 @@ describe('<FordelingAvBehandlingstypeGraf>', () => {
   }, {
     kode: fagsakYtelseType.OMSORGSPENGER,
     navn: 'Omsorgspenger',
+  }, {
+    kode: fagsakYtelseType.PUNSJ,
+    navn: 'Punsj',
   }];
+
   const behandlingTyper = [{
     kode: behandlingType.ANKE,
     navn: 'Anke',
@@ -37,7 +41,45 @@ describe('<FordelingAvBehandlingstypeGraf>', () => {
   }, {
     kode: behandlingType.INNSYN,
     navn: 'Dokumentinnsyn',
-  }];
+  }, {
+    kode: behandlingType.TILBAKEBETALING,
+    navn: 'Tilbakebetaling',
+  }, {
+    kode: behandlingType.KOPI,
+    navn: 'Kopi',
+  }, {
+    kode: behandlingType.UKJENT,
+    navn: 'Ukjent',
+  },
+  {
+    kode: behandlingType.SKRIV_TIL_OSS_SVAR,
+    navn: 'Skriv til oss svar',
+  },
+  {
+    kode: behandlingType.SKRIV_TIL_OSS_SPØRMSÅL,
+    navn: 'Skriv til oss spørmsål',
+  }, {
+    kode: behandlingType.PAPIRINNTEKTSOPPLYSNINGER,
+    navn: 'Papirinntektsopplysninger',
+  },
+  {
+    kode: behandlingType.PAPIRETTERSENDELSE,
+    navn: 'Papirettersendelse',
+  },
+  {
+    kode: behandlingType.SAMTALEREFERAT,
+    navn: 'Samtalereferat',
+  }, {
+    kode: behandlingType.INNLOGGET_CHAT,
+    navn: 'Innlogget chat',
+  }, {
+    kode: behandlingType.DIGITAL_ETTERSENDELSE,
+    navn: 'Digital ettersendelse',
+  }, {
+    kode: behandlingType.PAPIRSØKNAD,
+    navn: 'Papirsøknad',
+  },
+  ];
 
   it('skal vise graf', () => {
     const alleOppgaver = [{
@@ -53,6 +95,7 @@ describe('<FordelingAvBehandlingstypeGraf>', () => {
       height={200}
       alleOppgaver={alleOppgaver}
       behandlingTyper={behandlingTyper}
+      erPunsjValgt={false}
     />);
 
     const plot = wrapper.find(XYPlot);
@@ -73,18 +116,49 @@ describe('<FordelingAvBehandlingstypeGraf>', () => {
       height={200}
       alleOppgaver={alleOppgaver}
       behandlingTyper={behandlingTyper}
+      erPunsjValgt={false}
     />);
 
     const yAksen = wrapper.find(YAxis);
     expect(yAksen).to.have.length(1);
 
     const verdiIndekser = yAksen.prop('tickValues') as number[];
-    expect(verdiIndekser).to.have.length(5);
+    expect(verdiIndekser).to.have.length(6);
 
     const verdiFn = yAksen.prop('tickFormat') as (v, i: number) => void;
 
     const behandlingstyper = verdiIndekser.map((i) => verdiFn(undefined, i - 1));
-    expect(behandlingstyper).is.eql(['Anke', 'Dokumentinnsyn', 'Klage', 'Revurdering', 'Førstegangssøknad']);
+    expect(behandlingstyper).is.eql(['Tilbakebetaling', 'Anke', 'Dokumentinnsyn', 'Klage', 'Revurdering', 'Førstegangssøknad']);
+  });
+
+  it('skal vise en behandlingstype for Punsj på y-aksen', () => {
+    const alleOppgaver = [{
+      fagsakYtelseType: fagsakYtelseTyper[0],
+      behandlingType: behandlingTyper[0],
+      tilBehandling: true,
+      antall: 1,
+    }];
+
+    const wrapper = shallowWithIntl(<FordelingAvBehandlingstypeGraf.WrappedComponent
+      intl={intl as IntlShape}
+      width={300}
+      height={200}
+      alleOppgaver={alleOppgaver}
+      behandlingTyper={behandlingTyper}
+      erPunsjValgt
+    />);
+
+    const yAksen = wrapper.find(YAxis);
+    expect(yAksen).to.have.length(1);
+
+    const verdiIndekser = yAksen.prop('tickValues') as number[];
+    expect(verdiIndekser).to.have.length(1);
+
+    const verdiFn = yAksen.prop('tickFormat') as (v, i: number) => void;
+
+    const behandlingstyper = verdiIndekser.map((i) => verdiFn(undefined, i - 1));
+
+    expect(behandlingstyper).is.eql(['Punsj']);
   });
 
   it('skal vise hint med antall og total-antall ved mouseover', () => {
@@ -106,6 +180,7 @@ describe('<FordelingAvBehandlingstypeGraf>', () => {
       height={200}
       alleOppgaver={alleOppgaver}
       behandlingTyper={behandlingTyper}
+      erPunsjValgt={false}
     />);
 
     const hRectSeries = wrapper.find(HorizontalRectSeries);

@@ -9,13 +9,15 @@ import Panel from 'nav-frontend-paneler';
 import styles from 'avdelingsleder/nokkeltall/historikkGraf.less';
 import {
   ALLE_YTELSETYPER_VALGT,
-  erDatoInnenforPeriode, slaSammenLikeBehandlingstyperOgDatoer,
-  UKE_4, uker,
+  filtrereNyePerDato,
+  UKE_4,
+  uker,
   ytelseTyper,
 } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
 import useKodeverk from 'api/rest-api-hooks/src/global-data/useKodeverk';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
 import StoreValuesInLocalStorage from 'form/StoreValuesInLocalStorage';
+import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
 import HistorikkGraf from '../../HistorikkGraf';
 import HistoriskData from '../../historiskDataTsType';
 
@@ -83,9 +85,8 @@ export const NyeHistorikkPanel: FunctionComponent<OwnProps & WrappedComponentPro
             height={height}
             isFireUkerValgt={values.ukevalg === UKE_4}
             behandlingTyper={behandlingTyper}
-            historiskData={nyePerDato ? slaSammenLikeBehandlingstyperOgDatoer(nyePerDato
-              .filter((ofa) => (values.ytelseType === ALLE_YTELSETYPER_VALGT ? true : values.ytelseType === ofa.fagsakYtelseType.kode))
-              .filter((ofa) => erDatoInnenforPeriode(ofa, values.ukevalg))) : []}
+            historiskData={filtrereNyePerDato(values.ytelseType, values.ukevalg, nyePerDato)}
+            erPunsjValgt={values.ytelseType === fagsakYtelseType.PUNSJ}
           />
         </Panel>
       )}

@@ -12,7 +12,9 @@ type NyeOgFerdigstilteOppgaver = Readonly<{
 export default NyeOgFerdigstilteOppgaver;
 
 export enum fagytelsetyperForOppgaveFiltrering {
-  PLEIEPENGER_SYKT_BARN = 'Pleiepenger',
   OMSORGSPENGER = 'Omsorgspenger',
-  ALLE_YTELSETYPER_VALGT = 'Alle'
+  OMSORGSDAGER = 'Omsorgsdager',
+  PLEIEPENGER_SYKT_BARN = 'Pleiepenger',
+  PUNSJ = 'Punsj',
+  ALLE_YTELSETYPER_VALGT = 'Alle ytelser'
 }
