@@ -19,6 +19,7 @@ type OwnProps = Readonly<{
     oppgave: Oppgave;
     oppgaveStatus: OppgaveStatus;
     lukkModal: () => void;
+    reserverOppgave: (oppgave: Oppgave, skalOverstyreReservasjon?: boolean) => void;
 }>
 
 const getClickEvent = (lukkErReservertModalOgOpneOppgave, oppgave) => () => lukkErReservertModalOgOpneOppgave(oppgave);
@@ -34,6 +35,7 @@ export const OppgaveErReservertAvAnnenModal: FunctionComponent<OwnProps & Wrappe
   oppgave,
   oppgaveStatus,
   lukkModal,
+  reserverOppgave,
 }) => (
   <Modal
     className={styles.modal}
@@ -42,28 +44,27 @@ export const OppgaveErReservertAvAnnenModal: FunctionComponent<OwnProps & Wrappe
     contentLabel={intl.formatMessage({ id: 'OppgaveErReservertAvAnnenModal.ReservertAvEnkel' })}
     onRequestClose={getClickEvent(lukkErReservertModalOgOpneOppgave, oppgave)}
   >
-    <Row>
-      <Column xs="1">
-        <Image
-          className={styles.image}
-          alt={intl.formatMessage({ id: 'OppgaveErReservertAvAnnenModal.ReservertAvEnkel' })}
-          src={advarselImageUrl}
-        />
-        <div className={styles.divider} />
-      </Column>
-      <Column xs="8" className={styles.text}>
-        <Normaltekst>
-          <FormattedMessage
-            id="OppgaveErReservertAvAnnenModal.ReservertAv"
-            values={{
-              saksbehandlerid: oppgaveStatus.reservertAv,
-              ...getDateAndTime(oppgaveStatus.reservertTilTidspunkt),
-            }}
+    <div className={styles.oppgaveReservertAvAnnenModal}>
+      <div className={styles.informasjonOmReservasjon}>
+        <div className={styles.imageContainer}>
+          <Image
+            className={styles.image}
+            alt={intl.formatMessage({ id: 'OppgaveErReservertAvAnnenModal.ReservertAvEnkel' })}
+            src={advarselImageUrl}
           />
-        </Normaltekst>
-      </Column>
-    </Row>
-    <Row>
+        </div>
+        <div className={styles.text}>
+          <Normaltekst>
+            <FormattedMessage
+              id="OppgaveErReservertAvAnnenModal.ReservertAv"
+              values={{
+                saksbehandlerid: oppgaveStatus.reservertAv,
+                ...getDateAndTime(oppgaveStatus.reservertTilTidspunkt),
+              }}
+            />
+          </Normaltekst>
+        </div>
+      </div>
       <div className={styles.knappContainer}>
         <Knapp
           className={styles.tilbakeButton}
@@ -79,12 +80,20 @@ export const OppgaveErReservertAvAnnenModal: FunctionComponent<OwnProps & Wrappe
           mini
           htmlType="button"
           onClick={getClickEvent(lukkErReservertModalOgOpneOppgave, oppgave)}
-          autoFocus
         >
           {intl.formatMessage({ id: 'OppgaveErReservertAvAnnenModal.Ok' })}
         </Hovedknapp>
+
+        <Hovedknapp
+          className={styles.okButton}
+          mini
+          htmlType="button"
+          onClick={() => reserverOppgave(oppgave, true)}
+        >
+          {intl.formatMessage({ id: 'OppgaveErReservertAvAnnenModal.Reserver' })}
+        </Hovedknapp>
       </div>
-    </Row>
+    </div>
   </Modal>
 );
 

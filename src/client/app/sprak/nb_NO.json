@@ -208,6 +208,7 @@
   "OppgaveErReservertAvAnnenModal.ReservertAvEnkel": "En annen saksbehandler arbeider nå med denne behandlingen",
   "OppgaveErReservertAvAnnenModal.Ok": "Åpne behandlingen",
   "OppgaveErReservertAvAnnenModal.GåTilKøen": "Gå tilbake til køen",
+  "OppgaveErReservertAvAnnenModal.Reserver": "Overstyr reservasjon",
 
   "OppgaveHandlingerMenu.LeggTilbake": "Legg behandling{br}tilbake i felles kø",
   "OppgaveHandlingerMenu.ForlengReservasjon": "Forleng din reservasjon av{br}behandlingen med 24 timer",
