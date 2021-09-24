@@ -51,6 +51,7 @@ describe('<OppgaveErReservertAvAnnenModal>', () => {
         lukkErReservertModalOgOpneOppgave={sinon.spy()}
         oppgave={oppgave}
         oppgaveStatus={oppgave.status}
+        reserverOppgave={sinon.spy()}
       />,
     );
 
@@ -73,13 +74,14 @@ describe('<OppgaveErReservertAvAnnenModal>', () => {
         lukkErReservertModalOgOpneOppgave={lukkOgApneFn}
         oppgave={oppgave}
         oppgaveStatus={oppgave.status}
+        reserverOppgave={sinon.spy()}
       />,
     );
 
     const knapp = wrapper.find(Hovedknapp);
-    expect(knapp).has.length(1);
+    expect(knapp).has.length(2);
 
-    knapp.prop('onClick')();
+    knapp.at(0).prop('onClick')();
 
     expect(lukkOgApneFn.calledOnce).to.be.true;
     const { args } = lukkOgApneFn.getCalls()[0];
