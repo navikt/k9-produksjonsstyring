@@ -101,7 +101,7 @@ const FagsakSearchIndex: FunctionComponent<OwnProps> = ({
     if (kanReservere) {
       reserverOppgave({ oppgaveId: oppgave.eksternId, overstyrSjekk: true }).then(() => {
         leggTilBehandletOppgave(oppgave);
-        goToFagsak(oppgave);
+        // goToFagsak(oppgave);
       });
     }
   };
