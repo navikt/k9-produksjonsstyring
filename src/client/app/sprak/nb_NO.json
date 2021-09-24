@@ -204,7 +204,7 @@
   "OkAvbrytModal.Ok": "OK",
   "OkAvbrytModal.Avbryt": "Avbryt",
 
-  "OppgaveErReservertAvAnnenModal.ReservertAv": "{saksbehandlerid} arbeider nå med denne behandlingen (reservert fram t.o.m {date} - {time})",
+  "OppgaveErReservertAvAnnenModal.ReservertAv": "{saksbehandlernavn}({saksbehandlerid}) arbeider nå med denne behandlingen (reservert fram t.o.m {date} - {time})",
   "OppgaveErReservertAvAnnenModal.ReservertAvEnkel": "En annen saksbehandler arbeider nå med denne behandlingen",
   "OppgaveErReservertAvAnnenModal.Ok": "Åpne behandlingen",
   "OppgaveErReservertAvAnnenModal.GåTilKøen": "Gå tilbake til køen",
