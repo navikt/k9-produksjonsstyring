@@ -194,6 +194,7 @@
   "OppgaverTabell.IngenTilgang": "Du har ikke tilgang til behandlingene i denne køen",
   "OppgaverTabell.Soker": "Søker",
   "OppgaverTabell.Behandlingstype": "Behandlingstype",
+  "OppgaverTabell.Id": "Id",
   "OppgaverTabell.BehandlingOpprettet": "Behandling opprettet",
   "OppgaverTabell.FristForBehandling": "Frist for behandling",
   "OppgaverTabell.OppgaveHandlinger": "Handlinger på oppgave",

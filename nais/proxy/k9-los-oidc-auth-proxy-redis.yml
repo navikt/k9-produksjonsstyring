@@ -2,11 +2,14 @@ apiVersion: "nais.io/v1alpha1"
 kind: "Application"
 metadata:
   name: k9-los-oidc-auth-proxy-redis
-  namespace: default
+  namespace: k9saksbehandling
   labels:
     team: k9saksbehandling
+  annotations:
+    nais.io/run-as-group: "0"
+    nais.io/read-only-file-system: "false"
 spec:
-  image: navikt/secure-redis:5.0.3-alpine-2
+  image: bitnami/redis:6.2.5
   port: 6379
   replicas:
     min: 1
@@ -20,5 +23,5 @@ spec:
       memory: 256Mi
   service:
     port: 6379
-  vault:
-    enabled: true
+  envFrom:
+    - secret: k9-los-oidc-auth-proxy-redis-password

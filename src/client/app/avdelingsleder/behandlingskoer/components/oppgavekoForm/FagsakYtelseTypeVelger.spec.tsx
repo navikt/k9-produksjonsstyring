@@ -30,13 +30,17 @@ describe('<FagsakYtelseTypeVelger>', () => {
         />);
 
         const radios = wrapper.find('CheckboxField');
-        expect(radios).to.have.length(3);
+        expect(radios).to.have.length(5);
         expect(radios.at(0).prop('name')).to.eql(fagsakYtelseType.OMSORGSPENGER);
         expect(radios.at(0).prop('checked')).to.eql(true);
         expect(radios.at(1).prop('name')).to.eql(fagsakYtelseType.OMSORGSDAGER);
         expect(radios.at(1).prop('checked')).to.eql(false);
         expect(radios.at(2).prop('name')).to.eql(fagsakYtelseType.PLEIEPENGER_SYKT_BARN);
         expect(radios.at(2).prop('checked')).to.eql(false);
+        expect(radios.at(3).prop('name')).to.eql(fagsakYtelseType.PPN);
+        expect(radios.at(3).prop('checked')).to.eql(false);
+        expect(radios.at(4).prop('name')).to.eql(fagsakYtelseType.UKJENT);
+        expect(radios.at(4).prop('checked')).to.eql(false);
       });
   });
 
@@ -55,13 +59,17 @@ describe('<FagsakYtelseTypeVelger>', () => {
         />);
 
         const radios = wrapper.find('CheckboxField');
-        expect(radios).to.have.length(3);
+        expect(radios).to.have.length(5);
         expect(radios.at(0).prop('name')).to.eql(fagsakYtelseType.OMSORGSPENGER);
         expect(radios.at(0).prop('checked')).to.eql(true);
         expect(radios.at(1).prop('name')).to.eql(fagsakYtelseType.OMSORGSDAGER);
         expect(radios.at(1).prop('checked')).to.eql(true);
         expect(radios.at(2).prop('name')).to.eql(fagsakYtelseType.PLEIEPENGER_SYKT_BARN);
         expect(radios.at(2).prop('checked')).to.eql(true);
+        expect(radios.at(3).prop('name')).to.eql(fagsakYtelseType.PPN);
+        expect(radios.at(3).prop('checked')).to.eql(false);
+        expect(radios.at(4).prop('name')).to.eql(fagsakYtelseType.UKJENT);
+        expect(radios.at(4).prop('checked')).to.eql(false);
 
         const radioOMP = radios.at(0);
 
