@@ -79,7 +79,6 @@ const FagsakSearchIndex: FunctionComponent<OwnProps> = ({
       setReservertOppgave(oppgave);
       setReservertAvAnnenSaksbehandler(true);
     }
-
     if (reserver && !kanReservere) {
       leggTilBehandletOppgave(oppgave);
       goToFagsak(oppgave);
@@ -95,6 +94,15 @@ const FagsakSearchIndex: FunctionComponent<OwnProps> = ({
     } else if (!kanReservere) {
       leggTilBehandletOppgave(oppgave);
       goToFagsak(oppgave);
+    }
+  };
+
+  const overstyrReservasjon = (oppgave: Oppgave) => {
+    if (kanReservere) {
+      reserverOppgave({ oppgaveId: oppgave.eksternId, overstyrSjekk: true }).then(() => {
+        leggTilBehandletOppgave(oppgave);
+        goToFagsak(oppgave);
+      });
     }
   };
 
@@ -144,6 +152,7 @@ const FagsakSearchIndex: FunctionComponent<OwnProps> = ({
           lukkErReservertModalOgOpneOppgave={lukkErReservertModalOgApneOppgave}
           oppgave={reservertOppgave}
           oppgaveStatus={reservertOppgave.status}
+          reserverOppgave={overstyrReservasjon}
         />
       )}
     </>
