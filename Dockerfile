@@ -10,6 +10,5 @@ COPY node_modules ./node_modules
 COPY package.json .
 
 EXPOSE 8030
-CMD ["yarn", "config", "set", "prefix", "/tmp/yarn"]
-CMD ["yarn", "config", "set", "cache-folder", "/tmp/yarn_cache"]
-CMD ["yarn", "run", "start-express"]
+
+CMD ["node", "./server.js"]
