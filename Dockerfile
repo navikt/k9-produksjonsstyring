@@ -11,4 +11,4 @@ COPY package.json .
 
 EXPOSE 8030
 
-CMD ["node", "./server.js"]
+CMD ["yarn", "start-express"]
