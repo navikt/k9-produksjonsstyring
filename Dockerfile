@@ -10,5 +10,4 @@ COPY node_modules ./node_modules
 COPY package.json .
 
 EXPOSE 8030
-CMD ["yarn", "run", "start-express"]
-
+CMD ["yarn", "run", "start-express", "--cache-folder", "/tmp/yarn_cache"]
