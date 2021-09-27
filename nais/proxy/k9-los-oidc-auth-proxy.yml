@@ -55,7 +55,7 @@ spec:
       value: {{this}}
   {{/each}}
     - name: PROXY_CONFIG
-      value: 'value:{"apis":[{"path":"k9-los-api","scopes":"{{k9LosApiScopes}}","url":"http://k9-los-api.k9saksbehandling.svc.nais.local/api","webSocketUrl":"ws://k9-los-api.k9saksbehandling.svc.nais.local/ws"}]}'
+      value: 'value:{"apis":[{"path":"k9-los-api","scopes":"{{k9LosApiScopes}}","url":"http://k9-los-api.default.svc.nais.local/api","webSocketUrl":"ws://k9-los-api.default.svc.nais.local/ws"}]}'
     - name: REDIS_HOST
       value: value:k9-los-oidc-auth-proxy-redis.k9saksbehandling.svc.nais.local
     - name: REDIS_PORT
