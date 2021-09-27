@@ -19,7 +19,7 @@ jobs:
         with:
           node-version: 12.x
       - name: Installere moduler
-        run: yarn install --ignore-optional --no-progress --frozen-lockfile
+        run: yarn install
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Tester og linting
