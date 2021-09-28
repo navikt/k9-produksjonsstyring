@@ -77,7 +77,7 @@ const BehandlingskoerIndex: FunctionComponent<OwnProps> = ({
 
     socket.onclose = (ev) => {
       // eslint-disable-next-line no-console
-      console.log(`disconnected, reason: ${ev.reason}`);
+      console.log(`disconnected; reason: ${ev.reason}`);
       // automatically try to reconnect on connection loss
     };
 
