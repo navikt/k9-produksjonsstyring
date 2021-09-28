@@ -4,7 +4,7 @@
     "ingresses": [
         "https://k9-los-oidc-auth-proxy.dev.intern.nav.no"
     ],
-    "k9LosApiScopes": "api://dev-fss.k9saksbehandling.k9-los-api/.default",
+    "k9LosApiScopes": "api://dev-fss.k9saksbehandling.k9-los-api/.k9saksbehandling",
     "env": {
         "LOGIN_SCOPES": "value:openid profile api://dev-fss.k9saksbehandling.k9-los-oidc-auth-proxy/.default",
         "OIDC_AUTH_PROXY_BASE_URL": "value:https://k9-los-oidc-auth-proxy.dev.intern.nav.no",
