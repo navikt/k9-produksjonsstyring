@@ -132,14 +132,21 @@ const BehandlingskoerIndex: FunctionComponent<OwnProps> = ({
     setOppgavePåVent(null);
   };
 
-  const reserverOppgaveOgApne = useCallback((oppgave: Oppgave) => {
+  const reserverOppgaveOgApne = useCallback((oppgave: Oppgave, skalOverstyreReservasjon?: boolean) => {
     if (oppgave.status.erReservert) {
       openSak(oppgave);
     } else if (typeof oppgave.paaVent !== 'undefined' && oppgave.paaVent) {
       setVisModalForOppgavePåVent(true);
       setOppgavePåVent(oppgave);
     } else {
-      reserverOppgave({ oppgaveId: oppgave.eksternId }).then((nyOppgaveStatus) => {
+      const params: { oppgaveId: string; overstyrSjekk?: boolean; } = {
+        oppgaveId: oppgave.eksternId,
+      };
+
+      if (skalOverstyreReservasjon) {
+        params.overstyrSjekk = skalOverstyreReservasjon;
+      }
+      reserverOppgave(params).then((nyOppgaveStatus) => {
         if (nyOppgaveStatus.erReservert && nyOppgaveStatus.erReservertAvInnloggetBruker) {
           openSak(oppgave);
         } else if (nyOppgaveStatus.erReservert && !nyOppgaveStatus.erReservertAvInnloggetBruker) {
@@ -180,6 +187,7 @@ const BehandlingskoerIndex: FunctionComponent<OwnProps> = ({
         oppgave={reservertOppgave}
         oppgaveStatus={reservertOppgaveStatus}
         lukkModal={lukkModal}
+        reserverOppgave={reserverOppgaveOgApne}
       />
       )}
       {visModalForOppgavePåVent && (
