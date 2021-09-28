@@ -98,6 +98,13 @@ const FagsakYtelseTypeVelger: FunctionComponent<OwnProps> = ({
       />
       <VerticalSpacer fourPx />
       <CheckboxField
+        name={fagsakYtelseType.PPN}
+        label={finnFagsakYtelseTypeNavn(alleFagsakYtelseTyper, fagsakYtelseType.PPN)}
+        onChange={(checked) => hantereFagytelsetypeValg(fagsakYtelseType.PPN, checked)}
+        checked={fagytelseTyperValt.includes(fagsakYtelseType.PPN)}
+      />
+      <VerticalSpacer fourPx />
+      <CheckboxField
         name={fagsakYtelseType.UKJENT}
         label={finnFagsakYtelseTypeNavn(alleFagsakYtelseTyper, fagsakYtelseType.UKJENT)}
         onChange={(checked) => hantereFagytelsetypeValg(fagsakYtelseType.UKJENT, checked)}

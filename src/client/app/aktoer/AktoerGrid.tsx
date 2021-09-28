@@ -10,6 +10,7 @@ import { Kodeverk } from 'kodeverk/kodeverkTsType';
 import Lenke from 'nav-frontend-lenker';
 import useGlobalStateRestApiData from '../api/rest-api-hooks/src/global-data/useGlobalStateRestApiData';
 import styles from './aktoerGrid.less';
+import OppgaveSystem from '../types/OppgaveSystem';
 
 interface OwnProps {
     resultat: SokeResultat;
@@ -21,10 +22,10 @@ export const AktoerGrid: FunctionComponent<OwnProps> = ({ resultat }) => {
   const omsorgspengerUrl = useGlobalStateRestApiData<{ verdi?: string }>(RestApiGlobalStatePathsKeys.OMSORGSPENGER_URL);
 
   const getUrl = (oppgave: Oppgave) => {
-    if (oppgave.system === 'PUNSJ') {
+    if (oppgave.system === OppgaveSystem.PUNSJ) {
       return getK9punsjRef(k9punsjUrl.verdi, oppgave.journalpostId);
     }
-    if (oppgave.system === 'OMSORGSPENGER') {
+    if (oppgave.system === OppgaveSystem.OMSORGSPENGER) {
       return getOmsorgspengerRef(omsorgspengerUrl.verdi, oppgave.saksnummer);
     }
     return getK9sakHref(k9sakUrl.verdi, oppgave.saksnummer, oppgave.behandlingId);

@@ -30,6 +30,7 @@ import OppgaveHandlingerMenu from './menu/OppgaveHandlingerMenu';
 
 const headerTextCodes = [
   'OppgaverTabell.Soker',
+  'OppgaverTabell.Id',
   'OppgaverTabell.Behandlingstype',
   'OppgaverTabell.BehandlingOpprettet',
   'EMPTY_1',
@@ -52,6 +53,19 @@ const slaSammenOgMarkerReserverte = (reserverteOppgaver, oppgaverTilBehandling):
 };
 
 const getToggleMenuEvent = (oppgave: OppgaveMedReservertIndikator, toggleMenu) => (oppgave.underBehandling ? () => toggleMenu(oppgave) : undefined);
+
+const hentIDFraSak = (oppgave: OppgaveMedReservertIndikator): string => {
+  if (typeof oppgave.behandlingstype.kodeverk !== 'undefined'
+    && oppgave.behandlingstype.kodeverk === 'PUNSJ_INNSENDING_TYPE'
+    && typeof oppgave.journalpostId !== 'undefined'
+    && !!oppgave.journalpostId) {
+    return oppgave.journalpostId;
+  }
+  if (typeof oppgave.saksnummer !== 'undefined' && !!oppgave.saksnummer) {
+    return oppgave.saksnummer;
+  }
+  return '';
+};
 
 interface OwnProps {
   valgtOppgavekoId: string;
@@ -166,6 +180,7 @@ export const OppgaverTabell: FunctionComponent<OwnProps & WrappedComponentProps>
               model={oppgave}
             >
               <TableColumn>{oppgave.navn ? `${oppgave.navn} ${oppgave.personnummer}` : '<navn>'}</TableColumn>
+              <TableColumn>{hentIDFraSak(oppgave)}</TableColumn>
               <TableColumn>{oppgave.behandlingstype.navn}</TableColumn>
               <TableColumn>{oppgave.opprettetTidspunkt && <DateLabel dateString={oppgave.opprettetTidspunkt} />}</TableColumn>
               <TableColumn>
