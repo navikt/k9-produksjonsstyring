@@ -57,7 +57,7 @@ export const OppgaveErReservertAvAnnenModal: FunctionComponent<OwnProps & Wrappe
             id="OppgaveErReservertAvAnnenModal.ReservertAv"
             values={{
               saksbehandlerid: oppgaveStatus.reservertAv,
-              saksbehandlernavn: oppgaveStatus.reservertAvNavn ? oppgaveStatus.reservertAvNavn : '',
+              saksbehandlernavn: typeof oppgaveStatus.reservertAvNavn !== 'undefined' ? oppgaveStatus.reservertAvNavn : '',
               ...getDateAndTime(oppgaveStatus.reservertTilTidspunkt),
             }}
           />
