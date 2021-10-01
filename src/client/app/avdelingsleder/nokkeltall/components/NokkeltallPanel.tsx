@@ -11,11 +11,15 @@ import NyeHistorikkPanel from 'avdelingsleder/nokkeltall/components/nyeHistorikk
 import { getValueFromLocalStorage } from 'utils/localStorageHelper';
 import HistoriskData from 'avdelingsleder/nokkeltall/historiskDataTsType';
 import AlleOppgaver from 'avdelingsleder/nokkeltall/components/fordelingAvBehandlingstype/alleOppgaverTsType';
+import BehandlingerGårAvVent from 'avdelingsleder/nokkeltall/components/behandlingerGårAvVent/BehandlingerGårAvVent';
+import IBehandlingerSomGårAvVentType
+  from 'avdelingsleder/nokkeltall/components/behandlingerGårAvVent/behandlingerSomGårAvVentType';
 import FordelingAvBehandlingstypePanel from './fordelingAvBehandlingstype/FordelingAvBehandlingstypePanel';
 
 interface OwnProps {
     alleOppgaver: AlleOppgaver[];
     ferdigstiltePerDato: HistoriskData[];
+    behandlingerSomGårAvVent: IBehandlingerSomGårAvVentType[];
     beholdningPerDato?: HistoriskData[];
     nyePerDato?: HistoriskData[];
 }
@@ -26,6 +30,7 @@ interface OwnProps {
 const NokkeltallPanel: FunctionComponent<OwnProps> = ({
   alleOppgaver,
   ferdigstiltePerDato,
+  behandlingerSomGårAvVent,
   beholdningPerDato,
   nyePerDato,
 }) => {
@@ -84,6 +89,12 @@ const NokkeltallPanel: FunctionComponent<OwnProps> = ({
         height={height}
         alleOppgaver={alleOppgaver}
         getValueFromLocalStorage={getValueFromLocalStorage}
+      />
+      <VerticalSpacer twentyPx />
+      <BehandlingerGårAvVent
+        width={width}
+        height={height}
+        behandlingerSomGårAvVent={behandlingerSomGårAvVent}
       />
     </div>
   );
