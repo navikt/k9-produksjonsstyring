@@ -316,8 +316,8 @@
   "TilBehandlingPanel.8SisteUker": "8 siste uker",
 
   "BehandlingerGårAvVent.Titel": "Behandlinger som går av vent",
-  "BehandlingerGårAvVent.ToSisteUker": "2 siste uker",
-  "BehandlingerGårAvVent.SeksSisteUker": "6 siste uker",
+  "BehandlingerGårAvVent.ToSisteUker": "Neste 2 uker",
+  "BehandlingerGårAvVent.SeksSisteUker": "Neste 6 uker",
   "BehandlingerGårAvVent.VelgFagytelseType": "Velg ytelsetype",
 
   "OppgavekoVelgerForm.Oppgaveko": "Behandlingskø",
