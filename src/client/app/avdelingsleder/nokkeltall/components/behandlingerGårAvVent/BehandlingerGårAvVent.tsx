@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useMemo, useState } from 'react';
+import React, { FunctionComponent, useState } from 'react';
 import styles from 'avdelingsleder/nokkeltall/historikkGraf.less';
 import Panel from 'nav-frontend-paneler';
 import { Select } from 'nav-frontend-skjema';
@@ -8,7 +8,7 @@ import { Element } from 'nav-frontend-typografi';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import { ytelseTyper } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
 import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
-import IBehandlingerSomGårAvVentType
+import IBehandlingerSomGarAvVentType
   from 'avdelingsleder/nokkeltall/components/behandlingerGårAvVent/behandlingerSomGårAvVentType';
 import BehandlingerGårAvVentGraf
   from 'avdelingsleder/nokkeltall/components/behandlingerGårAvVent/BehandlingerGårAvVentGraf';
@@ -16,7 +16,7 @@ import BehandlingerGårAvVentGraf
 interface OwnProps{
   width: number;
   height: number;
-  behandlingerSomGårAvVent: IBehandlingerSomGårAvVentType[];
+  behandlingerSomGårAvVent: IBehandlingerSomGarAvVentType[];
 }
 
 const BehandlingerGårAvVent: FunctionComponent<OwnProps & WrappedComponentProps> = ({
@@ -28,22 +28,22 @@ const BehandlingerGårAvVent: FunctionComponent<OwnProps & WrappedComponentProps
   const [valgtYtelseType, setValgtYtelseType] = useState<string>('');
   const [antallUkerSomSkalVises, setAntallUkerSomSkalVises] = useState<string>('2');
 
-  const PSBBehandlinger: IBehandlingerSomGårAvVentType[] = behandlingerSomGårAvVent.filter(
+  const PSBBehandlinger: IBehandlingerSomGarAvVentType[] = behandlingerSomGårAvVent.filter(
     (behandling) => behandling.fagsakYtelseType.kode === fagsakYtelseType.PLEIEPENGER_SYKT_BARN,
   );
 
-  const OMPBehandlinger: IBehandlingerSomGårAvVentType[] = behandlingerSomGårAvVent.filter(
+  const OMPBehandlinger: IBehandlingerSomGarAvVentType[] = behandlingerSomGårAvVent.filter(
     (behandling) => behandling.fagsakYtelseType.kode === fagsakYtelseType.OMSORGSPENGER,
   );
 
-  const OMDBehandlinger: IBehandlingerSomGårAvVentType[] = behandlingerSomGårAvVent.filter(
+  const OMDBehandlinger: IBehandlingerSomGarAvVentType[] = behandlingerSomGårAvVent.filter(
     (behandling) => behandling.fagsakYtelseType.kode === fagsakYtelseType.OMSORGSDAGER
     || behandling.fagsakYtelseType.kode === fagsakYtelseType.OMSORGSDAGER_KRONISKSYK
     || behandling.fagsakYtelseType.kode === fagsakYtelseType.OMSORGSDAGER_ALENEOMOMSORGEN
     || behandling.fagsakYtelseType.kode === fagsakYtelseType.OMSORGSDAGER_MIDLERTIDIGALENE,
   );
 
-  const PunsjBehandlinger: IBehandlingerSomGårAvVentType[] = behandlingerSomGårAvVent.filter(
+  const PunsjBehandlinger: IBehandlingerSomGarAvVentType[] = behandlingerSomGårAvVent.filter(
     (behandling) => behandling.behandlingType.kodeverk === 'PUNSJ_INNSENDING_TYPE',
   );
 

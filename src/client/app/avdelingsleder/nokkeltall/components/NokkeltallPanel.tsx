@@ -12,14 +12,14 @@ import { getValueFromLocalStorage } from 'utils/localStorageHelper';
 import HistoriskData from 'avdelingsleder/nokkeltall/historiskDataTsType';
 import AlleOppgaver from 'avdelingsleder/nokkeltall/components/fordelingAvBehandlingstype/alleOppgaverTsType';
 import BehandlingerGårAvVent from 'avdelingsleder/nokkeltall/components/behandlingerGårAvVent/BehandlingerGårAvVent';
-import IBehandlingerSomGårAvVentType
+import IBehandlingerSomGarAvVentType
   from 'avdelingsleder/nokkeltall/components/behandlingerGårAvVent/behandlingerSomGårAvVentType';
 import FordelingAvBehandlingstypePanel from './fordelingAvBehandlingstype/FordelingAvBehandlingstypePanel';
 
 interface OwnProps {
     alleOppgaver: AlleOppgaver[];
     ferdigstiltePerDato: HistoriskData[];
-    behandlingerSomGårAvVent: IBehandlingerSomGårAvVentType[];
+    behandlingerSomGårAvVent: IBehandlingerSomGarAvVentType[];
     beholdningPerDato?: HistoriskData[];
     nyePerDato?: HistoriskData[];
 }

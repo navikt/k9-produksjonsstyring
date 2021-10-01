@@ -3,7 +3,7 @@ import useRestApi from 'api/rest-api-hooks/src/local-data/useRestApi';
 import { K9LosApiKeys } from 'api/k9LosApi';
 import AlleOppgaver from 'avdelingsleder/nokkeltall/components/fordelingAvBehandlingstype/alleOppgaverTsType';
 import HistoriskData from 'avdelingsleder/nokkeltall/historiskDataTsType';
-import IBehandlingerSomGårAvVentType
+import IBehandlingerSomGarAvVentType
   from 'avdelingsleder/nokkeltall/components/behandlingerGårAvVent/behandlingerSomGårAvVentType';
 import NokkeltallPanel from './components/NokkeltallPanel';
 
@@ -29,7 +29,7 @@ const NokkeltallIndex: FunctionComponent = (
   } = useRestApi<HistoriskData[]>(K9LosApiKeys.HENT_OPPGAVER_PER_DATO);
   const {
     data: behandlingerSomGårAvVent = EMPTY_ARRAY,
-  } = useRestApi<IBehandlingerSomGårAvVentType[]>(K9LosApiKeys.HENT_BEHANDLINGER_SOM_GÅR_AV_VENT);
+  } = useRestApi<IBehandlingerSomGarAvVentType[]>(K9LosApiKeys.HENT_BEHANDLINGER_SOM_GÅR_AV_VENT);
 
   return (
     <NokkeltallPanel

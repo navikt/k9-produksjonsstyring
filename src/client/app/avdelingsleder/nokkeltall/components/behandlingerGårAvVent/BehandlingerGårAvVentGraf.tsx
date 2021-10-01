@@ -1,13 +1,13 @@
 import React, {
   FunctionComponent, useCallback, useMemo, useState,
 } from 'react';
-import IBehandlingerSomGårAvVentType
+import IBehandlingerSomGarAvVentType
   from 'avdelingsleder/nokkeltall/components/behandlingerGårAvVent/behandlingerSomGårAvVentType';
 import { DDMMYYYY_DATE_FORMAT } from 'utils/formats';
 
 import Panel from 'nav-frontend-paneler';
 import {
-  XYPlot, XAxis, YAxis, HorizontalGridLines, LineSeries, DiscreteColorLegend, Crosshair,
+  XYPlot, XAxis, YAxis, HorizontalGridLines, LineSeries, Crosshair,
 } from 'react-vis';
 import { cssText } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
 import dayjs from 'dayjs';
@@ -17,7 +17,7 @@ import { Normaltekst, Undertekst } from 'nav-frontend-typografi';
 import { FormattedMessage } from 'react-intl';
 import Koordinat from '../../../../types/Koordinat';
 
-const slaSammenBehandlingstyperOgFyllInnTomme = (behandlingerPåVent: IBehandlingerSomGårAvVentType[], antallUkerFremITid: number):
+const slaSammenBehandlingstyperOgFyllInnTomme = (behandlingerPåVent: IBehandlingerSomGarAvVentType[], antallUkerFremITid: number):
   { antall: number; dato: Date }[] => {
   const behandlingerSomGårAvVentPerDag = [];
   const antallDagerFremITid: number = antallUkerFremITid * 7;
@@ -45,7 +45,7 @@ const slaSammenBehandlingstyperOgFyllInnTomme = (behandlingerPåVent: IBehandlin
 };
 
 interface OwnProps{
-  behandlingerSomGårAvVent: IBehandlingerSomGårAvVentType[];
+  behandlingerSomGårAvVent: IBehandlingerSomGarAvVentType[];
   width: number;
   height: number;
   antallUkerSomSkalVises: string;
