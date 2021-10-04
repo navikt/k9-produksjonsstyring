@@ -9,7 +9,7 @@ import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
 import AlleOppgaver from 'avdelingsleder/nokkeltall/components/fordelingAvBehandlingstype/alleOppgaverTsType';
 import Panel from 'nav-frontend-paneler';
-import { ALLE_YTELSETYPER_VALGT } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
+import { ALLE_YTELSETYPER_VALGT, sjekkOmOppgaveSkalLeggesTil } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
 import useKodeverk from 'api/rest-api-hooks/src/global-data/useKodeverk';
 import StoreValuesInLocalStorage from 'form/StoreValuesInLocalStorage';
 import FordelingAvBehandlingstypeGraf from './FordelingAvBehandlingstypeGraf';
@@ -65,8 +65,16 @@ export const FordelingAvBehandlingstypePanel: FunctionComponent<OwnProps> = ({
               label={finnFagsakYtelseTypeNavn(fagsakYtelseTyper, fagsakYtelseType.OMSORGSPENGER)}
             />
             <RadioOption
+              value={fagsakYtelseType.OMSORGSDAGER}
+              label="Omsorgsdager"
+            />
+            <RadioOption
               value={fagsakYtelseType.PLEIEPENGER_SYKT_BARN}
               label={finnFagsakYtelseTypeNavn(fagsakYtelseTyper, fagsakYtelseType.PLEIEPENGER_SYKT_BARN)}
+            />
+            <RadioOption
+              value={fagsakYtelseType.PUNSJ}
+              label="Punsj"
             />
             <RadioOption
               value={ALLE_YTELSETYPER_VALGT}
@@ -78,7 +86,8 @@ export const FordelingAvBehandlingstypePanel: FunctionComponent<OwnProps> = ({
             height={height}
             behandlingTyper={behandlingTyper}
             alleOppgaver={alleOppgaver ? alleOppgaver
-              .filter((ofa) => (values.valgtYtelseType === ALLE_YTELSETYPER_VALGT ? true : values.valgtYtelseType === ofa.fagsakYtelseType.kode)) : []}
+              .filter((ofa) => (sjekkOmOppgaveSkalLeggesTil(values.valgtYtelseType, ofa))) : []}
+            erPunsjValgt={values.valgtYtelseType === fagsakYtelseType.PUNSJ}
           />
         </Panel>
       )}
