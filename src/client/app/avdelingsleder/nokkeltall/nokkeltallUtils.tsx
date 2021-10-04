@@ -50,6 +50,13 @@ export const behandlingstypeOrder = [
   behandlingType.TILBAKEBETALING,
 ];
 
+export const cssText = {
+  fontFamily: 'Source Sans Pro, Arial, sans-serif',
+  fontSize: '1rem',
+  lineHeight: '1.375rem',
+  fontWeight: 400,
+};
+
 export const erDatoInnenforPeriode = (oppgaveForAvdeling, ukevalg) => {
   if (ukevalg === uker[1].kode) {
     return true;

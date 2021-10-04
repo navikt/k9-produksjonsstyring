@@ -11,6 +11,7 @@ import Panel from 'nav-frontend-paneler';
 import Kodeverk from 'kodeverk/kodeverkTsType';
 import behandlingType from 'kodeverk/behandlingType';
 
+import { cssText } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
 import NyeOgFerdigstilteOppgaver from '../nyeOgFerdigstilteOppgaverTsType';
 
 import 'react-vis/dist/style.css';
@@ -24,13 +25,6 @@ const behandlingstypeOrder = [
   behandlingType.KLAGE,
   behandlingType.REVURDERING,
   behandlingType.FORSTEGANGSSOKNAD];
-
-const cssText = {
-  fontFamily: 'Source Sans Pro, Arial, sans-serif',
-  fontSize: '1rem',
-  lineHeight: '1.375rem',
-  fontWeight: 400,
-};
 
 interface Koordinat {
   x: number;

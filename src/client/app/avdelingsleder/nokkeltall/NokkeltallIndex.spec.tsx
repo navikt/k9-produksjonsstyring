@@ -14,6 +14,7 @@ describe('<NokkeltallIndex>', () => {
       .withRestCall(K9LosApiKeys.HENT_FERDIGSTILTE_HISTORIKK, [])
       .withRestCall(K9LosApiKeys.HENT_NYE_HISTORIKK, [])
       .withRestCall(K9LosApiKeys.HENT_OPPGAVER_PER_DATO, [])
+      .withRestCall(K9LosApiKeys.HENT_BEHANDLINGER_SOM_GÅR_AV_VENT, [])
       .runTest(() => {
         const wrapper = shallow(<NokkeltallIndex />);
 

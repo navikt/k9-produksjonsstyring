@@ -315,6 +315,11 @@
   "TilBehandlingPanel.FireSisteUker": "4 siste uker",
   "TilBehandlingPanel.8SisteUker": "8 siste uker",
 
+  "BehandlingerGårAvVent.Titel": "Behandlinger som går av vent",
+  "BehandlingerGårAvVent.ToSisteUker": "Neste 2 uker",
+  "BehandlingerGårAvVent.SeksSisteUker": "Neste 6 uker",
+  "BehandlingerGårAvVent.VelgFagytelseType": "Velg ytelsetype",
+
   "OppgavekoVelgerForm.Oppgaveko": "Behandlingskø",
   "OppgavekoVelgerForm.Utvalgskriterier": "Utvalgskriterier",
   "OppgavekoVelgerForm.Stonadstype": "Stønadstype",
