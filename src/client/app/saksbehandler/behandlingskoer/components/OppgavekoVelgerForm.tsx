@@ -22,7 +22,6 @@ import styles from './oppgavekoVelgerForm.less';
 
 interface OwnProps {
   oppgavekoer: Oppgaveko[];
-  saksbehandlere?: Saksbehandler[];
   setValgtOppgavekoId: (id: string) => void;
   fetchAntallOppgaver: (data: {id: string}) => void;
   getValueFromLocalStorage: (key: string) => string;

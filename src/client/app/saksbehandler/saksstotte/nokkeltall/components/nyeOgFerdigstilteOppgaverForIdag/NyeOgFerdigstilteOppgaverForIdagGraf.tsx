@@ -12,6 +12,7 @@ import Kodeverk from 'kodeverk/kodeverkTsType';
 import behandlingType from 'kodeverk/behandlingType';
 
 import { cssText } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
+import { v4 as uuid4 } from 'uuid';
 import NyeOgFerdigstilteOppgaver from '../nyeOgFerdigstilteOppgaverTsType';
 
 import 'react-vis/dist/style.css';
@@ -207,13 +208,13 @@ export const NyeOgFerdigstilteOppgaverForIdagGraf: FunctionComponent<OwnProps & 
           orientation="horizontal"
           colors={['#0067C5', '#634689', '#FF9100']}
           items={[
-            <Normaltekst className={styles.displayInline}>
+            <Normaltekst key={uuid4()} className={styles.displayInline}>
               <FormattedMessage id="NyeOgFerdigstilteOppgaverForIdagGraf.Nye" />
             </Normaltekst>,
-            <Normaltekst className={styles.displayInline}>
+            <Normaltekst key={uuid4()} className={styles.displayInline}>
               <FormattedMessage id="NyeOgFerdigstilteOppgaverForIdagGraf.Ferdigstilte" />
             </Normaltekst>,
-            <Normaltekst className={styles.displayInline}>
+            <Normaltekst key={uuid4()} className={styles.displayInline}>
               <FormattedMessage id="NyeOgFerdigstilteOppgaverForIdagGraf.FerdigstilteMine" />
             </Normaltekst>,
           ]}

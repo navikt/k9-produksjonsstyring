@@ -45,10 +45,10 @@ const FagsakList: FunctionComponent<OwnProps & WrappedComponentProps> = ({
   const [visReserverOppgaveModal, setVisReserverOppgaveModal] = useState(false);
   const [visOppgavePåVentModel, setVisOppgavePåVentModel] = useState(false);
   const [visModalForSaksbehandlerHarBesluttetOppgaven, setVisModalForSaksbehandlerHarBesluttetOppgaven] = useState<boolean>(false);
+  const [valgtOppgave, setValgtOppgave] = useState<Oppgave>(null);
 
   const { kanReservere } = useGlobalStateRestApiData<NavAnsatt>(RestApiGlobalStatePathsKeys.NAV_ANSATT);
   const oppgavePåVentMulighetBTekst = 'Tilbake';
-  const [valgtOppgave, setValgtOppgave] = useState<Oppgave>(null);
 
   const onClick = (e, oppgave, selectCallback) => {
     if (!kanReservere) {

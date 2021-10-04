@@ -2,6 +2,7 @@ const CircularDependencyPlugin = require('circular-dependency-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const path = require('path');
 const { merge } = require('webpack-merge');
+const ESLintPlugin = require('eslint-webpack-plugin');
 const common = require('./webpack.common.js');
 
 const CORE_DIR = path.resolve(__dirname, '../node_modules');
@@ -14,97 +15,89 @@ const isDevelopment = JSON.stringify(process.env.NODE_ENV) === '"development"';
 
 const config = {
   module: {
-    rules: [{
-      test: /\.(tsx?|ts?)$/,
-      enforce: 'pre',
-      loader: 'eslint-loader',
-      options: {
-        failOnWarning: false,
-        failOnError: !isDevelopment,
-        configFile: isDevelopment ? './eslint/eslintrc.dev.js' : './eslint/eslintrc.prod.js',
-        fix: isDevelopment,
-        cache: true,
-      },
-      include: [APP_DIR],
-    }, {
-      test: /\.(tsx?|ts?)$/,
-      loader: 'babel-loader',
-      options: {
-        cacheDirectory: true,
-      },
-      include: APP_DIR,
-    }, {
-      test: /\.(less|css)?$/,
-      use: [
-        {
-          loader: MiniCssExtractPlugin.loader,
-          options: {
-            publicPath: isDevelopment ? './' : '/public',
-          },
-        }, {
-          loader: 'css-loader',
-          options: {
-            importLoaders: 1,
-            modules: {
-              localIdentName: '[name]_[local]_[hash:base64:5]',
+    rules: [
+      {
+        test: /\.(tsx?|ts?)$/,
+        loader: 'babel-loader',
+        options: {
+          cacheDirectory: true,
+        },
+        include: APP_DIR,
+      }, {
+        test: /\.(less|css)?$/,
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              publicPath: isDevelopment ? './' : '/public',
             },
-          },
-        }, {
-          loader: 'less-loader',
-          options: {
-            lessOptions: {
-              modules: true,
-              localIdentName: '[name]_[local]_[hash:base64:5]',
-              modifyVars: {
-                nodeModulesPath: '~',
-                coreModulePath: '~',
+          }, {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 1,
+              modules: {
+                localIdentName: '[name]_[local]_[hash:base64:5]',
+              },
+            },
+          }, {
+            loader: 'less-loader',
+            options: {
+              lessOptions: {
+                modules: true,
+                localIdentName: '[name]_[local]_[hash:base64:5]',
+                modifyVars: {
+                  nodeModulesPath: '~',
+                  coreModulePath: '~',
+                },
               },
             },
           },
-        },
-      ],
-      include: [APP_DIR],
-    }, {
-      test: /\.(less|css)?$/,
-      use: [
-        {
-          loader: MiniCssExtractPlugin.loader,
-          options: {
-            publicPath: isDevelopment ? './' : '/public',
-          },
-        }, {
-          loader: 'css-loader',
-        }, {
-          loader: 'less-loader',
-          options: {
-            lessOptions: {
-              modifyVars: {
-                nodeModulesPath: '~',
-                coreModulePath: '~',
+        ],
+        include: [APP_DIR],
+      }, {
+        test: /\.(less|css)?$/,
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              publicPath: isDevelopment ? './' : '/public',
+            },
+          }, {
+            loader: 'css-loader',
+          }, {
+            loader: 'less-loader',
+            options: {
+              lessOptions: {
+                modifyVars: {
+                  nodeModulesPath: '~',
+                  coreModulePath: '~',
+                },
               },
             },
           },
+        ],
+        include: [STYLE_DIR, CORE_DIR],
+      }, {
+        test: /\.(svg)$/,
+        loader: 'file-loader',
+        options: {
+          name: '[name]_[hash].[ext]',
         },
-      ],
-      include: [STYLE_DIR, CORE_DIR],
-    }, {
-      test: /\.(svg)$/,
-      loader: 'file-loader',
-      options: {
-        name: '[name]_[hash].[ext]',
+        include: [IMG_DIR],
       },
-      include: [IMG_DIR],
-    },
     ],
   },
 
   plugins: [
-    new MiniCssExtractPlugin({
-      filename: isDevelopment ? 'style.css' : 'style_[hash].css',
-      ignoreOrder: true,
-    }),
     new CircularDependencyPlugin({
       exclude: /node_modules/,
+      failOnError: true,
+    }),
+    new ESLintPlugin({
+      extensions: ['ts', 'tsx'],
+      fix: false,
+      emitError: true,
+      emitWarning: true,
       failOnError: true,
     }),
   ],

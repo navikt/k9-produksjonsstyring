@@ -14,6 +14,7 @@ import { DDMMYYYY_DATE_FORMAT } from 'utils/formats';
 import 'react-vis/dist/style.css';
 import NyeOgFerdigstilteOppgaver from 'saksbehandler/saksstotte/nokkeltall/components/nyeOgFerdigstilteOppgaverTsType';
 import { cssText } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
+import { v4 as uuid4 } from 'uuid';
 import styles from './nyeOgFerdigstilteOppgaverForSisteSyvGraf.less';
 
 export const slaSammenBehandlingstyperOgFyllInnTomme = (nyeOgFerdigstilteOppgaver: NyeOgFerdigstilteOppgaver[]):
@@ -184,13 +185,13 @@ export const NyeOgFerdigstilteOppgaverForSisteSyvGraf: FunctionComponent<OwnProp
           orientation="horizontal"
           colors={['#0067C5', '#634689', '#FF9100']}
           items={[
-            <Normaltekst className={styles.displayInline}>
+            <Normaltekst key={uuid4()} className={styles.displayInline}>
               <FormattedMessage id="NyeOgFerdigstilteOppgaverForSisteSyvGraf.Nye" />
             </Normaltekst>,
-            <Normaltekst className={styles.displayInline}>
+            <Normaltekst key={uuid4()} className={styles.displayInline}>
               <FormattedMessage id="NyeOgFerdigstilteOppgaverForSisteSyvGraf.Ferdigstilte" />
             </Normaltekst>,
-            <Normaltekst className={styles.displayInline}>
+            <Normaltekst key={uuid4()} className={styles.displayInline}>
               <FormattedMessage id="NyeOgFerdigstilteOppgaverForSisteSyvGraf.FerdigstilteMine" />
             </Normaltekst>,
           ]}

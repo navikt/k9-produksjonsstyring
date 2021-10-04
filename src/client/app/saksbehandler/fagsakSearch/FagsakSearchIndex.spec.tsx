@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 
 import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
-import RestApiTestMocker from 'testHelpers/RestApiTestMocker';
+import RestApiTestMocker from '../../../../../setup/testHelpers/RestApiTestMocker';
 import FagsakSearch from './components/FagsakSearch';
 import FagsakSearchIndex from './FagsakSearchIndex';
 
