@@ -21,6 +21,7 @@ describe('<OppgaveErReservertAvAnnenModal>', () => {
       erReservert: false,
       reservertTilTidspunkt: dato,
       reservertAv: '123455',
+      reservertAvNavn: 'test',
     },
     saksnummer: '1',
     behandlingId: 2,
@@ -62,6 +63,7 @@ describe('<OppgaveErReservertAvAnnenModal>', () => {
       date: dagOgTidspunkt.date,
       time: dagOgTidspunkt.time,
       saksbehandlerid: '123455',
+      saksbehandlernavn: 'test',
     });
   });
 
