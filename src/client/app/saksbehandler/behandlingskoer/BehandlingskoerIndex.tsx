@@ -42,7 +42,7 @@ const BehandlingskoerIndex: FunctionComponent<OwnProps & WrappedComponentProps> 
   const [reservertAvAnnenSaksbehandler, setReservertAvAnnenSaksbehandler] = useState<boolean>(false);
   const [reservertOppgaveStatus, setReservertOppgaveStatus] = useState<OppgaveStatus>();
   const [visModalForOppgavePåVent, setVisModalForOppgavePåVent] = useState<boolean>(false);
-  const [visModalForSaksbehandlerHarBesluttetOppgaven, setVisModalForSaksbehandlerHarBesluttetOppgaven] = useState<boolean>(true);
+  const [visModalForSaksbehandlerHarBesluttetOppgaven, setVisModalForSaksbehandlerHarBesluttetOppgaven] = useState<boolean>(false);
 
   const [valgtOppgave, setValgtOppgave] = useState<Oppgave>();
 
