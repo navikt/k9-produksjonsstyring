@@ -59,16 +59,9 @@ const FagsakSearch: FunctionComponent<OwnProps> = ({
     const eksistererEttResultatFraQuerySok = erSokViaQueryParams && resultat
       && resultat.ikkeTilgang === false && resultat.oppgaver.length === 1;
 
-    // eslint-disable-next-line
-    console.log('eksistererEttResultatFraQuerySok',eksistererEttResultatFraQuerySok, erSokViaQueryParams, resultat);
-
     if (eksistererEttResultatFraQuerySok && resultat.oppgaver[0].status.erReservertAvInnloggetBruker) {
-      // eslint-disable-next-line
-      console.log('SEND IVEI');
       goToFagsak(resultat.oppgaver[0]);
     } else if (eksistererEttResultatFraQuerySok && resultat.oppgaver[0].status.erReservert && !resultat.oppgaver[0].status.erReservertAvInnloggetBruker) {
-      // eslint-disable-next-line
-      console.log('SEND IVEI1');
       setOppgaveSoktForViaParamsErAlleredeReservert(resultat.oppgaver[0]);
     }
   }, [resultat]);
