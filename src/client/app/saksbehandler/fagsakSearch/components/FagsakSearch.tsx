@@ -56,11 +56,11 @@ const FagsakSearch: FunctionComponent<OwnProps> = ({
   const erSokViaQueryParams = typeof queryFraURL.sok !== 'undefined' && !hasValidSaksnummerOrFodselsnummerFormat(queryFraURL.sok);
 
   useEffect(() => {
-    const eksistererEttResultatFraQuerySok = erSokViaQueryParams && searchResultReceived && resultat
+    const eksistererEttResultatFraQuerySok = erSokViaQueryParams && resultat
       && resultat.ikkeTilgang === false && resultat.oppgaver.length === 1;
 
     // eslint-disable-next-line
-    console.log('eksistererEttResultatFraQuerySok',eksistererEttResultatFraQuerySok, erSokViaQueryParams, searchResultReceived, resultat);
+    console.log('eksistererEttResultatFraQuerySok',eksistererEttResultatFraQuerySok, erSokViaQueryParams, resultat);
 
     if (eksistererEttResultatFraQuerySok && resultat.oppgaver[0].status.erReservertAvInnloggetBruker) {
       // eslint-disable-next-line
@@ -68,7 +68,7 @@ const FagsakSearch: FunctionComponent<OwnProps> = ({
       goToFagsak(resultat.oppgaver[0]);
     } else if (eksistererEttResultatFraQuerySok && resultat.oppgaver[0].status.erReservert && !resultat.oppgaver[0].status.erReservertAvInnloggetBruker) {
       // eslint-disable-next-line
-      console.log('SEND IVEI');
+      console.log('SEND IVEI1');
       setOppgaveSoktForViaParamsErAlleredeReservert(resultat.oppgaver[0]);
     }
   }, [resultat]);
