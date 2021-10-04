@@ -137,6 +137,7 @@ const FagsakSearchIndex: FunctionComponent<OwnProps> = ({
         searchStarted={sokStartet}
         searchResultAccessDenied={searchResultAccessDenied}
         resetSearch={resetSearchFn}
+        goToFagsak={goToFagsak}
       />
       {reservertAvAnnenSaksbehandler && reservertOppgave && (
         <OppgaveErReservertAvAnnenModal
