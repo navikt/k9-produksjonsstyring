@@ -8,7 +8,6 @@ import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import { SokeResultat } from 'saksbehandler/fagsakSearch/sokeResultatTsType';
 import queryString from 'query-string';
 import { hasValidSaksnummerOrFodselsnummerFormat } from 'utils/validation/validators';
-import { useLocation } from 'react-router-dom';
 import PersonInfo from './person/PersonInfo';
 import SearchForm from './SearchForm';
 import FagsakList from './FagsakList';
