@@ -67,7 +67,7 @@ const FagsakSearch: FunctionComponent<OwnProps> = ({
       console.log('SEND IVEI');
       goToFagsak(resultat.oppgaver[0]);
     } else if (eksistererEttResultatFraQuerySok && resultat.oppgaver[0].status.erReservert && !resultat.oppgaver[0].status.erReservertAvInnloggetBruker) {
-      // RESERVERE MODAL
+      // eslint-disable-next-line
       console.log('SEND IVEI');
       setOppgaveSoktForViaParamsErAlleredeReservert(resultat.oppgaver[0]);
     }
