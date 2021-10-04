@@ -25,7 +25,7 @@ const BehandlingerGårAvVent: FunctionComponent<OwnProps & WrappedComponentProps
   height,
   behandlingerSomGårAvVent,
 }) => {
-  const [valgtYtelseType, setValgtYtelseType] = useState<string>('');
+  const [valgtYtelseType, setValgtYtelseType] = useState<string>('Alle');
   const [antallUkerSomSkalVises, setAntallUkerSomSkalVises] = useState<string>('2');
 
   const PSBBehandlinger: IBehandlingerSomGarAvVentType[] = behandlingerSomGårAvVent.filter(
