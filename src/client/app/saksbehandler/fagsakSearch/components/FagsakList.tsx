@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import NavFrontendChevron from 'nav-frontend-chevron';
 import Oppgave from 'saksbehandler/oppgaveTsType';
 import Table from 'sharedComponents/Table';
@@ -28,6 +28,7 @@ const headerTextCodes = [
 interface OwnProps {
   fagsakOppgaver: Oppgave[];
   selectOppgaveCallback: (oppgave: Oppgave, skalReservere: boolean) => void;
+  oppgaveSoktForViaQueryErAlleredeReservert: Oppgave | null;
 }
 
 /**
@@ -39,6 +40,7 @@ const FagsakList: FunctionComponent<OwnProps & WrappedComponentProps> = ({
   intl,
   fagsakOppgaver,
   selectOppgaveCallback,
+  oppgaveSoktForViaQueryErAlleredeReservert,
 }) => {
   const [visReserverOppgaveModal, setVisReserverOppgaveModal] = useState(false);
   const [visOppgavePåVentModel, setVisOppgavePåVentModel] = useState(false);
@@ -68,6 +70,12 @@ const FagsakList: FunctionComponent<OwnProps & WrappedComponentProps> = ({
       selectCallback(oppgave, false);
     }
   };
+
+  useEffect(() => {
+    if (oppgaveSoktForViaQueryErAlleredeReservert) {
+      onClick(null, oppgaveSoktForViaQueryErAlleredeReservert, selectOppgaveCallback);
+    }
+  }, [oppgaveSoktForViaQueryErAlleredeReservert]);
 
   const onSubmit = () => {
     setVisReserverOppgaveModal(false);

@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useEffect } from 'react';
 import {
   injectIntl, WrappedComponentProps, FormattedMessage,
 } from 'react-intl';
@@ -16,6 +16,7 @@ import { InputField } from 'form/FinalFields';
 import { RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
 import NavAnsatt from 'app/navAnsattTsType';
 import useGlobalStateRestApiData from 'api/rest-api-hooks/src/global-data/useGlobalStateRestApiData';
+import queryString from 'query-string';
 import styles from './searchForm.less';
 
 const isButtonDisabled = (searchString, searchStarted, searchResultAccessDenied) => (!searchResultAccessDenied.feilmelding && searchStarted) || !searchString;
@@ -41,6 +42,19 @@ export const SearchForm: FunctionComponent<OwnProps & WrappedComponentProps> = (
   searchResultAccessDenied,
 }) => {
   const { kanSaksbehandle } = useGlobalStateRestApiData<NavAnsatt>(RestApiGlobalStatePathsKeys.NAV_ANSATT);
+  const { location } = window;
+
+  useEffect(() => {
+    const queryFraURL = queryString.parse(location ? location.search : '');
+    if (typeof queryFraURL.sok !== 'undefined' && !hasValidSaksnummerOrFodselsnummerFormat(queryFraURL.sok)) {
+      const paramToString = queryFraURL.sok.toString();
+      onSubmit({
+        searchString: paramToString,
+        skalReservere: false,
+      });
+    }
+  }, []);
+
   return (
     <Form
       onSubmit={onSubmit}

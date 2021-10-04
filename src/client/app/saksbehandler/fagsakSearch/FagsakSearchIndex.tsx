@@ -38,6 +38,9 @@ const FagsakSearchIndex: FunctionComponent<OwnProps> = ({
   const { kanReservere } = useGlobalStateRestApiData<NavAnsatt>(RestApiGlobalStatePathsKeys.NAV_ANSATT);
 
   const goToFagsak = (oppgave: Oppgave) => {
+    // eslint-disable-next-line
+    console.log('GOTOFAGSAK',oppgave);
+
     switch (oppgave.system) {
       case OppgaveSystem.K9SAK:
         window.location.assign(getK9sakHref(k9sakUrl, oppgave.saksnummer, oppgave.behandlingId));
@@ -137,6 +140,7 @@ const FagsakSearchIndex: FunctionComponent<OwnProps> = ({
         searchStarted={sokStartet}
         searchResultAccessDenied={searchResultAccessDenied}
         resetSearch={resetSearchFn}
+        goToFagsak={goToFagsak}
       />
       {reservertAvAnnenSaksbehandler && reservertOppgave && (
         <OppgaveErReservertAvAnnenModal
