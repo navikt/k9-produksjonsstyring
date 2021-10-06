@@ -25,7 +25,7 @@ const BehandlingerGårAvVent: FunctionComponent<OwnProps & WrappedComponentProps
   height,
   behandlingerSomGårAvVent,
 }) => {
-  const [valgtYtelseType, setValgtYtelseType] = useState<string>('');
+  const [valgtYtelseType, setValgtYtelseType] = useState<string>('Alle');
   const [antallUkerSomSkalVises, setAntallUkerSomSkalVises] = useState<string>('2');
 
   const PSBBehandlinger: IBehandlingerSomGarAvVentType[] = behandlingerSomGårAvVent.filter(
@@ -68,8 +68,8 @@ const BehandlingerGårAvVent: FunctionComponent<OwnProps & WrappedComponentProps
           <Select
             onChange={(e) => setAntallUkerSomSkalVises(e.target.value)}
           >
-            <option value="2" selected>{intl.formatMessage({ id: 'BehandlingerGårAvVent.ToSisteUker' })}</option>
-            <option value="6">{intl.formatMessage({ id: 'BehandlingerGårAvVent.SeksSisteUker' })}</option>
+            <option value="2" selected>{intl.formatMessage({ id: 'BehandlingerGårAvVent.ToNesteUker' })}</option>
+            <option value="4">{intl.formatMessage({ id: 'BehandlingerGårAvVent.FireNesteUker' })}</option>
           </Select>
         </Column>
         <Column xs="2">
