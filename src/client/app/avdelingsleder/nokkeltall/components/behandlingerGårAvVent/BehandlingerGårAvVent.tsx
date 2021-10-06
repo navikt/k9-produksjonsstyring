@@ -68,8 +68,8 @@ const BehandlingerGårAvVent: FunctionComponent<OwnProps & WrappedComponentProps
           <Select
             onChange={(e) => setAntallUkerSomSkalVises(e.target.value)}
           >
-            <option value="2" selected>{intl.formatMessage({ id: 'BehandlingerGårAvVent.ToSisteUker' })}</option>
-            <option value="6">{intl.formatMessage({ id: 'BehandlingerGårAvVent.SeksSisteUker' })}</option>
+            <option value="2" selected>{intl.formatMessage({ id: 'BehandlingerGårAvVent.ToNesteUker' })}</option>
+            <option value="4">{intl.formatMessage({ id: 'BehandlingerGårAvVent.FireNesteUker' })}</option>
           </Select>
         </Column>
         <Column xs="2">

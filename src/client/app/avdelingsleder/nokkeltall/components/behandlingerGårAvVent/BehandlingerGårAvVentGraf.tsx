@@ -75,8 +75,8 @@ const BehandlingerGårAvVentGraf: FunctionComponent<OwnProps> = ({
     [behandlingerSomGårAvVent],
   );
 
-  const behandlingerSomGårAvVentSeksUkerFremITid = useMemo(
-    () => slaSammenBehandlingstyperOgFyllInnTomme(behandlingerSomGårAvVent, 6),
+  const behandlingerSomGårAvVentFireUkerFremITid = useMemo(
+    () => slaSammenBehandlingstyperOgFyllInnTomme(behandlingerSomGårAvVent, 4),
     [behandlingerSomGårAvVent],
   );
 
@@ -85,7 +85,7 @@ const BehandlingerGårAvVentGraf: FunctionComponent<OwnProps> = ({
     y: o.antall,
   })), [behandlingerSomGårAvVent]);
 
-  const behandlingerSomGårAvVentSeksUkerFremITidKoordinater = useMemo(() => behandlingerSomGårAvVentSeksUkerFremITid.map((o) => ({
+  const behandlingerSomGårAvVentFireUkerFremITidKoordinater = useMemo(() => behandlingerSomGårAvVentFireUkerFremITid.map((o) => ({
     x: o.dato,
     y: o.antall,
   })), [behandlingerSomGårAvVent]);
@@ -115,7 +115,7 @@ const BehandlingerGårAvVentGraf: FunctionComponent<OwnProps> = ({
         />
         <YAxis style={{ text: cssText }} />
         <LineSeries
-          data={antallUkerSomSkalVises === '6' ? behandlingerSomGårAvVentSeksUkerFremITidKoordinater : behandlingerSomGårAvVentToUkerFremITidKoordinater}
+          data={antallUkerSomSkalVises === '4' ? behandlingerSomGårAvVentFireUkerFremITidKoordinater : behandlingerSomGårAvVentToUkerFremITidKoordinater}
           fill="#FF9100"
           stroke="#FF9100"
           opacity={0.5}
@@ -137,7 +137,7 @@ const BehandlingerGårAvVentGraf: FunctionComponent<OwnProps> = ({
                   id="FordelingAvBehandlingstypeGraf.Antall"
                   values={{
                     antall: getAntallBehandlingerPerDagTilPopup(
-                      antallUkerSomSkalVises === '6' ? behandlingerSomGårAvVentSeksUkerFremITidKoordinater : behandlingerSomGårAvVentToUkerFremITidKoordinater,
+                      antallUkerSomSkalVises === '4' ? behandlingerSomGårAvVentFireUkerFremITidKoordinater : behandlingerSomGårAvVentToUkerFremITidKoordinater,
                     ),
                   }}
                 />
