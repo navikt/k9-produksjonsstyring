@@ -148,7 +148,7 @@ const BehandlingskoerIndex: FunctionComponent<OwnProps & WrappedComponentProps> 
         console.log('ny oppgavestatus,', nyOppgaveStatus);
         if (nyOppgaveStatus.erReservert && nyOppgaveStatus.erReservertAvInnloggetBruker) {
           openSak(oppgave);
-        } else if (!!oppgave.status.beskjed && oppgave.status.beskjed === OppgaveStatusBeskjed.BESLUTTET_AV_DEG) {
+        } else if (!!nyOppgaveStatus.beskjed && nyOppgaveStatus.beskjed === OppgaveStatusBeskjed.BESLUTTET_AV_DEG) {
           // eslint-disable-next-line
           console.log('BESLUTTET AV DEG');
           setVisModalForSaksbehandlerHarBesluttetOppgaven(true);
