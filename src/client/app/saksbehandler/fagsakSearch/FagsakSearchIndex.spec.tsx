@@ -1,9 +1,10 @@
 import React from 'react';
 import { expect } from 'chai';
-import { shallow } from 'enzyme';
 
 import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
 import RestApiTestMocker from 'testHelpers/RestApiTestMocker';
+import { shallowWithIntl } from 'testHelpers/intl-enzyme-test-helper';
+import { IntlShape } from 'react-intl';
 import FagsakSearch from './components/FagsakSearch';
 import FagsakSearchIndex from './FagsakSearchIndex';
 
@@ -49,7 +50,8 @@ describe('<FagsakSearchIndex>', () => {
       .withRestCallRunner(K9LosApiKeys.LEGG_TIL_BEHANDLET_OPPGAVE, { startRequest: () => undefined })
       .withGlobalData(RestApiGlobalStatePathsKeys.NAV_ANSATT, navAnsatt)
       .runTest(() => {
-        const wrapper = shallow(<FagsakSearchIndex
+        const wrapper = shallowWithIntl(<FagsakSearchIndex
+          intl={intl as IntlShape}
           k9sakUrl="k9/sak/"
           k9punsjUrl="k9-punsj"
           omsorgspengerUrl="omsorgspenger"
