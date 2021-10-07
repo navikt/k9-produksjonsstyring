@@ -316,6 +316,7 @@
   "TilBehandlingPanel.8SisteUker": "8 siste uker",
 
   "BehandlingerGårAvVent.Titel": "Behandlinger som går av vent",
+  "BehandlingerGårAvVent.Hjelptekst": "Grafen som vises er en prognose av hvor mange behandlinger som går av vent.",
   "BehandlingerGårAvVent.ToNesteUker": "Neste 2 uker",
   "BehandlingerGårAvVent.FireNesteUker": "Neste 4 uker",
   "BehandlingerGårAvVent.VelgFagytelseType": "Velg ytelsetype",
