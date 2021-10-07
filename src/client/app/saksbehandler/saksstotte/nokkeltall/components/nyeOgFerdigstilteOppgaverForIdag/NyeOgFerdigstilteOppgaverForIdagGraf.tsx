@@ -11,7 +11,6 @@ import Panel from 'nav-frontend-paneler';
 import Kodeverk from 'kodeverk/kodeverkTsType';
 import behandlingType from 'kodeverk/behandlingType';
 
-import { v4 as uuid4 } from 'uuid';
 import NyeOgFerdigstilteOppgaver from '../nyeOgFerdigstilteOppgaverTsType';
 
 import 'react-vis/dist/style.css';
@@ -200,13 +199,13 @@ export const NyeOgFerdigstilteOppgaverForIdagGraf: FunctionComponent<OwnProps & 
           orientation="horizontal"
           colors={['#0067C5', '#634689', '#FF9100']}
           items={[
-            <Normaltekst key={uuid4()} className={styles.displayInline}>
+            <Normaltekst key="NyeOgFerdigstilteOppgaverForIdagGraf.Nye" className={styles.displayInline}>
               <FormattedMessage id="NyeOgFerdigstilteOppgaverForIdagGraf.Nye" />
             </Normaltekst>,
-            <Normaltekst key={uuid4()} className={styles.displayInline}>
+            <Normaltekst key="NyeOgFerdigstilteOppgaverForIdagGraf.Ferdigstilte" className={styles.displayInline}>
               <FormattedMessage id="NyeOgFerdigstilteOppgaverForIdagGraf.Ferdigstilte" />
             </Normaltekst>,
-            <Normaltekst key={uuid4()} className={styles.displayInline}>
+            <Normaltekst key="NyeOgFerdigstilteOppgaverForIdagGraf.FerdigstilteMine" className={styles.displayInline}>
               <FormattedMessage id="NyeOgFerdigstilteOppgaverForIdagGraf.FerdigstilteMine" />
             </Normaltekst>,
           ]}

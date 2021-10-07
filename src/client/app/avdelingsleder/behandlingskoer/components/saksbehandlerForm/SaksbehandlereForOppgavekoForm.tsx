@@ -7,7 +7,6 @@ import { CheckboxField } from 'form/FinalFields';
 import { Saksbehandler } from 'avdelingsleder/bemanning/saksbehandlerTsType';
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
 import { K9LosApiKeys } from 'api/k9LosApi';
-import { v4 as uuid4 } from 'uuid';
 import { Oppgaveko } from '../../oppgavekoTsType';
 
 import styles from './saksbehandlereForOppgavekoForm.less';
@@ -50,7 +49,7 @@ const SaksbehandlereForOppgavekoForm: FunctionComponent<OwnProps> = ({ valgtOppg
             <Row>
               <Column xs="4">
                 {alleSaksbehandlereVenstreListe.map((s) => (
-                  <div key={uuid4()} className={styles.checkBox}>
+                  <div key={s.epost} className={styles.checkBox}>
                     <CheckboxField
                       key={s.epost}
                       name={s.epost.replace(/\./g, '')}
@@ -64,7 +63,7 @@ const SaksbehandlereForOppgavekoForm: FunctionComponent<OwnProps> = ({ valgtOppg
               </Column>
               <Column xs="7" className={styles.hoyre}>
                 {alleSaksbehandlereHoyreListe.map((s) => (
-                  <div key={uuid4()} className={styles.checkBox}>
+                  <div key={s.epost} className={styles.checkBox}>
                     <CheckboxField
                       key={s.epost}
                       name={s.epost.replace(/\./g, '')}

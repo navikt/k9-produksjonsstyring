@@ -5,7 +5,6 @@ import { WrappedComponentProps, injectIntl } from 'react-intl';
 import ApneBehandlinger from 'avdelingsleder/dagensTall/apneBehandlingerTsType';
 import { behandlingstypeOrder } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
 import behandlingType from 'kodeverk/behandlingType';
-import { v4 as uuid4 } from 'uuid';
 import styles from './dagensTallPanel.less';
 
 interface OwnProps {
@@ -36,7 +35,7 @@ const DagensTallPanel: FunctionComponent<OwnProps & WrappedComponentProps> = ({ 
         <EnkelTeller antall={totaltIdag} tekst="Åpne behandlinger" />
 
         {dagensTall && dagensTallIRettRekkefoljd.map((dt) => (
-          <EnkelTeller key={uuid4()} antall={dt.antall} tekst={dt.behandlingType.navn} />
+          <EnkelTeller key={dt.behandlingType.navn} antall={dt.antall} tekst={dt.behandlingType.navn} />
         ))}
       </div>
     </div>
