@@ -46,7 +46,7 @@ const DagensTallPanel: FunctionComponent<OwnProps & WrappedComponentProps> = ({ 
   punsjBehandlinger.forEach((behandlingstype) => { punsjTall.antall += behandlingstype.antall; });
 
   const dagensTallIRettRekkefoljd = [...behandlingstyperForst, ...behandlingstyperSist, ...punsjBehandlinger];
-  
+
   return (
     <div className={styles.dagensTallContainer}>
       <Normaltekst className={styles.header}>Status</Normaltekst>
