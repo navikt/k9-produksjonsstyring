@@ -144,18 +144,12 @@ const BehandlingskoerIndex: FunctionComponent<OwnProps & WrappedComponentProps> 
       setValgtOppgave(oppgave);
     } else {
       reserverOppgave({ oppgaveId: oppgave.eksternId }).then((nyOppgaveStatus) => {
-        // eslint-disable-next-line
-        console.log('ny oppgavestatus,', nyOppgaveStatus);
         if (nyOppgaveStatus.erReservert && nyOppgaveStatus.erReservertAvInnloggetBruker) {
           openSak(oppgave);
         } else if (!!nyOppgaveStatus.beskjed && nyOppgaveStatus.beskjed === OppgaveStatusBeskjed.BESLUTTET_AV_DEG) {
-          // eslint-disable-next-line
-          console.log('BESLUTTET AV DEG');
           setVisModalForSaksbehandlerHarBesluttetOppgaven(true);
           setValgtOppgave(oppgave);
         } else if (nyOppgaveStatus.erReservert && !nyOppgaveStatus.erReservertAvInnloggetBruker) {
-          // eslint-disable-next-line
-          console.log('er reservert');
           setReservertAvAnnenSaksbehandler(true);
           setValgtOppgave(oppgave);
           setReservertOppgaveStatus(nyOppgaveStatus);
