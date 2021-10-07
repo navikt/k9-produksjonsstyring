@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useState } from 'react';
-import styles from 'avdelingsleder/nokkeltall/historikkGraf.less';
+import stylesFraHistorikkGraf from 'avdelingsleder/nokkeltall/historikkGraf.less';
 import Panel from 'nav-frontend-paneler';
 import { Select } from 'nav-frontend-skjema';
 import { Column, Row } from 'nav-frontend-grid';
@@ -12,6 +12,8 @@ import IBehandlingerSomGarAvVentType
   from 'avdelingsleder/nokkeltall/components/behandlingerGårAvVent/behandlingerSomGårAvVentType';
 import BehandlingerGårAvVentGraf
   from 'avdelingsleder/nokkeltall/components/behandlingerGårAvVent/BehandlingerGårAvVentGraf';
+import Hjelpetekst from 'nav-frontend-hjelpetekst';
+import styles from './behandlingerGårAvVent.less';
 
 interface OwnProps{
   width: number;
@@ -58,10 +60,13 @@ const BehandlingerGårAvVent: FunctionComponent<OwnProps & WrappedComponentProps
   };
 
   return (
-    <Panel className={styles.panel}>
-      <Element>
-        <FormattedMessage id="BehandlingerGårAvVent.Titel" />
-      </Element>
+    <Panel className={stylesFraHistorikkGraf.panel}>
+      <div className={styles.tittel}>
+        <Element>
+          <FormattedMessage id="BehandlingerGårAvVent.Titel" />
+        </Element>
+        <Hjelpetekst>{intl.formatMessage({ id: 'BehandlingerGårAvVent.Hjelptekst' })}</Hjelpetekst>
+      </div>
       <VerticalSpacer eightPx />
       <Row>
         <Column xs="2">
