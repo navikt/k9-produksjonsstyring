@@ -4,7 +4,7 @@ import { IntlShape } from 'react-intl';
 import { Undertekst } from 'nav-frontend-typografi';
 
 import EventType from 'api/rest-api/src/requestApi/eventType';
-import { shallowWithIntl, intlMock } from 'testHelpers/intl-enzyme-test-helper';
+import { shallowWithIntl, intlMock } from '../../../../../setup/testHelpers/intl-enzyme-test-helper';
 import ErrorMessagePanel from './ErrorMessagePanel';
 
 describe('<ErrorMessagePanel>', () => {

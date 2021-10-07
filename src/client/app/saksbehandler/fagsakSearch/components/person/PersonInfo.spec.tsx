@@ -4,7 +4,7 @@ import { Undertittel, Undertekst } from 'nav-frontend-typografi';
 
 import Image from 'sharedComponents/Image';
 import { IntlShape } from 'react-intl';
-import { shallowWithIntl, intlMock } from 'testHelpers/intl-enzyme-test-helper';
+import { shallowWithIntl, intlMock } from '../../../../../../../setup/testHelpers/intl-enzyme-test-helper';
 import PersonInfo from './PersonInfo';
 
 describe('<PersonInfo>', () => {

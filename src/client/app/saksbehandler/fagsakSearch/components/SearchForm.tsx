@@ -27,7 +27,6 @@ interface OwnProps {
   searchResultAccessDenied?: {
     feilmelding?: string;
   };
-  resetSearch: () => void;
 }
 
 /**
