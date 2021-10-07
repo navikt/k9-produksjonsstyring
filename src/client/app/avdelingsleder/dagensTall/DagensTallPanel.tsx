@@ -27,8 +27,9 @@ const DagensTallPanel: FunctionComponent<OwnProps & WrappedComponentProps> = ({ 
     behandlingType.PAPIRINNTEKTSOPPLYSNINGER,
     behandlingType.PAPIRSØKNAD,
     behandlingType.PAPIRETTERSENDELSE,
-    behandlingType.KOPI,
+    behandlingType.SAMTALEREFERAT,
     behandlingType.SKRIV_TIL_OSS_SVAR,
+    behandlingType.KOPI,
   ];
 
   const punsjBehandlinger = [];
@@ -40,15 +41,15 @@ const DagensTallPanel: FunctionComponent<OwnProps & WrappedComponentProps> = ({ 
 
   const punsjTall = {
     antall: 0,
-    behandlingType:{
-      navn: 'Punsj'
-    }
+    behandlingType: {
+      navn: 'Punsj',
+    },
   };
 
   punsjBehandlinger.forEach((behandlingstype) => { punsjTall.antall += behandlingstype.antall; });
 
   const dagensTallIRettRekkefoljd = [...behandlingstyperForst, ...behandlingstyperSist, punsjTall];
-  
+
   return (
     <div className={styles.dagensTallContainer}>
       <Normaltekst className={styles.header}>Status</Normaltekst>
