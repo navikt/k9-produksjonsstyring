@@ -10,8 +10,12 @@ import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner
 import useGlobalStateRestApiData from 'api/rest-api-hooks/src/global-data/useGlobalStateRestApiData';
 import NavAnsatt from 'app/navAnsattTsType';
 import { errorOfType, ErrorTypes, getErrorResponseData } from 'api/rest-api';
+import ModalMedIkon from 'sharedComponents/modal/ModalMedIkon';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import FagsakSearch from './components/FagsakSearch';
 import OppgaveSystem from '../../types/OppgaveSystem';
+import OppgaveStatusBeskjed from '../../types/OppgaveStatusBeskjed';
+import advarselImageUrl from '../../../images/advarsel.svg';
 
 interface OwnProps {
   k9sakUrl: string;
@@ -25,7 +29,8 @@ interface OwnProps {
  * Container komponent. Har ansvar for å vise søkeskjermbildet og å håndtere fagsaksøket
  * mot server og lagringen av resultatet i klientens state.
  */
-const FagsakSearchIndex: FunctionComponent<OwnProps> = ({
+const FagsakSearchIndex: FunctionComponent<OwnProps & WrappedComponentProps> = ({
+  intl,
   k9sakUrl,
   k9punsjUrl,
   omsorgspengerUrl,
@@ -35,6 +40,8 @@ const FagsakSearchIndex: FunctionComponent<OwnProps> = ({
   const [sokStartet, setSokStartet] = useState(false);
   const [sokFerdig, setSokFerdig] = useState(false);
   const [skalReservere, setSkalReservere] = useState(false);
+  const [visModalForSaksbehandlerHarBesluttetOppgaven, setVisModalForSaksbehandlerHarBesluttetOppgaven] = useState<boolean>(false);
+
   const { kanReservere } = useGlobalStateRestApiData<NavAnsatt>(RestApiGlobalStatePathsKeys.NAV_ANSATT);
 
   const goToFagsak = (oppgave: Oppgave) => {
@@ -88,9 +95,13 @@ const FagsakSearchIndex: FunctionComponent<OwnProps> = ({
       leggTilBehandletOppgave(oppgave);
       goToFagsakEllerApneModal(oppgave);
     } else if (reserver && kanReservere) {
-      reserverOppgave({ oppgaveId: oppgave.eksternId }).then(() => {
-        leggTilBehandletOppgave(oppgave);
-        goToFagsak(oppgave);
+      reserverOppgave({ oppgaveId: oppgave.eksternId }).then((nyOppgaveStatus) => {
+        if (!!nyOppgaveStatus.beskjed && nyOppgaveStatus.beskjed === OppgaveStatusBeskjed.BESLUTTET_AV_DEG) {
+          setVisModalForSaksbehandlerHarBesluttetOppgaven(true);
+        } else {
+          leggTilBehandletOppgave(oppgave);
+          goToFagsak(oppgave);
+        }
       });
     } else if (!kanReservere) {
       leggTilBehandletOppgave(oppgave);
@@ -147,8 +158,20 @@ const FagsakSearchIndex: FunctionComponent<OwnProps> = ({
           oppgaveStatus={reservertOppgave.status}
         />
       )}
+
+      {visModalForSaksbehandlerHarBesluttetOppgaven && (
+        <ModalMedIkon
+          cancel={() => setVisModalForSaksbehandlerHarBesluttetOppgaven(false)}
+          tekst={{
+            valgmulighetB: intl.formatMessage({ id: 'OppgaveErReservertAvAnnenModal.GåTilKøen' }),
+            formattedMessageId: 'visModalForSaksbehandlerHarBesluttetOppgaven.Informasjon',
+          }}
+          ikonUrl={advarselImageUrl}
+          ikonAlt="advarselTriangel"
+        />
+      )}
     </>
   );
 };
 
-export default FagsakSearchIndex;
+export default injectIntl(FagsakSearchIndex);
