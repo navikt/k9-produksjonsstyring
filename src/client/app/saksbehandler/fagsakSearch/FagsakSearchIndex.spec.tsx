@@ -3,12 +3,16 @@ import { expect } from 'chai';
 
 import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
 import RestApiTestMocker from 'testHelpers/RestApiTestMocker';
-import { shallowWithIntl } from 'testHelpers/intl-enzyme-test-helper';
+import { shallowWithIntl, intlMock } from 'testHelpers/intl-enzyme-test-helper';
 import { IntlShape } from 'react-intl';
 import FagsakSearch from './components/FagsakSearch';
 import FagsakSearchIndex from './FagsakSearchIndex';
 
 describe('<FagsakSearchIndex>', () => {
+  const intl: Partial<IntlShape> = {
+    ...intlMock,
+  };
+
   const navAnsatt = {
     kanSaksbehandle: true,
   };
@@ -50,8 +54,8 @@ describe('<FagsakSearchIndex>', () => {
       .withRestCallRunner(K9LosApiKeys.LEGG_TIL_BEHANDLET_OPPGAVE, { startRequest: () => undefined })
       .withGlobalData(RestApiGlobalStatePathsKeys.NAV_ANSATT, navAnsatt)
       .runTest(() => {
-        const wrapper = shallowWithIntl(<FagsakSearchIndex
-          intl={intl as IntlShape}
+        const wrapper = shallowWithIntl(<FagsakSearchIndex.WrappedComponent
+          intl={intl}
           k9sakUrl="k9/sak/"
           k9punsjUrl="k9-punsj"
           omsorgspengerUrl="omsorgspenger"
