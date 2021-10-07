@@ -27,8 +27,9 @@ const DagensTallPanel: FunctionComponent<OwnProps & WrappedComponentProps> = ({ 
     behandlingType.PAPIRINNTEKTSOPPLYSNINGER,
     behandlingType.PAPIRSØKNAD,
     behandlingType.PAPIRETTERSENDELSE,
-    behandlingType.KOPI,
+    behandlingType.SAMTALEREFERAT,
     behandlingType.SKRIV_TIL_OSS_SVAR,
+    behandlingType.KOPI,
   ];
 
   const punsjBehandlinger = [];
