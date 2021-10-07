@@ -40,9 +40,9 @@ const DagensTallPanel: FunctionComponent<OwnProps & WrappedComponentProps> = ({ 
 
   const punsjTall = {
     antall: 0,
-    behandlingType:{
-      navn: 'Punsj'
-    }
+    behandlingType: {
+      navn: 'Punsj',
+    },
   };
 
   punsjBehandlinger.forEach((behandlingstype) => { punsjTall.antall += behandlingstype.antall; });
