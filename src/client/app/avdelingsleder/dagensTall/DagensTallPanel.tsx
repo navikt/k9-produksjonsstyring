@@ -21,13 +21,32 @@ const DagensTallPanel: FunctionComponent<OwnProps & WrappedComponentProps> = ({ 
   const behandlingsKoderSomSkalVisesForst = [behandlingType.ANKE, behandlingType.FORSTEGANGSSOKNAD, behandlingType.INNSYN,
     behandlingType.KLAGE, behandlingType.REVURDERING, behandlingType.TILBAKEBETALING];
 
+  const punsjBehandlingstyper = [behandlingType.SKRIV_TIL_OSS_SPØRMSÅL,
+    behandlingType.DIGITAL_ETTERSENDELSE,
+    behandlingType.INNLOGGET_CHAT,
+    behandlingType.PAPIRINNTEKTSOPPLYSNINGER,
+    behandlingType.PAPIRSØKNAD,
+    behandlingType.PAPIRETTERSENDELSE,
+    behandlingType.KOPI,
+    behandlingType.SKRIV_TIL_OSS_SVAR,
+  ];
+
+  const punsjBehandlinger = [];
   sortedDagensTall(dagensTall).forEach((dt) => {
     if (behandlingsKoderSomSkalVisesForst.includes(dt.behandlingType.kode)) behandlingstyperForst.push(dt);
+    else if (punsjBehandlingstyper.includes(dt.behandlingType.kode)) punsjBehandlinger.push(dt);
     else behandlingstyperSist.push(dt);
   });
 
-  const dagensTallIRettRekkefoljd = behandlingstyperForst.concat(behandlingstyperSist);
+  const punsjTall = {
+    antall: 0,
+    tekst: 'Punsj',
+  };
 
+  punsjBehandlinger.forEach((behandlingstype) => { punsjTall.antall += behandlingstype.antall; });
+
+  const dagensTallIRettRekkefoljd = [...behandlingstyperForst, ...behandlingstyperSist, ...punsjBehandlinger];
+  
   return (
     <div className={styles.dagensTallContainer}>
       <Normaltekst className={styles.header}>Status</Normaltekst>
