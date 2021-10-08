@@ -6,7 +6,7 @@ export const numberOptionalNegativeRegex = /^-?\d+([,.]\d+)?$/;
 export const integerRegex = /^\s*\d+\s*$/;
 export const integerOptionalNegativeRegex = /^\s*-?\d+\s*$/;
 export const decimalRegex = /^\d+(.\d{1,2})?$/;
-export const saksnummerOrFodselsnummerPattern = /^(?:(\w|\d){5}|(\w|\d){7}|(^\d{11}$))$/;
+export const saksnummerOrFodselsnummerPattern = /^(?:(\w|\d){5}|(\w|\d){7}|(^\d{11}$)|(^\d{9}$))$/;
 // eslint-disable-next-line no-useless-escape,max-len
 export const emailPattern = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
