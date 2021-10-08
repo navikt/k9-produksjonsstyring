@@ -65,11 +65,9 @@ const FagsakList: FunctionComponent<OwnProps> = ({
   };
 
   useEffect(() => {
-    if (oppgaveSoktForViaQueryErAlleredeReservert) {
-      if (oppgaveSoktForViaQueryErAlleredeReservert !== oppgaveSoktForViaQueryErReservert) {
-        setOppgaveSoktForViaQueryErReservert(oppgaveSoktForViaQueryErAlleredeReservert);
-        onClick(null, oppgaveSoktForViaQueryErReservert, selectOppgaveCallback);
-      }
+    if (oppgaveSoktForViaQueryErAlleredeReservert && oppgaveSoktForViaQueryErAlleredeReservert !== oppgaveSoktForViaQueryErReservert) {
+      setOppgaveSoktForViaQueryErReservert(oppgaveSoktForViaQueryErAlleredeReservert);
+      onClick(null, oppgaveSoktForViaQueryErReservert, selectOppgaveCallback);
     }
   }, [oppgaveSoktForViaQueryErAlleredeReservert]);
 
