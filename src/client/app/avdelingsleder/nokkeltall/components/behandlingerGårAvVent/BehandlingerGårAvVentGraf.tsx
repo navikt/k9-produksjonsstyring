@@ -109,7 +109,7 @@ const BehandlingerGårAvVentGraf: FunctionComponent<OwnProps> = ({
       >
         <HorizontalGridLines />
         <XAxis
-          tickTotal={5}
+          tickTotal={6}
           tickFormat={(t) => dayjs(t).format(DDMMYYYY_DATE_FORMAT)}
           style={{ text: cssText }}
         />
