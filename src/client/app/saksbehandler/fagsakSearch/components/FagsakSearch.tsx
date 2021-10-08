@@ -56,6 +56,16 @@ const FagsakSearch: FunctionComponent<OwnProps> = ({
   const erSokViaQueryParams = typeof queryFraURL.sok !== 'undefined' && !hasValidSaksnummerOrFodselsnummerFormat(queryFraURL.sok);
 
   useEffect(() => {
+    if (erSokViaQueryParams) {
+      const paramToString = queryFraURL.sok.toString();
+      searchFagsakCallback({
+        searchString: paramToString,
+        skalReservere: false,
+      });
+    }
+  }, []);
+
+  useEffect(() => {
     const eksistererEttResultatFraQuerySok = erSokViaQueryParams && resultat
       && resultat.ikkeTilgang === false && resultat.oppgaver.length === 1;
 
