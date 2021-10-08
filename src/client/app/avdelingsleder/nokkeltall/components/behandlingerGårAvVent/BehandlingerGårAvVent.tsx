@@ -12,8 +12,8 @@ import IBehandlingerSomGarAvVentType
 import BehandlingerGårAvVentGraf
   from 'avdelingsleder/nokkeltall/components/behandlingerGårAvVent/BehandlingerGårAvVentGraf';
 import Hjelpetekst from 'nav-frontend-hjelpetekst';
+import { ytelseTyperForBehandlingerPåVentGraf } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
 import styles from './behandlingerGårAvVent.less';
-import {ytelseTyperForBehandlingerPåVentGraf} from "avdelingsleder/nokkeltall/nokkeltallUtils";
 
 interface OwnProps{
   width: number;
