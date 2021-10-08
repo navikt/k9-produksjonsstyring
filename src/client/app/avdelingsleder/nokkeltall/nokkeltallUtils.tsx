@@ -11,6 +11,19 @@ export const ytelseTyper = [{
   navn: 'Omsorgspenger',
 },
 {
+  kode: fagsakYtelseType.PLEIEPENGER_SYKT_BARN,
+  navn: 'Pleiepenger sykt barn',
+},
+{
+  kode: ALLE_YTELSETYPER_VALGT,
+  navn: 'Alle ytelser',
+}];
+
+export const ytelseTyperForBehandlingerPåVentGraf = [{
+  kode: fagsakYtelseType.OMSORGSPENGER,
+  navn: 'Omsorgspenger',
+},
+{
   kode: fagsakYtelseType.OMSORGSDAGER,
   navn: 'Omsorgsdager',
 },
