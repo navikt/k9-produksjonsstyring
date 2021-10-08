@@ -13,6 +13,7 @@ import { DDMMYYYY_DATE_FORMAT } from 'utils/formats';
 
 import 'react-vis/dist/style.css';
 import NyeOgFerdigstilteOppgaver from 'saksbehandler/saksstotte/nokkeltall/components/nyeOgFerdigstilteOppgaverTsType';
+import { cssText } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
 import styles from './nyeOgFerdigstilteOppgaverForSisteSyvGraf.less';
 
 export const slaSammenBehandlingstyperOgFyllInnTomme = (nyeOgFerdigstilteOppgaver: NyeOgFerdigstilteOppgaver[]):
@@ -44,13 +45,6 @@ export const slaSammenBehandlingstyperOgFyllInnTomme = (nyeOgFerdigstilteOppgave
   }
 
   return oppgaver;
-};
-
-const cssText = {
-  fontFamily: 'Source Sans Pro, Arial, sans-serif',
-  fontSize: '1rem',
-  lineHeight: '1.375rem',
-  fontWeight: 400,
 };
 
 interface Koordinat {
@@ -95,6 +89,7 @@ export const NyeOgFerdigstilteOppgaverForSisteSyvGraf: FunctionComponent<OwnProp
     x: o.dato,
     y: o.antallFerdigstilte,
   })), [sammenslatteOppgaver]);
+
   const nyeOppgaver = useMemo(() => sammenslatteOppgaver.map((o) => ({
     x: o.dato,
     y: o.antallNye,
