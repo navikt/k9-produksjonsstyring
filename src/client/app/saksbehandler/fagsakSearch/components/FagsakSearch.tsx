@@ -73,6 +73,8 @@ const FagsakSearch: FunctionComponent<OwnProps> = ({
       goToFagsak(resultat.oppgaver[0]);
     } else if (eksistererEttResultatFraQuerySok && resultat.oppgaver[0].status.erReservert && !resultat.oppgaver[0].status.erReservertAvInnloggetBruker) {
       setOppgaveSoktForViaParamsErAlleredeReservert(resultat.oppgaver[0]);
+    } else {
+      setOppgaveSoktForViaParamsErAlleredeReservert(null);
     }
   }, [resultat]);
 

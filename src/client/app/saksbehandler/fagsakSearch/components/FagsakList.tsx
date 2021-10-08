@@ -42,7 +42,6 @@ const FagsakList: FunctionComponent<OwnProps> = ({
   const [visReserverOppgaveModal, setVisReserverOppgaveModal] = useState(false);
   const [visOppgavePåVentModel, setVisOppgavePåVentModel] = useState(false);
   const [valgtOppgave, setValgtOppgave] = useState<Oppgave>(null);
-  const [oppgaveSoktForViaQueryErReservert, setOppgaveSoktForViaQueryErReservert] = useState(null);
   const { kanReservere } = useGlobalStateRestApiData<NavAnsatt>(RestApiGlobalStatePathsKeys.NAV_ANSATT);
   const oppgavePåVentMulighetBTekst = 'Tilbake';
 
@@ -65,9 +64,8 @@ const FagsakList: FunctionComponent<OwnProps> = ({
   };
 
   useEffect(() => {
-    if (oppgaveSoktForViaQueryErAlleredeReservert && oppgaveSoktForViaQueryErAlleredeReservert !== oppgaveSoktForViaQueryErReservert) {
-      setOppgaveSoktForViaQueryErReservert(oppgaveSoktForViaQueryErAlleredeReservert);
-      onClick(null, oppgaveSoktForViaQueryErReservert, selectOppgaveCallback);
+    if (oppgaveSoktForViaQueryErAlleredeReservert) {
+      onClick(null, oppgaveSoktForViaQueryErAlleredeReservert, selectOppgaveCallback);
     }
   }, [oppgaveSoktForViaQueryErAlleredeReservert]);
 
