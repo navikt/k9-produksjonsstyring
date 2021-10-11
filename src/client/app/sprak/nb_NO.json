@@ -216,6 +216,7 @@
   "FlyttReservasjonModal.OverstyrReservasjon": "Nej, overstyr reservasjon",
   "FlyttReservasjonModal.FlyttReservasjon": "Ja, flytt reservasjon til saksbehandler",
   "FlyttReservasjonModal.GåTilKøen": "Gå tilbake til køen",
+  "FlyttReservasjonModal.Feil": "Mangler reservasjonsrettigheter.",
 
   "OppgaveHandlingerMenu.LeggTilbake": "Legg behandling{br}tilbake i felles kø",
   "OppgaveHandlingerMenu.ForlengReservasjon": "Forleng din reservasjon av{br}behandlingen med 24 timer",

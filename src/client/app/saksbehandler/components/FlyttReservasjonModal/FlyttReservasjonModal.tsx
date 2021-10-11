@@ -1,6 +1,6 @@
-import React, { FunctionComponent, useCallback } from 'react';
+import React, { FunctionComponent, useCallback, useState } from 'react';
 import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
-import { Normaltekst } from 'nav-frontend-typografi';
+import { Element, Normaltekst } from 'nav-frontend-typografi';
 
 import Oppgave from 'saksbehandler/oppgaveTsType';
 import Image from 'sharedComponents/Image';
@@ -8,16 +8,18 @@ import Modal from 'sharedComponents/Modal';
 
 import advarselImageUrl from 'images/advarsel.svg';
 import { FormattedMessage, WrappedComponentProps } from 'react-intl';
-import { K9LosApiKeys } from 'api/k9LosApi';
+import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
 import { OppgaveStatus } from 'saksbehandler/oppgaveStatusTsType';
+import NavAnsatt from 'app/navAnsattTsType';
 import styles from './flyttReservasjonsmodal.less';
 import useRestApiRunner from '../../../api/rest-api-hooks/src/local-data/useRestApiRunner';
+import useGlobalStateRestApiData from '../../../api/rest-api-hooks/src/global-data/useGlobalStateRestApiData';
 
 interface OwnProps{
   oppgave: Oppgave;
   lukkFlyttReservasjonsmodal: () => void;
   openSak: (oppgave: Oppgave) => void;
-  hentReserverteOppgaver: () => void;
+  hentReserverteOppgaver?: () => void;
 }
 
 export const FlyttReservasjonsmodal: FunctionComponent<OwnProps & WrappedComponentProps> = ({
@@ -29,6 +31,9 @@ export const FlyttReservasjonsmodal: FunctionComponent<OwnProps & WrappedCompone
 }) => {
   const { startRequest: flyttOppgaveReservasjon } = useRestApiRunner(K9LosApiKeys.FLYTT_RESERVASJON);
   const { startRequest: reserverOppgave } = useRestApiRunner<OppgaveStatus>(K9LosApiKeys.RESERVER_OPPGAVE);
+  const { kanReservere } = useGlobalStateRestApiData<NavAnsatt>(RestApiGlobalStatePathsKeys.NAV_ANSATT);
+
+  const [visManglerReservasjonsrettigheterFeilmelding, setVisManglerReservasjonsrettigheterFeilmelding] = useState<boolean>(false);
 
   const flyttOppgaveReservasjonFn = useCallback(
     (oppgaveId: string, brukerIdent: string, begrunnelse: string): Promise<any> => flyttOppgaveReservasjon({
@@ -37,23 +42,29 @@ export const FlyttReservasjonsmodal: FunctionComponent<OwnProps & WrappedCompone
       begrunnelse,
     })
       .then(() => {
-        hentReserverteOppgaver();
+        if (typeof hentReserverteOppgaver !== 'undefined') {
+          hentReserverteOppgaver();
+        }
         lukkFlyttReservasjonsmodal();
       }),
     [],
   );
 
   const overstyrReservasjonFn = () => {
-    const params = {
-      oppgaveId: oppgave.eksternId,
-      overstyrSjekk: true,
-    };
+    if (kanReservere) {
+      const params = {
+        oppgaveId: oppgave.eksternId,
+        overstyrSjekk: true,
+      };
 
-    reserverOppgave(params).then((nyOppgaveStatus) => {
-      if (nyOppgaveStatus.erReservert && nyOppgaveStatus.erReservertAvInnloggetBruker) {
-        openSak(oppgave);
-      }
-    }).then(() => hentReserverteOppgaver());
+      reserverOppgave(params).then((nyOppgaveStatus) => {
+        if (nyOppgaveStatus.erReservert && nyOppgaveStatus.erReservertAvInnloggetBruker) {
+          openSak(oppgave);
+        }
+      }).then(() => hentReserverteOppgaver());
+    } else {
+      setVisManglerReservasjonsrettigheterFeilmelding(true);
+    }
   };
   return (
     <Modal
@@ -113,6 +124,11 @@ export const FlyttReservasjonsmodal: FunctionComponent<OwnProps & WrappedCompone
             {intl.formatMessage({ id: 'OppgaveErReservertAvAnnenModal.GåTilKøen' })}
           </Knapp>
         </div>
+        {visManglerReservasjonsrettigheterFeilmelding && (
+        <div className={styles.flyttReservasjonModal__feilmelding}>
+          <Element><FormattedMessage id="FlyttReservasjonModal.Feil" /></Element>
+        </div>
+        )}
       </div>
     </Modal>
   );
