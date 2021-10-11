@@ -12,6 +12,8 @@ import { useRestApi } from 'api/rest-api-hooks';
 import useGlobalStateRestApiData from 'api/rest-api-hooks/src/global-data/useGlobalStateRestApiData';
 import RestApiState from 'api/rest-api-hooks/src/RestApiState';
 import ModalMedIkon from 'sharedComponents/modal/ModalMedIkon';
+import { FlyttReservasjonsmodal } from 'saksbehandler/components/FlyttReservasjonsmodal/FlyttReservasjonModal';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import OppgavekoPanel from './components/OppgavekoPanel';
 import timeglassUrl from '../../../images/timeglass.svg';
 import OppgaveSystem from '../../types/OppgaveSystem';
@@ -27,7 +29,8 @@ interface OwnProps {
 /**
  * BehandlingskoerIndex
  */
-const BehandlingskoerIndex: FunctionComponent<OwnProps> = ({
+const BehandlingskoerIndex: FunctionComponent<OwnProps & WrappedComponentProps> = ({
+  intl,
   k9sakUrl,
   k9punsjUrl,
   setValgtOppgavekoId,
@@ -196,8 +199,10 @@ const BehandlingskoerIndex: FunctionComponent<OwnProps> = ({
           ikonAlt="Timeglass"
         />
       )}
+
+      <FlyttReservasjonsmodal intl={intl} ut="hei" />
     </>
   );
 };
 
-export default BehandlingskoerIndex;
+export default injectIntl(BehandlingskoerIndex);
