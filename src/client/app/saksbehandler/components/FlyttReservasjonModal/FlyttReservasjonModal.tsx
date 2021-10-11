@@ -1,6 +1,7 @@
 import React, { FunctionComponent, useCallback, useState } from 'react';
 import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
+
 import Oppgave from 'saksbehandler/oppgaveTsType';
 import Image from 'sharedComponents/Image';
 import Modal from 'sharedComponents/Modal';
@@ -30,6 +31,7 @@ export const FlyttReservasjonsmodal: FunctionComponent<OwnProps & WrappedCompone
   const { startRequest: flyttOppgaveReservasjon } = useRestApiRunner(K9LosApiKeys.FLYTT_RESERVASJON);
   const { startRequest: reserverOppgave } = useRestApiRunner<OppgaveStatus>(K9LosApiKeys.RESERVER_OPPGAVE);
   const { kanReservere } = useGlobalStateRestApiData<NavAnsatt>(RestApiGlobalStatePathsKeys.NAV_ANSATT);
+
   const [visManglerReservasjonsrettigheterFeilmelding, setVisManglerReservasjonsrettigheterFeilmelding] = useState<boolean>(false);
 
   const flyttOppgaveReservasjonFn = useCallback(
