@@ -87,6 +87,8 @@
   "FlyttReservasjonModal.Begrunn": "Begrunn flytting av reservasjonen",
   "FlyttReservasjonModal.Ok": "OK",
   "FlyttReservasjonModal.Avbryt": "Avbryt",
+  "FlyttReservasjonBegrunnelseModal.FlyttTilSaksbehandler": "Flytt til saksbehandler",
+  "FlyttReservasjonBegrunnelseModal.Begrunnelse": "Begrunnelse for flytting av reservasjon",
 
   "FordelingAvBehandlingstypePanel.Fordeling": "Antall åpne behandlinger",
   "FordelingAvBehandlingstypePanel.Alle": "Alle",
