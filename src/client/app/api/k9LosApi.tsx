@@ -72,6 +72,7 @@ export enum K9LosApiKeys {
   HENT_ALLE_RESERVASJONER = 'HENT_ALLE_RESERVASJONER',
   AVDELINGSLEDER_OPPHEVER_RESERVASJON = 'AVDELINGSLEDER_OPPHEVER_RESERVASJON',
   SEARCH_AKTOERID= 'SEARCH_AKTOERID',
+  HENT_BEHANDLINGER_SOM_GÅR_AV_VENT='HENT_BEHANDLINGER_SOM_GÅR_AV_VENT',
 }
 
 const CONTEXT_PATH = isDevelopment ? 'api' : '';
@@ -147,6 +148,7 @@ export const endpoints = new RestApiConfigBuilder(CONTEXT_PATH)
   .withGet('/avdelingsleder/nokkeltall/behandlinger-manuelt-vent-historikk', K9LosApiKeys.HENT_OPPGAVER_MANUELT_PA_VENT)
   .withGet('/avdelingsleder/nokkeltall/behandlinger-forste-stonadsdag', K9LosApiKeys.HENT_OPPGAVER_PER_FORSTE_STONADSDAG)
   .withGet('/avdelingsleder/nokkeltall//dagens-tall', K9LosApiKeys.HENT_DAGENS_TALL)
+  .withGet('/avdelingsleder/nokkeltall/alle-paa-vent', K9LosApiKeys.HENT_BEHANDLINGER_SOM_GÅR_AV_VENT)
 
   .withGet('/avdelingsleder/reservasjoner', K9LosApiKeys.HENT_ALLE_RESERVASJONER)
 

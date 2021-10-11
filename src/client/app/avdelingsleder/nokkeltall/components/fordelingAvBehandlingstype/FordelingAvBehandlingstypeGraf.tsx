@@ -10,6 +10,7 @@ import { Normaltekst } from 'nav-frontend-typografi';
 import { FlexContainer, FlexRow, FlexColumn } from 'sharedComponents/flexGrid';
 import { Kodeverk } from 'kodeverk/kodeverkTsType';
 import behandlingType from 'kodeverk/behandlingType';
+import { cssText } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
 import AlleOppgaver from './alleOppgaverTsType';
 
 import 'react-vis/dist/style.css';
@@ -47,13 +48,6 @@ const formatData = (alleOppgaver) => {
 
   return Object.keys(sammenslatteBehandlingstyper)
     .map((k) => ({ x: sammenslatteBehandlingstyper[k], y: parseInt(k, 10) }));
-};
-
-const cssText = {
-  fontFamily: 'Source Sans Pro, Arial, sans-serif',
-  fontSize: '1rem',
-  lineHeight: '1.375rem',
-  fontWeight: 400,
 };
 
 const getHintAntall = (verdi, intl) => intl.formatMessage({ id: 'FordelingAvBehandlingstypeGraf.Antall' }, {
