@@ -7,7 +7,9 @@ import Oppgave from 'saksbehandler/oppgaveTsType';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import { SokeResultat } from 'saksbehandler/fagsakSearch/sokeResultatTsType';
 import queryString from 'query-string';
-import { hasValidSaksnummerOrFodselsnummerFormat } from 'utils/validation/validators';
+import {
+  hasValidSaksnummerEllerJournalpostFormat,
+} from 'utils/validation/validators';
 import PersonInfo from './person/PersonInfo';
 import SearchForm from './SearchForm';
 import FagsakList from './FagsakList';
@@ -53,7 +55,7 @@ const FagsakSearch: FunctionComponent<OwnProps> = ({
   const [oppgaveSoktForViaQueryErAlleredeReservert, setOppgaveSoktForViaParamsErAlleredeReservert] = useState<Oppgave>(null);
   const { location } = window;
   const queryFraURL = queryString.parse(typeof location !== 'undefined' ? location.search : '');
-  const erSokViaQueryParams = typeof queryFraURL.sok !== 'undefined' && !hasValidSaksnummerOrFodselsnummerFormat(queryFraURL.sok);
+  const erSokViaQueryParams = typeof queryFraURL.sok !== 'undefined' && !hasValidSaksnummerEllerJournalpostFormat(queryFraURL.sok);
 
   useEffect(() => {
     if (erSokViaQueryParams) {
