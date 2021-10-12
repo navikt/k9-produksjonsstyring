@@ -208,7 +208,7 @@ const BehandlingskoerIndex: FunctionComponent<OwnProps & WrappedComponentProps> 
           ikonAlt="Timeglass"
         />
       )}
-      
+
       {visModalForSaksbehandlerHarBesluttetOppgaven && (
         <ModalMedIkon
           cancel={() => { setVisModalForSaksbehandlerHarBesluttetOppgaven(false); setValgtOppgave(null); }}
