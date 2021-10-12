@@ -11,6 +11,7 @@ import useGlobalStateRestApiData from 'api/rest-api-hooks/src/global-data/useGlo
 import NavAnsatt from 'app/navAnsattTsType';
 import { errorOfType, ErrorTypes, getErrorResponseData } from 'api/rest-api';
 import ModalMedIkon from 'sharedComponents/modal/ModalMedIkon';
+import { FlyttReservasjonsmodal } from 'saksbehandler/components/FlyttReservasjonModal/FlyttReservasjonModal';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import FagsakSearch from './components/FagsakSearch';
 import OppgaveSystem from '../../types/OppgaveSystem';
@@ -23,12 +24,13 @@ interface OwnProps {
   omsorgspengerUrl: string;
 }
 
-/** s
+/**
  * FagsakSearchIndex
  *
  * Container komponent. Har ansvar for å vise søkeskjermbildet og å håndtere fagsaksøket
  * mot server og lagringen av resultatet i klientens state.
  */
+
 const FagsakSearchIndex: FunctionComponent<OwnProps & WrappedComponentProps> = ({
   intl,
   k9sakUrl,
@@ -36,6 +38,9 @@ const FagsakSearchIndex: FunctionComponent<OwnProps & WrappedComponentProps> = (
   omsorgspengerUrl,
 }) => {
   const [reservertAvAnnenSaksbehandler, setReservertAvAnnenSaksbehandler] = useState(false);
+  const [visModalForFlyttReservasjon, setVisModalForFlyttReservasjon] = useState<boolean>(false);
+  const [valgtOppgave, setValgtOppgave] = useState<Oppgave>();
+
   const [reservertOppgave, setReservertOppgave] = useState<Oppgave>();
   const [sokStartet, setSokStartet] = useState(false);
   const [sokFerdig, setSokFerdig] = useState(false);
@@ -82,6 +87,11 @@ const FagsakSearchIndex: FunctionComponent<OwnProps & WrappedComponentProps> = (
   };
 
   const velgFagsakOperasjoner = (oppgave: Oppgave, reserver: boolean) => {
+    if (oppgave.status.kanOverstyres) {
+      setValgtOppgave(oppgave);
+      setVisModalForFlyttReservasjon(true);
+    }
+
     if (oppgave.status.erReservert && !oppgave.status.erReservertAvInnloggetBruker) {
       setReservertOppgave(oppgave);
       setReservertAvAnnenSaksbehandler(true);
@@ -168,6 +178,18 @@ const FagsakSearchIndex: FunctionComponent<OwnProps & WrappedComponentProps> = (
           }}
           ikonUrl={advarselImageUrl}
           ikonAlt="advarselTriangel"
+        />
+      )}
+
+      {visModalForFlyttReservasjon && valgtOppgave && (
+        <FlyttReservasjonsmodal
+          intl={intl}
+          oppgave={valgtOppgave}
+          lukkFlyttReservasjonsmodal={() => {
+            setVisModalForFlyttReservasjon(false);
+            setValgtOppgave(null);
+          }}
+          openSak={goToFagsak}
         />
       )}
     </>
