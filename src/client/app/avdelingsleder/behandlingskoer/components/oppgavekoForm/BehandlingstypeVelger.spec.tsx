@@ -57,10 +57,12 @@ const behandlingTyper = [{
 {
   kode: behandlingType.UKJENT,
   navn: 'Ukjent',
-},
-{
+}, {
   kode: behandlingType.SAMTALEREFERAT,
   navn: 'Samtalereferat',
+}, {
+  kode: behandlingType.KOPI,
+  navn: 'Kopi',
 },
 ];
 

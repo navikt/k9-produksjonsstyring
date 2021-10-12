@@ -1,5 +1,5 @@
 import React, {
-  useMemo, useState, FunctionComponent, useCallback,
+  useMemo, useState, FunctionComponent, useCallback, useRef,
 } from 'react';
 import {
   XYPlot, XAxis, YAxis, VerticalGridLines, HorizontalRectSeries, Hint, DiscreteColorLegend,
@@ -11,6 +11,7 @@ import { FlexContainer, FlexRow, FlexColumn } from 'sharedComponents/flexGrid';
 import { Kodeverk } from 'kodeverk/kodeverkTsType';
 import behandlingType from 'kodeverk/behandlingType';
 import { cssText } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
+import { punsjYKoordinat } from 'saksbehandler/saksstotte/nokkeltall/components/nyeOgFerdigstilteOppgaverForIdag/NyeOgFerdigstilteOppgaverForIdagGraf';
 import AlleOppgaver from './alleOppgaverTsType';
 
 import 'react-vis/dist/style.css';
@@ -19,11 +20,13 @@ import styles from './fordelingAvBehandlingstypeGraf.less';
 const LEGEND_WIDTH = 210;
 
 const behandlingstypeOrder = [
+  behandlingType.TILBAKEBETALING,
   behandlingType.ANKE,
   behandlingType.INNSYN,
   behandlingType.KLAGE,
   behandlingType.REVURDERING,
-  behandlingType.FORSTEGANGSSOKNAD];
+  behandlingType.FORSTEGANGSSOKNAD,
+];
 
 const settCustomHoydePaSoylene = (data) => {
   const transformert = data.map((el) => ({
@@ -36,10 +39,10 @@ const settCustomHoydePaSoylene = (data) => {
   return transformert;
 };
 
-const formatData = (alleOppgaver) => {
+const formatData = (alleOppgaver, skalPunsjVises: boolean) => {
   const sammenslatteBehandlingstyper = alleOppgaver
     .reduce((acc, o) => {
-      const index = behandlingstypeOrder.indexOf(o.behandlingType.kode) + 1;
+      const index = skalPunsjVises ? punsjYKoordinat : behandlingstypeOrder.indexOf(o.behandlingType.kode) + 1;
       return {
         ...acc,
         [index]: (acc[index] ? acc[index] + o.antall : o.antall),
@@ -68,6 +71,7 @@ interface OwnProps {
   height: number;
   behandlingTyper: Kodeverk[];
   alleOppgaver: AlleOppgaver[];
+  erPunsjValgt: boolean;
 }
 
 interface Koordinat {
@@ -85,6 +89,7 @@ const FordelingAvBehandlingstypeGraf: FunctionComponent<OwnProps & WrappedCompon
   height,
   alleOppgaver,
   behandlingTyper,
+  erPunsjValgt,
 }) => {
   const [hintVerdi, setHintVerdi] = useState<Koordinat>();
 
@@ -95,13 +100,16 @@ const FordelingAvBehandlingstypeGraf: FunctionComponent<OwnProps & WrappedCompon
     setHintVerdi(undefined);
   }, []);
 
+  const stateRef = useRef({ skalPunsjbehandlingerVises: erPunsjValgt });
+  stateRef.current.skalPunsjbehandlingerVises = erPunsjValgt;
+
   const finnBehandlingTypeNavn = useCallback((_v, i) => {
     const type = behandlingTyper.find((bt) => bt.kode === behandlingstypeOrder[i]);
+    if (stateRef.current.skalPunsjbehandlingerVises) return 'Punsj';
     return type ? type.navn : '';
   }, []);
-
-  const tilSaksbehandling = useMemo(() => formatData(alleOppgaver.filter((o) => o.tilBehandling)), [alleOppgaver]);
-  const tilBeslutter = useMemo(() => formatData(alleOppgaver.filter((o) => !o.tilBehandling)), [alleOppgaver]);
+  const tilSaksbehandling = useMemo(() => formatData(alleOppgaver.filter((o) => o.tilBehandling), stateRef.current.skalPunsjbehandlingerVises), [alleOppgaver]);
+  const tilBeslutter = useMemo(() => formatData(alleOppgaver.filter((o) => !o.tilBehandling), stateRef.current.skalPunsjbehandlingerVises), [alleOppgaver]);
   const isEmpty = tilSaksbehandling.length === 0 && tilBeslutter.length === 0;
 
   return (
@@ -111,12 +119,12 @@ const FordelingAvBehandlingstypeGraf: FunctionComponent<OwnProps & WrappedCompon
           <XYPlot
             dontCheckIfEmpty={isEmpty}
             margin={{
-              left: 170, right: 40, top: 40, bottom: 0,
+              left: stateRef.current.skalPunsjbehandlingerVises ? 150 : 170, right: 40, top: 40, bottom: 0,
             }}
             width={width - LEGEND_WIDTH > 0 ? width - LEGEND_WIDTH : 100 + LEGEND_WIDTH}
             height={height}
             stackBy="x"
-            yDomain={[0, 7]}
+            yDomain={stateRef.current.skalPunsjbehandlingerVises ? [0, 6] : [0, 7]}
             {...(isEmpty ? { xDomain: [0, 100] } : {})}
           >
             <VerticalGridLines />
@@ -124,7 +132,7 @@ const FordelingAvBehandlingstypeGraf: FunctionComponent<OwnProps & WrappedCompon
             <YAxis
               style={{ text: cssText }}
               tickFormat={finnBehandlingTypeNavn}
-              tickValues={[1, 2, 3, 4, 5]}
+              tickValues={stateRef.current.skalPunsjbehandlingerVises ? [punsjYKoordinat] : [1, 2, 3, 4, 5, 6]}
             />
             <HorizontalRectSeries
               data={settCustomHoydePaSoylene(tilSaksbehandling)}
@@ -151,6 +159,7 @@ const FordelingAvBehandlingstypeGraf: FunctionComponent<OwnProps & WrappedCompon
             )}
           </XYPlot>
         </FlexColumn>
+        {!stateRef.current.skalPunsjbehandlingerVises && (
         <FlexColumn>
           <DiscreteColorLegend
             colors={['#634689', '#FF9100']}
@@ -164,6 +173,7 @@ const FordelingAvBehandlingstypeGraf: FunctionComponent<OwnProps & WrappedCompon
             ]}
           />
         </FlexColumn>
+        )}
       </FlexRow>
     </FlexContainer>
   );
