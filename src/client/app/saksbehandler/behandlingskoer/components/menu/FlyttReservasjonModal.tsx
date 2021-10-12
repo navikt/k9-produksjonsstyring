@@ -26,7 +26,8 @@ interface OwnProps {
   showModal: boolean;
   oppgaveId: string;
   closeModal: () => void;
-  hentAlleReservasjonerEllerOppgaver: () => void;
+  saksbehandler?: Saksbehandler;
+ hentAlleReservasjonerEllerOppgaver: () => void;
 }
 
 /**

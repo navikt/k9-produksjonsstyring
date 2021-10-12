@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { Form } from 'react-final-form';
 
-import { mountWithIntl } from '../../../../../setup/testHelpers/intl-enzyme-test-helper';
+import { mountWithIntl } from 'testHelpers/intl-enzyme-test-helper';
 import RadioGroupField from './RadioGroupField';
 import RadioOption from './RadioOption';
 

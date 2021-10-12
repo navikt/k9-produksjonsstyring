@@ -35,7 +35,7 @@ const DagensTallPanel: FunctionComponent<OwnProps & WrappedComponentProps> = ({ 
         <EnkelTeller antall={totaltIdag} tekst="Åpne behandlinger" />
 
         {dagensTall && dagensTallIRettRekkefoljd.map((dt) => (
-          <EnkelTeller key={dt.behandlingType.navn} antall={dt.antall} tekst={dt.behandlingType.navn} />
+          <EnkelTeller antall={dt.antall} tekst={dt.behandlingType.navn} />
         ))}
       </div>
     </div>

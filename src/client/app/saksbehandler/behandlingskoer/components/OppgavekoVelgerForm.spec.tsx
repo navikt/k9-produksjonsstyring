@@ -11,8 +11,8 @@ import behandlingType from 'kodeverk/behandlingType';
 import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
 import andreKriterierType from 'kodeverk/andreKriterierType';
 import { SelectField } from 'form/FinalFields';
-import { shallowWithIntl, intlMock } from '../../../../../../setup/testHelpers/intl-enzyme-test-helper';
-import RestApiTestMocker from '../../../../../../setup/testHelpers/RestApiTestMocker';
+import { shallowWithIntl, intlMock } from 'testHelpers/intl-enzyme-test-helper';
+import RestApiTestMocker from 'testHelpers/RestApiTestMocker';
 import { K9LosApiKeys } from 'api/k9LosApi';
 import OppgavekoVelgerForm from './OppgavekoVelgerForm';
 

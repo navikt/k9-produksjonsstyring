@@ -18,8 +18,6 @@ jobs:
         uses: actions/setup-node@v2.4.0
         with:
           node-version: 12.x
-          registry-url: https://npm.pkg.github.com/
-          scope: '@navikt'
       - name: Installere moduler
         run: yarn install --ignore-optional --no-progress --frozen-lockfile
         env:

@@ -3,7 +3,7 @@ import chai, { expect } from 'chai';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
 
-import { mountWithIntl, intlMock } from '../../../../../setup/testHelpers/intl-enzyme-test-helper';
+import { mountWithIntl, intlMock } from 'testHelpers/intl-enzyme-test-helper';
 import { RenderCheckboxField } from './CheckboxField';
 
 chai.use(sinonChai);

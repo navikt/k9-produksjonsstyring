@@ -2,9 +2,11 @@ import React, {
   FunctionComponent, useCallback, useEffect, useMemo, useRef, useState,
 } from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
-import {
-  Popover, SystemButton, UserPanel, Header, BoxedListWithLinks,
-} from '@navikt/k9-react-components';
+import Popover from '@navikt/nap-popover';
+import SystemButton from '@navikt/nap-system-button';
+import UserPanel from '@navikt/nap-user-panel';
+import BoxedListWithLinks from '@navikt/boxed-list-with-links';
+import Header from '@navikt/nap-header';
 import { RETTSKILDE_URL, SYSTEMRUTINE_URL } from 'api/eksterneLenker';
 import Knapp from 'nav-frontend-knapper';
 

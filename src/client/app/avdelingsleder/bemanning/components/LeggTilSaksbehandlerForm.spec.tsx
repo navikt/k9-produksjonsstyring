@@ -5,7 +5,7 @@ import { IntlShape } from 'react-intl';
 import { Form } from 'react-final-form';
 
 import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
-import { shallowWithIntl, intlMock } from '../../../../../../setup/testHelpers/intl-enzyme-test-helper';
+import { shallowWithIntl, intlMock } from 'testHelpers/intl-enzyme-test-helper';
 import { LeggTilSaksbehandlerForm } from './LeggTilSaksbehandlerForm';
 
 describe('<LeggTilSaksbehandlerForm>', () => {

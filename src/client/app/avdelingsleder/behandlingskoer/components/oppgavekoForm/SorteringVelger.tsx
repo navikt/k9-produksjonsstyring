@@ -17,6 +17,7 @@ import DatoSorteringValg from './DatoSorteringValg';
 interface OwnProps {
   intl: any;
   valgtOppgavekoId: string;
+  valgteBehandlingtyper: Kodeverk[];
   fomDato: string;
   tomDato: string;
   hentOppgaveko:(id: string) => void;

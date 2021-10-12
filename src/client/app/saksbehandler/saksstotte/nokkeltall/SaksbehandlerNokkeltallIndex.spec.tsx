@@ -3,7 +3,7 @@ import { shallow } from 'enzyme';
 import { expect } from 'chai';
 
 import behandlingType from 'kodeverk/behandlingType';
-import RestApiTestMocker from '../../../../../../setup/testHelpers/RestApiTestMocker';
+import RestApiTestMocker from 'testHelpers/RestApiTestMocker';
 import { K9LosApiKeys } from 'api/k9LosApi';
 import SaksbehandlerNokkeltallPanel from './components/SaksbehandlerNokkeltallPanel';
 import SaksbehandlerNokkeltallIndex from './SaksbehandlerNokkeltallIndex';

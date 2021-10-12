@@ -184,13 +184,13 @@ export const NyeOgFerdigstilteOppgaverForSisteSyvGraf: FunctionComponent<OwnProp
           orientation="horizontal"
           colors={['#0067C5', '#634689', '#FF9100']}
           items={[
-            <Normaltekst key="NyeOgFerdigstilteOppgaverForSisteSyvGraf.Nye" className={styles.displayInline}>
+            <Normaltekst className={styles.displayInline}>
               <FormattedMessage id="NyeOgFerdigstilteOppgaverForSisteSyvGraf.Nye" />
             </Normaltekst>,
-            <Normaltekst key="NyeOgFerdigstilteOppgaverForSisteSyvGraf.Ferdigstilte" className={styles.displayInline}>
+            <Normaltekst className={styles.displayInline}>
               <FormattedMessage id="NyeOgFerdigstilteOppgaverForSisteSyvGraf.Ferdigstilte" />
             </Normaltekst>,
-            <Normaltekst key="NyeOgFerdigstilteOppgaverForSisteSyvGraf.FerdigstilteMine" className={styles.displayInline}>
+            <Normaltekst className={styles.displayInline}>
               <FormattedMessage id="NyeOgFerdigstilteOppgaverForSisteSyvGraf.FerdigstilteMine" />
             </Normaltekst>,
           ]}

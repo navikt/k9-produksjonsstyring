@@ -29,13 +29,10 @@ interface StateProps {
 export class AppIndex extends Component<RouterProps, StateProps> {
   static contextType = RestApiStateContext;
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      headerHeight: 0,
-      crashMessage: undefined,
-    };
-  }
+  state = {
+    headerHeight: 0,
+    crashMessage: undefined,
+  };
 
   componentDidCatch = (error: Error, info: { componentStack: string }): void => {
     const crashMessage = [

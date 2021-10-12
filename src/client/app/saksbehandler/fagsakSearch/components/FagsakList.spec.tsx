@@ -29,26 +29,20 @@ describe('<FagsakList>', () => {
     person,
   };
 
-  const fagsakStatusTyper = [
-    {
-      navn: 'Under behandling',
-      kode: 'UBEH',
-    },
-    {
-      navn: 'Avsluttet',
-      kode: 'AVSLU',
-    },
-  ];
-  const fagsakYtelseTyper = [
-    {
-      navn: 'Engangsstonad',
-      kode: 'ES',
-    },
-    {
-      navn: 'Engangsstonad',
-      kode: 'TEST',
-    },
-  ];
+  const fagsakStatusTyper = [{
+    navn: 'Under behandling',
+    kode: 'UBEH',
+  }, {
+    navn: 'Avsluttet',
+    kode: 'AVSLU',
+  }];
+  const fagsakYtelseTyper = [{
+    navn: 'Engangsstonad',
+    kode: 'ES',
+  }, {
+    navn: 'Engangsstonad',
+    kode: 'TEST',
+  }];
 
   const headerTextCodes = [
     'FagsakList.Saksnummer',
@@ -56,8 +50,4 @@ describe('<FagsakList>', () => {
     'FagsakList.Behandlingstype',
     'EMPTY_1',
   ];
-
-  it('Den beste test', () => {
-    expect(true).to.equal(true);
-  });
 });

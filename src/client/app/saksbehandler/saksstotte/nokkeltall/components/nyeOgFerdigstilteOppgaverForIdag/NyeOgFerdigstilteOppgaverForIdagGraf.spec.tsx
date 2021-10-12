@@ -5,7 +5,7 @@ import { XYPlot, Hint, HorizontalRectSeries } from 'react-vis';
 import { IntlShape } from 'react-intl';
 
 import { ISO_DATE_FORMAT } from 'utils/formats';
-import { shallowWithIntl, intlMock } from '../../../../../../../../setup/testHelpers/intl-enzyme-test-helper';
+import { shallowWithIntl, intlMock } from 'testHelpers/intl-enzyme-test-helper';
 
 import behandlingType from 'kodeverk/behandlingType';
 import NyeOgFerdigstilteOppgaverForIdagGraf from './NyeOgFerdigstilteOppgaverForIdagGraf';

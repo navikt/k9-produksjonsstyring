@@ -21,6 +21,8 @@ import Teller from './Teller';
 import styles from './inngangOgFerdigstiltePanel.less';
 
 interface OwnProps {
+    width: number;
+    height: number;
     getValueFromLocalStorage: (key: string) => string;
 }
 

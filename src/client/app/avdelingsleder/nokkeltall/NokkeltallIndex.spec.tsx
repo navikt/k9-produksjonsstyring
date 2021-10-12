@@ -3,7 +3,7 @@ import { shallow } from 'enzyme';
 import { expect } from 'chai';
 
 import { K9LosApiKeys } from 'api/k9LosApi';
-import RestApiTestMocker from '../../../../../setup/testHelpers/RestApiTestMocker';
+import RestApiTestMocker from 'testHelpers/RestApiTestMocker';
 import NokkeltallIndex from './NokkeltallIndex';
 import NokkeltallPanel from './components/NokkeltallPanel';
 

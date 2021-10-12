@@ -11,9 +11,9 @@ import DateLabel from 'sharedComponents/DateLabel';
 import TableRow from 'sharedComponents/TableRow';
 import TableColumn from 'sharedComponents/TableColumn';
 import Image from 'sharedComponents/Image';
-import { intlMock, shallowWithIntl } from '../../../../../../setup/testHelpers/intl-enzyme-test-helper';
+import { intlMock, shallowWithIntl } from 'testHelpers/intl-enzyme-test-helper';
 import { K9LosApiKeys } from 'api/k9LosApi';
-import RestApiTestMocker from '../../../../../../setup/testHelpers/RestApiTestMocker';
+import RestApiTestMocker from 'testHelpers/RestApiTestMocker';
 import andreKriterierType from 'kodeverk/andreKriterierType';
 import { OppgaverTabell } from './OppgaverTabell';
 

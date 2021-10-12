@@ -4,7 +4,7 @@ import React from 'react';
 
 import { K9LosApiKeys } from 'api/k9LosApi';
 import behandlingType from 'kodeverk/behandlingType';
-import RestApiTestMocker from '../../../../../setup/testHelpers/RestApiTestMocker';
+import RestApiTestMocker from 'testHelpers/RestApiTestMocker';
 import { ReservasjonerIndex } from './ReservasjonerIndex';
 import ReservasjonerTabell from './components/ReservasjonerTabell';
 

@@ -4,7 +4,7 @@ import { shallow } from 'enzyme';
 import Lenke from 'nav-frontend-lenker';
 
 import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
-import RestApiTestMocker from '../../../../../../setup/testHelpers/RestApiTestMocker';
+import RestApiTestMocker from 'testHelpers/RestApiTestMocker';
 import SistBehandledeSaker from './SistBehandledeSaker';
 
 describe('<SistBehandledeSaker>', () => {

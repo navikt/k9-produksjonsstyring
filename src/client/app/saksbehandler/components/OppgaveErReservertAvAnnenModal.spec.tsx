@@ -7,7 +7,7 @@ import { Hovedknapp } from 'nav-frontend-knapper';
 
 import Modal from 'sharedComponents/Modal';
 import { getDateAndTime } from 'utils/dateUtils';
-import { shallowWithIntl, intlMock } from '../../../../../setup/testHelpers/intl-enzyme-test-helper';
+import { shallowWithIntl, intlMock } from 'testHelpers/intl-enzyme-test-helper';
 import behandlingStatus from 'kodeverk/behandlingStatus';
 import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
 import behandlingType from 'kodeverk/behandlingType';

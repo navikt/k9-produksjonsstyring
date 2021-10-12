@@ -12,9 +12,12 @@ const config = {
 
   parser: '@typescript-eslint/parser',
 
-  plugins: ['jest', 'jest-dom', '@typescript-eslint', 'eslint-plugin-react'],
+  plugins: ['@typescript-eslint'],
 
-  extends: ['airbnb', 'plugin:@typescript-eslint/recommended', 'plugin:react/recommended'],
+  extends: [
+    'airbnb',
+    'plugin:@typescript-eslint/recommended',
+  ],
 
   parserOptions: {
     sourceType: 'module',
@@ -30,8 +33,7 @@ const config = {
       'error',
       'ignorePackages',
       {
-        ts: 'never',
-        tsx: 'never',
+        ts: 'never', tsx: 'never',
       },
     ],
     'linebreak-style': OFF,

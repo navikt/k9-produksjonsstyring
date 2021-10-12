@@ -49,7 +49,7 @@ const SaksbehandlereForOppgavekoForm: FunctionComponent<OwnProps> = ({ valgtOppg
             <Row>
               <Column xs="4">
                 {alleSaksbehandlereVenstreListe.map((s) => (
-                  <div key={s.epost} className={styles.checkBox}>
+                  <div className={styles.checkBox}>
                     <CheckboxField
                       key={s.epost}
                       name={s.epost.replace(/\./g, '')}
@@ -63,7 +63,7 @@ const SaksbehandlereForOppgavekoForm: FunctionComponent<OwnProps> = ({ valgtOppg
               </Column>
               <Column xs="7" className={styles.hoyre}>
                 {alleSaksbehandlereHoyreListe.map((s) => (
-                  <div key={s.epost} className={styles.checkBox}>
+                  <div className={styles.checkBox}>
                     <CheckboxField
                       key={s.epost}
                       name={s.epost.replace(/\./g, '')}

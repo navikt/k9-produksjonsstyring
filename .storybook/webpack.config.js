@@ -105,7 +105,7 @@ module.exports = async ({ config, mode }) => {
     include: [CSS_DIR, CORE_DIR],
   }, {
     test: /\.(jpg|png|svg)$/,
-    type: 'asset/resource',
+    loader: 'file-loader',
     options: {
       name: '[name]_[hash].[ext]',
     },

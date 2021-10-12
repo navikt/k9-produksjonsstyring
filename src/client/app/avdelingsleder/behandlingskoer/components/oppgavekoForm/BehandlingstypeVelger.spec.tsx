@@ -6,7 +6,7 @@ import { shallow } from 'enzyme';
 import behandlingType from 'kodeverk/behandlingType';
 import { CheckboxField } from 'form/FinalFields';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
-import RestApiTestMocker from '../../../../../../../setup/testHelpers/RestApiTestMocker';
+import RestApiTestMocker from 'testHelpers/RestApiTestMocker';
 import { K9LosApiKeys } from 'api/k9LosApi';
 import BehandlingstypeVelger from './BehandlingstypeVelger';
 

@@ -164,10 +164,10 @@ const FordelingAvBehandlingstypeGraf: FunctionComponent<OwnProps & WrappedCompon
           <DiscreteColorLegend
             colors={['#634689', '#FF9100']}
             items={[
-              <Normaltekst key="FordelingAvBehandlingstypeGraf.TilBehandling" className={styles.displayInline}>
+              <Normaltekst className={styles.displayInline}>
                 <FormattedMessage id="FordelingAvBehandlingstypeGraf.TilBehandling" />
               </Normaltekst>,
-              <Normaltekst key="FordelingAvBehandlingstypeGraf.TilBeslutter" className={styles.displayInline}>
+              <Normaltekst className={styles.displayInline}>
                 <FormattedMessage id="FordelingAvBehandlingstypeGraf.TilBeslutter" />
               </Normaltekst>,
             ]}
