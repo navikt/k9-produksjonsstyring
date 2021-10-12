@@ -123,7 +123,7 @@ export const hasValidName = (text) => {
 export const hasValidValue = (value) => (invalidValue) => (value === invalidValue ? invalidValueMessage(value) : null);
 export const arrayMinLength = (length) => (value) => {
   const a = true;
-  //eslint-disable-next-line
+  // eslint-disable-next-line
   return (value && a && value.length >= length ? null : arrayMinLengthMessage(length));
 };
 
