@@ -21,11 +21,6 @@ type Oppgave = {
   erTilSaksbehandling: boolean;
   eksternId: string;
   paaVent?: boolean;
-  tilBeslutter?: boolean;
-  utbetalingTilBruker?: boolean;
-  avklarArbeidsforhold?: boolean;
-  selvstendigFrilans?: boolean;
-  søktGradering?: boolean;
 };
 
 export default Oppgave;
