@@ -6,13 +6,13 @@ import { Column, Row } from 'nav-frontend-grid';
 import { FormattedMessage, injectIntl, WrappedComponentProps } from 'react-intl';
 import { Element } from 'nav-frontend-typografi';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
-import { ytelseTyper } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
 import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
 import IBehandlingerSomGarAvVentType
   from 'avdelingsleder/nokkeltall/components/behandlingerGårAvVent/behandlingerSomGårAvVentType';
 import BehandlingerGårAvVentGraf
   from 'avdelingsleder/nokkeltall/components/behandlingerGårAvVent/BehandlingerGårAvVentGraf';
 import Hjelpetekst from 'nav-frontend-hjelpetekst';
+import { ytelseTyperForBehandlingerPåVentGraf } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
 import styles from './behandlingerGårAvVent.less';
 
 interface OwnProps{
@@ -82,7 +82,7 @@ const BehandlingerGårAvVent: FunctionComponent<OwnProps & WrappedComponentProps
             onChange={(e) => setValgtYtelseType(e.target.value)}
           >
             <option value="" disabled selected>{intl.formatMessage({ id: 'BehandlingerGårAvVent.VelgFagytelseType' })}</option>
-            {ytelseTyper.map((ytelseValg) => (<option value={ytelseValg.kode}>{ytelseValg.navn}</option>))}
+            {ytelseTyperForBehandlingerPåVentGraf.map((ytelseValg) => (<option value={ytelseValg.kode}>{ytelseValg.navn}</option>))}
           </Select>
         </Column>
       </Row>
