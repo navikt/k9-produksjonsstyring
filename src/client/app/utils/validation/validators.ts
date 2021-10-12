@@ -52,7 +52,9 @@ export const requiredIfNotPristine = (value, allValues, props) => (props.pristin
 export const requiredIfCustomFunctionIsTrue = (isRequiredFunction) => (value, allValues, props) => (isEmpty(value) && isRequiredFunction(allValues, props)
   ? isRequiredMessage() : undefined);
 
+// eslint-disable-next-line
 export const minLength = (length) => (text) => (isEmpty(text) || text.toString().trim().length >= length ? null : minLengthMessage(length));
+// eslint-disable-next-line
 export const maxLength = (length) => (text) => (isEmpty(text) || text.toString().trim().length <= length ? null : maxLengthMessage(length));
 
 export const minValue = (length) => (number) => (number >= length ? null : minValueMessage(length));
@@ -121,6 +123,7 @@ export const hasValidName = (text) => {
 export const hasValidValue = (value) => (invalidValue) => (value === invalidValue ? invalidValueMessage(value) : null);
 export const arrayMinLength = (length) => (value) => {
   const a = true;
+  //eslint-disable-next-line
   return (value && a && value.length >= length ? null : arrayMinLengthMessage(length));
 };
 
