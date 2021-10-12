@@ -12,9 +12,12 @@ import { useRestApi } from 'api/rest-api-hooks';
 import useGlobalStateRestApiData from 'api/rest-api-hooks/src/global-data/useGlobalStateRestApiData';
 import RestApiState from 'api/rest-api-hooks/src/RestApiState';
 import ModalMedIkon from 'sharedComponents/modal/ModalMedIkon';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import OppgavekoPanel from './components/OppgavekoPanel';
 import timeglassUrl from '../../../images/timeglass.svg';
 import OppgaveSystem from '../../types/OppgaveSystem';
+import advarselImageUrl from '../../../images/advarsel.svg';
+import OppgaveStatusBeskjed from '../../types/OppgaveStatusBeskjed';
 
 interface OwnProps {
   k9sakUrl: string;
@@ -27,18 +30,20 @@ interface OwnProps {
 /**
  * BehandlingskoerIndex
  */
-const BehandlingskoerIndex: FunctionComponent<OwnProps> = ({
+const BehandlingskoerIndex: FunctionComponent<OwnProps & WrappedComponentProps> = ({
+  intl,
   k9sakUrl,
   k9punsjUrl,
   setValgtOppgavekoId,
   valgtOppgavekoId,
   omsorgspengerUrl,
 }) => {
-  const [reservertOppgave, setReservertOppgave] = useState<Oppgave>();
   const [reservertAvAnnenSaksbehandler, setReservertAvAnnenSaksbehandler] = useState<boolean>(false);
   const [reservertOppgaveStatus, setReservertOppgaveStatus] = useState<OppgaveStatus>();
   const [visModalForOppgavePåVent, setVisModalForOppgavePåVent] = useState<boolean>(false);
-  const [oppgavePåVent, setOppgavePåVent] = useState<Oppgave>();
+  const [visModalForSaksbehandlerHarBesluttetOppgaven, setVisModalForSaksbehandlerHarBesluttetOppgaven] = useState<boolean>(false);
+
+  const [valgtOppgave, setValgtOppgave] = useState<Oppgave>();
 
   const refreshUrl = useGlobalStateRestApiData<{ verdi?: string }>(RestApiGlobalStatePathsKeys.REFRESH_URL);
   const { data: oppgavekoer = [] } = useRestApi<Oppgaveko[]>(K9LosApiKeys.OPPGAVEKO);
@@ -126,25 +131,27 @@ const BehandlingskoerIndex: FunctionComponent<OwnProps> = ({
 
   const lukkModal = () => {
     setReservertAvAnnenSaksbehandler(false);
-    setReservertOppgave(null);
+    setValgtOppgave(null);
     setReservertOppgaveStatus(null);
     setVisModalForOppgavePåVent(false);
-    setOppgavePåVent(null);
   };
 
   const reserverOppgaveOgApne = useCallback((oppgave: Oppgave) => {
     if (oppgave.status.erReservert) {
       openSak(oppgave);
-    } else if (typeof oppgave.paaVent !== 'undefined' && oppgave.paaVent) {
+    } else if (!!oppgave.paaVent && oppgave.paaVent) {
       setVisModalForOppgavePåVent(true);
-      setOppgavePåVent(oppgave);
+      setValgtOppgave(oppgave);
     } else {
       reserverOppgave({ oppgaveId: oppgave.eksternId }).then((nyOppgaveStatus) => {
         if (nyOppgaveStatus.erReservert && nyOppgaveStatus.erReservertAvInnloggetBruker) {
           openSak(oppgave);
+        } else if (!!nyOppgaveStatus.beskjed && nyOppgaveStatus.beskjed === OppgaveStatusBeskjed.BESLUTTET_AV_DEG) {
+          setVisModalForSaksbehandlerHarBesluttetOppgaven(true);
+          setValgtOppgave(oppgave);
         } else if (nyOppgaveStatus.erReservert && !nyOppgaveStatus.erReservertAvInnloggetBruker) {
           setReservertAvAnnenSaksbehandler(true);
-          setReservertOppgave(oppgave);
+          setValgtOppgave(oppgave);
           setReservertOppgaveStatus(nyOppgaveStatus);
         }
       }).then(() => hentReserverteOppgaver());
@@ -153,7 +160,7 @@ const BehandlingskoerIndex: FunctionComponent<OwnProps> = ({
 
   const lukkErReservertModalOgOpneOppgave = useCallback((oppgave: Oppgave) => {
     setReservertAvAnnenSaksbehandler(false);
-    setReservertOppgave(undefined);
+    setValgtOppgave(null);
     setReservertOppgaveStatus(undefined);
     openSak(oppgave);
   }, [k9sakUrl]);
@@ -174,10 +181,10 @@ const BehandlingskoerIndex: FunctionComponent<OwnProps> = ({
         reserverteOppgaver={reserverteOppgaver}
         hentReserverteOppgaver={hentReserverteOppgaver}
       />
-      {reservertAvAnnenSaksbehandler && reservertOppgave && reservertOppgaveStatus && (
+      {reservertAvAnnenSaksbehandler && valgtOppgave && reservertOppgaveStatus && (
       <OppgaveErReservertAvAnnenModal
         lukkErReservertModalOgOpneOppgave={lukkErReservertModalOgOpneOppgave}
-        oppgave={reservertOppgave}
+        oppgave={valgtOppgave}
         oppgaveStatus={reservertOppgaveStatus}
         lukkModal={lukkModal}
       />
@@ -185,19 +192,30 @@ const BehandlingskoerIndex: FunctionComponent<OwnProps> = ({
       {visModalForOppgavePåVent && (
         <ModalMedIkon
           cancel={() => lukkModal()}
-          submit={() => openSak(oppgavePåVent)}
+          submit={() => openSak(valgtOppgave)}
           tekst={{
             valgmulighetA: 'Åpne',
             valgmulighetB: 'Tilbake',
             formattedMessageId: 'OppgavePåVentModal.OppgavePåVent',
-            values: { dato: oppgavePåVent.behandlingsfrist.substring(0, 10).replaceAll('-', '.') },
+            values: { dato: valgtOppgave.behandlingsfrist.substring(0, 10).replaceAll('-', '.') },
           }}
           ikonUrl={timeglassUrl}
           ikonAlt="Timeglass"
+        />
+      )}
+      {visModalForSaksbehandlerHarBesluttetOppgaven && (
+        <ModalMedIkon
+          cancel={() => { setVisModalForSaksbehandlerHarBesluttetOppgaven(false); setValgtOppgave(null); }}
+          tekst={{
+            valgmulighetB: intl.formatMessage({ id: 'OppgaveErReservertAvAnnenModal.GåTilKøen' }),
+            formattedMessageId: 'visModalForSaksbehandlerHarBesluttetOppgaven.Informasjon',
+          }}
+          ikonUrl={advarselImageUrl}
+          ikonAlt="advarselTriangel"
         />
       )}
     </>
   );
 };
 
-export default BehandlingskoerIndex;
+export default injectIntl(BehandlingskoerIndex);

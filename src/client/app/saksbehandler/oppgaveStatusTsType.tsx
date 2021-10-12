@@ -12,4 +12,5 @@ export type OppgaveStatus = Readonly<{
     navn: string;
     begrunnelse: string;
   };
+  beskjed?: string;
 }>

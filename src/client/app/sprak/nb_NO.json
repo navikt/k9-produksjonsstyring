@@ -260,6 +260,7 @@
 
   "ReserverOppgaveModal.ReserverOppgave": "Ønsker du å reservere behandlingen?",
   "OppgavePåVentModal.OppgavePåVent": "Saken er satt på vent til {dato}",
+  "visModalForSaksbehandlerHarBesluttetOppgaven.Informasjon": "Du har tidligere vært beslutter for denne saken, og kan derfor ikke behandle denne.",
 
   "SaksbehandlereForOppgavekoForm.Saksbehandlere": "Saksbehandlere",
   "SaksbehandlereForOppgavekoForm.IngenSaksbehandlere": "Ingen saksbehandlere",

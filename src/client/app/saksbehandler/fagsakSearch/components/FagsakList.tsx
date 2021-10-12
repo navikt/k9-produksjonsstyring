@@ -12,8 +12,10 @@ import NavAnsatt from 'app/navAnsattTsType';
 import { RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
 import { getYearFromString } from 'utils/dateUtils';
 import ModalMedIkon from 'sharedComponents/modal/ModalMedIkon';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import styles from './fagsakList.less';
 import OppgaveSystem from '../../../types/OppgaveSystem';
+import OppgaveStatusBeskjed from '../../../types/OppgaveStatusBeskjed';
 
 const headerTextCodes = [
   'FagsakList.Saksnummer',
@@ -34,7 +36,8 @@ interface OwnProps {
  *
  * Presentasjonskomponent. Formaterer fagsak-søkeresultatet for visning i tabell. Sortering av fagsakene blir håndtert her.
  */
-const FagsakList: FunctionComponent<OwnProps> = ({
+const FagsakList: FunctionComponent<OwnProps & WrappedComponentProps> = ({
+  intl,
   fagsakOppgaver,
   selectOppgaveCallback,
   oppgaveSoktForViaQueryErAlleredeReservert,
@@ -42,6 +45,7 @@ const FagsakList: FunctionComponent<OwnProps> = ({
   const [visReserverOppgaveModal, setVisReserverOppgaveModal] = useState(false);
   const [visOppgavePåVentModel, setVisOppgavePåVentModel] = useState(false);
   const [valgtOppgave, setValgtOppgave] = useState<Oppgave>(null);
+  const [visModalForSaksbehandlerHarBesluttetOppgaven, setVisModalForSaksbehandlerHarBesluttetOppgaven] = useState<boolean>(false);
 
   const { kanReservere } = useGlobalStateRestApiData<NavAnsatt>(RestApiGlobalStatePathsKeys.NAV_ANSATT);
   const oppgavePåVentMulighetBTekst = 'Tilbake';
@@ -52,7 +56,10 @@ const FagsakList: FunctionComponent<OwnProps> = ({
     }
     setValgtOppgave(oppgave);
 
-    if (oppgave.erTilSaksbehandling
+    if (oppgave.status.beskjed && oppgave.status.beskjed === OppgaveStatusBeskjed.BESLUTTET_AV_DEG) {
+      setVisModalForSaksbehandlerHarBesluttetOppgaven(true);
+      setValgtOppgave(oppgave);
+    } else if (oppgave.erTilSaksbehandling
       && !oppgave.status.erReservert
       && !oppgave.status.erReservertAvInnloggetBruker
       && (oppgave.system === OppgaveSystem.K9SAK || oppgave.system === OppgaveSystem.PUNSJ)) {
@@ -135,8 +142,21 @@ const FagsakList: FunctionComponent<OwnProps> = ({
           ikonAlt="Timeglass"
         />
       )}
+
+      {visModalForSaksbehandlerHarBesluttetOppgaven && (
+        <ModalMedIkon
+          cancel={() => { setVisModalForSaksbehandlerHarBesluttetOppgaven(false); setValgtOppgave(null); }}
+          tekst={{
+            valgmulighetB: intl.formatMessage({ id: 'OppgaveErReservertAvAnnenModal.GåTilKøen' }),
+            formattedMessageId: 'visModalForSaksbehandlerHarBesluttetOppgaven.Informasjon',
+          }}
+          ikonUrl={advarselImageUrl}
+          ikonAlt="advarselTriangel"
+        />
+      )}
+
     </>
   );
 };
 
-export default FagsakList;
+export default injectIntl(FagsakList);
