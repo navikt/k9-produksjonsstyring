@@ -123,12 +123,22 @@ export const slaSammenPunsjBehandlingstyperOgDatoer = (oppgaver) => {
   const sammenslatte = [];
 
   oppgaver.forEach((o) => {
-    const index = sammenslatte.findIndex((s) => s.behandlingType.kodeverk === 'PUNSJ_INNSENDING_TYPE' && s.dato === o.dato);
+    const index = sammenslatte.findIndex((s) => s.behandlingType.kode === 'PUNSJ' && s.dato === o.dato);
     if (index === -1) {
-      sammenslatte.push(o);
+      sammenslatte.push({
+        behandlingType: {
+          kode: 'PUNSJ',
+          navn: 'PUNSJ',
+        },
+        dato: o.dato,
+        antall: o.antall,
+      });
     } else {
       sammenslatte[index] = {
-        behandlingType: sammenslatte[index].behandlingType,
+        behandlingType: {
+          kode: 'PUNSJ',
+          navn: 'PUNSJ',
+        },
         dato: sammenslatte[index].dato,
         antall: sammenslatte[index].antall + o.antall,
       };

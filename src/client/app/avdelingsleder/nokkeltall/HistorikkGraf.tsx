@@ -17,7 +17,6 @@ import { Row } from 'nav-frontend-grid';
 import HistoriskData from 'avdelingsleder/nokkeltall/historiskDataTsType';
 import { behandlingstypeOrder } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
 import styles from './historikkGraf.less';
-import punsjBehandlingstyper from '../../types/PunsjBehandlingstyper';
 
 const LEGEND_WIDTH = 260;
 
@@ -28,18 +27,6 @@ const behandlingstypeFarger = {
   [behandlingType.REVURDERING]: '#66CBEC',
   [behandlingType.FORSTEGANGSSOKNAD]: '#0067C5',
   [behandlingType.TILBAKEBETALING]: '#69CA20',
-};
-
-const behandlingstypeFargerPunsj = {
-  [behandlingType.PAPIRSØKNAD]: '#C86151',
-  [behandlingType.PAPIRETTERSENDELSE]: '#FF9100',
-  [behandlingType.PAPIRINNTEKTSOPPLYSNINGER]: '#634689',
-  [behandlingType.DIGITAL_ETTERSENDELSE]: '#66CBEC',
-  [behandlingType.INNLOGGET_CHAT]: '#0067C5',
-  [behandlingType.SKRIV_TIL_OSS_SPØRMSÅL]: '#69CA20',
-  [behandlingType.SKRIV_TIL_OSS_SVAR]: '#9A1788',
-  [behandlingType.UKJENT]: '#000000',
-  [behandlingType.KOPI]: '#EEED1D',
 };
 
 const cssText = {
@@ -74,6 +61,7 @@ const konverterTilKoordinaterGruppertPaBehandlingstype = (oppgaverForAvdeling) =
 
 const fyllInnManglendeDatoerOgSorterEtterDato = (data, periodeStart, periodeSlutt) => Object.keys(data).reduce((acc, behandlingstype) => {
   const behandlingstypeData = data[behandlingstype];
+
   const koordinater = [];
 
   for (let dato = moment(periodeStart); dato.isSameOrBefore(periodeSlutt); dato = dato.add(1, 'days')) {
@@ -135,6 +123,7 @@ const HistorikkGraf: FunctionComponent<OwnProps> = ({
   const periodeSlutt = moment().subtract(1, 'd');
 
   const koordinater = useMemo(() => konverterTilKoordinaterGruppertPaBehandlingstype(historiskData), [historiskData]);
+
   const data = useMemo(() => fyllInnManglendeDatoerOgSorterEtterDato(koordinater, periodeStart, periodeSlutt), [koordinater, periodeStart, periodeSlutt]);
 
   const sorterteBehandlingstyper = Object.keys(data).sort(sorterBehandlingtyper);
@@ -175,8 +164,8 @@ const HistorikkGraf: FunctionComponent<OwnProps> = ({
                 key={k}
                 data={data[k]}
                 onNearestX={index === 0 ? onNearestX : () => undefined}
-                fill={erPunsjValgt ? behandlingstypeFargerPunsj[k] : behandlingstypeFarger[k]}
-                stroke={erPunsjValgt ? behandlingstypeFargerPunsj[k] : behandlingstypeFarger[k]}
+                fill={erPunsjValgt ? '#9A1788' : behandlingstypeFarger[k]}
+                stroke={erPunsjValgt ? '#9A1788' : behandlingstypeFarger[k]}
               />
             ))}
             {crosshairValues.length > 0 && (
@@ -190,12 +179,12 @@ const HistorikkGraf: FunctionComponent<OwnProps> = ({
               >
                 <div className={styles.crosshair}>
                   <Normaltekst>{`${moment(crosshairValues[0].x).format(DD_MM_DATE_FORMAT)}`}</Normaltekst>
-                  {reversertSorterteBehandlingstyper.map((key) => (
+                  {!erPunsjValgt && reversertSorterteBehandlingstyper.map((key) => (
                     <Undertekst key={key}>
-                      {`${erPunsjValgt
-                        ? 'Punsj' : finnBehandlingTypeNavn(behandlingTyper, key)}: ${finnAntallForBehandlingstypeOgDato(data, key, crosshairValues[0].x)}`}
+                      {`${finnBehandlingTypeNavn(behandlingTyper, key)}: ${finnAntallForBehandlingstypeOgDato(data, key, crosshairValues[0].x)}`}
                     </Undertekst>
                   ))}
+                  {erPunsjValgt && <Undertekst>{`Punsj: ${finnAntallForBehandlingstypeOgDato(data, 'PUNSJ', crosshairValues[0].x)}`}</Undertekst>}
                 </div>
               </Crosshair>
             )}
@@ -206,7 +195,7 @@ const HistorikkGraf: FunctionComponent<OwnProps> = ({
         <DiscreteColorLegend
           orientation="horizontal"
           colors={erPunsjValgt
-            ? punsjBehandlingstyper.map((bt) => behandlingstypeFargerPunsj[bt])
+            ? []
             : behandlingstypeOrder.map((bt) => behandlingstypeFarger[bt])}
           items={erPunsjValgt ? []
             : behandlingstypeOrder.map((bt) => (
