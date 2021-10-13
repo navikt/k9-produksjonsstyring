@@ -204,7 +204,7 @@
   "OkAvbrytModal.Ok": "OK",
   "OkAvbrytModal.Avbryt": "Avbryt",
 
-  "OppgaveErReservertAvAnnenModal.ReservertAv": "{saksbehandlerid} arbeider nå med denne behandlingen (reservert fram t.o.m {date} - {time})",
+  "OppgaveErReservertAvAnnenModal.ReservertAv": "{saksbehandlernavn}({saksbehandlerid}) arbeider nå med denne behandlingen (reservert fram t.o.m {date} - {time})",
   "OppgaveErReservertAvAnnenModal.ReservertAvEnkel": "En annen saksbehandler arbeider nå med denne behandlingen",
   "OppgaveErReservertAvAnnenModal.Ok": "Åpne behandlingen",
   "OppgaveErReservertAvAnnenModal.GåTilKøen": "Gå tilbake til køen",
@@ -272,9 +272,9 @@
 
   "OppgavekoPanel.StartBehandling": "Start behandling",
 
-  "Search.SearchFagsakOrPerson": "Søk på sak eller person",
+  "Search.SearchFagsakOrPerson": "Søk på sak, person eller journalpostID",
   "Search.Info": "{aPdl} er den nye persondataløsningen som skal ta over for TPS. Alle konsumerende tjenester i NAV (med noen unntak skal hente opplysninger fra TPS i januar 2021. Det er uheldig at PDL ikke har koblet seg mot q1 enda (det har blitt lovet at det skal komme). Dette medfører at det ikke er mulig å vise samme navn og fnummer i K9-los. Vi viser derfor saksnummer samt placeholder for navn og fnummer, samt aksjonspunkt. {br}{br} For å finne saksnummer som kan brukes i K9-los, må man søke opp fnummer i {aK9sak} og kopiere saksnummer, gå til bake til K9-los og søke med saksnummeret i søkefeltet nedenfor.",
-  "Search.SaksnummerOrPersonId": "Saksnummer eller fødselsnummer/D-nummer",
+  "Search.SaksnummerOrPersonId": "Saksnummer, fødselsnummer/D-nummer eller journalpostID",
   "Search.Search": "Søk",
   "Search.ReserverBehandling": "Reserver behandlingen ved søk",
 
@@ -314,6 +314,12 @@
   "TilBehandlingPanel.ToSisteUker": "2 siste uker",
   "TilBehandlingPanel.FireSisteUker": "4 siste uker",
   "TilBehandlingPanel.8SisteUker": "8 siste uker",
+
+  "BehandlingerGårAvVent.Titel": "Behandlinger som går av vent",
+  "BehandlingerGårAvVent.Hjelptekst": "Grafen viser en prognose av antall behandlinger som går av vent frem i tid.",
+  "BehandlingerGårAvVent.ToNesteUker": "Neste 2 uker",
+  "BehandlingerGårAvVent.FireNesteUker": "Neste 4 uker",
+  "BehandlingerGårAvVent.VelgFagytelseType": "Velg ytelsetype",
 
   "OppgavekoVelgerForm.Oppgaveko": "Behandlingskø",
   "OppgavekoVelgerForm.Utvalgskriterier": "Utvalgskriterier",
@@ -359,5 +365,7 @@
   "ValidationMessage.InvalidText": "Feltet inneholder ugyldige tegn: {text}",
   "ValidationMessage.InvalidValue": "Feltet inneholder en ugyldig verdi: {value}",
   "ValidationMessage.ArrayMinLength": "Listen må ha lengde størren enn: {length}",
-  "ValidationMessage.InvalidSaksnummerOrFodselsnummerFormat": "Ugyldig saksnummer eller fødselsnummer"
+  "ValidationMessage.InvalidSaksnummerOrFodselsnummerFormat": "Ugyldig saksnummer, journalpostID eller fødselsnummer",
+  "ValidationMessage.InvalidSaksnummerFormat": "Ugyldig saksnummer eller journalpostID"
+
 }

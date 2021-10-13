@@ -33,6 +33,27 @@ export const ytelseTyper = [{
   navn: 'Alle ytelser',
 }];
 
+export const ytelseTyperForBehandlingerPåVentGraf = [{
+  kode: fagsakYtelseType.OMSORGSPENGER,
+  navn: 'Omsorgspenger',
+},
+{
+  kode: fagsakYtelseType.OMSORGSDAGER,
+  navn: 'Omsorgsdager',
+},
+{
+  kode: fagsakYtelseType.PLEIEPENGER_SYKT_BARN,
+  navn: 'Pleiepenger sykt barn',
+},
+{
+  kode: fagsakYtelseType.PUNSJ,
+  navn: 'Punsj',
+},
+{
+  kode: ALLE_YTELSETYPER_VALGT,
+  navn: 'Alle ytelser',
+}];
+
 export const uker = [{
   kode: UKE_4,
   tekstKode: 'TilBehandlingPanel.FireSisteUker',
@@ -49,6 +70,13 @@ export const behandlingstypeOrder = [
   behandlingType.KLAGE,
   behandlingType.TILBAKEBETALING,
 ];
+
+export const cssText = {
+  fontFamily: 'Source Sans Pro, Arial, sans-serif',
+  fontSize: '1rem',
+  lineHeight: '1.375rem',
+  fontWeight: 400,
+};
 
 export const erDatoInnenforPeriode = (oppgaveForAvdeling, ukevalg) => {
   if (ukevalg === uker[1].kode) {

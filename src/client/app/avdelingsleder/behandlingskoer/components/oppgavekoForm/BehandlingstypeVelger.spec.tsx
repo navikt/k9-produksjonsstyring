@@ -51,6 +51,10 @@ const behandlingTyper = [{
   kode: behandlingType.SKRIV_TIL_OSS_SVAR,
   navn: 'Srkiv til oss svar',
 }, {
+  kode: behandlingType.KOPI,
+  navn: 'KOPI',
+},
+{
   kode: behandlingType.UKJENT,
   navn: 'Ukjent',
 }, {
