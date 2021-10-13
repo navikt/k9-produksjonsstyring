@@ -7,8 +7,8 @@ import Modal from 'sharedComponents/Modal';
 import Oppgave from 'saksbehandler/oppgaveTsType';
 import FlyttReservasjonsmodal from 'saksbehandler/components/FlyttReservasjonModal/FlyttReservasjonModal';
 import { RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
-import { shallowWithIntl, intlMock } from '../../../../../../setup/testHelpers/intl-enzyme-test-helper';
-import RestApiTestMocker from '../../../../../../setup/testHelpers/RestApiTestMocker';
+import { shallowWithIntl, intlMock } from 'testHelpers/intl-enzyme-test-helper';
+import RestApiTestMocker from 'testHelpers/RestApiTestMocker';
 
 describe('<FlyttReservasjonModal>', () => {
   const oppgave: Oppgave = {
