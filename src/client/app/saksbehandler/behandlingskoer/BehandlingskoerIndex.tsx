@@ -145,13 +145,13 @@ const BehandlingskoerIndex: FunctionComponent<OwnProps & WrappedComponentProps> 
     } else if (typeof oppgave.paaVent !== 'undefined' && oppgave.paaVent) {
       setVisModalForOppgavePåVent(true);
       setOppgavePåVent(oppgave);
-    } else if (oppgave.status.kanOverstyres) {
-      setValgtOppgave(oppgave);
-      setVisModalForFlyttReservasjon(true);
     } else {
       reserverOppgave({ oppgaveId: oppgave.eksternId }).then((nyOppgaveStatus) => {
         if (nyOppgaveStatus.erReservert && nyOppgaveStatus.erReservertAvInnloggetBruker) {
           openSak(oppgave);
+        } else if (nyOppgaveStatus.kanOverstyres) {
+          setValgtOppgave(oppgave);
+          setVisModalForFlyttReservasjon(true);
         } else if (nyOppgaveStatus.erReservert && !nyOppgaveStatus.erReservertAvInnloggetBruker) {
           setReservertAvAnnenSaksbehandler(true);
           setReservertOppgave(oppgave);

@@ -82,11 +82,6 @@ const FagsakSearchIndex: FunctionComponent<OwnProps & WrappedComponentProps> = (
   };
 
   const velgFagsakOperasjoner = (oppgave: Oppgave, reserver: boolean) => {
-    if (oppgave.status.kanOverstyres) {
-      setValgtOppgave(oppgave);
-      setVisModalForFlyttReservasjon(true);
-    }
-
     if (oppgave.status.erReservert && !oppgave.status.erReservertAvInnloggetBruker) {
       setReservertOppgave(oppgave);
       setReservertAvAnnenSaksbehandler(true);
@@ -100,9 +95,14 @@ const FagsakSearchIndex: FunctionComponent<OwnProps & WrappedComponentProps> = (
       leggTilBehandletOppgave(oppgave);
       goToFagsakEllerApneModal(oppgave);
     } else if (reserver && kanReservere) {
-      reserverOppgave({ oppgaveId: oppgave.eksternId }).then(() => {
-        leggTilBehandletOppgave(oppgave);
-        goToFagsak(oppgave);
+      reserverOppgave({ oppgaveId: oppgave.eksternId }).then((nyOppgaveStatus) => {
+        if (nyOppgaveStatus.kanOverstyres) {
+          setValgtOppgave(oppgave);
+          setVisModalForFlyttReservasjon(true);
+        } else {
+          leggTilBehandletOppgave(oppgave);
+          goToFagsak(oppgave);
+        }
       });
     } else if (!kanReservere) {
       leggTilBehandletOppgave(oppgave);
