@@ -10,8 +10,8 @@ import { Normaltekst } from 'nav-frontend-typografi';
 import { FlexContainer, FlexRow, FlexColumn } from 'sharedComponents/flexGrid';
 import { Kodeverk } from 'kodeverk/kodeverkTsType';
 import behandlingType from 'kodeverk/behandlingType';
-import { cssText } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
 import { punsjYKoordinat } from 'saksbehandler/saksstotte/nokkeltall/components/nyeOgFerdigstilteOppgaverForIdag/NyeOgFerdigstilteOppgaverForIdagGraf';
+import { cssText } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
 import AlleOppgaver from './alleOppgaverTsType';
 
 import 'react-vis/dist/style.css';
