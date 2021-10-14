@@ -23,13 +23,13 @@ interface OwnProps{
 }
 
 export const FlyttReservasjonsmodal: FunctionComponent<OwnProps & WrappedComponentProps> = ({
-                                                                                              intl,
-                                                                                              oppgave,
-                                                                                              oppgaveStatus,
-                                                                                              lukkFlyttReservasjonsmodal,
-                                                                                              openSak,
-                                                                                              hentReserverteOppgaver,
-                                                                                            }) => {
+  intl,
+  oppgave,
+  oppgaveStatus,
+  lukkFlyttReservasjonsmodal,
+  openSak,
+  hentReserverteOppgaver,
+}) => {
   const { startRequest: flyttOppgaveReservasjon } = useRestApiRunner(K9LosApiKeys.FLYTT_RESERVASJON);
   const { startRequest: reserverOppgave } = useRestApiRunner<OppgaveStatus>(K9LosApiKeys.RESERVER_OPPGAVE);
   const { kanReservere } = useGlobalStateRestApiData<NavAnsatt>(RestApiGlobalStatePathsKeys.NAV_ANSATT);
