@@ -15,6 +15,7 @@ export const invalidEmailMessage = () => ([{ id: 'ValidationMessage.InvalidEmail
 export const invalidFodselsnummerMessage = () => ([{ id: 'ValidationMessage.InvalidFodselsnummer' }]);
 export const sammeFodselsnummerSomSokerMessage = () => ([{ id: 'ValidationMessage.SammeFodselsnummerSomSoker' }]);
 export const invalidSaksnummerOrFodselsnummerFormatMessage = () => ([{ id: 'ValidationMessage.InvalidSaksnummerOrFodselsnummerFormat' }]);
+export const invalidSaksnummerOrJournalpostIdFormatMessage = () => ([{ id: 'ValidationMessage.InvalidSaksnummerFormat' }]);
 export const invalidTextMessage = (text) => ([{ id: 'ValidationMessage.InvalidText' }, { text }]);
 export const invalidValueMessage = (value) => ([{ id: 'ValidationMessage.InvalidValue' }, { value }]);
 export const arrayMinLengthMessage = (length) => ([{ id: 'ValidationMessage.ArrayMinLength' }, { length }]);
