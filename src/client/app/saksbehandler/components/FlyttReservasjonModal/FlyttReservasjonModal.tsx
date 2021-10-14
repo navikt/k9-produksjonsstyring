@@ -16,6 +16,7 @@ import useGlobalStateRestApiData from '../../../api/rest-api-hooks/src/global-da
 
 interface OwnProps{
   oppgave: Oppgave;
+  oppgaveStatus: OppgaveStatus;
   lukkFlyttReservasjonsmodal: () => void;
   openSak: (oppgave: Oppgave) => void;
   hentReserverteOppgaver?: () => void;
@@ -24,6 +25,7 @@ interface OwnProps{
 export const FlyttReservasjonsmodal: FunctionComponent<OwnProps & WrappedComponentProps> = ({
   intl,
   oppgave,
+  oppgaveStatus,
   lukkFlyttReservasjonsmodal,
   openSak,
   hentReserverteOppgaver,
@@ -87,8 +89,8 @@ export const FlyttReservasjonsmodal: FunctionComponent<OwnProps & WrappedCompone
               <FormattedMessage
                 id="FlyttReservasjonModal.ReservertAv"
                 values={{
-                  saksbehandlerid: oppgave.status.reservertAv,
-                  saksbehandlernavn: oppgave.status.reservertAvNavn,
+                  saksbehandlerid: oppgaveStatus.reservertAv,
+                  saksbehandlernavn: oppgaveStatus.reservertAvNavn,
                 }}
               />
             </Normaltekst>
@@ -99,7 +101,7 @@ export const FlyttReservasjonsmodal: FunctionComponent<OwnProps & WrappedCompone
             mini
             htmlType="button"
             className={styles.flyttReservasjonModal_knapper__knapp}
-            onClick={() => flyttOppgaveReservasjonFn(oppgave.eksternId, oppgave.status.reservertAv, 'Flyttes til deg fordi du jobber med den andre parts sak.')}
+            onClick={() => flyttOppgaveReservasjonFn(oppgave.eksternId, oppgaveStatus.reservertAv, 'Flyttes til deg fordi du jobber med den andre parts sak.')}
           >
             {intl.formatMessage({ id: 'FlyttReservasjonModal.FlyttReservasjon' })}
           </Hovedknapp>

@@ -37,6 +37,7 @@ const FagsakSearchIndex: FunctionComponent<OwnProps & WrappedComponentProps> = (
   const [reservertAvAnnenSaksbehandler, setReservertAvAnnenSaksbehandler] = useState(false);
   const [visModalForFlyttReservasjon, setVisModalForFlyttReservasjon] = useState<boolean>(false);
   const [valgtOppgave, setValgtOppgave] = useState<Oppgave>();
+  const [valgtOppgaveStatus, setValgtOppgaveStatus] = useState<OppgaveStatus>();
 
   const [reservertOppgave, setReservertOppgave] = useState<Oppgave>();
   const [sokStartet, setSokStartet] = useState(false);
@@ -98,6 +99,7 @@ const FagsakSearchIndex: FunctionComponent<OwnProps & WrappedComponentProps> = (
       reserverOppgave({ oppgaveId: oppgave.eksternId }).then((nyOppgaveStatus) => {
         if (nyOppgaveStatus.kanOverstyres) {
           setValgtOppgave(oppgave);
+          setValgtOppgaveStatus(nyOppgaveStatus);
           setVisModalForFlyttReservasjon(true);
         } else {
           leggTilBehandletOppgave(oppgave);
@@ -164,6 +166,7 @@ const FagsakSearchIndex: FunctionComponent<OwnProps & WrappedComponentProps> = (
         <FlyttReservasjonsmodal
           intl={intl}
           oppgave={valgtOppgave}
+          oppgaveStatus={valgtOppgaveStatus}
           lukkFlyttReservasjonsmodal={() => {
             setVisModalForFlyttReservasjon(false);
             setValgtOppgave(null);
