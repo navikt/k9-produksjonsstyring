@@ -104,8 +104,7 @@ const FagsakSearchIndex: FunctionComponent<OwnProps & WrappedComponentProps> = (
       reserverOppgave({ oppgaveId: oppgave.eksternId }).then((nyOppgaveStatus) => {
         if (!!nyOppgaveStatus.beskjed && nyOppgaveStatus.beskjed === OppgaveStatusBeskjed.BESLUTTET_AV_DEG) {
           setVisModalForSaksbehandlerHarBesluttetOppgaven(true);
-        }
-        else if (nyOppgaveStatus.kanOverstyres) {
+        } else if (nyOppgaveStatus.kanOverstyres) {
           setValgtOppgave(oppgave);
           setValgtOppgaveStatus(nyOppgaveStatus);
           setVisModalForFlyttReservasjon(true);
