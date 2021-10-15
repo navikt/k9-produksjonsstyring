@@ -15,7 +15,7 @@ import OppgaverTabell from './oppgavetabeller/OppgaverTabell';
 
 import styles from './oppgavekoPanel.less';
 import OppgaveTabellMenyAntallOppgaver
-  from "saksbehandler/behandlingskoer/components/oppgavetabeller/OppgaveTabellMenyAntallOppgaver";
+  from 'saksbehandler/behandlingskoer/components/oppgavetabeller/OppgaveTabellMenyAntallOppgaver';
 
 interface OwnProps {
   setValgtOppgavekoId: (id: string) => void;
