@@ -1,8 +1,8 @@
 import React, {
-  FunctionComponent, ReactNode, useCallback, useEffect, useRef,
+  FunctionComponent, ReactNode, useCallback, useEffect,
 } from 'react';
 import { FormattedMessage, injectIntl, WrappedComponentProps } from 'react-intl';
-import { Element, Normaltekst } from 'nav-frontend-typografi';
+import { Normaltekst } from 'nav-frontend-typografi';
 import NavFrontendChevron from 'nav-frontend-chevron';
 
 import Image from 'sharedComponents/Image';
@@ -27,8 +27,6 @@ import {
 import { OppgaveStatus } from 'saksbehandler/oppgaveStatusTsType';
 import { getDateAndTime } from 'utils/dateUtils';
 import styles from './oppgaverTabell.less';
-
-const EMPTY_ARRAY = [];
 
 interface OwnProps {
   valgtOppgavekoId: string;

@@ -2,7 +2,7 @@ import React, {
   FunctionComponent, ReactNode, useCallback, useRef, useState,
 } from 'react';
 import { FormattedMessage, injectIntl, WrappedComponentProps } from 'react-intl';
-import { Element, Normaltekst } from 'nav-frontend-typografi';
+import {Normaltekst } from 'nav-frontend-typografi';
 
 import { getDateAndTime } from 'utils/dateUtils';
 import Image from 'sharedComponents/Image';
@@ -69,10 +69,10 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps & WrappedComponentPro
     reserverOppgave(oppgave);
   }, [ref.current]);
 
-  const toggleMenu = useCallback((valgtOppgave: Oppgave) => {
-    const newOffset = ref.current[valgtOppgave.eksternId].getBoundingClientRect();
+  const toggleMenu = useCallback((oppgaveValgt: Oppgave) => {
+    const newOffset = ref.current[oppgaveValgt.eksternId].getBoundingClientRect();
     setShowMenu(!showMenu);
-    setValgtOppgaveId(valgtOppgave.eksternId);
+    setValgtOppgaveId(oppgaveValgt.eksternId);
     setOffset({ top: newOffset.top, left: newOffset.left });
   }, [ref.current, showMenu]);
 
