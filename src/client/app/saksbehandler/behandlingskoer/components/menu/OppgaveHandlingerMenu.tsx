@@ -158,13 +158,6 @@ export class OppgaveHandlingerMenu extends Component<OwnProps, OwnState> {
     return (
       <>
         <div className={styles.containerMenu} style={getOffsetPositionStyle(offset)} ref={(node) => { this.node = node; }}>
-          <FormattedMessage
-            id="OppgaveHandlingerMenu.ReservertTil"
-            values={{
-              ...getDateAndTime(oppgave.status.reservertTilTidspunkt),
-              b: (...chunks) => <b>{chunks}</b>,
-            }}
-          />
           <VerticalSpacer eightPx />
           <MenuButton onClick={this.showBegrunnelseModal} ref={this.menuButtonRef}>
             <FormattedMessage id="OppgaveHandlingerMenu.LeggTilbake" values={{ br: <br /> }} />
