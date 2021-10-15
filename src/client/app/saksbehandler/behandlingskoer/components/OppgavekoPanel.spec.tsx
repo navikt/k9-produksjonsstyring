@@ -10,24 +10,20 @@ import OppgavekoPanel from './OppgavekoPanel';
 
 describe('<OppgavekoPanel>', () => {
   it('skal vise kriterievelger og liste over neste saker', () => {
-    const fetchFn = sinon.spy();
     const reserverteOppgaver = [];
     const oppgavekoer = [];
     const wrapper = shallow(<OppgavekoPanel
-      fetchOppgavekoOppgaver={fetchFn}
       oppgaverTilBehandling={reserverteOppgaver}
       reserverteOppgaver={reserverteOppgaver}
       oppgavekoer={oppgavekoer}
       reserverOppgave={sinon.spy()}
-      opphevOppgaveReservasjon={sinon.spy()}
-      forlengOppgaveReservasjon={sinon.spy()}
-      finnSaksbehandler={sinon.spy()}
-      resetSaksbehandler={sinon.spy()}
-      flyttReservasjon={sinon.spy()}
-      fetchOppgavekoensSaksbehandlere={sinon.spy()}
+      setValgtOppgavekoId={sinon.spy()}
+      valgtOppgavekoId={"1"}
+      hentReserverteOppgaver={sinon.spy()}
+      requestFinished={true}
     />);
 
     expect(wrapper.find(OppgavekoVelgerForm)).to.have.length(1);
-    expect(wrapper.find(OppgaverTabell)).to.have.length(1);
+    expect(wrapper.find(OppgaverTabell)).to.have.length(2);
   });
 });
