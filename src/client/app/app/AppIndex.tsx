@@ -96,7 +96,7 @@ export class AppIndex extends Component<RouterProps, StateProps> {
           />
           {sessionHarUtlopt && (
           <ModalMedIkon
-            cancel={() => window.location.reload(false)}
+            cancel={() => { window.location.reload(); }}
             tekst={{
               valgmulighetB: 'Log inn',
               formattedMessageId: 'LoggetUtModal.Tekst',
