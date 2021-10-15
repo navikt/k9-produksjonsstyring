@@ -2,12 +2,15 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { parseQueryString } from 'utils/urlUtils';
 import { RestApiStateContext } from 'api/rest-api-hooks/src/RestApiContext';
+import IdleTimer from 'react-idle-timer';
+import ModalMedIkon from 'sharedComponents/modal/ModalMedIkon';
 import AppConfigResolver from './AppConfigResolver';
 import { Location } from './locationTsType';
 import LanguageProvider from './LanguageProvider';
 import HeaderWithErrorPanel from './components/HeaderWithErrorPanel';
 import Home from './components/Home';
 import '../../styles/global.less';
+import advarselImageUrl from '../../images/advarsel.svg';
 
 interface RouterProps {
   location: Location;
@@ -16,6 +19,7 @@ interface RouterProps {
 interface StateProps {
   headerHeight: number;
   crashMessage: string;
+  sessionHarUtlopt: boolean;
 }
 
 /**
@@ -29,10 +33,18 @@ interface StateProps {
 export class AppIndex extends Component<RouterProps, StateProps> {
   static contextType = RestApiStateContext;
 
-  state = {
-    headerHeight: 0,
-    crashMessage: undefined,
-  };
+  idleTimer:any = null;
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      headerHeight: 0,
+      crashMessage: undefined,
+      sessionHarUtlopt: false,
+    };
+
+    this.idleTimer = React.createRef();
+  }
 
   componentDidCatch = (error: Error, info: { componentStack: string }): void => {
     const crashMessage = [
@@ -51,6 +63,11 @@ export class AppIndex extends Component<RouterProps, StateProps> {
     this.setState((state) => ({ ...state, headerHeight }));
   }
 
+  handleOnIdle = (): void => {
+    this.setState({ sessionHarUtlopt: true });
+    this.idleTimer.reset();
+  }
+
   render = () => {
     const {
       location,
@@ -58,6 +75,7 @@ export class AppIndex extends Component<RouterProps, StateProps> {
 
     const {
       crashMessage,
+      sessionHarUtlopt,
     } = this.state;
 
     const { headerHeight } = this.state;
@@ -66,11 +84,27 @@ export class AppIndex extends Component<RouterProps, StateProps> {
     return (
       <AppConfigResolver>
         <LanguageProvider>
+          <IdleTimer
+            ref={(ref) => { this.idleTimer = ref; }}
+            timeout={1000 * 60 * 58}
+            onIdle={this.handleOnIdle}
+          />
           <HeaderWithErrorPanel
             queryStrings={queryStrings}
             setSiteHeight={this.setSiteHeight}
             crashMessage={crashMessage}
           />
+          {sessionHarUtlopt && (
+          <ModalMedIkon
+            cancel={() => window.location.reload(false)}
+            tekst={{
+              valgmulighetB: 'Log inn',
+              formattedMessageId: 'LoggetUtModal.Tekst',
+            }}
+            ikonUrl={advarselImageUrl}
+            ikonAlt="Varseltrekant"
+          />
+          )}
           {crashMessage === undefined && (
             <Home headerHeight={headerHeight} />
           )}

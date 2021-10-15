@@ -261,6 +261,8 @@
   "ReserverOppgaveModal.ReserverOppgave": "Ønsker du å reservere behandlingen?",
   "OppgavePåVentModal.OppgavePåVent": "Saken er satt på vent til {dato}",
 
+  "LoggetUtModal.Tekst": "Sesjonen er utløpt.",
+
   "SaksbehandlereForOppgavekoForm.Saksbehandlere": "Saksbehandlere",
   "SaksbehandlereForOppgavekoForm.IngenSaksbehandlere": "Ingen saksbehandlere",
 
