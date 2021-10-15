@@ -54,7 +54,7 @@ describe('<ReserverOppgaveTabell>', () => {
       .withRestCallRunner(K9LosApiKeys.LEGG_TIL_BEHANDLET_OPPGAVE, { startRequest: () => undefined, data: undefined })
       .withRestCallRunner(K9LosApiKeys.FORLENG_OPPGAVERESERVASJON, { startRequest: () => undefined, data: undefined })
       .runTest(() => {
-        const wrapper = shallowWithIntl(<ReserverteOppgaverTabell
+        const wrapper = shallowWithIntl(<ReserverteOppgaverTabell.WrappedComponent
           intl={intl}
           reserverOppgave={sinon.spy()}
           hentReserverteOppgaver={sinon.spy()}
@@ -112,7 +112,7 @@ describe('<ReserverOppgaveTabell>', () => {
       .withRestCallRunner(K9LosApiKeys.LEGG_TIL_BEHANDLET_OPPGAVE, { startRequest: () => undefined, data: undefined })
       .withRestCallRunner(K9LosApiKeys.FORLENG_OPPGAVERESERVASJON, { startRequest: () => undefined, data: undefined })
       .runTest(() => {
-        const wrapper = shallowWithIntl(<ReserverteOppgaverTabell
+        const wrapper = shallowWithIntl(<ReserverteOppgaverTabell.WrappedComponent
           intl={intl}
           reserverOppgave={sinon.spy()}
           hentReserverteOppgaver={sinon.spy()}
@@ -141,4 +141,5 @@ describe('<ReserverOppgaveTabell>', () => {
         expect(values.beskrivelse).is.eql('Har flytta til deg');
       });
   });
+});
 });
