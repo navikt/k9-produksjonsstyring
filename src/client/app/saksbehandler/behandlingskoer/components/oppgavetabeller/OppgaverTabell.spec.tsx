@@ -16,7 +16,7 @@ import { Oppgaveko } from 'saksbehandler/behandlingskoer/oppgavekoTsType';
 import { OppgaverTabell } from './OppgaverTabell';
 
 describe('<OppgaverTabell>', () => {
-  const intl: IntlShape = {
+  const intl: Partial<IntlShape> = {
     ...intlMock,
   };
   const valgtKo: Oppgaveko = {
@@ -88,7 +88,7 @@ describe('<OppgaverTabell>', () => {
       .withRestCallRunner(K9LosApiKeys.OPPGAVEKO, { startRequest: () => undefined, data: undefined })
       .runTest(() => {
         const wrapper = shallowWithIntl(<OppgaverTabell
-          intl={intl as IntlShape}
+          intl={intl}
           valgtKo={valgtKo}
           reserverOppgave={sinon.spy()}
           valgtOppgavekoId="1"
@@ -123,7 +123,7 @@ describe('<OppgaverTabell>', () => {
       .withRestCallRunner(K9LosApiKeys.OPPGAVEKO, { startRequest: () => undefined, data: undefined })
       .runTest(() => {
         const wrapper = shallowWithIntl(<OppgaverTabell
-          intl={intl as IntlShape}
+          intl={intl}
           valgtKo={valgtKo}
           reserverOppgave={sinon.spy()}
           valgtOppgavekoId="1"
