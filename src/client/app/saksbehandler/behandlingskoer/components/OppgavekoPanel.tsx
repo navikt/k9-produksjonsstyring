@@ -1,14 +1,19 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Undertittel } from 'nav-frontend-typografi';
+import { Element, Undertittel } from 'nav-frontend-typografi';
 import { Oppgaveko } from 'saksbehandler/behandlingskoer/oppgavekoTsType';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import Oppgave from 'saksbehandler/oppgaveTsType';
-import { getValueFromLocalStorage, setValueInLocalStorage, removeValueFromLocalStorage } from 'utils/localStorageHelper';
+import { getValueFromLocalStorage, removeValueFromLocalStorage, setValueInLocalStorage } from 'utils/localStorageHelper';
 import { useRestApiRunner } from 'api/rest-api-hooks';
 import { K9LosApiKeys } from 'api/k9LosApi';
+import ReserverteOppgaverTabell
+  from 'saksbehandler/behandlingskoer/components/oppgavetabeller/ReserverteOppgaverTabell';
+import NavFrontendChevron from 'nav-frontend-chevron';
+import OppgaveTabellMenyAntallOppgaver
+  from 'saksbehandler/behandlingskoer/components/oppgavetabeller/OppgaverTabellMenyAntallOppgaver';
 import OppgavekoVelgerForm from './OppgavekoVelgerForm';
-import OppgaverTabell from './OppgaverTabell';
+import OppgaverTabell from './oppgavetabeller/OppgaverTabell';
 
 import styles from './oppgavekoPanel.less';
 
@@ -36,6 +41,8 @@ const OppgavekoPanel: FunctionComponent<OwnProps> = ({
   requestFinished,
   oppgaverTilBehandling,
 }) => {
+  const [visBehandlingerIKo, setVisBehandlingerIKo] = useState<boolean>(false);
+  const [visReservasjoneriKo, setVisReservasjonerIKO] = useState<boolean>(false);
   const { startRequest: fetchAntallOppgaver, data: antallOppgaver } = useRestApiRunner<number>(K9LosApiKeys.BEHANDLINGSKO_OPPGAVE_ANTALL);
 
   const valgtKo = oppgavekoer.find((ko) => ko.id === valgtOppgavekoId);
@@ -53,16 +60,43 @@ const OppgavekoPanel: FunctionComponent<OwnProps> = ({
           removeValueFromLocalStorage={removeValueFromLocalStorage}
         />
         <VerticalSpacer twentyPx />
-        <OppgaverTabell
-          valgtKo={valgtKo}
-          reserverOppgave={reserverOppgave}
-          valgtOppgavekoId={valgtOppgavekoId}
-          antallOppgaver={antallOppgaver}
-          oppgaverTilBehandling={oppgaverTilBehandling}
-          requestFinished={requestFinished}
-          reserverteOppgaver={reserverteOppgaver}
-          hentReserverteOppgaver={hentReserverteOppgaver}
-        />
+
+        <div className={styles.behandlingskoerContainer}>
+          <button className={styles.behandlingskoerKnapp} onClick={() => setVisReservasjonerIKO(!visReservasjoneriKo)}>
+            <NavFrontendChevron type={visReservasjoneriKo ? 'ned' : 'høyre'} />
+            <Element><FormattedMessage id="OppgaverTabell.ReserverteOppgaver" /></Element>
+            <OppgaveTabellMenyAntallOppgaver antallOppgaver={reserverteOppgaver.length} tekstId="OppgaverTabell.ReserverteOppgaverAntall" />
+          </button>
+          {visReservasjoneriKo
+          && (
+            <ReserverteOppgaverTabell
+              reserverOppgave={reserverOppgave}
+              requestFinished={requestFinished}
+              reserverteOppgaver={reserverteOppgaver}
+              hentReserverteOppgaver={hentReserverteOppgaver}
+            />
+          )}
+        </div>
+        <VerticalSpacer eightPx />
+        {visReservasjoneriKo && <VerticalSpacer sixteenPx />}
+        <div className={styles.behandlingskoerContainer}>
+          <button className={styles.behandlingskoerKnapp} onClick={() => setVisBehandlingerIKo(!visBehandlingerIKo)}>
+            <NavFrontendChevron type={visBehandlingerIKo ? 'ned' : 'høyre'} />
+            <Element><FormattedMessage id="OppgaverTabell.DineNesteSaker" /></Element>
+            <OppgaveTabellMenyAntallOppgaver antallOppgaver={antallOppgaver} tekstId="OppgaverTabell.DineNesteSakerAntall" />
+          </button>
+          {visBehandlingerIKo
+          && (
+            <OppgaverTabell
+              valgtKo={valgtKo}
+              reserverOppgave={reserverOppgave}
+              valgtOppgavekoId={valgtOppgavekoId}
+              antallOppgaver={antallOppgaver}
+              oppgaverTilBehandling={oppgaverTilBehandling}
+              requestFinished={requestFinished}
+            />
+          )}
+        </div>
       </div>
     </>
   );

@@ -189,13 +189,18 @@
 
   "NyeOgFerdigstilteOppgaverForSisteSyvPanel.SisteSyv": "Siste 7 dager",
 
-  "OppgaverTabell.DineNesteSaker": "Neste behandlinger ({antall} i køen)",
+  "OppgaverTabell.DineNesteSaker": "Neste behandlinger",
+  "OppgaverTabell.DineNesteSakerAntall": "{antall} i køen",
+  "OppgaverTabell.ReserverteOppgaver": "Reserverte oppgaver",
+  "OppgaverTabell.ReserverteOppgaverAntall": "{antall} reserverte",
+
   "OppgaverTabell.IngenOppgaver": "Det er ingen behandlinger i denne køen",
   "OppgaverTabell.IngenTilgang": "Du har ikke tilgang til behandlingene i denne køen",
   "OppgaverTabell.Soker": "Søker",
   "OppgaverTabell.Behandlingstype": "Behandlingstype",
   "OppgaverTabell.Id": "Id",
   "OppgaverTabell.BehandlingOpprettet": "Behandling opprettet",
+  "OppgaverTabell.Reservasjon": "Reservasjon",
   "OppgaverTabell.FristForBehandling": "Frist for behandling",
   "OppgaverTabell.OppgaveHandlinger": "Handlinger på oppgave",
   "OppgaverTabell.OverfortReservasjon": "Overført reservasjon",
