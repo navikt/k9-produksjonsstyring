@@ -62,7 +62,7 @@ const OppgavekoPanel: FunctionComponent<OwnProps> = ({
         <VerticalSpacer twentyPx />
 
         <div className={styles.behandlingskoerContainer}>
-          <button className={styles.behandlingskoerKnapp} onClick={() => setVisReservasjonerIKO(!visReservasjoneriKo)}>
+          <button type="button" className={styles.behandlingskoerKnapp} onClick={() => setVisReservasjonerIKO(!visReservasjoneriKo)}>
             <NavFrontendChevron type={visReservasjoneriKo ? 'ned' : 'høyre'} />
             <Element><FormattedMessage id="OppgaverTabell.ReserverteOppgaver" /></Element>
             <OppgaveTabellMenyAntallOppgaver antallOppgaver={reserverteOppgaver.length} tekstId="OppgaverTabell.ReserverteOppgaverAntall" />
@@ -80,7 +80,7 @@ const OppgavekoPanel: FunctionComponent<OwnProps> = ({
         <VerticalSpacer eightPx />
         {visReservasjoneriKo && <VerticalSpacer sixteenPx />}
         <div className={styles.behandlingskoerContainer}>
-          <button className={styles.behandlingskoerKnapp} onClick={() => setVisBehandlingerIKo(!visBehandlingerIKo)}>
+          <button type="button" className={styles.behandlingskoerKnapp} onClick={() => setVisBehandlingerIKo(!visBehandlingerIKo)}>
             <NavFrontendChevron type={visBehandlingerIKo ? 'ned' : 'høyre'} />
             <Element><FormattedMessage id="OppgaverTabell.DineNesteSaker" /></Element>
             <OppgaveTabellMenyAntallOppgaver antallOppgaver={antallOppgaver} tekstId="OppgaverTabell.DineNesteSakerAntall" />
