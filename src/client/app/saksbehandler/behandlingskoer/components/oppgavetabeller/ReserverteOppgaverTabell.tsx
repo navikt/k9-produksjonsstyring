@@ -2,7 +2,7 @@ import React, {
   FunctionComponent, ReactNode, useCallback, useRef, useState,
 } from 'react';
 import { FormattedMessage, injectIntl, WrappedComponentProps } from 'react-intl';
-import {Normaltekst } from 'nav-frontend-typografi';
+import { Normaltekst } from 'nav-frontend-typografi';
 
 import { getDateAndTime } from 'utils/dateUtils';
 import Image from 'sharedComponents/Image';
@@ -36,9 +36,6 @@ interface OwnProps {
   requestFinished: boolean;
 }
 
-/**
- * OppgaverTabell
- */
 const ReserverteOppgaverTabell: FunctionComponent<OwnProps & WrappedComponentProps> = ({
   intl,
   reserverOppgave,
