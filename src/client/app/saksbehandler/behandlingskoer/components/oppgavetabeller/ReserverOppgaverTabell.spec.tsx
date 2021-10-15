@@ -2,7 +2,6 @@ import React from 'react';
 import { expect } from 'chai';
 import { FormattedMessage, IntlShape } from 'react-intl';
 import sinon from 'sinon';
-import NavFrontendChevron from 'nav-frontend-chevron';
 
 import behandlingType from 'kodeverk/behandlingType';
 import behandlingStatus from 'kodeverk/behandlingStatus';
@@ -14,12 +13,8 @@ import Image from 'sharedComponents/Image';
 import { intlMock, shallowWithIntl } from 'testHelpers/intl-enzyme-test-helper';
 import { K9LosApiKeys } from 'api/k9LosApi';
 import RestApiTestMocker from 'testHelpers/RestApiTestMocker';
-import andreKriterierType from 'kodeverk/andreKriterierType';
-import { Kodeverk } from 'kodeverk/kodeverkTsType';
-import { Oppgaveko } from 'saksbehandler/behandlingskoer/oppgavekoTsType';
-import { OppgaverTabell } from './OppgaverTabell';
 import ReserverteOppgaverTabell
-  from "saksbehandler/behandlingskoer/components/oppgavetabeller/ReserverteOppgaverTabell";
+  from 'saksbehandler/behandlingskoer/components/oppgavetabeller/ReserverteOppgaverTabell';
 
 describe('<ReserverOppgaveTabell>', () => {
   const intl: Partial<IntlShape> = {
@@ -79,7 +74,7 @@ describe('<ReserverOppgaveTabell>', () => {
   });
 
   it('skal vise tooltip for reserverte oppgaver som er flyttet', () => {
-    const reserverteOppgaver = [{
+    const reservertOppgave = [{
       eksternId: '2',
       status: {
         erReservert: true,
@@ -113,7 +108,6 @@ describe('<ReserverOppgaveTabell>', () => {
       journalpostId: '',
     }];
 
-
     new RestApiTestMocker()
       .withRestCallRunner(K9LosApiKeys.LEGG_TIL_BEHANDLET_OPPGAVE, { startRequest: () => undefined, data: undefined })
       .withRestCallRunner(K9LosApiKeys.FORLENG_OPPGAVERESERVASJON, { startRequest: () => undefined, data: undefined })
@@ -122,7 +116,7 @@ describe('<ReserverOppgaveTabell>', () => {
           intl={intl}
           reserverOppgave={sinon.spy()}
           hentReserverteOppgaver={sinon.spy()}
-          reserverteOppgaver={reserverteOppgaver}
+          reserverteOppgaver={reservertOppgave}
           requestFinished
         />);
 
