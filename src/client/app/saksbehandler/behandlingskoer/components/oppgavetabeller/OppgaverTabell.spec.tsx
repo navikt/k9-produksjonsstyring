@@ -110,10 +110,6 @@ describe('<OppgaverTabell>', () => {
         expect(columnsRow2.at(1).childAt(0).text()).is.eql('2');
         expect(columnsRow2.at(2).childAt(0).text()).is.eql('Førstegangssøknad far');
         expect(columnsRow2.at(3).find(DateLabel).prop('dateString')).is.eql('2018-01-02');
-
-        const message = wrapper.find(FormattedMessage);
-        expect(message).has.length(1);
-        expect(message.prop('id')).is.eql('OppgaverTabell.DineNesteSaker');
       });
   });
 
@@ -132,8 +128,7 @@ describe('<OppgaverTabell>', () => {
         />);
 
         const message = wrapper.find(FormattedMessage);
-        expect(message).has.length(2);
-        expect(message.first().prop('id')).is.eql('OppgaverTabell.DineNesteSaker');
+        expect(message).has.length(1);
         expect(message.last().prop('id')).is.eql('OppgaverTabell.IngenOppgaver');
 
         expect(wrapper.find(TableRow)).has.length(0);
