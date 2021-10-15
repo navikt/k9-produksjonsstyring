@@ -31,7 +31,6 @@ import styles from './oppgaverTabell.less';
 interface OwnProps {
   valgtOppgavekoId: string;
   reserverOppgave: (oppgave: Oppgave) => void;
-  antallOppgaver?: number;
   oppgaverTilBehandling: Oppgave[];
   requestFinished: boolean;
   valgtKo: Oppgaveko;
@@ -44,7 +43,6 @@ export const OppgaverTabell: FunctionComponent<OwnProps & WrappedComponentProps>
   intl,
   valgtOppgavekoId,
   reserverOppgave,
-  antallOppgaver = 0,
   oppgaverTilBehandling,
   requestFinished,
   valgtKo,

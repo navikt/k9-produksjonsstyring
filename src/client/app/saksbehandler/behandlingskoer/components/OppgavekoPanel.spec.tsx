@@ -18,12 +18,12 @@ describe('<OppgavekoPanel>', () => {
       oppgavekoer={oppgavekoer}
       reserverOppgave={sinon.spy()}
       setValgtOppgavekoId={sinon.spy()}
-      valgtOppgavekoId={"1"}
+      valgtOppgavekoId="1"
       hentReserverteOppgaver={sinon.spy()}
-      requestFinished={true}
+      requestFinished
     />);
 
     expect(wrapper.find(OppgavekoVelgerForm)).to.have.length(1);
-    expect(wrapper.find(OppgaverTabell)).to.have.length(2);
+    expect(wrapper.find('button')).to.have.length(2);
   });
 });

@@ -15,81 +15,89 @@ import { intlMock, shallowWithIntl } from 'testHelpers/intl-enzyme-test-helper';
 import { K9LosApiKeys } from 'api/k9LosApi';
 import RestApiTestMocker from 'testHelpers/RestApiTestMocker';
 import andreKriterierType from 'kodeverk/andreKriterierType';
+import { Kodeverk } from 'kodeverk/kodeverkTsType';
+import { Oppgaveko } from 'saksbehandler/behandlingskoer/oppgavekoTsType';
 import { OppgaverTabell } from './OppgaverTabell';
 
 describe('<OppgaverTabell>', () => {
   const intl: Partial<IntlShape> = {
     ...intlMock,
   };
-  it('skal vise kriterievelger og liste over neste oppgaver', () => {
-    const oppgaverTilBehandling = [{
-      eksternId: '1',
-      status: {
-        erReservert: false,
-      },
-      saksnummer: '1',
-      behandlingId: 2,
-      journalpostId: null,
-      personnummer: '123456789',
-      navn: 'Espen Utvikler',
-      system: 'K9SAK',
-      behandlingstype: {
-        kode: behandlingType.FORSTEGANGSSOKNAD,
-        navn: 'Førstegangssøknad',
-      },
-      opprettetTidspunkt: '2019-01-02',
-      behandlingsfrist: '2019-03-03',
-      erTilSaksbehandling: true,
-      fagsakYtelseType: {
-        kode: fagsakYtelseType.OMSORGSPENGER,
-        navn: 'Omsorgspenger',
-      },
-      behandlingStatus: {
-        kode: behandlingStatus.OPPRETTET,
-        navn: '',
-      },
-    }, {
-      eksternId: '2',
-      status: {
-        erReservert: false,
-      },
-      saksnummer: '2',
-      behandlingId: 2,
-      journalpostId: null,
-      personnummer: '657643535',
-      navn: 'Espen Solstråle',
-      system: 'FPSAK',
-      behandlingstype: {
-        kode: behandlingType.FORSTEGANGSSOKNAD,
-        navn: 'Førstegangssøknad far',
-      },
-      opprettetTidspunkt: '2018-01-02',
-      behandlingsfrist: '2018-03-03',
-      erTilSaksbehandling: true,
-      fagsakYtelseType: {
-        kode: fagsakYtelseType.OMSORGSPENGER,
-        navn: 'FP',
-      },
-      behandlingStatus: {
-        kode: behandlingStatus.OPPRETTET,
-        navn: '',
-      },
-    }];
+  const valgtKo: Oppgaveko = {
+    id: '2',
+    navn: 'K9',
+    behandlingTyper: [],
+    fagsakYtelseTyper: [],
+    andreKriterier: [],
+    skjermet: false,
+  };
 
+  const oppgaverTilBehandling = [{
+    eksternId: '1',
+    status: {
+      erReservert: false,
+    },
+    saksnummer: '1',
+    behandlingId: 2,
+    journalpostId: null,
+    personnummer: '123456789',
+    navn: 'Espen Utvikler',
+    system: 'K9SAK',
+    behandlingstype: {
+      kode: behandlingType.FORSTEGANGSSOKNAD,
+      navn: 'Førstegangssøknad',
+    },
+    opprettetTidspunkt: '2019-01-02',
+    behandlingsfrist: '2019-03-03',
+    erTilSaksbehandling: true,
+    fagsakYtelseType: {
+      kode: fagsakYtelseType.OMSORGSPENGER,
+      navn: 'Omsorgspenger',
+    },
+    behandlingStatus: {
+      kode: behandlingStatus.OPPRETTET,
+      navn: '',
+    },
+  }, {
+    eksternId: '2',
+    status: {
+      erReservert: false,
+    },
+    saksnummer: '2',
+    behandlingId: 2,
+    journalpostId: null,
+    personnummer: '657643535',
+    navn: 'Espen Solstråle',
+    system: 'FPSAK',
+    behandlingstype: {
+      kode: behandlingType.FORSTEGANGSSOKNAD,
+      navn: 'Førstegangssøknad far',
+    },
+    opprettetTidspunkt: '2018-01-02',
+    behandlingsfrist: '2018-03-03',
+    erTilSaksbehandling: true,
+    fagsakYtelseType: {
+      kode: fagsakYtelseType.OMSORGSPENGER,
+      navn: 'FP',
+    },
+    behandlingStatus: {
+      kode: behandlingStatus.OPPRETTET,
+      navn: '',
+    },
+  }];
+
+  it('skal vise kriterievelger og liste over neste oppgaver', () => {
     new RestApiTestMocker()
-      .withRestCallRunner(K9LosApiKeys.FORLENG_OPPGAVERESERVASJON, { startRequest: () => undefined, data: undefined })
       .withRestCallRunner(K9LosApiKeys.LEGG_TIL_BEHANDLET_OPPGAVE, { startRequest: () => undefined, data: undefined })
-      .withRestCallRunner(K9LosApiKeys.BEHANDLINGSKO_OPPGAVE_ANTALL, { startRequest: () => undefined, data: undefined })
       .withRestCallRunner(K9LosApiKeys.OPPGAVEKO, { startRequest: () => undefined, data: undefined })
       .runTest(() => {
         const wrapper = shallowWithIntl(<OppgaverTabell
           intl={intl as IntlShape}
+          valgtKo={valgtKo}
           reserverOppgave={sinon.spy()}
           valgtOppgavekoId="1"
           oppgaverTilBehandling={oppgaverTilBehandling}
-          reserverteOppgaver={[]}
           requestFinished
-          hentReserverteOppgaver={sinon.spy()}
         />);
 
         const tableRows = wrapper.find(TableRow);
@@ -113,130 +121,18 @@ describe('<OppgaverTabell>', () => {
       });
   });
 
-  it('skal vise de behandlingene som fremdeles er valgt av saksbehandler først i listen samt et menyikon for disse', () => {
-    const oppgaverTilBehandling = [{
-      eksternId: '1',
-      status: {
-        erReservert: false,
-      },
-      saksnummer: '1',
-      behandlingId: 2,
-      personnummer: '123456789',
-      navn: 'Espen Utvikler',
-      system: 'K9SAK',
-      behandlingstype: {
-        kode: behandlingType.FORSTEGANGSSOKNAD,
-        navn: 'Førstegangssøknad',
-      },
-      opprettetTidspunkt: '2019-01-02',
-      behandlingsfrist: '2019-03-03',
-      erTilSaksbehandling: true,
-      fagsakYtelseType: {
-        kode: fagsakYtelseType.OMSORGSPENGER,
-        navn: 'K9',
-      },
-      behandlingStatus: {
-        kode: behandlingStatus.OPPRETTET,
-        navn: '',
-      },
-    }];
-    const reserverteOppgaver = [{
-      eksternId: '2',
-      status: {
-        erReservert: true,
-      },
-      saksnummer: '2',
-      behandlingId: 2,
-      personnummer: '657643535',
-      navn: 'Espen Solstråle',
-      system: 'FPSAK',
-      behandlingstype: {
-        kode: behandlingType.FORSTEGANGSSOKNAD,
-        navn: 'Førstegangssøknad far',
-      },
-      opprettetTidspunkt: '2018-01-02',
-      behandlingsfrist: '2018-03-03',
-      erTilSaksbehandling: true,
-      fagsakYtelseType: {
-        kode: fagsakYtelseType.OMSORGSPENGER,
-        navn: 'FP',
-      },
-      behandlingStatus: {
-        kode: behandlingStatus.OPPRETTET,
-        navn: '',
-      },
-    }];
-
-    new RestApiTestMocker()
-      .withRestCallRunner(K9LosApiKeys.FORLENG_OPPGAVERESERVASJON, { startRequest: () => undefined, data: undefined })
-      .withRestCallRunner(K9LosApiKeys.LEGG_TIL_BEHANDLET_OPPGAVE, { startRequest: () => undefined, data: undefined })
-      .withRestCallRunner(K9LosApiKeys.BEHANDLINGSKO_OPPGAVE_ANTALL, { startRequest: () => undefined, data: undefined })
-      .withRestCallRunner(K9LosApiKeys.OPPGAVEKO, { startRequest: () => undefined, data: undefined })
-      .runTest(() => {
-        const wrapper = shallowWithIntl(<OppgaverTabell
-          intl={intl as IntlShape}
-          reserverOppgave={sinon.spy()}
-          valgtOppgavekoId="1"
-          oppgaverTilBehandling={oppgaverTilBehandling}
-          reserverteOppgaver={reserverteOppgaver}
-          requestFinished
-          hentReserverteOppgaver={sinon.spy()}
-        />);
-
-        const tableRows = wrapper.find(TableRow);
-        expect(tableRows).has.length(2);
-
-        const columnsRow1 = tableRows.first().find(TableColumn);
-        expect(columnsRow1.first().childAt(0).text()).is.eql('Espen Solstråle 657643535');
-        expect(columnsRow1.at(1).childAt(0).text()).is.eql('2');
-        expect(columnsRow1.at(2).childAt(0).text()).is.eql('Førstegangssøknad far');
-        expect(columnsRow1.at(3).find(DateLabel).prop('dateString')).is.eql('2018-01-02');
-        expect(columnsRow1.at(4).find(Image)).has.length(0);
-        expect(columnsRow1.at(6).find(Image)).has.length(1);
-
-        const columnsRow2 = tableRows.last().find(TableColumn);
-        expect(columnsRow2.first().childAt(0).text()).is.eql('Espen Utvikler 123456789');
-        expect(columnsRow2.at(1).childAt(0).text()).is.eql('1');
-        expect(columnsRow2.at(2).childAt(0).text()).is.eql('Førstegangssøknad');
-        expect(columnsRow2.at(3).find(DateLabel).prop('dateString')).is.eql('2019-01-02');
-        expect(columnsRow2.at(4).find(Image)).has.length(0);
-        expect(columnsRow2.at(6).find(NavFrontendChevron)).has.length(1);
-      });
-  });
-
   it('skal ikke vise liste når en ikke har oppgaver', () => {
-    const oppgaveko = {
-      id: '1',
-      navn: 'Nyansatte',
-      sistEndret: '2017-08-31',
-      skjermet: false,
-      andreKriterierTyper: [{
-        kode: andreKriterierType.TIL_BESLUTTER,
-        navn: 'Til beslutter',
-      }, {
-        kode: andreKriterierType.AVKLAR_MEDLEMSKAP,
-        navn: 'Avklar medlemskap',
-      }],
-      antallBehandlinger: 68,
-      saksbehandlere: [],
-    };
-
     new RestApiTestMocker()
-      .withRestCallRunner(K9LosApiKeys.FORLENG_OPPGAVERESERVASJON, { startRequest: () => undefined, data: undefined })
       .withRestCallRunner(K9LosApiKeys.LEGG_TIL_BEHANDLET_OPPGAVE, { startRequest: () => undefined, data: undefined })
-      .withRestCallRunner(K9LosApiKeys.BEHANDLINGSKO_OPPGAVE_ANTALL, { startRequest: () => undefined, data: undefined })
       .withRestCallRunner(K9LosApiKeys.OPPGAVEKO, { startRequest: () => undefined, data: undefined })
       .runTest(() => {
         const wrapper = shallowWithIntl(<OppgaverTabell
           intl={intl as IntlShape}
+          valgtKo={valgtKo}
           reserverOppgave={sinon.spy()}
           valgtOppgavekoId="1"
           oppgaverTilBehandling={[]}
-          reserverteOppgaver={[]}
           requestFinished
-          valgtKo={oppgaveko}
-          hentReserverteOppgaver={sinon.spy()}
-
         />);
 
         const message = wrapper.find(FormattedMessage);
@@ -248,6 +144,7 @@ describe('<OppgaverTabell>', () => {
       });
   });
 
+  /*
   it('skal vise tooltip for reserverte oppgaver som er flyttet', () => {
     const reserverteOppgaver = [{
       eksternId: '2',
@@ -335,5 +232,5 @@ describe('<OppgaverTabell>', () => {
         expect(values.navn).is.eql('Auto Joachim');
         expect(values.beskrivelse).is.eql('Har flytta til deg');
       });
-  });
+  }); */
 });
