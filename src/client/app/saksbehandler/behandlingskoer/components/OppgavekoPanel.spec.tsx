@@ -4,7 +4,6 @@ import { shallow } from 'enzyme';
 import sinon from 'sinon';
 
 import OppgavekoVelgerForm from './OppgavekoVelgerForm';
-import OppgaverTabell from './oppgavetabeller/OppgaverTabell';
 
 import OppgavekoPanel from './OppgavekoPanel';
 

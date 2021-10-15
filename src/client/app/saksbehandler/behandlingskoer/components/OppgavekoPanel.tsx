@@ -10,12 +10,12 @@ import { K9LosApiKeys } from 'api/k9LosApi';
 import ReserverteOppgaverTabell
   from 'saksbehandler/behandlingskoer/components/oppgavetabeller/ReserverteOppgaverTabell';
 import NavFrontendChevron from 'nav-frontend-chevron';
+import OppgaveTabellMenyAntallOppgaver
+  from 'saksbehandler/behandlingskoer/components/oppgavetabeller/OppgaveTabellMenyAntallOppgaver';
 import OppgavekoVelgerForm from './OppgavekoVelgerForm';
 import OppgaverTabell from './oppgavetabeller/OppgaverTabell';
 
 import styles from './oppgavekoPanel.less';
-import OppgaveTabellMenyAntallOppgaver
-  from 'saksbehandler/behandlingskoer/components/oppgavetabeller/OppgaveTabellMenyAntallOppgaver';
 
 interface OwnProps {
   setValgtOppgavekoId: (id: string) => void;
