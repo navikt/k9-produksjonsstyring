@@ -13,14 +13,14 @@ import styles from './modalMedIkon.less';
 type TsProps = Readonly<{
   cancel: () => void;
   submit?: () => void;
-    tekst: {
-      formattedMessageId: string;
-      values?: Record<string, boolean | string | number>;
-      valgmulighetA?: string;
-      valgmulighetB: string;
-    }
-    ikonUrl: string;
-    ikonAlt: string;
+  tekst: {
+    formattedMessageId: string;
+    values?: Record<string, boolean | string | number>;
+    valgmulighetA?: string;
+    valgmulighetB: string;
+  }
+  ikonUrl: string;
+  ikonAlt: string;
 }>;
 
 const ModalMedIkon = ({
