@@ -2,9 +2,9 @@ import React from 'react';
 import { expect } from 'chai';
 
 import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
-import RestApiTestMocker from '../../../../../setup/testHelpers/RestApiTestMocker';
-import { shallowWithIntl, intlMock } from 'testHelpers/intl-enzyme-test-helper';
 import { IntlShape } from 'react-intl';
+import RestApiTestMocker from '../../../../../setup/testHelpers/RestApiTestMocker';
+import { shallowWithIntl, intlMock } from '../../../../../setup/testHelpers/intl-enzyme-test-helper';
 import FagsakSearch from './components/FagsakSearch';
 import FagsakSearchIndex from './FagsakSearchIndex';
 
