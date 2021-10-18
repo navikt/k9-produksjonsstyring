@@ -6,8 +6,8 @@ export const getHeaderCodes = (medReservasjoner? : boolean) => [
   'OppgaverTabell.Id',
   'OppgaverTabell.Behandlingstype',
   'OppgaverTabell.BehandlingOpprettet',
-  medReservasjoner ? 'OppgaverTabell.Reservasjon' : 'EMPTY_1',
-  'EMPTY_2',
+  'EMPTY_1',
+  medReservasjoner ? 'OppgaverTabell.Reservasjon' : 'EMPTY_2',
 ];
 
 export const hentIDFraSak = (oppgave: Oppgave): string => {

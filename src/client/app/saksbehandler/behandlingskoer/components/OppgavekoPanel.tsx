@@ -91,7 +91,6 @@ const OppgavekoPanel: FunctionComponent<OwnProps> = ({
               valgtKo={valgtKo}
               reserverOppgave={reserverOppgave}
               valgtOppgavekoId={valgtOppgavekoId}
-              antallOppgaver={antallOppgaver}
               oppgaverTilBehandling={oppgaverTilBehandling}
               requestFinished={requestFinished}
             />
