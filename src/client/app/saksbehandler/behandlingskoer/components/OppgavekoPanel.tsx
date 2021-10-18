@@ -78,7 +78,7 @@ const OppgavekoPanel: FunctionComponent<OwnProps> = ({
           )}
         </div>
         <VerticalSpacer eightPx />
-        {visReservasjoneriKo && <VerticalSpacer sixteenPx />}
+        {visReservasjoneriKo && <VerticalSpacer thirtyTwoPx />}
         <div className={styles.behandlingskoerContainer}>
           <button type="button" className={styles.behandlingskoerKnapp} onClick={() => setVisBehandlingerIKo(!visBehandlingerIKo)}>
             <NavFrontendChevron type={visBehandlingerIKo ? 'ned' : 'høyre'} />
