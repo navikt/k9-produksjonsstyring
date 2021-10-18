@@ -218,6 +218,7 @@ const BehandlingskoerIndex: FunctionComponent<OwnProps & WrappedComponentProps> 
         lukkFlyttReservasjonsmodal={() => lukkModal()}
         openSak={openSak}
         hentReserverteOppgaver={hentReserverteOppgaver}
+        hentOppgaverTilBehandling={() => hentOppgaverTilBehandling({ id: valgtOppgavekoId })}
       />
       )}
     </>
