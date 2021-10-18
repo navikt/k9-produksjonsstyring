@@ -154,7 +154,6 @@ const BehandlingskoerIndex: FunctionComponent<OwnProps & WrappedComponentProps> 
           openSak(oppgave);
         } else if (nyOppgaveStatus.kanOverstyres) {
           setValgtOppgave(oppgave);
-          setValgtOppgaveStatus(nyOppgaveStatus);
           setVisModalForFlyttReservasjon(true);
         } else if (nyOppgaveStatus.erReservert && !nyOppgaveStatus.erReservertAvInnloggetBruker) {
           setReservertAvAnnenSaksbehandler(true);
@@ -219,6 +218,7 @@ const BehandlingskoerIndex: FunctionComponent<OwnProps & WrappedComponentProps> 
           lukkFlyttReservasjonsmodal={() => lukkModal()}
           openSak={openSak}
           hentReserverteOppgaver={hentReserverteOppgaver}
+          hentOppgaverTilBehandling={() => hentOppgaverTilBehandling({ id: valgtOppgavekoId })}
         />
       )}
     </>
