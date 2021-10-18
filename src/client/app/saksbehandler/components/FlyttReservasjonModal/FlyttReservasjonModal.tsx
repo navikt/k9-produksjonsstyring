@@ -20,6 +20,7 @@ interface OwnProps{
   lukkFlyttReservasjonsmodal: () => void;
   openSak: (oppgave: Oppgave) => void;
   hentReserverteOppgaver?: () => void;
+  hentOppgaverTilBehandling?: () => void;
 }
 
 export const FlyttReservasjonsmodal: FunctionComponent<OwnProps & WrappedComponentProps> = ({
@@ -29,29 +30,33 @@ export const FlyttReservasjonsmodal: FunctionComponent<OwnProps & WrappedCompone
   lukkFlyttReservasjonsmodal,
   openSak,
   hentReserverteOppgaver,
+  hentOppgaverTilBehandling,
 }) => {
-  const { startRequest: flyttOppgaveReservasjon } = useRestApiRunner(K9LosApiKeys.FLYTT_RESERVASJON);
   const { startRequest: reserverOppgave } = useRestApiRunner<OppgaveStatus>(K9LosApiKeys.RESERVER_OPPGAVE);
   const { kanReservere } = useGlobalStateRestApiData<NavAnsatt>(RestApiGlobalStatePathsKeys.NAV_ANSATT);
 
   const [visManglerReservasjonsrettigheterFeilmelding, setVisManglerReservasjonsrettigheterFeilmelding] = useState<boolean>(false);
 
-  const flyttOppgaveReservasjonFn = useCallback(
-    (oppgaveId: string, brukerIdent: string, begrunnelse: string): Promise<any> => flyttOppgaveReservasjon({
-      oppgaveId,
-      brukerIdent,
-      begrunnelse,
-    })
-      .then(() => {
-        if (typeof hentReserverteOppgaver !== 'undefined') {
-          hentReserverteOppgaver();
+  const overstyrReservasjonTilSaksbehandlerSomArbeiderMedAnnenPart = () => {
+    if (kanReservere) {
+      const params = {
+        overstyrIdent: oppgaveStatus.reservertAv,
+        oppgaveId: oppgave.eksternId,
+        overstyrSjekk: true,
+        overstyrBegrunnelse: 'Flyttes til deg fordi du jobber med den andre parts sak.',
+      };
+      reserverOppgave(params).then(() => {
+        if (typeof hentOppgaverTilBehandling !== 'undefined') {
+          hentOppgaverTilBehandling();
         }
         lukkFlyttReservasjonsmodal();
-      }),
-    [],
-  );
+      });
+    } else {
+      setVisManglerReservasjonsrettigheterFeilmelding(true);
+    }
+  };
 
-  const overstyrReservasjonFn = () => {
+  const overstyrReservasjonTilInnloggetSaksbehandlerFn = () => {
     if (kanReservere) {
       const params = {
         oppgaveId: oppgave.eksternId,
@@ -67,6 +72,7 @@ export const FlyttReservasjonsmodal: FunctionComponent<OwnProps & WrappedCompone
       setVisManglerReservasjonsrettigheterFeilmelding(true);
     }
   };
+
   return (
     <Modal
       className={styles.flyttReservasjonModal}
@@ -101,7 +107,7 @@ export const FlyttReservasjonsmodal: FunctionComponent<OwnProps & WrappedCompone
             mini
             htmlType="button"
             className={styles.flyttReservasjonModal_knapper__knapp}
-            onClick={() => flyttOppgaveReservasjonFn(oppgave.eksternId, oppgaveStatus.reservertAv, 'Flyttes til deg fordi du jobber med den andre parts sak.')}
+            onClick={() => overstyrReservasjonTilSaksbehandlerSomArbeiderMedAnnenPart()}
           >
             {intl.formatMessage({ id: 'FlyttReservasjonModal.FlyttReservasjon' })}
           </Hovedknapp>
@@ -110,7 +116,7 @@ export const FlyttReservasjonsmodal: FunctionComponent<OwnProps & WrappedCompone
             className={styles.flyttReservasjonModal_knapper__knapp}
             mini
             htmlType="button"
-            onClick={() => overstyrReservasjonFn()}
+            onClick={() => overstyrReservasjonTilInnloggetSaksbehandlerFn()}
           >
             {intl.formatMessage({ id: 'FlyttReservasjonModal.OverstyrReservasjon' })}
 
