@@ -28,6 +28,7 @@ import {
 import { OppgaveStatus } from 'saksbehandler/oppgaveStatusTsType';
 import styles from './oppgaverTabell.less';
 import OppgaveHandlingerMenu from '../menu/OppgaveHandlingerMenu';
+import VerticalSpacer from "sharedComponents/VerticalSpacer";
 
 interface OwnProps {
   reserverOppgave: (oppgave: Oppgave) => void;
@@ -98,6 +99,13 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps & WrappedComponentPro
     <div>
       {reserverteOppgaver.length === 0 && !requestFinished && (
         <NavFrontendSpinner type="XL" className={styles.spinner} />
+      )}
+
+      {reserverteOppgaver.length === 0 && requestFinished && (
+        <>
+          <VerticalSpacer eightPx />
+          <Normaltekst><FormattedMessage id="OppgaverTabell.IngenOppgaver" /></Normaltekst>
+        </>
       )}
 
       {reserverteOppgaver.length > 0 && requestFinished && (
