@@ -41,12 +41,11 @@ const OppgavekoPanel: FunctionComponent<OwnProps> = ({
   requestFinished,
   oppgaverTilBehandling,
 }) => {
-  const [visBehandlingerIKo, setVisBehandlingerIKo] = useState<boolean>(false);
+  const [visBehandlingerIKo, setVisBehandlingerIKo] = useState<boolean>(true);
   const [visReservasjoneriKo, setVisReservasjonerIKO] = useState<boolean>(false);
   const { startRequest: fetchAntallOppgaver, data: antallOppgaver } = useRestApiRunner<number>(K9LosApiKeys.BEHANDLINGSKO_OPPGAVE_ANTALL);
 
   const valgtKo = oppgavekoer.find((ko) => ko.id === valgtOppgavekoId);
-
   return (
     <>
       <Undertittel><FormattedMessage id="OppgavekoPanel.StartBehandling" /></Undertittel>

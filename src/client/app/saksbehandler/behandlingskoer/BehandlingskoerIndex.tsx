@@ -46,13 +46,14 @@ const BehandlingskoerIndex: FunctionComponent<OwnProps & WrappedComponentProps> 
   const [valgtOppgave, setValgtOppgave] = useState<Oppgave>();
   const [visModalForFlyttReservasjon, setVisModalForFlyttReservasjon] = useState<boolean>(false);
   const [valgtOppgaveStatus, setValgtOppgaveStatus] = useState<OppgaveStatus>();
+  const [reserverteOppgaver, setReserverteOppgaver] = useState<Oppgave[]>(null);
 
   const refreshUrl = useGlobalStateRestApiData<{ verdi?: string }>(RestApiGlobalStatePathsKeys.REFRESH_URL);
   const { data: oppgavekoer = [] } = useRestApi<Oppgaveko[]>(K9LosApiKeys.OPPGAVEKO);
   const {
     startRequest: hentOppgaverTilBehandling, state, data: oppgaverTilBehandling = [],
   } = useRestApiRunner<Oppgave[]>(K9LosApiKeys.OPPGAVER_TIL_BEHANDLING);
-  const { startRequest: hentReserverteOppgaver, data: reserverteOppgaver = [] } = useRestApiRunner<Oppgave[]>(K9LosApiKeys.RESERVERTE_OPPGAVER);
+  const { startRequest: hentReserverteOppgaver, data: reserverteOppgaverFraApiKall = [] } = useRestApiRunner<Oppgave[]>(K9LosApiKeys.RESERVERTE_OPPGAVER);
   const { startRequest: leggTilBehandletOppgave } = useRestApiRunner(K9LosApiKeys.LEGG_TIL_BEHANDLET_OPPGAVE);
 
   const { startRequest: reserverOppgave } = useRestApiRunner<OppgaveStatus>(K9LosApiKeys.RESERVER_OPPGAVE);
@@ -102,6 +103,24 @@ const BehandlingskoerIndex: FunctionComponent<OwnProps & WrappedComponentProps> 
     if (valgtOppgavekoId !== undefined) { hentOppgaverTilBehandling({ id: valgtOppgavekoId }); }
     hentReserverteOppgaver();
   }, [valgtOppgavekoId]);
+
+  useEffect(() => {
+    // eslint-disable-next-line
+    console.log('/////////////////////', reserverteOppgaver);
+    // eslint-disable-next-line
+
+    console.log('reserverOppgaveFraApikall', reserverteOppgaverFraApiKall);
+    if (JSON.stringify(reserverteOppgaver) !== JSON.stringify(reserverteOppgaverFraApiKall)) {
+      // eslint-disable-next-line
+      console.log('setterReserverteoppgaver', reserverteOppgaver);
+
+      setReserverteOppgaver(reserverteOppgaverFraApiKall);
+      // eslint-disable-next-line
+      console.log('sattReserverteoppgaver', reserverteOppgaver);
+      // eslint-disable-next-line
+      console.log('/////////////////////', reserverteOppgaver);
+    }
+  }, [reserverteOppgaverFraApiKall]);
 
   const openFagsak = (oppgave: Oppgave) => {
     leggTilBehandletOppgave(oppgave);
