@@ -26,9 +26,9 @@ import {
   hentIDFraSak,
 } from 'saksbehandler/behandlingskoer/components/oppgavetabeller/oppgavetabellerfelles';
 import { OppgaveStatus } from 'saksbehandler/oppgaveStatusTsType';
+import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import styles from './oppgaverTabell.less';
 import OppgaveHandlingerMenu from '../menu/OppgaveHandlingerMenu';
-import VerticalSpacer from "sharedComponents/VerticalSpacer";
 
 interface OwnProps {
   reserverOppgave: (oppgave: Oppgave) => void;
