@@ -154,6 +154,7 @@ const BehandlingskoerIndex: FunctionComponent<OwnProps & WrappedComponentProps> 
           setValgtOppgave(oppgave);
         } else if (nyOppgaveStatus.kanOverstyres) {
           setValgtOppgave(oppgave);
+          setValgtOppgaveStatus(nyOppgaveStatus);
           setVisModalForFlyttReservasjon(true);
         } else if (nyOppgaveStatus.erReservert && !nyOppgaveStatus.erReservertAvInnloggetBruker) {
           setReservertAvAnnenSaksbehandler(true);
@@ -222,7 +223,7 @@ const BehandlingskoerIndex: FunctionComponent<OwnProps & WrappedComponentProps> 
         />
       )}
 
-      {visModalForFlyttReservasjon && valgtOppgave && (
+      {visModalForFlyttReservasjon && valgtOppgave && valgtOppgaveStatus && (
         <FlyttReservasjonsmodal
           intl={intl}
           oppgave={valgtOppgave}
