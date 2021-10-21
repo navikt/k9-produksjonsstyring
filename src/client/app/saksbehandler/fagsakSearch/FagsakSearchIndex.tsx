@@ -10,6 +10,8 @@ import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner
 import useGlobalStateRestApiData from 'api/rest-api-hooks/src/global-data/useGlobalStateRestApiData';
 import NavAnsatt from 'app/navAnsattTsType';
 import { errorOfType, ErrorTypes, getErrorResponseData } from 'api/rest-api';
+import { FlyttReservasjonsmodal } from 'saksbehandler/components/FlyttReservasjonModal/FlyttReservasjonModal';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import FagsakSearch from './components/FagsakSearch';
 import OppgaveSystem from '../../types/OppgaveSystem';
 
@@ -19,18 +21,24 @@ interface OwnProps {
   omsorgspengerUrl: string;
 }
 
-/** s
+/**
  * FagsakSearchIndex
  *
  * Container komponent. Har ansvar for å vise søkeskjermbildet og å håndtere fagsaksøket
  * mot server og lagringen av resultatet i klientens state.
  */
-const FagsakSearchIndex: FunctionComponent<OwnProps> = ({
+
+const FagsakSearchIndex: FunctionComponent<OwnProps & WrappedComponentProps> = ({
+  intl,
   k9sakUrl,
   k9punsjUrl,
   omsorgspengerUrl,
 }) => {
   const [reservertAvAnnenSaksbehandler, setReservertAvAnnenSaksbehandler] = useState(false);
+  const [visModalForFlyttReservasjon, setVisModalForFlyttReservasjon] = useState<boolean>(false);
+  const [valgtOppgave, setValgtOppgave] = useState<Oppgave>();
+  const [valgtOppgaveStatus, setValgtOppgaveStatus] = useState<OppgaveStatus>();
+
   const [reservertOppgave, setReservertOppgave] = useState<Oppgave>();
   const [sokStartet, setSokStartet] = useState(false);
   const [sokFerdig, setSokFerdig] = useState(false);
@@ -88,9 +96,15 @@ const FagsakSearchIndex: FunctionComponent<OwnProps> = ({
       leggTilBehandletOppgave(oppgave);
       goToFagsakEllerApneModal(oppgave);
     } else if (reserver && kanReservere) {
-      reserverOppgave({ oppgaveId: oppgave.eksternId }).then(() => {
-        leggTilBehandletOppgave(oppgave);
-        goToFagsak(oppgave);
+      reserverOppgave({ oppgaveId: oppgave.eksternId }).then((nyOppgaveStatus) => {
+        if (nyOppgaveStatus.kanOverstyres) {
+          setValgtOppgave(oppgave);
+          setValgtOppgaveStatus(nyOppgaveStatus);
+          setVisModalForFlyttReservasjon(true);
+        } else {
+          leggTilBehandletOppgave(oppgave);
+          goToFagsak(oppgave);
+        }
       });
     } else if (!kanReservere) {
       leggTilBehandletOppgave(oppgave);
@@ -147,8 +161,21 @@ const FagsakSearchIndex: FunctionComponent<OwnProps> = ({
           oppgaveStatus={reservertOppgave.status}
         />
       )}
+
+      {visModalForFlyttReservasjon && valgtOppgave && (
+        <FlyttReservasjonsmodal
+          intl={intl}
+          oppgave={valgtOppgave}
+          oppgaveStatus={valgtOppgaveStatus}
+          lukkFlyttReservasjonsmodal={() => {
+            setVisModalForFlyttReservasjon(false);
+            setValgtOppgave(null);
+          }}
+          openSak={goToFagsak}
+        />
+      )}
     </>
   );
 };
 
-export default FagsakSearchIndex;
+export default injectIntl(FagsakSearchIndex);

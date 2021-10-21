@@ -9,6 +9,8 @@ import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner
 import { useRestApi } from 'api/rest-api-hooks';
 import useGlobalStateRestApiData from 'api/rest-api-hooks/src/global-data/useGlobalStateRestApiData';
 import RestApiState from 'api/rest-api-hooks/src/RestApiState';
+import { FlyttReservasjonsmodal } from 'saksbehandler/components/FlyttReservasjonModal/FlyttReservasjonModal';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import OppgavekoPanel from './components/OppgavekoPanel';
 import OppgaveSystem from '../../types/OppgaveSystem';
 
@@ -23,7 +25,8 @@ interface OwnProps {
 /**
  * BehandlingskoerIndex
  */
-const BehandlingskoerIndex: FunctionComponent<OwnProps> = ({
+const BehandlingskoerIndex: FunctionComponent<OwnProps & WrappedComponentProps> = ({
+  intl,
   k9sakUrl,
   k9punsjUrl,
   setValgtOppgavekoId,
@@ -31,6 +34,8 @@ const BehandlingskoerIndex: FunctionComponent<OwnProps> = ({
   omsorgspengerUrl,
 }) => {
   const refreshUrl = useGlobalStateRestApiData<{ verdi?: string }>(RestApiGlobalStatePathsKeys.REFRESH_URL);
+  const [visModalForFlyttReservasjon, setVisModalForFlyttReservasjon] = useState<boolean>(false);
+  const [valgtOppgave, setValgtOppgave] = useState<Oppgave>();
 
   const { data: oppgavekoer = [] } = useRestApi<Oppgaveko[]>(K9LosApiKeys.OPPGAVEKO);
   const {
@@ -114,8 +119,18 @@ const BehandlingskoerIndex: FunctionComponent<OwnProps> = ({
   };
 
   const apneOppgave = useCallback((oppgave: Oppgave) => {
-    openSak(oppgave);
+    if (oppgave.status.kanOverstyres) {
+      setValgtOppgave(oppgave);
+      setVisModalForFlyttReservasjon(true);
+    } else {
+      openSak(oppgave);
+    }
   }, [k9sakUrl]);
+
+  const lukkModal = () => {
+    setVisModalForFlyttReservasjon(false);
+    setValgtOppgave(null);
+  };
 
   if (oppgavekoer.length === 0) {
     return null;
@@ -133,8 +148,20 @@ const BehandlingskoerIndex: FunctionComponent<OwnProps> = ({
         reserverteOppgaver={reserverteOppgaver}
         hentReserverteOppgaver={hentReserverteOppgaver}
       />
+
+      {visModalForFlyttReservasjon && valgtOppgave && (
+        <FlyttReservasjonsmodal
+          intl={intl}
+          oppgave={valgtOppgave}
+          oppgaveStatus={valgtOppgave.status}
+          lukkFlyttReservasjonsmodal={() => lukkModal()}
+          openSak={openSak}
+          hentReserverteOppgaver={hentReserverteOppgaver}
+          hentOppgaverTilBehandling={() => hentOppgaverTilBehandling({ id: valgtOppgavekoId })}
+        />
+      )}
     </>
   );
 };
 
-export default BehandlingskoerIndex;
+export default injectIntl(BehandlingskoerIndex);
