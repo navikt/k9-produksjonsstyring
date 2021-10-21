@@ -99,7 +99,7 @@ export const endpoints = new RestApiConfigBuilder(CONTEXT_PATH)
   /* /api/saksbehandler/oppgave */
   .withGet('/saksbehandler/oppgaver', K9LosApiKeys.OPPGAVER_TIL_BEHANDLING)
   .withGet('/saksbehandler/oppgaver/reserverte', K9LosApiKeys.RESERVERTE_OPPGAVER)
-  .withPost('/saksbehandler/oppgaver/få-oppgave-fra-kø', K9LosApiKeys.FÅ_OPPGAVE_FRA_KO)
+  .withPost('/saksbehandler/oppgaver/fa-oppgave-fra-ko', K9LosApiKeys.FÅ_OPPGAVE_FRA_KO)
   .withPost('/saksbehandler/oppgaver/reserver', K9LosApiKeys.RESERVER_OPPGAVE)
   .withGet('/saksbehandler/oppgaver/reservasjon-status', K9LosApiKeys.HENT_RESERVASJONSSTATUS)
   .withPost('/saksbehandler/oppgaver/opphev', K9LosApiKeys.OPPHEV_OPPGAVERESERVASJON)

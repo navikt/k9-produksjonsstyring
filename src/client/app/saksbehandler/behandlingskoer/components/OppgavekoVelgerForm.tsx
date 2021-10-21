@@ -176,7 +176,6 @@ export const OppgavekoVelgerForm: FunctionComponent<OwnProps & WrappedComponentP
                   <VerticalSpacer eightPx />
                   <Undertekst><FormattedMessage id="OppgavekoVelgerForm.AntallOppgaver" values={{ antall: antallOppgaver }} /></Undertekst>
                   <VerticalSpacer sixteenPx />
-                  <Hovedknapp onClick={() => plukkNyOppgave()}>{intl.formatMessage({ id: 'OppgavekoVelgerForm.PlukkNyOppgave' })}</Hovedknapp>
                 </FlexColumn>
                 {values.id && (
                 <>
@@ -220,6 +219,7 @@ export const OppgavekoVelgerForm: FunctionComponent<OwnProps & WrappedComponentP
           </form>
         )}
       />
+      <Hovedknapp onClick={() => plukkNyOppgave()}>{intl.formatMessage({ id: 'OppgavekoVelgerForm.PlukkNyOppgave' })}</Hovedknapp>
     </div>
   );
 };
