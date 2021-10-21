@@ -31,7 +31,7 @@ import styles from './oppgaverTabell.less';
 import OppgaveHandlingerMenu from '../menu/OppgaveHandlingerMenu';
 
 interface OwnProps {
-  reserverOppgave: (oppgave: Oppgave) => void;
+  apneOppgave: (oppgave: Oppgave) => void;
   reserverteOppgaver: Oppgave[];
   hentReserverteOppgaver: () => void;
   requestFinished: boolean;
@@ -39,7 +39,7 @@ interface OwnProps {
 
 const ReserverteOppgaverTabell: FunctionComponent<OwnProps & WrappedComponentProps> = ({
   intl,
-  reserverOppgave,
+  apneOppgave,
   reserverteOppgaver,
   hentReserverteOppgaver,
   requestFinished,
@@ -64,7 +64,7 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps & WrappedComponentPro
       return;
     }
     leggTilBehandletOppgave(oppgave);
-    reserverOppgave(oppgave);
+    apneOppgave(oppgave);
   }, [ref.current]);
 
   const toggleMenu = useCallback((oppgaveValgt: Oppgave) => {

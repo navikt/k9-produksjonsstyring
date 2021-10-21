@@ -326,7 +326,8 @@
   "BehandlingerGårAvVent.FireNesteUker": "Neste 4 uker",
   "BehandlingerGårAvVent.VelgFagytelseType": "Velg ytelsetype",
 
-  "OppgavekoVelgerForm.Oppgaveko": "Behandlingskø",
+  "OppgavekoVelgerForm.Oppgaveko": "Velg behandlingskø",
+  "OppgavekoVelgerForm.AntallOppgaver": "Antall i kø: {antall}",
   "OppgavekoVelgerForm.Utvalgskriterier": "Utvalgskriterier",
   "OppgavekoVelgerForm.Stonadstype": "Stønadstype",
   "OppgavekoVelgerForm.Behandlingstype": "Behandlingstype",
@@ -335,6 +336,7 @@
   "OppgavekoVelgerForm.AndreKriterier": "Andre filter",
   "OppgavekoVelgerForm.Uten": "Uten: {kriterie}",
   "OppgavekoVelgerForm.Saksbehandlere": "Saksbehandlere tilknyttet denne køen",
+  "OppgavekoVelgerForm.PlukkNyOppgave": "Gi meg en ny oppgave",
   "OppgavekoVelgerForm.SaksbehandlerToolip": "Andre saksbehandlere på denne køen:",
   "OppgavekoVelgerForm.Sorteringsinfo": "{navn}{br}Gjeldende intervall:{br}{fomDato} - {tomDato}",
   "OppgavekoVelgerForm.SorteringsinfoFom": "{navn}{br}Fra og med: {fomDato}",

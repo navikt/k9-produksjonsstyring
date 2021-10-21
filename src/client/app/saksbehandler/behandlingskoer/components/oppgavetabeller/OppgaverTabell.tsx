@@ -3,7 +3,6 @@ import React, {
 } from 'react';
 import { FormattedMessage, injectIntl, WrappedComponentProps } from 'react-intl';
 import { Normaltekst } from 'nav-frontend-typografi';
-import NavFrontendChevron from 'nav-frontend-chevron';
 
 import Image from 'sharedComponents/Image';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
@@ -30,7 +29,6 @@ import styles from './oppgaverTabell.less';
 
 interface OwnProps {
   valgtOppgavekoId: string;
-  reserverOppgave: (oppgave: Oppgave) => void;
   oppgaverTilBehandling: Oppgave[];
   requestFinished: boolean;
   valgtKo: Oppgaveko;
@@ -42,16 +40,14 @@ interface OwnProps {
 export const OppgaverTabell: FunctionComponent<OwnProps & WrappedComponentProps> = ({
   intl,
   valgtOppgavekoId,
-  reserverOppgave,
   oppgaverTilBehandling,
   requestFinished,
   valgtKo,
 }) => {
-  const { startRequest: hentSaksbehandlersOppgavekoer } = useRestApiRunner<Oppgaveko[]>(K9LosApiKeys.OPPGAVEKO);
-  const { startRequest: leggTilBehandletOppgave } = useRestApiRunner(K9LosApiKeys.LEGG_TIL_BEHANDLET_OPPGAVE);
+  const { startRequest: hentOppgaveKo } = useRestApiRunner<Oppgaveko[]>(K9LosApiKeys.OPPGAVEKO);
 
   useEffect(() => {
-    hentSaksbehandlersOppgavekoer();
+    hentOppgaveKo();
   }, [valgtOppgavekoId]);
 
   const createTooltip = useCallback((oppgaveStatus: OppgaveStatus): ReactNode | undefined => {
@@ -72,11 +68,6 @@ export const OppgaverTabell: FunctionComponent<OwnProps & WrappedComponentProps>
       <Normaltekst><FormattedMessage id="OppgaverTabell.OverfortReservasjonTooltip" values={textValues} /></Normaltekst>
     );
   }, []);
-
-  const goToFagsak = (event: Event, id: number, oppgave: Oppgave) => {
-    leggTilBehandletOppgave(oppgave);
-    reserverOppgave(oppgave);
-  };
 
   return (
     <div>
@@ -103,9 +94,8 @@ export const OppgaverTabell: FunctionComponent<OwnProps & WrappedComponentProps>
           {oppgaverTilBehandling.map((oppgave) => (
             <TableRow
               key={oppgave.eksternId}
-              onMouseDown={goToFagsak}
-              onKeyDown={goToFagsak}
               model={oppgave}
+              className={styles.oppgavetabell_row}
             >
               <TableColumn>{oppgave.navn ? `${oppgave.navn} ${oppgave.personnummer}` : '<navn>'}</TableColumn>
               <TableColumn>{hentIDFraSak(oppgave)}</TableColumn>
@@ -120,9 +110,6 @@ export const OppgaverTabell: FunctionComponent<OwnProps & WrappedComponentProps>
                   tooltip={createTooltip(oppgave.status)}
                 />
                 )}
-              </TableColumn>
-              <TableColumn>
-                <NavFrontendChevron />
               </TableColumn>
             </TableRow>
           ))}
