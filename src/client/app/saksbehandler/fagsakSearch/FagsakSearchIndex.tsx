@@ -42,7 +42,6 @@ const FagsakSearchIndex: FunctionComponent<OwnProps & WrappedComponentProps> = (
   const [reservertOppgave, setReservertOppgave] = useState<Oppgave>();
   const [sokStartet, setSokStartet] = useState(false);
   const [sokFerdig, setSokFerdig] = useState(false);
-  const [skalReservere, setSkalReservere] = useState(false);
   const { kanReservere } = useGlobalStateRestApiData<NavAnsatt>(RestApiGlobalStatePathsKeys.NAV_ANSATT);
 
   const goToFagsak = (oppgave: Oppgave) => {
@@ -113,7 +112,6 @@ const FagsakSearchIndex: FunctionComponent<OwnProps & WrappedComponentProps> = (
   };
 
   const sokFagsakFn = (values: {searchString: string; skalReservere: boolean}) => {
-    setSkalReservere(values.skalReservere);
     setSokStartet(true);
     setSokFerdig(false);
 
@@ -162,7 +160,7 @@ const FagsakSearchIndex: FunctionComponent<OwnProps & WrappedComponentProps> = (
         />
       )}
 
-      {visModalForFlyttReservasjon && valgtOppgave && (
+      {visModalForFlyttReservasjon && valgtOppgave && valgtOppgaveStatus && (
         <FlyttReservasjonsmodal
           intl={intl}
           oppgave={valgtOppgave}
