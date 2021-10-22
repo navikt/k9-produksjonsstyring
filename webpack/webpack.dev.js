@@ -1,9 +1,9 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const webpack = require('webpack');
 const path = require('path');
 const { merge } = require('webpack-merge');
 const commonDevAndProd = require('./webpack.common.dev_and_prod.js');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const ROOT_DIR = path.resolve(__dirname, '../src/client');
 const APP_DIR = path.resolve(ROOT_DIR, 'app');
@@ -13,7 +13,6 @@ const config = {
   devtool: 'eval-cheap-module-source-map',
 
   entry: [
-    'babel-polyfill',
     'webpack-dev-server/client?http://localhost:8030',
     'webpack/hot/only-dev-server',
     `${APP_DIR}/index.tsx`,
@@ -21,8 +20,7 @@ const config = {
 
   output: {
     globalObject: 'this',
-    filename: '[name].[contenthash].js',
-    chunkFilename: '[id].[chunkhash].chunk.js',
+    filename: '[name].js',
     path: ROOT_DIR,
     publicPath: '/',
   },
@@ -48,6 +46,10 @@ const config = {
 
   devServer: {
     historyApiFallback: true,
+    static: {
+      directory: 'src/client',
+      watch: true,
+    },
   },
 };
 

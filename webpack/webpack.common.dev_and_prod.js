@@ -8,7 +8,6 @@ const common = require('./webpack.common.js');
 const CORE_DIR = path.resolve(__dirname, '../node_modules');
 const ROOT_DIR = path.resolve(__dirname, '../src/client');
 const APP_DIR = path.join(ROOT_DIR, 'app');
-const IMG_DIR = path.join(ROOT_DIR, 'images');
 const STYLE_DIR = path.join(ROOT_DIR, 'styles');
 
 const isDevelopment = JSON.stringify(process.env.NODE_ENV) === '"development"';

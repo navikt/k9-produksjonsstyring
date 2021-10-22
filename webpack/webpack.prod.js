@@ -1,9 +1,10 @@
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
-const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 const { merge } = require('webpack-merge');
+const TerserPlugin = require('terser-webpack-plugin');
 const commonDevAndProd = require('./webpack.common.dev_and_prod.js');
 
 const ROOT_DIR = path.resolve(__dirname, '../src/client');
@@ -15,7 +16,6 @@ const config = {
   performance: { hints: false },
 
   entry: [
-    'babel-polyfill',
     `${APP_DIR}/index.tsx`,
   ],
 
@@ -41,6 +41,9 @@ const config = {
 
   optimization: {
     minimizer: [
+      new TerserPlugin({
+        parallel: true,
+      }),
       new UglifyJsPlugin({
         uglifyOptions: {
           compress: false,
