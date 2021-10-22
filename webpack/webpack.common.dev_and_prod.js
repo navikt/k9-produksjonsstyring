@@ -78,13 +78,9 @@ const config = {
         ],
         include: [STYLE_DIR, CORE_DIR],
       }, {
-        test: /\.(svg)$/,
-        loader: 'file-loader',
-        options: {
-          name: '[name]_[hash].[ext]',
-        },
-        include: [IMG_DIR],
-      },
+        test: /\.svg/,
+        type: 'asset/resource',
+      }
     ],
   },
 
