@@ -54,6 +54,8 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps & WrappedComponentPro
   const { startRequest: leggTilBehandletOppgave } = useRestApiRunner(K9LosApiKeys.LEGG_TIL_BEHANDLET_OPPGAVE);
   const { startRequest: forlengOppgavereservasjon } = useRestApiRunner<Reservasjon[]>(K9LosApiKeys.FORLENG_OPPGAVERESERVASJON);
 
+  // TODO v 2 hent reserverte oppgaver hver 30e sekund sålänge användaren har varit aktiv de siste fem minuterna.
+
   const forlengOppgaveReservasjonFn = useCallback((oppgaveId: string): Promise<any> => forlengOppgavereservasjon({ oppgaveId })
     .then(() => hentReserverteOppgaver()), []);
 
