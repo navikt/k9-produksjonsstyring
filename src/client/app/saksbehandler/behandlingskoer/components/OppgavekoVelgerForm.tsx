@@ -218,7 +218,9 @@ export const OppgavekoVelgerForm: FunctionComponent<OwnProps & WrappedComponentP
           </form>
         )}
       />
-      <Hovedknapp onClick={() => plukkNyOppgave()}>{intl.formatMessage({ id: 'OppgavekoVelgerForm.PlukkNyOppgave' })}</Hovedknapp>
+      <Hovedknapp className={styles.nyOppgaveBtn} onClick={() => plukkNyOppgave()}>
+        {intl.formatMessage({ id: 'OppgavekoVelgerForm.PlukkNyOppgave' })}
+      </Hovedknapp>
     </div>
   );
 };
