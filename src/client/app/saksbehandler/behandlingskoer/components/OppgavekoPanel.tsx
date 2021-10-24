@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import React, { FunctionComponent, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Element, Undertittel } from 'nav-frontend-typografi';
 import { Oppgaveko } from 'saksbehandler/behandlingskoer/oppgavekoTsType';
@@ -6,7 +6,7 @@ import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import Oppgave from 'saksbehandler/oppgaveTsType';
 import { getValueFromLocalStorage, removeValueFromLocalStorage, setValueInLocalStorage } from 'utils/localStorageHelper';
 import { useRestApiRunner } from 'api/rest-api-hooks';
-import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
+import { K9LosApiKeys } from 'api/k9LosApi';
 import ReserverteOppgaverTabell
   from 'saksbehandler/behandlingskoer/components/oppgavetabeller/ReserverteOppgaverTabell';
 import NavFrontendChevron from 'nav-frontend-chevron';
