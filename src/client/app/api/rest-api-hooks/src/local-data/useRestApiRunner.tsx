@@ -50,8 +50,6 @@ function useRestApiRunner<T>(key: K9LosApiKeys):RestApiData<T> {
           });
         }
 
-        // eslint-disable-next-line
-        console.log('PAAYYLOOOOAD DATARES', dataRes);
         return Promise.resolve(dataRes.payload);
       })
       .catch((error) => {
