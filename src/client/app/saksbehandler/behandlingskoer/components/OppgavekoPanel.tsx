@@ -12,12 +12,10 @@ import ReserverteOppgaverTabell
 import NavFrontendChevron from 'nav-frontend-chevron';
 import OppgaveTabellMenyAntallOppgaver
   from 'saksbehandler/behandlingskoer/components/oppgavetabeller/OppgaveTabellMenyAntallOppgaver';
-import NavAnsatt from 'app/navAnsattTsType';
 import OppgavekoVelgerForm from './OppgavekoVelgerForm';
 import OppgaverTabell from './oppgavetabeller/OppgaverTabell';
 
 import styles from './oppgavekoPanel.less';
-import useGlobalStateRestApiData from '../../../api/rest-api-hooks/src/global-data/useGlobalStateRestApiData';
 
 interface OwnProps {
   setValgtOppgavekoId: (id: string) => void;
