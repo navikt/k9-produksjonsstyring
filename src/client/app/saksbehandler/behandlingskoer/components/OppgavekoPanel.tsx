@@ -44,15 +44,8 @@ const OppgavekoPanel: FunctionComponent<OwnProps> = ({
   oppgaverTilBehandling,
 }) => {
   const [visBehandlingerIKo, setVisBehandlingerIKo] = useState<boolean>(true);
-  const [visReservasjoneriKo, setVisReservasjonerIKO] = useState<boolean>(true);
-  const { kanOppgavestyre } = useGlobalStateRestApiData<NavAnsatt>(RestApiGlobalStatePathsKeys.NAV_ANSATT);
+  const [visReservasjoneriKo, setVisReservasjonerIKO] = useState<boolean>(false);
   const { startRequest: fåOppgaveFraKo } = useRestApiRunner<Oppgave>(K9LosApiKeys.FÅ_OPPGAVE_FRA_KO);
-
-  useEffect(() => {
-    if (kanOppgavestyre) {
-      setVisReservasjonerIKO(false);
-    }
-  }, []);
 
   const valgtKo = oppgavekoer.find((ko) => ko.id === valgtOppgavekoId);
 
@@ -103,7 +96,7 @@ const OppgavekoPanel: FunctionComponent<OwnProps> = ({
             <Element><FormattedMessage id="OppgaverTabell.DineNesteSaker" /></Element>
           </button>
 
-          {kanOppgavestyre && visBehandlingerIKo
+          {visBehandlingerIKo
           && (
             <OppgaverTabell
               valgtKo={valgtKo}

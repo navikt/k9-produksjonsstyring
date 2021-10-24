@@ -193,7 +193,7 @@
 
   "OppgaverTabell.DineNesteSaker": "Neste behandlinger",
   "OppgaverTabell.DineNesteSakerAntall": "{antall} i køen",
-  "OppgaverTabell.ReserverteOppgaver": "Reserverte oppgaver",
+  "OppgaverTabell.ReserverteOppgaver": "Reserverte behandlinger",
   "OppgaverTabell.ReserverteOppgaverAntall": "{antall} reserverte",
 
   "OppgaverTabell.IngenOppgaver": "Det er ingen behandlinger i denne køen",
@@ -345,7 +345,7 @@
   "OppgavekoVelgerForm.AndreKriterier": "Andre filter",
   "OppgavekoVelgerForm.Uten": "Uten: {kriterie}",
   "OppgavekoVelgerForm.Saksbehandlere": "Saksbehandlere tilknyttet denne køen",
-  "OppgavekoVelgerForm.PlukkNyOppgave": "Gi meg en ny oppgave",
+  "OppgavekoVelgerForm.PlukkNyOppgave": "Gi meg neste behandling i køen",
   "OppgavekoVelgerForm.SaksbehandlerToolip": "Andre saksbehandlere på denne køen:",
   "OppgavekoVelgerForm.Sorteringsinfo": "{navn}{br}Gjeldende intervall:{br}{fomDato} - {tomDato}",
   "OppgavekoVelgerForm.SorteringsinfoFom": "{navn}{br}Fra og med: {fomDato}",
