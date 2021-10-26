@@ -216,10 +216,10 @@
   "OppgaveErReservertAvAnnenModal.Ok": "Åpne behandlingen",
   "OppgaveErReservertAvAnnenModal.GåTilKøen": "Gå tilbake til køen",
 
-  "FlyttReservasjonModal.ReservertAv": "{saksbehandlernavn}({saksbehandlerid}) arbeider nå med den andre parten i denne saken. Vil du flytte reservasjonen til saksbehandler?",
+  "FlyttReservasjonModal.ReservertAv": "{saksbehandlernavn}({saksbehandlerid}) arbeider nå med den andre parten i denne saken. Vil du legge denne behandlingen til saksbehandleren?",
   "FlyttReservasjonModal.ReservertAvEnkel": "En annen saksbehandler arbeider nå med den andre parten i denne saken",
-  "FlyttReservasjonModal.OverstyrReservasjon": "Nej, overstyr reservasjon",
-  "FlyttReservasjonModal.FlyttReservasjon": "Ja, flytt reservasjon til saksbehandler",
+  "FlyttReservasjonModal.OverstyrReservasjon": "Nei, jeg vil reservere behandlingen",
+  "FlyttReservasjonModal.FlyttReservasjon": "Ja, legg behandlingen til saksbehandleren",
   "FlyttReservasjonModal.GåTilKøen": "Gå tilbake til køen",
   "FlyttReservasjonModal.Feil": "Mangler reservasjonsrettigheter.",
 
