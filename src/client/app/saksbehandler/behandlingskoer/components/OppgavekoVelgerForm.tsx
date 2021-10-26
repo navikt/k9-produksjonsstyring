@@ -4,11 +4,10 @@ import { Form, FormSpy } from 'react-final-form';
 import {
   injectIntl, WrappedComponentProps, FormattedMessage, IntlShape,
 } from 'react-intl';
-import { Element } from 'nav-frontend-typografi';
+import { Element, Undertekst } from 'nav-frontend-typografi';
 import { DDMMYYYY_DATE_FORMAT } from 'utils/formats';
 import Image from 'sharedComponents/Image';
 import { FlexContainer, FlexRow, FlexColumn } from 'sharedComponents/flexGrid';
-import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import LabelWithHeader from 'sharedComponents/LabelWithHeader';
 import { Oppgaveko } from 'saksbehandler/behandlingskoer/oppgavekoTsType';
 import { SelectField } from 'form/FinalFields';
@@ -16,18 +15,19 @@ import gruppeHoverUrl from 'images/gruppe_hover.svg';
 import gruppeUrl from 'images/gruppe.svg';
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
 import { K9LosApiKeys } from 'api/k9LosApi';
+import VerticalSpacer from 'sharedComponents/VerticalSpacer';
+import { Hovedknapp } from 'nav-frontend-knapper';
 import { Saksbehandler } from '../saksbehandlerTsType';
 
 import styles from './oppgavekoVelgerForm.less';
 
 interface OwnProps {
   oppgavekoer: Oppgaveko[];
-  saksbehandlere?: Saksbehandler[];
   setValgtOppgavekoId: (id: string) => void;
-  fetchAntallOppgaver: (data: {id: string}) => void;
   getValueFromLocalStorage: (key: string) => string;
   setValueInLocalStorage: (key: string, value: string) => void;
   removeValueFromLocalStorage: (key: string) => void;
+  plukkNyOppgave: () => void;
 }
 
 const getDefaultOppgaveko = (oppgavekoer, getValueFromLocalStorage, removeValueFromLocalStorage) => {
@@ -115,9 +115,10 @@ export const OppgavekoVelgerForm: FunctionComponent<OwnProps & WrappedComponentP
   getValueFromLocalStorage,
   setValueInLocalStorage,
   removeValueFromLocalStorage,
-  fetchAntallOppgaver,
+  plukkNyOppgave,
 }) => {
   const { data: saksbehandlere, startRequest: hentSaksbehandlere } = useRestApiRunner<Saksbehandler[]>(K9LosApiKeys.OPPGAVEKO_SAKSBEHANDLERE);
+  const { startRequest: fetchAntallOppgaver, data: antallOppgaver } = useRestApiRunner<number>(K9LosApiKeys.BEHANDLINGSKO_OPPGAVE_ANTALL);
 
   useEffect(() => {
     if (oppgavekoer.length > 0) {
@@ -143,78 +144,84 @@ export const OppgavekoVelgerForm: FunctionComponent<OwnProps & WrappedComponentP
     );
   };
   return (
-    <Form
-      onSubmit={() => undefined}
-      initialValues={getInitialValues(oppgavekoer, getValueFromLocalStorage, removeValueFromLocalStorage)}
-      render={({ values = {} }) => (
-        <form>
-          <Element><FormattedMessage id="OppgavekoVelgerForm.Utvalgskriterier" /></Element>
-          <VerticalSpacer eightPx />
-          <FormSpy
-            onChange={(val) => {
-              if (val && val.values.id && val.dirtyFields.id) {
-                setValueInLocalStorage('id', val.values.id);
-                const { id } = val.values;
-                setValgtOppgavekoId(id);
-                hentSaksbehandlere({ id });
-                fetchAntallOppgaver({ id });
-              }
-            }}
-            subscription={{ values: true, dirtyFields: true }}
-          />
-          <FlexContainer>
-            <FlexRow>
-              <FlexColumn className={styles.navnInput}>
-                <SelectField
-                  name="id"
-                  label={intl.formatMessage({ id: 'OppgavekoVelgerForm.Oppgaveko' })}
-                  selectValues={oppgavekoer
-                    .map((oppgaveko) => (<option key={oppgaveko.id} value={`${oppgaveko.id}`}>{oppgaveko.navn}</option>))}
-                  bredde="l"
-                />
-              </FlexColumn>
-              {values.id && (
-              <>
-                <FlexColumn>
-                  <div className={styles.saksbehandlerIkon} />
-                  <Image
-                    alt={intl.formatMessage({ id: 'OppgavekoVelgerForm.Saksbehandlere' })}
-                    src={gruppeUrl}
-                    srcHover={gruppeHoverUrl}
-                    tooltip={createTooltip()}
+    <div className={styles.oppgavevelgerform_container}>
+      <Form
+        onSubmit={() => undefined}
+        initialValues={getInitialValues(oppgavekoer, getValueFromLocalStorage, removeValueFromLocalStorage)}
+        render={({ values = {} }) => (
+          <form>
+            <FormSpy
+              onChange={(val) => {
+                if (val && val.values.id && val.dirtyFields.id) {
+                  setValueInLocalStorage('id', val.values.id);
+                  const { id } = val.values;
+                  setValgtOppgavekoId(id);
+                  hentSaksbehandlere({ id });
+                  fetchAntallOppgaver({ id });
+                }
+              }}
+              subscription={{ values: true, dirtyFields: true }}
+            />
+            <FlexContainer>
+              <FlexRow>
+                <FlexColumn className={styles.navnInput}>
+                  <SelectField
+                    name="id"
+                    label={intl.formatMessage({ id: 'OppgavekoVelgerForm.Oppgaveko' })}
+                    selectValues={oppgavekoer
+                      .map((oppgaveko) => (<option key={oppgaveko.id} value={`${oppgaveko.id}`}>{oppgaveko.navn}</option>))}
+                    bredde="l"
                   />
+                  <VerticalSpacer eightPx />
+                  <Undertekst><FormattedMessage id="OppgavekoVelgerForm.AntallOppgaver" values={{ antall: antallOppgaver }} /></Undertekst>
+                  <VerticalSpacer sixteenPx />
                 </FlexColumn>
-                <FlexColumn className={styles.marginFilters}>
-                  <LabelWithHeader
-                    header={intl.formatMessage({ id: 'OppgavekoVelgerForm.Stonadstype' })}
-                    texts={getStonadstyper(intl, getValgtOppgaveko(oppgavekoer, values.id))}
-                  />
-                </FlexColumn>
-                <FlexColumn className={styles.marginFilters}>
-                  <LabelWithHeader
-                    header={intl.formatMessage({ id: 'OppgavekoVelgerForm.Behandlingstype' })}
-                    texts={getBehandlingstyper(intl, getValgtOppgaveko(oppgavekoer, values.id))}
-                  />
-                </FlexColumn>
-                <FlexColumn className={styles.marginFilters}>
-                  <LabelWithHeader
-                    header={intl.formatMessage({ id: 'OppgavekoVelgerForm.AndreKriterier' })}
-                    texts={getAndreKriterier(intl, getValgtOppgaveko(oppgavekoer, values.id))}
-                  />
-                </FlexColumn>
-                <FlexColumn className={styles.marginFilters}>
-                  <LabelWithHeader
-                    header={intl.formatMessage({ id: 'OppgavekoVelgerForm.Sortering' })}
-                    texts={[getSorteringsnavn(intl, getValgtOppgaveko(oppgavekoer, values.id))]}
-                  />
-                </FlexColumn>
-              </>
-              )}
-            </FlexRow>
-          </FlexContainer>
-        </form>
-      )}
-    />
+                {values.id && (
+                <>
+                  <FlexColumn>
+                    <div className={styles.saksbehandlerIkon} />
+                    <Image
+                      alt={intl.formatMessage({ id: 'OppgavekoVelgerForm.Saksbehandlere' })}
+                      src={gruppeUrl}
+                      srcHover={gruppeHoverUrl}
+                      tooltip={createTooltip()}
+                    />
+                  </FlexColumn>
+                  <FlexColumn className={styles.marginFilters}>
+                    <LabelWithHeader
+                      header={intl.formatMessage({ id: 'OppgavekoVelgerForm.Stonadstype' })}
+                      texts={getStonadstyper(intl, getValgtOppgaveko(oppgavekoer, values.id))}
+                    />
+                  </FlexColumn>
+                  <FlexColumn className={styles.marginFilters}>
+                    <LabelWithHeader
+                      header={intl.formatMessage({ id: 'OppgavekoVelgerForm.Behandlingstype' })}
+                      texts={getBehandlingstyper(intl, getValgtOppgaveko(oppgavekoer, values.id))}
+                    />
+                  </FlexColumn>
+                  <FlexColumn className={styles.marginFilters}>
+                    <LabelWithHeader
+                      header={intl.formatMessage({ id: 'OppgavekoVelgerForm.AndreKriterier' })}
+                      texts={getAndreKriterier(intl, getValgtOppgaveko(oppgavekoer, values.id))}
+                    />
+                  </FlexColumn>
+                  <FlexColumn className={styles.marginFilters}>
+                    <LabelWithHeader
+                      header={intl.formatMessage({ id: 'OppgavekoVelgerForm.Sortering' })}
+                      texts={[getSorteringsnavn(intl, getValgtOppgaveko(oppgavekoer, values.id))]}
+                    />
+                  </FlexColumn>
+                </>
+                )}
+              </FlexRow>
+            </FlexContainer>
+          </form>
+        )}
+      />
+      <Hovedknapp className={styles.nyOppgaveBtn} onClick={() => plukkNyOppgave()}>
+        {intl.formatMessage({ id: 'OppgavekoVelgerForm.PlukkNyOppgave' })}
+      </Hovedknapp>
+    </div>
   );
 };
 

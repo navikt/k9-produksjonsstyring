@@ -1,6 +1,5 @@
 import React, { Component, MouseEvent } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { getDateAndTime } from 'utils/dateUtils';
 import Oppgave from 'saksbehandler/oppgaveTsType';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import MenuButton from './MenuButton';
@@ -158,13 +157,6 @@ export class OppgaveHandlingerMenu extends Component<OwnProps, OwnState> {
     return (
       <>
         <div className={styles.containerMenu} style={getOffsetPositionStyle(offset)} ref={(node) => { this.node = node; }}>
-          <FormattedMessage
-            id="OppgaveHandlingerMenu.ReservertTil"
-            values={{
-              ...getDateAndTime(oppgave.status.reservertTilTidspunkt),
-              b: (...chunks) => <b>{chunks}</b>,
-            }}
-          />
           <VerticalSpacer eightPx />
           <MenuButton onClick={this.showBegrunnelseModal} ref={this.menuButtonRef}>
             <FormattedMessage id="OppgaveHandlingerMenu.LeggTilbake" values={{ br: <br /> }} />

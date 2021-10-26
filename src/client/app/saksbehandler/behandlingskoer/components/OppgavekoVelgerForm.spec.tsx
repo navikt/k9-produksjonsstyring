@@ -20,6 +20,21 @@ describe('<OppgavekoVelgerForm>', () => {
   const intl: Partial<IntlShape> = {
     ...intlMock,
   };
+
+  const saksbehandlere = [{
+    brukerIdent: 'T120101',
+    navn: 'Espen Utvikler',
+    epost: 'epost',
+  }, {
+    brukerIdent: 'A120102',
+    navn: 'Auto Joachim',
+    epost: 'epost',
+  }, {
+    brukerIdent: 'T120102',
+    navn: 'Helge Ingstad',
+    epost: 'epost',
+  }];
+
   it('skal vise dropdown med to oppgavekoer', () => {
     const formProps = { };
     const oppgavekoer = [{
@@ -58,11 +73,13 @@ describe('<OppgavekoVelgerForm>', () => {
       },
     }];
     new RestApiTestMocker()
-      .withDummyRunner()
+      .withRestCallRunner(K9LosApiKeys.OPPGAVEKO_SAKSBEHANDLERE, { data: saksbehandlere })
+      .withRestCallRunner(K9LosApiKeys.BEHANDLINGSKO_OPPGAVE_ANTALL, { startRequest: () => undefined, data: 10 })
       .runTest(() => {
         const wrapper = shallowWithIntl(<OppgavekoVelgerForm.WrappedComponent
           intl={intl as IntlShape}
           oppgavekoer={oppgavekoer}
+          plukkNyOppgave={sinon.spy()}
           setValgtOppgavekoId={sinon.spy()}
           getValueFromLocalStorage={sinon.spy()}
           setValueInLocalStorage={sinon.spy()}
@@ -103,12 +120,14 @@ describe('<OppgavekoVelgerForm>', () => {
 
     const formProps = { values: { id: undefined } };
     new RestApiTestMocker()
-      .withDummyRunner()
+      .withRestCallRunner(K9LosApiKeys.OPPGAVEKO_SAKSBEHANDLERE, { data: saksbehandlere })
+      .withRestCallRunner(K9LosApiKeys.BEHANDLINGSKO_OPPGAVE_ANTALL, { startRequest: () => undefined, data: 10 })
       .runTest(() => {
         const wrapper = shallowWithIntl(<OppgavekoVelgerForm.WrappedComponent
           intl={intl as IntlShape}
           oppgavekoer={oppgavekoer}
           setValgtOppgavekoId={sinon.spy()}
+          plukkNyOppgave={sinon.spy()}
           getValueFromLocalStorage={sinon.spy()}
           setValueInLocalStorage={sinon.spy()}
           removeValueFromLocalStorage={sinon.spy()}
@@ -140,12 +159,14 @@ describe('<OppgavekoVelgerForm>', () => {
 
     const formProps = { values: { id: '1' } };
     new RestApiTestMocker()
-      .withDummyRunner()
+      .withRestCallRunner(K9LosApiKeys.OPPGAVEKO_SAKSBEHANDLERE, { data: saksbehandlere })
+      .withRestCallRunner(K9LosApiKeys.BEHANDLINGSKO_OPPGAVE_ANTALL, { startRequest: () => undefined, data: 10 })
       .runTest(() => {
         const wrapper = shallowWithIntl(<OppgavekoVelgerForm.WrappedComponent
           intl={intl as IntlShape}
           oppgavekoer={oppgavekoer}
           setValgtOppgavekoId={sinon.spy()}
+          plukkNyOppgave={sinon.spy()}
           getValueFromLocalStorage={sinon.spy()}
           setValueInLocalStorage={sinon.spy()}
           removeValueFromLocalStorage={sinon.spy()}
@@ -184,13 +205,15 @@ describe('<OppgavekoVelgerForm>', () => {
 
     const formProps = { values: { id: '1' } };
     new RestApiTestMocker()
-      .withDummyRunner()
+      .withRestCallRunner(K9LosApiKeys.OPPGAVEKO_SAKSBEHANDLERE, { data: saksbehandlere })
+      .withRestCallRunner(K9LosApiKeys.BEHANDLINGSKO_OPPGAVE_ANTALL, { startRequest: () => undefined, data: 10 })
       .runTest(() => {
         // totaltBehandlingTypeAntall er satt til 1 som er lik antall behandlingstypar satt på sakslisten
         const wrapper = shallowWithIntl(<OppgavekoVelgerForm.WrappedComponent
           intl={intl as IntlShape}
           oppgavekoer={oppgavekoer}
           setValgtOppgavekoId={sinon.spy()}
+          plukkNyOppgave={sinon.spy()}
           getValueFromLocalStorage={sinon.spy()}
           setValueInLocalStorage={sinon.spy()}
           removeValueFromLocalStorage={sinon.spy()}
@@ -234,12 +257,14 @@ describe('<OppgavekoVelgerForm>', () => {
 
     const formProps = { values: { id: '1' } };
     new RestApiTestMocker()
-      .withDummyRunner()
+      .withRestCallRunner(K9LosApiKeys.OPPGAVEKO_SAKSBEHANDLERE, { data: saksbehandlere })
+      .withRestCallRunner(K9LosApiKeys.BEHANDLINGSKO_OPPGAVE_ANTALL, { startRequest: () => undefined, data: 10 })
       .runTest(() => {
         const wrapper = shallowWithIntl(<OppgavekoVelgerForm.WrappedComponent
           intl={intl as IntlShape}
           oppgavekoer={oppgavekoer}
           setValgtOppgavekoId={sinon.spy()}
+          plukkNyOppgave={sinon.spy()}
           getValueFromLocalStorage={sinon.spy()}
           setValueInLocalStorage={sinon.spy()}
           removeValueFromLocalStorage={sinon.spy()}
@@ -278,12 +303,14 @@ describe('<OppgavekoVelgerForm>', () => {
 
     const formProps = { values: { id: '1' } };
     new RestApiTestMocker()
-      .withDummyRunner()
+      .withRestCallRunner(K9LosApiKeys.OPPGAVEKO_SAKSBEHANDLERE, { data: saksbehandlere })
+      .withRestCallRunner(K9LosApiKeys.BEHANDLINGSKO_OPPGAVE_ANTALL, { startRequest: () => undefined, data: 10 })
       .runTest(() => {
         const wrapper = shallowWithIntl(<OppgavekoVelgerForm.WrappedComponent
           intl={intl as IntlShape}
           oppgavekoer={oppgavekoer}
           setValgtOppgavekoId={sinon.spy()}
+          plukkNyOppgave={sinon.spy()}
           getValueFromLocalStorage={sinon.spy()}
           setValueInLocalStorage={sinon.spy()}
           removeValueFromLocalStorage={sinon.spy()}
@@ -322,12 +349,14 @@ describe('<OppgavekoVelgerForm>', () => {
     const formProps = { values: { id: '1' } };
 
     new RestApiTestMocker()
-      .withDummyRunner()
+      .withRestCallRunner(K9LosApiKeys.OPPGAVEKO_SAKSBEHANDLERE, { data: saksbehandlere })
+      .withRestCallRunner(K9LosApiKeys.BEHANDLINGSKO_OPPGAVE_ANTALL, { startRequest: () => undefined, data: 10 })
       .runTest(() => {
         const wrapper = shallowWithIntl(<OppgavekoVelgerForm.WrappedComponent
           intl={intl as IntlShape}
           oppgavekoer={oppgavekoer}
           setValgtOppgavekoId={sinon.spy()}
+          plukkNyOppgave={sinon.spy()}
           getValueFromLocalStorage={sinon.spy()}
           setValueInLocalStorage={sinon.spy()}
           removeValueFromLocalStorage={sinon.spy()}
@@ -359,12 +388,14 @@ describe('<OppgavekoVelgerForm>', () => {
 
     const formProps = { values: { id: '1' } };
     new RestApiTestMocker()
-      .withDummyRunner()
+      .withRestCallRunner(K9LosApiKeys.OPPGAVEKO_SAKSBEHANDLERE, { data: saksbehandlere })
+      .withRestCallRunner(K9LosApiKeys.BEHANDLINGSKO_OPPGAVE_ANTALL, { startRequest: () => undefined, data: 10 })
       .runTest(() => {
         const wrapper = shallowWithIntl(<OppgavekoVelgerForm.WrappedComponent
           intl={intl as IntlShape}
           oppgavekoer={oppgavekoer}
           setValgtOppgavekoId={sinon.spy()}
+          plukkNyOppgave={sinon.spy()}
           getValueFromLocalStorage={sinon.spy()}
           setValueInLocalStorage={sinon.spy()}
           removeValueFromLocalStorage={sinon.spy()}
@@ -396,29 +427,17 @@ describe('<OppgavekoVelgerForm>', () => {
       },
     }];
 
-    const saksbehandlere = [{
-      brukerIdent: 'T120101',
-      navn: 'Espen Utvikler',
-      epost: 'epost',
-    }, {
-      brukerIdent: 'A120102',
-      navn: 'Auto Joachim',
-      epost: 'epost',
-    }, {
-      brukerIdent: 'T120102',
-      navn: 'Helge Ingstad',
-      epost: 'epost',
-    }];
-
     const formProps = { values: { id: '1' } };
     new RestApiTestMocker()
       .withRestCallRunner(K9LosApiKeys.OPPGAVEKO_SAKSBEHANDLERE, { data: saksbehandlere })
+      .withRestCallRunner(K9LosApiKeys.BEHANDLINGSKO_OPPGAVE_ANTALL, { startRequest: () => undefined, data: 10 })
       .runTest(() => {
         const wrapper = shallowWithIntl(<OppgavekoVelgerForm.WrappedComponent
           intl={intl as IntlShape}
           oppgavekoer={oppgavekoer}
           setValgtOppgavekoId={sinon.spy()}
           getValueFromLocalStorage={sinon.spy()}
+          plukkNyOppgave={sinon.spy()}
           setValueInLocalStorage={sinon.spy()}
           removeValueFromLocalStorage={sinon.spy()}
         />).find(Form).renderProp('render')(formProps);

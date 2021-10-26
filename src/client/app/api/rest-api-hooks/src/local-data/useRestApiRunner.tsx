@@ -49,6 +49,7 @@ function useRestApiRunner<T>(key: K9LosApiKeys):RestApiData<T> {
             error: undefined,
           });
         }
+
         return Promise.resolve(dataRes.payload);
       })
       .catch((error) => {
