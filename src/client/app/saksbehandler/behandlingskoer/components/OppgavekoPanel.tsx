@@ -41,8 +41,8 @@ const OppgavekoPanel: FunctionComponent<OwnProps> = ({
   requestFinished,
   oppgaverTilBehandling,
 }) => {
-  const [visBehandlingerIKo, setVisBehandlingerIKo] = useState<boolean>(true);
-  const [visReservasjoneriKo, setVisReservasjonerIKO] = useState<boolean>(false);
+  const [visBehandlingerIKo, setVisBehandlingerIKo] = useState<boolean>(false);
+  const [visReservasjoneriKo, setVisReservasjonerIKO] = useState<boolean>(true);
   const { startRequest: fåOppgaveFraKo } = useRestApiRunner<Oppgave>(K9LosApiKeys.FÅ_OPPGAVE_FRA_KO);
 
   const valgtKo = oppgavekoer.find((ko) => ko.id === valgtOppgavekoId);
