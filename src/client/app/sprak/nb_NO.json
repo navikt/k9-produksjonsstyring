@@ -194,6 +194,7 @@
   "OppgaverTabell.DineNesteSaker": "Neste behandlinger",
   "OppgaverTabell.DineNesteSakerAntall": "{antall} i køen",
   "OppgaverTabell.ReserverteOppgaver": "Reserverte behandlinger",
+  "OppgaverTabell.IngenReserverteOppgaver": "Det er ingen reserverte behandlinger",
   "OppgaverTabell.ReserverteOppgaverAntall": "{antall} reserverte",
 
   "OppgaverTabell.IngenOppgaver": "Det er ingen behandlinger i denne køen",
