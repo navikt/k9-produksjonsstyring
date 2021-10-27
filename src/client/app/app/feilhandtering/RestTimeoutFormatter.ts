@@ -15,9 +15,7 @@ class RestTimeoutFormatter implements Formatter<ErrorData> {
 
   isOfType = (type: string) => type === this.type;
 
-  format = (errorData: ErrorData) => ErrorMessage.withMessageCode(TIMEOUT_MESSAGE_CODE, {
-    location: errorData.location,
-  });
+  format = (errorData: ErrorData) => ErrorMessage.withMessageCode(TIMEOUT_MESSAGE_CODE, errorData);
 }
 
 export default RestTimeoutFormatter;
