@@ -3,7 +3,6 @@ import {
 } from 'react';
 import { RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
 
-import { NotificationMapper } from 'api/rest-api';
 import { RestApiDispatchContext, RestApiRequestContext } from '../RestApiContext';
 import RestApiState from '../RestApiState';
 
