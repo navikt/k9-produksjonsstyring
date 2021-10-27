@@ -54,7 +54,7 @@ const OppgavekoPanel: FunctionComponent<OwnProps> = ({
   const valgtKo = oppgavekoer.find((ko) => ko.id === valgtOppgavekoId);
 
   useEffect(() => {
-    if (!!restApiState && restApiState === RestApiState.ERROR && !!restApiError && restApiError.toString().includes('404')) {
+    if (restApiState && restApiState === RestApiState.ERROR && restApiError && restApiError.toString().includes('404')) {
       setVisFinnesIngenBehandlingerIKoModal(true);
       resetRequestData();
     }
