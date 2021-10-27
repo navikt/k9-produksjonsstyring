@@ -21,13 +21,15 @@ interface OwnProps {
 const DriftsmeldingPanel: FunctionComponent<OwnProps> = ({
   driftsmeldinger,
 }) => {
-  if (driftsmeldinger === undefined || driftsmeldinger.length === 0) {
+  if (driftsmeldinger === undefined || driftsmeldinger.length === 0 || driftsmeldinger.filter((message) => message.aktiv).length === 0) {
     return null;
   }
 
+  const aktiveDriftsmeldinger = driftsmeldinger.filter((message) => message.aktiv);
+
   return (
     <div className={styles.container}>
-      {driftsmeldinger.map((message) => (
+      {aktiveDriftsmeldinger.map((message) => (
         <Row key={message.id}>
           <Column xs="11" className={styles.column}>
             <Image
