@@ -28,6 +28,7 @@ interface OwnProps {
   setValueInLocalStorage: (key: string, value: string) => void;
   removeValueFromLocalStorage: (key: string) => void;
   plukkNyOppgave: () => void;
+  erRestApiKallLoading: boolean;
 }
 
 const getDefaultOppgaveko = (oppgavekoer, getValueFromLocalStorage, removeValueFromLocalStorage) => {
@@ -116,6 +117,7 @@ export const OppgavekoVelgerForm: FunctionComponent<OwnProps & WrappedComponentP
   setValueInLocalStorage,
   removeValueFromLocalStorage,
   plukkNyOppgave,
+  erRestApiKallLoading,
 }) => {
   const { data: saksbehandlere, startRequest: hentSaksbehandlere } = useRestApiRunner<Saksbehandler[]>(K9LosApiKeys.OPPGAVEKO_SAKSBEHANDLERE);
   const { startRequest: fetchAntallOppgaver, data: antallOppgaver } = useRestApiRunner<number>(K9LosApiKeys.BEHANDLINGSKO_OPPGAVE_ANTALL);
@@ -218,7 +220,7 @@ export const OppgavekoVelgerForm: FunctionComponent<OwnProps & WrappedComponentP
           </form>
         )}
       />
-      <Hovedknapp className={styles.nyOppgaveBtn} onClick={() => plukkNyOppgave()}>
+      <Hovedknapp className={styles.nyOppgaveBtn} spinner={erRestApiKallLoading} disabled={erRestApiKallLoading} onClick={() => plukkNyOppgave()}>
         {intl.formatMessage({ id: 'OppgavekoVelgerForm.PlukkNyOppgave' })}
       </Hovedknapp>
     </div>

@@ -106,7 +106,7 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps & WrappedComponentPro
       {reserverteOppgaver.length === 0 && requestFinished && (
         <>
           <VerticalSpacer eightPx />
-          <Normaltekst><FormattedMessage id="OppgaverTabell.IngenOppgaver" /></Normaltekst>
+          <Normaltekst><FormattedMessage id="OppgaverTabell.IngenReserverteOppgaver" /></Normaltekst>
         </>
       )}
 

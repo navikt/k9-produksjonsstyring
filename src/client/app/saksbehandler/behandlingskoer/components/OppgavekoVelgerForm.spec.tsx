@@ -84,6 +84,7 @@ describe('<OppgavekoVelgerForm>', () => {
           getValueFromLocalStorage={sinon.spy()}
           setValueInLocalStorage={sinon.spy()}
           removeValueFromLocalStorage={sinon.spy()}
+          erRestApiKallLoading={false}
         />).find(Form).renderProp('render')(formProps);
 
         const select = wrapper.find(SelectField);
@@ -131,6 +132,7 @@ describe('<OppgavekoVelgerForm>', () => {
           getValueFromLocalStorage={sinon.spy()}
           setValueInLocalStorage={sinon.spy()}
           removeValueFromLocalStorage={sinon.spy()}
+          erRestApiKallLoading={false}
         />).find(Form).renderProp('render')(formProps);
 
         expect(wrapper.find(LabelWithHeader)).to.have.length(0);
@@ -170,6 +172,7 @@ describe('<OppgavekoVelgerForm>', () => {
           getValueFromLocalStorage={sinon.spy()}
           setValueInLocalStorage={sinon.spy()}
           removeValueFromLocalStorage={sinon.spy()}
+          erRestApiKallLoading={false}
         />).find(Form).renderProp('render')(formProps);
 
         const labels = wrapper.find(LabelWithHeader);
@@ -217,6 +220,7 @@ describe('<OppgavekoVelgerForm>', () => {
           getValueFromLocalStorage={sinon.spy()}
           setValueInLocalStorage={sinon.spy()}
           removeValueFromLocalStorage={sinon.spy()}
+          erRestApiKallLoading={false}
         />).find(Form).renderProp('render')(formProps);
 
         const labels = wrapper.find(LabelWithHeader);
@@ -268,6 +272,7 @@ describe('<OppgavekoVelgerForm>', () => {
           getValueFromLocalStorage={sinon.spy()}
           setValueInLocalStorage={sinon.spy()}
           removeValueFromLocalStorage={sinon.spy()}
+          erRestApiKallLoading={false}
         />).find(Form).renderProp('render')(formProps);
 
         const labels = wrapper.find(LabelWithHeader);
@@ -314,6 +319,7 @@ describe('<OppgavekoVelgerForm>', () => {
           getValueFromLocalStorage={sinon.spy()}
           setValueInLocalStorage={sinon.spy()}
           removeValueFromLocalStorage={sinon.spy()}
+          erRestApiKallLoading={false}
         />).find(Form).renderProp('render')(formProps);
 
         const labels = wrapper.find(LabelWithHeader);
@@ -360,6 +366,7 @@ describe('<OppgavekoVelgerForm>', () => {
           getValueFromLocalStorage={sinon.spy()}
           setValueInLocalStorage={sinon.spy()}
           removeValueFromLocalStorage={sinon.spy()}
+          erRestApiKallLoading={false}
         />).find(Form).renderProp('render')(formProps);
 
         const labels = wrapper.find(LabelWithHeader);
@@ -399,6 +406,7 @@ describe('<OppgavekoVelgerForm>', () => {
           getValueFromLocalStorage={sinon.spy()}
           setValueInLocalStorage={sinon.spy()}
           removeValueFromLocalStorage={sinon.spy()}
+          erRestApiKallLoading={false}
         />).find(Form).renderProp('render')(formProps);
 
         const labels = wrapper.find(LabelWithHeader);
@@ -440,6 +448,7 @@ describe('<OppgavekoVelgerForm>', () => {
           plukkNyOppgave={sinon.spy()}
           setValueInLocalStorage={sinon.spy()}
           removeValueFromLocalStorage={sinon.spy()}
+          erRestApiKallLoading={false}
         />).find(Form).renderProp('render')(formProps);
 
         const image = wrapper.find(Image);
