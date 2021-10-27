@@ -1,3 +1,4 @@
+import EventType from 'api/rest-api/src/requestApi/eventType';
 import RequestProcess from './RequestProcess';
 import NotificationMapper from './NotificationMapper';
 import RestApiRequestContext from './RestApiRequestContext';
@@ -26,6 +27,9 @@ const getMethod = (httpClientApi: HttpClientApi, restMethod: string) => {
   return httpClientApi.postAndOpenBlob;
 };
 
+type Notify = (eventType: keyof typeof EventType, data?: any, isPolling?: boolean) => void
+type NotificationEmitter = (eventType: keyof typeof EventType, data?: any) => void
+
 /**
  * RequestRunner
  *
@@ -40,6 +44,8 @@ class RequestRunner {
   context: RestApiRequestContext
 
   process: RequestProcess;
+
+  notify: Notify = () => undefined;
 
   constructor(httpClientApi: HttpClientApi, context: RestApiRequestContext) {
     this.httpClientApi = httpClientApi;
@@ -59,6 +65,10 @@ class RequestRunner {
     if (this.process) {
       this.process.cancel();
     }
+  }
+
+  setNotificationEmitter = (notificationEmitter: NotificationEmitter): void => {
+    this.notify = notificationEmitter;
   }
 
   public startProcess = (params: any, notificationMapper?: NotificationMapper) => {
