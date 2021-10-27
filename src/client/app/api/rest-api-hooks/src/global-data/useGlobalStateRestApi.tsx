@@ -4,7 +4,6 @@ import {
 import { RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
 
 import { NotificationMapper } from 'api/rest-api';
-import useRestApiErrorDispatcher from '../error/useRestApiErrorDispatcher';
 import { RestApiDispatchContext, RestApiRequestContext } from '../RestApiContext';
 import RestApiState from '../RestApiState';
 
@@ -32,12 +31,6 @@ function useGlobalStateRestApi<T>(key: RestApiGlobalStatePathsKeys, params: any 
     state: RestApiState.LOADING,
     error: undefined,
     data: undefined,
-  });
-
-  const { addErrorMessage } = useRestApiErrorDispatcher();
-  const notif = new NotificationMapper();
-  notif.addRequestErrorEventHandlers((errorData, type) => {
-    addErrorMessage({ ...errorData, type });
   });
 
   const dispatch = useContext(RestApiDispatchContext);
