@@ -12,11 +12,11 @@ import styles from './modalMedIkon.less';
 
 type TsProps = Readonly<{
   cancel: () => void;
-  submit: () => void;
+  submit?: () => void;
     tekst: {
       formattedMessageId: string;
       values?: Record<string, boolean | string | number>;
-      valgmulighetA: string;
+      valgmulighetA?: string;
       valgmulighetB: string;
     }
     ikonUrl: string;
@@ -47,6 +47,7 @@ const ModalMedIkon = ({
         </div>
       </div>
       <div className={classnames(styles.row, styles.buttons)}>
+        {tekst.valgmulighetA && typeof submit !== 'undefined' && (
         <Hovedknapp
           className={styles.submitButton}
           mini
@@ -56,6 +57,7 @@ const ModalMedIkon = ({
         >
           {tekst.valgmulighetA}
         </Hovedknapp>
+        )}
         <Knapp
           className={styles.cancelButton}
           mini
