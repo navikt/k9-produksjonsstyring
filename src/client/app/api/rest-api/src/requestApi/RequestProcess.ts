@@ -94,9 +94,12 @@ class RequestProcess {
     let response = await restMethod(path, params);
     if ('status' in response && response.status === HTTP_ACCEPTED) {
       this.isPollingRequest = true;
+
       try {
         response = await this.execLongPolling(response.headers.location);
       } catch (error) {
+        // eslint-disable-next-line
+        console.log('ERROR IN EXECUTE', error);
         const responseData = error.response ? error.response.data : undefined;
         if (responseData && hasLocationAndStatusDelayedOrHalted(responseData)) {
           response = await this.httpClientApi.get(responseData.location);
@@ -125,9 +128,13 @@ class RequestProcess {
       }
 
       const responseData = 'data' in response ? response.data : undefined;
+      // eslint-disable-next-line
+      console.log('FormatError1', responseData);
       this.notify(EventType.REQUEST_FINISHED, responseData, this.isPollingRequest);
       return responseData ? { payload: responseData } : { payload: undefined };
     } catch (error) {
+      // eslint-disable-next-line
+      console.log('FormatError2', error);
       new RequestErrorEventHandler(this.notify, this.isPollingRequest).handleError(error);
       throw error;
     }

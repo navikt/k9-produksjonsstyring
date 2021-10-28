@@ -2,11 +2,10 @@ import {
   useState, useEffect, DependencyList, useContext,
 } from 'react';
 
-import { REQUEST_POLLING_CANCELLED, NotificationMapper } from 'api/rest-api';
+import { REQUEST_POLLING_CANCELLED } from 'api/rest-api';
 import { K9LosApiKeys } from 'api/k9LosApi';
 
 import { RestApiRequestContext } from '../RestApiContext';
-import useRestApiErrorDispatcher from '../error/useRestApiErrorDispatcher';
 import RestApiState from '../RestApiState';
 
 interface RestApiData<T> {
@@ -26,12 +25,6 @@ function useRestApi<T>(key: K9LosApiKeys, params: any = {}, keepData = false, de
     data: undefined,
   });
 
-  const { addErrorMessage } = useRestApiErrorDispatcher();
-  const notif = new NotificationMapper();
-  notif.addRequestErrorEventHandlers((errorData, type) => {
-    addErrorMessage({ ...errorData, type });
-  });
-
   const requestApi = useContext(RestApiRequestContext);
 
   useEffect(() => {
@@ -41,7 +34,7 @@ function useRestApi<T>(key: K9LosApiKeys, params: any = {}, keepData = false, de
       data: keepData ? oldState.data : undefined,
     }));
 
-    requestApi.startRequest(key, params, notif)
+    requestApi.startRequest(key, params)
       .then((dataRes) => {
         if (dataRes.payload !== REQUEST_POLLING_CANCELLED) {
           setData({

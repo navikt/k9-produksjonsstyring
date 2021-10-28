@@ -13,6 +13,8 @@ import NotificationMapper from './NotificationMapper';
 class RequestApi {
   requestRunnersMappedByName: {[key: string]: RequestRunner};
 
+  notificationMapper: NotificationMapper = new NotificationMapper();
+
   constructor(httpClientApi: HttpClientApi, configs: RequestConfig[]) {
     this.requestRunnersMappedByName = configs.reduce((acc, config) => ({
       ...acc,
@@ -20,10 +22,16 @@ class RequestApi {
     }), {});
   }
 
-  public startRequest = (endpointName: string, params: any, notificationMapper?: NotificationMapper) => this.requestRunnersMappedByName[endpointName]
-    .startProcess(params, notificationMapper);
+  public startRequest = (endpointName: string, params: any) => this.requestRunnersMappedByName[endpointName]
+    .startProcess(params, this.notificationMapper)
 
   public cancelRequest = (endpointName: string) => this.requestRunnersMappedByName[endpointName].cancelRequest();
+
+  public setAddErrorMessageHandler = (addErrorMessage: (message: string) => void): void => {
+    this.notificationMapper.addRequestErrorEventHandlers((errorData, type) => {
+      addErrorMessage({ ...errorData, type });
+    });
+  };
 }
 
 export default RequestApi;

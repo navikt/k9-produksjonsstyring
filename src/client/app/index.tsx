@@ -6,8 +6,8 @@ import { init } from '@sentry/browser';
 
 import AppIndex from 'app/AppIndex';
 import { RestApiProvider } from 'api/rest-api-hooks/src/RestApiContext';
-import { RestApiErrorProvider } from 'api/rest-api/error/RestApiErrorContext';
 import { k9LosApi } from 'api/k9LosApi';
+import { RestApiErrorProvider } from 'api/error/RestApiErrorContext';
 
 /* eslint no-undef: "error" */
 const environment = window.location.hostname;
