@@ -26,13 +26,8 @@ const behandlingstypeFarger = {
   [behandlingType.KLAGE]: '#634689',
   [behandlingType.REVURDERING]: '#66CBEC',
   [behandlingType.FORSTEGANGSSOKNAD]: '#0067C5',
+  [behandlingType.TILBAKEBETALING]: '#69CA20',
 };
-
-const monthNames = ['JANUAR', 'FEBRUAR', 'MARS', 'APRIL', 'MAI', 'JUNI',
-  'JULI', 'AUGUST', 'SEPTEMBER', 'OKTOBER', 'NOVEMBER', 'DESEMBER',
-];
-
-const weekdays = ['Mandag', 'Tirsdag', 'Onsdag', 'Torsdag', 'Fredag', 'Lørdag', 'Søndag'];
 
 const cssText = {
   fontFamily: 'Source Sans Pro',
@@ -40,7 +35,6 @@ const cssText = {
   lineHeight: '1.375rem',
   fontWeight: 400,
   color: '#3E3832',
-
 };
 
 const sorterBehandlingtyper = (b1, b2) => {
@@ -50,16 +44,6 @@ const sorterBehandlingtyper = (b1, b2) => {
     return 0;
   }
   return index1 > index2 ? -1 : 1;
-};
-
-const getMonthNameAndYear = () => {
-  const today = moment();
-  if (today.day() > 28) {
-    return `${monthNames[today.month()]} ${today.year()}`;
-  }
-
-  return today.month() === 1 ? `${monthNames[11]} ${today.year() - 1} - ${monthNames[today.month()]} ${today.year()}`
-    : `${monthNames[today.month() - 1]} - ${monthNames[today.month()]} ${today.year()}`;
 };
 
 const konverterTilKoordinaterGruppertPaBehandlingstype = (oppgaverForAvdeling) => oppgaverForAvdeling.reduce((acc, o) => {
@@ -77,6 +61,7 @@ const konverterTilKoordinaterGruppertPaBehandlingstype = (oppgaverForAvdeling) =
 
 const fyllInnManglendeDatoerOgSorterEtterDato = (data, periodeStart, periodeSlutt) => Object.keys(data).reduce((acc, behandlingstype) => {
   const behandlingstypeData = data[behandlingstype];
+
   const koordinater = [];
 
   for (let dato = moment(periodeStart); dato.isSameOrBefore(periodeSlutt); dato = dato.add(1, 'days')) {
@@ -109,6 +94,7 @@ interface OwnProps {
   behandlingTyper: Kodeverk[];
   historiskData: HistoriskData[];
   isFireUkerValgt: boolean;
+  erPunsjValgt: boolean;
 }
 
 interface CrosshairValue {
@@ -125,9 +111,9 @@ const HistorikkGraf: FunctionComponent<OwnProps> = ({
   historiskData,
   isFireUkerValgt,
   behandlingTyper,
+  erPunsjValgt,
 }) => {
   const [crosshairValues, setCrosshairValues] = useState<CrosshairValue[]>([]);
-
   const onMouseLeave = useCallback(() => setCrosshairValues([]), []);
   const onNearestX = useCallback((value: {x: Date; y: number}) => {
     setCrosshairValues([value]);
@@ -137,6 +123,7 @@ const HistorikkGraf: FunctionComponent<OwnProps> = ({
   const periodeSlutt = moment().subtract(1, 'd');
 
   const koordinater = useMemo(() => konverterTilKoordinaterGruppertPaBehandlingstype(historiskData), [historiskData]);
+
   const data = useMemo(() => fyllInnManglendeDatoerOgSorterEtterDato(koordinater, periodeStart, periodeSlutt), [koordinater, periodeStart, periodeSlutt]);
 
   const sorterteBehandlingstyper = Object.keys(data).sort(sorterBehandlingtyper);
@@ -177,8 +164,8 @@ const HistorikkGraf: FunctionComponent<OwnProps> = ({
                 key={k}
                 data={data[k]}
                 onNearestX={index === 0 ? onNearestX : () => undefined}
-                fill={behandlingstypeFarger[k]}
-                stroke={behandlingstypeFarger[k]}
+                fill={erPunsjValgt ? '#9A1788' : behandlingstypeFarger[k]}
+                stroke={erPunsjValgt ? '#9A1788' : behandlingstypeFarger[k]}
               />
             ))}
             {crosshairValues.length > 0 && (
@@ -192,11 +179,12 @@ const HistorikkGraf: FunctionComponent<OwnProps> = ({
               >
                 <div className={styles.crosshair}>
                   <Normaltekst>{`${moment(crosshairValues[0].x).format(DD_MM_DATE_FORMAT)}`}</Normaltekst>
-                  { reversertSorterteBehandlingstyper.map((key) => (
+                  {!erPunsjValgt && reversertSorterteBehandlingstyper.map((key) => (
                     <Undertekst key={key}>
                       {`${finnBehandlingTypeNavn(behandlingTyper, key)}: ${finnAntallForBehandlingstypeOgDato(data, key, crosshairValues[0].x)}`}
                     </Undertekst>
                   ))}
+                  {erPunsjValgt && <Undertekst>{`Punsj: ${finnAntallForBehandlingstypeOgDato(data, 'PUNSJ', crosshairValues[0].x)}`}</Undertekst>}
                 </div>
               </Crosshair>
             )}
@@ -206,10 +194,13 @@ const HistorikkGraf: FunctionComponent<OwnProps> = ({
       <Row className={styles.legends}>
         <DiscreteColorLegend
           orientation="horizontal"
-          colors={behandlingstypeOrder.map((bt) => behandlingstypeFarger[bt])}
-          items={behandlingstypeOrder.map((bt) => (
-            <Normaltekst key={bt} className={styles.displayInline}>{finnBehandlingTypeNavn(behandlingTyper, bt)}</Normaltekst>
-          ))}
+          colors={erPunsjValgt
+            ? []
+            : behandlingstypeOrder.map((bt) => behandlingstypeFarger[bt])}
+          items={erPunsjValgt ? []
+            : behandlingstypeOrder.map((bt) => (
+              <Normaltekst key={bt} className={styles.displayInline}>{finnBehandlingTypeNavn(behandlingTyper, bt)}</Normaltekst>
+            ))}
         />
       </Row>
     </FlexContainer>
