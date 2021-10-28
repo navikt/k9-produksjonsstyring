@@ -77,15 +77,6 @@ const config = {
         include: [STYLE_DIR, CORE_DIR],
       },
       {
-        test: /\.(jp|pn|sv)g$/,
-        issuer: /\.less$/,
-        type: 'asset/resource',
-        generator: {
-          filename: '[name]_[contenthash].[ext]',
-        },
-        include: [IMG_DIR],
-      },
-      {
         test: /\.(svg)$/,
         type: 'asset/resource',
         include: [IMG_DIR],
