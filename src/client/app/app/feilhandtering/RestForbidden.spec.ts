@@ -1,7 +1,6 @@
 import { expect } from 'chai';
 
 import RestForbiddenFormatter from 'app/feilhandtering/RestForbidden';
-import RestTimeoutFormatter from './RestTimeoutFormatter';
 import ErrorMessage from './ErrorMessage';
 import ErrorEventType from './errorEventType';
 

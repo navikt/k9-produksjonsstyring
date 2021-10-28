@@ -98,6 +98,8 @@ class RequestProcess {
       try {
         response = await this.execLongPolling(response.headers.location);
       } catch (error) {
+        // eslint-disable-next-line
+        console.log('ERROR IN EXECUTE', error);
         const responseData = error.response ? error.response.data : undefined;
         if (responseData && hasLocationAndStatusDelayedOrHalted(responseData)) {
           response = await this.httpClientApi.get(responseData.location);
