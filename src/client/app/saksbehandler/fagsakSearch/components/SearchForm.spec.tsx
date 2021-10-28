@@ -12,13 +12,6 @@ import SearchForm from './SearchForm';
 
 describe('<SearchForm>', () => {
   let contextStub;
-  // before(() => {
-  //   contextStub = sinon.stub(useRestApiData, 'default').callsFake(() => ({ kanSaksbehandle: true }));
-  // });
-
-  // after(() => {
-  //   contextStub.restore();
-  // });
 
   const intl: Partial<IntlShape> = {
     ...intlMock,

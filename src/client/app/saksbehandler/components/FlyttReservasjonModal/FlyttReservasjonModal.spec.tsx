@@ -1,5 +1,3 @@
-/*
-Kommenterar ut testen tillvidare sedan den inte fungerar i WP4.
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
@@ -9,8 +7,8 @@ import Modal from 'sharedComponents/Modal';
 import Oppgave from 'saksbehandler/oppgaveTsType';
 import FlyttReservasjonsmodal from 'saksbehandler/components/FlyttReservasjonModal/FlyttReservasjonModal';
 import { RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
-import { shallowWithIntl, intlMock } from 'testHelpers/intl-enzyme-test-helper';
-import RestApiTestMocker from 'testHelpers/RestApiTestMocker';
+import { shallowWithIntl, intlMock } from '../../../../../../setup/testHelpers/intl-enzyme-test-helper';
+import RestApiTestMocker from '../../../../../../setup/testHelpers/RestApiTestMocker';
 
 describe('<FlyttReservasjonModal>', () => {
   const oppgave: Oppgave = {
@@ -90,4 +88,3 @@ describe('<FlyttReservasjonModal>', () => {
       });
   });
 });
-*/
