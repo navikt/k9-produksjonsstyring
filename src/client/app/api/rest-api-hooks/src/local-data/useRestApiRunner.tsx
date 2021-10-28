@@ -43,14 +43,9 @@ function useRestApiRunner<T>(key: K9LosApiKeys):RestApiData<T> {
           });
         }
 
-        // eslint-disable-next-line
-        console.log('ERROR PAYLOAD', dataRes);
-
         return Promise.resolve(dataRes.payload);
       })
       .catch((error) => {
-        // eslint-disable-next-line
-        console.log('ERROR', error);
         setData({
           state: RestApiState.ERROR,
           data: undefined,

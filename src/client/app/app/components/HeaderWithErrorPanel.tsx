@@ -77,9 +77,6 @@ const HeaderWithErrorPanel: FunctionComponent<OwnProps & WrappedComponentProps> 
 
   const errorMessages = useRestApiError() || [];
 
-  // eslint-disable-next-line
-  console.log('ERRORMESSAGES I HEADER', errorMessages)
-
   const formaterteFeilmeldinger = useMemo(() => new ErrorFormatter().format(errorMessages, crashMessage), [errorMessages]);
   const { removeErrorMessage } = useRestApiErrorDispatcher();
   const wrapperRef = useOutsideClickEvent(erLenkePanelApent, erAvdelingerPanelApent, setLenkePanelApent, setAvdelingerPanelApent);
