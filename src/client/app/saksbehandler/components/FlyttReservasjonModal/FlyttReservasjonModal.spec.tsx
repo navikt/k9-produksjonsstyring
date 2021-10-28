@@ -68,8 +68,10 @@ describe('<FlyttReservasjonModal>', () => {
             intl={intlMock}
             lukkFlyttReservasjonsmodal={sinon.spy()}
             oppgave={oppgave}
+            oppgaveStatus={oppgave.status}
             openSak={sinon.spy()}
             hentReserverteOppgaver={sinon.spy()}
+            hentOppgaverTilBehandling={sinon.spy()}
           />,
         );
 
