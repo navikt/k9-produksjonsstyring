@@ -17,6 +17,8 @@ class ErrorFormatter {
       allErrorMessages.push(defaultFormatter.format(crashMessage));
     }
 
+    // eslint-disable-next-line
+    console.log('ERRORMESSAGE', errorMessages);
     if (errorMessages.length > 0) {
       errorMessages.map((e: any) => {
         const formatter = formatters.find((f) => f.isOfType(e.type));
