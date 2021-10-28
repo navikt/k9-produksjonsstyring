@@ -8,6 +8,8 @@ import { RestApiErrorDispatchContext } from './RestApiErrorContext';
 const useRestApiErrorDispatcher = () => {
   const dispatch = useContext(RestApiErrorDispatchContext);
   const addErrorMessage = useCallback((data) => {
+    // eslint-disable-next-line
+    console.log('ADD ERRORMESSAGE', data);
     if (dispatch) {
       dispatch({ type: 'add', data });
     }
