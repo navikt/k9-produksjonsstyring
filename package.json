@@ -177,14 +177,14 @@
     "uglifyjs-webpack-plugin": "^2.2.0",
     "webpack": "^5.51.1",
     "webpack-cli": "4.8.0",
-    "webpack-dev-server": "^3.11.0",
+    "webpack-dev-server": "^4.3.1",
     "webpack-merge": "^5.1.4"
   },
   "scripts": {
     "start-express": "node ./server.js",
     "test": "jest --colors",
-    "dev": "cross-env NODE_ENV=development NODE_ICU_DATA=./node_modules/full-icu node webpack/webpack.dev.server.js --config webpack/webpack.dev.js",
-    "build": "cross-env NODE_ENV=production webpack --config webpack/webpack.prod.js",
+    "dev": "cross-env NODE_ENV=development NODE_ICU_DATA=./node_modules/full-icu node webpack2/webpack.dev.server.js --config webpack2/webpack.dev.js",
+    "build": "cross-env NODE_ENV=production webpack --config webpack2/webpack.prod.js",
     "ts-check": "tsc --pretty",
     "less:lint": "stylelint \"src/**/*.less\"",
     "up": "docker-compose up -d --remove-orphans --build",

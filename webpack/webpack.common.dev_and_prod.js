@@ -81,10 +81,11 @@ const config = {
       {
         test: /\.(jp|pn|sv)g$/,
         issuer: /\.less$/,
-        type: 'asset/resource',
+        type: 'asset/inline',
         generator: {
-          filename: '[name]_[contenthash][ext]',
+          filename: 'public/[name]_[contenthash][ext]',
         },
+        include: [IMG_DIR],
       },
       {
         test: /\.(svg)$/,
