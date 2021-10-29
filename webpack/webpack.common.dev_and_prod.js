@@ -83,7 +83,7 @@ const config = {
         issuer: /\.less$/,
         type: 'asset/resource',
         generator: {
-          filename: '[name]_[contenthash].[ext]',
+          name: isDevelopment ? '[name]_[contenthash].[ext]' : '/[name]_[contenthash].[ext]',
         },
       },
       {
