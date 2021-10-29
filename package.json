@@ -12,6 +12,7 @@
     "@navikt/k9-react-components": "^0.1.5",
     "@popperjs/core": "^2.9.3",
     "@sentry/browser": "^6.11.0",
+    "@svgr/webpack": "^5.5.0",
     "@types/jest": "^27.0.1",
     "@typescript-eslint/eslint-plugin": "^4.29.2",
     "@typescript-eslint/parser": "^4.31.1",

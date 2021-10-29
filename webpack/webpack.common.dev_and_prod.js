@@ -9,6 +9,7 @@ const CORE_DIR = path.resolve(__dirname, '../node_modules');
 const ROOT_DIR = path.resolve(__dirname, '../src/client');
 const APP_DIR = path.join(ROOT_DIR, 'app');
 const STYLE_DIR = path.join(ROOT_DIR, 'styles');
+const IMG_DIR = path.join(ROOT_DIR, 'images');
 
 const isDevelopment = JSON.stringify(process.env.NODE_ENV) === '"development"';
 
@@ -76,9 +77,30 @@ const config = {
           },
         ],
         include: [STYLE_DIR, CORE_DIR],
-      }, {
-        test: /\.svg/,
+      },
+      {
+        test: /\.(jp|pn|sv)g$/,
+        issuer: /\.less$/,
         type: 'asset/resource',
+        generator: {
+          filename: '[name]_[contenthash].[ext]',
+        },
+      },
+      {
+        test: /\.(svg)$/,
+        issuer: /\.(t|j)sx?$/,
+        use: [
+          { loader: '@svgr/webpack' },
+          {
+            loader: 'file-loader',
+            options: {
+              esModule: false,
+              name: isDevelopment ? '[name]_[contenthash].[ext]' : '/[name]_[contenthash].[ext]',
+            },
+          },
+        ],
+        type: 'javascript/auto',
+        include: [IMG_DIR],
       }
     ],
   },
