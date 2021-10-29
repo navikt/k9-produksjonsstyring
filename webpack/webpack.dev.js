@@ -2,15 +2,14 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
 const path = require('path');
 const { merge } = require('webpack-merge');
-const commonDevAndProd = require('./webpack.common.dev_and_prod.js');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const commonDevAndProd = require('./webpack.common.js');
 
 const ROOT_DIR = path.resolve(__dirname, '../src/client');
 const APP_DIR = path.resolve(ROOT_DIR, 'app');
 
 const config = {
   mode: 'development',
-  devtool: 'eval-cheap-module-source-map',
+  devtool: 'eval-cheap-source-map',
 
   entry: [
     'webpack-dev-server/client?http://localhost:8030',
@@ -32,13 +31,10 @@ const config = {
       template: path.join(ROOT_DIR, 'index.html'),
     }),
     new webpack.HotModuleReplacementPlugin(),
-    new MiniCssExtractPlugin({
-      filename: 'style_[chunkhash].css',
-      ignoreOrder: true,
-    }),
   ],
 
   optimization: {
+    moduleIds: 'named',
     splitChunks: {
       chunks: 'all',
     },
@@ -46,10 +42,6 @@ const config = {
 
   devServer: {
     historyApiFallback: true,
-    static: {
-      directory: 'src/client',
-      watch: true,
-    },
   },
 };
 

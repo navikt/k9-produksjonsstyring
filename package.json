@@ -160,7 +160,6 @@
     "mini-css-extract-plugin": "^2.2.0",
     "mocha": "^9.1.0",
     "null-loader": "^4.0.0",
-    "nyc": "15.1.0",
     "optimize-css-assets-webpack-plugin": "^6.0.1",
     "react-test-renderer": "^17.0.2",
     "redux-mock-store": "^1.5.4",
@@ -176,8 +175,8 @@
     "uglifyjs-webpack-plugin": "^2.2.0",
     "webpack": "^5.51.1",
     "webpack-cli": "4.8.0",
-    "webpack-dev-server": "^3.11.0",
-    "webpack-merge": "^5.1.4"
+    "webpack-dev-server": "^4.3.1",
+    "webpack-merge": "^5.8.0"
   },
   "scripts": {
     "start-express": "node ./server.js",
@@ -188,26 +187,5 @@
     "less:lint": "stylelint \"src/**/*.less\"",
     "up": "docker-compose up -d --remove-orphans --build",
     "down": "docker-compose down"
-  },
-  "nyc": {
-    "require": [
-      "@babel/register",
-      "./src/client/testHelpers/setup.js"
-    ],
-    "sourceMap": false,
-    "instrument": false,
-    "reporter": [
-      "text",
-      "lcov",
-      "html"
-    ],
-    "extension": [
-      ".tsx",
-      ".ts",
-      ".es6"
-    ],
-    "exclude": [
-      "**/*.spec.tsx"
-    ]
   }
 }
