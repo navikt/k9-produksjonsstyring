@@ -7,7 +7,6 @@ const config = {
   env: {
     es6: true,
     browser: true,
-    mocha: true,
   },
 
   parser: '@typescript-eslint/parser',

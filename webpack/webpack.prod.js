@@ -1,4 +1,3 @@
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -44,17 +43,8 @@ const config = {
       new TerserPlugin({
         parallel: true,
       }),
-      new UglifyJsPlugin({
-        uglifyOptions: {
-          compress: false,
-        },
-        parallel: true,
-        cache: true,
-        sourceMap: true,
-      }),
       new OptimizeCSSAssetsPlugin({}),
     ],
-    minimize: false,
     splitChunks: {
       chunks: 'all',
     },
