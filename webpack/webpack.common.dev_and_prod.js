@@ -82,9 +82,6 @@ const config = {
         test: /\.(jp|pn|sv)g$/,
         issuer: /\.less$/,
         type: 'asset/resource',
-        generator: {
-          name: isDevelopment ? '[name]_[contenthash].[ext]' : '/[name]_[contenthash].[ext]',
-        },
       },
       {
         test: /\.(svg)$/,
