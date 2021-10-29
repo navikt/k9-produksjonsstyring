@@ -82,6 +82,9 @@ const config = {
         test: /\.(jp|pn|sv)g$/,
         issuer: /\.less$/,
         type: 'asset/resource',
+        generator: {
+          filename: '[name]_[contenthash][ext]',
+        },
       },
       {
         test: /\.(svg)$/,
