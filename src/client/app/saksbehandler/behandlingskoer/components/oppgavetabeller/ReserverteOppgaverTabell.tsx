@@ -71,14 +71,18 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps & WrappedComponentPro
 
   const toggleMenu = useCallback((oppgaveValgt: Oppgave) => {
     // eslint-disable-next-line
-    console.log('reffCurr', ref.current);
+    console.log('reffCurr', ref.current,);
     const newOffset = ref.current[oppgaveValgt.eksternId]?.getBoundingClientRect();
     setShowMenu(!showMenu);
     setValgtOppgaveId(oppgaveValgt.eksternId);
 
     // eslint-disable-next-line
     console.log('newOffset', newOffset, oppgaveValgt);
-    setOffset({ top: newOffset.top, left: newOffset.left });
+    if (newOffset) {
+      setOffset({ top: newOffset.top, left: newOffset.left });
+    } else {
+      setOffset({ top: null, left: null });
+    }
   }, [ref.current, showMenu]);
 
   const createTooltip = useCallback((oppgaveStatus: OppgaveStatus): ReactNode | undefined => {
