@@ -88,10 +88,10 @@ export class OppgaveHandlingerMenu extends Component<OwnProps, OwnState> {
       if (harKlikketMeny || harKlikketIkon) {
         return;
       }
-    }
 
-    const { toggleMenu, oppgave } = this.props;
-    toggleMenu(oppgave);
+      const { toggleMenu, oppgave } = this.props;
+      toggleMenu(oppgave);
+    }
   }
 
   showBegrunnelseModal = () => {
