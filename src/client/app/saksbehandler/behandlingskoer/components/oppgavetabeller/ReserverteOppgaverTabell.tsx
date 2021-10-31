@@ -74,6 +74,8 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps & WrappedComponentPro
     setShowMenu(!showMenu);
     setValgtOppgaveId(oppgaveValgt.eksternId);
 
+    // eslint-disable-next-line
+    console.log('newOffset', newOffset, oppgaveValgt);
     if (newOffset) {
       setOffset({ top: newOffset.top, left: newOffset.left });
     }
