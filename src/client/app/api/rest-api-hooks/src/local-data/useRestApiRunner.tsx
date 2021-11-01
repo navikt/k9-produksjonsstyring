@@ -1,9 +1,8 @@
 import { useState, useCallback, useContext } from 'react';
 
 import { K9LosApiKeys } from 'api/k9LosApi';
-import { NotificationMapper, ErrorType, REQUEST_POLLING_CANCELLED } from 'api/rest-api';
+import { ErrorType, REQUEST_POLLING_CANCELLED } from 'api/rest-api';
 import { RestApiRequestContext } from '../RestApiContext';
-import useRestApiErrorDispatcher from '../error/useRestApiErrorDispatcher';
 import RestApiState from '../RestApiState';
 
 interface RestApiData<T> {
@@ -25,12 +24,6 @@ function useRestApiRunner<T>(key: K9LosApiKeys):RestApiData<T> {
     error: undefined,
   });
 
-  const { addErrorMessage } = useRestApiErrorDispatcher();
-  const notif = new NotificationMapper();
-  notif.addRequestErrorEventHandlers((errorData, type) => {
-    addErrorMessage({ ...errorData, type });
-  });
-
   const requestApi = useContext(RestApiRequestContext);
 
   const startRequest = useCallback((params: any = {}, keepData = false):Promise<T> => {
@@ -40,7 +33,7 @@ function useRestApiRunner<T>(key: K9LosApiKeys):RestApiData<T> {
       error: undefined,
     }));
 
-    return requestApi.startRequest(key, params, notif)
+    return requestApi.startRequest(key, params)
       .then((dataRes) => {
         if (dataRes.payload !== REQUEST_POLLING_CANCELLED) {
           setData({
