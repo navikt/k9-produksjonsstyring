@@ -67,10 +67,6 @@ class RequestRunner {
     }
   }
 
-  setNotificationEmitter = (notificationEmitter: NotificationEmitter): void => {
-    this.notify = notificationEmitter;
-  }
-
   public startProcess = (params: any, notificationMapper?: NotificationMapper) => {
     this.cancelRequest();
 

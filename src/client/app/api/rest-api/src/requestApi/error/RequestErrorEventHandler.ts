@@ -94,7 +94,7 @@ class RequestErrorEventHandler {
       isForbidden: response ? response.status === 403 : undefined,
       isUnauthorized: response ? response.status === 401 : undefined,
       is418: response ? response.status === 418 : undefined,
-      isGatewayTimeoutOrNotFound: response ? response.status === 504 || response.status === 404 : undefined,
+      isGatewayTimeoutOrNotFound: response ? response.status === 504 /* || response.status === 404 */ : undefined,
       location: response && response.config ? response.config.url : undefined,
     };
   };
