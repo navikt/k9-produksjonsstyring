@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import NavFrontendChevron from 'nav-frontend-chevron';
 import Oppgave from 'saksbehandler/oppgaveTsType';
 import Table from 'sharedComponents/Table';
@@ -26,6 +26,7 @@ const headerTextCodes = [
 interface OwnProps {
   fagsakOppgaver: Oppgave[];
   selectOppgaveCallback: (oppgave: Oppgave, skalReservere: boolean) => void;
+  oppgaveSoktForViaQueryErAlleredeReservert: Oppgave | null;
 }
 
 /**
@@ -36,13 +37,13 @@ interface OwnProps {
 const FagsakList: FunctionComponent<OwnProps> = ({
   fagsakOppgaver,
   selectOppgaveCallback,
+  oppgaveSoktForViaQueryErAlleredeReservert,
 }) => {
   const [visReserverOppgaveModal, setVisReserverOppgaveModal] = useState(false);
   const [visOppgavePåVentModel, setVisOppgavePåVentModel] = useState(false);
-
+  const [valgtOppgave, setValgtOppgave] = useState<Oppgave>(null);
   const { kanReservere } = useGlobalStateRestApiData<NavAnsatt>(RestApiGlobalStatePathsKeys.NAV_ANSATT);
   const oppgavePåVentMulighetBTekst = 'Tilbake';
-  const [valgtOppgave, setValgtOppgave] = useState<Oppgave>(null);
 
   const onClick = (e, oppgave, selectCallback) => {
     if (!kanReservere) {
@@ -61,6 +62,12 @@ const FagsakList: FunctionComponent<OwnProps> = ({
       selectCallback(oppgave, false);
     }
   };
+
+  useEffect(() => {
+    if (oppgaveSoktForViaQueryErAlleredeReservert) {
+      onClick(null, oppgaveSoktForViaQueryErAlleredeReservert, selectOppgaveCallback);
+    }
+  }, [oppgaveSoktForViaQueryErAlleredeReservert]);
 
   const onSubmit = () => {
     setVisReserverOppgaveModal(false);

@@ -1,10 +1,17 @@
+import RestForbiddenFormatter from 'app/feilhandtering/RestForbidden';
 import DefaultFormatter from './DefaultFormatter';
 import RestTimeoutFormatter from './RestTimeoutFormatter';
 import RestHaltedOrDelayedFormatter from './RestHaltedOrDelayedFormatter';
 import RestGatewayTimeoutOrNotFoundFormatter from './RestGatewayTimeoutOrNotFoundFormatter';
 
 const defaultFormatter = new DefaultFormatter();
-const formatters = [new RestTimeoutFormatter(), new RestHaltedOrDelayedFormatter(), new RestGatewayTimeoutOrNotFoundFormatter(), defaultFormatter];
+const formatters = [
+  new RestTimeoutFormatter(),
+  new RestForbiddenFormatter(),
+  new RestHaltedOrDelayedFormatter(),
+  new RestGatewayTimeoutOrNotFoundFormatter(),
+  defaultFormatter,
+];
 
 interface ErrorMessage {
   type: string;
