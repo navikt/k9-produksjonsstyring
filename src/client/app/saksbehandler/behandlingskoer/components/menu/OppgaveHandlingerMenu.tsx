@@ -68,6 +68,9 @@ export class OppgaveHandlingerMenu extends Component<OwnProps, OwnState> {
 
     this.menuButtonRef = React.createRef();
     this.stateRef = React.createRef();
+    this.stateRef.current = this.state;
+    // eslint-disable-next-line
+    console.log('setter stateRefCurrent', this.stateRef.current);
 
     toggleEventListeners(true, this.handleOutsideClick);
   }
@@ -88,7 +91,8 @@ export class OppgaveHandlingerMenu extends Component<OwnProps, OwnState> {
     toggleEventListeners(false, this.handleOutsideClick);
     // eslint-disable-next-line
     console.log('Unmounting state w:', this.stateRef.current);
-    this.stateRef.current = this.state;
+
+    if (this.stateRef.current) { this.stateRef.current = this.state; }
   }
 
   handleOutsideClick = (event: MouseEvent<HTMLButtonElement>) => {
