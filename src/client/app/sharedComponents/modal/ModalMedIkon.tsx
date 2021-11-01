@@ -47,7 +47,7 @@ const ModalMedIkon = ({
         </div>
       </div>
       <div className={classnames(styles.row, styles.buttons)}>
-        {tekst.valgmulighetA && (
+        {tekst.valgmulighetA && typeof submit !== 'undefined' && (
         <Hovedknapp
           className={styles.submitButton}
           mini
