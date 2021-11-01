@@ -75,7 +75,7 @@ class RequestErrorEventHandler {
       this.notify(EventType.POLLING_HALTED_OR_DELAYED, formattedError.data);
     } else if (!error.response && error.message) {
       this.notify(EventType.REQUEST_ERROR, { message: error.message }, this.isPollingRequest);
-    } else if (!isHandledError(formattedError.type)) {
+    } else if (!isHandledError(formattedError.type) && formattedError.status !== 404) {
       this.notify(EventType.REQUEST_ERROR, this.getFormattedData(formattedError.data), this.isPollingRequest);
     }
   };
