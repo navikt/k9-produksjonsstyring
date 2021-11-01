@@ -81,8 +81,6 @@ export class OppgaveHandlingerMenu extends Component<OwnProps, OwnState> {
   handleOutsideClick = (event: MouseEvent<HTMLButtonElement>) => {
     const { imageNode } = this.props;
     // ignore clicks on the component itself
-    // eslint-disable-next-line
-    console.log('EVENT', event);
 
     if (event && event.target) {
       const harKlikketMeny = this.node && this.node.contains(event.target);
@@ -93,8 +91,6 @@ export class OppgaveHandlingerMenu extends Component<OwnProps, OwnState> {
     }
 
     const { toggleMenu, oppgave } = this.props;
-    // eslint-disable-next-line
-    console.log('OPPGAVE', oppgave);
     toggleMenu(oppgave);
   }
 

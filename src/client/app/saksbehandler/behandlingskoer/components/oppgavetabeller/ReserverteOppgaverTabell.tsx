@@ -70,8 +70,6 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps & WrappedComponentPro
   }, [ref.current]);
 
   const toggleMenu = useCallback((oppgaveValgt: Oppgave) => {
-    // eslint-disable-next-line
-    console.log('reffCurr', ref.current);
     const newOffset = ref.current[oppgaveValgt.eksternId]?.getBoundingClientRect();
 
     if (newOffset) {
