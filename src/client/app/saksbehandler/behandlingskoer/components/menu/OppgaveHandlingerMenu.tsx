@@ -68,11 +68,12 @@ export class OppgaveHandlingerMenu extends Component<OwnProps, OwnState> {
 
     this.menuButtonRef = React.createRef();
     this.stateRef = React.createRef();
-    this.stateRef.current = this.state;
-    // eslint-disable-next-line
-    console.log('setter stateRefCurrent', this.stateRef.current);
 
     toggleEventListeners(true, this.handleOutsideClick);
+  }
+
+  updateStateRef = () => {
+    this.stateRef.current = this.state;
   }
 
   componentDidMount = () => {
@@ -91,7 +92,6 @@ export class OppgaveHandlingerMenu extends Component<OwnProps, OwnState> {
     toggleEventListeners(false, this.handleOutsideClick);
     // eslint-disable-next-line
     console.log('Unmounting state w:', this.stateRef.current);
-
     if (this.stateRef.current) { this.stateRef.current = this.state; }
   }
 
@@ -114,6 +114,7 @@ export class OppgaveHandlingerMenu extends Component<OwnProps, OwnState> {
   showBegrunnelseModal = () => {
     toggleEventListeners(false, this.handleOutsideClick);
     this.setState((prevState) => ({ ...prevState, showOpphevReservasjonModal: true }));
+    this.updateStateRef();
   }
 
   closeBegrunnelseModal = () => {
@@ -121,16 +122,19 @@ export class OppgaveHandlingerMenu extends Component<OwnProps, OwnState> {
     toggleMenu(oppgave);
     toggleEventListeners(true, this.handleOutsideClick);
     this.setState((prevState) => ({ ...prevState, showOpphevReservasjonModal: false }));
+    this.updateStateRef();
   }
 
   showFlytteModal = () => {
     toggleEventListeners(false, this.handleOutsideClick);
     this.setState((prevState) => ({ ...prevState, showFlyttReservasjonModal: true }));
+    this.updateStateRef();
   }
 
   showReservasjonEndringDato = () => {
     toggleEventListeners(false, this.handleOutsideClick);
     this.setState((prevState) => ({ ...prevState, showReservasjonEndringDatoModal: true }));
+    this.updateStateRef();
   }
 
   closeFlytteModal = () => {
@@ -138,6 +142,7 @@ export class OppgaveHandlingerMenu extends Component<OwnProps, OwnState> {
     toggleMenu(oppgave);
     toggleEventListeners(true, this.handleOutsideClick);
     this.setState((prevState) => ({ ...prevState, showFlyttReservasjonModal: false }));
+    this.updateStateRef();
   }
 
   closeReservasjonEndringDatoModal = (event: MouseEvent<HTMLButtonElement>) => {
@@ -145,6 +150,7 @@ export class OppgaveHandlingerMenu extends Component<OwnProps, OwnState> {
     toggleMenu(oppgave);
     this.handleOutsideClick(event);
     this.setState((prevState) => ({ ...prevState, showForlengetReservasjonModal: true }));
+    this.updateStateRef();
   }
 
   closeForlengReservasjonModal = (event: MouseEvent<HTMLButtonElement>) => {
@@ -158,6 +164,7 @@ export class OppgaveHandlingerMenu extends Component<OwnProps, OwnState> {
     forlengOppgaveReservasjon(oppgave.eksternId).then(() => {
       toggleEventListeners(false, this.handleOutsideClick);
       this.setState((prevState) => ({ ...prevState, showForlengetReservasjonModal: true }));
+      this.updateStateRef();
     });
   }
 
