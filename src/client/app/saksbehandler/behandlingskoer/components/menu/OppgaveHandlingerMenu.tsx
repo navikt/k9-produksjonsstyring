@@ -81,10 +81,13 @@ export class OppgaveHandlingerMenu extends Component<OwnProps, OwnState> {
   handleOutsideClick = (event: MouseEvent<HTMLButtonElement>) => {
     const { imageNode } = this.props;
     // ignore clicks on the component itself
-    const harKlikketMeny = this.node && this.node.contains(event.target);
-    const harKlikketIkon = imageNode && imageNode.contains(event.target);
-    if (harKlikketMeny || harKlikketIkon) {
-      return;
+
+    if (event && event.target) {
+      const harKlikketMeny = this.node && this.node.contains(event.target);
+      const harKlikketIkon = imageNode && imageNode.contains(event.target);
+      if (harKlikketMeny || harKlikketIkon) {
+        return;
+      }
     }
 
     const { toggleMenu, oppgave } = this.props;

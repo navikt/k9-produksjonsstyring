@@ -175,7 +175,7 @@ export const OppgavekoVelgerForm: FunctionComponent<OwnProps & WrappedComponentP
                     bredde="l"
                   />
                   <VerticalSpacer eightPx />
-                  <Undertekst><FormattedMessage id="OppgavekoVelgerForm.AntallOppgaver" values={{ antall: antallOppgaver }} /></Undertekst>
+                  <Undertekst><FormattedMessage id="OppgavekoVelgerForm.AntallOppgaver" values={{ antall: antallOppgaver || 0 }} /></Undertekst>
                   <VerticalSpacer sixteenPx />
                 </FlexColumn>
                 {values.id && (
