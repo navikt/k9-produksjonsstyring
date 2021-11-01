@@ -21,21 +21,10 @@ const DagensTallPanel: FunctionComponent<OwnProps & WrappedComponentProps> = ({ 
   const behandlingsKoderSomSkalVisesForst = [behandlingType.ANKE, behandlingType.FORSTEGANGSSOKNAD, behandlingType.INNSYN,
     behandlingType.KLAGE, behandlingType.REVURDERING, behandlingType.TILBAKEBETALING];
 
-  const punsjBehandlingstyper = [behandlingType.SKRIV_TIL_OSS_SPØRMSÅL,
-    behandlingType.DIGITAL_ETTERSENDELSE,
-    behandlingType.INNLOGGET_CHAT,
-    behandlingType.PAPIRINNTEKTSOPPLYSNINGER,
-    behandlingType.PAPIRSØKNAD,
-    behandlingType.PAPIRETTERSENDELSE,
-    behandlingType.SAMTALEREFERAT,
-    behandlingType.SKRIV_TIL_OSS_SVAR,
-    behandlingType.KOPI,
-  ];
-
   const punsjBehandlinger = [];
   sortedDagensTall(dagensTall).forEach((dt) => {
     if (behandlingsKoderSomSkalVisesForst.includes(dt.behandlingType.kode)) behandlingstyperForst.push(dt);
-    else if (punsjBehandlingstyper.includes(dt.behandlingType.kode)) punsjBehandlinger.push(dt);
+    else if (dt.behandlingType.kodeverk && dt.behandlingType.kodeverk === 'PUNSJ_INNSENDING_TYPE') punsjBehandlinger.push(dt);
     else behandlingstyperSist.push(dt);
   });
 
