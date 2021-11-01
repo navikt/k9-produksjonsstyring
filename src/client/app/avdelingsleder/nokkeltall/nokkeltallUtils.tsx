@@ -5,6 +5,7 @@ import NyeOgFerdigstilteMedStonadstype from 'avdelingsleder/nokkeltall/nyeOgFerd
 import HistoriskData from 'avdelingsleder/nokkeltall/historiskDataTsType';
 import AlleOppgaver from 'avdelingsleder/nokkeltall/components/fordelingAvBehandlingstype/alleOppgaverTsType';
 import NyeOgFerdigstilteOppgaver from 'saksbehandler/saksstotte/nokkeltall/components/nyeOgFerdigstilteOppgaverTsType';
+import punsjBehandlingstyper from '../../types/PunsjBehandlingstyper';
 import omsorgsdagerYtelsetyper from '../../types/OmsorgsdagerYtelsetyper';
 
 export const ALLE_YTELSETYPER_VALGT = 'ALLE';
@@ -181,16 +182,16 @@ export const sjekkOmOppgaveSkalLeggesTil = (
 ): boolean => {
   switch (ytelse) {
     case fagsakYtelseType.PUNSJ:
-      return oppgave.behandlingType.kodeverk && oppgave.behandlingType.kodeverk === 'PUNSJ_INNSENDING_TYPE';
+      return punsjBehandlingstyper.includes(oppgave.behandlingType.kode);
     case fagsakYtelseType.OMSORGSDAGER: return omsorgsdagerYtelsetyper.includes(oppgave.fagsakYtelseType.kode);
     case ALLE_YTELSETYPER_VALGT: {
-      return !oppgave.behandlingType.kodeverk && oppgave.behandlingType.kodeverk === 'PUNSJ_INNSENDING_TYPE'
+      return !punsjBehandlingstyper.includes(oppgave.behandlingType.kode)
         && (omsorgsdagerYtelsetyper.includes(oppgave.fagsakYtelseType.kode)
           || oppgave.fagsakYtelseType.kode === fagsakYtelseType.OMSORGSPENGER
           || oppgave.fagsakYtelseType.kode === fagsakYtelseType.PLEIEPENGER_SYKT_BARN);
     }
     default:
-      return ytelse === oppgave.fagsakYtelseType.kode && !oppgave.behandlingType.kodeverk && oppgave.behandlingType.kodeverk === 'PUNSJ_INNSENDING_TYPE';
+      return ytelse === oppgave.fagsakYtelseType.kode && !punsjBehandlingstyper.includes(oppgave.behandlingType.kode);
   }
 };
 
