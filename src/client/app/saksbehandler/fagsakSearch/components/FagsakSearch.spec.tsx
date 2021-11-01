@@ -39,7 +39,6 @@ describe('<FagsakSearch>', () => {
     erTilSaksbehandling: true,
     eksternId: '',
   };
-  const fagsakOppgaver = [oppgave, { ...oppgave, saksnummer: ' 23456' }];
 
   it('skal kun vise søkefelt før søk er startet', () => {
     const searchFagsakFunction = sinon.spy();
@@ -57,20 +56,4 @@ describe('<FagsakSearch>', () => {
     expect(wrapper.find(PersonInfo)).to.have.length(0);
     expect(wrapper.find(FagsakList)).to.have.length(0);
   });
-
-  /* it('skal vise søkefelt og label for ingen søketreff når ingen fagsaker blir hentet', () => {
-    const wrapper = shallow(<FagsakSearch
-      resultat={{ ikkeTilgang: false, oppgaver: [], person: null }}
-      searchFagsakCallback={sinon.spy()}
-      searchResultReceived
-      selectOppgaveCallback={sinon.spy()}
-      searchStarted
-      resetSearch={sinon.spy()}
-    />);
-
-    expect(wrapper.find(SearchForm)).to.have.length(1);
-    const labelComp = wrapper.find('Normaltekst');
-    expect(labelComp).to.have.length(1);
-    expect(labelComp.find('FormattedMessage').prop('id')).to.eql('FagsakSearch.ZeroSearchResults');
-  }); */
 });

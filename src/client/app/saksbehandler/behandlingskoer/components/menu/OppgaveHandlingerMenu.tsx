@@ -151,7 +151,7 @@ export class OppgaveHandlingerMenu extends Component<OwnProps, OwnState> {
 
   render = () => {
     const {
-      oppgave, offset, hentReserverteOppgaver, toggleMenu,
+      oppgave, offset, hentReserverteOppgaver,
     } = this.props;
     const {
       showOpphevReservasjonModal, showForlengetReservasjonModal, showFlyttReservasjonModal, showReservasjonEndringDatoModal,
