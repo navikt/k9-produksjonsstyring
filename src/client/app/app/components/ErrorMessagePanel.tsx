@@ -2,16 +2,12 @@ import React, { FunctionComponent, useMemo } from 'react';
 import { injectIntl, WrappedComponentProps, IntlShape } from 'react-intl';
 import { Row, Column } from 'nav-frontend-grid';
 import { Undertekst } from 'nav-frontend-typografi';
-import advarselImageUrl from 'images/advarsel-sirkel-fyll.svg';
 
 import decodeHtmlEntity from 'utils/decodeHtmlEntityUtils';
 import EventType from 'api/rest-api/src/requestApi/eventType';
 
-import Image from 'sharedComponents/Image';
-import moment from 'moment';
-import { DD_MM_HHMM } from 'utils/formats';
+import Lukknapp from 'nav-frontend-lukknapp';
 import styles from './errorMessagePanel.less';
-import { Driftsmelding } from '../../admin/driftsmeldinger/driftsmeldingTsType';
 
 export const getErrorMessageList = (intl: IntlShape, queryStrings: { errorcode?: string; errormessage?: string}, allErrorMessages = []): string[] => {
   const errorMessages = [];
@@ -39,7 +35,7 @@ interface OwnProps {
     errormessage?: string;
     errorcode?: string;
   };
-  driftsmeldinger: Driftsmelding[];
+  removeErrorMessages: () => void;
 }
 
 /**
@@ -51,13 +47,11 @@ const ErrorMessagePanel: FunctionComponent<OwnProps & WrappedComponentProps> = (
   intl,
   errorMessages,
   queryStrings,
-  driftsmeldinger,
+  removeErrorMessages,
 }) => {
   const feilmeldinger = useMemo(() => getErrorMessageList(intl, queryStrings, errorMessages), [queryStrings, errorMessages]);
 
-  const aktiveDriftsmeldinger = driftsmeldinger.filter((message) => message.aktiv);
-
-  if (feilmeldinger.length === 0 && aktiveDriftsmeldinger.length === 0) {
+  if (feilmeldinger.length === 0) {
     return null;
   }
 
@@ -72,19 +66,11 @@ const ErrorMessagePanel: FunctionComponent<OwnProps & WrappedComponentProps> = (
           </Column>
         </Row>
       ))}
-      {aktiveDriftsmeldinger.length !== 0 && aktiveDriftsmeldinger.map((message) => (
-        <Row key={message.id}>
-          <Column xs="11" className={styles.column}>
-            <Image
-              className={styles.image}
-              src={advarselImageUrl}
-            />
-            <Undertekst className={styles.wordWrap}>
-              {`${message.melding}. (Registrert ${moment(message.aktivert).format(DD_MM_HHMM)})`}
-            </Undertekst>
-          </Column>
-        </Row>
-      ))}
+
+      <div className={styles.lukkContainer}>
+        <Lukknapp hvit onClick={removeErrorMessages}>{intl.formatMessage({ id: 'ErrorMessagePanel.Close' })}</Lukknapp>
+      </div>
+
     </div>
   );
 };

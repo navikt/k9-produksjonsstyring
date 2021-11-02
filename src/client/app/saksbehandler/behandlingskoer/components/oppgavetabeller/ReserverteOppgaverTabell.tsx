@@ -70,10 +70,13 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps & WrappedComponentPro
   }, [ref.current]);
 
   const toggleMenu = useCallback((oppgaveValgt: Oppgave) => {
-    const newOffset = ref.current[oppgaveValgt.eksternId].getBoundingClientRect();
-    setShowMenu(!showMenu);
-    setValgtOppgaveId(oppgaveValgt.eksternId);
-    setOffset({ top: newOffset.top, left: newOffset.left });
+    const newOffset = ref.current[oppgaveValgt.eksternId]?.getBoundingClientRect();
+
+    if (newOffset) {
+      setShowMenu(!showMenu);
+      setValgtOppgaveId(oppgaveValgt.eksternId);
+      setOffset({ top: newOffset.top, left: newOffset.left });
+    }
   }, [ref.current, showMenu]);
 
   const createTooltip = useCallback((oppgaveStatus: OppgaveStatus): ReactNode | undefined => {

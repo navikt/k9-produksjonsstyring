@@ -5,6 +5,7 @@ interface ErrorData {
    feilmelding?: string;
    message?: string;
    type?: any;
+   detail?: string;
 }
 
 class DefaultFormatter implements Formatter<ErrorData | string> {
@@ -20,6 +21,10 @@ class DefaultFormatter implements Formatter<ErrorData | string> {
     }
     if (errorData.message) {
       return ErrorMessage.withMessage(errorData.message, errorData.type);
+    }
+
+    if (errorData.detail) {
+      return ErrorMessage.withMessage(errorData.detail, errorData.type);
     }
     return undefined;
   };

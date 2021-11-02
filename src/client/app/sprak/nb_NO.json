@@ -277,6 +277,8 @@
   "ReserverOppgaveModal.ReserverOppgave": "Ønsker du å reservere behandlingen?",
   "OppgavePåVentModal.OppgavePåVent": "Saken er satt på vent til {dato}",
 
+  "LoggetUtModal.Tekst": "Sesjonen er utløpt.",
+
   "SaksbehandlereForOppgavekoForm.Saksbehandlere": "Saksbehandlere",
   "SaksbehandlereForOppgavekoForm.IngenSaksbehandlere": "Ingen saksbehandlere",
 
@@ -384,5 +386,11 @@
   "ValidationMessage.InvalidValue": "Feltet inneholder en ugyldig verdi: {value}",
   "ValidationMessage.ArrayMinLength": "Listen må ha lengde størren enn: {length}",
   "ValidationMessage.InvalidSaksnummerOrFodselsnummerFormat": "Ugyldig saksnummer, journalpostID eller fødselsnummer",
-  "ValidationMessage.InvalidSaksnummerFormat": "Ugyldig saksnummer eller journalpostID"
+  "ValidationMessage.InvalidSaksnummerFormat": "Ugyldig saksnummer eller journalpostID",
+
+  "Rest.ErrorMessage.General": "Noe feilet. Feilen kan være forbigående. Prøv og behandle saken litt senere. Om feilen oppstår igjen meld den inn via porten.",
+  "Rest.ErrorMessage.DownTime": "Saksbehandlingsløsningen venter på et annet system som har nedetid nå. Du trenger ikke melde inn en feil, men prøv igjen {date} kl. {time}.\n{message}",
+  "Rest.ErrorMessage.PollingTimeout": "Serverkall har gått ut på tid: {location}",
+  "Rest.ErrorMessage.GatewayTimeoutOrNotFound": "Får ikke kontakt med {contextPath} ({location})",
+  "Rest.ErrorMessage.Forbidden": "Du har ikke tilgang. Dette kan skyldes at du mangler rettigheter eller at sesjonen din har utløpt. Oppdater siden for å fornye sesjonen"
 }
