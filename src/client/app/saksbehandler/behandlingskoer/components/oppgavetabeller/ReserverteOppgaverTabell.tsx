@@ -29,20 +29,24 @@ import { OppgaveStatus } from 'saksbehandler/oppgaveStatusTsType';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import styles from './oppgaverTabell.less';
 import OppgaveHandlingerMenu from '../menu/OppgaveHandlingerMenu';
+import {IValgtReservertOppgaveHandlingerMenuInformasjon} from "saksbehandler/behandlingskoer/components/OppgavekoPanel";
 
 interface OwnProps {
   apneOppgave: (oppgave: Oppgave) => void;
   reserverteOppgaver: Oppgave[];
   hentReserverteOppgaver: () => void;
   requestFinished: boolean;
+  valgtReservertOppgaveHandlingerMenuInformasjon: IValgtReservertOppgaveHandlingerMenuInformasjon;
+  oppdaterValgtReservertOppgaveHandlingerMenuInformasjon: any;
 }
-
 const ReserverteOppgaverTabell: FunctionComponent<OwnProps & WrappedComponentProps> = ({
   intl,
   apneOppgave,
   reserverteOppgaver,
   hentReserverteOppgaver,
   requestFinished,
+  valgtReservertOppgaveHandlingerMenuInformasjon,
+  oppdaterValgtReservertOppgaveHandlingerMenuInformasjon
 }) => {
   const [showMenu, setShowMenu] = useState(false);
   const [valgtOppgaveId, setValgtOppgaveId] = useState<string>();
@@ -172,6 +176,8 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps & WrappedComponentPro
           oppgave={valgtOppgave}
           forlengOppgaveReservasjon={forlengOppgaveReservasjonFn}
           hentReserverteOppgaver={hentReserverteOppgaver}
+          valgtReservertOppgaveHandlingerMenuInformasjon={valgtReservertOppgaveHandlingerMenuInformasjon}
+          oppdaterValgtReservertOppgaveHandlingerMenuInformasjon={oppdaterValgtReservertOppgaveHandlingerMenuInformasjon}
         />
         )}
       </>

@@ -31,6 +31,21 @@ interface OwnProps {
   requestFinished: boolean;
 }
 
+export interface IValgtReservertOppgaveHandlingerMenuInformasjon {
+  showOpphevReservasjonModal: {
+    visModal: boolean;
+    begrunnelse?: string;
+  }
+  showFlyttReservasjonModal: {
+    visModal: boolean;
+    begrunnelse?: string;
+    tilSaksbehandler?:string;
+  }
+  showReservasjonEndringDatoModal: {
+    visModal: boolean;
+    dato?: string;
+  }
+}
 /**
  * OppgavekoPanel
  */
@@ -47,6 +62,9 @@ const OppgavekoPanel: FunctionComponent<OwnProps> = ({
   const [visBehandlingerIKo, setVisBehandlingerIKo] = useState<boolean>(false);
   const [visReservasjoneriKo, setVisReservasjonerIKO] = useState<boolean>(true);
   const [visFinnesIngenBehandlingerIKoModal, setVisFinnesIngenBehandlingerIKoModal] = useState<boolean>(false);
+  // eslint-disable-next-line max-len
+  const [valgtReservertOppgaveHandlingerMenuInformasjon, setValgtReservertOppgaveHandlingerMenuInformasjon] = useState<IValgtReservertOppgaveHandlingerMenuInformasjon>(null);
+
   const {
     startRequest: fåOppgaveFraKo, state: restApiState, error: restApiError, resetRequestData,
   } = useRestApiRunner<Oppgave>(K9LosApiKeys.FÅ_OPPGAVE_FRA_KO);
@@ -66,6 +84,8 @@ const OppgavekoPanel: FunctionComponent<OwnProps> = ({
       apneOppgave(reservertOppgave);
     });
   };
+
+
 
   return (
     <>
@@ -97,6 +117,8 @@ const OppgavekoPanel: FunctionComponent<OwnProps> = ({
               requestFinished={requestFinished}
               reserverteOppgaver={reserverteOppgaver}
               hentReserverteOppgaver={hentReserverteOppgaver}
+              valgtReservertOppgaveHandlingerMenuInformasjon={valgtReservertOppgaveHandlingerMenuInformasjon}
+              oppdaterValgtReservertOppgaveHandlingerMenuInformasjon={setValgtReservertOppgaveHandlingerMenuInformasjon}
             />
           )}
         </div>

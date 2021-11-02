@@ -39,6 +39,7 @@ export const OpphevReservasjonModal: FunctionComponent<OwnProps & WrappedCompone
 }) => {
   const { startRequest: opphevOppgavereservasjon } = useRestApiRunner(K9LosApiKeys.OPPHEV_OPPGAVERESERVASJON);
 
+  // Legg in så att man tar emot en CB funksjon når hooken forsvinner.
   const opphevReservasjonFn = useCallback((begrunnelse: string) => opphevOppgavereservasjon({ oppgaveId, begrunnelse })
     .then(() => {
       hentReserverteOppgaver();
