@@ -45,8 +45,8 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps & WrappedComponentPro
   requestFinished,
 }) => {
   const [showMenu, setShowMenu] = useState(false);
-  const [reserverteOppgaverState, setReserverteOppgaveState] = useState<Oppgave[]>([]);
-  const [requestFinishedState, setRequestFinishedState] = useState<boolean>(false);
+  const [reserverteOppgaverState, setReserverteOppgaveState] = useState<Oppgave[]>(reserverteOppgaver);
+  const [requestFinishedState, setRequestFinishedState] = useState<boolean>(requestFinished);
 
   const [valgtOppgaveId, setValgtOppgaveId] = useState<string>();
   const [offset, setOffset] = useState({
