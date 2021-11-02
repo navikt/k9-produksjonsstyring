@@ -58,14 +58,16 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps & WrappedComponentPro
   const { startRequest: forlengOppgavereservasjon } = useRestApiRunner<Reservasjon[]>(K9LosApiKeys.FORLENG_OPPGAVERESERVASJON);
 
   useEffect(() => {
-      // eslint-disable-next-line
-      console.log('useEffect reserverteOppgaver requestFinished', showMenu, reserverteOppgaver, requestFinished);
       if(!showMenu){
         if(!reserverteOppgaver.every((v, i) => v === reserverteOppgaverState[i])){
+          // eslint-disable-next-line
+          console.log('Oppdaterer reserverte oppgaver', reserverteOppgaver);
           setReserverteOppgaveState(reserverteOppgaver);
         }
 
         if(requestFinished !== requestFinishedState){
+          // eslint-disable-next-line
+          console.log('Oppdaterer state finished', requestFinished);
           setRequestFinishedState(requestFinished);
         }
       }
@@ -73,9 +75,9 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps & WrappedComponentPro
     [reserverteOppgaver, requestFinished]);
 
   useEffect(() => {
-      // eslint-disable-next-line
-      console.log('showMenu', showMenu);
       if(!showMenu){
+        // eslint-disable-next-line
+        console.log('henter reserverte oppgaver');
         hentReserverteOppgaver();
       }
     },
