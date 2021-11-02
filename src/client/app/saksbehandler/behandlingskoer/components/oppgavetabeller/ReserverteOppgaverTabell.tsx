@@ -1,5 +1,5 @@
 import React, {
-  FunctionComponent, ReactNode, useCallback, useRef, useState,
+  FunctionComponent, ReactNode, useCallback, useEffect, useRef, useState,
 } from 'react';
 import { FormattedMessage, injectIntl, WrappedComponentProps } from 'react-intl';
 import { Normaltekst } from 'nav-frontend-typografi';
@@ -45,6 +45,9 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps & WrappedComponentPro
   requestFinished,
 }) => {
   const [showMenu, setShowMenu] = useState(false);
+  const [reserverteOppgaverState, setReserverteOppgaveState] = useState<Oppgave[]>([]);
+  const [requestFinishedState, setRequestFinishedState] = useState<boolean>(false);
+
   const [valgtOppgaveId, setValgtOppgaveId] = useState<string>();
   const [offset, setOffset] = useState({
     left: 0,
@@ -54,7 +57,24 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps & WrappedComponentPro
   const { startRequest: leggTilBehandletOppgave } = useRestApiRunner(K9LosApiKeys.LEGG_TIL_BEHANDLET_OPPGAVE);
   const { startRequest: forlengOppgavereservasjon } = useRestApiRunner<Reservasjon[]>(K9LosApiKeys.FORLENG_OPPGAVERESERVASJON);
 
-  // TODO v 2 hent reserverte oppgaver hver 30e sekund sålänge användaren har varit aktiv de siste fem minuterna.
+  useEffect(() => {
+      // eslint-disable-next-line
+      console.log('useEffect reserverteOppgaver requestFinished', showMenu, reserverteOppgaver, requestFinished);
+      if(!showMenu){
+        setReserverteOppgaveState(reserverteOppgaver);
+        setRequestFinishedState(requestFinished);
+      }
+    },
+    [reserverteOppgaver, requestFinished]);
+
+  useEffect(() => {
+      // eslint-disable-next-line
+      console.log('showMenu', showMenu);
+      if(!showMenu){
+        hentReserverteOppgaver();
+      }
+    },
+    [showMenu]);
 
   const forlengOppgaveReservasjonFn = useCallback((oppgaveId: string): Promise<any> => forlengOppgavereservasjon({ oppgaveId })
     .then(() => hentReserverteOppgaver()), []);
@@ -98,25 +118,25 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps & WrappedComponentPro
     );
   }, []);
 
-  const valgtOppgave = reserverteOppgaver.find((o) => o.eksternId === valgtOppgaveId);
+  const valgtOppgave = reserverteOppgaverState.find((o) => o.eksternId === valgtOppgaveId);
 
   return (
     <div>
-      {reserverteOppgaver.length === 0 && !requestFinished && (
+      {reserverteOppgaverState.length === 0 && !requestFinishedState && (
         <NavFrontendSpinner type="XL" className={styles.spinner} />
       )}
 
-      {reserverteOppgaver.length === 0 && requestFinished && (
+      {reserverteOppgaverState.length === 0 && requestFinishedState && (
         <>
           <VerticalSpacer eightPx />
           <Normaltekst><FormattedMessage id="OppgaverTabell.IngenReserverteOppgaver" /></Normaltekst>
         </>
       )}
 
-      {reserverteOppgaver.length > 0 && requestFinished && (
+      {reserverteOppgaverState.length > 0 && requestFinishedState && (
       <>
         <Table headerTextCodes={getHeaderCodes(true)}>
-          {reserverteOppgaver.map((oppgave) => (
+          {reserverteOppgaverState.map((oppgave) => (
             <TableRow
               key={oppgave.eksternId}
               onMouseDown={goToFagsak}
