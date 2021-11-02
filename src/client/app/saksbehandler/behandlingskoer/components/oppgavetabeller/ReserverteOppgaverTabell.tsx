@@ -61,8 +61,13 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps & WrappedComponentPro
       // eslint-disable-next-line
       console.log('useEffect reserverteOppgaver requestFinished', showMenu, reserverteOppgaver, requestFinished);
       if(!showMenu){
-        setReserverteOppgaveState(reserverteOppgaver);
-        setRequestFinishedState(requestFinished);
+        if(!reserverteOppgaver.every((v, i) => v === reserverteOppgaverState[i])){
+          setReserverteOppgaveState(reserverteOppgaver);
+        }
+
+        if(requestFinished !== requestFinishedState){
+          setRequestFinishedState(requestFinished);
+        }
       }
     },
     [reserverteOppgaver, requestFinished]);
