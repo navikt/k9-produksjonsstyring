@@ -60,14 +60,10 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps & WrappedComponentPro
   useEffect(() => {
       if(!showMenu){
         if(!reserverteOppgaver.every((v, i) => v === reserverteOppgaverState[i])){
-          // eslint-disable-next-line
-          console.log('Oppdaterer reserverte oppgaver', reserverteOppgaver);
           setReserverteOppgaveState(reserverteOppgaver);
         }
 
         if(requestFinished !== requestFinishedState){
-          // eslint-disable-next-line
-          console.log('Oppdaterer state finished', requestFinished);
           setRequestFinishedState(requestFinished);
         }
       }
@@ -76,8 +72,6 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps & WrappedComponentPro
 
   useEffect(() => {
       if(!showMenu){
-        // eslint-disable-next-line
-        console.log('henter reserverte oppgaver');
         hentReserverteOppgaver();
       }
     },
