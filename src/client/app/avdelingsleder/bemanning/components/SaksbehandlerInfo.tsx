@@ -3,6 +3,7 @@ import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { Saksbehandler } from 'avdelingsleder/bemanning/saksbehandlerTsType';
 import { FlexRow, FlexColumn } from 'sharedComponents/flexGrid';
 import { Normaltekst } from 'nav-frontend-typografi';
+import { v4 as uuid4 } from 'uuid';
 
 import SletteSaksbehandlerModal from 'avdelingsleder/bemanning/components/SletteSaksbehandlerModal';
 import styles from './saksbehandlerInfo.less';
@@ -27,7 +28,7 @@ const SaksbehandlerInfo: FunctionComponent<OwnProps & WrappedComponentProps> = (
         <FlexColumn className={styles.koer}>
           <Normaltekst className={styles.overskrift}>Køer</Normaltekst>
           {saksbehandler.oppgavekoer.length === 0 && <Normaltekst className={styles.info}>Ingen køer tildelt</Normaltekst>}
-          {saksbehandler.oppgavekoer.length > 0 && saksbehandler.oppgavekoer.map((ko) => <Normaltekst className={styles.info}>{ko}</Normaltekst>)}
+          {saksbehandler.oppgavekoer.length > 0 && saksbehandler.oppgavekoer.map((ko) => <Normaltekst key={uuid4()} className={styles.info}>{ko}</Normaltekst>)}
         </FlexColumn>
       </FlexRow>
       <div className={styles.container}>

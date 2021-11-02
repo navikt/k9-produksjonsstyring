@@ -7,7 +7,7 @@ import {
 
 import behandlingType from 'kodeverk/behandlingType';
 import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
-import { shallowWithIntl, intlMock } from 'testHelpers/intl-enzyme-test-helper';
+import { shallowWithIntl, intlMock } from '../../../../../../../setup/testHelpers/intl-enzyme-test-helper';
 import FordelingAvBehandlingstypeGraf from './FordelingAvBehandlingstypeGraf';
 
 describe('<FordelingAvBehandlingstypeGraf>', () => {

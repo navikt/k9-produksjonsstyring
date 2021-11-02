@@ -3,11 +3,11 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { Form } from 'react-final-form';
 
-import { shallowWithIntl } from 'testHelpers/intl-enzyme-test-helper';
+import { shallowWithIntl } from '../../../../../../../setup/testHelpers/intl-enzyme-test-helper';
 import behandlingType from 'kodeverk/behandlingType';
 import { RadioOption } from 'form/FinalFields';
 import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
-import RestApiTestMocker from 'testHelpers/RestApiTestMocker';
+import RestApiTestMocker from '../../../../../../../setup/testHelpers/RestApiTestMocker';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
 import { FordelingAvBehandlingstypePanel } from './FordelingAvBehandlingstypePanel';
 import FordelingAvBehandlingstypeGraf from './FordelingAvBehandlingstypeGraf';

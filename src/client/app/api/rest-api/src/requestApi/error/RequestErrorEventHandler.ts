@@ -1,5 +1,5 @@
 import EventType from '../eventType';
-import ErrorType from './errorTsType';
+import { ErrorType } from './errorTsType';
 import { isHandledError } from './ErrorTypes';
 import TimeoutError from './TimeoutError';
 import { ErrorResponse } from '../ResponseTsType';

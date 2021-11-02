@@ -1,9 +1,9 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import RestApiTestMocker from 'testHelpers/RestApiTestMocker';
+import RestApiTestMocker from '../../../../../../setup/testHelpers/RestApiTestMocker';
 import { RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
-import { shallowWithIntl } from 'testHelpers/intl-enzyme-test-helper';
+import { shallowWithIntl } from '../../../../../../setup/testHelpers/intl-enzyme-test-helper';
 import OppgavekoPanel from './OppgavekoPanel';
 import OppgavekoVelgerForm from './OppgavekoVelgerForm';
 

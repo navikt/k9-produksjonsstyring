@@ -7,17 +7,13 @@ const config = {
   env: {
     es6: true,
     browser: true,
-    mocha: true,
   },
 
   parser: '@typescript-eslint/parser',
 
-  plugins: ['@typescript-eslint'],
+  plugins: ['jest', 'jest-dom', '@typescript-eslint', 'eslint-plugin-react'],
 
-  extends: [
-    'airbnb',
-    'plugin:@typescript-eslint/recommended',
-  ],
+  extends: ['airbnb', 'plugin:@typescript-eslint/recommended', 'plugin:react/recommended'],
 
   parserOptions: {
     sourceType: 'module',
@@ -33,7 +29,8 @@ const config = {
       'error',
       'ignorePackages',
       {
-        ts: 'never', tsx: 'never',
+        ts: 'never',
+        tsx: 'never',
       },
     ],
     'linebreak-style': OFF,

@@ -193,13 +193,13 @@ export const NyeOgFerdigstilteOppgaverForIdagGraf: FunctionComponent<OwnProps & 
           orientation="horizontal"
           colors={['#0067C5', '#634689', '#FF9100']}
           items={[
-            <Normaltekst className={styles.displayInline}>
+            <Normaltekst key="NyeOgFerdigstilteOppgaverForIdagGraf.Nye" className={styles.displayInline}>
               <FormattedMessage id="NyeOgFerdigstilteOppgaverForIdagGraf.Nye" />
             </Normaltekst>,
-            <Normaltekst className={styles.displayInline}>
+            <Normaltekst key="NyeOgFerdigstilteOppgaverForIdagGraf.Ferdigstilte" className={styles.displayInline}>
               <FormattedMessage id="NyeOgFerdigstilteOppgaverForIdagGraf.Ferdigstilte" />
             </Normaltekst>,
-            <Normaltekst className={styles.displayInline}>
+            <Normaltekst key="NyeOgFerdigstilteOppgaverForIdagGraf.FerdigstilteMine" className={styles.displayInline}>
               <FormattedMessage id="NyeOgFerdigstilteOppgaverForIdagGraf.FerdigstilteMine" />
             </Normaltekst>,
           ]}
