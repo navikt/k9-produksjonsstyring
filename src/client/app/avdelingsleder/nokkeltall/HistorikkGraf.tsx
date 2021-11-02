@@ -208,7 +208,7 @@ const HistorikkGraf: FunctionComponent<OwnProps> = ({
           orientation="horizontal"
           colors={behandlingstypeOrder.map((bt) => behandlingstypeFarger[bt])}
           items={behandlingstypeOrder.map((bt) => (
-            <Normaltekst className={styles.displayInline}>{finnBehandlingTypeNavn(behandlingTyper, bt)}</Normaltekst>
+            <Normaltekst key={bt} className={styles.displayInline}>{finnBehandlingTypeNavn(behandlingTyper, bt)}</Normaltekst>
           ))}
         />
       </Row>

@@ -7,7 +7,7 @@ import { Form } from 'react-final-form';
 import behandlingStatus from 'kodeverk/behandlingStatus';
 import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
 import { TextAreaField } from 'form/FinalFields';
-import { shallowWithIntl, intlMock } from 'testHelpers/intl-enzyme-test-helper';
+import { shallowWithIntl, intlMock } from '../../../../../../../setup/testHelpers/intl-enzyme-test-helper';
 import behandlingType from 'kodeverk/behandlingType';
 import { OpphevReservasjonModal } from './OpphevReservasjonModal';
 

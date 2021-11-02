@@ -7,7 +7,6 @@ import {
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
 import KoSorteringType from 'kodeverk/KoSorteringTsType';
-import Kodeverk from 'kodeverk/kodeverkTsType';
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
 import { K9LosApiKeys } from 'api/k9LosApi';
 import useKodeverk from 'api/rest-api-hooks/src/global-data/useKodeverk';
@@ -17,7 +16,6 @@ import DatoSorteringValg from './DatoSorteringValg';
 interface OwnProps {
   intl: any;
   valgtOppgavekoId: string;
-  valgteBehandlingtyper: Kodeverk[];
   fomDato: string;
   tomDato: string;
   hentOppgaveko:(id: string) => void;

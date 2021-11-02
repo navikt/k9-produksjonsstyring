@@ -9,9 +9,9 @@ import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
 import DateLabel from 'sharedComponents/DateLabel';
 import TableRow from 'sharedComponents/TableRow';
 import TableColumn from 'sharedComponents/TableColumn';
-import { intlMock, shallowWithIntl } from 'testHelpers/intl-enzyme-test-helper';
+import { intlMock, shallowWithIntl } from '../../../../../../../setup/testHelpers/intl-enzyme-test-helper';
 import { K9LosApiKeys } from 'api/k9LosApi';
-import RestApiTestMocker from 'testHelpers/RestApiTestMocker';
+import RestApiTestMocker from '../../../../../../../setup/testHelpers/RestApiTestMocker';
 import { Oppgaveko } from 'saksbehandler/behandlingskoer/oppgavekoTsType';
 import { OppgaverTabell } from './OppgaverTabell';
 
