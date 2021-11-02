@@ -76,7 +76,7 @@
     "react-dom": "^16.14.0",
     "react-final-form": "^6.4.0",
     "react-idle-timer": "^4.6.4",
-    "react-intl": "^5.20.9",
+    "react-intl": "^5.21.0",
     "react-modal": "^3.11.2",
     "react-motion": "^0.5.2",
     "react-redux": "^7.2.1",
