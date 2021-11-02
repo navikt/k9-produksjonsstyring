@@ -37,7 +37,7 @@ describe('<HeaderWithErrorPanel>', () => {
         expect(header.find('Popover')).has.length(1);
         expect(header.find('UserPanel')).has.length(1);
 
-        const feilmelding = JSON.stringify(wrapper.find('injectIntl(ErrorMessagePanel)').prop('driftsmeldinger'));
+        const feilmelding = JSON.stringify(wrapper.find('DriftsmeldingPanel').prop('driftsmeldinger'));
         expect(feilmelding).to.include('1');
         expect(feilmelding).to.include(crashMessage);
         expect(feilmelding).to.include('06-09-2021');
