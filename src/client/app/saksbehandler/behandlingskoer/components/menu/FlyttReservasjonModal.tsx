@@ -109,7 +109,7 @@ export const FlyttReservasjonModal: FunctionComponent<OwnProps & WrappedComponen
                     name="brukerIdent"
                     label={intl.formatMessage({ id: 'FlyttReservasjonModal.Brukerident' })}
                     bredde="S"
-                    validate={[required]}
+                    // validate={[required]}
                     autoFocus
                   />
                 </FlexColumn>
@@ -163,7 +163,7 @@ export const FlyttReservasjonModal: FunctionComponent<OwnProps & WrappedComponen
               className={styles.submitButton}
               mini
               htmlType="submit"
-              disabled={!saksbehandler || (!values.begrunnelse || values.begrunnelse.length < 3)}
+              disabled={/* !saksbehandler || */ (!values.begrunnelse || values.begrunnelse.length < 3)}
             >
               {intl.formatMessage({ id: 'FlyttReservasjonModal.Ok' })}
             </Hovedknapp>
