@@ -8,8 +8,8 @@ import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
 import {
   ALLE_YTELSETYPER_VALGT,
-  sjekkOmOppgaveSkalLeggesTil, slaSammenAllePunsjBehandlingstyper,
-  slaSammenLikeFagsakstyperOgDatoer,
+  sjekkOmOppgaveSkalLeggesTil, slaSammenAllePunsjBehandlingstyperForNyeOgFerdigstilleOppgaver,
+  slaSammenLikeBehandlingstyperForNyeOgFerdigstilleOppgaver,
 } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
 import styles
   from 'saksbehandler/saksstotte/nokkeltall/components/nyeOgFerdigstilteOppgaverForSisteSyv/nyeOgFerdigstilteOppgaverForSisteSyvGraf.less';
@@ -41,23 +41,23 @@ export const NyeOgFerdigstilteOppgaverForSisteSyvPanel: FunctionComponent<OwnPro
     () => getNyeOgFerdigstilteForSisteSyvDager(nyeOgFerdigstilteOppgaver), [nyeOgFerdigstilteOppgaver],
   );
 
-  const omsorgspengerFerdigstilteOppgaver = slaSammenLikeFagsakstyperOgDatoer(filtrertenyeOgFerdigstilteOppgaverSisteSyv.filter(
+  const omsorgspengerFerdigstilteOppgaver = slaSammenLikeBehandlingstyperForNyeOgFerdigstilleOppgaver(filtrertenyeOgFerdigstilteOppgaverSisteSyv.filter(
     (oppgave) => sjekkOmOppgaveSkalLeggesTil(fagsakYtelseType.OMSORGSPENGER, oppgave),
   ));
 
-  const omsorgsdagerFerdigstilteOppgaver = slaSammenLikeFagsakstyperOgDatoer(filtrertenyeOgFerdigstilteOppgaverSisteSyv.filter(
+  const omsorgsdagerFerdigstilteOppgaver = slaSammenLikeBehandlingstyperForNyeOgFerdigstilleOppgaver(filtrertenyeOgFerdigstilteOppgaverSisteSyv.filter(
     (oppgave) => sjekkOmOppgaveSkalLeggesTil(fagsakYtelseType.OMSORGSDAGER, oppgave),
   ));
 
-  const pleiepengerFerdigstilteOppgaver = slaSammenLikeFagsakstyperOgDatoer(filtrertenyeOgFerdigstilteOppgaverSisteSyv.filter(
+  const pleiepengerFerdigstilteOppgaver = slaSammenLikeBehandlingstyperForNyeOgFerdigstilleOppgaver(filtrertenyeOgFerdigstilteOppgaverSisteSyv.filter(
     (oppgave) => sjekkOmOppgaveSkalLeggesTil(fagsakYtelseType.PLEIEPENGER_SYKT_BARN, oppgave),
   ));
 
-  const punsjFerdigstilteOppgaver = slaSammenAllePunsjBehandlingstyper(filtrertenyeOgFerdigstilteOppgaverSisteSyv.filter(
+  const punsjFerdigstilteOppgaver = slaSammenAllePunsjBehandlingstyperForNyeOgFerdigstilleOppgaver(filtrertenyeOgFerdigstilteOppgaverSisteSyv.filter(
     (oppgave) => sjekkOmOppgaveSkalLeggesTil(fagsakYtelseType.PUNSJ, oppgave),
   ));
 
-  const samlet = slaSammenLikeFagsakstyperOgDatoer(filtrertenyeOgFerdigstilteOppgaverSisteSyv.filter(
+  const samlet = slaSammenLikeBehandlingstyperForNyeOgFerdigstilleOppgaver(filtrertenyeOgFerdigstilteOppgaverSisteSyv.filter(
     (oppgave) => sjekkOmOppgaveSkalLeggesTil(ALLE_YTELSETYPER_VALGT, oppgave),
   ));
 

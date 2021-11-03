@@ -86,10 +86,13 @@ export const erDatoInnenforPeriode = (oppgaveForAvdeling, ukevalg) => {
   return moment(oppgaveForAvdeling.dato).isSameOrAfter(fireUkerSiden);
 };
 
-export const slaSammenLikeBehandlingstyperOgDatoer = (oppgaver) => {
+export const slaSammenLikeBehandlingstyperOgDatoer = (oppgaver: HistoriskData[]) => {
   const sammenslatte = [];
 
   oppgaver.forEach((o) => {
+    if(o.behandlingType.kodeverk === 'PUNSJ_INNSENDING_TYPE'){
+      return;
+    }
     const index = sammenslatte.findIndex((s) => s.behandlingType.kode === o.behandlingType.kode && s.dato === o.dato);
     if (index === -1) {
       sammenslatte.push(o);
@@ -105,7 +108,7 @@ export const slaSammenLikeBehandlingstyperOgDatoer = (oppgaver) => {
   return sammenslatte;
 };
 
-export const slaSammenLikeFagsakstyperOgDatoer = (oppgaver) => {
+export const slaSammenLikeBehandlingstyperForNyeOgFerdigstilleOppgaver = (oppgaver: NyeOgFerdigstilteOppgaver[]) => {
   const sammenslatte = [];
 
   oppgaver.forEach((o) => {
@@ -126,10 +129,13 @@ export const slaSammenLikeFagsakstyperOgDatoer = (oppgaver) => {
   return sammenslatte;
 };
 
-export const slaSammenAllePunsjBehandlingstyper = (oppgaver) => {
+export const slaSammenAllePunsjBehandlingstyperForNyeOgFerdigstilleOppgaver = (oppgaver: NyeOgFerdigstilteOppgaver[]) => {
   const sammenslatte = [];
 
   oppgaver.forEach((o) => {
+    if(o.behandlingType.kodeverk !== 'PUNSJ_INNSENDING_TYPE'){
+      return;
+    }
     const index = sammenslatte.findIndex((s) => s.behandlingType.kodeverk === 'PUNSJ_INNSENDING_TYPE' && s.dato === o.dato);
     if (index === -1) {
       sammenslatte.push(o);
@@ -147,10 +153,13 @@ export const slaSammenAllePunsjBehandlingstyper = (oppgaver) => {
   return sammenslatte;
 };
 
-export const slaSammenPunsjBehandlingstyperOgDatoer = (oppgaver) => {
+export const slaSammenPunsjBehandlingstyperOgDatoer = (oppgaver: HistoriskData[]) => {
   const sammenslatte = [];
 
   oppgaver.forEach((o) => {
+    if(o.behandlingType.kodeverk !== 'PUNSJ_INNSENDING_TYPE'){
+      return;
+    }
     const index = sammenslatte.findIndex((s) => s.behandlingType.kode === 'PUNSJ' && s.dato === o.dato);
     if (index === -1) {
       sammenslatte.push({

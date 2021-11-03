@@ -10,8 +10,8 @@ import useKodeverk from 'api/rest-api-hooks/src/global-data/useKodeverk';
 import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
 import {
   ALLE_YTELSETYPER_VALGT,
-  sjekkOmOppgaveSkalLeggesTil, slaSammenAllePunsjBehandlingstyper,
-  slaSammenLikeFagsakstyperOgDatoer,
+  sjekkOmOppgaveSkalLeggesTil, slaSammenAllePunsjBehandlingstyperForNyeOgFerdigstilleOppgaver,
+  slaSammenLikeBehandlingstyperForNyeOgFerdigstilleOppgaver,
 } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
 import { Select } from 'nav-frontend-skjema';
 import styles from './nyeOgFerdigstilteOppgaverForIdagGraf.less';
@@ -42,23 +42,23 @@ export const NyeOgFerdigstilteOppgaverForIdagPanel: FunctionComponent<OwnProps> 
   const [selectValue, setSelectValue] = useState<string>('');
   const behandlingTyper = useKodeverk(kodeverkTyper.BEHANDLING_TYPE);
   const nyeOgFerdigstilteOppgaverForIdag = useMemo(() => getNyeOgFerdigstilteForIDag(nyeOgFerdigstilteOppgaver), [nyeOgFerdigstilteOppgaver]);
-  const omsorgspengerFerdigstilteOppgaver = slaSammenLikeFagsakstyperOgDatoer(nyeOgFerdigstilteOppgaverForIdag.filter(
+  const omsorgspengerFerdigstilteOppgaver = slaSammenLikeBehandlingstyperForNyeOgFerdigstilleOppgaver(nyeOgFerdigstilteOppgaverForIdag.filter(
     (oppgave) => sjekkOmOppgaveSkalLeggesTil(fagsakYtelseType.OMSORGSPENGER, oppgave),
   ));
 
-  const omsorgsdagerFerdigstilteOppgaver = slaSammenLikeFagsakstyperOgDatoer(nyeOgFerdigstilteOppgaverForIdag.filter(
+  const omsorgsdagerFerdigstilteOppgaver = slaSammenLikeBehandlingstyperForNyeOgFerdigstilleOppgaver(nyeOgFerdigstilteOppgaverForIdag.filter(
     (oppgave) => sjekkOmOppgaveSkalLeggesTil(fagsakYtelseType.OMSORGSDAGER, oppgave),
   ));
 
-  const pleiepengerFerdigstilteOppgaver = slaSammenLikeFagsakstyperOgDatoer(nyeOgFerdigstilteOppgaverForIdag.filter(
+  const pleiepengerFerdigstilteOppgaver = slaSammenLikeBehandlingstyperForNyeOgFerdigstilleOppgaver(nyeOgFerdigstilteOppgaverForIdag.filter(
     (oppgave) => sjekkOmOppgaveSkalLeggesTil(fagsakYtelseType.PLEIEPENGER_SYKT_BARN, oppgave),
   ));
 
-  const punsjFerdigstilteOppgaver = slaSammenAllePunsjBehandlingstyper(nyeOgFerdigstilteOppgaverForIdag.filter(
+  const punsjFerdigstilteOppgaver = slaSammenAllePunsjBehandlingstyperForNyeOgFerdigstilleOppgaver(nyeOgFerdigstilteOppgaverForIdag.filter(
     (oppgave) => sjekkOmOppgaveSkalLeggesTil(fagsakYtelseType.PUNSJ, oppgave),
   ));
 
-  const samlet = slaSammenLikeFagsakstyperOgDatoer(nyeOgFerdigstilteOppgaverForIdag.filter(
+  const samlet = slaSammenLikeBehandlingstyperForNyeOgFerdigstilleOppgaver(nyeOgFerdigstilteOppgaverForIdag.filter(
     (oppgave) => sjekkOmOppgaveSkalLeggesTil(ALLE_YTELSETYPER_VALGT, oppgave),
   ));
 

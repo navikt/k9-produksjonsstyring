@@ -94,7 +94,7 @@ const nyeOgFerdigstilteOppgaver = [
     dato,
     antallNye: 1,
     antallFerdigstilte: 1,
-    antallFerdigstilteMine: 1,
+    antallFerdigstilteMine: 2,
   },
   {
     fagsakYtelseType: {
@@ -107,7 +107,7 @@ const nyeOgFerdigstilteOppgaver = [
       navn: 'Revurdering',
       kodeverk: 'ae0028',
     },
-    dato,
+    dato: '2021-08-24',
     antallNye: 1,
     antallFerdigstilte: 1,
     antallFerdigstilteMine: 1,
@@ -268,6 +268,22 @@ const nyeOgFerdigstilteOppgaver = [
       kodeverk: 'PUNSJ_INNSENDING_TYPE',
     },
     dato,
+    antallNye: 1,
+    antallFerdigstilte: 1,
+    antallFerdigstilteMine: 1,
+  },
+  {
+    fagsakYtelseType: {
+      kode: 'PSB',
+      navn: 'Pleiepenger sykt barn',
+      kodeverk: 'FAGSAK_YTELSE_TYPE',
+    },
+    behandlingType: {
+      kode: 'INNLOGGET_CHAT',
+      navn: 'Innlogget chat',
+      kodeverk: 'PUNSJ_INNSENDING_TYPE',
+    },
+    dato: '2021-08-20',
     antallNye: 1,
     antallFerdigstilte: 1,
     antallFerdigstilteMine: 1,
