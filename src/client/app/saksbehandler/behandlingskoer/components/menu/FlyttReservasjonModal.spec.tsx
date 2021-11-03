@@ -20,7 +20,7 @@ describe('<FlyttReservasjonModal>', () => {
 
   const oppgaveId = '1';
 
-  /* it('skal ikke vise saksbehandler før søk er utført', () => {
+  it('skal ikke vise saksbehandler før søk er utført', () => {
     const formProps = {
       handleSubmit: sinon.spy(),
       values: {},
@@ -285,7 +285,7 @@ describe('<FlyttReservasjonModal>', () => {
         expect(knapper).has.length(1);
         expect(knapper.last().prop('disabled')).is.true;
       });
-  }); */
+  });
 
   it('skal vise brukerident input, dato som reservasjonen avsluttes og begrunn flyttning av reservasjonen', () => {
     const saksbehandler = {
