@@ -221,6 +221,7 @@
   "FlyttReservasjonModal.ReservertAvEnkel": "En annen saksbehandler arbeider nå med den andre parten i denne saken",
   "FlyttReservasjonModal.OverstyrReservasjon": "Nei, jeg vil reservere behandlingen",
   "FlyttReservasjonModal.FlyttReservasjon": "Ja, legg behandlingen til saksbehandleren",
+  "FlyttReservasjonModal.FlyttReservasjonText": "Velg dato som reservasjonen avsluttes (Valgfritt å fylle ut)",
   "FlyttReservasjonModal.GåTilKøen": "Gå tilbake til køen",
   "FlyttReservasjonModal.Feil": "Mangler reservasjonsrettigheter.",
 
