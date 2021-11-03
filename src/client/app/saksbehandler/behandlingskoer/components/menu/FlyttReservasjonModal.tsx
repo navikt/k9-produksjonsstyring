@@ -8,9 +8,11 @@ import { Normaltekst, Element } from 'nav-frontend-typografi';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import { FlexContainer, FlexRow, FlexColumn } from 'sharedComponents/flexGrid';
 import {
+  dateAfterOrEqual,
+  hasValidDate,
   hasValidText, maxLength, minLength, required,
 } from 'utils/validation/validators';
-import { TextAreaField, InputField } from 'form/FinalFields';
+import {TextAreaField, InputField, DatepickerField} from 'form/FinalFields';
 import Modal from 'sharedComponents/Modal';
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
 import { K9LosApiKeys } from 'api/k9LosApi';
@@ -40,9 +42,11 @@ export const FlyttReservasjonModal: FunctionComponent<OwnProps & WrappedComponen
   const {
     startRequest, state, data: saksbehandler, resetRequestData,
   } = useRestApiRunner<Saksbehandler>(K9LosApiKeys.FLYTT_RESERVASJON_SAKSBEHANDLER_SOK);
+  const { startRequest: endreOppgaveReservasjon } = useRestApiRunner(K9LosApiKeys.ENDRE_OPPGAVERESERVASJON);
+  const { startRequest: flyttOppgaveReservasjon } = useRestApiRunner(K9LosApiKeys.FLYTT_RESERVASJON);
+
   const finnSaksbehandler = useCallback((brukerIdent) => startRequest({ brukerIdent }), []);
 
-  const { startRequest: flyttOppgaveReservasjon } = useRestApiRunner(K9LosApiKeys.FLYTT_RESERVASJON);
   const flyttOppgaveReservasjonFn = useCallback(
     (brukerIdent: string, begrunnelse: string): Promise<any> => flyttOppgaveReservasjon({ oppgaveId, brukerIdent, begrunnelse })
       .then(() => {
@@ -51,6 +55,20 @@ export const FlyttReservasjonModal: FunctionComponent<OwnProps & WrappedComponen
       }),
     [],
   );
+
+  const endreReservasjonDatoOgFlyttOppgaveReservasjonFn = useCallback((reserverTil: string, brukerIdent: string, begrunnelse: string): Promise<any> => endreOppgaveReservasjon({ oppgaveId, reserverTil })
+      .then(() => {
+        flyttOppgaveReservasjonFn(brukerIdent, begrunnelse);
+      }),
+    []);
+
+  const onSubmit = (brukerIdent: string, begrunnelse: string, reservertTilDato: string) => {
+    if(reservertTilDato){
+      endreReservasjonDatoOgFlyttOppgaveReservasjonFn(reservertTilDato, saksbehandler ? saksbehandler.brukerIdent : '', begrunnelse);
+    }else{
+      flyttOppgaveReservasjonFn(saksbehandler ? saksbehandler.brukerIdent : '', begrunnelse);
+    }
+  }
 
   const formatText = () => {
     if (state === RestApiState.SUCCESS && !saksbehandler) {
@@ -118,11 +136,23 @@ export const FlyttReservasjonModal: FunctionComponent<OwnProps & WrappedComponen
         )}
       />
       <Form
-        onSubmit={(values) => flyttOppgaveReservasjonFn(saksbehandler ? saksbehandler.brukerIdent : '', values.begrunnelse)}
+        onSubmit={(values) => onSubmit(saksbehandler ? saksbehandler.brukerIdent : '', values.begrunnelse, values.reserverTil)}
         render={({
           handleSubmit, values,
         }) => (
           <form onSubmit={handleSubmit}>
+            <VerticalSpacer sixteenPx />
+            <div className={styles.test}>
+            <DatepickerField
+              name="reserverTil"
+              onBlurValidation
+              validate={[hasValidDate, dateAfterOrEqual(new Date())]}
+              label={intl.formatMessage({ id: 'FlyttReservasjonModal.FlyttReservasjonText' })}
+              alwaysShowCalendar
+              disabledDays={{ before: new Date() }}
+            />
+            </div>
+            <VerticalSpacer sixteenPx />
             <TextAreaField
               name="begrunnelse"
               label={intl.formatMessage({ id: 'FlyttReservasjonModal.Begrunn' })}

@@ -69,7 +69,7 @@ class RequestErrorEventHandler {
 
     if (formattedError.isGatewayTimeoutOrNotFound) {
       this.notify(EventType.REQUEST_GATEWAY_TIMEOUT_OR_NOT_FOUND, { location: formattedError.location }, this.isPollingRequest);
-    } else if (formattedError.isForbidden) {
+    } else if (formattedError.isForbidden || formattedError.isUnauthorized) {
       this.notify(EventType.REQUEST_FORBIDDEN, formattedError.data ? formattedError.data : { message: error.message });
     } else if (formattedError.is418) {
       this.notify(EventType.POLLING_HALTED_OR_DELAYED, formattedError.data);
