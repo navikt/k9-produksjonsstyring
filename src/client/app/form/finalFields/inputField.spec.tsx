@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { Form } from 'react-final-form';
 
-import { mountWithIntl } from 'testHelpers/intl-enzyme-test-helper';
+import { mountWithIntl } from '../../../../../setup/testHelpers/intl-enzyme-test-helper';
 import InputField from './InputField';
 
 const mountFieldInForm = (field, initialValues) => mountWithIntl(

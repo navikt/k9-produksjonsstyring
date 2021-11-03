@@ -2,7 +2,6 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
-import { FormattedMessage } from 'react-intl';
 
 import behandlingStatus from 'kodeverk/behandlingStatus';
 import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
@@ -58,10 +57,6 @@ describe('<OppgaveHandlingerMenu>', () => {
     );
 
     expect(wrapper.find(MenuButton)).has.length(4);
-    const message = wrapper.find(FormattedMessage).first();
-    const values = message.prop('values') as { date: string; time: string };
-    expect(values.date).is.eql('02.02.2020');
-    expect(values.time).is.eql('23:59');
   });
 
   it('skal vise modal for oppheving av reservasjon ved klikk på menyknapp og så lukke den ved å avbryte i modal', () => {

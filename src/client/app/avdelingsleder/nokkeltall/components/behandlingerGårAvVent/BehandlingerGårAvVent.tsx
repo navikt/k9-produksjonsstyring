@@ -82,7 +82,7 @@ const BehandlingerGårAvVent: FunctionComponent<OwnProps & WrappedComponentProps
             onChange={(e) => setValgtYtelseType(e.target.value)}
           >
             <option value="" disabled selected>{intl.formatMessage({ id: 'BehandlingerGårAvVent.VelgFagytelseType' })}</option>
-            {ytelseTyperForBehandlingerPåVentGraf.map((ytelseValg) => (<option value={ytelseValg.kode}>{ytelseValg.navn}</option>))}
+            {ytelseTyperForBehandlingerPåVentGraf.map((ytelseValg) => (<option key={ytelseValg.kode} value={ytelseValg.kode}>{ytelseValg.navn}</option>))}
           </Select>
         </Column>
       </Row>

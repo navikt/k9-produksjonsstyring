@@ -11,8 +11,8 @@ import SaksbehandlerDashboard from './components/SaksbehandlerDashboard';
  */
 
 const SaksbehandlerIndex = () => {
-  const { kanSaksbehandle } = useGlobalStateRestApiData<NavAnsatt>(RestApiGlobalStatePathsKeys.NAV_ANSATT);
   const [valgtOppgavekoId, setValgtOppgavekoId] = useState<string>();
+  const { kanSaksbehandle } = useGlobalStateRestApiData<NavAnsatt>(RestApiGlobalStatePathsKeys.NAV_ANSATT);
   if (!kanSaksbehandle) {
     return <IkkeTilgangTilAvdelingslederPanel />;
   }

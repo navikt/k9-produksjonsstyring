@@ -15,13 +15,15 @@ jobs:
       - name: Hente kode
         uses: actions/checkout@v2.3.4
       - name: Sette opp Node
-        uses: actions/setup-node@v2.4.0
+        uses: actions/setup-node@v2.4.1
         with:
-          node-version: 12.x
+          node-version: 16.x
+          registry-url: https://npm.pkg.github.com/
+          scope: '@navikt'
       - name: Installere moduler
         run: yarn install --ignore-optional --no-progress --frozen-lockfile
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_REGISTRY_TOKEN }}
       - name: Tester og linting
         run: yarn test && yarn less:lint
       - name: Bygge kode

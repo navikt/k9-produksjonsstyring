@@ -21,12 +21,23 @@ const DagensTallPanel: FunctionComponent<OwnProps & WrappedComponentProps> = ({ 
   const behandlingsKoderSomSkalVisesForst = [behandlingType.ANKE, behandlingType.FORSTEGANGSSOKNAD, behandlingType.INNSYN,
     behandlingType.KLAGE, behandlingType.REVURDERING, behandlingType.TILBAKEBETALING];
 
+  const punsjBehandlinger = [];
   sortedDagensTall(dagensTall).forEach((dt) => {
     if (behandlingsKoderSomSkalVisesForst.includes(dt.behandlingType.kode)) behandlingstyperForst.push(dt);
+    else if (dt.behandlingType.kodeverk && dt.behandlingType.kodeverk === 'PUNSJ_INNSENDING_TYPE') punsjBehandlinger.push(dt);
     else behandlingstyperSist.push(dt);
   });
 
-  const dagensTallIRettRekkefoljd = behandlingstyperForst.concat(behandlingstyperSist);
+  const punsjTall = {
+    antall: 0,
+    behandlingType: {
+      navn: 'Punsj',
+    },
+  };
+
+  punsjBehandlinger.forEach((behandlingstype) => { punsjTall.antall += behandlingstype.antall; });
+
+  const dagensTallIRettRekkefoljd = [...behandlingstyperForst, ...behandlingstyperSist, punsjTall];
 
   return (
     <div className={styles.dagensTallContainer}>
@@ -35,7 +46,7 @@ const DagensTallPanel: FunctionComponent<OwnProps & WrappedComponentProps> = ({ 
         <EnkelTeller antall={totaltIdag} tekst="Åpne behandlinger" />
 
         {dagensTall && dagensTallIRettRekkefoljd.map((dt) => (
-          <EnkelTeller antall={dt.antall} tekst={dt.behandlingType.navn} />
+          <EnkelTeller key={dt.behandlingType.navn} antall={dt.antall} tekst={dt.behandlingType.navn} />
         ))}
       </div>
     </div>

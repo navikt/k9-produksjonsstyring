@@ -1,5 +1,5 @@
 import EventType from '../eventType';
-import ErrorType from './errorTsType';
+import { ErrorType } from './errorTsType';
 import { isHandledError } from './ErrorTypes';
 import TimeoutError from './TimeoutError';
 import { ErrorResponse } from '../ResponseTsType';
@@ -69,13 +69,13 @@ class RequestErrorEventHandler {
 
     if (formattedError.isGatewayTimeoutOrNotFound) {
       this.notify(EventType.REQUEST_GATEWAY_TIMEOUT_OR_NOT_FOUND, { location: formattedError.location }, this.isPollingRequest);
-    } else if (formattedError.isForbidden) {
+    } else if (formattedError.isForbidden || formattedError.isUnauthorized) {
       this.notify(EventType.REQUEST_FORBIDDEN, formattedError.data ? formattedError.data : { message: error.message });
     } else if (formattedError.is418) {
       this.notify(EventType.POLLING_HALTED_OR_DELAYED, formattedError.data);
     } else if (!error.response && error.message) {
       this.notify(EventType.REQUEST_ERROR, { message: error.message }, this.isPollingRequest);
-    } else if (!isHandledError(formattedError.type)) {
+    } else if (!isHandledError(formattedError.type) && formattedError.status !== 404) {
       this.notify(EventType.REQUEST_ERROR, this.getFormattedData(formattedError.data), this.isPollingRequest);
     }
   };
@@ -94,7 +94,7 @@ class RequestErrorEventHandler {
       isForbidden: response ? response.status === 403 : undefined,
       isUnauthorized: response ? response.status === 401 : undefined,
       is418: response ? response.status === 418 : undefined,
-      isGatewayTimeoutOrNotFound: response ? response.status === 504 || response.status === 404 : undefined,
+      isGatewayTimeoutOrNotFound: response ? response.status === 504 /* || response.status === 404 */ : undefined,
       location: response && response.config ? response.config.url : undefined,
     };
   };
