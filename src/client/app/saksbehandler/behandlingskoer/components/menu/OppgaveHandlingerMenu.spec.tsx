@@ -6,7 +6,6 @@ import sinon from 'sinon';
 import behandlingStatus from 'kodeverk/behandlingStatus';
 import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
 import behandlingType from 'kodeverk/behandlingType';
-import ModalMedIkon from 'sharedComponents/modal/ModalMedIkon';
 import OppgaveHandlingerMenu from './OppgaveHandlingerMenu';
 import OpphevReservasjonModal from './OpphevReservasjonModal';
 import FlyttReservasjonModal from './FlyttReservasjonModal';

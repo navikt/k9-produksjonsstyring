@@ -167,13 +167,11 @@ export const getDateAndTime = (tidspunkt): {date: string, time: string} => {
 
 export const getDate = (tidspunkt) => {
   const dateTime = moment(tidspunkt);
-  const date = dateTime.format(DDMMYYYY_DATE_FORMAT);
-  return date;
+  return dateTime.format(DDMMYYYY_DATE_FORMAT);
 };
 export const getTime = (tidspunkt) => {
   const dateTime = moment(tidspunkt);
-  const time = dateTime.format(HHMM_TIME_FORMAT);
-  return time;
+  return dateTime.format(HHMM_TIME_FORMAT);
 };
 export const getYearFromString = (dato) => {
   const dateTime = moment(dato);
