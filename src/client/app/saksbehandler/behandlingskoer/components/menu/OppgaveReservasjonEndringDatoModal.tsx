@@ -45,8 +45,8 @@ const OppgaveReservasjonEndringDatoModal: FunctionComponent<OwnProps & WrappedCo
   const endreReservasjonDatoFn = useCallback((reserverTil: string): Promise<any> => endreOppgaveReservasjon({ oppgaveId, reserverTil })
     .then((oppgaveStatus: ReservasjonEndringType) => {
       // eslint-disable-next-line
-      console.log('OPPGAVER2323',oppgaveStatus.oppgave === oppgaveId.toString(), oppgaveStatus.reserverTil);
-      if (oppgaveStatus.oppgave === oppgaveId.toString() && oppgaveStatus.reserverTil) {
+      console.log('OPPGAVER2323',oppgaveStatus.oppgave === oppgaveId.toString(), oppgaveStatus.reservertTil);
+      if (oppgaveStatus.oppgave === oppgaveId.toString() && oppgaveStatus.reservertTil) {
         // eslint-disable-next-line
         console.log('VISSSS');
         setVisReservertTilDato(oppgaveStatus.reserverTil);
