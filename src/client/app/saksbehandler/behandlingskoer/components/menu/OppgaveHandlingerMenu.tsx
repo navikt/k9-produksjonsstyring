@@ -144,10 +144,12 @@ export class OppgaveHandlingerMenu extends Component<OwnProps, OwnState> {
   forlengReserverasjon = () => {
     const { oppgave, forlengOppgaveReservasjon } = this.props;
     forlengOppgaveReservasjon(oppgave.eksternId).then((oppgaver) => {
-      const finnOppgaveDerStatusErEndret = oppgaver.find((o) => o.eksternId === oppgave.eksternId);
       toggleEventListeners(false, this.handleOutsideClick);
-      if (finnOppgaveDerStatusErEndret) {
-        this.setState((prevState) => ({ ...prevState, showForlengetReservasjonModal: true, showForlengetReservasjonModalTilDato: nyStatus.reservertTil }));
+      if (oppgaver && oppgaver.length > 0) {
+        const finnOppgaveDerStatusErEndret = oppgaver.find((o) => o.eksternId === oppgave.eksternId);
+        if (finnOppgaveDerStatusErEndret) {
+          this.setState((prevState) => ({ ...prevState, showForlengetReservasjonModal: true, showForlengetReservasjonModalTilDato: nyStatus.reservertTil }));
+        }
       }
     });
   };
