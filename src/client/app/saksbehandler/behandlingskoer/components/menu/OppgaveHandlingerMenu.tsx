@@ -134,11 +134,13 @@ export class OppgaveHandlingerMenu extends Component<OwnProps, OwnState> {
     this.setState((prevState) => ({ ...prevState, showForlengetReservasjonModal: true }));
   };
 
-  closeForlengReservasjonModal = (event: MouseEvent<HTMLButtonElement>) => {
+  closeForlengReservasjonModal = (event?: MouseEvent<HTMLButtonElement>) => {
     const { toggleMenu, oppgave } = this.props;
     toggleMenu(oppgave);
     this.setState((prevState) => ({ ...prevState, showForlengetReservasjonModal: false, showForlengetReservasjonModalTilDato: '' }));
-    this.handleOutsideClick(event);
+    if (event) {
+      this.handleOutsideClick(event);
+    }
   };
 
   forlengReserverasjon = () => {
@@ -205,7 +207,7 @@ export class OppgaveHandlingerMenu extends Component<OwnProps, OwnState> {
         {showForlengetReservasjonModal && showForlengetReservasjonModalTilDato
           && (
           <ModalMedIkon
-            cancel={() => this.closeForlengReservasjonModal}
+            cancel={() => this.closeForlengReservasjonModal()}
             tekst={{
               valgmulighetB: 'OK',
               formattedMessageId: 'OppgaveReservasjonForlengetModal.Reservert',
