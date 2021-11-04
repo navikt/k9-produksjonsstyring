@@ -2,7 +2,6 @@ import React, { Component, MouseEvent } from 'react';
 import { FormattedMessage } from 'react-intl';
 import Oppgave from 'saksbehandler/oppgaveTsType';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
-import { oppgaveStatusForlengtReservasjonTsType } from 'saksbehandler/oppgaveStatusForlengtReservasjonTsType';
 import ModalMedIkon from 'sharedComponents/modal/ModalMedIkon';
 import { getDate, getTime } from 'utils/dateUtils';
 import MenuButton from './MenuButton';
@@ -37,7 +36,7 @@ interface OwnProps {
   };
   oppgave: Oppgave;
   imageNode: any;
-  forlengOppgaveReservasjon: (oppgaveId: string) => Promise<oppgaveStatusForlengtReservasjonTsType>;
+  forlengOppgaveReservasjon: (oppgaveId: string) => Promise<Oppgave[]>;
   hentReserverteOppgaver: (params: any, keepData: boolean) => void;
 
 }
@@ -144,11 +143,12 @@ export class OppgaveHandlingerMenu extends Component<OwnProps, OwnState> {
 
   forlengReserverasjon = () => {
     const { oppgave, forlengOppgaveReservasjon } = this.props;
-    forlengOppgaveReservasjon(oppgave.eksternId).then((nyStatus) => {
-      // eslint-disable-next-line
-      console.log('NYSTATUS', nyStatus);
+    forlengOppgaveReservasjon(oppgave.eksternId).then((oppgaver) => {
+      const finnOppgaveDerStatusErEndret = oppgaver.find((o) => o.eksternId === oppgave.eksternId);
       toggleEventListeners(false, this.handleOutsideClick);
-      this.setState((prevState) => ({ ...prevState, showForlengetReservasjonModal: true, showForlengetReservasjonModalTilDato: nyStatus.reservertTil }));
+      if (finnOppgaveDerStatusErEndret) {
+        this.setState((prevState) => ({ ...prevState, showForlengetReservasjonModal: true, showForlengetReservasjonModalTilDato: nyStatus.reservertTil }));
+      }
     });
   };
 
@@ -198,7 +198,6 @@ export class OppgaveHandlingerMenu extends Component<OwnProps, OwnState> {
           hentAlleReservasjonerEllerOppgaver={hentReserverteOppgaver}
           closeModal={this.closeReservasjonEndringDatoModal}
           reserverTilDefault={oppgave.status.reservertTilTidspunkt}
-          reservertTilDato={(reservertTil) => this.setState((prevState) => ({ ...prevState, showForlengetReservasjonModalTilDato: reservertTil }))}
         />
         )}
         {showForlengetReservasjonModal && showForlengetReservasjonModalTilDato
