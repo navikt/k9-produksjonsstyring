@@ -44,7 +44,7 @@ const OppgaveReservasjonEndringDatoModal: FunctionComponent<OwnProps & WrappedCo
 
   const endreReservasjonDatoFn = useCallback((reserverTil: string): Promise<any> => endreOppgaveReservasjon({ oppgaveId, reserverTil })
     .then((oppgaveStatus: ReservasjonEndringType) => {
-      if (oppgaveStatus.oppgave === oppgaveId.toString() && oppgaveStatus.reservertTil) {
+      if (oppgaveStatus.oppgave === oppgaveId && oppgaveStatus.reservertTil) {
         setVisReservertTilDato(oppgaveStatus.reservertTil);
         hentAlleReservasjonerEllerOppgaver();
       } else {
