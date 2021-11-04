@@ -49,7 +49,7 @@ const OppgaveReservasjonEndringDatoModal: FunctionComponent<OwnProps & WrappedCo
       if (oppgaveStatus.oppgave === oppgaveId.toString() && oppgaveStatus.reservertTil) {
         // eslint-disable-next-line
         console.log('VISSSS');
-        setVisReservertTilDato(oppgaveStatus.reserverTil);
+        setVisReservertTilDato(oppgaveStatus.reservertTil);
         hentAlleReservasjonerEllerOppgaver();
       } else {
         hentAlleReservasjonerEllerOppgaver();
