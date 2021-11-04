@@ -137,7 +137,7 @@ export class OppgaveHandlingerMenu extends Component<OwnProps, OwnState> {
   closeForlengReservasjonModal = (event: MouseEvent<HTMLButtonElement>) => {
     const { toggleMenu, oppgave } = this.props;
     toggleMenu(oppgave);
-    this.setState((prevState) => ({ ...prevState, showForlengetReservasjonModalTilDato: '' }));
+    this.setState((prevState) => ({ ...prevState, showForlengetReservasjonModal: false, showForlengetReservasjonModalTilDato: '' }));
     this.handleOutsideClick(event);
   };
 
@@ -146,8 +146,6 @@ export class OppgaveHandlingerMenu extends Component<OwnProps, OwnState> {
     forlengOppgaveReservasjon(oppgave.eksternId).then((oppgaver) => {
       toggleEventListeners(false, this.handleOutsideClick);
       if (oppgaver && Array.isArray(oppgaver)) {
-        // eslint-disable-next-line
-        console.log('OPPGAVER',oppgaver);
         const oppgaveDerStatusErEndret = oppgaver.find((o) => o.eksternId === oppgave.eksternId);
         if (oppgaveDerStatusErEndret) {
           this.setState((prevState) => ({ ...prevState, showForlengetReservasjonModal: true, showForlengetReservasjonModalTilDato: oppgaveDerStatusErEndret.status.reservertTilTidspunkt }));

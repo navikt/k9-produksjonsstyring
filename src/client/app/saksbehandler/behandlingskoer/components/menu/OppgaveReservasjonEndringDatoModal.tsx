@@ -47,6 +47,8 @@ const OppgaveReservasjonEndringDatoModal: FunctionComponent<OwnProps & WrappedCo
       // eslint-disable-next-line
       console.log('OPPGAVER2323',oppgaveStatus, oppgaveId);
       if (oppgaveStatus.oppgave === oppgaveId && oppgaveStatus.reserverTil) {
+        // eslint-disable-next-line
+        console.log('VISSSS');
         setVisReservertTilDato(oppgaveStatus.reserverTil);
         hentAlleReservasjonerEllerOppgaver();
       } else {
@@ -58,13 +60,14 @@ const OppgaveReservasjonEndringDatoModal: FunctionComponent<OwnProps & WrappedCo
 
   const lukkAlleModaler = (skalModalerLukkes: boolean) => {
     if (skalModalerLukkes) {
+      // eslint-disable-next-line
+      console.log('lukkmodaler')
       closeModal();
     }
   };
 
   return (
     <div>
-
       {reservertTilDato && (
       <ModalMedIkon
         cancel={() => lukkAlleModaler(true)}
@@ -77,7 +80,7 @@ const OppgaveReservasjonEndringDatoModal: FunctionComponent<OwnProps & WrappedCo
         ikonAlt="InnvilgetSjekkboks"
       />
       )}
-      { !reservertTilDato && (
+      {!reservertTilDato && (
       <Modal
         className={styles.modal}
         isOpen={showModal}
