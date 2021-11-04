@@ -11,6 +11,7 @@ import Modal from 'sharedComponents/Modal';
 import { dateAfterOrEqual, hasValidDate } from 'utils/validation/validators';
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
 import { K9LosApiKeys } from 'api/k9LosApi';
+import { oppgaveStatusForlengtReservasjonTsType } from 'saksbehandler/oppgaveStatusForlengtReservasjonTsType';
 
 interface OwnProps {
   showModal: boolean;
@@ -18,6 +19,7 @@ interface OwnProps {
   reserverTilDefault: string;
   oppgaveId: string;
   hentAlleReservasjonerEllerOppgaver: () => void;
+  reservertTilDato: (dato: string) => void;
 }
 
 /**
@@ -30,6 +32,7 @@ const OppgaveReservasjonEndringDatoModal: FunctionComponent<OwnProps & WrappedCo
   reserverTilDefault,
   oppgaveId,
   hentAlleReservasjonerEllerOppgaver,
+  reservertTilDato,
 }) => {
   const buildInitialValues = useCallback((reserverTil: string) => ({
     reserverTil: (reserverTil && reserverTil.length >= 10) ? reserverTil.substr(0, 10) : '',
@@ -38,7 +41,8 @@ const OppgaveReservasjonEndringDatoModal: FunctionComponent<OwnProps & WrappedCo
   const { startRequest: endreOppgaveReservasjon } = useRestApiRunner(K9LosApiKeys.ENDRE_OPPGAVERESERVASJON);
 
   const endreReservasjonDatoFn = useCallback((reserverTil: string): Promise<any> => endreOppgaveReservasjon({ oppgaveId, reserverTil })
-    .then(() => {
+    .then((oppgaveStatus: oppgaveStatusForlengtReservasjonTsType) => {
+      reservertTilDato(oppgaveStatus.reservertTil);
       hentAlleReservasjonerEllerOppgaver();
       closeModal();
     }),

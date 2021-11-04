@@ -158,13 +158,23 @@ export const findDifferenceInHoursAndMinutes = (fomDateTime, tomDateTime) => {
   };
 };
 
-export const getDateAndTime = (tidspunkt) => {
+export const getDateAndTime = (tidspunkt): {date: string, time: string} => {
   const dateTime = moment(tidspunkt);
   const date = dateTime.format(DDMMYYYY_DATE_FORMAT);
   const time = dateTime.format(HHMM_TIME_FORMAT);
   return { date, time };
 };
 
+export const getDate = (tidspunkt) => {
+  const dateTime = moment(tidspunkt);
+  const date = dateTime.format(DDMMYYYY_DATE_FORMAT);
+  return date;
+};
+export const getTime = (tidspunkt) => {
+  const dateTime = moment(tidspunkt);
+  const time = dateTime.format(HHMM_TIME_FORMAT);
+  return time;
+};
 export const getYearFromString = (dato) => {
   const dateTime = moment(dato);
   return dateTime.year();
