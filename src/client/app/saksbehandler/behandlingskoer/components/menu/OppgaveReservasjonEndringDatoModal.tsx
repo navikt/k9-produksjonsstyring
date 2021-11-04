@@ -5,12 +5,16 @@ import { Column, Row } from 'nav-frontend-grid';
 import { Knapp } from 'nav-frontend-knapper';
 import Panel from 'nav-frontend-paneler';
 
-import { DatepickerField } from 'form/FinalFields';
+import { DatepickerField, TextAreaField } from 'form/FinalFields';
 import styles from 'saksbehandler/behandlingskoer/components/menu/oppgaveReservasjonEndringDatoModal.less';
 import Modal from 'sharedComponents/Modal';
-import { dateAfterOrEqual, hasValidDate } from 'utils/validation/validators';
+import {
+  dateAfterOrEqual, hasValidDate, hasValidText, required,
+} from 'utils/validation/validators';
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
 import { K9LosApiKeys } from 'api/k9LosApi';
+import { maxLength1500, minLength3 } from 'saksbehandler/behandlingskoer/components/menu/FlyttReservasjonModal';
+import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 
 interface OwnProps {
   showModal: boolean;
@@ -37,7 +41,7 @@ const OppgaveReservasjonEndringDatoModal: FunctionComponent<OwnProps & WrappedCo
 
   const { startRequest: endreOppgaveReservasjon } = useRestApiRunner(K9LosApiKeys.ENDRE_OPPGAVERESERVASJON);
 
-  const endreReservasjonDatoFn = useCallback((reserverTil: string): Promise<any> => endreOppgaveReservasjon({ oppgaveId, reserverTil })
+  const endreReservasjonDatoFn = useCallback((reserverTil: string, begrunnelse: string): Promise<any> => endreOppgaveReservasjon({ oppgaveId, reserverTil, begrunnelse })
     .then(() => {
       hentAlleReservasjonerEllerOppgaver();
       closeModal();
@@ -53,7 +57,7 @@ const OppgaveReservasjonEndringDatoModal: FunctionComponent<OwnProps & WrappedCo
       onRequestClose={closeModal as () => void}
     >
       <Form
-        onSubmit={(values) => endreReservasjonDatoFn(values.reserverTil)}
+        onSubmit={(values) => endreReservasjonDatoFn(values.reserverTil, values.begrunnelse)}
         initialValues={buildInitialValues(reserverTilDefault)}
         render={({ handleSubmit }) => (
           <form onSubmit={handleSubmit}>
@@ -68,9 +72,17 @@ const OppgaveReservasjonEndringDatoModal: FunctionComponent<OwnProps & WrappedCo
                 alwaysShowCalendar
                 disabledDays={{ before: new Date() }}
               />
-              <Row className={styles.buttonRow}>
+              <VerticalSpacer sixteenPx />
+              <TextAreaField
+                name="begrunnelse"
+                label={intl.formatMessage({ id: 'OppgaveReservasjonEndringDatoModal.Begrunn' })}
+                validate={[required, maxLength1500, minLength3, hasValidText]}
+                maxLength={1500}
+              />
+              <VerticalSpacer sixteenPx />
+              <Row>
                 <Column>
-                  <div className={styles.buttonBox}>
+                  <div>
                     <Knapp
                       mini
                       className={styles.button}

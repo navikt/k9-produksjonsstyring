@@ -4,17 +4,6 @@
   position: relative;
 }
 
-.buttonBox {
-  float: left;
-  left: 0;
-  position: relative;
-}
-
-.buttonRow {
-  bottom: 10px;
-  position: absolute;
-}
-
 .divider {
   border-left: 1px solid #b7b1a9;
   border-right: 0 solid #b7b1a9;
@@ -28,7 +17,6 @@
 }
 
 .panel {
-  height: 540px;
   padding-bottom: 10px;
   padding-top: 0;
   width: 340px;
@@ -40,6 +28,10 @@
 }
 
 .modal {
+  @media all and (min-height: 600px) {
+    overflow: visible;
+  }
+
   height: auto;
   width: auto;
 }

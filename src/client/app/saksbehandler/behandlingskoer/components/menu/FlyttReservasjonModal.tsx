@@ -12,7 +12,7 @@ import {
   hasValidDate,
   hasValidText, maxLength, minLength, required,
 } from 'utils/validation/validators';
-import {TextAreaField, InputField, DatepickerField} from 'form/FinalFields';
+import { TextAreaField, InputField, DatepickerField } from 'form/FinalFields';
 import Modal from 'sharedComponents/Modal';
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
 import { K9LosApiKeys } from 'api/k9LosApi';
@@ -21,8 +21,8 @@ import { Saksbehandler } from '../../saksbehandlerTsType';
 
 import styles from './flyttReservasjonModal.less';
 
-const minLength3 = minLength(3);
-const maxLength1500 = maxLength(1500);
+export const minLength3 = minLength(3);
+export const maxLength1500 = maxLength(1500);
 
 interface OwnProps {
   showModal: boolean;
@@ -57,18 +57,18 @@ export const FlyttReservasjonModal: FunctionComponent<OwnProps & WrappedComponen
   );
 
   const endreReservasjonDatoOgFlyttOppgaveReservasjonFn = useCallback((reserverTil: string, brukerIdent: string, begrunnelse: string): Promise<any> => endreOppgaveReservasjon({ oppgaveId, reserverTil })
-      .then(() => {
-        flyttOppgaveReservasjonFn(brukerIdent, begrunnelse);
-      }),
-    []);
+    .then(() => {
+      flyttOppgaveReservasjonFn(brukerIdent, begrunnelse);
+    }),
+  []);
 
   const onSubmit = (brukerIdent: string, begrunnelse: string, reservertTilDato: string) => {
-    if(reservertTilDato){
+    if (reservertTilDato) {
       endreReservasjonDatoOgFlyttOppgaveReservasjonFn(reservertTilDato, saksbehandler ? saksbehandler.brukerIdent : '', begrunnelse);
-    }else{
+    } else {
       flyttOppgaveReservasjonFn(saksbehandler ? saksbehandler.brukerIdent : '', begrunnelse);
     }
-  }
+  };
 
   const formatText = () => {
     if (state === RestApiState.SUCCESS && !saksbehandler) {
@@ -143,14 +143,14 @@ export const FlyttReservasjonModal: FunctionComponent<OwnProps & WrappedComponen
           <form onSubmit={handleSubmit}>
             <VerticalSpacer sixteenPx />
             <div className={styles.test}>
-            <DatepickerField
-              name="reserverTil"
-              onBlurValidation
-              validate={[hasValidDate, dateAfterOrEqual(new Date())]}
-              label={intl.formatMessage({ id: 'FlyttReservasjonModal.FlyttReservasjonText' })}
-              alwaysShowCalendar
-              disabledDays={{ before: new Date() }}
-            />
+              <DatepickerField
+                name="reserverTil"
+                onBlurValidation
+                validate={[hasValidDate, dateAfterOrEqual(new Date())]}
+                label={intl.formatMessage({ id: 'FlyttReservasjonModal.FlyttReservasjonText' })}
+                alwaysShowCalendar
+                disabledDays={{ before: new Date() }}
+              />
             </div>
             <VerticalSpacer sixteenPx />
             <TextAreaField
