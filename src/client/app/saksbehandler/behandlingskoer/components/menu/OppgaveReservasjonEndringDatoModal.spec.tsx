@@ -4,9 +4,9 @@ import { expect } from 'chai';
 import { IntlShape } from 'react-intl';
 import { Form } from 'react-final-form';
 
-import { intlMock, shallowWithIntl } from '../../../../../../../setup/testHelpers/intl-enzyme-test-helper';
 import OppgaveReservasjonEndringDatoModal from 'saksbehandler/behandlingskoer/components/menu/OppgaveReservasjonEndringDatoModal';
-import { DatepickerField } from 'form/FinalFields';
+import { DatepickerField, TextAreaField } from 'form/FinalFields';
+import { intlMock, shallowWithIntl } from '../../../../../../../setup/testHelpers/intl-enzyme-test-helper';
 
 describe('<OppgaveReservasjonEndringDatoModal>', () => {
   const intl: Partial<IntlShape> = {
@@ -33,6 +33,9 @@ describe('<OppgaveReservasjonEndringDatoModal>', () => {
     }));
     const datepickerField = formWrapper.find(DatepickerField);
     expect(datepickerField).to.have.length(1);
+    const textAreaField = formWrapper.find(TextAreaField);
+    expect(textAreaField).to.have.length(1);
+
     formWrapper.find('form').simulate('submit');
     expect(handleSubmitFn.calledOnce).to.be.true;
   });
