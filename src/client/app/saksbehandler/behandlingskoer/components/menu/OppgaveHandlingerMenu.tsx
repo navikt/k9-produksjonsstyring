@@ -146,9 +146,11 @@ export class OppgaveHandlingerMenu extends Component<OwnProps, OwnState> {
     forlengOppgaveReservasjon(oppgave.eksternId).then((oppgaver) => {
       toggleEventListeners(false, this.handleOutsideClick);
       if (oppgaver && Array.isArray(oppgaver)) {
-        const finnOppgaveDerStatusErEndret = oppgaver.some((o) => o.eksternId === oppgave.eksternId);
-        if (finnOppgaveDerStatusErEndret) {
-          this.setState((prevState) => ({ ...prevState, showForlengetReservasjonModal: true, showForlengetReservasjonModalTilDato: nyStatus.reservertTil }));
+        // eslint-disable-next-line
+        console.log('OPPGAVER',oppgaver);
+        const oppgaveDerStatusErEndret = oppgaver.find((o) => o.eksternId === oppgave.eksternId);
+        if (oppgaveDerStatusErEndret) {
+          this.setState((prevState) => ({ ...prevState, showForlengetReservasjonModal: true, showForlengetReservasjonModalTilDato: oppgaveDerStatusErEndret.status.reservertTilTidspunkt }));
         }
       }
     });
