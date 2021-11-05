@@ -21,7 +21,7 @@ yarn dev
 
 ## Lokal utvikling
 
-1. Kjør vtp, postgres og azure mocks fra [k9-frontend-modules](https://github.com/navikt/k9-verdikjede/tree/master/saksbehandling).
+1. Kjør vtp, postgres og azure mocks fra [k9-verdikjede](https://github.com/navikt/k9-verdikjede/tree/master/saksbehandling).
 ````
 docker-compose up vtp postgres azure-mock
 ````
