@@ -29,7 +29,10 @@ docker-compose up vtp postgres azure-mock
 ````
 -Djavax.net.ssl.trustStore=/Users/.../.modig/trustStore.jks -Djavax.net.ssl.keyStore=/Users/.../.modig/keyStore.jks -Djavax.net.ssl.trustStorePassword=changeit -Djavax.net.ssl.keyStorePassword=devillokeystore1234
 ````
-3. `yarn dev`
+3. 
+````
+yarn dev
+````
 
 #### Nyttig informasjon for lokal utvikling
 Mocke oppgaver i backend
