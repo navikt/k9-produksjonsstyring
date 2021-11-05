@@ -6,7 +6,6 @@ import FerdigstiltePanel from 'avdelingsleder/nokkeltall/components/dagensTallPa
 import NyeHistorikkPanel from 'avdelingsleder/nokkeltall/components/nyeHistorikk/NyeHistorikkPanel';
 import FerdigstilteHistorikkPanel from 'avdelingsleder/nokkeltall/components/ferdigstilteHistorikk/FerdigstilteHistorikkPanel';
 import BeholdningHistorikkPanel from 'avdelingsleder/nokkeltall/components/beholdningHistorikk/BeholdningHistorikkPanel';
-import BehandlingerGårAvVent from 'avdelingsleder/nokkeltall/components/behandlingerGårAvVent/BehandlingerGårAvVent';
 import FordelingAvBehandlingstypePanel from './fordelingAvBehandlingstype/FordelingAvBehandlingstypePanel';
 import NokkeltallPanel from './NokkeltallPanel';
 
@@ -15,7 +14,6 @@ describe('<NokkeltallPanel>', () => {
     const wrapper = shallow(<NokkeltallPanel
       alleOppgaver={[]}
       ferdigstiltePerDato={[]}
-      behandlingerSomGårAvVent={[]}
     />);
 
     expect(wrapper.find(FerdigstiltePanel)).to.have.length(1);
@@ -23,6 +21,5 @@ describe('<NokkeltallPanel>', () => {
     expect(wrapper.find(FerdigstilteHistorikkPanel)).to.have.length(1);
     expect(wrapper.find(BeholdningHistorikkPanel)).to.have.length(1);
     expect(wrapper.find(FordelingAvBehandlingstypePanel)).to.have.length(1);
-    expect(wrapper.find(BehandlingerGårAvVent)).to.have.length(1);
   });
 });

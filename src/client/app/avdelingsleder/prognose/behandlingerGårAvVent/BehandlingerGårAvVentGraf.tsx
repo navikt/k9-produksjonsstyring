@@ -1,8 +1,6 @@
 import React, {
   FunctionComponent, useCallback, useMemo, useState,
 } from 'react';
-import IBehandlingerSomGarAvVentType
-  from 'avdelingsleder/nokkeltall/components/behandlingerGårAvVent/behandlingerSomGårAvVentType';
 import { DDMMYYYY_DATE_FORMAT } from 'utils/formats';
 
 import Panel from 'nav-frontend-paneler';
@@ -15,7 +13,9 @@ import styles
   from 'saksbehandler/saksstotte/nokkeltall/components/nyeOgFerdigstilteOppgaverForSisteSyv/nyeOgFerdigstilteOppgaverForSisteSyvGraf.less';
 import { Normaltekst, Undertekst } from 'nav-frontend-typografi';
 import { FormattedMessage } from 'react-intl';
-import Koordinat from '../../../../types/Koordinat';
+import IBehandlingerSomGarAvVentType
+  from './behandlingerSomGårAvVentType';
+import Koordinat from '../../../types/Koordinat';
 
 const slaSammenBehandlingstyperOgFyllInnTomme = (behandlingerPåVent: IBehandlingerSomGarAvVentType[], antallUkerFremITid: number):
   { antall: number; dato: Date }[] => {

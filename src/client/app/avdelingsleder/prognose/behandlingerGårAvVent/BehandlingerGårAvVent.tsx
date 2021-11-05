@@ -7,12 +7,12 @@ import { FormattedMessage, injectIntl, WrappedComponentProps } from 'react-intl'
 import { Element } from 'nav-frontend-typografi';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
-import IBehandlingerSomGarAvVentType
-  from 'avdelingsleder/nokkeltall/components/behandlingerGårAvVent/behandlingerSomGårAvVentType';
-import BehandlingerGårAvVentGraf
-  from 'avdelingsleder/nokkeltall/components/behandlingerGårAvVent/BehandlingerGårAvVentGraf';
 import Hjelpetekst from 'nav-frontend-hjelpetekst';
 import { ytelseTyperForBehandlingerPåVentGraf } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
+import IBehandlingerSomGarAvVentType
+  from './behandlingerSomGårAvVentType';
+import BehandlingerGårAvVentGraf
+  from './BehandlingerGårAvVentGraf';
 import styles from './behandlingerGårAvVent.less';
 
 interface OwnProps{
