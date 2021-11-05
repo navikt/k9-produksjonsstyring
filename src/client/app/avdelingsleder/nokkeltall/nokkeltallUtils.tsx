@@ -90,7 +90,7 @@ export const slaSammenLikeBehandlingstyperOgDatoer = (oppgaver: HistoriskData[])
   const sammenslatte = [];
 
   oppgaver.forEach((o) => {
-    if(o.behandlingType.kodeverk === 'PUNSJ_INNSENDING_TYPE'){
+    if (o.behandlingType.kodeverk === 'PUNSJ_INNSENDING_TYPE') {
       return;
     }
     const index = sammenslatte.findIndex((s) => s.behandlingType.kode === o.behandlingType.kode && s.dato === o.dato);
@@ -133,7 +133,7 @@ export const slaSammenAllePunsjBehandlingstyperForNyeOgFerdigstilleOppgaver = (o
   const sammenslatte = [];
 
   oppgaver.forEach((o) => {
-    if(o.behandlingType.kodeverk !== 'PUNSJ_INNSENDING_TYPE'){
+    if (o.behandlingType.kodeverk !== 'PUNSJ_INNSENDING_TYPE') {
       return;
     }
     const index = sammenslatte.findIndex((s) => s.behandlingType.kodeverk === 'PUNSJ_INNSENDING_TYPE' && s.dato === o.dato);
@@ -157,7 +157,7 @@ export const slaSammenPunsjBehandlingstyperOgDatoer = (oppgaver: HistoriskData[]
   const sammenslatte = [];
 
   oppgaver.forEach((o) => {
-    if(o.behandlingType.kodeverk !== 'PUNSJ_INNSENDING_TYPE'){
+    if (o.behandlingType.kodeverk !== 'PUNSJ_INNSENDING_TYPE') {
       return;
     }
     const index = sammenslatte.findIndex((s) => s.behandlingType.kode === 'PUNSJ' && s.dato === o.dato);

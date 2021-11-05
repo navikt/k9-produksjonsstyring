@@ -4,33 +4,29 @@ import {
   sjekkOmOppgaveSkalLeggesTil,
   slaSammenAllePunsjBehandlingstyperForNyeOgFerdigstilleOppgaver,
   slaSammenLikeBehandlingstyperForNyeOgFerdigstilleOppgaver,
-  slaSammenLikeBehandlingstyperOgDatoer, slaSammenPunsjBehandlingstyperOgDatoer
-} from "avdelingsleder/nokkeltall/nokkeltallUtils";
-import nyeOgFerdigstilteOppgaver from "../../../mocks/nyeOgFerdigstilteOppgaver";
-import fagsakYtelseType from "kodeverk/fagsakYtelseType";
-import ferdigstilteHistorikk from "../../../mocks/ferdigstilteHistorikk";
+  slaSammenLikeBehandlingstyperOgDatoer, slaSammenPunsjBehandlingstyperOgDatoer,
+} from 'avdelingsleder/nokkeltall/nokkeltallUtils';
+import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
+import nyeOgFerdigstilteOppgaver from '../../../mocks/nyeOgFerdigstilteOppgaver';
+import ferdigstilteHistorikk from '../../../mocks/ferdigstilteHistorikk';
 
 describe('<NokkeltallUtils>', () => {
   it('skal slå sammen like behandlingstyper og datoer for historikk data', () => {
     const sammenslåttHistorikkOppgaver = slaSammenLikeBehandlingstyperOgDatoer(ferdigstilteHistorikk);
 
-    const sammenslåttHistorikkOppgaverForstegangsbehandling = sammenslåttHistorikkOppgaver.find(oppgave =>
-      oppgave.behandlingType.navn === 'Førstegangsbehandling'
+    const sammenslåttHistorikkOppgaverForstegangsbehandling = sammenslåttHistorikkOppgaver.find((oppgave) => oppgave.behandlingType.navn === 'Førstegangsbehandling'
       && oppgave.dato === '2021-08-29'
       && oppgave.antall === 3);
 
-    const sammenslåttHistorikkOppgaverRevurdering = sammenslåttHistorikkOppgaver.find(oppgave =>
-      oppgave.behandlingType.navn === 'Revurdering'
+    const sammenslåttHistorikkOppgaverRevurdering = sammenslåttHistorikkOppgaver.find((oppgave) => oppgave.behandlingType.navn === 'Revurdering'
       && oppgave.dato === '2021-08-29'
       && oppgave.antall === 4);
 
-    const sammenslåttHistorikkOppgaverTilbakekreving29August = sammenslåttHistorikkOppgaver.find(oppgave =>
-      oppgave.behandlingType.navn === 'Tilbakekreving'
+    const sammenslåttHistorikkOppgaverTilbakekreving29August = sammenslåttHistorikkOppgaver.find((oppgave) => oppgave.behandlingType.navn === 'Tilbakekreving'
       && oppgave.dato === '2021-08-29'
       && oppgave.antall === 1);
 
-    const sammenslåttHistorikkOppgaverTilbakekreving30August = sammenslåttHistorikkOppgaver.find(oppgave =>
-      oppgave.behandlingType.navn === 'Tilbakekreving'
+    const sammenslåttHistorikkOppgaverTilbakekreving30August = sammenslåttHistorikkOppgaver.find((oppgave) => oppgave.behandlingType.navn === 'Tilbakekreving'
       && oppgave.dato === '2021-08-30'
       && oppgave.antall === 1);
 
@@ -43,48 +39,40 @@ describe('<NokkeltallUtils>', () => {
   it('skal slå sammen alle punsj behandlingstyper for historikk data', () => {
     const sammenslåttHistorikkOppgaverForPunsj = slaSammenPunsjBehandlingstyperOgDatoer(ferdigstilteHistorikk);
 
-    const sammenslåttHistorikkOppgaverPunsj29August = sammenslåttHistorikkOppgaverForPunsj.find(oppgave =>
-      oppgave.behandlingType.navn === 'PUNSJ'
+    const sammenslåttHistorikkOppgaverPunsj29August = sammenslåttHistorikkOppgaverForPunsj.find((oppgave) => oppgave.behandlingType.navn === 'PUNSJ'
       && oppgave.dato === '2021-08-29'
       && oppgave.antall === 11);
 
-    const sammenslåttHistorikkOppgaverPunsj30August = sammenslåttHistorikkOppgaverForPunsj.find(oppgave =>
-      oppgave.behandlingType.navn === 'PUNSJ'
+    const sammenslåttHistorikkOppgaverPunsj30August = sammenslåttHistorikkOppgaverForPunsj.find((oppgave) => oppgave.behandlingType.navn === 'PUNSJ'
       && oppgave.dato === '2021-08-30'
       && oppgave.antall === 1);
 
-
     expect(sammenslåttHistorikkOppgaverPunsj29August).toBeTruthy();
     expect(sammenslåttHistorikkOppgaverPunsj30August).toBeTruthy();
-
   });
 
   it('skal slå sammen like behandlingstyper og datoer for nye og ferdigstilte oppgaver', () => {
     const sammenslåttNyeOgFerdigstilleOppgaver = slaSammenLikeBehandlingstyperForNyeOgFerdigstilleOppgaver(nyeOgFerdigstilteOppgaver);
 
-    const sammenslåttNyeOgFerdigstilleOppgaverHistorikkOppgaverForstegangsbehandling = sammenslåttNyeOgFerdigstilleOppgaver.find(oppgave =>
-      oppgave.behandlingType.navn === 'Førstegangsbehandling'
+    const sammenslåttNyeOgFerdigstilleOppgaverHistorikkOppgaverForstegangsbehandling = sammenslåttNyeOgFerdigstilleOppgaver.find((oppgave) => oppgave.behandlingType.navn === 'Førstegangsbehandling'
       && oppgave.dato === '2021-08-29'
       && oppgave.antallNye === 3
       && oppgave.antallFerdigstilte === 3
       && oppgave.antallFerdigstilteMine === 3);
 
-    const sammenslåttNyeOgFerdigstilleOppgaverHistorikkOppgaverTilbakekreving = sammenslåttNyeOgFerdigstilleOppgaver.find(oppgave =>
-      oppgave.behandlingType.navn === 'Tilbakekreving'
+    const sammenslåttNyeOgFerdigstilleOppgaverHistorikkOppgaverTilbakekreving = sammenslåttNyeOgFerdigstilleOppgaver.find((oppgave) => oppgave.behandlingType.navn === 'Tilbakekreving'
       && oppgave.dato === '2021-08-29'
       && oppgave.antallNye === 2
       && oppgave.antallFerdigstilte === 2
       && oppgave.antallFerdigstilteMine === 3);
 
-    const sammenslåttNyeOgFerdigstilleOppgaverHistorikkOppgaverRevurdering = sammenslåttNyeOgFerdigstilleOppgaver.find(oppgave =>
-      oppgave.behandlingType.navn === 'Revurdering'
+    const sammenslåttNyeOgFerdigstilleOppgaverHistorikkOppgaverRevurdering = sammenslåttNyeOgFerdigstilleOppgaver.find((oppgave) => oppgave.behandlingType.navn === 'Revurdering'
       && oppgave.dato === '2021-08-29'
       && oppgave.antallNye === 2
       && oppgave.antallFerdigstilte === 2
       && oppgave.antallFerdigstilteMine === 2);
 
-    const sammenslåttNyeOgFerdigstilleOppgaverHistorikkOppgaverPapirettersendelse = sammenslåttNyeOgFerdigstilleOppgaver.find(oppgave =>
-      oppgave.behandlingType.navn === 'Papirettersendelse'
+    const sammenslåttNyeOgFerdigstilleOppgaverHistorikkOppgaverPapirettersendelse = sammenslåttNyeOgFerdigstilleOppgaver.find((oppgave) => oppgave.behandlingType.navn === 'Papirettersendelse'
       && oppgave.dato === '2021-08-29'
       && oppgave.antallNye === 1
       && oppgave.antallFerdigstilte === 1
@@ -97,25 +85,22 @@ describe('<NokkeltallUtils>', () => {
   });
 
   it('skal slå sammen alle punsj behandlingstyper for nye og ferdigstilte oppgaver', () => {
-    const sammenslåttNyeOgFerdigstilleOppgaverForPunsj = slaSammenAllePunsjBehandlingstyperForNyeOgFerdigstilleOppgaver( nyeOgFerdigstilteOppgaver.filter(
+    const sammenslåttNyeOgFerdigstilleOppgaverForPunsj = slaSammenAllePunsjBehandlingstyperForNyeOgFerdigstilleOppgaver(nyeOgFerdigstilteOppgaver.filter(
       (oppgave) => sjekkOmOppgaveSkalLeggesTil(fagsakYtelseType.PUNSJ, oppgave),
     ));
 
-    const sammenslåttePunsjBehandlingstyper29Aug = sammenslåttNyeOgFerdigstilleOppgaverForPunsj.find(oppgave =>
-      oppgave.dato === '2021-08-29'
+    const sammenslåttePunsjBehandlingstyper29Aug = sammenslåttNyeOgFerdigstilleOppgaverForPunsj.find((oppgave) => oppgave.dato === '2021-08-29'
       && oppgave.antallNye === 10
       && oppgave.antallFerdigstilte === 10
       && oppgave.antallFerdigstilteMine === 10);
 
-    const sammenslåttePunsjBehandlingstyper20Aug = sammenslåttNyeOgFerdigstilleOppgaverForPunsj.find(oppgave =>
-      oppgave.dato === '2021-08-20'
+    const sammenslåttePunsjBehandlingstyper20Aug = sammenslåttNyeOgFerdigstilleOppgaverForPunsj.find((oppgave) => oppgave.dato === '2021-08-20'
       && oppgave.antallNye === 1
       && oppgave.antallFerdigstilte === 1
       && oppgave.antallFerdigstilteMine === 1);
 
     expect(sammenslåttePunsjBehandlingstyper29Aug).toBeTruthy();
     expect(sammenslåttePunsjBehandlingstyper20Aug).toBeTruthy();
-
   });
 
   it('sjekk om oppgave skal legges til basert på ytelse valgt', () => {
@@ -207,7 +192,8 @@ describe('<NokkeltallUtils>', () => {
 
   it('sjekk om oppgave filtreras basert på om punsj er valgt eller ikke', () => {
     const gårdagensDato = new Date();
-    gårdagensDato.setDate(gårdagensDato.getDate()-3);
+    gårdagensDato.setDate(gårdagensDato.getDate() - 3);
+    const dato = gårdagensDato.toISOString().substring(0, 10);
 
     const nyePerDato = [{
       fagsakYtelseType: {
@@ -220,93 +206,93 @@ describe('<NokkeltallUtils>', () => {
         navn: 'Førstegangsbehandling',
         kodeverk: 'ae0034',
       },
-      dato: `${gårdagensDato.getFullYear()}-${gårdagensDato.getMonth()+1}-${gårdagensDato.getDate()}`,
+      dato,
       antall: 1,
     },
-      {
-        fagsakYtelseType: {
-          kode: 'PSB',
-          navn: 'Pleiepenger sykt barn',
-          kodeverk: 'FAGSAK_YTELSE_TYPE',
-        },
-        behandlingType: {
-          kode: 'BT-007',
-          navn: 'Tilbakekreving',
-          kodeverk: 'ae0203',
-        },
-        dato: `${gårdagensDato.getFullYear()}-${gårdagensDato.getMonth()+1}-${gårdagensDato.getDate()}`,
-        antall: 1,
+    {
+      fagsakYtelseType: {
+        kode: 'PSB',
+        navn: 'Pleiepenger sykt barn',
+        kodeverk: 'FAGSAK_YTELSE_TYPE',
       },
-      {
-        fagsakYtelseType: {
-          kode: 'OMP',
-          navn: 'Omsorgspenger',
-          kodeverk: 'FAGSAK_YTELSE_TYPE',
-        },
-        behandlingType: {
-          kode: 'BT-004',
-          navn: 'Revurdering',
-          kodeverk: 'ae0028',
-        },
-        dato: `${gårdagensDato.getFullYear()}-${gårdagensDato.getMonth()+1}-${gårdagensDato.getDate()}`,
-        antall: 2,
+      behandlingType: {
+        kode: 'BT-007',
+        navn: 'Tilbakekreving',
+        kodeverk: 'ae0203',
       },
-      {
-        fagsakYtelseType: {
-          kode: 'OMP_MA',
-          navn: 'Omsorgspenger',
-          kodeverk: 'FAGSAK_YTELSE_TYPE',
-        },
-        behandlingType: {
-          kode: 'BT-004',
-          navn: 'Revurdering',
-          kodeverk: 'ae0028',
-        },
-        dato: `${gårdagensDato.getFullYear()}-${gårdagensDato.getMonth()+1}-${gårdagensDato.getDate()}`,
-        antall: 2,
+      dato,
+      antall: 1,
+    },
+    {
+      fagsakYtelseType: {
+        kode: 'OMP',
+        navn: 'Omsorgspenger',
+        kodeverk: 'FAGSAK_YTELSE_TYPE',
       },
-      {
-        fagsakYtelseType: {
-          kode: 'OMP_KS',
-          navn: 'Omsorgspenger',
-          kodeverk: 'FAGSAK_YTELSE_TYPE',
-        },
-        behandlingType: {
-          kode: 'BT-004',
-          navn: 'Revurdering',
-          kodeverk: 'ae0028',
-        },
-        dato: `${gårdagensDato.getFullYear()}-${gårdagensDato.getMonth()+1}-${gårdagensDato.getDate()}`,
-        antall: 2,
+      behandlingType: {
+        kode: 'BT-004',
+        navn: 'Revurdering',
+        kodeverk: 'ae0028',
       },
-      {
-        fagsakYtelseType: {
-          kode: 'OMP_AO',
-          navn: 'Omsorgspenger',
-          kodeverk: 'FAGSAK_YTELSE_TYPE',
-        },
-        behandlingType: {
-          kode: 'BT-004',
-          navn: 'Revurdering',
-          kodeverk: 'ae0028',
-        },
-        dato: `${gårdagensDato.getFullYear()}-${gårdagensDato.getMonth()+1}-${gårdagensDato.getDate()}`,
-        antall: 2,
+      dato,
+      antall: 2,
+    },
+    {
+      fagsakYtelseType: {
+        kode: 'OMP_MA',
+        navn: 'Omsorgspenger',
+        kodeverk: 'FAGSAK_YTELSE_TYPE',
       },
-      {
-        fagsakYtelseType: {
-          kode: 'PSB',
-          navn: 'Pleiepenger sykt barn',
-          kodeverk: 'FAGSAK_YTELSE_TYPE',
-        },
-        behandlingType: {
-          kode: 'SAMTALEREFERAT',
-          navn: 'Samtalereferat',
-          kodeverk: 'PUNSJ_INNSENDING_TYPE',
-        },
-        dato: `${gårdagensDato.getFullYear()}-${gårdagensDato.getMonth()+1}-${gårdagensDato.getDate()}`,
-        antall: 1,
-      }]
+      behandlingType: {
+        kode: 'BT-004',
+        navn: 'Revurdering',
+        kodeverk: 'ae0028',
+      },
+      dato,
+      antall: 2,
+    },
+    {
+      fagsakYtelseType: {
+        kode: 'OMP_KS',
+        navn: 'Omsorgspenger',
+        kodeverk: 'FAGSAK_YTELSE_TYPE',
+      },
+      behandlingType: {
+        kode: 'BT-004',
+        navn: 'Revurdering',
+        kodeverk: 'ae0028',
+      },
+      dato,
+      antall: 2,
+    },
+    {
+      fagsakYtelseType: {
+        kode: 'OMP_AO',
+        navn: 'Omsorgspenger',
+        kodeverk: 'FAGSAK_YTELSE_TYPE',
+      },
+      behandlingType: {
+        kode: 'BT-004',
+        navn: 'Revurdering',
+        kodeverk: 'ae0028',
+      },
+      dato,
+      antall: 2,
+    },
+    {
+      fagsakYtelseType: {
+        kode: 'PSB',
+        navn: 'Pleiepenger sykt barn',
+        kodeverk: 'FAGSAK_YTELSE_TYPE',
+      },
+      behandlingType: {
+        kode: 'SAMTALEREFERAT',
+        navn: 'Samtalereferat',
+        kodeverk: 'PUNSJ_INNSENDING_TYPE',
+      },
+      dato,
+      antall: 1,
+    }];
 
     const filtrerteIkkePunsjOppgaverYtelsetypeOMPValgt = filtrereNyePerDato(fagsakYtelseType.OMSORGSPENGER, '4', nyePerDato);
     const filtrerteIkkePunsjOppgaverYtelsetypeOMPMAValgt = filtrereNyePerDato(fagsakYtelseType.OMSORGSDAGER_MIDLERTIDIGALENE, '4', nyePerDato);
