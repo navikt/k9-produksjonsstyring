@@ -39,7 +39,7 @@ Mocke oppgaver i backend
 ````
 http://localhost:8020/mock
 ````
-Kan legges til som saksbehandler
+Mock saksbehandler
 ````
 saksbehandler@nav.no
 ````
