@@ -1,20 +1,20 @@
 import React from 'react';
-import {expect} from 'chai';
+import { expect } from 'chai';
 import moment from 'moment';
-import {IntlShape} from 'react-intl';
-import {Form} from 'react-final-form';
+import { IntlShape } from 'react-intl';
+import { Form } from 'react-final-form';
 import sinon from 'sinon';
 
-import {ISO_DATE_FORMAT} from 'utils/formats';
-import {SelectField} from 'form/FinalFields';
+import { ISO_DATE_FORMAT } from 'utils/formats';
+import { SelectField } from 'form/FinalFields';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
 import * as useKodeverk from 'api/rest-api-hooks/src/global-data/useKodeverk';
 import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
 import behandlingType from 'kodeverk/behandlingType';
-import {intlMock, shallowWithIntl} from '../../../../../../../setup/testHelpers/intl-enzyme-test-helper';
-import {ALLE_YTELSETYPER_VALGT} from 'avdelingsleder/nokkeltall/nokkeltallUtils';
-import {BeholdningHistorikkPanel} from 'avdelingsleder/nokkeltall/components/beholdningHistorikk/BeholdningHistorikkPanel';
+import { ALLE_YTELSETYPER_VALGT } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
+import { BeholdningHistorikkPanel } from 'avdelingsleder/nokkeltall/components/beholdningHistorikk/BeholdningHistorikkPanel';
 import HistorikkGraf from 'avdelingsleder/nokkeltall/HistorikkGraf';
+import { intlMock, shallowWithIntl } from '../../../../../../../setup/testHelpers/intl-enzyme-test-helper';
 
 describe('<TilBehandlingPanel>', () => {
   const intl: Partial<IntlShape> = {
@@ -40,7 +40,7 @@ describe('<TilBehandlingPanel>', () => {
     {
       kode: fagsakYtelseType.OMSORGSDAGER_ALENEOMOMSORGEN,
       navn: 'Omsorgspenger',
-    }
+    },
   ];
 
   const behandlingTyper = [
@@ -58,7 +58,7 @@ describe('<TilBehandlingPanel>', () => {
   const punsj = {
     kode: behandlingType.SKRIV_TIL_OSS_SVAR,
     navn: 'Førstegangssøknad',
-    kodeverk: 'PUNSJ_INNSENDING_TYPE'
+    kodeverk: 'PUNSJ_INNSENDING_TYPE',
   };
 
   const beholdningPerDatoV2 = [{
@@ -67,35 +67,35 @@ describe('<TilBehandlingPanel>', () => {
     dato: moment().format(ISO_DATE_FORMAT),
     antall: 1,
   },
-    {
-      fagsakYtelseType: fagsakYtelseTyper[1],
-      behandlingType: forstegangssoknad,
-      dato: moment().format(ISO_DATE_FORMAT),
-      antall: 1,
-    },
-    {
-      fagsakYtelseType: fagsakYtelseTyper[1],
-      behandlingType: punsj,
-      dato: moment().format(ISO_DATE_FORMAT),
-      antall: 1,
-    }, {
-      fagsakYtelseType: fagsakYtelseTyper[2],
-      behandlingType: forstegangssoknad,
-      dato: moment().format(ISO_DATE_FORMAT),
-      antall: 1,
-    },
-    {
-      fagsakYtelseType: fagsakYtelseTyper[3],
-      behandlingType: forstegangssoknad,
-      dato: moment().format(ISO_DATE_FORMAT),
-      antall: 1,
-    },
-    {
-      fagsakYtelseType: fagsakYtelseTyper[4],
-      behandlingType: forstegangssoknad,
-      dato: moment().format(ISO_DATE_FORMAT),
-      antall: 1,
-    }
+  {
+    fagsakYtelseType: fagsakYtelseTyper[1],
+    behandlingType: forstegangssoknad,
+    dato: moment().format(ISO_DATE_FORMAT),
+    antall: 1,
+  },
+  {
+    fagsakYtelseType: fagsakYtelseTyper[1],
+    behandlingType: punsj,
+    dato: moment().format(ISO_DATE_FORMAT),
+    antall: 1,
+  }, {
+    fagsakYtelseType: fagsakYtelseTyper[2],
+    behandlingType: forstegangssoknad,
+    dato: moment().format(ISO_DATE_FORMAT),
+    antall: 1,
+  },
+  {
+    fagsakYtelseType: fagsakYtelseTyper[3],
+    behandlingType: forstegangssoknad,
+    dato: moment().format(ISO_DATE_FORMAT),
+    antall: 1,
+  },
+  {
+    fagsakYtelseType: fagsakYtelseTyper[4],
+    behandlingType: forstegangssoknad,
+    dato: moment().format(ISO_DATE_FORMAT),
+    antall: 1,
+  },
   ];
 
   let contextStub;
@@ -303,7 +303,7 @@ describe('<TilBehandlingPanel>', () => {
 
     const graf = wrapper.find(HistorikkGraf);
     expect(graf).to.have.length(1);
-    expect(graf.prop('historiskData')).is.eql([{antall: 3, behandlingType: {kode: "BT-002", navn: "Førstegangssøknad"}, dato: "2021-11-03"}]);
+    expect(graf.prop('historiskData')).is.eql([{ antall: 3, behandlingType: { kode: 'BT-002', navn: 'Førstegangssøknad' }, dato: moment().format(ISO_DATE_FORMAT) }]);
   });
 
   it('skal kun få ned omsorgspenger oppgaver', () => {
@@ -323,7 +323,9 @@ describe('<TilBehandlingPanel>', () => {
 
     const graf = wrapper.find(HistorikkGraf);
     expect(graf).to.have.length(1);
-    expect(graf.prop('historiskData')).is.eql([{antall: 1, behandlingType: {kode: "BT-002", navn: "Førstegangssøknad"}, dato: "2021-11-03", fagsakYtelseType: {kode: "OMP", navn: "Omsorgspenger"}}]);
+    expect(graf.prop('historiskData')).is.eql([{
+      antall: 1, behandlingType: { kode: 'BT-002', navn: 'Førstegangssøknad' }, dato: moment().format(ISO_DATE_FORMAT), fagsakYtelseType: { kode: 'OMP', navn: 'Omsorgspenger' },
+    }]);
   });
 
   it('skal kun få ned pleiepenger oppgaver', () => {
@@ -343,7 +345,9 @@ describe('<TilBehandlingPanel>', () => {
 
     const graf = wrapper.find(HistorikkGraf);
     expect(graf).to.have.length(1);
-    expect(graf.prop('historiskData')).is.eql([{antall: 1, behandlingType: {kode: "BT-002", navn: "Førstegangssøknad"}, dato: "2021-11-03", fagsakYtelseType: {kode: "PSB", navn: "Pleiepenger sykt barn"}}]);
+    expect(graf.prop('historiskData')).is.eql([{
+      antall: 1, behandlingType: { kode: 'BT-002', navn: 'Førstegangssøknad' }, dato: moment().format(ISO_DATE_FORMAT), fagsakYtelseType: { kode: 'PSB', navn: 'Pleiepenger sykt barn' },
+    }]);
   });
 
   it('skal slå sammen like behandlingstyper og datoer', () => {
