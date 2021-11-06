@@ -15,13 +15,13 @@ import BehandlingerGårAvVent from 'avdelingsleder/nokkeltall/components/behandl
 import IBehandlingerSomGarAvVentType
   from 'avdelingsleder/nokkeltall/components/behandlingerGårAvVent/behandlingerSomGårAvVentType';
 import FordelingAvBehandlingstypePanel from './fordelingAvBehandlingstype/FordelingAvBehandlingstypePanel';
+import ferdigstilteHistorikk from '../../../../mocks/ferdigstilteHistorikk';
 
 interface OwnProps {
     alleOppgaver: AlleOppgaver[];
     ferdigstiltePerDato: HistoriskData[];
     behandlingerSomGårAvVent: IBehandlingerSomGarAvVentType[];
     beholdningPerDato?: HistoriskData[];
-    nyePerDato?: HistoriskData[];
 }
 
 /**
@@ -32,7 +32,6 @@ const NokkeltallPanel: FunctionComponent<OwnProps> = ({
   ferdigstiltePerDato,
   behandlingerSomGårAvVent,
   beholdningPerDato,
-  nyePerDato,
 }) => {
   const [width, setWidth] = useState(0);
   const height = 200;
@@ -66,7 +65,7 @@ const NokkeltallPanel: FunctionComponent<OwnProps> = ({
       <NyeHistorikkPanel
         width={width}
         height={height}
-        nyePerDato={nyePerDato}
+        nyePerDato={ferdigstilteHistorikk}
         getValueFromLocalStorage={getValueFromLocalStorage}
       />
       <VerticalSpacer twentyPx />

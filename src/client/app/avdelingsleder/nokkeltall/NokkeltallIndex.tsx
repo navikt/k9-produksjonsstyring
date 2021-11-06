@@ -37,7 +37,6 @@ const NokkeltallIndex: FunctionComponent = (
       ferdigstiltePerDato={ferdigstiltePerDato}
       behandlingerSomGårAvVent={behandlingerSomGårAvVent}
       beholdningPerDato={beholdningPerDato}
-      nyePerDato={nyePerDato}
     />
   );
 };
