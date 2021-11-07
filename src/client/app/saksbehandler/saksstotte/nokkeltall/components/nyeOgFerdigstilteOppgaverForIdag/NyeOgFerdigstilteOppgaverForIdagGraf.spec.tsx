@@ -5,9 +5,9 @@ import { XYPlot, Hint, HorizontalRectSeries } from 'react-vis';
 import { IntlShape } from 'react-intl';
 
 import { ISO_DATE_FORMAT } from 'utils/formats';
+import behandlingType from 'kodeverk/behandlingType';
 import { shallowWithIntl, intlMock } from '../../../../../../../../setup/testHelpers/intl-enzyme-test-helper';
 
-import behandlingType from 'kodeverk/behandlingType';
 import NyeOgFerdigstilteOppgaverForIdagGraf from './NyeOgFerdigstilteOppgaverForIdagGraf';
 
 describe('<NyeOgFerdigstilteOppgaverForIdagGraf>', () => {
@@ -34,10 +34,10 @@ describe('<NyeOgFerdigstilteOppgaverForIdagGraf>', () => {
   it('skal vise graf med 10 satt på x-linja når graf er tom', () => {
     const wrapper = shallowWithIntl(<NyeOgFerdigstilteOppgaverForIdagGraf.WrappedComponent
       intl={intl as IntlShape}
-      width={300}
       height={200}
       behandlingTyper={behandlingTyper}
       nyeOgFerdigstilteOppgaver={[]}
+      skalPunsjbehandlingerVises={false}
     />);
 
     const xYPlot = wrapper.find(XYPlot);
@@ -63,10 +63,10 @@ describe('<NyeOgFerdigstilteOppgaverForIdagGraf>', () => {
 
     const wrapper = shallowWithIntl(<NyeOgFerdigstilteOppgaverForIdagGraf.WrappedComponent
       intl={intl as IntlShape}
-      width={300}
       height={200}
       behandlingTyper={behandlingTyper}
       nyeOgFerdigstilteOppgaver={nyeOgFerdigstilteOppgaver}
+      skalPunsjbehandlingerVises={false}
     />);
 
     const xYPlot = wrapper.find(XYPlot);
@@ -92,10 +92,10 @@ describe('<NyeOgFerdigstilteOppgaverForIdagGraf>', () => {
 
     const wrapper = shallowWithIntl(<NyeOgFerdigstilteOppgaverForIdagGraf.WrappedComponent
       intl={intl as IntlShape}
-      width={300}
       height={200}
       behandlingTyper={behandlingTyper}
       nyeOgFerdigstilteOppgaver={nyeOgFerdigstilteOppgaver}
+      skalPunsjbehandlingerVises={false}
     />);
 
     const func = wrapper.find(HorizontalRectSeries).first().prop('onValueMouseOver') as (koordinat: {x: number; y: number }) => void;

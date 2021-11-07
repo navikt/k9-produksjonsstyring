@@ -1,4 +1,13 @@
-import { dateFormat } from 'avdelingsleder/nokkeltall/HistorikkGrafEcharts';
+// Fil som har felles styles eller definitioner som brukes som option til ReactECharts komponenten.
+
+// felles variabler
+
+// bar charts
+
+export const eChartMaxBarWith = 8;
+export const eChartYXAxisFontSizeSaksbehandlerNokkeltall = 15;
+
+export const eChartFargerForLegendsForMineNyeFerdigstilte = ['#0067C5', '#634689', '#FF9100'];
 
 export const eChartGridDef = {
   left: '3%',
@@ -25,4 +34,8 @@ export const eChartLegendStyle = {
     padding: 0,
     fontSize: 15,
   },
+};
+
+export const eChartTooltipTextStyle = {
+  fontSize: 16,
 };

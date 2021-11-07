@@ -1,22 +1,19 @@
-import React, {
-  useState, useMemo, useCallback, FunctionComponent, useRef,
-} from 'react';
-import {
-  XYPlot, XAxis, YAxis, VerticalGridLines, HorizontalRectSeries, Hint, DiscreteColorLegend,
-} from 'react-vis';
-import { FormattedMessage, injectIntl, WrappedComponentProps } from 'react-intl';
-import { Normaltekst } from 'nav-frontend-typografi';
-import Panel from 'nav-frontend-paneler';
+import React, { useMemo, FunctionComponent } from 'react';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 
 import Kodeverk from 'kodeverk/kodeverkTsType';
 import behandlingType from 'kodeverk/behandlingType';
 
-import { cssText } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
+import ReactECharts from 'sharedComponents/echart/ReactEcharts';
 import NyeOgFerdigstilteOppgaver from '../nyeOgFerdigstilteOppgaverTsType';
 
-import 'react-vis/dist/style.css';
-import styles from './nyeOgFerdigstilteOppgaverForIdagGraf.less';
-import punsjBehandlingstyper from '../../../../../types/PunsjBehandlingstyper';
+import {
+  eChartFargerForLegendsForMineNyeFerdigstilte,
+  eChartGridDef,
+  eChartLegendStyle,
+  eChartMaxBarWith,
+  eChartTooltipTextStyle, eChartYXAxisFontSizeSaksbehandlerNokkeltall,
+} from '../../../../../../styles/echartStyle';
 
 const behandlingstypeOrder = [
   behandlingType.TILBAKEBETALING,
@@ -26,63 +23,7 @@ const behandlingstypeOrder = [
   behandlingType.REVURDERING,
   behandlingType.FORSTEGANGSSOKNAD];
 
-interface Koordinat {
-  x: number;
-  y: number;
-}
-
-const settCustomHoydePaSoylene = (data, over) => {
-  const transformert = data.map((el) => ({
-    ...el,
-    y0: el.y + (over ? 0.15 : -0.13),
-    y: el.y + (over ? -0.07 : -0.35),
-  }));
-  transformert.unshift({ x: 0, y: 0.5 });
-  transformert.push({ x: 0, y: 4.5 });
-  return transformert;
-};
-
-const settCustomHoydePaSoylene2 = (data) => {
-  const transformert = data.map((el) => ({
-    ...el,
-    y0: el.y + 0.41,
-    y: el.y + 0.21,
-  }));
-  transformert.unshift({ x: 0, y: 0.5 });
-  transformert.push({ x: 0, y: 4.5 });
-  return transformert;
-};
-
-export const punsjYKoordinat = 3;
-
-const lagDatastrukturForFerdigstilte = (
-  nyeOgFerdigstilteOppgaver: NyeOgFerdigstilteOppgaver[],
-  skalPunsjVises: boolean,
-): Koordinat[] => settCustomHoydePaSoylene(
-  nyeOgFerdigstilteOppgaver.map((value) => ({
-    x: value.antallFerdigstilte,
-    y: skalPunsjVises ? punsjYKoordinat : behandlingstypeOrder.indexOf(value.behandlingType.kode) + 1,
-  })), true,
-);
-
-const lagDatastrukturForNye = (nyeOgFerdigstilteOppgaver: NyeOgFerdigstilteOppgaver[], skalPunsjVises: boolean): Koordinat[] => settCustomHoydePaSoylene2(
-  nyeOgFerdigstilteOppgaver.map((value) => ({
-    x: value.antallNye,
-    y: skalPunsjVises ? punsjYKoordinat : behandlingstypeOrder.indexOf(value.behandlingType.kode) + 1,
-  })),
-);
-
-export const lagDatastrukturForFerdigstilteMine = (
-  nyeOgFerdigstilteOppgaver: NyeOgFerdigstilteOppgaver[],
-  skalPunsjVises: boolean,
-): Koordinat[] => settCustomHoydePaSoylene(nyeOgFerdigstilteOppgaver
-  .map((value) => ({
-    x: value.antallFerdigstilteMine,
-    y: skalPunsjVises ? punsjYKoordinat : behandlingstypeOrder.indexOf(value.behandlingType.kode) + 1,
-  })), false);
-
 interface OwnProps {
-  width: number;
   height: number;
   behandlingTyper: Kodeverk[];
   nyeOgFerdigstilteOppgaver: NyeOgFerdigstilteOppgaver[];
@@ -92,134 +33,109 @@ interface OwnProps {
 /**
  * NyeOgFerdigstilteOppgaverForIdagGraf
  */
-export const NyeOgFerdigstilteOppgaverForIdagGraf: FunctionComponent<OwnProps & WrappedComponentProps> = ({
+const NyeOgFerdigstilteOppgaverForIdagGraf: FunctionComponent<OwnProps & WrappedComponentProps> = ({
   intl,
-  width,
   height,
   nyeOgFerdigstilteOppgaver,
   behandlingTyper,
   skalPunsjbehandlingerVises,
 }) => {
-  const [hintVerdi, setHintVerdi] = useState<Koordinat>();
+  const behandlingTypeNavnForYAkse = useMemo(() => {
+    if (skalPunsjbehandlingerVises) {
+      return ['Punsj'];
+    }
+    return behandlingstypeOrder.map((bType) => {
+      if (bType === behandlingType.FORSTEGANGSSOKNAD) {
+        return intl.formatMessage({ id: 'NyeOgFerdigstilteOppgaverForIdagGraf.Førstegangsbehandling' });
+      }
+      const type = behandlingTyper.find((bt) => bt.kode === bType);
+      return type ? type.navn : '';
+    });
+  }, [behandlingTyper, skalPunsjbehandlingerVises]);
 
-  const leggTilHintVerdi = useCallback((nyHintVerdi: {x: number; x0: number; y: number}) => {
-    setHintVerdi(nyHintVerdi);
-  }, []);
+  const ferdigLabel = intl.formatMessage({ id: 'NyeOgFerdigstilteOppgaverForIdagGraf.Ferdigstilte' });
+  const nyLabel = intl.formatMessage({ id: 'NyeOgFerdigstilteOppgaverForIdagGraf.Nye' });
+  const mineFerdigeLabel = intl.formatMessage({ id: 'NyeOgFerdigstilteOppgaverForIdagGraf.FerdigstilteMine' });
 
-  const fjernHintVerdi = useCallback(() => {
-    setHintVerdi(undefined);
-  }, []);
-
-  const isEmpty = nyeOgFerdigstilteOppgaver.length === 0;
-  const stateRef = useRef({ skalPunsjbehandlingerVises });
-  stateRef.current.skalPunsjbehandlingerVises = skalPunsjbehandlingerVises;
-
-  const ferdigstilteOppgaver = useMemo(
-    () => lagDatastrukturForFerdigstilte(nyeOgFerdigstilteOppgaver, stateRef.current.skalPunsjbehandlingerVises), [nyeOgFerdigstilteOppgaver],
-  );
-  const ferdigstilteOppgaverMine = useMemo(
-    () => lagDatastrukturForFerdigstilteMine(nyeOgFerdigstilteOppgaver, stateRef.current.skalPunsjbehandlingerVises), [nyeOgFerdigstilteOppgaver],
-  );
-  const nyeOppgaver = useMemo(() => lagDatastrukturForNye(nyeOgFerdigstilteOppgaver, stateRef.current.skalPunsjbehandlingerVises), [nyeOgFerdigstilteOppgaver]);
-
-  const hintAntall = useMemo(() => {
-    if (!hintVerdi) {
-      return undefined;
+  const filtrereUtRelevanteOppgaver = (valgtProperty: string): number[] => {
+    if (skalPunsjbehandlingerVises) {
+      let punsjAntallFerdigstilte = 0;
+      nyeOgFerdigstilteOppgaver.forEach((oppgave) => {
+        if (oppgave.behandlingType.kodeverk === 'PUNSJ_INNSENDING_TYPE') {
+          punsjAntallFerdigstilte = +oppgave[valgtProperty];
+        }
+      });
+      return [punsjAntallFerdigstilte];
     }
 
-    const isFerdigstiltVerdi = ferdigstilteOppgaver.find((b) => b.y === hintVerdi.y);
-    const isMineVerdi = ferdigstilteOppgaverMine.find((b) => b.y === hintVerdi.y);
-    if (isFerdigstiltVerdi) {
-      return intl.formatMessage({ id: 'NyeOgFerdigstilteOppgaverForIdagGraf.FerdigstiltAntall' }, { antall: hintVerdi.x });
-    }
-    if (isMineVerdi) {
-      return intl.formatMessage({ id: 'NyeOgFerdigstilteOppgaverForIdagGraf.MineAntall' }, { antall: hintVerdi.x });
-    }
-    return intl.formatMessage({ id: 'NyeOgFerdigstilteOppgaverForIdagGraf.NyeAntall' }, { antall: hintVerdi.x });
-  }, [hintVerdi]);
+    return behandlingstypeOrder.map((type) => {
+      const oppgave = nyeOgFerdigstilteOppgaver.find((o) => o.behandlingType.kode === type && o.behandlingType.kodeverk !== 'PUNSJ_INNSENDING_TYPE');
+      if (oppgave) {
+        return oppgave[valgtProperty];
+      }
+      return 0;
+    });
+  };
 
-  const finnBehandlingTypeNavn = useCallback((_v, i) => {
-    if (behandlingstypeOrder[i] === behandlingType.FORSTEGANGSSOKNAD && !stateRef.current.skalPunsjbehandlingerVises) {
-      return intl.formatMessage({ id: 'NyeOgFerdigstilteOppgaverForIdagGraf.Førstegangsbehandling' });
-    }
-    if (stateRef.current.skalPunsjbehandlingerVises) return 'Punsj';
-    const type = behandlingTyper.find((bt) => bt.kode === (stateRef.current.skalPunsjbehandlingerVises ? punsjBehandlingstyper[i] : behandlingstypeOrder[i]));
-    return type ? type.navn : '';
-  }, []);
+  const dataFerdigstilte = useMemo(() => filtrereUtRelevanteOppgaver('antallFerdigstilte'), [nyeOgFerdigstilteOppgaver]);
+  const dataNye = useMemo(() => filtrereUtRelevanteOppgaver('antallNye'), [nyeOgFerdigstilteOppgaver]);
+  const dataMineFerdigstilte = useMemo(() => filtrereUtRelevanteOppgaver('antallFerdigstilteMine'), [nyeOgFerdigstilteOppgaver]);
 
-  const maxXValue = useMemo(() => Math.max(...ferdigstilteOppgaver.map((b) => b.x)
-    .concat(nyeOppgaver.map((b) => b.x))
-    .concat(ferdigstilteOppgaverMine.map((b) => b.x))) + 2,
-  [ferdigstilteOppgaver, nyeOppgaver, ferdigstilteOppgaverMine]);
   return (
-    <Panel>
-      <XYPlot
-        dontCheckIfEmpty={isEmpty}
-        margin={{
-          left: stateRef.current.skalPunsjbehandlingerVises ? 55 : 127, right: 30, top: 0, bottom: 30,
-        }}
-        width={width}
-        height={height}
-        yDomain={stateRef.current.skalPunsjbehandlingerVises ? [0, 6] : [0, 7]}
-        xDomain={[0, isEmpty ? 10 : maxXValue]}
-      >
-        <VerticalGridLines />
-        <XAxis style={{ text: cssText }} />
-        <YAxis
-          style={{ text: cssText }}
-          tickFormat={finnBehandlingTypeNavn}
-          tickValues={stateRef.current.skalPunsjbehandlingerVises ? [punsjYKoordinat] : [1, 2, 3, 4, 5, 6]}
-        />
-        <HorizontalRectSeries
-          data={nyeOppgaver}
-          onValueMouseOver={leggTilHintVerdi}
-          onValueMouseOut={fjernHintVerdi}
-          fill="#0067C5"
-          stroke="#0067C5"
-          opacity={0.5}
-        />
-        <HorizontalRectSeries
-          data={ferdigstilteOppgaver}
-          onValueMouseOver={leggTilHintVerdi}
-          onValueMouseOut={fjernHintVerdi}
-          fill="#634689"
-          stroke="#634689"
-          opacity={0.5}
-        />
-        <HorizontalRectSeries
-          data={ferdigstilteOppgaverMine}
-          onValueMouseOver={leggTilHintVerdi}
-          onValueMouseOut={fjernHintVerdi}
-          fill="#FF9100"
-          stroke="#FF9100"
-          opacity={0.5}
-        />
-        {hintVerdi && (
-          <Hint value={hintVerdi}>
-            <div className={styles.hint}>
-              {hintAntall}
-            </div>
-          </Hint>
-        )}
-      </XYPlot>
-      <div className={styles.center}>
-        <DiscreteColorLegend
-          orientation="horizontal"
-          colors={['#0067C5', '#634689', '#FF9100']}
-          items={[
-            <Normaltekst key="NyeOgFerdigstilteOppgaverForIdagGraf.Nye" className={styles.displayInline}>
-              <FormattedMessage id="NyeOgFerdigstilteOppgaverForIdagGraf.Nye" />
-            </Normaltekst>,
-            <Normaltekst key="NyeOgFerdigstilteOppgaverForIdagGraf.Ferdigstilte" className={styles.displayInline}>
-              <FormattedMessage id="NyeOgFerdigstilteOppgaverForIdagGraf.Ferdigstilte" />
-            </Normaltekst>,
-            <Normaltekst key="NyeOgFerdigstilteOppgaverForIdagGraf.FerdigstilteMine" className={styles.displayInline}>
-              <FormattedMessage id="NyeOgFerdigstilteOppgaverForIdagGraf.FerdigstilteMine" />
-            </Normaltekst>,
-          ]}
-        />
-      </div>
-    </Panel>
+    <ReactECharts
+      height={height}
+      option={{
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {
+            type: 'shadow',
+          },
+          textStyle: eChartTooltipTextStyle,
+        },
+        legend: {
+          ...eChartLegendStyle,
+          data: [ferdigLabel, nyLabel, mineFerdigeLabel],
+        },
+        grid: eChartGridDef,
+        xAxis: {
+          type: 'value',
+          minInterval: 1,
+          axisLabel: {
+            fontSize: eChartYXAxisFontSizeSaksbehandlerNokkeltall,
+          },
+          boundaryGap: [0, 0.01],
+        },
+        yAxis: {
+          type: 'category',
+          axisLabel: {
+            fontSize: eChartYXAxisFontSizeSaksbehandlerNokkeltall,
+            margin: 15,
+          },
+          data: behandlingTypeNavnForYAkse,
+        },
+        series: [
+          {
+            name: nyLabel,
+            type: 'bar',
+            data: dataNye,
+            barMaxWidth: eChartMaxBarWith,
+          },
+          {
+            name: ferdigLabel,
+            type: 'bar',
+            data: dataFerdigstilte,
+            barMaxWidth: eChartMaxBarWith,
+          },
+          {
+            name: mineFerdigeLabel,
+            type: 'bar',
+            data: dataMineFerdigstilte,
+            barMaxWidth: eChartMaxBarWith,
+          },
+        ],
+        color: eChartFargerForLegendsForMineNyeFerdigstilte,
+      }}
+    />
   );
 };
 

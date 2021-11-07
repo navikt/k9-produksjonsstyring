@@ -14,10 +14,10 @@ import {
   slaSammenLikeBehandlingstyperForNyeOgFerdigstilleOppgaver,
 } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
 import { Select } from 'nav-frontend-skjema';
-import NyeOgFerdigstilteOppgaverForIdagEchartGraf
-  from 'saksbehandler/saksstotte/nokkeltall/components/nyeOgFerdigstilteOppgaverForIdag/NyeOgFerdigstilteOppgaverForIdagEchartGraf';
-import styles from './nyeOgFerdigstilteOppgaverForIdagGraf.less';
+import NyeOgFerdigstilteOppgaverForIdagGraf
+  from 'saksbehandler/saksstotte/nokkeltall/components/nyeOgFerdigstilteOppgaverForIdag/NyeOgFerdigstilteOppgaverForIdagGraf';
 import NyeOgFerdigstilteOppgaver, { fagytelsetyperForOppgaveFiltrering } from '../nyeOgFerdigstilteOppgaverTsType';
+import styles from '../nyeOgFerdigstilteOppgaverFelles.less';
 
 export const getNyeOgFerdigstilteForIDag = (nyeOgFerdigstilte: NyeOgFerdigstilteOppgaver[] = []) => {
   const iDag = moment();
@@ -25,7 +25,6 @@ export const getNyeOgFerdigstilteForIDag = (nyeOgFerdigstilte: NyeOgFerdigstilte
 };
 
 interface OwnProps {
-    width: number;
     height: number;
     nyeOgFerdigstilteOppgaver: NyeOgFerdigstilteOppgaver[];
 }
@@ -34,7 +33,6 @@ interface OwnProps {
  * NyeOgFerdigstilteOppgaverForIdagPanel.
  */
 export const NyeOgFerdigstilteOppgaverForIdagPanel: FunctionComponent<OwnProps> = ({
-  width,
   height,
   nyeOgFerdigstilteOppgaver,
 }) => {
@@ -90,19 +88,17 @@ export const NyeOgFerdigstilteOppgaverForIdagPanel: FunctionComponent<OwnProps> 
           aria-label="Velg ytelse"
           onChange={(e) => setSelectValue(e.target.value)}
         >
-          <option value="" disabled selected>Velg ytelse</option>
+          <option value="" disabled defaultValue={ALLE_YTELSETYPER_VALGT}>Velg ytelse</option>
           {Object.values(fagytelsetyperForOppgaveFiltrering).map((rel) => <option key={rel} value={rel}>{rel}</option>)}
         </Select>
       </div>
 
-      <NyeOgFerdigstilteOppgaverForIdagEchartGraf
-        width={width}
+      <NyeOgFerdigstilteOppgaverForIdagGraf
         height={height}
         nyeOgFerdigstilteOppgaver={hentOppgave()}
         behandlingTyper={behandlingTyper}
         skalPunsjbehandlingerVises={skalPunsjVises}
       />
-
     </>
   );
 };

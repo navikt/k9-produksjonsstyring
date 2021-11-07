@@ -11,11 +11,11 @@ import {
   sjekkOmOppgaveSkalLeggesTil, slaSammenAllePunsjBehandlingstyperForNyeOgFerdigstilleOppgaver,
   slaSammenLikeBehandlingstyperForNyeOgFerdigstilleOppgaver,
 } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
-import styles
-  from 'saksbehandler/saksstotte/nokkeltall/components/nyeOgFerdigstilteOppgaverForSisteSyv/nyeOgFerdigstilteOppgaverForSisteSyvGraf.less';
 import { Select } from 'nav-frontend-skjema';
-import NyeOgFerdigstilteOppgaverForSisteSyvEchartGraf
-  from 'saksbehandler/saksstotte/nokkeltall/components/nyeOgFerdigstilteOppgaverForSisteSyv/NyeOgFerdigstilteOppgaverForSisteSyvEchartGraf';
+import NyeOgFerdigstilteOppgaverForSisteSyvGraf
+  from 'saksbehandler/saksstotte/nokkeltall/components/nyeOgFerdigstilteOppgaverForSisteSyv/NyeOgFerdigstilteOppgaverForSisteSyvGraf';
+import styles
+  from '../nyeOgFerdigstilteOppgaverFelles.less';
 import NyeOgFerdigstilteOppgaver, { fagytelsetyperForOppgaveFiltrering } from '../nyeOgFerdigstilteOppgaverTsType';
 
 export const getNyeOgFerdigstilteForSisteSyvDager = (nyeOgFerdigstilte: NyeOgFerdigstilteOppgaver[] = []) => {
@@ -24,7 +24,6 @@ export const getNyeOgFerdigstilteForSisteSyvDager = (nyeOgFerdigstilte: NyeOgFer
 };
 
 interface OwnProps {
-  width: number;
   height: number;
   nyeOgFerdigstilteOppgaver: NyeOgFerdigstilteOppgaver[];
 }
@@ -33,7 +32,6 @@ interface OwnProps {
  * NyeOgFerdigstilteOppgaverForSisteSyvPanel.
  */
 export const NyeOgFerdigstilteOppgaverForSisteSyvPanel: FunctionComponent<OwnProps> = ({
-  width,
   height,
   nyeOgFerdigstilteOppgaver,
 }) => {
@@ -85,13 +83,11 @@ export const NyeOgFerdigstilteOppgaverForSisteSyvPanel: FunctionComponent<OwnPro
           aria-label="Velg ytelse"
           onChange={(e) => setSelectValue(e.target.value)}
         >
-          <option value="" disabled selected>Velg ytelse</option>
+          <option value="" disabled defaultValue={ALLE_YTELSETYPER_VALGT}>Velg ytelse</option>
           {Object.values(fagytelsetyperForOppgaveFiltrering).map((rel) => <option key={rel} value={rel}>{rel}</option>)}
         </Select>
       </div>
-
-      <NyeOgFerdigstilteOppgaverForSisteSyvEchartGraf
-        width={width}
+      <NyeOgFerdigstilteOppgaverForSisteSyvGraf
         height={height}
         nyeOgFerdigstilteOppgaver={hentOppgaver()}
       />
