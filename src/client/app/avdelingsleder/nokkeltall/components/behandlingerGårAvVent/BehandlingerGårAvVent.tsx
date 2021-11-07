@@ -13,6 +13,8 @@ import BehandlingerGårAvVentGraf
   from 'avdelingsleder/nokkeltall/components/behandlingerGårAvVent/BehandlingerGårAvVentGraf';
 import Hjelpetekst from 'nav-frontend-hjelpetekst';
 import { ytelseTyperForBehandlingerPåVentGraf } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
+import BehandlingerGårAvVentEchartGraf
+  from 'avdelingsleder/nokkeltall/components/behandlingerGårAvVent/BehandlingerGårAvVentEchartGraf';
 import styles from './behandlingerGårAvVent.less';
 
 interface OwnProps{
@@ -31,7 +33,7 @@ const BehandlingerGårAvVent: FunctionComponent<OwnProps & WrappedComponentProps
   const [antallUkerSomSkalVises, setAntallUkerSomSkalVises] = useState<string>('2');
 
   const PSBBehandlinger: IBehandlingerSomGarAvVentType[] = behandlingerSomGårAvVent.filter(
-    (behandling) => behandling.fagsakYtelseType.kode === fagsakYtelseType.PLEIEPENGER_SYKT_BARN,
+    (behandling) => behandling.fagsakYtelseType.kode === fagsakYtelseType.PLEIEPENGER_SYKT_BARN && behandling.behandlingType.kodeverk === 'PUNSJ_INNSENDING_TYPE',
   );
 
   const OMPBehandlinger: IBehandlingerSomGarAvVentType[] = behandlingerSomGårAvVent.filter(
@@ -49,13 +51,17 @@ const BehandlingerGårAvVent: FunctionComponent<OwnProps & WrappedComponentProps
     (behandling) => behandling.behandlingType.kodeverk === 'PUNSJ_INNSENDING_TYPE',
   );
 
+  const AlleBehandlingerUtomPunsj: IBehandlingerSomGarAvVentType[] = behandlingerSomGårAvVent.filter(
+    (behandling) => behandling.behandlingType.kodeverk !== 'PUNSJ_INNSENDING_TYPE',
+  );
+
   const hentBehandlingerKnyttetTilYtelseType = () => {
     switch (valgtYtelseType) {
       case fagsakYtelseType.PLEIEPENGER_SYKT_BARN: return PSBBehandlinger;
       case fagsakYtelseType.OMSORGSPENGER: return OMPBehandlinger;
       case fagsakYtelseType.OMSORGSDAGER: return OMDBehandlinger;
       case fagsakYtelseType.PUNSJ: return PunsjBehandlinger;
-      default: return behandlingerSomGårAvVent;
+      default: return AlleBehandlingerUtomPunsj;
     }
   };
 
@@ -87,7 +93,7 @@ const BehandlingerGårAvVent: FunctionComponent<OwnProps & WrappedComponentProps
         </Column>
       </Row>
       <VerticalSpacer sixteenPx />
-      <BehandlingerGårAvVentGraf
+      <BehandlingerGårAvVentEchartGraf
         behandlingerSomGårAvVent={hentBehandlingerKnyttetTilYtelseType()}
         width={width}
         height={height}

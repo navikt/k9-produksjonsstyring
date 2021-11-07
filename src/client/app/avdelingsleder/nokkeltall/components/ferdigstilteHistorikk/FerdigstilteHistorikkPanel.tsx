@@ -19,6 +19,7 @@ import {
 import useKodeverk from 'api/rest-api-hooks/src/global-data/useKodeverk';
 import StoreValuesInLocalStorage from 'form/StoreValuesInLocalStorage';
 import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
+import HistorikkGrafEcharts from 'avdelingsleder/nokkeltall/HistorikkGrafEcharts';
 import HistorikkGraf from '../../HistorikkGraf';
 import HistoriskData from '../../historiskDataTsType';
 
@@ -83,9 +84,7 @@ export const FerdigstilteHistorikkPanel: FunctionComponent<OwnProps & WrappedCom
             </Column>
           </Row>
           <VerticalSpacer sixteenPx />
-          <HistorikkGraf
-            width={width}
-            height={height}
+          <HistorikkGrafEcharts
             isFireUkerValgt={values.ukevalg === UKE_4}
             behandlingTyper={behandlingTyper}
             historiskData={filtrereNyePerDato(values.ytelseType, values.ukevalg, ferdigstiltePerDato)}

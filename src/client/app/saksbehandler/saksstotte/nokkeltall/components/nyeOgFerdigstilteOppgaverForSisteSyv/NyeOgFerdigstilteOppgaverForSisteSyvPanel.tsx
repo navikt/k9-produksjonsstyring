@@ -14,7 +14,8 @@ import {
 import styles
   from 'saksbehandler/saksstotte/nokkeltall/components/nyeOgFerdigstilteOppgaverForSisteSyv/nyeOgFerdigstilteOppgaverForSisteSyvGraf.less';
 import { Select } from 'nav-frontend-skjema';
-import NyeOgFerdigstilteOppgaverForSisteSyvGraf from './NyeOgFerdigstilteOppgaverForSisteSyvGraf';
+import NyeOgFerdigstilteOppgaverForSisteSyvEchartGraf
+  from 'saksbehandler/saksstotte/nokkeltall/components/nyeOgFerdigstilteOppgaverForSisteSyv/NyeOgFerdigstilteOppgaverForSisteSyvEchartGraf';
 import NyeOgFerdigstilteOppgaver, { fagytelsetyperForOppgaveFiltrering } from '../nyeOgFerdigstilteOppgaverTsType';
 
 export const getNyeOgFerdigstilteForSisteSyvDager = (nyeOgFerdigstilte: NyeOgFerdigstilteOppgaver[] = []) => {
@@ -89,7 +90,7 @@ export const NyeOgFerdigstilteOppgaverForSisteSyvPanel: FunctionComponent<OwnPro
         </Select>
       </div>
 
-      <NyeOgFerdigstilteOppgaverForSisteSyvGraf
+      <NyeOgFerdigstilteOppgaverForSisteSyvEchartGraf
         width={width}
         height={height}
         nyeOgFerdigstilteOppgaver={hentOppgaver()}

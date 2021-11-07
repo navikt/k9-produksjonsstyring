@@ -1,4 +1,4 @@
-const dato = '2021-08-29';
+const dato = '2021-11-07';
 const nyeOgFerdigstilteOppgaver = [
   {
     fagsakYtelseType: {
@@ -51,6 +51,22 @@ const nyeOgFerdigstilteOppgaver = [
   {
     fagsakYtelseType: {
       kode: 'OMP_MA',
+      navn: 'Omsorgsdager: midlertidig alene',
+      kodeverk: 'FAGSAK_YTELSE_TYPE',
+    },
+    behandlingType: {
+      kode: 'BT-004',
+      navn: 'Revurdering',
+      kodeverk: 'ae0028',
+    },
+    dato,
+    antallNye: 1,
+    antallFerdigstilte: 1,
+    antallFerdigstilteMine: 1,
+  },
+  {
+    fagsakYtelseType: {
+      kode: 'OMP_KS',
       navn: 'Omsorgsdager: midlertidig alene',
       kodeverk: 'FAGSAK_YTELSE_TYPE',
     },

@@ -82,8 +82,6 @@ export const NyeHistorikkPanel: FunctionComponent<OwnProps & WrappedComponentPro
           </Row>
           <VerticalSpacer sixteenPx />
           <HistorikkGrafEcharts
-            width={width}
-            height={height}
             isFireUkerValgt={values.ukevalg === UKE_4}
             behandlingTyper={behandlingTyper}
             historiskData={filtrereNyePerDato(values.ytelseType, values.ukevalg, nyePerDato)}

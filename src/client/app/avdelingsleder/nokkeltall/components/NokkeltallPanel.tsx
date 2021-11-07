@@ -16,11 +16,12 @@ import IBehandlingerSomGarAvVentType
   from 'avdelingsleder/nokkeltall/components/behandlingerGårAvVent/behandlingerSomGårAvVentType';
 import FordelingAvBehandlingstypePanel from './fordelingAvBehandlingstype/FordelingAvBehandlingstypePanel';
 import ferdigstilteHistorikk from '../../../../mocks/ferdigstilteHistorikk';
+import behandlingerSomGårAvVent from '../../../../mocks/behandlingerSomGårAvVent';
 
 interface OwnProps {
     alleOppgaver: AlleOppgaver[];
     ferdigstiltePerDato: HistoriskData[];
-    behandlingerSomGårAvVent: IBehandlingerSomGarAvVentType[];
+    behandlingerSomGårAvVentt: IBehandlingerSomGarAvVentType[];
     beholdningPerDato?: HistoriskData[];
 }
 
@@ -30,7 +31,7 @@ interface OwnProps {
 const NokkeltallPanel: FunctionComponent<OwnProps> = ({
   alleOppgaver,
   ferdigstiltePerDato,
-  behandlingerSomGårAvVent,
+  behandlingerSomGårAvVentt,
   beholdningPerDato,
 }) => {
   const [width, setWidth] = useState(0);
@@ -72,14 +73,14 @@ const NokkeltallPanel: FunctionComponent<OwnProps> = ({
       <FerdigstilteHistorikkPanel
         width={width}
         height={height}
-        ferdigstiltePerDato={ferdigstiltePerDato}
+        ferdigstiltePerDato={ferdigstilteHistorikk}
         getValueFromLocalStorage={getValueFromLocalStorage}
       />
       <VerticalSpacer twentyPx />
       <BeholdningHistorikkPanel
         width={width}
         height={height}
-        beholdningPerDato={beholdningPerDato}
+        beholdningPerDato={ferdigstilteHistorikk}
         getValueFromLocalStorage={getValueFromLocalStorage}
       />
       <VerticalSpacer twentyPx />

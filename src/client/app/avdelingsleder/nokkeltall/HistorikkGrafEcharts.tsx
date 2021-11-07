@@ -1,5 +1,5 @@
 import React, {
-  useMemo, useState, FunctionComponent, useCallback,
+  useMemo, useState, FunctionComponent, useCallback, useReducer, useEffect,
 } from 'react';
 import { Normaltekst, Undertekst } from 'nav-frontend-typografi';
 import dayjs from 'dayjs';
@@ -24,6 +24,7 @@ const behandlingstypeFarger = {
   [behandlingType.REVURDERING]: '#66CBEC',
   [behandlingType.FORSTEGANGSSOKNAD]: '#0067C5',
   [behandlingType.TILBAKEBETALING]: '#06893A',
+  PUNSJ: '#06893A',
 };
 
 export const DDMMYYYY_DATE_FORMAT = 'DD.MM.YYYY';
@@ -47,6 +48,8 @@ const konverterTilKoordinaterGruppertPaBehandlingstype = (oppgaverForAvdeling: H
     };
 
     const eksisterendeKoordinater = acc[o.behandlingType.kode];
+    console.log('eksisterendeKoordinater', eksisterendeKoordinater);
+
     return {
       ...acc,
       [o.behandlingType.kode]: (eksisterendeKoordinater ? eksisterendeKoordinater.concat(nyKoordinat) : [nyKoordinat]),
@@ -72,19 +75,13 @@ const fyllInnManglendeDatoerOgSorterEtterDato = (
   };
 }, {});
 
-const finnAntallForBehandlingstypeOgDato = (data, behandlingstype, dato) => {
-  const koordinat = data[behandlingstype].find((d) => d.x.getTime() === dato.getTime());
-  return koordinat.y;
-};
-
 const finnBehandlingTypeNavn = (behandlingTyper, behandlingTypeKode: string) => {
+  if (behandlingTypeKode === 'PUNSJ') return 'Punsj';
   const type = behandlingTyper.find((bt) => bt.kode === behandlingTypeKode);
   return type ? type.navn : '';
 };
 
 interface OwnProps {
-  width: number;
-  height: number;
   behandlingTyper: Kodeverk[];
   historiskData: HistoriskData[];
   isFireUkerValgt: boolean;
@@ -100,8 +97,6 @@ export const lagKoordinater = (oppgaverPerForsteStonadsdag): Koordinat[] => oppg
  * TilBehandlingGraf.
  */
 const HistorikkGrafEcharts: FunctionComponent<OwnProps> = ({
-  width,
-  height,
   historiskData,
   isFireUkerValgt,
   behandlingTyper,
@@ -111,12 +106,18 @@ const HistorikkGrafEcharts: FunctionComponent<OwnProps> = ({
   const periodeSlutt = dayjs().subtract(1, 'd');
 
   const koordinater = useMemo(() => konverterTilKoordinaterGruppertPaBehandlingstype(historiskData), [historiskData]);
-
   const data = useMemo(() => fyllInnManglendeDatoerOgSorterEtterDato(koordinater, periodeStart, periodeSlutt), [koordinater, periodeStart, periodeSlutt]);
-  const alleBehandlingstyperSortert = behandlingTyper.map((bt) => bt.kode).sort(sorterBehandlingtyper);
+
+  const alleBehandlingstyperSortert = erPunsjValgt ? ['PUNSJ'] : behandlingTyper.map((bt) => bt.kode).sort(sorterBehandlingtyper);
   const sorterteBehandlingstyper = Object.keys(data).sort(sorterBehandlingtyper);
-  const reversertSorterteBehandlingstyper = sorterteBehandlingstyper.slice().reverse();
+  const reversertSorterteBehandlingstyper = erPunsjValgt ? [] : sorterteBehandlingstyper.slice().reverse();
   const farger = alleBehandlingstyperSortert.map((bt) => behandlingstypeFarger[bt]);
+
+  console.log('koordinater', koordinater);
+  console.log('data', data);
+  console.log('alleBehandlingstyperSortert', alleBehandlingstyperSortert);
+  console.log('sorterteBehandlingstyper', sorterteBehandlingstyper);
+  console.log('reversertSorterteBehandlingstyper', reversertSorterteBehandlingstyper);
 
   return (
     <ReactECharts
@@ -161,7 +162,9 @@ const HistorikkGrafEcharts: FunctionComponent<OwnProps> = ({
         },
         xAxis: [
           {
+            // bruker category istedet for time for att vise alle dato og ikke bara hvert femte.
             type: 'category',
+            // boundaryGap ser till att dato hamnar på en linje istället for mellom.
             // @ts-ignore
             boundaryGap: false,
             minInterval: 1,
@@ -170,6 +173,7 @@ const HistorikkGrafEcharts: FunctionComponent<OwnProps> = ({
               alignWithLabel: true,
             },
             axisLabel: {
+              // viser månad og dato dersom det er valgt fire uker og dato dersom åtte uker er valgt.
               formatter(value) {
                 const oppstykketDato = value.split('-');
                 if (oppstykketDato[1] && oppstykketDato[2]) {
@@ -180,6 +184,7 @@ const HistorikkGrafEcharts: FunctionComponent<OwnProps> = ({
               fontSize: 12,
               interval: 0,
             },
+            // Denne setter de horisontala linjerna sammen med axisTick.
             splitLine: {
               show: true,
             },

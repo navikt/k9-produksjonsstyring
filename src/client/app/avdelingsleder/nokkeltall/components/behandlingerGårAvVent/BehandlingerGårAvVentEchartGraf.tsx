@@ -1,0 +1,158 @@
+import React, {
+  FunctionComponent, useCallback, useMemo, useState,
+} from 'react';
+import IBehandlingerSomGarAvVentType
+  from 'avdelingsleder/nokkeltall/components/behandlingerGårAvVent/behandlingerSomGårAvVentType';
+import { DDMMYYYY_DATE_FORMAT, ISO_DATE_FORMAT } from 'utils/formats';
+
+import Panel from 'nav-frontend-paneler';
+import {
+  XYPlot, XAxis, YAxis, HorizontalGridLines, LineSeries, Crosshair,
+} from 'react-vis';
+import { cssText } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
+import dayjs from 'dayjs';
+import styles
+  from 'saksbehandler/saksstotte/nokkeltall/components/nyeOgFerdigstilteOppgaverForSisteSyv/nyeOgFerdigstilteOppgaverForSisteSyvGraf.less';
+import { Normaltekst, Undertekst } from 'nav-frontend-typografi';
+import { FormattedMessage } from 'react-intl';
+import ReactECharts from 'sharedComponents/echart/ReactEcharts';
+import { dateFormat } from 'avdelingsleder/nokkeltall/HistorikkGrafEcharts';
+import Koordinat from '../../../../types/Koordinat';
+
+const slaSammenBehandlingstyperOgFyllInnTomme = (behandlingerPåVent: IBehandlingerSomGarAvVentType[], antallUkerFremITid: number):
+  [string, number][] => {
+  const behandlingerSomGårAvVentPerDag = [];
+  const antallDagerFremITid: number = antallUkerFremITid * 7;
+
+  if (behandlingerPåVent.length > 0) {
+    const iDag = dayjs().startOf('day');
+    const dagerFremITid = dayjs().add(antallDagerFremITid, 'days').startOf('day');
+
+    for (let dato = iDag; dato.isBefore(dagerFremITid); dato = dato.add(1, 'days')) {
+      const behandlingerSomGårAvVentPåDenneDagen = behandlingerPåVent.filter((o) => dayjs(o.dato).startOf('day').isSame(dato));
+      if (behandlingerSomGårAvVentPåDenneDagen.length === 0) {
+        behandlingerSomGårAvVentPerDag.push([
+          dayjs(dato).format(ISO_DATE_FORMAT),
+          0,
+        ]);
+      } else {
+        behandlingerSomGårAvVentPerDag.push(
+          [
+            dayjs(dato).format(ISO_DATE_FORMAT),
+            behandlingerSomGårAvVentPåDenneDagen.reduce((acc, d) => acc + d.antall, 0),
+          ],
+        );
+      }
+    }
+  }
+  return behandlingerSomGårAvVentPerDag;
+};
+
+interface OwnProps{
+  behandlingerSomGårAvVent: IBehandlingerSomGarAvVentType[];
+  antallUkerSomSkalVises: string;
+}
+
+const BehandlingerGårAvVentEchartGraf: FunctionComponent<OwnProps> = ({
+  behandlingerSomGårAvVent,
+  antallUkerSomSkalVises,
+}) => {
+  console.log('behandlingerSomGårAvVent', behandlingerSomGårAvVent);
+  const behandlingerSomGårAvVentToUkerFremITid: [string, number][] = useMemo(
+    () => slaSammenBehandlingstyperOgFyllInnTomme(behandlingerSomGårAvVent, 2),
+    [behandlingerSomGårAvVent],
+  );
+
+  const behandlingerSomGårAvVentFireUkerFremITid: [string, number][] = useMemo(
+    () => slaSammenBehandlingstyperOgFyllInnTomme(behandlingerSomGårAvVent, 4),
+    [behandlingerSomGårAvVent],
+  );
+
+  return (
+    <ReactECharts
+      height={300}
+      option={{
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {
+            type: 'line',
+            lineStyle: {
+              type: 'solid',
+            },
+            label: {
+              formatter: (params) => {
+                if (params.axisDimension === 'y') {
+                  return parseInt(params.value as string, 10).toString();
+                }
+                return dateFormat(params.value as string);
+              },
+            },
+          },
+          textStyle: {
+            fontSize: 16,
+          },
+        },
+        grid: {
+          left: '3%',
+          right: '4%',
+          bottom: '15%',
+          containLabel: true,
+        },
+        xAxis: [
+          {
+            // bruker category istedet for time for att vise alle dato og ikke bara hvert femte.
+            type: 'category',
+            // boundaryGap ser till att dato hamnar på en linje istället for mellom.
+            // @ts-ignore
+            boundaryGap: false,
+            minInterval: 1,
+            axisTick: {
+              show: true,
+              alignWithLabel: true,
+            },
+            axisLabel: {
+              // viser månad og dato dersom det er valgt fire uker og dato dersom åtte uker er valgt.
+              formatter(value) {
+                const oppstykketDato = value.split('-');
+                if (oppstykketDato[1] && oppstykketDato[2]) {
+                  return `${oppstykketDato[2]}.${oppstykketDato[1]}`;
+                }
+                return value;
+              },
+              fontSize: 12,
+              interval: 0,
+            },
+            // Denne setter de horisontala linjerna sammen med axisTick.
+            splitLine: {
+              show: true,
+            },
+          },
+
+        ],
+        yAxis: [
+          {
+            type: 'value',
+            minInterval: 1,
+            axisLabel: {
+              fontSize: 15,
+              margin: 15,
+            },
+          },
+        ],
+        series:
+      {
+        name: 'Antall',
+        type: 'line',
+        symbolSize: 10,
+        areaStyle: {},
+        emphasis: {
+          focus: 'series',
+        },
+        data: antallUkerSomSkalVises === '4' ? behandlingerSomGårAvVentFireUkerFremITid : behandlingerSomGårAvVentToUkerFremITid,
+      },
+        color: '#FF9100',
+      }}
+    />
+  );
+};
+export default BehandlingerGårAvVentEchartGraf;

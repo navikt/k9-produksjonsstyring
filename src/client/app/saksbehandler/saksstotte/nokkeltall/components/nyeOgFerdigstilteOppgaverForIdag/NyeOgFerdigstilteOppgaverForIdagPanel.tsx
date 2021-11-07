@@ -14,8 +14,9 @@ import {
   slaSammenLikeBehandlingstyperForNyeOgFerdigstilleOppgaver,
 } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
 import { Select } from 'nav-frontend-skjema';
+import NyeOgFerdigstilteOppgaverForIdagEchartGraf
+  from 'saksbehandler/saksstotte/nokkeltall/components/nyeOgFerdigstilteOppgaverForIdag/NyeOgFerdigstilteOppgaverForIdagEchartGraf';
 import styles from './nyeOgFerdigstilteOppgaverForIdagGraf.less';
-import NyeOgFerdigstilteOppgaverForIdagGraf from './NyeOgFerdigstilteOppgaverForIdagGraf';
 import NyeOgFerdigstilteOppgaver, { fagytelsetyperForOppgaveFiltrering } from '../nyeOgFerdigstilteOppgaverTsType';
 
 export const getNyeOgFerdigstilteForIDag = (nyeOgFerdigstilte: NyeOgFerdigstilteOppgaver[] = []) => {
@@ -94,7 +95,7 @@ export const NyeOgFerdigstilteOppgaverForIdagPanel: FunctionComponent<OwnProps> 
         </Select>
       </div>
 
-      <NyeOgFerdigstilteOppgaverForIdagGraf
+      <NyeOgFerdigstilteOppgaverForIdagEchartGraf
         width={width}
         height={height}
         nyeOgFerdigstilteOppgaver={hentOppgave()}

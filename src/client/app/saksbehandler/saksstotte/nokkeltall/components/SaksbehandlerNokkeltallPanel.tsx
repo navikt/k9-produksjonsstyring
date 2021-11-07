@@ -16,7 +16,7 @@ interface OwnProps {
  */
 const SaksbehandlerNokkeltallPanel: FunctionComponent<OwnProps> = ({ nyeOgFerdigstilteOppgaver }) => {
   const [width, setWidth] = useState(0);
-  const height = 200;
+  const height = 300;
 
   const ref = useRef(null);
 
