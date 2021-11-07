@@ -9,24 +9,18 @@ import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
 import IBehandlingerSomGarAvVentType
   from 'avdelingsleder/nokkeltall/components/behandlingerGårAvVent/behandlingerSomGårAvVentType';
-import BehandlingerGårAvVentGraf
-  from 'avdelingsleder/nokkeltall/components/behandlingerGårAvVent/BehandlingerGårAvVentGraf';
 import Hjelpetekst from 'nav-frontend-hjelpetekst';
 import { ytelseTyperForBehandlingerPåVentGraf } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
-import BehandlingerGårAvVentEchartGraf
-  from 'avdelingsleder/nokkeltall/components/behandlingerGårAvVent/BehandlingerGårAvVentEchartGraf';
+import BehandlingerGarAvVentGraf
+  from 'avdelingsleder/nokkeltall/components/behandlingerGårAvVent/BehandlingerGårAvVentGraf';
 import styles from './behandlingerGårAvVent.less';
 
 interface OwnProps{
-  width: number;
-  height: number;
   behandlingerSomGårAvVent: IBehandlingerSomGarAvVentType[];
 }
 
 const BehandlingerGårAvVent: FunctionComponent<OwnProps & WrappedComponentProps> = ({
   intl,
-  width,
-  height,
   behandlingerSomGårAvVent,
 }) => {
   const [valgtYtelseType, setValgtYtelseType] = useState<string>('Alle');
@@ -93,10 +87,8 @@ const BehandlingerGårAvVent: FunctionComponent<OwnProps & WrappedComponentProps
         </Column>
       </Row>
       <VerticalSpacer sixteenPx />
-      <BehandlingerGårAvVentEchartGraf
+      <BehandlingerGarAvVentGraf
         behandlingerSomGårAvVent={hentBehandlingerKnyttetTilYtelseType()}
-        width={width}
-        height={height}
         antallUkerSomSkalVises={antallUkerSomSkalVises}
       />
     </Panel>

@@ -19,8 +19,7 @@ import {
 import useKodeverk from 'api/rest-api-hooks/src/global-data/useKodeverk';
 import StoreValuesInLocalStorage from 'form/StoreValuesInLocalStorage';
 import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
-import HistorikkGrafEcharts from 'avdelingsleder/nokkeltall/HistorikkGrafEcharts';
-import HistorikkGraf from '../../HistorikkGraf';
+import HistorikkGraf from 'avdelingsleder/nokkeltall/HistorikkGraf';
 import HistoriskData from '../../historiskDataTsType';
 
 interface InitialValues {
@@ -29,8 +28,6 @@ interface InitialValues {
 }
 
 interface OwnProps {
-    width: number;
-    height: number;
     ferdigstiltePerDato?: HistoriskData[];
     getValueFromLocalStorage: (key: string) => string;
 }
@@ -45,8 +42,6 @@ const formDefaultValues: InitialValues = { ytelseType: ALLE_YTELSETYPER_VALGT, u
 
 export const FerdigstilteHistorikkPanel: FunctionComponent<OwnProps & WrappedComponentProps> = ({
   intl,
-  width,
-  height,
   ferdigstiltePerDato,
   getValueFromLocalStorage,
 }) => {
@@ -84,7 +79,7 @@ export const FerdigstilteHistorikkPanel: FunctionComponent<OwnProps & WrappedCom
             </Column>
           </Row>
           <VerticalSpacer sixteenPx />
-          <HistorikkGrafEcharts
+          <HistorikkGraf
             isFireUkerValgt={values.ukevalg === UKE_4}
             behandlingTyper={behandlingTyper}
             historiskData={filtrereNyePerDato(values.ytelseType, values.ukevalg, ferdigstiltePerDato)}

@@ -18,7 +18,6 @@ import {
 import useKodeverk from 'api/rest-api-hooks/src/global-data/useKodeverk';
 import StoreValuesInLocalStorage from 'form/StoreValuesInLocalStorage';
 import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
-import HistorikkGrafEcharts from 'avdelingsleder/nokkeltall/HistorikkGrafEcharts';
 import HistorikkGraf from '../../HistorikkGraf';
 import HistoriskData from '../../historiskDataTsType';
 
@@ -28,10 +27,8 @@ interface InitialValues {
 }
 
 interface OwnProps {
-  width: number;
-  height: number;
   beholdningPerDato?: HistoriskData[];
-    getValueFromLocalStorage: (key: string) => string;
+  getValueFromLocalStorage: (key: string) => string;
 }
 
 const formName = 'beholdningForm';
@@ -42,11 +39,8 @@ const formDefaultValues: InitialValues = { ytelseType: ALLE_YTELSETYPER_VALGT, u
  */
 export const BeholdningHistorikkPanel: FunctionComponent<OwnProps & WrappedComponentProps> = ({
   intl,
-  width,
-  height,
   beholdningPerDato,
   getValueFromLocalStorage,
-
 }) => {
   const behandlingTyper = useKodeverk(kodeverkTyper.BEHANDLING_TYPE);
   const stringFromStorage = getValueFromLocalStorage(formName);
@@ -82,7 +76,7 @@ export const BeholdningHistorikkPanel: FunctionComponent<OwnProps & WrappedCompo
             </Column>
           </Row>
           <VerticalSpacer sixteenPx />
-          <HistorikkGrafEcharts
+          <HistorikkGraf
             isFireUkerValgt={values.ukevalg === UKE_4}
             behandlingTyper={behandlingTyper}
             historiskData={filtrereNyePerDato(values.ytelseType, values.ukevalg, beholdningPerDato)}

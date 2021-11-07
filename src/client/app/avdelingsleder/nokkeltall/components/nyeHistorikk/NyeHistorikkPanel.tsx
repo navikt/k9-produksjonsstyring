@@ -6,7 +6,6 @@ import { Form } from 'react-final-form';
 import { SelectField } from 'form/FinalFields';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import Panel from 'nav-frontend-paneler';
-import styles from 'avdelingsleder/nokkeltall/historikkGraf.less';
 import {
   ALLE_YTELSETYPER_VALGT,
   filtrereNyePerDato,
@@ -18,8 +17,8 @@ import useKodeverk from 'api/rest-api-hooks/src/global-data/useKodeverk';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
 import StoreValuesInLocalStorage from 'form/StoreValuesInLocalStorage';
 import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
-import HistorikkGrafEcharts from 'avdelingsleder/nokkeltall/HistorikkGrafEcharts';
-import HistorikkGraf from '../../HistorikkGraf';
+import HistorikkGraf from 'avdelingsleder/nokkeltall/HistorikkGraf';
+import styles from 'avdelingsleder/nokkeltall/historikkGraf.less';
 import HistoriskData from '../../historiskDataTsType';
 
 interface InitialValues {
@@ -28,8 +27,6 @@ interface InitialValues {
 }
 
 interface OwnProps {
-    width: number;
-    height: number;
     nyePerDato?: HistoriskData[];
     getValueFromLocalStorage: (key: string) => string;
 }
@@ -43,8 +40,6 @@ const formDefaultValues: InitialValues = { ytelseType: ALLE_YTELSETYPER_VALGT, u
 
 export const NyeHistorikkPanel: FunctionComponent<OwnProps & WrappedComponentProps> = ({
   intl,
-  width,
-  height,
   nyePerDato,
   getValueFromLocalStorage,
 }) => {
@@ -81,7 +76,7 @@ export const NyeHistorikkPanel: FunctionComponent<OwnProps & WrappedComponentPro
             </Column>
           </Row>
           <VerticalSpacer sixteenPx />
-          <HistorikkGrafEcharts
+          <HistorikkGraf
             isFireUkerValgt={values.ukevalg === UKE_4}
             behandlingTyper={behandlingTyper}
             historiskData={filtrereNyePerDato(values.ytelseType, values.ukevalg, nyePerDato)}

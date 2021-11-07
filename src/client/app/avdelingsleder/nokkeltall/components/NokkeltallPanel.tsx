@@ -58,28 +58,20 @@ const NokkeltallPanel: FunctionComponent<OwnProps> = ({
   return (
     <div ref={ref}>
       <InngangOgFerdigstiltePanel
-        width={width}
-        height={height}
         getValueFromLocalStorage={getValueFromLocalStorage}
       />
       <VerticalSpacer twentyPx />
       <NyeHistorikkPanel
-        width={width}
-        height={height}
         nyePerDato={ferdigstilteHistorikk}
         getValueFromLocalStorage={getValueFromLocalStorage}
       />
       <VerticalSpacer twentyPx />
       <FerdigstilteHistorikkPanel
-        width={width}
-        height={height}
         ferdigstiltePerDato={ferdigstilteHistorikk}
         getValueFromLocalStorage={getValueFromLocalStorage}
       />
       <VerticalSpacer twentyPx />
       <BeholdningHistorikkPanel
-        width={width}
-        height={height}
         beholdningPerDato={ferdigstilteHistorikk}
         getValueFromLocalStorage={getValueFromLocalStorage}
       />
@@ -92,8 +84,6 @@ const NokkeltallPanel: FunctionComponent<OwnProps> = ({
       />
       <VerticalSpacer twentyPx />
       <BehandlingerGårAvVent
-        width={width}
-        height={height}
         behandlingerSomGårAvVent={behandlingerSomGårAvVent}
       />
     </div>

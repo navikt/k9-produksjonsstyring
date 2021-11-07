@@ -7,7 +7,12 @@
 export const eChartMaxBarWith = 8;
 export const eChartYXAxisFontSizeSaksbehandlerNokkeltall = 15;
 
+export const eChartXAxisFontSizeAvdelningslederNokkeltall = 12;
+export const eChartYAxisFontSizeAvdelningslederNokkeltall = 15;
+export const eChartYAxisMarginTextBarAvdelningslederNokkeltall = 15;
+
 export const eChartFargerForLegendsForMineNyeFerdigstilte = ['#0067C5', '#634689', '#FF9100'];
+export const eChartFargerForLegendsForBehandlingerPåVent = '#FF9100';
 
 export const eChartGridDef = {
   left: '3%',
@@ -38,4 +43,15 @@ export const eChartLegendStyle = {
 
 export const eChartTooltipTextStyle = {
   fontSize: 16,
+};
+
+export const eChartSeriesStyleAvdelningslederNokkeltall = {
+  areaStyle: {},
+  // Bestemmer storleken på cirklarna som är i grafen.
+  symbolSize: 10,
+};
+
+export const eChartXAxisTickDefAvdelningslederNokkeltall = {
+  show: true,
+  alignWithLabel: true,
 };
