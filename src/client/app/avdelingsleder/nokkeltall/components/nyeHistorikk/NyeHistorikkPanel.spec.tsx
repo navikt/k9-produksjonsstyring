@@ -3,13 +3,14 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { Form } from 'react-final-form';
 
-import { intlMock, shallowWithIntl } from '../../../../../../../setup/testHelpers/intl-enzyme-test-helper';
 import behandlingType from 'kodeverk/behandlingType';
 import { SelectField } from 'form/FinalFields';
 import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
-import RestApiTestMocker from '../../../../../../../setup/testHelpers/RestApiTestMocker';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
 import { IntlShape } from 'react-intl';
+import HistorikkGraf from 'avdelingsleder/nokkeltall/HistorikkGraf';
+import RestApiTestMocker from '../../../../../../../setup/testHelpers/RestApiTestMocker';
+import { intlMock, shallowWithIntl } from '../../../../../../../setup/testHelpers/intl-enzyme-test-helper';
 import { NyeHistorikkPanel } from './NyeHistorikkPanel';
 
 const intl: Partial<IntlShape> = {
@@ -47,7 +48,7 @@ const behandlingTyper = [{
 }];
 
 describe('<NyeHistorikkPanel>', () => {
-  it('skal vise ytelsetyper i radioknapper', () => {
+  it('skal vise ytelsetyper som selectform', () => {
     const valuesMock = {
       valgtYtelseType: 'ALLE',
     };
@@ -58,10 +59,9 @@ describe('<NyeHistorikkPanel>', () => {
       .runTest(() => {
         const wrapper = shallowWithIntl(<NyeHistorikkPanel
           intl={intl as IntlShape}
-          width={300}
-          height={200}
           nyePerDato={[]}
           getValueFromLocalStorage={sinon.spy()}
+          // @ts-ignore
         />).find(Form).renderProp('render')({ values: valuesMock });
 
         const selectUker = wrapper.find(SelectField).first();
@@ -69,10 +69,10 @@ describe('<NyeHistorikkPanel>', () => {
 
         const optionsUker = selectUker.prop('selectValues') as { props: { value: string; children: string }}[];
         expect(optionsUker).to.have.length(2);
-        expect(optionsUker[0].props.value).to.eql('4');
-        expect(optionsUker[0].props.children).to.eql('4 siste uker');
-        expect(optionsUker[1].props.value).to.eql('8');
-        expect(optionsUker[1].props.children).to.eql('8 siste uker');
+        expect(optionsUker[0].props.value).to.eql('2');
+        expect(optionsUker[0].props.children).to.eql('2 siste uker');
+        expect(optionsUker[1].props.value).to.eql('4');
+        expect(optionsUker[1].props.children).to.eql('4 siste uker');
 
         const selectYtelse = wrapper.find(SelectField).at(1);
         expect(selectYtelse).to.have.length(1);
@@ -89,6 +89,9 @@ describe('<NyeHistorikkPanel>', () => {
         expect(optionsYtelse[3].props.children).to.eql(fagsakYtelseTyper[3].navn);
         expect(optionsYtelse[4].props.value).to.eql('ALLE');
         expect(optionsYtelse[4].props.children).to.eql('Alle ytelser');
+
+        const graf = wrapper.find(HistorikkGraf);
+        expect(graf).to.have.length(1);
       });
   });
 });
