@@ -88,7 +88,7 @@ const NyeOgFerdigstilteOppgaverForSisteSyvGraf: FunctionComponent<OwnProps & Wra
         },
         legend: {
           ...eChartLegendStyle,
-          data: [ferdigLabel, nyLabel, mineFerdigeLabel],
+          data: [nyLabel, ferdigLabel, mineFerdigeLabel],
         },
         grid: eChartGridDef,
         xAxis: [
@@ -97,7 +97,7 @@ const NyeOgFerdigstilteOppgaverForSisteSyvGraf: FunctionComponent<OwnProps & Wra
             axisLabel: {
               formatter: '{dd}.{MM}',
               fontSize: eChartYXAxisFontSizeSaksbehandlerNokkeltall,
-              margin: 10,
+              margin: 15,
             },
             minInterval: 1,
           },
@@ -106,15 +106,6 @@ const NyeOgFerdigstilteOppgaverForSisteSyvGraf: FunctionComponent<OwnProps & Wra
         yAxis: eChartYaxisDef,
         series: [
           {
-            name: ferdigLabel,
-            type: 'line',
-            areaStyle: {},
-            emphasis: {
-              focus: 'series',
-            },
-            data: ferdigstilteOppgaver,
-          },
-          {
             name: nyLabel,
             type: 'line',
             areaStyle: {},
@@ -122,6 +113,17 @@ const NyeOgFerdigstilteOppgaverForSisteSyvGraf: FunctionComponent<OwnProps & Wra
               focus: 'series',
             },
             data: nyeOppgaver,
+            color: eChartFargerForLegendsForMineNyeFerdigstilte[0],
+          },
+          {
+            name: ferdigLabel,
+            type: 'line',
+            areaStyle: {},
+            emphasis: {
+              focus: 'series',
+            },
+            data: ferdigstilteOppgaver,
+            color: eChartFargerForLegendsForMineNyeFerdigstilte[1],
           },
           {
             name: mineFerdigeLabel,
@@ -131,9 +133,9 @@ const NyeOgFerdigstilteOppgaverForSisteSyvGraf: FunctionComponent<OwnProps & Wra
               focus: 'series',
             },
             data: ferdigstilteOppgaverMine,
+            color: eChartFargerForLegendsForMineNyeFerdigstilte[2],
           },
         ],
-        color: eChartFargerForLegendsForMineNyeFerdigstilte,
       }}
     />
   );

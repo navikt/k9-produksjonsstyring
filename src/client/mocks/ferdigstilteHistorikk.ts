@@ -103,6 +103,62 @@ const ferdigstilteHistorikk = [{
     kodeverk: 'FAGSAK_YTELSE_TYPE',
   },
   behandlingType: {
+    kode: 'BT-006',
+    navn: 'Tilbakekreving',
+    kodeverk: 'ae0203',
+  },
+  dato: '2021-10-24',
+  antall: 1,
+},
+{
+  fagsakYtelseType: {
+    kode: 'PSB',
+    navn: 'Pleiepenger sykt barn',
+    kodeverk: 'FAGSAK_YTELSE_TYPE',
+  },
+  behandlingType: {
+    kode: 'BT-006',
+    navn: 'Tilbakekreving',
+    kodeverk: 'ae0203',
+  },
+  dato: '2021-10-28',
+  antall: 1,
+},
+{
+  fagsakYtelseType: {
+    kode: 'PSB',
+    navn: 'Pleiepenger sykt barn',
+    kodeverk: 'FAGSAK_YTELSE_TYPE',
+  },
+  behandlingType: {
+    kode: 'BT-003',
+    navn: 'Tilbakekreving',
+    kodeverk: 'ae0203',
+  },
+  dato: '2021-10-30',
+  antall: 1,
+},
+{
+  fagsakYtelseType: {
+    kode: 'PSB',
+    navn: 'Pleiepenger sykt barn',
+    kodeverk: 'FAGSAK_YTELSE_TYPE',
+  },
+  behandlingType: {
+    kode: 'BT-006',
+    navn: 'Tilbakekreving',
+    kodeverk: 'ae0203',
+  },
+  dato: '2021-10-30',
+  antall: 1,
+},
+{
+  fagsakYtelseType: {
+    kode: 'PSB',
+    navn: 'Pleiepenger sykt barn',
+    kodeverk: 'FAGSAK_YTELSE_TYPE',
+  },
+  behandlingType: {
     kode: 'BT-004',
     navn: 'Revurdering',
     kodeverk: 'ae0028',

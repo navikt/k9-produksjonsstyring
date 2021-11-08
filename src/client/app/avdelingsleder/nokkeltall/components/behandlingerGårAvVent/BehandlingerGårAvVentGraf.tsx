@@ -106,6 +106,7 @@ const BehandlingerGarAvVentGraf: FunctionComponent<OwnProps> = ({
                 return value;
               },
               fontSize: eChartXAxisFontSizeAvdelningslederNokkeltall,
+              margin: eChartYAxisMarginTextBarAvdelningslederNokkeltall,
               interval: 0,
             },
             // Denne setter de horisontala linjerna sammen med axisTick.

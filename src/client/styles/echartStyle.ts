@@ -8,7 +8,7 @@ export const eChartMaxBarWithFordelingAvBehandlingstype = 25;
 export const eChartYXAxisFontSizeSaksbehandlerNokkeltall = 15;
 
 // Font size
-export const eChartXAxisFontSizeAvdelningslederNokkeltall = 12;
+export const eChartXAxisFontSizeAvdelningslederNokkeltall = 15;
 export const eChartYAxisFontSizeAvdelningslederNokkeltall = 15;
 export const eChartYAxisMarginTextBarAvdelningslederNokkeltall = 15;
 
@@ -43,6 +43,7 @@ export const eChartLegendStyle = {
     padding: 0,
     fontSize: 15,
   },
+
 };
 
 export const eChartTooltipTextStyle = {

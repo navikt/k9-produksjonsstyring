@@ -11,6 +11,7 @@ import omsorgsdagerYtelsetyper from '../../types/OmsorgsdagerYtelsetyper';
 export const ALLE_YTELSETYPER_VALGT = 'ALLE';
 export const punsjKodeverkNavn = 'PUNSJ_INNSENDING_TYPE';
 export const UKE_4 = '4';
+export const UKE_2 = '2';
 
 export const ytelseTyper = [{
   kode: fagsakYtelseType.OMSORGSPENGER,
@@ -34,19 +35,19 @@ export const ytelseTyper = [{
 }];
 
 export const uker = [{
+  kode: '2',
+  tekstKode: 'TilBehandlingPanel.ToSisteUker',
+}, {
   kode: UKE_4,
   tekstKode: 'TilBehandlingPanel.FireSisteUker',
-}, {
-  kode: '8',
-  tekstKode: 'TilBehandlingPanel.8SisteUker',
 }];
 
 export const behandlingstypeOrder = [
   behandlingType.FORSTEGANGSSOKNAD,
   behandlingType.REVURDERING,
-  behandlingType.ANKE,
+  // behandlingType.ANKE,
   behandlingType.INNSYN,
-  behandlingType.KLAGE,
+  // behandlingType.KLAGE,
   behandlingType.TILBAKEBETALING,
 ];
 
@@ -161,6 +162,10 @@ export const sjekkOmOppgaveSkalLeggesTil = (
   ytelse: string,
   oppgave: NyeOgFerdigstilteMedStonadstype | HistoriskData | AlleOppgaver | NyeOgFerdigstilteOppgaver,
 ): boolean => {
+  // Skal ikke ta med klage og anke sedan det ikke er en del av LOS ännu.
+  if (oppgave.behandlingType.kode === behandlingType.KLAGE || oppgave.behandlingType.kode === behandlingType.ANKE) {
+    return false;
+  }
   switch (ytelse) {
     case fagsakYtelseType.PUNSJ:
       return punsjBehandlingstyper.includes(oppgave.behandlingType.kode);

@@ -332,7 +332,7 @@
   "TilBehandlingPanel.TilBehandling": "Antall til behandling",
   "TilBehandlingPanel.ToSisteUker": "2 siste uker",
   "TilBehandlingPanel.FireSisteUker": "4 siste uker",
-  "TilBehandlingPanel.8SisteUker": "8 siste uker",
+  "TilBehandlingPanel.8SisteUker": "2 siste uker",
 
   "BehandlingerGårAvVent.Titel": "Behandlinger som går av vent",
   "BehandlingerGårAvVent.Hjelptekst": "Grafen viser en prognose av antall behandlinger som går av vent frem i tid.",

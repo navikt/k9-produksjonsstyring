@@ -26,11 +26,11 @@ dayjs.extend(isSameOrBefore);
 dayjs.extend(isSameOrAfter);
 
 const behandlingstypeFarger = {
-  [behandlingType.ANKE]: '#BA3A26',
-  [behandlingType.INNSYN]: '#FF9100',
-  [behandlingType.KLAGE]: '#634689',
-  [behandlingType.REVURDERING]: '#66CBEC',
   [behandlingType.FORSTEGANGSSOKNAD]: '#0067C5',
+  [behandlingType.REVURDERING]: '#66CBEC',
+  // [behandlingType.ANKE]: '#BA3A26',
+  [behandlingType.INNSYN]: '#FF9100',
+  // [behandlingType.KLAGE]: '#634689',
   [behandlingType.TILBAKEBETALING]: '#06893A',
   PUNSJ: '#06893A',
 };
@@ -109,7 +109,7 @@ const HistorikkGraf: FunctionComponent<OwnProps> = ({
   behandlingTyper,
   erPunsjValgt,
 }) => {
-  const periodeStart = dayjs().subtract(isFireUkerValgt ? 4 : 8, 'w').add(1, 'd');
+  const periodeStart = dayjs().subtract(isFireUkerValgt ? 4 : 2, 'w').add(1, 'd');
   const periodeSlutt = dayjs().subtract(1, 'd');
 
   const koordinater = useMemo(() => konverterTilKoordinaterGruppertPaBehandlingstype(historiskData), [historiskData]);
@@ -118,7 +118,6 @@ const HistorikkGraf: FunctionComponent<OwnProps> = ({
   const alleBehandlingstyperSortert = erPunsjValgt ? ['PUNSJ'] : behandlingTyper.map((bt) => bt.kode).sort(sorterBehandlingtyper);
   const sorterteBehandlingstyper = Object.keys(data).sort(sorterBehandlingtyper);
   const reversertSorterteBehandlingstyper = erPunsjValgt ? [] : sorterteBehandlingstyper.slice().reverse();
-  const farger = alleBehandlingstyperSortert.map((bt) => behandlingstypeFarger[bt]);
 
   return (
     <ReactECharts
@@ -161,11 +160,12 @@ const HistorikkGraf: FunctionComponent<OwnProps> = ({
               formatter(value) {
                 const oppstykketDato = value.split('-');
                 if (oppstykketDato[1] && oppstykketDato[2]) {
-                  return isFireUkerValgt ? `${oppstykketDato[2]}.${oppstykketDato[1]}` : oppstykketDato[2];
+                  return `${oppstykketDato[2]}.${oppstykketDato[1]}`;
                 }
                 return value;
               },
               fontSize: eChartXAxisFontSizeAvdelningslederNokkeltall,
+              margin: eChartYAxisMarginTextBarAvdelningslederNokkeltall,
               interval: 0,
             },
             // Denne setter de horisontala linjerna sammen med axisTick.
@@ -194,8 +194,11 @@ const HistorikkGraf: FunctionComponent<OwnProps> = ({
             },
             ...eChartSeriesStyleAvdelningslederNokkeltall,
             data: data[type],
+            color: behandlingstypeFarger[type],
+            areaStyle: {
+              opacity: 0.6,
+            },
           })),
-        color: farger,
       }}
     />
   );

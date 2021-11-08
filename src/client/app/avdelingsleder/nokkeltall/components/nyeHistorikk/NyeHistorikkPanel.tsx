@@ -8,7 +8,7 @@ import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import Panel from 'nav-frontend-paneler';
 import {
   ALLE_YTELSETYPER_VALGT,
-  filtrereNyePerDato,
+  filtrereNyePerDato, UKE_2,
   UKE_4,
   uker,
   ytelseTyper,
@@ -32,7 +32,7 @@ interface OwnProps {
 }
 
 const formName = 'nyeForm';
-const formDefaultValues: InitialValues = { ytelseType: ALLE_YTELSETYPER_VALGT, ukevalg: UKE_4 };
+const formDefaultValues: InitialValues = { ytelseType: ALLE_YTELSETYPER_VALGT, ukevalg: UKE_2 };
 
 /**
  * NyeHistorikkPanel.

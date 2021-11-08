@@ -19,8 +19,8 @@ import {
 const behandlingstypeOrder = [
   behandlingType.TILBAKEBETALING,
   behandlingType.INNSYN,
-  behandlingType.ANKE,
-  behandlingType.KLAGE,
+  // behandlingType.ANKE,
+  // behandlingType.KLAGE,
   behandlingType.REVURDERING,
   behandlingType.FORSTEGANGSSOKNAD];
 
@@ -84,7 +84,7 @@ const NyeOgFerdigstilteOppgaverForIdagGraf: FunctionComponent<OwnProps & Wrapped
 
   return (
     <ReactECharts
-      height={height}
+      height={230}
       option={{
         tooltip: {
           trigger: 'axis',
@@ -95,7 +95,7 @@ const NyeOgFerdigstilteOppgaverForIdagGraf: FunctionComponent<OwnProps & Wrapped
         },
         legend: {
           ...eChartLegendStyle,
-          data: [ferdigLabel, nyLabel, mineFerdigeLabel],
+          data: [nyLabel, ferdigLabel, mineFerdigeLabel],
         },
         grid: eChartGridDef,
         xAxis: {
@@ -120,21 +120,23 @@ const NyeOgFerdigstilteOppgaverForIdagGraf: FunctionComponent<OwnProps & Wrapped
             type: 'bar',
             data: dataNye,
             barMaxWidth: eChartMaxBarWith,
+            color: eChartFargerForLegendsForMineNyeFerdigstilte[0],
           },
           {
             name: ferdigLabel,
             type: 'bar',
             data: dataFerdigstilte,
             barMaxWidth: eChartMaxBarWith,
+            color: eChartFargerForLegendsForMineNyeFerdigstilte[1],
           },
           {
             name: mineFerdigeLabel,
             type: 'bar',
             data: dataMineFerdigstilte,
             barMaxWidth: eChartMaxBarWith,
+            color: eChartFargerForLegendsForMineNyeFerdigstilte[2],
           },
         ],
-        color: eChartFargerForLegendsForMineNyeFerdigstilte,
       }}
     />
   );

@@ -11,7 +11,7 @@ import styles from 'avdelingsleder/nokkeltall/historikkGraf.less';
 
 import {
   ALLE_YTELSETYPER_VALGT,
-  filtrereNyePerDato,
+  filtrereNyePerDato, UKE_2,
   UKE_4, uker,
   ytelseTyper,
 } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
@@ -34,7 +34,7 @@ interface OwnProps {
 
 const formName = 'ferdigstilteForm';
 
-const formDefaultValues: InitialValues = { ytelseType: ALLE_YTELSETYPER_VALGT, ukevalg: UKE_4 };
+const formDefaultValues: InitialValues = { ytelseType: ALLE_YTELSETYPER_VALGT, ukevalg: UKE_2 };
 
 /**
  * FerdigstilteHistorikkPanel.

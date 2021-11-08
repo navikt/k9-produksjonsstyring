@@ -66,7 +66,7 @@ const nyeOgFerdigstilteOppgaver = [
   },
   {
     fagsakYtelseType: {
-      kode: 'OMP_KS',
+      kode: 'OMP_MA',
       navn: 'Omsorgsdager: midlertidig alene',
       kodeverk: 'FAGSAK_YTELSE_TYPE',
     },

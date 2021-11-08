@@ -10,7 +10,7 @@ import kodeverkTyper from 'kodeverk/kodeverkTyper';
 import Panel from 'nav-frontend-paneler';
 import styles from 'avdelingsleder/nokkeltall/historikkGraf.less';
 import {
-  ALLE_YTELSETYPER_VALGT, filtrereNyePerDato,
+  ALLE_YTELSETYPER_VALGT, filtrereNyePerDato, UKE_2,
   UKE_4,
   uker,
   ytelseTyper,
@@ -32,7 +32,7 @@ interface OwnProps {
 }
 
 const formName = 'beholdningForm';
-const formDefaultValues: InitialValues = { ytelseType: ALLE_YTELSETYPER_VALGT, ukevalg: UKE_4 };
+const formDefaultValues: InitialValues = { ytelseType: ALLE_YTELSETYPER_VALGT, ukevalg: UKE_2 };
 
 /**
  * BeholdningHistorikkPanel.
