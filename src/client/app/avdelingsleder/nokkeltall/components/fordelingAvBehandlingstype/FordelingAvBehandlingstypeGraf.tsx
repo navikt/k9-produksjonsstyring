@@ -5,17 +5,15 @@ import React, {
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 
 import behandlingType from 'kodeverk/behandlingType';
-import { cssText } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
 import ReactECharts from 'sharedComponents/echart/ReactEcharts';
 import Kodeverk from 'kodeverk/kodeverkTsType';
-import { dateFormat } from 'avdelingsleder/nokkeltall/HistorikkGraf';
-import { punsjYKoordinat } from 'saksbehandler/saksstotte/nokkeltall/components/nyeOgFerdigstilteOppgaverForIdag/NyeOgFerdigstilteOppgaverForIdagGraf';
+import { punsjKodeverkNavn } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
 import AlleOppgaver from './alleOppgaverTsType';
 
 import {
   eChartFargerForLegendsFordelingAvBehandlingstype, eChartGrafHeight,
   eChartGridDef,
-  eChartLegendStyle, eChartMaxBarWith, eChartMaxBarWithFordelingAvBehandlingstype,
+  eChartLegendStyle, eChartMaxBarWithFordelingAvBehandlingstype,
   eChartTooltipTextStyle,
   eChartYXAxisFontSizeSaksbehandlerNokkeltall,
 } from '../../../../../styles/echartStyle';
@@ -33,7 +31,7 @@ const slåSammen = (oppgaverForAvdeling: AlleOppgaver[], erPunsjValgt: boolean):
   const test = oppgaverForAvdeling
     .reduce((acc, o) => {
       const index = erPunsjValgt ? 1 : behandlingstypeOrder.findIndex((bo) => bo === o.behandlingType.kode) + 1;
-      if ((erPunsjValgt && o.behandlingType.kodeverk === 'PUNSJ_INNSENDING_TYPE') || (!erPunsjValgt && o.behandlingType.kodeverk !== 'PUNSJ_INNSENDING_TYPE')) {
+      if ((erPunsjValgt && o.behandlingType.kodeverk === punsjKodeverkNavn) || (!erPunsjValgt && o.behandlingType.kodeverk !== 'PUNSJ_INNSENDING_TYPE')) {
         return {
           ...acc,
           [index]: (acc[index] ? acc[index] + o.antall : o.antall),
@@ -88,6 +86,7 @@ const FordelingAvBehandlingstypeGraf: FunctionComponent<OwnProps & WrappedCompon
           axisPointer: {
             type: 'shadow',
             label: {
+              // @ts-ignore
               formatter: (params) => {
                 let total = 0;
                 params.seriesData.forEach((s) => {

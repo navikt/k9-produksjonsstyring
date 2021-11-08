@@ -56,7 +56,6 @@ const konverterTilKoordinaterGruppertPaBehandlingstype = (oppgaverForAvdeling: H
     };
 
     const eksisterendeKoordinater = acc[o.behandlingType.kode];
-    console.log('eksisterendeKoordinater', eksisterendeKoordinater);
 
     return {
       ...acc,

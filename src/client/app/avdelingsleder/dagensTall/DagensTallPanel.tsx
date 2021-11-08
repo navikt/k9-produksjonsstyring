@@ -3,7 +3,7 @@ import { Normaltekst } from 'nav-frontend-typografi';
 import EnkelTeller from 'avdelingsleder/dagensTall/EnkelTeller';
 import { WrappedComponentProps, injectIntl } from 'react-intl';
 import ApneBehandlinger from 'avdelingsleder/dagensTall/apneBehandlingerTsType';
-import { behandlingstypeOrder } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
+import { behandlingstypeOrder, punsjKodeverkNavn } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
 import behandlingType from 'kodeverk/behandlingType';
 import styles from './dagensTallPanel.less';
 
@@ -24,7 +24,7 @@ const DagensTallPanel: FunctionComponent<OwnProps & WrappedComponentProps> = ({ 
   const punsjBehandlinger = [];
   sortedDagensTall(dagensTall).forEach((dt) => {
     if (behandlingsKoderSomSkalVisesForst.includes(dt.behandlingType.kode)) behandlingstyperForst.push(dt);
-    else if (dt.behandlingType.kodeverk && dt.behandlingType.kodeverk === 'PUNSJ_INNSENDING_TYPE') punsjBehandlinger.push(dt);
+    else if (dt.behandlingType.kodeverk && dt.behandlingType.kodeverk === punsjKodeverkNavn) punsjBehandlinger.push(dt);
     else behandlingstyperSist.push(dt);
   });
 

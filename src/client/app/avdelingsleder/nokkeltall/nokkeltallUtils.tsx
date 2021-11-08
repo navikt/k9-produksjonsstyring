@@ -9,31 +9,10 @@ import punsjBehandlingstyper from '../../types/PunsjBehandlingstyper';
 import omsorgsdagerYtelsetyper from '../../types/OmsorgsdagerYtelsetyper';
 
 export const ALLE_YTELSETYPER_VALGT = 'ALLE';
+export const punsjKodeverkNavn = 'PUNSJ_INNSENDING_TYPE';
 export const UKE_4 = '4';
-export const UKE_2 = '2';
 
 export const ytelseTyper = [{
-  kode: fagsakYtelseType.OMSORGSPENGER,
-  navn: 'Omsorgspenger',
-},
-{
-  kode: fagsakYtelseType.OMSORGSDAGER,
-  navn: 'Omsorgsdager',
-},
-{
-  kode: fagsakYtelseType.PLEIEPENGER_SYKT_BARN,
-  navn: 'Pleiepenger sykt barn',
-},
-{
-  kode: fagsakYtelseType.PUNSJ,
-  navn: 'Punsj',
-},
-{
-  kode: ALLE_YTELSETYPER_VALGT,
-  navn: 'Alle ytelser',
-}];
-
-export const ytelseTyperForBehandlingerPåVentGraf = [{
   kode: fagsakYtelseType.OMSORGSPENGER,
   navn: 'Omsorgspenger',
 },
@@ -71,13 +50,6 @@ export const behandlingstypeOrder = [
   behandlingType.TILBAKEBETALING,
 ];
 
-export const cssText = {
-  fontFamily: 'Source Sans Pro, Arial, sans-serif',
-  fontSize: '1rem',
-  lineHeight: '1.375rem',
-  fontWeight: 400,
-};
-
 export const erDatoInnenforPeriode = (oppgaveForAvdeling, ukevalg) => {
   if (ukevalg === uker[1].kode) {
     return true;
@@ -90,7 +62,7 @@ export const slaSammenLikeBehandlingstyperOgDatoer = (oppgaver: HistoriskData[])
   const sammenslatte = [];
 
   oppgaver.forEach((o) => {
-    if (o.behandlingType.kodeverk === 'PUNSJ_INNSENDING_TYPE') {
+    if (o.behandlingType.kodeverk === punsjKodeverkNavn) {
       return;
     }
     const index = sammenslatte.findIndex((s) => s.behandlingType.kode === o.behandlingType.kode && s.dato === o.dato);
@@ -133,10 +105,10 @@ export const slaSammenAllePunsjBehandlingstyperForNyeOgFerdigstilleOppgaver = (o
   const sammenslatte = [];
 
   oppgaver.forEach((o) => {
-    if (o.behandlingType.kodeverk !== 'PUNSJ_INNSENDING_TYPE') {
+    if (o.behandlingType.kodeverk !== punsjKodeverkNavn) {
       return;
     }
-    const index = sammenslatte.findIndex((s) => s.behandlingType.kodeverk === 'PUNSJ_INNSENDING_TYPE' && s.dato === o.dato);
+    const index = sammenslatte.findIndex((s) => s.behandlingType.kodeverk === punsjKodeverkNavn && s.dato === o.dato);
     if (index === -1) {
       sammenslatte.push(o);
     } else {
@@ -157,7 +129,7 @@ export const slaSammenPunsjBehandlingstyperOgDatoer = (oppgaver: HistoriskData[]
   const sammenslatte = [];
 
   oppgaver.forEach((o) => {
-    if (o.behandlingType.kodeverk !== 'PUNSJ_INNSENDING_TYPE') {
+    if (o.behandlingType.kodeverk !== punsjKodeverkNavn) {
       return;
     }
     const index = sammenslatte.findIndex((s) => s.behandlingType.kode === 'PUNSJ' && s.dato === o.dato);

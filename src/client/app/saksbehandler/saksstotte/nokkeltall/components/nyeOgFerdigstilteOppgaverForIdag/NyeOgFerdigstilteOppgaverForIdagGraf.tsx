@@ -5,6 +5,7 @@ import Kodeverk from 'kodeverk/kodeverkTsType';
 import behandlingType from 'kodeverk/behandlingType';
 
 import ReactECharts from 'sharedComponents/echart/ReactEcharts';
+import { punsjKodeverkNavn } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
 import NyeOgFerdigstilteOppgaver from '../nyeOgFerdigstilteOppgaverTsType';
 
 import {
@@ -61,7 +62,7 @@ const NyeOgFerdigstilteOppgaverForIdagGraf: FunctionComponent<OwnProps & Wrapped
     if (skalPunsjbehandlingerVises) {
       let punsjAntallFerdigstilte = 0;
       nyeOgFerdigstilteOppgaver.forEach((oppgave) => {
-        if (oppgave.behandlingType.kodeverk === 'PUNSJ_INNSENDING_TYPE') {
+        if (oppgave.behandlingType.kodeverk === punsjKodeverkNavn) {
           punsjAntallFerdigstilte = +oppgave[valgtProperty];
         }
       });
@@ -69,7 +70,7 @@ const NyeOgFerdigstilteOppgaverForIdagGraf: FunctionComponent<OwnProps & Wrapped
     }
 
     return behandlingstypeOrder.map((type) => {
-      const oppgave = nyeOgFerdigstilteOppgaver.find((o) => o.behandlingType.kode === type && o.behandlingType.kodeverk !== 'PUNSJ_INNSENDING_TYPE');
+      const oppgave = nyeOgFerdigstilteOppgaver.find((o) => o.behandlingType.kode === type && o.behandlingType.kodeverk !== punsjKodeverkNavn);
       if (oppgave) {
         return oppgave[valgtProperty];
       }

@@ -10,9 +10,9 @@ import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
 import IBehandlingerSomGarAvVentType
   from 'avdelingsleder/nokkeltall/components/behandlingerGårAvVent/behandlingerSomGårAvVentType';
 import Hjelpetekst from 'nav-frontend-hjelpetekst';
-import { ytelseTyperForBehandlingerPåVentGraf } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
 import BehandlingerGarAvVentGraf
   from 'avdelingsleder/nokkeltall/components/behandlingerGårAvVent/BehandlingerGårAvVentGraf';
+import { punsjKodeverkNavn, ytelseTyper } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
 import styles from './behandlingerGårAvVent.less';
 
 interface OwnProps{
@@ -27,7 +27,7 @@ const BehandlingerGårAvVent: FunctionComponent<OwnProps & WrappedComponentProps
   const [antallUkerSomSkalVises, setAntallUkerSomSkalVises] = useState<string>('2');
 
   const PSBBehandlinger: IBehandlingerSomGarAvVentType[] = behandlingerSomGårAvVent.filter(
-    (behandling) => behandling.fagsakYtelseType.kode === fagsakYtelseType.PLEIEPENGER_SYKT_BARN && behandling.behandlingType.kodeverk === 'PUNSJ_INNSENDING_TYPE',
+    (behandling) => behandling.fagsakYtelseType.kode === fagsakYtelseType.PLEIEPENGER_SYKT_BARN && behandling.behandlingType.kodeverk === punsjKodeverkNavn,
   );
 
   const OMPBehandlinger: IBehandlingerSomGarAvVentType[] = behandlingerSomGårAvVent.filter(
@@ -42,11 +42,11 @@ const BehandlingerGårAvVent: FunctionComponent<OwnProps & WrappedComponentProps
   );
 
   const PunsjBehandlinger: IBehandlingerSomGarAvVentType[] = behandlingerSomGårAvVent.filter(
-    (behandling) => behandling.behandlingType.kodeverk === 'PUNSJ_INNSENDING_TYPE',
+    (behandling) => behandling.behandlingType.kodeverk === punsjKodeverkNavn,
   );
 
   const AlleBehandlingerUtomPunsj: IBehandlingerSomGarAvVentType[] = behandlingerSomGårAvVent.filter(
-    (behandling) => behandling.behandlingType.kodeverk !== 'PUNSJ_INNSENDING_TYPE',
+    (behandling) => behandling.behandlingType.kodeverk !== punsjKodeverkNavn,
   );
 
   const hentBehandlingerKnyttetTilYtelseType = () => {
@@ -82,7 +82,7 @@ const BehandlingerGårAvVent: FunctionComponent<OwnProps & WrappedComponentProps
             onChange={(e) => setValgtYtelseType(e.target.value)}
           >
             <option value="" disabled selected>{intl.formatMessage({ id: 'BehandlingerGårAvVent.VelgFagytelseType' })}</option>
-            {ytelseTyperForBehandlingerPåVentGraf.map((ytelseValg) => (<option key={ytelseValg.kode} value={ytelseValg.kode}>{ytelseValg.navn}</option>))}
+            {ytelseTyper.map((ytelseValg) => (<option key={ytelseValg.kode} value={ytelseValg.kode}>{ytelseValg.navn}</option>))}
           </Select>
         </Column>
       </Row>
