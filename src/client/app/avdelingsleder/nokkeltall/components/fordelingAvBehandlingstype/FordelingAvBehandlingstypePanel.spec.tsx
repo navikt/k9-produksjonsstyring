@@ -3,12 +3,12 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { Form } from 'react-final-form';
 
-import { shallowWithIntl } from '../../../../../../../setup/testHelpers/intl-enzyme-test-helper';
 import behandlingType from 'kodeverk/behandlingType';
 import { RadioOption } from 'form/FinalFields';
 import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
-import RestApiTestMocker from '../../../../../../../setup/testHelpers/RestApiTestMocker';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
+import RestApiTestMocker from '../../../../../../../setup/testHelpers/RestApiTestMocker';
+import { shallowWithIntl } from '../../../../../../../setup/testHelpers/intl-enzyme-test-helper';
 import { FordelingAvBehandlingstypePanel } from './FordelingAvBehandlingstypePanel';
 import FordelingAvBehandlingstypeGraf from './FordelingAvBehandlingstypeGraf';
 

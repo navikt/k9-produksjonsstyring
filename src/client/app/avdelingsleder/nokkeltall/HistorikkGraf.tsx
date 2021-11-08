@@ -13,6 +13,7 @@ import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import Kodeverk from 'kodeverk/kodeverkTsType';
 import Koordinat from '../../types/Koordinat';
 import {
+  eChartGrafHeight,
   eChartGridDef,
   eChartLegendStyle, eChartSeriesStyleAvdelningslederNokkeltall,
   eChartTooltipTextStyle,
@@ -122,7 +123,7 @@ const HistorikkGraf: FunctionComponent<OwnProps> = ({
 
   return (
     <ReactECharts
-      height={300}
+      height={eChartGrafHeight}
       option={{
         tooltip: {
           trigger: 'axis',

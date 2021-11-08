@@ -1,23 +1,24 @@
 import React, {
-  useMemo, useState, FunctionComponent, useCallback, useRef,
+  useMemo, FunctionComponent,
 } from 'react';
-import {
-  XYPlot, XAxis, YAxis, VerticalGridLines, HorizontalRectSeries, Hint, DiscreteColorLegend,
-} from 'react-vis';
-import { FormattedMessage, injectIntl, WrappedComponentProps } from 'react-intl';
-import { Normaltekst } from 'nav-frontend-typografi';
 
-import { FlexContainer, FlexRow, FlexColumn } from 'sharedComponents/flexGrid';
-import { Kodeverk } from 'kodeverk/kodeverkTsType';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
+
 import behandlingType from 'kodeverk/behandlingType';
-import { punsjYKoordinat } from 'saksbehandler/saksstotte/nokkeltall/components/nyeOgFerdigstilteOppgaverForIdag/NyeOgFerdigstilteOppgaverForIdagGraf';
 import { cssText } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
+import ReactECharts from 'sharedComponents/echart/ReactEcharts';
+import Kodeverk from 'kodeverk/kodeverkTsType';
+import { dateFormat } from 'avdelingsleder/nokkeltall/HistorikkGraf';
+import { punsjYKoordinat } from 'saksbehandler/saksstotte/nokkeltall/components/nyeOgFerdigstilteOppgaverForIdag/NyeOgFerdigstilteOppgaverForIdagGraf';
 import AlleOppgaver from './alleOppgaverTsType';
 
-import 'react-vis/dist/style.css';
-import styles from './fordelingAvBehandlingstypeGraf.less';
-
-const LEGEND_WIDTH = 210;
+import {
+  eChartFargerForLegendsFordelingAvBehandlingstype, eChartGrafHeight,
+  eChartGridDef,
+  eChartLegendStyle, eChartMaxBarWith, eChartMaxBarWithFordelingAvBehandlingstype,
+  eChartTooltipTextStyle,
+  eChartYXAxisFontSizeSaksbehandlerNokkeltall,
+} from '../../../../../styles/echartStyle';
 
 const behandlingstypeOrder = [
   behandlingType.TILBAKEBETALING,
@@ -28,56 +29,29 @@ const behandlingstypeOrder = [
   behandlingType.FORSTEGANGSSOKNAD,
 ];
 
-const settCustomHoydePaSoylene = (data) => {
-  const transformert = data.map((el) => ({
-    ...el,
-    y0: el.y + 0.30,
-    y: el.y - 0.30,
-  }));
-  transformert.unshift({ x: 0, y: 0.5 });
-  transformert.push({ x: 0, y: 4.5 });
-  return transformert;
-};
-
-const formatData = (alleOppgaver, skalPunsjVises: boolean) => {
-  const sammenslatteBehandlingstyper = alleOppgaver
+const slåSammen = (oppgaverForAvdeling: AlleOppgaver[], erPunsjValgt: boolean): number[] => {
+  const test = oppgaverForAvdeling
     .reduce((acc, o) => {
-      const index = skalPunsjVises ? punsjYKoordinat : behandlingstypeOrder.indexOf(o.behandlingType.kode) + 1;
+      const index = erPunsjValgt ? 1 : behandlingstypeOrder.findIndex((bo) => bo === o.behandlingType.kode) + 1;
+      if ((erPunsjValgt && o.behandlingType.kodeverk === 'PUNSJ_INNSENDING_TYPE') || (!erPunsjValgt && o.behandlingType.kodeverk !== 'PUNSJ_INNSENDING_TYPE')) {
+        return {
+          ...acc,
+          [index]: (acc[index] ? acc[index] + o.antall : o.antall),
+        };
+      }
       return {
         ...acc,
-        [index]: (acc[index] ? acc[index] + o.antall : o.antall),
       };
-    }, {});
+    }, {} as Record<string, number>);
 
-  return Object.keys(sammenslatteBehandlingstyper)
-    .map((k) => ({ x: sammenslatteBehandlingstyper[k], y: parseInt(k, 10) }));
-};
-
-const getHintAntall = (verdi, intl) => intl.formatMessage({ id: 'FordelingAvBehandlingstypeGraf.Antall' }, {
-  antall: verdi.x0 ? verdi.x - verdi.x0 : verdi.x,
-});
-const getHintTotalAntall = (verdi, tilBeslutter, tilSaksbehandling, intl) => {
-  const y = Math.ceil(verdi.y);
-  const beslutterAntall = tilBeslutter.find((b) => b.y === y);
-  const sum1 = beslutterAntall ? beslutterAntall.x : 0;
-  const saksbehandlingAntall = tilSaksbehandling.find((b) => b.y === y);
-  const sum2 = saksbehandlingAntall ? saksbehandlingAntall.x : 0;
-  return intl.formatMessage({ id: 'FordelingAvBehandlingstypeGraf.TotaltAntall' }, { antall: sum1 + sum2 });
+  return behandlingstypeOrder.map((b, index) => test[index + 1]);
 };
 
 interface OwnProps {
   intl: any;
-  width: number;
-  height: number;
   behandlingTyper: Kodeverk[];
   alleOppgaver: AlleOppgaver[];
   erPunsjValgt: boolean;
-}
-
-interface Koordinat {
-  x: number;
-  x0: number;
-  y: number;
 }
 
 /**
@@ -85,97 +59,95 @@ interface Koordinat {
  */
 const FordelingAvBehandlingstypeGraf: FunctionComponent<OwnProps & WrappedComponentProps> = ({
   intl,
-  width,
-  height,
   alleOppgaver,
   behandlingTyper,
   erPunsjValgt,
 }) => {
-  const [hintVerdi, setHintVerdi] = useState<Koordinat>();
+  const tilBehandlingTekst = intl.formatMessage({ id: 'FordelingAvBehandlingstypeGraf.TilBehandling' });
+  const tilBeslutterTekst = intl.formatMessage({ id: 'FordelingAvBehandlingstypeGraf.TilBeslutter' });
 
-  const leggTilHintVerdi = useCallback((verdi: Koordinat) => {
-    setHintVerdi(verdi);
-  }, []);
-  const fjernHintVerdi = useCallback(() => {
-    setHintVerdi(undefined);
-  }, []);
+  const finnBehandlingTypeNavn = useMemo(() => {
+    if (erPunsjValgt) {
+      return ['Punsj'];
+    }
+    return behandlingstypeOrder.map((t) => {
+      const type = behandlingTyper.find((bt) => bt.kode === t);
+      return type ? type.navn : '';
+    });
+  }, [behandlingTyper, erPunsjValgt]);
 
-  const stateRef = useRef({ skalPunsjbehandlingerVises: erPunsjValgt });
-  stateRef.current.skalPunsjbehandlingerVises = erPunsjValgt;
-
-  const finnBehandlingTypeNavn = useCallback((_v, i) => {
-    const type = behandlingTyper.find((bt) => bt.kode === behandlingstypeOrder[i]);
-    if (stateRef.current.skalPunsjbehandlingerVises) return 'Punsj';
-    return type ? type.navn : '';
-  }, []);
-  const tilSaksbehandling = useMemo(() => formatData(alleOppgaver.filter((o) => o.tilBehandling), stateRef.current.skalPunsjbehandlingerVises), [alleOppgaver]);
-  const tilBeslutter = useMemo(() => formatData(alleOppgaver.filter((o) => !o.tilBehandling), stateRef.current.skalPunsjbehandlingerVises), [alleOppgaver]);
-  const isEmpty = tilSaksbehandling.length === 0 && tilBeslutter.length === 0;
+  const tilBehandlingData = useMemo(() => slåSammen(alleOppgaver.filter((o) => o.tilBehandling), erPunsjValgt), [alleOppgaver]);
+  const tilBeslutterData = useMemo(() => slåSammen(alleOppgaver.filter((o) => !o.tilBehandling), erPunsjValgt), [alleOppgaver]);
 
   return (
-    <FlexContainer>
-      <FlexRow>
-        <FlexColumn>
-          <XYPlot
-            dontCheckIfEmpty={isEmpty}
-            margin={{
-              left: stateRef.current.skalPunsjbehandlingerVises ? 150 : 170, right: 40, top: 40, bottom: 0,
-            }}
-            width={width - LEGEND_WIDTH > 0 ? width - LEGEND_WIDTH : 100 + LEGEND_WIDTH}
-            height={height}
-            stackBy="x"
-            yDomain={stateRef.current.skalPunsjbehandlingerVises ? [0, 6] : [0, 7]}
-            {...(isEmpty ? { xDomain: [0, 100] } : {})}
-          >
-            <VerticalGridLines />
-            <XAxis orientation="top" style={{ text: cssText }} />
-            <YAxis
-              style={{ text: cssText }}
-              tickFormat={finnBehandlingTypeNavn}
-              tickValues={stateRef.current.skalPunsjbehandlingerVises ? [punsjYKoordinat] : [1, 2, 3, 4, 5, 6]}
-            />
-            <HorizontalRectSeries
-              data={settCustomHoydePaSoylene(tilSaksbehandling)}
-              onValueMouseOver={leggTilHintVerdi}
-              onValueMouseOut={fjernHintVerdi}
-              fill="#634689"
-              stroke="#634689"
-            />
-            <HorizontalRectSeries
-              data={settCustomHoydePaSoylene(tilBeslutter)}
-              onValueMouseOver={leggTilHintVerdi}
-              onValueMouseOut={fjernHintVerdi}
-              fill="#FF9100"
-              stroke="#FF9100"
-            />
-            {hintVerdi && (
-            <Hint value={hintVerdi}>
-              <div className={styles.hint}>
-                {getHintAntall(hintVerdi, intl)}
-                <br />
-                {getHintTotalAntall(hintVerdi, tilBeslutter, tilSaksbehandling, intl)}
-              </div>
-            </Hint>
-            )}
-          </XYPlot>
-        </FlexColumn>
-        {!stateRef.current.skalPunsjbehandlingerVises && (
-        <FlexColumn>
-          <DiscreteColorLegend
-            colors={['#634689', '#FF9100']}
-            items={[
-              <Normaltekst key="FordelingAvBehandlingstypeGraf.TilBehandling" className={styles.displayInline}>
-                <FormattedMessage id="FordelingAvBehandlingstypeGraf.TilBehandling" />
-              </Normaltekst>,
-              <Normaltekst key="FordelingAvBehandlingstypeGraf.TilBeslutter" className={styles.displayInline}>
-                <FormattedMessage id="FordelingAvBehandlingstypeGraf.TilBeslutter" />
-              </Normaltekst>,
-            ]}
-          />
-        </FlexColumn>
-        )}
-      </FlexRow>
-    </FlexContainer>
+    <ReactECharts
+      height={eChartGrafHeight}
+      option={{
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {
+            type: 'shadow',
+            label: {
+              formatter: (params) => {
+                let total = 0;
+                params.seriesData.forEach((s) => {
+                  if (s.data) {
+                    total += parseInt(s.data.toString(), 10);
+                  }
+                });
+                return total > 0 ? `${params.value}: ${total}` : params.value;
+              },
+            },
+          },
+          textStyle: eChartTooltipTextStyle,
+        },
+        legend: {
+          ...eChartLegendStyle,
+          data: [tilBehandlingTekst, tilBeslutterTekst],
+          show: !erPunsjValgt,
+        },
+        grid: eChartGridDef,
+        xAxis: {
+          type: 'value',
+          minInterval: 1,
+          axisLabel: {
+            fontSize: eChartYXAxisFontSizeSaksbehandlerNokkeltall,
+          },
+          boundaryGap: [0, 0.01],
+        },
+        yAxis: {
+          type: 'category',
+          axisLabel: {
+            fontSize: eChartYXAxisFontSizeSaksbehandlerNokkeltall,
+            margin: 15,
+          },
+          data: finnBehandlingTypeNavn,
+        },
+        series: [
+          {
+            name: tilBehandlingTekst,
+            type: 'bar',
+            stack: 'total',
+            emphasis: {
+              focus: 'series',
+            },
+            data: tilBehandlingData,
+            barMaxWidth: eChartMaxBarWithFordelingAvBehandlingstype,
+          },
+          {
+            name: tilBeslutterTekst,
+            type: 'bar',
+            stack: 'total',
+            emphasis: {
+              focus: 'series',
+            },
+            data: tilBeslutterData,
+            barMaxWidth: eChartMaxBarWithFordelingAvBehandlingstype,
+          },
+        ],
+        color: eChartFargerForLegendsFordelingAvBehandlingstype,
+      }}
+    />
   );
 };
 

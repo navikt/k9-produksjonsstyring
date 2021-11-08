@@ -6,7 +6,7 @@ import { injectIntl, WrappedComponentProps } from 'react-intl';
 
 import NyeOgFerdigstilteOppgaver from 'saksbehandler/saksstotte/nokkeltall/components/nyeOgFerdigstilteOppgaverTsType';
 import ReactECharts from 'sharedComponents/echart/ReactEcharts';
-import { dateFormat } from 'avdelingsleder/nokkeltall/HistorikkGrafEcharts';
+import { dateFormat } from 'avdelingsleder/nokkeltall/HistorikkGraf';
 import dayjs from 'dayjs';
 import {
   eChartFargerForLegendsForMineNyeFerdigstilte,

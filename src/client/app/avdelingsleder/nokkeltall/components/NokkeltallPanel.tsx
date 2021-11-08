@@ -1,5 +1,5 @@
 import React, {
-  useState, useRef, FunctionComponent, useEffect, useCallback,
+  FunctionComponent,
 } from 'react';
 
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
@@ -17,6 +17,7 @@ import IBehandlingerSomGarAvVentType
 import FordelingAvBehandlingstypePanel from './fordelingAvBehandlingstype/FordelingAvBehandlingstypePanel';
 import ferdigstilteHistorikk from '../../../../mocks/ferdigstilteHistorikk';
 import behandlingerSomGårAvVent from '../../../../mocks/behandlingerSomGårAvVent';
+import alleOppgaverMock from '../../../../mocks/alleOppgaverMock';
 
 interface OwnProps {
     alleOppgaver: AlleOppgaver[];
@@ -33,61 +34,36 @@ const NokkeltallPanel: FunctionComponent<OwnProps> = ({
   ferdigstiltePerDato,
   behandlingerSomGårAvVentt,
   beholdningPerDato,
-}) => {
-  const [width, setWidth] = useState(0);
-  const height = 200;
-
-  const ref = useRef(null);
-
-  const oppdaterGrafStorrelse = useCallback(() => {
-    if (ref.current) {
-      const rect = ref.current.getBoundingClientRect();
-      setWidth(rect.width);
-    }
-  }, [ref.current]);
-
-  useEffect(() => {
-    oppdaterGrafStorrelse();
-    window.addEventListener('resize', oppdaterGrafStorrelse);
-
-    return () => {
-      window.removeEventListener('resize', oppdaterGrafStorrelse);
-    };
-  }, []);
-
-  return (
-    <div ref={ref}>
-      <InngangOgFerdigstiltePanel
-        getValueFromLocalStorage={getValueFromLocalStorage}
-      />
-      <VerticalSpacer twentyPx />
-      <NyeHistorikkPanel
-        nyePerDato={ferdigstilteHistorikk}
-        getValueFromLocalStorage={getValueFromLocalStorage}
-      />
-      <VerticalSpacer twentyPx />
-      <FerdigstilteHistorikkPanel
-        ferdigstiltePerDato={ferdigstilteHistorikk}
-        getValueFromLocalStorage={getValueFromLocalStorage}
-      />
-      <VerticalSpacer twentyPx />
-      <BeholdningHistorikkPanel
-        beholdningPerDato={ferdigstilteHistorikk}
-        getValueFromLocalStorage={getValueFromLocalStorage}
-      />
-      <VerticalSpacer twentyPx />
-      <FordelingAvBehandlingstypePanel
-        width={width}
-        height={height}
-        alleOppgaver={alleOppgaver}
-        getValueFromLocalStorage={getValueFromLocalStorage}
-      />
-      <VerticalSpacer twentyPx />
-      <BehandlingerGårAvVent
-        behandlingerSomGårAvVent={behandlingerSomGårAvVent}
-      />
-    </div>
-  );
-};
+}) => (
+  <div>
+    <InngangOgFerdigstiltePanel
+      getValueFromLocalStorage={getValueFromLocalStorage}
+    />
+    <VerticalSpacer twentyPx />
+    <NyeHistorikkPanel
+      nyePerDato={ferdigstilteHistorikk}
+      getValueFromLocalStorage={getValueFromLocalStorage}
+    />
+    <VerticalSpacer twentyPx />
+    <FerdigstilteHistorikkPanel
+      ferdigstiltePerDato={ferdigstilteHistorikk}
+      getValueFromLocalStorage={getValueFromLocalStorage}
+    />
+    <VerticalSpacer twentyPx />
+    <BeholdningHistorikkPanel
+      beholdningPerDato={ferdigstilteHistorikk}
+      getValueFromLocalStorage={getValueFromLocalStorage}
+    />
+    <VerticalSpacer twentyPx />
+    <FordelingAvBehandlingstypePanel
+      alleOppgaver={alleOppgaverMock}
+      getValueFromLocalStorage={getValueFromLocalStorage}
+    />
+    <VerticalSpacer twentyPx />
+    <BehandlingerGårAvVent
+      behandlingerSomGårAvVent={behandlingerSomGårAvVent}
+    />
+  </div>
+);
 
 export default NokkeltallPanel;

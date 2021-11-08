@@ -12,7 +12,8 @@ import Panel from 'nav-frontend-paneler';
 import { ALLE_YTELSETYPER_VALGT, sjekkOmOppgaveSkalLeggesTil } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
 import useKodeverk from 'api/rest-api-hooks/src/global-data/useKodeverk';
 import StoreValuesInLocalStorage from 'form/StoreValuesInLocalStorage';
-import FordelingAvBehandlingstypeGraf from './FordelingAvBehandlingstypeGraf';
+import FordelingAvBehandlingstypeGraf
+  from 'avdelingsleder/nokkeltall/components/fordelingAvBehandlingstype/FordelingAvBehandlingstypeGraf';
 import styles from './fordelingAvBehandlingstypeGraf.less';
 
 const finnFagsakYtelseTypeNavn = (fagsakYtelseTyper, valgtFagsakYtelseType) => {
@@ -25,8 +26,6 @@ interface InitialValues {
 }
 
 interface OwnProps {
-  width: number;
-  height: number;
   alleOppgaver?: AlleOppgaver[];
   getValueFromLocalStorage: (key: string) => string;
 }
@@ -38,8 +37,6 @@ const formDefaultValues: InitialValues = { valgtYtelseType: ALLE_YTELSETYPER_VAL
  * FordelingAvBehandlingstypePanel.
  */
 export const FordelingAvBehandlingstypePanel: FunctionComponent<OwnProps> = ({
-  width,
-  height,
   alleOppgaver,
   getValueFromLocalStorage,
 }) => {
@@ -82,8 +79,6 @@ export const FordelingAvBehandlingstypePanel: FunctionComponent<OwnProps> = ({
             />
           </RadioGroupField>
           <FordelingAvBehandlingstypeGraf
-            width={width}
-            height={height}
             behandlingTyper={behandlingTyper}
             alleOppgaver={alleOppgaver ? alleOppgaver
               .filter((ofa) => (sjekkOmOppgaveSkalLeggesTil(values.valgtYtelseType, ofa))) : []}
