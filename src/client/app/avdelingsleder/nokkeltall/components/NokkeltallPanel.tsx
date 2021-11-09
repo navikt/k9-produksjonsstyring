@@ -15,15 +15,13 @@ import BehandlingerGårAvVent from 'avdelingsleder/nokkeltall/components/behandl
 import IBehandlingerSomGarAvVentType
   from 'avdelingsleder/nokkeltall/components/behandlingerGårAvVent/behandlingerSomGårAvVentType';
 import FordelingAvBehandlingstypePanel from './fordelingAvBehandlingstype/FordelingAvBehandlingstypePanel';
-import ferdigstilteHistorikk from '../../../../mocks/ferdigstilteHistorikk';
-import behandlingerSomGårAvVent from '../../../../mocks/behandlingerSomGårAvVent';
-import alleOppgaverMock from '../../../../mocks/alleOppgaverMock';
 
 interface OwnProps {
     alleOppgaver: AlleOppgaver[];
     ferdigstiltePerDato: HistoriskData[];
-    behandlingerSomGårAvVentt: IBehandlingerSomGarAvVentType[];
+    behandlingerSomGårAvVent: IBehandlingerSomGarAvVentType[];
     beholdningPerDato?: HistoriskData[];
+    nyePerDato?: HistoriskData[];
 }
 
 /**
@@ -32,8 +30,9 @@ interface OwnProps {
 const NokkeltallPanel: FunctionComponent<OwnProps> = ({
   alleOppgaver,
   ferdigstiltePerDato,
-  behandlingerSomGårAvVentt,
+  behandlingerSomGårAvVent,
   beholdningPerDato,
+  nyePerDato,
 }) => (
   <div>
     <InngangOgFerdigstiltePanel
@@ -41,22 +40,22 @@ const NokkeltallPanel: FunctionComponent<OwnProps> = ({
     />
     <VerticalSpacer twentyPx />
     <NyeHistorikkPanel
-      nyePerDato={ferdigstilteHistorikk}
+      nyePerDato={nyePerDato}
       getValueFromLocalStorage={getValueFromLocalStorage}
     />
     <VerticalSpacer twentyPx />
     <FerdigstilteHistorikkPanel
-      ferdigstiltePerDato={ferdigstilteHistorikk}
+      ferdigstiltePerDato={ferdigstiltePerDato}
       getValueFromLocalStorage={getValueFromLocalStorage}
     />
     <VerticalSpacer twentyPx />
     <BeholdningHistorikkPanel
-      beholdningPerDato={ferdigstilteHistorikk}
+      beholdningPerDato={beholdningPerDato}
       getValueFromLocalStorage={getValueFromLocalStorage}
     />
     <VerticalSpacer twentyPx />
     <FordelingAvBehandlingstypePanel
-      alleOppgaver={alleOppgaverMock}
+      alleOppgaver={alleOppgaver}
       getValueFromLocalStorage={getValueFromLocalStorage}
     />
     <VerticalSpacer twentyPx />
