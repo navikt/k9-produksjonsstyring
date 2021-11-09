@@ -57,6 +57,8 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps & WrappedComponentPro
   const { startRequest: leggTilBehandletOppgave } = useRestApiRunner(K9LosApiKeys.LEGG_TIL_BEHANDLET_OPPGAVE);
   const { startRequest: forlengOppgavereservasjon } = useRestApiRunner<Reservasjon[]>(K9LosApiKeys.FORLENG_OPPGAVERESERVASJON);
 
+  const initialRender = useRef(true);
+
   useEffect(() => {
     if (!showMenu) {
       if (reserverteOppgaver.length !== reserverteOppgaverState.length || !reserverteOppgaver.every((oppgave) => reserverteOppgaverState.includes(oppgave))) {
@@ -71,11 +73,17 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps & WrappedComponentPro
   [reserverteOppgaver, requestFinished]);
 
   useEffect(() => {
-    if (!showMenu) {
+    if (!showMenu && !initialRender.current) {
       hentReserverteOppgaver();
     }
   },
   [showMenu]);
+
+  useEffect(() => {
+    if (initialRender.current) {
+      initialRender.current = false;
+    }
+  });
 
   const forlengOppgaveReservasjonFn = useCallback((oppgaveId: string): Promise<any> => forlengOppgavereservasjon({ oppgaveId })
     .then(() => hentReserverteOppgaver()), []);
