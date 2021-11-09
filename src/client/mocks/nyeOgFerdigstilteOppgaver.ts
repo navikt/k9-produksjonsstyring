@@ -1,4 +1,4 @@
-const dato = '2021-11-07';
+const dato = '2021-08-29';
 const nyeOgFerdigstilteOppgaver = [
   {
     fagsakYtelseType: {
@@ -123,7 +123,7 @@ const nyeOgFerdigstilteOppgaver = [
       navn: 'Revurdering',
       kodeverk: 'ae0028',
     },
-    dato: '2021-08-24',
+    dato,
     antallNye: 1,
     antallFerdigstilte: 1,
     antallFerdigstilteMine: 1,

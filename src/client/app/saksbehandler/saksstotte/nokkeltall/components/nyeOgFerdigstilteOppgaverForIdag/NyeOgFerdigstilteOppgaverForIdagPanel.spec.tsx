@@ -32,7 +32,6 @@ describe('<NyeOgFerdigstilteOppgaverForIdagPanel>', () => {
     }];
 
     const wrapper = shallow(<NyeOgFerdigstilteOppgaverForIdagPanel
-      width={300}
       height={200}
       nyeOgFerdigstilteOppgaver={nyeOgFerdigstilteOppgaver}
     />);

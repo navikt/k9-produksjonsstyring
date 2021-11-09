@@ -3,13 +3,15 @@ import { K9LosApiKeys } from 'api/k9LosApi';
 import NyeOgFerdigstilteOppgaver from 'saksbehandler/saksstotte/nokkeltall/components/nyeOgFerdigstilteOppgaverTsType';
 import { useRestApi } from 'api/rest-api-hooks';
 import SaksbehandlerNokkeltallPanel from './components/SaksbehandlerNokkeltallPanel';
-import nyeOgFerdigstilteOppgaver from '../../../../mocks/nyeOgFerdigstilteOppgaver';
 
 /**
  * SaksbehandlerNokkeltallIndex
  */
-const SaksbehandlerNokkeltallIndex: FunctionComponent = () => (
-  <SaksbehandlerNokkeltallPanel nyeOgFerdigstilteOppgaver={nyeOgFerdigstilteOppgaver} />
-);
+const SaksbehandlerNokkeltallIndex: FunctionComponent = () => {
+  const { data: nyeOgFerdigstilteOppgaver = [] } = useRestApi<NyeOgFerdigstilteOppgaver[]>(K9LosApiKeys.HENT_NYE_OG_FERDIGSTILTE_OPPGAVER, {}, true);
+  return (
+    <SaksbehandlerNokkeltallPanel nyeOgFerdigstilteOppgaver={nyeOgFerdigstilteOppgaver} />
+  );
+};
 
 export default SaksbehandlerNokkeltallIndex;

@@ -68,9 +68,9 @@ describe('<NokkeltallUtils>', () => {
 
     const sammenslåttNyeOgFerdigstilleOppgaverHistorikkOppgaverRevurdering = sammenslåttNyeOgFerdigstilleOppgaver.find((oppgave) => oppgave.behandlingType.navn === 'Revurdering'
       && oppgave.dato === '2021-08-29'
-      && oppgave.antallNye === 2
-      && oppgave.antallFerdigstilte === 2
-      && oppgave.antallFerdigstilteMine === 2);
+      && oppgave.antallNye === 4
+      && oppgave.antallFerdigstilte === 4
+      && oppgave.antallFerdigstilteMine === 4);
 
     const sammenslåttNyeOgFerdigstilleOppgaverHistorikkOppgaverPapirettersendelse = sammenslåttNyeOgFerdigstilleOppgaver.find((oppgave) => oppgave.behandlingType.navn === 'Papirettersendelse'
       && oppgave.dato === '2021-08-29'
