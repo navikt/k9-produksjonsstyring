@@ -1,10 +1,10 @@
-import moment from 'moment';
 import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
 import behandlingType from 'kodeverk/behandlingType';
 import NyeOgFerdigstilteMedStonadstype from 'avdelingsleder/nokkeltall/nyeOgFerdigstilteMedStonadstypeTsType';
 import HistoriskData from 'avdelingsleder/nokkeltall/historiskDataTsType';
 import AlleOppgaver from 'avdelingsleder/nokkeltall/components/fordelingAvBehandlingstype/alleOppgaverTsType';
 import NyeOgFerdigstilteOppgaver from 'saksbehandler/saksstotte/nokkeltall/components/nyeOgFerdigstilteOppgaverTsType';
+import dayjs from 'dayjs';
 import punsjBehandlingstyper from '../../types/PunsjBehandlingstyper';
 import omsorgsdagerYtelsetyper from '../../types/OmsorgsdagerYtelsetyper';
 
@@ -55,8 +55,8 @@ export const erDatoInnenforPeriode = (oppgaveForAvdeling, ukevalg) => {
   if (ukevalg === uker[1].kode) {
     return true;
   }
-  const fireUkerSiden = moment().subtract(4, 'w');
-  return moment(oppgaveForAvdeling.dato).isSameOrAfter(fireUkerSiden);
+  const fireUkerSiden = dayjs().subtract(4, 'w');
+  return dayjs(oppgaveForAvdeling.dato).isSameOrAfter(fireUkerSiden);
 };
 
 export const slaSammenLikeBehandlingstyperOgDatoer = (oppgaver: HistoriskData[]) => {
