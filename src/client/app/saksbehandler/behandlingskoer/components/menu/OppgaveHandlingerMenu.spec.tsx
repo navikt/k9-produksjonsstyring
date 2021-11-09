@@ -8,7 +8,6 @@ import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
 import behandlingType from 'kodeverk/behandlingType';
 import OppgaveHandlingerMenu from './OppgaveHandlingerMenu';
 import OpphevReservasjonModal from './OpphevReservasjonModal';
-import OppgaveReservasjonForlengetModal from './OppgaveReservasjonForlengetModal';
 import FlyttReservasjonModal from './FlyttReservasjonModal';
 import MenuButton from './MenuButton';
 
@@ -126,9 +125,6 @@ describe('<OppgaveHandlingerMenu>', () => {
 
     const menuButton = wrapper.find(MenuButton).at(1);
     await menuButton.prop('onClick')();
-
-    const modal = wrapper.find(OppgaveReservasjonForlengetModal);
-    expect(modal).has.length(1);
   });
 
   it('skal vise modal for flytting av reservasjon', () => {
