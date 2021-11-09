@@ -58,24 +58,34 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps & WrappedComponentPro
   const { startRequest: forlengOppgavereservasjon } = useRestApiRunner<Reservasjon[]>(K9LosApiKeys.FORLENG_OPPGAVERESERVASJON);
 
   useEffect(() => {
-      if(!showMenu){
-        if(!reserverteOppgaver.every((v, i) => v === reserverteOppgaverState[i])){
-          setReserverteOppgaveState(reserverteOppgaver);
-        }
-
-        if(requestFinished !== requestFinishedState){
-          setRequestFinishedState(requestFinished);
-        }
+    if (!showMenu) {
+      // eslint-disable-next-line
+      console.log('showMenu', showMenu, reserverteOppgaver, reserverteOppgaverState, requestFinished);
+      if (!reserverteOppgaver.every((v, i) => v === reserverteOppgaverState[i])) {
+        // eslint-disable-next-line
+        console.log('reserverteOppgaver', reserverteOppgaver, reserverteOppgaverState);
+        setReserverteOppgaveState(reserverteOppgaver);
       }
-    },
-    [reserverteOppgaver, requestFinished]);
+
+      if (requestFinished !== requestFinishedState) {
+        // eslint-disable-next-line
+        console.log('requestFinished', requestFinished);
+        setRequestFinishedState(requestFinished);
+      }
+    }
+  },
+  [reserverteOppgaver, requestFinished]);
 
   useEffect(() => {
-      if(!showMenu){
-        hentReserverteOppgaver();
-      }
-    },
-    [showMenu]);
+    // eslint-disable-next-line
+      console.log('showMenuv2', showMenu);
+    if (!showMenu) {
+      // eslint-disable-next-line
+      console.log('hent');
+      hentReserverteOppgaver();
+    }
+  },
+  [showMenu]);
 
   const forlengOppgaveReservasjonFn = useCallback((oppgaveId: string): Promise<any> => forlengOppgavereservasjon({ oppgaveId })
     .then(() => hentReserverteOppgaver()), []);
