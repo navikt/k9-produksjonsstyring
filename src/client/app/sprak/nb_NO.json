@@ -236,8 +236,7 @@
 
   "OppgaverPerForsteStonadsdagPanel.FordeltPaForsteStonadsdag": "Antall førstegangsbehandlinger fordelt på første stønadsdag",
 
-  "OppgaveReservasjonForlengetModal.Reservert": "Behandlingen er reservert på deg",
-  "OppgaveReservasjonForlengetModal.Til": "t.o.m. {date} - {time}",
+  "OppgaveReservasjonForlengetModal.Reservert": "Behandlingen er reservert på deg t.o.m. {date} - {time}.",
   "OppgaveReservasjonForlengetModal.Ok": "OK",
   "IngenOppgaverIKonModan.Tekst": "Ingen flere ureserverte behandlinger i valgt kø. Velg en annen kø.",
 
