@@ -59,17 +59,11 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps & WrappedComponentPro
 
   useEffect(() => {
     if (!showMenu) {
-      // eslint-disable-next-line
-      console.log('showMenu', showMenu, reserverteOppgaver, reserverteOppgaverState, requestFinished);
       if (reserverteOppgaver.length !== reserverteOppgaverState.length || !reserverteOppgaver.every((oppgave) => reserverteOppgaverState.includes(oppgave))) {
-        // eslint-disable-next-line
-        console.log('reserverteOppgaver', reserverteOppgaver, reserverteOppgaverState);
         setReserverteOppgaveState(reserverteOppgaver);
       }
 
       if (requestFinished !== requestFinishedState) {
-        // eslint-disable-next-line
-        console.log('requestFinished', requestFinished);
         setRequestFinishedState(requestFinished);
       }
     }
@@ -77,11 +71,7 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps & WrappedComponentPro
   [reserverteOppgaver, requestFinished]);
 
   useEffect(() => {
-    // eslint-disable-next-line
-      console.log('showMenuv2', showMenu);
     if (!showMenu) {
-      // eslint-disable-next-line
-      console.log('hent');
       hentReserverteOppgaver();
     }
   },
