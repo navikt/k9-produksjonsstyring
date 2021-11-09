@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl';
 
 import { Form } from 'react-final-form';
 import { Element } from 'nav-frontend-typografi';
-import { RadioGroupField, RadioOption, SelectField } from 'form/FinalFields';
+import { SelectField } from 'form/FinalFields';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
@@ -20,11 +20,6 @@ import FordelingAvBehandlingstypeGraf
   from 'avdelingsleder/nokkeltall/components/fordelingAvBehandlingstype/FordelingAvBehandlingstypeGraf';
 import { Column, Row } from 'nav-frontend-grid';
 import styles from './fordelingAvBehandlingstypeGraf.less';
-
-const finnFagsakYtelseTypeNavn = (fagsakYtelseTyper, valgtFagsakYtelseType) => {
-  const type = fagsakYtelseTyper.find((fyt) => fyt.kode === valgtFagsakYtelseType);
-  return type ? type.navn : '';
-};
 
 interface InitialValues {
   valgtYtelseType: string;
