@@ -61,7 +61,7 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps & WrappedComponentPro
     if (!showMenu) {
       // eslint-disable-next-line
       console.log('showMenu', showMenu, reserverteOppgaver, reserverteOppgaverState, requestFinished);
-      if (!reserverteOppgaver.every((v, i) => v === reserverteOppgaverState[i])) {
+      if (reserverteOppgaver.length !== reserverteOppgaverState.length || !reserverteOppgaver.every((oppgave) => reserverteOppgaverState.includes(oppgave))) {
         // eslint-disable-next-line
         console.log('reserverteOppgaver', reserverteOppgaver, reserverteOppgaverState);
         setReserverteOppgaveState(reserverteOppgaver);
