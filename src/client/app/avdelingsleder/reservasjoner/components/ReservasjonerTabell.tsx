@@ -116,21 +116,6 @@ const ReservasjonerTabell: FunctionComponent<OwnProps & WrappedComponentProps> =
                   </Row>
                   <Row>
                     <div className={styles.menuLine}>
-                      <Image src={reservasjonIcon} className={styles.icon} />
-                      <div
-                        tabIndex={0}
-                        id="endreDato"
-                        className={styles.action}
-                        role="button"
-                        onClick={() => { setShowReservasjonEndringDatoModal(true); }}
-                        onKeyDown={() => { setShowReservasjonEndringDatoModal(true); }}
-                      >
-                        <FormattedMessage id="ReservasjonerTabell.EndreReservasjon" />
-                      </div>
-                    </div>
-                  </Row>
-                  <Row>
-                    <div className={styles.menuLine}>
                       <Image src={arrowIconRight} className={styles.icon} />
                       <div
                         id="flytt"
@@ -158,15 +143,6 @@ const ReservasjonerTabell: FunctionComponent<OwnProps & WrappedComponentProps> =
         showModal={showOpphevReservasjonModal}
         cancel={() => setShowOpphevReservasjonModal(false)}
         hentReserverteOppgaver={hentAlleReservasjoner}
-      />
-      )}
-      {showReservasjonEndringDatoModal && (
-      <OppgaveReservasjonEndringDatoModal
-        showModal={showReservasjonEndringDatoModal}
-        oppgaveId={valgtReservasjon.oppgaveId}
-        closeModal={() => setShowReservasjonEndringDatoModal(false)}
-        hentAlleReservasjonerEllerOppgaver={hentAlleReservasjoner}
-        reserverTilDefault={valgtReservasjon.reservertTilTidspunkt}
       />
       )}
       { showFlyttReservasjonModal && (
