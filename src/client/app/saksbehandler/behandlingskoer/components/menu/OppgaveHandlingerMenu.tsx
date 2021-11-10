@@ -7,7 +7,6 @@ import { getDate, getTime } from 'utils/dateUtils';
 import MenuButton from './MenuButton';
 import OpphevReservasjonModal from './OpphevReservasjonModal';
 import FlyttReservasjonModal from './FlyttReservasjonModal';
-import OppgaveReservasjonEndringDatoModal from './OppgaveReservasjonEndringDatoModal';
 
 import styles from './oppgaveHandlingerMenu.less';
 import innvilgetImageUrl from '../../../../../images/sharedComponents/innvilget_valgt.svg';
