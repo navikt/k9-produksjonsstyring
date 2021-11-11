@@ -9,6 +9,7 @@ import ReactECharts from 'sharedComponents/echart/ReactEcharts';
 import { dateFormat } from 'utils/dateUtils';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { FormattedMessage } from 'react-intl';
+import HistoriskData from 'avdelingsleder/nokkeltall/historiskDataTsType';
 import {
   eChartFargerForLegendsForBehandlingerPåVent,
   eChartGridDef, eChartSeriesStyleAvdelningslederNokkeltall,
@@ -56,13 +57,17 @@ const BehandlingerGarAvVentGraf: FunctionComponent<OwnProps> = ({
   behandlingerSomGårAvVent,
   antallUkerSomSkalVises,
 }) => {
+  const periodeStart = dayjs();
+  const periodeSlutt = dayjs().add(antallUkerSomSkalVises === '4' ? 4 : 2, 'w');
+  const oppgaverInomValgtPeriode: IBehandlingerSomGarAvVentType[] = behandlingerSomGårAvVent.filter((oppgave) => oppgave.antall > 0 && dayjs(oppgave.dato).isSameOrBefore(periodeSlutt) && dayjs(oppgave.dato).isSameOrAfter(periodeStart));
+
   const behandlingerSomGårAvVentToUkerFremITid: [string, number][] = useMemo(
-    () => slaSammenBehandlingstyperOgFyllInnTomme(behandlingerSomGårAvVent, 2),
+    () => slaSammenBehandlingstyperOgFyllInnTomme(oppgaverInomValgtPeriode, 2),
     [behandlingerSomGårAvVent],
   );
 
   const behandlingerSomGårAvVentFireUkerFremITid: [string, number][] = useMemo(
-    () => slaSammenBehandlingstyperOgFyllInnTomme(behandlingerSomGårAvVent, 4),
+    () => slaSammenBehandlingstyperOgFyllInnTomme(oppgaverInomValgtPeriode, 4),
     [behandlingerSomGårAvVent],
   );
 
