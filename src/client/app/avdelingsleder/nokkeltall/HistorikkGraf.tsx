@@ -11,6 +11,8 @@ import ReactECharts from 'sharedComponents/echart/ReactEcharts';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import Kodeverk from 'kodeverk/kodeverkTsType';
+import { FormattedMessage } from 'react-intl';
+import { Normaltekst } from 'nav-frontend-typografi';
 import Koordinat from '../../types/Koordinat';
 import {
   eChartGrafHeight,
@@ -34,6 +36,16 @@ const behandlingstypeFarger = {
   [behandlingType.TILBAKEBETALING]: '#06893A',
   PUNSJ: '#06893A',
 };
+
+// Denne bestemmer rekkeföljd på graferna. Alltså forstegangssoknad skal lengst bak etc. Klage og anke er utkommentert då det ikke skal vises nå.
+const behandlingstyperSomSkalVises = [
+  behandlingType.FORSTEGANGSSOKNAD,
+  behandlingType.REVURDERING,
+  behandlingType.TILBAKEBETALING,
+  behandlingType.INNSYN,
+  // [behandlingType.ANKE]: '#BA3A26',
+  // [behandlingType.KLAGE]: '#634689',
+];
 
 export const DDMMYYYY_DATE_FORMAT = 'DD.MM.YYYY';
 
@@ -111,13 +123,24 @@ const HistorikkGraf: FunctionComponent<OwnProps> = ({
 }) => {
   const periodeStart = dayjs().subtract(isFireUkerValgt ? 4 : 2, 'w').add(1, 'd');
   const periodeSlutt = dayjs().subtract(1, 'd');
+  const oppgaverInomValgtPeriode: HistoriskData[] = historiskData.filter((oppgave) => oppgave.antall && dayjs(oppgave.dato).isSameOrBefore(periodeSlutt) && dayjs(oppgave.dato).isSameOrAfter(periodeStart));
 
-  const koordinater = useMemo(() => konverterTilKoordinaterGruppertPaBehandlingstype(historiskData), [historiskData]);
+  const koordinater = useMemo(() => konverterTilKoordinaterGruppertPaBehandlingstype(oppgaverInomValgtPeriode), [historiskData]);
   const data = useMemo(() => fyllInnManglendeDatoerOgSorterEtterDato(koordinater, periodeStart, periodeSlutt), [koordinater, periodeStart, periodeSlutt]);
 
-  const alleBehandlingstyperSortert = erPunsjValgt ? ['PUNSJ'] : behandlingTyper.map((bt) => bt.kode).sort(sorterBehandlingtyper);
+  const alleBehandlingstyperSortert = erPunsjValgt ? ['PUNSJ'] : behandlingstyperSomSkalVises;
   const sorterteBehandlingstyper = Object.keys(data).sort(sorterBehandlingtyper);
   const reversertSorterteBehandlingstyper = erPunsjValgt ? [] : sorterteBehandlingstyper.slice().reverse();
+
+  if (oppgaverInomValgtPeriode.length === 0) {
+    return (
+      <div>
+        <Normaltekst>
+          <FormattedMessage id="InngangOgFerdigstiltePanel.IngenTall" />
+        </Normaltekst>
+      </div>
+    );
+  }
 
   return (
     <ReactECharts

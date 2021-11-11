@@ -7,6 +7,8 @@ import { ISO_DATE_FORMAT } from 'utils/formats';
 import dayjs from 'dayjs';
 import ReactECharts from 'sharedComponents/echart/ReactEcharts';
 import { dateFormat } from 'utils/dateUtils';
+import { Normaltekst } from 'nav-frontend-typografi';
+import { FormattedMessage } from 'react-intl';
 import {
   eChartFargerForLegendsForBehandlingerPåVent,
   eChartGridDef, eChartSeriesStyleAvdelningslederNokkeltall,
@@ -63,6 +65,16 @@ const BehandlingerGarAvVentGraf: FunctionComponent<OwnProps> = ({
     () => slaSammenBehandlingstyperOgFyllInnTomme(behandlingerSomGårAvVent, 4),
     [behandlingerSomGårAvVent],
   );
+
+  if (behandlingerSomGårAvVent.length === 0) {
+    return (
+      <div>
+        <Normaltekst>
+          <FormattedMessage id="InngangOgFerdigstiltePanel.IngenTall" />
+        </Normaltekst>
+      </div>
+    );
+  }
 
   return (
     <ReactECharts

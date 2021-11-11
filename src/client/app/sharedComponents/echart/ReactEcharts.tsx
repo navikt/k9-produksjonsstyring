@@ -36,7 +36,7 @@ const ReactECharts: FunctionComponent<OwnProps> = ({
   useEffect(() => {
     if (chartRef.current !== null) {
       const chart = getInstanceByDom(chartRef.current);
-      chart.setOption(option);
+      chart.setOption(option, true);
     }
   }, [chartRef.current, option]);
 
