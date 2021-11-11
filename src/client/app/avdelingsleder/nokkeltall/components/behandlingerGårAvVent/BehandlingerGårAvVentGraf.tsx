@@ -68,15 +68,15 @@ const BehandlingerGarAvVentGraf: FunctionComponent<OwnProps> = ({
 
   const behandlingerSomGårAvVentToUkerFremITid: [string, number][] = useMemo(
     () => slaSammenBehandlingstyperOgFyllInnTomme(oppgaverInomValgtPeriode, 2),
-    [behandlingerSomGårAvVent],
+    [oppgaverInomValgtPeriode],
   );
 
   const behandlingerSomGårAvVentFireUkerFremITid: [string, number][] = useMemo(
     () => slaSammenBehandlingstyperOgFyllInnTomme(oppgaverInomValgtPeriode, 4),
-    [behandlingerSomGårAvVent],
+    [oppgaverInomValgtPeriode],
   );
 
-  if (behandlingerSomGårAvVent.length === 0) {
+  if (oppgaverInomValgtPeriode.length === 0) {
     return (
       <div>
         <Normaltekst>

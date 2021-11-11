@@ -27,7 +27,7 @@ const BehandlingerGårAvVent: FunctionComponent<OwnProps & WrappedComponentProps
   const [antallUkerSomSkalVises, setAntallUkerSomSkalVises] = useState<string>('2');
 
   const PSBBehandlinger: IBehandlingerSomGarAvVentType[] = behandlingerSomGårAvVent.filter(
-    (behandling) => behandling.fagsakYtelseType.kode === fagsakYtelseType.PLEIEPENGER_SYKT_BARN && behandling.behandlingType.kodeverk === punsjKodeverkNavn,
+    (behandling) => behandling.fagsakYtelseType.kode === fagsakYtelseType.PLEIEPENGER_SYKT_BARN && behandling.behandlingType.kodeverk !== punsjKodeverkNavn,
   );
 
   const OMPBehandlinger: IBehandlingerSomGarAvVentType[] = behandlingerSomGårAvVent.filter(
