@@ -46,33 +46,38 @@ export const FlyttReservasjonModal: FunctionComponent<OwnProps & WrappedComponen
     startRequest, state, data: saksbehandler, resetRequestData,
   } = useRestApiRunner<Saksbehandler>(K9LosApiKeys.FLYTT_RESERVASJON_SAKSBEHANDLER_SOK);
   const { startRequest: endreOppgaveReservasjon } = useRestApiRunner(K9LosApiKeys.ENDRE_OPPGAVERESERVASJON);
-  const { startRequest: flyttOppgaveReservasjon } = useRestApiRunner(K9LosApiKeys.FLYTT_RESERVASJON);
 
   const finnSaksbehandler = useCallback((brukerIdent) => startRequest({ brukerIdent }), []);
 
   const { navn } = useGlobalStateRestApiData<NavAnsatt>(RestApiGlobalStatePathsKeys.NAV_ANSATT);
 
-  const flyttOppgaveReservasjonFn = useCallback(
-    (brukerIdent: string, begrunnelse: string): Promise<any> => flyttOppgaveReservasjon({ oppgaveId, brukerIdent, begrunnelse })
-      .then(() => {
-        hentAlleReservasjonerEllerOppgaver();
-        closeModal();
-      }),
-    [],
+  const endreReservasjonFn = useCallback(
+    (brukerIdent: string, begrunnelse: string, reservertTilDato: string): Promise<any> => {
+      const params: {
+        oppgaveId: string;
+        brukerIdent: string;
+        begrunnelse: string;
+        reserverTil?: string;
+      } = {
+        oppgaveId,
+        brukerIdent,
+        begrunnelse,
+      };
+
+      if (reservertTilDato) {
+        params.reserverTil = reservertTilDato;
+      }
+
+      return endreOppgaveReservasjon(params)
+        .then(() => {
+          hentAlleReservasjonerEllerOppgaver();
+          closeModal();
+        });
+    }, [],
   );
 
-  const endreReservasjonDatoOgFlyttOppgaveReservasjonFn = useCallback((reserverTil: string, brukerIdent: string, begrunnelse: string): Promise<any> => endreOppgaveReservasjon({ oppgaveId, reserverTil })
-    .then(() => {
-      flyttOppgaveReservasjonFn(brukerIdent, begrunnelse);
-    }),
-  []);
-
   const onSubmit = (brukerIdent: string, begrunnelse: string, reservertTilDato: string) => {
-    if (reservertTilDato) {
-      endreReservasjonDatoOgFlyttOppgaveReservasjonFn(reservertTilDato, saksbehandler ? saksbehandler.brukerIdent : '', begrunnelse);
-    } else {
-      flyttOppgaveReservasjonFn(saksbehandler ? saksbehandler.brukerIdent : '', begrunnelse);
-    }
+    endreReservasjonFn(brukerIdent, begrunnelse, reservertTilDato);
   };
 
   const formatText = () => {
