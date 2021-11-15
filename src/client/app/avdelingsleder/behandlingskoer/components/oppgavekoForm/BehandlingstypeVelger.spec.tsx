@@ -63,8 +63,8 @@ const behandlingTyper = [{
   navn: 'Samtalereferat',
 },
 {
-  kode: behandlingType.INNTEKSTMELDING_UTGÅTT,
-  navn: 'INNTEKSTMELDING_UTGÅTT',
+  kode: behandlingType.INNTEKTSMELDING_UTGÅTT,
+  navn: 'INNTEKTSMELDING_UTGÅTT',
 },
 ];
 
@@ -82,7 +82,7 @@ describe('<BehandlingstypeVelger>', () => {
         const checkboxer = wrapper.find(CheckboxField);
         expect(checkboxer).to.have.length(17);
         expect(checkboxer.first().prop('name')).to.eql(behandlingType.ANKE);
-        expect(checkboxer.last().prop('name')).to.eql(behandlingType.INNTEKSTMELDING_UTGÅTT);
+        expect(checkboxer.last().prop('name')).to.eql(behandlingType.INNTEKTSMELDING_UTGÅTT);
       });
   });
 
