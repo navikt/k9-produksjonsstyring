@@ -7,7 +7,6 @@ import { getDate, getTime } from 'utils/dateUtils';
 import MenuButton from './MenuButton';
 import OpphevReservasjonModal from './OpphevReservasjonModal';
 import FlyttReservasjonModal from './FlyttReservasjonModal';
-import OppgaveReservasjonEndringDatoModal from './OppgaveReservasjonEndringDatoModal';
 
 import styles from './oppgaveHandlingerMenu.less';
 import innvilgetImageUrl from '../../../../../images/sharedComponents/innvilget_valgt.svg';
@@ -46,7 +45,6 @@ interface OwnState {
   showForlengetReservasjonModal: boolean;
   showForlengetReservasjonModalTilDato: string;
   showFlyttReservasjonModal: boolean;
-  showReservasjonEndringDatoModal: boolean;
 }
 
 /**
@@ -64,7 +62,6 @@ export class OppgaveHandlingerMenu extends Component<OwnProps, OwnState> {
       showOpphevReservasjonModal: false,
       showForlengetReservasjonModal: false,
       showForlengetReservasjonModalTilDato: '',
-      showReservasjonEndringDatoModal: false,
       showFlyttReservasjonModal: false,
     };
 
@@ -115,23 +112,11 @@ export class OppgaveHandlingerMenu extends Component<OwnProps, OwnState> {
     this.setState((prevState) => ({ ...prevState, showFlyttReservasjonModal: true }));
   };
 
-  showReservasjonEndringDato = () => {
-    toggleEventListeners(false, this.handleOutsideClick);
-    this.setState((prevState) => ({ ...prevState, showReservasjonEndringDatoModal: true }));
-  };
-
   closeFlytteModal = () => {
     const { toggleMenu, oppgave } = this.props;
     toggleMenu(oppgave);
     toggleEventListeners(true, this.handleOutsideClick);
     this.setState((prevState) => ({ ...prevState, showFlyttReservasjonModal: false }));
-  };
-
-  closeReservasjonEndringDatoModal = (event: MouseEvent<HTMLButtonElement>) => {
-    const { toggleMenu, oppgave } = this.props;
-    toggleMenu(oppgave);
-    this.handleOutsideClick(event);
-    this.setState((prevState) => ({ ...prevState, showForlengetReservasjonModal: true }));
   };
 
   closeForlengReservasjonModal = (event?: MouseEvent<HTMLButtonElement>) => {
@@ -166,7 +151,7 @@ export class OppgaveHandlingerMenu extends Component<OwnProps, OwnState> {
       oppgave, offset, hentReserverteOppgaver,
     } = this.props;
     const {
-      showOpphevReservasjonModal, showForlengetReservasjonModal, showForlengetReservasjonModalTilDato, showFlyttReservasjonModal, showReservasjonEndringDatoModal,
+      showOpphevReservasjonModal, showForlengetReservasjonModal, showForlengetReservasjonModalTilDato, showFlyttReservasjonModal,
     } = this.state;
 
     return (
@@ -178,9 +163,6 @@ export class OppgaveHandlingerMenu extends Component<OwnProps, OwnState> {
           </MenuButton>
           <MenuButton onClick={this.forlengReserverasjon}>
             <FormattedMessage id="OppgaveHandlingerMenu.ForlengReservasjon" values={{ br: <br /> }} />
-          </MenuButton>
-          <MenuButton onClick={this.showReservasjonEndringDato}>
-            <FormattedMessage id="OppgaveHandlingerMenu.EndreReservasjon" />
           </MenuButton>
           <MenuButton onClick={this.showFlytteModal}>
             <FormattedMessage id="OppgaveHandlingerMenu.FlyttReservasjon" values={{ br: <br /> }} />
@@ -194,15 +176,6 @@ export class OppgaveHandlingerMenu extends Component<OwnProps, OwnState> {
             toggleMenu={this.toggleMeny}
             hentReserverteOppgaver={hentReserverteOppgaver}
           />
-        )}
-        {showReservasjonEndringDatoModal && (
-        <OppgaveReservasjonEndringDatoModal
-          showModal={showReservasjonEndringDatoModal}
-          oppgaveId={oppgave.eksternId}
-          hentAlleReservasjonerEllerOppgaver={hentReserverteOppgaver}
-          closeModal={this.closeReservasjonEndringDatoModal}
-          reserverTilDefault={oppgave.status.reservertTilTidspunkt}
-        />
         )}
         {showForlengetReservasjonModal && showForlengetReservasjonModalTilDato
           && (
@@ -221,6 +194,7 @@ export class OppgaveHandlingerMenu extends Component<OwnProps, OwnState> {
         { showFlyttReservasjonModal && (
           <FlyttReservasjonModal
             oppgaveId={oppgave.eksternId}
+            oppgaveReservertTil={oppgave.status.reservertTilTidspunkt.substring(0, 10)}
             showModal={showFlyttReservasjonModal}
             closeModal={this.closeFlytteModal}
             hentAlleReservasjonerEllerOppgaver={hentReserverteOppgaver}

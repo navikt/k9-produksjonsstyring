@@ -55,7 +55,7 @@ describe('<OppgaveHandlingerMenu>', () => {
       />,
     );
 
-    expect(wrapper.find(MenuButton)).has.length(4);
+    expect(wrapper.find(MenuButton)).has.length(3);
   });
 
   it('skal vise modal for oppheving av reservasjon ved klikk på menyknapp og så lukke den ved å avbryte i modal', () => {
