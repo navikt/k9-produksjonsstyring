@@ -15,6 +15,7 @@ const behandlingType = {
   SAMTALEREFERAT: 'SAMTALEREFERAT',
   KOPI: 'KOPI',
   UKJENT: 'UKJENT',
+  INNTEKSTMELDING_UTGÅTT: 'INNTEKSTMELDING_UTGÅTT',
 };
 
 export default behandlingType;
