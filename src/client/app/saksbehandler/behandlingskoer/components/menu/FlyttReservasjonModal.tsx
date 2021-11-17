@@ -70,7 +70,6 @@ export const FlyttReservasjonModal: FunctionComponent<OwnProps & WrappedComponen
 
       return endreOppgaveReservasjon(params)
         .then(() => {
-          hentAlleReservasjonerEllerOppgaver();
           closeModal();
         });
     }, [],
