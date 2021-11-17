@@ -25,7 +25,6 @@
     "final-form": "^4.20.1",
     "history": "^4.10.1",
     "lodash.throttle": "^4.1.1",
-    "moment": "^2.27.0",
     "nav-frontend-alertstriper": "^4.0.1",
     "nav-frontend-alertstriper-style": "^3.0.1",
     "nav-frontend-chevron": "1.0.30",

@@ -2,17 +2,18 @@ import React, {
   FunctionComponent, useMemo,
 } from 'react';
 
-import { injectIntl, WrappedComponentProps } from 'react-intl';
+import { FormattedMessage, injectIntl, WrappedComponentProps } from 'react-intl';
 
 import NyeOgFerdigstilteOppgaver from 'saksbehandler/saksstotte/nokkeltall/components/nyeOgFerdigstilteOppgaverTsType';
 import ReactECharts from 'sharedComponents/echart/ReactEcharts';
 import { dateFormat } from 'avdelingsleder/nokkeltall/HistorikkGraf';
 import dayjs from 'dayjs';
+import { Normaltekst } from 'nav-frontend-typografi';
 import {
   eChartFargerForLegendsForMineNyeFerdigstilte,
   eChartGridDef,
   eChartLegendStyle, eChartTooltipTextStyle,
-  eChartYaxisDef, eChartYXAxisFontSizeSaksbehandlerNokkeltall,
+  eChartYaxisDef, eChartYXAxisFontSizeSaksbehandlerNokkeltall, graferOpacity,
 } from '../../../../../../styles/echartStyle';
 
 interface OwnProps {
@@ -67,6 +68,16 @@ const NyeOgFerdigstilteOppgaverForSisteSyvGraf: FunctionComponent<OwnProps & Wra
   const nyeOppgaver = useMemo(() => sammenslatteOppgaver.map((o) => [o.dato.getTime(), o.antallNye]), [sammenslatteOppgaver]);
   const ferdigstilteOppgaverMine = useMemo(() => sammenslatteOppgaver.map((o) => [o.dato.getTime(), o.antallFerdigstilteMine]), [sammenslatteOppgaver]);
 
+  if (nyeOgFerdigstilteOppgaver.length === 0) {
+    return (
+      <div>
+        <Normaltekst>
+          <FormattedMessage id="InngangOgFerdigstiltePanel.IngenTall" />
+        </Normaltekst>
+      </div>
+    );
+  }
+
   return (
     <ReactECharts
       height={height}
@@ -108,32 +119,38 @@ const NyeOgFerdigstilteOppgaverForSisteSyvGraf: FunctionComponent<OwnProps & Wra
           {
             name: nyLabel,
             type: 'line',
-            areaStyle: {},
             emphasis: {
               focus: 'series',
             },
             data: nyeOppgaver,
             color: eChartFargerForLegendsForMineNyeFerdigstilte[0],
+            areaStyle: {
+              opacity: graferOpacity,
+            },
           },
           {
             name: ferdigLabel,
             type: 'line',
-            areaStyle: {},
             emphasis: {
               focus: 'series',
             },
             data: ferdigstilteOppgaver,
             color: eChartFargerForLegendsForMineNyeFerdigstilte[1],
+            areaStyle: {
+              opacity: graferOpacity,
+            },
           },
           {
             name: mineFerdigeLabel,
             type: 'line',
-            areaStyle: {},
             emphasis: {
               focus: 'series',
             },
             data: ferdigstilteOppgaverMine,
             color: eChartFargerForLegendsForMineNyeFerdigstilte[2],
+            areaStyle: {
+              opacity: graferOpacity,
+            },
           },
         ],
       }}

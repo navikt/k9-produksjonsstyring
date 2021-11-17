@@ -1,5 +1,4 @@
 import React, { FunctionComponent, useMemo, useState } from 'react';
-import moment from 'moment';
 import { FormattedMessage } from 'react-intl';
 import { Element } from 'nav-frontend-typografi';
 
@@ -14,13 +13,14 @@ import {
 import { Select } from 'nav-frontend-skjema';
 import NyeOgFerdigstilteOppgaverForSisteSyvGraf
   from 'saksbehandler/saksstotte/nokkeltall/components/nyeOgFerdigstilteOppgaverForSisteSyv/NyeOgFerdigstilteOppgaverForSisteSyvGraf';
+import dayjs from 'dayjs';
 import styles
   from '../nyeOgFerdigstilteOppgaverFelles.less';
 import NyeOgFerdigstilteOppgaver, { fagytelsetyperForOppgaveFiltrering } from '../nyeOgFerdigstilteOppgaverTsType';
 
 export const getNyeOgFerdigstilteForSisteSyvDager = (nyeOgFerdigstilte: NyeOgFerdigstilteOppgaver[] = []) => {
-  const iDag = moment().startOf('day');
-  return nyeOgFerdigstilte.filter((oppgave) => iDag.isAfter(moment(oppgave.dato, ISO_DATE_FORMAT)));
+  const iDag = dayjs().startOf('day');
+  return nyeOgFerdigstilte.filter((oppgave) => iDag.isAfter(dayjs(oppgave.dato, ISO_DATE_FORMAT)));
 };
 
 interface OwnProps {

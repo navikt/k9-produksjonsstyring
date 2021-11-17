@@ -4,7 +4,6 @@ import { Form } from 'react-final-form';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import Panel from 'nav-frontend-paneler';
-import moment from 'moment';
 import { ISO_DATE_FORMAT } from 'utils/formats';
 import { K9LosApiKeys } from 'api/k9LosApi';
 import NavFrontendSpinner from 'nav-frontend-spinner';
@@ -17,6 +16,7 @@ import { ToggleKnapp } from 'nav-frontend-toggle';
 import NyeOgFerdigstilteMedStonadstype from 'avdelingsleder/nokkeltall/nyeOgFerdigstilteMedStonadstypeTsType';
 import useRestApi from 'api/rest-api-hooks/src/local-data/useRestApi';
 import RestApiState from 'api/rest-api-hooks/src/RestApiState';
+import dayjs from 'dayjs';
 import Teller from './Teller';
 import styles from './inngangOgFerdigstiltePanel.less';
 
@@ -73,10 +73,10 @@ export const InngangOgFerdigstiltePanel: FunctionComponent<OwnProps & WrappedCom
   const requestFinished = state === RestApiState.SUCCESS;
 
   const nyeOgFerdigstilteOppgaverIdag = nyeOgFerdigstilteOppgaverMedStonadstype.filter(
-    (oppgave) => moment().isSame(moment(oppgave.dato, ISO_DATE_FORMAT), 'day'),
+    (oppgave) => dayjs().isSame(dayjs(oppgave.dato, ISO_DATE_FORMAT), 'day'),
   );
   const nyeOgFerdigstilteOppgaver7dager = nyeOgFerdigstilteOppgaverMedStonadstype.filter(
-    (oppgave) => moment().startOf('day').isSameOrAfter(moment(oppgave.dato, ISO_DATE_FORMAT)),
+    (oppgave) => dayjs().startOf('day').isSameOrAfter(dayjs(oppgave.dato, ISO_DATE_FORMAT)),
   );
 
   const getNyeTotalt = (oppgaver: NyeOgFerdigstilteMedStonadstype[], ytelseType: string) => {

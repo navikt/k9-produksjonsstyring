@@ -25,7 +25,6 @@ export const getNyeOgFerdigstilteForIDag = (nyeOgFerdigstilte: NyeOgFerdigstilte
 };
 
 interface OwnProps {
-    height: number;
     nyeOgFerdigstilteOppgaver: NyeOgFerdigstilteOppgaver[];
 }
 
@@ -33,7 +32,6 @@ interface OwnProps {
  * NyeOgFerdigstilteOppgaverForIdagPanel.
  */
 export const NyeOgFerdigstilteOppgaverForIdagPanel: FunctionComponent<OwnProps> = ({
-  height,
   nyeOgFerdigstilteOppgaver,
 }) => {
   let skalPunsjVises = false;
@@ -94,7 +92,6 @@ export const NyeOgFerdigstilteOppgaverForIdagPanel: FunctionComponent<OwnProps> 
       </div>
 
       <NyeOgFerdigstilteOppgaverForIdagGraf
-        height={height}
         nyeOgFerdigstilteOppgaver={hentOppgave()}
         behandlingTyper={behandlingTyper}
         skalPunsjbehandlingerVises={skalPunsjVises}

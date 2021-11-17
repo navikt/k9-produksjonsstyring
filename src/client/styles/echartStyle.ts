@@ -16,6 +16,7 @@ export const eChartYAxisMarginTextBarAvdelningslederNokkeltall = 15;
 export const eChartFargerForLegendsForMineNyeFerdigstilte = ['#0067C5', '#634689', '#FF9100'];
 export const eChartFargerForLegendsFordelingAvBehandlingstype = ['#634689', '#FF9100'];
 export const eChartFargerForLegendsForBehandlingerPåVent = '#FF9100';
+export const graferOpacity = 0.6;
 
 export const eChartGridDef = {
   top: '10%',

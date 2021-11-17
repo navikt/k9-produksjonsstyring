@@ -21,7 +21,7 @@ import {
   eChartTooltipTextStyle,
   eChartXAxisFontSizeAvdelningslederNokkeltall, eChartXAxisTickDefAvdelningslederNokkeltall,
   eChartYAxisFontSizeAvdelningslederNokkeltall,
-  eChartYAxisMarginTextBarAvdelningslederNokkeltall,
+  eChartYAxisMarginTextBarAvdelningslederNokkeltall, graferOpacity,
 } from '../../../styles/echartStyle';
 
 dayjs.extend(isSameOrBefore);
@@ -219,7 +219,7 @@ const HistorikkGraf: FunctionComponent<OwnProps> = ({
             data: data[type],
             color: behandlingstypeFarger[type],
             areaStyle: {
-              opacity: 0.6,
+              opacity: graferOpacity,
             },
           })),
       }}

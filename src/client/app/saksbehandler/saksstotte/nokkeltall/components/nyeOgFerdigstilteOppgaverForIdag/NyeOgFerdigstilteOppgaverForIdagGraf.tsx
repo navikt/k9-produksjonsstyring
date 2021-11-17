@@ -1,11 +1,12 @@
 import React, { useMemo, FunctionComponent } from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
+import { FormattedMessage, injectIntl, WrappedComponentProps } from 'react-intl';
 
 import Kodeverk from 'kodeverk/kodeverkTsType';
 import behandlingType from 'kodeverk/behandlingType';
 
 import ReactECharts from 'sharedComponents/echart/ReactEcharts';
 import { punsjKodeverkNavn } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
+import { Normaltekst } from 'nav-frontend-typografi';
 import NyeOgFerdigstilteOppgaver from '../nyeOgFerdigstilteOppgaverTsType';
 
 import {
@@ -25,7 +26,6 @@ const behandlingstypeOrder = [
   behandlingType.FORSTEGANGSSOKNAD];
 
 interface OwnProps {
-  height: number;
   behandlingTyper: Kodeverk[];
   nyeOgFerdigstilteOppgaver: NyeOgFerdigstilteOppgaver[];
   skalPunsjbehandlingerVises: boolean;
@@ -36,7 +36,6 @@ interface OwnProps {
  */
 const NyeOgFerdigstilteOppgaverForIdagGraf: FunctionComponent<OwnProps & WrappedComponentProps> = ({
   intl,
-  height,
   nyeOgFerdigstilteOppgaver,
   behandlingTyper,
   skalPunsjbehandlingerVises,
@@ -81,6 +80,16 @@ const NyeOgFerdigstilteOppgaverForIdagGraf: FunctionComponent<OwnProps & Wrapped
   const dataFerdigstilte = useMemo(() => filtrereUtRelevanteOppgaver('antallFerdigstilte'), [nyeOgFerdigstilteOppgaver]);
   const dataNye = useMemo(() => filtrereUtRelevanteOppgaver('antallNye'), [nyeOgFerdigstilteOppgaver]);
   const dataMineFerdigstilte = useMemo(() => filtrereUtRelevanteOppgaver('antallFerdigstilteMine'), [nyeOgFerdigstilteOppgaver]);
+
+  if (nyeOgFerdigstilteOppgaver.length === 0) {
+    return (
+      <div>
+        <Normaltekst>
+          <FormattedMessage id="InngangOgFerdigstiltePanel.IngenTall" />
+        </Normaltekst>
+      </div>
+    );
+  }
 
   return (
     <ReactECharts
