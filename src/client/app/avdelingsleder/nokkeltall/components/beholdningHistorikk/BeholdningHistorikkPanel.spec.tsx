@@ -14,6 +14,7 @@ import behandlingType from 'kodeverk/behandlingType';
 import { ALLE_YTELSETYPER_VALGT } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
 import { BeholdningHistorikkPanel } from 'avdelingsleder/nokkeltall/components/beholdningHistorikk/BeholdningHistorikkPanel';
 import HistorikkGraf from 'avdelingsleder/nokkeltall/HistorikkGraf';
+import HistorikkGrafForPunsj from 'avdelingsleder/nokkeltall/HistorikkGrafForPunsj';
 import { intlMock, shallowWithIntl } from '../../../../../../../setup/testHelpers/intl-enzyme-test-helper';
 
 describe('<TilBehandlingPanel>', () => {
@@ -237,7 +238,7 @@ describe('<TilBehandlingPanel>', () => {
       // @ts-ignore
     />).find(Form).renderProp('render')({ values: valuesMock });
 
-    const graf = wrapper.find(HistorikkGraf);
+    const graf = wrapper.find(HistorikkGrafForPunsj);
     expect(graf).to.have.length(1);
     expect(graf.prop('historiskData')[0].antall).is.eql(beholdningPerDatoV2[2].antall);
     expect(graf.prop('historiskData')[0].dato).is.eql(beholdningPerDatoV2[2].dato);
