@@ -31,9 +31,8 @@ describe('<NyeOgFerdigstilteOppgaverForIdagGraf>', () => {
   it('skal vise ReactEchartGraf', () => {
     const wrapper = shallowWithIntl(<NyeOgFerdigstilteOppgaverForIdagGraf.WrappedComponent
       intl={intl as IntlShape}
-      height={200}
       behandlingTyper={[]}
-      nyeOgFerdigstilteOppgaver={[]}
+      nyeOgFerdigstilteOppgaver={nyeOgFerdigstilteOppgaver}
       skalPunsjbehandlingerVises={false}
     />);
 
