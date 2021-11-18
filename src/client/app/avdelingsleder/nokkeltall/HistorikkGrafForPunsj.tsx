@@ -36,7 +36,7 @@ const fagytelseTyperFarger = {
   [fagsakYtelseType.OMSORGSPENGER]: '#66CBEC',
 };
 
-const fagytelseTyperSomSkalVises = [
+export const fagytelseTyperSomSkalVises = [
   fagsakYtelseType.PLEIEPENGER_SYKT_BARN,
   fagsakYtelseType.OMSORGSPENGER,
 ];

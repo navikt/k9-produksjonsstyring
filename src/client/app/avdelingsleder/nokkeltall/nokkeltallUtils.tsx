@@ -109,12 +109,13 @@ export const slaSammenAllePunsjBehandlingstyperForNyeOgFerdigstilleOppgaver = (o
     if (o.behandlingType.kodeverk !== punsjKodeverkNavn) {
       return;
     }
-    const index = sammenslatte.findIndex((s) => s.behandlingType.kodeverk === punsjKodeverkNavn && s.dato === o.dato);
+    const index = sammenslatte.findIndex((s) => s.behandlingType.kodeverk === punsjKodeverkNavn && s.fagsakYtelseType.kode === o.fagsakYtelseType.kode && s.dato === o.dato);
     if (index === -1) {
       sammenslatte.push(o);
     } else {
       sammenslatte[index] = {
         behandlingType: sammenslatte[index].behandlingType,
+        fagsakYtelseType: sammenslatte[index].fagsakYtelseType,
         dato: sammenslatte[index].dato,
         antallNye: sammenslatte[index].antallNye + o.antallNye,
         antallFerdigstilte: sammenslatte[index].antallFerdigstilte + o.antallFerdigstilte,
@@ -156,7 +157,6 @@ export const slaSammenPunsjBehandlingstyperOgDatoer = (oppgaver: HistoriskData[]
       };
     }
   });
-
   return sammenslatte;
 };
 

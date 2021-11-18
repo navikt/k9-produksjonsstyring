@@ -7,6 +7,9 @@ import behandlingType from 'kodeverk/behandlingType';
 import ReactECharts from 'sharedComponents/echart/ReactEcharts';
 import { punsjKodeverkNavn } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
 import { Normaltekst } from 'nav-frontend-typografi';
+import { fagytelseTyperSomSkalVises } from 'avdelingsleder/nokkeltall/HistorikkGrafForPunsj';
+import kodeverkTyper from 'kodeverk/kodeverkTyper';
+import { useKodeverk } from 'api/rest-api-hooks';
 import NyeOgFerdigstilteOppgaver from '../nyeOgFerdigstilteOppgaverTsType';
 
 import {
@@ -40,9 +43,14 @@ const NyeOgFerdigstilteOppgaverForIdagGraf: FunctionComponent<OwnProps & Wrapped
   behandlingTyper,
   skalPunsjbehandlingerVises,
 }) => {
+  const fagytelseTyper = useKodeverk(kodeverkTyper.FAGSAK_YTELSE_TYPE);
+
   const behandlingTypeNavnForYAkse = useMemo(() => {
     if (skalPunsjbehandlingerVises) {
-      return ['Punsj'];
+      return fagytelseTyperSomSkalVises.map((t) => {
+        const type = fagytelseTyper.find((ytelse) => ytelse.kode === t);
+        return type ? type.navn : '';
+      });
     }
     return behandlingstypeOrder.map((bType) => {
       if (bType === behandlingType.FORSTEGANGSSOKNAD) {
@@ -59,13 +67,14 @@ const NyeOgFerdigstilteOppgaverForIdagGraf: FunctionComponent<OwnProps & Wrapped
 
   const filtrereUtRelevanteOppgaver = (valgtProperty: string): number[] => {
     if (skalPunsjbehandlingerVises) {
-      let punsjAntallFerdigstilte = 0;
-      nyeOgFerdigstilteOppgaver.forEach((oppgave) => {
-        if (oppgave.behandlingType.kodeverk === punsjKodeverkNavn) {
-          punsjAntallFerdigstilte = +oppgave[valgtProperty];
+      return fagytelseTyperSomSkalVises.map((type) => {
+        const oppgave = nyeOgFerdigstilteOppgaver.find((o) => o.fagsakYtelseType.kode === type && o.behandlingType.kodeverk === punsjKodeverkNavn);
+
+        if (oppgave) {
+          return oppgave[valgtProperty];
         }
+        return 0;
       });
-      return [punsjAntallFerdigstilte];
     }
 
     return behandlingstypeOrder.map((type) => {
