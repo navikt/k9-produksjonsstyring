@@ -10,7 +10,7 @@ import { K9LosApiKeys } from 'api/k9LosApi';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import { SelectField } from 'form/FinalFields';
 import {
-  ALLE_YTELSETYPER_VALGT,
+  ALLE_YTELSETYPER_VALGT, sjekkOmOppgaveSkalLeggesTil,
   ytelseTyper,
 } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
 import { ToggleKnapp } from 'nav-frontend-toggle';
@@ -81,21 +81,18 @@ export const InngangOgFerdigstiltePanel: FunctionComponent<OwnProps & WrappedCom
 
   const getNyeTotalt = (oppgaver: NyeOgFerdigstilteMedStonadstype[], ytelseType: string) => {
     let nye = 0;
-    oppgaver
-      .filter((o) => (ytelseType === ALLE_YTELSETYPER_VALGT ? true : ytelseType === o.fagsakYtelseType.kode)).forEach((n) => { nye += n.nye; });
+    oppgaver.filter((o) => sjekkOmOppgaveSkalLeggesTil(ytelseType, o)).forEach((n) => { nye += n.nye; });
     return nye;
   };
 
   const getFerdigstilteTotalt = (oppgaver: NyeOgFerdigstilteMedStonadstype[], ytelseType: string) => {
     let ferdigstilte = 0;
-    oppgaver
-      .filter((o) => (
-        ytelseType === ALLE_YTELSETYPER_VALGT ? true : ytelseType === o.fagsakYtelseType.kode)).forEach((n) => { ferdigstilte += n.ferdigstilte; });
+    oppgaver.filter((o) => (sjekkOmOppgaveSkalLeggesTil(ytelseType, o))).forEach((n) => { ferdigstilte += n.ferdigstilte; });
     return ferdigstilte;
   };
 
   const getOppgaverStonadstype = (oppgaver: NyeOgFerdigstilteMedStonadstype[], ytelseType: string) => slaSammenLikeBehandlingstyper(oppgaver.filter(
-    (o) => (ytelseType === ALLE_YTELSETYPER_VALGT ? true : ytelseType === o.fagsakYtelseType.kode),
+    (o) => (sjekkOmOppgaveSkalLeggesTil(ytelseType, o)),
   ));
 
   return (
@@ -152,7 +149,7 @@ export const InngangOgFerdigstiltePanel: FunctionComponent<OwnProps & WrappedCom
                   : getFerdigstilteTotalt(nyeOgFerdigstilteOppgaver7dager, values.ytelseType)}
               />
             )}
-            {erIdagValgt && nyeOgFerdigstilteOppgaverIdag.length > 0
+            {erIdagValgt && nyeOgFerdigstilteOppgaverIdag.length > 0 && values.ytelseType !== 'PUNSJ'
             && getOppgaverStonadstype(nyeOgFerdigstilteOppgaverIdag, values.ytelseType).map((o) => (
               <Teller
                 key={o.behandlingType.kode}
@@ -161,7 +158,7 @@ export const InngangOgFerdigstiltePanel: FunctionComponent<OwnProps & WrappedCom
                 venstreTall={o.nye}
               />
             ))}
-            {!erIdagValgt && nyeOgFerdigstilteOppgaver7dager.length > 0
+            {!erIdagValgt && nyeOgFerdigstilteOppgaver7dager.length > 0 && values.ytelseType !== 'PUNSJ'
             && getOppgaverStonadstype(nyeOgFerdigstilteOppgaver7dager, values.ytelseType).map((o) => (
               <Teller
                 key={o.behandlingType.kode}
