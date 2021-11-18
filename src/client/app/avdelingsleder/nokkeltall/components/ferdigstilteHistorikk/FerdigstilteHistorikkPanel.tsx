@@ -20,6 +20,7 @@ import useKodeverk from 'api/rest-api-hooks/src/global-data/useKodeverk';
 import StoreValuesInLocalStorage from 'form/StoreValuesInLocalStorage';
 import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
 import HistorikkGraf from 'avdelingsleder/nokkeltall/HistorikkGraf';
+import HistorikkGrafForPunsj from 'avdelingsleder/nokkeltall/HistorikkGrafForPunsj';
 import HistoriskData from '../../historiskDataTsType';
 
 interface InitialValues {
@@ -79,12 +80,21 @@ export const FerdigstilteHistorikkPanel: FunctionComponent<OwnProps & WrappedCom
             </Column>
           </Row>
           <VerticalSpacer sixteenPx />
-          <HistorikkGraf
-            isFireUkerValgt={values.ukevalg === UKE_4}
-            behandlingTyper={behandlingTyper}
-            historiskData={filtrereNyePerDato(values.ytelseType, values.ukevalg, ferdigstiltePerDato)}
-            erPunsjValgt={values.ytelseType === fagsakYtelseType.PUNSJ}
-          />
+
+          {values.ytelseType === fagsakYtelseType.PUNSJ && (
+            <HistorikkGrafForPunsj
+              isFireUkerValgt={values.ukevalg === UKE_4}
+              historiskData={filtrereNyePerDato(values.ytelseType, values.ukevalg, ferdigstiltePerDato)}
+            />
+          )}
+
+          {values.ytelseType !== fagsakYtelseType.PUNSJ && (
+            <HistorikkGraf
+              isFireUkerValgt={values.ukevalg === UKE_4}
+              behandlingTyper={behandlingTyper}
+              historiskData={filtrereNyePerDato(values.ytelseType, values.ukevalg, ferdigstiltePerDato)}
+            />
+          )}
         </Panel>
       )}
     />

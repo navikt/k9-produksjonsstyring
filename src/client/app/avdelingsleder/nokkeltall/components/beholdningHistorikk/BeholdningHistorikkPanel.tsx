@@ -18,6 +18,7 @@ import {
 import useKodeverk from 'api/rest-api-hooks/src/global-data/useKodeverk';
 import StoreValuesInLocalStorage from 'form/StoreValuesInLocalStorage';
 import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
+import HistorikkGrafForPunsj from 'avdelingsleder/nokkeltall/HistorikkGrafForPunsj';
 import HistorikkGraf from '../../HistorikkGraf';
 import HistoriskData from '../../historiskDataTsType';
 
@@ -76,12 +77,21 @@ export const BeholdningHistorikkPanel: FunctionComponent<OwnProps & WrappedCompo
             </Column>
           </Row>
           <VerticalSpacer sixteenPx />
-          <HistorikkGraf
-            isFireUkerValgt={values.ukevalg === UKE_4}
-            behandlingTyper={behandlingTyper}
-            historiskData={filtrereNyePerDato(values.ytelseType, values.ukevalg, beholdningPerDato)}
-            erPunsjValgt={values.ytelseType === fagsakYtelseType.PUNSJ}
-          />
+
+          {values.ytelseType === fagsakYtelseType.PUNSJ && (
+            <HistorikkGrafForPunsj
+              isFireUkerValgt={values.ukevalg === UKE_4}
+              historiskData={filtrereNyePerDato(values.ytelseType, values.ukevalg, beholdningPerDato)}
+            />
+          )}
+
+          {values.ytelseType !== fagsakYtelseType.PUNSJ && (
+            <HistorikkGraf
+              isFireUkerValgt={values.ukevalg === UKE_4}
+              behandlingTyper={behandlingTyper}
+              historiskData={filtrereNyePerDato(values.ytelseType, values.ukevalg, beholdningPerDato)}
+            />
+          )}
         </Panel>
       )}
     />

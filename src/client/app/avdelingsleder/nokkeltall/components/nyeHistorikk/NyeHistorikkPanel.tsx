@@ -19,6 +19,7 @@ import StoreValuesInLocalStorage from 'form/StoreValuesInLocalStorage';
 import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
 import HistorikkGraf from 'avdelingsleder/nokkeltall/HistorikkGraf';
 import styles from 'avdelingsleder/nokkeltall/historikkGraf.less';
+import HistorikkGrafForPunsj from 'avdelingsleder/nokkeltall/HistorikkGrafForPunsj';
 import HistoriskData from '../../historiskDataTsType';
 
 interface InitialValues {
@@ -76,12 +77,20 @@ export const NyeHistorikkPanel: FunctionComponent<OwnProps & WrappedComponentPro
             </Column>
           </Row>
           <VerticalSpacer sixteenPx />
+          {values.ytelseType === fagsakYtelseType.PUNSJ && (
+          <HistorikkGrafForPunsj
+            isFireUkerValgt={values.ukevalg === UKE_4}
+            historiskData={filtrereNyePerDato(values.ytelseType, values.ukevalg, nyePerDato)}
+          />
+          )}
+
+          {values.ytelseType !== fagsakYtelseType.PUNSJ && (
           <HistorikkGraf
             isFireUkerValgt={values.ukevalg === UKE_4}
             behandlingTyper={behandlingTyper}
             historiskData={filtrereNyePerDato(values.ytelseType, values.ukevalg, nyePerDato)}
-            erPunsjValgt={values.ytelseType === fagsakYtelseType.PUNSJ}
           />
+          )}
         </Panel>
       )}
     />

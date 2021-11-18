@@ -133,9 +133,10 @@ export const slaSammenPunsjBehandlingstyperOgDatoer = (oppgaver: HistoriskData[]
     if (o.behandlingType.kodeverk !== punsjKodeverkNavn) {
       return;
     }
-    const index = sammenslatte.findIndex((s) => s.behandlingType.kode === 'PUNSJ' && s.dato === o.dato);
+    const index = sammenslatte.findIndex((s) => s.behandlingType.kode === 'PUNSJ' && s.dato === o.dato && s.fagsakYtelseType.kode === o.fagsakYtelseType.kode);
     if (index === -1) {
       sammenslatte.push({
+        fagsakYtelseType: o.fagsakYtelseType,
         behandlingType: {
           kode: 'PUNSJ',
           navn: 'PUNSJ',
@@ -145,6 +146,7 @@ export const slaSammenPunsjBehandlingstyperOgDatoer = (oppgaver: HistoriskData[]
       });
     } else {
       sammenslatte[index] = {
+        fagsakYtelseType: o.fagsakYtelseType,
         behandlingType: {
           kode: 'PUNSJ',
           navn: 'PUNSJ',
