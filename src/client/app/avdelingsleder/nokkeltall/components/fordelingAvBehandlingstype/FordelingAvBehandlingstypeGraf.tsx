@@ -8,6 +8,8 @@ import behandlingType from 'kodeverk/behandlingType';
 import ReactECharts from 'sharedComponents/echart/ReactEcharts';
 import Kodeverk from 'kodeverk/kodeverkTsType';
 import { punsjKodeverkNavn } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
+import kodeverkTyper from 'kodeverk/kodeverkTyper';
+import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
 import AlleOppgaver from './alleOppgaverTsType';
 
 import {
@@ -17,6 +19,7 @@ import {
   eChartTooltipTextStyle,
   eChartYXAxisFontSizeSaksbehandlerNokkeltall,
 } from '../../../../../styles/echartStyle';
+import useKodeverk from '../../../../api/rest-api-hooks/src/global-data/useKodeverk';
 
 const behandlingstypeOrder = [
   behandlingType.TILBAKEBETALING,
@@ -27,10 +30,15 @@ const behandlingstypeOrder = [
   behandlingType.FORSTEGANGSSOKNAD,
 ];
 
+const fagytelseTypeOrder = [
+  fagsakYtelseType.OMSORGSPENGER,
+  fagsakYtelseType.PLEIEPENGER_SYKT_BARN,
+];
+
 const slåSammen = (oppgaverForAvdeling: AlleOppgaver[], erPunsjValgt: boolean): number[] => {
   const test = oppgaverForAvdeling
     .reduce((acc, o) => {
-      const index = erPunsjValgt ? 1 : behandlingstypeOrder.findIndex((bo) => bo === o.behandlingType.kode) + 1;
+      const index = erPunsjValgt ? fagytelseTypeOrder.findIndex((bo) => bo === o.fagsakYtelseType.kode) + 1 : behandlingstypeOrder.findIndex((bo) => bo === o.behandlingType.kode) + 1;
       if ((erPunsjValgt && o.behandlingType.kodeverk === punsjKodeverkNavn) || (!erPunsjValgt && o.behandlingType.kodeverk !== 'PUNSJ_INNSENDING_TYPE')) {
         return {
           ...acc,
@@ -42,7 +50,7 @@ const slåSammen = (oppgaverForAvdeling: AlleOppgaver[], erPunsjValgt: boolean):
       };
     }, {} as Record<string, number>);
 
-  return behandlingstypeOrder.map((b, index) => test[index + 1]);
+  return erPunsjValgt ? fagytelseTypeOrder.map((b, index) => test[index + 1]) : behandlingstypeOrder.map((b, index) => test[index + 1]);
 };
 
 interface OwnProps {
@@ -63,6 +71,7 @@ const FordelingAvBehandlingstypeGraf: FunctionComponent<OwnProps & WrappedCompon
 }) => {
   const tilBehandlingTekst = intl.formatMessage({ id: 'FordelingAvBehandlingstypeGraf.TilBehandling' });
   const tilBeslutterTekst = intl.formatMessage({ id: 'FordelingAvBehandlingstypeGraf.TilBeslutter' });
+  const fagytelseTyper = useKodeverk(kodeverkTyper.FAGSAK_YTELSE_TYPE);
 
   const finnBehandlingTypeNavn = useMemo(() => {
     if (erPunsjValgt) {
@@ -74,9 +83,17 @@ const FordelingAvBehandlingstypeGraf: FunctionComponent<OwnProps & WrappedCompon
     });
   }, [behandlingTyper, erPunsjValgt]);
 
+  const fagytelseTyperNavnForPunsj = [fagsakYtelseType.PLEIEPENGER_SYKT_BARN, fagsakYtelseType.OMSORGSPENGER];
+
+  const finnFagytelseTypeNavn = fagytelseTyperNavnForPunsj.map((t) => {
+    const type = fagytelseTyper.find((ytelse) => ytelse.kode === t);
+    return type ? type.navn : '';
+  });
+
   const tilBehandlingData = useMemo(() => slåSammen(alleOppgaver.filter((o) => o.tilBehandling), erPunsjValgt), [alleOppgaver]);
   const tilBeslutterData = useMemo(() => slåSammen(alleOppgaver.filter((o) => !o.tilBehandling), erPunsjValgt), [alleOppgaver]);
 
+  console.log('ti', alleOppgaver);
   return (
     <ReactECharts
       height={eChartGrafHeight}
@@ -120,7 +137,7 @@ const FordelingAvBehandlingstypeGraf: FunctionComponent<OwnProps & WrappedCompon
             fontSize: eChartYXAxisFontSizeSaksbehandlerNokkeltall,
             margin: 15,
           },
-          data: finnBehandlingTypeNavn,
+          data: erPunsjValgt ? finnFagytelseTypeNavn : finnBehandlingTypeNavn,
         },
         series: [
           {

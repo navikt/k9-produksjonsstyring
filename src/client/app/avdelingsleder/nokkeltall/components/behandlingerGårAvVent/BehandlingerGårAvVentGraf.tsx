@@ -61,11 +61,6 @@ const BehandlingerGarAvVentGraf: FunctionComponent<OwnProps> = ({
   const periodeSlutt = dayjs().add(antallUkerSomSkalVises === '4' ? 4 : 2, 'w');
   const oppgaverInomValgtPeriode: IBehandlingerSomGarAvVentType[] = behandlingerSomGårAvVent.filter((oppgave) => oppgave.antall > 0 && dayjs(oppgave.dato).isSameOrBefore(periodeSlutt) && dayjs(oppgave.dato).isSameOrAfter(periodeStart));
 
-  // eslint-disable-next-line
-  console.log('behandlingerAvVent', behandlingerSomGårAvVent);
-  // eslint-disable-next-line
-  console.log('oppgaverInomValgtPeriode', BehandlingerGarAvVentGraf);
-
   const behandlingerSomGårAvVentToUkerFremITid: [string, number][] = useMemo(
     () => slaSammenBehandlingstyperOgFyllInnTomme(oppgaverInomValgtPeriode, 2),
     [oppgaverInomValgtPeriode],

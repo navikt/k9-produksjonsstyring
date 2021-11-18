@@ -92,7 +92,6 @@ const HistorikkGrafForPunsj: FunctionComponent<OwnProps> = ({
   historiskData,
   isFireUkerValgt,
 }) => {
-  console.log('yes', historiskData);
   const fagytelseTyper = useKodeverk(kodeverkTyper.FAGSAK_YTELSE_TYPE);
   const periodeStart = dayjs().subtract(isFireUkerValgt ? 4 : 2, 'w').add(1, 'd');
   const periodeSlutt = dayjs().subtract(1, 'd');
