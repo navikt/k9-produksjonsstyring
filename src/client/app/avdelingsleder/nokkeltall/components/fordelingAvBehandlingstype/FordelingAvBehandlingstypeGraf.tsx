@@ -83,9 +83,7 @@ const FordelingAvBehandlingstypeGraf: FunctionComponent<OwnProps & WrappedCompon
     });
   }, [behandlingTyper, erPunsjValgt]);
 
-  const fagytelseTyperNavnForPunsj = [fagsakYtelseType.PLEIEPENGER_SYKT_BARN, fagsakYtelseType.OMSORGSPENGER];
-
-  const finnFagytelseTypeNavn = fagytelseTyperNavnForPunsj.map((t) => {
+  const finnFagytelseTypeNavn = fagytelseTypeOrder.map((t) => {
     const type = fagytelseTyper.find((ytelse) => ytelse.kode === t);
     return type ? type.navn : '';
   });

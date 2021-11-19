@@ -93,9 +93,9 @@ const HistorikkGrafForPunsj: FunctionComponent<OwnProps> = ({
   isFireUkerValgt,
 }) => {
   const fagytelseTyper = useKodeverk(kodeverkTyper.FAGSAK_YTELSE_TYPE);
-  const periodeStart = dayjs().subtract(isFireUkerValgt ? 4 : 2, 'w').add(1, 'd');
+  const periodeStart = dayjs().subtract(isFireUkerValgt ? 4 : 2, 'w');
   const periodeSlutt = dayjs().subtract(1, 'd');
-  const oppgaverInomValgtPeriode: HistoriskData[] = historiskData.filter((oppgave) => oppgave.antall > 0 && dayjs(oppgave.dato).isSameOrBefore(periodeSlutt) && dayjs(oppgave.dato).isSameOrAfter(periodeStart));
+  const oppgaverInomValgtPeriode: HistoriskData[] = historiskData.filter((oppgave) => oppgave.antall > 0 && dayjs(oppgave.dato).isSameOrBefore(periodeSlutt, 'day') && dayjs(oppgave.dato).isSameOrAfter(periodeStart, 'day'));
 
   const koordinater = useMemo(() => konverterTilKoordinaterGruppertPaFagytelsetype(oppgaverInomValgtPeriode), [historiskData]);
   const data = useMemo(() => fyllInnManglendeDatoerOgSorterEtterDato(koordinater, periodeStart, periodeSlutt), [koordinater, periodeStart, periodeSlutt]);
