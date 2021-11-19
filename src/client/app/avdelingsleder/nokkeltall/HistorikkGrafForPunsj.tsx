@@ -64,7 +64,7 @@ const fyllInnManglendeDatoerOgSorterEtterDato = (
   const fagytelsetypeData = data[fagytelsetype];
   const koordinater = [];
 
-  for (let dato = dayjs(periodeStart); dato.isSameOrBefore(periodeSlutt); dato = dato.add(1, 'days')) {
+  for (let dato = dayjs(periodeStart); dato.isSameOrBefore(periodeSlutt, 'day'); dato = dato.add(1, 'days')) {
     const funnetDato = fagytelsetypeData.find((d) => dayjs(d.x).startOf('day').isSame(dato.startOf('day')));
     koordinater.push(funnetDato ? [dayjs(funnetDato.x).format(ISO_DATE_FORMAT), funnetDato.y] : [dato.format(ISO_DATE_FORMAT), 0]);
   }

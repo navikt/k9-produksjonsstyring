@@ -59,7 +59,7 @@ const BehandlingerGarAvVentGraf: FunctionComponent<OwnProps> = ({
 }) => {
   const periodeStart = dayjs();
   const periodeSlutt = dayjs().add(antallUkerSomSkalVises === '4' ? 4 : 2, 'w');
-  const oppgaverInomValgtPeriode: IBehandlingerSomGarAvVentType[] = behandlingerSomGårAvVent.filter((oppgave) => oppgave.antall > 0 && dayjs(oppgave.dato).isSameOrBefore(periodeSlutt) && dayjs(oppgave.dato).isSameOrAfter(periodeStart));
+  const oppgaverInomValgtPeriode: IBehandlingerSomGarAvVentType[] = behandlingerSomGårAvVent.filter((oppgave) => oppgave.antall > 0 && dayjs(oppgave.dato).isSameOrBefore(periodeSlutt, 'day') && dayjs(oppgave.dato).isSameOrAfter(periodeStart, 'day'));
 
   const behandlingerSomGårAvVentToUkerFremITid: [string, number][] = useMemo(
     () => slaSammenBehandlingstyperOgFyllInnTomme(oppgaverInomValgtPeriode, 2),
