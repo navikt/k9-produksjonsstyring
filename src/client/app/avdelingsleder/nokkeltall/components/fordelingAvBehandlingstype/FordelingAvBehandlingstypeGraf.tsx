@@ -93,7 +93,6 @@ const FordelingAvBehandlingstypeGraf: FunctionComponent<OwnProps & WrappedCompon
   const tilBehandlingData = useMemo(() => slåSammen(alleOppgaver.filter((o) => o.tilBehandling), erPunsjValgt), [alleOppgaver]);
   const tilBeslutterData = useMemo(() => slåSammen(alleOppgaver.filter((o) => !o.tilBehandling), erPunsjValgt), [alleOppgaver]);
 
-  console.log('ti', alleOppgaver);
   return (
     <ReactECharts
       height={eChartGrafHeight}

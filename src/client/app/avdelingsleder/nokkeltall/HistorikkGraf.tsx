@@ -117,9 +117,10 @@ const HistorikkGraf: FunctionComponent<OwnProps> = ({
   isFireUkerValgt,
   behandlingTyper,
 }) => {
-  const periodeStart = dayjs().subtract(isFireUkerValgt ? 4 : 2, 'w').add(1, 'd');
+  const periodeStart = dayjs().subtract(isFireUkerValgt ? 4 : 2, 'w');
   const periodeSlutt = dayjs().subtract(1, 'd');
-  const oppgaverInomValgtPeriode: HistoriskData[] = historiskData.filter((oppgave) => oppgave.antall > 0 && dayjs(oppgave.dato).isSameOrBefore(periodeSlutt) && dayjs(oppgave.dato).isSameOrAfter(periodeStart));
+
+  const oppgaverInomValgtPeriode: HistoriskData[] = historiskData.filter((oppgave) => oppgave.antall > 0 && dayjs(oppgave.dato).isSameOrBefore(periodeSlutt, 'day') && dayjs(oppgave.dato).isSameOrAfter(periodeStart, 'day'));
 
   const koordinater = useMemo(() => konverterTilKoordinaterGruppertPaBehandlingstype(oppgaverInomValgtPeriode), [historiskData]);
   const data = useMemo(() => fyllInnManglendeDatoerOgSorterEtterDato(koordinater, periodeStart, periodeSlutt), [koordinater, periodeStart, periodeSlutt]);
