@@ -4,16 +4,15 @@ import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import NyeOgFerdigstilteOppgaver from 'saksbehandler/saksstotte/nokkeltall/components/nyeOgFerdigstilteOppgaverTsType';
 import NyeOgFerdigstilteOppgaverForIdagPanel from './nyeOgFerdigstilteOppgaverForIdag/NyeOgFerdigstilteOppgaverForIdagPanel';
 import NyeOgFerdigstilteOppgaverForSisteSyvPanel from './nyeOgFerdigstilteOppgaverForSisteSyv/NyeOgFerdigstilteOppgaverForSisteSyvPanel';
-import nyeOgFerdigstilteOppgaver from '../../../../../mocks/nyeOgFerdigstilteOppgaver';
 
 interface OwnProps {
-    nyeOgFerdigstilteOppgaverr: NyeOgFerdigstilteOppgaver[]
+    nyeOgFerdigstilteOppgaver: NyeOgFerdigstilteOppgaver[]
 }
 
 /**
  * SaksbehandlerNokkeltallPanel.
  */
-const SaksbehandlerNokkeltallPanel: FunctionComponent<OwnProps> = ({ nyeOgFerdigstilteOppgaverr }) => {
+const SaksbehandlerNokkeltallPanel: FunctionComponent<OwnProps> = ({ nyeOgFerdigstilteOppgaver }) => {
   const height = 300;
 
   return (

@@ -4,14 +4,36 @@ import { IntlShape } from 'react-intl';
 import ReactECharts from 'sharedComponents/echart/ReactEcharts';
 import behandlingType from 'kodeverk/behandlingType';
 import moment from 'moment';
-import { shallowWithIntl, intlMock } from '../../../../../../../../setup/testHelpers/intl-enzyme-test-helper';
 
+import * as useKodeverk from 'api/rest-api-hooks/src/global-data/useKodeverk';
+import sinon from 'sinon';
+import kodeverkTyper from 'kodeverk/kodeverkTyper';
 import NyeOgFerdigstilteOppgaverForIdagGraf from './NyeOgFerdigstilteOppgaverForIdagGraf';
+import { shallowWithIntl, intlMock } from '../../../../../../../../setup/testHelpers/intl-enzyme-test-helper';
 
 describe('<NyeOgFerdigstilteOppgaverForIdagGraf>', () => {
   const intl: Partial<IntlShape> = {
     ...intlMock,
   };
+
+  const behandlingTyper = [
+    {
+      kode: behandlingType.FORSTEGANGSSOKNAD,
+      navn: 'Førstegangssøknad',
+    },
+  ];
+
+  let contextStub;
+  beforeEach(() => {
+    contextStub = sinon.stub(useKodeverk, 'default');
+    contextStub.withArgs(kodeverkTyper.BEHANDLING_TYPE).callsFake(() => behandlingTyper)
+      .withArgs(kodeverkTyper.FAGSAK_YTELSE_TYPE)
+      .callsFake(() => useKodeverk);
+  });
+
+  afterEach(() => {
+    contextStub.restore();
+  });
 
   const nyeOgFerdigstilteOppgaver = [{
     behandlingType: {
