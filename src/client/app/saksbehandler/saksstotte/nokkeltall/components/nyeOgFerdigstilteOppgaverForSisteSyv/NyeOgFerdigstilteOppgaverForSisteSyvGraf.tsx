@@ -84,9 +84,11 @@ const NyeOgFerdigstilteOppgaverForSisteSyvGraf: FunctionComponent<OwnProps & Wra
       option={{
         tooltip: {
           trigger: 'axis',
-          textStyle: eChartTooltipTextStyle,
           axisPointer: {
-            type: 'cross',
+            type: 'line',
+            lineStyle: {
+              type: 'solid',
+            },
             label: {
               formatter: (params) => {
                 if (params.axisDimension === 'y') {
@@ -96,6 +98,7 @@ const NyeOgFerdigstilteOppgaverForSisteSyvGraf: FunctionComponent<OwnProps & Wra
               },
             },
           },
+          textStyle: eChartTooltipTextStyle,
         },
         legend: {
           ...eChartLegendStyle,
@@ -111,6 +114,9 @@ const NyeOgFerdigstilteOppgaverForSisteSyvGraf: FunctionComponent<OwnProps & Wra
               margin: 15,
             },
             minInterval: 1,
+            splitLine: {
+              show: true,
+            },
           },
         ],
         // @ts-ignore
