@@ -82,10 +82,10 @@
 
   "FerdigstilteHistorikkPanel.Ferdigstilte": "Historikk over ferdigstilte behandlinger",
 
-  "FlyttReservasjonModal.FlyttReservasjon": "Flytt reservasjonen til annen saksbehandler",
-  "FlyttReservasjonModal.Brukerident": "Brukerident",
+  "FlyttReservasjonModal.Titel": "Endre reservasjon",
+  "FlyttReservasjonModal.Brukerident": "Saksbehandlers navn",
   "FlyttReservasjonModal.Sok": "Søk",
-  "FlyttReservasjonModal.Begrunn": "Begrunn flytting av reservasjonen",
+  "FlyttReservasjonModal.Begrunn": "Begrunn endring av reservasjon",
   "FlyttReservasjonModal.Ok": "OK",
   "FlyttReservasjonModal.Avbryt": "Avbryt",
   "FlyttReservasjonBegrunnelseModal.FlyttTilSaksbehandler": "Flytt til saksbehandler",
@@ -230,7 +230,7 @@
   "OppgaveHandlingerMenu.ForlengReservasjon": "Forleng din reservasjon av{br}behandlingen med 24 timer",
   "OppgaveHandlingerMenu.EndreReservasjon": "Reserver behandlingen med dato",
   "OppgaveHandlingerMenu.ReservertTil": "{b}Reservert til {date} - {time}{b}",
-  "OppgaveHandlingerMenu.FlyttReservasjon": "Flytt reservasjonen til{br}annen saksbehandler",
+  "OppgaveHandlingerMenu.FlyttReservasjon": "Endre reservasjon",
 
   "OppgaverPerForsteStonadsdagGraf.DagensDato": "Dagens{br}dato",
 
