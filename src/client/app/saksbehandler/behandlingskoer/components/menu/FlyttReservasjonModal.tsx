@@ -31,7 +31,6 @@ interface OwnProps {
   oppgaveId: string;
   oppgaveReservertTil?: string;
   closeModal: () => void;
-  hentAlleReservasjonerEllerOppgaver: () => void;
 }
 
 /**
@@ -40,7 +39,7 @@ interface OwnProps {
  * Presentasjonskomponent. Modal som lar en søke opp en saksbehandler som saken skal flyttes til. En kan også begrunne hvorfor saken skal flyttes.
  */
 export const FlyttReservasjonModal: FunctionComponent<OwnProps & WrappedComponentProps> = ({
-  intl, showModal, closeModal, oppgaveId, hentAlleReservasjonerEllerOppgaver, oppgaveReservertTil,
+  intl, showModal, closeModal, oppgaveId, oppgaveReservertTil,
 }) => {
   const {
     startRequest, state, data: saksbehandler, resetRequestData,
