@@ -113,6 +113,7 @@ export class OppgaveHandlingerMenu extends Component<OwnProps, OwnState> {
   };
 
   closeFlytteModal = () => {
+    toggleEventListeners(true, this.handleOutsideClick);
     this.setState((prevState) => ({ ...prevState, showFlyttReservasjonModal: false }));
   };
 
