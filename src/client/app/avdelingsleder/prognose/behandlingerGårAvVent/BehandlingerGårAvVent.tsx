@@ -11,7 +11,7 @@ import Hjelpetekst from 'nav-frontend-hjelpetekst';
 import { punsjKodeverkNavn, ytelseTyper } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
 import IBehandlingerSomGarAvVentType
   from './behandlingerSomGårAvVentType';
-import BehandlingerGarAvVentGraf
+import BehandlingerGårAvVentGraf
   from './BehandlingerGårAvVentGraf';
 import styles from './behandlingerGårAvVent.less';
 
@@ -87,7 +87,7 @@ const BehandlingerGårAvVent: FunctionComponent<OwnProps & WrappedComponentProps
         </Column>
       </Row>
       <VerticalSpacer sixteenPx />
-      <BehandlingerGarAvVentGraf
+      <BehandlingerGårAvVentGraf
         behandlingerSomGårAvVent={hentBehandlingerKnyttetTilYtelseType()}
         antallUkerSomSkalVises={antallUkerSomSkalVises}
       />

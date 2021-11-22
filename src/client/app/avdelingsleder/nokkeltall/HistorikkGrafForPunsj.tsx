@@ -3,14 +3,11 @@ import React, {
 } from 'react';
 import dayjs from 'dayjs';
 import { ISO_DATE_FORMAT } from 'utils/formats';
-import behandlingType from 'kodeverk/behandlingType';
 
 import HistoriskData from 'avdelingsleder/nokkeltall/historiskDataTsType';
-import { behandlingstypeOrder } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
 import ReactECharts from 'sharedComponents/echart/ReactEcharts';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
-import Kodeverk from 'kodeverk/kodeverkTsType';
 import { FormattedMessage } from 'react-intl';
 import { Normaltekst } from 'nav-frontend-typografi';
 import fagsakYtelseType from 'kodeverk/fagsakYtelseType';

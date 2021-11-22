@@ -55,7 +55,7 @@ interface OwnProps{
   antallUkerSomSkalVises: string;
 }
 
-const BehandlingerGarAvVentGraf: FunctionComponent<OwnProps> = ({
+const BehandlingerGårAvVentGraf: FunctionComponent<OwnProps> = ({
   behandlingerSomGårAvVent,
   antallUkerSomSkalVises,
 }) => {
@@ -160,4 +160,4 @@ const BehandlingerGarAvVentGraf: FunctionComponent<OwnProps> = ({
   );
 };
 
-export default BehandlingerGarAvVentGraf;
+export default BehandlingerGårAvVentGraf;
