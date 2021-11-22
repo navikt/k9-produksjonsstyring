@@ -53,10 +53,6 @@ const NokkeltallPanel: FunctionComponent<OwnProps> = ({
       alleOppgaver={alleOppgaver}
       getValueFromLocalStorage={getValueFromLocalStorage}
     />
-    <VerticalSpacer twentyPx />
-    <BehandlingerGårAvVent
-      behandlingerSomGårAvVent={behandlingerSomGårAvVent}
-    />
   </div>
 );
 
