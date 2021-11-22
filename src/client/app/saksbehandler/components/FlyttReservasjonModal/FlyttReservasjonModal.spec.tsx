@@ -57,6 +57,7 @@ describe('<FlyttReservasjonModal>', () => {
 
   const navAnsatt = {
     kanSaksbehandle: true,
+    navn: 'Per',
   };
 
   it('skal vise modal med riktig data', () => {

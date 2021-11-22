@@ -15,12 +15,9 @@ import NavFrontendSpinner from 'nav-frontend-spinner';
 import Chevron from 'nav-frontend-chevron';
 import { Row } from 'nav-frontend-grid';
 import OpphevReservasjonModal from 'saksbehandler/behandlingskoer/components/menu/OpphevReservasjonModal';
-import OppgaveReservasjonEndringDatoModal
-  from 'saksbehandler/behandlingskoer/components/menu/OppgaveReservasjonEndringDatoModal';
 import FlyttReservasjonModal from 'saksbehandler/behandlingskoer/components/menu/FlyttReservasjonModal';
 import styles from './reservasjonerTabell.less';
 import arrowIcon from '../../../../images/arrow-left-3.svg';
-import reservasjonIcon from '../../../../images/delete-1.svg';
 import arrowIconRight from '../../../../images/arrow-right-3.svg';
 
 const headerTextCodes = [
@@ -45,7 +42,6 @@ const ReservasjonerTabell: FunctionComponent<OwnProps & WrappedComponentProps> =
   const sorterteReservasjoner = reservasjoner.sort((reservasjon1, reservasjon2) => reservasjon1.reservertAvNavn.localeCompare(reservasjon2.reservertAvNavn));
 
   const [valgtReservasjon, setValgtReservasjon] = useState<Reservasjon>();
-  const [showReservasjonEndringDatoModal, setShowReservasjonEndringDatoModal] = useState(false);
   const [showFlyttReservasjonModal, setShowFlyttReservasjonModal] = useState(false);
   const [showOpphevReservasjonModal, setShowOpphevReservasjonModal] = useState(false);
 
@@ -116,21 +112,6 @@ const ReservasjonerTabell: FunctionComponent<OwnProps & WrappedComponentProps> =
                   </Row>
                   <Row>
                     <div className={styles.menuLine}>
-                      <Image src={reservasjonIcon} className={styles.icon} />
-                      <div
-                        tabIndex={0}
-                        id="endreDato"
-                        className={styles.action}
-                        role="button"
-                        onClick={() => { setShowReservasjonEndringDatoModal(true); }}
-                        onKeyDown={() => { setShowReservasjonEndringDatoModal(true); }}
-                      >
-                        <FormattedMessage id="ReservasjonerTabell.EndreReservasjon" />
-                      </div>
-                    </div>
-                  </Row>
-                  <Row>
-                    <div className={styles.menuLine}>
                       <Image src={arrowIconRight} className={styles.icon} />
                       <div
                         id="flytt"
@@ -158,15 +139,6 @@ const ReservasjonerTabell: FunctionComponent<OwnProps & WrappedComponentProps> =
         showModal={showOpphevReservasjonModal}
         cancel={() => setShowOpphevReservasjonModal(false)}
         hentReserverteOppgaver={hentAlleReservasjoner}
-      />
-      )}
-      {showReservasjonEndringDatoModal && (
-      <OppgaveReservasjonEndringDatoModal
-        showModal={showReservasjonEndringDatoModal}
-        oppgaveId={valgtReservasjon.oppgaveId}
-        closeModal={() => setShowReservasjonEndringDatoModal(false)}
-        hentAlleReservasjonerEllerOppgaver={hentAlleReservasjoner}
-        reserverTilDefault={valgtReservasjon.reservertTilTidspunkt}
       />
       )}
       { showFlyttReservasjonModal && (

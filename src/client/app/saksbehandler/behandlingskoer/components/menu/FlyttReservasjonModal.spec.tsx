@@ -6,12 +6,12 @@ import { Form } from 'react-final-form';
 import { Hovedknapp } from 'nav-frontend-knapper';
 import { Normaltekst } from 'nav-frontend-typografi';
 
-import { K9LosApiKeys } from 'api/k9LosApi';
+import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
+import { RestApiState } from 'api/rest-api-hooks';
+import { DatepickerField, TextAreaField } from 'form/FinalFields';
 import RestApiTestMocker from '../../../../../../../setup/testHelpers/RestApiTestMocker';
 import { shallowWithIntl, intlMock } from '../../../../../../../setup/testHelpers/intl-enzyme-test-helper';
-import { RestApiState } from 'api/rest-api-hooks';
 import FlyttReservasjonModal from './FlyttReservasjonModal';
-import {DatepickerField, TextAreaField} from "form/FinalFields";
 
 describe('<FlyttReservasjonModal>', () => {
   const intl: Partial<IntlShape> = {
@@ -26,7 +26,7 @@ describe('<FlyttReservasjonModal>', () => {
       values: {},
     };
     new RestApiTestMocker()
-      .withDummyRunner()
+      .withGlobalData(RestApiGlobalStatePathsKeys.NAV_ANSATT, { navn: 'Per' })
       .runTest(() => {
         const wrapper = shallowWithIntl(
           <FlyttReservasjonModal.WrappedComponent
@@ -52,6 +52,7 @@ describe('<FlyttReservasjonModal>', () => {
       .withRestCallRunner(K9LosApiKeys.FLYTT_RESERVASJON_SAKSBEHANDLER_SOK, { state: RestApiState.SUCCESS, data: undefined })
       .withRestCallRunner(K9LosApiKeys.ENDRE_OPPGAVERESERVASJON, { startRequest: () => Promise.resolve() })
       .withRestCallRunner(K9LosApiKeys.FLYTT_RESERVASJON, { startRequest: () => Promise.resolve() })
+      .withGlobalData(RestApiGlobalStatePathsKeys.NAV_ANSATT, { navn: 'Per' })
       .runTest(() => {
         const wrapper = shallowWithIntl(
           <FlyttReservasjonModal.WrappedComponent
@@ -84,6 +85,7 @@ describe('<FlyttReservasjonModal>', () => {
       .withRestCallRunner(K9LosApiKeys.FLYTT_RESERVASJON_SAKSBEHANDLER_SOK, { state: RestApiState.SUCCESS, data: saksbehandler })
       .withRestCallRunner(K9LosApiKeys.ENDRE_OPPGAVERESERVASJON, { startRequest: () => Promise.resolve() })
       .withRestCallRunner(K9LosApiKeys.FLYTT_RESERVASJON, { startRequest: () => Promise.resolve() })
+      .withGlobalData(RestApiGlobalStatePathsKeys.NAV_ANSATT, { navn: 'Per' })
       .runTest(() => {
         const wrapper = shallowWithIntl(
           <FlyttReservasjonModal.WrappedComponent
@@ -111,7 +113,7 @@ describe('<FlyttReservasjonModal>', () => {
     };
 
     new RestApiTestMocker()
-      .withDummyRunner()
+      .withGlobalData(RestApiGlobalStatePathsKeys.NAV_ANSATT, { navn: 'Per' })
       .runTest(() => {
         const wrapper = shallowWithIntl(
           <FlyttReservasjonModal.WrappedComponent
@@ -137,7 +139,7 @@ describe('<FlyttReservasjonModal>', () => {
     };
 
     new RestApiTestMocker()
-      .withDummyRunner()
+      .withGlobalData(RestApiGlobalStatePathsKeys.NAV_ANSATT, { navn: 'Per' })
       .runTest(() => {
         const wrapper = shallowWithIntl(
           <FlyttReservasjonModal.WrappedComponent
@@ -168,6 +170,7 @@ describe('<FlyttReservasjonModal>', () => {
       .withRestCallRunner(K9LosApiKeys.FLYTT_RESERVASJON_SAKSBEHANDLER_SOK, { state: RestApiState.LOADING, data: undefined })
       .withRestCallRunner(K9LosApiKeys.ENDRE_OPPGAVERESERVASJON, { startRequest: () => Promise.resolve() })
       .withRestCallRunner(K9LosApiKeys.FLYTT_RESERVASJON, { startRequest: () => Promise.resolve() })
+      .withGlobalData(RestApiGlobalStatePathsKeys.NAV_ANSATT, { navn: 'Per' })
       .runTest(() => {
         const wrapper = shallowWithIntl(
           <FlyttReservasjonModal.WrappedComponent
@@ -203,6 +206,7 @@ describe('<FlyttReservasjonModal>', () => {
       .withRestCallRunner(K9LosApiKeys.FLYTT_RESERVASJON_SAKSBEHANDLER_SOK, { state: RestApiState.SUCCESS, data: saksbehandler })
       .withRestCallRunner(K9LosApiKeys.ENDRE_OPPGAVERESERVASJON, { startRequest: () => Promise.resolve() })
       .withRestCallRunner(K9LosApiKeys.FLYTT_RESERVASJON, { startRequest: () => Promise.resolve() })
+      .withGlobalData(RestApiGlobalStatePathsKeys.NAV_ANSATT, { navn: 'Per' })
       .runTest(() => {
         const wrapper = shallowWithIntl(
           <FlyttReservasjonModal.WrappedComponent
@@ -234,6 +238,7 @@ describe('<FlyttReservasjonModal>', () => {
       .withRestCallRunner(K9LosApiKeys.FLYTT_RESERVASJON_SAKSBEHANDLER_SOK, { state: RestApiState.SUCCESS, data: undefined })
       .withRestCallRunner(K9LosApiKeys.ENDRE_OPPGAVERESERVASJON, { startRequest: () => Promise.resolve() })
       .withRestCallRunner(K9LosApiKeys.FLYTT_RESERVASJON, { startRequest: () => Promise.resolve() })
+      .withGlobalData(RestApiGlobalStatePathsKeys.NAV_ANSATT, { navn: 'Per' })
       .runTest(() => {
         const wrapper = shallowWithIntl(
           <FlyttReservasjonModal.WrappedComponent
@@ -269,6 +274,7 @@ describe('<FlyttReservasjonModal>', () => {
       .withRestCallRunner(K9LosApiKeys.FLYTT_RESERVASJON_SAKSBEHANDLER_SOK, { state: RestApiState.SUCCESS, data: saksbehandler })
       .withRestCallRunner(K9LosApiKeys.ENDRE_OPPGAVERESERVASJON, { startRequest: () => Promise.resolve() })
       .withRestCallRunner(K9LosApiKeys.FLYTT_RESERVASJON, { startRequest: () => Promise.resolve() })
+      .withGlobalData(RestApiGlobalStatePathsKeys.NAV_ANSATT, { navn: 'Per' })
       .runTest(() => {
         const wrapper = shallowWithIntl(
           <FlyttReservasjonModal.WrappedComponent
@@ -304,6 +310,7 @@ describe('<FlyttReservasjonModal>', () => {
       .withRestCallRunner(K9LosApiKeys.FLYTT_RESERVASJON_SAKSBEHANDLER_SOK, { state: RestApiState.SUCCESS, data: saksbehandler })
       .withRestCallRunner(K9LosApiKeys.ENDRE_OPPGAVERESERVASJON, { startRequest: () => Promise.resolve() })
       .withRestCallRunner(K9LosApiKeys.FLYTT_RESERVASJON, { startRequest: () => Promise.resolve() })
+      .withGlobalData(RestApiGlobalStatePathsKeys.NAV_ANSATT, { navn: 'Per' })
       .runTest(() => {
         const wrapper = shallowWithIntl(
           <FlyttReservasjonModal.WrappedComponent

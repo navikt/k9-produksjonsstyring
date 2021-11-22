@@ -12,14 +12,16 @@ import {
   hasValidDate,
   hasValidText, maxLength, minLength, required,
 } from 'utils/validation/validators';
-import {TextAreaField, InputField, DatepickerField} from 'form/FinalFields';
+import { TextAreaField, InputField, DatepickerField } from 'form/FinalFields';
 import Modal from 'sharedComponents/Modal';
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
-import { K9LosApiKeys } from 'api/k9LosApi';
+import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
 import RestApiState from 'api/rest-api-hooks/src/RestApiState';
+import NavAnsatt from 'app/navAnsattTsType';
 import { Saksbehandler } from '../../saksbehandlerTsType';
 
 import styles from './flyttReservasjonModal.less';
+import useGlobalStateRestApiData from '../../../../api/rest-api-hooks/src/global-data/useGlobalStateRestApiData';
 
 const minLength3 = minLength(3);
 const maxLength1500 = maxLength(1500);
@@ -27,6 +29,7 @@ const maxLength1500 = maxLength(1500);
 interface OwnProps {
   showModal: boolean;
   oppgaveId: string;
+  oppgaveReservertTil?: string;
   closeModal: () => void;
   hentAlleReservasjonerEllerOppgaver: () => void;
 }
@@ -37,38 +40,44 @@ interface OwnProps {
  * Presentasjonskomponent. Modal som lar en søke opp en saksbehandler som saken skal flyttes til. En kan også begrunne hvorfor saken skal flyttes.
  */
 export const FlyttReservasjonModal: FunctionComponent<OwnProps & WrappedComponentProps> = ({
-  intl, showModal, closeModal, oppgaveId, hentAlleReservasjonerEllerOppgaver,
+  intl, showModal, closeModal, oppgaveId, hentAlleReservasjonerEllerOppgaver, oppgaveReservertTil,
 }) => {
   const {
     startRequest, state, data: saksbehandler, resetRequestData,
   } = useRestApiRunner<Saksbehandler>(K9LosApiKeys.FLYTT_RESERVASJON_SAKSBEHANDLER_SOK);
   const { startRequest: endreOppgaveReservasjon } = useRestApiRunner(K9LosApiKeys.ENDRE_OPPGAVERESERVASJON);
-  const { startRequest: flyttOppgaveReservasjon } = useRestApiRunner(K9LosApiKeys.FLYTT_RESERVASJON);
 
   const finnSaksbehandler = useCallback((brukerIdent) => startRequest({ brukerIdent }), []);
 
-  const flyttOppgaveReservasjonFn = useCallback(
-    (brukerIdent: string, begrunnelse: string): Promise<any> => flyttOppgaveReservasjon({ oppgaveId, brukerIdent, begrunnelse })
-      .then(() => {
-        hentAlleReservasjonerEllerOppgaver();
-        closeModal();
-      }),
-    [],
+  const { navn } = useGlobalStateRestApiData<NavAnsatt>(RestApiGlobalStatePathsKeys.NAV_ANSATT);
+
+  const endreReservasjonFn = useCallback(
+    (brukerIdent: string, begrunnelse: string, reservertTilDato: string): Promise<any> => {
+      const params: {
+        oppgaveId: string;
+        brukerIdent: string;
+        begrunnelse: string;
+        reserverTil?: string;
+      } = {
+        oppgaveId,
+        brukerIdent,
+        begrunnelse,
+      };
+
+      if (reservertTilDato) {
+        params.reserverTil = reservertTilDato;
+      }
+
+      return endreOppgaveReservasjon(params)
+        .then(() => {
+          closeModal();
+        });
+    }, [],
   );
 
-  const endreReservasjonDatoOgFlyttOppgaveReservasjonFn = useCallback((reserverTil: string, brukerIdent: string, begrunnelse: string): Promise<any> => endreOppgaveReservasjon({ oppgaveId, reserverTil })
-      .then(() => {
-        flyttOppgaveReservasjonFn(brukerIdent, begrunnelse);
-      }),
-    []);
-
   const onSubmit = (brukerIdent: string, begrunnelse: string, reservertTilDato: string) => {
-    if(reservertTilDato){
-      endreReservasjonDatoOgFlyttOppgaveReservasjonFn(reservertTilDato, saksbehandler ? saksbehandler.brukerIdent : '', begrunnelse);
-    }else{
-      flyttOppgaveReservasjonFn(saksbehandler ? saksbehandler.brukerIdent : '', begrunnelse);
-    }
-  }
+    endreReservasjonFn(brukerIdent, begrunnelse, reservertTilDato);
+  };
 
   const formatText = () => {
     if (state === RestApiState.SUCCESS && !saksbehandler) {
@@ -89,17 +98,18 @@ export const FlyttReservasjonModal: FunctionComponent<OwnProps & WrappedComponen
       className={styles.modal}
       isOpen={showModal}
       closeButton={false}
-      contentLabel={intl.formatMessage({ id: 'FlyttReservasjonModal.FlyttReservasjon' })}
+      contentLabel={intl.formatMessage({ id: 'FlyttReservasjonModal.Titel' })}
       onRequestClose={closeModal}
     >
       <Form
         onSubmit={(values) => finnSaksbehandler(values.brukerIdent)}
+        initialValues={{ brukerIdent: navn || '' }}
         render={({
           handleSubmit, values,
         }) => (
           <form onSubmit={handleSubmit}>
             <Element>
-              <FormattedMessage id="FlyttReservasjonModal.FlyttReservasjon" />
+              <FormattedMessage id="FlyttReservasjonModal.Titel" />
             </Element>
             <VerticalSpacer eightPx />
             <FlexContainer>
@@ -137,20 +147,21 @@ export const FlyttReservasjonModal: FunctionComponent<OwnProps & WrappedComponen
       />
       <Form
         onSubmit={(values) => onSubmit(saksbehandler ? saksbehandler.brukerIdent : '', values.begrunnelse, values.reserverTil)}
+        initialValues={{ reserverTil: oppgaveReservertTil || '' }}
         render={({
           handleSubmit, values,
         }) => (
           <form onSubmit={handleSubmit}>
             <VerticalSpacer sixteenPx />
             <div className={styles.test}>
-            <DatepickerField
-              name="reserverTil"
-              onBlurValidation
-              validate={[hasValidDate, dateAfterOrEqual(new Date())]}
-              label={intl.formatMessage({ id: 'FlyttReservasjonModal.FlyttReservasjonText' })}
-              alwaysShowCalendar
-              disabledDays={{ before: new Date() }}
-            />
+              <DatepickerField
+                name="reserverTil"
+                onBlurValidation
+                validate={[hasValidDate, dateAfterOrEqual(new Date())]}
+                label={intl.formatMessage({ id: 'FlyttReservasjonModal.FlyttReservasjonText' })}
+                alwaysShowCalendar
+                disabledDays={{ before: new Date() }}
+              />
             </div>
             <VerticalSpacer sixteenPx />
             <TextAreaField
