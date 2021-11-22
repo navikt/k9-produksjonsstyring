@@ -146,7 +146,6 @@ const ReservasjonerTabell: FunctionComponent<OwnProps & WrappedComponentProps> =
         oppgaveId={valgtReservasjon.oppgaveId}
         showModal={showFlyttReservasjonModal}
         closeModal={() => setShowFlyttReservasjonModal(false)}
-        hentAlleReservasjonerEllerOppgaver={hentAlleReservasjoner}
       />
       )}
     </>
