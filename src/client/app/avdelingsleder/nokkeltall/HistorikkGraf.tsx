@@ -80,6 +80,7 @@ const fyllInnManglendeDatoerOgSorterEtterDato = (
   periodeSlutt: dayjs.Dayjs,
 ): Record<string, Date[][]> => Object.keys(data).reduce((acc, behandlingstype) => {
   const behandlingstypeData = data[behandlingstype];
+
   const koordinater = [];
 
   for (let dato = dayjs(periodeStart); dato.isSameOrBefore(periodeSlutt); dato = dato.add(1, 'days')) {

@@ -303,6 +303,92 @@ describe('<TilBehandlingPanel>', () => {
     }]);
   });
 
+  it('skal kun få ned punsjoppgaver', () => {
+    const valuesMock = {
+      ytelseType: fagsakYtelseType.PUNSJ,
+      ukevalg: '2',
+    };
+
+    const wrapper = shallowWithIntl(<BeholdningHistorikkPanel
+      intl={intl as IntlShape}
+      width={300}
+      height={200}
+      beholdningPerDato={beholdningPerDatoV2}
+      getValueFromLocalStorage={sinon.spy()}
+      // @ts-ignore
+    />).find(Form).renderProp('render')({ values: valuesMock });
+
+    const graf = wrapper.find(HistorikkGraf);
+    expect(graf).to.have.length(1);
+    expect(graf.prop('historiskData')[0].antall).is.eql(beholdningPerDatoV2[2].antall);
+    expect(graf.prop('historiskData')[0].dato).is.eql(beholdningPerDatoV2[2].dato);
+    expect(graf.prop('historiskData')[0].behandlingType.kode).is.eql('PUNSJ');
+  });
+
+  it('skal kun få ned omsorgsdager oppgaver', () => {
+    const valuesMock = {
+      ytelseType: fagsakYtelseType.OMSORGSDAGER,
+      ukevalg: '2',
+    };
+
+    const wrapper = shallowWithIntl(<BeholdningHistorikkPanel
+      intl={intl as IntlShape}
+      width={300}
+      height={200}
+      beholdningPerDato={beholdningPerDatoV2}
+      getValueFromLocalStorage={sinon.spy()}
+      // @ts-ignore
+    />).find(Form).renderProp('render')({ values: valuesMock });
+
+    const graf = wrapper.find(HistorikkGraf);
+    expect(graf).to.have.length(1);
+    expect(graf.prop('historiskData')).is.eql([{ antall: 3, behandlingType: { kode: 'BT-002', navn: 'Førstegangssøknad' }, dato: moment().format(ISO_DATE_FORMAT) }]);
+  });
+
+  it('skal kun få ned omsorgspenger oppgaver', () => {
+    const valuesMock = {
+      ytelseType: fagsakYtelseType.OMSORGSPENGER,
+      ukevalg: '2',
+    };
+
+    const wrapper = shallowWithIntl(<BeholdningHistorikkPanel
+      intl={intl as IntlShape}
+      width={300}
+      height={200}
+      beholdningPerDato={beholdningPerDatoV2}
+      getValueFromLocalStorage={sinon.spy()}
+      // @ts-ignore
+    />).find(Form).renderProp('render')({ values: valuesMock });
+
+    const graf = wrapper.find(HistorikkGraf);
+    expect(graf).to.have.length(1);
+    expect(graf.prop('historiskData')).is.eql([{
+      antall: 1, behandlingType: { kode: 'BT-002', navn: 'Førstegangssøknad' }, dato: moment().format(ISO_DATE_FORMAT), fagsakYtelseType: { kode: 'OMP', navn: 'Omsorgspenger' },
+    }]);
+  });
+
+  it('skal kun få ned pleiepenger oppgaver', () => {
+    const valuesMock = {
+      ytelseType: fagsakYtelseType.PLEIEPENGER_SYKT_BARN,
+      ukevalg: '2',
+    };
+
+    const wrapper = shallowWithIntl(<BeholdningHistorikkPanel
+      intl={intl as IntlShape}
+      width={300}
+      height={200}
+      beholdningPerDato={beholdningPerDatoV2}
+      getValueFromLocalStorage={sinon.spy()}
+      // @ts-ignore
+    />).find(Form).renderProp('render')({ values: valuesMock });
+
+    const graf = wrapper.find(HistorikkGraf);
+    expect(graf).to.have.length(1);
+    expect(graf.prop('historiskData')).is.eql([{
+      antall: 1, behandlingType: { kode: 'BT-002', navn: 'Førstegangssøknad' }, dato: moment().format(ISO_DATE_FORMAT), fagsakYtelseType: { kode: 'PSB', navn: 'Pleiepenger sykt barn' },
+    }]);
+  });
+
   it('skal slå sammen like behandlingstyper og datoer', () => {
     const valuesMock = {
       ytelseType: ALLE_YTELSETYPER_VALGT,

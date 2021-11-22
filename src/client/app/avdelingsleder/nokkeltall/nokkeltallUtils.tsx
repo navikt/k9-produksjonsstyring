@@ -157,6 +157,7 @@ export const slaSammenPunsjBehandlingstyperOgDatoer = (oppgaver: HistoriskData[]
       };
     }
   });
+
   return sammenslatte;
 };
 
