@@ -32,7 +32,7 @@ const NokkeltallIndex: FunctionComponent = (
       alleOppgaver={alleOppgaver}
       ferdigstiltePerDato={ferdigstiltePerDato}
       beholdningPerDato={beholdningPerDato}
-      nyePerDato={ferdigstilteHistorikk}
+      nyePerDato={nyePerDato}
     />
   );
 };
