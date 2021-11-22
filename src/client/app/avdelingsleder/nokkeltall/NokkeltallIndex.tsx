@@ -4,7 +4,6 @@ import { K9LosApiKeys } from 'api/k9LosApi';
 import AlleOppgaver from 'avdelingsleder/nokkeltall/components/fordelingAvBehandlingstype/alleOppgaverTsType';
 import HistoriskData from 'avdelingsleder/nokkeltall/historiskDataTsType';
 import NokkeltallPanel from './components/NokkeltallPanel';
-import ferdigstilteHistorikk from '../../../mocks/ferdigstilteHistorikk';
 
 const EMPTY_ARRAY = [];
 
