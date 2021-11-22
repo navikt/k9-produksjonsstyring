@@ -1,5 +1,4 @@
 import React, { FunctionComponent, useMemo, useState } from 'react';
-import moment from 'moment';
 import { FormattedMessage } from 'react-intl';
 import { Element } from 'nav-frontend-typografi';
 
@@ -11,19 +10,20 @@ import {
   sjekkOmOppgaveSkalLeggesTil, slaSammenAllePunsjBehandlingstyperForNyeOgFerdigstilleOppgaver,
   slaSammenLikeBehandlingstyperForNyeOgFerdigstilleOppgaver,
 } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
-import styles
-  from 'saksbehandler/saksstotte/nokkeltall/components/nyeOgFerdigstilteOppgaverForSisteSyv/nyeOgFerdigstilteOppgaverForSisteSyvGraf.less';
 import { Select } from 'nav-frontend-skjema';
-import NyeOgFerdigstilteOppgaverForSisteSyvGraf from './NyeOgFerdigstilteOppgaverForSisteSyvGraf';
+import NyeOgFerdigstilteOppgaverForSisteSyvGraf
+  from 'saksbehandler/saksstotte/nokkeltall/components/nyeOgFerdigstilteOppgaverForSisteSyv/NyeOgFerdigstilteOppgaverForSisteSyvGraf';
+import dayjs from 'dayjs';
+import styles
+  from '../nyeOgFerdigstilteOppgaverFelles.less';
 import NyeOgFerdigstilteOppgaver, { fagytelsetyperForOppgaveFiltrering } from '../nyeOgFerdigstilteOppgaverTsType';
 
 export const getNyeOgFerdigstilteForSisteSyvDager = (nyeOgFerdigstilte: NyeOgFerdigstilteOppgaver[] = []) => {
-  const iDag = moment().startOf('day');
-  return nyeOgFerdigstilte.filter((oppgave) => iDag.isAfter(moment(oppgave.dato, ISO_DATE_FORMAT)));
+  const iDag = dayjs().startOf('day');
+  return nyeOgFerdigstilte.filter((oppgave) => iDag.isAfter(dayjs(oppgave.dato, ISO_DATE_FORMAT)));
 };
 
 interface OwnProps {
-  width: number;
   height: number;
   nyeOgFerdigstilteOppgaver: NyeOgFerdigstilteOppgaver[];
 }
@@ -32,7 +32,6 @@ interface OwnProps {
  * NyeOgFerdigstilteOppgaverForSisteSyvPanel.
  */
 export const NyeOgFerdigstilteOppgaverForSisteSyvPanel: FunctionComponent<OwnProps> = ({
-  width,
   height,
   nyeOgFerdigstilteOppgaver,
 }) => {
@@ -84,13 +83,11 @@ export const NyeOgFerdigstilteOppgaverForSisteSyvPanel: FunctionComponent<OwnPro
           aria-label="Velg ytelse"
           onChange={(e) => setSelectValue(e.target.value)}
         >
-          <option value="" disabled selected>Velg ytelse</option>
+          <option value="" disabled defaultValue={ALLE_YTELSETYPER_VALGT}>Velg ytelse</option>
           {Object.values(fagytelsetyperForOppgaveFiltrering).map((rel) => <option key={rel} value={rel}>{rel}</option>)}
         </Select>
       </div>
-
       <NyeOgFerdigstilteOppgaverForSisteSyvGraf
-        width={width}
         height={height}
         nyeOgFerdigstilteOppgaver={hentOppgaver()}
       />

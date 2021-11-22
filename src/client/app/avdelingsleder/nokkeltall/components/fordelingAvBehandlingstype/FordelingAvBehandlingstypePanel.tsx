@@ -3,30 +3,29 @@ import { FormattedMessage } from 'react-intl';
 
 import { Form } from 'react-final-form';
 import { Element } from 'nav-frontend-typografi';
-import { RadioGroupField, RadioOption } from 'form/FinalFields';
+import { SelectField } from 'form/FinalFields';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
 import AlleOppgaver from 'avdelingsleder/nokkeltall/components/fordelingAvBehandlingstype/alleOppgaverTsType';
 import Panel from 'nav-frontend-paneler';
-import { ALLE_YTELSETYPER_VALGT, sjekkOmOppgaveSkalLeggesTil } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
+import {
+  ALLE_YTELSETYPER_VALGT,
+  sjekkOmOppgaveSkalLeggesTil,
+  ytelseTyper,
+} from 'avdelingsleder/nokkeltall/nokkeltallUtils';
 import useKodeverk from 'api/rest-api-hooks/src/global-data/useKodeverk';
 import StoreValuesInLocalStorage from 'form/StoreValuesInLocalStorage';
-import FordelingAvBehandlingstypeGraf from './FordelingAvBehandlingstypeGraf';
+import FordelingAvBehandlingstypeGraf
+  from 'avdelingsleder/nokkeltall/components/fordelingAvBehandlingstype/FordelingAvBehandlingstypeGraf';
+import { Column, Row } from 'nav-frontend-grid';
 import styles from './fordelingAvBehandlingstypeGraf.less';
-
-const finnFagsakYtelseTypeNavn = (fagsakYtelseTyper, valgtFagsakYtelseType) => {
-  const type = fagsakYtelseTyper.find((fyt) => fyt.kode === valgtFagsakYtelseType);
-  return type ? type.navn : '';
-};
 
 interface InitialValues {
   valgtYtelseType: string;
 }
 
 interface OwnProps {
-  width: number;
-  height: number;
   alleOppgaver?: AlleOppgaver[];
   getValueFromLocalStorage: (key: string) => string;
 }
@@ -38,12 +37,9 @@ const formDefaultValues: InitialValues = { valgtYtelseType: ALLE_YTELSETYPER_VAL
  * FordelingAvBehandlingstypePanel.
  */
 export const FordelingAvBehandlingstypePanel: FunctionComponent<OwnProps> = ({
-  width,
-  height,
   alleOppgaver,
   getValueFromLocalStorage,
 }) => {
-  const fagsakYtelseTyper = useKodeverk(kodeverkTyper.FAGSAK_YTELSE_TYPE);
   const behandlingTyper = useKodeverk(kodeverkTyper.BEHANDLING_TYPE);
   const stringFromStorage = getValueFromLocalStorage(formName);
   const lagredeVerdier = stringFromStorage ? JSON.parse(stringFromStorage) : undefined;
@@ -59,31 +55,17 @@ export const FordelingAvBehandlingstypePanel: FunctionComponent<OwnProps> = ({
             <FormattedMessage id="FordelingAvBehandlingstypePanel.Fordeling" />
           </Element>
           <VerticalSpacer sixteenPx />
-          <RadioGroupField name="valgtYtelseType">
-            <RadioOption
-              value={fagsakYtelseType.OMSORGSPENGER}
-              label={finnFagsakYtelseTypeNavn(fagsakYtelseTyper, fagsakYtelseType.OMSORGSPENGER)}
-            />
-            <RadioOption
-              value={fagsakYtelseType.OMSORGSDAGER}
-              label="Omsorgsdager"
-            />
-            <RadioOption
-              value={fagsakYtelseType.PLEIEPENGER_SYKT_BARN}
-              label={finnFagsakYtelseTypeNavn(fagsakYtelseTyper, fagsakYtelseType.PLEIEPENGER_SYKT_BARN)}
-            />
-            <RadioOption
-              value={fagsakYtelseType.PUNSJ}
-              label="Punsj"
-            />
-            <RadioOption
-              value={ALLE_YTELSETYPER_VALGT}
-              label={<FormattedMessage id="FordelingAvBehandlingstypePanel.Alle" />}
-            />
-          </RadioGroupField>
+          <Row>
+            <Column xs="2">
+              <SelectField
+                name="valgtYtelseType"
+                label=""
+                selectValues={ytelseTyper.map((u) => <option key={u.kode} value={u.kode}>{u.navn}</option>)}
+                bredde="l"
+              />
+            </Column>
+          </Row>
           <FordelingAvBehandlingstypeGraf
-            width={width}
-            height={height}
             behandlingTyper={behandlingTyper}
             alleOppgaver={alleOppgaver ? alleOppgaver
               .filter((ofa) => (sjekkOmOppgaveSkalLeggesTil(values.valgtYtelseType, ofa))) : []}

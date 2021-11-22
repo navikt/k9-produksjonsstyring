@@ -20,6 +20,7 @@
     "circular-dependency-plugin": "^5.2.0",
     "classnames": "^2.2.6",
     "dayjs": "^1.10.7",
+    "echarts": "^5.2.2",
     "express": "^4.17.1",
     "final-form": "^4.20.1",
     "history": "^4.10.1",

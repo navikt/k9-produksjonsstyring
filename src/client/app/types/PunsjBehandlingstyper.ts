@@ -11,6 +11,7 @@ const punsjBehandlingstyper = [
   behandlingType.SAMTALEREFERAT,
   behandlingType.UKJENT,
   behandlingType.KOPI,
+  behandlingType.INNTEKTSMELDING_UTGÅTT,
 ];
 
 export default punsjBehandlingstyper;

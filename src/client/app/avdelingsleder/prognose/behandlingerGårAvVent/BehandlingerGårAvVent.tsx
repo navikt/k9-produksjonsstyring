@@ -8,7 +8,7 @@ import { Element } from 'nav-frontend-typografi';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
 import Hjelpetekst from 'nav-frontend-hjelpetekst';
-import { ytelseTyperForBehandlingerPåVentGraf } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
+import { punsjKodeverkNavn, ytelseTyper } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
 import IBehandlingerSomGarAvVentType
   from './behandlingerSomGårAvVentType';
 import BehandlingerGårAvVentGraf
@@ -16,22 +16,18 @@ import BehandlingerGårAvVentGraf
 import styles from './behandlingerGårAvVent.less';
 
 interface OwnProps{
-  width: number;
-  height: number;
   behandlingerSomGårAvVent: IBehandlingerSomGarAvVentType[];
 }
 
 const BehandlingerGårAvVent: FunctionComponent<OwnProps & WrappedComponentProps> = ({
   intl,
-  width,
-  height,
   behandlingerSomGårAvVent,
 }) => {
   const [valgtYtelseType, setValgtYtelseType] = useState<string>('Alle');
   const [antallUkerSomSkalVises, setAntallUkerSomSkalVises] = useState<string>('2');
 
   const PSBBehandlinger: IBehandlingerSomGarAvVentType[] = behandlingerSomGårAvVent.filter(
-    (behandling) => behandling.fagsakYtelseType.kode === fagsakYtelseType.PLEIEPENGER_SYKT_BARN,
+    (behandling) => behandling.fagsakYtelseType.kode === fagsakYtelseType.PLEIEPENGER_SYKT_BARN && behandling.behandlingType.kodeverk !== punsjKodeverkNavn,
   );
 
   const OMPBehandlinger: IBehandlingerSomGarAvVentType[] = behandlingerSomGårAvVent.filter(
@@ -46,7 +42,11 @@ const BehandlingerGårAvVent: FunctionComponent<OwnProps & WrappedComponentProps
   );
 
   const PunsjBehandlinger: IBehandlingerSomGarAvVentType[] = behandlingerSomGårAvVent.filter(
-    (behandling) => behandling.behandlingType.kodeverk === 'PUNSJ_INNSENDING_TYPE',
+    (behandling) => behandling.behandlingType.kodeverk === punsjKodeverkNavn,
+  );
+
+  const AlleBehandlingerUtomPunsj: IBehandlingerSomGarAvVentType[] = behandlingerSomGårAvVent.filter(
+    (behandling) => behandling.behandlingType.kodeverk !== punsjKodeverkNavn,
   );
 
   const hentBehandlingerKnyttetTilYtelseType = () => {
@@ -55,7 +55,7 @@ const BehandlingerGårAvVent: FunctionComponent<OwnProps & WrappedComponentProps
       case fagsakYtelseType.OMSORGSPENGER: return OMPBehandlinger;
       case fagsakYtelseType.OMSORGSDAGER: return OMDBehandlinger;
       case fagsakYtelseType.PUNSJ: return PunsjBehandlinger;
-      default: return behandlingerSomGårAvVent;
+      default: return AlleBehandlingerUtomPunsj;
     }
   };
 
@@ -82,15 +82,13 @@ const BehandlingerGårAvVent: FunctionComponent<OwnProps & WrappedComponentProps
             onChange={(e) => setValgtYtelseType(e.target.value)}
           >
             <option value="" disabled selected>{intl.formatMessage({ id: 'BehandlingerGårAvVent.VelgFagytelseType' })}</option>
-            {ytelseTyperForBehandlingerPåVentGraf.map((ytelseValg) => (<option key={ytelseValg.kode} value={ytelseValg.kode}>{ytelseValg.navn}</option>))}
+            {ytelseTyper.map((ytelseValg) => (<option key={ytelseValg.kode} value={ytelseValg.kode}>{ytelseValg.navn}</option>))}
           </Select>
         </Column>
       </Row>
       <VerticalSpacer sixteenPx />
       <BehandlingerGårAvVentGraf
         behandlingerSomGårAvVent={hentBehandlingerKnyttetTilYtelseType()}
-        width={width}
-        height={height}
         antallUkerSomSkalVises={antallUkerSomSkalVises}
       />
     </Panel>

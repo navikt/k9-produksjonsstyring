@@ -10,7 +10,7 @@ import kodeverkTyper from 'kodeverk/kodeverkTyper';
 import Panel from 'nav-frontend-paneler';
 import styles from 'avdelingsleder/nokkeltall/historikkGraf.less';
 import {
-  ALLE_YTELSETYPER_VALGT, filtrereNyePerDato,
+  ALLE_YTELSETYPER_VALGT, filtrereNyePerDato, UKE_2,
   UKE_4,
   uker,
   ytelseTyper,
@@ -18,6 +18,7 @@ import {
 import useKodeverk from 'api/rest-api-hooks/src/global-data/useKodeverk';
 import StoreValuesInLocalStorage from 'form/StoreValuesInLocalStorage';
 import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
+import HistorikkGrafForPunsj from 'avdelingsleder/nokkeltall/HistorikkGrafForPunsj';
 import HistorikkGraf from '../../HistorikkGraf';
 import HistoriskData from '../../historiskDataTsType';
 
@@ -27,25 +28,20 @@ interface InitialValues {
 }
 
 interface OwnProps {
-  width: number;
-  height: number;
   beholdningPerDato?: HistoriskData[];
-    getValueFromLocalStorage: (key: string) => string;
+  getValueFromLocalStorage: (key: string) => string;
 }
 
 const formName = 'beholdningForm';
-const formDefaultValues: InitialValues = { ytelseType: ALLE_YTELSETYPER_VALGT, ukevalg: UKE_4 };
+const formDefaultValues: InitialValues = { ytelseType: ALLE_YTELSETYPER_VALGT, ukevalg: UKE_2 };
 
 /**
  * BeholdningHistorikkPanel.
  */
 export const BeholdningHistorikkPanel: FunctionComponent<OwnProps & WrappedComponentProps> = ({
   intl,
-  width,
-  height,
   beholdningPerDato,
   getValueFromLocalStorage,
-
 }) => {
   const behandlingTyper = useKodeverk(kodeverkTyper.BEHANDLING_TYPE);
   const stringFromStorage = getValueFromLocalStorage(formName);
@@ -81,14 +77,21 @@ export const BeholdningHistorikkPanel: FunctionComponent<OwnProps & WrappedCompo
             </Column>
           </Row>
           <VerticalSpacer sixteenPx />
-          <HistorikkGraf
-            width={width}
-            height={height}
-            isFireUkerValgt={values.ukevalg === UKE_4}
-            behandlingTyper={behandlingTyper}
-            historiskData={filtrereNyePerDato(values.ytelseType, values.ukevalg, beholdningPerDato)}
-            erPunsjValgt={values.ytelseType === fagsakYtelseType.PUNSJ}
-          />
+
+          {values.ytelseType === fagsakYtelseType.PUNSJ && (
+            <HistorikkGrafForPunsj
+              isFireUkerValgt={values.ukevalg === UKE_4}
+              historiskData={filtrereNyePerDato(values.ytelseType, values.ukevalg, beholdningPerDato)}
+            />
+          )}
+
+          {values.ytelseType !== fagsakYtelseType.PUNSJ && (
+            <HistorikkGraf
+              isFireUkerValgt={values.ukevalg === UKE_4}
+              behandlingTyper={behandlingTyper}
+              historiskData={filtrereNyePerDato(values.ytelseType, values.ukevalg, beholdningPerDato)}
+            />
+          )}
         </Panel>
       )}
     />

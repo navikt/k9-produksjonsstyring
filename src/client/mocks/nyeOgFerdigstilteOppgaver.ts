@@ -66,6 +66,22 @@ const nyeOgFerdigstilteOppgaver = [
   },
   {
     fagsakYtelseType: {
+      kode: 'OMP_MA',
+      navn: 'Omsorgsdager: midlertidig alene',
+      kodeverk: 'FAGSAK_YTELSE_TYPE',
+    },
+    behandlingType: {
+      kode: 'BT-004',
+      navn: 'Revurdering',
+      kodeverk: 'ae0028',
+    },
+    dato,
+    antallNye: 1,
+    antallFerdigstilte: 1,
+    antallFerdigstilteMine: 1,
+  },
+  {
+    fagsakYtelseType: {
       kode: 'PSB',
       navn: 'Pleiepenger sykt barn',
       kodeverk: 'FAGSAK_YTELSE_TYPE',
@@ -107,7 +123,7 @@ const nyeOgFerdigstilteOppgaver = [
       navn: 'Revurdering',
       kodeverk: 'ae0028',
     },
-    dato: '2021-08-24',
+    dato,
     antallNye: 1,
     antallFerdigstilte: 1,
     antallFerdigstilteMine: 1,

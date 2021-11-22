@@ -1,9 +1,9 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
-import moment from 'moment';
 
 import behandlingType from 'kodeverk/behandlingType';
+import dayjs from 'dayjs';
 import NyeOgFerdigstilteOppgaverForSisteSyvPanel from './NyeOgFerdigstilteOppgaverForSisteSyvPanel';
 import NyeOgFerdigstilteOppgaverForSisteSyvGraf from './NyeOgFerdigstilteOppgaverForSisteSyvGraf';
 
@@ -25,7 +25,6 @@ describe('<NyeOgFerdigstilteOppgaverForSisteSyvPanel>', () => {
     }];
 
     const wrapper = shallow(<NyeOgFerdigstilteOppgaverForSisteSyvPanel
-      width={300}
       height={200}
       nyeOgFerdigstilteOppgaver={nyeOgFerdigstilteOppgaver}
     />);
@@ -34,9 +33,9 @@ describe('<NyeOgFerdigstilteOppgaverForSisteSyvPanel>', () => {
   });
 
   it('skal filtrere bort dagens oppgaver', () => {
-    const iDag = moment().format();
-    const iGar = moment().subtract(1, 'days').format();
-    const atteDagerSiden = moment().subtract(8, 'days').format();
+    const iDag = dayjs().format();
+    const iGar = dayjs().subtract(1, 'days').format();
+    const atteDagerSiden = dayjs().subtract(8, 'days').format();
     const nyeOgFerdigstilteOppgaver = [{
       behandlingType: {
         kode: behandlingType.FORSTEGANGSSOKNAD,
@@ -52,8 +51,8 @@ describe('<NyeOgFerdigstilteOppgaverForSisteSyvPanel>', () => {
       dato: iDag,
     }, {
       behandlingType: {
-        kode: behandlingType.KLAGE,
-        navn: 'KLAGE',
+        kode: behandlingType.INNSYN,
+        navn: 'INNSYN',
       },
       fagsakYtelseType: {
         kode: 'PSB',
@@ -79,7 +78,6 @@ describe('<NyeOgFerdigstilteOppgaverForSisteSyvPanel>', () => {
     }];
 
     const wrapper = shallow(<NyeOgFerdigstilteOppgaverForSisteSyvPanel
-      width={300}
       height={200}
       nyeOgFerdigstilteOppgaver={nyeOgFerdigstilteOppgaver}
     />);

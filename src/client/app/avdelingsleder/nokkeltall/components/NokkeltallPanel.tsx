@@ -1,5 +1,5 @@
 import React, {
-  useState, useRef, FunctionComponent, useEffect, useCallback,
+  FunctionComponent,
 } from 'react';
 
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
@@ -28,65 +28,32 @@ const NokkeltallPanel: FunctionComponent<OwnProps> = ({
   ferdigstiltePerDato,
   beholdningPerDato,
   nyePerDato,
-}) => {
-  const [width, setWidth] = useState(0);
-  const height = 200;
-
-  const ref = useRef(null);
-
-  const oppdaterGrafStorrelse = useCallback(() => {
-    if (ref.current) {
-      const rect = ref.current.getBoundingClientRect();
-      setWidth(rect.width);
-    }
-  }, [ref.current]);
-
-  useEffect(() => {
-    oppdaterGrafStorrelse();
-    window.addEventListener('resize', oppdaterGrafStorrelse);
-
-    return () => {
-      window.removeEventListener('resize', oppdaterGrafStorrelse);
-    };
-  }, []);
-
-  return (
-    <div ref={ref}>
-      <InngangOgFerdigstiltePanel
-        width={width}
-        height={height}
-        getValueFromLocalStorage={getValueFromLocalStorage}
-      />
-      <VerticalSpacer twentyPx />
-      <NyeHistorikkPanel
-        width={width}
-        height={height}
-        nyePerDato={nyePerDato}
-        getValueFromLocalStorage={getValueFromLocalStorage}
-      />
-      <VerticalSpacer twentyPx />
-      <FerdigstilteHistorikkPanel
-        width={width}
-        height={height}
-        ferdigstiltePerDato={ferdigstiltePerDato}
-        getValueFromLocalStorage={getValueFromLocalStorage}
-      />
-      <VerticalSpacer twentyPx />
-      <BeholdningHistorikkPanel
-        width={width}
-        height={height}
-        beholdningPerDato={beholdningPerDato}
-        getValueFromLocalStorage={getValueFromLocalStorage}
-      />
-      <VerticalSpacer twentyPx />
-      <FordelingAvBehandlingstypePanel
-        width={width}
-        height={height}
-        alleOppgaver={alleOppgaver}
-        getValueFromLocalStorage={getValueFromLocalStorage}
-      />
-    </div>
-  );
-};
+}) => (
+  <div>
+    <InngangOgFerdigstiltePanel
+      getValueFromLocalStorage={getValueFromLocalStorage}
+    />
+    <VerticalSpacer twentyPx />
+    <NyeHistorikkPanel
+      nyePerDato={nyePerDato}
+      getValueFromLocalStorage={getValueFromLocalStorage}
+    />
+    <VerticalSpacer twentyPx />
+    <FerdigstilteHistorikkPanel
+      ferdigstiltePerDato={ferdigstiltePerDato}
+      getValueFromLocalStorage={getValueFromLocalStorage}
+    />
+    <VerticalSpacer twentyPx />
+    <BeholdningHistorikkPanel
+      beholdningPerDato={beholdningPerDato}
+      getValueFromLocalStorage={getValueFromLocalStorage}
+    />
+    <VerticalSpacer twentyPx />
+    <FordelingAvBehandlingstypePanel
+      alleOppgaver={alleOppgaver}
+      getValueFromLocalStorage={getValueFromLocalStorage}
+    />
+  </div>
+);
 
 export default NokkeltallPanel;

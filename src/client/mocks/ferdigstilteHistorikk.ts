@@ -1,3 +1,5 @@
+const dato = '2021-08-29';
+
 const ferdigstilteHistorikk = [{
   fagsakYtelseType: {
     kode: 'OMP',
@@ -9,7 +11,7 @@ const ferdigstilteHistorikk = [{
     navn: 'Førstegangsbehandling',
     kodeverk: 'ae0034',
   },
-  dato: '2021-08-29',
+  dato,
   antall: 1,
 },
 {
@@ -37,7 +39,7 @@ const ferdigstilteHistorikk = [{
     navn: 'Revurdering',
     kodeverk: 'ae0028',
   },
-  dato: '2021-08-29',
+  dato,
   antall: 2,
 },
 {
@@ -51,7 +53,7 @@ const ferdigstilteHistorikk = [{
     navn: 'Revurdering',
     kodeverk: 'ae0028',
   },
-  dato: '2021-08-29',
+  dato,
   antall: 1,
 },
 {
@@ -65,7 +67,7 @@ const ferdigstilteHistorikk = [{
     navn: 'Førstegangsbehandling',
     kodeverk: 'ae0028',
   },
-  dato: '2021-08-29',
+  dato,
   antall: 1,
 },
 {
@@ -79,7 +81,7 @@ const ferdigstilteHistorikk = [{
     navn: 'Førstegangsbehandling',
     kodeverk: 'ae0034',
   },
-  dato: '2021-08-29',
+  dato,
   antall: 1,
 },
 {
@@ -93,7 +95,63 @@ const ferdigstilteHistorikk = [{
     navn: 'Tilbakekreving',
     kodeverk: 'ae0203',
   },
-  dato: '2021-08-29',
+  dato,
+  antall: 1,
+},
+{
+  fagsakYtelseType: {
+    kode: 'PSB',
+    navn: 'Pleiepenger sykt barn',
+    kodeverk: 'FAGSAK_YTELSE_TYPE',
+  },
+  behandlingType: {
+    kode: 'BT-006',
+    navn: 'Tilbakekreving',
+    kodeverk: 'ae0203',
+  },
+  dato,
+  antall: 1,
+},
+{
+  fagsakYtelseType: {
+    kode: 'PSB',
+    navn: 'Pleiepenger sykt barn',
+    kodeverk: 'FAGSAK_YTELSE_TYPE',
+  },
+  behandlingType: {
+    kode: 'BT-006',
+    navn: 'Tilbakekreving',
+    kodeverk: 'ae0203',
+  },
+  dato,
+  antall: 1,
+},
+{
+  fagsakYtelseType: {
+    kode: 'PSB',
+    navn: 'Pleiepenger sykt barn',
+    kodeverk: 'FAGSAK_YTELSE_TYPE',
+  },
+  behandlingType: {
+    kode: 'BT-003',
+    navn: 'Tilbakekreving',
+    kodeverk: 'ae0203',
+  },
+  dato,
+  antall: 1,
+},
+{
+  fagsakYtelseType: {
+    kode: 'PSB',
+    navn: 'Pleiepenger sykt barn',
+    kodeverk: 'FAGSAK_YTELSE_TYPE',
+  },
+  behandlingType: {
+    kode: 'BT-006',
+    navn: 'Tilbakekreving',
+    kodeverk: 'ae0203',
+  },
+  dato,
   antall: 1,
 },
 {
@@ -107,7 +165,7 @@ const ferdigstilteHistorikk = [{
     navn: 'Revurdering',
     kodeverk: 'ae0028',
   },
-  dato: '2021-08-29',
+  dato,
   antall: 1,
 },
 {
@@ -121,7 +179,7 @@ const ferdigstilteHistorikk = [{
     navn: 'Papirinntektsopplysninger',
     kodeverk: 'PUNSJ_INNSENDING_TYPE',
   },
-  dato: '2021-08-29',
+  dato,
   antall: 1,
 },
 {
@@ -135,7 +193,7 @@ const ferdigstilteHistorikk = [{
     navn: 'Kopi',
     kodeverk: 'PUNSJ_INNSENDING_TYPE',
   },
-  dato: '2021-08-29',
+  dato,
   antall: 1,
 },
 {
@@ -149,7 +207,7 @@ const ferdigstilteHistorikk = [{
     navn: 'Digital ettersendelse',
     kodeverk: 'PUNSJ_INNSENDING_TYPE',
   },
-  dato: '2021-08-29',
+  dato,
   antall: 1,
 },
 {
@@ -163,7 +221,7 @@ const ferdigstilteHistorikk = [{
     navn: 'Samtalereferat',
     kodeverk: 'PUNSJ_INNSENDING_TYPE',
   },
-  dato: '2021-08-29',
+  dato,
   antall: 1,
 },
 {
@@ -177,7 +235,7 @@ const ferdigstilteHistorikk = [{
     navn: 'Samtalereferat',
     kodeverk: 'PUNSJ_INNSENDING_TYPE',
   },
-  dato: '2021-08-29',
+  dato,
   antall: 1,
 },
 {
@@ -191,7 +249,7 @@ const ferdigstilteHistorikk = [{
     navn: 'Samtalereferat',
     kodeverk: 'PUNSJ_INNSENDING_TYPE',
   },
-  dato: '2021-08-29',
+  dato,
   antall: 1,
 },
 {
@@ -205,7 +263,7 @@ const ferdigstilteHistorikk = [{
     navn: 'Skriv til oss spørmsål',
     kodeverk: 'PUNSJ_INNSENDING_TYPE',
   },
-  dato: '2021-08-29',
+  dato,
   antall: 1,
 },
 {
@@ -219,7 +277,7 @@ const ferdigstilteHistorikk = [{
     navn: 'Skriv til oss svar',
     kodeverk: 'PUNSJ_INNSENDING_TYPE',
   },
-  dato: '2021-08-29',
+  dato,
   antall: 1,
 },
 {
@@ -233,7 +291,7 @@ const ferdigstilteHistorikk = [{
     navn: 'Papirsøknad',
     kodeverk: 'PUNSJ_INNSENDING_TYPE',
   },
-  dato: '2021-08-29',
+  dato: '2021-08-30',
   antall: 1,
 },
 {
@@ -247,7 +305,7 @@ const ferdigstilteHistorikk = [{
     navn: 'Papirettersendelse',
     kodeverk: 'PUNSJ_INNSENDING_TYPE',
   },
-  dato: '2021-08-29',
+  dato,
   antall: 1,
 },
 {
@@ -261,7 +319,7 @@ const ferdigstilteHistorikk = [{
     navn: 'Innlogget chat',
     kodeverk: 'PUNSJ_INNSENDING_TYPE',
   },
-  dato: '2021-08-29',
+  dato,
   antall: 1,
 },
 {
@@ -275,7 +333,7 @@ const ferdigstilteHistorikk = [{
     navn: 'Ukjent',
     kodeverk: 'PUNSJ_INNSENDING_TYPE',
   },
-  dato: '2021-08-30',
+  dato,
   antall: 1,
 }];
 
