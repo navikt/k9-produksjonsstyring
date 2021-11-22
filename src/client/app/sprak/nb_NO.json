@@ -82,7 +82,7 @@
 
   "FerdigstilteHistorikkPanel.Ferdigstilte": "Historikk over ferdigstilte behandlinger",
 
-  "FlyttReservasjonModal.Titel": "Endre reservasjon",
+  "FlyttReservasjonModal.Titel": "Endre og/eller flytte reservasjon",
   "FlyttReservasjonModal.Brukerident": "Saksbehandlers navn",
   "FlyttReservasjonModal.Sok": "Søk",
   "FlyttReservasjonModal.Begrunn": "Begrunn endring av reservasjon",
@@ -230,7 +230,7 @@
   "OppgaveHandlingerMenu.ForlengReservasjon": "Forleng din reservasjon av{br}behandlingen med 24 timer",
   "OppgaveHandlingerMenu.EndreReservasjon": "Reserver behandlingen med dato",
   "OppgaveHandlingerMenu.ReservertTil": "{b}Reservert til {date} - {time}{b}",
-  "OppgaveHandlingerMenu.FlyttReservasjon": "Endre reservasjon",
+  "OppgaveHandlingerMenu.FlyttReservasjon": "Endre og/eller flytte reservasjon",
 
   "OppgaverPerForsteStonadsdagGraf.DagensDato": "Dagens{br}dato",
 
