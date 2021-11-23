@@ -23,7 +23,7 @@
     "echarts": "^5.2.2",
     "express": "^4.17.1",
     "final-form": "^4.20.1",
-    "history": "^4.10.1",
+    "history": "^5.1.0",
     "lodash.throttle": "^4.1.1",
     "moment": "^2.27.0",
     "nav-frontend-alertstriper": "^4.0.1",
