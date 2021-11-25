@@ -54,11 +54,11 @@ export const slaSammenBehandlingstyperOgFyllInnTomme = (nyeOgFerdigstilteOppgave
 /**
  * NyeOgFerdigstilteOppgaverForSisteSyvGraf
  */
-const NyeOgFerdigstilteOppgaverForSisteSyvGraf: FunctionComponent<OwnProps & WrappedComponentProps> = function ({
+const NyeOgFerdigstilteOppgaverForSisteSyvGraf: FunctionComponent<OwnProps & WrappedComponentProps> = ({
   intl,
   height,
   nyeOgFerdigstilteOppgaver,
-}) {
+}) => {
   const ferdigLabel = intl.formatMessage({ id: 'NyeOgFerdigstilteOppgaverForSisteSyvGraf.Ferdigstilte' });
   const nyLabel = intl.formatMessage({ id: 'NyeOgFerdigstilteOppgaverForSisteSyvGraf.Nye' });
 

@@ -37,12 +37,12 @@ interface OwnProps {
 /**
  * NyeOgFerdigstilteOppgaverForIdagGraf
  */
-const NyeOgFerdigstilteOppgaverForIdagGraf: FunctionComponent<OwnProps & WrappedComponentProps> = function ({
+const NyeOgFerdigstilteOppgaverForIdagGraf: FunctionComponent<OwnProps & WrappedComponentProps> = ({
   intl,
   nyeOgFerdigstilteOppgaver,
   behandlingTyper,
   skalPunsjbehandlingerVises,
-}) {
+}) => {
   const fagytelseTyper = useKodeverk(kodeverkTyper.FAGSAK_YTELSE_TYPE);
 
   const behandlingTypeNavnForYAkse = useMemo(() => {
