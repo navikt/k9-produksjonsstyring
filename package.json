@@ -134,7 +134,7 @@
     "identity-obj-proxy": "^3.0.0",
     "jest": "^27.4.3",
     "jest-transform-stub": "^2.0.0",
-    "jsdom": "^18.1.1",
+    "jsdom": "^19.0.0",
     "less": "^4.1.1",
     "less-loader": "^10.0.1",
     "mini-css-extract-plugin": "^2.4.5",
