@@ -1,26 +1,15 @@
-import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
+import React, { FunctionComponent, useCallback, useState } from 'react';
 import { parseQueryString } from 'utils/urlUtils';
-import { RestApiStateContext } from 'api/rest-api-hooks/src/RestApiContext';
-import IdleTimer from 'react-idle-timer';
+import { useIdleTimer } from 'react-idle-timer';
 import ModalMedIkon from 'sharedComponents/modal/ModalMedIkon';
+import { useLocation } from 'react-router';
 import AppConfigResolver from './AppConfigResolver';
-import { Location } from './locationTsType';
 import LanguageProvider from './LanguageProvider';
 import HeaderWithErrorPanel from './components/HeaderWithErrorPanel';
 import Home from './components/Home';
 import '../../styles/global.less';
 import advarselImageUrl from '../../images/advarsel.svg';
-
-interface RouterProps {
-  location: Location;
-}
-
-interface StateProps {
-  headerHeight: number;
-  crashMessage: string;
-  sessionHarUtlopt: boolean;
-}
+import ErrorBoundary from './ErrorBoundary';
 
 /**
  * AppIndex
@@ -30,68 +19,40 @@ interface StateProps {
  * Komponenten er også ansvarlig for å hente innlogget NAV-ansatt, rettskilde-url, systemrutine-url
  * og kodeverk fra server og lagre desse i klientens state.
  */
-export class AppIndex extends Component<RouterProps, StateProps> {
-  static contextType = RestApiStateContext;
+const AppIndex: FunctionComponent = function () {
+  const [headerHeight, setHeaderHeight] = useState(0);
+  const [crashMessage, setCrashMessage] = useState<string>();
+  const [sessionHarUtlopt, setSessionHarUtlopt] = useState<boolean>(false);
+  const timeout = 1000 * 60 * 58;
 
-  idleTimer:any = null;
+  const handleOnIdle = (): void => {
+    setSessionHarUtlopt(true);
+  };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      headerHeight: 0,
-      crashMessage: undefined,
-      sessionHarUtlopt: false,
-    };
+  useIdleTimer({
+    timeout,
+    onIdle: handleOnIdle,
+  });
 
-    this.idleTimer = React.createRef();
-  }
+  const setSiteHeight = useCallback((newHeaderHeight): void => {
+    document.documentElement.setAttribute('style', `height: calc(100% - ${newHeaderHeight}px)`);
+    setHeaderHeight(newHeaderHeight);
+  }, []);
 
-  componentDidCatch = (error: Error, info: { componentStack: string }): void => {
-    const crashMessage = [
-      error.toString(),
-      info.componentStack
-        .split('\n')
-        .map((line: string) => line.trim())
-        .find((line: string) => !!line),
-    ].join(' ');
+  const addErrorMessageAndSetAsCrashed = (error: string) => {
+    setCrashMessage(error);
+  };
 
-    this.setState((state) => ({ ...state, crashMessage }));
-  }
+  const location = useLocation();
+  const queryStrings = parseQueryString(location.search);
 
-  setSiteHeight = (headerHeight: number): void => {
-    document.documentElement.setAttribute('style', `height: calc(100% - ${headerHeight}px)`);
-    this.setState((state) => ({ ...state, headerHeight }));
-  }
-
-  handleOnIdle = (): void => {
-    this.setState({ sessionHarUtlopt: true });
-    this.idleTimer.reset();
-  }
-
-  render = () => {
-    const {
-      location,
-    } = this.props;
-
-    const {
-      crashMessage,
-      sessionHarUtlopt,
-    } = this.state;
-
-    const { headerHeight } = this.state;
-    const queryStrings = parseQueryString(location.search);
-
-    return (
+  return (
+    <ErrorBoundary errorMessageCallback={addErrorMessageAndSetAsCrashed}>
       <AppConfigResolver>
         <LanguageProvider>
-          <IdleTimer
-            ref={(ref) => { this.idleTimer = ref; }}
-            timeout={1000 * 60 * 58}
-            onIdle={this.handleOnIdle}
-          />
           <HeaderWithErrorPanel
             queryStrings={queryStrings}
-            setSiteHeight={this.setSiteHeight}
+            setSiteHeight={setSiteHeight}
             crashMessage={crashMessage}
           />
           {sessionHarUtlopt && (
@@ -106,12 +67,12 @@ export class AppIndex extends Component<RouterProps, StateProps> {
           />
           )}
           {crashMessage === undefined && (
-            <Home headerHeight={headerHeight} />
+          <Home headerHeight={headerHeight} />
           )}
         </LanguageProvider>
       </AppConfigResolver>
-    );
-  }
-}
+    </ErrorBoundary>
+  );
+};
 
-export default withRouter(AppIndex);
+export default AppIndex;

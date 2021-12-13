@@ -1,6 +1,5 @@
 import React from 'react';
-import { Router } from 'react-router-dom';
-import { createBrowserHistory } from 'history';
+import { BrowserRouter } from 'react-router-dom';
 import { render } from 'react-dom';
 import { init } from '@sentry/browser';
 
@@ -17,21 +16,19 @@ init({
   environment,
 });
 
-const history = createBrowserHistory({});
-
 const renderFunc = (Component) => {
   const app = document.getElementById('app');
   if (app === null) {
     throw new Error('No app element');
   }
   render(
-    <Router history={history}>
+    <BrowserRouter>
       <RestApiProvider requestApi={k9LosApi}>
         <RestApiErrorProvider>
           <Component />
         </RestApiErrorProvider>
       </RestApiProvider>
-    </Router>,
+    </BrowserRouter>,
     app,
   );
 };
