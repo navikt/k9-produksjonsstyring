@@ -63,7 +63,6 @@ const NyeOgFerdigstilteOppgaverForIdagGraf: FunctionComponent<OwnProps & Wrapped
 
   const ferdigLabel = intl.formatMessage({ id: 'NyeOgFerdigstilteOppgaverForIdagGraf.Ferdigstilte' });
   const nyLabel = intl.formatMessage({ id: 'NyeOgFerdigstilteOppgaverForIdagGraf.Nye' });
-  const mineFerdigeLabel = intl.formatMessage({ id: 'NyeOgFerdigstilteOppgaverForIdagGraf.FerdigstilteMine' });
 
   const filtrereUtRelevanteOppgaver = (valgtProperty: string): number[] => {
     if (skalPunsjbehandlingerVises) {
@@ -88,7 +87,6 @@ const NyeOgFerdigstilteOppgaverForIdagGraf: FunctionComponent<OwnProps & Wrapped
 
   const dataFerdigstilte = useMemo(() => filtrereUtRelevanteOppgaver('antallFerdigstilte'), [nyeOgFerdigstilteOppgaver]);
   const dataNye = useMemo(() => filtrereUtRelevanteOppgaver('antallNye'), [nyeOgFerdigstilteOppgaver]);
-  const dataMineFerdigstilte = useMemo(() => filtrereUtRelevanteOppgaver('antallFerdigstilteMine'), [nyeOgFerdigstilteOppgaver]);
 
   if (nyeOgFerdigstilteOppgaver.length === 0) {
     return (
@@ -113,7 +111,7 @@ const NyeOgFerdigstilteOppgaverForIdagGraf: FunctionComponent<OwnProps & Wrapped
         },
         legend: {
           ...eChartLegendStyle,
-          data: [nyLabel, ferdigLabel, mineFerdigeLabel],
+          data: [nyLabel, ferdigLabel],
         },
         grid: eChartGridDef,
         xAxis: {
@@ -146,13 +144,6 @@ const NyeOgFerdigstilteOppgaverForIdagGraf: FunctionComponent<OwnProps & Wrapped
             data: dataFerdigstilte,
             barMaxWidth: eChartMaxBarWith,
             color: eChartFargerForLegendsForMineNyeFerdigstilte[1],
-          },
-          {
-            name: mineFerdigeLabel,
-            type: 'bar',
-            data: dataMineFerdigstilte,
-            barMaxWidth: eChartMaxBarWith,
-            color: eChartFargerForLegendsForMineNyeFerdigstilte[2],
           },
         ],
       }}

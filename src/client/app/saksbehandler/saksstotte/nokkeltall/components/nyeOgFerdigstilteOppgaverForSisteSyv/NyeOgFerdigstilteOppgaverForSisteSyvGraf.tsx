@@ -60,13 +60,11 @@ const NyeOgFerdigstilteOppgaverForSisteSyvGraf: FunctionComponent<OwnProps & Wra
   nyeOgFerdigstilteOppgaver,
 }) => {
   const ferdigLabel = intl.formatMessage({ id: 'NyeOgFerdigstilteOppgaverForSisteSyvGraf.Ferdigstilte' });
-  const mineFerdigeLabel = intl.formatMessage({ id: 'NyeOgFerdigstilteOppgaverForSisteSyvGraf.FerdigstilteMine' });
   const nyLabel = intl.formatMessage({ id: 'NyeOgFerdigstilteOppgaverForSisteSyvGraf.Nye' });
 
   const sammenslatteOppgaver = useMemo(() => slaSammenBehandlingstyperOgFyllInnTomme(nyeOgFerdigstilteOppgaver), [nyeOgFerdigstilteOppgaver]);
   const ferdigstilteOppgaver = useMemo(() => sammenslatteOppgaver.map((o) => [o.dato.getTime(), o.antallFerdigstilte]), [sammenslatteOppgaver]);
   const nyeOppgaver = useMemo(() => sammenslatteOppgaver.map((o) => [o.dato.getTime(), o.antallNye]), [sammenslatteOppgaver]);
-  const ferdigstilteOppgaverMine = useMemo(() => sammenslatteOppgaver.map((o) => [o.dato.getTime(), o.antallFerdigstilteMine]), [sammenslatteOppgaver]);
 
   if (nyeOgFerdigstilteOppgaver.length === 0) {
     return (
@@ -102,7 +100,7 @@ const NyeOgFerdigstilteOppgaverForSisteSyvGraf: FunctionComponent<OwnProps & Wra
         },
         legend: {
           ...eChartLegendStyle,
-          data: [nyLabel, ferdigLabel, mineFerdigeLabel],
+          data: [nyLabel, ferdigLabel],
         },
         grid: eChartGridDef,
         xAxis: [
@@ -142,18 +140,6 @@ const NyeOgFerdigstilteOppgaverForSisteSyvGraf: FunctionComponent<OwnProps & Wra
             },
             data: ferdigstilteOppgaver,
             color: eChartFargerForLegendsForMineNyeFerdigstilte[1],
-            areaStyle: {
-              opacity: graferOpacity,
-            },
-          },
-          {
-            name: mineFerdigeLabel,
-            type: 'line',
-            emphasis: {
-              focus: 'series',
-            },
-            data: ferdigstilteOppgaverMine,
-            color: eChartFargerForLegendsForMineNyeFerdigstilte[2],
             areaStyle: {
               opacity: graferOpacity,
             },
