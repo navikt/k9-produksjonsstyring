@@ -46,8 +46,6 @@ const AppIndex: FunctionComponent = function () {
   const location = useLocation();
   const queryStrings = parseQueryString(location.search);
 
-  console.log('location', location);
-
   return (
     <ErrorBoundary errorMessageCallback={addErrorMessageAndSetAsCrashed}>
       <AppConfigResolver>
