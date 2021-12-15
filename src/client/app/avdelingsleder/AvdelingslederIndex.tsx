@@ -91,8 +91,7 @@ const getTab = (avdelingslederPanel, activeAvdelingslederPanel, getAvdelingslede
 /**
  * AvdelingslederIndex
  */
-export const AvdelingslederIndex: FunctionComponent = (
-) => {
+export const AvdelingslederIndex: FunctionComponent = () => {
   const { selected: activeAvdelingslederPanelTemp, location } = useTrackRouteParam({
     paramName: 'fane',
     isQueryParam: true,
@@ -118,7 +117,9 @@ export const AvdelingslederIndex: FunctionComponent = (
 
   if (!kanOppgavestyre) {
     return <IkkeTilgangTilAvdelingslederPanel />;
-  } if (activeAvdelingslederPanel) {
+  }
+
+  if (activeAvdelingslederPanel) {
     return (
       <>
         <Row>

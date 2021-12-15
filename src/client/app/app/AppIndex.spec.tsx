@@ -1,7 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
-import Home from 'app/components/Home';
 import HeaderWithErrorPanel from 'app/components/HeaderWithErrorPanel';
 import AppIndex from './AppIndex';
 
