@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 
 import AvdelingslederIndex from 'avdelingsleder/AvdelingslederIndex';
 import SaksbehandlerIndex from 'saksbehandler/SaksbehandlerIndex';
@@ -20,20 +20,18 @@ interface OwnProps {
  *
  * Presentasjonskomponent. Wrapper for sideinnholdet som vises under header.
  */
-const Home: FunctionComponent<OwnProps> = function ({
+const Home: FunctionComponent<OwnProps> = ({
   headerHeight,
-}) {
-  return (
-    <div className={styles.content} style={{ margin: `${headerHeight + 10}px auto 0` }}>
-      <Routes>
-        <Route path="/" element={<SaksbehandlerIndex />} />
-        <Route path="/avdelingsleder" element={<AvdelingslederIndex />} />
-        <Route path="/admin" element={<AdminIndex />} />
-        <Route path={aktoerPath} element={<AktoerIndex />} />
-        <Route element={<MissingPage />} />
-      </Routes>
-    </div>
-  );
-};
+}) => (
+  <div className={styles.content} style={{ margin: `${headerHeight + 10}px auto 0` }}>
+    <Switch>
+      <Route exact path="/" component={SaksbehandlerIndex} />
+      <Route exact path="/avdelingsleder" component={AvdelingslederIndex} />
+      <Route exact path="/admin" component={AdminIndex} />
+      <Route exact path={aktoerPath} component={AktoerIndex} />
+      <Route component={MissingPage} />
+    </Switch>
+  </div>
+);
 
 export default Home;

@@ -1,5 +1,4 @@
 module.exports = {
-  customSyntax: 'postcss-less',
   plugins: ['stylelint-order'],
   rules: {
     'at-rule-empty-line-before': [

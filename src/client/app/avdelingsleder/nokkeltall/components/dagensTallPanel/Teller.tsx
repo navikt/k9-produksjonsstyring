@@ -1,4 +1,5 @@
 import React, { FunctionComponent } from 'react';
+import { Kodeverk } from 'kodeverk/kodeverkTsType';
 import styles from './teller.less';
 
 interface OwnProps {

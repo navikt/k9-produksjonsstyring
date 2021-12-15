@@ -1,7 +1,4 @@
-import {
-  Params,
-  useLocation, useParams,
-} from 'react-router-dom';
+import { useHistory, useRouteMatch, match as RouterMatch } from 'react-router-dom';
 import { Location } from 'history';
 import { parseQueryString } from 'utils/urlUtils';
 
@@ -17,18 +14,19 @@ interface Config {
   isQueryParam?: boolean,
 }
 
-const mapMatchToParam = (params: Params, location: Location, trackingConfig: Required<Config>) => {
-  const newParams = trackingConfig.isQueryParam ? parseQueryString(location.search) : params;
-  return trackingConfig.parse(newParams[trackingConfig.paramName]);
+const mapMatchToParam = (match: RouterMatch, location: Location, trackingConfig: Config) => {
+  const params = trackingConfig.isQueryParam ? parseQueryString(location.search) : match.params;
+  return trackingConfig.parse(params[trackingConfig.paramName]);
 };
 
 function useTrackRouteParam<T>(config: Config): { location: Location; selected: T } {
   const trackingConfig = { ...defaultConfig, ...config };
 
-  const location = useLocation();
-  const params = useParams();
+  const history = useHistory();
+  const { location } = history;
+  const match = useRouteMatch();
 
-  const paramFromUrl = mapMatchToParam(params, location, trackingConfig);
+  const paramFromUrl = mapMatchToParam(match, location, trackingConfig);
   return {
     location,
     selected: paramFromUrl,
