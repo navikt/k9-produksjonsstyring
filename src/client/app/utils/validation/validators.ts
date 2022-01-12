@@ -24,11 +24,26 @@ import {
   invalidDatesInPeriodMessage,
   invalidPeriodRangeMessage,
   datesNotEqual,
-  invalidEmailMessage,
+  invalidEmailMessage, invalidSaksnummerOrJournalpostIdFormatMessage,
 } from './messages';
 import {
-  isoDateRegex, numberRegex, numberOptionalNegativeRegex, integerRegex, integerOptionalNegativeRegex, decimalRegex, textRegex,
-  textGyldigRegex, isEmpty, yesterday, tomorrow, dateRangesAreSequential, nameRegex, nameGyldigRegex, saksnummerOrFodselsnummerPattern, emailPattern,
+  isoDateRegex,
+  numberRegex,
+  numberOptionalNegativeRegex,
+  integerRegex,
+  integerOptionalNegativeRegex,
+  decimalRegex,
+  textRegex,
+  textGyldigRegex,
+  isEmpty,
+  yesterday,
+  tomorrow,
+  dateRangesAreSequential,
+  nameRegex,
+  nameGyldigRegex,
+  saksnummerOrFodselsnummerPattern,
+  emailPattern,
+  saksnummerOrJournalpostidPattern,
 } from './validatorsHelper';
 
 export const required = (value) => (isEmpty(value) ? isRequiredMessage() : undefined);
@@ -54,6 +69,9 @@ export const hasValidDecimal = (text) => (hasValidNumber(text) || hasValidDec(te
 
 export const hasValidSaksnummerOrFodselsnummerFormat = (text) => (isEmpty(text) || saksnummerOrFodselsnummerPattern.test(text)
   ? null : invalidSaksnummerOrFodselsnummerFormatMessage());
+
+export const hasValidSaksnummerEllerJournalpostFormat = (text) => (isEmpty(text) || saksnummerOrJournalpostidPattern.test(text)
+  ? null : invalidSaksnummerOrJournalpostIdFormatMessage());
 
 export const hasValidEmailFormat = (text) => (isEmpty(text) || emailPattern.test(text)
   ? null : invalidEmailMessage());

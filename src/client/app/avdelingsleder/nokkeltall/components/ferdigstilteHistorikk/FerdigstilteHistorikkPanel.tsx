@@ -11,14 +11,16 @@ import styles from 'avdelingsleder/nokkeltall/historikkGraf.less';
 
 import {
   ALLE_YTELSETYPER_VALGT,
-  erDatoInnenforPeriode, slaSammenLikeBehandlingstyperOgDatoer,
+  filtrereNyePerDato, UKE_2,
   UKE_4, uker,
   ytelseTyper,
 } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
 
 import useKodeverk from 'api/rest-api-hooks/src/global-data/useKodeverk';
 import StoreValuesInLocalStorage from 'form/StoreValuesInLocalStorage';
-import HistorikkGraf from '../../HistorikkGraf';
+import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
+import HistorikkGraf from 'avdelingsleder/nokkeltall/HistorikkGraf';
+import HistorikkGrafForPunsj from 'avdelingsleder/nokkeltall/HistorikkGrafForPunsj';
 import HistoriskData from '../../historiskDataTsType';
 
 interface InitialValues {
@@ -27,15 +29,13 @@ interface InitialValues {
 }
 
 interface OwnProps {
-    width: number;
-    height: number;
     ferdigstiltePerDato?: HistoriskData[];
     getValueFromLocalStorage: (key: string) => string;
 }
 
 const formName = 'ferdigstilteForm';
 
-const formDefaultValues: InitialValues = { ytelseType: ALLE_YTELSETYPER_VALGT, ukevalg: UKE_4 };
+const formDefaultValues: InitialValues = { ytelseType: ALLE_YTELSETYPER_VALGT, ukevalg: UKE_2 };
 
 /**
  * FerdigstilteHistorikkPanel.
@@ -43,14 +43,13 @@ const formDefaultValues: InitialValues = { ytelseType: ALLE_YTELSETYPER_VALGT, u
 
 export const FerdigstilteHistorikkPanel: FunctionComponent<OwnProps & WrappedComponentProps> = ({
   intl,
-  width,
-  height,
   ferdigstiltePerDato,
   getValueFromLocalStorage,
 }) => {
   const behandlingTyper = useKodeverk(kodeverkTyper.BEHANDLING_TYPE);
   const stringFromStorage = getValueFromLocalStorage(formName);
   const lagredeVerdier = stringFromStorage ? JSON.parse(stringFromStorage) : undefined;
+
   return (
     <Form
       onSubmit={() => undefined}
@@ -81,15 +80,21 @@ export const FerdigstilteHistorikkPanel: FunctionComponent<OwnProps & WrappedCom
             </Column>
           </Row>
           <VerticalSpacer sixteenPx />
-          <HistorikkGraf
-            width={width}
-            height={height}
-            isFireUkerValgt={values.ukevalg === UKE_4}
-            behandlingTyper={behandlingTyper}
-            historiskData={ferdigstiltePerDato ? slaSammenLikeBehandlingstyperOgDatoer(ferdigstiltePerDato
-              .filter((ofa) => (values.ytelseType === ALLE_YTELSETYPER_VALGT ? true : values.ytelseType === ofa.fagsakYtelseType.kode))
-              .filter((ofa) => erDatoInnenforPeriode(ofa, values.ukevalg))) : []}
-          />
+
+          {values.ytelseType === fagsakYtelseType.PUNSJ && (
+            <HistorikkGrafForPunsj
+              isFireUkerValgt={values.ukevalg === UKE_4}
+              historiskData={filtrereNyePerDato(values.ytelseType, values.ukevalg, ferdigstiltePerDato)}
+            />
+          )}
+
+          {values.ytelseType !== fagsakYtelseType.PUNSJ && (
+            <HistorikkGraf
+              isFireUkerValgt={values.ukevalg === UKE_4}
+              behandlingTyper={behandlingTyper}
+              historiskData={filtrereNyePerDato(values.ytelseType, values.ukevalg, ferdigstiltePerDato)}
+            />
+          )}
         </Panel>
       )}
     />

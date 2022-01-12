@@ -3,6 +3,7 @@ const AvdelingslederPanels = {
   BEHANDLINGSKOER: 'behandlingskoer',
   SAKSBEHANDLERE: 'saksbehandlere',
   NOKKELTALL: 'nokkeltall',
+  PROGNOSE: 'prognose',
   RESERVASJONER: 'reservasjoner',
 };
 

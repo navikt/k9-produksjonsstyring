@@ -5,10 +5,12 @@ export type OppgaveStatus = Readonly<{
   reservertTilTidspunkt?: string;
   erReservertAvInnloggetBruker?: boolean;
   reservertAv?: string;
+  reservertAvNavn?: string;
   flyttetReservasjon?: {
     tidspunkt: string;
     uid: string;
     navn: string;
     begrunnelse: string;
   };
+  kanOverstyres?: boolean;
 }>

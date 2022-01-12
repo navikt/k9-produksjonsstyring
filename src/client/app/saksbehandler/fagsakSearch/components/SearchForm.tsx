@@ -26,7 +26,6 @@ interface OwnProps {
   searchResultAccessDenied?: {
     feilmelding?: string;
   };
-  resetSearch: () => void;
 }
 
 /**
@@ -41,6 +40,7 @@ export const SearchForm: FunctionComponent<OwnProps & WrappedComponentProps> = (
   searchResultAccessDenied,
 }) => {
   const { kanSaksbehandle } = useGlobalStateRestApiData<NavAnsatt>(RestApiGlobalStatePathsKeys.NAV_ANSATT);
+
   return (
     <Form
       onSubmit={onSubmit}

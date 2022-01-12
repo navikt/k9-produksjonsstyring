@@ -1,7 +1,7 @@
 import { expect } from 'chai';
-import moment from 'moment';
 
 import { DDMMYYYY_DATE_FORMAT, ISO_DATE_FORMAT } from 'utils/formats';
+import dayjs from 'dayjs';
 import {
   required, requiredIfNotPristine, requiredIfCustomFunctionIsTrue, minLength, maxLength, minValue, maxValue,
   hasValidInteger, hasValidDecimal, hasValidDate, dateBeforeOrEqual, dateAfterOrEqual, dateRangesNotOverlapping,
@@ -10,7 +10,7 @@ import {
   hasValidSaksnummerOrFodselsnummerFormat, hasValidPeriod, isWithinOpptjeningsperiode,
 } from './validators';
 
-const today = moment();
+const today = dayjs();
 const todayAsISO = today.format(ISO_DATE_FORMAT);
 const todayAsDDMMYYYY = today.format(DDMMYYYY_DATE_FORMAT);
 
@@ -229,7 +229,7 @@ describe('Validators', () => {
 
   describe('dateBeforeOrEqual', () => {
     it('skal ikke feile når dato er før spesifisert dato', () => {
-      const result = dateBeforeOrEqual(moment().toDate())('2000-12-10');
+      const result = dateBeforeOrEqual(dayjs().toDate())('2000-12-10');
       expect(result).is.null;
     });
 
@@ -254,7 +254,7 @@ describe('Validators', () => {
 
   describe('dateAfterOrEqual', () => {
     it('skal ikke feile når dato er etter spesifisert dato', () => {
-      const result = dateAfterOrEqual(moment().toDate())('2100-12-10');
+      const result = dateAfterOrEqual(dayjs().toDate())('2100-12-10');
       expect(result).is.null;
     });
 

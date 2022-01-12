@@ -1,26 +1,27 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import moment from 'moment';
 import { FormattedMessage } from 'react-intl';
 import { Hovedknapp } from 'nav-frontend-knapper';
 
 import Modal from 'sharedComponents/Modal';
 import { getDateAndTime } from 'utils/dateUtils';
-import { shallowWithIntl, intlMock } from 'testHelpers/intl-enzyme-test-helper';
 import behandlingStatus from 'kodeverk/behandlingStatus';
 import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
 import behandlingType from 'kodeverk/behandlingType';
+import dayjs from 'dayjs';
 import { OppgaveErReservertAvAnnenModal } from './OppgaveErReservertAvAnnenModal';
+import { shallowWithIntl, intlMock } from '../../../../../setup/testHelpers/intl-enzyme-test-helper';
 
 describe('<OppgaveErReservertAvAnnenModal>', () => {
-  const dato = moment().add(2, 'hours').format();
+  const dato = dayjs().add(2, 'hours').format();
   const oppgave = {
     eksternId: '1',
     status: {
       erReservert: false,
       reservertTilTidspunkt: dato,
       reservertAv: '123455',
+      reservertAvNavn: 'test',
     },
     saksnummer: '1',
     behandlingId: 2,
@@ -62,6 +63,7 @@ describe('<OppgaveErReservertAvAnnenModal>', () => {
       date: dagOgTidspunkt.date,
       time: dagOgTidspunkt.time,
       saksbehandlerid: '123455',
+      saksbehandlernavn: 'test',
     });
   });
 

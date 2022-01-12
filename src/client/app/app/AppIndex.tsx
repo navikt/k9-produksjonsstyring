@@ -1,22 +1,15 @@
-import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
+import React, { FunctionComponent, useCallback, useState } from 'react';
 import { parseQueryString } from 'utils/urlUtils';
-import { RestApiStateContext } from 'api/rest-api-hooks/src/RestApiContext';
+import { useIdleTimer } from 'react-idle-timer';
+import ModalMedIkon from 'sharedComponents/modal/ModalMedIkon';
+import { useLocation } from 'react-router';
 import AppConfigResolver from './AppConfigResolver';
-import { Location } from './locationTsType';
 import LanguageProvider from './LanguageProvider';
 import HeaderWithErrorPanel from './components/HeaderWithErrorPanel';
 import Home from './components/Home';
 import '../../styles/global.less';
-
-interface RouterProps {
-  location: Location;
-}
-
-interface StateProps {
-  headerHeight: number;
-  crashMessage: string;
-}
+import advarselImageUrl from '../../images/advarsel.svg';
+import ErrorBoundary from './ErrorBoundary';
 
 /**
  * AppIndex
@@ -26,58 +19,60 @@ interface StateProps {
  * Komponenten er også ansvarlig for å hente innlogget NAV-ansatt, rettskilde-url, systemrutine-url
  * og kodeverk fra server og lagre desse i klientens state.
  */
-export class AppIndex extends Component<RouterProps, StateProps> {
-  static contextType = RestApiStateContext;
+const AppIndex: FunctionComponent = function () {
+  const [headerHeight, setHeaderHeight] = useState(0);
+  const [crashMessage, setCrashMessage] = useState<string>();
+  const [sessionHarUtlopt, setSessionHarUtlopt] = useState<boolean>(false);
+  const timeout = 1000 * 60 * 58;
 
-  state = {
-    headerHeight: 0,
-    crashMessage: undefined,
+  const handleOnIdle = (): void => {
+    setSessionHarUtlopt(true);
   };
 
-  componentDidCatch = (error: Error, info: { componentStack: string }): void => {
-    const crashMessage = [
-      error.toString(),
-      info.componentStack
-        .split('\n')
-        .map((line: string) => line.trim())
-        .find((line: string) => !!line),
-    ].join(' ');
+  useIdleTimer({
+    timeout,
+    onIdle: handleOnIdle,
+  });
 
-    this.setState((state) => ({ ...state, crashMessage }));
-  }
+  const setSiteHeight = useCallback((newHeaderHeight): void => {
+    document.documentElement.setAttribute('style', `height: calc(100% - ${newHeaderHeight}px)`);
+    setHeaderHeight(newHeaderHeight);
+  }, []);
 
-  setSiteHeight = (headerHeight: number): void => {
-    document.documentElement.setAttribute('style', `height: calc(100% - ${headerHeight}px)`);
-    this.setState((state) => ({ ...state, headerHeight }));
-  }
+  const addErrorMessageAndSetAsCrashed = (error: string) => {
+    setCrashMessage(error);
+  };
 
-  render = () => {
-    const {
-      location,
-    } = this.props;
+  const location = useLocation();
+  const queryStrings = parseQueryString(location.search);
 
-    const {
-      crashMessage,
-    } = this.state;
-
-    const { headerHeight } = this.state;
-    const queryStrings = parseQueryString(location.search);
-
-    return (
+  return (
+    <ErrorBoundary errorMessageCallback={addErrorMessageAndSetAsCrashed}>
       <AppConfigResolver>
         <LanguageProvider>
           <HeaderWithErrorPanel
             queryStrings={queryStrings}
-            setSiteHeight={this.setSiteHeight}
+            setSiteHeight={setSiteHeight}
             crashMessage={crashMessage}
           />
+          {sessionHarUtlopt && (
+          <ModalMedIkon
+            cancel={() => { window.location.reload(); }}
+            tekst={{
+              valgmulighetB: 'Logg inn',
+              formattedMessageId: 'LoggetUtModal.Tekst',
+            }}
+            ikonUrl={advarselImageUrl}
+            ikonAlt="Varseltrekant"
+          />
+          )}
           {crashMessage === undefined && (
-            <Home headerHeight={headerHeight} />
+          <Home headerHeight={headerHeight} />
           )}
         </LanguageProvider>
       </AppConfigResolver>
-    );
-  }
-}
+    </ErrorBoundary>
+  );
+};
 
-export default withRouter(AppIndex);
+export default AppIndex;

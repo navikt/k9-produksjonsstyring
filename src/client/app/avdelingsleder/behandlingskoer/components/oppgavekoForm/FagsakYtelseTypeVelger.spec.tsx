@@ -4,9 +4,8 @@ import sinon from 'sinon';
 import { shallow } from 'enzyme';
 
 import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
-import { RadioOption, RadioGroupField } from 'form/FinalFields';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
-import RestApiTestMocker from 'testHelpers/RestApiTestMocker';
+import RestApiTestMocker from '../../../../../../../setup/testHelpers/RestApiTestMocker';
 import { K9LosApiKeys } from 'api/k9LosApi';
 import FagsakYtelseTypeVelger from './FagsakYtelseTypeVelger';
 
@@ -26,19 +25,26 @@ describe('<FagsakYtelseTypeVelger>', () => {
       .runTest(() => {
         const wrapper = shallow(<FagsakYtelseTypeVelger
           valgtOppgavekoId="1"
+          fagsakYtelseTyper={[fagsakYtelseTyper[0]]}
           hentOppgaveko={sinon.spy()}
         />);
 
-        const radios = wrapper.find(RadioOption);
-        expect(radios).to.have.length(4);
-        expect(radios.first().prop('value')).to.eql(fagsakYtelseType.OMSORGSPENGER);
-        expect(radios.at(1).prop('value')).to.eql(fagsakYtelseType.OMSORGSDAGER);
-        expect(radios.at(2).prop('value')).to.eql(fagsakYtelseType.PLEIEPENGER_SYKT_BARN);
-        expect(radios.last().prop('value')).to.eql('');
+        const radios = wrapper.find('CheckboxField');
+        expect(radios).to.have.length(5);
+        expect(radios.at(0).prop('name')).to.eql(fagsakYtelseType.OMSORGSPENGER);
+        expect(radios.at(0).prop('checked')).to.eql(true);
+        expect(radios.at(1).prop('name')).to.eql(fagsakYtelseType.OMSORGSDAGER);
+        expect(radios.at(1).prop('checked')).to.eql(false);
+        expect(radios.at(2).prop('name')).to.eql(fagsakYtelseType.PLEIEPENGER_SYKT_BARN);
+        expect(radios.at(2).prop('checked')).to.eql(false);
+        expect(radios.at(3).prop('name')).to.eql(fagsakYtelseType.PPN);
+        expect(radios.at(3).prop('checked')).to.eql(false);
+        expect(radios.at(4).prop('name')).to.eql(fagsakYtelseType.UKJENT);
+        expect(radios.at(4).prop('checked')).to.eql(false);
       });
   });
 
-  it('skal lagre ytelsetype ved klikk på checkbox', () => {
+  it('skal lagre ytelsetype ved klikk på checkboks', () => {
     const lagreYtelseTypeFn = sinon.spy();
 
     new RestApiTestMocker()
@@ -48,17 +54,34 @@ describe('<FagsakYtelseTypeVelger>', () => {
       .runTest(() => {
         const wrapper = shallow(<FagsakYtelseTypeVelger
           valgtOppgavekoId="1"
+          fagsakYtelseTyper={[]}
           hentOppgaveko={sinon.spy()}
         />);
 
-        const radioGroup = wrapper.find(RadioGroupField);
-        radioGroup.prop('onChange')(fagsakYtelseType.OMSORGSPENGER);
+        const radios = wrapper.find('CheckboxField');
+        expect(radios).to.have.length(5);
+        expect(radios.at(0).prop('name')).to.eql(fagsakYtelseType.OMSORGSPENGER);
+        expect(radios.at(0).prop('checked')).to.eql(true);
+        expect(radios.at(1).prop('name')).to.eql(fagsakYtelseType.OMSORGSDAGER);
+        expect(radios.at(1).prop('checked')).to.eql(true);
+        expect(radios.at(2).prop('name')).to.eql(fagsakYtelseType.PLEIEPENGER_SYKT_BARN);
+        expect(radios.at(2).prop('checked')).to.eql(true);
+        expect(radios.at(3).prop('name')).to.eql(fagsakYtelseType.PPN);
+        expect(radios.at(3).prop('checked')).to.eql(false);
+        expect(radios.at(4).prop('name')).to.eql(fagsakYtelseType.UKJENT);
+        expect(radios.at(4).prop('checked')).to.eql(false);
+
+        const radioOMP = radios.at(0);
+
+        radioOMP.prop('onChange')(false);
 
         expect(lagreYtelseTypeFn.calledOnce).to.be.true;
         const { args } = lagreYtelseTypeFn.getCalls()[0];
         expect(args).to.have.length(1);
         expect(args[0].id).to.eql('1');
-        expect(args[0].fagsakYtelseType).to.eql(fagsakYtelseType.OMSORGSPENGER);
+        // eslint-disable-next-line
+        console.log(args[0]);
+        expect(args[0].fagsakYtelseType).to.eql([fagsakYtelseType.OMSORGSDAGER, fagsakYtelseType.PLEIEPENGER_SYKT_BARN]);
       });
   });
 });

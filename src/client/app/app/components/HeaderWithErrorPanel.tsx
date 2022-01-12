@@ -2,20 +2,20 @@ import React, {
   FunctionComponent, useCallback, useEffect, useMemo, useRef, useState,
 } from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
-import Popover from '@navikt/nap-popover';
-import SystemButton from '@navikt/nap-system-button';
-import UserPanel from '@navikt/nap-user-panel';
-import BoxedListWithLinks from '@navikt/boxed-list-with-links';
-import Header from '@navikt/nap-header';
+import {
+  Popover, SystemButton, UserPanel, Header, BoxedListWithLinks,
+} from '@navikt/k9-react-components';
 import { RETTSKILDE_URL, SYSTEMRUTINE_URL } from 'api/eksterneLenker';
 import Knapp from 'nav-frontend-knapper';
 
-import useRestApiError from 'api/rest-api/error/useRestApiError';
 import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
 import ErrorFormatter from 'app/feilhandtering/ErrorFormatter';
 import useRestApi from 'api/rest-api-hooks/src/local-data/useRestApi';
 import { useGlobalStateRestApiData } from 'api/rest-api-hooks';
 import NavAnsatt from 'app/navAnsattTsType';
+import DriftsmeldingPanel from 'app/components/DriftsmeldingPanel';
+import useRestApiErrorDispatcher from 'api/error/useRestApiErrorDispatcher';
+import useRestApiError from 'api/error/useRestApiError';
 import styles from './headerWithErrorPanel.less';
 import ErrorMessagePanel from './ErrorMessagePanel';
 import { Driftsmelding } from '../../admin/driftsmeldinger/driftsmeldingTsType';
@@ -74,7 +74,9 @@ const HeaderWithErrorPanel: FunctionComponent<OwnProps & WrappedComponentProps> 
   const { data: driftsmeldinger = [] } = useRestApi<Driftsmelding[]>(K9LosApiKeys.DRIFTSMELDINGER);
 
   const errorMessages = useRestApiError() || [];
+
   const formaterteFeilmeldinger = useMemo(() => new ErrorFormatter().format(errorMessages, crashMessage), [errorMessages]);
+  const { removeErrorMessage } = useRestApiErrorDispatcher();
   const wrapperRef = useOutsideClickEvent(erLenkePanelApent, erAvdelingerPanelApent, setLenkePanelApent, setAvdelingerPanelApent);
   const brukerPanel = <UserPanel name={navAnsatt.navn} />;
   const fixedHeaderRef = useRef(null);
@@ -95,7 +97,7 @@ const HeaderWithErrorPanel: FunctionComponent<OwnProps & WrappedComponentProps> 
   };
 
   const loggUt = () => {
-    window.location.assign('https://k9-los-oidc-auth-proxy.dev.adeo.no/logout');
+    window.location.assign('https://k9-los-oidc-auth-proxy.dev.intern.nav.no/logout');
     setTimeout(() => { goToHomepage(); }, 1000);
   };
 
@@ -170,10 +172,13 @@ const HeaderWithErrorPanel: FunctionComponent<OwnProps & WrappedComponentProps> 
           {isDev && <Knapp className={styles.knapp} onClick={loggUt}>Logg ut</Knapp>}
         </Header>
       </div>
-      <ErrorMessagePanel
+      <DriftsmeldingPanel
         driftsmeldinger={driftsmeldinger}
+      />
+      <ErrorMessagePanel
         errorMessages={formaterteFeilmeldinger}
         queryStrings={queryStrings}
+        removeErrorMessages={removeErrorMessage}
       />
     </header>
   );

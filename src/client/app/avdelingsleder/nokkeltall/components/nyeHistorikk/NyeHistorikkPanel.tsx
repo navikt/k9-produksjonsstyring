@@ -6,17 +6,20 @@ import { Form } from 'react-final-form';
 import { SelectField } from 'form/FinalFields';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import Panel from 'nav-frontend-paneler';
-import styles from 'avdelingsleder/nokkeltall/historikkGraf.less';
 import {
   ALLE_YTELSETYPER_VALGT,
-  erDatoInnenforPeriode, slaSammenLikeBehandlingstyperOgDatoer,
-  UKE_4, uker,
+  filtrereNyePerDato, UKE_2,
+  UKE_4,
+  uker,
   ytelseTyper,
 } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
 import useKodeverk from 'api/rest-api-hooks/src/global-data/useKodeverk';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
 import StoreValuesInLocalStorage from 'form/StoreValuesInLocalStorage';
-import HistorikkGraf from '../../HistorikkGraf';
+import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
+import HistorikkGraf from 'avdelingsleder/nokkeltall/HistorikkGraf';
+import styles from 'avdelingsleder/nokkeltall/historikkGraf.less';
+import HistorikkGrafForPunsj from 'avdelingsleder/nokkeltall/HistorikkGrafForPunsj';
 import HistoriskData from '../../historiskDataTsType';
 
 interface InitialValues {
@@ -25,14 +28,12 @@ interface InitialValues {
 }
 
 interface OwnProps {
-    width: number;
-    height: number;
     nyePerDato?: HistoriskData[];
     getValueFromLocalStorage: (key: string) => string;
 }
 
 const formName = 'nyeForm';
-const formDefaultValues: InitialValues = { ytelseType: ALLE_YTELSETYPER_VALGT, ukevalg: UKE_4 };
+const formDefaultValues: InitialValues = { ytelseType: ALLE_YTELSETYPER_VALGT, ukevalg: UKE_2 };
 
 /**
  * NyeHistorikkPanel.
@@ -40,8 +41,6 @@ const formDefaultValues: InitialValues = { ytelseType: ALLE_YTELSETYPER_VALGT, u
 
 export const NyeHistorikkPanel: FunctionComponent<OwnProps & WrappedComponentProps> = ({
   intl,
-  width,
-  height,
   nyePerDato,
   getValueFromLocalStorage,
 }) => {
@@ -78,15 +77,20 @@ export const NyeHistorikkPanel: FunctionComponent<OwnProps & WrappedComponentPro
             </Column>
           </Row>
           <VerticalSpacer sixteenPx />
+          {values.ytelseType === fagsakYtelseType.PUNSJ && (
+          <HistorikkGrafForPunsj
+            isFireUkerValgt={values.ukevalg === UKE_4}
+            historiskData={filtrereNyePerDato(values.ytelseType, values.ukevalg, nyePerDato)}
+          />
+          )}
+
+          {values.ytelseType !== fagsakYtelseType.PUNSJ && (
           <HistorikkGraf
-            width={width}
-            height={height}
             isFireUkerValgt={values.ukevalg === UKE_4}
             behandlingTyper={behandlingTyper}
-            historiskData={nyePerDato ? slaSammenLikeBehandlingstyperOgDatoer(nyePerDato
-              .filter((ofa) => (values.ytelseType === ALLE_YTELSETYPER_VALGT ? true : values.ytelseType === ofa.fagsakYtelseType.kode))
-              .filter((ofa) => erDatoInnenforPeriode(ofa, values.ukevalg))) : []}
+            historiskData={filtrereNyePerDato(values.ytelseType, values.ukevalg, nyePerDato)}
           />
+          )}
         </Panel>
       )}
     />

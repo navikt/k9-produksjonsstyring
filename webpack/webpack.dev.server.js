@@ -1,14 +1,17 @@
-const webpack = require('webpack');
-const WebpackDevServer = require('webpack-dev-server');
-const config = require('./webpack.dev');
+var webpack = require('webpack');
+var WebpackDevServer = require('webpack-dev-server');
+var config = require('./webpack.dev');
 
 if (process.argv.includes('--no-fix')) {
   console.warn("Setting eslint-loader option 'fix' to false");
-  config.module.rules.find((rules) => rules.loader === 'eslint-loader').options.fix = false;
+  config.module.rules.find(rules => rules.loader === 'eslint-loader').options.fix = false;
 }
 
 const options = {
-  contentBase: 'src/client',
+  static: {
+    directory: 'src/client',
+    watch: true,
+  },
   proxy: {
     '/api/**': {
       target: 'http://localhost:8020',
@@ -22,23 +25,26 @@ const options = {
       },
     },
   },
-  publicPath: config.output.publicPath,
-  hot: true,
-  noInfo: true,
   historyApiFallback: true,
-  stats: {
-    children: false,
-    colors: true,
+  devMiddleware: {
+    publicPath: config.output.publicPath,
+    stats: {
+      children: false,
+      colors: true,
+    },
   },
+  port: 8030,
 };
 
 const wds = new WebpackDevServer(webpack(config), options);
 
-wds.listen(8030, 'localhost', (err) => {
-  if (err) {
+(async () => {
+  try {
+    await wds.start();
+  } catch (error) {
     return console.log(err); // NOSONAR
   }
 
   console.log('Listening at http://localhost:8030/');
-  return null;
-});
+  return undefined;
+})();

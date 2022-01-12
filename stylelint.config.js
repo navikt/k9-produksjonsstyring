@@ -1,4 +1,5 @@
 module.exports = {
+  customSyntax: 'postcss-less',
   plugins: ['stylelint-order'],
   rules: {
     'at-rule-empty-line-before': [
@@ -116,7 +117,7 @@ module.exports = {
     'value-list-comma-space-after': 'always-single-line',
     'value-list-comma-space-before': 'never',
     'value-list-max-empty-lines': 0,
-    'unit-whitelist': [
+    'unit-allowed-list': [
       'em',
       'ex',
       'rem', // Font-relative lengths

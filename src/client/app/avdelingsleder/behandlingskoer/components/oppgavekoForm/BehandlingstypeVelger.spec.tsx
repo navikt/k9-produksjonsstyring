@@ -6,8 +6,8 @@ import { shallow } from 'enzyme';
 import behandlingType from 'kodeverk/behandlingType';
 import { CheckboxField } from 'form/FinalFields';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
-import RestApiTestMocker from 'testHelpers/RestApiTestMocker';
 import { K9LosApiKeys } from 'api/k9LosApi';
+import RestApiTestMocker from '../../../../../../../setup/testHelpers/RestApiTestMocker';
 import BehandlingstypeVelger from './BehandlingstypeVelger';
 
 const behandlingTyper = [{
@@ -46,17 +46,27 @@ const behandlingTyper = [{
   navn: 'Innlogget chat',
 }, {
   kode: behandlingType.SKRIV_TIL_OSS_SPØRMSÅL,
-  navn: 'Skriv til oss spørmsål',
+  navn: 'Skriv til oss spørsmål',
 }, {
   kode: behandlingType.SKRIV_TIL_OSS_SVAR,
   navn: 'Srkiv til oss svar',
 }, {
-  kode: behandlingType.UKJENT,
-  navn: 'Ukjent',
+  kode: behandlingType.KOPI,
+  navn: 'KOPI',
 },
 {
+  kode: behandlingType.UKJENT,
+  navn: 'Ukjent',
+}, {
   kode: behandlingType.SAMTALEREFERAT,
   navn: 'Samtalereferat',
+}, {
+  kode: behandlingType.KOPI,
+  navn: 'Kopi',
+},
+{
+  kode: behandlingType.INNTEKTSMELDING_UTGÅTT,
+  navn: 'INNTEKTSMELDING_UTGÅTT',
 },
 ];
 
@@ -72,9 +82,9 @@ describe('<BehandlingstypeVelger>', () => {
         />);
 
         const checkboxer = wrapper.find(CheckboxField);
-        expect(checkboxer).to.have.length(15);
+        expect(checkboxer).to.have.length(17);
         expect(checkboxer.first().prop('name')).to.eql(behandlingType.ANKE);
-        expect(checkboxer.last().prop('name')).to.eql(behandlingType.UKJENT);
+        expect(checkboxer.last().prop('name')).to.eql(behandlingType.INNTEKTSMELDING_UTGÅTT);
       });
   });
 

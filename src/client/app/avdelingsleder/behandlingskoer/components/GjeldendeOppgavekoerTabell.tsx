@@ -39,7 +39,6 @@ interface OwnProps {
   setValgtOppgavekoId: (id: string) => void;
   resetValgtOppgavekoId: () => void;
   valgtOppgavekoId?: string;
-  oppgaverTotalt?: number;
   requestFinished: boolean;
   hentAlleOppgavekoer:() => void;
 }
@@ -118,10 +117,22 @@ export const GjeldendeOppgavekoerTabell: FunctionComponent<OwnProps> = ({
     setVisSlettModal(true);
   };
 
+  const antallFagytelseTyper = 6;
   const formatStonadstyper = (valgteFagsakYtelseTyper?: Kodeverk[]) => {
-    if (!valgteFagsakYtelseTyper || valgteFagsakYtelseTyper.length === 0) {
+    /* if (!valgteFagsakYtelseTyper || valgteFagsakYtelseTyper.length === 0) {
+      return <FormattedMessage id="GjeldendeOppgavekoerTabell.Ingen" />;
+    }
+
+    if (!valgteFagsakYtelseTyper || valgteFagsakYtelseTyper.length === 0 || valgteFagsakYtelseTyper.length >= antallFagytelseTyper) {
+      return <FormattedMessage id="GjeldendeOppgavekoerTabell.Alle" />;
+    } */
+
+    // TODO Denna ska byttes ut mot koden over etter alla köer har fått gått over till array.
+    // Tidigare blev '' som blir konvertert til [] brukt för att markere alle vilket innebär att det fortsatt existerer köer med denne logikken.
+    if (!valgteFagsakYtelseTyper || valgteFagsakYtelseTyper.length === 0 || valgteFagsakYtelseTyper.length >= antallFagytelseTyper) {
       return <FormattedMessage id="GjeldendeOppgavekoerTabell.Alle" />;
     }
+
     return valgteFagsakYtelseTyper.map((fyt) => {
       const type = fagsakYtelseTyper.find((def) => def.kode === fyt.kode);
       return type ? type.navn : '';

@@ -2,14 +2,12 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
-import { FormattedMessage } from 'react-intl';
 
 import behandlingStatus from 'kodeverk/behandlingStatus';
 import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
 import behandlingType from 'kodeverk/behandlingType';
 import OppgaveHandlingerMenu from './OppgaveHandlingerMenu';
 import OpphevReservasjonModal from './OpphevReservasjonModal';
-import OppgaveReservasjonForlengetModal from './OppgaveReservasjonForlengetModal';
 import FlyttReservasjonModal from './FlyttReservasjonModal';
 import MenuButton from './MenuButton';
 
@@ -57,11 +55,7 @@ describe('<OppgaveHandlingerMenu>', () => {
       />,
     );
 
-    expect(wrapper.find(MenuButton)).has.length(4);
-    const message = wrapper.find(FormattedMessage).first();
-    const values = message.prop('values') as { date: string; time: string };
-    expect(values.date).is.eql('02.02.2020');
-    expect(values.time).is.eql('23:59');
+    expect(wrapper.find(MenuButton)).has.length(3);
   });
 
   it('skal vise modal for oppheving av reservasjon ved klikk på menyknapp og så lukke den ved å avbryte i modal', () => {
@@ -131,9 +125,6 @@ describe('<OppgaveHandlingerMenu>', () => {
 
     const menuButton = wrapper.find(MenuButton).at(1);
     await menuButton.prop('onClick')();
-
-    const modal = wrapper.find(OppgaveReservasjonForlengetModal);
-    expect(modal).has.length(1);
   });
 
   it('skal vise modal for flytting av reservasjon', () => {

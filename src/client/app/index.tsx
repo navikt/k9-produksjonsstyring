@@ -1,13 +1,12 @@
 import React from 'react';
-import { Router } from 'react-router-dom';
-import { createBrowserHistory } from 'history';
+import { BrowserRouter } from 'react-router-dom';
 import { render } from 'react-dom';
 import { init } from '@sentry/browser';
 
 import AppIndex from 'app/AppIndex';
 import { RestApiProvider } from 'api/rest-api-hooks/src/RestApiContext';
-import { RestApiErrorProvider } from 'api/rest-api/error/RestApiErrorContext';
 import { k9LosApi } from 'api/k9LosApi';
+import { RestApiErrorProvider } from 'api/error/RestApiErrorContext';
 
 /* eslint no-undef: "error" */
 const environment = window.location.hostname;
@@ -17,21 +16,19 @@ init({
   environment,
 });
 
-const history = createBrowserHistory({});
-
 const renderFunc = (Component) => {
   const app = document.getElementById('app');
   if (app === null) {
     throw new Error('No app element');
   }
   render(
-    <Router history={history}>
+    <BrowserRouter>
       <RestApiProvider requestApi={k9LosApi}>
         <RestApiErrorProvider>
           <Component />
         </RestApiErrorProvider>
       </RestApiProvider>
-    </Router>,
+    </BrowserRouter>,
     app,
   );
 };

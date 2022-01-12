@@ -6,7 +6,7 @@ import Home from './Home';
 
 describe('<Home>', () => {
   it('skal rendre komponent', () => {
-    const wrapper = shallow(<Home nrOfErrorMessages={1} />);
-    expect(wrapper.find('Switch')).to.have.length(1);
+    const wrapper = shallow(<Home headerHeight={10} />);
+    expect(wrapper.find('Routes')).to.have.length(1);
   });
 });

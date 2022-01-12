@@ -10,6 +10,8 @@ import nokkelSvart from 'images/key-hole-1.svg';
 import nokkelBla from 'images/key-hole-11.svg';
 import koerBla from 'images/drawer-23.svg';
 import koerSvart from 'images/drawer-22.svg';
+import prognoseBlå from 'images/prognose-bla.svg';
+import prognoseSort from 'images/prognose-sort.svg';
 import LoadingPanel from 'sharedComponents/LoadingPanel';
 import { parseQueryString } from 'utils/urlUtils';
 import { getPanelLocationCreator } from 'app/paths';
@@ -26,6 +28,7 @@ import NavAnsatt from 'app/navAnsattTsType';
 import useTrackRouteParam from 'app/data/trackRouteParam';
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
 import ApneBehandlinger from 'avdelingsleder/dagensTall/apneBehandlingerTsType';
+import PrognoseIndex from 'avdelingsleder/prognose/PrognoseIndex';
 import AvdelingslederDashboard from './components/AvdelingslederDashboard';
 import IkkeTilgangTilAvdelingslederPanel from './components/IkkeTilgangTilAvdelingslederPanel';
 import AvdelingslederPanels from './avdelingslederPanels';
@@ -41,6 +44,8 @@ const renderAvdelingslederPanel = (avdelingslederPanel) => {
       return <EndreBehandlingskoerIndex />;
     case AvdelingslederPanels.NOKKELTALL:
       return <NokkeltallIndex />;
+    case AvdelingslederPanels.PROGNOSE:
+      return <PrognoseIndex />;
     case AvdelingslederPanels.RESERVASJONER:
       return <ReservasjonerIndex />;
     default:
@@ -51,12 +56,14 @@ const renderAvdelingslederPanel = (avdelingslederPanel) => {
 const messageId = {
   [AvdelingslederPanels.BEHANDLINGSKOER]: 'AvdelingslederIndex.Behandlingskoer',
   [AvdelingslederPanels.NOKKELTALL]: 'AvdelingslederIndex.Nokkeltall',
+  [AvdelingslederPanels.PROGNOSE]: 'AvdelingslederIndex.Prognose',
   [AvdelingslederPanels.RESERVASJONER]: 'AvdelingslederIndex.Reservasjoner',
 };
 
 const tabStyle = {
   [AvdelingslederPanels.BEHANDLINGSKOER]: [koerSvart, koerBla],
   [AvdelingslederPanels.NOKKELTALL]: [nokkelSvart, nokkelBla],
+  [AvdelingslederPanels.PROGNOSE]: [prognoseSort, prognoseBlå],
   [AvdelingslederPanels.RESERVASJONER]: [reservasjonSvart, reservasjonBla],
 };
 
@@ -84,8 +91,7 @@ const getTab = (avdelingslederPanel, activeAvdelingslederPanel, getAvdelingslede
 /**
  * AvdelingslederIndex
  */
-export const AvdelingslederIndex: FunctionComponent = (
-) => {
+export const AvdelingslederIndex: FunctionComponent = () => {
   const { selected: activeAvdelingslederPanelTemp, location } = useTrackRouteParam({
     paramName: 'fane',
     isQueryParam: true,
@@ -111,7 +117,9 @@ export const AvdelingslederIndex: FunctionComponent = (
 
   if (!kanOppgavestyre) {
     return <IkkeTilgangTilAvdelingslederPanel />;
-  } if (activeAvdelingslederPanel) {
+  }
+
+  if (activeAvdelingslederPanel) {
     return (
       <>
         <Row>
@@ -127,6 +135,7 @@ export const AvdelingslederIndex: FunctionComponent = (
               <Tabs tabs={[
                 getTab(AvdelingslederPanels.BEHANDLINGSKOER, activeAvdelingslederPanel, getAvdelingslederPanelLocation),
                 getTab(AvdelingslederPanels.NOKKELTALL, activeAvdelingslederPanel, getAvdelingslederPanelLocation),
+                getTab(AvdelingslederPanels.PROGNOSE, activeAvdelingslederPanel, getAvdelingslederPanelLocation),
                 getTab(AvdelingslederPanels.RESERVASJONER, activeAvdelingslederPanel, getAvdelingslederPanelLocation),
               ]}
               />

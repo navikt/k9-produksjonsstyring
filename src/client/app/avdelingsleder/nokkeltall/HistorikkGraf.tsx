@@ -1,47 +1,54 @@
 import React, {
-  useMemo, useState, FunctionComponent, useCallback,
+  useMemo, FunctionComponent,
 } from 'react';
-import moment from 'moment';
-import {
-  XYPlot, XAxis, YAxis, HorizontalGridLines, DiscreteColorLegend, Crosshair, MarkSeries, AreaSeries,
-} from 'react-vis';
-import { Normaltekst, Undertekst } from 'nav-frontend-typografi';
-
-import { FlexContainer, FlexRow, FlexColumn } from 'sharedComponents/flexGrid';
-import { DD_MM_DATE_FORMAT } from 'utils/formats';
+import dayjs from 'dayjs';
+import { ISO_DATE_FORMAT } from 'utils/formats';
 import behandlingType from 'kodeverk/behandlingType';
-import { Kodeverk } from 'kodeverk/kodeverkTsType';
 
-import 'react-vis/dist/style.css';
-import { Row } from 'nav-frontend-grid';
 import HistoriskData from 'avdelingsleder/nokkeltall/historiskDataTsType';
 import { behandlingstypeOrder } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
-import styles from './historikkGraf.less';
+import ReactECharts from 'sharedComponents/echart/ReactEcharts';
+import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
+import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
+import Kodeverk from 'kodeverk/kodeverkTsType';
+import { FormattedMessage } from 'react-intl';
+import { Normaltekst } from 'nav-frontend-typografi';
+import Koordinat from '../../types/Koordinat';
+import {
+  eChartGrafHeight,
+  eChartGridDef,
+  eChartLegendStyle, eChartSeriesStyleAvdelningslederNokkeltall,
+  eChartTooltipTextStyle,
+  eChartXAxisFontSizeAvdelningslederNokkeltall, eChartXAxisTickDefAvdelningslederNokkeltall,
+  eChartYAxisFontSizeAvdelningslederNokkeltall,
+  eChartYAxisMarginTextBarAvdelningslederNokkeltall, graferOpacity,
+} from '../../../styles/echartStyle';
 
-const LEGEND_WIDTH = 260;
+dayjs.extend(isSameOrBefore);
+dayjs.extend(isSameOrAfter);
 
 const behandlingstypeFarger = {
-  [behandlingType.ANKE]: '#C86151',
-  [behandlingType.INNSYN]: '#FF9100',
-  [behandlingType.KLAGE]: '#634689',
-  [behandlingType.REVURDERING]: '#66CBEC',
   [behandlingType.FORSTEGANGSSOKNAD]: '#0067C5',
+  [behandlingType.REVURDERING]: '#66CBEC',
+  // [behandlingType.ANKE]: '#BA3A26',
+  [behandlingType.INNSYN]: '#FF9100',
+  // [behandlingType.KLAGE]: '#634689',
+  [behandlingType.TILBAKEBETALING]: '#06893A',
 };
 
-const monthNames = ['JANUAR', 'FEBRUAR', 'MARS', 'APRIL', 'MAI', 'JUNI',
-  'JULI', 'AUGUST', 'SEPTEMBER', 'OKTOBER', 'NOVEMBER', 'DESEMBER',
+// Denne bestemmer rekkeföljd på graferna. Alltså forstegangssoknad skal lengst bak etc. Klage og anke er utkommentert då det ikke skal vises nå.
+const behandlingstyperSomSkalVises = [
+  behandlingType.FORSTEGANGSSOKNAD,
+  behandlingType.REVURDERING,
+  behandlingType.TILBAKEBETALING,
+  behandlingType.INNSYN,
+  // [behandlingType.ANKE]: '#BA3A26',
+  // [behandlingType.KLAGE]: '#634689',
 ];
 
-const weekdays = ['Mandag', 'Tirsdag', 'Onsdag', 'Torsdag', 'Fredag', 'Lørdag', 'Søndag'];
+export const DDMMYYYY_DATE_FORMAT = 'DD.MM.YYYY';
 
-const cssText = {
-  fontFamily: 'Source Sans Pro',
-  fontSize: '18px',
-  lineHeight: '1.375rem',
-  fontWeight: 400,
-  color: '#3E3832',
-
-};
+export const dateFormat = (date: Date | string): string => dayjs(date).format(DDMMYYYY_DATE_FORMAT);
 
 const sorterBehandlingtyper = (b1, b2) => {
   const index1 = behandlingstypeOrder.indexOf(b1);
@@ -52,39 +59,33 @@ const sorterBehandlingtyper = (b1, b2) => {
   return index1 > index2 ? -1 : 1;
 };
 
-const getMonthNameAndYear = () => {
-  const today = moment();
-  if (today.day() > 28) {
-    return `${monthNames[today.month()]} ${today.year()}`;
-  }
+const konverterTilKoordinaterGruppertPaBehandlingstype = (oppgaverForAvdeling: HistoriskData[]): Record<string, Koordinat[]> => oppgaverForAvdeling
+  .reduce((acc, o) => {
+    const nyKoordinat = {
+      x: dayjs(o.dato).startOf('day').toDate(),
+      y: o.antall,
+    };
 
-  return today.month() === 1 ? `${monthNames[11]} ${today.year() - 1} - ${monthNames[today.month()]} ${today.year()}`
-    : `${monthNames[today.month() - 1]} - ${monthNames[today.month()]} ${today.year()}`;
-};
+    const eksisterendeKoordinater = acc[o.behandlingType.kode];
 
-const konverterTilKoordinaterGruppertPaBehandlingstype = (oppgaverForAvdeling) => oppgaverForAvdeling.reduce((acc, o) => {
-  const nyKoordinat = {
-    x: moment(o.dato).startOf('day').toDate(),
-    y: o.antall,
-  };
+    return {
+      ...acc,
+      [o.behandlingType.kode]: (eksisterendeKoordinater ? eksisterendeKoordinater.concat(nyKoordinat) : [nyKoordinat]),
+    };
+  }, {} as Record<string, Koordinat[]>);
 
-  const eksisterendeKoordinater = acc[o.behandlingType.kode];
-  return {
-    ...acc,
-    [o.behandlingType.kode]: (eksisterendeKoordinater ? eksisterendeKoordinater.concat(nyKoordinat) : [nyKoordinat]),
-  };
-}, {});
-
-const fyllInnManglendeDatoerOgSorterEtterDato = (data, periodeStart, periodeSlutt) => Object.keys(data).reduce((acc, behandlingstype) => {
+const fyllInnManglendeDatoerOgSorterEtterDato = (
+  data: Record<string, Koordinat[]>,
+  periodeStart: dayjs.Dayjs,
+  periodeSlutt: dayjs.Dayjs,
+): Record<string, Date[][]> => Object.keys(data).reduce((acc, behandlingstype) => {
   const behandlingstypeData = data[behandlingstype];
+
   const koordinater = [];
 
-  for (let dato = moment(periodeStart); dato.isSameOrBefore(periodeSlutt); dato = dato.add(1, 'days')) {
-    const funnetDato = behandlingstypeData.find((d) => moment(d.x).startOf('day').isSame(dato.startOf('day')));
-    koordinater.push(funnetDato || {
-      x: dato.toDate(),
-      y: 0,
-    });
+  for (let dato = dayjs(periodeStart); dato.isSameOrBefore(periodeSlutt); dato = dato.add(1, 'days')) {
+    const funnetDato = behandlingstypeData.find((d) => dayjs(d.x).startOf('day').isSame(dato.startOf('day')));
+    koordinater.push(funnetDato ? [dayjs(funnetDato.x).format(ISO_DATE_FORMAT), funnetDato.y] : [dato.format(ISO_DATE_FORMAT), 0]);
   }
 
   return {
@@ -93,126 +94,134 @@ const fyllInnManglendeDatoerOgSorterEtterDato = (data, periodeStart, periodeSlut
   };
 }, {});
 
-const finnAntallForBehandlingstypeOgDato = (data, behandlingstype, dato) => {
-  const koordinat = data[behandlingstype].find((d) => d.x.getTime() === dato.getTime());
-  return koordinat.y;
-};
-
 const finnBehandlingTypeNavn = (behandlingTyper, behandlingTypeKode: string) => {
   const type = behandlingTyper.find((bt) => bt.kode === behandlingTypeKode);
   return type ? type.navn : '';
 };
 
 interface OwnProps {
-  width: number;
-  height: number;
   behandlingTyper: Kodeverk[];
   historiskData: HistoriskData[];
   isFireUkerValgt: boolean;
 }
 
-interface CrosshairValue {
-  x: Date;
-  y: number;
-}
-
+export const lagKoordinater = (oppgaverPerForsteStonadsdag): Koordinat[] => oppgaverPerForsteStonadsdag
+  .map((o) => ({
+    x: dayjs(o.dato).startOf('day').toDate().getTime(),
+    y: o.antall,
+  }));
 /**
  * TilBehandlingGraf.
  */
 const HistorikkGraf: FunctionComponent<OwnProps> = ({
-  width,
-  height,
   historiskData,
   isFireUkerValgt,
   behandlingTyper,
 }) => {
-  const [crosshairValues, setCrosshairValues] = useState<CrosshairValue[]>([]);
+  const periodeStart = dayjs().subtract(isFireUkerValgt ? 4 : 2, 'w');
+  const periodeSlutt = dayjs().subtract(1, 'd');
 
-  const onMouseLeave = useCallback(() => setCrosshairValues([]), []);
-  const onNearestX = useCallback((value: {x: Date; y: number}) => {
-    setCrosshairValues([value]);
-  }, []);
+  const oppgaverInomValgtPeriode: HistoriskData[] = historiskData.filter((oppgave) => oppgave.antall > 0 && dayjs(oppgave.dato).isSameOrBefore(periodeSlutt, 'day') && dayjs(oppgave.dato).isSameOrAfter(periodeStart, 'day'));
 
-  const periodeStart = moment().subtract(isFireUkerValgt ? 4 : 8, 'w').add(1, 'd');
-  const periodeSlutt = moment().subtract(1, 'd');
-
-  const koordinater = useMemo(() => konverterTilKoordinaterGruppertPaBehandlingstype(historiskData), [historiskData]);
+  const koordinater = useMemo(() => konverterTilKoordinaterGruppertPaBehandlingstype(oppgaverInomValgtPeriode), [historiskData]);
   const data = useMemo(() => fyllInnManglendeDatoerOgSorterEtterDato(koordinater, periodeStart, periodeSlutt), [koordinater, periodeStart, periodeSlutt]);
 
+  const alleBehandlingstyperSortert = behandlingstyperSomSkalVises;
   const sorterteBehandlingstyper = Object.keys(data).sort(sorterBehandlingtyper);
   const reversertSorterteBehandlingstyper = sorterteBehandlingstyper.slice().reverse();
 
-  const isEmpty = sorterteBehandlingstyper.length === 0;
-  const plotPropsWhenEmpty = isEmpty ? {
-    yDomain: [0, 5],
-    xDomain: [periodeStart.toDate(), periodeSlutt.toDate()],
-  } : {};
+  if (oppgaverInomValgtPeriode.length === 0) {
+    return (
+      <div>
+        <Normaltekst>
+          <FormattedMessage id="InngangOgFerdigstiltePanel.IngenTall" />
+        </Normaltekst>
+      </div>
+    );
+  }
 
   return (
-    <FlexContainer>
-      <FlexRow>
-        <FlexColumn>
-          <XYPlot
-            dontCheckIfEmpty={isEmpty}
-            width={width - LEGEND_WIDTH > 0 ? width - LEGEND_WIDTH : 100 + LEGEND_WIDTH}
-            height={height}
-            margin={{
-              left: 70, right: 40, top: 20, bottom: 40,
-            }}
-            stackBy="y"
-            xType="time"
-            onMouseLeave={onMouseLeave}
-            {...plotPropsWhenEmpty}
-          >
-            <MarkSeries data={[{ x: moment().subtract(1, 'd'), y: 0 }]} style={{ display: 'none' }} />
-            <HorizontalGridLines />
-            <XAxis
-              tickTotal={9}
-              tickFormat={(t) => moment(t).format(DD_MM_DATE_FORMAT)}
-              style={{ text: cssText }}
-            />
-            <YAxis style={{ text: cssText }} />
-            {sorterteBehandlingstyper.map((k, index) => (
-              <AreaSeries
-                key={k}
-                data={data[k]}
-                onNearestX={index === 0 ? onNearestX : () => undefined}
-                fill={behandlingstypeFarger[k]}
-                stroke={behandlingstypeFarger[k]}
-              />
-            ))}
-            {crosshairValues.length > 0 && (
-              <Crosshair
-                values={crosshairValues}
-                style={{
-                  line: {
-                    background: '#3e3832',
-                  },
-                }}
-              >
-                <div className={styles.crosshair}>
-                  <Normaltekst>{`${moment(crosshairValues[0].x).format(DD_MM_DATE_FORMAT)}`}</Normaltekst>
-                  { reversertSorterteBehandlingstyper.map((key) => (
-                    <Undertekst key={key}>
-                      {`${finnBehandlingTypeNavn(behandlingTyper, key)}: ${finnAntallForBehandlingstypeOgDato(data, key, crosshairValues[0].x)}`}
-                    </Undertekst>
-                  ))}
-                </div>
-              </Crosshair>
-            )}
-          </XYPlot>
-        </FlexColumn>
-      </FlexRow>
-      <Row className={styles.legends}>
-        <DiscreteColorLegend
-          orientation="horizontal"
-          colors={behandlingstypeOrder.map((bt) => behandlingstypeFarger[bt])}
-          items={behandlingstypeOrder.map((bt) => (
-            <Normaltekst className={styles.displayInline}>{finnBehandlingTypeNavn(behandlingTyper, bt)}</Normaltekst>
-          ))}
-        />
-      </Row>
-    </FlexContainer>
+    <ReactECharts
+      height={eChartGrafHeight}
+      option={{
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {
+            type: 'line',
+            lineStyle: {
+              type: 'solid',
+            },
+            label: {
+              formatter: (params) => {
+                if (params.axisDimension === 'y') {
+                  return parseInt(params.value as string, 10).toString();
+                }
+                return dateFormat(params.value as string);
+              },
+            },
+          },
+          textStyle: eChartTooltipTextStyle,
+        },
+        legend: {
+          ...eChartLegendStyle,
+          data: reversertSorterteBehandlingstyper.map((type) => finnBehandlingTypeNavn(behandlingTyper, type)),
+        },
+        grid: eChartGridDef,
+        xAxis: [
+          {
+            // bruker category istedet for time for att vise alle dato og ikke bara hvert femte.
+            type: 'category',
+            // boundaryGap ser till att dato hamnar på en linje istället for mellom.
+            // @ts-ignore
+            boundaryGap: false,
+            minInterval: 1,
+            axisTick: eChartXAxisTickDefAvdelningslederNokkeltall,
+            axisLabel: {
+              // viser månad og dato dersom det er valgt fire uker og dato dersom åtte uker er valgt.
+              formatter(value) {
+                const oppstykketDato = value.split('-');
+                if (oppstykketDato[1] && oppstykketDato[2]) {
+                  return `${oppstykketDato[2]}.${oppstykketDato[1]}`;
+                }
+                return value;
+              },
+              fontSize: eChartXAxisFontSizeAvdelningslederNokkeltall,
+              margin: eChartYAxisMarginTextBarAvdelningslederNokkeltall,
+              interval: 0,
+            },
+            // Denne setter de horisontala linjerna sammen med axisTick.
+            splitLine: {
+              show: true,
+            },
+          },
+
+        ],
+        yAxis: [
+          {
+            type: 'value',
+            minInterval: 1,
+            axisLabel: {
+              fontSize: eChartYAxisFontSizeAvdelningslederNokkeltall,
+              margin: eChartYAxisMarginTextBarAvdelningslederNokkeltall,
+            },
+          },
+        ],
+        series: alleBehandlingstyperSortert
+          .map((type) => ({
+            name: finnBehandlingTypeNavn(behandlingTyper, type),
+            type: 'line',
+            emphasis: {
+              focus: 'series',
+            },
+            ...eChartSeriesStyleAvdelningslederNokkeltall,
+            data: data[type],
+            color: behandlingstypeFarger[type],
+            areaStyle: {
+              opacity: graferOpacity,
+            },
+          })),
+      }}
+    />
   );
 };
 

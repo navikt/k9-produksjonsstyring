@@ -1,0 +1,66 @@
+{
+  "env": {
+    "browser": true
+  },
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "ecmaVersion": 8,
+      "jsx": true,
+      "impliedStrict": true
+    }
+  },
+  "plugins": ["@typescript-eslint", "eslint-plugin-react"],
+  "extends": ["airbnb", "plugin:@typescript-eslint/recommended", "plugin:react/recommended", "plugin:import/typescript"],
+  "settings": {
+    "import/resolver": {
+      "typescript": {},
+      "node": {
+        "extensions": [".js", ".jsx", ".ts", ".tsx", ".less", ".scss"],
+        "moduleDirectory": ["node_modules", "src/"]
+      }
+    }
+  },
+  "overrides": [
+    {
+      "files": ["*.spec.ts", "*.spec.tsx"],
+      "rules": {
+        "@typescript-eslint/no-explicit-any": 0,
+        "@typescript-eslint/ban-ts-comment": 0
+      }
+    }
+  ],
+  "rules": {
+    "@typescript-eslint/no-use-before-define": ["error"],
+    "@typescript-eslint/no-shadow": "error",
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx", ".ts", ".tsx"] }],
+    "import/no-extraneous-dependencies": ["error", { "devDependencies": ["**/*.test.ts", "**/*.test.tsx", "**/*.spec.ts", "**/*.spec.tsx"] }],
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "js": "never",
+        "jsx": "never",
+        "ts": "never",
+        "tsx": "never"
+      }
+    ],
+    "react/require-default-props": "off",
+    "react/prop-types": "off",
+    "no-use-before-define": "off",
+    "no-shadow": "off",
+    "linebreak-style": "off",
+    "max-len": [1, 160],
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    // TODO Dessa under er lagt in for att det er mye existerande feil. Må fjernes og utföras feilrettning på
+    "@typescript-eslint/ban-ts-comment": "off",
+    "import/no-named-as-default": "off",
+    "react/jsx-props-no-spreading": "off",
+    "react/destructuring-assignment": "off",
+    "react/static-property-placement": "off",
+    "react/display-name": "off",
+    "jsx-a11y/control-has-associated-label": "off",
+    "react/function-component-definition": "off"
+  }
+}

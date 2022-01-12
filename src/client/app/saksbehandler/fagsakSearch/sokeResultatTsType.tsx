@@ -1,4 +1,4 @@
-import Oppgave from 'saksbehandler/fagsakSearch/fagsakTsType';
+import Oppgave from 'saksbehandler/oppgaveTsType';
 import Person from 'saksbehandler/fagsakSearch/personTsType';
 
 export type SokeResultat = Readonly<{

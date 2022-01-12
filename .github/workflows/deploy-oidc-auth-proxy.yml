@@ -1,36 +1,30 @@
-name: Deploy OIDC auth proxy
+
+name: k9-los-oidc-auth-proxy
 on:
   push:
     paths:
-      - 'deploy/k9-los-oidc-auth-proxy-dev.yml'
-      - 'deploy/k9-los-oidc-auth-proxy-prod.yml'
-    branches:
-
+      - 'nais/proxy/k9-los-oidc-auth-proxy.yml'
+      - 'nais/proxy/dev.json'
+      - 'nais/proxy/prod.json'
 jobs:
-  deploy-dev:
-    name: Deploye til DEV
-    if: startsWith(github.ref, 'refs/heads/dev') || startsWith(github.ref, 'refs/heads/master') # Deploy if branch is either master or dev-*
+  deploy:
+    name: deploy k9-los-oidc-auth-proxy
     runs-on: ubuntu-latest
     steps:
       - name: Hente kode
         uses: actions/checkout@v2
-      - name: Deploy til testmiljø
+      - name: Deploy dev-fss
         uses: nais/deploy/actions/deploy@v1
         env:
           APIKEY: ${{ secrets.DEPLOY_KEY }}
           CLUSTER: dev-fss
-          RESOURCE:  deploy/k9-los-oidc-auth-proxy-dev.yml
-
-  deploy-prod:
-    name: Deploye til PROD
-    if: startsWith(github.ref, 'refs/heads/master')   # If the branch is master
-    runs-on: ubuntu-latest
-    steps:
-      - name: Hente kode
-        uses: actions/checkout@v2
-      - name: Deploy til prod
+          RESOURCE: nais/proxy/k9-los-oidc-auth-proxy.yml
+          VARS: nais/proxy/dev.json
+      - name: Deploy prod-fss
+        if: github.ref == 'refs/heads/master'
         uses: nais/deploy/actions/deploy@v1
         env:
           APIKEY: ${{ secrets.DEPLOY_KEY }}
           CLUSTER: prod-fss
-          RESOURCE:  deploy/k9-los-oidc-auth-proxy-prod.yml
+          RESOURCE: nais/proxy/k9-los-oidc-auth-proxy.yml
+          VARS: nais/proxy/prod.json

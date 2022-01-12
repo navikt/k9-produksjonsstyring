@@ -4,25 +4,23 @@ import { Form } from 'react-final-form';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import Panel from 'nav-frontend-paneler';
-import moment from 'moment';
 import { ISO_DATE_FORMAT } from 'utils/formats';
 import { K9LosApiKeys } from 'api/k9LosApi';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import { SelectField } from 'form/FinalFields';
 import {
-  ALLE_YTELSETYPER_VALGT,
+  ALLE_YTELSETYPER_VALGT, sjekkOmOppgaveSkalLeggesTil,
   ytelseTyper,
 } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
 import { ToggleKnapp } from 'nav-frontend-toggle';
 import NyeOgFerdigstilteMedStonadstype from 'avdelingsleder/nokkeltall/nyeOgFerdigstilteMedStonadstypeTsType';
 import useRestApi from 'api/rest-api-hooks/src/local-data/useRestApi';
 import RestApiState from 'api/rest-api-hooks/src/RestApiState';
+import dayjs from 'dayjs';
 import Teller from './Teller';
 import styles from './inngangOgFerdigstiltePanel.less';
 
 interface OwnProps {
-    width: number;
-    height: number;
     getValueFromLocalStorage: (key: string) => string;
 }
 
@@ -75,29 +73,26 @@ export const InngangOgFerdigstiltePanel: FunctionComponent<OwnProps & WrappedCom
   const requestFinished = state === RestApiState.SUCCESS;
 
   const nyeOgFerdigstilteOppgaverIdag = nyeOgFerdigstilteOppgaverMedStonadstype.filter(
-    (oppgave) => moment().isSame(moment(oppgave.dato, ISO_DATE_FORMAT), 'day'),
+    (oppgave) => dayjs().isSame(dayjs(oppgave.dato, ISO_DATE_FORMAT), 'day'),
   );
   const nyeOgFerdigstilteOppgaver7dager = nyeOgFerdigstilteOppgaverMedStonadstype.filter(
-    (oppgave) => moment().startOf('day').isSameOrAfter(moment(oppgave.dato, ISO_DATE_FORMAT)),
+    (oppgave) => dayjs().startOf('day').isSameOrAfter(dayjs(oppgave.dato, ISO_DATE_FORMAT)),
   );
 
   const getNyeTotalt = (oppgaver: NyeOgFerdigstilteMedStonadstype[], ytelseType: string) => {
     let nye = 0;
-    oppgaver
-      .filter((o) => (ytelseType === ALLE_YTELSETYPER_VALGT ? true : ytelseType === o.fagsakYtelseType.kode)).forEach((n) => { nye += n.nye; });
+    oppgaver.filter((o) => sjekkOmOppgaveSkalLeggesTil(ytelseType, o)).forEach((n) => { nye += n.nye; });
     return nye;
   };
 
   const getFerdigstilteTotalt = (oppgaver: NyeOgFerdigstilteMedStonadstype[], ytelseType: string) => {
     let ferdigstilte = 0;
-    oppgaver
-      .filter((o) => (
-        ytelseType === ALLE_YTELSETYPER_VALGT ? true : ytelseType === o.fagsakYtelseType.kode)).forEach((n) => { ferdigstilte += n.ferdigstilte; });
+    oppgaver.filter((o) => (sjekkOmOppgaveSkalLeggesTil(ytelseType, o))).forEach((n) => { ferdigstilte += n.ferdigstilte; });
     return ferdigstilte;
   };
 
   const getOppgaverStonadstype = (oppgaver: NyeOgFerdigstilteMedStonadstype[], ytelseType: string) => slaSammenLikeBehandlingstyper(oppgaver.filter(
-    (o) => (ytelseType === ALLE_YTELSETYPER_VALGT ? true : ytelseType === o.fagsakYtelseType.kode),
+    (o) => (sjekkOmOppgaveSkalLeggesTil(ytelseType, o)),
   ));
 
   return (
@@ -154,7 +149,7 @@ export const InngangOgFerdigstiltePanel: FunctionComponent<OwnProps & WrappedCom
                   : getFerdigstilteTotalt(nyeOgFerdigstilteOppgaver7dager, values.ytelseType)}
               />
             )}
-            {erIdagValgt && nyeOgFerdigstilteOppgaverIdag.length > 0
+            {erIdagValgt && nyeOgFerdigstilteOppgaverIdag.length > 0 && values.ytelseType !== 'PUNSJ'
             && getOppgaverStonadstype(nyeOgFerdigstilteOppgaverIdag, values.ytelseType).map((o) => (
               <Teller
                 key={o.behandlingType.kode}
@@ -163,7 +158,7 @@ export const InngangOgFerdigstiltePanel: FunctionComponent<OwnProps & WrappedCom
                 venstreTall={o.nye}
               />
             ))}
-            {!erIdagValgt && nyeOgFerdigstilteOppgaver7dager.length > 0
+            {!erIdagValgt && nyeOgFerdigstilteOppgaver7dager.length > 0 && values.ytelseType !== 'PUNSJ'
             && getOppgaverStonadstype(nyeOgFerdigstilteOppgaver7dager, values.ytelseType).map((o) => (
               <Teller
                 key={o.behandlingType.kode}

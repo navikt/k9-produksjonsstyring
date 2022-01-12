@@ -13,8 +13,6 @@ interface TsProps {
     intl: any;
     valgtOppgavekoId: string;
     lagreSakslisteSorteringNumerisk: (oppgavekoId: string, fra: number, til: number) => void;
-    fra: number;
-    til: number;
 }
 
 export const BelopSorteringValg = ({

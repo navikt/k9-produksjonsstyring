@@ -11,7 +11,10 @@ import NokkeltallPanel from './NokkeltallPanel';
 
 describe('<NokkeltallPanel>', () => {
   it('skal vise grafpaneler', () => {
-    const wrapper = shallow(<NokkeltallPanel />);
+    const wrapper = shallow(<NokkeltallPanel
+      alleOppgaver={[]}
+      ferdigstiltePerDato={[]}
+    />);
 
     expect(wrapper.find(FerdigstiltePanel)).to.have.length(1);
     expect(wrapper.find(NyeHistorikkPanel)).to.have.length(1);

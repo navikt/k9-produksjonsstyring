@@ -12,6 +12,7 @@
   "AvdelingslederIndex.Behandlingskoer": "Behandlingskøer",
   "AvdelingslederIndex.Saksbehandlere": "Saksbehandlere",
   "AvdelingslederIndex.Nokkeltall": "Nøkkeltall",
+  "AvdelingslederIndex.Prognose": "Prognose",
   "AvdelingslederIndex.Reservasjoner": "Reservasjoner",
   "AdminIndex.Driftsmeldinger": "Driftsmeldinger",
 
@@ -81,15 +82,17 @@
 
   "FerdigstilteHistorikkPanel.Ferdigstilte": "Historikk over ferdigstilte behandlinger",
 
-  "FlyttReservasjonModal.FlyttReservasjon": "Flytt reservasjonen til annen saksbehandler",
-  "FlyttReservasjonModal.Brukerident": "Brukerident",
+  "FlyttReservasjonModal.Titel": "Endre og/eller flytte reservasjon",
+  "FlyttReservasjonModal.Brukerident": "Saksbehandlers navn",
   "FlyttReservasjonModal.Sok": "Søk",
-  "FlyttReservasjonModal.Begrunn": "Begrunn flytting av reservasjonen",
+  "FlyttReservasjonModal.Begrunn": "Begrunn endring av reservasjon",
   "FlyttReservasjonModal.Ok": "OK",
   "FlyttReservasjonModal.Avbryt": "Avbryt",
+  "FlyttReservasjonBegrunnelseModal.FlyttTilSaksbehandler": "Flytt til saksbehandler",
+  "FlyttReservasjonBegrunnelseModal.Begrunnelse": "Begrunnelse for flytting av reservasjon",
 
   "FordelingAvBehandlingstypePanel.Fordeling": "Antall åpne behandlinger",
-  "FordelingAvBehandlingstypePanel.Alle": "Alle",
+  "FordelingAvBehandlingstypePanel.Alle": "Alle ytelser",
 
   "FordelingAvBehandlingstypeGraf.TilBehandling": "Til behandling",
   "FordelingAvBehandlingstypeGraf.TilBeslutter": "Til beslutter",
@@ -104,6 +107,7 @@
   "GjeldendeOppgavekoerTabell.Behandlingtype": "Behandling",
   "GjeldendeOppgavekoerTabell.Stonadstype": "Stønad",
   "GjeldendeOppgavekoerTabell.Alle": "Alle",
+  "GjeldendeOppgavekoerTabell.Ingen": " ",
   "GjeldendeOppgavekoerTabell.AntallSaksbehandlere": "Saksbehandlere",
   "GjeldendeOppgavekoerTabell.AntallBehandlinger": "Antall behandlinger",
   "GjeldendeOppgavekoerTabell.OppgaverTotalt": "Antall åpne behandlinger totalt",
@@ -188,12 +192,19 @@
 
   "NyeOgFerdigstilteOppgaverForSisteSyvPanel.SisteSyv": "Siste 7 dager",
 
-  "OppgaverTabell.DineNesteSaker": "Neste behandlinger ({antall} i køen)",
+  "OppgaverTabell.DineNesteSaker": "Neste behandlinger",
+  "OppgaverTabell.DineNesteSakerAntall": "{antall} i køen",
+  "OppgaverTabell.ReserverteOppgaver": "Reserverte behandlinger",
+  "OppgaverTabell.IngenReserverteOppgaver": "Det er ingen reserverte behandlinger",
+  "OppgaverTabell.ReserverteOppgaverAntall": "{antall} reserverte",
+
   "OppgaverTabell.IngenOppgaver": "Det er ingen behandlinger i denne køen",
   "OppgaverTabell.IngenTilgang": "Du har ikke tilgang til behandlingene i denne køen",
   "OppgaverTabell.Soker": "Søker",
   "OppgaverTabell.Behandlingstype": "Behandlingstype",
+  "OppgaverTabell.Id": "Id",
   "OppgaverTabell.BehandlingOpprettet": "Behandling opprettet",
+  "OppgaverTabell.Reservasjon": "Reservasjon",
   "OppgaverTabell.FristForBehandling": "Frist for behandling",
   "OppgaverTabell.OppgaveHandlinger": "Handlinger på oppgave",
   "OppgaverTabell.OverfortReservasjon": "Overført reservasjon",
@@ -202,24 +213,32 @@
   "OkAvbrytModal.Ok": "OK",
   "OkAvbrytModal.Avbryt": "Avbryt",
 
-  "OppgaveErReservertAvAnnenModal.ReservertAv": "{saksbehandlerid} arbeider nå med denne behandlingen (reservert fram t.o.m {date} - {time})",
+  "OppgaveErReservertAvAnnenModal.ReservertAv": "{saksbehandlernavn}({saksbehandlerid}) arbeider nå med denne behandlingen (reservert fram t.o.m {date} - {time})",
   "OppgaveErReservertAvAnnenModal.ReservertAvEnkel": "En annen saksbehandler arbeider nå med denne behandlingen",
   "OppgaveErReservertAvAnnenModal.Ok": "Åpne behandlingen",
   "OppgaveErReservertAvAnnenModal.GåTilKøen": "Gå tilbake til køen",
+
+  "FlyttReservasjonModal.ReservertAv": "{saksbehandlernavn}({saksbehandlerid}) arbeider nå med den andre parten i denne saken. Vil du legge denne behandlingen til saksbehandleren?",
+  "FlyttReservasjonModal.ReservertAvEnkel": "En annen saksbehandler arbeider nå med den andre parten i denne saken",
+  "FlyttReservasjonModal.OverstyrReservasjon": "Nei, jeg vil reservere behandlingen",
+  "FlyttReservasjonModal.FlyttReservasjon": "Ja, legg behandlingen til saksbehandleren",
+  "FlyttReservasjonModal.FlyttReservasjonText": "Velg dato som reservasjonen avsluttes (Valgfritt å fylle ut)",
+  "FlyttReservasjonModal.GåTilKøen": "Gå tilbake til køen",
+  "FlyttReservasjonModal.Feil": "Mangler reservasjonsrettigheter.",
 
   "OppgaveHandlingerMenu.LeggTilbake": "Legg behandling{br}tilbake i felles kø",
   "OppgaveHandlingerMenu.ForlengReservasjon": "Forleng din reservasjon av{br}behandlingen med 24 timer",
   "OppgaveHandlingerMenu.EndreReservasjon": "Reserver behandlingen med dato",
   "OppgaveHandlingerMenu.ReservertTil": "{b}Reservert til {date} - {time}{b}",
-  "OppgaveHandlingerMenu.FlyttReservasjon": "Flytt reservasjonen til{br}annen saksbehandler",
+  "OppgaveHandlingerMenu.FlyttReservasjon": "Endre og/eller flytte reservasjon",
 
   "OppgaverPerForsteStonadsdagGraf.DagensDato": "Dagens{br}dato",
 
   "OppgaverPerForsteStonadsdagPanel.FordeltPaForsteStonadsdag": "Antall førstegangsbehandlinger fordelt på første stønadsdag",
 
-  "OppgaveReservasjonForlengetModal.Reservert": "Behandlingen er reservert på deg",
-  "OppgaveReservasjonForlengetModal.Til": "t.o.m. {date} - {time}",
+  "OppgaveReservasjonForlengetModal.Reservert": "Behandlingen er reservert på deg t.o.m. {date} - {time}.",
   "OppgaveReservasjonForlengetModal.Ok": "OK",
+  "IngenOppgaverIKonModan.Tekst": "Ingen flere ureserverte behandlinger i valgt kø. Velg en annen kø.",
 
   "OppgaveReservasjonEndringDatoModal.Header": "Velg dato som reservasjonen avsluttes",
   "OppgaveReservasjonEndringDatoModal.Ok": "OK",
@@ -259,6 +278,8 @@
   "ReserverOppgaveModal.ReserverOppgave": "Ønsker du å reservere behandlingen?",
   "OppgavePåVentModal.OppgavePåVent": "Saken er satt på vent til {dato}",
 
+  "LoggetUtModal.Tekst": "Sesjonen er utløpt.",
+
   "SaksbehandlereForOppgavekoForm.Saksbehandlere": "Saksbehandlere",
   "SaksbehandlereForOppgavekoForm.IngenSaksbehandlere": "Ingen saksbehandlere",
 
@@ -270,9 +291,9 @@
 
   "OppgavekoPanel.StartBehandling": "Start behandling",
 
-  "Search.SearchFagsakOrPerson": "Søk på sak eller person",
+  "Search.SearchFagsakOrPerson": "Søk på sak, person eller journalpostID",
   "Search.Info": "{aPdl} er den nye persondataløsningen som skal ta over for TPS. Alle konsumerende tjenester i NAV (med noen unntak skal hente opplysninger fra TPS i januar 2021. Det er uheldig at PDL ikke har koblet seg mot q1 enda (det har blitt lovet at det skal komme). Dette medfører at det ikke er mulig å vise samme navn og fnummer i K9-los. Vi viser derfor saksnummer samt placeholder for navn og fnummer, samt aksjonspunkt. {br}{br} For å finne saksnummer som kan brukes i K9-los, må man søke opp fnummer i {aK9sak} og kopiere saksnummer, gå til bake til K9-los og søke med saksnummeret i søkefeltet nedenfor.",
-  "Search.SaksnummerOrPersonId": "Saksnummer eller fødselsnummer/D-nummer",
+  "Search.SaksnummerOrPersonId": "Saksnummer, fødselsnummer/D-nummer eller journalpostID",
   "Search.Search": "Søk",
   "Search.ReserverBehandling": "Reserver behandlingen ved søk",
 
@@ -311,9 +332,16 @@
   "TilBehandlingPanel.TilBehandling": "Antall til behandling",
   "TilBehandlingPanel.ToSisteUker": "2 siste uker",
   "TilBehandlingPanel.FireSisteUker": "4 siste uker",
-  "TilBehandlingPanel.8SisteUker": "8 siste uker",
+  "TilBehandlingPanel.8SisteUker": "2 siste uker",
 
-  "OppgavekoVelgerForm.Oppgaveko": "Behandlingskø",
+  "BehandlingerGårAvVent.Titel": "Behandlinger som går av vent",
+  "BehandlingerGårAvVent.Hjelptekst": "Grafen viser en prognose av antall behandlinger som går av vent frem i tid.",
+  "BehandlingerGårAvVent.ToNesteUker": "Neste 2 uker",
+  "BehandlingerGårAvVent.FireNesteUker": "Neste 4 uker",
+  "BehandlingerGårAvVent.VelgFagytelseType": "Velg ytelsetype",
+
+  "OppgavekoVelgerForm.Oppgaveko": "Velg behandlingskø",
+  "OppgavekoVelgerForm.AntallOppgaver": "Antall i kø: {antall}",
   "OppgavekoVelgerForm.Utvalgskriterier": "Utvalgskriterier",
   "OppgavekoVelgerForm.Stonadstype": "Stønadstype",
   "OppgavekoVelgerForm.Behandlingstype": "Behandlingstype",
@@ -322,6 +350,7 @@
   "OppgavekoVelgerForm.AndreKriterier": "Andre filter",
   "OppgavekoVelgerForm.Uten": "Uten: {kriterie}",
   "OppgavekoVelgerForm.Saksbehandlere": "Saksbehandlere tilknyttet denne køen",
+  "OppgavekoVelgerForm.PlukkNyOppgave": "Gi meg neste behandling i køen",
   "OppgavekoVelgerForm.SaksbehandlerToolip": "Andre saksbehandlere på denne køen:",
   "OppgavekoVelgerForm.Sorteringsinfo": "{navn}{br}Gjeldende intervall:{br}{fomDato} - {tomDato}",
   "OppgavekoVelgerForm.SorteringsinfoFom": "{navn}{br}Fra og med: {fomDato}",
@@ -357,5 +386,12 @@
   "ValidationMessage.InvalidText": "Feltet inneholder ugyldige tegn: {text}",
   "ValidationMessage.InvalidValue": "Feltet inneholder en ugyldig verdi: {value}",
   "ValidationMessage.ArrayMinLength": "Listen må ha lengde størren enn: {length}",
-  "ValidationMessage.InvalidSaksnummerOrFodselsnummerFormat": "Ugyldig saksnummer eller fødselsnummer"
+  "ValidationMessage.InvalidSaksnummerOrFodselsnummerFormat": "Ugyldig saksnummer, journalpostID eller fødselsnummer",
+  "ValidationMessage.InvalidSaksnummerFormat": "Ugyldig saksnummer eller journalpostID",
+
+  "Rest.ErrorMessage.General": "Noe feilet. Feilen kan være forbigående. Prøv og behandle saken litt senere. Om feilen oppstår igjen meld den inn via porten.",
+  "Rest.ErrorMessage.DownTime": "Saksbehandlingsløsningen venter på et annet system som har nedetid nå. Du trenger ikke melde inn en feil, men prøv igjen {date} kl. {time}.\n{message}",
+  "Rest.ErrorMessage.PollingTimeout": "Serverkall har gått ut på tid: {location}",
+  "Rest.ErrorMessage.GatewayTimeoutOrNotFound": "Får ikke kontakt med {contextPath} ({location})",
+  "Rest.ErrorMessage.Forbidden": "Du har ikke tilgang. Dette kan skyldes at du mangler rettigheter eller at sesjonen din har utløpt. Oppdater siden for å fornye sesjonen"
 }
