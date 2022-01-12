@@ -55,7 +55,9 @@ const FagsakList: FunctionComponent<OwnProps> = ({
     if (oppgave.erTilSaksbehandling
       && !oppgave.status.erReservert
       && !oppgave.status.erReservertAvInnloggetBruker
-      && (oppgave.system === OppgaveSystem.K9SAK || oppgave.system === OppgaveSystem.PUNSJ)) {
+      && (oppgave.system === OppgaveSystem.K9SAK
+        || oppgave.system === OppgaveSystem.PUNSJ
+        || oppgave.system === OppgaveSystem.K9TILBAKE)) {
       setVisReserverOppgaveModal(true);
     } else if (typeof oppgave.paaVent !== 'undefined' && oppgave.paaVent) {
       setVisOppgavePåVentModel(true);
