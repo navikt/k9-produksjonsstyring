@@ -68,6 +68,10 @@ const behandlingTyper = [{
   kode: behandlingType.INNTEKTSMELDING_UTGÅTT,
   navn: 'INNTEKTSMELDING_UTGÅTT',
 },
+{
+  kode: behandlingType.UTEN_FNR_DNR,
+  navn: 'Uten fnr eller dnr',
+},
 ];
 
 describe('<BehandlingstypeVelger>', () => {
@@ -82,9 +86,9 @@ describe('<BehandlingstypeVelger>', () => {
         />);
 
         const checkboxer = wrapper.find(CheckboxField);
-        expect(checkboxer).to.have.length(17);
+        expect(checkboxer).to.have.length(18);
         expect(checkboxer.first().prop('name')).to.eql(behandlingType.ANKE);
-        expect(checkboxer.last().prop('name')).to.eql(behandlingType.INNTEKTSMELDING_UTGÅTT);
+        expect(checkboxer.last().prop('name')).to.eql(behandlingType.UTEN_FNR_DNR);
       });
   });
 
