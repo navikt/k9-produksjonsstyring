@@ -16,6 +16,7 @@ const behandlingType = {
   KOPI: 'KOPI',
   UKJENT: 'UKJENT',
   INNTEKTSMELDING_UTGÅTT: 'INNTEKTSMELDING_UTGÅTT',
+  UTEN_FNR_DNR: 'UTEN_FNR_DNR',
 };
 
 export default behandlingType;
