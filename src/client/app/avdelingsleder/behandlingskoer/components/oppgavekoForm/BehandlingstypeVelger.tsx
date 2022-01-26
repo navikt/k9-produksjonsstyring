@@ -1,5 +1,5 @@
 import React, {
-  FunctionComponent, useEffect, useMemo, useState,
+  FunctionComponent, useMemo, useState,
 } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Normaltekst } from 'nav-frontend-typografi';
@@ -11,8 +11,8 @@ import { CheckboxField } from 'form/FinalFields';
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
 import { K9LosApiKeys } from 'api/k9LosApi';
 import useKodeverk from 'api/rest-api-hooks/src/global-data/useKodeverk';
-import { Checkbox as NavCheckbox } from 'nav-frontend-skjema';
 import { punsjKodeverkNavn } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
+import NavFrontendChevron from 'nav-frontend-chevron';
 import styles from './utvalgskriterierForOppgavekoForm.less';
 import punsjBehandlingstyper from '../../../../types/PunsjBehandlingstyper';
 
@@ -44,7 +44,6 @@ const BehandlingstypeVelger: FunctionComponent<OwnProps> = ({
   const behandlingTyperIkkePunsj = useMemo(() => behandlingTyper.filter((type) => !punsjBehandlingstyper.includes(type.kode)), []);
   const behandlingTyperPunsj = useMemo(() => behandlingTyper.filter((type) => punsjBehandlingstyper.includes(type.kode)), []);
   const [visPunsj, setVisPunsj] = useState<boolean>(valgteBehandlingstyper.some(((bt) => bt.kodeverk === punsjKodeverkNavn)));
-  const [initialRender, setInitialRender] = useState<boolean>(true);
 
   const sisteValgteBehandlingstyper: ValgtBehandlingstype[] = valgteBehandlingstyper.map((kode) => ({
     behandlingType: kode, checked: true,
@@ -68,16 +67,6 @@ const BehandlingstypeVelger: FunctionComponent<OwnProps> = ({
     }
   };
 
-  useEffect(() => {
-    if (!visPunsj && !initialRender) {
-      behandlingTyperPunsj.forEach((bt) => (
-        oppdaterBehandlingstype(bt, false)
-      ));
-      oppdatereValgteBehandlingstyper();
-    }
-    setInitialRender(false);
-  }, [visPunsj]);
-
   return (
     <>
       <Normaltekst className={styles.label}>
@@ -99,13 +88,10 @@ const BehandlingstypeVelger: FunctionComponent<OwnProps> = ({
         </React.Fragment>
       ))}
 
-      <VerticalSpacer fourPx />
-      <NavCheckbox
-        className={styles.punsjOverskrift}
-        onChange={(isChecked) => setVisPunsj(isChecked.target.checked)}
-        checked={visPunsj}
-        label="Punsj"
-      />
+      <button type="button" className={styles.punsjVal} onClick={() => setVisPunsj(!visPunsj)}>
+        <NavFrontendChevron type={visPunsj ? 'ned' : 'høyre'} />
+        <span>Punsj</span>
+      </button>
 
       {visPunsj && (
         <div className={styles.punsjUndervalg}>
