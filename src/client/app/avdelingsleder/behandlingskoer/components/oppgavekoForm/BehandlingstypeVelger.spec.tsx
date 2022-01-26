@@ -87,9 +87,9 @@ describe('<BehandlingstypeVelger>', () => {
         />);
 
         const checkboxer = wrapper.find(CheckboxField);
-        expect(checkboxer).to.have.length(7);
+        expect(checkboxer).to.have.length(6);
         expect(checkboxer.first().prop('name')).to.eql(behandlingType.ANKE);
-        expect(checkboxer.last().prop('name')).to.eql(behandlingType.UTEN_FNR_DNR);
+        expect(checkboxer.last().prop('name')).to.eql(behandlingType.TILBAKEBETALING);
       });
   });
 
