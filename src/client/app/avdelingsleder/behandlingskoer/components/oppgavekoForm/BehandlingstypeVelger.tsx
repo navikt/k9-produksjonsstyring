@@ -90,7 +90,7 @@ const BehandlingstypeVelger: FunctionComponent<OwnProps> = ({
 
       <button type="button" className={styles.punsjVal} onClick={() => setVisPunsj(!visPunsj)}>
         <NavFrontendChevron type={visPunsj ? 'ned' : 'høyre'} />
-        <span>Punsj</span>
+        <Normaltekst className={styles.punsjTekst}>Punsj</Normaltekst>
       </button>
 
       {visPunsj && (
