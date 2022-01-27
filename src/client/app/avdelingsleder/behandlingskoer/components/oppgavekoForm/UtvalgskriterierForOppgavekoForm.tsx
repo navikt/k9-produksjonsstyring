@@ -55,9 +55,9 @@ const buildInitialValues = (intl: IntlShape, ko: Oppgaveko) => {
     tomDato: ko.sortering ? ko.sortering.tomDato : undefined,
     skjermet: ko.skjermet,
     fagsakYtelseTyper,
+    behandlingTypes,
     ...andreKriterierTyper,
     ...andreKriterierInkluder,
-    ...behandlingTypes,
   };
 };
 
@@ -111,6 +111,7 @@ export const UtvalgskriterierForOppgavekoForm: FunctionComponent<OwnProps & Wrap
                 <BehandlingstypeVelger
                   valgtOppgavekoId={valgtOppgaveko.id}
                   hentOppgaveko={hentKo}
+                  valgteBehandlingstyper={valgtOppgaveko.behandlingTyper}
                 />
               </Column>
               <Column xs="8" className={styles.middle}>

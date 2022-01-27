@@ -12,6 +12,7 @@ const punsjBehandlingstyper = [
   behandlingType.UKJENT,
   behandlingType.KOPI,
   behandlingType.INNTEKTSMELDING_UTGÅTT,
+  behandlingType.UTEN_FNR_DNR,
 ];
 
 export default punsjBehandlingstyper;

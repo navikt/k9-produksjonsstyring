@@ -83,12 +83,13 @@ describe('<BehandlingstypeVelger>', () => {
         const wrapper = shallow(<BehandlingstypeVelger
           valgtOppgavekoId="1"
           hentOppgaveko={sinon.spy()}
+          valgteBehandlingstyper={[]}
         />);
 
         const checkboxer = wrapper.find(CheckboxField);
-        expect(checkboxer).to.have.length(18);
+        expect(checkboxer).to.have.length(6);
         expect(checkboxer.first().prop('name')).to.eql(behandlingType.ANKE);
-        expect(checkboxer.last().prop('name')).to.eql(behandlingType.UTEN_FNR_DNR);
+        expect(checkboxer.last().prop('name')).to.eql(behandlingType.TILBAKEBETALING);
       });
   });
 
@@ -96,12 +97,15 @@ describe('<BehandlingstypeVelger>', () => {
     const lagreBehandlingTypeFn = sinon.spy();
     new RestApiTestMocker()
       .withKodeverk(kodeverkTyper.BEHANDLING_TYPE, behandlingTyper)
-      .withRestCallRunner(K9LosApiKeys.LAGRE_OPPGAVEKO_BEHANDLINGSTYPE,
-        { startRequest: (params) => { lagreBehandlingTypeFn(params); return Promise.resolve(); } })
+      .withRestCallRunner(
+        K9LosApiKeys.LAGRE_OPPGAVEKO_BEHANDLINGSTYPE,
+        { startRequest: (params) => { lagreBehandlingTypeFn(params); return Promise.resolve(); } },
+      )
       .runTest(() => {
         const wrapper = shallow(<BehandlingstypeVelger
           valgtOppgavekoId="1"
           hentOppgaveko={sinon.spy()}
+          valgteBehandlingstyper={[]}
         />);
 
         const checkbox = wrapper.find(CheckboxField);
@@ -111,8 +115,8 @@ describe('<BehandlingstypeVelger>', () => {
         const { args } = lagreBehandlingTypeFn.getCalls()[0];
         expect(args).to.have.length(1);
         expect(args[0].id).to.eql('1');
-        expect(args[0].behandlingType).to.eql(behandlingTyper[0]);
-        expect(args[0].checked).is.true;
+        expect(args[0].behandlingsTyper[0].behandlingType).to.eql(behandlingTyper[0]);
+        expect(args[0].behandlingsTyper[0].checked).is.true;
       });
   });
 });

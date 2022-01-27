@@ -59,6 +59,10 @@
   display: flow-root;
 }
 
+.punsjUndervalg {
+  margin-left: 0.5rem;
+}
+
 .navn {
   padding-bottom: 30px;
 }
@@ -120,4 +124,27 @@
 
 .middleHeader {
   margin-right: 300px;
+}
+
+.punsjVal {
+  align-items: center;
+  background-color: white;
+  border: 0;
+  display: flex;
+  font-weight: normal;
+  padding-bottom: 0.5rem;
+  padding-top: 0.5rem;
+
+  :first-child {
+    margin-left: -0.25rem;
+    margin-right: 0.7rem;
+  }
+}
+
+.punsjVal .punsjTekst {
+  color: @navMorkGra;
+
+  @media only screen and (max-width: 1600px) {
+    font-size: 13px;
+  }
 }
