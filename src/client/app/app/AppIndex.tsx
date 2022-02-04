@@ -1,3 +1,5 @@
+/* eslint-disable global-require */
+/* eslint-disable @typescript-eslint/no-var-requires */
 import React, { FunctionComponent, useCallback, useState } from 'react';
 import { parseQueryString } from 'utils/urlUtils';
 import { useIdleTimer } from 'react-idle-timer';
@@ -25,6 +27,11 @@ const AppIndex: FunctionComponent = function () {
   const [sessionHarUtlopt, setSessionHarUtlopt] = useState<boolean>(false);
   const timeout = 1000 * 60 * 58;
 
+  if (process.env.NODE_ENV === 'development') {
+    const { worker } = require('../../mocks/browser');
+    worker.start({ onUnhandledRequest: 'bypass' });
+  }
+
   const handleOnIdle = (): void => {
     setSessionHarUtlopt(true);
   };
@@ -50,25 +57,21 @@ const AppIndex: FunctionComponent = function () {
     <ErrorBoundary errorMessageCallback={addErrorMessageAndSetAsCrashed}>
       <AppConfigResolver>
         <LanguageProvider>
-          <HeaderWithErrorPanel
-            queryStrings={queryStrings}
-            setSiteHeight={setSiteHeight}
-            crashMessage={crashMessage}
-          />
+          <HeaderWithErrorPanel queryStrings={queryStrings} setSiteHeight={setSiteHeight} crashMessage={crashMessage} />
           {sessionHarUtlopt && (
-          <ModalMedIkon
-            cancel={() => { window.location.reload(); }}
-            tekst={{
-              valgmulighetB: 'Logg inn',
-              formattedMessageId: 'LoggetUtModal.Tekst',
-            }}
-            ikonUrl={advarselImageUrl}
-            ikonAlt="Varseltrekant"
-          />
+            <ModalMedIkon
+              cancel={() => {
+                window.location.reload();
+              }}
+              tekst={{
+                valgmulighetB: 'Logg inn',
+                formattedMessageId: 'LoggetUtModal.Tekst',
+              }}
+              ikonUrl={advarselImageUrl}
+              ikonAlt="Varseltrekant"
+            />
           )}
-          {crashMessage === undefined && (
-          <Home headerHeight={headerHeight} />
-          )}
+          {crashMessage === undefined && <Home headerHeight={headerHeight} />}
         </LanguageProvider>
       </AppConfigResolver>
     </ErrorBoundary>

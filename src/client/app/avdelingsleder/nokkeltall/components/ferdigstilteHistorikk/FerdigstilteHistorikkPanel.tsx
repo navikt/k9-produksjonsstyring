@@ -11,8 +11,10 @@ import styles from 'avdelingsleder/nokkeltall/historikkGraf.less';
 
 import {
   ALLE_YTELSETYPER_VALGT,
-  filtrereNyePerDato, UKE_2,
-  UKE_4, uker,
+  filtrereNyePerDato,
+  UKE_2,
+  UKE_4,
+  uker,
   ytelseTyper,
 } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
 
@@ -24,13 +26,13 @@ import HistorikkGrafForPunsj from 'avdelingsleder/nokkeltall/HistorikkGrafForPun
 import HistoriskData from '../../historiskDataTsType';
 
 interface InitialValues {
-    ytelseType: string;
-    ukevalg: string;
+  ytelseType: string;
+  ukevalg: string;
 }
 
 interface OwnProps {
-    ferdigstiltePerDato?: HistoriskData[];
-    getValueFromLocalStorage: (key: string) => string;
+  ferdigstiltePerDato?: HistoriskData[];
+  getValueFromLocalStorage: (key: string) => string;
 }
 
 const formName = 'ferdigstilteForm';
@@ -49,7 +51,6 @@ export const FerdigstilteHistorikkPanel: FunctionComponent<OwnProps & WrappedCom
   const behandlingTyper = useKodeverk(kodeverkTyper.BEHANDLING_TYPE);
   const stringFromStorage = getValueFromLocalStorage(formName);
   const lagredeVerdier = stringFromStorage ? JSON.parse(stringFromStorage) : undefined;
-
   return (
     <Form
       onSubmit={() => undefined}
@@ -66,7 +67,11 @@ export const FerdigstilteHistorikkPanel: FunctionComponent<OwnProps & WrappedCom
               <SelectField
                 name="ukevalg"
                 label=""
-                selectValues={uker.map((u) => <option key={u.kode} value={u.kode}>{intl.formatMessage({ id: u.tekstKode })}</option>)}
+                selectValues={uker.map(u => (
+                  <option key={u.kode} value={u.kode}>
+                    {intl.formatMessage({ id: u.tekstKode })}
+                  </option>
+                ))}
                 bredde="l"
               />
             </Column>
@@ -74,7 +79,11 @@ export const FerdigstilteHistorikkPanel: FunctionComponent<OwnProps & WrappedCom
               <SelectField
                 name="ytelseType"
                 label=""
-                selectValues={ytelseTyper.map((u) => <option key={u.kode} value={u.kode}>{u.navn}</option>)}
+                selectValues={ytelseTyper.map(u => (
+                  <option key={u.kode} value={u.kode}>
+                    {u.navn}
+                  </option>
+                ))}
                 bredde="l"
               />
             </Column>
