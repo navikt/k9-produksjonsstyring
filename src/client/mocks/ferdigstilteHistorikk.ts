@@ -1,8 +1,11 @@
 import dayjs from 'dayjs';
 
-const dato = dayjs().subtract(4, 'd').format('YYYY-MM-DD');
-
-const ferdigstilteHistorikk = [
+function getRandomInt(max) {
+  return Math.floor(Math.random() * max);
+}
+const giRandomDato = (historikk: any[]) =>
+  historikk.map(v => ({ ...v, dato: dayjs().subtract(getRandomInt(25), 'd').format() }));
+const ferdigstilteHistorikk = giRandomDato([
   {
     fagsakYtelseType: {
       kode: 'OMP',
@@ -14,7 +17,7 @@ const ferdigstilteHistorikk = [
       navn: 'Førstegangsbehandling',
       kodeverk: 'ae0034',
     },
-    dato,
+    dato: undefined,
     antall: 1,
   },
   {
@@ -42,7 +45,7 @@ const ferdigstilteHistorikk = [
       navn: 'Revurdering',
       kodeverk: 'ae0028',
     },
-    dato,
+    dato: undefined,
     antall: 2,
   },
   {
@@ -56,7 +59,7 @@ const ferdigstilteHistorikk = [
       navn: 'Revurdering',
       kodeverk: 'ae0028',
     },
-    dato,
+    dato: undefined,
     antall: 1,
   },
   {
@@ -70,7 +73,7 @@ const ferdigstilteHistorikk = [
       navn: 'Førstegangsbehandling',
       kodeverk: 'ae0028',
     },
-    dato,
+    dato: undefined,
     antall: 1,
   },
   {
@@ -84,7 +87,7 @@ const ferdigstilteHistorikk = [
       navn: 'Førstegangsbehandling',
       kodeverk: 'ae0034',
     },
-    dato,
+    dato: undefined,
     antall: 1,
   },
   {
@@ -98,7 +101,7 @@ const ferdigstilteHistorikk = [
       navn: 'Tilbakekreving',
       kodeverk: 'ae0203',
     },
-    dato,
+    dato: undefined,
     antall: 1,
   },
   {
@@ -112,7 +115,7 @@ const ferdigstilteHistorikk = [
       navn: 'Tilbakekreving',
       kodeverk: 'ae0203',
     },
-    dato,
+    dato: undefined,
     antall: 1,
   },
   {
@@ -126,7 +129,7 @@ const ferdigstilteHistorikk = [
       navn: 'Tilbakekreving',
       kodeverk: 'ae0203',
     },
-    dato,
+    dato: undefined,
     antall: 1,
   },
   {
@@ -140,7 +143,7 @@ const ferdigstilteHistorikk = [
       navn: 'Tilbakekreving',
       kodeverk: 'ae0203',
     },
-    dato,
+    dato: undefined,
     antall: 1,
   },
   {
@@ -154,7 +157,7 @@ const ferdigstilteHistorikk = [
       navn: 'Tilbakekreving',
       kodeverk: 'ae0203',
     },
-    dato,
+    dato: undefined,
     antall: 1,
   },
   {
@@ -168,7 +171,7 @@ const ferdigstilteHistorikk = [
       navn: 'Revurdering',
       kodeverk: 'ae0028',
     },
-    dato,
+    dato: undefined,
     antall: 1,
   },
   {
@@ -182,7 +185,7 @@ const ferdigstilteHistorikk = [
       navn: 'Papirinntektsopplysninger',
       kodeverk: 'PUNSJ_INNSENDING_TYPE',
     },
-    dato,
+    dato: undefined,
     antall: 1,
   },
   {
@@ -196,7 +199,7 @@ const ferdigstilteHistorikk = [
       navn: 'Kopi',
       kodeverk: 'PUNSJ_INNSENDING_TYPE',
     },
-    dato,
+    dato: undefined,
     antall: 1,
   },
   {
@@ -210,7 +213,7 @@ const ferdigstilteHistorikk = [
       navn: 'Digital ettersendelse',
       kodeverk: 'PUNSJ_INNSENDING_TYPE',
     },
-    dato,
+    dato: undefined,
     antall: 1,
   },
   {
@@ -224,7 +227,7 @@ const ferdigstilteHistorikk = [
       navn: 'Samtalereferat',
       kodeverk: 'PUNSJ_INNSENDING_TYPE',
     },
-    dato,
+    dato: undefined,
     antall: 1,
   },
   {
@@ -238,7 +241,7 @@ const ferdigstilteHistorikk = [
       navn: 'Samtalereferat',
       kodeverk: 'PUNSJ_INNSENDING_TYPE',
     },
-    dato,
+    dato: undefined,
     antall: 1,
   },
   {
@@ -252,7 +255,7 @@ const ferdigstilteHistorikk = [
       navn: 'Samtalereferat',
       kodeverk: 'PUNSJ_INNSENDING_TYPE',
     },
-    dato,
+    dato: undefined,
     antall: 1,
   },
   {
@@ -266,7 +269,7 @@ const ferdigstilteHistorikk = [
       navn: 'Skriv til oss spørmsål',
       kodeverk: 'PUNSJ_INNSENDING_TYPE',
     },
-    dato,
+    dato: undefined,
     antall: 1,
   },
   {
@@ -280,7 +283,7 @@ const ferdigstilteHistorikk = [
       navn: 'Skriv til oss svar',
       kodeverk: 'PUNSJ_INNSENDING_TYPE',
     },
-    dato,
+    dato: undefined,
     antall: 1,
   },
   {
@@ -308,7 +311,7 @@ const ferdigstilteHistorikk = [
       navn: 'Papirettersendelse',
       kodeverk: 'PUNSJ_INNSENDING_TYPE',
     },
-    dato,
+    dato: undefined,
     antall: 1,
   },
   {
@@ -322,7 +325,7 @@ const ferdigstilteHistorikk = [
       navn: 'Innlogget chat',
       kodeverk: 'PUNSJ_INNSENDING_TYPE',
     },
-    dato,
+    dato: undefined,
     antall: 1,
   },
   {
@@ -336,9 +339,9 @@ const ferdigstilteHistorikk = [
       navn: 'Ukjent',
       kodeverk: 'PUNSJ_INNSENDING_TYPE',
     },
-    dato,
+    dato: undefined,
     antall: 1,
   },
-];
+]);
 
 export default ferdigstilteHistorikk;
