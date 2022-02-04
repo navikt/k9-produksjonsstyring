@@ -25,6 +25,14 @@ yarn dev
 ````
 docker-compose up vtp postgres azure-mock
 ````
+
+NB: Husk at få lagt in azure-mock i /etc/hosts i k9-verdikjede`slik att azure-mock mappes til localhost. Hvis ikke dette er utført får man følgende feilmelding: ErrorCaused by: java.net.UnknownHostException: azure-mock.
+
+Verdi som ska legges in i hosts filen:
+````
+127.0.0.1 azure-mock
+````
+
 2. Last ned [k9-los-api](https://github.com/navikt/k9-los-api). Start klassen no.nav.k9.K9LosDev med vm-options under. Bytt ut path til riktig for trustStore og keyStore. 
 
 Eksempel fra Windows miljø
