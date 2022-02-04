@@ -25,10 +25,13 @@ yarn dev
 ````
 docker-compose up vtp postgres azure-mock
 ````
-2. Last ned [k9-los-api](https://github.com/navikt/k9-los-api). Start klassen no.nav.k9.K9LosDev med vm-options
+2. Last ned [k9-los-api](https://github.com/navikt/k9-los-api). Start klassen no.nav.k9.K9LosDev med vm-options under. Bytt ut path til riktig for trustStore og keyStore. 
+
+Eksempel fra Windows miljø
 ````
--Djavax.net.ssl.trustStore=/Users/.../.modig/trustStore.jks -Djavax.net.ssl.keyStore=/Users/.../.modig/keyStore.jks -Djavax.net.ssl.trustStorePassword=changeit -Djavax.net.ssl.keyStorePassword=devillokeystore1234
+-Djavax.net.ssl.trustStore=/Users/specifik_users_name/.modig/trustStore.jks -Djavax.net.ssl.keyStore=/Users/specifik_users_name/.modig/keyStore.jks -Djavax.net.ssl.trustStorePassword=changeit -Djavax.net.ssl.keyStorePassword=devillokeystore1234
 ````
+
 3. 
 ````
 yarn dev
