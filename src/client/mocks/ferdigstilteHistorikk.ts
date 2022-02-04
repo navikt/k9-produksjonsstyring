@@ -1,11 +1,6 @@
-import dayjs from 'dayjs';
+import { randomDato } from './mockUtils';
 
-function getRandomInt(max) {
-  return Math.floor(Math.random() * max);
-}
-const giRandomDato = (historikk: any[]) =>
-  historikk.map(v => ({ ...v, dato: dayjs().subtract(getRandomInt(25), 'd').format() }));
-const ferdigstilteHistorikk = giRandomDato([
+const ferdigstilteHistorikk = [
   {
     fagsakYtelseType: {
       kode: 'OMP',
@@ -17,7 +12,7 @@ const ferdigstilteHistorikk = giRandomDato([
       navn: 'Førstegangsbehandling',
       kodeverk: 'ae0034',
     },
-    dato: undefined,
+    dato: randomDato(),
     antall: 1,
   },
   {
@@ -45,7 +40,7 @@ const ferdigstilteHistorikk = giRandomDato([
       navn: 'Revurdering',
       kodeverk: 'ae0028',
     },
-    dato: undefined,
+    dato: randomDato(),
     antall: 2,
   },
   {
@@ -59,7 +54,7 @@ const ferdigstilteHistorikk = giRandomDato([
       navn: 'Revurdering',
       kodeverk: 'ae0028',
     },
-    dato: undefined,
+    dato: randomDato(),
     antall: 1,
   },
   {
@@ -73,7 +68,7 @@ const ferdigstilteHistorikk = giRandomDato([
       navn: 'Førstegangsbehandling',
       kodeverk: 'ae0028',
     },
-    dato: undefined,
+    dato: randomDato(),
     antall: 1,
   },
   {
@@ -87,7 +82,7 @@ const ferdigstilteHistorikk = giRandomDato([
       navn: 'Førstegangsbehandling',
       kodeverk: 'ae0034',
     },
-    dato: undefined,
+    dato: randomDato(),
     antall: 1,
   },
   {
@@ -101,7 +96,7 @@ const ferdigstilteHistorikk = giRandomDato([
       navn: 'Tilbakekreving',
       kodeverk: 'ae0203',
     },
-    dato: undefined,
+    dato: randomDato(),
     antall: 1,
   },
   {
@@ -115,7 +110,7 @@ const ferdigstilteHistorikk = giRandomDato([
       navn: 'Tilbakekreving',
       kodeverk: 'ae0203',
     },
-    dato: undefined,
+    dato: randomDato(),
     antall: 1,
   },
   {
@@ -129,7 +124,7 @@ const ferdigstilteHistorikk = giRandomDato([
       navn: 'Tilbakekreving',
       kodeverk: 'ae0203',
     },
-    dato: undefined,
+    dato: randomDato(),
     antall: 1,
   },
   {
@@ -143,7 +138,7 @@ const ferdigstilteHistorikk = giRandomDato([
       navn: 'Tilbakekreving',
       kodeverk: 'ae0203',
     },
-    dato: undefined,
+    dato: randomDato(),
     antall: 1,
   },
   {
@@ -157,7 +152,7 @@ const ferdigstilteHistorikk = giRandomDato([
       navn: 'Tilbakekreving',
       kodeverk: 'ae0203',
     },
-    dato: undefined,
+    dato: randomDato(),
     antall: 1,
   },
   {
@@ -171,7 +166,7 @@ const ferdigstilteHistorikk = giRandomDato([
       navn: 'Revurdering',
       kodeverk: 'ae0028',
     },
-    dato: undefined,
+    dato: randomDato(),
     antall: 1,
   },
   {
@@ -185,7 +180,7 @@ const ferdigstilteHistorikk = giRandomDato([
       navn: 'Papirinntektsopplysninger',
       kodeverk: 'PUNSJ_INNSENDING_TYPE',
     },
-    dato: undefined,
+    dato: randomDato(),
     antall: 1,
   },
   {
@@ -199,7 +194,7 @@ const ferdigstilteHistorikk = giRandomDato([
       navn: 'Kopi',
       kodeverk: 'PUNSJ_INNSENDING_TYPE',
     },
-    dato: undefined,
+    dato: randomDato(),
     antall: 1,
   },
   {
@@ -213,7 +208,7 @@ const ferdigstilteHistorikk = giRandomDato([
       navn: 'Digital ettersendelse',
       kodeverk: 'PUNSJ_INNSENDING_TYPE',
     },
-    dato: undefined,
+    dato: randomDato(),
     antall: 1,
   },
   {
@@ -227,7 +222,7 @@ const ferdigstilteHistorikk = giRandomDato([
       navn: 'Samtalereferat',
       kodeverk: 'PUNSJ_INNSENDING_TYPE',
     },
-    dato: undefined,
+    dato: randomDato(),
     antall: 1,
   },
   {
@@ -241,7 +236,7 @@ const ferdigstilteHistorikk = giRandomDato([
       navn: 'Samtalereferat',
       kodeverk: 'PUNSJ_INNSENDING_TYPE',
     },
-    dato: undefined,
+    dato: randomDato(),
     antall: 1,
   },
   {
@@ -255,7 +250,7 @@ const ferdigstilteHistorikk = giRandomDato([
       navn: 'Samtalereferat',
       kodeverk: 'PUNSJ_INNSENDING_TYPE',
     },
-    dato: undefined,
+    dato: randomDato(),
     antall: 1,
   },
   {
@@ -269,7 +264,7 @@ const ferdigstilteHistorikk = giRandomDato([
       navn: 'Skriv til oss spørmsål',
       kodeverk: 'PUNSJ_INNSENDING_TYPE',
     },
-    dato: undefined,
+    dato: randomDato(),
     antall: 1,
   },
   {
@@ -283,7 +278,7 @@ const ferdigstilteHistorikk = giRandomDato([
       navn: 'Skriv til oss svar',
       kodeverk: 'PUNSJ_INNSENDING_TYPE',
     },
-    dato: undefined,
+    dato: randomDato(),
     antall: 1,
   },
   {
@@ -311,7 +306,7 @@ const ferdigstilteHistorikk = giRandomDato([
       navn: 'Papirettersendelse',
       kodeverk: 'PUNSJ_INNSENDING_TYPE',
     },
-    dato: undefined,
+    dato: randomDato(),
     antall: 1,
   },
   {
@@ -325,7 +320,7 @@ const ferdigstilteHistorikk = giRandomDato([
       navn: 'Innlogget chat',
       kodeverk: 'PUNSJ_INNSENDING_TYPE',
     },
-    dato: undefined,
+    dato: randomDato(),
     antall: 1,
   },
   {
@@ -339,9 +334,9 @@ const ferdigstilteHistorikk = giRandomDato([
       navn: 'Ukjent',
       kodeverk: 'PUNSJ_INNSENDING_TYPE',
     },
-    dato: undefined,
+    dato: randomDato(),
     antall: 1,
   },
-]);
+];
 
 export default ferdigstilteHistorikk;
