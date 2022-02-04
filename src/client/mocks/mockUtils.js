@@ -4,4 +4,5 @@ function getRandomInt(max) {
   return Math.floor(Math.random() * max);
 }
 // eslint-disable-next-line import/prefer-default-export
-export const randomDato = (max = 25) => dayjs().subtract(getRandomInt(max), 'd').format();
+export const giRandomDato = (historikk, max = 25) =>
+  historikk.map(v => ({ ...v, dato: dayjs().subtract(getRandomInt(max), 'd').format() }));
