@@ -12,7 +12,12 @@
     }
   },
   "plugins": ["@typescript-eslint", "eslint-plugin-react"],
-  "extends": ["airbnb", "plugin:@typescript-eslint/recommended", "plugin:react/recommended", "plugin:import/typescript"],
+  "extends": [
+    "airbnb",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:react/recommended",
+    "plugin:import/typescript"
+  ],
   "settings": {
     "import/resolver": {
       "typescript": {},
@@ -35,7 +40,10 @@
     "@typescript-eslint/no-use-before-define": ["error"],
     "@typescript-eslint/no-shadow": "error",
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx", ".ts", ".tsx"] }],
-    "import/no-extraneous-dependencies": ["error", { "devDependencies": ["**/*.test.ts", "**/*.test.tsx", "**/*.spec.ts", "**/*.spec.tsx"] }],
+    "import/no-extraneous-dependencies": [
+      "error",
+      { "devDependencies": ["**/*.test.ts", "**/*.test.tsx", "**/*.spec.ts", "**/*.spec.tsx"] }
+    ],
     "import/extensions": [
       "error",
       "ignorePackages",
@@ -61,6 +69,8 @@
     "react/static-property-placement": "off",
     "react/display-name": "off",
     "jsx-a11y/control-has-associated-label": "off",
-    "react/function-component-definition": "off"
+    "react/function-component-definition": "off",
+    "implicit-arrow-linebreak": "off",
+    "function-paren-newline": "off"
   }
 }
