@@ -11,11 +11,7 @@ const config = {
   mode: 'development',
   devtool: 'eval-cheap-source-map',
 
-  entry: [
-    'webpack-dev-server/client?http://localhost:8030',
-    'webpack/hot/only-dev-server',
-    `${APP_DIR}/index.tsx`,
-  ],
+  entry: ['webpack-dev-server/client?http://localhost:8030', 'webpack/hot/only-dev-server', `${APP_DIR}/index.tsx`],
 
   output: {
     globalObject: 'this',
@@ -31,6 +27,7 @@ const config = {
       template: path.join(ROOT_DIR, 'index.html'),
     }),
     new webpack.HotModuleReplacementPlugin(),
+    new webpack.EnvironmentPlugin({ MSW_MODE: 'development' }),
   ],
 
   optimization: {
