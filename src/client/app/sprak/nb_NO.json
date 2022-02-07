@@ -340,6 +340,8 @@
   "BehandlingerGårAvVent.FireNesteUker": "Neste 4 uker",
   "BehandlingerGårAvVent.VelgFagytelseType": "Velg ytelsetype",
 
+  "AksjonspunkterPerEnhet.Tittel": "Aksjonspunkter løst per enhet",
+
   "OppgavekoVelgerForm.Oppgaveko": "Velg behandlingskø",
   "OppgavekoVelgerForm.AntallOppgaver": "Antall i kø: {antall}",
   "OppgavekoVelgerForm.Utvalgskriterier": "Utvalgskriterier",

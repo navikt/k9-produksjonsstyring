@@ -1,23 +1,21 @@
-import React, {
-  FunctionComponent,
-} from 'react';
+import React, { FunctionComponent } from 'react';
 
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import InngangOgFerdigstiltePanel from 'avdelingsleder/nokkeltall/components/dagensTallPanel/InngangOgFerdigstiltePanel';
-import BeholdningHistorikkPanel
-  from 'avdelingsleder/nokkeltall/components/beholdningHistorikk/BeholdningHistorikkPanel';
+import BeholdningHistorikkPanel from 'avdelingsleder/nokkeltall/components/beholdningHistorikk/BeholdningHistorikkPanel';
 import FerdigstilteHistorikkPanel from 'avdelingsleder/nokkeltall/components/ferdigstilteHistorikk/FerdigstilteHistorikkPanel';
 import NyeHistorikkPanel from 'avdelingsleder/nokkeltall/components/nyeHistorikk/NyeHistorikkPanel';
 import { getValueFromLocalStorage } from 'utils/localStorageHelper';
 import HistoriskData from 'avdelingsleder/nokkeltall/historiskDataTsType';
 import AlleOppgaver from 'avdelingsleder/nokkeltall/components/fordelingAvBehandlingstype/alleOppgaverTsType';
 import FordelingAvBehandlingstypePanel from './fordelingAvBehandlingstype/FordelingAvBehandlingstypePanel';
+import AksjonspunkterPerEnhetPanel from './aksjonspunkterPerEnhet/AksjonspunkterPerEnhetPanel';
 
 interface OwnProps {
-    alleOppgaver: AlleOppgaver[];
-    ferdigstiltePerDato: HistoriskData[];
-    beholdningPerDato?: HistoriskData[];
-    nyePerDato?: HistoriskData[];
+  alleOppgaver: AlleOppgaver[];
+  ferdigstiltePerDato: HistoriskData[];
+  beholdningPerDato?: HistoriskData[];
+  nyePerDato?: HistoriskData[];
 }
 
 /**
@@ -30,14 +28,9 @@ const NokkeltallPanel: FunctionComponent<OwnProps> = ({
   nyePerDato,
 }) => (
   <div>
-    <InngangOgFerdigstiltePanel
-      getValueFromLocalStorage={getValueFromLocalStorage}
-    />
+    <InngangOgFerdigstiltePanel getValueFromLocalStorage={getValueFromLocalStorage} />
     <VerticalSpacer twentyPx />
-    <NyeHistorikkPanel
-      nyePerDato={nyePerDato}
-      getValueFromLocalStorage={getValueFromLocalStorage}
-    />
+    <NyeHistorikkPanel nyePerDato={nyePerDato} getValueFromLocalStorage={getValueFromLocalStorage} />
     <VerticalSpacer twentyPx />
     <FerdigstilteHistorikkPanel
       ferdigstiltePerDato={ferdigstiltePerDato}
@@ -49,10 +42,8 @@ const NokkeltallPanel: FunctionComponent<OwnProps> = ({
       getValueFromLocalStorage={getValueFromLocalStorage}
     />
     <VerticalSpacer twentyPx />
-    <FordelingAvBehandlingstypePanel
-      alleOppgaver={alleOppgaver}
-      getValueFromLocalStorage={getValueFromLocalStorage}
-    />
+    <FordelingAvBehandlingstypePanel alleOppgaver={alleOppgaver} getValueFromLocalStorage={getValueFromLocalStorage} />
+    <AksjonspunkterPerEnhetPanel aksjonspunkterPerEnhet={[]} />
   </div>
 );
 

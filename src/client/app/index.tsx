@@ -7,6 +7,7 @@ import AppIndex from 'app/AppIndex';
 import { RestApiProvider } from 'api/rest-api-hooks/src/RestApiContext';
 import { k9LosApi } from 'api/k9LosApi';
 import { RestApiErrorProvider } from 'api/error/RestApiErrorContext';
+import '@navikt/ds-css';
 
 /* eslint no-undef: "error" */
 const environment = window.location.hostname;
@@ -16,7 +17,7 @@ init({
   environment,
 });
 
-const renderFunc = (Component) => {
+const renderFunc = Component => {
   const app = document.getElementById('app');
   if (app === null) {
     throw new Error('No app element');
