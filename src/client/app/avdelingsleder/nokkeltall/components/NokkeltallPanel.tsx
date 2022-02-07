@@ -28,22 +28,17 @@ const NokkeltallPanel: FunctionComponent<OwnProps> = ({
   nyePerDato,
 }) => (
   <div>
-    <InngangOgFerdigstiltePanel getValueFromLocalStorage={getValueFromLocalStorage} />
+    <InngangOgFerdigstiltePanel />
     <VerticalSpacer twentyPx />
-    <NyeHistorikkPanel nyePerDato={nyePerDato} getValueFromLocalStorage={getValueFromLocalStorage} />
+    <NyeHistorikkPanel nyePerDato={nyePerDato} />
     <VerticalSpacer twentyPx />
-    <FerdigstilteHistorikkPanel
-      ferdigstiltePerDato={ferdigstiltePerDato}
-      getValueFromLocalStorage={getValueFromLocalStorage}
-    />
+    <FerdigstilteHistorikkPanel ferdigstiltePerDato={ferdigstiltePerDato} />
     <VerticalSpacer twentyPx />
-    <BeholdningHistorikkPanel
-      beholdningPerDato={beholdningPerDato}
-      getValueFromLocalStorage={getValueFromLocalStorage}
-    />
+    <BeholdningHistorikkPanel beholdningPerDato={beholdningPerDato} />
     <VerticalSpacer twentyPx />
-    <FordelingAvBehandlingstypePanel alleOppgaver={alleOppgaver} getValueFromLocalStorage={getValueFromLocalStorage} />
     <AksjonspunkterPerEnhetPanel aksjonspunkterPerEnhet={[]} />
+    <VerticalSpacer twentyPx />
+    <FordelingAvBehandlingstypePanel alleOppgaver={alleOppgaver} />
   </div>
 );
 

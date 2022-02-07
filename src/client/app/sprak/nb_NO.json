@@ -53,7 +53,6 @@
   "DriftsmeldingerTabell.IngenDriftsmeldinger": "Ingen driftsmeldinger",
   "DriftsmeldingerTabell.Dato": "{date} - {time}",
 
-
   "EndreOppgavekoerPanel.KnyttetMotSaksbehandlere": "Behandlingskøen benyttes av disse saksbehandlerne",
   "EndreOppgavekoerPanel.Saksbehandlere": "Tilknyttede saksbehandlere",
   "BehandlingstypeVelger.Behandlingstype": "Behandlingstype",
@@ -129,7 +128,6 @@
   "LeggTilSaksbehandlerForm.Nullstill": "Nullstill",
   "LeggTilSaksbehandlerForm.FinnesAllerede": "E-post adressen finnes allerede i listen",
   "LeggTilSaksbehandlerForm.FinnesIkke": "Kan ikke finne bruker",
-
 
   "LeggTilDriftsmeldingForm.LeggTil": "Legg til driftsmelding",
   "LeggTilDriftsmeldingForm.Melding": "Melding",
@@ -244,9 +242,9 @@
   "OppgaveReservasjonEndringDatoModal.Ok": "OK",
   "OppgaveReservasjonEndringDatoModal.Avbryt": "Avbryt",
 
-  "OpphevReservasjonModal.Begrunnelse":"Angi begrunnelse",
-  "OpphevReservasjonModal.Hjelpetekst":"Når en reservert sak frigjøres er begrunnelse obligatorisk",
-  "OpphevReservasjonModal.Ok":"OK",
+  "OpphevReservasjonModal.Begrunnelse": "Angi begrunnelse",
+  "OpphevReservasjonModal.Hjelpetekst": "Når en reservert sak frigjøres er begrunnelse obligatorisk",
+  "OpphevReservasjonModal.Ok": "OK",
   "OpphevReservasjonModal.Avbryt": "Avbryt",
 
   "Person.Age": "{age} år",
@@ -330,9 +328,8 @@
   "SletteSaksbehandlerModal.Nei": "Avbryt",
 
   "TilBehandlingPanel.TilBehandling": "Antall til behandling",
-  "TilBehandlingPanel.ToSisteUker": "2 siste uker",
-  "TilBehandlingPanel.FireSisteUker": "4 siste uker",
-  "TilBehandlingPanel.8SisteUker": "2 siste uker",
+  "Historikk.ToSisteUker": "2 siste uker",
+  "Historikk.FireSisteUker": "4 siste uker",
 
   "BehandlingerGårAvVent.Titel": "Behandlinger som går av vent",
   "BehandlingerGårAvVent.Hjelptekst": "Grafen viser en prognose av antall behandlinger som går av vent frem i tid.",

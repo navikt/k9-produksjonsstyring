@@ -1,99 +1,52 @@
-import React, { FunctionComponent } from 'react';
-import { WrappedComponentProps, FormattedMessage, injectIntl } from 'react-intl';
-import { Element } from 'nav-frontend-typografi';
-import { Row, Column } from 'nav-frontend-grid';
-import { Form } from 'react-final-form';
-import { SelectField } from 'form/FinalFields';
-import VerticalSpacer from 'sharedComponents/VerticalSpacer';
-import Panel from 'nav-frontend-paneler';
-import {
-  ALLE_YTELSETYPER_VALGT,
-  filtrereNyePerDato, UKE_2,
-  UKE_4,
-  uker,
-  ytelseTyper,
-} from 'avdelingsleder/nokkeltall/nokkeltallUtils';
+import React, { FunctionComponent, useState } from 'react';
+import { WrappedComponentProps, injectIntl } from 'react-intl';
+import { ALLE_YTELSETYPER_VALGT, filtrereNyePerDato, UKE_2, UKE_4 } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
 import useKodeverk from 'api/rest-api-hooks/src/global-data/useKodeverk';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
-import StoreValuesInLocalStorage from 'form/StoreValuesInLocalStorage';
 import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
 import HistorikkGraf from 'avdelingsleder/nokkeltall/HistorikkGraf';
-import styles from 'avdelingsleder/nokkeltall/historikkGraf.less';
 import HistorikkGrafForPunsj from 'avdelingsleder/nokkeltall/HistorikkGrafForPunsj';
+import { getValueFromLocalStorage } from 'utils/localStorageHelper';
+import GrafBoks from 'avdelingsleder/GrafBoks';
 import HistoriskData from '../../historiskDataTsType';
 
-interface InitialValues {
-    ytelseType: string;
-    ukevalg: string;
-}
-
 interface OwnProps {
-    nyePerDato?: HistoriskData[];
-    getValueFromLocalStorage: (key: string) => string;
+  nyePerDato?: HistoriskData[];
 }
 
-const formName = 'nyeForm';
-const formDefaultValues: InitialValues = { ytelseType: ALLE_YTELSETYPER_VALGT, ukevalg: UKE_2 };
-
-/**
- * NyeHistorikkPanel.
- */
-
-export const NyeHistorikkPanel: FunctionComponent<OwnProps & WrappedComponentProps> = ({
-  intl,
-  nyePerDato,
-  getValueFromLocalStorage,
-}) => {
+export const NyeHistorikkPanel: FunctionComponent<OwnProps & WrappedComponentProps> = ({ intl, nyePerDato }) => {
+  const id = 'nyeBehandlinger';
+  const [valgtYtelseType, setValgtYtelseType] = useState<string>(
+    getValueFromLocalStorage(`${id}-ytelsetype`) || ALLE_YTELSETYPER_VALGT,
+  );
+  const [antallUkerSomSkalVises, setAntallUkerSomSkalVises] = useState<string>(
+    getValueFromLocalStorage(`${id}-uker`) || UKE_2,
+  );
   const behandlingTyper = useKodeverk(kodeverkTyper.BEHANDLING_TYPE);
-  const stringFromStorage = getValueFromLocalStorage(formName);
-  const lagredeVerdier = stringFromStorage ? JSON.parse(stringFromStorage) : undefined;
   return (
-    <Form
-      onSubmit={() => undefined}
-      initialValues={lagredeVerdier || formDefaultValues}
-      render={({ values }) => (
-        <Panel className={styles.panel}>
-          <StoreValuesInLocalStorage stateKey={formName} values={values} />
-          <Element>
-            <FormattedMessage id="NyeHistorikkPanel.Nye" />
-          </Element>
-          <VerticalSpacer eightPx />
-          <Row>
-            <Column xs="2">
-              <SelectField
-                name="ukevalg"
-                label=""
-                selectValues={uker.map((u) => <option key={u.kode} value={u.kode}>{intl.formatMessage({ id: u.tekstKode })}</option>)}
-                bredde="l"
-              />
-            </Column>
-            <Column xs="2">
-              <SelectField
-                name="ytelseType"
-                label=""
-                selectValues={ytelseTyper.map((u) => <option key={u.kode} value={u.kode}>{u.navn}</option>)}
-                bredde="l"
-              />
-            </Column>
-          </Row>
-          <VerticalSpacer sixteenPx />
-          {values.ytelseType === fagsakYtelseType.PUNSJ && (
+    <GrafBoks
+      setValgtYtelseType={setValgtYtelseType}
+      setAntallUkerSomSkalVises={setAntallUkerSomSkalVises}
+      tittel={intl.formatMessage({ id: 'NyeHistorikkPanel.Nye' })}
+      id={id}
+    >
+      <>
+        {valgtYtelseType === fagsakYtelseType.PUNSJ && (
           <HistorikkGrafForPunsj
-            isFireUkerValgt={values.ukevalg === UKE_4}
-            historiskData={filtrereNyePerDato(values.ytelseType, values.ukevalg, nyePerDato)}
+            isFireUkerValgt={antallUkerSomSkalVises === UKE_4}
+            historiskData={filtrereNyePerDato(valgtYtelseType, antallUkerSomSkalVises, nyePerDato)}
           />
-          )}
+        )}
 
-          {values.ytelseType !== fagsakYtelseType.PUNSJ && (
+        {valgtYtelseType !== fagsakYtelseType.PUNSJ && (
           <HistorikkGraf
-            isFireUkerValgt={values.ukevalg === UKE_4}
+            isFireUkerValgt={antallUkerSomSkalVises === UKE_4}
             behandlingTyper={behandlingTyper}
-            historiskData={filtrereNyePerDato(values.ytelseType, values.ukevalg, nyePerDato)}
+            historiskData={filtrereNyePerDato(valgtYtelseType, antallUkerSomSkalVises, nyePerDato)}
           />
-          )}
-        </Panel>
-      )}
-    />
+        )}
+      </>
+    </GrafBoks>
   );
 };
 

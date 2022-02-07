@@ -16,9 +16,9 @@ import {
 } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
 import useKodeverk from 'api/rest-api-hooks/src/global-data/useKodeverk';
 import StoreValuesInLocalStorage from 'form/StoreValuesInLocalStorage';
-import FordelingAvBehandlingstypeGraf
-  from 'avdelingsleder/nokkeltall/components/fordelingAvBehandlingstype/FordelingAvBehandlingstypeGraf';
+import FordelingAvBehandlingstypeGraf from 'avdelingsleder/nokkeltall/components/fordelingAvBehandlingstype/FordelingAvBehandlingstypeGraf';
 import { Column, Row } from 'nav-frontend-grid';
+import { getValueFromLocalStorage } from 'utils/localStorageHelper';
 import styles from './fordelingAvBehandlingstypeGraf.less';
 
 interface InitialValues {
@@ -27,7 +27,6 @@ interface InitialValues {
 
 interface OwnProps {
   alleOppgaver?: AlleOppgaver[];
-  getValueFromLocalStorage: (key: string) => string;
 }
 
 const formName = 'fordelingAvBehandlingstype';
@@ -36,10 +35,7 @@ const formDefaultValues: InitialValues = { valgtYtelseType: ALLE_YTELSETYPER_VAL
 /**
  * FordelingAvBehandlingstypePanel.
  */
-export const FordelingAvBehandlingstypePanel: FunctionComponent<OwnProps> = ({
-  alleOppgaver,
-  getValueFromLocalStorage,
-}) => {
+export const FordelingAvBehandlingstypePanel: FunctionComponent<OwnProps> = ({ alleOppgaver }) => {
   const behandlingTyper = useKodeverk(kodeverkTyper.BEHANDLING_TYPE);
   const stringFromStorage = getValueFromLocalStorage(formName);
   const lagredeVerdier = stringFromStorage ? JSON.parse(stringFromStorage) : undefined;
@@ -60,15 +56,20 @@ export const FordelingAvBehandlingstypePanel: FunctionComponent<OwnProps> = ({
               <SelectField
                 name="valgtYtelseType"
                 label=""
-                selectValues={ytelseTyper.map((u) => <option key={u.kode} value={u.kode}>{u.navn}</option>)}
+                selectValues={ytelseTyper.map(u => (
+                  <option key={u.kode} value={u.kode}>
+                    {u.navn}
+                  </option>
+                ))}
                 bredde="l"
               />
             </Column>
           </Row>
           <FordelingAvBehandlingstypeGraf
             behandlingTyper={behandlingTyper}
-            alleOppgaver={alleOppgaver ? alleOppgaver
-              .filter((ofa) => (sjekkOmOppgaveSkalLeggesTil(values.valgtYtelseType, ofa))) : []}
+            alleOppgaver={
+              alleOppgaver ? alleOppgaver.filter(ofa => sjekkOmOppgaveSkalLeggesTil(values.valgtYtelseType, ofa)) : []
+            }
             erPunsjValgt={values.valgtYtelseType === fagsakYtelseType.PUNSJ}
           />
         </Panel>

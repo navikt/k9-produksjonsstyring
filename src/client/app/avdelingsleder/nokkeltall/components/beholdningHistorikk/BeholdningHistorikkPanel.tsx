@@ -19,6 +19,7 @@ import useKodeverk from 'api/rest-api-hooks/src/global-data/useKodeverk';
 import StoreValuesInLocalStorage from 'form/StoreValuesInLocalStorage';
 import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
 import HistorikkGrafForPunsj from 'avdelingsleder/nokkeltall/HistorikkGrafForPunsj';
+import { getValueFromLocalStorage } from 'utils/localStorageHelper';
 import HistorikkGraf from '../../HistorikkGraf';
 import HistoriskData from '../../historiskDataTsType';
 
@@ -29,7 +30,6 @@ interface InitialValues {
 
 interface OwnProps {
   beholdningPerDato?: HistoriskData[];
-  getValueFromLocalStorage: (key: string) => string;
 }
 
 const formName = 'beholdningForm';
@@ -41,7 +41,6 @@ const formDefaultValues: InitialValues = { ytelseType: ALLE_YTELSETYPER_VALGT, u
 export const BeholdningHistorikkPanel: FunctionComponent<OwnProps & WrappedComponentProps> = ({
   intl,
   beholdningPerDato,
-  getValueFromLocalStorage,
 }) => {
   const behandlingTyper = useKodeverk(kodeverkTyper.BEHANDLING_TYPE);
   const stringFromStorage = getValueFromLocalStorage(formName);

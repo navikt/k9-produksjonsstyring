@@ -4,45 +4,57 @@ import { Row, Column } from 'nav-frontend-grid';
 import { Heading, Panel, Select } from '@navikt/ds-react';
 import Hjelpetekst from 'nav-frontend-hjelpetekst';
 
+import { setValueInLocalStorage } from 'utils/localStorageHelper';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
-import { ytelseTyper } from './nokkeltall/nokkeltallUtils';
+import { uker, ytelseTyper } from './nokkeltall/nokkeltallUtils';
 
 interface OwnProps {
   setAntallUkerSomSkalVises: (uker: string) => void;
   setValgtYtelseType: (ytelse: string) => void;
   tittel: string;
   children: JSX.Element;
+  id?: string;
   hjelpetekst?: string;
 }
 
-const GrafBoks = ({ setAntallUkerSomSkalVises, setValgtYtelseType, tittel, hjelpetekst, children }: OwnProps) => {
+const lagreTilLocalStorageCallback = (key, value, callback) => {
+  setValueInLocalStorage(key, value);
+  callback(value);
+};
+
+const GrafBoks = ({ setAntallUkerSomSkalVises, setValgtYtelseType, tittel, hjelpetekst, id, children }: OwnProps) => {
+  const velgUkeHandler = value => {
+    lagreTilLocalStorageCallback(`${id}-uker`, value, setAntallUkerSomSkalVises);
+  };
+  const velgYtelsesTypeHandler = value => {
+    lagreTilLocalStorageCallback(`${id}-ytelsestype`, value, setValgtYtelseType);
+  };
+
   const intl = useIntl();
   return (
     <Panel border>
       <div>
-        <Heading spacing level="3" size="medium">
+        <Heading spacing level="3" size="xsmall">
           {tittel}
         </Heading>
         {hjelpetekst && <Hjelpetekst>{hjelpetekst}</Hjelpetekst>}
       </div>
       <VerticalSpacer eightPx />
       <Row>
-        <Column xs="2">
-          <Select onChange={e => setAntallUkerSomSkalVises(e.target.value)} label="Antall uker som skal vises">
-            <option value="2" selected>
-              {intl.formatMessage({ id: 'BehandlingerGårAvVent.ToNesteUker' })}
-            </option>
-            <option value="4">{intl.formatMessage({ id: 'BehandlingerGårAvVent.FireNesteUker' })}</option>
+        <Column xs="3">
+          <Select onChange={e => velgUkeHandler(e.target.value)} label="Antall uker som skal vises" hideLabel>
+            {uker.map(u => (
+              <option key={u.kode} value={u.kode}>
+                {intl.formatMessage({ id: u.tekstKode })}
+              </option>
+            ))}
           </Select>
         </Column>
-        <Column xs="2">
-          <Select onChange={e => setValgtYtelseType(e.target.value)} label="Valgt ytelse">
-            <option value="" disabled selected>
-              {intl.formatMessage({ id: 'BehandlingerGårAvVent.VelgFagytelseType' })}
-            </option>
-            {ytelseTyper.map(ytelseValg => (
-              <option key={ytelseValg.kode} value={ytelseValg.kode}>
-                {ytelseValg.navn}
+        <Column xs="3">
+          <Select onChange={e => velgYtelsesTypeHandler(e.target.value)} label="Valgt ytelse" hideLabel>
+            {ytelseTyper.map(u => (
+              <option key={u.kode} value={u.kode}>
+                {u.navn}
               </option>
             ))}
           </Select>
