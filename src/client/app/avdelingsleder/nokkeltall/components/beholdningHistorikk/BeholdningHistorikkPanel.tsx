@@ -6,7 +6,7 @@ import { ALLE_YTELSETYPER_VALGT, filtrereNyePerDato, UKE_2, UKE_4 } from 'avdeli
 import useKodeverk from 'api/rest-api-hooks/src/global-data/useKodeverk';
 import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
 import HistorikkGrafForPunsj from 'avdelingsleder/nokkeltall/HistorikkGrafForPunsj';
-import GrafBoks from 'avdelingsleder/GrafBoks';
+import GrafContainer from 'avdelingsleder/GrafContainer';
 import { getValueFromLocalStorage } from 'utils/localStorageHelper';
 import HistorikkGraf from '../../HistorikkGraf';
 import HistoriskData from '../../historiskDataTsType';
@@ -34,7 +34,7 @@ export const BeholdningHistorikkPanel: FunctionComponent<OwnProps & WrappedCompo
   );
 
   return (
-    <GrafBoks
+    <GrafContainer
       valgtYtelseType={valgtYtelseType}
       antallUkerSomSkalVises={antallUkerSomSkalVises}
       setValgtYtelseType={setValgtYtelseType}
@@ -58,7 +58,7 @@ export const BeholdningHistorikkPanel: FunctionComponent<OwnProps & WrappedCompo
           />
         )}
       </>
-    </GrafBoks>
+    </GrafContainer>
   );
 };
 

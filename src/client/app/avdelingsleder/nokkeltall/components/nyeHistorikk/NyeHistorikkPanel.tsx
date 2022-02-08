@@ -7,7 +7,7 @@ import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
 import HistorikkGraf from 'avdelingsleder/nokkeltall/HistorikkGraf';
 import HistorikkGrafForPunsj from 'avdelingsleder/nokkeltall/HistorikkGrafForPunsj';
 import { getValueFromLocalStorage } from 'utils/localStorageHelper';
-import GrafBoks from 'avdelingsleder/GrafBoks';
+import GrafContainer from 'avdelingsleder/GrafContainer';
 import HistoriskData from '../../historiskDataTsType';
 
 interface OwnProps {
@@ -24,7 +24,7 @@ export const NyeHistorikkPanel: FunctionComponent<OwnProps & WrappedComponentPro
   );
   const behandlingTyper = useKodeverk(kodeverkTyper.BEHANDLING_TYPE);
   return (
-    <GrafBoks
+    <GrafContainer
       valgtYtelseType={valgtYtelseType}
       antallUkerSomSkalVises={antallUkerSomSkalVises}
       setValgtYtelseType={setValgtYtelseType}
@@ -48,7 +48,7 @@ export const NyeHistorikkPanel: FunctionComponent<OwnProps & WrappedComponentPro
           />
         )}
       </>
-    </GrafBoks>
+    </GrafContainer>
   );
 };
 

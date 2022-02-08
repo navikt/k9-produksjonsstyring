@@ -24,7 +24,7 @@ const lagreTilLocalStorageCallback = (key, value, callback) => {
   callback(value);
 };
 
-const GrafBoks = ({
+const GrafContainer = ({
   valgtYtelseType,
   antallUkerSomSkalVises,
   setAntallUkerSomSkalVises,
@@ -93,4 +93,4 @@ const GrafBoks = ({
   );
 };
 
-export default GrafBoks;
+export default GrafContainer;

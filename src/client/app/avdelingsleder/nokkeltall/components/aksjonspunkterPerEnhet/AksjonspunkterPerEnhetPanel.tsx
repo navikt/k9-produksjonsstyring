@@ -3,7 +3,7 @@ import { useIntl } from 'react-intl';
 
 import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
 import { ALLE_YTELSETYPER_VALGT, punsjKodeverkNavn, UKE_2 } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
-import GrafBoks from 'avdelingsleder/GrafBoks';
+import GrafContainer from 'avdelingsleder/GrafContainer';
 import { getValueFromLocalStorage } from 'utils/localStorageHelper';
 import AksjonspunkterPerEnhetType from './aksjonspunkterPerEnhetType';
 
@@ -63,7 +63,7 @@ const AksjonspunkterPerEnhet: FunctionComponent<OwnProps> = ({ aksjonspunkterPer
   };
   const intl = useIntl();
   return (
-    <GrafBoks
+    <GrafContainer
       id={id}
       valgtYtelseType={valgtYtelseType}
       antallUkerSomSkalVises={antallUkerSomSkalVises}
@@ -72,7 +72,7 @@ const AksjonspunkterPerEnhet: FunctionComponent<OwnProps> = ({ aksjonspunkterPer
       tittel={intl.formatMessage({ id: 'AksjonspunkterPerEnhet.Tittel' })}
     >
       <>{'her kommer ei graf'}</>
-    </GrafBoks>
+    </GrafContainer>
   );
 };
 export default AksjonspunkterPerEnhet;

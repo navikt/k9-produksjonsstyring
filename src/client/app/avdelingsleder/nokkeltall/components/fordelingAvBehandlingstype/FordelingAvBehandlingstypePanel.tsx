@@ -7,7 +7,7 @@ import { ALLE_YTELSETYPER_VALGT, sjekkOmOppgaveSkalLeggesTil } from 'avdelingsle
 import useKodeverk from 'api/rest-api-hooks/src/global-data/useKodeverk';
 import FordelingAvBehandlingstypeGraf from 'avdelingsleder/nokkeltall/components/fordelingAvBehandlingstype/FordelingAvBehandlingstypeGraf';
 import { getValueFromLocalStorage } from 'utils/localStorageHelper';
-import GrafBoks from 'avdelingsleder/GrafBoks';
+import GrafContainer from 'avdelingsleder/GrafContainer';
 interface OwnProps {
   alleOppgaver?: AlleOppgaver[];
 }
@@ -25,7 +25,7 @@ export const FordelingAvBehandlingstypePanel: FunctionComponent<OwnProps> = ({ a
   );
 
   return (
-    <GrafBoks
+    <GrafContainer
       valgtYtelseType={valgtYtelseType}
       setValgtYtelseType={setValgtYtelseType}
       tittel={intl.formatMessage({ id: 'FordelingAvBehandlingstypePanel.Fordeling' })}
@@ -36,7 +36,7 @@ export const FordelingAvBehandlingstypePanel: FunctionComponent<OwnProps> = ({ a
         alleOppgaver={alleOppgaver ? alleOppgaver.filter(ofa => sjekkOmOppgaveSkalLeggesTil(valgtYtelseType, ofa)) : []}
         erPunsjValgt={valgtYtelseType === fagsakYtelseType.PUNSJ}
       />
-    </GrafBoks>
+    </GrafContainer>
   );
 };
 

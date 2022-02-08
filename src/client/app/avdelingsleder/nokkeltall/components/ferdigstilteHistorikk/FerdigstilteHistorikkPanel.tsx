@@ -9,7 +9,7 @@ import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
 import HistorikkGraf from 'avdelingsleder/nokkeltall/HistorikkGraf';
 import HistorikkGrafForPunsj from 'avdelingsleder/nokkeltall/HistorikkGrafForPunsj';
 import { getValueFromLocalStorage } from 'utils/localStorageHelper';
-import GrafBoks from 'avdelingsleder/GrafBoks';
+import GrafContainer from 'avdelingsleder/GrafContainer';
 import HistoriskData from '../../historiskDataTsType';
 
 interface OwnProps {
@@ -34,7 +34,7 @@ export const FerdigstilteHistorikkPanel: FunctionComponent<OwnProps & WrappedCom
     getValueFromLocalStorage(`${id}-uker`) || UKE_2,
   );
   return (
-    <GrafBoks
+    <GrafContainer
       valgtYtelseType={valgtYtelseType}
       antallUkerSomSkalVises={antallUkerSomSkalVises}
       setValgtYtelseType={setValgtYtelseType}
@@ -58,7 +58,7 @@ export const FerdigstilteHistorikkPanel: FunctionComponent<OwnProps & WrappedCom
           />
         )}
       </>
-    </GrafBoks>
+    </GrafContainer>
   );
 };
 
