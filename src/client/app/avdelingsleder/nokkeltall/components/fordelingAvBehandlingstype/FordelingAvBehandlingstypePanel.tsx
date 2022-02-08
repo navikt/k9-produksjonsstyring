@@ -1,80 +1,42 @@
-import React, { FunctionComponent } from 'react';
-import { FormattedMessage } from 'react-intl';
-
-import { Form } from 'react-final-form';
-import { Element } from 'nav-frontend-typografi';
-import { SelectField } from 'form/FinalFields';
-import VerticalSpacer from 'sharedComponents/VerticalSpacer';
+import React, { FunctionComponent, useState } from 'react';
+import { useIntl } from 'react-intl';
 import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
 import AlleOppgaver from 'avdelingsleder/nokkeltall/components/fordelingAvBehandlingstype/alleOppgaverTsType';
-import Panel from 'nav-frontend-paneler';
-import {
-  ALLE_YTELSETYPER_VALGT,
-  sjekkOmOppgaveSkalLeggesTil,
-  ytelseTyper,
-} from 'avdelingsleder/nokkeltall/nokkeltallUtils';
+import { ALLE_YTELSETYPER_VALGT, sjekkOmOppgaveSkalLeggesTil } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
 import useKodeverk from 'api/rest-api-hooks/src/global-data/useKodeverk';
-import StoreValuesInLocalStorage from 'form/StoreValuesInLocalStorage';
 import FordelingAvBehandlingstypeGraf from 'avdelingsleder/nokkeltall/components/fordelingAvBehandlingstype/FordelingAvBehandlingstypeGraf';
-import { Column, Row } from 'nav-frontend-grid';
 import { getValueFromLocalStorage } from 'utils/localStorageHelper';
-import styles from './fordelingAvBehandlingstypeGraf.less';
-
-interface InitialValues {
-  valgtYtelseType: string;
-}
-
+import GrafBoks from 'avdelingsleder/GrafBoks';
 interface OwnProps {
   alleOppgaver?: AlleOppgaver[];
 }
 
-const formName = 'fordelingAvBehandlingstype';
-const formDefaultValues: InitialValues = { valgtYtelseType: ALLE_YTELSETYPER_VALGT };
+const id = 'fordelingAvBehandlingstype';
 
 /**
  * FordelingAvBehandlingstypePanel.
  */
 export const FordelingAvBehandlingstypePanel: FunctionComponent<OwnProps> = ({ alleOppgaver }) => {
+  const intl = useIntl();
   const behandlingTyper = useKodeverk(kodeverkTyper.BEHANDLING_TYPE);
-  const stringFromStorage = getValueFromLocalStorage(formName);
-  const lagredeVerdier = stringFromStorage ? JSON.parse(stringFromStorage) : undefined;
+  const [valgtYtelseType, setValgtYtelseType] = useState<string>(
+    getValueFromLocalStorage(`${id}-ytelsestype`) || ALLE_YTELSETYPER_VALGT,
+  );
 
   return (
-    <Form
-      onSubmit={() => undefined}
-      initialValues={lagredeVerdier || formDefaultValues}
-      render={({ values }) => (
-        <Panel className={styles.panel}>
-          <StoreValuesInLocalStorage stateKey={formName} values={values} />
-          <Element>
-            <FormattedMessage id="FordelingAvBehandlingstypePanel.Fordeling" />
-          </Element>
-          <VerticalSpacer sixteenPx />
-          <Row>
-            <Column xs="2">
-              <SelectField
-                name="valgtYtelseType"
-                label=""
-                selectValues={ytelseTyper.map(u => (
-                  <option key={u.kode} value={u.kode}>
-                    {u.navn}
-                  </option>
-                ))}
-                bredde="l"
-              />
-            </Column>
-          </Row>
-          <FordelingAvBehandlingstypeGraf
-            behandlingTyper={behandlingTyper}
-            alleOppgaver={
-              alleOppgaver ? alleOppgaver.filter(ofa => sjekkOmOppgaveSkalLeggesTil(values.valgtYtelseType, ofa)) : []
-            }
-            erPunsjValgt={values.valgtYtelseType === fagsakYtelseType.PUNSJ}
-          />
-        </Panel>
-      )}
-    />
+    <GrafBoks
+      valgtYtelseType={valgtYtelseType}
+      setValgtYtelseType={setValgtYtelseType}
+      tittel={intl.formatMessage({ id: 'FordelingAvBehandlingstypePanel.Fordeling' })}
+      id={id}
+    >
+      <FordelingAvBehandlingstypeGraf
+        behandlingTyper={behandlingTyper}
+        alleOppgaver={alleOppgaver ? alleOppgaver.filter(ofa => sjekkOmOppgaveSkalLeggesTil(valgtYtelseType, ofa)) : []}
+        erPunsjValgt={valgtYtelseType === fagsakYtelseType.PUNSJ}
+      />
+    </GrafBoks>
   );
 };
 

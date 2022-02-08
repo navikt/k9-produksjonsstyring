@@ -27,16 +27,19 @@ export const FerdigstilteHistorikkPanel: FunctionComponent<OwnProps & WrappedCom
 }) => {
   const behandlingTyper = useKodeverk(kodeverkTyper.BEHANDLING_TYPE);
   const [valgtYtelseType, setValgtYtelseType] = useState<string>(
-    getValueFromLocalStorage(`${id}-ytelsetype`) || ALLE_YTELSETYPER_VALGT,
+    getValueFromLocalStorage(`${id}-ytelsestype`) || ALLE_YTELSETYPER_VALGT,
   );
+
   const [antallUkerSomSkalVises, setAntallUkerSomSkalVises] = useState<string>(
     getValueFromLocalStorage(`${id}-uker`) || UKE_2,
   );
   return (
     <GrafBoks
+      valgtYtelseType={valgtYtelseType}
+      antallUkerSomSkalVises={antallUkerSomSkalVises}
       setValgtYtelseType={setValgtYtelseType}
       setAntallUkerSomSkalVises={setAntallUkerSomSkalVises}
-      tittel={intl.formatMessage({ id: 'NyeHistorikkPanel.Nye' })}
+      tittel={intl.formatMessage({ id: 'FerdigstilteHistorikkPanel.Ferdigstilte' })}
       id={id}
     >
       <>

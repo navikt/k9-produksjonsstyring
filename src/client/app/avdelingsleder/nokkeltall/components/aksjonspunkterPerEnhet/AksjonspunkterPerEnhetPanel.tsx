@@ -2,8 +2,9 @@ import React, { FunctionComponent, useState } from 'react';
 import { useIntl } from 'react-intl';
 
 import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
-import { punsjKodeverkNavn } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
+import { ALLE_YTELSETYPER_VALGT, punsjKodeverkNavn, UKE_2 } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
 import GrafBoks from 'avdelingsleder/GrafBoks';
+import { getValueFromLocalStorage } from 'utils/localStorageHelper';
 import AksjonspunkterPerEnhetType from './aksjonspunkterPerEnhetType';
 
 interface OwnProps {
@@ -11,8 +12,14 @@ interface OwnProps {
 }
 
 const AksjonspunkterPerEnhet: FunctionComponent<OwnProps> = ({ aksjonspunkterPerEnhet }) => {
-  const [valgtYtelseType, setValgtYtelseType] = useState<string>('Alle');
-  const [antallUkerSomSkalVises, setAntallUkerSomSkalVises] = useState<string>('2');
+  const id = 'aksjonspunkterPerEnhet';
+  const [valgtYtelseType, setValgtYtelseType] = useState<string>(
+    getValueFromLocalStorage(`${id}-ytelsestype`) || ALLE_YTELSETYPER_VALGT,
+  );
+
+  const [antallUkerSomSkalVises, setAntallUkerSomSkalVises] = useState<string>(
+    getValueFromLocalStorage(`${id}-uker`) || UKE_2,
+  );
 
   const PSBBehandlinger: AksjonspunkterPerEnhetType[] = aksjonspunkterPerEnhet.filter(
     behandling =>
@@ -57,6 +64,9 @@ const AksjonspunkterPerEnhet: FunctionComponent<OwnProps> = ({ aksjonspunkterPer
   const intl = useIntl();
   return (
     <GrafBoks
+      id={id}
+      valgtYtelseType={valgtYtelseType}
+      antallUkerSomSkalVises={antallUkerSomSkalVises}
       setValgtYtelseType={setValgtYtelseType}
       setAntallUkerSomSkalVises={setAntallUkerSomSkalVises}
       tittel={intl.formatMessage({ id: 'AksjonspunkterPerEnhet.Tittel' })}
