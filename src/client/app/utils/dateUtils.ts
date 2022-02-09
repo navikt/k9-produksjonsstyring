@@ -1,7 +1,6 @@
+import dayjs from 'dayjs';
 import moment from 'moment/moment';
-import {
-  DDMMYYYY_DATE_FORMAT, ISO_DATE_FORMAT, HHMM_TIME_FORMAT,
-} from 'utils/formats';
+import { DDMMYYYY_DATE_FORMAT, ISO_DATE_FORMAT, HHMM_TIME_FORMAT } from 'utils/formats';
 
 export const TIDENES_ENDE = '9999-12-31';
 
@@ -108,23 +107,26 @@ export const calcDaysWithoutWeekends = (fraDatoPeriode, tilDatoPeriode) => {
 
 export const splitWeeksAndDays = (weeks, days) => {
   const returnArray = [];
-  const allDays = weeks ? (weeks * 5) + days : days;
-  const firstPeriodDays = allDays % 2 === 0 ? allDays / 2 : (allDays / 2) + 0.5;
-  const secondPeriodDays = allDays % 2 === 0 ? allDays / 2 : (allDays / 2) - 0.5;
+  const allDays = weeks ? weeks * 5 + days : days;
+  const firstPeriodDays = allDays % 2 === 0 ? allDays / 2 : allDays / 2 + 0.5;
+  const secondPeriodDays = allDays % 2 === 0 ? allDays / 2 : allDays / 2 - 0.5;
   const firstPeriodWeeksAndDays = { weeks: Math.trunc(firstPeriodDays / 5), days: firstPeriodDays % 5 };
   const secondPeriodWeeksAndDays = { weeks: Math.trunc(secondPeriodDays / 5), days: secondPeriodDays % 5 };
   returnArray.push(secondPeriodWeeksAndDays, firstPeriodWeeksAndDays);
   return returnArray;
 };
 
-export const dateFormat = (date) => moment(date).format(DDMMYYYY_DATE_FORMAT);
+export const momentDateFormat = date => moment(date).format(DDMMYYYY_DATE_FORMAT);
 
-export const timeFormat = (date) => moment(date).format(HHMM_TIME_FORMAT);
+export const timeFormat = date => moment(date).format(HHMM_TIME_FORMAT);
+
+export const dateFormat = (date: Date | string): string => dayjs(date).format(DDMMYYYY_DATE_FORMAT);
 
 // Skal ikke legge til dag når dato er tidenes ende
-export const addDaysToDate = (dateString, nrOfDays) => (dateString === TIDENES_ENDE
-  ? dateString
-  : moment(dateString, ISO_DATE_FORMAT).add(nrOfDays, 'days').format(ISO_DATE_FORMAT));
+export const addDaysToDate = (dateString, nrOfDays) =>
+  dateString === TIDENES_ENDE
+    ? dateString
+    : moment(dateString, ISO_DATE_FORMAT).add(nrOfDays, 'days').format(ISO_DATE_FORMAT);
 
 export const findDifferenceInMonthsAndDays = (fomDate, tomDate) => {
   const fDate = moment(fomDate, ISO_DATE_FORMAT, true);
@@ -158,22 +160,22 @@ export const findDifferenceInHoursAndMinutes = (fomDateTime, tomDateTime) => {
   };
 };
 
-export const getDateAndTime = (tidspunkt): {date: string, time: string} => {
+export const getDateAndTime = (tidspunkt): { date: string; time: string } => {
   const dateTime = moment(tidspunkt);
   const date = dateTime.format(DDMMYYYY_DATE_FORMAT);
   const time = dateTime.format(HHMM_TIME_FORMAT);
   return { date, time };
 };
 
-export const getDate = (tidspunkt) => {
+export const getDate = tidspunkt => {
   const dateTime = moment(tidspunkt);
   return dateTime.format(DDMMYYYY_DATE_FORMAT);
 };
-export const getTime = (tidspunkt) => {
+export const getTime = tidspunkt => {
   const dateTime = moment(tidspunkt);
   return dateTime.format(HHMM_TIME_FORMAT);
 };
-export const getYearFromString = (dato) => {
+export const getYearFromString = dato => {
   const dateTime = moment(dato);
   return dateTime.year();
 };

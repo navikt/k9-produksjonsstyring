@@ -5,7 +5,7 @@ import React, {
 import { ISO_DATE_FORMAT } from 'utils/formats';
 import dayjs from 'dayjs';
 import ReactECharts from 'sharedComponents/echart/ReactEcharts';
-import { dateFormat } from 'utils/dateUtils';
+import { momentDateFormat } from 'utils/dateUtils';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { FormattedMessage } from 'react-intl';
 
@@ -99,7 +99,7 @@ const BehandlingerGårAvVentGraf: FunctionComponent<OwnProps> = ({
                 if (params.axisDimension === 'y') {
                   return parseInt(params.value as string, 10).toString();
                 }
-                return dateFormat(params.value as string);
+                return momentDateFormat(params.value as string);
               },
             },
           },

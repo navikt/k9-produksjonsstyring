@@ -1,19 +1,20 @@
-import React, {
-  FunctionComponent, useMemo,
-} from 'react';
-
+import React, { FunctionComponent, useMemo } from 'react';
 import { FormattedMessage, injectIntl, WrappedComponentProps } from 'react-intl';
+import dayjs from 'dayjs';
+
+import { Normaltekst } from 'nav-frontend-typografi';
 
 import NyeOgFerdigstilteOppgaver from 'saksbehandler/saksstotte/nokkeltall/components/nyeOgFerdigstilteOppgaverTsType';
 import ReactECharts from 'sharedComponents/echart/ReactEcharts';
-import { dateFormat } from 'avdelingsleder/nokkeltall/HistorikkGraf';
-import dayjs from 'dayjs';
-import { Normaltekst } from 'nav-frontend-typografi';
+import { momentDateFormat } from 'utils/dateUtils';
 import {
   eChartFargerForLegendsForMineNyeFerdigstilte,
   eChartGridDef,
-  eChartLegendStyle, eChartTooltipTextStyle,
-  eChartYaxisDef, eChartYXAxisFontSizeSaksbehandlerNokkeltall, graferOpacity,
+  eChartLegendStyle,
+  eChartTooltipTextStyle,
+  eChartYaxisDef,
+  eChartYXAxisFontSizeSaksbehandlerNokkeltall,
+  graferOpacity,
 } from '../../../../../../styles/echartStyle';
 
 interface OwnProps {
@@ -21,15 +22,16 @@ interface OwnProps {
   nyeOgFerdigstilteOppgaver: NyeOgFerdigstilteOppgaver[];
 }
 
-export const slaSammenBehandlingstyperOgFyllInnTomme = (nyeOgFerdigstilteOppgaver: NyeOgFerdigstilteOppgaver[]):
-  { antallNye: number; antallFerdigstilte: number; antallFerdigstilteMine: number; dato: Date}[] => {
+export const slaSammenBehandlingstyperOgFyllInnTomme = (
+  nyeOgFerdigstilteOppgaver: NyeOgFerdigstilteOppgaver[],
+): { antallNye: number; antallFerdigstilte: number; antallFerdigstilteMine: number; dato: Date }[] => {
   const oppgaver = [];
   if (nyeOgFerdigstilteOppgaver.length > 0) {
     const iDag = dayjs().startOf('day');
     const atteDagerSiden = dayjs().subtract(7, 'days').startOf('day');
 
     for (let dato = atteDagerSiden; dato.isBefore(iDag); dato = dato.add(1, 'days')) {
-      const dataForDato = nyeOgFerdigstilteOppgaver.filter((o) => dayjs(o.dato).startOf('day').isSame(dato));
+      const dataForDato = nyeOgFerdigstilteOppgaver.filter(o => dayjs(o.dato).startOf('day').isSame(dato));
       if (dataForDato.length === 0) {
         oppgaver.push({
           antallNye: 0,
@@ -62,9 +64,18 @@ const NyeOgFerdigstilteOppgaverForSisteSyvGraf: FunctionComponent<OwnProps & Wra
   const ferdigLabel = intl.formatMessage({ id: 'NyeOgFerdigstilteOppgaverForSisteSyvGraf.Ferdigstilte' });
   const nyLabel = intl.formatMessage({ id: 'NyeOgFerdigstilteOppgaverForSisteSyvGraf.Nye' });
 
-  const sammenslatteOppgaver = useMemo(() => slaSammenBehandlingstyperOgFyllInnTomme(nyeOgFerdigstilteOppgaver), [nyeOgFerdigstilteOppgaver]);
-  const ferdigstilteOppgaver = useMemo(() => sammenslatteOppgaver.map((o) => [o.dato.getTime(), o.antallFerdigstilte]), [sammenslatteOppgaver]);
-  const nyeOppgaver = useMemo(() => sammenslatteOppgaver.map((o) => [o.dato.getTime(), o.antallNye]), [sammenslatteOppgaver]);
+  const sammenslatteOppgaver = useMemo(
+    () => slaSammenBehandlingstyperOgFyllInnTomme(nyeOgFerdigstilteOppgaver),
+    [nyeOgFerdigstilteOppgaver],
+  );
+  const ferdigstilteOppgaver = useMemo(
+    () => sammenslatteOppgaver.map(o => [o.dato.getTime(), o.antallFerdigstilte]),
+    [sammenslatteOppgaver],
+  );
+  const nyeOppgaver = useMemo(
+    () => sammenslatteOppgaver.map(o => [o.dato.getTime(), o.antallNye]),
+    [sammenslatteOppgaver],
+  );
 
   if (nyeOgFerdigstilteOppgaver.length === 0) {
     return (
@@ -88,11 +99,11 @@ const NyeOgFerdigstilteOppgaverForSisteSyvGraf: FunctionComponent<OwnProps & Wra
               type: 'solid',
             },
             label: {
-              formatter: (params) => {
+              formatter: params => {
                 if (params.axisDimension === 'y') {
                   return parseInt(params.value as string, 10).toString();
                 }
-                return dateFormat(params.value as string);
+                return momentDateFormat(params.value as string);
               },
             },
           },
