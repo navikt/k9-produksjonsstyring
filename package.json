@@ -6,7 +6,7 @@
   "repository": "https://github.com/navikt/k9-los-web",
   "license": "MIT",
   "dependencies": {
-    "@formatjs/intl-datetimeformat": "^4.5.1",
+    "@formatjs/intl-datetimeformat": "^5.0.0",
     "@formatjs/intl-numberformat": "^7.4.2",
     "@navikt/fnrvalidator": "1.1.4",
     "@navikt/k9-react-components": "^0.1.14",
@@ -143,7 +143,7 @@
     "optimize-css-assets-webpack-plugin": "^6.0.1",
     "postcss-less": "^6.0.0",
     "react-test-renderer": "^17.0.2",
-    "sinon": "^12.0.1",
+    "sinon": "^13.0.1",
     "sinon-chai": "^3.5.0",
     "stylelint": "^14.4.0",
     "stylelint-order": "^5.0.0",
