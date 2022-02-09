@@ -5,17 +5,18 @@ import InngangOgFerdigstiltePanel from 'avdelingsleder/nokkeltall/components/dag
 import BeholdningHistorikkPanel from 'avdelingsleder/nokkeltall/components/beholdningHistorikk/BeholdningHistorikkPanel';
 import FerdigstilteHistorikkPanel from 'avdelingsleder/nokkeltall/components/ferdigstilteHistorikk/FerdigstilteHistorikkPanel';
 import NyeHistorikkPanel from 'avdelingsleder/nokkeltall/components/nyeHistorikk/NyeHistorikkPanel';
-import { getValueFromLocalStorage } from 'utils/localStorageHelper';
 import HistoriskData from 'avdelingsleder/nokkeltall/historiskDataTsType';
 import AlleOppgaver from 'avdelingsleder/nokkeltall/components/fordelingAvBehandlingstype/alleOppgaverTsType';
 import FordelingAvBehandlingstypePanel from './fordelingAvBehandlingstype/FordelingAvBehandlingstypePanel';
 import AksjonspunkterPerEnhetPanel from './aksjonspunkterPerEnhet/AksjonspunkterPerEnhetPanel';
+import AksjonspunkterPerEnhetType from './aksjonspunkterPerEnhet/aksjonspunkterPerEnhetType';
 
 interface OwnProps {
   alleOppgaver: AlleOppgaver[];
   ferdigstiltePerDato: HistoriskData[];
   beholdningPerDato?: HistoriskData[];
   nyePerDato?: HistoriskData[];
+  aksjonspunkterPerEnhet?: AksjonspunkterPerEnhetType[];
 }
 
 /**
@@ -26,6 +27,7 @@ const NokkeltallPanel: FunctionComponent<OwnProps> = ({
   ferdigstiltePerDato,
   beholdningPerDato,
   nyePerDato,
+  aksjonspunkterPerEnhet,
 }) => (
   <div>
     <InngangOgFerdigstiltePanel />
@@ -36,7 +38,7 @@ const NokkeltallPanel: FunctionComponent<OwnProps> = ({
     <VerticalSpacer twentyPx />
     <BeholdningHistorikkPanel beholdningPerDato={beholdningPerDato} />
     <VerticalSpacer twentyPx />
-    <AksjonspunkterPerEnhetPanel aksjonspunkterPerEnhet={[]} />
+    <AksjonspunkterPerEnhetPanel aksjonspunkterPerEnhet={aksjonspunkterPerEnhet} />
     <VerticalSpacer twentyPx />
     <FordelingAvBehandlingstypePanel alleOppgaver={alleOppgaver} />
   </div>

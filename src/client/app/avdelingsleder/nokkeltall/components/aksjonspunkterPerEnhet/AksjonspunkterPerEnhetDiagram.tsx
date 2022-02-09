@@ -52,8 +52,15 @@ const AksjonspunkterPerEnhetDiagram = ({ aksjonspunkterPerEnhet, valgtYtelseType
     }
   };
 
+  const behandlinger = hentBehandlingerKnyttetTilYtelseType();
+  const unikeEnheter = [...new Set(behandlinger.map(behandling => behandling.enhet))];
+  const series = unikeEnheter.map(enhet => ({
+    name: enhet,
+    type: 'bar',
+    data: behandlinger.filter(behandling => behandling.enhet === enhet).map(behandling => behandling.antall),
+  }));
 
-  return <Stolpediagram />;
+  return <Stolpediagram series={series} legendData={unikeEnheter} />;
 };
 
 export default AksjonspunkterPerEnhetDiagram;

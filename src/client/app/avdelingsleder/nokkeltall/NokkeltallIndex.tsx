@@ -18,12 +18,46 @@ const NokkeltallIndex: FunctionComponent = () => {
   );
   const { data: nyePerDato = EMPTY_ARRAY } = useRestApi<HistoriskData[]>(K9LosApiKeys.HENT_NYE_HISTORIKK);
   const { data: beholdningPerDato = EMPTY_ARRAY } = useRestApi<HistoriskData[]>(K9LosApiKeys.HENT_OPPGAVER_PER_DATO);
+
+  const aksjonspunkterPerEnhet = [
+    {
+      dato: '2022-01-18',
+      enhet: '4409',
+      antall: 5,
+      fagsakYtelseType: {
+        kode: 'PSB',
+        kodeverk: '',
+      },
+      behandlingType: { kode: 'Revurdering', kodeverk: 'PUNSJ_INNSENDING_TYPE' },
+    },
+    {
+      dato: '2022-01-18',
+      enhet: '4999',
+      antall: 1,
+      fagsakYtelseType: {
+        kode: 'PSB',
+        kodeverk: '',
+      },
+      behandlingType: { kode: 'Revurdering', kodeverk: 'PUNSJ_INNSENDING_TYPE' },
+    },
+    {
+      dato: '2022-01-18',
+      enhet: '4999',
+      antall: 1,
+      fagsakYtelseType: {
+        kode: 'PSB',
+        kodeverk: '',
+      },
+      behandlingType: { kode: 'Revurdering', kodeverk: 'PUNSJ_INNSENDING_TYPE' },
+    },
+  ];
   return (
     <NokkeltallPanel
       alleOppgaver={alleOppgaver}
       ferdigstiltePerDato={ferdigstiltePerDato}
       beholdningPerDato={beholdningPerDato}
       nyePerDato={nyePerDato}
+      aksjonspunkterPerEnhet={aksjonspunkterPerEnhet}
     />
   );
 };

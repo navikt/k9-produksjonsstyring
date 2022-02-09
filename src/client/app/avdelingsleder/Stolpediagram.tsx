@@ -18,7 +18,7 @@ const tooltip = {
   },
 };
 
-const Stolpediagram = ({ series, uker = 2 }) => {
+const Stolpediagram = ({ series, legendData, uker = 2 }) => {
   const antallDager = uker * 7;
   const datoer = Array(antallDager)
     .fill(dayjs())
@@ -28,7 +28,7 @@ const Stolpediagram = ({ series, uker = 2 }) => {
   const option = {
     tooltip,
     legend: {
-      data: ['vormsund', 'årnes'],
+      data: legendData,
       ...eChartLegendStyle,
     },
     xAxis: [
@@ -41,18 +41,7 @@ const Stolpediagram = ({ series, uker = 2 }) => {
       },
     ],
     yAxis: { interval: 1 },
-    series: [
-      {
-        name: 'vormsund',
-        type: 'bar',
-        data: [1, 5, 4, 2, 6, 10],
-      },
-      {
-        name: 'årnes',
-        type: 'bar',
-        data: [10, 10, 10, 10, 10, 10],
-      },
-    ],
+    series,
   };
   return <ReactECharts height={eChartGrafHeight} option={option} />;
 };
