@@ -37,10 +37,13 @@ const Stolpediagram = ({ series, legendData, uker = 2 }) => {
     .fill(dayjs())
     .map((daysObject, index, array) => daysObject.subtract(array.length - index, 'days'));
 
+  const legendColors = ['#634689', '#ff9100'];
+
   const option = {
     tooltip,
     legend: {
       data: legendData,
+      color: ['#634689', '#ff9100'],
       ...eChartLegendStyle,
     },
     xAxis: [
@@ -53,7 +56,11 @@ const Stolpediagram = ({ series, legendData, uker = 2 }) => {
       },
     ],
     yAxis: { interval: 1 },
-    series: series.map(serie => ({ ...serie, data: mapAntallTilRiktigDato(serie.data, datoer) })),
+    series: series.map((serie, index) => ({
+      ...serie,
+      data: mapAntallTilRiktigDato(serie.data, datoer),
+      itemStyle: { color: legendColors[index] },
+    })),
   };
   return <ReactECharts height={eChartGrafHeight} option={option} />;
 };

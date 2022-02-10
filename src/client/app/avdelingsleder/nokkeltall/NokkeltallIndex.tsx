@@ -50,6 +50,16 @@ const NokkeltallIndex: FunctionComponent = () => {
       },
       behandlingType: { kode: 'Revurdering', kodeverk: 'PUNSJ_INNSENDING_TYPE' },
     },
+    {
+      dato: '2022-01-28',
+      enhet: '5000',
+      antall: 1,
+      fagsakYtelseType: {
+        kode: 'PSB',
+        kodeverk: '',
+      },
+      behandlingType: { kode: 'Revurdering', kodeverk: 'PUNSJ_INNSENDING_TYPE' },
+    },
   ];
   return (
     <NokkeltallPanel

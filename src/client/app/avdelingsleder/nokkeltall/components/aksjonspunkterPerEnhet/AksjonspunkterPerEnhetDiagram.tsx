@@ -8,7 +8,7 @@ import AksjonspunkterPerEnhetType from './aksjonspunkterPerEnhetType';
 interface OwnProps {
   aksjonspunkterPerEnhet: AksjonspunkterPerEnhetType[];
   valgtYtelseType: string;
-  antallUkerSomSkalVises: string;
+  antallUkerSomSkalVises: number;
 }
 
 const AksjonspunkterPerEnhetDiagram = ({
