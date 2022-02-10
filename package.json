@@ -10,7 +10,7 @@
     "@formatjs/intl-numberformat": "^7.4.2",
     "@navikt/fnrvalidator": "1.1.4",
     "@navikt/k9-react-components": "^0.1.14",
-    "@popperjs/core": "^2.11.0",
+    "@popperjs/core": "^2.11.2",
     "@sentry/browser": "^6.17.6",
     "@types/jest": "^27.4.0",
     "@typescript-eslint/eslint-plugin": "^5.11.0",
