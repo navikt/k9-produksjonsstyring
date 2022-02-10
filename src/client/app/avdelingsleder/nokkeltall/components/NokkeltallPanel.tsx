@@ -9,14 +9,13 @@ import HistoriskData from 'avdelingsleder/nokkeltall/historiskDataTsType';
 import AlleOppgaver from 'avdelingsleder/nokkeltall/components/fordelingAvBehandlingstype/alleOppgaverTsType';
 import FordelingAvBehandlingstypePanel from './fordelingAvBehandlingstype/FordelingAvBehandlingstypePanel';
 import AksjonspunkterPerEnhetPanel from './aksjonspunkterPerEnhet/AksjonspunkterPerEnhetPanel';
-import AksjonspunkterPerEnhetType from './aksjonspunkterPerEnhet/aksjonspunkterPerEnhetType';
 
 interface OwnProps {
   alleOppgaver: AlleOppgaver[];
   ferdigstiltePerDato: HistoriskData[];
   beholdningPerDato?: HistoriskData[];
   nyePerDato?: HistoriskData[];
-  aksjonspunkterPerEnhet?: AksjonspunkterPerEnhetType[];
+  aksjonspunkterPerEnhet?: HistoriskData[];
 }
 
 /**
