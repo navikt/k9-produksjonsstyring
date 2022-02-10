@@ -5,6 +5,7 @@ import { giRandomDato } from './mockUtils';
 import ferdigstilteHistorikk from './ferdigstilteHistorikk';
 import dagensTall from './dagensTall';
 import nyeOgFerdigstilteOppgaver from './nyeOgFerdigstilteOppgaver';
+import løsteAksjonspunkterPerEnhet from './løsteAksjonspunkterPerEnhet';
 // Alle handlers som ligger direkte i dette arrayet vil gjelde
 // selv om k9-sak-web startes uten env spesielle env-variabler.
 // Requesten treffer handlerne i stedet for eventuelle eksisterende APIer
@@ -19,6 +20,10 @@ const developmentHandlers = {
   dagensTall: rest.get('/api/avdelingsleder/nokkeltall//dagens-tall', (req, res, ctx) => res(ctx.json(dagensTall))),
   nyeOgFerdigstilteOppgaver: rest.get('/api/saksbehandler/nokkeltall/nye-og-ferdigstilte-oppgaver', (req, res, ctx) =>
     res(ctx.json(giRandomDato(nyeOgFerdigstilteOppgaver, 7))),
+  ),
+  aksjonspunkterPerEnhet: rest.get(
+    '/api/saksbehandler/nokkeltall/aksjonspunkter-per-enhet-historikk',
+    (req, res, ctx) => res(ctx.json(giRandomDato(løsteAksjonspunkterPerEnhet, 7))),
   ),
 };
 

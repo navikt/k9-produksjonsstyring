@@ -1,18 +1,24 @@
 import React, { FunctionComponent, useState } from 'react';
 import { useIntl } from 'react-intl';
+import { useQuery } from 'react-query';
+
+import NavFrontendSpinner from 'nav-frontend-spinner';
 
 import { ALLE_YTELSETYPER_VALGT, UKE_2 } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
 import GrafContainer from 'avdelingsleder/GrafContainer';
 import { getValueFromLocalStorage } from 'utils/localStorageHelper';
-import AksjonspunkterPerEnhetType from './aksjonspunkterPerEnhetType';
 import AksjonspunkterPerEnhetDiagram from './AksjonspunkterPerEnhetDiagram';
 
-interface OwnProps {
-  aksjonspunkterPerEnhet: AksjonspunkterPerEnhetType[];
-}
-
-const AksjonspunkterPerEnhet: FunctionComponent<OwnProps> = ({ aksjonspunkterPerEnhet }) => {
+const AksjonspunkterPerEnhet: FunctionComponent = () => {
   const id = 'aksjonspunkterPerEnhet';
+  const {
+    data: aksjonspunkterPerEnhet,
+    isLoading,
+    error,
+  } = useQuery(id, () =>
+    fetch('api/saksbehandler/nokkeltall/aksjonspunkter-per-enhet-historikk').then(res => res.json()),
+  );
+
   const [valgtYtelseType, setValgtYtelseType] = useState<string>(
     getValueFromLocalStorage(`${id}-ytelsestype`) || ALLE_YTELSETYPER_VALGT,
   );
@@ -22,6 +28,24 @@ const AksjonspunkterPerEnhet: FunctionComponent<OwnProps> = ({ aksjonspunkterPer
   );
 
   const intl = useIntl();
+
+  const content = () => {
+    if (isLoading) {
+      return <NavFrontendSpinner />;
+    }
+
+    if (error) {
+      return <>Noe gikk galt under lasting</>;
+    }
+
+    return (
+      <AksjonspunkterPerEnhetDiagram
+        aksjonspunkterPerEnhet={aksjonspunkterPerEnhet}
+        valgtYtelseType={valgtYtelseType}
+        antallUkerSomSkalVises={antallUkerSomSkalVises}
+      />
+    );
+  };
   return (
     <GrafContainer
       id={id}
@@ -31,11 +55,7 @@ const AksjonspunkterPerEnhet: FunctionComponent<OwnProps> = ({ aksjonspunkterPer
       setAntallUkerSomSkalVises={setAntallUkerSomSkalVises}
       tittel={intl.formatMessage({ id: 'AksjonspunkterPerEnhet.Tittel' })}
     >
-      <AksjonspunkterPerEnhetDiagram
-        aksjonspunkterPerEnhet={aksjonspunkterPerEnhet}
-        valgtYtelseType={valgtYtelseType}
-        antallUkerSomSkalVises={antallUkerSomSkalVises}
-      />
+      {content()}
     </GrafContainer>
   );
 };

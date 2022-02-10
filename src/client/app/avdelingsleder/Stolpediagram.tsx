@@ -1,6 +1,7 @@
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import React from 'react';
+import { useIntl } from 'react-intl';
 
 import ReactECharts from 'sharedComponents/echart/ReactEcharts';
 
@@ -18,8 +19,13 @@ const mapAntallTilRiktigDato = (data, datoer) => {
   );
 };
 
-const Stolpediagram = ({ series, legendData, uker = 2 }) => {
-  const antallDager = uker * 7;
+const Stolpediagram = ({ series, legendData, uker = '2' }) => {
+  const intl = useIntl();
+  if (!series.length) {
+    // eslint-disable-next-line react/jsx-one-expression-per-line
+    return <p className="typo-normal">{intl.formatMessage({ id: 'InngangOgFerdigstiltePanel.IngenTall' })} </p>;
+  }
+  const antallDager = Number(uker) * 7;
   const datoer = Array(antallDager)
     .fill(dayjs())
     .map((daysObject, index, array) => daysObject.subtract(array.length - index, 'days'));

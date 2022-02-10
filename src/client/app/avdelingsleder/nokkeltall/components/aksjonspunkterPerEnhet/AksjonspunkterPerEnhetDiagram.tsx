@@ -3,12 +3,12 @@ import React from 'react';
 import { punsjKodeverkNavn } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
 import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
 import Stolpediagram from 'avdelingsleder/Stolpediagram';
-import AksjonspunkterPerEnhetType from './aksjonspunkterPerEnhetType';
+import HistoriskData from 'avdelingsleder/nokkeltall/historiskDataTsType';
 
 interface OwnProps {
-  aksjonspunkterPerEnhet: AksjonspunkterPerEnhetType[];
+  aksjonspunkterPerEnhet: HistoriskData[];
   valgtYtelseType: string;
-  antallUkerSomSkalVises: number;
+  antallUkerSomSkalVises: string;
 }
 
 const AksjonspunkterPerEnhetDiagram = ({
@@ -16,19 +16,19 @@ const AksjonspunkterPerEnhetDiagram = ({
   valgtYtelseType,
   antallUkerSomSkalVises,
 }: OwnProps) => {
-  const PSBBehandlinger: AksjonspunkterPerEnhetType[] = aksjonspunkterPerEnhet.filter(
+  const PSBBehandlinger: HistoriskData[] = aksjonspunkterPerEnhet.filter(
     behandling =>
       behandling.fagsakYtelseType.kode === fagsakYtelseType.PLEIEPENGER_SYKT_BARN &&
       behandling.behandlingType.kodeverk !== punsjKodeverkNavn,
   );
 
-  const OMPBehandlinger: AksjonspunkterPerEnhetType[] = aksjonspunkterPerEnhet.filter(
+  const OMPBehandlinger: HistoriskData[] = aksjonspunkterPerEnhet.filter(
     behandling =>
       behandling.fagsakYtelseType.kode === fagsakYtelseType.OMSORGSPENGER &&
       behandling.behandlingType.kodeverk !== punsjKodeverkNavn,
   );
 
-  const OMDBehandlinger: AksjonspunkterPerEnhetType[] = aksjonspunkterPerEnhet.filter(
+  const OMDBehandlinger: HistoriskData[] = aksjonspunkterPerEnhet.filter(
     behandling =>
       (behandling.fagsakYtelseType.kode === fagsakYtelseType.OMSORGSDAGER ||
         behandling.fagsakYtelseType.kode === fagsakYtelseType.OMSORGSDAGER_KRONISKSYK ||
@@ -37,11 +37,11 @@ const AksjonspunkterPerEnhetDiagram = ({
       behandling.behandlingType.kodeverk !== punsjKodeverkNavn,
   );
 
-  const PunsjBehandlinger: AksjonspunkterPerEnhetType[] = aksjonspunkterPerEnhet.filter(
+  const PunsjBehandlinger: HistoriskData[] = aksjonspunkterPerEnhet.filter(
     behandling => behandling.behandlingType.kodeverk === punsjKodeverkNavn,
   );
 
-  const AlleBehandlingerUtomPunsj: AksjonspunkterPerEnhetType[] = aksjonspunkterPerEnhet.filter(
+  const AlleBehandlingerUtomPunsj: HistoriskData[] = aksjonspunkterPerEnhet.filter(
     behandling => behandling.behandlingType.kodeverk !== punsjKodeverkNavn,
   );
 

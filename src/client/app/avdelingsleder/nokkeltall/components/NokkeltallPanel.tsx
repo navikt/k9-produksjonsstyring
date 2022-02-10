@@ -15,7 +15,6 @@ interface OwnProps {
   ferdigstiltePerDato: HistoriskData[];
   beholdningPerDato?: HistoriskData[];
   nyePerDato?: HistoriskData[];
-  aksjonspunkterPerEnhet?: HistoriskData[];
 }
 
 /**
@@ -26,7 +25,6 @@ const NokkeltallPanel: FunctionComponent<OwnProps> = ({
   ferdigstiltePerDato,
   beholdningPerDato,
   nyePerDato,
-  aksjonspunkterPerEnhet,
 }) => (
   <div>
     <InngangOgFerdigstiltePanel />
@@ -37,7 +35,7 @@ const NokkeltallPanel: FunctionComponent<OwnProps> = ({
     <VerticalSpacer twentyPx />
     <BeholdningHistorikkPanel beholdningPerDato={beholdningPerDato} />
     <VerticalSpacer twentyPx />
-    <AksjonspunkterPerEnhetPanel aksjonspunkterPerEnhet={aksjonspunkterPerEnhet} />
+    <AksjonspunkterPerEnhetPanel />
     <VerticalSpacer twentyPx />
     <FordelingAvBehandlingstypePanel alleOppgaver={alleOppgaver} />
   </div>
