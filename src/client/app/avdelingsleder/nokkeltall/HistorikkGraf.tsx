@@ -15,15 +15,15 @@ import { Normaltekst } from 'nav-frontend-typografi';
 import { dateFormat } from 'utils/dateUtils';
 import Koordinat from '../../types/Koordinat';
 import {
-  eChartGrafHeight,
-  eChartGridDef,
-  eChartLegendStyle,
-  eChartSeriesStyleAvdelningslederNokkeltall,
-  eChartTooltipTextStyle,
-  eChartXAxisFontSizeAvdelningslederNokkeltall,
+  grafHeight,
+  gridDef,
+  legendStyle,
+  seriesStyleAvdelningslederNokkeltall,
+  tooltipTextStyle,
+  xAxisFontSizeAvdelningslederNokkeltall,
   eChartXAxisTickDefAvdelningslederNokkeltall,
-  eChartYAxisFontSizeAvdelningslederNokkeltall,
-  eChartYAxisMarginTextBarAvdelningslederNokkeltall,
+  yAxisFontSizeAvdelningslederNokkeltall,
+  yAxisMarginTextBarAvdelningslederNokkeltall,
   graferOpacity,
 } from '../../../styles/echartStyle';
 
@@ -153,7 +153,7 @@ const HistorikkGraf: FunctionComponent<OwnProps> = ({ historiskData, isFireUkerV
 
   return (
     <ReactECharts
-      height={eChartGrafHeight}
+      height={grafHeight}
       option={{
         tooltip: {
           trigger: 'axis',
@@ -171,13 +171,13 @@ const HistorikkGraf: FunctionComponent<OwnProps> = ({ historiskData, isFireUkerV
               },
             },
           },
-          textStyle: eChartTooltipTextStyle,
+          textStyle: tooltipTextStyle,
         },
         legend: {
-          ...eChartLegendStyle,
+          ...legendStyle,
           data: reversertSorterteBehandlingstyper.map(type => finnBehandlingTypeNavn(behandlingTyper, type)),
         },
-        grid: eChartGridDef,
+        grid: gridDef,
         xAxis: [
           {
             // bruker category istedet for time for att vise alle dato og ikke bara hvert femte.
@@ -196,8 +196,8 @@ const HistorikkGraf: FunctionComponent<OwnProps> = ({ historiskData, isFireUkerV
                 }
                 return value;
               },
-              fontSize: eChartXAxisFontSizeAvdelningslederNokkeltall,
-              margin: eChartYAxisMarginTextBarAvdelningslederNokkeltall,
+              fontSize: xAxisFontSizeAvdelningslederNokkeltall,
+              margin: yAxisMarginTextBarAvdelningslederNokkeltall,
               interval: 0,
             },
             // Denne setter de horisontala linjerna sammen med axisTick.
@@ -211,8 +211,8 @@ const HistorikkGraf: FunctionComponent<OwnProps> = ({ historiskData, isFireUkerV
             type: 'value',
             minInterval: 1,
             axisLabel: {
-              fontSize: eChartYAxisFontSizeAvdelningslederNokkeltall,
-              margin: eChartYAxisMarginTextBarAvdelningslederNokkeltall,
+              fontSize: yAxisFontSizeAvdelningslederNokkeltall,
+              margin: yAxisMarginTextBarAvdelningslederNokkeltall,
             },
           },
         ],
@@ -222,7 +222,7 @@ const HistorikkGraf: FunctionComponent<OwnProps> = ({ historiskData, isFireUkerV
           emphasis: {
             focus: 'series',
           },
-          ...eChartSeriesStyleAvdelningslederNokkeltall,
+          ...seriesStyleAvdelningslederNokkeltall,
           data: data[type],
           color: behandlingstypeFarger[type],
           areaStyle: {

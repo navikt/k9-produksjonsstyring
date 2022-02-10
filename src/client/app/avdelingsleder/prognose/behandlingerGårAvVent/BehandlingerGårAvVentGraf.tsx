@@ -12,13 +12,13 @@ import { FormattedMessage } from 'react-intl';
 import IBehandlingerSomGarAvVentType
   from './behandlingerSomGårAvVentType';
 import {
-  eChartFargerForLegendsForBehandlingerPåVent,
-  eChartGridDef, eChartSeriesStyleAvdelningslederNokkeltall,
-  eChartTooltipTextStyle,
-  eChartXAxisFontSizeAvdelningslederNokkeltall,
+  fargerForLegendsForBehandlingerPåVent,
+  gridDef, seriesStyleAvdelningslederNokkeltall,
+  tooltipTextStyle,
+  xAxisFontSizeAvdelningslederNokkeltall,
   eChartXAxisTickDefAvdelningslederNokkeltall,
-  eChartYAxisFontSizeAvdelningslederNokkeltall,
-  eChartYAxisMarginTextBarAvdelningslederNokkeltall,
+  yAxisFontSizeAvdelningslederNokkeltall,
+  yAxisMarginTextBarAvdelningslederNokkeltall,
 } from '../../../../styles/echartStyle';
 
 const slaSammenBehandlingstyperOgFyllInnTomme = (behandlingerPåVent: IBehandlingerSomGarAvVentType[], antallUkerFremITid: number):
@@ -103,9 +103,9 @@ const BehandlingerGårAvVentGraf: FunctionComponent<OwnProps> = ({
               },
             },
           },
-          textStyle: eChartTooltipTextStyle,
+          textStyle: tooltipTextStyle,
         },
-        grid: eChartGridDef,
+        grid: gridDef,
         xAxis: [
           {
             // bruker category istedet for time for att vise alle dato og ikke bara hvert femte.
@@ -124,8 +124,8 @@ const BehandlingerGårAvVentGraf: FunctionComponent<OwnProps> = ({
                 }
                 return value;
               },
-              fontSize: eChartXAxisFontSizeAvdelningslederNokkeltall,
-              margin: eChartYAxisMarginTextBarAvdelningslederNokkeltall,
+              fontSize: xAxisFontSizeAvdelningslederNokkeltall,
+              margin: yAxisMarginTextBarAvdelningslederNokkeltall,
               interval: 0,
             },
             // Denne setter de horisontala linjerna sammen med axisTick.
@@ -140,21 +140,21 @@ const BehandlingerGårAvVentGraf: FunctionComponent<OwnProps> = ({
             type: 'value',
             minInterval: 1,
             axisLabel: {
-              fontSize: eChartYAxisFontSizeAvdelningslederNokkeltall,
-              margin: eChartYAxisMarginTextBarAvdelningslederNokkeltall,
+              fontSize: yAxisFontSizeAvdelningslederNokkeltall,
+              margin: yAxisMarginTextBarAvdelningslederNokkeltall,
             },
           },
         ],
         series: {
           name: 'Antall',
           type: 'line',
-          ...eChartSeriesStyleAvdelningslederNokkeltall,
+          ...seriesStyleAvdelningslederNokkeltall,
           emphasis: {
             focus: 'series',
           },
           data: antallUkerSomSkalVises === '4' ? behandlingerSomGårAvVentFireUkerFremITid : behandlingerSomGårAvVentToUkerFremITid,
         },
-        color: eChartFargerForLegendsForBehandlingerPåVent,
+        color: fargerForLegendsForBehandlingerPåVent,
       }}
     />
   );

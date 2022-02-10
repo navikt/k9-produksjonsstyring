@@ -4,22 +4,9 @@ import React from 'react';
 
 import ReactECharts from 'sharedComponents/echart/ReactEcharts';
 
-import { eChartGrafHeight, eChartLegendStyle } from '../../styles/echartStyle';
+import { fargerForLegendsFordelingAvBehandlingstype, grafHeight, legendStyle } from '../../styles/echartStyle';
 
 dayjs.extend(customParseFormat);
-
-const tooltip = {
-  trigger: 'axis',
-  axisPointer: {
-    type: 'line',
-    lineStyle: {
-      type: 'solid',
-    },
-    label: {
-      formatter: ({ value }) => `${value}.${dayjs().format('YYYY')}`,
-    },
-  },
-};
 
 const mapAntallTilRiktigDato = (data, datoer) => {
   const reducer = (previousValue, currentValue) => previousValue + currentValue;
@@ -37,14 +24,23 @@ const Stolpediagram = ({ series, legendData, uker = 2 }) => {
     .fill(dayjs())
     .map((daysObject, index, array) => daysObject.subtract(array.length - index, 'days'));
 
-  const legendColors = ['#634689', '#ff9100'];
-
   const option = {
-    tooltip,
+    tooltip: {
+      trigger: 'axis',
+      axisPointer: {
+        type: 'line',
+        lineStyle: {
+          type: 'solid',
+        },
+        label: {
+          formatter: ({ value }) => `${value}.${dayjs().format('YYYY')}`,
+        },
+      },
+    },
     legend: {
       data: legendData,
       color: ['#634689', '#ff9100'],
-      ...eChartLegendStyle,
+      ...legendStyle,
     },
     xAxis: [
       {
@@ -59,10 +55,10 @@ const Stolpediagram = ({ series, legendData, uker = 2 }) => {
     series: series.map((serie, index) => ({
       ...serie,
       data: mapAntallTilRiktigDato(serie.data, datoer),
-      itemStyle: { color: legendColors[index] },
+      itemStyle: { color: fargerForLegendsFordelingAvBehandlingstype[index] },
     })),
   };
-  return <ReactECharts height={eChartGrafHeight} option={option} />;
+  return <ReactECharts height={grafHeight} option={option} />;
 };
 
 export default Stolpediagram;

@@ -8,12 +8,12 @@ import NyeOgFerdigstilteOppgaver from 'saksbehandler/saksstotte/nokkeltall/compo
 import ReactECharts from 'sharedComponents/echart/ReactEcharts';
 import { momentDateFormat } from 'utils/dateUtils';
 import {
-  eChartFargerForLegendsForMineNyeFerdigstilte,
-  eChartGridDef,
-  eChartLegendStyle,
-  eChartTooltipTextStyle,
-  eChartYaxisDef,
-  eChartYXAxisFontSizeSaksbehandlerNokkeltall,
+  fargerForLegendsForMineNyeFerdigstilte,
+  gridDef,
+  legendStyle,
+  tooltipTextStyle,
+  yAxisDef,
+  yXAxisFontSizeSaksbehandlerNokkeltall,
   graferOpacity,
 } from '../../../../../../styles/echartStyle';
 
@@ -107,19 +107,19 @@ const NyeOgFerdigstilteOppgaverForSisteSyvGraf: FunctionComponent<OwnProps & Wra
               },
             },
           },
-          textStyle: eChartTooltipTextStyle,
+          textStyle: tooltipTextStyle,
         },
         legend: {
-          ...eChartLegendStyle,
+          ...legendStyle,
           data: [nyLabel, ferdigLabel],
         },
-        grid: eChartGridDef,
+        grid: gridDef,
         xAxis: [
           {
             type: 'time',
             axisLabel: {
               formatter: '{dd}.{MM}',
-              fontSize: eChartYXAxisFontSizeSaksbehandlerNokkeltall,
+              fontSize: yXAxisFontSizeSaksbehandlerNokkeltall,
               margin: 15,
             },
             minInterval: 1,
@@ -129,7 +129,7 @@ const NyeOgFerdigstilteOppgaverForSisteSyvGraf: FunctionComponent<OwnProps & Wra
           },
         ],
         // @ts-ignore
-        yAxis: eChartYaxisDef,
+        yAxis: yAxisDef,
         series: [
           {
             name: nyLabel,
@@ -138,7 +138,7 @@ const NyeOgFerdigstilteOppgaverForSisteSyvGraf: FunctionComponent<OwnProps & Wra
               focus: 'series',
             },
             data: nyeOppgaver,
-            color: eChartFargerForLegendsForMineNyeFerdigstilte[0],
+            color: fargerForLegendsForMineNyeFerdigstilte[0],
             areaStyle: {
               opacity: graferOpacity,
             },
@@ -150,7 +150,7 @@ const NyeOgFerdigstilteOppgaverForSisteSyvGraf: FunctionComponent<OwnProps & Wra
               focus: 'series',
             },
             data: ferdigstilteOppgaver,
-            color: eChartFargerForLegendsForMineNyeFerdigstilte[1],
+            color: fargerForLegendsForMineNyeFerdigstilte[1],
             areaStyle: {
               opacity: graferOpacity,
             },

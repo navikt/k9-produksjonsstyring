@@ -13,15 +13,15 @@ import kodeverkTyper from 'kodeverk/kodeverkTyper';
 import { momentDateFormat } from 'utils/dateUtils';
 import Koordinat from '../../types/Koordinat';
 import {
-  eChartGrafHeight,
-  eChartGridDef,
-  eChartLegendStyle,
-  eChartSeriesStyleAvdelningslederNokkeltall,
-  eChartTooltipTextStyle,
-  eChartXAxisFontSizeAvdelningslederNokkeltall,
+  grafHeight,
+  gridDef,
+  legendStyle,
+  seriesStyleAvdelningslederNokkeltall,
+  tooltipTextStyle,
+  xAxisFontSizeAvdelningslederNokkeltall,
   eChartXAxisTickDefAvdelningslederNokkeltall,
-  eChartYAxisFontSizeAvdelningslederNokkeltall,
-  eChartYAxisMarginTextBarAvdelningslederNokkeltall,
+  yAxisFontSizeAvdelningslederNokkeltall,
+  yAxisMarginTextBarAvdelningslederNokkeltall,
   graferOpacity,
 } from '../../../styles/echartStyle';
 import useKodeverk from '../../api/rest-api-hooks/src/global-data/useKodeverk';
@@ -120,7 +120,7 @@ const HistorikkGrafForPunsj: FunctionComponent<OwnProps> = ({ historiskData, isF
 
   return (
     <ReactECharts
-      height={eChartGrafHeight}
+      height={grafHeight}
       option={{
         tooltip: {
           trigger: 'axis',
@@ -138,13 +138,13 @@ const HistorikkGrafForPunsj: FunctionComponent<OwnProps> = ({ historiskData, isF
               },
             },
           },
-          textStyle: eChartTooltipTextStyle,
+          textStyle: tooltipTextStyle,
         },
         legend: {
-          ...eChartLegendStyle,
+          ...legendStyle,
           data: fagytelseTyperSomSkalVises.map(type => finnFagytelsetypeNavn(fagytelseTyper, type)),
         },
-        grid: eChartGridDef,
+        grid: gridDef,
         xAxis: [
           {
             // bruker category istedet for time for att vise alle dato og ikke bara hvert femte.
@@ -163,8 +163,8 @@ const HistorikkGrafForPunsj: FunctionComponent<OwnProps> = ({ historiskData, isF
                 }
                 return value;
               },
-              fontSize: eChartXAxisFontSizeAvdelningslederNokkeltall,
-              margin: eChartYAxisMarginTextBarAvdelningslederNokkeltall,
+              fontSize: xAxisFontSizeAvdelningslederNokkeltall,
+              margin: yAxisMarginTextBarAvdelningslederNokkeltall,
               interval: 0,
             },
             // Denne setter de horisontala linjerna sammen med axisTick.
@@ -178,8 +178,8 @@ const HistorikkGrafForPunsj: FunctionComponent<OwnProps> = ({ historiskData, isF
             type: 'value',
             minInterval: 1,
             axisLabel: {
-              fontSize: eChartYAxisFontSizeAvdelningslederNokkeltall,
-              margin: eChartYAxisMarginTextBarAvdelningslederNokkeltall,
+              fontSize: yAxisFontSizeAvdelningslederNokkeltall,
+              margin: yAxisMarginTextBarAvdelningslederNokkeltall,
             },
           },
         ],
@@ -189,7 +189,7 @@ const HistorikkGrafForPunsj: FunctionComponent<OwnProps> = ({ historiskData, isF
           emphasis: {
             focus: 'series',
           },
-          ...eChartSeriesStyleAvdelningslederNokkeltall,
+          ...seriesStyleAvdelningslederNokkeltall,
           data: data[type],
           color: fagytelseTyperFarger[type],
           areaStyle: {
