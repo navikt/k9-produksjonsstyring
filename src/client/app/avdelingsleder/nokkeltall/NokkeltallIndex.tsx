@@ -21,7 +21,7 @@ const NokkeltallIndex: FunctionComponent = () => {
 
   const aksjonspunkterPerEnhet = [
     {
-      dato: '2022-01-18',
+      dato: '2022-02-07',
       enhet: '4409',
       antall: 5,
       fagsakYtelseType: {
@@ -31,7 +31,7 @@ const NokkeltallIndex: FunctionComponent = () => {
       behandlingType: { kode: 'Revurdering', kodeverk: 'PUNSJ_INNSENDING_TYPE' },
     },
     {
-      dato: '2022-01-18',
+      dato: '2022-01-28',
       enhet: '4999',
       antall: 1,
       fagsakYtelseType: {
@@ -41,7 +41,7 @@ const NokkeltallIndex: FunctionComponent = () => {
       behandlingType: { kode: 'Revurdering', kodeverk: 'PUNSJ_INNSENDING_TYPE' },
     },
     {
-      dato: '2022-01-18',
+      dato: '2022-01-28',
       enhet: '4999',
       antall: 1,
       fagsakYtelseType: {

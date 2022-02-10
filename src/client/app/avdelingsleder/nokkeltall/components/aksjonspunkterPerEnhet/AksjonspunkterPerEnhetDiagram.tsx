@@ -18,15 +18,18 @@ const AksjonspunkterPerEnhetDiagram = ({ aksjonspunkterPerEnhet, valgtYtelseType
   );
 
   const OMPBehandlinger: AksjonspunkterPerEnhetType[] = aksjonspunkterPerEnhet.filter(
-    behandling => behandling.fagsakYtelseType.kode === fagsakYtelseType.OMSORGSPENGER,
+    behandling =>
+      behandling.fagsakYtelseType.kode === fagsakYtelseType.OMSORGSPENGER &&
+      behandling.behandlingType.kodeverk !== punsjKodeverkNavn,
   );
 
   const OMDBehandlinger: AksjonspunkterPerEnhetType[] = aksjonspunkterPerEnhet.filter(
     behandling =>
-      behandling.fagsakYtelseType.kode === fagsakYtelseType.OMSORGSDAGER ||
-      behandling.fagsakYtelseType.kode === fagsakYtelseType.OMSORGSDAGER_KRONISKSYK ||
-      behandling.fagsakYtelseType.kode === fagsakYtelseType.OMSORGSDAGER_ALENEOMOMSORGEN ||
-      behandling.fagsakYtelseType.kode === fagsakYtelseType.OMSORGSDAGER_MIDLERTIDIGALENE,
+      (behandling.fagsakYtelseType.kode === fagsakYtelseType.OMSORGSDAGER ||
+        behandling.fagsakYtelseType.kode === fagsakYtelseType.OMSORGSDAGER_KRONISKSYK ||
+        behandling.fagsakYtelseType.kode === fagsakYtelseType.OMSORGSDAGER_ALENEOMOMSORGEN ||
+        behandling.fagsakYtelseType.kode === fagsakYtelseType.OMSORGSDAGER_MIDLERTIDIGALENE) &&
+      behandling.behandlingType.kodeverk !== punsjKodeverkNavn,
   );
 
   const PunsjBehandlinger: AksjonspunkterPerEnhetType[] = aksjonspunkterPerEnhet.filter(
@@ -57,7 +60,7 @@ const AksjonspunkterPerEnhetDiagram = ({ aksjonspunkterPerEnhet, valgtYtelseType
   const series = unikeEnheter.map(enhet => ({
     name: enhet,
     type: 'bar',
-    data: behandlinger.filter(behandling => behandling.enhet === enhet).map(behandling => behandling.antall),
+    data: behandlinger.filter(behandling => behandling.enhet === enhet),
   }));
 
   return <Stolpediagram series={series} legendData={unikeEnheter} />;
