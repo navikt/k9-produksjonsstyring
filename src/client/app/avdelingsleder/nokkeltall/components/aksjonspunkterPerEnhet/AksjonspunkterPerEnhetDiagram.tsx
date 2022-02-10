@@ -8,9 +8,14 @@ import AksjonspunkterPerEnhetType from './aksjonspunkterPerEnhetType';
 interface OwnProps {
   aksjonspunkterPerEnhet: AksjonspunkterPerEnhetType[];
   valgtYtelseType: string;
+  antallUkerSomSkalVises: string;
 }
 
-const AksjonspunkterPerEnhetDiagram = ({ aksjonspunkterPerEnhet, valgtYtelseType }: OwnProps) => {
+const AksjonspunkterPerEnhetDiagram = ({
+  aksjonspunkterPerEnhet,
+  valgtYtelseType,
+  antallUkerSomSkalVises,
+}: OwnProps) => {
   const PSBBehandlinger: AksjonspunkterPerEnhetType[] = aksjonspunkterPerEnhet.filter(
     behandling =>
       behandling.fagsakYtelseType.kode === fagsakYtelseType.PLEIEPENGER_SYKT_BARN &&
@@ -63,7 +68,7 @@ const AksjonspunkterPerEnhetDiagram = ({ aksjonspunkterPerEnhet, valgtYtelseType
     data: behandlinger.filter(behandling => behandling.enhet === enhet),
   }));
 
-  return <Stolpediagram series={series} legendData={unikeEnheter} />;
+  return <Stolpediagram series={series} uker={antallUkerSomSkalVises} legendData={unikeEnheter} />;
 };
 
 export default AksjonspunkterPerEnhetDiagram;

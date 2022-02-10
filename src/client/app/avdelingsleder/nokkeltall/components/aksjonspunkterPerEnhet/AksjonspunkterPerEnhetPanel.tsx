@@ -31,7 +31,11 @@ const AksjonspunkterPerEnhet: FunctionComponent<OwnProps> = ({ aksjonspunkterPer
       setAntallUkerSomSkalVises={setAntallUkerSomSkalVises}
       tittel={intl.formatMessage({ id: 'AksjonspunkterPerEnhet.Tittel' })}
     >
-      <AksjonspunkterPerEnhetDiagram aksjonspunkterPerEnhet={aksjonspunkterPerEnhet} valgtYtelseType={valgtYtelseType} />
+      <AksjonspunkterPerEnhetDiagram
+        aksjonspunkterPerEnhet={aksjonspunkterPerEnhet}
+        valgtYtelseType={valgtYtelseType}
+        antallUkerSomSkalVises={antallUkerSomSkalVises}
+      />
     </GrafContainer>
   );
 };
