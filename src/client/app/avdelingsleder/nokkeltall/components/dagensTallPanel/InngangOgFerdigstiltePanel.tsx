@@ -116,7 +116,7 @@ export const InngangOgFerdigstiltePanel: FunctionComponent<WrappedComponentProps
                   {u.navn}
                 </option>
               ))}
-              bredde="L"
+              bredde="l"
             />
             <div className={styles.toggles}>
               <ToggleKnapp
