@@ -29,7 +29,7 @@ const AksjonspunkterPerEnhet: FunctionComponent = () => {
 
   const intl = useIntl();
 
-  const content = () => {
+  const aksjonspunktPerEnhetVisning = () => {
     if (isLoading) {
       return <NavFrontendSpinner />;
     }
@@ -55,7 +55,7 @@ const AksjonspunkterPerEnhet: FunctionComponent = () => {
       setAntallUkerSomSkalVises={setAntallUkerSomSkalVises}
       tittel={intl.formatMessage({ id: 'AksjonspunkterPerEnhet.Tittel' })}
     >
-      {content()}
+      {aksjonspunktPerEnhetVisning()}
     </GrafContainer>
   );
 };
