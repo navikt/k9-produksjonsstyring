@@ -29,7 +29,7 @@ const løsteAksjonspunkterPerEnhet = [
 
     behandlingType: { kode: 'Revurdering', behandlingType: '' },
     dato,
-    antall: 10,
+    antall: 1500,
   },
   {
     fagsakYtelseType: {

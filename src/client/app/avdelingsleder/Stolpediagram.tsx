@@ -6,8 +6,20 @@ import { useIntl } from 'react-intl';
 import ReactECharts from 'sharedComponents/echart/ReactEcharts';
 
 import { fargerForLegendsFordelingAvBehandlingstype, grafHeight, legendStyle } from '../../styles/echartStyle';
+import HistoriskData from './nokkeltall/historiskDataTsType';
 
 dayjs.extend(customParseFormat);
+
+interface OwnProps {
+  series: IStolpediagramSerie[];
+  legendData: string[];
+  uker: string;
+}
+interface IStolpediagramSerie {
+  name: string;
+  type: string;
+  data: HistoriskData[];
+}
 
 const mapAntallTilRiktigDato = (data, datoer) => {
   const reducer = (previousValue, currentValue) => previousValue + currentValue;
@@ -19,7 +31,7 @@ const mapAntallTilRiktigDato = (data, datoer) => {
   );
 };
 
-const Stolpediagram = ({ series, legendData, uker = '2' }) => {
+const Stolpediagram = ({ series, legendData, uker = '2' }: OwnProps) => {
   const intl = useIntl();
   if (!series.length) {
     // eslint-disable-next-line react/jsx-one-expression-per-line
@@ -57,7 +69,7 @@ const Stolpediagram = ({ series, legendData, uker = '2' }) => {
         data: datoer.map(dato => dato.format('DD.MM')),
       },
     ],
-    yAxis: { interval: 1 },
+    yAxis: {},
     series: series.map((serie, index) => ({
       ...serie,
       data: mapAntallTilRiktigDato(serie.data, datoer),
