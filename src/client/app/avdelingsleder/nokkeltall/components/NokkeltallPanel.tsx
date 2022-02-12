@@ -9,6 +9,7 @@ import HistoriskData from 'avdelingsleder/nokkeltall/historiskDataTsType';
 import AlleOppgaver from 'avdelingsleder/nokkeltall/components/fordelingAvBehandlingstype/alleOppgaverTsType';
 import FordelingAvBehandlingstypePanel from './fordelingAvBehandlingstype/FordelingAvBehandlingstypePanel';
 import AksjonspunkterPerEnhetPanel from './aksjonspunkterPerEnhet/AksjonspunkterPerEnhetPanel';
+import featureToggles from '../../../featureToggles'
 
 interface OwnProps {
   alleOppgaver: AlleOppgaver[];
@@ -16,10 +17,7 @@ interface OwnProps {
   beholdningPerDato?: HistoriskData[];
   nyePerDato?: HistoriskData[];
 }
-
-/**
- * NokkeltallPanel.
- */
+console.log(featureToggles.AKSJONSPUNKTER_PER_ENHET)
 const NokkeltallPanel: FunctionComponent<OwnProps> = ({
   alleOppgaver,
   ferdigstiltePerDato,
@@ -35,7 +33,7 @@ const NokkeltallPanel: FunctionComponent<OwnProps> = ({
     <VerticalSpacer twentyPx />
     <BeholdningHistorikkPanel beholdningPerDato={beholdningPerDato} />
     <VerticalSpacer twentyPx />
-    <AksjonspunkterPerEnhetPanel />
+    {featureToggles.AKSJONSPUNKTER_PER_ENHET && <AksjonspunkterPerEnhetPanel />}
     <VerticalSpacer twentyPx />
     <FordelingAvBehandlingstypePanel alleOppgaver={alleOppgaver} />
   </div>
