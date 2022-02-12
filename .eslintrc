@@ -16,7 +16,8 @@
     "airbnb",
     "plugin:@typescript-eslint/recommended",
     "plugin:react/recommended",
-    "plugin:import/typescript"
+    "plugin:import/typescript",
+    "prettier"
   ],
   "settings": {
     "import/resolver": {
