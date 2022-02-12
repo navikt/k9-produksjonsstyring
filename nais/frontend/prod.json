@@ -1,12 +1,13 @@
 {
-    "ingresses": [
-        "https://k9-los-web.nais.adeo.no",
-        "https://k9-los-web.prod-fss.nais.io",
-        "https://app.adeo.no/k9-los-web"
-    ],
-    "env": {
-        "AUTH_PROXY_URL": "https://k9-los-oidc-auth-proxy.intern.nav.no/api/k9-los-api",
-        "APPLICATION_BASE_URL": "https://k9-los-web.nais.adeo.no",
-        "REDIRECT_URL": "https://k9-los-oidc-auth-proxy.intern.nav.no/login?redirect_uri=https://k9-los-web.nais.adeo.no/"
-    }
+  "ingresses": [
+    "https://k9-los-web.nais.adeo.no",
+    "https://k9-los-web.prod-fss.nais.io",
+    "https://app.adeo.no/k9-los-web"
+  ],
+  "env": {
+    "AUTH_PROXY_URL": "https://k9-los-oidc-auth-proxy.intern.nav.no/api/k9-los-api",
+    "APPLICATION_BASE_URL": "https://k9-los-web.nais.adeo.no",
+    "REDIRECT_URL": "https://k9-los-oidc-auth-proxy.intern.nav.no/login?redirect_uri=https://k9-los-web.nais.adeo.no/",
+    "FEATURE_TOGGLES": { "AKSJONSPUNKTER_PER_ENHET": false }
+  }
 }
