@@ -3357,6 +3357,14 @@
     core-js "^3.8.2"
     global "^4.4.0"
 
+"@storybook/client-logger@6.4.19":
+  version "6.4.19"
+  resolved "https://registry.yarnpkg.com/@storybook/client-logger/-/client-logger-6.4.19.tgz#b2011ad2fa446cce4a9afdb41974b2a576e9fad2"
+  integrity sha512-zmg/2wyc9W3uZrvxaW4BfHcr40J0v7AGslqYXk9H+ERLVwIvrR4NhxQFaS6uITjBENyRDxwzfU3Va634WcmdDQ==
+  dependencies:
+    core-js "^3.8.2"
+    global "^4.4.0"
+
 "@storybook/codemod@6.4.18":
   version "6.4.18"
   resolved "https://registry.yarnpkg.com/@storybook/codemod/-/codemod-6.4.18.tgz#1c984fc3fe1ed74be31ff42a5e46b9e2ed7f5927"
@@ -3825,7 +3833,7 @@
     resolve-from "^5.0.0"
     ts-dedent "^1.1.0"
 
-"@storybook/theming@6.4.18", "@storybook/theming@^6.4.18":
+"@storybook/theming@6.4.18":
   version "6.4.18"
   resolved "https://registry.yarnpkg.com/@storybook/theming/-/theming-6.4.18.tgz#05365cc1d3dab5d71b80a82928fc5188106a0ed6"
   integrity sha512-1o0w2eP+8sXUesdtXpZR4Yvayp1h3xvK7l9+wuHh+1uCy+EvD5UI9d1HvU5kt5fw7XAJJcInaVAmyAbpwct0TQ==
@@ -3834,6 +3842,24 @@
     "@emotion/is-prop-valid" "^0.8.6"
     "@emotion/styled" "^10.0.27"
     "@storybook/client-logger" "6.4.18"
+    core-js "^3.8.2"
+    deep-object-diff "^1.1.0"
+    emotion-theming "^10.0.27"
+    global "^4.4.0"
+    memoizerific "^1.11.3"
+    polished "^4.0.5"
+    resolve-from "^5.0.0"
+    ts-dedent "^2.0.0"
+
+"@storybook/theming@^6.4.19":
+  version "6.4.19"
+  resolved "https://registry.yarnpkg.com/@storybook/theming/-/theming-6.4.19.tgz#0a6834d91e0b0eadbb10282e7fb2947e2bbf9e9e"
+  integrity sha512-V4pWmTvAxmbHR6B3jA4hPkaxZPyExHvCToy7b76DpUTpuHihijNDMAn85KhOQYIeL9q14zP/aiz899tOHsOidg==
+  dependencies:
+    "@emotion/core" "^10.1.1"
+    "@emotion/is-prop-valid" "^0.8.6"
+    "@emotion/styled" "^10.0.27"
+    "@storybook/client-logger" "6.4.19"
     core-js "^3.8.2"
     deep-object-diff "^1.1.0"
     emotion-theming "^10.0.27"
@@ -13517,16 +13543,7 @@ prompts@^2.0.1, prompts@^2.4.0:
     kleur "^3.0.3"
     sisteransi "^1.0.5"
 
-prop-types@^15.0.0, prop-types@^15.5.8, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.0, prop-types@^15.7.2:
-  version "15.7.2"
-  resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
-  integrity sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ==
-  dependencies:
-    loose-envify "^1.4.0"
-    object-assign "^4.1.1"
-    react-is "^16.8.1"
-
-prop-types@^15.8.1:
+prop-types@^15.0.0, prop-types@^15.5.8, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.0, prop-types@^15.7.2, prop-types@^15.8.1:
   version "15.8.1"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.8.1.tgz#67d87bf1a694f48435cf332c24af10214a3140b5"
   integrity sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==
@@ -13940,7 +13957,7 @@ react-is@17.0.2, "react-is@^16.12.0 || ^17.0.0", react-is@^17.0.0, react-is@^17.
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-17.0.2.tgz#e691d4a8e9c789365655539ab372762b0efb54f0"
   integrity sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==
 
-react-is@^16.13.1, react-is@^16.7.0, react-is@^16.8.1:
+react-is@^16.13.1, react-is@^16.7.0:
   version "16.13.1"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
   integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
