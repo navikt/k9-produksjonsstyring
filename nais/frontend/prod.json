@@ -8,6 +8,6 @@
     "AUTH_PROXY_URL": "https://k9-los-oidc-auth-proxy.intern.nav.no/api/k9-los-api",
     "APPLICATION_BASE_URL": "https://k9-los-web.nais.adeo.no",
     "REDIRECT_URL": "https://k9-los-oidc-auth-proxy.intern.nav.no/login?redirect_uri=https://k9-los-web.nais.adeo.no/",
-    "AKSJONSPUNKTER_PER_ENHET": true
+    "AKSJONSPUNKTER_PER_ENHET": "true"
   }
 }
