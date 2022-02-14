@@ -11,7 +11,7 @@ interface OwnProps {
   antallUkerSomSkalVises: string;
 }
 
-const BehandlingerSomGaarAvVentAarsaker = ({
+const BehandlingerGårAvVentÅrsakerDiagram = ({
   behandlingerGaarAvVentAarsaker,
   valgtYtelseType,
   antallUkerSomSkalVises,
@@ -67,9 +67,12 @@ const BehandlingerSomGaarAvVentAarsaker = ({
     type: 'bar',
     data: behandlinger.filter(behandling => behandling.venteårsak === venteårsak),
   }));
-  const totalt = { name: 'totalt', type: 'bar', data: behandlinger };
+  const totalt = { name: 'Totalt', type: 'bar', data: behandlinger };
 
-  return <Stolpediagram series={[...series, totalt]} uker={antallUkerSomSkalVises} legendData={venteårsaker} />;
+  const alleSeries = [totalt, ...series];
+  const labels = ['Totalt', ...venteårsaker];
+
+  return <Stolpediagram series={alleSeries} uker={antallUkerSomSkalVises} labels={labels} fremITid />;
 };
 
-export default BehandlingerSomGaarAvVentAarsaker;
+export default BehandlingerGårAvVentÅrsakerDiagram;

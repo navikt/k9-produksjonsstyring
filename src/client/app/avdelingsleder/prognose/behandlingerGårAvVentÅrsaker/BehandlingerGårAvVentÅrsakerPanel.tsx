@@ -7,15 +7,11 @@ import NavFrontendSpinner from 'nav-frontend-spinner';
 import { ALLE_YTELSETYPER_VALGT, UKE_2 } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
 import GrafContainer from 'avdelingsleder/GrafContainer';
 import { getValueFromLocalStorage } from 'utils/localStorageHelper';
-import BehandlingerSomGaarAvVentAarsakerDiagram from './BehandlingerSomGaarAvVentAarsakerDiagram';
+import BehandlingerGårAvVentÅrsakerDiagram from './BehandlingerGårAvVentÅrsakerDiagram';
 
-const BehandlingerSomGaarAvVentAarsaker: FunctionComponent = () => {
+const BehandlingerGårAvVentÅrsaker: FunctionComponent = () => {
   const id = 'behandlingerSomGaarAvVentAarsaker';
-  const {
-    data,
-    isLoading,
-    error,
-  } = useQuery(id, () =>
+  const { data, isLoading, error } = useQuery(id, () =>
     fetch('api/avdelingsleder/nokkeltall/alle-paa-vent').then(res => res.json()),
   );
 
@@ -39,8 +35,8 @@ const BehandlingerSomGaarAvVentAarsaker: FunctionComponent = () => {
     }
 
     return (
-      <BehandlingerSomGaarAvVentAarsakerDiagram
-        behandlingerGaarAvVentAarsaker={data?.PåVentPerVenteårsak}
+      <BehandlingerGårAvVentÅrsakerDiagram
+        behandlingerGaarAvVentAarsaker={data?.påVentPerVenteårsak}
         valgtYtelseType={valgtYtelseType}
         antallUkerSomSkalVises={antallUkerSomSkalVises}
       />
@@ -53,10 +49,11 @@ const BehandlingerSomGaarAvVentAarsaker: FunctionComponent = () => {
       antallUkerSomSkalVises={antallUkerSomSkalVises}
       setValgtYtelseType={setValgtYtelseType}
       setAntallUkerSomSkalVises={setAntallUkerSomSkalVises}
-      tittel={intl.formatMessage({ id: 'AksjonspunkterPerEnhet.Tittel' })}
+      tittel={intl.formatMessage({ id: 'BehandlingerGårAvVentÅrsaker.Tittel' })}
+      fremITid
     >
       {behandlingerSomGaarAvVentAarsakerVisning()}
     </GrafContainer>
   );
 };
-export default BehandlingerSomGaarAvVentAarsaker;
+export default BehandlingerGårAvVentÅrsaker;

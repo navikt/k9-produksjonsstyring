@@ -6,7 +6,7 @@ import Hjelpetekst from 'nav-frontend-hjelpetekst';
 
 import { setValueInLocalStorage } from 'utils/localStorageHelper';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
-import { uker, ytelseTyper } from './nokkeltall/nokkeltallUtils';
+import { uker, fremtidigeUker, ytelseTyper } from './nokkeltall/nokkeltallUtils';
 
 interface OwnProps {
   setAntallUkerSomSkalVises?: (uker: string) => void;
@@ -14,6 +14,7 @@ interface OwnProps {
   tittel: string;
   children: JSX.Element;
   valgtYtelseType: string;
+  fremITid: boolean;
   antallUkerSomSkalVises?: string;
   id?: string;
   hjelpetekst?: string;
@@ -30,6 +31,7 @@ const GrafContainer = ({
   setAntallUkerSomSkalVises,
   setValgtYtelseType,
   tittel,
+  fremITid,
   hjelpetekst,
   id,
   children,
@@ -40,8 +42,10 @@ const GrafContainer = ({
   const velgYtelsesTypeHandler = value => {
     lagreTilLocalStorageCallback(`${id}-ytelsestype`, value, setValgtYtelseType);
   };
-
   const intl = useIntl();
+
+  const ukeOptions = fremITid ? fremtidigeUker : uker;
+
   return (
     <Panel border>
       <div>
@@ -61,7 +65,7 @@ const GrafContainer = ({
               size="small"
               value={antallUkerSomSkalVises}
             >
-              {uker.map(u => (
+              {ukeOptions.map(u => (
                 <option key={u.kode} value={u.kode}>
                   {intl.formatMessage({ id: u.tekstKode })}
                 </option>

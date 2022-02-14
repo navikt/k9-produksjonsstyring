@@ -47,6 +47,17 @@ export const uker = [
   },
 ];
 
+export const fremtidigeUker = [
+  {
+    kode: UKE_2,
+    tekstKode: 'BehandlingerGårAvVent.ToNesteUker',
+  },
+  {
+    kode: UKE_4,
+    tekstKode: 'BehandlingerGårAvVent.FireNesteUker',
+  },
+];
+
 export const behandlingstypeOrder = [
   behandlingType.FORSTEGANGSSOKNAD,
   behandlingType.REVURDERING,

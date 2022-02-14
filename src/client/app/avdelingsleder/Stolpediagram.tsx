@@ -12,8 +12,9 @@ dayjs.extend(customParseFormat);
 
 interface OwnProps {
   series: IStolpediagramSerie[];
-  legendData: string[];
+  labels: string[];
   uker: string;
+  fremITid: boolean;
 }
 interface IStolpediagramSerie {
   name: string;
@@ -31,7 +32,10 @@ const mapAntallTilRiktigDato = (data, datoer) => {
   );
 };
 
-const Stolpediagram = ({ series, legendData, uker = '2' }: OwnProps) => {
+const datoTilbakeITid = (daysObject, index, array) => daysObject.subtract(array.length - index, 'days');
+const datoFremITid = (daysObject, index) => daysObject.add(index, 'days');
+
+const Stolpediagram = ({ series, labels, fremITid = false, uker = '2' }: OwnProps) => {
   const intl = useIntl();
   if (!series.length) {
     // eslint-disable-next-line react/jsx-one-expression-per-line
@@ -40,7 +44,7 @@ const Stolpediagram = ({ series, legendData, uker = '2' }: OwnProps) => {
   const antallDager = Number(uker) * 7;
   const datoer = Array(antallDager)
     .fill(dayjs())
-    .map((daysObject, index, array) => daysObject.subtract(array.length - index, 'days'));
+    .map(fremITid ? datoFremITid : datoTilbakeITid);
 
   const option = {
     tooltip: {
@@ -56,7 +60,7 @@ const Stolpediagram = ({ series, legendData, uker = '2' }: OwnProps) => {
       },
     },
     legend: {
-      data: legendData,
+      data: labels,
       color: ['#634689', '#ff9100'],
       ...legendStyle,
     },
