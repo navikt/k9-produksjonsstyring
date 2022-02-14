@@ -11,7 +11,7 @@ configure(ShallowWrapper);
 jest.mock('react-intl', () => {
   const reactIntl = jest.requireActual('react-intl');
   const intl = reactIntl.createIntl({
-    locale: 'en',
+    locale: 'nb-NO',
   });
 
   return {
