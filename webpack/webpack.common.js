@@ -1,12 +1,8 @@
 const path = require('path');
 const CircularDependencyPlugin = require('circular-dependency-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const webpack = require('webpack');
 
 const isDevelopment = JSON.stringify(process.env.NODE_ENV) === '"development"';
-if (isDevelopment) {
-  require('dotenv').config();
-}
 
 const CORE_DIR = path.resolve(__dirname, '../node_modules');
 const ROOT_DIR = path.resolve(__dirname, '../src/client');
@@ -100,7 +96,6 @@ const config = {
       exclude: /node_modules/,
       failOnError: true,
     }),
-    new webpack.EnvironmentPlugin({ AKSJONSPUNKTER_PER_ENHET: false }),
   ],
 
   resolve: {
