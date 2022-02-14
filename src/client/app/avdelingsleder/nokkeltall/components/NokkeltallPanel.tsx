@@ -17,7 +17,6 @@ interface OwnProps {
   beholdningPerDato?: HistoriskData[];
   nyePerDato?: HistoriskData[];
 }
-console.log(featureToggles.AKSJONSPUNKTER_PER_ENHET)
 const NokkeltallPanel: FunctionComponent<OwnProps> = ({
   alleOppgaver,
   ferdigstiltePerDato,
