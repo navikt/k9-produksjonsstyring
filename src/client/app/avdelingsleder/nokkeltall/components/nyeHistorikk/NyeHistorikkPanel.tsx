@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useState } from 'react';
-import { WrappedComponentProps, injectIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 import { ALLE_YTELSETYPER_VALGT, filtrereNyePerDato, UKE_2, UKE_4 } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
 import useKodeverk from 'api/rest-api-hooks/src/global-data/useKodeverk';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
@@ -14,7 +14,7 @@ interface OwnProps {
   nyePerDato?: HistoriskData[];
 }
 
-export const NyeHistorikkPanel: FunctionComponent<OwnProps & WrappedComponentProps> = ({ intl, nyePerDato }) => {
+export const NyeHistorikkPanel: FunctionComponent<OwnProps> = ({ nyePerDato }) => {
   const id = 'nyeBehandlinger';
   const [valgtYtelseType, setValgtYtelseType] = useState<string>(
     getValueFromLocalStorage(`${id}-ytelsestype`) || ALLE_YTELSETYPER_VALGT,
@@ -22,6 +22,7 @@ export const NyeHistorikkPanel: FunctionComponent<OwnProps & WrappedComponentPro
   const [antallUkerSomSkalVises, setAntallUkerSomSkalVises] = useState<string>(
     getValueFromLocalStorage(`${id}-uker`) || UKE_2,
   );
+  const intl = useIntl();
   const behandlingTyper = useKodeverk(kodeverkTyper.BEHANDLING_TYPE);
   return (
     <GrafContainer
@@ -52,4 +53,4 @@ export const NyeHistorikkPanel: FunctionComponent<OwnProps & WrappedComponentPro
   );
 };
 
-export default injectIntl(NyeHistorikkPanel);
+export default NyeHistorikkPanel;

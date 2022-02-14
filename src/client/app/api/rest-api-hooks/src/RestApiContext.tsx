@@ -48,7 +48,7 @@ export const RestApiProvider: FunctionComponent<OwnProps> = ({
         throw new Error();
     }
   }, initialState || defaultInitialState);
-
+console.log(state)
   return (
     <RestApiStateContext.Provider value={state}>
       <RestApiDispatchContext.Provider value={dispatch}>

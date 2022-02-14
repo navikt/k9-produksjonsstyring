@@ -16,15 +16,15 @@ let handlers = [];
 
 const developmentHandlers = {
   ferdigstilteHistorikk: rest.get('/api/avdelingsleder/nokkeltall/ferdigstilte-historikk', (req, res, ctx) =>
-    res(ctx.json(ferdigstilteHistorikk)),
+    res(ctx.json(giRandomDato(ferdigstilteHistorikk))),
   ),
   dagensTall: rest.get('/api/avdelingsleder/nokkeltall//dagens-tall', (req, res, ctx) => res(ctx.json(dagensTall))),
   nyeOgFerdigstilteOppgaver: rest.get('/api/saksbehandler/nokkeltall/nye-og-ferdigstilte-oppgaver', (req, res, ctx) =>
-    res(ctx.json(nyeOgFerdigstilteOppgaver)),
+    res(ctx.json(giRandomDato(nyeOgFerdigstilteOppgaver, 7))),
   ),
   aksjonspunkterPerEnhet: rest.get(
     '/api/saksbehandler/nokkeltall/aksjonspunkter-per-enhet-historikk',
-    (req, res, ctx) => res(ctx.json(løsteAksjonspunkterPerEnhet)),
+    (req, res, ctx) => res(ctx.json(giRandomDato(løsteAksjonspunkterPerEnhet, 7))),
   ),
   kodeverk: rest.get('/api/kodeverk', (req, res, ctx) => res(ctx.json(kodeverk))),
 };
