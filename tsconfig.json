@@ -22,7 +22,6 @@
       "avdelingsleder/*": ["app/avdelingsleder/*"],
       "saksbehandler/*": ["app/saksbehandler/*"],
       "utils/*": ["app/utils/*"],
-      "testHelpers/*": ["../../setup/testHelpers/*"],
     }
   },
   "include": [
