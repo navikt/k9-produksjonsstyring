@@ -100,7 +100,7 @@ const config = {
       exclude: /node_modules/,
       failOnError: true,
     }),
-    new webpack.EnvironmentPlugin(['AKSJONSPUNKTER_PER_ENHET']),
+    new webpack.EnvironmentPlugin({ AKSJONSPUNKTER_PER_ENHET: false }),
   ],
 
   resolve: {
