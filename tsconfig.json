@@ -22,10 +22,10 @@
       "avdelingsleder/*": ["app/avdelingsleder/*"],
       "saksbehandler/*": ["app/saksbehandler/*"],
       "utils/*": ["app/utils/*"],
-      "testHelpers/*": ["testHelpers/*"],
+      "testHelpers/*": ["../../setup/testHelpers/*"],
     }
   },
   "include": [
     "src"
-  ],
+, "setup/testHelpers/testUtils.js"  ],
 }
