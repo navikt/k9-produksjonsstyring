@@ -16,7 +16,7 @@ export const yAxisMarginTextBarAvdelningslederNokkeltall = 15;
 export const fargerForLegendsForMineNyeFerdigstilte = ['#0067C5', '#634689', '#FF9100'];
 export const fargerForLegendsFordelingAvBehandlingstype = ['#634689', '#FF9100'];
 export const fargerForLegendsForBehandlingerPåVent = '#FF9100';
-export const fargerForLegendsForBehandlingerPåVentÅrsaker = ['#ff9100', '#0067c5', '#66cbec', '#ba3a26', '#634689'];
+export const fargerForLegendsForBehandlingerPåVentÅrsaker = ['#FF9100', '#0067C5', '#66CBEC', '#BA3A26', '#634689'];
 export const fargerForLegendsForAksjonspunkterPerEnhet = ['#634689', '#ff9100'];
 
 export const graferOpacity = 0.6;

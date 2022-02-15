@@ -36,7 +36,7 @@ const mapAntallTilRiktigDato = (data, datoer) => {
 const datoTilbakeITid = (daysObject, index, array) => daysObject.subtract(array.length - index, 'days');
 const datoFremITid = (daysObject, index) => daysObject.add(index, 'days');
 
-const Stolpediagram = ({ series, labels, legendColors, fremITid = false, uker = '2' }: OwnProps) => {
+const Stolpediagram = ({ series, labels, legendColors = [], fremITid = false, uker = '2' }: OwnProps) => {
   const intl = useIntl();
   if (!series.length) {
     // eslint-disable-next-line react/jsx-one-expression-per-line
@@ -62,7 +62,6 @@ const Stolpediagram = ({ series, labels, legendColors, fremITid = false, uker = 
     },
     legend: {
       data: labels,
-      color: legendColors,
       ...legendStyle,
     },
     xAxis: [
@@ -78,7 +77,7 @@ const Stolpediagram = ({ series, labels, legendColors, fremITid = false, uker = 
     series: series.map((serie, index) => ({
       ...serie,
       data: mapAntallTilRiktigDato(serie.data, datoer),
-      itemStyle: { color: fargerForLegendsFordelingAvBehandlingstype[index] },
+      itemStyle: { color: legendColors[index] },
     })),
   };
   return <ReactECharts height={grafHeight} option={option} />;
