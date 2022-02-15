@@ -8,11 +8,12 @@ import { ALLE_YTELSETYPER_VALGT, UKE_2 } from 'avdelingsleder/nokkeltall/nokkelt
 import GrafContainer from 'avdelingsleder/GrafContainer';
 import { getValueFromLocalStorage } from 'utils/localStorageHelper';
 import BehandlingerGårAvVentÅrsakerDiagram from './BehandlingerGårAvVentÅrsakerDiagram';
+import { baseURL } from 'api/rest-api/src/axios/initRestMethods';
 
 const BehandlingerGårAvVentÅrsaker: FunctionComponent = () => {
   const id = 'behandlingerSomGaarAvVentAarsaker';
   const { data, isLoading, error } = useQuery(id, () =>
-    fetch('api/avdelingsleder/nokkeltall/alle-paa-vent_v2').then(res => res.json()),
+    fetch(`${baseURL()}/api/avdelingsleder/nokkeltall/alle-paa-vent_v2`).then(res => res.json()),
   );
 
   const [valgtYtelseType, setValgtYtelseType] = useState<string>(
