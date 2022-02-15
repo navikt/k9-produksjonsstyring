@@ -64,11 +64,11 @@ const BehandlingerGårAvVentÅrsakerDiagram = ({
     ...behandling,
     dato: behandling.frist,
   }));
-  const venteårsaker = [...new Set(behandlinger.map(behandling => behandling.venteårsak))];
+  const venteårsaker = [...new Set(behandlinger.map(behandling => Object.values(behandling.venteårsak)[0]))];
   const series = venteårsaker.map(venteårsak => ({
     name: venteårsak,
     type: 'bar',
-    data: behandlinger.filter(behandling => behandling.venteårsak === venteårsak),
+    data: behandlinger.filter(behandling => Object.values(behandling.venteårsak)[0] === venteårsak),
   }));
   const totalt = { name: 'Totalt', type: 'bar', data: behandlinger };
 
