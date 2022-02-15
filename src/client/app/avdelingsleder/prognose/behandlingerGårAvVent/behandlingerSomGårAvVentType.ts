@@ -9,7 +9,10 @@ interface IBehandlingerSomGarAvVentType {
   behandlingType: Kodeverk;
   dato: string;
   antall: number;
-  venteårsak?: string;
+  venteårsak?: {
+    kode: string;
+    navn: string;
+  };
   frist?: string;
 }
 

@@ -13,7 +13,7 @@ const behandlingerSomGårAvVentÅrsaker = [
       kodeverk: 'ae0034',
     },
     frist: dayjs().add(7, 'day'),
-    venteårsak: { AVV_DOK: 'Avventer dokumentasjon' },
+    venteårsak: { kode: 'AVV_DOK', navn: 'Avventer dokumentasjon' },
     antall: 1,
   },
   {
@@ -28,7 +28,7 @@ const behandlingerSomGårAvVentÅrsaker = [
       kodeverk: 'ae0034',
     },
     frist: dayjs().add(5, 'day'),
-    venteårsak: { ANNET_MANUELT: 'Annen manuell venteårsak' },
+    venteårsak: { kode: 'ANNET_MANUELT', navn: 'Annen manuell venteårsak' },
     antall: 1,
   },
 ];
