@@ -12,7 +12,7 @@ import BehandlingerGårAvVentÅrsakerDiagram from './BehandlingerGårAvVentÅrsa
 const BehandlingerGårAvVentÅrsaker: FunctionComponent = () => {
   const id = 'behandlingerSomGaarAvVentAarsaker';
   const { data, isLoading, error } = useQuery(id, () =>
-    fetch('api/avdelingsleder/nokkeltall/alle-paa-vent').then(res => res.json()),
+    fetch('api/avdelingsleder/nokkeltall/alle-paa-vent_v2').then(res => res.json()),
   );
 
   const [valgtYtelseType, setValgtYtelseType] = useState<string>(
