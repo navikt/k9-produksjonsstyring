@@ -14,7 +14,8 @@ interface OwnProps {
   series: IStolpediagramSerie[];
   labels: string[];
   uker: string;
-  fremITid: boolean;
+  fremITid?: boolean;
+  legendColors?: string[];
 }
 interface IStolpediagramSerie {
   name: string;
@@ -35,7 +36,7 @@ const mapAntallTilRiktigDato = (data, datoer) => {
 const datoTilbakeITid = (daysObject, index, array) => daysObject.subtract(array.length - index, 'days');
 const datoFremITid = (daysObject, index) => daysObject.add(index, 'days');
 
-const Stolpediagram = ({ series, labels, fremITid = false, uker = '2' }: OwnProps) => {
+const Stolpediagram = ({ series, labels, legendColors, fremITid = false, uker = '2' }: OwnProps) => {
   const intl = useIntl();
   if (!series.length) {
     // eslint-disable-next-line react/jsx-one-expression-per-line
@@ -61,7 +62,7 @@ const Stolpediagram = ({ series, labels, fremITid = false, uker = '2' }: OwnProp
     },
     legend: {
       data: labels,
-      color: ['#634689', '#ff9100'],
+      color: legendColors,
       ...legendStyle,
     },
     xAxis: [

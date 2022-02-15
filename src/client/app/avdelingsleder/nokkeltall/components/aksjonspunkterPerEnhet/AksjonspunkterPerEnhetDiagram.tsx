@@ -4,6 +4,7 @@ import { punsjKodeverkNavn } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
 import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
 import Stolpediagram from 'avdelingsleder/Stolpediagram';
 import HistoriskData from 'avdelingsleder/nokkeltall/historiskDataTsType';
+import { fargerForLegendsForAksjonspunkterPerEnhet } from 'styles/echartStyle';
 
 interface OwnProps {
   aksjonspunkterPerEnhet: HistoriskData[];
@@ -68,7 +69,7 @@ const AksjonspunkterPerEnhetDiagram = ({
     data: behandlinger.filter(behandling => behandling.enhet === enhet),
   }));
 
-  return <Stolpediagram series={series} uker={antallUkerSomSkalVises} legendData={unikeEnheter} />;
+  return <Stolpediagram series={series} uker={antallUkerSomSkalVises} labels={unikeEnheter} legendColors={fargerForLegendsForAksjonspunkterPerEnhet} />;
 };
 
 export default AksjonspunkterPerEnhetDiagram;

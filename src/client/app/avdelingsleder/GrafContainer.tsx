@@ -14,7 +14,7 @@ interface OwnProps {
   tittel: string;
   children: JSX.Element;
   valgtYtelseType: string;
-  fremITid: boolean;
+  fremITid?: boolean;
   antallUkerSomSkalVises?: string;
   id?: string;
   hjelpetekst?: string;

@@ -4,6 +4,7 @@ import { punsjKodeverkNavn } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
 import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
 import Stolpediagram from 'avdelingsleder/Stolpediagram';
 import { IBehandlingerSomGarAvVentType } from '../behandlingerGårAvVent/behandlingerSomGårAvVentType';
+import { fargerForLegendsForBehandlingerPåVentÅrsaker } from 'styles/echartStyle';
 
 interface OwnProps {
   behandlingerGaarAvVentAarsaker: IBehandlingerSomGarAvVentType[];
@@ -75,7 +76,15 @@ const BehandlingerGårAvVentÅrsakerDiagram = ({
   const alleSeries = [totalt, ...series];
   const labels = ['Totalt', ...venteårsaker];
 
-  return <Stolpediagram series={alleSeries} uker={antallUkerSomSkalVises} labels={labels} fremITid />;
+  return (
+    <Stolpediagram
+      series={alleSeries}
+      uker={antallUkerSomSkalVises}
+      labels={labels}
+      legendColors={fargerForLegendsForBehandlingerPåVentÅrsaker}
+      fremITid
+    />
+  );
 };
 
 export default BehandlingerGårAvVentÅrsakerDiagram;
