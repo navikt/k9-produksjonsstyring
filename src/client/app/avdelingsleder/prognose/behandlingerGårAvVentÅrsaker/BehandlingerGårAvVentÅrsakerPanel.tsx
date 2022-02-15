@@ -36,7 +36,7 @@ const BehandlingerGårAvVentÅrsaker: FunctionComponent = () => {
 
     return (
       <BehandlingerGårAvVentÅrsakerDiagram
-        behandlingerGaarAvVentAarsaker={data?.påVentPerVenteårsak}
+        behandlingerGaarAvVentAarsaker={data?.påVentMedVenteårsak}
         valgtYtelseType={valgtYtelseType}
         antallUkerSomSkalVises={antallUkerSomSkalVises}
       />

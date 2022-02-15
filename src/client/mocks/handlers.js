@@ -22,7 +22,7 @@ const developmentHandlers = {
   ),
   dagensTall: rest.get('/api/avdelingsleder/nokkeltall//dagens-tall', (req, res, ctx) => res(ctx.json(dagensTall))),
   allePaaVent: rest.get('/api/avdelingsleder/nokkeltall/alle-paa-vent_v2', (req, res, ctx) =>
-    res(ctx.json({ påVent: behandlingerSomGårAvVent, påVentPerVenteårsak: behandlingerSomGårAvVentÅrsaker })),
+    res(ctx.json({ påVent: behandlingerSomGårAvVent, påVentMedVenteårsak: behandlingerSomGårAvVentÅrsaker })),
   ),
   nyeOgFerdigstilteOppgaver: rest.get('/api/saksbehandler/nokkeltall/nye-og-ferdigstilte-oppgaver', (req, res, ctx) =>
     res(ctx.json(giRandomDato(nyeOgFerdigstilteOppgaver, 7))),
