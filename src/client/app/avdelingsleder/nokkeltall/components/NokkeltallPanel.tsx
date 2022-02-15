@@ -32,8 +32,6 @@ const NokkeltallPanel: FunctionComponent<OwnProps> = ({
     <VerticalSpacer twentyPx />
     <BeholdningHistorikkPanel beholdningPerDato={beholdningPerDato} />
     <VerticalSpacer twentyPx />
-    <AksjonspunkterPerEnhetPanel />
-    <VerticalSpacer twentyPx />
     <FordelingAvBehandlingstypePanel alleOppgaver={alleOppgaver} />
   </div>
 );
