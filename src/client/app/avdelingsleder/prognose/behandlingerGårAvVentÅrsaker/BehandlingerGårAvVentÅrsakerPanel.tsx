@@ -13,7 +13,7 @@ import { baseURL } from 'api/rest-api/src/axios/initRestMethods';
 const BehandlingerGårAvVentÅrsaker: FunctionComponent = () => {
   const id = 'behandlingerSomGaarAvVentAarsaker';
   const { data, isLoading, error } = useQuery(id, () =>
-    fetch(`${baseURL()}/api/avdelingsleder/nokkeltall/alle-paa-vent_v2`).then(res => res.json()),
+    fetch(`${baseURL()}/avdelingsleder/nokkeltall/alle-paa-vent_v2`).then(res => res.json()),
   );
 
   const [valgtYtelseType, setValgtYtelseType] = useState<string>(

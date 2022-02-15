@@ -13,7 +13,7 @@ const proxyUrl = isDev
 
 export const baseURL = () => {
   if (isLocal) {
-    return 'http://localhost:8030';
+    return 'http://localhost:8030/api';
   }
   return proxyUrl;
 };
