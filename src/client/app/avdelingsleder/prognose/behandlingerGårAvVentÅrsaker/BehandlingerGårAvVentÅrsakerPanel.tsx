@@ -13,7 +13,12 @@ import { baseURL } from 'api/rest-api/src/axios/initRestMethods';
 const BehandlingerGårAvVentÅrsaker: FunctionComponent = () => {
   const id = 'behandlingerSomGaarAvVentAarsaker';
   const { data, isLoading, error } = useQuery(id, () =>
-    fetch(`${baseURL()}/avdelingsleder/nokkeltall/alle-paa-vent_v2`).then(res => res.json()),
+    fetch(`${baseURL()}/avdelingsleder/nokkeltall/alle-paa-vent_v2`, {
+      headers: {
+        credentials: 'include',
+        'Nav-Callid': `CallId_${new Date().getTime()}_${Math.floor(Math.random() * 1000000000)}`,
+      },
+    }).then(res => res.json()),
   );
 
   const [valgtYtelseType, setValgtYtelseType] = useState<string>(
