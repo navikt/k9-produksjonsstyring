@@ -9,7 +9,8 @@ interface IBehandlingerSomGarAvVentType {
   behandlingType: Kodeverk;
   dato: string;
   antall: number;
-  venteÅrsak?: string;
+  venteårsak?: string;
+  frist?: string;
 }
 
 export { IPaaVentResponse, IBehandlingerSomGarAvVentType };

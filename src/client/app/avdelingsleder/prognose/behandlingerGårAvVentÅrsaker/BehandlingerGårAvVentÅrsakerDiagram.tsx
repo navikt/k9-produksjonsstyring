@@ -3,10 +3,10 @@ import React from 'react';
 import { punsjKodeverkNavn } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
 import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
 import Stolpediagram from 'avdelingsleder/Stolpediagram';
-import HistoriskData from 'avdelingsleder/nokkeltall/historiskDataTsType';
+import { IBehandlingerSomGarAvVentType } from '../behandlingerGårAvVent/behandlingerSomGårAvVentType';
 
 interface OwnProps {
-  behandlingerGaarAvVentAarsaker: HistoriskData[];
+  behandlingerGaarAvVentAarsaker: IBehandlingerSomGarAvVentType[];
   valgtYtelseType: string;
   antallUkerSomSkalVises: string;
 }
@@ -16,19 +16,19 @@ const BehandlingerGårAvVentÅrsakerDiagram = ({
   valgtYtelseType,
   antallUkerSomSkalVises,
 }: OwnProps) => {
-  const PSBBehandlinger: HistoriskData[] = behandlingerGaarAvVentAarsaker.filter(
+  const PSBBehandlinger: IBehandlingerSomGarAvVentType[] = behandlingerGaarAvVentAarsaker.filter(
     behandling =>
       behandling.fagsakYtelseType.kode === fagsakYtelseType.PLEIEPENGER_SYKT_BARN &&
       behandling.behandlingType.kodeverk !== punsjKodeverkNavn,
   );
 
-  const OMPBehandlinger: HistoriskData[] = behandlingerGaarAvVentAarsaker.filter(
+  const OMPBehandlinger: IBehandlingerSomGarAvVentType[] = behandlingerGaarAvVentAarsaker.filter(
     behandling =>
       behandling.fagsakYtelseType.kode === fagsakYtelseType.OMSORGSPENGER &&
       behandling.behandlingType.kodeverk !== punsjKodeverkNavn,
   );
 
-  const OMDBehandlinger: HistoriskData[] = behandlingerGaarAvVentAarsaker.filter(
+  const OMDBehandlinger: IBehandlingerSomGarAvVentType[] = behandlingerGaarAvVentAarsaker.filter(
     behandling =>
       (behandling.fagsakYtelseType.kode === fagsakYtelseType.OMSORGSDAGER ||
         behandling.fagsakYtelseType.kode === fagsakYtelseType.OMSORGSDAGER_KRONISKSYK ||
@@ -37,11 +37,11 @@ const BehandlingerGårAvVentÅrsakerDiagram = ({
       behandling.behandlingType.kodeverk !== punsjKodeverkNavn,
   );
 
-  const PunsjBehandlinger: HistoriskData[] = behandlingerGaarAvVentAarsaker.filter(
+  const PunsjBehandlinger: IBehandlingerSomGarAvVentType[] = behandlingerGaarAvVentAarsaker.filter(
     behandling => behandling.behandlingType.kodeverk === punsjKodeverkNavn,
   );
 
-  const AlleBehandlingerUtomPunsj: HistoriskData[] = behandlingerGaarAvVentAarsaker.filter(
+  const AlleBehandlingerUtomPunsj: IBehandlingerSomGarAvVentType[] = behandlingerGaarAvVentAarsaker.filter(
     behandling => behandling.behandlingType.kodeverk !== punsjKodeverkNavn,
   );
 
@@ -60,7 +60,10 @@ const BehandlingerGårAvVentÅrsakerDiagram = ({
     }
   };
 
-  const behandlinger = hentBehandlingerKnyttetTilYtelseType();
+  const behandlinger = hentBehandlingerKnyttetTilYtelseType().map(behandling => ({
+    ...behandling,
+    dato: behandling.frist,
+  }));
   const venteårsaker = [...new Set(behandlinger.map(behandling => behandling.venteårsak))];
   const series = venteårsaker.map(venteårsak => ({
     name: venteårsak,

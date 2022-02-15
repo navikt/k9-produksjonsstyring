@@ -9,7 +9,7 @@ import { momentDateFormat } from 'utils/dateUtils';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { FormattedMessage } from 'react-intl';
 
-import IBehandlingerSomGarAvVentType
+import {IBehandlingerSomGarAvVentType}
   from './behandlingerSomGårAvVentType';
 import {
   fargerForLegendsForBehandlingerPåVent,

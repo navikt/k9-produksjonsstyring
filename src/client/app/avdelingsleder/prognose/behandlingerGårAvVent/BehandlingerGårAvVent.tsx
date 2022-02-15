@@ -98,7 +98,10 @@ const BehandlingerGårAvVent: FunctionComponent<OwnProps & WrappedComponentProps
       </Row>
       <VerticalSpacer sixteenPx />
       <BehandlingerGårAvVentGraf
-        behandlingerSomGårAvVent={hentBehandlingerKnyttetTilYtelseType()}
+        behandlingerSomGårAvVent={hentBehandlingerKnyttetTilYtelseType().map(behandling => ({
+          ...behandling,
+          dato: behandling.frist,
+        }))}
         antallUkerSomSkalVises={antallUkerSomSkalVises}
       />
     </Panel>
