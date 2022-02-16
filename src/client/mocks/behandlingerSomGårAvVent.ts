@@ -17,6 +17,14 @@ const behandlingerSomGårAvVent = [{
   antall: 10,
 }, {
   fagsakYtelseType: {
+    kode: 'PPN',
+    kodeverk: '',
+  },
+  behandlingType: { kode: 'Revurdering', behandlingType: '' },
+  dato: frist,
+  antall: 10,
+}, {
+  fagsakYtelseType: {
     kode: 'OMP_KS',
     kodeverk: '',
   },
