@@ -25,16 +25,19 @@ import {
   graferOpacity,
 } from '../../../styles/echartStyle';
 import useKodeverk from '../../api/rest-api-hooks/src/global-data/useKodeverk';
+import omsorgsdagerYtelsetyper from "../../types/OmsorgsdagerYtelsetyper";
 
 dayjs.extend(isSameOrBefore);
 dayjs.extend(isSameOrAfter);
 
+const samletNavnForOmsorgsdager = 'OMD';
 const fagytelseTyperFarger = {
   [fagsakYtelseType.PLEIEPENGER_SYKT_BARN]: '#0067C5',
   [fagsakYtelseType.OMSORGSPENGER]: '#66CBEC',
+  [samletNavnForOmsorgsdager]: '#FF9100'
 };
 
-export const fagytelseTyperSomSkalVises = [fagsakYtelseType.PLEIEPENGER_SYKT_BARN, fagsakYtelseType.OMSORGSPENGER];
+export const fagytelseTyperSomSkalVises = [fagsakYtelseType.PLEIEPENGER_SYKT_BARN, fagsakYtelseType.OMSORGSPENGER, samletNavnForOmsorgsdager];
 
 const konverterTilKoordinaterGruppertPaFagytelsetype = (
   oppgaverForAvdeling: HistoriskData[],
@@ -44,6 +47,15 @@ const konverterTilKoordinaterGruppertPaFagytelsetype = (
       x: dayjs(o.dato).startOf('day').toDate(),
       y: o.antall,
     };
+
+    if(omsorgsdagerYtelsetyper.includes(o.fagsakYtelseType.kode)){
+      const eksisterendeKoordinater = acc[samletNavnForOmsorgsdager];
+
+      return {
+        ...acc,
+        [samletNavnForOmsorgsdager]: eksisterendeKoordinater ? eksisterendeKoordinater.concat(nyKoordinat) : [nyKoordinat],
+      };
+    }
 
     const eksisterendeKoordinater = acc[o.fagsakYtelseType.kode];
 
@@ -77,6 +89,9 @@ const fyllInnManglendeDatoerOgSorterEtterDato = (
 
 const finnFagytelsetypeNavn = (fagytelseTyper, fagytelsetypeKode: string) => {
   const type = fagytelseTyper.find(bt => bt.kode === fagytelsetypeKode);
+  if(fagytelsetypeKode === samletNavnForOmsorgsdager){
+    return 'Omsorgsdager'
+  }
   return type ? type.navn : '';
 };
 
