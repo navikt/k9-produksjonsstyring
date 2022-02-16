@@ -9,6 +9,7 @@ import { k9LosApi } from 'api/k9LosApi';
 import { RestApiErrorProvider } from 'api/error/RestApiErrorContext';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import '@navikt/ds-css';
+import { config } from 'utils/reactQueryConfig';
 
 /* eslint no-undef: "error" */
 const environment = window.location.hostname;
@@ -24,7 +25,7 @@ const renderFunc = Component => {
     throw new Error('No app element');
   }
 
-  const queryClient = new QueryClient();
+  const queryClient = new QueryClient(config);
 
   render(
     <BrowserRouter>
