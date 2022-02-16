@@ -8,10 +8,13 @@ import { ALLE_YTELSETYPER_VALGT, UKE_2 } from 'avdelingsleder/nokkeltall/nokkelt
 import GrafContainer from 'avdelingsleder/GrafContainer';
 import { getValueFromLocalStorage } from 'utils/localStorageHelper';
 import BehandlingerGårAvVentÅrsakerDiagram from './BehandlingerGårAvVentÅrsakerDiagram';
+import { IPaaVentResponse } from '../behandlingerGårAvVent/behandlingerSomGårAvVentType';
 
 const BehandlingerGårAvVentÅrsaker: FunctionComponent = () => {
   const id = 'behandlingerSomGaarAvVentAarsaker';
-  const { data, isLoading, error } = useQuery('avdelingsleder/nokkeltall/alle-paa-vent_v2');
+  const { data, isLoading, error }: { data: IPaaVentResponse; isLoading: boolean; error: any } = useQuery(
+    '/avdelingsleder/nokkeltall/alle-paa-vent_v2',
+  );
   const [valgtYtelseType, setValgtYtelseType] = useState<string>(
     getValueFromLocalStorage(`${id}-ytelsestype`) || ALLE_YTELSETYPER_VALGT,
   );

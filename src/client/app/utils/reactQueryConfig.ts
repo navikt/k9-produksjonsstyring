@@ -14,8 +14,7 @@ export const defaultQuery = async ({ queryKey }) => {
 export const config = {
   defaultOptions: {
     queries: {
-      retry: false,
-      defaultQuery,
+      queryFn: defaultQuery,
     },
   },
 };
