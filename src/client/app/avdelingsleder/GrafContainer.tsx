@@ -8,6 +8,8 @@ import { setValueInLocalStorage } from 'utils/localStorageHelper';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import { uker, fremtidigeUker, ytelseTyper } from './nokkeltall/nokkeltallUtils';
 
+import styles from './grafContainer.less';
+
 interface OwnProps {
   setAntallUkerSomSkalVises?: (uker: string) => void;
   setValgtYtelseType: (ytelse: string) => void;
@@ -48,7 +50,7 @@ const GrafContainer = ({
 
   return (
     <Panel border>
-      <div>
+      <div className={styles.tittel}>
         <Heading spacing level="3" size="xsmall">
           {tittel}
         </Heading>

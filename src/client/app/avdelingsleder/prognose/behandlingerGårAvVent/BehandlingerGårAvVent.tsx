@@ -1,17 +1,12 @@
 import React, { FunctionComponent, useState } from 'react';
-import stylesFraHistorikkGraf from 'avdelingsleder/nokkeltall/historikkGraf.less';
-import Panel from 'nav-frontend-paneler';
-import { Select } from 'nav-frontend-skjema';
-import { Column, Row } from 'nav-frontend-grid';
-import { FormattedMessage, injectIntl, WrappedComponentProps } from 'react-intl';
-import { Element } from 'nav-frontend-typografi';
-import VerticalSpacer from 'sharedComponents/VerticalSpacer';
+
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
-import Hjelpetekst from 'nav-frontend-hjelpetekst';
-import { punsjKodeverkNavn, ytelseTyper } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
+import { ALLE_YTELSETYPER_VALGT, punsjKodeverkNavn, UKE_2 } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
 import { IBehandlingerSomGarAvVentType } from './behandlingerSomGårAvVentType';
 import BehandlingerGårAvVentGraf from './BehandlingerGårAvVentGraf';
-import styles from './behandlingerGårAvVent.less';
+import GrafContainer from 'avdelingsleder/GrafContainer';
+import { getValueFromLocalStorage } from 'utils/localStorageHelper';
 
 interface OwnProps {
   behandlingerSomGårAvVent: IBehandlingerSomGarAvVentType[];
@@ -21,8 +16,14 @@ const BehandlingerGårAvVent: FunctionComponent<OwnProps & WrappedComponentProps
   intl,
   behandlingerSomGårAvVent,
 }) => {
-  const [valgtYtelseType, setValgtYtelseType] = useState<string>('Alle');
-  const [antallUkerSomSkalVises, setAntallUkerSomSkalVises] = useState<string>('2');
+  const id = 'behandlingerSomGaarAvVent';
+  const [valgtYtelseType, setValgtYtelseType] = useState<string>(
+    getValueFromLocalStorage(`${id}-ytelsestype`) || ALLE_YTELSETYPER_VALGT,
+  );
+
+  const [antallUkerSomSkalVises, setAntallUkerSomSkalVises] = useState<string>(
+    getValueFromLocalStorage(`${id}-uker`) || UKE_2,
+  );
 
   const PSBBehandlinger: IBehandlingerSomGarAvVentType[] = behandlingerSomGårAvVent.filter(
     behandling =>
@@ -31,21 +32,23 @@ const BehandlingerGårAvVent: FunctionComponent<OwnProps & WrappedComponentProps
   );
 
   const OMPBehandlinger: IBehandlingerSomGarAvVentType[] = behandlingerSomGårAvVent.filter(
-    behandling => behandling.fagsakYtelseType.kode === fagsakYtelseType.OMSORGSPENGER &&
+    behandling =>
+      behandling.fagsakYtelseType.kode === fagsakYtelseType.OMSORGSPENGER &&
       behandling.behandlingType.kodeverk !== punsjKodeverkNavn,
   );
 
   const OMDBehandlinger: IBehandlingerSomGarAvVentType[] = behandlingerSomGårAvVent.filter(
     behandling =>
       (behandling.fagsakYtelseType.kode === fagsakYtelseType.OMSORGSDAGER ||
-      behandling.fagsakYtelseType.kode === fagsakYtelseType.OMSORGSDAGER_KRONISKSYK ||
-      behandling.fagsakYtelseType.kode === fagsakYtelseType.OMSORGSDAGER_ALENEOMOMSORGEN ||
-      behandling.fagsakYtelseType.kode === fagsakYtelseType.OMSORGSDAGER_MIDLERTIDIGALENE) &&
+        behandling.fagsakYtelseType.kode === fagsakYtelseType.OMSORGSDAGER_KRONISKSYK ||
+        behandling.fagsakYtelseType.kode === fagsakYtelseType.OMSORGSDAGER_ALENEOMOMSORGEN ||
+        behandling.fagsakYtelseType.kode === fagsakYtelseType.OMSORGSDAGER_MIDLERTIDIGALENE) &&
       behandling.behandlingType.kodeverk !== punsjKodeverkNavn,
   );
 
   const LivetsSluttfaseBehandlinger: IBehandlingerSomGarAvVentType[] = behandlingerSomGårAvVent.filter(
-    behandling => behandling.fagsakYtelseType.kode === fagsakYtelseType.PPN &&
+    behandling =>
+      behandling.fagsakYtelseType.kode === fagsakYtelseType.PPN &&
       behandling.behandlingType.kodeverk !== punsjKodeverkNavn,
   );
 
@@ -75,37 +78,16 @@ const BehandlingerGårAvVent: FunctionComponent<OwnProps & WrappedComponentProps
   };
 
   return (
-    <Panel className={stylesFraHistorikkGraf.panel}>
-      <div className={styles.tittel}>
-        <Element>
-          <FormattedMessage id="BehandlingerGårAvVent.Titel" />
-        </Element>
-        <Hjelpetekst>{intl.formatMessage({ id: 'BehandlingerGårAvVent.Hjelptekst' })}</Hjelpetekst>
-      </div>
-      <VerticalSpacer eightPx />
-      <Row>
-        <Column xs="2">
-          <Select onChange={e => setAntallUkerSomSkalVises(e.target.value)}>
-            <option value="2" selected>
-              {intl.formatMessage({ id: 'BehandlingerGårAvVent.ToNesteUker' })}
-            </option>
-            <option value="4">{intl.formatMessage({ id: 'BehandlingerGårAvVent.FireNesteUker' })}</option>
-          </Select>
-        </Column>
-        <Column xs="2">
-          <Select onChange={e => setValgtYtelseType(e.target.value)}>
-            <option value="" disabled selected>
-              {intl.formatMessage({ id: 'BehandlingerGårAvVent.VelgFagytelseType' })}
-            </option>
-            {ytelseTyper.map(ytelseValg => (
-              <option key={ytelseValg.kode} value={ytelseValg.kode}>
-                {ytelseValg.navn}
-              </option>
-            ))}
-          </Select>
-        </Column>
-      </Row>
-      <VerticalSpacer sixteenPx />
+    <GrafContainer
+      id={id}
+      valgtYtelseType={valgtYtelseType}
+      antallUkerSomSkalVises={antallUkerSomSkalVises}
+      setValgtYtelseType={setValgtYtelseType}
+      setAntallUkerSomSkalVises={setAntallUkerSomSkalVises}
+      tittel={intl.formatMessage({ id: 'BehandlingerGårAvVentÅrsaker.Tittel' })}
+      hjelpetekst={intl.formatMessage({ id: 'BehandlingerGårAvVent.Hjelptekst' })}
+      fremITid
+    >
       <BehandlingerGårAvVentGraf
         behandlingerSomGårAvVent={hentBehandlingerKnyttetTilYtelseType().map(behandling => ({
           ...behandling,
@@ -113,7 +95,7 @@ const BehandlingerGårAvVent: FunctionComponent<OwnProps & WrappedComponentProps
         }))}
         antallUkerSomSkalVises={antallUkerSomSkalVises}
       />
-    </Panel>
+    </GrafContainer>
   );
 };
 export default injectIntl(BehandlingerGårAvVent);
