@@ -116,7 +116,6 @@ const NyeOgFerdigstilteOppgaverForIdagGraf: FunctionComponent<OwnProps & Wrapped
         grid: gridDef,
         xAxis: {
           type: 'value',
-          minInterval: 1,
           axisLabel: {
             fontSize: yXAxisFontSizeSaksbehandlerNokkeltall,
           },
