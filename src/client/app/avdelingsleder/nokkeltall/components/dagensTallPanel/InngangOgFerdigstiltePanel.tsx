@@ -20,7 +20,7 @@ import { getValueFromLocalStorage } from 'utils/localStorageHelper';
 import { lagreTilLocalStorageCallback } from 'utils/localStorageHelper';
 import Teller from './Teller';
 import styles from './inngangOgFerdigstiltePanel.less';
-import { Select } from '@navikt/ds-react';
+import { Heading, Label, Select } from '@navikt/ds-react';
 
 export const slaSammenLikeBehandlingstyper = oppgaver => {
   const sammenslatte = [];
@@ -94,9 +94,9 @@ export const InngangOgFerdigstiltePanel: FunctionComponent<WrappedComponentProps
 
   return (
     <Panel className={styles.panel}>
-      <Element>
+      <Heading spacing level="3" size="small">
         <FormattedMessage id="InngangOgFerdigstiltePanel.Header" />
-      </Element>
+      </Heading>
       <VerticalSpacer eightPx />
       <div className={styles.valgPanel}>
         <Select
@@ -118,13 +118,13 @@ export const InngangOgFerdigstiltePanel: FunctionComponent<WrappedComponentProps
             className={erIdagValgt ? styles.venstreKnappAktiv : styles.venstreKnapp}
             onClick={() => setErIdagValgt(true)}
           >
-            I dag
+            <Label size="small">I dag</Label>
           </ToggleKnapp>
           <ToggleKnapp
             className={erIdagValgt ? styles.hoyreKnapp : styles.hoyreKnappAktiv}
             onClick={() => setErIdagValgt(false)}
           >
-            Siste 7 dager
+            <Label size="small">Siste 7 dager</Label>
           </ToggleKnapp>
         </div>
       </div>

@@ -46,7 +46,7 @@ const GrafContainer = ({
   return (
     <Panel border>
       <div className={styles.tittel}>
-        <Heading spacing level="3" size="xsmall">
+        <Heading spacing level="3" size="small">
           {tittel}
         </Heading>
         {hjelpetekst && (
