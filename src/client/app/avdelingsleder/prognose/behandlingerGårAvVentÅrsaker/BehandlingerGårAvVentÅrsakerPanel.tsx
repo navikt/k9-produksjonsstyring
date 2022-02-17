@@ -10,7 +10,7 @@ import { getValueFromLocalStorage } from 'utils/localStorageHelper';
 import BehandlingerGårAvVentÅrsakerDiagram from './BehandlingerGårAvVentÅrsakerDiagram';
 import { IPaaVentResponse } from '../behandlingerGårAvVent/behandlingerSomGårAvVentType';
 
-const BehandlingerGårAvVentÅrsaker: FunctionComponent = () => {
+const BehandlingerGårAvVentÅrsakerPanel: FunctionComponent = () => {
   const id = 'behandlingerSomGaarAvVentAarsaker';
   const { data, isLoading, error }: { data: IPaaVentResponse; isLoading: boolean; error: any } = useQuery(
     '/avdelingsleder/nokkeltall/alle-paa-vent_v2',
@@ -56,4 +56,4 @@ const BehandlingerGårAvVentÅrsaker: FunctionComponent = () => {
     </GrafContainer>
   );
 };
-export default BehandlingerGårAvVentÅrsaker;
+export default BehandlingerGårAvVentÅrsakerPanel;

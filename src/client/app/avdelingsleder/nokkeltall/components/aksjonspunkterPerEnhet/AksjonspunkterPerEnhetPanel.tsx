@@ -9,7 +9,7 @@ import GrafContainer from 'avdelingsleder/GrafContainer';
 import { getValueFromLocalStorage } from 'utils/localStorageHelper';
 import AksjonspunkterPerEnhetDiagram from './AksjonspunkterPerEnhetDiagram';
 
-const AksjonspunkterPerEnhet: FunctionComponent = () => {
+const AksjonspunkterPerEnhetPanel: FunctionComponent = () => {
   const id = 'aksjonspunkterPerEnhet';
   const {
     data: aksjonspunkterPerEnhet,
@@ -59,4 +59,4 @@ const AksjonspunkterPerEnhet: FunctionComponent = () => {
     </GrafContainer>
   );
 };
-export default AksjonspunkterPerEnhet;
+export default AksjonspunkterPerEnhetPanel;

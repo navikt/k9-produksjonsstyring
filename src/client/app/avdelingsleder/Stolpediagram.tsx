@@ -5,7 +5,7 @@ import { useIntl } from 'react-intl';
 
 import ReactECharts from 'sharedComponents/echart/ReactEcharts';
 
-import { fargerForLegendsFordelingAvBehandlingstype, grafHeight, legendStyle } from '../../styles/echartStyle';
+import { grafHeight, legendStyle } from '../../styles/echartStyle';
 import HistoriskData from './nokkeltall/historiskDataTsType';
 
 dayjs.extend(customParseFormat);
