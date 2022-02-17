@@ -16,7 +16,7 @@ describe('<NokkeltallUtils>', () => {
 
     const sammenslåttHistorikkOppgaverForstegangsbehandling = sammenslåttHistorikkOppgaver.find((oppgave) => oppgave.behandlingType.navn === 'Førstegangsbehandling'
       && oppgave.dato === '2021-08-29'
-      && oppgave.antall === 4);
+      && oppgave.antall === 3);
 
     const sammenslåttHistorikkOppgaverRevurdering = sammenslåttHistorikkOppgaver.find((oppgave) => oppgave.behandlingType.navn === 'Revurdering'
       && oppgave.dato === '2021-08-29'

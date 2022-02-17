@@ -70,20 +70,6 @@ const ferdigstilteHistorikk = [{
   dato,
   antall: 1,
 },
-  {
-    fagsakYtelseType: {
-      kode: 'PPN',
-      navn: 'Pleiepenger i livets sluttfase',
-      kodeverk: 'FAGSAK_YTELSE_TYPE',
-    },
-    behandlingType: {
-      kode: 'BT-002',
-      navn: 'Førstegangsbehandling',
-      kodeverk: 'ae0034',
-    },
-    dato,
-    antall: 1,
-  },
 {
   fagsakYtelseType: {
     kode: 'PSB',

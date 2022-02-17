@@ -9,8 +9,6 @@ import løsteAksjonspunkterPerEnhet from './løsteAksjonspunkterPerEnhet';
 import behandlingerSomGårAvVentÅrsaker from './behandlingerSomGårAvVentÅrsaker';
 import behandlingerSomGårAvVent from './behandlingerSomGårAvVent';
 import kodeverk from './kodeverk';
-import behandlingerUnderArbeid from "./behandlingerUnderArbeid";
-import nyeOgFerdigstilteOppgaverMedStonadstype from "./nyeOgFerdigstilteOppgaverMedStonadstype";
 // Alle handlers som ligger direkte i dette arrayet vil gjelde
 // selv om k9-sak-web startes uten env spesielle env-variabler.
 // Requesten treffer handlerne i stedet for eventuelle eksisterende APIer
@@ -28,18 +26,6 @@ const developmentHandlers = {
   ),
   nyeOgFerdigstilteOppgaver: rest.get('/api/saksbehandler/nokkeltall/nye-og-ferdigstilte-oppgaver', (req, res, ctx) =>
     res(ctx.json(giRandomDato(nyeOgFerdigstilteOppgaver, 7))),
-  ),
-  behandlingerUnderArbeid: rest.get('/api/avdelingsleder/nokkeltall/behandlinger-under-arbeid', (req, res, ctx) =>
-    res(ctx.json(behandlingerUnderArbeid)),
-  ),
-  beholdningPerDato: rest.get('/api/avdelingsleder/nokkeltall/beholdning-historikk', (req, res, ctx) =>
-    res(ctx.json(giRandomDato(ferdigstilteHistorikk, 14))),
-  ),
-  nyePerDato: rest.get('/api/avdelingsleder/nokkeltall/nye-historikk', (req, res, ctx) =>
-    res(ctx.json(giRandomDato(ferdigstilteHistorikk, 14))),
-  ),
-  nyeFerdigstilteOppsummering: rest.get('/api/avdelingsleder/nokkeltall/nye-ferdigstilte-oppsummering', (req, res, ctx) =>
-    res(ctx.json(giRandomDato(nyeOgFerdigstilteOppgaverMedStonadstype, 7))),
   ),
   aksjonspunkterPerEnhet: rest.get(
     '/api/saksbehandler/nokkeltall/aksjonspunkter-per-enhet-historikk',

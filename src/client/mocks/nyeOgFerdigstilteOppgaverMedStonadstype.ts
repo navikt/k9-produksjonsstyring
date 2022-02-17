@@ -61,21 +61,6 @@ const nyeOgFerdigstilteOppgaverMedStonadstype = [
   },
   {
     fagsakYtelseType: {
-      kode: 'PPN',
-      navn: 'Omsorgspenger',
-      kodeverk: 'FAGSAK_YTELSE_TYPE',
-    },
-    behandlingType: {
-      kode: 'BT-002',
-      navn: 'Førstegangsbehandling',
-      kodeverk: 'ae0034',
-    },
-    dato: '2021-08-16',
-    nye: 1,
-    ferdigstilte: 1,
-  },
-  {
-    fagsakYtelseType: {
       kode: 'PSB',
       navn: 'Pleiepenger sykt barn',
       kodeverk: 'FAGSAK_YTELSE_TYPE',

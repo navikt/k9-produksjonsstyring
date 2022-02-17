@@ -16,6 +16,5 @@ export enum fagytelsetyperForOppgaveFiltrering {
   OMSORGSDAGER = 'Omsorgsdager',
   PLEIEPENGER_SYKT_BARN = 'Pleiepenger',
   PUNSJ = 'Punsj',
-  PPN = 'Livets Sluttfase',
   ALLE_YTELSETYPER_VALGT = 'Alle ytelser'
 }

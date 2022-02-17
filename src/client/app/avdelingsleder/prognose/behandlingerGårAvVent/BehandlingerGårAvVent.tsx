@@ -46,12 +46,6 @@ const BehandlingerGårAvVent: FunctionComponent<OwnProps & WrappedComponentProps
       behandling.behandlingType.kodeverk !== punsjKodeverkNavn,
   );
 
-  const LivetsSluttfaseBehandlinger: IBehandlingerSomGarAvVentType[] = behandlingerSomGårAvVent.filter(
-    behandling =>
-      behandling.fagsakYtelseType.kode === fagsakYtelseType.PPN &&
-      behandling.behandlingType.kodeverk !== punsjKodeverkNavn,
-  );
-
   const PunsjBehandlinger: IBehandlingerSomGarAvVentType[] = behandlingerSomGårAvVent.filter(
     behandling => behandling.behandlingType.kodeverk === punsjKodeverkNavn,
   );
@@ -68,8 +62,6 @@ const BehandlingerGårAvVent: FunctionComponent<OwnProps & WrappedComponentProps
         return OMPBehandlinger;
       case fagsakYtelseType.OMSORGSDAGER:
         return OMDBehandlinger;
-      case fagsakYtelseType.PPN:
-        return LivetsSluttfaseBehandlinger;
       case fagsakYtelseType.PUNSJ:
         return PunsjBehandlinger;
       default:

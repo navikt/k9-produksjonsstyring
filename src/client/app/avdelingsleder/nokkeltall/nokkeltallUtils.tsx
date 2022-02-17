@@ -27,10 +27,6 @@ export const ytelseTyper = [
     navn: 'Pleiepenger sykt barn',
   },
   {
-    kode: fagsakYtelseType.PPN,
-    navn: 'Livets sluttfase',
-  },
-  {
     kode: fagsakYtelseType.PUNSJ,
     navn: 'Punsj',
   },
@@ -203,15 +199,13 @@ export const sjekkOmOppgaveSkalLeggesTil = (
     case fagsakYtelseType.PUNSJ:
       return punsjBehandlingstyper.includes(oppgave.behandlingType.kode);
     case fagsakYtelseType.OMSORGSDAGER:
-      return !punsjBehandlingstyper.includes(oppgave.behandlingType.kode) && omsorgsdagerYtelsetyper.includes(oppgave.fagsakYtelseType.kode);
+      return omsorgsdagerYtelsetyper.includes(oppgave.fagsakYtelseType.kode);
     case ALLE_YTELSETYPER_VALGT: {
       return (
         !punsjBehandlingstyper.includes(oppgave.behandlingType.kode) &&
         (omsorgsdagerYtelsetyper.includes(oppgave.fagsakYtelseType.kode) ||
           oppgave.fagsakYtelseType.kode === fagsakYtelseType.OMSORGSPENGER ||
-          oppgave.fagsakYtelseType.kode === fagsakYtelseType.PLEIEPENGER_SYKT_BARN ||
-          oppgave.fagsakYtelseType.kode === fagsakYtelseType.PPN
-        )
+          oppgave.fagsakYtelseType.kode === fagsakYtelseType.PLEIEPENGER_SYKT_BARN)
       );
     }
     default:
