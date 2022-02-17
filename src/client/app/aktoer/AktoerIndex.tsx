@@ -22,7 +22,7 @@ export const AktoerIndex: FunctionComponent = () => {
   });
 
   const {
-    startRequest: sokAktoerId, state, resetRequestData: resetFagsakSok, data: resultat, error: fagsakError,
+    startRequest: sokAktoerId, state, data: resultat,
   } = useRestApiRunner<SokeResultat>(K9LosApiKeys.SEARCH_AKTOERID);
 
   useEffect(() => {

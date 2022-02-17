@@ -6,7 +6,6 @@ import { RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
 import { getK9punsjRef, getK9sakHref, getOmsorgspengerRef } from 'app/paths';
 import Oppgave from 'saksbehandler/oppgaveTsType';
 import PersonInfo from 'saksbehandler/fagsakSearch/components/person/PersonInfo';
-import { Kodeverk } from 'kodeverk/kodeverkTsType';
 import Lenke from 'nav-frontend-lenker';
 import useGlobalStateRestApiData from '../api/rest-api-hooks/src/global-data/useGlobalStateRestApiData';
 import styles from './aktoerGrid.less';
