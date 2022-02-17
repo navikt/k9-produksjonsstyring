@@ -13,7 +13,7 @@ import RestApiTestMocker from '../../../../../../../setup/testHelpers/RestApiTes
 import { intlMock, shallowWithIntl } from '../../../../../../../setup/testHelpers/intl-enzyme-test-helper';
 import { NyeHistorikkPanel } from './NyeHistorikkPanel';
 
-const intl: Partial<IntlShape> = {
+const intl: IntlShape = {
   ...intlMock,
 };
 const fagsakYtelseTyper = [{
@@ -58,7 +58,7 @@ describe('<NyeHistorikkPanel>', () => {
       .withKodeverk(kodeverkTyper.FAGSAK_YTELSE_TYPE, fagsakYtelseTyper)
       .runTest(() => {
         const wrapper = shallowWithIntl(<NyeHistorikkPanel
-          intl={intl as IntlShape}
+          intl={intl}
           nyePerDato={[]}
           getValueFromLocalStorage={sinon.spy()}
           // @ts-ignore

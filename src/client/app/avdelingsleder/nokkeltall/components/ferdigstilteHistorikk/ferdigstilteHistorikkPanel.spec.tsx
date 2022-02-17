@@ -15,7 +15,7 @@ import HistorikkGraf from 'avdelingsleder/nokkeltall/HistorikkGraf';
 import { intlMock, shallowWithIntl } from '../../../../../../../setup/testHelpers/intl-enzyme-test-helper';
 
 describe('<FerdigstilteHistorikkPanel>', () => {
-  const intl: Partial<IntlShape> = {
+  const intl: IntlShape = {
     ...intlMock,
   };
   const fagsakYtelseTyper = [
@@ -84,7 +84,7 @@ describe('<FerdigstilteHistorikkPanel>', () => {
     }];
 
     const wrapper = shallowWithIntl(<BeholdningHistorikkPanel
-      intl={intl as IntlShape}
+      intl={intl}
       beholdningPerDato={beholdningPerDato}
       getValueFromLocalStorage={sinon.spy()}
       // @ts-ignore
