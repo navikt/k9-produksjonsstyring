@@ -41,7 +41,7 @@ describe('<NokkeltallUtils>', () => {
 
     const sammenslåttHistorikkOppgaverPunsj29August = sammenslåttHistorikkOppgaverForPunsj.find((oppgave) => oppgave.behandlingType.navn === 'PUNSJ'
       && oppgave.dato === '2021-08-29'
-      && oppgave.antall === 11);
+      && oppgave.antall === 10);
 
     const sammenslåttHistorikkOppgaverPunsj30August = sammenslåttHistorikkOppgaverForPunsj.find((oppgave) => oppgave.behandlingType.navn === 'PUNSJ'
       && oppgave.dato === '2021-08-30'
