@@ -5,20 +5,20 @@ import React, {
 import { ISO_DATE_FORMAT } from 'utils/formats';
 import dayjs from 'dayjs';
 import ReactECharts from 'sharedComponents/echart/ReactEcharts';
-import { dateFormat } from 'utils/dateUtils';
+import { momentDateFormat } from 'utils/dateUtils';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { FormattedMessage } from 'react-intl';
 
-import IBehandlingerSomGarAvVentType
+import {IBehandlingerSomGarAvVentType}
   from './behandlingerSomGårAvVentType';
 import {
-  eChartFargerForLegendsForBehandlingerPåVent,
-  eChartGridDef, eChartSeriesStyleAvdelningslederNokkeltall,
-  eChartTooltipTextStyle,
-  eChartXAxisFontSizeAvdelningslederNokkeltall,
+  fargerForLegendsForBehandlingerPåVent,
+  gridDef, seriesStyleAvdelningslederNokkeltall,
+  tooltipTextStyle,
+  xAxisFontSizeAvdelningslederNokkeltall,
   eChartXAxisTickDefAvdelningslederNokkeltall,
-  eChartYAxisFontSizeAvdelningslederNokkeltall,
-  eChartYAxisMarginTextBarAvdelningslederNokkeltall,
+  yAxisFontSizeAvdelningslederNokkeltall,
+  yAxisMarginTextBarAvdelningslederNokkeltall,
 } from '../../../../styles/echartStyle';
 
 const slaSammenBehandlingstyperOgFyllInnTomme = (behandlingerPåVent: IBehandlingerSomGarAvVentType[], antallUkerFremITid: number):
@@ -99,13 +99,13 @@ const BehandlingerGårAvVentGraf: FunctionComponent<OwnProps> = ({
                 if (params.axisDimension === 'y') {
                   return parseInt(params.value as string, 10).toString();
                 }
-                return dateFormat(params.value as string);
+                return momentDateFormat(params.value as string);
               },
             },
           },
-          textStyle: eChartTooltipTextStyle,
+          textStyle: tooltipTextStyle,
         },
-        grid: eChartGridDef,
+        grid: gridDef,
         xAxis: [
           {
             // bruker category istedet for time for att vise alle dato og ikke bara hvert femte.
@@ -113,7 +113,6 @@ const BehandlingerGårAvVentGraf: FunctionComponent<OwnProps> = ({
             // boundaryGap ser till att dato hamnar på en linje istället for mellom.
             // @ts-ignore
             boundaryGap: false,
-            minInterval: 1,
             axisTick: eChartXAxisTickDefAvdelningslederNokkeltall,
             axisLabel: {
               // viser månad og dato dersom det er valgt fire uker og dato dersom åtte uker er valgt.
@@ -124,9 +123,8 @@ const BehandlingerGårAvVentGraf: FunctionComponent<OwnProps> = ({
                 }
                 return value;
               },
-              fontSize: eChartXAxisFontSizeAvdelningslederNokkeltall,
-              margin: eChartYAxisMarginTextBarAvdelningslederNokkeltall,
-              interval: 0,
+              fontSize: xAxisFontSizeAvdelningslederNokkeltall,
+              margin: yAxisMarginTextBarAvdelningslederNokkeltall,
             },
             // Denne setter de horisontala linjerna sammen med axisTick.
             splitLine: {
@@ -138,23 +136,22 @@ const BehandlingerGårAvVentGraf: FunctionComponent<OwnProps> = ({
         yAxis: [
           {
             type: 'value',
-            minInterval: 1,
             axisLabel: {
-              fontSize: eChartYAxisFontSizeAvdelningslederNokkeltall,
-              margin: eChartYAxisMarginTextBarAvdelningslederNokkeltall,
+              fontSize: yAxisFontSizeAvdelningslederNokkeltall,
+              margin: yAxisMarginTextBarAvdelningslederNokkeltall,
             },
           },
         ],
         series: {
           name: 'Antall',
           type: 'line',
-          ...eChartSeriesStyleAvdelningslederNokkeltall,
+          ...seriesStyleAvdelningslederNokkeltall,
           emphasis: {
             focus: 'series',
           },
           data: antallUkerSomSkalVises === '4' ? behandlingerSomGårAvVentFireUkerFremITid : behandlingerSomGårAvVentToUkerFremITid,
         },
-        color: eChartFargerForLegendsForBehandlingerPåVent,
+        color: fargerForLegendsForBehandlingerPåVent,
       }}
     />
   );

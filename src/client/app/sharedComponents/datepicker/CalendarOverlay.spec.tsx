@@ -3,7 +3,7 @@ import DayPicker from 'react-day-picker';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { dateFormat } from 'utils/dateUtils';
+import { momentDateFormat } from 'utils/dateUtils';
 import { shallowWithIntl, intlMock } from '../../../../../setup/testHelpers/intl-enzyme-test-helper';
 import CalendarOverlay from './CalendarOverlay';
 
@@ -39,7 +39,7 @@ describe('<CalendarOverlay>', () => {
     expect(daypicker.prop('weekdaysLong')).is.eql(['søndag', 'mandag', 'tirsdag', 'onsdag', 'torsdag', 'fredag', 'lørdag']);
     expect(daypicker.prop('weekdaysShort')).is.eql(['søn', 'man', 'tir', 'ons', 'tor', 'fre', 'lør']);
     expect(daypicker.prop('firstDayOfWeek')).is.eql(1);
-    expect(dateFormat(daypicker.prop('selectedDays'))).is.eql('21.08.2017');
+    expect(momentDateFormat(daypicker.prop('selectedDays'))).is.eql('21.08.2017');
   });
 
   it('skal ikke sette dato når denne ikke er korrekt', () => {

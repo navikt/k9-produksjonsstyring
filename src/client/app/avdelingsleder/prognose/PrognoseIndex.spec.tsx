@@ -1,13 +1,12 @@
 import React from 'react';
-import { shallow } from 'enzyme';
-import { expect } from 'chai';
 
 import PrognoseIndex from './PrognoseIndex';
-import BehandlingerGårAvVent from './behandlingerGårAvVent/BehandlingerGårAvVent';
+import { renderWithAllProviders } from '../../../../../setup/testHelpers/testUtils';
+import { screen } from '@testing-library/react';
 
 describe('<PrognoseIndex>', () => {
   it('skal vise grafpaneler', () => {
-    const wrapper = shallow(<PrognoseIndex />);
-    expect(wrapper.find(BehandlingerGårAvVent)).to.have.length(1);
+    renderWithAllProviders(<PrognoseIndex />);
+    expect(screen.getByText('BehandlingerGårAvVentÅrsaker.Tittel')).toBeDefined();
   });
 });

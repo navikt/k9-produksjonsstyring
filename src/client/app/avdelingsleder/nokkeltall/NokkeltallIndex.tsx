@@ -18,6 +18,7 @@ const NokkeltallIndex: FunctionComponent = () => {
   );
   const { data: nyePerDato = EMPTY_ARRAY } = useRestApi<HistoriskData[]>(K9LosApiKeys.HENT_NYE_HISTORIKK);
   const { data: beholdningPerDato = EMPTY_ARRAY } = useRestApi<HistoriskData[]>(K9LosApiKeys.HENT_OPPGAVER_PER_DATO);
+
   return (
     <NokkeltallPanel
       alleOppgaver={alleOppgaver}

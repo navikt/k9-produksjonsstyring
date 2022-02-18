@@ -1,6 +1,4 @@
-import React, {
-  useMemo, FunctionComponent,
-} from 'react';
+import React, { useMemo, FunctionComponent } from 'react';
 import dayjs from 'dayjs';
 import { ISO_DATE_FORMAT } from 'utils/formats';
 
@@ -12,16 +10,19 @@ import { FormattedMessage } from 'react-intl';
 import { Normaltekst } from 'nav-frontend-typografi';
 import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
-import { dateFormat } from 'avdelingsleder/nokkeltall/HistorikkGraf';
+import { momentDateFormat } from 'utils/dateUtils';
 import Koordinat from '../../types/Koordinat';
 import {
-  eChartGrafHeight,
-  eChartGridDef,
-  eChartLegendStyle, eChartSeriesStyleAvdelningslederNokkeltall,
-  eChartTooltipTextStyle,
-  eChartXAxisFontSizeAvdelningslederNokkeltall, eChartXAxisTickDefAvdelningslederNokkeltall,
-  eChartYAxisFontSizeAvdelningslederNokkeltall,
-  eChartYAxisMarginTextBarAvdelningslederNokkeltall, graferOpacity,
+  grafHeight,
+  gridDef,
+  legendStyle,
+  seriesStyleAvdelningslederNokkeltall,
+  tooltipTextStyle,
+  xAxisFontSizeAvdelningslederNokkeltall,
+  eChartXAxisTickDefAvdelningslederNokkeltall,
+  yAxisFontSizeAvdelningslederNokkeltall,
+  yAxisMarginTextBarAvdelningslederNokkeltall,
+  graferOpacity,
 } from '../../../styles/echartStyle';
 import useKodeverk from '../../api/rest-api-hooks/src/global-data/useKodeverk';
 
@@ -33,13 +34,12 @@ const fagytelseTyperFarger = {
   [fagsakYtelseType.OMSORGSPENGER]: '#66CBEC',
 };
 
-export const fagytelseTyperSomSkalVises = [
-  fagsakYtelseType.PLEIEPENGER_SYKT_BARN,
-  fagsakYtelseType.OMSORGSPENGER,
-];
+export const fagytelseTyperSomSkalVises = [fagsakYtelseType.PLEIEPENGER_SYKT_BARN, fagsakYtelseType.OMSORGSPENGER];
 
-const konverterTilKoordinaterGruppertPaFagytelsetype = (oppgaverForAvdeling: HistoriskData[]): Record<string, Koordinat[]> => oppgaverForAvdeling
-  .reduce((acc, o) => {
+const konverterTilKoordinaterGruppertPaFagytelsetype = (
+  oppgaverForAvdeling: HistoriskData[],
+): Record<string, Koordinat[]> =>
+  oppgaverForAvdeling.reduce((acc, o) => {
     const nyKoordinat = {
       x: dayjs(o.dato).startOf('day').toDate(),
       y: o.antall,
@@ -49,7 +49,7 @@ const konverterTilKoordinaterGruppertPaFagytelsetype = (oppgaverForAvdeling: His
 
     return {
       ...acc,
-      [o.fagsakYtelseType.kode]: (eksisterendeKoordinater ? eksisterendeKoordinater.concat(nyKoordinat) : [nyKoordinat]),
+      [o.fagsakYtelseType.kode]: eksisterendeKoordinater ? eksisterendeKoordinater.concat(nyKoordinat) : [nyKoordinat],
     };
   }, {} as Record<string, Koordinat[]>);
 
@@ -57,23 +57,26 @@ const fyllInnManglendeDatoerOgSorterEtterDato = (
   data: Record<string, Koordinat[]>,
   periodeStart: dayjs.Dayjs,
   periodeSlutt: dayjs.Dayjs,
-): Record<string, Date[][]> => Object.keys(data).reduce((acc, fagytelsetype) => {
-  const fagytelsetypeData = data[fagytelsetype];
-  const koordinater = [];
+): Record<string, Date[][]> =>
+  Object.keys(data).reduce((acc, fagytelsetype) => {
+    const fagytelsetypeData = data[fagytelsetype];
+    const koordinater = [];
 
-  for (let dato = dayjs(periodeStart); dato.isSameOrBefore(periodeSlutt, 'day'); dato = dato.add(1, 'days')) {
-    const funnetDato = fagytelsetypeData.find((d) => dayjs(d.x).startOf('day').isSame(dato.startOf('day')));
-    koordinater.push(funnetDato ? [dayjs(funnetDato.x).format(ISO_DATE_FORMAT), funnetDato.y] : [dato.format(ISO_DATE_FORMAT), 0]);
-  }
+    for (let dato = dayjs(periodeStart); dato.isSameOrBefore(periodeSlutt, 'day'); dato = dato.add(1, 'days')) {
+      const funnetDato = fagytelsetypeData.find(d => dayjs(d.x).startOf('day').isSame(dato.startOf('day')));
+      koordinater.push(
+        funnetDato ? [dayjs(funnetDato.x).format(ISO_DATE_FORMAT), funnetDato.y] : [dato.format(ISO_DATE_FORMAT), 0],
+      );
+    }
 
-  return {
-    ...acc,
-    [fagytelsetype]: koordinater,
-  };
-}, {});
+    return {
+      ...acc,
+      [fagytelsetype]: koordinater,
+    };
+  }, {});
 
 const finnFagytelsetypeNavn = (fagytelseTyper, fagytelsetypeKode: string) => {
-  const type = fagytelseTyper.find((bt) => bt.kode === fagytelsetypeKode);
+  const type = fagytelseTyper.find(bt => bt.kode === fagytelsetypeKode);
   return type ? type.navn : '';
 };
 
@@ -85,17 +88,25 @@ interface OwnProps {
 /**
  * TilBehandlingGraf.
  */
-const HistorikkGrafForPunsj: FunctionComponent<OwnProps> = ({
-  historiskData,
-  isFireUkerValgt,
-}) => {
+const HistorikkGrafForPunsj: FunctionComponent<OwnProps> = ({ historiskData, isFireUkerValgt }) => {
   const fagytelseTyper = useKodeverk(kodeverkTyper.FAGSAK_YTELSE_TYPE);
   const periodeStart = dayjs().subtract(isFireUkerValgt ? 4 : 2, 'w');
   const periodeSlutt = dayjs().subtract(1, 'd');
-  const oppgaverInomValgtPeriode: HistoriskData[] = historiskData.filter((oppgave) => oppgave.antall > 0 && dayjs(oppgave.dato).isSameOrBefore(periodeSlutt, 'day') && dayjs(oppgave.dato).isSameOrAfter(periodeStart, 'day'));
+  const oppgaverInomValgtPeriode: HistoriskData[] = historiskData.filter(
+    oppgave =>
+      oppgave.antall > 0 &&
+      dayjs(oppgave.dato).isSameOrBefore(periodeSlutt, 'day') &&
+      dayjs(oppgave.dato).isSameOrAfter(periodeStart, 'day'),
+  );
 
-  const koordinater = useMemo(() => konverterTilKoordinaterGruppertPaFagytelsetype(oppgaverInomValgtPeriode), [historiskData]);
-  const data = useMemo(() => fyllInnManglendeDatoerOgSorterEtterDato(koordinater, periodeStart, periodeSlutt), [koordinater, periodeStart, periodeSlutt]);
+  const koordinater = useMemo(
+    () => konverterTilKoordinaterGruppertPaFagytelsetype(oppgaverInomValgtPeriode),
+    [historiskData],
+  );
+  const data = useMemo(
+    () => fyllInnManglendeDatoerOgSorterEtterDato(koordinater, periodeStart, periodeSlutt),
+    [koordinater, periodeStart, periodeSlutt],
+  );
 
   if (oppgaverInomValgtPeriode.length === 0) {
     return (
@@ -109,7 +120,7 @@ const HistorikkGrafForPunsj: FunctionComponent<OwnProps> = ({
 
   return (
     <ReactECharts
-      height={eChartGrafHeight}
+      height={grafHeight}
       option={{
         tooltip: {
           trigger: 'axis',
@@ -119,21 +130,21 @@ const HistorikkGrafForPunsj: FunctionComponent<OwnProps> = ({
               type: 'solid',
             },
             label: {
-              formatter: (params) => {
+              formatter: params => {
                 if (params.axisDimension === 'y') {
                   return parseInt(params.value as string, 10).toString();
                 }
-                return dateFormat(params.value as string);
+                return momentDateFormat(params.value as string);
               },
             },
           },
-          textStyle: eChartTooltipTextStyle,
+          textStyle: tooltipTextStyle,
         },
         legend: {
-          ...eChartLegendStyle,
-          data: fagytelseTyperSomSkalVises.map((type) => finnFagytelsetypeNavn(fagytelseTyper, type)),
+          ...legendStyle,
+          data: fagytelseTyperSomSkalVises.map(type => finnFagytelsetypeNavn(fagytelseTyper, type)),
         },
-        grid: eChartGridDef,
+        grid: gridDef,
         xAxis: [
           {
             // bruker category istedet for time for att vise alle dato og ikke bara hvert femte.
@@ -141,7 +152,6 @@ const HistorikkGrafForPunsj: FunctionComponent<OwnProps> = ({
             // boundaryGap ser till att dato hamnar på en linje istället for mellom.
             // @ts-ignore
             boundaryGap: false,
-            minInterval: 1,
             axisTick: eChartXAxisTickDefAvdelningslederNokkeltall,
             axisLabel: {
               // viser månad og dato dersom det er valgt fire uker og dato dersom åtte uker er valgt.
@@ -152,41 +162,37 @@ const HistorikkGrafForPunsj: FunctionComponent<OwnProps> = ({
                 }
                 return value;
               },
-              fontSize: eChartXAxisFontSizeAvdelningslederNokkeltall,
-              margin: eChartYAxisMarginTextBarAvdelningslederNokkeltall,
-              interval: 0,
+              fontSize: xAxisFontSizeAvdelningslederNokkeltall,
+              margin: yAxisMarginTextBarAvdelningslederNokkeltall,
             },
             // Denne setter de horisontala linjerna sammen med axisTick.
             splitLine: {
               show: true,
             },
           },
-
         ],
         yAxis: [
           {
             type: 'value',
-            minInterval: 1,
             axisLabel: {
-              fontSize: eChartYAxisFontSizeAvdelningslederNokkeltall,
-              margin: eChartYAxisMarginTextBarAvdelningslederNokkeltall,
+              fontSize: yAxisFontSizeAvdelningslederNokkeltall,
+              margin: yAxisMarginTextBarAvdelningslederNokkeltall,
             },
           },
         ],
-        series: fagytelseTyperSomSkalVises
-          .map((type) => ({
-            name: finnFagytelsetypeNavn(fagytelseTyper, type),
-            type: 'line',
-            emphasis: {
-              focus: 'series',
-            },
-            ...eChartSeriesStyleAvdelningslederNokkeltall,
-            data: data[type],
-            color: fagytelseTyperFarger[type],
-            areaStyle: {
-              opacity: graferOpacity,
-            },
-          })),
+        series: fagytelseTyperSomSkalVises.map(type => ({
+          name: finnFagytelsetypeNavn(fagytelseTyper, type),
+          type: 'line',
+          emphasis: {
+            focus: 'series',
+          },
+          ...seriesStyleAvdelningslederNokkeltall,
+          data: data[type],
+          color: fagytelseTyperFarger[type],
+          areaStyle: {
+            opacity: graferOpacity,
+          },
+        })),
       }}
     />
   );
