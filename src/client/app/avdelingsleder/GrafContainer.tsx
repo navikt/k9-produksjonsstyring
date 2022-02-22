@@ -4,9 +4,11 @@ import { Row, Column } from 'nav-frontend-grid';
 import { Heading, Panel, Select } from '@navikt/ds-react';
 import Hjelpetekst from 'nav-frontend-hjelpetekst';
 
-import { setValueInLocalStorage } from 'utils/localStorageHelper';
+import { lagreTilLocalStorageCallback } from 'utils/localStorageHelper';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import { uker, fremtidigeUker, ytelseTyper } from './nokkeltall/nokkeltallUtils';
+
+import styles from './grafContainer.less';
 
 interface OwnProps {
   setAntallUkerSomSkalVises?: (uker: string) => void;
@@ -19,11 +21,6 @@ interface OwnProps {
   id?: string;
   hjelpetekst?: string;
 }
-
-const lagreTilLocalStorageCallback = (key, value, callback) => {
-  setValueInLocalStorage(key, value);
-  callback(value);
-};
 
 const GrafContainer = ({
   valgtYtelseType,
@@ -48,11 +45,15 @@ const GrafContainer = ({
 
   return (
     <Panel border>
-      <div>
-        <Heading spacing level="3" size="xsmall">
+      <div className={styles.tittel}>
+        <Heading spacing level="3" size="small">
           {tittel}
         </Heading>
-        {hjelpetekst && <Hjelpetekst>{hjelpetekst}</Hjelpetekst>}
+        {hjelpetekst && (
+          <div className={styles.hjelpetekst}>
+            <Hjelpetekst>{hjelpetekst}</Hjelpetekst>
+          </div>
+        )}
       </div>
       <VerticalSpacer eightPx />
       <Row>

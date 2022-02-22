@@ -139,7 +139,6 @@ const FordelingAvBehandlingstypeGraf: FunctionComponent<OwnProps & WrappedCompon
         grid: gridDef,
         xAxis: {
           type: 'value',
-          minInterval: 1,
           axisLabel: {
             fontSize: yXAxisFontSizeSaksbehandlerNokkeltall,
           },

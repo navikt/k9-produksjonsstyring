@@ -122,7 +122,6 @@ const NyeOgFerdigstilteOppgaverForSisteSyvGraf: FunctionComponent<OwnProps & Wra
               fontSize: yXAxisFontSizeSaksbehandlerNokkeltall,
               margin: 15,
             },
-            minInterval: 1,
             splitLine: {
               show: true,
             },

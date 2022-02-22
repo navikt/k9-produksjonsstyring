@@ -8,6 +8,7 @@ export const maxBarWithFordelingAvBehandlingstype = 25;
 export const yXAxisFontSizeSaksbehandlerNokkeltall = 15;
 
 // Font size
+export const defaultFontSize = 15;
 export const xAxisFontSizeAvdelningslederNokkeltall = 15;
 export const yAxisFontSizeAvdelningslederNokkeltall = 15;
 export const yAxisMarginTextBarAvdelningslederNokkeltall = 15;
@@ -32,7 +33,6 @@ export const gridDef = {
 export const yAxisDef = [
   {
     type: 'value',
-    minInterval: 1,
     axisLabel: {
       fontSize: 15,
       margin: 15,
