@@ -83,7 +83,7 @@ const BehandlingerGårAvVent: FunctionComponent<OwnProps & WrappedComponentProps
       antallUkerSomSkalVises={antallUkerSomSkalVises}
       setValgtYtelseType={setValgtYtelseType}
       setAntallUkerSomSkalVises={setAntallUkerSomSkalVises}
-      tittel={intl.formatMessage({ id: 'BehandlingerGårAvVentÅrsaker.Tittel' })}
+      tittel={intl.formatMessage({ id: 'BehandlingerGårAvVent.Tittel' })}
       hjelpetekst={intl.formatMessage({ id: 'BehandlingerGårAvVent.Hjelptekst' })}
       fremITid
     >
