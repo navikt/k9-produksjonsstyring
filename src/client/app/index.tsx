@@ -8,8 +8,8 @@ import { RestApiProvider } from 'api/rest-api-hooks/src/RestApiContext';
 import { k9LosApi } from 'api/k9LosApi';
 import { RestApiErrorProvider } from 'api/error/RestApiErrorContext';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import '@navikt/ds-css';
 import { config } from 'utils/reactQueryConfig';
+import '@navikt/ds-css';
 
 /* eslint no-undef: "error" */
 const environment = window.location.hostname;

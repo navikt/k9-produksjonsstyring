@@ -167,7 +167,6 @@ const HistorikkGrafForPunsj: FunctionComponent<OwnProps> = ({ historiskData, isF
             // boundaryGap ser till att dato hamnar på en linje istället for mellom.
             // @ts-ignore
             boundaryGap: false,
-            minInterval: 1,
             axisTick: eChartXAxisTickDefAvdelningslederNokkeltall,
             axisLabel: {
               // viser månad og dato dersom det er valgt fire uker og dato dersom åtte uker er valgt.
@@ -180,7 +179,6 @@ const HistorikkGrafForPunsj: FunctionComponent<OwnProps> = ({ historiskData, isF
               },
               fontSize: xAxisFontSizeAvdelningslederNokkeltall,
               margin: yAxisMarginTextBarAvdelningslederNokkeltall,
-              interval: 0,
             },
             // Denne setter de horisontala linjerna sammen med axisTick.
             splitLine: {
@@ -191,7 +189,6 @@ const HistorikkGrafForPunsj: FunctionComponent<OwnProps> = ({ historiskData, isF
         yAxis: [
           {
             type: 'value',
-            minInterval: 1,
             axisLabel: {
               fontSize: yAxisFontSizeAvdelningslederNokkeltall,
               margin: yAxisMarginTextBarAvdelningslederNokkeltall,

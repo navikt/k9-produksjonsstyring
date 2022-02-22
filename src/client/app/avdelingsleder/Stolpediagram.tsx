@@ -5,7 +5,7 @@ import { useIntl } from 'react-intl';
 
 import ReactECharts from 'sharedComponents/echart/ReactEcharts';
 
-import { fargerForLegendsFordelingAvBehandlingstype, grafHeight, legendStyle } from '../../styles/echartStyle';
+import { defaultFontSize, grafHeight, legendStyle } from '../../styles/echartStyle';
 import HistoriskData from './nokkeltall/historiskDataTsType';
 
 dayjs.extend(customParseFormat);
@@ -48,6 +48,13 @@ const Stolpediagram = ({ series, labels, legendColors = [], fremITid = false, uk
     .map(fremITid ? datoFremITid : datoTilbakeITid);
 
   const option = {
+    grid: {
+      top: '10%',
+      left: '1%',
+      right: '3%',
+      bottom: '15%',
+      containLabel: true,
+    },
     tooltip: {
       trigger: 'axis',
       axisPointer: {
@@ -70,10 +77,11 @@ const Stolpediagram = ({ series, labels, legendColors = [], fremITid = false, uk
         axisTick: {
           alignWithLabel: true,
         },
+        axisLabel: { fontSize: defaultFontSize },
         data: datoer.map(dato => dato.format('DD.MM')),
       },
     ],
-    yAxis: {},
+    yAxis: { axisLabel: { fontSize: defaultFontSize } },
     series: series.map((serie, index) => ({
       ...serie,
       data: mapAntallTilRiktigDato(serie.data, datoer),

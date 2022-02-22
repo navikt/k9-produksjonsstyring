@@ -1,8 +1,8 @@
 import Kodeverk from 'kodeverk/kodeverkTsType';
 
 interface IPaaVentResponse {
-  påVent: IBehandlingerSomGarAvVentType;
-  påVentPerVenteårsak: IBehandlingerSomGarAvVentType;
+  påVent: IBehandlingerSomGarAvVentType[];
+  påVentMedVenteårsak: IBehandlingerSomGarAvVentType[];
 }
 interface IBehandlingerSomGarAvVentType {
   fagsakYtelseType: Kodeverk;
