@@ -1,6 +1,4 @@
-import React, {
-  useMemo, FunctionComponent,
-} from 'react';
+import React, { useMemo, FunctionComponent } from 'react';
 
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 
@@ -13,11 +11,13 @@ import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
 import AlleOppgaver from './alleOppgaverTsType';
 
 import {
-  eChartFargerForLegendsFordelingAvBehandlingstype, eChartGrafHeight,
-  eChartGridDef,
-  eChartLegendStyle, eChartMaxBarWithFordelingAvBehandlingstype,
-  eChartTooltipTextStyle,
-  eChartYXAxisFontSizeSaksbehandlerNokkeltall,
+  fargerForLegendsFordelingAvBehandlingstype,
+  grafHeight,
+  gridDef,
+  legendStyle,
+  maxBarWithFordelingAvBehandlingstype,
+  tooltipTextStyle,
+  yXAxisFontSizeSaksbehandlerNokkeltall,
 } from '../../../../../styles/echartStyle';
 import useKodeverk from '../../../../api/rest-api-hooks/src/global-data/useKodeverk';
 
@@ -30,27 +30,30 @@ const behandlingstypeOrder = [
   behandlingType.FORSTEGANGSSOKNAD,
 ];
 
-const fagytelseTypeOrder = [
-  fagsakYtelseType.OMSORGSPENGER,
-  fagsakYtelseType.PLEIEPENGER_SYKT_BARN,
-];
+const fagytelseTypeOrder = [fagsakYtelseType.OMSORGSPENGER, fagsakYtelseType.PLEIEPENGER_SYKT_BARN];
 
 const slåSammen = (oppgaverForAvdeling: AlleOppgaver[], erPunsjValgt: boolean): number[] => {
-  const test = oppgaverForAvdeling
-    .reduce((acc, o) => {
-      const index = erPunsjValgt ? fagytelseTypeOrder.findIndex((bo) => bo === o.fagsakYtelseType.kode) + 1 : behandlingstypeOrder.findIndex((bo) => bo === o.behandlingType.kode) + 1;
-      if ((erPunsjValgt && o.behandlingType.kodeverk === punsjKodeverkNavn) || (!erPunsjValgt && o.behandlingType.kodeverk !== 'PUNSJ_INNSENDING_TYPE')) {
-        return {
-          ...acc,
-          [index]: (acc[index] ? acc[index] + o.antall : o.antall),
-        };
-      }
+  const test = oppgaverForAvdeling.reduce((acc, o) => {
+    const index = erPunsjValgt
+      ? fagytelseTypeOrder.findIndex(bo => bo === o.fagsakYtelseType.kode) + 1
+      : behandlingstypeOrder.findIndex(bo => bo === o.behandlingType.kode) + 1;
+    if (
+      (erPunsjValgt && o.behandlingType.kodeverk === punsjKodeverkNavn) ||
+      (!erPunsjValgt && o.behandlingType.kodeverk !== 'PUNSJ_INNSENDING_TYPE')
+    ) {
       return {
         ...acc,
+        [index]: acc[index] ? acc[index] + o.antall : o.antall,
       };
-    }, {} as Record<string, number>);
+    }
+    return {
+      ...acc,
+    };
+  }, {} as Record<string, number>);
 
-  return erPunsjValgt ? fagytelseTypeOrder.map((b, index) => test[index + 1]) : behandlingstypeOrder.map((b, index) => test[index + 1]);
+  return erPunsjValgt
+    ? fagytelseTypeOrder.map((b, index) => test[index + 1])
+    : behandlingstypeOrder.map((b, index) => test[index + 1]);
 };
 
 interface OwnProps {
@@ -77,23 +80,37 @@ const FordelingAvBehandlingstypeGraf: FunctionComponent<OwnProps & WrappedCompon
     if (erPunsjValgt) {
       return ['Punsj'];
     }
-    return behandlingstypeOrder.map((t) => {
-      const type = behandlingTyper.find((bt) => bt.kode === t);
+    return behandlingstypeOrder.map(t => {
+      const type = behandlingTyper.find(bt => bt.kode === t);
       return type ? type.navn : '';
     });
   }, [behandlingTyper, erPunsjValgt]);
 
-  const finnFagytelseTypeNavn = fagytelseTypeOrder.map((t) => {
-    const type = fagytelseTyper.find((ytelse) => ytelse.kode === t);
+  const finnFagytelseTypeNavn = fagytelseTypeOrder.map(t => {
+    const type = fagytelseTyper.find(ytelse => ytelse.kode === t);
     return type ? type.navn : '';
   });
 
-  const tilBehandlingData = useMemo(() => slåSammen(alleOppgaver.filter((o) => o.tilBehandling), erPunsjValgt), [alleOppgaver]);
-  const tilBeslutterData = useMemo(() => slåSammen(alleOppgaver.filter((o) => !o.tilBehandling), erPunsjValgt), [alleOppgaver]);
+  const tilBehandlingData = useMemo(
+    () =>
+      slåSammen(
+        alleOppgaver.filter(o => o.tilBehandling),
+        erPunsjValgt,
+      ),
+    [alleOppgaver],
+  );
+  const tilBeslutterData = useMemo(
+    () =>
+      slåSammen(
+        alleOppgaver.filter(o => !o.tilBehandling),
+        erPunsjValgt,
+      ),
+    [alleOppgaver],
+  );
 
   return (
     <ReactECharts
-      height={eChartGrafHeight}
+      height={grafHeight}
       option={{
         tooltip: {
           trigger: 'axis',
@@ -101,9 +118,9 @@ const FordelingAvBehandlingstypeGraf: FunctionComponent<OwnProps & WrappedCompon
             type: 'shadow',
             label: {
               // @ts-ignore
-              formatter: (params) => {
+              formatter: params => {
                 let total = 0;
-                params.seriesData.forEach((s) => {
+                params.seriesData.forEach(s => {
                   if (s.data) {
                     total += parseInt(s.data.toString(), 10);
                   }
@@ -112,26 +129,25 @@ const FordelingAvBehandlingstypeGraf: FunctionComponent<OwnProps & WrappedCompon
               },
             },
           },
-          textStyle: eChartTooltipTextStyle,
+          textStyle: tooltipTextStyle,
         },
         legend: {
-          ...eChartLegendStyle,
+          ...legendStyle,
           data: [tilBehandlingTekst, tilBeslutterTekst],
           show: !erPunsjValgt,
         },
-        grid: eChartGridDef,
+        grid: gridDef,
         xAxis: {
           type: 'value',
-          minInterval: 1,
           axisLabel: {
-            fontSize: eChartYXAxisFontSizeSaksbehandlerNokkeltall,
+            fontSize: yXAxisFontSizeSaksbehandlerNokkeltall,
           },
           boundaryGap: [0, 0.01],
         },
         yAxis: {
           type: 'category',
           axisLabel: {
-            fontSize: eChartYXAxisFontSizeSaksbehandlerNokkeltall,
+            fontSize: yXAxisFontSizeSaksbehandlerNokkeltall,
             margin: 15,
           },
           data: erPunsjValgt ? finnFagytelseTypeNavn : finnBehandlingTypeNavn,
@@ -145,7 +161,7 @@ const FordelingAvBehandlingstypeGraf: FunctionComponent<OwnProps & WrappedCompon
               focus: 'series',
             },
             data: tilBehandlingData,
-            barMaxWidth: eChartMaxBarWithFordelingAvBehandlingstype,
+            barMaxWidth: maxBarWithFordelingAvBehandlingstype,
           },
           {
             name: tilBeslutterTekst,
@@ -155,10 +171,10 @@ const FordelingAvBehandlingstypeGraf: FunctionComponent<OwnProps & WrappedCompon
               focus: 'series',
             },
             data: tilBeslutterData,
-            barMaxWidth: eChartMaxBarWithFordelingAvBehandlingstype,
+            barMaxWidth: maxBarWithFordelingAvBehandlingstype,
           },
         ],
-        color: eChartFargerForLegendsFordelingAvBehandlingstype,
+        color: fargerForLegendsFordelingAvBehandlingstype,
       }}
     />
   );

@@ -13,11 +13,11 @@ import { useKodeverk } from 'api/rest-api-hooks';
 import NyeOgFerdigstilteOppgaver from '../nyeOgFerdigstilteOppgaverTsType';
 
 import {
-  eChartFargerForLegendsForMineNyeFerdigstilte,
-  eChartGridDef,
-  eChartLegendStyle,
-  eChartMaxBarWith,
-  eChartTooltipTextStyle, eChartYXAxisFontSizeSaksbehandlerNokkeltall,
+  fargerForLegendsForMineNyeFerdigstilte,
+  gridDef,
+  legendStyle,
+  maxBarWith,
+  tooltipTextStyle, yXAxisFontSizeSaksbehandlerNokkeltall,
 } from '../../../../../../styles/echartStyle';
 
 const behandlingstypeOrder = [
@@ -107,25 +107,24 @@ const NyeOgFerdigstilteOppgaverForIdagGraf: FunctionComponent<OwnProps & Wrapped
           axisPointer: {
             type: 'shadow',
           },
-          textStyle: eChartTooltipTextStyle,
+          textStyle: tooltipTextStyle,
         },
         legend: {
-          ...eChartLegendStyle,
+          ...legendStyle,
           data: [nyLabel, ferdigLabel],
         },
-        grid: eChartGridDef,
+        grid: gridDef,
         xAxis: {
           type: 'value',
-          minInterval: 1,
           axisLabel: {
-            fontSize: eChartYXAxisFontSizeSaksbehandlerNokkeltall,
+            fontSize: yXAxisFontSizeSaksbehandlerNokkeltall,
           },
           boundaryGap: [0, 0.01],
         },
         yAxis: {
           type: 'category',
           axisLabel: {
-            fontSize: eChartYXAxisFontSizeSaksbehandlerNokkeltall,
+            fontSize: yXAxisFontSizeSaksbehandlerNokkeltall,
             margin: 15,
           },
           data: behandlingTypeNavnForYAkse,
@@ -135,15 +134,15 @@ const NyeOgFerdigstilteOppgaverForIdagGraf: FunctionComponent<OwnProps & Wrapped
             name: nyLabel,
             type: 'bar',
             data: dataNye,
-            barMaxWidth: eChartMaxBarWith,
-            color: eChartFargerForLegendsForMineNyeFerdigstilte[0],
+            barMaxWidth: maxBarWith,
+            color: fargerForLegendsForMineNyeFerdigstilte[0],
           },
           {
             name: ferdigLabel,
             type: 'bar',
             data: dataFerdigstilte,
-            barMaxWidth: eChartMaxBarWith,
-            color: eChartFargerForLegendsForMineNyeFerdigstilte[1],
+            barMaxWidth: maxBarWith,
+            color: fargerForLegendsForMineNyeFerdigstilte[1],
           },
         ],
       }}

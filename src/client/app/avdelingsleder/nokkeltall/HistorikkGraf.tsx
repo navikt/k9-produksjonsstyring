@@ -1,6 +1,4 @@
-import React, {
-  useMemo, FunctionComponent,
-} from 'react';
+import React, { useMemo, FunctionComponent } from 'react';
 import dayjs from 'dayjs';
 import { ISO_DATE_FORMAT } from 'utils/formats';
 import behandlingType from 'kodeverk/behandlingType';
@@ -13,15 +11,20 @@ import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import Kodeverk from 'kodeverk/kodeverkTsType';
 import { FormattedMessage } from 'react-intl';
 import { Normaltekst } from 'nav-frontend-typografi';
+
+import { dateFormat } from 'utils/dateUtils';
 import Koordinat from '../../types/Koordinat';
 import {
-  eChartGrafHeight,
-  eChartGridDef,
-  eChartLegendStyle, eChartSeriesStyleAvdelningslederNokkeltall,
-  eChartTooltipTextStyle,
-  eChartXAxisFontSizeAvdelningslederNokkeltall, eChartXAxisTickDefAvdelningslederNokkeltall,
-  eChartYAxisFontSizeAvdelningslederNokkeltall,
-  eChartYAxisMarginTextBarAvdelningslederNokkeltall, graferOpacity,
+  grafHeight,
+  gridDef,
+  legendStyle,
+  seriesStyleAvdelningslederNokkeltall,
+  tooltipTextStyle,
+  xAxisFontSizeAvdelningslederNokkeltall,
+  eChartXAxisTickDefAvdelningslederNokkeltall,
+  yAxisFontSizeAvdelningslederNokkeltall,
+  yAxisMarginTextBarAvdelningslederNokkeltall,
+  graferOpacity,
 } from '../../../styles/echartStyle';
 
 dayjs.extend(isSameOrBefore);
@@ -46,10 +49,6 @@ const behandlingstyperSomSkalVises = [
   // [behandlingType.KLAGE]: '#634689',
 ];
 
-export const DDMMYYYY_DATE_FORMAT = 'DD.MM.YYYY';
-
-export const dateFormat = (date: Date | string): string => dayjs(date).format(DDMMYYYY_DATE_FORMAT);
-
 const sorterBehandlingtyper = (b1, b2) => {
   const index1 = behandlingstypeOrder.indexOf(b1);
   const index2 = behandlingstypeOrder.indexOf(b2);
@@ -59,8 +58,10 @@ const sorterBehandlingtyper = (b1, b2) => {
   return index1 > index2 ? -1 : 1;
 };
 
-const konverterTilKoordinaterGruppertPaBehandlingstype = (oppgaverForAvdeling: HistoriskData[]): Record<string, Koordinat[]> => oppgaverForAvdeling
-  .reduce((acc, o) => {
+const konverterTilKoordinaterGruppertPaBehandlingstype = (
+  oppgaverForAvdeling: HistoriskData[],
+): Record<string, Koordinat[]> =>
+  oppgaverForAvdeling.reduce((acc, o) => {
     const nyKoordinat = {
       x: dayjs(o.dato).startOf('day').toDate(),
       y: o.antall,
@@ -70,7 +71,7 @@ const konverterTilKoordinaterGruppertPaBehandlingstype = (oppgaverForAvdeling: H
 
     return {
       ...acc,
-      [o.behandlingType.kode]: (eksisterendeKoordinater ? eksisterendeKoordinater.concat(nyKoordinat) : [nyKoordinat]),
+      [o.behandlingType.kode]: eksisterendeKoordinater ? eksisterendeKoordinater.concat(nyKoordinat) : [nyKoordinat],
     };
   }, {} as Record<string, Koordinat[]>);
 
@@ -78,24 +79,27 @@ const fyllInnManglendeDatoerOgSorterEtterDato = (
   data: Record<string, Koordinat[]>,
   periodeStart: dayjs.Dayjs,
   periodeSlutt: dayjs.Dayjs,
-): Record<string, Date[][]> => Object.keys(data).reduce((acc, behandlingstype) => {
-  const behandlingstypeData = data[behandlingstype];
+): Record<string, Date[][]> =>
+  Object.keys(data).reduce((acc, behandlingstype) => {
+    const behandlingstypeData = data[behandlingstype];
 
-  const koordinater = [];
+    const koordinater = [];
 
-  for (let dato = dayjs(periodeStart); dato.isSameOrBefore(periodeSlutt); dato = dato.add(1, 'days')) {
-    const funnetDato = behandlingstypeData.find((d) => dayjs(d.x).startOf('day').isSame(dato.startOf('day')));
-    koordinater.push(funnetDato ? [dayjs(funnetDato.x).format(ISO_DATE_FORMAT), funnetDato.y] : [dato.format(ISO_DATE_FORMAT), 0]);
-  }
+    for (let dato = dayjs(periodeStart); dato.isSameOrBefore(periodeSlutt); dato = dato.add(1, 'days')) {
+      const funnetDato = behandlingstypeData.find(d => dayjs(d.x).startOf('day').isSame(dato.startOf('day')));
+      koordinater.push(
+        funnetDato ? [dayjs(funnetDato.x).format(ISO_DATE_FORMAT), funnetDato.y] : [dato.format(ISO_DATE_FORMAT), 0],
+      );
+    }
 
-  return {
-    ...acc,
-    [behandlingstype]: koordinater,
-  };
-}, {});
+    return {
+      ...acc,
+      [behandlingstype]: koordinater,
+    };
+  }, {});
 
 const finnBehandlingTypeNavn = (behandlingTyper, behandlingTypeKode: string) => {
-  const type = behandlingTyper.find((bt) => bt.kode === behandlingTypeKode);
+  const type = behandlingTyper.find(bt => bt.kode === behandlingTypeKode);
   return type ? type.navn : '';
 };
 
@@ -105,26 +109,33 @@ interface OwnProps {
   isFireUkerValgt: boolean;
 }
 
-export const lagKoordinater = (oppgaverPerForsteStonadsdag): Koordinat[] => oppgaverPerForsteStonadsdag
-  .map((o) => ({
+export const lagKoordinater = (oppgaverPerForsteStonadsdag): Koordinat[] =>
+  oppgaverPerForsteStonadsdag.map(o => ({
     x: dayjs(o.dato).startOf('day').toDate().getTime(),
     y: o.antall,
   }));
 /**
  * TilBehandlingGraf.
  */
-const HistorikkGraf: FunctionComponent<OwnProps> = ({
-  historiskData,
-  isFireUkerValgt,
-  behandlingTyper,
-}) => {
+const HistorikkGraf: FunctionComponent<OwnProps> = ({ historiskData, isFireUkerValgt, behandlingTyper }) => {
   const periodeStart = dayjs().subtract(isFireUkerValgt ? 4 : 2, 'w');
   const periodeSlutt = dayjs().subtract(1, 'd');
 
-  const oppgaverInomValgtPeriode: HistoriskData[] = historiskData.filter((oppgave) => oppgave.antall > 0 && dayjs(oppgave.dato).isSameOrBefore(periodeSlutt, 'day') && dayjs(oppgave.dato).isSameOrAfter(periodeStart, 'day'));
+  const oppgaverInomValgtPeriode: HistoriskData[] = historiskData.filter(
+    oppgave =>
+      oppgave.antall > 0 &&
+      dayjs(oppgave.dato).isSameOrBefore(periodeSlutt, 'day') &&
+      dayjs(oppgave.dato).isSameOrAfter(periodeStart, 'day'),
+  );
 
-  const koordinater = useMemo(() => konverterTilKoordinaterGruppertPaBehandlingstype(oppgaverInomValgtPeriode), [historiskData]);
-  const data = useMemo(() => fyllInnManglendeDatoerOgSorterEtterDato(koordinater, periodeStart, periodeSlutt), [koordinater, periodeStart, periodeSlutt]);
+  const koordinater = useMemo(
+    () => konverterTilKoordinaterGruppertPaBehandlingstype(oppgaverInomValgtPeriode),
+    [historiskData],
+  );
+  const data = useMemo(
+    () => fyllInnManglendeDatoerOgSorterEtterDato(koordinater, periodeStart, periodeSlutt),
+    [koordinater, periodeStart, periodeSlutt],
+  );
 
   const alleBehandlingstyperSortert = behandlingstyperSomSkalVises;
   const sorterteBehandlingstyper = Object.keys(data).sort(sorterBehandlingtyper);
@@ -142,7 +153,7 @@ const HistorikkGraf: FunctionComponent<OwnProps> = ({
 
   return (
     <ReactECharts
-      height={eChartGrafHeight}
+      height={grafHeight}
       option={{
         tooltip: {
           trigger: 'axis',
@@ -152,7 +163,7 @@ const HistorikkGraf: FunctionComponent<OwnProps> = ({
               type: 'solid',
             },
             label: {
-              formatter: (params) => {
+              formatter: params => {
                 if (params.axisDimension === 'y') {
                   return parseInt(params.value as string, 10).toString();
                 }
@@ -160,13 +171,13 @@ const HistorikkGraf: FunctionComponent<OwnProps> = ({
               },
             },
           },
-          textStyle: eChartTooltipTextStyle,
+          textStyle: tooltipTextStyle,
         },
         legend: {
-          ...eChartLegendStyle,
-          data: reversertSorterteBehandlingstyper.map((type) => finnBehandlingTypeNavn(behandlingTyper, type)),
+          ...legendStyle,
+          data: reversertSorterteBehandlingstyper.map(type => finnBehandlingTypeNavn(behandlingTyper, type)),
         },
-        grid: eChartGridDef,
+        grid: gridDef,
         xAxis: [
           {
             // bruker category istedet for time for att vise alle dato og ikke bara hvert femte.
@@ -174,7 +185,6 @@ const HistorikkGraf: FunctionComponent<OwnProps> = ({
             // boundaryGap ser till att dato hamnar på en linje istället for mellom.
             // @ts-ignore
             boundaryGap: false,
-            minInterval: 1,
             axisTick: eChartXAxisTickDefAvdelningslederNokkeltall,
             axisLabel: {
               // viser månad og dato dersom det er valgt fire uker og dato dersom åtte uker er valgt.
@@ -185,41 +195,37 @@ const HistorikkGraf: FunctionComponent<OwnProps> = ({
                 }
                 return value;
               },
-              fontSize: eChartXAxisFontSizeAvdelningslederNokkeltall,
-              margin: eChartYAxisMarginTextBarAvdelningslederNokkeltall,
-              interval: 0,
+              fontSize: xAxisFontSizeAvdelningslederNokkeltall,
+              margin: yAxisMarginTextBarAvdelningslederNokkeltall,
             },
             // Denne setter de horisontala linjerna sammen med axisTick.
             splitLine: {
               show: true,
             },
           },
-
         ],
         yAxis: [
           {
             type: 'value',
-            minInterval: 1,
             axisLabel: {
-              fontSize: eChartYAxisFontSizeAvdelningslederNokkeltall,
-              margin: eChartYAxisMarginTextBarAvdelningslederNokkeltall,
+              fontSize: yAxisFontSizeAvdelningslederNokkeltall,
+              margin: yAxisMarginTextBarAvdelningslederNokkeltall,
             },
           },
         ],
-        series: alleBehandlingstyperSortert
-          .map((type) => ({
-            name: finnBehandlingTypeNavn(behandlingTyper, type),
-            type: 'line',
-            emphasis: {
-              focus: 'series',
-            },
-            ...eChartSeriesStyleAvdelningslederNokkeltall,
-            data: data[type],
-            color: behandlingstypeFarger[type],
-            areaStyle: {
-              opacity: graferOpacity,
-            },
-          })),
+        series: alleBehandlingstyperSortert.map(type => ({
+          name: finnBehandlingTypeNavn(behandlingTyper, type),
+          type: 'line',
+          emphasis: {
+            focus: 'series',
+          },
+          ...seriesStyleAvdelningslederNokkeltall,
+          data: data[type],
+          color: behandlingstypeFarger[type],
+          areaStyle: {
+            opacity: graferOpacity,
+          },
+        })),
       }}
     />
   );

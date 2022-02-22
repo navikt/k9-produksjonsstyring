@@ -1,11 +1,11 @@
-const dato = '2021-11-12';
+const frist = '2021-11-12';
 const behandlingerSomGårAvVent = [{
   fagsakYtelseType: {
     kode: 'PSB',
     kodeverk: '',
   },
   behandlingType: { kode: 'Revurdering', behandlingType: '' },
-  dato,
+  dato: frist,
   antall: 10,
 }, {
   fagsakYtelseType: {
@@ -13,7 +13,7 @@ const behandlingerSomGårAvVent = [{
     kodeverk: '',
   },
   behandlingType: { kode: 'Revurdering', behandlingType: '' },
-  dato,
+  dato: frist,
   antall: 10,
 }, {
   fagsakYtelseType: {
@@ -21,7 +21,7 @@ const behandlingerSomGårAvVent = [{
     kodeverk: '',
   },
   behandlingType: { kode: 'Revurdering', behandlingType: '' },
-  dato,
+  dato: frist,
   antall: 10,
 },
 {
@@ -30,7 +30,7 @@ const behandlingerSomGårAvVent = [{
     kodeverk: '',
   },
   behandlingType: { kode: 'Revurdering', behandlingType: '' },
-  dato,
+  dato: frist,
   antall: 10,
 },
 {
@@ -39,7 +39,7 @@ const behandlingerSomGårAvVent = [{
     kodeverk: '',
   },
   behandlingType: { kode: 'Revurdering', behandlingType: '' },
-  dato,
+  dato: frist,
   antall: 10,
 },
 {
@@ -48,7 +48,7 @@ const behandlingerSomGårAvVent = [{
     kodeverk: '',
   },
   behandlingType: { kode: 'Revurdering', kodeverk: 'PUNSJ_INNSENDING_TYPE' },
-  dato,
+  dato: frist,
   antall: 10,
 },
 ];

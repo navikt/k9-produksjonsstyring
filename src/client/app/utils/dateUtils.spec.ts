@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
 import {
-  calcDaysAndWeeksWithWeekends, calcDaysAndWeeks, splitWeeksAndDays, dateFormat, timeFormat, addDaysToDate, findDifferenceInMonthsAndDays,
+  calcDaysAndWeeksWithWeekends, calcDaysAndWeeks, splitWeeksAndDays, momentDateFormat, timeFormat, addDaysToDate, findDifferenceInMonthsAndDays,
 }
   from './dateUtils';
 
@@ -43,7 +43,7 @@ describe('dateutils', () => {
   describe('dateFormat', () => {
     it('Skal formatere en dato til ISO', () => {
       const dateTime = '2017-08-02T01:54:25.455';
-      expect(dateFormat(dateTime)).is.eql('02.08.2017');
+      expect(momentDateFormat(dateTime)).is.eql('02.08.2017');
     });
   });
 

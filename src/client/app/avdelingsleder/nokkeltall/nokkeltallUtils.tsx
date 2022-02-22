@@ -13,34 +13,50 @@ export const punsjKodeverkNavn = 'PUNSJ_INNSENDING_TYPE';
 export const UKE_4 = '4';
 export const UKE_2 = '2';
 
-export const ytelseTyper = [{
-  kode: fagsakYtelseType.OMSORGSPENGER,
-  navn: 'Omsorgspenger',
-},
-{
-  kode: fagsakYtelseType.OMSORGSDAGER,
-  navn: 'Omsorgsdager',
-},
-{
-  kode: fagsakYtelseType.PLEIEPENGER_SYKT_BARN,
-  navn: 'Pleiepenger sykt barn',
-},
-{
-  kode: fagsakYtelseType.PUNSJ,
-  navn: 'Punsj',
-},
-{
-  kode: ALLE_YTELSETYPER_VALGT,
-  navn: 'Alle ytelser',
-}];
+export const ytelseTyper = [
+  {
+    kode: fagsakYtelseType.OMSORGSPENGER,
+    navn: 'Omsorgspenger',
+  },
+  {
+    kode: fagsakYtelseType.OMSORGSDAGER,
+    navn: 'Omsorgsdager',
+  },
+  {
+    kode: fagsakYtelseType.PLEIEPENGER_SYKT_BARN,
+    navn: 'Pleiepenger sykt barn',
+  },
+  {
+    kode: fagsakYtelseType.PUNSJ,
+    navn: 'Punsj',
+  },
+  {
+    kode: ALLE_YTELSETYPER_VALGT,
+    navn: 'Alle ytelser',
+  },
+];
 
-export const uker = [{
-  kode: '2',
-  tekstKode: 'TilBehandlingPanel.ToSisteUker',
-}, {
-  kode: UKE_4,
-  tekstKode: 'TilBehandlingPanel.FireSisteUker',
-}];
+export const uker = [
+  {
+    kode: UKE_2,
+    tekstKode: 'Historikk.ToSisteUker',
+  },
+  {
+    kode: UKE_4,
+    tekstKode: 'Historikk.FireSisteUker',
+  },
+];
+
+export const fremtidigeUker = [
+  {
+    kode: UKE_2,
+    tekstKode: 'BehandlingerGårAvVent.ToNesteUker',
+  },
+  {
+    kode: UKE_4,
+    tekstKode: 'BehandlingerGårAvVent.FireNesteUker',
+  },
+];
 
 export const behandlingstypeOrder = [
   behandlingType.FORSTEGANGSSOKNAD,
@@ -62,11 +78,11 @@ export const erDatoInnenforPeriode = (oppgaveForAvdeling, ukevalg) => {
 export const slaSammenLikeBehandlingstyperOgDatoer = (oppgaver: HistoriskData[]) => {
   const sammenslatte = [];
 
-  oppgaver.forEach((o) => {
+  oppgaver.forEach(o => {
     if (o.behandlingType.kodeverk === punsjKodeverkNavn) {
       return;
     }
-    const index = sammenslatte.findIndex((s) => s.behandlingType.kode === o.behandlingType.kode && s.dato === o.dato);
+    const index = sammenslatte.findIndex(s => s.behandlingType.kode === o.behandlingType.kode && s.dato === o.dato);
     if (index === -1) {
       sammenslatte.push(o);
     } else {
@@ -84,8 +100,8 @@ export const slaSammenLikeBehandlingstyperOgDatoer = (oppgaver: HistoriskData[])
 export const slaSammenLikeBehandlingstyperForNyeOgFerdigstilleOppgaver = (oppgaver: NyeOgFerdigstilteOppgaver[]) => {
   const sammenslatte = [];
 
-  oppgaver.forEach((o) => {
-    const index = sammenslatte.findIndex((s) => s.behandlingType.kode === o.behandlingType.kode && s.dato === o.dato);
+  oppgaver.forEach(o => {
+    const index = sammenslatte.findIndex(s => s.behandlingType.kode === o.behandlingType.kode && s.dato === o.dato);
     if (index === -1) {
       sammenslatte.push(o);
     } else {
@@ -102,14 +118,21 @@ export const slaSammenLikeBehandlingstyperForNyeOgFerdigstilleOppgaver = (oppgav
   return sammenslatte;
 };
 
-export const slaSammenAllePunsjBehandlingstyperForNyeOgFerdigstilleOppgaver = (oppgaver: NyeOgFerdigstilteOppgaver[]) => {
+export const slaSammenAllePunsjBehandlingstyperForNyeOgFerdigstilleOppgaver = (
+  oppgaver: NyeOgFerdigstilteOppgaver[],
+) => {
   const sammenslatte = [];
 
-  oppgaver.forEach((o) => {
+  oppgaver.forEach(o => {
     if (o.behandlingType.kodeverk !== punsjKodeverkNavn) {
       return;
     }
-    const index = sammenslatte.findIndex((s) => s.behandlingType.kodeverk === punsjKodeverkNavn && s.fagsakYtelseType.kode === o.fagsakYtelseType.kode && s.dato === o.dato);
+    const index = sammenslatte.findIndex(
+      s =>
+        s.behandlingType.kodeverk === punsjKodeverkNavn &&
+        s.fagsakYtelseType.kode === o.fagsakYtelseType.kode &&
+        s.dato === o.dato,
+    );
     if (index === -1) {
       sammenslatte.push(o);
     } else {
@@ -130,11 +153,14 @@ export const slaSammenAllePunsjBehandlingstyperForNyeOgFerdigstilleOppgaver = (o
 export const slaSammenPunsjBehandlingstyperOgDatoer = (oppgaver: HistoriskData[]) => {
   const sammenslatte = [];
 
-  oppgaver.forEach((o) => {
+  oppgaver.forEach(o => {
     if (o.behandlingType.kodeverk !== punsjKodeverkNavn) {
       return;
     }
-    const index = sammenslatte.findIndex((s) => s.behandlingType.kode === 'PUNSJ' && s.dato === o.dato && s.fagsakYtelseType.kode === o.fagsakYtelseType.kode);
+    const index = sammenslatte.findIndex(
+      s =>
+        s.behandlingType.kode === 'PUNSJ' && s.dato === o.dato && s.fagsakYtelseType.kode === o.fagsakYtelseType.kode,
+    );
     if (index === -1) {
       sammenslatte.push({
         fagsakYtelseType: o.fagsakYtelseType,
@@ -172,28 +198,39 @@ export const sjekkOmOppgaveSkalLeggesTil = (
   switch (ytelse) {
     case fagsakYtelseType.PUNSJ:
       return punsjBehandlingstyper.includes(oppgave.behandlingType.kode);
-    case fagsakYtelseType.OMSORGSDAGER: return omsorgsdagerYtelsetyper.includes(oppgave.fagsakYtelseType.kode);
+    case fagsakYtelseType.OMSORGSDAGER:
+      return omsorgsdagerYtelsetyper.includes(oppgave.fagsakYtelseType.kode);
     case ALLE_YTELSETYPER_VALGT: {
-      return !punsjBehandlingstyper.includes(oppgave.behandlingType.kode)
-        && (omsorgsdagerYtelsetyper.includes(oppgave.fagsakYtelseType.kode)
-          || oppgave.fagsakYtelseType.kode === fagsakYtelseType.OMSORGSPENGER
-          || oppgave.fagsakYtelseType.kode === fagsakYtelseType.PLEIEPENGER_SYKT_BARN);
+      return (
+        !punsjBehandlingstyper.includes(oppgave.behandlingType.kode) &&
+        (omsorgsdagerYtelsetyper.includes(oppgave.fagsakYtelseType.kode) ||
+          oppgave.fagsakYtelseType.kode === fagsakYtelseType.OMSORGSPENGER ||
+          oppgave.fagsakYtelseType.kode === fagsakYtelseType.PLEIEPENGER_SYKT_BARN)
+      );
     }
     default:
       return ytelse === oppgave.fagsakYtelseType.kode && !punsjBehandlingstyper.includes(oppgave.behandlingType.kode);
   }
 };
 
-export const filtrereNyePerDato = (ytelseType: string, ukevalg : string, nyePerDato: HistoriskData[]): HistoriskData[] => {
+export const filtrereNyePerDato = (
+  ytelseType: string,
+  ukevalg: string,
+  nyePerDato: HistoriskData[],
+): HistoriskData[] => {
   if (nyePerDato) {
     if (ytelseType === 'PUNSJ') {
-      return slaSammenPunsjBehandlingstyperOgDatoer(nyePerDato
-        .filter((ofa) => sjekkOmOppgaveSkalLeggesTil(ytelseType, ofa))
-        .filter((ofa) => erDatoInnenforPeriode(ofa, ukevalg)));
+      return slaSammenPunsjBehandlingstyperOgDatoer(
+        nyePerDato
+          .filter(ofa => sjekkOmOppgaveSkalLeggesTil(ytelseType, ofa))
+          .filter(ofa => erDatoInnenforPeriode(ofa, ukevalg)),
+      );
     }
-    return slaSammenLikeBehandlingstyperOgDatoer(nyePerDato
-      .filter((ofa) => sjekkOmOppgaveSkalLeggesTil(ytelseType, ofa))
-      .filter((ofa) => erDatoInnenforPeriode(ofa, ukevalg)));
+    return slaSammenLikeBehandlingstyperOgDatoer(
+      nyePerDato
+        .filter(ofa => sjekkOmOppgaveSkalLeggesTil(ytelseType, ofa))
+        .filter(ofa => erDatoInnenforPeriode(ofa, ukevalg)),
+    );
   }
   return [];
 };

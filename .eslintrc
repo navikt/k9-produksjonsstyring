@@ -16,7 +16,8 @@
     "airbnb",
     "plugin:@typescript-eslint/recommended",
     "plugin:react/recommended",
-    "plugin:import/typescript"
+    "plugin:import/typescript",
+    "prettier"
   ],
   "settings": {
     "import/resolver": {
@@ -72,6 +73,7 @@
     "react/function-component-definition": "off",
     "implicit-arrow-linebreak": "off",
     "function-paren-newline": "off",
-    "arrow-parens": "off"
+    "arrow-parens": "off",
+    "object-curly-newline": "off"
   }
 }
