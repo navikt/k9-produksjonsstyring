@@ -150,7 +150,7 @@
     "react-test-renderer": "^17.0.2",
     "sinon": "^13.0.1",
     "sinon-chai": "^3.5.0",
-    "stylelint": "^14.4.0",
+    "stylelint": "^14.5.2",
     "stylelint-order": "^5.0.0",
     "terser-webpack-plugin": "^5.3.1",
     "thread-loader": "^3.0.0",
