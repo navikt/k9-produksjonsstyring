@@ -52,7 +52,7 @@ const Stolpediagram = ({ series, labels, legendColors = [], fremITid = false, uk
       top: '10%',
       left: '1%',
       right: '3%',
-      bottom: '15%',
+      bottom: '30%',
       containLabel: true,
     },
     tooltip: {
