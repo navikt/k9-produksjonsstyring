@@ -9,7 +9,7 @@ import { shallowWithIntl, intlMock } from '../../../../../../../../setup/testHel
 import NyeOgFerdigstilteOppgaverForSisteSyvGraf from './NyeOgFerdigstilteOppgaverForSisteSyvGraf';
 
 describe('<NyeOgFerdigstilteOppgaverForSisteSyvGraf>', () => {
-  const intl: Partial<IntlShape> = {
+  const intl: IntlShape = {
     ...intlMock,
   };
 
@@ -30,7 +30,7 @@ describe('<NyeOgFerdigstilteOppgaverForSisteSyvGraf>', () => {
 
   it('skal vise ReactEchartGraf', () => {
     const wrapper = shallowWithIntl(<NyeOgFerdigstilteOppgaverForSisteSyvGraf.WrappedComponent
-      intl={intl as IntlShape}
+      intl={intl}
       height={200}
       nyeOgFerdigstilteOppgaver={nyeOgFerdigstilteOppgaver}
     />);

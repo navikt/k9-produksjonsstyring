@@ -23,12 +23,10 @@ import EndreDriftsmeldingerIndex from './driftsmeldinger/EndreDriftsmeldingerInd
 const classNames = classnames.bind(styles);
 
 const renderPanel = (avdelingslederPanel) => {
-  switch (avdelingslederPanel) {
-    case AdminPanels.DRIFTSMELDINGER:
-      return <EndreDriftsmeldingerIndex />;
-    default:
-      return null;
+  if (avdelingslederPanel === AdminPanels.DRIFTSMELDINGER) {
+    return <EndreDriftsmeldingerIndex />;
   }
+  return null;
 };
 
 const messageId = {

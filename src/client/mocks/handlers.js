@@ -19,7 +19,7 @@ let handlers = [];
 
 const developmentHandlers = {
   ferdigstilteHistorikk: rest.get('/api/avdelingsleder/nokkeltall/ferdigstilte-historikk', (req, res, ctx) =>
-    res(ctx.json(giRandomDato(ferdigstilteHistorikk))),
+    res(ctx.json(giRandomDato(ferdigstilteHistorikk, 14))),
   ),
   dagensTall: rest.get('/api/avdelingsleder/nokkeltall//dagens-tall', (req, res, ctx) => res(ctx.json(dagensTall))),
   allePaaVent: rest.get('/api/avdelingsleder/nokkeltall/alle-paa-vent_v2', (req, res, ctx) =>

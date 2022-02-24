@@ -6,14 +6,14 @@ import { Form } from 'react-final-form';
 import sinon from 'sinon';
 import { Knapp } from 'nav-frontend-knapper';
 import * as useRestApiData from 'api/rest-api-hooks/src/global-data/useGlobalStateRestApiData';
-import { shallowWithIntl, intlMock } from '../../../../../../setup/testHelpers/intl-enzyme-test-helper';
 import { InputField } from 'form/FinalFields';
+import { shallowWithIntl, intlMock } from '../../../../../../setup/testHelpers/intl-enzyme-test-helper';
 import SearchForm from './SearchForm';
 
 describe('<SearchForm>', () => {
   let contextStub;
 
-  const intl: Partial<IntlShape> = {
+  const intl: IntlShape = {
     ...intlMock,
   };
   it('skal ha et søkefelt og en søkeknapp', () => {
@@ -26,12 +26,12 @@ describe('<SearchForm>', () => {
     };
     const wrapper = shallow(
       <SearchForm.WrappedComponent
-        intl={intl as IntlShape}
+        intl={intl}
         onSubmit={sinon.spy()}
         searchStarted
         resetSearch={sinon.spy()}
         // @ts-ignore
-      />
+      />,
     )
       .find(Form)
       .renderProp('render')(formProps);
@@ -53,12 +53,12 @@ describe('<SearchForm>', () => {
 
     const wrapper = shallowWithIntl(
       <SearchForm.WrappedComponent
-        intl={intl as IntlShape}
+        intl={intl}
         onSubmit={onButtonClick}
         searchStarted
         resetSearch={sinon.spy()}
         // @ts-ignore
-      />
+      />,
     )
       .find(Form)
       .renderProp('render')(formProps);

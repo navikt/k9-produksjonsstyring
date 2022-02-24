@@ -11,13 +11,13 @@ import behandlingType from 'kodeverk/behandlingType';
 import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
 import andreKriterierType from 'kodeverk/andreKriterierType';
 import { SelectField } from 'form/FinalFields';
+import { K9LosApiKeys } from 'api/k9LosApi';
 import { shallowWithIntl, intlMock } from '../../../../../../setup/testHelpers/intl-enzyme-test-helper';
 import RestApiTestMocker from '../../../../../../setup/testHelpers/RestApiTestMocker';
-import { K9LosApiKeys } from 'api/k9LosApi';
 import OppgavekoVelgerForm from './OppgavekoVelgerForm';
 
 describe('<OppgavekoVelgerForm>', () => {
-  const intl: Partial<IntlShape> = {
+  const intl: IntlShape = {
     ...intlMock,
   };
 
@@ -77,7 +77,7 @@ describe('<OppgavekoVelgerForm>', () => {
       .withRestCallRunner(K9LosApiKeys.BEHANDLINGSKO_OPPGAVE_ANTALL, { startRequest: () => undefined, data: 10 })
       .runTest(() => {
         const wrapper = shallowWithIntl(<OppgavekoVelgerForm.WrappedComponent
-          intl={intl as IntlShape}
+          intl={intl}
           oppgavekoer={oppgavekoer}
           plukkNyOppgave={sinon.spy()}
           setValgtOppgavekoId={sinon.spy()}
@@ -125,7 +125,7 @@ describe('<OppgavekoVelgerForm>', () => {
       .withRestCallRunner(K9LosApiKeys.BEHANDLINGSKO_OPPGAVE_ANTALL, { startRequest: () => undefined, data: 10 })
       .runTest(() => {
         const wrapper = shallowWithIntl(<OppgavekoVelgerForm.WrappedComponent
-          intl={intl as IntlShape}
+          intl={intl}
           oppgavekoer={oppgavekoer}
           setValgtOppgavekoId={sinon.spy()}
           plukkNyOppgave={sinon.spy()}
@@ -165,7 +165,7 @@ describe('<OppgavekoVelgerForm>', () => {
       .withRestCallRunner(K9LosApiKeys.BEHANDLINGSKO_OPPGAVE_ANTALL, { startRequest: () => undefined, data: 10 })
       .runTest(() => {
         const wrapper = shallowWithIntl(<OppgavekoVelgerForm.WrappedComponent
-          intl={intl as IntlShape}
+          intl={intl}
           oppgavekoer={oppgavekoer}
           setValgtOppgavekoId={sinon.spy()}
           plukkNyOppgave={sinon.spy()}
@@ -213,7 +213,7 @@ describe('<OppgavekoVelgerForm>', () => {
       .runTest(() => {
         // totaltBehandlingTypeAntall er satt til 1 som er lik antall behandlingstypar satt på sakslisten
         const wrapper = shallowWithIntl(<OppgavekoVelgerForm.WrappedComponent
-          intl={intl as IntlShape}
+          intl={intl}
           oppgavekoer={oppgavekoer}
           setValgtOppgavekoId={sinon.spy()}
           plukkNyOppgave={sinon.spy()}
@@ -265,7 +265,7 @@ describe('<OppgavekoVelgerForm>', () => {
       .withRestCallRunner(K9LosApiKeys.BEHANDLINGSKO_OPPGAVE_ANTALL, { startRequest: () => undefined, data: 10 })
       .runTest(() => {
         const wrapper = shallowWithIntl(<OppgavekoVelgerForm.WrappedComponent
-          intl={intl as IntlShape}
+          intl={intl}
           oppgavekoer={oppgavekoer}
           setValgtOppgavekoId={sinon.spy()}
           plukkNyOppgave={sinon.spy()}
@@ -312,7 +312,7 @@ describe('<OppgavekoVelgerForm>', () => {
       .withRestCallRunner(K9LosApiKeys.BEHANDLINGSKO_OPPGAVE_ANTALL, { startRequest: () => undefined, data: 10 })
       .runTest(() => {
         const wrapper = shallowWithIntl(<OppgavekoVelgerForm.WrappedComponent
-          intl={intl as IntlShape}
+          intl={intl}
           oppgavekoer={oppgavekoer}
           setValgtOppgavekoId={sinon.spy()}
           plukkNyOppgave={sinon.spy()}
@@ -359,7 +359,7 @@ describe('<OppgavekoVelgerForm>', () => {
       .withRestCallRunner(K9LosApiKeys.BEHANDLINGSKO_OPPGAVE_ANTALL, { startRequest: () => undefined, data: 10 })
       .runTest(() => {
         const wrapper = shallowWithIntl(<OppgavekoVelgerForm.WrappedComponent
-          intl={intl as IntlShape}
+          intl={intl}
           oppgavekoer={oppgavekoer}
           setValgtOppgavekoId={sinon.spy()}
           plukkNyOppgave={sinon.spy()}
@@ -399,7 +399,7 @@ describe('<OppgavekoVelgerForm>', () => {
       .withRestCallRunner(K9LosApiKeys.BEHANDLINGSKO_OPPGAVE_ANTALL, { startRequest: () => undefined, data: 10 })
       .runTest(() => {
         const wrapper = shallowWithIntl(<OppgavekoVelgerForm.WrappedComponent
-          intl={intl as IntlShape}
+          intl={intl}
           oppgavekoer={oppgavekoer}
           setValgtOppgavekoId={sinon.spy()}
           plukkNyOppgave={sinon.spy()}
@@ -441,7 +441,7 @@ describe('<OppgavekoVelgerForm>', () => {
       .withRestCallRunner(K9LosApiKeys.BEHANDLINGSKO_OPPGAVE_ANTALL, { startRequest: () => undefined, data: 10 })
       .runTest(() => {
         const wrapper = shallowWithIntl(<OppgavekoVelgerForm.WrappedComponent
-          intl={intl as IntlShape}
+          intl={intl}
           oppgavekoer={oppgavekoer}
           setValgtOppgavekoId={sinon.spy()}
           getValueFromLocalStorage={sinon.spy()}

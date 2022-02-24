@@ -14,7 +14,7 @@ import { shallowWithIntl, intlMock } from '../../../../../../../setup/testHelper
 import FlyttReservasjonModal from './FlyttReservasjonModal';
 
 describe('<FlyttReservasjonModal>', () => {
-  const intl: Partial<IntlShape> = {
+  const intl: IntlShape = {
     ...intlMock,
   };
 
@@ -30,7 +30,7 @@ describe('<FlyttReservasjonModal>', () => {
       .runTest(() => {
         const wrapper = shallowWithIntl(
           <FlyttReservasjonModal.WrappedComponent
-            intl={intl as IntlShape}
+            intl={intl}
             showModal
             oppgaveId={oppgaveId}
             closeModal={sinon.spy()}
@@ -56,7 +56,7 @@ describe('<FlyttReservasjonModal>', () => {
       .runTest(() => {
         const wrapper = shallowWithIntl(
           <FlyttReservasjonModal.WrappedComponent
-            intl={intl as IntlShape}
+            intl={intl}
             showModal
             oppgaveId={oppgaveId}
             closeModal={sinon.spy()}
@@ -89,7 +89,7 @@ describe('<FlyttReservasjonModal>', () => {
       .runTest(() => {
         const wrapper = shallowWithIntl(
           <FlyttReservasjonModal.WrappedComponent
-            intl={intl as IntlShape}
+            intl={intl}
             showModal
             oppgaveId={oppgaveId}
             closeModal={sinon.spy()}
@@ -117,7 +117,7 @@ describe('<FlyttReservasjonModal>', () => {
       .runTest(() => {
         const wrapper = shallowWithIntl(
           <FlyttReservasjonModal.WrappedComponent
-            intl={intl as IntlShape}
+            intl={intl}
             showModal
             oppgaveId={oppgaveId}
             closeModal={sinon.spy()}
@@ -143,7 +143,7 @@ describe('<FlyttReservasjonModal>', () => {
       .runTest(() => {
         const wrapper = shallowWithIntl(
           <FlyttReservasjonModal.WrappedComponent
-            intl={intl as IntlShape}
+            intl={intl}
             showModal
             oppgaveId={oppgaveId}
             closeModal={sinon.spy()}
@@ -174,7 +174,7 @@ describe('<FlyttReservasjonModal>', () => {
       .runTest(() => {
         const wrapper = shallowWithIntl(
           <FlyttReservasjonModal.WrappedComponent
-            intl={intl as IntlShape}
+            intl={intl}
             showModal
             oppgaveId={oppgaveId}
             closeModal={sinon.spy()}
@@ -210,7 +210,7 @@ describe('<FlyttReservasjonModal>', () => {
       .runTest(() => {
         const wrapper = shallowWithIntl(
           <FlyttReservasjonModal.WrappedComponent
-            intl={intl as IntlShape}
+            intl={intl}
             showModal
             oppgaveId={oppgaveId}
             closeModal={sinon.spy()}
@@ -242,7 +242,7 @@ describe('<FlyttReservasjonModal>', () => {
       .runTest(() => {
         const wrapper = shallowWithIntl(
           <FlyttReservasjonModal.WrappedComponent
-            intl={intl as IntlShape}
+            intl={intl}
             showModal
             oppgaveId={oppgaveId}
             closeModal={sinon.spy()}
@@ -278,7 +278,7 @@ describe('<FlyttReservasjonModal>', () => {
       .runTest(() => {
         const wrapper = shallowWithIntl(
           <FlyttReservasjonModal.WrappedComponent
-            intl={intl as IntlShape}
+            intl={intl}
             showModal
             oppgaveId={oppgaveId}
             closeModal={sinon.spy()}
@@ -314,7 +314,7 @@ describe('<FlyttReservasjonModal>', () => {
       .runTest(() => {
         const wrapper = shallowWithIntl(
           <FlyttReservasjonModal.WrappedComponent
-            intl={intl as IntlShape}
+            intl={intl}
             showModal
             oppgaveId={oppgaveId}
             closeModal={sinon.spy()}
