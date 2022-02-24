@@ -80,7 +80,7 @@ const ReservasjonerTabell: FunctionComponent<OwnProps & WrappedComponentProps> =
     <>
       <div className={styles.titelContainer}>
         <b><FormattedMessage id="ReservasjonerTabell.Reservasjoner" /></b>
-        <div className={styles.sokfelt}><TextField onChange={debounceFn} label="Sök på reservasjon" /></div>
+        <div className={styles.sokfelt}><TextField onChange={debounceFn} label="Søk på reservasjon" /></div>
       </div>
       <VerticalSpacer sixteenPx />
       {sorterteReservasjoner.length === 0 && !requestFinished && (

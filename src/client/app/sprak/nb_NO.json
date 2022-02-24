@@ -269,7 +269,7 @@
   "ReservasjonerTabell.Slett": "Slett",
   "ReservasjonerTabell.Reservasjoner": "Alle reservasjoner",
   "ReservasjonerTabell.IngenReservasjoner": "Ingen reservasjoner funnet",
-  "ReservasjonerTabell.IngenMatchandeReservasjoner": "Ingen reservasjoner som matcher sök.",
+  "ReservasjonerTabell.IngenMatchandeReservasjoner": "Ingen reservasjoner som matcher søk.",
   "ReservasjonerTabell.LeggTilbake": "Legg behandling tilbake i felles kø",
   "ReservasjonerTabell.EndreReservasjon": "Reserver behandlingen med dato",
   "ReservasjonerTabell.FlyttReservasjon": "Flytt reservasjonen til annen saksbehandler",
