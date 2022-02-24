@@ -53,7 +53,7 @@ const ReservasjonerTabell: FunctionComponent<OwnProps & WrappedComponentProps> =
     if (sorterteReservasjoner.length > 0 && requestFinished) {
       setReservasjonerSomSkalVises(sorterteReservasjoner);
     }
-  }, [reservasjoner, requestFinished]);
+  }, [sorterteReservasjoner, requestFinished]);
 
   const velgReservasjon = (res: Reservasjon) => {
     if (valgtReservasjon === undefined || valgtReservasjon.oppgaveId !== res.oppgaveId) {
