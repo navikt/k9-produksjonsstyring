@@ -1,7 +1,7 @@
 import React, {
-  FunctionComponent, useState,
+  FunctionComponent, useCallback, useEffect, useState,
 } from 'react';
-import { Element, Normaltekst } from 'nav-frontend-typografi';
+import { Normaltekst } from 'nav-frontend-typografi';
 import { FormattedMessage, injectIntl, WrappedComponentProps } from 'react-intl';
 import Reservasjon from 'avdelingsleder/reservasjoner/reservasjonTsType';
 import Image from 'sharedComponents/Image';
@@ -16,6 +16,8 @@ import Chevron from 'nav-frontend-chevron';
 import { Row } from 'nav-frontend-grid';
 import OpphevReservasjonModal from 'saksbehandler/behandlingskoer/components/menu/OpphevReservasjonModal';
 import FlyttReservasjonModal from 'saksbehandler/behandlingskoer/components/menu/FlyttReservasjonModal';
+import { TextField } from '@navikt/ds-react';
+import _ from 'lodash';
 import styles from './reservasjonerTabell.less';
 import arrowIcon from '../../../../images/arrow-left-3.svg';
 import arrowIconRight from '../../../../images/arrow-right-3.svg';
@@ -44,6 +46,14 @@ const ReservasjonerTabell: FunctionComponent<OwnProps & WrappedComponentProps> =
   const [valgtReservasjon, setValgtReservasjon] = useState<Reservasjon>();
   const [showFlyttReservasjonModal, setShowFlyttReservasjonModal] = useState(false);
   const [showOpphevReservasjonModal, setShowOpphevReservasjonModal] = useState(false);
+  const [reservasjonerSomSkalVises, setReservasjonerSomSkalVises] = useState([]);
+  const [finnesSokResultat, setFinnesSokResultat] = useState(true);
+
+  useEffect(() => {
+    if (sorterteReservasjoner.length > 0 && requestFinished) {
+      setReservasjonerSomSkalVises(sorterteReservasjoner);
+    }
+  }, [sorterteReservasjoner, requestFinished]);
 
   const velgReservasjon = (res: Reservasjon) => {
     if (valgtReservasjon === undefined || valgtReservasjon.oppgaveId !== res.oppgaveId) {
@@ -53,11 +63,35 @@ const ReservasjonerTabell: FunctionComponent<OwnProps & WrappedComponentProps> =
     }
   };
 
+  const sokEtterReservasjon = (e) => {
+    const sokVerdi = e.target.value.toLowerCase();
+    const reservasjonerMedMatch = sorterteReservasjoner.filter((res) => res.reservertAvNavn.toLowerCase().includes(sokVerdi) || res.saksnummer.toLowerCase().includes(sokVerdi));
+    if (reservasjonerMedMatch.length > 0) {
+      setFinnesSokResultat(true);
+      setReservasjonerSomSkalVises(reservasjonerMedMatch);
+    } else {
+      setFinnesSokResultat(false);
+    }
+  };
+
+  const debounceFn = useCallback(_.debounce(sokEtterReservasjon, 300), [sorterteReservasjoner]);
+
   return (
     <>
-      <Element><FormattedMessage id="ReservasjonerTabell.Reservasjoner" /></Element>
+      <div className={styles.titelContainer}>
+        <b><FormattedMessage id="ReservasjonerTabell.Reservasjoner" /></b>
+        <div className={styles.sokfelt}><TextField onChange={debounceFn} label="Søk på reservasjon" /></div>
+      </div>
+      <VerticalSpacer sixteenPx />
       {sorterteReservasjoner.length === 0 && !requestFinished && (
         <NavFrontendSpinner type="XL" className={styles.spinner} />
+      )}
+      {sorterteReservasjoner.length > 0 && requestFinished && !finnesSokResultat && (
+        <>
+          <VerticalSpacer eightPx />
+          <Normaltekst><FormattedMessage id="ReservasjonerTabell.IngenMatchandeReservasjoner" /></Normaltekst>
+          <VerticalSpacer eightPx />
+        </>
       )}
       {sorterteReservasjoner.length === 0 && requestFinished && (
       <>
@@ -66,10 +100,9 @@ const ReservasjonerTabell: FunctionComponent<OwnProps & WrappedComponentProps> =
         <VerticalSpacer eightPx />
       </>
       )}
-      {sorterteReservasjoner.length > 0 && (
-        <>
-          <Table headerTextCodes={headerTextCodes} noHover>
-            {sorterteReservasjoner.map((reservasjon) => (
+      {reservasjonerSomSkalVises.length > 0 && finnesSokResultat && (
+        <Table headerTextCodes={headerTextCodes} noHover>
+            {reservasjonerSomSkalVises.map((reservasjon) => (
               <>
                 <TableRow
                   key={reservasjon.oppgaveId}
@@ -129,9 +162,7 @@ const ReservasjonerTabell: FunctionComponent<OwnProps & WrappedComponentProps> =
                 )}
               </>
             ))}
-          </Table>
-
-        </>
+        </Table>
       )}
       {showOpphevReservasjonModal && (
       <OpphevReservasjonModal

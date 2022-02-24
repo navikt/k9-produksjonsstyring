@@ -9,6 +9,7 @@ import løsteAksjonspunkterPerEnhet from './løsteAksjonspunkterPerEnhet';
 import behandlingerSomGårAvVentÅrsaker from './behandlingerSomGårAvVentÅrsaker';
 import behandlingerSomGårAvVent from './behandlingerSomGårAvVent';
 import kodeverk from './kodeverk';
+import avdelningsledareReservasjoner from './avdelningsledareReservasjoner';
 // Alle handlers som ligger direkte i dette arrayet vil gjelde
 // selv om k9-sak-web startes uten env spesielle env-variabler.
 // Requesten treffer handlerne i stedet for eventuelle eksisterende APIer
@@ -30,6 +31,9 @@ const developmentHandlers = {
   aksjonspunkterPerEnhet: rest.get(
     '/api/saksbehandler/nokkeltall/aksjonspunkter-per-enhet-historikk',
     (req, res, ctx) => res(ctx.json(giRandomDato(løsteAksjonspunkterPerEnhet, 7))),
+  ),
+  reservasjoner: rest.get('/api/avdelingsleder/reservasjoner', (req, res, ctx) =>
+    res(ctx.json(avdelningsledareReservasjoner)),
   ),
   kodeverk: rest.get('/api/kodeverk', (req, res, ctx) => res(ctx.json(kodeverk))),
 };
