@@ -324,7 +324,63 @@ const ferdigstilteHistorikk = [{
 },
 {
   fagsakYtelseType: {
-    kode: 'PSB',
+    kode: 'OMP_KS',
+    navn: 'Pleiepenger sykt barn',
+    kodeverk: 'FAGSAK_YTELSE_TYPE',
+  },
+  behandlingType: {
+    kode: 'UKJENT',
+    navn: 'Ukjent',
+    kodeverk: 'PUNSJ_INNSENDING_TYPE',
+  },
+  dato,
+  antall: 1,
+},
+{
+  fagsakYtelseType: {
+    kode: 'OMP_KS',
+    navn: 'Pleiepenger sykt barn',
+    kodeverk: 'FAGSAK_YTELSE_TYPE',
+  },
+  behandlingType: {
+    kode: 'UKJENT',
+    navn: 'Ukjent',
+    kodeverk: 'PUNSJ_INNSENDING_TYPE',
+  },
+  dato,
+  antall: 1,
+},
+{
+  fagsakYtelseType: {
+    kode: 'OMP_KS',
+    navn: 'Pleiepenger sykt barn',
+    kodeverk: 'FAGSAK_YTELSE_TYPE',
+  },
+  behandlingType: {
+    kode: 'UKJENT',
+    navn: 'Ukjent',
+    kodeverk: 'PUNSJ_INNSENDING_TYPE',
+  },
+  dato,
+  antall: 1,
+},
+{
+  fagsakYtelseType: {
+    kode: 'OMP',
+    navn: 'Pleiepenger sykt barn',
+    kodeverk: 'FAGSAK_YTELSE_TYPE',
+  },
+  behandlingType: {
+    kode: 'UKJENT',
+    navn: 'Ukjent',
+    kodeverk: 'PUNSJ_INNSENDING_TYPE',
+  },
+  dato,
+  antall: 1,
+},
+{
+  fagsakYtelseType: {
+    kode: 'OMP',
     navn: 'Pleiepenger sykt barn',
     kodeverk: 'FAGSAK_YTELSE_TYPE',
   },
