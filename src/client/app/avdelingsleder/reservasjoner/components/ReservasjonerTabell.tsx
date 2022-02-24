@@ -1,5 +1,5 @@
 import React, {
-  FunctionComponent, useCallback, useEffect, useMemo, useState,
+  FunctionComponent, useCallback, useEffect, useState,
 } from 'react';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { FormattedMessage, injectIntl, WrappedComponentProps } from 'react-intl';
