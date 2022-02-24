@@ -9,14 +9,14 @@ import { shallowWithIntl, intlMock } from '../../../../../../setup/testHelpers/i
 import { LeggTilSaksbehandlerForm } from './LeggTilSaksbehandlerForm';
 
 describe('<LeggTilSaksbehandlerForm>', () => {
-  const intl: Partial<IntlShape> = {
+  const intl: IntlShape = {
     ...intlMock,
   };
   it('skal vise form for å søke opp saksbehandlere men ikke knapper for å legge til og nullstille', () => {
     const formProps = { handleSubmit: sinon.spy() };
 
     const wrapper = shallowWithIntl(<LeggTilSaksbehandlerForm
-      intl={intl as IntlShape}
+      intl={intl}
       finnSaksbehandler={sinon.spy()}
       leggTilSaksbehandler={sinon.spy()}
       resetSaksbehandlerSok={sinon.spy()}

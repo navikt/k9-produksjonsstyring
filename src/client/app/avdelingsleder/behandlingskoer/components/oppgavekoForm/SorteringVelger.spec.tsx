@@ -3,16 +3,16 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { IntlShape } from 'react-intl';
 
-import { shallowWithIntl, intlMock } from '../../../../../../../setup/testHelpers/intl-enzyme-test-helper';
 import KoSortering from 'kodeverk/KoSortering';
 import { RadioGroupField, RadioOption } from 'form/FinalFields';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
-import RestApiTestMocker from '../../../../../../../setup/testHelpers/RestApiTestMocker';
 import { K9LosApiKeys } from 'api/k9LosApi';
+import RestApiTestMocker from '../../../../../../../setup/testHelpers/RestApiTestMocker';
+import { shallowWithIntl, intlMock } from '../../../../../../../setup/testHelpers/intl-enzyme-test-helper';
 import SorteringVelger from './SorteringVelger';
 
 describe('<SorteringVelger>', () => {
-  const intl: Partial<IntlShape> = {
+  const intl: IntlShape = {
     ...intlMock,
   };
   const koSorteringTyper = [{
@@ -28,7 +28,7 @@ describe('<SorteringVelger>', () => {
       .withDummyRunner()
       .runTest(() => {
         const wrapper = shallowWithIntl(<SorteringVelger.WrappedComponent
-          intl={intl as IntlShape}
+          intl={intl}
           valgtOppgavekoId="1"
           valgteBehandlingtyper={[]}
           fomDato="03-08-2020"
@@ -53,7 +53,7 @@ describe('<SorteringVelger>', () => {
         { startRequest: () => undefined })
       .runTest(() => {
         const wrapper = shallowWithIntl(<SorteringVelger.WrappedComponent
-          intl={intl as IntlShape}
+          intl={intl}
           valgtOppgavekoId="1"
           valgteBehandlingtyper={[]}
           fomDato="03-08-2020"

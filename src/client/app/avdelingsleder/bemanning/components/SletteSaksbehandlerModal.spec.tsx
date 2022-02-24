@@ -8,7 +8,7 @@ import { shallowWithIntl, intlMock } from '../../../../../../setup/testHelpers/i
 import SletteSaksbehandlerModal from './SletteSaksbehandlerModal';
 
 describe('<SletteSaksbehandlerModal>', () => {
-  const intl: Partial<IntlShape> = {
+  const intl: IntlShape = {
     ...intlMock,
   };
   it('skal vise slette-modal med knapper for om en vil slette eller ikke', () => {
@@ -20,7 +20,7 @@ describe('<SletteSaksbehandlerModal>', () => {
     };
 
     const wrapper = shallowWithIntl(<SletteSaksbehandlerModal.WrappedComponent
-      intl={intl as IntlShape}
+      intl={intl}
       valgtSaksbehandler={saksbehandler}
       closeSletteModal={sinon.spy()}
       fjernSaksbehandler={sinon.spy()}
@@ -40,7 +40,7 @@ describe('<SletteSaksbehandlerModal>', () => {
     const submitFn = sinon.spy();
 
     const wrapper = shallowWithIntl(<SletteSaksbehandlerModal.WrappedComponent
-      intl={intl as IntlShape}
+      intl={intl}
       valgtSaksbehandler={saksbehandler}
       closeSletteModal={sinon.spy()}
       fjernSaksbehandler={submitFn}

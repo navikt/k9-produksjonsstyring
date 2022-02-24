@@ -12,7 +12,7 @@ import NyeOgFerdigstilteOppgaverForIdagGraf from './NyeOgFerdigstilteOppgaverFor
 import { shallowWithIntl, intlMock } from '../../../../../../../../setup/testHelpers/intl-enzyme-test-helper';
 
 describe('<NyeOgFerdigstilteOppgaverForIdagGraf>', () => {
-  const intl: Partial<IntlShape> = {
+  const intl: IntlShape = {
     ...intlMock,
   };
 
@@ -52,7 +52,7 @@ describe('<NyeOgFerdigstilteOppgaverForIdagGraf>', () => {
 
   it('skal vise ReactEchartGraf', () => {
     const wrapper = shallowWithIntl(<NyeOgFerdigstilteOppgaverForIdagGraf.WrappedComponent
-      intl={intl as IntlShape}
+      intl={intl}
       behandlingTyper={[]}
       nyeOgFerdigstilteOppgaver={nyeOgFerdigstilteOppgaver}
       skalPunsjbehandlingerVises={false}

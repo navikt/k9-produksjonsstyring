@@ -8,7 +8,7 @@ import { shallowWithIntl, intlMock } from '../../../../../../setup/testHelpers/i
 import { SletteOppgavekoModal } from './SletteOppgavekoModal';
 
 describe('<SletteOppgavekoModal>', () => {
-  const intl: Partial<IntlShape> = {
+  const intl: IntlShape = {
     ...intlMock,
   };
 
@@ -24,7 +24,7 @@ describe('<SletteOppgavekoModal>', () => {
     };
 
     const wrapper = shallowWithIntl(<SletteOppgavekoModal
-      intl={intl as IntlShape}
+      intl={intl}
       valgtOppgaveko={oppgaveko}
       cancel={sinon.spy()}
       submit={sinon.spy()}
@@ -47,7 +47,7 @@ describe('<SletteOppgavekoModal>', () => {
     const submitFn = sinon.spy();
 
     const wrapper = shallowWithIntl(<SletteOppgavekoModal
-      intl={intl as IntlShape}
+      intl={intl}
       valgtOppgaveko={oppgaveko}
       cancel={sinon.spy()}
       submit={submitFn}
