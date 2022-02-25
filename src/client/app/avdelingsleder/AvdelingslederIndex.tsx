@@ -35,6 +35,7 @@ import AvdelingslederPanels from './avdelingslederPanels';
 import EndreBehandlingskoerIndex from './behandlingskoer/EndreBehandlingskoerIndex';
 
 import styles from './avdelingslederIndex.less';
+import {Button} from "@navikt/ds-react";
 
 const classNames = classnames.bind(styles);
 
@@ -115,6 +116,11 @@ export const AvdelingslederIndex: FunctionComponent = () => {
   const getAvdelingslederPanelLocation = getPanelLocationCreator(location);
   const activeAvdelingslederPanel = activeAvdelingslederPanelTemp || getPanelFromUrlOrDefault(location);
 
+  const hellu = () => {
+    //@ts-ignore
+    denneFinnesIkke = true;
+  };
+
   if (!kanOppgavestyre) {
     return <IkkeTilgangTilAvdelingslederPanel />;
   }
@@ -144,6 +150,7 @@ export const AvdelingslederIndex: FunctionComponent = () => {
               </Panel>
             </div>
           </AvdelingslederDashboard>
+          <Button onChange={() => hellu()}>Generere sentry feil</Button>
         </Row>
       </>
     );
