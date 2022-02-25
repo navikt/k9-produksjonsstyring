@@ -28,6 +28,9 @@ jobs:
         run: yarn test && yarn less:lint
       - name: Bygge kode
         run: yarn build
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_RELEASE: ${{ git rev-parse --short HEAD }}
       - name: Sette Docker-navn og -tag
         run: |
           echo "TAG=$(date +"%Y%m%d%H%M%S")-$(git rev-parse --short HEAD)" >> $GITHUB_ENV
