@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { render } from 'react-dom';
-import { ErrorBoundary, init } from '@sentry/react';
+import { init } from '@sentry/react';
 
 import AppIndex from 'app/AppIndex';
 import { RestApiProvider } from 'api/rest-api-hooks/src/RestApiContext';
@@ -29,7 +29,6 @@ const renderFunc = Component => {
   const queryClient = new QueryClient(config);
 
   render(
-    <ErrorBoundary>
       <BrowserRouter>
         <RestApiProvider requestApi={k9LosApi}>
           <RestApiErrorProvider>
@@ -38,8 +37,7 @@ const renderFunc = Component => {
             </QueryClientProvider>
           </RestApiErrorProvider>
         </RestApiProvider>
-      </BrowserRouter>
-    </ErrorBoundary>,
+      </BrowserRouter>,
     app,
   );
 };
