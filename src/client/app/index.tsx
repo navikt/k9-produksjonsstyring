@@ -11,9 +11,6 @@ import { RestApiErrorProvider } from 'api/error/RestApiErrorContext';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { config } from 'utils/reactQueryConfig';
 import '@navikt/ds-css';
-import * as dotenv from 'dotenv';
-
-dotenv.config();
 
 /* eslint no-undef: "error" */
 const environment = window.location.hostname;
