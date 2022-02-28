@@ -12,7 +12,7 @@ server.use(
     contentSecurityPolicy: {
       directives: {
         defaultSrc: ["'self'"],
-        connectSrc: ["'self'", process.env.AUTH_PROXY_URL, 'https://sentry.gc.nav.no'],
+        connectSrc: ["'self'", process.env.AUTH_PROXY_URL, `${process.env.AUTH_PROXY_URL}/saksbehandler`, 'https://sentry.gc.nav.no'],
         frameSrc: ["'self'", process.env.AUTH_PROXY_URL],
         fontSrc: ["'self'", 'data:'],
         imgSrc: ["'self'", 'data:'],
