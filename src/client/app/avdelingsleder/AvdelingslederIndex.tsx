@@ -117,9 +117,9 @@ export const AvdelingslederIndex: FunctionComponent = () => {
   const activeAvdelingslederPanel = activeAvdelingslederPanelTemp || getPanelFromUrlOrDefault(location);
 
   const hellu = () => {
-    console.log('hi');
+    const objIsUndefined = undefined;
     //@ts-ignore
-    denneFinnesIkke();
+    objIsUndefined.notDefined.map(e => console.log(e));
   };
 
   if (!kanOppgavestyre) {
