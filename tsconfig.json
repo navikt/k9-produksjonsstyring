@@ -9,6 +9,8 @@
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "sourceMap": true,
+    "inlineSources": true,
+    "sourceRoot": "/",
     "jsx": "react",
     "typeRoots": ["./node_modules/@types", "./src/@types"],
     "baseUrl": "src/client/",
