@@ -42,14 +42,9 @@ const config = {
 
   optimization: {
     minimizer: [
-      new TerserPlugin({
-        parallel: true,
-      }),
+      new TerserPlugin(),
       new OptimizeCSSAssetsPlugin({}),
     ],
-    splitChunks: {
-      chunks: 'all',
-    },
   },
 
   stats: {
