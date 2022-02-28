@@ -5,15 +5,13 @@ require('dotenv').config();
 
 const server = express();
 
-console.log('AUTH_PROXY_URL', process.env.AUTH_PROXY_URL)
-
 server.use(
   helmet({
     contentSecurityPolicy: {
       directives: {
         defaultSrc: ["'self'"],
         connectSrc: ["'self'", process.env.AUTH_PROXY_BASE_URL, 'https://sentry.gc.nav.no'],
-        frameSrc: ["'self'", process.env.AUTH_PROXY_URL],
+        frameSrc: ["'self'", process.env.AUTH_PROXY_BASE_URL],
         fontSrc: ["'self'", 'data:'],
         imgSrc: ["'self'", 'data:'],
       },
