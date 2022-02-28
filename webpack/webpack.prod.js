@@ -5,6 +5,7 @@ const path = require('path');
 const { merge } = require('webpack-merge');
 const TerserPlugin = require('terser-webpack-plugin');
 const commonDevAndProd = require('./webpack.common.js');
+const SentryCliPlugin = require('@sentry/webpack-plugin');
 
 const ROOT_DIR = path.resolve(__dirname, '../src/client');
 const APP_DIR = path.resolve(ROOT_DIR, 'app');
@@ -35,6 +36,14 @@ const config = {
     new MiniCssExtractPlugin({
       filename: 'style_[chunkhash].css',
       ignoreOrder: true,
+    }),
+    new SentryCliPlugin({
+      include: 'dist/public',
+      org: 'nav',
+      project: 'k9-los-web',
+      authToken: process.env.SENTRY_AUTH_TOKEN,
+      url: 'https://sentry.gc.nav.no/',
+      release: process.env.SENTRY_RELEASE,
     }),
   ],
   optimization: {
