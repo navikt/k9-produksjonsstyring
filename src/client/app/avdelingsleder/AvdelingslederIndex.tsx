@@ -117,8 +117,9 @@ export const AvdelingslederIndex: FunctionComponent = () => {
   const activeAvdelingslederPanel = activeAvdelingslederPanelTemp || getPanelFromUrlOrDefault(location);
 
   const hellu = () => {
+    const objIsUndefined = undefined;
     //@ts-ignore
-    denneFinnesIkke = true;
+    objIsUndefined.notDefined.map(e => console.log(e));
   };
 
   if (!kanOppgavestyre) {
@@ -150,7 +151,7 @@ export const AvdelingslederIndex: FunctionComponent = () => {
               </Panel>
             </div>
           </AvdelingslederDashboard>
-          <Button onChange={() => hellu()}>Generere sentry feil</Button>
+          <Button onClick={() => hellu()}>Generere sentry feil</Button>
         </Row>
       </>
     );
