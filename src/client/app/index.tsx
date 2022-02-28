@@ -1,8 +1,7 @@
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { render } from 'react-dom';
-import { init } from '@sentry/browser';
-import { ErrorBoundary } from '@sentry/react';
+import { ErrorBoundary, init } from '@sentry/react';
 
 import AppIndex from 'app/AppIndex';
 import { RestApiProvider } from 'api/rest-api-hooks/src/RestApiContext';
