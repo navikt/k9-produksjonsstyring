@@ -20,8 +20,8 @@ async function opprettReleaseTilSentry() {
 
     console.log('Laster opp source maps');
     await cli.releases.uploadSourceMaps(release, {
-      include: ['/public'],
-      urlPrefix: '~/dist/public',
+      include: ['dist/public'],
+      urlPrefix: '~/public',
       rewrite: false,
     });
 
