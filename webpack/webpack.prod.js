@@ -13,6 +13,8 @@ const APP_DIR = path.resolve(ROOT_DIR, 'app');
 const config = {
   mode: 'production',
   devtool: 'source-map',
+  performance: { hints: false },
+
   entry: [
     `${APP_DIR}/index.tsx`,
   ],
@@ -20,8 +22,9 @@ const config = {
   output: {
     globalObject: 'this',
     filename: '[name].[contenthash].js',
+    chunkFilename: '[id].[chunkhash].chunk.js',
     path: path.resolve(__dirname, '../dist/public'),
-    publicPath: '/public',
+    publicPath: '/public/',
   },
 
   plugins: [
@@ -39,9 +42,18 @@ const config = {
 
   optimization: {
     minimizer: [
-      new TerserPlugin(),
-      new OptimizeCSSAssetsPlugin(),
+      new TerserPlugin({
+        parallel: true,
+      }),
+      new OptimizeCSSAssetsPlugin({}),
     ],
+    splitChunks: {
+      chunks: 'all',
+    },
+  },
+
+  stats: {
+    children: false,
   },
 };
 
