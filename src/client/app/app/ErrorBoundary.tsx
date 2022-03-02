@@ -1,7 +1,5 @@
 import { Component, ReactNode, ErrorInfo } from 'react';
-import { ErrorBoundary as ErrorBoundarySentry } from '@sentry/react';
-import React from 'react';
-
+import { captureException, withScope } from '@sentry/browser';
 
 interface OwnProps {
   errorMessageCallback: (error: any) => void;
@@ -21,6 +19,14 @@ export class ErrorBoundary extends Component<OwnProps, State> {
   componentDidCatch(error: Error, info: ErrorInfo): void {
     const { errorMessageCallback } = this.props;
 
+    withScope((scope) => {
+      Object.keys(info).forEach((key) => {
+        // @ts-ignore Fiks
+        scope.setExtra(key, info[key]);
+        captureException(error);
+      });
+    });
+
     errorMessageCallback([
       error.toString(),
       info.componentStack
@@ -35,7 +41,7 @@ export class ErrorBoundary extends Component<OwnProps, State> {
 
   render(): ReactNode {
     const { children } = this.props;
-    return <ErrorBoundarySentry>{children}</ErrorBoundarySentry>;
+    return children;
   }
 }
 
