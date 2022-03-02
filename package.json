@@ -15,7 +15,6 @@
     "@popperjs/core": "^2.11.2",
     "@sentry/browser": "^6.17.9",
     "@sentry/cli": "^1.73.0",
-    "@sentry/react": "^6.18.0",
     "@testing-library/jest-dom": "^5.16.2",
     "@testing-library/user-event": "^13.5.0",
     "@types/jest": "^27.4.1",
