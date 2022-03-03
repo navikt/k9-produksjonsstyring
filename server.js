@@ -6,17 +6,33 @@ require('dotenv').config();
 const server = express();
 server.use(
   helmet({
+    referrerPolicy: {
+      policy: ["'no-referrer'"]
+    },
+    frameguard: {
+      action: ["'deny'"]
+    },
     contentSecurityPolicy: {
       directives: {
         defaultSrc: ["'self'"],
+        baseUri: ["'self'"],
         connectSrc: ["'self'", process.env.AUTH_PROXY_BASE_URL, process.env.AUTH_PROXY_BASE_URL_WSS, 'https://sentry.gc.nav.no'],
-        frameSrc: ["'self'", process.env.AUTH_PROXY_BASE_URL],
+        frameSrc: ["'none'"],
         fontSrc: ["'self'", 'data:'],
         imgSrc: ["'self'", 'data:'],
+        styleSrc: ["'self'"],
+        scriptSrc: ["'self'"],
+        childSrc: ["'none'"],
+        formAction: ["'self'"],
+        mediaSrc: ["'none'"],
+        objectSrc: ["'none'"],
+        pluginTypes: ["'none'"],
       },
     },
   })
 );
+
+server.use(helmet.noSniff());
 
 server.use(express.static(path.join(__dirname, 'dist')));
 const PORT = process.env.PORT || 8030;
