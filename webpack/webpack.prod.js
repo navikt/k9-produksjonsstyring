@@ -37,7 +37,6 @@ const config = {
       filename: 'style_[chunkhash].css',
       ignoreOrder: true,
     }),
-    new webpack.EnvironmentPlugin({ SENTRY_RELEASE: null }),
   ],
 
   optimization: {
