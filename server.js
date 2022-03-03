@@ -13,19 +13,12 @@ server.use(
       action: ["'deny'"]
     },
     contentSecurityPolicy: {
+      useDefaults: true,
       directives: {
-        defaultSrc: ["'self'"],
-        baseUri: ["'self'"],
         connectSrc: ["'self'", process.env.AUTH_PROXY_BASE_URL, process.env.AUTH_PROXY_BASE_URL_WSS, 'https://sentry.gc.nav.no'],
         frameSrc: ["'none'"],
-        fontSrc: ["'self'", 'data:'],
-        imgSrc: ["'self'", 'data:'],
-        styleSrc: ["'self'"],
-        scriptSrc: ["'self'"],
         childSrc: ["'none'"],
-        formAction: ["'self'"],
         mediaSrc: ["'none'"],
-        objectSrc: ["'none'"],
         pluginTypes: ["'none'"],
       },
     },
