@@ -5,6 +5,7 @@ const path = require('path');
 const { merge } = require('webpack-merge');
 const TerserPlugin = require('terser-webpack-plugin');
 const commonDevAndProd = require('./webpack.common.js');
+const webpack = require('webpack');
 
 const ROOT_DIR = path.resolve(__dirname, '../src/client');
 const APP_DIR = path.resolve(ROOT_DIR, 'app');
@@ -36,6 +37,7 @@ const config = {
       filename: 'style_[chunkhash].css',
       ignoreOrder: true,
     }),
+    new webpack.EnvironmentPlugin({ SENTRY_RELEASE: null }),
   ],
 
   optimization: {
