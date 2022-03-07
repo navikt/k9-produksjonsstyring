@@ -19,7 +19,6 @@ server.use(
         frameSrc: ["'none'"],
         childSrc: ["'none'"],
         mediaSrc: ["'none'"],
-        pluginTypes: ["'none'"],
       },
     },
   })
