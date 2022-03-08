@@ -6,6 +6,9 @@ require('dotenv').config();
 const server = express();
 server.use(
   helmet({
+     referrerPolicy: {
+      policy: ["'no-referrer'"]
+    },
     contentSecurityPolicy: {
       useDefaults: true,
       directives: {
