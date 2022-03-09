@@ -6,9 +6,6 @@ require('dotenv').config();
 const server = express();
 server.use(
   helmet({
-     referrerPolicy: {
-      policy: ["'no-referrer'"]
-    },
     contentSecurityPolicy: {
       useDefaults: true,
       directives: {
@@ -23,6 +20,8 @@ server.use(
 );
 
 server.use(helmet.noSniff());
+server.use(helmet.referrerPolicy());
+server.use(helmet.frameguard());
 
 server.use(express.static(path.join(__dirname, 'dist')));
 const PORT = process.env.PORT || 8030;
