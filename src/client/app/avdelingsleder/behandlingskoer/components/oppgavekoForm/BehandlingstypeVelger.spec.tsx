@@ -118,7 +118,7 @@ describe('<BehandlingstypeVelger>', () => {
         const { args } = lagreBehandlingTypeFn.getCalls()[0];
         expect(args).to.have.length(1);
         expect(args[0].id).to.eql('1');
-        expect(args[0].behandlingsTyper[0].behandlingType).to.eql({kode: "BT-008"});
+        expect(args[0].behandlingsTyper[0].behandlingType).to.eql({kode: 'BT-008', kodeverk: 'ae0046', navn: 'Anke'});
         expect(args[0].behandlingsTyper[0].checked).is.true;
       });
   });
