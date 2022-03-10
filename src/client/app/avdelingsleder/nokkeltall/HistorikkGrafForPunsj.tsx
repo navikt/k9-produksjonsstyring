@@ -48,7 +48,7 @@ const konverterTilKoordinaterGruppertPaFagytelsetype = (
       y: o.antall,
     };
 
-    if(omsorgsdagerYtelsetyper.includes(o.fagsakYtelseType.kode)){
+    if(omsorgsdagerYtelsetyper.includes(o.fagsakYtelseType)){
       const eksisterendeKoordinater = acc[samletNavnForOmsorgsdager];
 
       return {
@@ -57,11 +57,11 @@ const konverterTilKoordinaterGruppertPaFagytelsetype = (
       };
     }
 
-    const eksisterendeKoordinater = acc[o.fagsakYtelseType.kode];
+    const eksisterendeKoordinater = acc[o.fagsakYtelseType];
 
     return {
       ...acc,
-      [o.fagsakYtelseType.kode]: eksisterendeKoordinater ? eksisterendeKoordinater.concat(nyKoordinat) : [nyKoordinat],
+      [o.fagsakYtelseType]: eksisterendeKoordinater ? eksisterendeKoordinater.concat(nyKoordinat) : [nyKoordinat],
     };
   }, {} as Record<string, Koordinat[]>);
 

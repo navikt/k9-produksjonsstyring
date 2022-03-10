@@ -6,10 +6,11 @@ import { IntlShape } from 'react-intl';
 import KoSortering from 'kodeverk/KoSortering';
 import { RadioGroupField, RadioOption } from 'form/FinalFields';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
-import { K9LosApiKeys } from 'api/k9LosApi';
+import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
 import RestApiTestMocker from '../../../../../../../setup/testHelpers/RestApiTestMocker';
 import { shallowWithIntl, intlMock } from '../../../../../../../setup/testHelpers/intl-enzyme-test-helper';
 import SorteringVelger from './SorteringVelger';
+import kodeverk from "../../../../../mocks/kodeverk";
 
 describe('<SorteringVelger>', () => {
   const intl: IntlShape = {
@@ -17,7 +18,6 @@ describe('<SorteringVelger>', () => {
   };
   const koSorteringTyper = [{
     kode: KoSortering.OPPRETT_BEHANDLING,
-    navn: 'opprett',
     felttype: '',
     feltkategori: '',
   }];
@@ -26,11 +26,11 @@ describe('<SorteringVelger>', () => {
     new RestApiTestMocker()
       .withKodeverk(kodeverkTyper.KO_SORTERING, koSorteringTyper)
       .withDummyRunner()
+      .withGlobalData(RestApiGlobalStatePathsKeys.KODEVERK, kodeverk)
       .runTest(() => {
         const wrapper = shallowWithIntl(<SorteringVelger.WrappedComponent
           intl={intl}
           valgtOppgavekoId="1"
-          valgteBehandlingtyper={[]}
           fomDato="03-08-2020"
           tomDato="19-08-2020"
           hentOppgaveko={sinon.spy()}
@@ -51,11 +51,11 @@ describe('<SorteringVelger>', () => {
         { startRequest: (params) => { lagreSorteringFn(params); return Promise.resolve(); } })
       .withRestCallRunner(K9LosApiKeys.LAGRE_OPPGAVEKO_SORTERING_TIDSINTERVALL_DATO,
         { startRequest: () => undefined })
+      .withGlobalData(RestApiGlobalStatePathsKeys.KODEVERK, kodeverk)
       .runTest(() => {
         const wrapper = shallowWithIntl(<SorteringVelger.WrappedComponent
           intl={intl}
           valgtOppgavekoId="1"
-          valgteBehandlingtyper={[]}
           fomDato="03-08-2020"
           tomDato="19-08-2020"
           hentOppgaveko={sinon.spy()}

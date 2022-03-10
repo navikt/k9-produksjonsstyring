@@ -1,6 +1,4 @@
-import React, {
-  FunctionComponent, useCallback, useEffect, useState,
-} from 'react';
+import React, { FunctionComponent, useCallback, useEffect, useState, } from 'react';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { FormattedMessage, injectIntl, WrappedComponentProps } from 'react-intl';
 import Reservasjon from 'avdelingsleder/reservasjoner/reservasjonTsType';
@@ -18,9 +16,14 @@ import OpphevReservasjonModal from 'saksbehandler/behandlingskoer/components/men
 import FlyttReservasjonModal from 'saksbehandler/behandlingskoer/components/menu/FlyttReservasjonModal';
 import { TextField } from '@navikt/ds-react';
 import _ from 'lodash';
+import { getKodeverknavnFraKode } from "utils/kodeverkUtils";
+import kodeverkTyper from "kodeverk/kodeverkTyper";
+import AlleKodeverk from "kodeverk/alleKodeverkTsType";
+import { RestApiGlobalStatePathsKeys } from "api/k9LosApi";
 import styles from './reservasjonerTabell.less';
 import arrowIcon from '../../../../images/arrow-left-3.svg';
 import arrowIconRight from '../../../../images/arrow-right-3.svg';
+import useGlobalStateRestApiData from "../../../api/rest-api-hooks/src/global-data/useGlobalStateRestApiData";
 
 const headerTextCodes = [
   'ReservasjonerTabell.Navn',
@@ -42,6 +45,7 @@ const ReservasjonerTabell: FunctionComponent<OwnProps & WrappedComponentProps> =
   requestFinished,
 }) => {
   const sorterteReservasjoner = reservasjoner.sort((reservasjon1, reservasjon2) => reservasjon1.reservertAvNavn.localeCompare(reservasjon2.reservertAvNavn));
+  const alleKodeverk: AlleKodeverk = useGlobalStateRestApiData(RestApiGlobalStatePathsKeys.KODEVERK);
 
   const [valgtReservasjon, setValgtReservasjon] = useState<Reservasjon>();
   const [showFlyttReservasjonModal, setShowFlyttReservasjonModal] = useState(false);
@@ -111,7 +115,7 @@ const ReservasjonerTabell: FunctionComponent<OwnProps & WrappedComponentProps> =
                 >
                   <TableColumn>{reservasjon.reservertAvNavn}</TableColumn>
                   <TableColumn>{reservasjon.saksnummer}</TableColumn>
-                  <TableColumn>{reservasjon.behandlingType.navn}</TableColumn>
+                  <TableColumn>{getKodeverknavnFraKode(reservasjon.behandlingType, kodeverkTyper.BEHANDLING_TYPE, alleKodeverk)}</TableColumn>
                   <TableColumn>
                     <FormattedMessage
                       id="ReservasjonerTabell.ReservertTilFormat"

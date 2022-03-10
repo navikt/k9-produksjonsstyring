@@ -7,6 +7,9 @@ import { getK9punsjRef, getK9sakHref, getOmsorgspengerRef } from 'app/paths';
 import Oppgave from 'saksbehandler/oppgaveTsType';
 import PersonInfo from 'saksbehandler/fagsakSearch/components/person/PersonInfo';
 import Lenke from 'nav-frontend-lenker';
+import { getKodeverknavnFraKode } from "utils/kodeverkUtils";
+import AlleKodeverk from "kodeverk/alleKodeverkTsType";
+import kodeverkTyper from "kodeverk/kodeverkTyper";
 import useGlobalStateRestApiData from '../api/rest-api-hooks/src/global-data/useGlobalStateRestApiData';
 import styles from './aktoerGrid.less';
 import OppgaveSystem from '../types/OppgaveSystem';
@@ -19,6 +22,7 @@ export const AktoerGrid: FunctionComponent<OwnProps> = ({ resultat }) => {
   const k9sakUrl = useGlobalStateRestApiData<{ verdi?: string }>(RestApiGlobalStatePathsKeys.K9SAK_URL);
   const k9punsjUrl = useGlobalStateRestApiData<{ verdi?: string }>(RestApiGlobalStatePathsKeys.PUNSJ_URL);
   const omsorgspengerUrl = useGlobalStateRestApiData<{ verdi?: string }>(RestApiGlobalStatePathsKeys.OMSORGSPENGER_URL);
+  const alleKodeverk: AlleKodeverk = useGlobalStateRestApiData(RestApiGlobalStatePathsKeys.KODEVERK);
 
   const getUrl = (oppgave: Oppgave) => {
     if (oppgave.system === OppgaveSystem.PUNSJ) {
@@ -52,7 +56,7 @@ export const AktoerGrid: FunctionComponent<OwnProps> = ({ resultat }) => {
             tittelProps="normaltekst"
           >
             {` ${oppgave.saksnummer} `}
-            {` ${oppgave.fagsakYtelseType.navn} `}
+            {` ${getKodeverknavnFraKode(oppgave.fagsakYtelseType, kodeverkTyper.FAGSAK_YTELSE_TYPE, alleKodeverk)} `}
           </Lenkepanel>
         ))
       ) : (

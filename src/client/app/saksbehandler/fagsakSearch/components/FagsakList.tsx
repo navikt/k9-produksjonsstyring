@@ -96,8 +96,8 @@ const FagsakList: FunctionComponent<OwnProps> = ({
           >
             <TableColumn>{oppgave.saksnummer ? (`${oppgave.saksnummer} ${fagsaksperiodeÅr(oppgave)}`) : `${oppgave.journalpostId}`}</TableColumn>
             <TableColumn>{oppgave.navn}</TableColumn>
-            <TableColumn>{oppgave.fagsakYtelseType.navn}</TableColumn>
-            <TableColumn>{oppgave.behandlingStatus.navn}</TableColumn>
+            <TableColumn>{oppgave.fagsakYtelseType}</TableColumn>
+            <TableColumn>{oppgave.behandlingStatus}</TableColumn>
             <TableColumn>
               {' '}
               <NavFrontendChevron />

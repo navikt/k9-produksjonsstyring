@@ -1,7 +1,5 @@
-import { Kodeverk } from 'kodeverk/kodeverkTsType';
-
 type ApneBehandlinger = Readonly<{
-    behandlingType: Kodeverk;
+    behandlingType: string;
     antall:number;
 }>
 

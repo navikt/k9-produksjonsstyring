@@ -8,8 +8,11 @@ import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
 import HistorikkGrafForPunsj from 'avdelingsleder/nokkeltall/HistorikkGrafForPunsj';
 import GrafContainer from 'avdelingsleder/GrafContainer';
 import { getValueFromLocalStorage } from 'utils/localStorageHelper';
-import HistorikkGraf from '../../HistorikkGraf';
+import AlleKodeverk from "kodeverk/alleKodeverkTsType";
+import { useGlobalStateRestApiData } from "api/rest-api-hooks";
+import { RestApiGlobalStatePathsKeys } from "api/k9LosApi";
 import HistoriskData from '../../historiskDataTsType';
+import HistorikkGraf from '../../HistorikkGraf';
 
 interface OwnProps {
   beholdningPerDato?: HistoriskData[];
@@ -33,6 +36,8 @@ export const BeholdningHistorikkPanel: FunctionComponent<OwnProps & WrappedCompo
     getValueFromLocalStorage(`${id}-uker`) || UKE_2,
   );
 
+  const alleKodeverk: AlleKodeverk = useGlobalStateRestApiData(RestApiGlobalStatePathsKeys.KODEVERK);
+
   return (
     <GrafContainer
       valgtYtelseType={valgtYtelseType}
@@ -46,7 +51,7 @@ export const BeholdningHistorikkPanel: FunctionComponent<OwnProps & WrappedCompo
         {valgtYtelseType === fagsakYtelseType.PUNSJ && (
           <HistorikkGrafForPunsj
             isFireUkerValgt={antallUkerSomSkalVises === UKE_4}
-            historiskData={filtrereNyePerDato(valgtYtelseType, antallUkerSomSkalVises, beholdningPerDato)}
+            historiskData={filtrereNyePerDato(valgtYtelseType, antallUkerSomSkalVises, beholdningPerDato, alleKodeverk)}
           />
         )}
 
@@ -54,7 +59,7 @@ export const BeholdningHistorikkPanel: FunctionComponent<OwnProps & WrappedCompo
           <HistorikkGraf
             isFireUkerValgt={antallUkerSomSkalVises === UKE_4}
             behandlingTyper={behandlingTyper}
-            historiskData={filtrereNyePerDato(valgtYtelseType, antallUkerSomSkalVises, beholdningPerDato)}
+            historiskData={filtrereNyePerDato(valgtYtelseType, antallUkerSomSkalVises, beholdningPerDato, alleKodeverk)}
           />
         )}
       </>

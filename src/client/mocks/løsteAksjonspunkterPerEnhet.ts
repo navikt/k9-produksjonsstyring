@@ -1,123 +1,87 @@
 const dato = '2021-11-12';
 const løsteAksjonspunkterPerEnhet = [
   {
-    fagsakYtelseType: {
-      kode: 'PSB',
-      kodeverk: '',
-    },
-    behandlingType: { kode: 'Revurdering', behandlingType: '' },
+    fagsakYtelseType: 'PSB',
+    behandlingType: 'Revurdering',
     enhet: '9001',
     dato,
     antall: 10,
   },
   {
-    fagsakYtelseType: {
-      kode: 'OMP',
-      kodeverk: '',
-    },
-    behandlingType: { kode: 'Revurdering', behandlingType: '' },
+    fagsakYtelseType: 'OMP',
+    behandlingType: 'Revurdering',
     enhet: '9001',
     dato,
     antall: 500,
   },
   {
-    fagsakYtelseType: {
-      kode: 'OMP_KS',
-      kodeverk: '',
-    },
+    fagsakYtelseType: 'OMP_KS',
     enhet: '9001',
 
-    behandlingType: { kode: 'Revurdering', behandlingType: '' },
+    behandlingType: 'Revurdering',
     dato,
     antall: 1500,
   },
   {
-    fagsakYtelseType: {
-      kode: 'OMP_AO',
-      kodeverk: '',
-    },
+    fagsakYtelseType: 'OMP_AO',
     enhet: '1337',
-    behandlingType: { kode: 'Revurdering', behandlingType: '' },
+    behandlingType: 'Revurdering',
     dato,
     antall: 10,
   },
   {
-    fagsakYtelseType: {
-      kode: 'OMP_MA',
-      kodeverk: '',
-    },
+    fagsakYtelseType: 'OMP_MA',
     enhet: '1337',
-    behandlingType: { kode: 'Revurdering', behandlingType: '' },
+    behandlingType: 'Revurdering',
     dato,
     antall: 10,
   },
   {
-    fagsakYtelseType: {
-      kode: 'PSB',
-      kodeverk: '',
-    },
+    fagsakYtelseType: 'PSB',
     behandlingType: { kode: 'Revurdering', kodeverk: 'PUNSJ_INNSENDING_TYPE' },
     dato,
     enhet: '1337',
     antall: 10,
   },
   {
-    fagsakYtelseType: {
-      kode: 'PSB',
-      kodeverk: '',
-    },
-    behandlingType: { kode: 'Revurdering', behandlingType: '' },
+    fagsakYtelseType: 'PSB',
+    behandlingType: 'Revurdering',
     enhet: '9001',
     dato,
     antall: 10,
   },
   {
-    fagsakYtelseType: {
-      kode: 'OMP',
-      kodeverk: '',
-    },
-    behandlingType: { kode: 'Revurdering', behandlingType: '' },
+    fagsakYtelseType: 'OMP',
+    behandlingType: 'Revurdering',
     enhet: '9001',
     dato,
     antall: 10,
   },
   {
-    fagsakYtelseType: {
-      kode: 'OMP_KS',
-      kodeverk: '',
-    },
+    fagsakYtelseType: 'OMP_KS',
     enhet: '9001',
 
-    behandlingType: { kode: 'Revurdering', behandlingType: '' },
+    behandlingType: 'Revurdering',
     dato,
     antall: 10,
   },
   {
-    fagsakYtelseType: {
-      kode: 'OMP_AO',
-      kodeverk: '',
-    },
+    fagsakYtelseType: 'OMP_AO',
     enhet: '1337',
-    behandlingType: { kode: 'Revurdering', behandlingType: '' },
+    behandlingType: 'Revurdering',
     dato,
     antall: 10,
   },
   {
-    fagsakYtelseType: {
-      kode: 'OMP_MA',
-      kodeverk: '',
-    },
+    fagsakYtelseType: 'OMP_MA',
     enhet: '1337',
-    behandlingType: { kode: 'Revurdering', behandlingType: '' },
+    behandlingType: 'Revurdering',
     dato,
     antall: 10,
   },
   {
-    fagsakYtelseType: {
-      kode: 'PSB',
-      kodeverk: '',
-    },
-    behandlingType: { kode: 'Revurdering', kodeverk: 'PUNSJ_INNSENDING_TYPE' },
+    fagsakYtelseType: 'PSB',
+    behandlingType: 'Revurdering',
     dato,
     enhet: '1337',
     antall: 10,

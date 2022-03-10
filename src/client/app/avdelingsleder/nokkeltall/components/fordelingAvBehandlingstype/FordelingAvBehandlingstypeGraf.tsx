@@ -1,4 +1,4 @@
-import React, { useMemo, FunctionComponent } from 'react';
+import React, { FunctionComponent, useMemo } from 'react';
 
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 
@@ -20,6 +20,10 @@ import {
   yXAxisFontSizeSaksbehandlerNokkeltall,
 } from '../../../../../styles/echartStyle';
 import useKodeverk from '../../../../api/rest-api-hooks/src/global-data/useKodeverk';
+import { getKodeverkFraKode } from "utils/kodeverkUtils";
+import AlleKodeverk from "kodeverk/alleKodeverkTsType";
+import { useGlobalStateRestApiData } from "api/rest-api-hooks";
+import { RestApiGlobalStatePathsKeys } from "api/k9LosApi";
 
 const behandlingstypeOrder = [
   behandlingType.TILBAKEBETALING,
@@ -32,14 +36,14 @@ const behandlingstypeOrder = [
 
 const fagytelseTypeOrder = [fagsakYtelseType.OMSORGSPENGER, fagsakYtelseType.PLEIEPENGER_SYKT_BARN];
 
-const slåSammen = (oppgaverForAvdeling: AlleOppgaver[], erPunsjValgt: boolean): number[] => {
+const slåSammen = (oppgaverForAvdeling: AlleOppgaver[], erPunsjValgt: boolean, alleKodeverk: AlleKodeverk): number[] => {
   const test = oppgaverForAvdeling.reduce((acc, o) => {
     const index = erPunsjValgt
-      ? fagytelseTypeOrder.findIndex(bo => bo === o.fagsakYtelseType.kode) + 1
-      : behandlingstypeOrder.findIndex(bo => bo === o.behandlingType.kode) + 1;
+      ? fagytelseTypeOrder.findIndex(bo => bo === o.fagsakYtelseType) + 1
+      : behandlingstypeOrder.findIndex(bo => bo === o.behandlingType) + 1;
     if (
-      (erPunsjValgt && o.behandlingType.kodeverk === punsjKodeverkNavn) ||
-      (!erPunsjValgt && o.behandlingType.kodeverk !== 'PUNSJ_INNSENDING_TYPE')
+      (erPunsjValgt && getKodeverkFraKode(o.behandlingType, kodeverkTyper.BEHANDLING_TYPE, alleKodeverk) === punsjKodeverkNavn) ||
+      (!erPunsjValgt && getKodeverkFraKode(o.behandlingType, kodeverkTyper.BEHANDLING_TYPE, alleKodeverk) !== punsjKodeverkNavn)
     ) {
       return {
         ...acc,
@@ -75,6 +79,8 @@ const FordelingAvBehandlingstypeGraf: FunctionComponent<OwnProps & WrappedCompon
   const tilBehandlingTekst = intl.formatMessage({ id: 'FordelingAvBehandlingstypeGraf.TilBehandling' });
   const tilBeslutterTekst = intl.formatMessage({ id: 'FordelingAvBehandlingstypeGraf.TilBeslutter' });
   const fagytelseTyper = useKodeverk(kodeverkTyper.FAGSAK_YTELSE_TYPE);
+  const alleKodeverk: AlleKodeverk = useGlobalStateRestApiData(RestApiGlobalStatePathsKeys.KODEVERK);
+
 
   const finnBehandlingTypeNavn = useMemo(() => {
     if (erPunsjValgt) {
@@ -96,6 +102,7 @@ const FordelingAvBehandlingstypeGraf: FunctionComponent<OwnProps & WrappedCompon
       slåSammen(
         alleOppgaver.filter(o => o.tilBehandling),
         erPunsjValgt,
+        alleKodeverk
       ),
     [alleOppgaver],
   );
@@ -104,6 +111,7 @@ const FordelingAvBehandlingstypeGraf: FunctionComponent<OwnProps & WrappedCompon
       slåSammen(
         alleOppgaver.filter(o => !o.tilBehandling),
         erPunsjValgt,
+        alleKodeverk
       ),
     [alleOppgaver],
   );

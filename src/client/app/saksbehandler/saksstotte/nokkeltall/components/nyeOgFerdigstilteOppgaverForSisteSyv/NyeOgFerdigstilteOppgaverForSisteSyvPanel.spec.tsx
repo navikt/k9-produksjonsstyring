@@ -10,14 +10,8 @@ import NyeOgFerdigstilteOppgaverForSisteSyvGraf from './NyeOgFerdigstilteOppgave
 describe('<NyeOgFerdigstilteOppgaverForSisteSyvPanel>', () => {
   it('skal vise rendre komponent', () => {
     const nyeOgFerdigstilteOppgaver = [{
-      behandlingType: {
-        kode: behandlingType.FORSTEGANGSSOKNAD,
-        navn: 'FORSTEGANGSSOKNAD',
-      },
-      fagsakYtelseType: {
-        kode: 'PSB',
-        navn: 'Pleiepenger',
-      },
+      behandlingType: behandlingType.FORSTEGANGSSOKNAD,
+      fagsakYtelseType: 'PSB',
       antallNye: 12,
       antallFerdigstilte: 2,
       antallFerdigstilteMine: 1,
@@ -37,40 +31,22 @@ describe('<NyeOgFerdigstilteOppgaverForSisteSyvPanel>', () => {
     const iGar = dayjs().subtract(1, 'days').format();
     const atteDagerSiden = dayjs().subtract(8, 'days').format();
     const nyeOgFerdigstilteOppgaver = [{
-      behandlingType: {
-        kode: behandlingType.FORSTEGANGSSOKNAD,
-        navn: 'FORSTEGANGSSOKNAD',
-      },
-      fagsakYtelseType: {
-        kode: 'PSB',
-        navn: 'Pleiepenger',
-      },
+      behandlingType: behandlingType.FORSTEGANGSSOKNAD,
+      fagsakYtelseType: 'PSB',
       antallNye: 12,
       antallFerdigstilte: 2,
       antallFerdigstilteMine: 1,
       dato: iDag,
     }, {
-      behandlingType: {
-        kode: behandlingType.INNSYN,
-        navn: 'INNSYN',
-      },
-      fagsakYtelseType: {
-        kode: 'PSB',
-        navn: 'Pleiepenger',
-      },
+      behandlingType: behandlingType.INNSYN,
+      fagsakYtelseType: 'PSB',
       antallNye: 1,
       antallFerdigstilte: 6,
       antallFerdigstilteMine: 1,
       dato: iGar,
     }, {
-      behandlingType: {
-        kode: behandlingType.INNSYN,
-        navn: 'INNSYN',
-      },
-      fagsakYtelseType: {
-        kode: 'PSB',
-        navn: 'Pleiepenger',
-      },
+      behandlingType: behandlingType.INNSYN,
+      fagsakYtelseType: 'PSB',
       antallNye: 8,
       antallFerdigstilte: 9,
       antallFerdigstilteMine: 1,

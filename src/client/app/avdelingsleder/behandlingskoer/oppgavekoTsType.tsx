@@ -1,4 +1,3 @@
-import { Kodeverk } from 'kodeverk/kodeverkTsType';
 import KoSorteringType from 'kodeverk/KoSorteringTsType';
 import { Saksbehandler } from 'avdelingsleder/bemanning/saksbehandlerTsType';
 
@@ -7,8 +6,8 @@ import { Saksbehandler } from 'avdelingsleder/bemanning/saksbehandlerTsType';
 export type Oppgaveko = Readonly<{
   id: string;
   navn?: string;
-  behandlingTyper?: Kodeverk[];
-  fagsakYtelseTyper?: Kodeverk[];
+  behandlingTyper?: string[];
+  fagsakYtelseTyper?: string[];
   sistEndret: string;
   sortering?: {
     sorteringType: KoSorteringType;

@@ -3,7 +3,6 @@ import { FormattedMessage } from 'react-intl';
 import {
   Normaltekst,
 } from 'nav-frontend-typografi';
-import { Kodeverk } from 'kodeverk/kodeverkTsType';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
 import Image from 'sharedComponents/Image';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
@@ -118,13 +117,13 @@ export const GjeldendeOppgavekoerTabell: FunctionComponent<OwnProps> = ({
   };
 
   const antallFagytelseTyper = 6;
-  const formatStonadstyper = (valgteFagsakYtelseTyper?: Kodeverk[]) => {
+  const formatStonadstyper = (valgteFagsakYtelseTyper?: string[]) => {
     if (!valgteFagsakYtelseTyper || valgteFagsakYtelseTyper.length === 0 || valgteFagsakYtelseTyper.length >= antallFagytelseTyper) {
       return <FormattedMessage id="GjeldendeOppgavekoerTabell.Alle" />;
     }
 
     return valgteFagsakYtelseTyper.map((fyt) => {
-      const type = fagsakYtelseTyper.find((def) => def.kode === fyt.kode);
+      const type = fagsakYtelseTyper.find((def) => def.kode === fyt);
       return type ? type.navn : '';
     }).join(', ');
   };

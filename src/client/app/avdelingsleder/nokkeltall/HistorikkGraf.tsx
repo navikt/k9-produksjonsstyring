@@ -67,11 +67,11 @@ const konverterTilKoordinaterGruppertPaBehandlingstype = (
       y: o.antall,
     };
 
-    const eksisterendeKoordinater = acc[o.behandlingType.kode];
+    const eksisterendeKoordinater = acc[o.behandlingType];
 
     return {
       ...acc,
-      [o.behandlingType.kode]: eksisterendeKoordinater ? eksisterendeKoordinater.concat(nyKoordinat) : [nyKoordinat],
+      [o.behandlingType]: eksisterendeKoordinater ? eksisterendeKoordinater.concat(nyKoordinat) : [nyKoordinat],
     };
   }, {} as Record<string, Koordinat[]>);
 

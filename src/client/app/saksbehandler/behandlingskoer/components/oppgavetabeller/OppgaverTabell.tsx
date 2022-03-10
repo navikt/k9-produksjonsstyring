@@ -1,6 +1,4 @@
-import React, {
-  FunctionComponent, ReactNode, useCallback, useEffect,
-} from 'react';
+import React, { FunctionComponent, ReactNode, useCallback, useEffect, } from 'react';
 import { FormattedMessage, injectIntl, WrappedComponentProps } from 'react-intl';
 import { Normaltekst } from 'nav-frontend-typografi';
 
@@ -14,7 +12,7 @@ import DateLabel from 'sharedComponents/DateLabel';
 import bubbletextUrl from 'images/bubbletext.svg';
 import bubbletextFilledUrl from 'images/bubbletext_filled.svg';
 
-import { K9LosApiKeys } from 'api/k9LosApi';
+import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
@@ -25,6 +23,10 @@ import {
 } from 'saksbehandler/behandlingskoer/components/oppgavetabeller/oppgavetabellerfelles';
 import { OppgaveStatus } from 'saksbehandler/oppgaveStatusTsType';
 import { getDateAndTime } from 'utils/dateUtils';
+import { getKodeverknavnFraKode } from "utils/kodeverkUtils";
+import kodeverkTyper from "kodeverk/kodeverkTyper";
+import AlleKodeverk from "kodeverk/alleKodeverkTsType";
+import { useGlobalStateRestApiData } from "api/rest-api-hooks";
 import styles from './oppgaverTabell.less';
 
 interface OwnProps {
@@ -45,6 +47,7 @@ export const OppgaverTabell: FunctionComponent<OwnProps & WrappedComponentProps>
   valgtKo,
 }) => {
   const { startRequest: hentOppgaveKo } = useRestApiRunner<Oppgaveko[]>(K9LosApiKeys.OPPGAVEKO);
+  const alleKodeverk: AlleKodeverk = useGlobalStateRestApiData(RestApiGlobalStatePathsKeys.KODEVERK);
 
   useEffect(() => {
     hentOppgaveKo();
@@ -89,8 +92,7 @@ export const OppgaverTabell: FunctionComponent<OwnProps & WrappedComponentProps>
       )}
 
       {oppgaverTilBehandling.length > 0 && requestFinished && (
-      <>
-        <Table headerTextCodes={getHeaderCodes()}>
+      <Table headerTextCodes={getHeaderCodes()}>
           {oppgaverTilBehandling.map((oppgave) => (
             <TableRow
               key={oppgave.eksternId}
@@ -99,7 +101,7 @@ export const OppgaverTabell: FunctionComponent<OwnProps & WrappedComponentProps>
             >
               <TableColumn>{oppgave.navn ? `${oppgave.navn} ${oppgave.personnummer}` : '<navn>'}</TableColumn>
               <TableColumn>{hentIDFraSak(oppgave)}</TableColumn>
-              <TableColumn>{oppgave.behandlingstype.navn}</TableColumn>
+              <TableColumn>{getKodeverknavnFraKode(oppgave.behandlingstype, kodeverkTyper.BEHANDLING_TYPE, alleKodeverk)}</TableColumn>
               <TableColumn>{oppgave.opprettetTidspunkt && <DateLabel dateString={oppgave.opprettetTidspunkt} />}</TableColumn>
               <TableColumn>
                 {oppgave.status.flyttetReservasjon && (
@@ -114,7 +116,6 @@ export const OppgaverTabell: FunctionComponent<OwnProps & WrappedComponentProps>
             </TableRow>
           ))}
         </Table>
-      </>
       )}
     </div>
   );
