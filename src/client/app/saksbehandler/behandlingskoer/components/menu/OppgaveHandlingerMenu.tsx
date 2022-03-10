@@ -190,12 +190,13 @@ export class OppgaveHandlingerMenu extends Component<OwnProps, OwnState> {
           />
           )}
 
-        { showFlyttReservasjonModal && (
+        {showFlyttReservasjonModal && (
           <FlyttReservasjonModal
             oppgaveId={oppgave.eksternId}
             oppgaveReservertTil={oppgave.status.reservertTilTidspunkt.substring(0, 10)}
             showModal={showFlyttReservasjonModal}
             closeModal={this.closeFlytteModal}
+            eksisterendeBegrunnelse={oppgave.status.flyttetReservasjon?.begrunnelse}
           />
         )}
       </>

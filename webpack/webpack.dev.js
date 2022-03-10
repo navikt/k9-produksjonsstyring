@@ -27,7 +27,7 @@ const config = {
       template: path.join(ROOT_DIR, 'index.html'),
     }),
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.EnvironmentPlugin({ MSW_MODE: 'development', SENTRY_RELEASE: '' }),
+    new webpack.EnvironmentPlugin({ MSW_MODE: 'development', SENTRY_RELEASE: ''}),
   ],
 
   optimization: {
