@@ -1,8 +1,6 @@
-import React, {
-  FunctionComponent, useCallback, useEffect, useState,
-} from 'react';
-import { Normaltekst } from 'nav-frontend-typografi';
-import { FormattedMessage, injectIntl, WrappedComponentProps } from 'react-intl';
+import React, {FunctionComponent, useCallback, useEffect, useState,} from 'react';
+import {Normaltekst} from 'nav-frontend-typografi';
+import {FormattedMessage, injectIntl, WrappedComponentProps} from 'react-intl';
 import Reservasjon from 'avdelingsleder/reservasjoner/reservasjonTsType';
 import Image from 'sharedComponents/Image';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
@@ -111,7 +109,7 @@ const ReservasjonerTabell: FunctionComponent<OwnProps & WrappedComponentProps> =
                 >
                   <TableColumn>{reservasjon.reservertAvNavn}</TableColumn>
                   <TableColumn>{reservasjon.saksnummer}</TableColumn>
-                  <TableColumn>{reservasjon.behandlingType.navn}</TableColumn>
+                  <TableColumn>{reservasjon.behandlingType.navn + (reservasjon.tilBeslutter ? " - [B] " : "")}</TableColumn>
                   <TableColumn>
                     <FormattedMessage
                       id="ReservasjonerTabell.ReservertTilFormat"
