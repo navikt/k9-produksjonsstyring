@@ -43,7 +43,7 @@ const BehandlingstypeVelger: FunctionComponent<OwnProps> = ({
   const behandlingTyper = behandlingstypeOrder.map((kode) => alleBehandlingTyper.find((bt) => bt.kode === kode));
   const behandlingTyperIkkePunsj = useMemo(() => behandlingTyper.filter((type) => !punsjBehandlingstyper.includes(type.kode)), []);
   const behandlingTyperPunsj = useMemo(() => behandlingTyper.filter((type) => punsjBehandlingstyper.includes(type.kode)), []);
-  const [visPunsj, setVisPunsj] = useState<boolean>(valgteBehandlingstyper.some(((bt) => bt.kodeverk === punsjKodeverkNavn)));
+  const [visPunsj, setVisPunsj] = useState<boolean>(valgteBehandlingstyper ? valgteBehandlingstyper.some(((bt) => bt.kodeverk === punsjKodeverkNavn)) : false);
 
   const sisteValgteBehandlingstyper: ValgtBehandlingstype[] = valgteBehandlingstyper.map((kode) => ({
     behandlingType: kode, checked: true,
