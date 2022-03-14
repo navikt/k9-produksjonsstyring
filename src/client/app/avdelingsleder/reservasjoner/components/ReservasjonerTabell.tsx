@@ -115,7 +115,7 @@ const ReservasjonerTabell: FunctionComponent<OwnProps & WrappedComponentProps> =
                 >
                   <TableColumn>{reservasjon.reservertAvNavn}</TableColumn>
                   <TableColumn>{reservasjon.saksnummer}</TableColumn>
-                  <TableColumn>{getKodeverknavnFraKode(reservasjon.behandlingType, kodeverkTyper.BEHANDLING_TYPE, alleKodeverk)}</TableColumn>
+                  <TableColumn>{getKodeverknavnFraKode(reservasjon.behandlingType, kodeverkTyper.BEHANDLING_TYPE, alleKodeverk) + (reservasjon.tilBeslutter ? " - [B] " : "")}</TableColumn>
                   <TableColumn>
                     <FormattedMessage
                       id="ReservasjonerTabell.ReservertTilFormat"
