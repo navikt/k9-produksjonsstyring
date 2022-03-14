@@ -21,6 +21,6 @@ export type Oppgaveko = Readonly<{
 }>;
 
 type AnnetKriterie = Readonly<{
-  andreKriterierType: Kodeverk;
+  andreKriterierType: string;
   inkluder: boolean;
 }>

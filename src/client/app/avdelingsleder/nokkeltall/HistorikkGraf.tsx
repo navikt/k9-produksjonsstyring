@@ -8,7 +8,6 @@ import { behandlingstypeOrder } from 'avdelingsleder/nokkeltall/nokkeltallUtils'
 import ReactECharts from 'sharedComponents/echart/ReactEcharts';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
-import Kodeverk from 'kodeverk/kodeverkTsType';
 import { FormattedMessage } from 'react-intl';
 import { Normaltekst } from 'nav-frontend-typografi';
 
@@ -26,6 +25,7 @@ import {
   yAxisMarginTextBarAvdelningslederNokkeltall,
   graferOpacity,
 } from '../../../styles/echartStyle';
+import KodeverkMedNavn from "kodeverk/kodeverkMedNavnTsType";
 
 dayjs.extend(isSameOrBefore);
 dayjs.extend(isSameOrAfter);
@@ -104,7 +104,7 @@ const finnBehandlingTypeNavn = (behandlingTyper, behandlingTypeKode: string) => 
 };
 
 interface OwnProps {
-  behandlingTyper: Kodeverk[];
+  behandlingTyper: KodeverkMedNavn[];
   historiskData: HistoriskData[];
   isFireUkerValgt: boolean;
 }

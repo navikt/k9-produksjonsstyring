@@ -1,7 +1,6 @@
 import React, { useMemo, FunctionComponent } from 'react';
 import { FormattedMessage, injectIntl, WrappedComponentProps } from 'react-intl';
 
-import Kodeverk from 'kodeverk/kodeverkTsType';
 import behandlingType from 'kodeverk/behandlingType';
 
 import ReactECharts from 'sharedComponents/echart/ReactEcharts';
@@ -22,6 +21,7 @@ import {
 import AlleKodeverk from "kodeverk/alleKodeverkTsType";
 import {RestApiGlobalStatePathsKeys} from "api/k9LosApi";
 import { getKodeverkFraKode } from "utils/kodeverkUtils";
+import KodeverkMedNavn from "kodeverk/kodeverkMedNavnTsType";
 
 const behandlingstypeOrder = [
   behandlingType.TILBAKEBETALING,
@@ -32,7 +32,7 @@ const behandlingstypeOrder = [
   behandlingType.FORSTEGANGSSOKNAD];
 
 interface OwnProps {
-  behandlingTyper: Kodeverk[];
+  behandlingTyper: KodeverkMedNavn[];
   nyeOgFerdigstilteOppgaver: NyeOgFerdigstilteOppgaver[];
   skalPunsjbehandlingerVises: boolean;
 }

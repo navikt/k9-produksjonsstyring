@@ -1,12 +1,10 @@
-import Kodeverk from 'kodeverk/kodeverkTsType';
-
 interface IPaaVentResponse {
   påVent: IBehandlingerSomGarAvVentType[];
   påVentMedVenteårsak: IBehandlingerSomGarAvVentType[];
 }
 interface IBehandlingerSomGarAvVentType {
-  fagsakYtelseType: Kodeverk;
-  behandlingType: Kodeverk;
+  fagsakYtelseType: string;
+  behandlingType: string;
   dato: string;
   antall: number;
   venteårsak?: {

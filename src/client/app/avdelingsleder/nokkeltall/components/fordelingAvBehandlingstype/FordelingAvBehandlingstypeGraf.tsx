@@ -4,7 +4,6 @@ import { injectIntl, WrappedComponentProps } from 'react-intl';
 
 import behandlingType from 'kodeverk/behandlingType';
 import ReactECharts from 'sharedComponents/echart/ReactEcharts';
-import Kodeverk from 'kodeverk/kodeverkTsType';
 import { punsjKodeverkNavn } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
 import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
@@ -24,6 +23,7 @@ import { getKodeverkFraKode } from "utils/kodeverkUtils";
 import AlleKodeverk from "kodeverk/alleKodeverkTsType";
 import { useGlobalStateRestApiData } from "api/rest-api-hooks";
 import { RestApiGlobalStatePathsKeys } from "api/k9LosApi";
+import KodeverkMedNavn from "kodeverk/kodeverkMedNavnTsType";
 
 const behandlingstypeOrder = [
   behandlingType.TILBAKEBETALING,
@@ -62,7 +62,7 @@ const slåSammen = (oppgaverForAvdeling: AlleOppgaver[], erPunsjValgt: boolean, 
 
 interface OwnProps {
   intl: any;
-  behandlingTyper: Kodeverk[];
+  behandlingTyper: KodeverkMedNavn[];
   alleOppgaver: AlleOppgaver[];
   erPunsjValgt: boolean;
 }
