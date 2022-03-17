@@ -17,7 +17,7 @@ const AksjonspunkterPerEnhetPanel: FunctionComponent = () => {
     data: aksjonspunkterPerEnhet,
     isLoading,
     error,
-  }: { data: HistoriskData[], isLoading: boolean, error: Error } = useQuery('api/avdelingsleder/nokkeltall/aksjonspunkter-per-enhet-historikk');
+  }: { data: HistoriskData[], isLoading: boolean, error: Error } = useQuery('/avdelingsleder/nokkeltall/aksjonspunkter-per-enhet-historikk');
 
   const [valgtYtelseType, setValgtYtelseType] = useState<string>(
     getValueFromLocalStorage(`${id}-ytelsestype`) || ALLE_YTELSETYPER_VALGT,
