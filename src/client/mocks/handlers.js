@@ -29,7 +29,7 @@ const developmentHandlers = {
     res(ctx.json(giRandomDato(nyeOgFerdigstilteOppgaver, 7))),
   ),
   aksjonspunkterPerEnhet: rest.get(
-    '/api/saksbehandler/nokkeltall/aksjonspunkter-per-enhet-historikk',
+    '/api/avdelingsleder/nokkeltall/aksjonspunkter-per-enhet-historikk',
     (req, res, ctx) => res(ctx.json(giRandomDato(løsteAksjonspunkterPerEnhet, 7))),
   ),
   reservasjoner: rest.get('/api/avdelingsleder/reservasjoner', (req, res, ctx) =>

@@ -5,7 +5,6 @@ type HistoriskData = Readonly<{
   behandlingType: Kodeverk;
   dato: string;
   antall: number;
-  enhet?: string;
 }>;
 
 export default HistoriskData;
