@@ -16,7 +16,7 @@ const AksjonspunkterPerEnhetPanel: FunctionComponent = () => {
     isLoading,
     error,
   } = useQuery(id, () =>
-    fetch('api/saksbehandler/nokkeltall/aksjonspunkter-per-enhet-historikk').then(res => res.json()),
+    fetch('api/avdelingsleder/nokkeltall/aksjonspunkter-per-enhet-historikk').then(res => res.json()),
   );
 
   const [valgtYtelseType, setValgtYtelseType] = useState<string>(
@@ -39,8 +39,16 @@ const AksjonspunkterPerEnhetPanel: FunctionComponent = () => {
     }
 
     return (
-      <AksjonspunkterPerEnhetDiagram
-        aksjonspunkterPerEnhet={aksjonspunkterPerEnhet}
+        <AksjonspunkterPerEnhetDiagram
+            aksjonspunkterPerEnhet={aksjonspunkterPerEnhet.map(oppgave => {
+              return {
+                fagsakYtelseType: { kode: oppgave.fagsakYtelseType, kodeverk: 'FAGSAK_YTELSE_TYPE'},
+                behandlingType: { kode: oppgave.behandlingType, kodeverk: 'BEHANDLING_TYPE'},
+                dato: oppgave.dato,
+                antall: oppgave.antall,
+                enhet: oppgave.enhet
+              }
+            })}
         valgtYtelseType={valgtYtelseType}
         antallUkerSomSkalVises={antallUkerSomSkalVises}
       />
