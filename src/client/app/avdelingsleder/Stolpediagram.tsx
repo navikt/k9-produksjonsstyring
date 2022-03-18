@@ -7,6 +7,7 @@ import ReactECharts from 'sharedComponents/echart/ReactEcharts';
 
 import { defaultFontSize, grafHeight, legendStyle } from '../../styles/echartStyle';
 import HistoriskData from './nokkeltall/historiskDataTsType';
+import AksjonspunkterPerEnhetType from './nokkeltall/AksjonspunkterPerEnhetType';
 
 dayjs.extend(customParseFormat);
 
@@ -19,8 +20,7 @@ interface OwnProps {
 }
 interface IStolpediagramSerie {
   name: string;
-  type: string;
-  data: HistoriskData[];
+  data: HistoriskData[] | AksjonspunkterPerEnhetType[];
 }
 
 const mapAntallTilRiktigDato = (data, datoer) => {

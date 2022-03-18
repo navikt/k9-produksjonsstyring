@@ -8,6 +8,8 @@ import { ALLE_YTELSETYPER_VALGT, UKE_2 } from 'avdelingsleder/nokkeltall/nokkelt
 import GrafContainer from 'avdelingsleder/GrafContainer';
 import { getValueFromLocalStorage } from 'utils/localStorageHelper';
 import AksjonspunkterPerEnhetDiagram from './AksjonspunkterPerEnhetDiagram';
+import AksjonspunkterPerEnhetType from 'avdelingsleder/nokkeltall/AksjonspunkterPerEnhetType';
+import { Error } from 'app/errorTsType';
 
 const AksjonspunkterPerEnhetPanel: FunctionComponent = () => {
   const id = 'aksjonspunkterPerEnhet';
@@ -15,8 +17,8 @@ const AksjonspunkterPerEnhetPanel: FunctionComponent = () => {
     data: aksjonspunkterPerEnhet,
     isLoading,
     error,
-  } = useQuery(id, () =>
-    fetch('api/avdelingsleder/nokkeltall/aksjonspunkter-per-enhet-historikk').then(res => res.json()),
+  }: { data: AksjonspunkterPerEnhetType[]; isLoading: boolean; error: Error } = useQuery(
+    '/avdelingsleder/nokkeltall/aksjonspunkter-per-enhet-historikk',
   );
 
   const [valgtYtelseType, setValgtYtelseType] = useState<string>(
@@ -39,16 +41,8 @@ const AksjonspunkterPerEnhetPanel: FunctionComponent = () => {
     }
 
     return (
-        <AksjonspunkterPerEnhetDiagram
-            aksjonspunkterPerEnhet={aksjonspunkterPerEnhet.map(oppgave => {
-              return {
-                fagsakYtelseType: { kode: oppgave.fagsakYtelseType, kodeverk: 'FAGSAK_YTELSE_TYPE'},
-                behandlingType: { kode: oppgave.behandlingType, kodeverk: 'BEHANDLING_TYPE'},
-                dato: oppgave.dato,
-                antall: oppgave.antall,
-                enhet: oppgave.enhet
-              }
-            })}
+      <AksjonspunkterPerEnhetDiagram
+        aksjonspunkterPerEnhet={aksjonspunkterPerEnhet}
         valgtYtelseType={valgtYtelseType}
         antallUkerSomSkalVises={antallUkerSomSkalVises}
       />
@@ -62,6 +56,7 @@ const AksjonspunkterPerEnhetPanel: FunctionComponent = () => {
       setValgtYtelseType={setValgtYtelseType}
       setAntallUkerSomSkalVises={setAntallUkerSomSkalVises}
       tittel={intl.formatMessage({ id: 'AksjonspunkterPerEnhet.Tittel' })}
+      utenPunsj
     >
       {aksjonspunktPerEnhetVisning()}
     </GrafContainer>
