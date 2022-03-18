@@ -61,7 +61,9 @@ const AksjonspunkterPerEnhetDiagram = ({
     }
   };
 
-  const behandlinger = hentBehandlingerKnyttetTilYtelseType();
+  const behandlinger = hentBehandlingerKnyttetTilYtelseType().map(behandling =>
+    behandling.behandlendeEnhet ? behandling : { ...behandling, behandlendeEnhet: 'UKJENT' },
+  );
   const unikeEnheter = [...new Set(behandlinger.map(behandling => behandling.behandlendeEnhet))];
   const series = unikeEnheter.map(enhet => ({
     name: enhet,
