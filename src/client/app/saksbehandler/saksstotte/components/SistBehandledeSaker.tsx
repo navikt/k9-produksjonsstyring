@@ -37,8 +37,8 @@ const SistBehandledeSaker: FunctionComponent = () => {
     }
   };
 
-  const sendVidereTilFagsak = (sbs) => {
-    captureMessage(`Send til: ${sbs} - Tidspunkt: ${new Date().toLocaleString('no-NO', { timeZone: 'Europe/Oslo' })}`);
+  const sendVidereTilFagsak = (sbs: BehandletOppgave) => {
+    captureMessage(`Send til: ${sbs.saksnummer || sbs.journalpostId} - Tidspunkt: ${new Date().toLocaleString('no-NO', { timeZone: 'Europe/Oslo' })}`);
     window.location.assign(getUrl(sbs));
   };
 

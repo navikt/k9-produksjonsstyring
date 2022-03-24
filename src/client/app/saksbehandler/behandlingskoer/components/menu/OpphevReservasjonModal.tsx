@@ -45,7 +45,8 @@ export const OpphevReservasjonModal: FunctionComponent<OwnProps & WrappedCompone
 
   const opphevReservasjonFn = useCallback((begrunnelse: string) => opphevOppgavereservasjon({ oppgaveId, oppgaveSaksnummer, begrunnelse })
     .then(() => {
-      captureMessage(`Legg tilbake: ${oppgaveSaksnummer} Tidspunkt: ${new Date().toLocaleString('no-NO', { timeZone: 'Europe/Oslo' })}`)
+      captureMessage(`Legg tilbake: ${oppgaveSaksnummer} - Tidspunkt: ${new Date().toLocaleString('no-NO', { timeZone: 'Europe/Oslo' })}`)
+      setTimeout(() => {}, 1000);
       hentReserverteOppgaver();
       cancel();
     }), [oppgaveId]);
