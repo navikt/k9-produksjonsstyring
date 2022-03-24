@@ -1,6 +1,4 @@
 import React from 'react';
-
-import { punsjKodeverkNavn } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
 import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
 import Stolpediagram from 'avdelingsleder/Stolpediagram';
 import AksjonspunkterPerEnhetType from 'avdelingsleder/nokkeltall/AksjonspunkterPerEnhetType';
