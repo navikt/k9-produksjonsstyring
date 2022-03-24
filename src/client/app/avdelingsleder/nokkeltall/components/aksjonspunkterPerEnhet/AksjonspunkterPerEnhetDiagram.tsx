@@ -5,6 +5,7 @@ import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
 import Stolpediagram from 'avdelingsleder/Stolpediagram';
 import AksjonspunkterPerEnhetType from 'avdelingsleder/nokkeltall/AksjonspunkterPerEnhetType';
 import { fargerForLegendsForAksjonspunkterPerEnhet } from 'styles/echartStyle';
+import OppgaveSystem from "../../../../types/OppgaveSystem";
 
 interface OwnProps {
   aksjonspunkterPerEnhet: AksjonspunkterPerEnhetType[];
@@ -20,13 +21,13 @@ const AksjonspunkterPerEnhetDiagram = ({
   const PSBBehandlinger: AksjonspunkterPerEnhetType[] = aksjonspunkterPerEnhet.filter(
     behandling =>
       behandling.fagsakYtelseType === fagsakYtelseType.PLEIEPENGER_SYKT_BARN &&
-      behandling?.behandlingType !== punsjKodeverkNavn,
+      behandling.fagsystemType !== OppgaveSystem.PUNSJ,
   );
 
   const OMPBehandlinger: AksjonspunkterPerEnhetType[] = aksjonspunkterPerEnhet.filter(
     behandling =>
       behandling.fagsakYtelseType === fagsakYtelseType.OMSORGSPENGER &&
-      behandling?.behandlingType !== punsjKodeverkNavn,
+      behandling.fagsystemType !== OppgaveSystem.PUNSJ,
   );
 
   const OMDBehandlinger: AksjonspunkterPerEnhetType[] = aksjonspunkterPerEnhet.filter(
@@ -35,15 +36,15 @@ const AksjonspunkterPerEnhetDiagram = ({
         behandling.fagsakYtelseType === fagsakYtelseType.OMSORGSDAGER_KRONISKSYK ||
         behandling.fagsakYtelseType === fagsakYtelseType.OMSORGSDAGER_ALENEOMOMSORGEN ||
         behandling.fagsakYtelseType === fagsakYtelseType.OMSORGSDAGER_MIDLERTIDIGALENE) &&
-      behandling?.behandlingType !== punsjKodeverkNavn,
+      behandling.fagsystemType !== OppgaveSystem.PUNSJ,
   );
 
   const PunsjBehandlinger: AksjonspunkterPerEnhetType[] = aksjonspunkterPerEnhet.filter(
-    behandling => behandling?.behandlingType === punsjKodeverkNavn,
+    behandling => behandling?.fagsystemType === OppgaveSystem.PUNSJ,
   );
 
   const AlleBehandlingerUtomPunsj: AksjonspunkterPerEnhetType[] = aksjonspunkterPerEnhet.filter(
-    behandling => behandling?.behandlingType !== punsjKodeverkNavn,
+    behandling => behandling.fagsystemType !== OppgaveSystem.PUNSJ,
   );
 
   const hentBehandlingerKnyttetTilYtelseType = () => {

@@ -56,7 +56,6 @@ const AksjonspunkterPerEnhetPanel: FunctionComponent = () => {
       setValgtYtelseType={setValgtYtelseType}
       setAntallUkerSomSkalVises={setAntallUkerSomSkalVises}
       tittel={intl.formatMessage({ id: 'AksjonspunkterPerEnhet.Tittel' })}
-      utenPunsj
     >
       {aksjonspunktPerEnhetVisning()}
     </GrafContainer>
