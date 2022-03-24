@@ -13,6 +13,8 @@ import Modal from 'sharedComponents/Modal';
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
 import { K9LosApiKeys } from 'api/k9LosApi';
 import styles from './opphevReservasjonModal.less';
+import { captureMessage } from '@sentry/browser';
+
 
 const minLength3 = minLength(3);
 const maxLength1500 = maxLength(1500);
@@ -21,6 +23,7 @@ type OwnProps = Readonly<{
   intl: any;
   showModal: boolean;
   oppgaveId: string;
+  oppgaveSaksnummer: string;
   cancel: () => void;
   hentReserverteOppgaver: () => void;
 }>;
@@ -36,15 +39,16 @@ export const OpphevReservasjonModal: FunctionComponent<OwnProps & WrappedCompone
   cancel,
   hentReserverteOppgaver,
   oppgaveId,
+  oppgaveSaksnummer
 }) => {
   const { startRequest: opphevOppgavereservasjon } = useRestApiRunner(K9LosApiKeys.OPPHEV_OPPGAVERESERVASJON);
 
-  const opphevReservasjonFn = useCallback((begrunnelse: string) => opphevOppgavereservasjon({ oppgaveId, begrunnelse })
+  const opphevReservasjonFn = useCallback((begrunnelse: string) => opphevOppgavereservasjon({ oppgaveId, oppgaveSaksnummer, begrunnelse })
     .then(() => {
+      captureMessage(`Legg tilbake: ${oppgaveSaksnummer}`)
       hentReserverteOppgaver();
       cancel();
-    }),
-  [oppgaveId]);
+    }), [oppgaveId]);
 
   return (
     <Modal

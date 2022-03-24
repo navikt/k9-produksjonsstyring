@@ -170,6 +170,7 @@ export class OppgaveHandlingerMenu extends Component<OwnProps, OwnState> {
         {showOpphevReservasjonModal && (
           <OpphevReservasjonModal
             oppgaveId={oppgave.eksternId}
+            oppgaveSaksnummer={oppgave.saksnummer}
             showModal={showOpphevReservasjonModal}
             cancel={this.closeBegrunnelseModal}
             toggleMenu={this.toggleMeny}
