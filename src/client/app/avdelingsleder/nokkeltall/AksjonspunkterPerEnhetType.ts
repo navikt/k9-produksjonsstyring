@@ -4,6 +4,7 @@ type AksjonspunkterPerEnhetType = Readonly<{
   antall: number;
   behandlendeEnhet: string;
   behandlingType?: string;
+  fagsystemType: string;
 }>;
 
 export default AksjonspunkterPerEnhetType;
