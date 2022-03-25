@@ -9,6 +9,7 @@ import BehandletOppgave from 'saksbehandler/saksstotte/behandletOppgaveTsType';
 import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
 import useGlobalStateRestApiData from 'api/rest-api-hooks/src/global-data/useGlobalStateRestApiData';
 import useRestApi from 'api/rest-api-hooks/src/local-data/useRestApi';
+import { captureMessage } from '@sentry/browser';
 
 const EMPTY_ARRAY = [];
 
@@ -36,6 +37,11 @@ const SistBehandledeSaker: FunctionComponent = () => {
     }
   };
 
+  const sendVidereTilFagsak = (sbs: BehandletOppgave) => {
+    captureMessage(`Send til: ${sbs.saksnummer || sbs.journalpostId} - Tidspunkt: ${new Date().toLocaleString('no-NO', { timeZone: 'Europe/Oslo' })}`);
+    window.location.assign(getUrl(sbs));
+  };
+
   return (
     <>
       <Undertittel><FormattedMessage id="SistBehandledeSaker.SistBehandledeSaker" /></Undertittel>
@@ -48,13 +54,13 @@ const SistBehandledeSaker: FunctionComponent = () => {
             {sbs.navn
               ? (
                 <Lenke
-                  href={getUrl(sbs)}
+                  onClick={() => sendVidereTilFagsak(sbs)}
                 >
                   {`${sbs.navn} ${sbs.personnummer}`}
                 </Lenke>
               )
               : (
-                <Lenke href={getUrl(sbs)}>
+                <Lenke onClick={() => sendVidereTilFagsak(sbs)}>
                   <FormattedMessage id="SistBehandledeSaker.Behandling" values={{ index: index + 1 }} />
                 </Lenke>
               )}
