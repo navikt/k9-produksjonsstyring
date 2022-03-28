@@ -20,6 +20,7 @@ interface OwnProps {
   antallUkerSomSkalVises?: string;
   id?: string;
   hjelpetekst?: string;
+  utenPunsj?: boolean;
 }
 
 const GrafContainer = ({
@@ -27,6 +28,7 @@ const GrafContainer = ({
   antallUkerSomSkalVises,
   setAntallUkerSomSkalVises,
   setValgtYtelseType,
+  utenPunsj,
   tittel,
   fremITid,
   hjelpetekst,
@@ -83,7 +85,7 @@ const GrafContainer = ({
               size="small"
               value={valgtYtelseType}
             >
-              {ytelseTyper.map(u => (
+              {ytelseTyper.filter(ytelsestype => utenPunsj ? ytelsestype.navn !== 'Punsj' : true).map(u => (
                 <option key={u.kode} value={u.kode}>
                   {u.navn}
                 </option>

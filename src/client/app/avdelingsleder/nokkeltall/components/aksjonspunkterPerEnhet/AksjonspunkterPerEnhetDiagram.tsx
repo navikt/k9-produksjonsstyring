@@ -1,18 +1,12 @@
 import React from 'react';
-
-import { punsjKodeverkNavn } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
 import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
 import Stolpediagram from 'avdelingsleder/Stolpediagram';
-import HistoriskData from 'avdelingsleder/nokkeltall/historiskDataTsType';
+import AksjonspunkterPerEnhetType from 'avdelingsleder/nokkeltall/AksjonspunkterPerEnhetType';
 import { fargerForLegendsForAksjonspunkterPerEnhet } from 'styles/echartStyle';
-import { getKodeverkFraKode } from "utils/kodeverkUtils";
-import kodeverkTyper from "kodeverk/kodeverkTyper";
-import AlleKodeverk from "kodeverk/alleKodeverkTsType";
-import { useGlobalStateRestApiData } from "api/rest-api-hooks";
-import { RestApiGlobalStatePathsKeys } from "api/k9LosApi";
+import OppgaveSystem from "../../../../types/OppgaveSystem";
 
 interface OwnProps {
-  aksjonspunkterPerEnhet: HistoriskData[];
+  aksjonspunkterPerEnhet: AksjonspunkterPerEnhetType[];
   valgtYtelseType: string;
   antallUkerSomSkalVises: string;
 }
@@ -22,35 +16,33 @@ const AksjonspunkterPerEnhetDiagram = ({
   valgtYtelseType,
   antallUkerSomSkalVises,
 }: OwnProps) => {
-  const alleKodeverk: AlleKodeverk = useGlobalStateRestApiData(RestApiGlobalStatePathsKeys.KODEVERK);
-
-  const PSBBehandlinger: HistoriskData[] = aksjonspunkterPerEnhet.filter(
+  const PSBBehandlinger: AksjonspunkterPerEnhetType[] = aksjonspunkterPerEnhet.filter(
     behandling =>
       behandling.fagsakYtelseType === fagsakYtelseType.PLEIEPENGER_SYKT_BARN &&
-      getKodeverkFraKode(behandling.behandlingType, kodeverkTyper.BEHANDLING_TYPE, alleKodeverk) !== punsjKodeverkNavn,
+      behandling.fagsystemType !== OppgaveSystem.PUNSJ,
   );
 
-  const OMPBehandlinger: HistoriskData[] = aksjonspunkterPerEnhet.filter(
+  const OMPBehandlinger: AksjonspunkterPerEnhetType[] = aksjonspunkterPerEnhet.filter(
     behandling =>
       behandling.fagsakYtelseType === fagsakYtelseType.OMSORGSPENGER &&
-      getKodeverkFraKode(behandling.behandlingType, kodeverkTyper.BEHANDLING_TYPE, alleKodeverk) !== punsjKodeverkNavn,
+      behandling.fagsystemType !== OppgaveSystem.PUNSJ,
   );
 
-  const OMDBehandlinger: HistoriskData[] = aksjonspunkterPerEnhet.filter(
+  const OMDBehandlinger: AksjonspunkterPerEnhetType[] = aksjonspunkterPerEnhet.filter(
     behandling =>
       (behandling.fagsakYtelseType === fagsakYtelseType.OMSORGSDAGER ||
         behandling.fagsakYtelseType === fagsakYtelseType.OMSORGSDAGER_KRONISKSYK ||
         behandling.fagsakYtelseType === fagsakYtelseType.OMSORGSDAGER_ALENEOMOMSORGEN ||
         behandling.fagsakYtelseType === fagsakYtelseType.OMSORGSDAGER_MIDLERTIDIGALENE) &&
-      getKodeverkFraKode(behandling.behandlingType, kodeverkTyper.BEHANDLING_TYPE, alleKodeverk) !== punsjKodeverkNavn,
+      behandling.fagsystemType !== OppgaveSystem.PUNSJ,
   );
 
-  const PunsjBehandlinger: HistoriskData[] = aksjonspunkterPerEnhet.filter(
-    behandling => getKodeverkFraKode(behandling.behandlingType, kodeverkTyper.BEHANDLING_TYPE, alleKodeverk) === punsjKodeverkNavn,
+  const PunsjBehandlinger: AksjonspunkterPerEnhetType[] = aksjonspunkterPerEnhet.filter(
+    behandling => behandling?.fagsystemType === OppgaveSystem.PUNSJ,
   );
 
-  const AlleBehandlingerUtomPunsj: HistoriskData[] = aksjonspunkterPerEnhet.filter(
-    behandling => getKodeverkFraKode(behandling.behandlingType, kodeverkTyper.BEHANDLING_TYPE, alleKodeverk) !== punsjKodeverkNavn,
+  const AlleBehandlingerUtomPunsj: AksjonspunkterPerEnhetType[] = aksjonspunkterPerEnhet.filter(
+    behandling => behandling.fagsystemType !== OppgaveSystem.PUNSJ,
   );
 
   const hentBehandlingerKnyttetTilYtelseType = () => {
@@ -68,15 +60,24 @@ const AksjonspunkterPerEnhetDiagram = ({
     }
   };
 
-  const behandlinger = hentBehandlingerKnyttetTilYtelseType();
-  const unikeEnheter = [...new Set(behandlinger.map(behandling => behandling.enhet))];
+  const behandlinger = hentBehandlingerKnyttetTilYtelseType().map(behandling =>
+    behandling.behandlendeEnhet ? behandling : { ...behandling, behandlendeEnhet: 'UKJENT' },
+  );
+  const unikeEnheter = [...new Set(behandlinger.map(behandling => behandling.behandlendeEnhet))];
   const series = unikeEnheter.map(enhet => ({
     name: enhet,
     type: 'bar',
-    data: behandlinger.filter(behandling => behandling.enhet === enhet),
+    data: behandlinger.filter(behandling => behandling.behandlendeEnhet === enhet),
   }));
 
-  return <Stolpediagram series={series} uker={antallUkerSomSkalVises} labels={unikeEnheter} legendColors={fargerForLegendsForAksjonspunkterPerEnhet} />;
+  return (
+    <Stolpediagram
+      series={series}
+      uker={antallUkerSomSkalVises}
+      labels={unikeEnheter}
+      legendColors={fargerForLegendsForAksjonspunkterPerEnhet}
+    />
+  );
 };
 
 export default AksjonspunkterPerEnhetDiagram;

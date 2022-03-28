@@ -7,16 +7,21 @@ const server = express();
 server.use(
   helmet({
     contentSecurityPolicy: {
+      useDefaults: true,
       directives: {
-        defaultSrc: ["'self'"],
         connectSrc: ["'self'", process.env.AUTH_PROXY_BASE_URL, process.env.AUTH_PROXY_BASE_URL_WSS, 'https://sentry.gc.nav.no'],
-        frameSrc: ["'self'", process.env.AUTH_PROXY_BASE_URL],
-        fontSrc: ["'self'", 'data:'],
-        imgSrc: ["'self'", 'data:'],
+        frameSrc: ["'none'"],
+        childSrc: ["'none'"],
+        mediaSrc: ["'none'"],
+        pluginTypes: ["'none'"]
       },
     },
   })
 );
+
+server.use(helmet.noSniff());
+server.use(helmet.referrerPolicy());
+server.use(helmet.frameguard());
 
 server.use(express.static(path.join(__dirname, 'dist')));
 const PORT = process.env.PORT || 8030;
