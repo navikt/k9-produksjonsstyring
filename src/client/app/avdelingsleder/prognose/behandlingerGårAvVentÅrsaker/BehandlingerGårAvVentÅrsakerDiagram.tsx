@@ -4,7 +4,7 @@ import { punsjKodeverkNavn } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
 import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
 import Stolpediagram from 'avdelingsleder/Stolpediagram';
 import { IBehandlingerSomGarAvVentType } from '../behandlingerGårAvVent/behandlingerSomGårAvVentType';
-import { fargerForLegendsForBehandlingerPåVentÅrsaker } from 'styles/echartStyle';
+import { fargeForTotalt, fargerForLegendsForBehandlingerPåVentÅrsaker } from 'styles/echartStyle';
 
 interface OwnProps {
   behandlingerGaarAvVentAarsaker: IBehandlingerSomGarAvVentType[];
@@ -70,8 +70,9 @@ const BehandlingerGårAvVentÅrsakerDiagram = ({
     name: venteårsak,
     type: 'bar',
     data: behandlinger.filter(behandling => behandling.venteårsak.navn === venteårsak),
+    itemStyle: fargerForLegendsForBehandlingerPåVentÅrsaker[venteårsak] ? {color: fargerForLegendsForBehandlingerPåVentÅrsaker[venteårsak]} : undefined
   }));
-  const totalt = { name: 'Totalt', type: 'bar', data: behandlinger };
+  const totalt = { name: 'Totalt', type: 'bar', data: behandlinger, itemStyle: {color: fargeForTotalt}};
 
   const alleSeries = [totalt, ...series];
   const labels = ['Totalt', ...venteårsaker];
@@ -81,7 +82,6 @@ const BehandlingerGårAvVentÅrsakerDiagram = ({
       series={alleSeries}
       uker={antallUkerSomSkalVises}
       labels={labels}
-      legendColors={fargerForLegendsForBehandlingerPåVentÅrsaker}
       fremITid
     />
   );

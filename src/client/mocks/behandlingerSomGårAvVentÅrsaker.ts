@@ -28,7 +28,7 @@ const behandlingerSomGårAvVentÅrsaker = [
       kodeverk: 'ae0034',
     },
     frist: dayjs().add(5, 'day'),
-    venteårsak: { kode: 'ANNET_MANUELT', navn: 'Annen manuell venteårsak' },
+    venteårsak: { kode: 'VENT_MANGL_FUNKSJ_SAKSBEHANDLER', navn: 'Annen manuell venteårsak' },
     antall: 1,
   },
   {
@@ -43,7 +43,7 @@ const behandlingerSomGårAvVentÅrsaker = [
       kodeverk: 'ae0034',
     },
     frist: dayjs().add(5, 'day'),
-    venteårsak: { kode: 'ANNET_MANUELT', navn: 'Automatisk satt på vent' },
+    venteårsak: { kode: 'UKJENT', navn: 'Ukjent' },
     antall: 1,
   },
   {
@@ -58,7 +58,7 @@ const behandlingerSomGårAvVentÅrsaker = [
       kodeverk: 'ae0034',
     },
     frist: dayjs().add(5, 'day'),
-    venteårsak: { kode: 'ANNET_MANUELT', navn: 'Annen manuell venteårsak' },
+    venteårsak: { kode: 'AUTOMATISK_SATT_PA_VENT', navn: 'Automatisk satt på vent' },
     antall: 1,
   },
   {
@@ -74,7 +74,7 @@ const behandlingerSomGårAvVentÅrsaker = [
     },
     frist: dayjs().add(5, 'day'),
     venteårsak: {
-      kode: 'ANNET_MANUELT',
+      kode: 'ANNET_MANUELT_SATT_PA_VENT',
       navn: 'Settes på vent av saksbehandler pga. manglende funksjonalitet i løsningen',
     },
     antall: 1,

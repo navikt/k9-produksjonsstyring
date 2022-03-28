@@ -14,15 +14,23 @@ export const yAxisFontSizeAvdelningslederNokkeltall = 15;
 export const yAxisMarginTextBarAvdelningslederNokkeltall = 15;
 
 // Farger
+const fargeForUkjent = '#747982'
+export const fargeForTotalt = '#0a8c15'
 export const fargerForLegendsForMineNyeFerdigstilte = ['#0067C5', '#634689', '#FF9100'];
 export const fargerForLegendsFordelingAvBehandlingstype = ['#634689', '#FF9100'];
 export const fargerForLegendsForBehandlingerPåVent = '#FF9100';
-export const fargerForLegendsForBehandlingerPåVentÅrsaker = ['#FF9100', '#0067C5', '#66CBEC', '#BA3A26', '#634689'];
+export const fargerForLegendsForBehandlingerPåVentÅrsaker = {
+  'AVV_DOK': '#FF9100',
+  'VENT_MANGL_FUNKSJ_SAKSBEHANDLER': '#0067C5',
+  'ANNET_MANUELT_SATT_PA_VENT': '#66CBEC',
+  'AUTOMATISK_SATT_PA_VENT': '#BA3A26',
+  'UKJENT': fargeForUkjent
+}
 export const fargerForLegendsForAksjonspunkterPerEnhet = {
   '4410 NAV ARBEID OG YTELSER SØRLANDET': '#634689',
   '4403 NAV ARBEID OG YTELSER OSLO': '#ff9100',
   '4415 NAV ARBEID OG YTELSER MOLDE': '#66CBEC',
-  'UKJENT': '#747982'
+  'UKJENT': fargeForUkjent
 };
 
 export const graferOpacity = 0.6;
