@@ -16,10 +16,13 @@ interface OwnProps {
   labels: string[];
   uker: string;
   fremITid?: boolean;
-  legendColors?: string[];
+  legendColors?: string[] | { [key: string]: string };
 }
 interface IStolpediagramSerie {
   name: string;
+  itemStyle?: {
+    color: string;
+  }
   data: HistoriskData[] | AksjonspunkterPerEnhetType[];
 }
 
@@ -85,7 +88,7 @@ const Stolpediagram = ({ series, labels, legendColors = [], fremITid = false, uk
     series: series.map((serie, index) => ({
       ...serie,
       data: mapAntallTilRiktigDato(serie.data, datoer),
-      itemStyle: { color: legendColors[index] },
+      itemStyle: serie.itemStyle || { color: legendColors[index] },
     })),
   };
   return <ReactECharts height={grafHeight} option={option} />;
