@@ -8,7 +8,7 @@ import { fargerForLegendsForBehandlingerPåVentÅrsaker } from 'styles/echartSty
 import AlleKodeverk from "kodeverk/alleKodeverkTsType";
 import { useGlobalStateRestApiData } from "api/rest-api-hooks";
 import { RestApiGlobalStatePathsKeys } from "api/k9LosApi";
-import { getKodeverkFraKode } from "utils/kodeverkUtils";
+import {getKodeverkFraKode, getKodeverknavnFraKode} from "utils/kodeverkUtils";
 import kodeverkTyper from "kodeverk/kodeverkTyper";
 
 interface OwnProps {
@@ -72,11 +72,11 @@ const BehandlingerGårAvVentÅrsakerDiagram = ({
     ...behandling,
     dato: behandling.frist,
   }));
-  const venteårsaker = [...new Set(behandlinger.map(behandling => behandling.venteårsak.navn))];
+  const venteårsaker = [...new Set(behandlinger.map(behandling => getKodeverknavnFraKode(behandling.venteårsak, kodeverkTyper.VENTEÅRSAK, alleKodeverk)))];
   const series = venteårsaker.map(venteårsak => ({
     name: venteårsak,
     type: 'bar',
-    data: behandlinger.filter(behandling => behandling.venteårsak.navn === venteårsak),
+    data: behandlinger.filter(behandling => getKodeverknavnFraKode(behandling.venteårsak, kodeverkTyper.VENTEÅRSAK, alleKodeverk) === venteårsak),
   }));
   const totalt = { name: 'Totalt', type: 'bar', data: behandlinger };
 

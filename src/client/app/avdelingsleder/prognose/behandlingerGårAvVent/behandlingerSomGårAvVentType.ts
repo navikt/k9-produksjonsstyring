@@ -7,10 +7,7 @@ interface IBehandlingerSomGarAvVentType {
   behandlingType: string;
   dato: string;
   antall: number;
-  venteårsak?: {
-    kode: string;
-    navn: string;
-  };
+  venteårsak?: string;
   frist?: string;
 }
 

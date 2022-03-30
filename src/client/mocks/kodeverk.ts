@@ -280,6 +280,33 @@ const kodeverk = {
       kodeverk: 'BEHANDLING_TYPE',
     },
   ],
+  Venteårsak: [
+    {
+      kode: "AVV_DOK",
+      navn: "Avventer dokumentasjon",
+      kodeverk: "VENTEÅRSAK_TYPE"
+    },
+    {
+      kode: "VENT_MANGL_FUNKSJ_SAKSBEHANDLER",
+      navn: "Manglende funksjonalitet i løsningen",
+      kodeverk: "VENTEÅRSAK_TYPE"
+    },
+    {
+      kode: "VENTER_SVAR_INTERNT",
+      navn: "Meldt i Porten eller Teams",
+      kodeverk: "VENTEÅRSAK_TYPE"
+    },
+    {
+      kode: "AUTOMATISK",
+      navn: "Automatisk satt på vent",
+      kodeverk: "VENTEÅRSAK_TYPE"
+    },
+    {
+      kode: "UKJENT",
+      navn: "Mangler venteårsak",
+      kodeverk: "VENTEÅRSAK_TYPE"
+    }
+  ]
 };
 
 export default kodeverk;
