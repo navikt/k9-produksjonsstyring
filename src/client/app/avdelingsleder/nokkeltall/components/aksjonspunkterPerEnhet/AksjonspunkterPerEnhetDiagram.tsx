@@ -3,7 +3,7 @@ import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
 import Stolpediagram from 'avdelingsleder/Stolpediagram';
 import AksjonspunkterPerEnhetType from 'avdelingsleder/nokkeltall/AksjonspunkterPerEnhetType';
 import { fargerForLegendsForAksjonspunkterPerEnhet } from 'styles/echartStyle';
-import OppgaveSystem from "../../../../types/OppgaveSystem";
+import OppgaveSystem from '../../../../types/OppgaveSystem';
 
 interface OwnProps {
   aksjonspunkterPerEnhet: AksjonspunkterPerEnhetType[];
@@ -68,16 +68,12 @@ const AksjonspunkterPerEnhetDiagram = ({
     name: enhet,
     type: 'bar',
     data: behandlinger.filter(behandling => behandling.behandlendeEnhet === enhet),
+    itemStyle: fargerForLegendsForAksjonspunkterPerEnhet[enhet]
+      ? { color: fargerForLegendsForAksjonspunkterPerEnhet[enhet] }
+      : undefined,
   }));
 
-  return (
-    <Stolpediagram
-      series={series}
-      uker={antallUkerSomSkalVises}
-      labels={unikeEnheter}
-      legendColors={fargerForLegendsForAksjonspunkterPerEnhet}
-    />
-  );
+  return <Stolpediagram series={series} uker={antallUkerSomSkalVises} labels={unikeEnheter} />;
 };
 
 export default AksjonspunkterPerEnhetDiagram;
