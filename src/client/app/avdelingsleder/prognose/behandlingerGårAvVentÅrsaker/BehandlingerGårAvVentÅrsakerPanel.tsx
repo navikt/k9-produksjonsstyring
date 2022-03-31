@@ -1,17 +1,10 @@
 import React, { FunctionComponent, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { useQuery } from 'react-query';
-
-import NavFrontendSpinner from 'nav-frontend-spinner';
-
 import { ALLE_YTELSETYPER_VALGT, UKE_2 } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
 import GrafContainer from 'avdelingsleder/GrafContainer';
 import { getValueFromLocalStorage } from 'utils/localStorageHelper';
 import BehandlingerGårAvVentÅrsakerDiagram from './BehandlingerGårAvVentÅrsakerDiagram';
-import {IBehandlingerSomGarAvVentType, IPaaVentResponse} from '../behandlingerGårAvVent/behandlingerSomGårAvVentType';
-import useRestApi from "../../../api/rest-api-hooks/src/local-data/useRestApi";
-import {K9LosApiKeys} from "api/k9LosApi";
-import RestApiState from "../../../api/rest-api-hooks/src/RestApiState";
+import {IBehandlingerSomGarAvVentType} from '../behandlingerGårAvVent/behandlingerSomGårAvVentType';
 
 const BehandlingerGårAvVentÅrsakerPanel: FunctionComponent<{ påVentMedVenteårsak: IBehandlingerSomGarAvVentType[]}> = ({påVentMedVenteårsak}) => {
   const id = 'behandlingerSomGaarAvVentAarsaker';
