@@ -8,13 +8,13 @@ import { ALLE_YTELSETYPER_VALGT, UKE_2 } from 'avdelingsleder/nokkeltall/nokkelt
 import GrafContainer from 'avdelingsleder/GrafContainer';
 import { getValueFromLocalStorage } from 'utils/localStorageHelper';
 import BehandlingerGårAvVentÅrsakerDiagram from './BehandlingerGårAvVentÅrsakerDiagram';
-import { IPaaVentResponse } from '../behandlingerGårAvVent/behandlingerSomGårAvVentType';
+import {IBehandlingerSomGarAvVentType, IPaaVentResponse} from '../behandlingerGårAvVent/behandlingerSomGårAvVentType';
+import useRestApi from "../../../api/rest-api-hooks/src/local-data/useRestApi";
+import {K9LosApiKeys} from "api/k9LosApi";
+import RestApiState from "../../../api/rest-api-hooks/src/RestApiState";
 
-const BehandlingerGårAvVentÅrsakerPanel: FunctionComponent = () => {
+const BehandlingerGårAvVentÅrsakerPanel: FunctionComponent<{ påVentMedVenteårsak: IBehandlingerSomGarAvVentType[]}> = ({påVentMedVenteårsak}) => {
   const id = 'behandlingerSomGaarAvVentAarsaker';
-  const { data, isLoading, error }: { data: IPaaVentResponse; isLoading: boolean; error: any } = useQuery(
-    '/avdelingsleder/nokkeltall/alle-paa-vent_v2',
-  );
   const [valgtYtelseType, setValgtYtelseType] = useState<string>(
     getValueFromLocalStorage(`${id}-ytelsestype`) || ALLE_YTELSETYPER_VALGT,
   );
@@ -26,17 +26,9 @@ const BehandlingerGårAvVentÅrsakerPanel: FunctionComponent = () => {
   const intl = useIntl();
 
   const behandlingerSomGaarAvVentAarsakerVisning = () => {
-    if (isLoading) {
-      return <NavFrontendSpinner />;
-    }
-
-    if (error) {
-      return <>Noe gikk galt under lasting</>;
-    }
-
     return (
       <BehandlingerGårAvVentÅrsakerDiagram
-        behandlingerGaarAvVentAarsaker={data?.påVentMedVenteårsak}
+        behandlingerGaarAvVentAarsaker={påVentMedVenteårsak}
         valgtYtelseType={valgtYtelseType}
         antallUkerSomSkalVises={antallUkerSomSkalVises}
       />

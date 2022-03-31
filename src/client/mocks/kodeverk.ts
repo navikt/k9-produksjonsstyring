@@ -297,7 +297,7 @@ const kodeverk = {
       kodeverk: "VENTEÅRSAK_TYPE"
     },
     {
-      kode: "AUTOMATISK",
+      kode: "AUTOMATISK_SATT_PA_VENT",
       navn: "Automatisk satt på vent",
       kodeverk: "VENTEÅRSAK_TYPE"
     },
