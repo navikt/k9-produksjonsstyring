@@ -158,7 +158,7 @@ const HeaderWithErrorPanel: FunctionComponent<OwnProps & WrappedComponentProps> 
           {navAnsatt && (
             <div className={styles['endringslogg-container']}>
               <Endringslogg
-                userId={navAnsatt.brukernavn.split('@')[0]}
+                userId={navAnsatt.brukerIdent}
                 appId="K9_SAK"
                 appName="K9 Sak"
                 backendUrl={
