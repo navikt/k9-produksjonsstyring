@@ -10,6 +10,7 @@
     "@formatjs/intl-numberformat": "^7.4.1",
     "@navikt/ds-css": "^0.16.9",
     "@navikt/ds-react": "^0.17.14",
+    "@navikt/familie-endringslogg": "^2.0.0",
     "@navikt/fnrvalidator": "1.1.4",
     "@navikt/k9-react-components": "^0.1.19",
     "@popperjs/core": "^2.11.4",
