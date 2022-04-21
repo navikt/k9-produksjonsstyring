@@ -156,7 +156,7 @@ const HeaderWithErrorPanel: FunctionComponent<OwnProps & WrappedComponentProps> 
             For å nå backend lokalt må man være tilkoblet naisdevice og kjøre opp k9-sak-web på port 8000 pga CORS
             */}
           {navAnsatt?.brukerIdent && (
-            <div className={styles['endringslogg-container']}>
+            <div className={isDev ? styles['endringslogg-container-dev'] : styles['endringslogg-container']}>
               <Endringslogg
                 userId={navAnsatt.brukerIdent}
                 appId="K9_SAK"
