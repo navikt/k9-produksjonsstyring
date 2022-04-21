@@ -67,13 +67,15 @@ const OppgavekoPanel: FunctionComponent<OwnProps> = ({
     });
   };
 
+  const sorterteOppgavekoerIBokstavsordning = oppgavekoer.sort((a, b) => a.navn.localeCompare(b.navn));
+
   return (
     <>
       <div className={styles.container}>
         <Undertittel><FormattedMessage id="OppgavekoPanel.StartBehandling" /></Undertittel>
         <VerticalSpacer sixteenPx />
         <OppgavekoVelgerForm
-          oppgavekoer={oppgavekoer}
+          oppgavekoer={sorterteOppgavekoerIBokstavsordning}
           setValgtOppgavekoId={setValgtOppgavekoId}
           getValueFromLocalStorage={getValueFromLocalStorage}
           setValueInLocalStorage={setValueInLocalStorage}
