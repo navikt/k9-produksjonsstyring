@@ -7,7 +7,7 @@
   "license": "MIT",
   "dependencies": {
     "@formatjs/intl-datetimeformat": "^5.0.0",
-    "@formatjs/intl-numberformat": "^7.4.1",
+    "@formatjs/intl-numberformat": "^7.4.3",
     "@navikt/ds-css": "^0.16.9",
     "@navikt/ds-react": "^0.17.14",
     "@navikt/familie-endringslogg": "^2.0.0",
