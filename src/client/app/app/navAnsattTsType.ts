@@ -1,5 +1,7 @@
 type NavAnsatt = Readonly<{
   navn: string;
+  brukernavn: string;
+  brukerIdent: string;
   kanSaksbehandle: boolean;
   kanOppgavestyre: boolean;
   kanBehandleKode6: boolean;
