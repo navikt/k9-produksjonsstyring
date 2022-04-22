@@ -5,9 +5,9 @@ import { Kodeverk } from 'kodeverk/kodeverkTsType';
 export type Oppgaveko = Readonly<{
     id: string;
     navn: string;
-    behandlingTyper: Kodeverk[];
-    fagsakYtelseTyper: Kodeverk[];
-    andreKriterier: Kodeverk[];
+    behandlingTyper: string[];
+    fagsakYtelseTyper: string[];
+    andreKriterier: string[];
     sortering?: {
         sorteringType: Kodeverk;
         fomDato?: string;

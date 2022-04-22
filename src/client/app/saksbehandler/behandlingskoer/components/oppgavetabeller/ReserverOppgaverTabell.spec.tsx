@@ -10,11 +10,12 @@ import DateLabel from 'sharedComponents/DateLabel';
 import TableRow from 'sharedComponents/TableRow';
 import TableColumn from 'sharedComponents/TableColumn';
 import Image from 'sharedComponents/Image';
-import { intlMock, shallowWithIntl } from '../../../../../../../setup/testHelpers/intl-enzyme-test-helper';
-import { K9LosApiKeys } from 'api/k9LosApi';
-import RestApiTestMocker from '../../../../../../../setup/testHelpers/RestApiTestMocker';
+import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
 import ReserverteOppgaverTabell
   from 'saksbehandler/behandlingskoer/components/oppgavetabeller/ReserverteOppgaverTabell';
+import { intlMock, shallowWithIntl } from '../../../../../../../setup/testHelpers/intl-enzyme-test-helper';
+import RestApiTestMocker from '../../../../../../../setup/testHelpers/RestApiTestMocker';
+import kodeverk from "../../../../../mocks/kodeverk";
 
 describe('<ReserverOppgaveTabell>', () => {
   const intl: Partial<IntlShape> = {
@@ -31,10 +32,7 @@ describe('<ReserverOppgaveTabell>', () => {
     personnummer: '657643535',
     navn: 'Espen Solstråle',
     system: 'FPSAK',
-    behandlingstype: {
-      kode: behandlingType.FORSTEGANGSSOKNAD,
-      navn: 'Førstegangssøknad far',
-    },
+    behandlingstype: behandlingType.FORSTEGANGSSOKNAD,
     opprettetTidspunkt: '2018-01-02',
     behandlingsfrist: '2018-03-03',
     erTilSaksbehandling: true,
@@ -53,6 +51,7 @@ describe('<ReserverOppgaveTabell>', () => {
     new RestApiTestMocker()
       .withRestCallRunner(K9LosApiKeys.LEGG_TIL_BEHANDLET_OPPGAVE, { startRequest: () => undefined, data: undefined })
       .withRestCallRunner(K9LosApiKeys.FORLENG_OPPGAVERESERVASJON, { startRequest: () => undefined, data: undefined })
+      .withGlobalData(RestApiGlobalStatePathsKeys.KODEVERK, kodeverk)
       .runTest(() => {
         const wrapper = shallowWithIntl(<ReserverteOppgaverTabell.WrappedComponent
           intl={intl}
@@ -68,7 +67,7 @@ describe('<ReserverOppgaveTabell>', () => {
         const columnsRow1 = tableRows.last().find(TableColumn);
         expect(columnsRow1.first().childAt(0).text()).is.eql('Espen Solstråle 657643535');
         expect(columnsRow1.at(1).childAt(0).text()).is.eql('2');
-        expect(columnsRow1.at(2).childAt(0).text()).is.eql('Førstegangssøknad far');
+        expect(columnsRow1.at(2).childAt(0).text()).is.eql('Førstegangsbehandling');
         expect(columnsRow1.at(3).find(DateLabel).prop('dateString')).is.eql('2018-01-02');
       });
   });
@@ -90,27 +89,19 @@ describe('<ReserverOppgaveTabell>', () => {
       personnummer: '657643535',
       navn: 'Espen Solstråle',
       system: 'K9SAK',
-      behandlingstype: {
-        kode: behandlingType.FORSTEGANGSSOKNAD,
-        navn: 'Førstegangssøknad far',
-      },
+      behandlingstype: behandlingType.FORSTEGANGSSOKNAD,
       opprettetTidspunkt: '2018-01-02',
       behandlingsfrist: '2018-03-03',
       erTilSaksbehandling: true,
-      fagsakYtelseType: {
-        kode: fagsakYtelseType.OMSORGSPENGER,
-        navn: 'OMP',
-      },
-      behandlingStatus: {
-        kode: behandlingStatus.OPPRETTET,
-        navn: '',
-      },
+      fagsakYtelseType: fagsakYtelseType.OMSORGSPENGER,
+      behandlingStatus: behandlingStatus.OPPRETTET,
       journalpostId: '',
     }];
 
     new RestApiTestMocker()
       .withRestCallRunner(K9LosApiKeys.LEGG_TIL_BEHANDLET_OPPGAVE, { startRequest: () => undefined, data: undefined })
       .withRestCallRunner(K9LosApiKeys.FORLENG_OPPGAVERESERVASJON, { startRequest: () => undefined, data: undefined })
+      .withGlobalData(RestApiGlobalStatePathsKeys.KODEVERK, kodeverk)
       .runTest(() => {
         const wrapper = shallowWithIntl(<ReserverteOppgaverTabell.WrappedComponent
           intl={intl}
@@ -126,7 +117,7 @@ describe('<ReserverOppgaveTabell>', () => {
         const columnsRow1 = tableRows.first().find(TableColumn);
         expect(columnsRow1.first().childAt(0).text()).is.eql('Espen Solstråle 657643535');
         expect(columnsRow1.at(1).childAt(0).text()).is.eql('2');
-        expect(columnsRow1.at(2).childAt(0).text()).is.eql('Førstegangssøknad far');
+        expect(columnsRow1.at(2).childAt(0).text()).is.eql('Førstegangsbehandling');
         expect(columnsRow1.at(3).find(DateLabel).prop('dateString')).is.eql('2018-01-02');
         expect(columnsRow1.at(4).find(Image)).has.length(1);
         expect(columnsRow1.at(6).find(Image)).has.length(1);

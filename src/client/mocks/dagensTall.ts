@@ -1,82 +1,42 @@
 const dagensTall = [
   {
-    behandlingType: {
-      kode: 'BT-002',
-      navn: 'Førstegangsbehandling',
-      kodeverk: 'ae0034',
-    },
+    behandlingType: 'BT-002',
     antall: 1,
   },
   {
-    behandlingType: {
-      kode: 'BT-007',
-      navn: 'Tilbakekreving',
-      kodeverk: 'ae0203',
-    },
+    behandlingType: 'BT-007',
     antall: 1,
   },
   {
-    behandlingType: {
-      kode: 'BT-004',
-      navn: 'Revurdering',
-      kodeverk: 'ae0028',
-    },
+    behandlingType: 'BT-004',
     antall: 1,
   },
   {
-    behandlingType: {
-      kode: 'SAMTALEREFERAT',
-      navn: 'Samtalereferat',
-      kodeverk: 'PUNSJ_INNSENDING_TYPE',
-    },
+    behandlingType: 'SAMTALEREFERAT',
     antall: 1,
   },
   {
-    behandlingType: {
-      kode: 'DIGITAL_ETTERSENDELSE',
-      navn: 'Digital ettersendelse',
-      kodeverk: 'PUNSJ_INNSENDING_TYPE',
-    },
+    behandlingType: 'DIGITAL_ETTERSENDELSE',
     antall: 1,
   },
   {
-    behandlingType: {
-      kode: 'PAPIRSØKNAD',
-      navn: 'Papirsøknad',
-      kodeverk: 'PUNSJ_INNSENDING_TYPE',
-    },
+    behandlingType: 'PAPIRSØKNAD',
     antall: 1,
   },
   {
-    behandlingType: {
-      kode: 'PAPIRINNTEKTSOPPLYSNINGER',
-      navn: 'Papirinntektsopplysninger',
-      kodeverk: 'PUNSJ_INNSENDING_TYPE',
-    },
+    behandlingType: 'PAPIRINNTEKTSOPPLYSNINGER',
     antall: 1,
   },
   {
-    behandlingType: {
-      kode: 'SKRIV_TIL_OSS_SPØRMSÅL',
-      navn: 'Skriv til oss spørmsål',
-      kodeverk: 'PUNSJ_INNSENDING_TYPE',
-    },
+    behandlingType: 'SKRIV_TIL_OSS_SPØRMSÅL',
     antall: 1,
   },
   {
-    behandlingType: {
-      kode: 'KOPI',
-      navn: 'Kopi',
-      kodeverk: 'PUNSJ_INNSENDING_TYPE',
-    },
+    behandlingType: 'KOPI',
     antall: 1,
   },
   {
-    behandlingType: {
-      kode: 'SKRIV_TIL_OSS_SVAR',
-      navn: 'Skriv til oss svar',
-      kodeverk: 'PUNSJ_INNSENDING_TYPE',
-    },
+    behandlingType: 'SKRIV_TIL_OSS_SVAR',
     antall: 1,
   },
 ];

@@ -1,25 +1,27 @@
 import React, { FunctionComponent, ReactNode, useEffect } from 'react';
 import moment from 'moment';
 import { Form, FormSpy } from 'react-final-form';
-import {
-  injectIntl, WrappedComponentProps, FormattedMessage, IntlShape,
-} from 'react-intl';
+import { FormattedMessage, injectIntl, IntlShape, WrappedComponentProps, } from 'react-intl';
 import { Element, Undertekst } from 'nav-frontend-typografi';
 import { DDMMYYYY_DATE_FORMAT } from 'utils/formats';
 import Image from 'sharedComponents/Image';
-import { FlexContainer, FlexRow, FlexColumn } from 'sharedComponents/flexGrid';
+import { FlexColumn, FlexContainer, FlexRow } from 'sharedComponents/flexGrid';
 import LabelWithHeader from 'sharedComponents/LabelWithHeader';
 import { Oppgaveko } from 'saksbehandler/behandlingskoer/oppgavekoTsType';
 import { SelectField } from 'form/FinalFields';
 import gruppeHoverUrl from 'images/gruppe_hover.svg';
 import gruppeUrl from 'images/gruppe.svg';
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
-import { K9LosApiKeys } from 'api/k9LosApi';
+import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import { Hovedknapp } from 'nav-frontend-knapper';
 import { Saksbehandler } from '../saksbehandlerTsType';
 
 import styles from './oppgavekoVelgerForm.less';
+import AlleKodeverk from "kodeverk/alleKodeverkTsType";
+import { getKodeverknavnFraKode } from "utils/kodeverkUtils";
+import kodeverkTyper from "kodeverk/kodeverkTyper";
+import { useGlobalStateRestApiData } from "api/rest-api-hooks";
 
 interface OwnProps {
   oppgavekoer: Oppgaveko[];
@@ -58,11 +60,11 @@ const getInitialValues = (oppgavekoer, getValueFromLocalStorage, removeValueFrom
 
 const getValgtOppgaveko = (oppgavekoer: Oppgaveko[], oppgavekoId: string) => oppgavekoer.find((s) => oppgavekoId === `${s.id}`);
 
-const getStonadstyper = (intl: IntlShape, oppgaveko?: Oppgaveko) => (oppgaveko && oppgaveko.fagsakYtelseTyper.length > 0
-  ? oppgaveko.fagsakYtelseTyper.map((type) => type.navn) : [intl.formatMessage({ id: 'OppgavekoVelgerForm.Alle' })]);
+const getStonadstyper = (intl: IntlShape, alleKodeverk: AlleKodeverk,  oppgaveko?: Oppgaveko) => (oppgaveko && oppgaveko.fagsakYtelseTyper.length > 0
+  ? oppgaveko.fagsakYtelseTyper.map((type) => getKodeverknavnFraKode(type, kodeverkTyper.FAGSAK_YTELSE_TYPE, alleKodeverk)) : [intl.formatMessage({ id: 'OppgavekoVelgerForm.Alle' })]);
 
-const getBehandlingstyper = (intl: IntlShape, oppgaveko?: Oppgaveko) => (oppgaveko && oppgaveko.behandlingTyper.length > 0
-  ? oppgaveko.behandlingTyper.map((type) => type.navn) : [intl.formatMessage({ id: 'OppgavekoVelgerForm.Alle' })]);
+const getBehandlingstyper = (intl: IntlShape, alleKodeverk: AlleKodeverk, oppgaveko?: Oppgaveko) => (oppgaveko && oppgaveko.behandlingTyper.length > 0
+  ? oppgaveko.behandlingTyper.map((type) => getKodeverknavnFraKode(type, kodeverkTyper.BEHANDLING_TYPE, alleKodeverk)) : [intl.formatMessage({ id: 'OppgavekoVelgerForm.Alle' })]);
 
 const getAndreKriterier = (intl: IntlShape, oppgaveko?: Oppgaveko) => {
   if (oppgaveko && oppgaveko.andreKriterier.length > 0) {
@@ -121,6 +123,7 @@ export const OppgavekoVelgerForm: FunctionComponent<OwnProps & WrappedComponentP
 }) => {
   const { data: saksbehandlere, startRequest: hentSaksbehandlere } = useRestApiRunner<Saksbehandler[]>(K9LosApiKeys.OPPGAVEKO_SAKSBEHANDLERE);
   const { startRequest: fetchAntallOppgaver, data: antallOppgaver } = useRestApiRunner<number>(K9LosApiKeys.BEHANDLINGSKO_OPPGAVE_ANTALL);
+  const alleKodeverk: AlleKodeverk = useGlobalStateRestApiData(RestApiGlobalStatePathsKeys.KODEVERK);
 
   useEffect(() => {
     if (oppgavekoer.length > 0) {
@@ -192,13 +195,13 @@ export const OppgavekoVelgerForm: FunctionComponent<OwnProps & WrappedComponentP
                   <FlexColumn className={styles.marginFilters}>
                     <LabelWithHeader
                       header={intl.formatMessage({ id: 'OppgavekoVelgerForm.Stonadstype' })}
-                      texts={getStonadstyper(intl, getValgtOppgaveko(oppgavekoer, values.id))}
+                      texts={getStonadstyper(intl, alleKodeverk, getValgtOppgaveko(oppgavekoer, values.id),)}
                     />
                   </FlexColumn>
                   <FlexColumn className={styles.marginFilters}>
                     <LabelWithHeader
                       header={intl.formatMessage({ id: 'OppgavekoVelgerForm.Behandlingstype' })}
-                      texts={getBehandlingstyper(intl, getValgtOppgaveko(oppgavekoer, values.id))}
+                      texts={getBehandlingstyper(intl, alleKodeverk, getValgtOppgaveko(oppgavekoer, values.id))}
                     />
                   </FlexColumn>
                   <FlexColumn className={styles.marginFilters}>

@@ -1,8 +1,6 @@
-import { Kodeverk } from 'kodeverk/kodeverkTsType';
-
 type NyeOgFerdigstilteMedStonadstype = Readonly<{
-    behandlingType: Kodeverk;
-    fagsakYtelseType: Kodeverk;
+    behandlingType: string;
+    fagsakYtelseType: string;
     nye: number;
     ferdigstilte: number;
     dato: string;

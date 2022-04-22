@@ -10,7 +10,6 @@ import kodeverkTyper from 'kodeverk/kodeverkTyper';
 import useKodeverk from 'api/rest-api-hooks/src/global-data/useKodeverk';
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
 import { K9LosApiKeys } from 'api/k9LosApi';
-import Kodeverk from 'kodeverk/kodeverkTsType';
 import styles from './utvalgskriterierForOppgavekoForm.less';
 
 const finnFagsakYtelseTypeNavn = (fagsakYtelseTyper, valgtFagsakYtelseType) => {
@@ -20,7 +19,7 @@ const finnFagsakYtelseTypeNavn = (fagsakYtelseTyper, valgtFagsakYtelseType) => {
 
 interface OwnProps {
   valgtOppgavekoId: string;
-  fagsakYtelseTyper: Kodeverk[];
+  fagsakYtelseTyper: string[];
   hentOppgaveko: (id: string) => void;
 }
 
@@ -48,8 +47,8 @@ const FagsakYtelseTypeVelger: FunctionComponent<OwnProps> = ({
     fagytelseTyperValt.push(fagsakYtelseType.PLEIEPENGER_SYKT_BARN);
   } else {
     fagsakYtelseTyper.forEach((type) => {
-      if (!fagytelseTyperValt.includes(type.kode) && !fagytelseTyperKnyttetTilOmsorgsdager.includes(type.kode)) {
-        fagytelseTyperValt.push(type.kode);
+      if (!fagytelseTyperValt.includes(type) && !fagytelseTyperKnyttetTilOmsorgsdager.includes(type)) {
+        fagytelseTyperValt.push(type);
       }
     });
   }
