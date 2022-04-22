@@ -55,15 +55,6 @@ const BehandlingstypeVelger: FunctionComponent<OwnProps> = ({
     lagreOppgavekoBehandlingstype({
       id: valgtOppgavekoId,
       behandlingsTyper: sisteValgteBehandlingstyper.filter((bt) => bt.checked)
-        // TODO: Trenger ikke mappe dette når backend tar emot behandlingstyper som string
-        .map(bt => ({
-          behandlingType: {
-            kode: bt.behandlingType,
-            kodeverk: getKodeverkFraKode(bt.behandlingType, kodeverkTyper.BEHANDLING_TYPE, alleKodeverk),
-            navn: getKodeverknavnFraKode(bt.behandlingType, kodeverkTyper.BEHANDLING_TYPE, alleKodeverk)
-          },
-          checked: true
-        }))
     }).then(() => {
       hentOppgaveko(valgtOppgavekoId);
     });

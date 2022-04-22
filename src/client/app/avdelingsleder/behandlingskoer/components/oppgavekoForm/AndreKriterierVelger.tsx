@@ -50,7 +50,7 @@ const AndreKriterierVelger: FunctionComponent<OwnProps> = ({
                 <RadioGroupField
                   name={`${akt.kode}_inkluder`}
                   onChange={(skalInkludere) => lagreOppgavekoAndreKriterier({
-                    id: valgtOppgavekoId, andreKriterierType: akt, checked: true, inkluder: skalInkludere,
+                    id: valgtOppgavekoId, andreKriterierType: akt.kode, checked: true, inkluder: skalInkludere,
                   }).then(() => {
                     hentOppgaveko(valgtOppgavekoId);
                   })}
