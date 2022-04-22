@@ -21,7 +21,7 @@ describe('<HeaderWithErrorPanel>', () => {
           aktivert: '',
         }],
       })
-      .withGlobalData(RestApiGlobalStatePathsKeys.NAV_ANSATT, { navn: 'Per' })
+      .withGlobalData(RestApiGlobalStatePathsKeys.NAV_ANSATT, { navn: 'Paul', brukernavn: 'KaosPaul@nav.no'})
       .runTest(() => {
         const wrapper = shallowWithIntl(<HeaderWithErrorPanel.WrappedComponent
           intl={intlMock}

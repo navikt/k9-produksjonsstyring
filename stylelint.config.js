@@ -25,8 +25,6 @@ module.exports = {
     'block-opening-brace-newline-after': 'always-multi-line',
     'block-opening-brace-space-after': 'always-single-line',
     'block-opening-brace-space-before': 'always',
-    'color-hex-case': 'lower',
-    'color-hex-length': 'short',
     'comment-empty-line-before': [
       'always',
       {
@@ -86,7 +84,6 @@ module.exports = {
     'media-query-list-comma-newline-after': 'always-multi-line',
     'media-query-list-comma-space-after': 'always-single-line',
     'media-query-list-comma-space-before': 'never',
-    'no-eol-whitespace': true,
     'no-missing-end-of-source-newline': true,
     'number-leading-zero': 'always',
     'number-no-trailing-zeros': true,
