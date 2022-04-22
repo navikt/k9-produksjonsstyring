@@ -82,7 +82,7 @@ describe('<AndreKriterierVelger>', () => {
         const { args } = lagreAndreKriterierFn.getCalls()[0];
         expect(args).to.have.length(1);
         expect(args[0].id).to.eql('1');
-        expect(args[0].andreKriterierType.kode).to.eql(andreKriterierType.TIL_BESLUTTER);
+        expect(args[0].andreKriterierType).to.eql(andreKriterierType.TIL_BESLUTTER);
         expect(args[0].checked).to.true;
         expect(args[0].inkluder).to.true;
       });
