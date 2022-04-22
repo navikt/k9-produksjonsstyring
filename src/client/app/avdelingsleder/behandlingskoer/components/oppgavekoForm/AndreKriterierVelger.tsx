@@ -37,7 +37,7 @@ const AndreKriterierVelger: FunctionComponent<OwnProps> = ({
             name={akt.kode}
             label={akt.navn}
             onChange={(isChecked) => lagreOppgavekoAndreKriterier({
-              id: valgtOppgavekoId, andreKriterierType: akt, checked: isChecked, inkluder: true,
+              id: valgtOppgavekoId, andreKriterierType: akt.kode, checked: isChecked, inkluder: true,
             }).then(() => {
               hentOppgaveko(valgtOppgavekoId);
             })}
