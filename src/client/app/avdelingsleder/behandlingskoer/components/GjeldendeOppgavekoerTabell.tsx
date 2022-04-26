@@ -3,7 +3,6 @@ import { FormattedMessage } from 'react-intl';
 import {
   Normaltekst,
 } from 'nav-frontend-typografi';
-import { Kodeverk } from 'kodeverk/kodeverkTsType';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
 import Image from 'sharedComponents/Image';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
@@ -61,7 +60,7 @@ export const GjeldendeOppgavekoerTabell: FunctionComponent<OwnProps> = ({
   const { startRequest: fjernOppgaveko } = useRestApiRunner(K9LosApiKeys.SLETT_OPPGAVEKO);
   const { startRequest: hentOppgaveko } = useRestApiRunner<Oppgaveko>(K9LosApiKeys.HENT_OPPGAVEKO);
 
-  const { data: nyOppgavekoObject, startRequest: lagNyOppgaveko } = useRestApiRunner<{id: string}>(K9LosApiKeys.OPPRETT_NY_OPPGAVEKO);
+  const { startRequest: lagNyOppgaveko } = useRestApiRunner<{id: string}>(K9LosApiKeys.OPPRETT_NY_OPPGAVEKO);
 
   const hentOppgaveKoFn = (id: string) => {
     hentOppgaveko({ id }).then((ko) => setValgtKo(ko));
@@ -118,23 +117,13 @@ export const GjeldendeOppgavekoerTabell: FunctionComponent<OwnProps> = ({
   };
 
   const antallFagytelseTyper = 6;
-  const formatStonadstyper = (valgteFagsakYtelseTyper?: Kodeverk[]) => {
-    /* if (!valgteFagsakYtelseTyper || valgteFagsakYtelseTyper.length === 0) {
-      return <FormattedMessage id="GjeldendeOppgavekoerTabell.Ingen" />;
-    }
-
-    if (!valgteFagsakYtelseTyper || valgteFagsakYtelseTyper.length === 0 || valgteFagsakYtelseTyper.length >= antallFagytelseTyper) {
-      return <FormattedMessage id="GjeldendeOppgavekoerTabell.Alle" />;
-    } */
-
-    // TODO Denna ska byttes ut mot koden over etter alla köer har fått gått over till array.
-    // Tidigare blev '' som blir konvertert til [] brukt för att markere alle vilket innebär att det fortsatt existerer köer med denne logikken.
+  const formatStonadstyper = (valgteFagsakYtelseTyper?: string[]) => {
     if (!valgteFagsakYtelseTyper || valgteFagsakYtelseTyper.length === 0 || valgteFagsakYtelseTyper.length >= antallFagytelseTyper) {
       return <FormattedMessage id="GjeldendeOppgavekoerTabell.Alle" />;
     }
 
     return valgteFagsakYtelseTyper.map((fyt) => {
-      const type = fagsakYtelseTyper.find((def) => def.kode === fyt.kode);
+      const type = fagsakYtelseTyper.find((def) => def.kode === fyt);
       return type ? type.navn : '';
     }).join(', ');
   };

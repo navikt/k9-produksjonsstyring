@@ -31,6 +31,7 @@ interface OwnProps {
   oppgaveId: string;
   oppgaveReservertTil?: string;
   closeModal: () => void;
+  eksisterendeBegrunnelse?: string;
 }
 
 /**
@@ -39,7 +40,7 @@ interface OwnProps {
  * Presentasjonskomponent. Modal som lar en søke opp en saksbehandler som saken skal flyttes til. En kan også begrunne hvorfor saken skal flyttes.
  */
 export const FlyttReservasjonModal: FunctionComponent<OwnProps & WrappedComponentProps> = ({
-  intl, showModal, closeModal, oppgaveId, oppgaveReservertTil,
+  intl, showModal, closeModal, oppgaveId, oppgaveReservertTil, eksisterendeBegrunnelse
 }) => {
   const {
     startRequest, state, data: saksbehandler, resetRequestData,
@@ -146,7 +147,7 @@ export const FlyttReservasjonModal: FunctionComponent<OwnProps & WrappedComponen
       />
       <Form
         onSubmit={(values) => onSubmit(saksbehandler ? saksbehandler.brukerIdent : '', values.begrunnelse, values.reserverTil)}
-        initialValues={{ reserverTil: oppgaveReservertTil || '' }}
+        initialValues={{ reserverTil: oppgaveReservertTil || '', begrunnelse: eksisterendeBegrunnelse || '' }}
         render={({
           handleSubmit, values,
         }) => (

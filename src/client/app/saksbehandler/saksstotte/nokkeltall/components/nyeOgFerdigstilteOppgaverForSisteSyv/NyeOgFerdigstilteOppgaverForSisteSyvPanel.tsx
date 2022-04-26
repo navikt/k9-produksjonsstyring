@@ -14,9 +14,12 @@ import { Select } from 'nav-frontend-skjema';
 import NyeOgFerdigstilteOppgaverForSisteSyvGraf
   from 'saksbehandler/saksstotte/nokkeltall/components/nyeOgFerdigstilteOppgaverForSisteSyv/NyeOgFerdigstilteOppgaverForSisteSyvGraf';
 import dayjs from 'dayjs';
+import AlleKodeverk from "kodeverk/alleKodeverkTsType";
+import { useGlobalStateRestApiData } from "api/rest-api-hooks";
+import { RestApiGlobalStatePathsKeys } from "api/k9LosApi";
+import NyeOgFerdigstilteOppgaver, { fagytelsetyperForOppgaveFiltrering } from '../nyeOgFerdigstilteOppgaverTsType';
 import styles
   from '../nyeOgFerdigstilteOppgaverFelles.less';
-import NyeOgFerdigstilteOppgaver, { fagytelsetyperForOppgaveFiltrering } from '../nyeOgFerdigstilteOppgaverTsType';
 
 export const getNyeOgFerdigstilteForSisteSyvDager = (nyeOgFerdigstilte: NyeOgFerdigstilteOppgaver[] = []) => {
   const iDag = dayjs().startOf('day');
@@ -36,6 +39,8 @@ export const NyeOgFerdigstilteOppgaverForSisteSyvPanel: FunctionComponent<OwnPro
   nyeOgFerdigstilteOppgaver,
 }) => {
   const [selectValue, setSelectValue] = useState<string>('');
+  const alleKodeverk: AlleKodeverk = useGlobalStateRestApiData(RestApiGlobalStatePathsKeys.KODEVERK);
+
   const filtrertenyeOgFerdigstilteOppgaverSisteSyv = useMemo(
     () => getNyeOgFerdigstilteForSisteSyvDager(nyeOgFerdigstilteOppgaver), [nyeOgFerdigstilteOppgaver],
   );
@@ -57,8 +62,8 @@ export const NyeOgFerdigstilteOppgaverForSisteSyvPanel: FunctionComponent<OwnPro
   ));
 
   const punsjFerdigstilteOppgaver = slaSammenAllePunsjBehandlingstyperForNyeOgFerdigstilleOppgaver(filtrertenyeOgFerdigstilteOppgaverSisteSyv.filter(
-    (oppgave) => sjekkOmOppgaveSkalLeggesTil(fagsakYtelseType.PUNSJ, oppgave),
-  ));
+    (oppgave) => sjekkOmOppgaveSkalLeggesTil(fagsakYtelseType.PUNSJ, oppgave)),
+    alleKodeverk);
 
   const samlet = slaSammenLikeBehandlingstyperForNyeOgFerdigstilleOppgaver(filtrertenyeOgFerdigstilteOppgaverSisteSyv.filter(
     (oppgave) => sjekkOmOppgaveSkalLeggesTil(ALLE_YTELSETYPER_VALGT, oppgave),

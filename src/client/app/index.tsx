@@ -16,6 +16,7 @@ const environment = window.location.hostname;
 
 init({
   dsn: 'https://ee88a0763c614159ba73dbae305f737e@sentry.gc.nav.no/38',
+  release: process.env.SENTRY_RELEASE || 'unknown',
   environment,
 });
 

@@ -1,10 +1,10 @@
 import React, { FunctionComponent, useState } from 'react';
 import { injectIntl, WrappedComponentProps, FormattedMessage } from 'react-intl';
-import { Element, Normaltekst } from 'nav-frontend-typografi';
+import { Normaltekst } from 'nav-frontend-typografi';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import Panel from 'nav-frontend-paneler';
 import { ISO_DATE_FORMAT } from 'utils/formats';
-import { K9LosApiKeys } from 'api/k9LosApi';
+import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import {
   ALLE_YTELSETYPER_VALGT,
@@ -21,12 +21,16 @@ import { lagreTilLocalStorageCallback } from 'utils/localStorageHelper';
 import Teller from './Teller';
 import styles from './inngangOgFerdigstiltePanel.less';
 import { Heading, Label, Select } from '@navikt/ds-react';
+import AlleKodeverk from "kodeverk/alleKodeverkTsType";
+import { useGlobalStateRestApiData } from "api/rest-api-hooks";
+import { getKodeverknavnFraKode } from "utils/kodeverkUtils";
+import kodeverkTyper from "kodeverk/kodeverkTyper";
 
 export const slaSammenLikeBehandlingstyper = oppgaver => {
   const sammenslatte = [];
 
   oppgaver.forEach(o => {
-    const index = sammenslatte.findIndex(s => s.behandlingType.kode === o.behandlingType.kode);
+    const index = sammenslatte.findIndex(s => s.behandlingType === o.behandlingType);
     if (index === -1) {
       sammenslatte.push({
         behandlingType: o.behandlingType,
@@ -51,6 +55,8 @@ export const InngangOgFerdigstiltePanel: FunctionComponent<WrappedComponentProps
   const [valgtYtelseType, setValgtYtelseType] = useState<string>(
     getValueFromLocalStorage(`${id}-ytelsestype`) || ALLE_YTELSETYPER_VALGT,
   );
+
+  const alleKodeverk: AlleKodeverk = useGlobalStateRestApiData(RestApiGlobalStatePathsKeys.KODEVERK);
 
   const { data: nyeOgFerdigstilteOppgaverMedStonadstype = [], state } = useRestApi<NyeOgFerdigstilteMedStonadstype[]>(
     K9LosApiKeys.HENT_OPPSUMMERING,
@@ -159,8 +165,8 @@ export const InngangOgFerdigstiltePanel: FunctionComponent<WrappedComponentProps
           valgtYtelseType !== 'PUNSJ' &&
           getOppgaverStonadstype(nyeOgFerdigstilteOppgaverIdag, valgtYtelseType).map(o => (
             <Teller
-              key={o.behandlingType.kode}
-              forklaring={o.behandlingType.navn}
+              key={o.behandlingType}
+              forklaring={getKodeverknavnFraKode(o.behandlingType, kodeverkTyper.BEHANDLING_TYPE, alleKodeverk)}
               hoyreTall={o.ferdigstilte}
               venstreTall={o.nye}
             />
@@ -170,8 +176,8 @@ export const InngangOgFerdigstiltePanel: FunctionComponent<WrappedComponentProps
           valgtYtelseType !== 'PUNSJ' &&
           getOppgaverStonadstype(nyeOgFerdigstilteOppgaver7dager, valgtYtelseType).map(o => (
             <Teller
-              key={o.behandlingType.kode}
-              forklaring={o.behandlingType.navn}
+              key={o.behandlingType}
+              forklaring={getKodeverknavnFraKode(o.behandlingType, kodeverkTyper.BEHANDLING_TYPE, alleKodeverk)}
               hoyreTall={o.ferdigstilte}
               venstreTall={o.nye}
             />

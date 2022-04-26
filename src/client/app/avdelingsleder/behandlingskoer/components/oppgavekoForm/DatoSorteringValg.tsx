@@ -12,8 +12,6 @@ import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import ArrowBox from 'sharedComponents/ArrowBox';
 import styles from './sorteringVelger.less';
 
-const finnDato = (antallDager) => moment().add(antallDager, 'd').format();
-
 const getLagreDatoFn = (lagreOppgavekoSorteringTidsintervallDato, valgtOppgavekoId, annenDato, erFomDato, hentKo) => (e) => {
   let dato = e.target.value;
   if (dato) {
@@ -48,7 +46,6 @@ interface OwnProps {
 }
 
 export const DatoSorteringValg: FunctionComponent<OwnProps & WrappedComponentProps> = ({
-  intl,
   valgtOppgavekoId,
   lagreOppgavekoSorteringTidsintervallDato,
   fomDato,

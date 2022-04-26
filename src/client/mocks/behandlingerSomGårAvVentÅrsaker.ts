@@ -2,33 +2,38 @@ import dayjs from 'dayjs';
 
 const behandlingerSomGårAvVentÅrsaker = [
   {
-    fagsakYtelseType: {
-      kode: 'OMP_MA',
-      navn: 'Omsorgsdager: midlertidig alene',
-      kodeverk: 'FAGSAK_YTELSE_TYPE',
-    },
-    behandlingType: {
-      kode: 'BT-002',
-      navn: 'Førstegangsbehandling',
-      kodeverk: 'ae0034',
-    },
+    fagsakYtelseType: 'OMP_MA',
+    behandlingType: 'BT-002',
     frist: dayjs().add(7, 'day'),
-    venteårsak: { kode: 'AVV_DOK', navn: 'Avventer dokumentasjon' },
+    venteårsak: 'AVV_DOK',
     antall: 1,
   },
   {
-    fagsakYtelseType: {
-      kode: 'OMP_MA',
-      navn: 'Omsorgsdager: midlertidig alene',
-      kodeverk: 'FAGSAK_YTELSE_TYPE',
-    },
-    behandlingType: {
-      kode: 'BT-002',
-      navn: 'Førstegangsbehandling',
-      kodeverk: 'ae0034',
-    },
+    fagsakYtelseType: 'OMP_MA',
+    behandlingType: 'BT-002',
     frist: dayjs().add(5, 'day'),
-    venteårsak: { kode: 'ANNET_MANUELT', navn: 'Annen manuell venteårsak' },
+    venteårsak: 'VENT_MANGL_FUNKSJ_SAKSBEHANDLER',
+    antall: 1,
+  },
+  {
+    fagsakYtelseType: 'OMP_MA',
+    behandlingType: 'BT-002',
+    frist: dayjs().add(5, 'day'),
+    venteårsak: 'VENTER_SVAR_INTERNT',
+    antall: 1,
+  },
+  {
+    fagsakYtelseType: 'OMP_MA',
+    behandlingType: 'BT-002',
+    frist: dayjs().add(5, 'day'),
+    venteårsak: 'AUTOMATISK',
+    antall: 1,
+  },
+  {
+    fagsakYtelseType: 'OMP_MA',
+    behandlingType: 'BT-002',
+    frist: dayjs().add(5, 'day'),
+    venteårsak: 'UKJENT',
     antall: 1,
   },
 ];

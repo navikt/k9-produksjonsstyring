@@ -8,7 +8,7 @@ import { shallowWithIntl, intlMock } from '../../../../../../../setup/testHelper
 import PersonInfo from './PersonInfo';
 
 describe('<PersonInfo>', () => {
-  const intl: Partial<IntlShape> = {
+  const intl: IntlShape = {
     ...intlMock,
   };
   it('skal sjekke at props blir brukt korrekt', () => {
@@ -24,7 +24,7 @@ describe('<PersonInfo>', () => {
       },
     };
     const wrapper = shallowWithIntl(<PersonInfo.WrappedComponent
-      intl={intl as IntlShape}
+      intl={intl}
       person={person}
     />);
 

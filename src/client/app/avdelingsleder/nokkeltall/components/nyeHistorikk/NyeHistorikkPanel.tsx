@@ -8,6 +8,9 @@ import HistorikkGraf from 'avdelingsleder/nokkeltall/HistorikkGraf';
 import HistorikkGrafForPunsj from 'avdelingsleder/nokkeltall/HistorikkGrafForPunsj';
 import { getValueFromLocalStorage } from 'utils/localStorageHelper';
 import GrafContainer from 'avdelingsleder/GrafContainer';
+import AlleKodeverk from "kodeverk/alleKodeverkTsType";
+import { useGlobalStateRestApiData } from "api/rest-api-hooks";
+import { RestApiGlobalStatePathsKeys } from "api/k9LosApi";
 import HistoriskData from '../../historiskDataTsType';
 
 interface OwnProps {
@@ -24,6 +27,8 @@ export const NyeHistorikkPanel: FunctionComponent<OwnProps> = ({ nyePerDato }) =
   );
   const intl = useIntl();
   const behandlingTyper = useKodeverk(kodeverkTyper.BEHANDLING_TYPE);
+  const alleKodeverk: AlleKodeverk = useGlobalStateRestApiData(RestApiGlobalStatePathsKeys.KODEVERK);
+
   return (
     <GrafContainer
       valgtYtelseType={valgtYtelseType}
@@ -37,7 +42,7 @@ export const NyeHistorikkPanel: FunctionComponent<OwnProps> = ({ nyePerDato }) =
         {valgtYtelseType === fagsakYtelseType.PUNSJ && (
           <HistorikkGrafForPunsj
             isFireUkerValgt={antallUkerSomSkalVises === UKE_4}
-            historiskData={filtrereNyePerDato(valgtYtelseType, antallUkerSomSkalVises, nyePerDato)}
+            historiskData={filtrereNyePerDato(valgtYtelseType, antallUkerSomSkalVises, nyePerDato, alleKodeverk)}
           />
         )}
 
@@ -45,7 +50,7 @@ export const NyeHistorikkPanel: FunctionComponent<OwnProps> = ({ nyePerDato }) =
           <HistorikkGraf
             isFireUkerValgt={antallUkerSomSkalVises === UKE_4}
             behandlingTyper={behandlingTyper}
-            historiskData={filtrereNyePerDato(valgtYtelseType, antallUkerSomSkalVises, nyePerDato)}
+            historiskData={filtrereNyePerDato(valgtYtelseType, antallUkerSomSkalVises, nyePerDato, alleKodeverk)}
           />
         )}
       </>

@@ -269,6 +269,7 @@
   "ReservasjonerTabell.Slett": "Slett",
   "ReservasjonerTabell.Reservasjoner": "Alle reservasjoner",
   "ReservasjonerTabell.IngenReservasjoner": "Ingen reservasjoner funnet",
+  "ReservasjonerTabell.IngenMatchandeReservasjoner": "Ingen reservasjoner som matcher søk.",
   "ReservasjonerTabell.LeggTilbake": "Legg behandling tilbake i felles kø",
   "ReservasjonerTabell.EndreReservasjon": "Reserver behandlingen med dato",
   "ReservasjonerTabell.FlyttReservasjon": "Flytt reservasjonen til annen saksbehandler",
@@ -330,6 +331,7 @@
   "TilBehandlingPanel.TilBehandling": "Antall til behandling",
   "Historikk.ToSisteUker": "2 siste uker",
   "Historikk.FireSisteUker": "4 siste uker",
+
 
   "BehandlingerGårAvVent.Tittel": "Behandlinger som går av vent",
   "BehandlingerGårAvVent.Hjelptekst": "Grafen viser en prognose av antall behandlinger som går av vent frem i tid.",

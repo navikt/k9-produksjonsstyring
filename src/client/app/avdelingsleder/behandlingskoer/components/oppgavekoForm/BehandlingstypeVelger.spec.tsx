@@ -6,9 +6,10 @@ import { shallow } from 'enzyme';
 import behandlingType from 'kodeverk/behandlingType';
 import { CheckboxField } from 'form/FinalFields';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
-import { K9LosApiKeys } from 'api/k9LosApi';
+import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
 import RestApiTestMocker from '../../../../../../../setup/testHelpers/RestApiTestMocker';
 import BehandlingstypeVelger from './BehandlingstypeVelger';
+import kodeverk from "../../../../../mocks/kodeverk";
 
 const behandlingTyper = [{
   kode: behandlingType.ANKE,
@@ -78,6 +79,7 @@ describe('<BehandlingstypeVelger>', () => {
   it('skal vise checkboxer for behandlingstyper', () => {
     new RestApiTestMocker()
       .withKodeverk(kodeverkTyper.BEHANDLING_TYPE, behandlingTyper)
+      .withGlobalData(RestApiGlobalStatePathsKeys.KODEVERK, kodeverk)
       .withDummyRunner()
       .runTest(() => {
         const wrapper = shallow(<BehandlingstypeVelger
@@ -97,6 +99,7 @@ describe('<BehandlingstypeVelger>', () => {
     const lagreBehandlingTypeFn = sinon.spy();
     new RestApiTestMocker()
       .withKodeverk(kodeverkTyper.BEHANDLING_TYPE, behandlingTyper)
+      .withGlobalData(RestApiGlobalStatePathsKeys.KODEVERK, kodeverk)
       .withRestCallRunner(
         K9LosApiKeys.LAGRE_OPPGAVEKO_BEHANDLINGSTYPE,
         { startRequest: (params) => { lagreBehandlingTypeFn(params); return Promise.resolve(); } },
@@ -115,7 +118,7 @@ describe('<BehandlingstypeVelger>', () => {
         const { args } = lagreBehandlingTypeFn.getCalls()[0];
         expect(args).to.have.length(1);
         expect(args[0].id).to.eql('1');
-        expect(args[0].behandlingsTyper[0].behandlingType).to.eql(behandlingTyper[0]);
+        expect(args[0].behandlingsTyper[0].behandlingType).to.eql('BT-008');
         expect(args[0].behandlingsTyper[0].checked).is.true;
       });
   });
