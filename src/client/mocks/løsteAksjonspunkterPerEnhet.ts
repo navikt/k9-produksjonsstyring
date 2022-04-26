@@ -11,6 +11,14 @@ const løsteAksjonspunkterPerEnhet = [
     antall: 10,
   },
   {
+    fagsakYtelseType: 'PPN',
+    behandlingType: 'Revurdering',
+    behandlendeEnhet: 'UKJENT',
+    fagsystemType: OppgaveSystem.K9SAK,
+    dato,
+    antall: 10,
+  },
+  {
     fagsakYtelseType: 'OMP',
     behandlingType: 'Revurdering',
     behandlendeEnhet: '9001',

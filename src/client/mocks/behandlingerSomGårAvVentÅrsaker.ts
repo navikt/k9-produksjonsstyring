@@ -36,6 +36,13 @@ const behandlingerSomGårAvVentÅrsaker = [
     venteårsak: 'UKJENT',
     antall: 1,
   },
+  {
+    fagsakYtelseType: 'PPN',
+    behandlingType: 'BT-002',
+    frist: dayjs().add(5, 'day'),
+    venteårsak: 'UKJENT',
+    antall: 1,
+  },
 ];
 
 export default behandlingerSomGårAvVentÅrsaker;

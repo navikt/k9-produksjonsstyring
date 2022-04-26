@@ -38,8 +38,8 @@ const BehandlingerGårAvVentÅrsakerDiagram = ({
 
   const LivetsSluttfaseBehandlinger: IBehandlingerSomGarAvVentType[] = behandlingerGaarAvVentAarsaker.filter(
     behandling =>
-      behandling.fagsakYtelseType.kode === fagsakYtelseType.PPN &&
-      behandling.behandlingType.kodeverk !== punsjKodeverkNavn,
+      behandling.fagsakYtelseType === fagsakYtelseType.PPN &&
+      getKodeverkFraKode(behandling.behandlingType, kodeverkTyper.BEHANDLING_TYPE, alleKodeverk) !== punsjKodeverkNavn,
   );
 
   const OMDBehandlinger: IBehandlingerSomGarAvVentType[] = behandlingerGaarAvVentAarsaker.filter(
