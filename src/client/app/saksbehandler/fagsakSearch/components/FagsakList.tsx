@@ -102,7 +102,7 @@ const FagsakList: FunctionComponent<OwnProps> = ({
             <TableColumn>{oppgave.saksnummer ? (`${oppgave.saksnummer} ${fagsaksperiodeÅr(oppgave)}`) : `${oppgave.journalpostId}`}</TableColumn>
             <TableColumn>{oppgave.navn}</TableColumn>
             <TableColumn>{getKodeverknavnFraKode(oppgave.fagsakYtelseType, kodeverkTyper.FAGSAK_YTELSE_TYPE, alleKodeverk)}</TableColumn>
-            <TableColumn>{getKodeverknavnFraKode(oppgave.behandlingStatus, kodeverkTyper.BEHANDLING_TYPE, alleKodeverk)}</TableColumn>
+            <TableColumn>{getKodeverknavnFraKode(oppgave.behandlingStatus, kodeverkTyper.BEHANDLING_STATUS, alleKodeverk)}</TableColumn>
             <TableColumn>
               {' '}
               <NavFrontendChevron />
