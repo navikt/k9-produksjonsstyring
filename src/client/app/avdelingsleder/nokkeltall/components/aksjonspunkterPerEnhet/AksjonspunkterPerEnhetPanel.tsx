@@ -8,6 +8,8 @@ import { ALLE_YTELSETYPER_VALGT, UKE_2 } from 'avdelingsleder/nokkeltall/nokkelt
 import GrafContainer from 'avdelingsleder/GrafContainer';
 import { getValueFromLocalStorage } from 'utils/localStorageHelper';
 import AksjonspunkterPerEnhetDiagram from './AksjonspunkterPerEnhetDiagram';
+import AksjonspunkterPerEnhetType from 'avdelingsleder/nokkeltall/AksjonspunkterPerEnhetType';
+import { Error } from 'app/errorTsType';
 
 const AksjonspunkterPerEnhetPanel: FunctionComponent = () => {
   const id = 'aksjonspunkterPerEnhet';
@@ -15,8 +17,8 @@ const AksjonspunkterPerEnhetPanel: FunctionComponent = () => {
     data: aksjonspunkterPerEnhet,
     isLoading,
     error,
-  } = useQuery(id, () =>
-    fetch('api/saksbehandler/nokkeltall/aksjonspunkter-per-enhet-historikk').then(res => res.json()),
+  }: { data: AksjonspunkterPerEnhetType[]; isLoading: boolean; error: Error } = useQuery(
+    '/avdelingsleder/nokkeltall/aksjonspunkter-per-enhet-historikk',
   );
 
   const [valgtYtelseType, setValgtYtelseType] = useState<string>(

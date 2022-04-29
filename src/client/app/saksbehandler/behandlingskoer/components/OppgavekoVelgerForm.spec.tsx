@@ -11,10 +11,11 @@ import behandlingType from 'kodeverk/behandlingType';
 import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
 import andreKriterierType from 'kodeverk/andreKriterierType';
 import { SelectField } from 'form/FinalFields';
-import { K9LosApiKeys } from 'api/k9LosApi';
+import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
 import { shallowWithIntl, intlMock } from '../../../../../../setup/testHelpers/intl-enzyme-test-helper';
 import RestApiTestMocker from '../../../../../../setup/testHelpers/RestApiTestMocker';
 import OppgavekoVelgerForm from './OppgavekoVelgerForm';
+import kodeverk from "../../../../mocks/kodeverk";
 
 describe('<OppgavekoVelgerForm>', () => {
   const intl: IntlShape = {
@@ -187,10 +188,7 @@ describe('<OppgavekoVelgerForm>', () => {
     const oppgavekoer = [{
       id: '1',
       navn: 'Testliste 1',
-      behandlingTyper: [{
-        kode: behandlingType.FORSTEGANGSSOKNAD,
-        navn: 'Førstegangssøknad',
-      }],
+      behandlingTyper: [behandlingType.FORSTEGANGSSOKNAD],
       fagsakYtelseTyper: [],
       andreKriterier: [],
       skjermet: false,
@@ -210,6 +208,7 @@ describe('<OppgavekoVelgerForm>', () => {
     new RestApiTestMocker()
       .withRestCallRunner(K9LosApiKeys.OPPGAVEKO_SAKSBEHANDLERE, { data: saksbehandlere })
       .withRestCallRunner(K9LosApiKeys.BEHANDLINGSKO_OPPGAVE_ANTALL, { startRequest: () => undefined, data: 10 })
+      .withGlobalData(RestApiGlobalStatePathsKeys.KODEVERK, kodeverk)
       .runTest(() => {
         // totaltBehandlingTypeAntall er satt til 1 som er lik antall behandlingstypar satt på sakslisten
         const wrapper = shallowWithIntl(<OppgavekoVelgerForm.WrappedComponent
@@ -226,7 +225,7 @@ describe('<OppgavekoVelgerForm>', () => {
         const labels = wrapper.find(LabelWithHeader);
         expect(labels).to.have.length(4);
         expect(labels.first().prop('texts')).to.eql(['Alle']);
-        expect(labels.at(1).prop('texts')).to.eql(['Førstegangssøknad']);
+        expect(labels.at(1).prop('texts')).to.eql(['Førstegangsbehandling']);
       });
   });
 
@@ -234,17 +233,8 @@ describe('<OppgavekoVelgerForm>', () => {
     const oppgavekoer = [{
       id: '1',
       navn: 'Testliste 1',
-      behandlingTyper: [{
-        kode: behandlingType.FORSTEGANGSSOKNAD,
-        navn: 'Førstegangssøknad',
-      }, {
-        kode: behandlingType.REVURDERING,
-        navn: 'Klage',
-      }],
-      fagsakYtelseTyper: [{
-        kode: fagsakYtelseType.PLEIEPENGER_SYKT_BARN,
-        navn: 'Pleiepenger',
-      }],
+      behandlingTyper: [behandlingType.FORSTEGANGSSOKNAD,  behandlingType.REVURDERING],
+      fagsakYtelseTyper: [ fagsakYtelseType.PLEIEPENGER_SYKT_BARN],
       andreKriterier: [],
       skjermet: false,
       sortering: {
@@ -263,6 +253,7 @@ describe('<OppgavekoVelgerForm>', () => {
     new RestApiTestMocker()
       .withRestCallRunner(K9LosApiKeys.OPPGAVEKO_SAKSBEHANDLERE, { data: saksbehandlere })
       .withRestCallRunner(K9LosApiKeys.BEHANDLINGSKO_OPPGAVE_ANTALL, { startRequest: () => undefined, data: 10 })
+      .withGlobalData(RestApiGlobalStatePathsKeys.KODEVERK, kodeverk)
       .runTest(() => {
         const wrapper = shallowWithIntl(<OppgavekoVelgerForm.WrappedComponent
           intl={intl}
@@ -277,8 +268,8 @@ describe('<OppgavekoVelgerForm>', () => {
 
         const labels = wrapper.find(LabelWithHeader);
         expect(labels).to.have.length(4);
-        expect(labels.first().prop('texts')).to.eql(['Pleiepenger']);
-        expect(labels.at(1).prop('texts')).to.eql(['Førstegangssøknad', 'Klage']);
+        expect(labels.first().prop('texts')).to.eql(['Pleiepenger sykt barn']);
+        expect(labels.at(1).prop('texts')).to.eql(['Førstegangsbehandling', 'Revurdering']);
       });
   });
 

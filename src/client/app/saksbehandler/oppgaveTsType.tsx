@@ -1,4 +1,3 @@
-import { Kodeverk } from 'kodeverk/kodeverkTsType';
 import { OppgaveStatus } from './oppgaveStatusTsType';
 
 type Oppgave = {
@@ -9,11 +8,11 @@ type Oppgave = {
   personnummer: string;
   navn: string;
   system: string;
-  behandlingstype: Kodeverk;
-  behandlingStatus: Kodeverk;
+  behandlingstype: string;
+  behandlingStatus: string;
   opprettetTidspunkt: string;
   behandlingsfrist: string;
-  fagsakYtelseType: Kodeverk;
+  fagsakYtelseType: string;
   fagsakPeriode?: {
     fom: string;
     tom: string;

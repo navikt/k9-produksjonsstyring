@@ -38,14 +38,14 @@ interface OwnProps {
 }
 
 const buildInitialValues = (intl: IntlShape, ko: Oppgaveko) => {
-  const behandlingTypes = ko.behandlingTyper ? ko.behandlingTyper.reduce((acc, bt) => ({ ...acc, [bt.kode]: true }), {}) : {};
+  const behandlingTypes = ko.behandlingTyper ? ko.behandlingTyper.reduce((acc, bt) => ({ ...acc, [bt]: true }), {}) : {};
   const fagsakYtelseTyper = ko.fagsakYtelseTyper && ko.fagsakYtelseTyper.length > 0
     ? ko.fagsakYtelseTyper : [];
 
   const andreKriterierTyper = ko.andreKriterier
-    ? ko.andreKriterier.reduce((acc, ak) => ({ ...acc, [ak.andreKriterierType.kode]: true }), {}) : {};
+    ? ko.andreKriterier.reduce((acc, ak) => ({ ...acc, [ak.andreKriterierType]: true }), {}) : {};
   const andreKriterierInkluder = ko.andreKriterier
-    ? ko.andreKriterier.reduce((acc, ak) => ({ ...acc, [`${ak.andreKriterierType.kode}_inkluder`]: ak.inkluder }), {}) : {};
+    ? ko.andreKriterier.reduce((acc, ak) => ({ ...acc, [`${ak.andreKriterierType}_inkluder`]: ak.inkluder }), {}) : {};
 
   return {
     id: ko.id,
@@ -105,7 +105,6 @@ export const UtvalgskriterierForOppgavekoForm: FunctionComponent<OwnProps & Wrap
                   valgtOppgavekoId={valgtOppgaveko.id}
                   fagsakYtelseTyper={values.fagsakYtelseTyper}
                   hentOppgaveko={hentKo}
-                  hentAlleOppgavekoer={hentAlleOppgavekoer}
                 />
                 <SkjermetVelger valgtOppgaveko={valgtOppgaveko} hentOppgaveko={hentKo} />
                 <BehandlingstypeVelger
@@ -127,7 +126,6 @@ export const UtvalgskriterierForOppgavekoForm: FunctionComponent<OwnProps & Wrap
                   />
                   <SorteringVelger
                     valgtOppgavekoId={valgtOppgaveko.id}
-                    valgteBehandlingtyper={valgtOppgaveko.behandlingTyper}
                     fomDato={values.fomDato}
                     tomDato={values.tomDato}
                     hentOppgaveko={hentKo}

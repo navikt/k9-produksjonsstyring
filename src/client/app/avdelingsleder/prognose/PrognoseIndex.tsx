@@ -13,7 +13,7 @@ const PrognoseIndex: FunctionComponent = () => {
     <div>
       {state === RestApiState.SUCCESS && <BehandlingerGårAvVent behandlingerSomGårAvVent={data.påVent || []} />}
       <VerticalSpacer twentyPx />
-      <BehandlingerSomGaarAvVentAarsakerPanel />
+      {state === RestApiState.SUCCESS && <BehandlingerSomGaarAvVentAarsakerPanel påVentMedVenteårsak={data.påVentMedVenteårsak ||[]}/>}
     </div>
   );
 };

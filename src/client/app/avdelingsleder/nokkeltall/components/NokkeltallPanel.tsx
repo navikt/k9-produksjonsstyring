@@ -8,7 +8,7 @@ import NyeHistorikkPanel from 'avdelingsleder/nokkeltall/components/nyeHistorikk
 import HistoriskData from 'avdelingsleder/nokkeltall/historiskDataTsType';
 import AlleOppgaver from 'avdelingsleder/nokkeltall/components/fordelingAvBehandlingstype/alleOppgaverTsType';
 import FordelingAvBehandlingstypePanel from './fordelingAvBehandlingstype/FordelingAvBehandlingstypePanel';
-
+import AksjonspunkterPerEnhetPanel from 'avdelingsleder/nokkeltall/components/aksjonspunkterPerEnhet/AksjonspunkterPerEnhetPanel';
 
 interface OwnProps {
   alleOppgaver: AlleOppgaver[];
@@ -32,6 +32,8 @@ const NokkeltallPanel: FunctionComponent<OwnProps> = ({
     <BeholdningHistorikkPanel beholdningPerDato={beholdningPerDato} />
     <VerticalSpacer twentyPx />
     <FordelingAvBehandlingstypePanel alleOppgaver={alleOppgaver} />
+    <VerticalSpacer twentyPx />
+    <AksjonspunkterPerEnhetPanel />
   </div>
 );
 

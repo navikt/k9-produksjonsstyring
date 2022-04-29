@@ -1,6 +1,4 @@
-import React, {
-  FunctionComponent, ReactNode, useCallback, useEffect, useRef, useState,
-} from 'react';
+import React, { FunctionComponent, ReactNode, useCallback, useEffect, useRef, useState } from 'react';
 import { FormattedMessage, injectIntl, WrappedComponentProps } from 'react-intl';
 import { Normaltekst } from 'nav-frontend-typografi';
 
@@ -16,7 +14,7 @@ import menuIconBlackUrl from 'images/ic-menu-18px_black.svg';
 import bubbletextUrl from 'images/bubbletext.svg';
 import bubbletextFilledUrl from 'images/bubbletext_filled.svg';
 
-import { K9LosApiKeys } from 'api/k9LosApi';
+import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
@@ -27,8 +25,12 @@ import {
 } from 'saksbehandler/behandlingskoer/components/oppgavetabeller/oppgavetabellerfelles';
 import { OppgaveStatus } from 'saksbehandler/oppgaveStatusTsType';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
-import styles from './oppgaverTabell.less';
+import kodeverkTyper from "kodeverk/kodeverkTyper";
+import AlleKodeverk from "kodeverk/alleKodeverkTsType";
+import { useGlobalStateRestApiData } from "api/rest-api-hooks";
+import { getKodeverknavnFraKode } from "utils/kodeverkUtils";
 import OppgaveHandlingerMenu from '../menu/OppgaveHandlingerMenu';
+import styles from './oppgaverTabell.less';
 
 interface OwnProps {
   apneOppgave: (oppgave: Oppgave) => void;
@@ -53,6 +55,8 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps & WrappedComponentPro
     left: 0,
     top: 0,
   });
+
+  const alleKodeverk: AlleKodeverk = useGlobalStateRestApiData(RestApiGlobalStatePathsKeys.KODEVERK);
 
   const { startRequest: leggTilBehandletOppgave } = useRestApiRunner(K9LosApiKeys.LEGG_TIL_BEHANDLET_OPPGAVE);
   const { startRequest: forlengOppgavereservasjon } = useRestApiRunner<Reservasjon[]>(K9LosApiKeys.FORLENG_OPPGAVERESERVASJON);
@@ -155,7 +159,7 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps & WrappedComponentPro
             >
               <TableColumn>{oppgave.navn ? `${oppgave.navn} ${oppgave.personnummer}` : '<navn>'}</TableColumn>
               <TableColumn>{hentIDFraSak(oppgave)}</TableColumn>
-              <TableColumn>{oppgave.behandlingstype.navn}</TableColumn>
+              <TableColumn>{getKodeverknavnFraKode(oppgave.behandlingstype, kodeverkTyper.BEHANDLING_TYPE, alleKodeverk)}</TableColumn>
               <TableColumn>{oppgave.opprettetTidspunkt && <DateLabel dateString={oppgave.opprettetTidspunkt} />}</TableColumn>
               <TableColumn>
                 {oppgave.status.flyttetReservasjon && (

@@ -1,7 +1,6 @@
 import React, { useMemo, FunctionComponent } from 'react';
 import { FormattedMessage, injectIntl, WrappedComponentProps } from 'react-intl';
 
-import Kodeverk from 'kodeverk/kodeverkTsType';
 import behandlingType from 'kodeverk/behandlingType';
 
 import ReactECharts from 'sharedComponents/echart/ReactEcharts';
@@ -9,7 +8,7 @@ import { punsjKodeverkNavn } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { fagytelseTyperSomSkalVises } from 'avdelingsleder/nokkeltall/HistorikkGrafForPunsj';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
-import { useKodeverk } from 'api/rest-api-hooks';
+import { useGlobalStateRestApiData, useKodeverk } from 'api/rest-api-hooks';
 import NyeOgFerdigstilteOppgaver from '../nyeOgFerdigstilteOppgaverTsType';
 
 import {
@@ -19,6 +18,10 @@ import {
   maxBarWith,
   tooltipTextStyle, yXAxisFontSizeSaksbehandlerNokkeltall,
 } from '../../../../../../styles/echartStyle';
+import AlleKodeverk from "kodeverk/alleKodeverkTsType";
+import {RestApiGlobalStatePathsKeys} from "api/k9LosApi";
+import { getKodeverkFraKode } from "utils/kodeverkUtils";
+import KodeverkMedNavn from "kodeverk/kodeverkMedNavnTsType";
 
 const behandlingstypeOrder = [
   behandlingType.TILBAKEBETALING,
@@ -29,7 +32,7 @@ const behandlingstypeOrder = [
   behandlingType.FORSTEGANGSSOKNAD];
 
 interface OwnProps {
-  behandlingTyper: Kodeverk[];
+  behandlingTyper: KodeverkMedNavn[];
   nyeOgFerdigstilteOppgaver: NyeOgFerdigstilteOppgaver[];
   skalPunsjbehandlingerVises: boolean;
 }
@@ -44,6 +47,7 @@ const NyeOgFerdigstilteOppgaverForIdagGraf: FunctionComponent<OwnProps & Wrapped
   skalPunsjbehandlingerVises,
 }) => {
   const fagytelseTyper = useKodeverk(kodeverkTyper.FAGSAK_YTELSE_TYPE);
+  const alleKodeverk: AlleKodeverk = useGlobalStateRestApiData(RestApiGlobalStatePathsKeys.KODEVERK);
 
   const behandlingTypeNavnForYAkse = useMemo(() => {
     if (skalPunsjbehandlingerVises) {
@@ -67,7 +71,7 @@ const NyeOgFerdigstilteOppgaverForIdagGraf: FunctionComponent<OwnProps & Wrapped
   const filtrereUtRelevanteOppgaver = (valgtProperty: string): number[] => {
     if (skalPunsjbehandlingerVises) {
       return fagytelseTyperSomSkalVises.map((type) => {
-        const oppgave = nyeOgFerdigstilteOppgaver.find((o) => o.fagsakYtelseType.kode === type && o.behandlingType.kodeverk === punsjKodeverkNavn);
+        const oppgave = nyeOgFerdigstilteOppgaver.find((o) => o.fagsakYtelseType === type && getKodeverkFraKode(o.behandlingType, kodeverkTyper.BEHANDLING_TYPE, alleKodeverk) === punsjKodeverkNavn);
 
         if (oppgave) {
           return oppgave[valgtProperty];
@@ -77,7 +81,7 @@ const NyeOgFerdigstilteOppgaverForIdagGraf: FunctionComponent<OwnProps & Wrapped
     }
 
     return behandlingstypeOrder.map((type) => {
-      const oppgave = nyeOgFerdigstilteOppgaver.find((o) => o.behandlingType.kode === type && o.behandlingType.kodeverk !== punsjKodeverkNavn);
+      const oppgave = nyeOgFerdigstilteOppgaver.find((o) => o.behandlingType === type && getKodeverkFraKode(o.behandlingType, kodeverkTyper.BEHANDLING_TYPE, alleKodeverk) !== punsjKodeverkNavn);
       if (oppgave) {
         return oppgave[valgtProperty];
       }
