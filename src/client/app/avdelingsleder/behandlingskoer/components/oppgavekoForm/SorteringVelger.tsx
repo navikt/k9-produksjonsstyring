@@ -70,7 +70,9 @@ const SorteringVelger: FunctionComponent<OwnProps & WrappedComponentProps> = ({
                 tomDato={tomDato}
               />
               )}
-              {//TODO legg in riktig felttype under og parse in til og fra når backend er klart}
+              {//TODO legg in riktig felttype under og parse in til og fra når backend er klart
+              }
+
               {(koSortering.felttype === 'DATO') && (<BelopSorteringValg til={0} fra={0} />)}
             </RadioOption>
             )
