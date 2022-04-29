@@ -1,6 +1,6 @@
 import React, {FunctionComponent, useState} from 'react';
 import {FormattedMessage, injectIntl, WrappedComponentProps} from 'react-intl';
-import {Normaltekst, Undertekst} from 'nav-frontend-typografi';
+import {Normaltekst} from 'nav-frontend-typografi';
 import {RadioGroupField, RadioOption,} from 'form/FinalFields';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
@@ -12,8 +12,6 @@ import AlleKodeverk from "kodeverk/alleKodeverkTsType";
 import { useGlobalStateRestApiData } from "api/rest-api-hooks";
 import { getKodeverknavnFraKode } from "utils/kodeverkUtils";
 import DatoSorteringValg from './DatoSorteringValg';
-import {TextField} from '@navikt/ds-react';
-import ArrowBox from "sharedComponents/ArrowBox";
 import BelopSorteringValg from "avdelingsleder/behandlingskoer/components/oppgavekoForm/BelopSorteringValg";
 import styles from './utvalgskriterierForOppgavekoForm.less';
 
