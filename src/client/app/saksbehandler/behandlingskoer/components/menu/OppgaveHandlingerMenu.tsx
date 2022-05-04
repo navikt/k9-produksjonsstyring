@@ -122,13 +122,8 @@ export class OppgaveHandlingerMenu extends Component<OwnProps, OwnState> {
     });
   };
 
-  toggleMeny = () => {
-    const { toggleMenu, oppgave } = this.props;
-    toggleMenu(oppgave);
-  };
-
   render = () => {
-    const { oppgave, offset, hentReserverteOppgaver } = this.props;
+    const { oppgave, offset, hentReserverteOppgaver, toggleMenu } = this.props;
     const { showOpphevReservasjonModal, showFlyttReservasjonModal } = this.state;
 
     return (
@@ -157,7 +152,7 @@ export class OppgaveHandlingerMenu extends Component<OwnProps, OwnState> {
             oppgaveSaksnummer={oppgave.saksnummer}
             showModal={showOpphevReservasjonModal}
             cancel={this.closeBegrunnelseModal}
-            toggleMenu={this.toggleMeny}
+            toggleMenu={() => toggleMenu(oppgave)}
             hentReserverteOppgaver={hentReserverteOppgaver}
           />
         )}
