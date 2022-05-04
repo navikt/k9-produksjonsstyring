@@ -2,14 +2,11 @@ import React, { Component, MouseEvent } from 'react';
 import { FormattedMessage } from 'react-intl';
 import Oppgave from 'saksbehandler/oppgaveTsType';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
-import ModalMedIkon from 'sharedComponents/modal/ModalMedIkon';
-import { getDate, getTime } from 'utils/dateUtils';
 import MenuButton from './MenuButton';
 import OpphevReservasjonModal from './OpphevReservasjonModal';
 import FlyttReservasjonModal from './FlyttReservasjonModal';
 
 import styles from './oppgaveHandlingerMenu.less';
-import innvilgetImageUrl from '../../../../../images/sharedComponents/innvilget_valgt.svg';
 
 const getOffsetPositionStyle = offset =>
   window.innerWidth > offset.left + 250
@@ -119,18 +116,9 @@ export class OppgaveHandlingerMenu extends Component<OwnProps, OwnState> {
   };
 
   forlengReserverasjon = () => {
-    const { oppgave, forlengOppgaveReservasjon } = this.props;
-    forlengOppgaveReservasjon(oppgave.eksternId).then(oppgaver => {
-      if (oppgaver && Array.isArray(oppgaver)) {
-        const oppgaveDerStatusErEndret = oppgaver.find(o => o.eksternId === oppgave.eksternId);
-        if (oppgaveDerStatusErEndret) {
-          this.setState(prevState => ({
-            ...prevState,
-            showForlengetReservasjonModal: true,
-            showForlengetReservasjonModalTilDato: oppgaveDerStatusErEndret.status.reservertTilTidspunkt,
-          }));
-        }
-      }
+    const { oppgave, forlengOppgaveReservasjon, toggleMenu } = this.props;
+    forlengOppgaveReservasjon(oppgave.eksternId).then(_ => {
+      toggleMenu(oppgave);
     });
   };
 
