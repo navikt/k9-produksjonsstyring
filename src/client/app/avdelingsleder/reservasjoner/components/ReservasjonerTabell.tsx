@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useCallback, useEffect, useState, } from 'react';
+import React, {FunctionComponent, ReactNode, useCallback, useEffect, useState,} from 'react';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { FormattedMessage, injectIntl, WrappedComponentProps } from 'react-intl';
 import Reservasjon from 'avdelingsleder/reservasjoner/reservasjonTsType';
@@ -24,12 +24,16 @@ import styles from './reservasjonerTabell.less';
 import arrowIcon from '../../../../images/arrow-left-3.svg';
 import arrowIconRight from '../../../../images/arrow-right-3.svg';
 import useGlobalStateRestApiData from "../../../api/rest-api-hooks/src/global-data/useGlobalStateRestApiData";
+import bubbletextUrl from "../../../../images/bubbletext.svg";
+import bubbletextFilledUrl from "../../../../images/bubbletext_filled.svg";
+import {OppgaveStatus} from "saksbehandler/oppgaveStatusTsType";
 
 const headerTextCodes = [
   'ReservasjonerTabell.Navn',
   'ReservasjonerTabell.Saksnr',
   'ReservasjonerTabell.BehandlingType',
   'ReservasjonerTabell.ReservertTil',
+  'ReservasjonerTabell.Begrunnelse',
   'EMPTY_1',
 ];
 
@@ -40,6 +44,7 @@ interface OwnProps {
 }
 
 const ReservasjonerTabell: FunctionComponent<OwnProps & WrappedComponentProps> = ({
+  intl,
   reservasjoner,
   hentAlleReservasjoner,
   requestFinished,
@@ -79,6 +84,25 @@ const ReservasjonerTabell: FunctionComponent<OwnProps & WrappedComponentProps> =
   };
 
   const debounceFn = useCallback(_.debounce(sokEtterReservasjon, 300), [sorterteReservasjoner]);
+
+  const createTooltip = useCallback((reservasjon: Reservasjon): ReactNode | undefined => {
+    if (!reservasjon) {
+      return undefined;
+    }
+
+    const datoOgTid = getDateAndTime(reservasjon.reservertTilTidspunkt);
+    const textValues = {
+      dato: datoOgTid.date,
+      tid: datoOgTid.time,
+      uid: reservasjon.reservertAvUid,
+      navn: reservasjon.reservertAvNavn,
+      beskrivelse: reservasjon.begrunnelse,
+      br: <br />,
+    };
+    return (
+      <Normaltekst><FormattedMessage id="OppgaverTabell.OverfortReservasjonTooltip" values={textValues} /></Normaltekst>
+    );
+  }, []);
 
   return (
     <>
@@ -121,6 +145,17 @@ const ReservasjonerTabell: FunctionComponent<OwnProps & WrappedComponentProps> =
                       id="ReservasjonerTabell.ReservertTilFormat"
                       values={getDateAndTime(reservasjon.reservertTilTidspunkt)}
                     />
+                  </TableColumn>
+                  <TableColumn>
+                    {reservasjon.begrunnelse && (
+                      <Image
+                        src={bubbletextUrl}
+                        srcHover={bubbletextFilledUrl}
+                        alt={intl.formatMessage({ id: 'OppgaverTabell.OverfortReservasjon' })}
+                        tooltip={createTooltip(reservasjon)}
+                        alignTooltipLeft={true}
+                      />
+                    )}
                   </TableColumn>
                   <TableColumn>
                     <Chevron

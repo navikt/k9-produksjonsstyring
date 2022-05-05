@@ -263,6 +263,7 @@
   "ReservasjonerTabell.Saksnr": "Saksnummer",
   "ReservasjonerTabell.BehandlingType": "Type",
   "ReservasjonerTabell.ReservertTil": "Reservert til",
+  "ReservasjonerTabell.Begrunnelse": "Begrunnelse",
   "ReservasjonerTabell.ReservertTilFormat": "{time} - {date}",
   "ReservasjonerTabell.Endre": "Endre",
   "ReservasjonerTabell.Flytt": "Flytt",

@@ -5,6 +5,7 @@ const avdelningsledareReservasjoner = [{
   oppgaveId: 'dd8c0e76-ac65-49c8-a4b8-4267bbd0c63f',
   saksnummer: '',
   behandlingType: 'PAPIRSØKNAD',
+  begrunnelse: 'begrunnelse'
 }, {
   reservertAvUid: 'Z994674',
   reservertAvNavn: 'F_Z994674 E_Z994674',
