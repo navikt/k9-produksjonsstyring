@@ -85,7 +85,7 @@ const ReservasjonerTabell: FunctionComponent<OwnProps & WrappedComponentProps> =
       <div className={styles.titelContainer}>
         <b>
           <FormattedMessage id="ReservasjonerTabell.Reservasjoner"/>
-          {sorterteReservasjoner.length > 0 && requestFinished && <>{`(${sorterteReservasjoner.length} stk)`}</>}
+          {sorterteReservasjoner.length > 0 && requestFinished && <>{` (${sorterteReservasjoner.length} stk)`}</>}
         </b>
         <div className={styles.sokfelt}><TextField onChange={debounceFn} label="Søk på reservasjon" /></div>
       </div>
