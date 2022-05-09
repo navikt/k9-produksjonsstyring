@@ -3042,10 +3042,10 @@
   resolved "https://npm.pkg.github.com/download/@navikt/ds-css/0.16.21/d8f34cfa67882eddd09a7f05170f3d1d173fe45fa11c143f857319b6a57f00f2#b793f900f3148a048180423052480c04be239e68"
   integrity sha512-kV9fLtnZoOIectWGZFg/aLzgp4gRi2sBjgq5VzoprNQlzSOnSxwR0QVLClpmjJe+oKZYUc5RndqDc0QAMawqkA==
 
-"@navikt/ds-css@^0.16.9":
-  version "0.16.9"
-  resolved "https://npm.pkg.github.com/download/@navikt/ds-css/0.16.9/96ae14bb6a2ad870467a0141cbaa4f18a9e01f2ca6795d6d4d024e495aba5d6c#f56fc1b3671ead610065fbb5865a9d9503301f87"
-  integrity sha512-3f8GJX3X7bvVkXGLCcn70pw40j66TjL43W3Qa1S3MStoBuaBlkNP7wVTyQOxgmSMmYESASyaT+UtAHEAskWSjg==
+"@navikt/ds-css@^0.17.1":
+  version "0.17.1"
+  resolved "https://npm.pkg.github.com/download/@navikt/ds-css/0.17.1/31eada8a80f477edfb7edb51320b2cde8549b019ed03cb89563115e96a1eb91c#edaade6b3c027d233662f95709d8cd522d458433"
+  integrity sha512-GEr8jvkmKXja0cYIJYdyt7K/aE6FSlmb9VUNsl6BBlSNiSIsM7RO/lzRiF5QJOSHBJmdcY0cPqeaIUsAoyyUkg==
 
 "@navikt/ds-icons@^0.5.5":
   version "0.5.10"
@@ -3065,13 +3065,6 @@
   version "0.8.4"
   resolved "https://npm.pkg.github.com/download/@navikt/ds-icons/0.8.4/ad157908309028f6372c8132792803a39386345f427cbb772e86603fcd7714fa#82ba73cbc5704132ec2dd6e6faace3a2b9d6abff"
   integrity sha512-yIBYeJrkO3pEL2qcR5DGtQQ6mfs9Bb8iueMdmj1sa0JBPuDmPLLW5SJ/2HH4tcQciDZ3erp7k4CemJkbtob5AQ==
-  dependencies:
-    uuid "^8.3.2"
-
-"@navikt/ds-icons@^0.8.6":
-  version "0.8.6"
-  resolved "https://npm.pkg.github.com/download/@navikt/ds-icons/0.8.6/51a9a30e74f2f2cd3849d52132b58d01880840ad8503b41329626bd1f0a604db#d5237b20a086c83291d5fcb02d6d5206c93bde45"
-  integrity sha512-3s3fLI2Pg3xRdeiZdIePZoOoEIK/UuMzafZQHrSg57VhupPlZmf1jLYbR+i0bXmkeRuq7kT3hKdoakRMzDEYLw==
   dependencies:
     uuid "^8.3.2"
 
@@ -3103,23 +3096,6 @@
     react-popper "^2.2.5"
     uuid "^8.3.2"
 
-"@navikt/ds-react@^0.17.14":
-  version "0.17.14"
-  resolved "https://npm.pkg.github.com/download/@navikt/ds-react/0.17.14/d913bd83f7f538acd1c90684bd4881634c133b822ef626b5cee55c8e50becd31#7a6e35226057d042da9707bd0759458c678ad783"
-  integrity sha512-v7lTuZPKc3k+dVTxQb+aBlFEmBzPRd08RDrM+diZSCrZkcVcQOsfi09y336Vd1zahoJYirdxfUmDrcSrXclnyQ==
-  dependencies:
-    "@material-ui/core" "^4.12.3"
-    "@navikt/ds-icons" "^0.8.6"
-    "@popperjs/core" "^2.10.1"
-    "@radix-ui/react-tabs" "0.1.5"
-    "@radix-ui/react-toggle-group" "0.1.5"
-    classnames "^2.2.6"
-    react-collapse "^5.1.0"
-    react-merge-refs "^1.1.0"
-    react-modal "3.14.3"
-    react-popper "^2.2.5"
-    uuid "^8.3.2"
-
 "@navikt/ds-react@^0.17.27":
   version "0.17.27"
   resolved "https://npm.pkg.github.com/download/@navikt/ds-react/0.17.27/cadcae82d4fb79e1628615597583f09184424cffb63e24eec0e50c899c16a8a6#d826baf51bb8693b30ce0f84de041eb97bb6eeed"
@@ -3138,7 +3114,7 @@
     react-popper "^2.2.5"
     uuid "^8.3.2"
 
-"@navikt/ds-react@^0.18.1":
+"@navikt/ds-react@^0.18.1", "@navikt/ds-react@^0.18.6":
   version "0.18.6"
   resolved "https://npm.pkg.github.com/download/@navikt/ds-react/0.18.6/5076702ba67b3cce6939b1de9fcc7b6769c6471406739d61770ce28ceaf4297e#8598a46afc6e80ce338c1453d43d112331230d38"
   integrity sha512-VfPdiB9ozDAN8XPF/ZLOLIFa8CkfSvnveFycHaQb7dvCCgf5Mvqbdp7KYq43210HsHk0fhB7p+dJmKcVgPb6lw==
@@ -15010,10 +14986,10 @@ react-helmet-async@^1.0.7:
     react-fast-compare "^3.2.0"
     shallowequal "^1.1.0"
 
-react-idle-timer@^4.6.4:
-  version "4.6.4"
-  resolved "https://registry.yarnpkg.com/react-idle-timer/-/react-idle-timer-4.6.4.tgz#71ba954ba6f464df24d46a94e63c5ef19f7319dc"
-  integrity sha512-iq61dPud8fgj7l1KOJEY5pyiD532fW0KcIe/5XUe/0lB/4Vytoy4tZBlLGSiYodPzKxTL6HyKoOmG6tyzjD7OQ==
+react-idle-timer@^5.1.2:
+  version "5.1.2"
+  resolved "https://registry.yarnpkg.com/react-idle-timer/-/react-idle-timer-5.1.2.tgz#494ec77d336664f48b95946b4bcbec1b8c432e9f"
+  integrity sha512-l6ANfGC93u2C3X/WTaBAxjgfOFAVefvhLJ8cFc0eWJj05fRNZkCybubLdAg9kXkiwKb2D0vDT3VBa3G/tQ8uaw==
 
 react-input-autosize@^3.0.0:
   version "3.0.0"
