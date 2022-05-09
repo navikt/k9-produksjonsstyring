@@ -87,8 +87,8 @@ export const UtvalgskriterierForOppgavekoForm: FunctionComponent<OwnProps & Wrap
         render={({ values }) => (
           <>
             <AutoLagringVedBlur lagre={transformValues} fieldNames={['navn']} />
-            <Row className={styles.row}>
-              <Column xs="4" className={styles.leftColumn}>
+            <Row>
+              <Column xs="2">
                 <Normaltekst className={styles.header}>
                   <FormattedMessage id="UtvalgskriterierForOppgavekoForm.OmKoen" />
                 </Normaltekst>
@@ -113,8 +113,7 @@ export const UtvalgskriterierForOppgavekoForm: FunctionComponent<OwnProps & Wrap
                   valgteBehandlingstyper={valgtOppgaveko.behandlingTyper}
                 />
               </Column>
-              <Column xs="8" className={styles.middle}>
-                <Column className={styles.middleColumn}>
+              <Column xs="4">
                   <Normaltekst className={styles.header}>
                     <FormattedMessage id="UtvalgskriterierForOppgavekoForm.Kriterier" />
                   </Normaltekst>
@@ -131,8 +130,7 @@ export const UtvalgskriterierForOppgavekoForm: FunctionComponent<OwnProps & Wrap
                     hentOppgaveko={hentKo}
                   />
                 </Column>
-                <Column className={styles.saksbehandlere}>
-                  <Column>
+                <Column xs="5">
                     <Normaltekst className={styles.header}>
                       <FormattedMessage id="UtvalgskriterierForOppgavekoForm.Saksbehandlere" />
                     </Normaltekst>
@@ -143,13 +141,13 @@ export const UtvalgskriterierForOppgavekoForm: FunctionComponent<OwnProps & Wrap
                       hentOppgaveko={hentKo}
                     />
                   </Column>
-                  <Column>
+              <Column xs="1">
                     <div className={styles.slettContainer}>
                       <Image src={binIcon} />
                       <div
                         id="slett"
-                        className={styles.slett}
                         role="button"
+                        className={styles.slett}
                         onClick={visModal}
                         onKeyDown={visModal}
                         tabIndex={0}
@@ -157,8 +155,6 @@ export const UtvalgskriterierForOppgavekoForm: FunctionComponent<OwnProps & Wrap
                         Slett kø
                       </div>
                     </div>
-                  </Column>
-                </Column>
               </Column>
             </Row>
           </>

@@ -1,8 +1,6 @@
-import React, { FunctionComponent, useCallback, useState } from 'react';
-import { FormattedMessage } from 'react-intl';
-import {
-  Normaltekst,
-} from 'nav-frontend-typografi';
+import React, {FunctionComponent, useCallback, useState} from 'react';
+import {FormattedMessage} from 'react-intl';
+import {Normaltekst,} from 'nav-frontend-typografi';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
 import Image from 'sharedComponents/Image';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
@@ -11,15 +9,15 @@ import TableRow from 'sharedComponents/TableRow';
 import TableColumn from 'sharedComponents/TableColumn';
 import DateLabel from 'sharedComponents/DateLabel';
 import Chevron from 'nav-frontend-chevron';
-import { Knapp } from 'nav-frontend-knapper';
+import {Knapp} from 'nav-frontend-knapper';
 import UtvalgskriterierForOppgavekoForm
   from 'avdelingsleder/behandlingskoer/components/oppgavekoForm/UtvalgskriterierForOppgavekoForm';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
-import { K9LosApiKeys } from 'api/k9LosApi';
+import {K9LosApiKeys} from 'api/k9LosApi';
 import useKodeverk from 'api/rest-api-hooks/src/global-data/useKodeverk';
 import SletteOppgavekoModal from './SletteOppgavekoModal';
-import { Oppgaveko } from '../oppgavekoTsType';
+import {Oppgaveko} from '../oppgavekoTsType';
 
 import styles from './gjeldendeOppgavekoerTabell.less';
 import addCircle from '../../../../images/add-circle-bla.svg';
@@ -176,12 +174,14 @@ export const GjeldendeOppgavekoerTabell: FunctionComponent<OwnProps> = ({
               </TableRow>
 
               {valgtKo && valgtOppgavekoId === oppgaveko.id && (
-                <UtvalgskriterierForOppgavekoForm
-                  valgtOppgaveko={valgtKo}
-                  hentKo={hentOppgaveKoFn}
-                  hentAlleOppgavekoer={hentAlleOppgavekoer}
-                  visModal={visFjernOppgavekoModal}
-                />
+                <td colSpan={6}>
+                  <UtvalgskriterierForOppgavekoForm
+                    valgtOppgaveko={valgtKo}
+                    hentKo={hentOppgaveKoFn}
+                    hentAlleOppgavekoer={hentAlleOppgavekoer}
+                    visModal={visFjernOppgavekoModal}
+                  />
+                </td>
               )}
 
               {visSlettModal && (
