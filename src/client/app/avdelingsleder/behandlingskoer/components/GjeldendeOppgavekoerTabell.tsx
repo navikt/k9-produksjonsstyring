@@ -175,6 +175,7 @@ export const GjeldendeOppgavekoerTabell: FunctionComponent<OwnProps> = ({
 
               {valgtKo && valgtOppgavekoId === oppgaveko.id && (
                 <td colSpan={6}>
+                  <br />
                   <UtvalgskriterierForOppgavekoForm
                     valgtOppgaveko={valgtKo}
                     hentKo={hentOppgaveKoFn}
