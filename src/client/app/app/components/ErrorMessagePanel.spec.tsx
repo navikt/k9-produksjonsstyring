@@ -1,53 +1,40 @@
 import React from 'react';
-import { expect } from 'chai';
-import { IntlShape } from 'react-intl';
-import { Undertekst } from 'nav-frontend-typografi';
-
-import EventType from 'api/rest-api/src/requestApi/eventType';
-import { shallowWithIntl, intlMock } from '../../../../../setup/testHelpers/intl-enzyme-test-helper';
+import { screen } from '@testing-library/react';
 import ErrorMessagePanel from './ErrorMessagePanel';
+import {renderWithAllProviders, renderWithIntl} from "../../../../../setup/testHelpers/testUtils";
+import EventType from "api/rest-api/src/requestApi/eventType";
+
 
 describe('<ErrorMessagePanel>', () => {
-  const intl: IntlShape = {
-    ...intlMock,
-  };
-
   it('skal vise feilmelding', () => {
-    const wrapper = shallowWithIntl(<ErrorMessagePanel.WrappedComponent
-      intl={intl}
-      driftsmeldinger={[]}
+    const errorMsg = 'Error!';
+    renderWithAllProviders(<ErrorMessagePanel
+      errorMessages={[]}
       queryStrings={{
-        errormessage: 'Error!',
+        errormessage: errorMsg,
       }}
-      removeErrorMessage={() => undefined}
+      removeErrorMessages={() => undefined}
     />);
 
-    const div = wrapper.find(Undertekst);
-    expect(div).to.have.length(1);
-    expect(div.childAt(0).text()).to.eql('Error! ');
-
-    expect(wrapper.find('a')).to.have.length(0);
+    expect(screen.getByText(errorMsg)).toBeInTheDocument();
+    expect(screen.queryAllByRole('a')).toHaveLength(0);
   });
 
   it('skal erstatte spesialtegn i feilmelding', () => {
-    const wrapper = shallowWithIntl(<ErrorMessagePanel.WrappedComponent
-      intl={intl}
-      driftsmeldinger={[]}
+    const errorMsg = 'Høna &amp; egget og &#34;test1&#34; og &#39;test2&#39;';
+    renderWithAllProviders(<ErrorMessagePanel
+      errorMessages={[]}
       queryStrings={{
-        errormessage: 'Høna &amp; egget og &#34;test1&#34; og &#39;test2&#39;',
+        errormessage: errorMsg,
       }}
-      removeErrorMessage={() => undefined}
+      removeErrorMessages={() => undefined}
     />);
 
-    const div = wrapper.find(Undertekst);
-    expect(div).to.have.length(1);
-    expect(div.childAt(0).text()).to.eql('Høna & egget og "test1" og \'test2\' ');
+    expect(screen.getByText("Høna & egget og \"test1\" og 'test2'")).toBeInTheDocument();
   });
 
   it('skal sette sammen feil fra ulike kilder til en struktur', () => {
-    const wrapper = shallowWithIntl(<ErrorMessagePanel.WrappedComponent
-      intl={intl}
-      driftsmeldinger={[]}
+    renderWithAllProviders(<ErrorMessagePanel
       errorMessages={[{
         type: EventType.REQUEST_ERROR,
         text: 'Feilet',
@@ -55,12 +42,10 @@ describe('<ErrorMessagePanel>', () => {
       queryStrings={{
         errormessage: 'Dette er en feil',
       }}
-      removeErrorMessage={() => undefined}
+      removeErrorMessages={() => undefined}
     />);
 
-    const div = wrapper.find(Undertekst);
-    expect(div).to.have.length(2);
-    expect(div.at(0).childAt(0).text()).to.eql('Dette er en feil ');
-    expect(div.at(1).childAt(0).text()).to.eql('Feilet ');
+    expect(screen.getByText('Dette er en feil')).toBeInTheDocument();
+    expect(screen.getByText('Feilet')).toBeInTheDocument();
   });
 });
