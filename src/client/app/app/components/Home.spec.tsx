@@ -1,12 +1,20 @@
 import React from 'react';
-import { shallow } from 'enzyme';
-import { expect } from 'chai';
+import {screen} from '@testing-library/react';
+import {renderWithAllProviders} from "../../../../../setup/testHelpers/testUtils";
+import RestApiTestMocker from "../../../../../setup/testHelpers/RestApiTestMocker";
+import Home from "app/components/Home";
+import {MemoryRouter} from "react-router";
+import {RestApiGlobalStatePathsKeys} from "api/k9LosApi";
 
-import Home from './Home';
 
 describe('<Home>', () => {
   it('skal rendre komponent', () => {
-    const wrapper = shallow(<Home headerHeight={10} />);
-    expect(wrapper.find('Routes')).to.have.length(1);
+    new RestApiTestMocker()
+      .withGlobalData(RestApiGlobalStatePathsKeys.NAV_ANSATT, {navn: 'Paul', brukernavn: 'KaosPaul@nav.no'})
+      .runTest(() => {
+        renderWithAllProviders(<MemoryRouter><Home headerHeight={10}/> </MemoryRouter>);
+      })
+
+    expect(screen.getByText('Du har ikke tilgang til å bruke dette programmet')).toBeInTheDocument();
   });
 });
