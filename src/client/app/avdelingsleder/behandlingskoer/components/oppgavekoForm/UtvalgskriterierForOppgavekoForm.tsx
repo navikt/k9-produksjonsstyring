@@ -87,8 +87,8 @@ export const UtvalgskriterierForOppgavekoForm: FunctionComponent<OwnProps & Wrap
         render={({ values }) => (
           <>
             <AutoLagringVedBlur lagre={transformValues} fieldNames={['navn']} />
-            <Row>
-              <Column xs="2">
+            <div className={styles.container}>
+              <div>
                 <Normaltekst className={styles.header}>
                   <FormattedMessage id="UtvalgskriterierForOppgavekoForm.OmKoen" />
                 </Normaltekst>
@@ -112,8 +112,8 @@ export const UtvalgskriterierForOppgavekoForm: FunctionComponent<OwnProps & Wrap
                   hentOppgaveko={hentKo}
                   valgteBehandlingstyper={valgtOppgaveko.behandlingTyper}
                 />
-              </Column>
-              <Column xs="4">
+              </div>
+              <div>
                   <Normaltekst className={styles.header}>
                     <FormattedMessage id="UtvalgskriterierForOppgavekoForm.Kriterier" />
                   </Normaltekst>
@@ -129,8 +129,8 @@ export const UtvalgskriterierForOppgavekoForm: FunctionComponent<OwnProps & Wrap
                     tomDato={values.tomDato}
                     hentOppgaveko={hentKo}
                   />
-                </Column>
-                <Column xs="5">
+                </div>
+                <div className={styles.saksbehandler}>
                     <Normaltekst className={styles.header}>
                       <FormattedMessage id="UtvalgskriterierForOppgavekoForm.Saksbehandlere" />
                     </Normaltekst>
@@ -140,8 +140,8 @@ export const UtvalgskriterierForOppgavekoForm: FunctionComponent<OwnProps & Wrap
                       alleSaksbehandlere={alleSaksbehandlere}
                       hentOppgaveko={hentKo}
                     />
-                  </Column>
-              <Column xs="1">
+                  </div>
+              <div>
                     <div className={styles.slettContainer}>
                       <Image src={binIcon} />
                       <div
@@ -155,8 +155,8 @@ export const UtvalgskriterierForOppgavekoForm: FunctionComponent<OwnProps & Wrap
                         Slett kø
                       </div>
                     </div>
-              </Column>
-            </Row>
+              </div>
+            </div>
           </>
         )}
       />
