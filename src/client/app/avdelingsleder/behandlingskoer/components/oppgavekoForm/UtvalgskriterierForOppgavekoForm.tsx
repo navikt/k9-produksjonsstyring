@@ -1,23 +1,19 @@
-import React, { FunctionComponent } from 'react';
+import React, {FunctionComponent} from 'react';
 
-import { Form } from 'react-final-form';
-import {
-  injectIntl, FormattedMessage, WrappedComponentProps, IntlShape,
-} from 'react-intl';
-import { Normaltekst } from 'nav-frontend-typografi';
-import { Row, Column } from 'nav-frontend-grid';
-import {
-  required, minLength, maxLength, hasValidName,
-} from 'utils/validation/validators';
-import { InputField } from 'form/FinalFields';
+import {Form} from 'react-final-form';
+import {FormattedMessage, injectIntl, IntlShape, WrappedComponentProps,} from 'react-intl';
+import {Normaltekst} from 'nav-frontend-typografi';
+import {hasValidName, maxLength, minLength, required,} from 'utils/validation/validators';
+import {InputField} from 'form/FinalFields';
 import Image from 'sharedComponents/Image';
 import SkjermetVelger from 'avdelingsleder/behandlingskoer/components/oppgavekoForm/SkjermetVelger';
-import SaksbehandlereForOppgavekoForm from 'avdelingsleder/behandlingskoer/components/saksbehandlerForm/SaksbehandlereForOppgavekoForm';
+import SaksbehandlereForOppgavekoForm
+  from 'avdelingsleder/behandlingskoer/components/saksbehandlerForm/SaksbehandlereForOppgavekoForm';
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
-import { K9LosApiKeys } from 'api/k9LosApi';
-import { Saksbehandler } from 'avdelingsleder/bemanning/saksbehandlerTsType';
-import { useRestApi } from 'api/rest-api-hooks';
-import { Oppgaveko } from '../../oppgavekoTsType';
+import {K9LosApiKeys} from 'api/k9LosApi';
+import {Saksbehandler} from 'avdelingsleder/bemanning/saksbehandlerTsType';
+import {useRestApi} from 'api/rest-api-hooks';
+import {Oppgaveko} from '../../oppgavekoTsType';
 import AutoLagringVedBlur from './AutoLagringVedBlur';
 import BehandlingstypeVelger from './BehandlingstypeVelger';
 import AndreKriterierVelger from './AndreKriterierVelger';
@@ -84,16 +80,17 @@ export const UtvalgskriterierForOppgavekoForm: FunctionComponent<OwnProps & Wrap
       <Form
         onSubmit={() => undefined}
         initialValues={buildInitialValues(intl, valgtOppgaveko)}
-        render={({ values }) => (
+        render={({values}) => (
           <>
-            <AutoLagringVedBlur lagre={transformValues} fieldNames={['navn']} />
+            <AutoLagringVedBlur lagre={transformValues} fieldNames={['navn']}/>
             <div className={styles.container}>
               <div>
                 <Normaltekst className={styles.header}>
-                  <FormattedMessage id="UtvalgskriterierForOppgavekoForm.OmKoen" />
+                  <FormattedMessage id="UtvalgskriterierForOppgavekoForm.OmKoen"/>
                 </Normaltekst>
-                <hr className={styles.line} />
-                <Normaltekst className={styles.label}>{intl.formatMessage({ id: 'UtvalgskriterierForOppgavekoForm.Navn' })}</Normaltekst>
+                <hr className={styles.line}/>
+                <Normaltekst
+                  className={styles.label}>{intl.formatMessage({id: 'UtvalgskriterierForOppgavekoForm.Navn'})}</Normaltekst>
                 <InputField
                   className={styles.navn}
                   name="navn"
@@ -106,7 +103,7 @@ export const UtvalgskriterierForOppgavekoForm: FunctionComponent<OwnProps & Wrap
                   fagsakYtelseTyper={values.fagsakYtelseTyper}
                   hentOppgaveko={hentKo}
                 />
-                <SkjermetVelger valgtOppgaveko={valgtOppgaveko} hentOppgaveko={hentKo} />
+                <SkjermetVelger valgtOppgaveko={valgtOppgaveko} hentOppgaveko={hentKo}/>
                 <BehandlingstypeVelger
                   valgtOppgavekoId={valgtOppgaveko.id}
                   hentOppgaveko={hentKo}
@@ -114,54 +111,53 @@ export const UtvalgskriterierForOppgavekoForm: FunctionComponent<OwnProps & Wrap
                 />
               </div>
               <div>
-                  <Normaltekst className={styles.header}>
-                    <FormattedMessage id="UtvalgskriterierForOppgavekoForm.Kriterier" />
-                  </Normaltekst>
-                  <hr className={styles.line} />
-                  <AndreKriterierVelger
-                    valgtOppgavekoId={valgtOppgaveko.id}
-                    values={values}
-                    hentOppgaveko={hentKo}
-                  />
-                  <SorteringVelger
-                    valgtOppgavekoId={valgtOppgaveko.id}
-                    fomDato={values.fomDato}
-                    tomDato={values.tomDato}
-                    hentOppgaveko={hentKo}
-                  />
-                </div>
-                <div className={styles.saksbehandler}>
-                    <Normaltekst className={styles.header}>
-                      <FormattedMessage id="UtvalgskriterierForOppgavekoForm.Saksbehandlere" />
-                    </Normaltekst>
-                    <hr className={styles.line1} />
-                    <SaksbehandlereForOppgavekoForm
-                      valgtOppgaveko={valgtOppgaveko}
-                      alleSaksbehandlere={alleSaksbehandlere}
-                      hentOppgaveko={hentKo}
-                    />
-                  </div>
+                <Normaltekst className={styles.header}>
+                  <FormattedMessage id="UtvalgskriterierForOppgavekoForm.Kriterier"/>
+                </Normaltekst>
+                <hr className={styles.line}/>
+                <AndreKriterierVelger
+                  valgtOppgavekoId={valgtOppgaveko.id}
+                  values={values}
+                  hentOppgaveko={hentKo}
+                />
+                <SorteringVelger
+                  valgtOppgavekoId={valgtOppgaveko.id}
+                  fomDato={values.fomDato}
+                  tomDato={values.tomDato}
+                  hentOppgaveko={hentKo}
+                />
+              </div>
+              <div className={styles.saksbehandler}>
+                <Normaltekst className={styles.header}>
+                  <FormattedMessage id="UtvalgskriterierForOppgavekoForm.Saksbehandlere"/>
+                </Normaltekst>
+                <hr className={styles.line1}/>
+                <SaksbehandlereForOppgavekoForm
+                  valgtOppgaveko={valgtOppgaveko}
+                  alleSaksbehandlere={alleSaksbehandlere}
+                  hentOppgaveko={hentKo}
+                />
+              </div>
               <div>
-                    <div className={styles.slettContainer}>
-                      <Image src={binIcon} />
-                      <div
-                        id="slett"
-                        role="button"
-                        className={styles.slett}
-                        onClick={visModal}
-                        onKeyDown={visModal}
-                        tabIndex={0}
-                      >
-                        Slett kø
-                      </div>
-                    </div>
+                <div className={styles.slettContainer}>
+                  <Image src={binIcon}/>
+                  <div
+                    id="slett"
+                    role="button"
+                    className={styles.slett}
+                    onClick={visModal}
+                    onKeyDown={visModal}
+                    tabIndex={0}
+                  >
+                    Slett kø
+                  </div>
+                </div>
               </div>
             </div>
           </>
         )}
       />
     </div>
-
   );
 };
 
