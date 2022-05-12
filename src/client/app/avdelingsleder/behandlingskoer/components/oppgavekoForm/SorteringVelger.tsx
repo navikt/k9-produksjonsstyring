@@ -20,6 +20,8 @@ interface OwnProps {
   valgtOppgavekoId: string;
   fomDato: string;
   tomDato: string;
+  fomBelop: number;
+  tomBelop: number;
   hentOppgaveko:(id: string) => void;
 }
 
@@ -31,19 +33,21 @@ const SorteringVelger: FunctionComponent<OwnProps & WrappedComponentProps> = ({
   valgtOppgavekoId,
   fomDato,
   tomDato,
+  fomBelop,
+  tomBelop,
   hentOppgaveko,
 }) => {
   const { startRequest: lagreOppgavekoSortering } = useRestApiRunner(K9LosApiKeys.LAGRE_OPPGAVEKO_SORTERING);
   const { startRequest: lagreOppgavekoSorteringTidsintervallDato } = useRestApiRunner(K9LosApiKeys.LAGRE_OPPGAVEKO_SORTERING_TIDSINTERVALL_DATO);
   const koSorteringer = useKodeverk<KoSorteringType>(kodeverkTyper.KO_SORTERING);
+  const koKriterier = useKodeverk<KoSorteringType>(kodeverkTyper.KO_KRITERIER);
+
   const alleKodeverk: AlleKodeverk = useGlobalStateRestApiData(RestApiGlobalStatePathsKeys.KODEVERK);
-
-
 
   return (
     <>
       <Normaltekst className={styles.label}>
-        <FormattedMessage id="SorteringVelger.Sortering" />
+        <FormattedMessage id="FiltreringsVelger.Filtrering" />
       </Normaltekst>
       <VerticalSpacer eightPx />
       <div>
@@ -71,13 +75,22 @@ const SorteringVelger: FunctionComponent<OwnProps & WrappedComponentProps> = ({
                 tomDato={tomDato}
               />
               )}
-              {//TODO legg in riktig felttype under og parse in til og fra når backend er klart
-              }
-
-              {(koSortering.felttype === 'DATO') && (<BelopSorteringValg til={0} fra={0} />)}
             </RadioOption>
             )
 
+          ))}
+
+          {koKriterier.map((koKriterie) => ((
+              <RadioOption
+                key={koKriterie.kode}
+                value={koKriterie.kode}
+                label={getKodeverknavnFraKode(koKriterie.kode, kodeverkTyper.KO_KRITERIER, alleKodeverk)}
+              >
+                {(koKriterie.felttype === 'BELOP') && (
+                  <BelopSorteringValg oppgaveKoId={valgtOppgavekoId} til={tomBelop} fra={fomBelop} />
+                )}
+              </RadioOption>
+            )
           ))}
         </RadioGroupField>
       </div>

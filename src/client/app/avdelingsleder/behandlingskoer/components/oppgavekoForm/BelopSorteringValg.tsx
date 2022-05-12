@@ -5,18 +5,20 @@ import {Undertekst} from "nav-frontend-typografi";
 import {FormattedMessage} from "react-intl";
 import styles from './utvalgskriterierForOppgavekoForm.less';
 import {useFormik} from 'formik';
+import useRestApiRunner from "../../../../api/rest-api-hooks/src/local-data/useRestApiRunner";
+import {K9LosApiKeys} from "api/k9LosApi";
+import KriterierType from "../../../../types/KriterierType";
 
 const validate = values => {
   const errors: {
     fraBelop?: string;
     tilBelop?: string;
   } = {}
-  if (!values.fraBelop) {
-    errors.fraBelop = 'Fra må være større æn null';
-  } else if (!values.tilBelop) {
-    errors.tilBelop = 'Til må være større æn null';
+
+  if (!values.tilBelop) {
+    errors.tilBelop = 'Til må ikke være tom.';
   } else if (values.tilBelop < values.fraBelop) {
-    errors.tilBelop = 'Til verdi må være større æn fra.';
+    errors.tilBelop = 'Til må være større enn fra.';
   }
 
   return errors;
@@ -25,15 +27,24 @@ const validate = values => {
 interface OwnProps {
   til: number;
   fra: number;
+  oppgaveKoId: string;
 }
 
 const BelopSorteringValg: React.FunctionComponent<OwnProps> = ({
   til,
-  fra
+  fra,
+  oppgaveKoId
 }) => {
+  const { startRequest: lagreOppgavekoSorteringBelop} = useRestApiRunner(K9LosApiKeys.LAGRE_OPPGAVEKO_KRITERIER);
 
   const oppdaterBelop = (fraBelop: number, tilBelop: number) => {
-    // TODO Legg in apikall her for att oppdatere belop her når backend har endepunkt
+    lagreOppgavekoSorteringBelop({
+      id: oppgaveKoId,
+      kriterierType: KriterierType.Feilutbetaling,
+      inkluder: true,
+      fom: fraBelop,
+      tom: tilBelop,
+    });
   }
 
   const formik = useFormik({
@@ -52,7 +63,7 @@ const BelopSorteringValg: React.FunctionComponent<OwnProps> = ({
           name="fraBelop"
           onChange={(e) => formik.handleChange({target: {name: 'fraBelop', value: parseInt(e.target.value)}})}
           value={parseInt(formik.values.fraBelop)}
-          onBlur={() => formik.handleSubmit}
+          onBlur={() => formik.handleSubmit()}
           size="small"
           type="number"
           label="Fra"/>
@@ -63,7 +74,7 @@ const BelopSorteringValg: React.FunctionComponent<OwnProps> = ({
           name="tilBelop"
           onChange={(e) => formik.handleChange({target: {name: 'tilBelop', value: parseInt(e.target.value)}})}
           value={formik.values.tilBelop}
-          onBlur={() => formik.handleSubmit}
+          onBlur={() => formik.handleSubmit()}
           size="small"
           type="number"
           label="Til"
