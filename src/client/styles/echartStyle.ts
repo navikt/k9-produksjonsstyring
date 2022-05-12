@@ -28,7 +28,7 @@ export const fargerForLegendsForBehandlingerPåVentÅrsaker = {
 }
 export const fargerForLegendsForAksjonspunkterPerEnhet = {
   '4410 NAV ARBEID OG YTELSER SØRLANDET': '#634689',
-  '4403 NAV ARBEID OG YTELSER OSLO': '#ff9100',
+  '4403 NAV ARBEID OG YTELSER KRISTIANIA': '#ff9100',
   '4415 NAV ARBEID OG YTELSER MOLDE': '#66CBEC',
   'UKJENT': fargeForUkjent
 };

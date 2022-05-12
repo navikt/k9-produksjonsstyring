@@ -40,9 +40,15 @@ const AksjonspunkterPerEnhetPanel: FunctionComponent = () => {
       return <>Noe gikk galt under lasting</>;
     }
 
+    const aksjonspunkterPerEnhetMappet = aksjonspunkterPerEnhet.map(v =>
+      v.behandlendeEnhet === '4403 NAV ARBEID OG YTELSER OSLO'
+        ? { ...v, behandlendeEnhet: v.behandlendeEnhet.replace('OSLO', 'KRISTIANIA') }
+        : v,
+    );
+
     return (
       <AksjonspunkterPerEnhetDiagram
-        aksjonspunkterPerEnhet={aksjonspunkterPerEnhet}
+        aksjonspunkterPerEnhet={aksjonspunkterPerEnhetMappet}
         valgtYtelseType={valgtYtelseType}
         antallUkerSomSkalVises={antallUkerSomSkalVises}
       />
