@@ -11,6 +11,7 @@ import RestApiTestMocker from '../../../../../../../setup/testHelpers/RestApiTes
 import { shallowWithIntl, intlMock } from '../../../../../../../setup/testHelpers/intl-enzyme-test-helper';
 import SorteringVelger from './SorteringVelger';
 import kodeverk from "../../../../../mocks/kodeverk";
+import KriterierType from "../../../../types/KriterierType";
 
 describe('<SorteringVelger>', () => {
   const intl: IntlShape = {
@@ -22,9 +23,16 @@ describe('<SorteringVelger>', () => {
     feltkategori: '',
   }];
 
+  const koKriterierTyper = [{
+    kode: KriterierType.Feilutbetaling,
+    felttype: 'BELOP',
+    feltkategori: 'BELOP',
+  }];
+
   it('skal vise radioknapper for alle sorteringsvalg', () => {
     new RestApiTestMocker()
       .withKodeverk(kodeverkTyper.KO_SORTERING, koSorteringTyper)
+      .withKodeverk(kodeverkTyper.KO_KRITERIER, koKriterierTyper)
       .withDummyRunner()
       .withGlobalData(RestApiGlobalStatePathsKeys.KODEVERK, kodeverk)
       .runTest(() => {
@@ -37,7 +45,7 @@ describe('<SorteringVelger>', () => {
         />);
 
         const options = wrapper.find(RadioOption);
-        expect(options).to.have.length(1);
+        expect(options).to.have.length(2);
         expect(options.first().prop('value')).to.eql(KoSortering.OPPRETT_BEHANDLING);
       });
   });
@@ -47,6 +55,7 @@ describe('<SorteringVelger>', () => {
 
     new RestApiTestMocker()
       .withKodeverk(kodeverkTyper.KO_SORTERING, koSorteringTyper)
+      .withKodeverk(kodeverkTyper.KO_KRITERIER, koKriterierTyper)
       .withRestCallRunner(K9LosApiKeys.LAGRE_OPPGAVEKO_SORTERING,
         { startRequest: (params) => { lagreSorteringFn(params); return Promise.resolve(); } })
       .withRestCallRunner(K9LosApiKeys.LAGRE_OPPGAVEKO_SORTERING_TIDSINTERVALL_DATO,
