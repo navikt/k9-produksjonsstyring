@@ -1,25 +1,25 @@
-import React, { FunctionComponent, useCallback, useEffect, useState, } from 'react';
-import { Normaltekst } from 'nav-frontend-typografi';
-import { FormattedMessage, injectIntl, WrappedComponentProps } from 'react-intl';
+import React, {FunctionComponent, useCallback, useEffect, useState,} from 'react';
+import {Normaltekst} from 'nav-frontend-typografi';
+import {FormattedMessage, injectIntl, WrappedComponentProps} from 'react-intl';
 import Reservasjon from 'avdelingsleder/reservasjoner/reservasjonTsType';
 import Image from 'sharedComponents/Image';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
-import { getDateAndTime } from 'utils/dateUtils';
+import {getDateAndTime} from 'utils/dateUtils';
 
 import TableColumn from 'sharedComponents/TableColumn';
 import Table from 'sharedComponents/Table';
 import TableRow from 'sharedComponents/TableRow';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import Chevron from 'nav-frontend-chevron';
-import { Row } from 'nav-frontend-grid';
+import {Row} from 'nav-frontend-grid';
 import OpphevReservasjonModal from 'saksbehandler/behandlingskoer/components/menu/OpphevReservasjonModal';
 import FlyttReservasjonModal from 'saksbehandler/behandlingskoer/components/menu/FlyttReservasjonModal';
-import { TextField } from '@navikt/ds-react';
+import {TextField} from '@navikt/ds-react';
 import _ from 'lodash';
-import { getKodeverknavnFraKode } from "utils/kodeverkUtils";
+import {getKodeverknavnFraKode} from "utils/kodeverkUtils";
 import kodeverkTyper from "kodeverk/kodeverkTyper";
 import AlleKodeverk from "kodeverk/alleKodeverkTsType";
-import { RestApiGlobalStatePathsKeys } from "api/k9LosApi";
+import {RestApiGlobalStatePathsKeys} from "api/k9LosApi";
 import styles from './reservasjonerTabell.less';
 import arrowIcon from '../../../../images/arrow-left-3.svg';
 import arrowIconRight from '../../../../images/arrow-right-3.svg';
@@ -83,7 +83,10 @@ const ReservasjonerTabell: FunctionComponent<OwnProps & WrappedComponentProps> =
   return (
     <>
       <div className={styles.titelContainer}>
-        <b><FormattedMessage id="ReservasjonerTabell.Reservasjoner" /></b>
+        <b>
+          <FormattedMessage id="ReservasjonerTabell.Reservasjoner"/>
+          {sorterteReservasjoner.length > 0 && requestFinished && <>{` (${sorterteReservasjoner.length} stk)`}</>}
+        </b>
         <div className={styles.sokfelt}><TextField onChange={debounceFn} label="Søk på reservasjon" /></div>
       </div>
       <VerticalSpacer sixteenPx />

@@ -44,7 +44,7 @@ const løsteAksjonspunkterPerEnhet = [
   {
     fagsakYtelseType: 'OMP_MA',
     behandlingType: 'Revurdering',
-    behandlendeEnhet: '1337',
+    behandlendeEnhet: '4403 NAV ARBEID OG YTELSER OSLO',
     fagsystemType: OppgaveSystem.K9SAK,
     dato,
     antall: 10,
