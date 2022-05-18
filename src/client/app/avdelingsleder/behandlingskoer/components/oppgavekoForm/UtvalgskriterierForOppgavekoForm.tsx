@@ -49,10 +49,7 @@ const buildInitialValues = (intl: IntlShape, ko: Oppgaveko) => {
     sortering: ko.sortering ? ko.sortering.sorteringType.kode : undefined,
     fomDato: ko.sortering ? ko.sortering.fomDato : undefined,
     tomDato: ko.sortering ? ko.sortering.tomDato : undefined,
-    feilutbetaling: {
-      fomBelop: '',
-      tomBelop: ''
-    },
+    kriterier: ko.kriterier,
     skjermet: ko.skjermet,
     fagsakYtelseTyper,
     behandlingTypes,
@@ -128,8 +125,7 @@ export const UtvalgskriterierForOppgavekoForm: FunctionComponent<OwnProps & Wrap
                   valgtOppgavekoId={valgtOppgaveko.id}
                   fomDato={values.fomDato}
                   tomDato={values.tomDato}
-                  fomBelop={values.feilutbetaling.fomBelop}
-                  tomBelop={values.feilutbetaling.tomBelop}
+                  kriterier={values.kriterier}
                   hentOppgaveko={hentKo}
                 />
               </div>

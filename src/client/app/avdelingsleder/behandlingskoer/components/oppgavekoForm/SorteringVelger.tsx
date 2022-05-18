@@ -14,14 +14,15 @@ import { getKodeverknavnFraKode } from "utils/kodeverkUtils";
 import DatoSorteringValg from './DatoSorteringValg';
 import BelopSorteringValg from "avdelingsleder/behandlingskoer/components/oppgavekoForm/BelopSorteringValg";
 import styles from './utvalgskriterierForOppgavekoForm.less';
+import KriterierType from "../../../../types/KriterierType";
+import {Kriterie} from "avdelingsleder/behandlingskoer/oppgavekoTsType";
 
 interface OwnProps {
   intl: any;
   valgtOppgavekoId: string;
   fomDato: string;
   tomDato: string;
-  fomBelop: number;
-  tomBelop: number;
+  kriterier: Kriterie[];
   hentOppgaveko:(id: string) => void;
 }
 
@@ -33,9 +34,8 @@ const SorteringVelger: FunctionComponent<OwnProps & WrappedComponentProps> = ({
   valgtOppgavekoId,
   fomDato,
   tomDato,
-  fomBelop,
-  tomBelop,
   hentOppgaveko,
+  kriterier
 }) => {
   const { startRequest: lagreOppgavekoSortering } = useRestApiRunner(K9LosApiKeys.LAGRE_OPPGAVEKO_SORTERING);
   const { startRequest: lagreOppgavekoSorteringTidsintervallDato } = useRestApiRunner(K9LosApiKeys.LAGRE_OPPGAVEKO_SORTERING_TIDSINTERVALL_DATO);
@@ -43,6 +43,8 @@ const SorteringVelger: FunctionComponent<OwnProps & WrappedComponentProps> = ({
   const koKriterier = useKodeverk<KoSorteringType>(kodeverkTyper.KO_KRITERIER);
 
   const alleKodeverk: AlleKodeverk = useGlobalStateRestApiData(RestApiGlobalStatePathsKeys.KODEVERK);
+
+  const feilutbetaling = kriterier.find(kriterie => kriterie.kriterierType.kode === KriterierType.Feilutbetaling);
 
   return (
     <>
@@ -80,19 +82,21 @@ const SorteringVelger: FunctionComponent<OwnProps & WrappedComponentProps> = ({
 
           ))}
 
-          {koKriterier.map((koKriterie) => ((
+        </RadioGroupField>
+
+        {koKriterier.map((koKriterie) => ((
+            koKriterie.kode === KriterierType.Feilutbetaling && (
               <RadioOption
                 key={koKriterie.kode}
                 value={koKriterie.kode}
+                actualValue={koKriterie.kode}
                 label={getKodeverknavnFraKode(koKriterie.kode, kodeverkTyper.KO_KRITERIER, alleKodeverk)}
               >
-                {(koKriterie.felttype === 'BELOP') && (
-                  <BelopSorteringValg oppgaveKoId={valgtOppgavekoId} til={tomBelop} fra={fomBelop} />
-                )}
+                <BelopSorteringValg oppgaveKoId={valgtOppgavekoId} til={parseInt(feilutbetaling?.tom) || 0} fra={parseInt(feilutbetaling?.fom) || 0} />
               </RadioOption>
             )
-          ))}
-        </RadioGroupField>
+          )
+        ))}
       </div>
     </>
   );

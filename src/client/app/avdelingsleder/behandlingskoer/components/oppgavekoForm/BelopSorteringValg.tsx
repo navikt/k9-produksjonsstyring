@@ -62,7 +62,7 @@ const BelopSorteringValg: React.FunctionComponent<OwnProps> = ({
         <TextField
           name="fraBelop"
           onChange={(e) => formik.handleChange({target: {name: 'fraBelop', value: parseInt(e.target.value)}})}
-          value={parseInt(formik.values.fraBelop)}
+          value={formik.values.fraBelop}
           onBlur={() => formik.handleSubmit()}
           size="small"
           type="number"

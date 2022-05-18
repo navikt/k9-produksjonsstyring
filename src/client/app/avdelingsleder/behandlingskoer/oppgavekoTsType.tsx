@@ -1,5 +1,5 @@
 import KoSorteringType from 'kodeverk/KoSorteringTsType';
-import { Saksbehandler } from 'avdelingsleder/bemanning/saksbehandlerTsType';
+import {Saksbehandler} from 'avdelingsleder/bemanning/saksbehandlerTsType';
 
 // TODO (TOR) default export feilar for yarn:coverage
 // eslint-disable-next-line import/prefer-default-export
@@ -16,6 +16,7 @@ export type Oppgaveko = Readonly<{
   };
   skjermet: boolean;
   andreKriterier?: AnnetKriterie[];
+  kriterier: Kriterie[];
   saksbehandlere: Saksbehandler[];
   antallBehandlinger: number;
 }>;
@@ -23,4 +24,20 @@ export type Oppgaveko = Readonly<{
 type AnnetKriterie = Readonly<{
   andreKriterierType: string;
   inkluder: boolean;
+}>
+
+export type Kriterie = Readonly<{
+  id: string;
+  kriterierType: {
+    kode: string;
+    navn: string;
+    felttype: string;
+    kodeverk: string;
+  }
+  inkluder: boolean;
+  fom?: string;
+  tom?: string;
+
+  checked: boolean;
+  koder: boolean;
 }>
