@@ -27,29 +27,17 @@ const validate = values => {
 interface OwnProps {
   til: number;
   fra: number;
-  oppgaveKoId: string;
+  lagreFilteringBelopp: (fraBelop: number, tilBelop: number) => void;
 }
 
 const BelopSorteringValg: React.FunctionComponent<OwnProps> = ({
   til,
   fra,
-  oppgaveKoId
+  lagreFilteringBelopp
 }) => {
-  const { startRequest: lagreOppgavekoSorteringBelop} = useRestApiRunner(K9LosApiKeys.LAGRE_OPPGAVEKO_KRITERIER);
-
-  const oppdaterBelop = (fraBelop: number, tilBelop: number) => {
-    lagreOppgavekoSorteringBelop({
-      id: oppgaveKoId,
-      kriterierType: KriterierType.Feilutbetaling,
-      inkluder: true,
-      fom: fraBelop,
-      tom: tilBelop,
-    });
-  }
-
   const formik = useFormik({
     initialValues: {fraBelop: fra || 0, tilBelop: til || 0},
-    onSubmit: values => oppdaterBelop(values.fraBelop, values.tilBelop),
+    onSubmit: values => lagreFilteringBelopp(values.fraBelop, values.tilBelop),
     validate
   })
 
