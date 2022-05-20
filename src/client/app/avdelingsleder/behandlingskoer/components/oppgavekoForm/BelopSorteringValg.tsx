@@ -41,10 +41,8 @@ const BelopSorteringValg: React.FunctionComponent<OwnProps> = ({
     validate
   })
 
-  return (<ArrowBox>
-    <Undertekst>
-      <FormattedMessage id="SorteringVelger.FiltrerPaHeltall"/>
-    </Undertekst>
+  return (<div className={styles.arrowBoxContainer}>
+    <ArrowBox>
     <form onSubmit={formik.handleSubmit}>
       <div className={styles.belopContainer}>
         <TextField
@@ -74,7 +72,7 @@ const BelopSorteringValg: React.FunctionComponent<OwnProps> = ({
     </form>
     {(formik.errors.fraBelop || formik.errors.tilBelop) && <span
       className={styles.feilmelding}>{formik.errors.fraBelop ? formik.errors.fraBelop : formik.errors.tilBelop}</span>}
-  </ArrowBox>);
+  </ArrowBox></div>);
 };
 
 export default BelopSorteringValg;
