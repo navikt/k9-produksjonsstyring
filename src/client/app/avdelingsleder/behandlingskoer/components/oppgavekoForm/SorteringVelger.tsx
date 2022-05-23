@@ -125,32 +125,30 @@ const SorteringVelger: FunctionComponent<OwnProps & WrappedComponentProps> = ({
         {/* Måten er under er måten som vi skal gå videre med kriterier i framtiden. TODO er att få utvidet backend, legge in mer på måten under og byta ut react final form som bruker over med formik. */}
 
         {koKriterier.map((koKriterie) => ((
-            koKriterie.skalVises
-              ? <Checkbox
+            !!koKriterie.skalVises && (
+              <Checkbox
                 key={koKriterie.kode}
                 value={koKriterie.kode}
                 data-testid={`kriterie-${koKriterie.kode}`}
                 checked={valgtFiltrering.includes(koKriterie.kode)}
                 onChange={(e) => {
-                  leggTilEllerFjerneFiltrering(e.target.value, e.target.checked);
-                  if (!e.target.checked) {
-                    fjerneFiltreringsbelop()
+                    leggTilEllerFjerneFiltrering(e.target.value, e.target.checked);
+                    if (!e.target.checked) {
+                      fjerneFiltreringsbelop()
+                    }
                   }
                 }
-                }
               >
-                <span
-                  className={styles.kriterierTitel}>{getKodeverknavnFraKode(koKriterie.kode, kodeverkTyper.KO_KRITERIER, alleKodeverk)}</span>
+                <span className={styles.kriterierTitel}>{getKodeverknavnFraKode(koKriterie.kode, kodeverkTyper.KO_KRITERIER, alleKodeverk)}</span>
                 {koKriterie.felttype === 'BELOP' && valgtFiltrering.includes(koKriterie.kode) && <BelopSorteringValg
                   til={parseInt(filtreringPåBelop?.tom) || 0}
                   fra={parseInt(filtreringPåBelop?.fom) || 0}
                   lagreFilteringBelopp={lagreFilteringBelopp}
                 />}
               </Checkbox>
-              : null
+            )
           )
-          )
-        )}
+        ))}
       </div>
     </>
   );
