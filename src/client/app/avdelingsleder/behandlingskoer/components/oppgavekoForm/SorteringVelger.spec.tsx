@@ -22,6 +22,7 @@ describe('<SorteringVelger>', () => {
     kode: KriterierType.Feilutbetaling,
     felttype: 'BELOP',
     feltkategori: 'BELOP',
+    skalVises: true
   }];
 
 
