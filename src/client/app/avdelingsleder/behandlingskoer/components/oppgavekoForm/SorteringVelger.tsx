@@ -98,7 +98,7 @@ const SorteringVelger: FunctionComponent<OwnProps & WrappedComponentProps> = ({
       <VerticalSpacer eightPx/>
       <div>
         {koSorteringer.map((koSortering) => (
-          koSortering.kode !== 'FORSTONAD' && (
+          koSortering.kode === 'OPPRBEH' && (
             <Checkbox
               key={koSortering.kode}
               value={koSortering.kode}
