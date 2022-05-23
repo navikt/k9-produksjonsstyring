@@ -57,6 +57,10 @@ export const NyeOgFerdigstilteOppgaverForSisteSyvPanel: FunctionComponent<OwnPro
     (oppgave) => sjekkOmOppgaveSkalLeggesTil(fagsakYtelseType.PLEIEPENGER_SYKT_BARN, oppgave),
   ));
 
+  const livetsSluttfaseFerdigstilteOppgaver = slaSammenLikeBehandlingstyperForNyeOgFerdigstilleOppgaver(filtrertenyeOgFerdigstilteOppgaverSisteSyv.filter(
+    (oppgave) => sjekkOmOppgaveSkalLeggesTil(fagsakYtelseType.PPN, oppgave),
+  ));
+
   const punsjFerdigstilteOppgaver = slaSammenAllePunsjBehandlingstyperForNyeOgFerdigstilleOppgaver(filtrertenyeOgFerdigstilteOppgaverSisteSyv.filter(
     (oppgave) => sjekkOmOppgaveSkalLeggesTil(fagsakYtelseType.PUNSJ, oppgave)),
     alleKodeverk);
@@ -70,6 +74,7 @@ export const NyeOgFerdigstilteOppgaverForSisteSyvPanel: FunctionComponent<OwnPro
       case fagytelsetyperForOppgaveFiltrering.OMSORGSPENGER: return omsorgspengerFerdigstilteOppgaver;
       case fagytelsetyperForOppgaveFiltrering.PLEIEPENGER_SYKT_BARN: return pleiepengerFerdigstilteOppgaver;
       case fagytelsetyperForOppgaveFiltrering.OMSORGSDAGER: return omsorgsdagerFerdigstilteOppgaver;
+      case fagytelsetyperForOppgaveFiltrering.PPN: return livetsSluttfaseFerdigstilteOppgaver;
       case fagytelsetyperForOppgaveFiltrering.PUNSJ: return punsjFerdigstilteOppgaver;
       default: return samlet;
     }

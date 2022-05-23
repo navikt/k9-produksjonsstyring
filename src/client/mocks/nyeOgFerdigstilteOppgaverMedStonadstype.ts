@@ -35,6 +35,13 @@ const nyeOgFerdigstilteOppgaverMedStonadstype = [
     ferdigstilte: 1,
   },
   {
+    fagsakYtelseType: 'PPN',
+    behandlingType: 'BT-004',
+    dato: '2021-08-17',
+    nye: 1,
+    ferdigstilte: 1,
+  },
+  {
     fagsakYtelseType: 'PSB',
     behandlingType: 'BT-002',
     dato: '2021-08-16',

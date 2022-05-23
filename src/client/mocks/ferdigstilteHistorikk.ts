@@ -31,6 +31,12 @@ const ferdigstilteHistorikk = [{
   antall: 1,
 },
 {
+  fagsakYtelseType: 'PPN',
+  behandlingType: 'BT-002',
+  dato,
+  antall: 1,
+},
+{
   fagsakYtelseType: 'PSB',
   behandlingType: 'BT-002',
   dato,

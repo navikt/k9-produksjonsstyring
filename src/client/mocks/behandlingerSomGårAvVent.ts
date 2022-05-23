@@ -34,6 +34,12 @@ const behandlingerSomGårAvVent = [
     dato: frist,
     antall: 10,
   },
+  {
+    fagsakYtelseType: 'PPN',
+    behandlingType: 'Revurdering',
+    dato: frist,
+    antall: 10,
+  },
 ];
 
 export default behandlingerSomGårAvVent;

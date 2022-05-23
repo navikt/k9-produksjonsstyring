@@ -56,6 +56,10 @@ export const NyeOgFerdigstilteOppgaverForIdagPanel: FunctionComponent<OwnProps> 
     (oppgave) => sjekkOmOppgaveSkalLeggesTil(fagsakYtelseType.PLEIEPENGER_SYKT_BARN, oppgave),
   ));
 
+  const livetSluttfaseFerdigstilteOppgaver = slaSammenLikeBehandlingstyperForNyeOgFerdigstilleOppgaver(nyeOgFerdigstilteOppgaverForIdag.filter(
+    (oppgave) => sjekkOmOppgaveSkalLeggesTil(fagsakYtelseType.PPN, oppgave),
+  ));
+
   const punsjFerdigstilteOppgaver = slaSammenAllePunsjBehandlingstyperForNyeOgFerdigstilleOppgaver(nyeOgFerdigstilteOppgaverForIdag.filter(
     (oppgave) => sjekkOmOppgaveSkalLeggesTil(fagsakYtelseType.PUNSJ, oppgave)),
     alleKodeverk);
@@ -70,6 +74,7 @@ export const NyeOgFerdigstilteOppgaverForIdagPanel: FunctionComponent<OwnProps> 
       case fagytelsetyperForOppgaveFiltrering.OMSORGSPENGER: return omsorgspengerFerdigstilteOppgaver;
       case fagytelsetyperForOppgaveFiltrering.PLEIEPENGER_SYKT_BARN: return pleiepengerFerdigstilteOppgaver;
       case fagytelsetyperForOppgaveFiltrering.OMSORGSDAGER: return omsorgsdagerFerdigstilteOppgaver;
+      case fagytelsetyperForOppgaveFiltrering.PPN: return livetSluttfaseFerdigstilteOppgaver;
       case fagytelsetyperForOppgaveFiltrering.PUNSJ: { skalPunsjVises = true; return punsjFerdigstilteOppgaver; }
       default: return samlet;
     }

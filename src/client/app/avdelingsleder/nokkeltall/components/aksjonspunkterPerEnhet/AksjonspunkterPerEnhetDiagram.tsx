@@ -28,6 +28,12 @@ const AksjonspunkterPerEnhetDiagram = ({
       behandling.fagsystemType !== OppgaveSystem.PUNSJ,
   );
 
+  const LivetsSluttfaseBehandlinger: AksjonspunkterPerEnhetType[] = aksjonspunkterPerEnhet.filter(
+    behandling =>
+      behandling.fagsakYtelseType === fagsakYtelseType.PPN &&
+      behandling.fagsystemType !== OppgaveSystem.PUNSJ,
+  );
+
   const OMDBehandlinger: AksjonspunkterPerEnhetType[] = aksjonspunkterPerEnhet.filter(
     behandling =>
       (behandling.fagsakYtelseType === fagsakYtelseType.OMSORGSDAGER ||
@@ -53,6 +59,8 @@ const AksjonspunkterPerEnhetDiagram = ({
         return OMPBehandlinger;
       case fagsakYtelseType.OMSORGSDAGER:
         return OMDBehandlinger;
+      case fagsakYtelseType.PPN:
+        return LivetsSluttfaseBehandlinger;
       case fagsakYtelseType.PUNSJ:
         return PunsjBehandlinger;
       default:

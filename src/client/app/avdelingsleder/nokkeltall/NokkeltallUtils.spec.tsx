@@ -19,7 +19,7 @@ describe('<NokkeltallUtils>', () => {
 
     const sammenslåttHistorikkOppgaverForstegangsbehandling = sammenslåttHistorikkOppgaver.find((oppgave) => oppgave.behandlingType === behandlingType.FORSTEGANGSSOKNAD
       && oppgave.dato === '2021-08-29'
-      && oppgave.antall === 3);
+      && oppgave.antall === 4);
 
     const sammenslåttHistorikkOppgaverRevurdering = sammenslåttHistorikkOppgaver.find((oppgave) => oppgave.behandlingType === behandlingType.REVURDERING
       && oppgave.dato === '2021-08-29'

@@ -36,6 +36,12 @@ const BehandlingerGårAvVentÅrsakerDiagram = ({
       getKodeverkFraKode(behandling.behandlingType, kodeverkTyper.BEHANDLING_TYPE, alleKodeverk) !== punsjKodeverkNavn,
   );
 
+  const LivetsSluttfaseBehandlinger: IBehandlingerSomGarAvVentType[] = behandlingerGaarAvVentAarsaker.filter(
+    behandling =>
+      behandling.fagsakYtelseType === fagsakYtelseType.PPN &&
+      getKodeverkFraKode(behandling.behandlingType, kodeverkTyper.BEHANDLING_TYPE, alleKodeverk) !== punsjKodeverkNavn,
+  );
+
   const OMDBehandlinger: IBehandlingerSomGarAvVentType[] = behandlingerGaarAvVentAarsaker.filter(
     behandling =>
       (behandling.fagsakYtelseType === fagsakYtelseType.OMSORGSDAGER ||
@@ -61,6 +67,8 @@ const BehandlingerGårAvVentÅrsakerDiagram = ({
         return OMPBehandlinger;
       case fagsakYtelseType.OMSORGSDAGER:
         return OMDBehandlinger;
+      case fagsakYtelseType.PPN:
+        return LivetsSluttfaseBehandlinger;
       case fagsakYtelseType.PUNSJ:
         return PunsjBehandlinger;
       default:
