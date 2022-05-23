@@ -124,9 +124,8 @@ const SorteringVelger: FunctionComponent<OwnProps & WrappedComponentProps> = ({
 
         {/* Måten er under er måten som vi skal gå videre med kriterier i framtiden. TODO er att få utvidet backend, legge in mer på måten under og byta ut react final form som bruker over med formik. */}
 
-        {koKriterier.map((koKriterie) => {
-          console.log('kokrierie', koKriterie)
-            return koKriterie.skalVises
+        {koKriterier.map((koKriterie) => ((
+            koKriterie.skalVises
               ? <Checkbox
                 key={koKriterie.kode}
                 value={koKriterie.kode}
@@ -149,7 +148,8 @@ const SorteringVelger: FunctionComponent<OwnProps & WrappedComponentProps> = ({
                 />}
               </Checkbox>
               : null
-          }
+          )
+          )
         )}
       </div>
     </>
