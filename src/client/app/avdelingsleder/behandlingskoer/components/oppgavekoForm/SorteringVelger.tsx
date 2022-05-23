@@ -107,7 +107,7 @@ const SorteringVelger: FunctionComponent<OwnProps & WrappedComponentProps> = ({
               onChange={(e) => leggTilEllerFjerneFiltrering(e.target.value, e.target.checked)}
             >
               {(koSortering.felttype === 'DATO') && (<>
-                  {getKodeverknavnFraKode(koSortering.kode, kodeverkTyper.KO_SORTERING, alleKodeverk)}
+                  <span className={styles.kriterierTitel}>{getKodeverknavnFraKode(koSortering.kode, kodeverkTyper.KO_SORTERING, alleKodeverk)}</span>
                   <DatoSorteringValg
                     intl={intl}
                     valgtOppgavekoId={valgtOppgavekoId}
@@ -139,7 +139,7 @@ const SorteringVelger: FunctionComponent<OwnProps & WrappedComponentProps> = ({
                   }
                 }
               >
-                {getKodeverknavnFraKode(koKriterie.kode, kodeverkTyper.KO_KRITERIER, alleKodeverk)}
+                <span className={styles.kriterierTitel}>{getKodeverknavnFraKode(koKriterie.kode, kodeverkTyper.KO_KRITERIER, alleKodeverk)}</span>
                 {koKriterie.felttype === 'BELOP' && valgtFiltrering.includes(koKriterie.kode) && <BelopSorteringValg
                   til={parseInt(filtreringPåBelop?.tom) || 0}
                   fra={parseInt(filtreringPåBelop?.fom) || 0}
