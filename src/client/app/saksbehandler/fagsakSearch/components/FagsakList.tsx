@@ -14,6 +14,9 @@ import { getYearFromString } from 'utils/dateUtils';
 import ModalMedIkon from 'sharedComponents/modal/ModalMedIkon';
 import styles from './fagsakList.less';
 import OppgaveSystem from '../../../types/OppgaveSystem';
+import {getKodeverknavnFraKode} from "utils/kodeverkUtils";
+import AlleKodeverk from "kodeverk/alleKodeverkTsType";
+import kodeverkTyper from "kodeverk/kodeverkTyper";
 
 const headerTextCodes = [
   'FagsakList.Saksnummer',
@@ -44,6 +47,8 @@ const FagsakList: FunctionComponent<OwnProps> = ({
   const [valgtOppgave, setValgtOppgave] = useState<Oppgave>(null);
 
   const { kanReservere } = useGlobalStateRestApiData<NavAnsatt>(RestApiGlobalStatePathsKeys.NAV_ANSATT);
+  const alleKodeverk: AlleKodeverk = useGlobalStateRestApiData(RestApiGlobalStatePathsKeys.KODEVERK);
+
   const oppgavePåVentMulighetBTekst = 'Tilbake';
 
   const onClick = (e, oppgave, selectCallback) => {
@@ -96,8 +101,8 @@ const FagsakList: FunctionComponent<OwnProps> = ({
           >
             <TableColumn>{oppgave.saksnummer ? (`${oppgave.saksnummer} ${fagsaksperiodeÅr(oppgave)}`) : `${oppgave.journalpostId}`}</TableColumn>
             <TableColumn>{oppgave.navn}</TableColumn>
-            <TableColumn>{oppgave.fagsakYtelseType}</TableColumn>
-            <TableColumn>{oppgave.behandlingStatus}</TableColumn>
+            <TableColumn>{getKodeverknavnFraKode(oppgave.fagsakYtelseType, kodeverkTyper.FAGSAK_YTELSE_TYPE, alleKodeverk)}</TableColumn>
+            <TableColumn>{getKodeverknavnFraKode(oppgave.behandlingStatus, kodeverkTyper.BEHANDLING_STATUS, alleKodeverk)}</TableColumn>
             <TableColumn>
               {' '}
               <NavFrontendChevron />
