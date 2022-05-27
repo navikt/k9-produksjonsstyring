@@ -148,7 +148,7 @@
     "jest-transform-stub": "^2.0.0",
     "jsdom": "^19.0.0",
     "less": "^4.1.1",
-    "less-loader": "^10.0.1",
+    "less-loader": "^11.0.0",
     "mini-css-extract-plugin": "^2.6.0",
     "optimize-css-assets-webpack-plugin": "^6.0.1",
     "postcss-less": "^6.0.0",
