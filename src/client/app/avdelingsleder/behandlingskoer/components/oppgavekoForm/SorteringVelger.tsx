@@ -43,6 +43,7 @@ const SorteringVelger: FunctionComponent<OwnProps & WrappedComponentProps> = ({
   const [valgtFiltrering, setValgtFiltrering] = useState<string[]>([]);
 
   useEffect(() => {
+    setValgtFiltrering([]);
     if (filtreringPåBelop?.inkluder) {
       setValgtFiltrering(arr => [...arr, KriterierType.Feilutbetaling]);
     } else if (filtreringPåDato) {
