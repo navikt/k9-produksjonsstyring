@@ -306,6 +306,23 @@ const kodeverk = {
       navn: "Mangler venteårsak",
       kodeverk: "VENTEÅRSAK_TYPE"
     }
+  ],
+  KøKriterierType: [
+    {
+      kode: "FEILUTBETALING",
+      navn: "Feilutbetalt beløp",
+      felttype: "BELOP",
+      kodeverk: "KØ_KRITERIER_TYPE",
+      skalVises: true
+    },
+    {
+      kode: "BEHANDLINGTYPE",
+      navn: "Behandling type",
+      felttype: "KODEVERK",
+      felttypeKodeverk: "BehandlingType",
+      kodeverk: "KØ_KRITERIER_TYPE",
+      skalVises: false
+    }
   ]
 };
 

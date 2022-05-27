@@ -109,6 +109,36 @@
   }
 }
 
+.belopContainer {
+  display: flex;
+
+  > * {
+    padding-bottom: 1rem;
+    padding-right: 10px;
+    width: 5rem;
+
+    > input {
+      min-height: 1rem;
+    }
+
+    > label {
+      font-size: 14px;
+      font-weight: normal;
+    }
+  }
+}
+
+.belop {
+  padding-top: 40px;
+  width: 2rem;
+}
+
+.feilmelding {
+  color: @navRod;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
 .container {
   display: flex;
 
@@ -127,4 +157,17 @@
 
 .saksbehandler {
   flex-grow: 2;
+}
+
+.arrowBoxContainer {
+  margin-left: -2rem;
+  padding-top: 1rem;
+}
+
+.kriterierTitel {
+  font-size: 1rem;
+
+  @media only screen and (max-width: 1600px) {
+    font-size: 13px;
+  }
 }

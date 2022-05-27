@@ -51,7 +51,7 @@ export const DatoSorteringValg: FunctionComponent<OwnProps & WrappedComponentPro
   fomDato,
   tomDato,
   hentOppgaveko,
-}) => (
+}) => (<div className={styles.arrowBoxContainer}>
   <ArrowBox>
     <Undertekst>
       <FormattedMessage id="SorteringVelger.FiltrerPaTidsintervall" />
@@ -87,6 +87,7 @@ export const DatoSorteringValg: FunctionComponent<OwnProps & WrappedComponentPro
     </>
     <VerticalSpacer eightPx />
   </ArrowBox>
+  </div>
 );
 
 export default DatoSorteringValg;

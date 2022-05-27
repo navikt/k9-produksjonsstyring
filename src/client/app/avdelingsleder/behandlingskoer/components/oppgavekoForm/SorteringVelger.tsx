@@ -1,25 +1,30 @@
-import React, { FunctionComponent } from 'react';
-import { FormattedMessage, injectIntl, WrappedComponentProps } from 'react-intl';
-import { Normaltekst } from 'nav-frontend-typografi';
-import { RadioGroupField, RadioOption } from 'form/FinalFields';
+import React, {FunctionComponent, useEffect, useState} from 'react';
+import {FormattedMessage, injectIntl, WrappedComponentProps} from 'react-intl';
+import {Normaltekst} from 'nav-frontend-typografi';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
 import KoSorteringType from 'kodeverk/KoSorteringTsType';
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
-import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
+import {K9LosApiKeys, RestApiGlobalStatePathsKeys} from 'api/k9LosApi';
 import useKodeverk from 'api/rest-api-hooks/src/global-data/useKodeverk';
 import AlleKodeverk from "kodeverk/alleKodeverkTsType";
-import { useGlobalStateRestApiData } from "api/rest-api-hooks";
-import { getKodeverknavnFraKode } from "utils/kodeverkUtils";
+import {useGlobalStateRestApiData} from "api/rest-api-hooks";
+import {getKodeverknavnFraKode} from "utils/kodeverkUtils";
 import DatoSorteringValg from './DatoSorteringValg';
+import BelopSorteringValg from "avdelingsleder/behandlingskoer/components/oppgavekoForm/BelopSorteringValg";
 import styles from './utvalgskriterierForOppgavekoForm.less';
+import KriterierType from "../../../../types/KriterierType";
+import {Kriterie} from "avdelingsleder/behandlingskoer/oppgavekoTsType";
+import {Checkbox} from "@navikt/ds-react";
+import KoSortering from "kodeverk/KoSortering";
 
 interface OwnProps {
   intl: any;
   valgtOppgavekoId: string;
   fomDato: string;
   tomDato: string;
-  hentOppgaveko:(id: string) => void;
+  kriterier: Kriterie[];
+  hentOppgaveko: (id: string) => void;
 }
 
 /**
@@ -31,47 +36,109 @@ const SorteringVelger: FunctionComponent<OwnProps & WrappedComponentProps> = ({
   fomDato,
   tomDato,
   hentOppgaveko,
+  kriterier
 }) => {
-  const { startRequest: lagreOppgavekoSortering } = useRestApiRunner(K9LosApiKeys.LAGRE_OPPGAVEKO_SORTERING);
-  const { startRequest: lagreOppgavekoSorteringTidsintervallDato } = useRestApiRunner(K9LosApiKeys.LAGRE_OPPGAVEKO_SORTERING_TIDSINTERVALL_DATO);
+  const filtreringPåBelop = kriterier.find(kriterie => kriterie.kriterierType.kode === KriterierType.Feilutbetaling);
+  const filtreringPåDato = fomDato && tomDato;
+  const [valgtFiltrering, setValgtFiltrering] = useState<string[]>([]);
+
+  useEffect(() => {
+    setValgtFiltrering([]);
+    if (filtreringPåBelop?.inkluder) {
+      setValgtFiltrering(arr => [...arr, KriterierType.Feilutbetaling]);
+    } else if (filtreringPåDato) {
+      setValgtFiltrering(arr => [...arr, KoSortering.OPPRETT_BEHANDLING]);
+    }
+  }, [kriterier, fomDato, tomDato]);
+
+  const {startRequest: lagreOppgavekoSorteringTidsintervallDato} = useRestApiRunner(K9LosApiKeys.LAGRE_OPPGAVEKO_SORTERING_TIDSINTERVALL_DATO);
+  const {startRequest: lagreOppgavekoSorteringBelop} = useRestApiRunner(K9LosApiKeys.LAGRE_OPPGAVEKO_KRITERIER);
+
   const koSorteringer = useKodeverk<KoSorteringType>(kodeverkTyper.KO_SORTERING);
+  const koKriterier = useKodeverk<KoSorteringType>(kodeverkTyper.KO_KRITERIER);
+
   const alleKodeverk: AlleKodeverk = useGlobalStateRestApiData(RestApiGlobalStatePathsKeys.KODEVERK);
+
+  const lagreFilteringBelopp = (fraBelop: number, tilBelop: number, fjerneBelop?: boolean) => lagreOppgavekoSorteringBelop({
+    id: valgtOppgavekoId,
+    kriterierType: KriterierType.Feilutbetaling,
+    inkluder: fjerneBelop ? false : valgtFiltrering.includes(KriterierType.Feilutbetaling),
+    fom: fraBelop,
+    tom: tilBelop,
+  }).then(() => {
+    hentOppgaveko(valgtOppgavekoId)
+  });
+
+  const leggTilEllerFjerneFiltrering = (kode: string, checked: boolean) => {
+    const tmpValgtFiltrering = [...valgtFiltrering];
+    if (checked && !valgtFiltrering.includes(kode)) {
+      tmpValgtFiltrering.push(kode);
+    } else {
+      const indexSomSkalFjernes = tmpValgtFiltrering.indexOf(kode);
+      tmpValgtFiltrering.splice(indexSomSkalFjernes, 1);
+    }
+    setValgtFiltrering(tmpValgtFiltrering);
+  }
 
   return (
     <>
       <Normaltekst className={styles.label}>
-        <FormattedMessage id="SorteringVelger.Sortering" />
+        <FormattedMessage id="FiltreringsVelger.Filtrering"/>
       </Normaltekst>
-      <VerticalSpacer eightPx />
+      <VerticalSpacer eightPx/>
       <div>
-        <RadioGroupField
-          name="sortering"
-          direction="vertical"
-          onChange={(sorteringType) => lagreOppgavekoSortering({ id: valgtOppgavekoId, oppgavekoSorteringValg: sorteringType }).then(() => {
-            hentOppgaveko(valgtOppgavekoId);
-          })}
-        >
-          {koSorteringer.map((koSortering) => (
-            koSortering.kode !== 'FORSTONAD' && (
-            <RadioOption
+        {koSorteringer.map((koSortering) => (
+          koSortering.kode === 'OPPRBEH' && (
+            <Checkbox
               key={koSortering.kode}
               value={koSortering.kode}
-              label={getKodeverknavnFraKode(koSortering.kode, kodeverkTyper.KO_SORTERING, alleKodeverk)}
+              data-testid={`kriterie-${koSortering.kode}`}
+              checked={true}
+              onChange={(e) => leggTilEllerFjerneFiltrering(e.target.value, e.target.checked)}
             >
-              {(koSortering.felttype === 'DATO') && (
-              <DatoSorteringValg
-                intl={intl}
-                valgtOppgavekoId={valgtOppgavekoId}
-                hentOppgaveko={hentOppgaveko}
-                lagreOppgavekoSorteringTidsintervallDato={lagreOppgavekoSorteringTidsintervallDato}
-                fomDato={fomDato}
-                tomDato={tomDato}
-              />
+              {(koSortering.felttype === 'DATO') && (<>
+                  <span className={styles.kriterierTitel}>{getKodeverknavnFraKode(koSortering.kode, kodeverkTyper.KO_SORTERING, alleKodeverk)}</span>
+                  <DatoSorteringValg
+                    intl={intl}
+                    valgtOppgavekoId={valgtOppgavekoId}
+                    hentOppgaveko={hentOppgaveko}
+                    lagreOppgavekoSorteringTidsintervallDato={lagreOppgavekoSorteringTidsintervallDato}
+                    fomDato={fomDato}
+                    tomDato={tomDato}
+                  />
+                </>
               )}
-            </RadioOption>
-            )
+            </Checkbox>
+          )
           ))}
-        </RadioGroupField>
+
+        {/* Måten er under er måten som vi skal gå videre med kriterier i framtiden. TODO er att få utvidet backend, legge in mer på måten under og byta ut react final form som bruker over med formik. */}
+
+        {koKriterier.map((koKriterie) => ((
+            !!koKriterie.skalVises && (
+              <Checkbox
+                key={koKriterie.kode}
+                value={koKriterie.kode}
+                data-testid={`kriterie-${koKriterie.kode}`}
+                checked={valgtFiltrering.includes(koKriterie.kode)}
+                onChange={(e) => {
+                    leggTilEllerFjerneFiltrering(e.target.value, e.target.checked);
+                    if (!e.target.checked) {
+                      lagreFilteringBelopp(0, 0, true)
+                    }
+                  }
+                }
+              >
+                <span className={styles.kriterierTitel}>{getKodeverknavnFraKode(koKriterie.kode, kodeverkTyper.KO_KRITERIER, alleKodeverk)}</span>
+                {koKriterie.felttype === 'BELOP' && valgtFiltrering.includes(koKriterie.kode) && <BelopSorteringValg
+                  til={parseInt(filtreringPåBelop?.tom) || 0}
+                  fra={parseInt(filtreringPåBelop?.fom) || 0}
+                  lagreFilteringBelopp={lagreFilteringBelopp}
+                />}
+              </Checkbox>
+            )
+          )
+        ))}
       </div>
     </>
   );
