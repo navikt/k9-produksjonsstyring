@@ -5,9 +5,6 @@ import {Undertekst} from "nav-frontend-typografi";
 import {FormattedMessage} from "react-intl";
 import styles from './utvalgskriterierForOppgavekoForm.less';
 import {useFormik} from 'formik';
-import useRestApiRunner from "../../../../api/rest-api-hooks/src/local-data/useRestApiRunner";
-import {K9LosApiKeys} from "api/k9LosApi";
-import KriterierType from "../../../../types/KriterierType";
 
 const validate = values => {
   const errors: {
@@ -35,8 +32,10 @@ const BelopSorteringValg: React.FunctionComponent<OwnProps> = ({
   fra,
   lagreFilteringBelopp
 }) => {
+
   const formik = useFormik({
     initialValues: {fraBelop: fra || 0, tilBelop: til || 0},
+    enableReinitialize: true,
     onSubmit: values => lagreFilteringBelopp(values.fraBelop, values.tilBelop),
     validate
   })

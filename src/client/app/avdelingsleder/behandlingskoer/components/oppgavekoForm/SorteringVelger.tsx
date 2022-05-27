@@ -1,4 +1,4 @@
-import React, {FunctionComponent, useState} from 'react';
+import React, {FunctionComponent, useEffect, useState} from 'react';
 import {FormattedMessage, injectIntl, WrappedComponentProps} from 'react-intl';
 import {Normaltekst} from 'nav-frontend-typografi';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
@@ -40,44 +40,33 @@ const SorteringVelger: FunctionComponent<OwnProps & WrappedComponentProps> = ({
 }) => {
   const filtreringPåBelop = kriterier.find(kriterie => kriterie.kriterierType.kode === KriterierType.Feilutbetaling);
   const filtreringPåDato = fomDato && tomDato;
+  const [valgtFiltrering, setValgtFiltrering] = useState<string[]>([]);
 
-  let valgtFilter = [];
-
-  if (filtreringPåBelop?.inkluder) {
-    valgtFilter.push(KriterierType.Feilutbetaling);
-  } else if (filtreringPåDato) {
-    valgtFilter.push(KoSortering.OPPRETT_BEHANDLING);
-  }
-
-  const [valgtFiltrering, setValgtFiltrering] = useState<string[]>(valgtFilter);
+  useEffect(() => {
+    if (filtreringPåBelop?.inkluder) {
+      setValgtFiltrering(arr => [...arr, KriterierType.Feilutbetaling]);
+    } else if (filtreringPåDato) {
+      setValgtFiltrering(arr => [...arr, KoSortering.OPPRETT_BEHANDLING]);
+    }
+  }, [kriterier, fomDato, tomDato]);
 
   const {startRequest: lagreOppgavekoSorteringTidsintervallDato} = useRestApiRunner(K9LosApiKeys.LAGRE_OPPGAVEKO_SORTERING_TIDSINTERVALL_DATO);
   const {startRequest: lagreOppgavekoSorteringBelop} = useRestApiRunner(K9LosApiKeys.LAGRE_OPPGAVEKO_KRITERIER);
-
-  const lagreFilteringBelopp = (fraBelop: number, tilBelop: number) => lagreOppgavekoSorteringBelop({
-    id: valgtOppgavekoId,
-    kriterierType: KriterierType.Feilutbetaling,
-    inkluder: valgtFiltrering.includes(KriterierType.Feilutbetaling),
-    fom: fraBelop,
-    tom: tilBelop,
-  }).then(() => {
-    hentOppgaveko(valgtOppgavekoId)
-  });
-
-  const fjerneFiltreringsbelop = () => lagreOppgavekoSorteringBelop({
-    id: valgtOppgavekoId,
-    kriterierType: KriterierType.Feilutbetaling,
-    inkluder: false,
-    fom: 0,
-    tom: 0,
-  }).then(() => {
-    hentOppgaveko(valgtOppgavekoId)
-  });
 
   const koSorteringer = useKodeverk<KoSorteringType>(kodeverkTyper.KO_SORTERING);
   const koKriterier = useKodeverk<KoSorteringType>(kodeverkTyper.KO_KRITERIER);
 
   const alleKodeverk: AlleKodeverk = useGlobalStateRestApiData(RestApiGlobalStatePathsKeys.KODEVERK);
+
+  const lagreFilteringBelopp = (fraBelop: number, tilBelop: number, fjerneBelop?: boolean) => lagreOppgavekoSorteringBelop({
+    id: valgtOppgavekoId,
+    kriterierType: KriterierType.Feilutbetaling,
+    inkluder: fjerneBelop ? false : valgtFiltrering.includes(KriterierType.Feilutbetaling),
+    fom: fraBelop,
+    tom: tilBelop,
+  }).then(() => {
+    hentOppgaveko(valgtOppgavekoId)
+  });
 
   const leggTilEllerFjerneFiltrering = (kode: string, checked: boolean) => {
     const tmpValgtFiltrering = [...valgtFiltrering];
@@ -134,7 +123,7 @@ const SorteringVelger: FunctionComponent<OwnProps & WrappedComponentProps> = ({
                 onChange={(e) => {
                     leggTilEllerFjerneFiltrering(e.target.value, e.target.checked);
                     if (!e.target.checked) {
-                      fjerneFiltreringsbelop()
+                      lagreFilteringBelopp(0, 0, true)
                     }
                   }
                 }
