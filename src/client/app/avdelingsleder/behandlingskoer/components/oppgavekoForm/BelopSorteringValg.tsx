@@ -14,7 +14,7 @@ const validate = values => {
 
   if (!values.tilBelop) {
     errors.tilBelop = 'Til må ikke være tom.';
-  } else if (values.tilBelop < values.fraBelop) {
+  } else if (values.tilBelop < values.fraBelop && values.tilBelop !== 0) {
     errors.tilBelop = 'Til må være større enn fra.';
   }
 
