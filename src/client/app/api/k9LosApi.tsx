@@ -39,7 +39,6 @@ export enum K9LosApiKeys {
   LAGRE_OPPGAVEKO_FAGSAK_YTELSE_TYPE = 'LAGRE_OPPGAVEKO_FAGSAK_YTELSE_TYPE',
   LAGRE_OPPGAVEKO_ANDRE_KRITERIER = 'LAGRE_OPPGAVEKO_ANDRE_KRITERIER',
   LAGRE_OPPGAVEKO_SORTERING = 'LAGRE_OPPGAVEKO_SORTERING',
-  LAGRE_OPPGAVEKO_KRITERIER = 'LAGRE_OPPGAVEKO_KRITERIER',
   LAGRE_OPPGAVEKO_SKJERMET = 'LAGRE_OPPGAVEKO_SKJERMET',
   LAGRE_OPPGAVEKO_SORTERING_DYNAMISK_PERIDE = 'LAGRE_OPPGAVEKO_SORTERING_DYNAMISK_PERIDE',
   LAGRE_OPPGAVEKO_SORTERING_TIDSINTERVALL_DAGER = 'LAGRE_OPPGAVEKO_SORTERING_TIDSINTERVALL_DAGER',
@@ -126,7 +125,6 @@ export const endpoints = new RestApiConfigBuilder(CONTEXT_PATH)
   .withPost('/avdelingsleder/oppgavekoer/ytelsetype', K9LosApiKeys.LAGRE_OPPGAVEKO_FAGSAK_YTELSE_TYPE)
   .withPost('/avdelingsleder/oppgavekoer/andre-kriterier', K9LosApiKeys.LAGRE_OPPGAVEKO_ANDRE_KRITERIER)
   .withPost('/avdelingsleder/oppgavekoer/sortering', K9LosApiKeys.LAGRE_OPPGAVEKO_SORTERING)
-  .withPost('/avdelingsleder/oppgavekoer/kriterier', K9LosApiKeys.LAGRE_OPPGAVEKO_KRITERIER)
   .withPost('/avdelingsleder/oppgavekoer/skjermet', K9LosApiKeys.LAGRE_OPPGAVEKO_SKJERMET)
   .withPost('/avdelingsleder/oppgavekoer/sortering-tidsintervall-type', K9LosApiKeys.LAGRE_OPPGAVEKO_SORTERING_DYNAMISK_PERIDE)
   .withPost('/avdelingsleder/oppgavekoer/sortering-tidsintervall-dager', K9LosApiKeys.LAGRE_OPPGAVEKO_SORTERING_TIDSINTERVALL_DAGER)
