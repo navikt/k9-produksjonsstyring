@@ -14,7 +14,6 @@
   "AvdelingslederIndex.Nokkeltall": "Nøkkeltall",
   "AvdelingslederIndex.Prognose": "Prognose",
   "AvdelingslederIndex.Reservasjoner": "Reservasjoner",
-  "AdminIndex.Driftsmeldinger": "Driftsmeldinger",
 
   "BehandlingPollingTimoutModal.TimeoutMelding": "Din økt er gått ut på tid, trykk Fortsett",
   "BehandlingPollingTimoutModal.Oppfrisk": "Fortsett",
@@ -321,8 +320,6 @@
   "SorteringVelger.Bindestrek": "-",
   "SorteringVelger.Dager": "dager frem",
   "SorteringVelger.DynamiskPeriode": "Dynamisk periode",
-  "SorteringVelger.FiltrerPaHeltall": "Ta kun med behandlinger mellom",
-  "SorteringVelger.Valuta": "kr",
   "SorteringVelger.Fra": "Fra",
   "SorteringVelger.Til": "Til",
 
@@ -334,7 +331,6 @@
   "TilBehandlingPanel.TilBehandling": "Antall til behandling",
   "Historikk.ToSisteUker": "2 siste uker",
   "Historikk.FireSisteUker": "4 siste uker",
-
 
   "BehandlingerGårAvVent.Tittel": "Behandlinger som går av vent",
   "BehandlingerGårAvVent.Hjelptekst": "Grafen viser en prognose av antall behandlinger som går av vent frem i tid.",
@@ -369,6 +365,9 @@
   "UtvalgskriterierForOppgavekoForm.OmKoen": "Om køen",
   "UtvalgskriterierForOppgavekoForm.Kriterier": "Andre kriterier",
   "UtvalgskriterierForOppgavekoForm.Saksbehandlere": "Saksbehandlere",
+  "UtvalgskriterierForOppgavekoForm.Merknader": "Merknader",
+
+  "Merknad.HASTESAK": "Hastesak",
 
   "ValidationMessage.NotEmpty": "Feltet må fylles ut",
   "ValidationMessage.MinLength": "Du må skrive minst {length} tegn",

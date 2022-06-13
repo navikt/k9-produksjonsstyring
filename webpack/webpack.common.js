@@ -104,6 +104,7 @@ const config = {
       images: path.join(ROOT_DIR, 'images'),
       testHelpers: path.join(ROOT_DIR, 'testHelpers'),
       app: path.join(APP_DIR, 'app'),
+      types: path.join(APP_DIR, 'types'),
       navAnsatt: path.join(APP_DIR, 'navAnsatt'),
       form: path.join(APP_DIR, 'form'),
       saksbehandler: path.join(APP_DIR, 'saksbehandler'),
