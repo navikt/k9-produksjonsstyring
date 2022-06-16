@@ -18,19 +18,23 @@ interface OwnProps {
 }
 
 const MerknadVelger: FunctionComponent<OwnProps> = ({ valgtOppgavekoId, values, hentOppgaveko }) => {
-  const merknadTyper = useKodeverk(kodeverkTyper.MERKNAD_TYPE);
+  const merknadsTyper = useKodeverk(kodeverkTyper.MERKNAD_TYPE);
   const { startRequest: lagreOppgavekoMerknader } = useRestApiRunner(K9LosApiKeys.LAGRE_OPPGAVEKO_KRITERIER);
 
   const merknadValues = values['kriterier'].filter(
     (kriterier: Kriterie) => kriterier.kriterierType.felttypeKodeverk === kodeverkTyper.MERKNAD_TYPE,
   );
   const aktiveMerknader = merknadValues[0]?.koder || [];
+
+  if (!merknadsTyper || merknadsTyper?.length === 0) {
+    return null;
+  }
   return (
     <>
       <Label size="small" style={{ color: '#262626' }}>
         <FormattedMessage id="UtvalgskriterierForOppgavekoForm.Merknader" />
       </Label>
-      {merknadTyper.map(merknad => (
+      {merknadsTyper.map(merknad => (
         <Fragment key={merknad.kode}>
           <VerticalSpacer fourPx />
           <CheckboxField
