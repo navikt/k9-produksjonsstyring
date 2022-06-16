@@ -18,12 +18,11 @@ interface OwnProps {
 }
 
 const MerknadVelger: FunctionComponent<OwnProps> = ({ valgtOppgavekoId, values, hentOppgaveko }) => {
-  const merknadTyper: string[] = useKodeverk(kodeverkTyper.MERKNAD_TYPE);
+  const merknadTyper = useKodeverk(kodeverkTyper.MERKNAD_TYPE);
   const { startRequest: lagreOppgavekoMerknader } = useRestApiRunner(K9LosApiKeys.LAGRE_OPPGAVEKO_KRITERIER);
-  const intl = useIntl();
 
   const merknadValues = values['kriterier'].filter(
-    (kriterier: Kriterie) => kriterier.kriterierType.kode === KriterierType.MerknadType,
+    (kriterier: Kriterie) => kriterier.kriterierType.felttypeKodeverk === kodeverkTyper.MERKNAD_TYPE,
   );
   const aktiveMerknader = merknadValues[0]?.koder || [];
   return (
@@ -32,20 +31,20 @@ const MerknadVelger: FunctionComponent<OwnProps> = ({ valgtOppgavekoId, values, 
         <FormattedMessage id="UtvalgskriterierForOppgavekoForm.Merknader" />
       </Label>
       {merknadTyper.map(merknad => (
-        <Fragment key={merknad}>
+        <Fragment key={merknad.kode}>
           <VerticalSpacer fourPx />
           <CheckboxField
-            key={merknad}
-            name={merknad}
-            label={intl.formatMessage({ id: `Merknad.${merknad}` })}
-            checked={aktiveMerknader.includes(merknad)}
+            key={merknad.kode}
+            name={merknad.kode}
+            label={merknad.navn}
+            checked={aktiveMerknader.includes(merknad.kode)}
             onChange={isChecked =>
               lagreOppgavekoMerknader({
                 id: valgtOppgavekoId,
                 kriterierType: KriterierType.MerknadType,
                 koder: isChecked
-                  ? [...aktiveMerknader, merknad]
-                  : aktiveMerknader.filter(aktivMerknad => aktivMerknad !== merknad),
+                  ? [...aktiveMerknader, merknad.kode]
+                  : aktiveMerknader.filter(aktivMerknad => aktivMerknad !== merknad.kode),
               }).then(() => {
                 hentOppgaveko(valgtOppgavekoId);
               })
