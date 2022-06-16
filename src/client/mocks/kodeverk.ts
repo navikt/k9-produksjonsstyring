@@ -319,7 +319,6 @@ const kodeverk = {
       navn: 'Merknad type',
       felttype: 'KODEVERK',
       felttypeKodeverk: 'MerknadType',
-      skalVises: true,
       kodeverk: 'KØ_KRITERIER_TYPE',
     },
   ],

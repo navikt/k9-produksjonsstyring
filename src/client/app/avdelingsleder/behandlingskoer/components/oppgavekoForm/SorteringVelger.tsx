@@ -53,7 +53,7 @@ const SorteringVelger: FunctionComponent<OwnProps & WrappedComponentProps> = ({
   const { startRequest: lagreOppgavekoSorteringTidsintervallDato } = useRestApiRunner(
     K9LosApiKeys.LAGRE_OPPGAVEKO_SORTERING_TIDSINTERVALL_DATO,
   );
-  const { startRequest: lagreOppgavekoSorteringBelop } = useRestApiRunner(K9LosApiKeys.LAGRE_OPPGAVEKO_KRITERIER);
+  const { startRequest: lagreOppgavekoKriterie } = useRestApiRunner(K9LosApiKeys.LAGRE_OPPGAVEKO_KRITERIER);
 
   const koSorteringer = useKodeverk<KoSorteringType>(kodeverkTyper.KO_SORTERING);
   const koKriterier = useKodeverk<KoSorteringType>(kodeverkTyper.KO_KRITERIER);
@@ -61,7 +61,7 @@ const SorteringVelger: FunctionComponent<OwnProps & WrappedComponentProps> = ({
   const alleKodeverk: AlleKodeverk = useGlobalStateRestApiData(RestApiGlobalStatePathsKeys.KODEVERK);
 
   const lagreFilteringBelopp = (fraBelop: number, tilBelop: number, fjerneBelop?: boolean) =>
-    lagreOppgavekoSorteringBelop({
+    lagreOppgavekoKriterie({
       id: valgtOppgavekoId,
       kriterierType: KriterierType.Feilutbetaling,
       checked: fjerneBelop ? false : valgtFiltrering.includes(KriterierType.Feilutbetaling),
