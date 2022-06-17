@@ -1,10 +1,11 @@
+import { stringifyUrl } from 'query-string';
 import { formatQueryString, parseQueryString } from 'utils/urlUtils';
 
 import { Location } from './locationTsType';
 
 export const AVDELINGSLEDER_PATH = 'avdelingsleder';
 
-const emptyQueryString = (queryString) => queryString === '?' || !queryString;
+const emptyQueryString = queryString => queryString === '?' || !queryString;
 
 const updateQueryParams = (queryString, nextParams) => {
   const prevParams = emptyQueryString(queryString) ? {} : parseQueryString(queryString);
@@ -14,27 +15,37 @@ const updateQueryParams = (queryString, nextParams) => {
   });
 };
 
-const getLocationWithQueryParams = (location, queryParams) => ({ ...location, search: updateQueryParams(location.search, queryParams) });
+const getLocationWithQueryParams = (location, queryParams) => ({
+  ...location,
+  search: updateQueryParams(location.search, queryParams),
+});
 
-export const getPanelLocationCreator = (location: Location) => (avdelingslederPanel: string) => getLocationWithQueryParams(
-  location, { fane: avdelingslederPanel },
-);
-export const getPanelLocationCreatorDriftsmeldinger = (location: Location) => (adminPanel: string) => getLocationWithQueryParams(
-  location, { fane: adminPanel },
-);
+export const getPanelLocationCreator = (location: Location) => (avdelingslederPanel: string) =>
+  getLocationWithQueryParams(location, { fane: avdelingslederPanel });
+export const getPanelLocationCreatorDriftsmeldinger = (location: Location) => (adminPanel: string) =>
+  getLocationWithQueryParams(location, { fane: adminPanel });
 
-export const getK9sakHref = (k9sakUrl: string, saksnummer: string, behandlingId?: number) => (behandlingId
-  ? `${k9sakUrl}/fagsak/${saksnummer}/behandling/${behandlingId}/?punkt=default&fakta=default`
-  : `${k9sakUrl}/fagsak/${saksnummer}/`);
+export const getK9sakHref = (k9sakUrl: string, saksnummer: string, behandlingId?: number, harMerknad?: boolean) => {
+  const reducer = (previousValue, param) => (param.include ? { ...previousValue, ...param.query } : previousValue);
+  const queryParams = [
+    { include: behandlingId, query: { fakta: 'default' } },
+    { include: behandlingId, query: { punkt: 'default' } },
+    { include: harMerknad, query: { harMerknad: true } },
+  ].reduce(reducer, {});
 
-export const getK9tilbakeHref = (k9tilbakeUrl: string, saksnummer: string, eksternId?: string) => (eksternId
-  ? `${k9tilbakeUrl}/tilbake/${saksnummer}/behandling/${eksternId}/?punkt=default&fakta=default`
-  : `${k9tilbakeUrl}/tilbake/${saksnummer}`);
+  if (behandlingId) {
+    return stringifyUrl({ url: `${k9sakUrl}/fagsak/${saksnummer}/behandling/${behandlingId}/`, query: queryParams });
+  }
 
-export const getK9punsjRef = (k9punsjUrl: string, journalpostId: string) => (
-  `${k9punsjUrl}/${journalpostId}`
-);
+  return `${k9sakUrl}/fagsak/${saksnummer}/`;
+};
 
-export const getOmsorgspengerRef = (omsorgspengerUrl: string, saksnummer: string) => (
-  `${omsorgspengerUrl}/sak/${saksnummer}`
-);
+export const getK9tilbakeHref = (k9tilbakeUrl: string, saksnummer: string, eksternId?: string) =>
+  eksternId
+    ? `${k9tilbakeUrl}/tilbake/${saksnummer}/behandling/${eksternId}/?punkt=default&fakta=default`
+    : `${k9tilbakeUrl}/tilbake/${saksnummer}`;
+
+export const getK9punsjRef = (k9punsjUrl: string, journalpostId: string) => `${k9punsjUrl}/${journalpostId}`;
+
+export const getOmsorgspengerRef = (omsorgspengerUrl: string, saksnummer: string) =>
+  `${omsorgspengerUrl}/sak/${saksnummer}`;

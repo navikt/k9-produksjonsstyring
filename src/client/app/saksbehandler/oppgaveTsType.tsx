@@ -6,6 +6,7 @@ type Oppgave = {
   behandlingId: number;
   journalpostId: string;
   personnummer: string;
+  harMerknad: boolean;
   navn: string;
   system: string;
   behandlingstype: string;
