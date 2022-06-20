@@ -92,16 +92,16 @@ const BehandlingskoerIndex: FunctionComponent<OwnProps & WrappedComponentProps> 
         window.location.assign(getK9punsjRef(k9punsjUrl, oppgave.journalpostId));
         break;
       case OppgaveSystem.K9SAK:
-        window.location.assign(getK9sakHref(k9sakUrl, oppgave.saksnummer, oppgave.behandlingId, oppgave.harMerknad));
+        window.location.assign(getK9sakHref(k9sakUrl, oppgave.saksnummer, oppgave.behandlingId, !!oppgave.merknad));
         break;
       case OppgaveSystem.K9TILBAKE:
-        window.location.assign(getK9sakHref(k9sakUrl, oppgave.saksnummer, oppgave.behandlingId, oppgave.harMerknad));
+        window.location.assign(getK9sakHref(k9sakUrl, oppgave.saksnummer, oppgave.behandlingId, !!oppgave.merknad));
         break;
       case OppgaveSystem.OMSORGSPENGER:
         window.location.assign(getOmsorgspengerRef(omsorgspengerUrl, oppgave.saksnummer));
         break;
       default:
-        window.location.assign(getK9sakHref(k9sakUrl, oppgave.saksnummer, oppgave.behandlingId, oppgave.harMerknad));
+        window.location.assign(getK9sakHref(k9sakUrl, oppgave.saksnummer, oppgave.behandlingId, !!oppgave.merknad));
     }
   };
 

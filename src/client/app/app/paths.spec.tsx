@@ -11,7 +11,9 @@ describe('paths', () => {
     expect(getK9sakHref(k9SakUrl, saksnummer, behandlingId)).toContain(fagsak);
     expect(getK9sakHref(k9SakUrl, saksnummer, behandlingId)).toContain('punkt=default');
     expect(getK9sakHref(k9SakUrl, saksnummer, behandlingId)).toContain('fakta=default');
-    expect(getK9sakHref(k9SakUrl, saksnummer, behandlingId, false)).not.toContain('harMerknad=true');
-    expect(getK9sakHref(k9SakUrl, saksnummer, behandlingId, true)).toContain('harMerknad=true');
+    expect(getK9sakHref(k9SakUrl, saksnummer, behandlingId, null)).not.toContain('harMerknad=true');
+    expect(
+      getK9sakHref(k9SakUrl, saksnummer, behandlingId, !!{ merknadKoder: ['HASTESAK'], fritekst: 'blabbedibla' }),
+    ).toContain('harMerknad=true');
   });
 });
