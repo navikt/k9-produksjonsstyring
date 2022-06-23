@@ -4,14 +4,16 @@ import { Element, Undertittel } from 'nav-frontend-typografi';
 import { Oppgaveko } from 'saksbehandler/behandlingskoer/oppgavekoTsType';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import Oppgave from 'saksbehandler/oppgaveTsType';
-import { getValueFromLocalStorage, removeValueFromLocalStorage, setValueInLocalStorage } from 'utils/localStorageHelper';
-import { useRestApiRunner } from 'api/rest-api-hooks';
+import {
+  getValueFromLocalStorage,
+  removeValueFromLocalStorage,
+  setValueInLocalStorage,
+} from 'utils/localStorageHelper';
+import { useKodeverk, useRestApiRunner } from 'api/rest-api-hooks';
 import { K9LosApiKeys } from 'api/k9LosApi';
-import ReserverteOppgaverTabell
-  from 'saksbehandler/behandlingskoer/components/oppgavetabeller/ReserverteOppgaverTabell';
+import ReserverteOppgaverTabell from 'saksbehandler/behandlingskoer/components/oppgavetabeller/ReserverteOppgaverTabell';
 import NavFrontendChevron from 'nav-frontend-chevron';
-import OppgaveTabellMenyAntallOppgaver
-  from 'saksbehandler/behandlingskoer/components/oppgavetabeller/OppgaveTabellMenyAntallOppgaver';
+import OppgaveTabellMenyAntallOppgaver from 'saksbehandler/behandlingskoer/components/oppgavetabeller/OppgaveTabellMenyAntallOppgaver';
 import ModalMedIkon from 'sharedComponents/modal/ModalMedIkon';
 import OppgavekoVelgerForm from './OppgavekoVelgerForm';
 import OppgaverTabell from './oppgavetabeller/OppgaverTabell';
@@ -19,6 +21,7 @@ import OppgaverTabell from './oppgavetabeller/OppgaverTabell';
 import styles from './oppgavekoPanel.less';
 import RestApiState from '../../../api/rest-api-hooks/src/RestApiState';
 import advarselImageUrl from '../../../../images/advarsel.svg';
+import kodeverkTyper from 'kodeverk/kodeverkTyper';
 
 interface OwnProps {
   setValgtOppgavekoId: (id: string) => void;
@@ -46,33 +49,44 @@ const OppgavekoPanel: FunctionComponent<OwnProps> = ({
 }) => {
   const [visBehandlingerIKo, setVisBehandlingerIKo] = useState<boolean>(false);
   const [visReservasjoneriKo, setVisReservasjonerIKO] = useState<boolean>(true);
+  const [visHastesakReservasjoner, setVisHastesakReservasjoner] = useState<boolean>(true);
   const [visFinnesIngenBehandlingerIKoModal, setVisFinnesIngenBehandlingerIKoModal] = useState<boolean>(false);
   const {
-    startRequest: fåOppgaveFraKo, state: restApiState, error: restApiError, resetRequestData,
+    startRequest: fåOppgaveFraKo,
+    state: restApiState,
+    error: restApiError,
+    resetRequestData,
   } = useRestApiRunner<Oppgave>(K9LosApiKeys.FÅ_OPPGAVE_FRA_KO);
+  const merknadstyper = useKodeverk(kodeverkTyper.MERKNAD_TYPE);
 
-  const valgtKo = oppgavekoer.find((ko) => ko.id === valgtOppgavekoId);
+  const valgtKo = oppgavekoer.find(ko => ko.id === valgtOppgavekoId);
 
   useEffect(() => {
-    if (restApiState && restApiState === RestApiState.ERROR && restApiError && restApiError.toString().includes('404')) {
+    if (
+      restApiState &&
+      restApiState === RestApiState.ERROR &&
+      restApiError &&
+      restApiError.toString().includes('404')
+    ) {
       setVisFinnesIngenBehandlingerIKoModal(true);
       resetRequestData();
     }
   }, [restApiState, restApiError]);
 
   const plukkNyOppgave = () => {
-    fåOppgaveFraKo({ oppgaveKøId: valgtOppgavekoId }).then((reservertOppgave) => {
+    fåOppgaveFraKo({ oppgaveKøId: valgtOppgavekoId }).then(reservertOppgave => {
       resetRequestData();
       apneOppgave(reservertOppgave);
     });
   };
 
   const sorterteOppgavekoerIBokstavsordning = oppgavekoer.sort((a, b) => a.navn.localeCompare(b.navn));
-
   return (
     <>
       <div className={styles.container}>
-        <Undertittel><FormattedMessage id="OppgavekoPanel.StartBehandling" /></Undertittel>
+        <Undertittel>
+          <FormattedMessage id="OppgavekoPanel.StartBehandling" />
+        </Undertittel>
         <VerticalSpacer sixteenPx />
         <OppgavekoVelgerForm
           oppgavekoer={sorterteOppgavekoerIBokstavsordning}
@@ -82,18 +96,51 @@ const OppgavekoPanel: FunctionComponent<OwnProps> = ({
           removeValueFromLocalStorage={removeValueFromLocalStorage}
           plukkNyOppgave={plukkNyOppgave}
           erRestApiKallLoading={restApiState === RestApiState.LOADING}
-
         />
         <VerticalSpacer twentyPx />
 
         <div className={styles.behandlingskoerContainer}>
-          <button type="button" className={styles.behandlingskoerKnapp} onClick={() => setVisReservasjonerIKO(!visReservasjoneriKo)}>
-            <NavFrontendChevron type={visReservasjoneriKo ? 'ned' : 'høyre'} />
-            <Element><FormattedMessage id="OppgaverTabell.ReserverteOppgaver" /></Element>
-            <OppgaveTabellMenyAntallOppgaver antallOppgaver={reserverteOppgaver.length} tekstId="OppgaverTabell.ReserverteOppgaverAntall" />
+          <button
+            type="button"
+            className={styles.behandlingskoerKnapp}
+            onClick={() => setVisHastesakReservasjoner(!visHastesakReservasjoner)}
+          >
+            <NavFrontendChevron type={visHastesakReservasjoner ? 'ned' : 'høyre'} />
+            <Element style={{ marginRight: '0.825rem' }}>
+              <FormattedMessage id="OppgaverTabell.ReserverteHastesaker" />
+            </Element>
+            <OppgaveTabellMenyAntallOppgaver
+              antallOppgaver={
+                reserverteOppgaver.filter(oppgave => oppgave.merknad?.merknader?.includes('HASTESAK')).length
+              }
+              tekstId="OppgaverTabell.ReserverteHastesakerAntall"
+              hastesak
+            />
           </button>
-          {visReservasjoneriKo
-          && (
+          {visHastesakReservasjoner && (
+            <ReserverteOppgaverTabell
+              hastesaker
+              apneOppgave={apneOppgave}
+              requestFinished={requestFinished}
+              reserverteOppgaver={reserverteOppgaver.filter(oppgave => oppgave.merknad)}
+              hentReserverteOppgaver={hentReserverteOppgaver}
+            />
+          )}
+          <button
+            type="button"
+            className={styles.behandlingskoerKnapp}
+            onClick={() => setVisReservasjonerIKO(!visReservasjoneriKo)}
+          >
+            <NavFrontendChevron type={visReservasjoneriKo ? 'ned' : 'høyre'} />
+            <Element>
+              <FormattedMessage id="OppgaverTabell.ReserverteOppgaver" />
+            </Element>
+            <OppgaveTabellMenyAntallOppgaver
+              antallOppgaver={reserverteOppgaver.length}
+              tekstId="OppgaverTabell.ReserverteOppgaverAntall"
+            />
+          </button>
+          {visReservasjoneriKo && (
             <ReserverteOppgaverTabell
               apneOppgave={apneOppgave}
               requestFinished={requestFinished}
@@ -104,8 +151,7 @@ const OppgavekoPanel: FunctionComponent<OwnProps> = ({
         </div>
         <VerticalSpacer eightPx />
 
-        {visFinnesIngenBehandlingerIKoModal
-          && (
+        {visFinnesIngenBehandlingerIKoModal && (
           <ModalMedIkon
             cancel={() => setVisFinnesIngenBehandlingerIKoModal(false)}
             tekst={{
@@ -115,17 +161,22 @@ const OppgavekoPanel: FunctionComponent<OwnProps> = ({
             ikonUrl={advarselImageUrl}
             ikonAlt="Varseltrekant"
           />
-          )}
+        )}
 
         {visReservasjoneriKo && <VerticalSpacer thirtyTwoPx />}
         <div className={styles.behandlingskoerContainer}>
-          <button type="button" className={styles.behandlingskoerKnapp} onClick={() => setVisBehandlingerIKo(!visBehandlingerIKo)}>
+          <button
+            type="button"
+            className={styles.behandlingskoerKnapp}
+            onClick={() => setVisBehandlingerIKo(!visBehandlingerIKo)}
+          >
             <NavFrontendChevron type={visBehandlingerIKo ? 'ned' : 'høyre'} />
-            <Element><FormattedMessage id="OppgaverTabell.DineNesteSaker" /></Element>
+            <Element>
+              <FormattedMessage id="OppgaverTabell.DineNesteSaker" />
+            </Element>
           </button>
 
-          {visBehandlingerIKo
-          && (
+          {visBehandlingerIKo && (
             <OppgaverTabell
               valgtKo={valgtKo}
               valgtOppgavekoId={valgtOppgavekoId}

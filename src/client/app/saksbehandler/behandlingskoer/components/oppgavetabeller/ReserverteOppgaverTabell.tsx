@@ -1,6 +1,8 @@
-import React, { FunctionComponent, ReactNode, useCallback, useEffect, useRef, useState } from 'react';
+import React, { FunctionComponent, useCallback, useEffect, useRef, useState } from 'react';
 import { FormattedMessage, injectIntl, useIntl, WrappedComponentProps } from 'react-intl';
+import classNames from 'classnames';
 import { Normaltekst } from 'nav-frontend-typografi';
+import { WarningColored } from '@navikt/ds-icons';
 
 import { getDateAndTime } from 'utils/dateUtils';
 import Image from 'sharedComponents/Image';
@@ -11,8 +13,6 @@ import TableColumn from 'sharedComponents/TableColumn';
 import DateLabel from 'sharedComponents/DateLabel';
 import menuIconBlueUrl from 'images/ic-menu-18px_blue.svg';
 import menuIconBlackUrl from 'images/ic-menu-18px_black.svg';
-import bubbletextUrl from 'images/bubbletext.svg';
-import bubbletextFilledUrl from 'images/bubbletext_filled.svg';
 
 import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
 import NavFrontendSpinner from 'nav-frontend-spinner';
@@ -23,7 +23,6 @@ import {
   getHeaderCodes,
   hentIDFraSak,
 } from 'saksbehandler/behandlingskoer/components/oppgavetabeller/oppgavetabellerfelles';
-import { OppgaveStatus } from 'saksbehandler/oppgaveStatusTsType';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
 import AlleKodeverk from 'kodeverk/alleKodeverkTsType';
@@ -31,12 +30,14 @@ import { useGlobalStateRestApiData } from 'api/rest-api-hooks';
 import { getKodeverknavnFraKode } from 'utils/kodeverkUtils';
 import OppgaveHandlingerMenu from '../menu/OppgaveHandlingerMenu';
 import styles from './oppgaverTabell.less';
+import KommentarMedMerknad from 'saksbehandler/components/KommentarMedMerknad';
 
 interface OwnProps {
   apneOppgave: (oppgave: Oppgave) => void;
   reserverteOppgaver: Oppgave[];
   hentReserverteOppgaver: () => void;
   requestFinished: boolean;
+  hastesaker?: boolean;
 }
 
 const ReserverteOppgaverTabell: FunctionComponent<OwnProps & WrappedComponentProps> = ({
@@ -44,6 +45,7 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps & WrappedComponentPro
   reserverteOppgaver,
   hentReserverteOppgaver,
   requestFinished,
+  hastesaker,
 }) => {
   const intl = useIntl();
   const [showMenu, setShowMenu] = useState(false);
@@ -126,27 +128,6 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps & WrappedComponentPro
     [ref.current, showMenu],
   );
 
-  const createTooltip = useCallback((oppgaveStatus: OppgaveStatus): ReactNode | undefined => {
-    const { flyttetReservasjon } = oppgaveStatus;
-    if (!flyttetReservasjon) {
-      return undefined;
-    }
-    const datoOgTid = getDateAndTime(flyttetReservasjon.tidspunkt);
-    const textValues = {
-      dato: datoOgTid.date,
-      tid: datoOgTid.time,
-      uid: flyttetReservasjon.uid,
-      navn: flyttetReservasjon.navn,
-      beskrivelse: flyttetReservasjon.begrunnelse,
-      br: <br />,
-    };
-    return (
-      <Normaltekst>
-        <FormattedMessage id="OppgaverTabell.OverfortReservasjonTooltip" values={textValues} />
-      </Normaltekst>
-    );
-  }, []);
-
   const valgtOppgave = reserverteOppgaverState.find(o => o.eksternId === valgtOppgaveId);
 
   return (
@@ -166,16 +147,23 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps & WrappedComponentPro
 
       {reserverteOppgaverState.length > 0 && requestFinishedState && (
         <>
-          <Table headerTextCodes={getHeaderCodes(true)}>
+          <Table headerTextCodes={getHeaderCodes(true, hastesaker).filter(Boolean)}>
             {reserverteOppgaverState.map(oppgave => (
               <TableRow
                 key={oppgave.eksternId}
                 onMouseDown={goToFagsak}
                 onKeyDown={goToFagsak}
-                className={styles.isUnderBehandling}
+                className={classNames(styles.isUnderBehandling, { [styles.hastesak]: hastesaker })}
                 model={oppgave}
               >
-                <TableColumn>{oppgave.navn ? `${oppgave.navn} ${oppgave.personnummer}` : '<navn>'}</TableColumn>
+                {hastesaker && (
+                  <TableColumn>
+                    <WarningColored className={styles.hastesakIkon} />
+                  </TableColumn>
+                )}
+                <TableColumn className={hastesaker ? '' : styles.soekerPadding}>
+                  {oppgave.navn ? `${oppgave.navn} ${oppgave.personnummer}` : '<navn>'}
+                </TableColumn>
                 <TableColumn>{hentIDFraSak(oppgave, alleKodeverk)}</TableColumn>
                 <TableColumn>
                   {getKodeverknavnFraKode(oppgave.behandlingstype, kodeverkTyper.BEHANDLING_TYPE, alleKodeverk)}
@@ -183,17 +171,6 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps & WrappedComponentPro
                 <TableColumn>
                   {oppgave.opprettetTidspunkt && <DateLabel dateString={oppgave.opprettetTidspunkt} />}
                 </TableColumn>
-                <TableColumn>
-                  {oppgave.status.flyttetReservasjon && (
-                    <Image
-                      src={bubbletextUrl}
-                      srcHover={bubbletextFilledUrl}
-                      alt={intl.formatMessage({ id: 'OppgaverTabell.OverfortReservasjon' })}
-                      tooltip={createTooltip(oppgave.status)}
-                    />
-                  )}
-                </TableColumn>
-
                 <TableColumn className={styles.reservertTil}>
                   <FormattedMessage
                     id="OppgaveHandlingerMenu.ReservertTil"
@@ -203,7 +180,9 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps & WrappedComponentPro
                     }}
                   />
                 </TableColumn>
-
+                <TableColumn>
+                  <KommentarMedMerknad oppgave={oppgave} />
+                </TableColumn>
                 <TableColumn className={styles.noPadding}>
                   <div
                     ref={el => {

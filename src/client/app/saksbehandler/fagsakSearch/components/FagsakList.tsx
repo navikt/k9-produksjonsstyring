@@ -12,18 +12,22 @@ import NavAnsatt from 'app/navAnsattTsType';
 import { RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
 import { getYearFromString } from 'utils/dateUtils';
 import ModalMedIkon from 'sharedComponents/modal/ModalMedIkon';
-import styles from './fagsakList.less';
 import OppgaveSystem from '../../../types/OppgaveSystem';
-import {getKodeverknavnFraKode} from "utils/kodeverkUtils";
-import AlleKodeverk from "kodeverk/alleKodeverkTsType";
-import kodeverkTyper from "kodeverk/kodeverkTyper";
+import { getKodeverknavnFraKode } from 'utils/kodeverkUtils';
+import AlleKodeverk from 'kodeverk/alleKodeverkTsType';
+import kodeverkTyper from 'kodeverk/kodeverkTyper';
+import { WarningColored } from '@navikt/ds-icons';
+import styles from './fagsakList.less';
+import KommentarMedMerknad from 'saksbehandler/components/KommentarMedMerknad';
 
 const headerTextCodes = [
+  'EMPTY_1',
   'FagsakList.Saksnummer',
   'FagsakList.Navn',
   'FagsakList.Stonadstype',
   'FagsakList.Status',
-  'EMPTY_1',
+  'EMPTY_2',
+  'EMPTY_3'
 ];
 
 interface OwnProps {
@@ -57,12 +61,14 @@ const FagsakList: FunctionComponent<OwnProps> = ({
     }
     setValgtOppgave(oppgave);
 
-    if (oppgave.erTilSaksbehandling
-      && !oppgave.status.erReservert
-      && !oppgave.status.erReservertAvInnloggetBruker
-      && (oppgave.system === OppgaveSystem.K9SAK
-        || oppgave.system === OppgaveSystem.PUNSJ
-        || oppgave.system === OppgaveSystem.K9TILBAKE)) {
+    if (
+      oppgave.erTilSaksbehandling &&
+      !oppgave.status.erReservert &&
+      !oppgave.status.erReservertAvInnloggetBruker &&
+      (oppgave.system === OppgaveSystem.K9SAK ||
+        oppgave.system === OppgaveSystem.PUNSJ ||
+        oppgave.system === OppgaveSystem.K9TILBAKE)
+    ) {
       setVisReserverOppgaveModal(true);
     } else if (typeof oppgave.paaVent !== 'undefined' && oppgave.paaVent) {
       setVisOppgavePåVentModel(true);
@@ -86,7 +92,8 @@ const FagsakList: FunctionComponent<OwnProps> = ({
     selectOppgaveCallback(valgtOppgave, false);
   };
 
-  const fagsaksperiodeÅr = (oppgave) => (oppgave.fagsakPeriode ? `(${getYearFromString(oppgave.fagsakPeriode.fom)})` : '');
+  const fagsaksperiodeÅr = oppgave =>
+    oppgave.fagsakPeriode ? `(${getYearFromString(oppgave.fagsakPeriode.fom)})` : '';
 
   return (
     <>
@@ -95,18 +102,28 @@ const FagsakList: FunctionComponent<OwnProps> = ({
           <TableRow
             key={`oppgave${oppgave.eksternId}`}
             id={oppgave.eksternId}
-            onMouseDown={(e) => onClick(e, oppgave, selectOppgaveCallback)}
-            onKeyDown={(e) => onClick(e, oppgave, selectOppgaveCallback)}
+            onMouseDown={e => onClick(e, oppgave, selectOppgaveCallback)}
+            onKeyDown={e => onClick(e, oppgave, selectOppgaveCallback)}
             isDashedBottomBorder={fagsakOppgaver.length > index + 1}
+            className={!!oppgave.merknad && styles.hastesakRad}
           >
-            <TableColumn>{oppgave.saksnummer ? (`${oppgave.saksnummer} ${fagsaksperiodeÅr(oppgave)}`) : `${oppgave.journalpostId}`}</TableColumn>
-            <TableColumn>{oppgave.navn}</TableColumn>
-            <TableColumn>{getKodeverknavnFraKode(oppgave.fagsakYtelseType, kodeverkTyper.FAGSAK_YTELSE_TYPE, alleKodeverk)}</TableColumn>
-            <TableColumn>{getKodeverknavnFraKode(oppgave.behandlingStatus, kodeverkTyper.BEHANDLING_STATUS, alleKodeverk)}</TableColumn>
+            <TableColumn>{!!oppgave.merknad && <WarningColored className={styles.hastesakIkon} />}</TableColumn>
+
             <TableColumn>
-              {' '}
+              {oppgave.saksnummer ? `${oppgave.saksnummer} ${fagsaksperiodeÅr(oppgave)}` : `${oppgave.journalpostId}`}
+            </TableColumn>
+            <TableColumn>{oppgave.navn}</TableColumn>
+            <TableColumn>
+              {getKodeverknavnFraKode(oppgave.fagsakYtelseType, kodeverkTyper.FAGSAK_YTELSE_TYPE, alleKodeverk)}
+            </TableColumn>
+            <TableColumn>
+              {getKodeverknavnFraKode(oppgave.behandlingStatus, kodeverkTyper.BEHANDLING_STATUS, alleKodeverk)}
+            </TableColumn>
+            <TableColumn>
+              <KommentarMedMerknad oppgave={oppgave} />
+            </TableColumn>
+            <TableColumn>
               <NavFrontendChevron />
-              {' '}
             </TableColumn>
           </TableRow>
         ))}

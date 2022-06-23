@@ -1,4 +1,4 @@
-import React, { FunctionComponent, ReactNode, useCallback, useEffect, } from 'react';
+import React, { FunctionComponent, ReactNode, useCallback, useEffect } from 'react';
 import { FormattedMessage, injectIntl, WrappedComponentProps } from 'react-intl';
 import { Normaltekst } from 'nav-frontend-typografi';
 
@@ -23,10 +23,10 @@ import {
 } from 'saksbehandler/behandlingskoer/components/oppgavetabeller/oppgavetabellerfelles';
 import { OppgaveStatus } from 'saksbehandler/oppgaveStatusTsType';
 import { getDateAndTime } from 'utils/dateUtils';
-import { getKodeverknavnFraKode } from "utils/kodeverkUtils";
-import kodeverkTyper from "kodeverk/kodeverkTyper";
-import AlleKodeverk from "kodeverk/alleKodeverkTsType";
-import { useGlobalStateRestApiData } from "api/rest-api-hooks";
+import { getKodeverknavnFraKode } from 'utils/kodeverkUtils';
+import kodeverkTyper from 'kodeverk/kodeverkTyper';
+import AlleKodeverk from 'kodeverk/alleKodeverkTsType';
+import { useGlobalStateRestApiData } from 'api/rest-api-hooks';
 import styles from './oppgaverTabell.less';
 
 interface OwnProps {
@@ -68,7 +68,9 @@ export const OppgaverTabell: FunctionComponent<OwnProps & WrappedComponentProps>
       br: <br />,
     };
     return (
-      <Normaltekst><FormattedMessage id="OppgaverTabell.OverfortReservasjonTooltip" values={textValues} /></Normaltekst>
+      <Normaltekst>
+        <FormattedMessage id="OppgaverTabell.OverfortReservasjonTooltip" values={textValues} />
+      </Normaltekst>
     );
   }, []);
 
@@ -78,39 +80,43 @@ export const OppgaverTabell: FunctionComponent<OwnProps & WrappedComponentProps>
         <NavFrontendSpinner type="XL" className={styles.spinner} />
       )}
       {oppgaverTilBehandling.length === 0 && requestFinished && !valgtKo.skjermet && (
-      <>
-        <VerticalSpacer eightPx />
-        <Normaltekst><FormattedMessage id="OppgaverTabell.IngenOppgaver" /></Normaltekst>
-      </>
+        <>
+          <VerticalSpacer eightPx />
+          <Normaltekst>
+            <FormattedMessage id="OppgaverTabell.IngenOppgaver" />
+          </Normaltekst>
+        </>
       )}
 
       {oppgaverTilBehandling.length === 0 && requestFinished && valgtKo.skjermet && (
         <>
           <VerticalSpacer eightPx />
-          <Normaltekst><FormattedMessage id="OppgaverTabell.IngenTilgang" /></Normaltekst>
+          <Normaltekst>
+            <FormattedMessage id="OppgaverTabell.IngenTilgang" />
+          </Normaltekst>
         </>
       )}
 
       {oppgaverTilBehandling.length > 0 && requestFinished && (
-      <Table headerTextCodes={getHeaderCodes()}>
-          {oppgaverTilBehandling.map((oppgave) => (
-            <TableRow
-              key={oppgave.eksternId}
-              model={oppgave}
-              className={styles.oppgavetabell_row}
-            >
+        <Table headerTextCodes={getHeaderCodes().filter(Boolean)}>
+          {oppgaverTilBehandling.map(oppgave => (
+            <TableRow key={oppgave.eksternId} model={oppgave} className={styles.oppgavetabell_row}>
               <TableColumn>{oppgave.navn ? `${oppgave.navn} ${oppgave.personnummer}` : '<navn>'}</TableColumn>
-              <TableColumn>{hentIDFraSak(oppgave)}</TableColumn>
-              <TableColumn>{getKodeverknavnFraKode(oppgave.behandlingstype, kodeverkTyper.BEHANDLING_TYPE, alleKodeverk)}</TableColumn>
-              <TableColumn>{oppgave.opprettetTidspunkt && <DateLabel dateString={oppgave.opprettetTidspunkt} />}</TableColumn>
+              <TableColumn>{hentIDFraSak(oppgave, alleKodeverk)}</TableColumn>
+              <TableColumn>
+                {getKodeverknavnFraKode(oppgave.behandlingstype, kodeverkTyper.BEHANDLING_TYPE, alleKodeverk)}
+              </TableColumn>
+              <TableColumn>
+                {oppgave.opprettetTidspunkt && <DateLabel dateString={oppgave.opprettetTidspunkt} />}
+              </TableColumn>
               <TableColumn>
                 {oppgave.status.flyttetReservasjon && (
-                <Image
-                  src={bubbletextUrl}
-                  srcHover={bubbletextFilledUrl}
-                  alt={intl.formatMessage({ id: 'OppgaverTabell.OverfortReservasjon' })}
-                  tooltip={createTooltip(oppgave.status)}
-                />
+                  <Image
+                    src={bubbletextUrl}
+                    srcHover={bubbletextFilledUrl}
+                    alt={intl.formatMessage({ id: 'OppgaverTabell.OverfortReservasjon' })}
+                    tooltip={createTooltip(oppgave.status)}
+                  />
                 )}
               </TableColumn>
             </TableRow>

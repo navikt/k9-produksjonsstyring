@@ -15,6 +15,7 @@ import saksbehandlerReservasjoner from './saksbehandlerReservasjoner';
 import saksbehandlerOppgaver from './saksbehandlerOppgaver';
 import saksbehandlerOppgaveko from './saksbehandlerOppgaveko';
 import saksbehandlereIOppgaveko from './saksbehandlereIOppgaveko';
+import soek from './soek';
 // Alle handlers som ligger direkte i dette arrayet vil gjelde
 // selv om k9-sak-web startes uten env spesielle env-variabler.
 // Requesten treffer handlerne i stedet for eventuelle eksisterende APIer
@@ -65,6 +66,7 @@ const developmentHandlers = {
   oppgaver: rest.get('/api/saksbehandler/oppgaver/antall', (req, res, ctx) => res(ctx.json(10))),
 
   oppgavekoer: rest.get('/api/saksbehandler/oppgaveko', (req, res, ctx) => res(ctx.json(saksbehandlerOppgaveko))),
+  sok: rest.post('/api/fagsak/sok', (req, res, ctx) => res(ctx.json(soek))),
 };
 
 if (process.env.MSW_MODE === 'dev') {

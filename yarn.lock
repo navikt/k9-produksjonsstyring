@@ -3095,6 +3095,13 @@
   dependencies:
     uuid "^8.3.2"
 
+"@navikt/ds-icons@^0.8.17":
+  version "0.8.17"
+  resolved "https://npm.pkg.github.com/download/@navikt/ds-icons/0.8.17/359dd97bac9bd3c41fcb5fd2d3bb3f853e356894eef75ee09c7369225802eea4#ddf124687e158a988d6be70f653ae3239aba90ad"
+  integrity sha512-CR1h9t0MZprEvTqlrlLd3cHhoYmriFWkETikPprUNl3AMJMSCDovVYzXtOgIyVeFbtwTPzGtShw5mgxlVWAEDg==
+  dependencies:
+    uuid "^8.3.2"
+
 "@navikt/ds-icons@^0.8.4":
   version "0.8.4"
   resolved "https://npm.pkg.github.com/download/@navikt/ds-icons/0.8.4/ad157908309028f6372c8132792803a39386345f427cbb772e86603fcd7714fa#82ba73cbc5704132ec2dd6e6faace3a2b9d6abff"
