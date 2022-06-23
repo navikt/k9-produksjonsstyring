@@ -64,10 +64,16 @@ const FagsakSearchIndex: FunctionComponent<OwnProps & WrappedComponentProps> = (
   };
 
   const {
-    startRequest: sokFagsak, resetRequestData: resetFagsakSok, data: fagsakerResultat = [], error: fagsakError,
+    startRequest: sokFagsak,
+    resetRequestData: resetFagsakSok,
+    data: fagsakerResultat = [],
+    error: fagsakError,
   } = useRestApiRunner<SokeResultat>(K9LosApiKeys.SEARCH_FAGSAK);
 
-  const searchResultAccessDenied = fagsakError && errorOfType(fagsakError, ErrorTypes.MANGLER_TILGANG_FEIL) ? getErrorResponseData(fagsakError) : undefined;
+  const searchResultAccessDenied =
+    fagsakError && errorOfType(fagsakError, ErrorTypes.MANGLER_TILGANG_FEIL)
+      ? getErrorResponseData(fagsakError)
+      : undefined;
 
   const { startRequest: reserverOppgave } = useRestApiRunner<OppgaveStatus>(K9LosApiKeys.RESERVER_OPPGAVE);
   const { startRequest: leggTilBehandletOppgave } = useRestApiRunner(K9LosApiKeys.LEGG_TIL_BEHANDLET_OPPGAVE);
@@ -95,7 +101,7 @@ const FagsakSearchIndex: FunctionComponent<OwnProps & WrappedComponentProps> = (
       leggTilBehandletOppgave(oppgave);
       goToFagsakEllerApneModal(oppgave);
     } else if (reserver && kanReservere) {
-      reserverOppgave({ oppgaveId: oppgave.eksternId }).then((nyOppgaveStatus) => {
+      reserverOppgave({ oppgaveId: oppgave.eksternId }).then(nyOppgaveStatus => {
         if (nyOppgaveStatus.kanOverstyres) {
           setValgtOppgave(oppgave);
           setValgtOppgaveStatus(nyOppgaveStatus);
@@ -111,11 +117,11 @@ const FagsakSearchIndex: FunctionComponent<OwnProps & WrappedComponentProps> = (
     }
   };
 
-  const sokFagsakFn = (values: {searchString: string; skalReservere: boolean}) => {
+  const sokFagsakFn = (values: { searchString: string; skalReservere: boolean }) => {
     setSokStartet(true);
     setSokFerdig(false);
 
-    return sokFagsak(values).then((resultat) => {
+    return sokFagsak(values).then(resultat => {
       setSokStartet(false);
       setSokFerdig(true);
     });

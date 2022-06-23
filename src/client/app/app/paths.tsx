@@ -25,12 +25,11 @@ export const getPanelLocationCreator = (location: Location) => (avdelingslederPa
 export const getPanelLocationCreatorDriftsmeldinger = (location: Location) => (adminPanel: string) =>
   getLocationWithQueryParams(location, { fane: adminPanel });
 
-export const getK9sakHref = (k9sakUrl: string, saksnummer: string, behandlingId?: number, harMerknad?: boolean) => {
+export const getK9sakHref = (k9sakUrl: string, saksnummer: string, behandlingId?: number) => {
   const reducer = (previousValue, param) => (param.include ? { ...previousValue, ...param.query } : previousValue);
   const queryParams = [
     { include: behandlingId, query: { fakta: 'default' } },
     { include: behandlingId, query: { punkt: 'default' } },
-    { include: harMerknad, query: { harMerknad: true } },
   ].reduce(reducer, {});
 
   if (behandlingId) {
