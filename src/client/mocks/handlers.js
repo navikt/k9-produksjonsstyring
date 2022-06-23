@@ -11,6 +11,10 @@ import behandlingerSomGårAvVent from './behandlingerSomGårAvVent';
 import behandlingerUnderArbeid from './behandlingerUnderArbeid';
 import nyeOgFerdigstilteOppgaverMedStonadstype from './nyeOgFerdigstilteOppgaverMedStonadstype';
 import avdelningsledareReservasjoner from './avdelningsledareReservasjoner';
+import saksbehandlerReservasjoner from './saksbehandlerReservasjoner';
+import saksbehandlerOppgaver from './saksbehandlerOppgaver';
+import saksbehandlerOppgaveko from './saksbehandlerOppgaveko';
+import saksbehandlereIOppgaveko from './saksbehandlereIOppgaveko';
 // Alle handlers som ligger direkte i dette arrayet vil gjelde
 // selv om k9-sak-web startes uten env spesielle env-variabler.
 // Requesten treffer handlerne i stedet for eventuelle eksisterende APIer
@@ -46,12 +50,24 @@ const developmentHandlers = {
     '/api/avdelingsleder/nokkeltall/aksjonspunkter-per-enhet-historikk',
     (req, res, ctx) => res(ctx.json(giRandomDato(løsteAksjonspunkterPerEnhet, 7))),
   ),
-  reservasjoner: rest.get('/api/avdelingsleder/reservasjoner', (req, res, ctx) =>
+  avdelinglederReservasjoner: rest.get('/api/avdelingsleder/reservasjoner', (req, res, ctx) =>
     res(ctx.json(avdelningsledareReservasjoner)),
   ),
+  saksbehandlerReservasjoner: rest.get('/api/saksbehandler/oppgaver/reserverte', (req, res, ctx) =>
+    res(ctx.json(saksbehandlerReservasjoner)),
+  ),
+  saksbehandlerOppgaver: rest.get('/api/saksbehandler/oppgaver', (req, res, ctx) =>
+    res(ctx.json(saksbehandlerOppgaver)),
+  ),
+  saksbehandlereIOppgaveko: rest.get('/api/saksbehandler/oppgaveko/saksbehandlere', (req, res, ctx) =>
+    res(ctx.json(saksbehandlereIOppgaveko)),
+  ),
+  oppgaver: rest.get('/api/saksbehandler/oppgaver/antall', (req, res, ctx) => res(ctx.json('10'))),
+
+  oppgavekoer: rest.get('/api/saksbehandler/oppgaveko', (req, res, ctx) => res(ctx.json(saksbehandlerOppgaveko))),
 };
 
-if (process.env.MSW_MODE === 'development') {
+if (process.env.MSW_MODE === 'dev') {
   handlers = handlers.concat(Object.values(developmentHandlers));
 }
 

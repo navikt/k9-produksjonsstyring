@@ -54,6 +54,13 @@ Mock e-postadresse som kan brukes for og legge til saksbehandler i køer.
 ````
 saksbehandler@nav.no
 ````
+##### Mock Service Worker
+MSW kan brukes til å enkelt mocke API-requests.
+Definer hvilket API som skal mockes og hva som skal returneres i handlers.js
+Kjør opp applikasjonen med følgende kommando for å bruke mockdata fra handlers.js
+````
+MSW_MODE=dev yarn dev
+````
 
 #### Windows oppsett
 For att kjøre vtp som fungerer for LOS lokalt kan det hente att man må specifisere path til modig i docker-compose.
