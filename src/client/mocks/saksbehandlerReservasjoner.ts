@@ -48,7 +48,7 @@ const saksbehandlerReservasjoner = [
     fagsakPeriode: null,
     paaVent: null,
     merknad: {
-      merknader: ['HASTESAK'],
+      merknadKoder: ['HASTESAK'],
       fritekst: 'kom an dette haster',
     },
   },

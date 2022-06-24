@@ -140,7 +140,11 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps & WrappedComponentPro
         <>
           <VerticalSpacer eightPx />
           <Normaltekst>
-            <FormattedMessage id="OppgaverTabell.IngenReserverteOppgaver" />
+            {!hastesaker ? (
+              <FormattedMessage id="OppgaverTabell.IngenReserverteOppgaver" />
+            ) : (
+              <FormattedMessage id="OppgaverTabell.IngenReserverteHastesaker" />
+            )}
           </Normaltekst>
         </>
       )}
@@ -157,7 +161,7 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps & WrappedComponentPro
                 model={oppgave}
               >
                 {hastesaker && (
-                  <TableColumn>
+                  <TableColumn className={styles.hastesakTd}>
                     <WarningColored className={styles.hastesakIkon} />
                   </TableColumn>
                 )}

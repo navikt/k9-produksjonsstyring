@@ -80,6 +80,11 @@ const OppgavekoPanel: FunctionComponent<OwnProps> = ({
     });
   };
 
+  const hastesaker = reserverteOppgaver.filter(oppgave => oppgave.merknad?.merknadKoder?.includes('HASTESAK'));
+  const reserverteOppgaverUtenHastesaker = reserverteOppgaver.filter(
+    oppgave => !oppgave.merknad?.merknadKoder?.includes('HASTESAK'),
+  );
+
   const sorterteOppgavekoerIBokstavsordning = oppgavekoer.sort((a, b) => a.navn.localeCompare(b.navn));
   return (
     <>
@@ -110,9 +115,7 @@ const OppgavekoPanel: FunctionComponent<OwnProps> = ({
               <FormattedMessage id="OppgaverTabell.ReserverteHastesaker" />
             </Element>
             <OppgaveTabellMenyAntallOppgaver
-              antallOppgaver={
-                reserverteOppgaver.filter(oppgave => oppgave.merknad?.merknader?.includes('HASTESAK')).length
-              }
+              antallOppgaver={hastesaker.length}
               tekstId="OppgaverTabell.ReserverteHastesakerAntall"
               hastesak
             />
@@ -122,7 +125,7 @@ const OppgavekoPanel: FunctionComponent<OwnProps> = ({
               hastesaker
               apneOppgave={apneOppgave}
               requestFinished={requestFinished}
-              reserverteOppgaver={reserverteOppgaver.filter(oppgave => oppgave.merknad)}
+              reserverteOppgaver={hastesaker}
               hentReserverteOppgaver={hentReserverteOppgaver}
             />
           )}
@@ -136,7 +139,7 @@ const OppgavekoPanel: FunctionComponent<OwnProps> = ({
               <FormattedMessage id="OppgaverTabell.ReserverteOppgaver" />
             </Element>
             <OppgaveTabellMenyAntallOppgaver
-              antallOppgaver={reserverteOppgaver.length}
+              antallOppgaver={reserverteOppgaverUtenHastesaker?.length}
               tekstId="OppgaverTabell.ReserverteOppgaverAntall"
             />
           </button>
@@ -144,7 +147,7 @@ const OppgavekoPanel: FunctionComponent<OwnProps> = ({
             <ReserverteOppgaverTabell
               apneOppgave={apneOppgave}
               requestFinished={requestFinished}
-              reserverteOppgaver={reserverteOppgaver}
+              reserverteOppgaver={reserverteOppgaverUtenHastesaker}
               hentReserverteOppgaver={hentReserverteOppgaver}
             />
           )}

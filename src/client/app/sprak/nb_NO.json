@@ -194,6 +194,7 @@
   "OppgaverTabell.ReserverteOppgaver": "Reserverte behandlinger",
   "OppgaverTabell.ReserverteHastesaker": "Reserverte hastesaker",
   "OppgaverTabell.IngenReserverteOppgaver": "Det er ingen reserverte behandlinger",
+  "OppgaverTabell.IngenReserverteHastesaker": "Det er ingen reserverte hastesaker",
   "OppgaverTabell.ReserverteOppgaverAntall": "{antall} reserverte",
   "OppgaverTabell.ReserverteHastesakerAntall": "{antall} hastesaker",
 
