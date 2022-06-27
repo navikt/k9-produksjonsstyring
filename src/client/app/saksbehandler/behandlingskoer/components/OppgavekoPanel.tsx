@@ -80,9 +80,11 @@ const OppgavekoPanel: FunctionComponent<OwnProps> = ({
     });
   };
 
-  const hastesaker = reserverteOppgaver.filter(oppgave => oppgave.merknad?.merknadKoder?.includes('HASTESAK'));
+  const hastesaker = reserverteOppgaver.filter(oppgave =>
+    oppgave.merknad?.merknadKoder?.includes(merknadTyper.HASTESAK),
+  );
   const reserverteOppgaverUtenHastesaker = reserverteOppgaver.filter(
-    oppgave => !oppgave.merknad?.merknadKoder?.includes('HASTESAK'),
+    oppgave => !oppgave.merknad?.merknadKoder?.includes(merknadTyper.HASTESAK),
   );
 
   const sorterteOppgavekoerIBokstavsordning = oppgavekoer.sort((a, b) => a.navn.localeCompare(b.navn));
