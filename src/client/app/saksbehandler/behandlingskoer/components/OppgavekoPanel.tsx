@@ -22,6 +22,7 @@ import styles from './oppgavekoPanel.less';
 import RestApiState from '../../../api/rest-api-hooks/src/RestApiState';
 import advarselImageUrl from '../../../../images/advarsel.svg';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
+import merknadType from 'kodeverk/merknadType';
 
 interface OwnProps {
   setValgtOppgavekoId: (id: string) => void;
@@ -81,10 +82,10 @@ const OppgavekoPanel: FunctionComponent<OwnProps> = ({
   };
 
   const hastesaker = reserverteOppgaver.filter(oppgave =>
-    oppgave.merknad?.merknadKoder?.includes(merknadTyper.HASTESAK),
+    oppgave.merknad?.merknadKoder?.includes(merknadType.HASTESAK),
   );
   const reserverteOppgaverUtenHastesaker = reserverteOppgaver.filter(
-    oppgave => !oppgave.merknad?.merknadKoder?.includes(merknadTyper.HASTESAK),
+    oppgave => !oppgave.merknad?.merknadKoder?.includes(merknadType.HASTESAK),
   );
 
   const sorterteOppgavekoerIBokstavsordning = oppgavekoer.sort((a, b) => a.navn.localeCompare(b.navn));
