@@ -1,5 +1,6 @@
 enum KriterierType {
-  Feilutbetaling = 'FEILUTBETALING'
+  Feilutbetaling = 'FEILUTBETALING',
+  MerknadType = 'MERKNADTYPE'
 }
 
 export default KriterierType;

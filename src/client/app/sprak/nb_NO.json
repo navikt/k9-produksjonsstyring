@@ -14,7 +14,6 @@
   "AvdelingslederIndex.Nokkeltall": "Nøkkeltall",
   "AvdelingslederIndex.Prognose": "Prognose",
   "AvdelingslederIndex.Reservasjoner": "Reservasjoner",
-  "AdminIndex.Driftsmeldinger": "Driftsmeldinger",
 
   "BehandlingPollingTimoutModal.TimeoutMelding": "Din økt er gått ut på tid, trykk Fortsett",
   "BehandlingPollingTimoutModal.Oppfrisk": "Fortsett",
@@ -193,8 +192,11 @@
   "OppgaverTabell.DineNesteSaker": "Neste behandlinger",
   "OppgaverTabell.DineNesteSakerAntall": "{antall} i køen",
   "OppgaverTabell.ReserverteOppgaver": "Reserverte behandlinger",
+  "OppgaverTabell.ReserverteHastesaker": "Reserverte hastesaker",
   "OppgaverTabell.IngenReserverteOppgaver": "Det er ingen reserverte behandlinger",
+  "OppgaverTabell.IngenReserverteHastesaker": "Det er ingen reserverte hastesaker",
   "OppgaverTabell.ReserverteOppgaverAntall": "{antall} reserverte",
+  "OppgaverTabell.ReserverteHastesakerAntall": "{antall} hastesaker",
 
   "OppgaverTabell.IngenOppgaver": "Det er ingen behandlinger i denne køen",
   "OppgaverTabell.IngenTilgang": "Du har ikke tilgang til behandlingene i denne køen",
@@ -206,6 +208,7 @@
   "OppgaverTabell.FristForBehandling": "Frist for behandling",
   "OppgaverTabell.OppgaveHandlinger": "Handlinger på oppgave",
   "OppgaverTabell.OverfortReservasjon": "Overført reservasjon",
+  "OppgaverTabell.BegrunnelseForMerknad": "Begrunnelse for merknad",
   "OppgaverTabell.OverfortReservasjonTooltip": "Overført reservasjon {dato} - {tid} fra {uid} {navn}{br}{br}{beskrivelse}",
 
   "OkAvbrytModal.Ok": "OK",
@@ -321,8 +324,6 @@
   "SorteringVelger.Bindestrek": "-",
   "SorteringVelger.Dager": "dager frem",
   "SorteringVelger.DynamiskPeriode": "Dynamisk periode",
-  "SorteringVelger.FiltrerPaHeltall": "Ta kun med behandlinger mellom",
-  "SorteringVelger.Valuta": "kr",
   "SorteringVelger.Fra": "Fra",
   "SorteringVelger.Til": "Til",
 
@@ -334,7 +335,6 @@
   "TilBehandlingPanel.TilBehandling": "Antall til behandling",
   "Historikk.ToSisteUker": "2 siste uker",
   "Historikk.FireSisteUker": "4 siste uker",
-
 
   "BehandlingerGårAvVent.Tittel": "Behandlinger som går av vent",
   "BehandlingerGårAvVent.Hjelptekst": "Grafen viser en prognose av antall behandlinger som går av vent frem i tid.",
@@ -369,6 +369,7 @@
   "UtvalgskriterierForOppgavekoForm.OmKoen": "Om køen",
   "UtvalgskriterierForOppgavekoForm.Kriterier": "Andre kriterier",
   "UtvalgskriterierForOppgavekoForm.Saksbehandlere": "Saksbehandlere",
+  "UtvalgskriterierForOppgavekoForm.Merknader": "Merknader",
 
   "ValidationMessage.NotEmpty": "Feltet må fylles ut",
   "ValidationMessage.MinLength": "Du må skrive minst {length} tegn",

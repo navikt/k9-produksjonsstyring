@@ -6,6 +6,10 @@ type Oppgave = {
   behandlingId: number;
   journalpostId: string;
   personnummer: string;
+  merknad: {
+    merknadKoder: String[];
+    fritekst: String;
+  };
   navn: string;
   system: string;
   behandlingstype: string;

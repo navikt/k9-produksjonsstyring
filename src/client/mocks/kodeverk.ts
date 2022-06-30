@@ -282,48 +282,46 @@ const kodeverk = {
   ],
   Venteårsak: [
     {
-      kode: "AVV_DOK",
-      navn: "Avventer dokumentasjon",
-      kodeverk: "VENTEÅRSAK_TYPE"
+      kode: 'AVV_DOK',
+      navn: 'Avventer dokumentasjon',
+      kodeverk: 'VENTEÅRSAK_TYPE',
     },
     {
-      kode: "VENT_MANGL_FUNKSJ_SAKSBEHANDLER",
-      navn: "Manglende funksjonalitet i løsningen",
-      kodeverk: "VENTEÅRSAK_TYPE"
+      kode: 'VENT_MANGL_FUNKSJ_SAKSBEHANDLER',
+      navn: 'Manglende funksjonalitet i løsningen',
+      kodeverk: 'VENTEÅRSAK_TYPE',
     },
     {
-      kode: "VENTER_SVAR_INTERNT",
-      navn: "Meldt i Porten eller Teams",
-      kodeverk: "VENTEÅRSAK_TYPE"
+      kode: 'VENTER_SVAR_INTERNT',
+      navn: 'Meldt i Porten eller Teams',
+      kodeverk: 'VENTEÅRSAK_TYPE',
     },
     {
-      kode: "AUTOMATISK_SATT_PA_VENT",
-      navn: "Automatisk satt på vent",
-      kodeverk: "VENTEÅRSAK_TYPE"
+      kode: 'AUTOMATISK_SATT_PA_VENT',
+      navn: 'Automatisk satt på vent',
+      kodeverk: 'VENTEÅRSAK_TYPE',
     },
     {
-      kode: "UKJENT",
-      navn: "Mangler venteårsak",
-      kodeverk: "VENTEÅRSAK_TYPE"
-    }
+      kode: 'UKJENT',
+      navn: 'Mangler venteårsak',
+      kodeverk: 'VENTEÅRSAK_TYPE',
+    },
   ],
   KøKriterierType: [
     {
-      kode: "FEILUTBETALING",
-      navn: "Feilutbetalt beløp",
-      felttype: "BELOP",
-      kodeverk: "KØ_KRITERIER_TYPE",
-      skalVises: true
+      kode: 'FEILUTBETALING',
+      navn: 'Feilutbetalt beløp',
+      felttype: 'BELOP',
+      kodeverk: 'KØ_KRITERIER_TYPE',
     },
     {
-      kode: "BEHANDLINGTYPE",
-      navn: "Behandling type",
-      felttype: "KODEVERK",
-      felttypeKodeverk: "BehandlingType",
-      kodeverk: "KØ_KRITERIER_TYPE",
-      skalVises: false
-    }
-  ]
+      kode: 'MERKNADTYPE',
+      navn: 'Merknad type',
+      felttype: 'KODEVERK',
+      felttypeKodeverk: 'MerknadType',
+      kodeverk: 'KØ_KRITERIER_TYPE',
+    },
+  ],
 };
 
 export default kodeverk;

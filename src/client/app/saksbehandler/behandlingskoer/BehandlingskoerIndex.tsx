@@ -1,6 +1,4 @@
-import React, {
-  FunctionComponent, useCallback, useEffect,
-} from 'react';
+import React, { FunctionComponent, useCallback, useEffect } from 'react';
 import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
 import { getK9punsjRef, getK9sakHref, getOmsorgspengerRef } from 'app/paths';
 import { Oppgaveko } from 'saksbehandler/behandlingskoer/oppgavekoTsType';
@@ -34,9 +32,13 @@ const BehandlingskoerIndex: FunctionComponent<OwnProps & WrappedComponentProps> 
   const refreshUrl = useGlobalStateRestApiData<{ verdi?: string }>(RestApiGlobalStatePathsKeys.REFRESH_URL);
   const { data: oppgavekoer = [] } = useRestApi<Oppgaveko[]>(K9LosApiKeys.OPPGAVEKO);
   const {
-    startRequest: hentOppgaverTilBehandling, state, data: oppgaverTilBehandling = [],
+    startRequest: hentOppgaverTilBehandling,
+    state,
+    data: oppgaverTilBehandling = [],
   } = useRestApiRunner<Oppgave[]>(K9LosApiKeys.OPPGAVER_TIL_BEHANDLING);
-  const { startRequest: hentReserverteOppgaver, data: reserverteOppgaver = [] } = useRestApiRunner<Oppgave[]>(K9LosApiKeys.RESERVERTE_OPPGAVER);
+  const { startRequest: hentReserverteOppgaver, data: reserverteOppgaver = [] } = useRestApiRunner<Oppgave[]>(
+    K9LosApiKeys.RESERVERTE_OPPGAVER,
+  );
   const { startRequest: leggTilBehandletOppgave } = useRestApiRunner(K9LosApiKeys.LEGG_TIL_BEHANDLET_OPPGAVE);
 
   const handleEvent = (e: MessageEvent) => {
@@ -59,29 +61,27 @@ const BehandlingskoerIndex: FunctionComponent<OwnProps & WrappedComponentProps> 
       console.log('connected');
     };
 
-    socket.onmessage = (evt) => {
+    socket.onmessage = evt => {
       // listen to data sent from the websocket server
       handleEvent(evt);
     };
 
-    socket.onclose = (ev) => {
+    socket.onclose = ev => {
       // eslint-disable-next-line no-console
       console.log(`disconnected, reason: ${ev.reason}`);
       // automatically try to reconnect on connection loss
     };
 
-    socket.onerror = (err) => {
+    socket.onerror = err => {
       // eslint-disable-next-line no-console
-      console.error(
-        'Socket encountered error: ',
-        err,
-        'Closing socket',
-      );
+      console.error('Socket encountered error: ', err, 'Closing socket');
 
       socket.close();
     };
 
-    if (valgtOppgavekoId !== undefined) { hentOppgaverTilBehandling({ id: valgtOppgavekoId }); }
+    if (valgtOppgavekoId !== undefined) {
+      hentOppgaverTilBehandling({ id: valgtOppgavekoId });
+    }
     hentReserverteOppgaver();
   }, [valgtOppgavekoId]);
 
@@ -100,22 +100,28 @@ const BehandlingskoerIndex: FunctionComponent<OwnProps & WrappedComponentProps> 
       case OppgaveSystem.OMSORGSPENGER:
         window.location.assign(getOmsorgspengerRef(omsorgspengerUrl, oppgave.saksnummer));
         break;
-      default: window.location.assign(getK9sakHref(k9sakUrl, oppgave.saksnummer, oppgave.behandlingId));
+      default:
+        window.location.assign(getK9sakHref(k9sakUrl, oppgave.saksnummer, oppgave.behandlingId));
     }
   };
 
   const openSak = (oppgave: Oppgave) => {
-    if (oppgave.system === OppgaveSystem.K9SAK
-      || oppgave.system === OppgaveSystem.K9TILBAKE
-      || oppgave.system === OppgaveSystem.PUNSJ
-      || oppgave.system === OppgaveSystem.OMSORGSPENGER) {
+    if (
+      oppgave.system === OppgaveSystem.K9SAK ||
+      oppgave.system === OppgaveSystem.K9TILBAKE ||
+      oppgave.system === OppgaveSystem.PUNSJ ||
+      oppgave.system === OppgaveSystem.OMSORGSPENGER
+    ) {
       openFagsak(oppgave);
     } else throw new Error('Fagsystemet for oppgaven er ukjent');
   };
 
-  const apneOppgave = useCallback((oppgave: Oppgave) => {
-    openSak(oppgave);
-  }, [k9sakUrl]);
+  const apneOppgave = useCallback(
+    (oppgave: Oppgave) => {
+      openSak(oppgave);
+    },
+    [k9sakUrl],
+  );
 
   if (oppgavekoer.length === 0) {
     return null;

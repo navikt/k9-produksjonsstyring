@@ -8,6 +8,7 @@ enum kodeverkTyper {
   ANDRE_KRITERIER_TYPE = 'AndreKriterierType',
   FAGSYSTEM = 'Fagsystem',
   VENTEÅRSAK = 'Venteårsak',
+  MERKNAD_TYPE = 'MerknadType',
 }
 
 export default kodeverkTyper;
