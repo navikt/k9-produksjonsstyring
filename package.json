@@ -18,7 +18,7 @@
     "@sentry/browser": "^6.19.7",
     "@sentry/cli": "^2.1.0",
     "@testing-library/jest-dom": "^5.16.4",
-    "@testing-library/user-event": "^13.5.0",
+    "@testing-library/user-event": "^14.4.0",
     "@types/jest": "^27.5.1",
     "@typescript-eslint/eslint-plugin": "^5.26.0",
     "@typescript-eslint/parser": "^5.26.0",
