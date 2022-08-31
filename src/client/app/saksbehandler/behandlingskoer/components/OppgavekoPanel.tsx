@@ -61,7 +61,7 @@ const OppgavekoPanel: FunctionComponent<OwnProps> = ({
   const merknadstyper = useKodeverk(kodeverkTyper.MERKNAD_TYPE);
 
   const valgtKo = oppgavekoer.find(ko => ko.id === valgtOppgavekoId);
-
+  console.log('test');
   useEffect(() => {
     if (
       restApiState &&
