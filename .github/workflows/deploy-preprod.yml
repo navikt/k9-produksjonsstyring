@@ -23,7 +23,7 @@ jobs:
       - name: Installere moduler
         run: yarn install --ignore-optional --no-progress --frozen-lockfile
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_REGISTRY_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.READER_TOKEN  }}
       - name: Tester og linting
         run: yarn test && yarn less:lint
       - name: Bygge kode
