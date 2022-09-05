@@ -6,7 +6,7 @@
   "repository": "https://github.com/navikt/k9-los-web",
   "license": "MIT",
   "dependencies": {
-    "@formatjs/intl-datetimeformat": "^6.0.1",
+    "@formatjs/intl-datetimeformat": "^6.2.0",
     "@formatjs/intl-numberformat": "^8.0.1",
     "@navikt/ds-css": "^0.17.2",
     "@navikt/ds-icons": "^0.8.17",
