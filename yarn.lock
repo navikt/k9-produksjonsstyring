@@ -2250,10 +2250,10 @@
     clsx "^1.1.1"
     react-modal "3.15.1"
 
-"@navikt/familie-endringslogg@^2.0.2":
-  version "2.0.3"
-  resolved "https://npm.pkg.github.com/download/@navikt/familie-endringslogg/2.0.3/e73a6e8bdb1f48cee5b43f2fde039aca20b84606#e73a6e8bdb1f48cee5b43f2fde039aca20b84606"
-  integrity sha512-8zdpkt7PEKCrFl6Dgj/n6Rh7ET7OQ6kDLjlUyuap66u0KmYx3Rf8dWQVwzBi73K0762QA/C6Oau2S5v15eeIiQ==
+"@navikt/familie-endringslogg@^3.0.0":
+  version "3.0.0"
+  resolved "https://npm.pkg.github.com/download/@navikt/familie-endringslogg/3.0.0/ab52861579e1f6d369a42983ef9c59d33c4be39b#ab52861579e1f6d369a42983ef9c59d33c4be39b"
+  integrity sha512-GSKmuOnuZoWVdL5MhIvccdG2JsdT9oERpss3CRGutiXAaKivIYfbtFUL/K5jdI7gLs/AeUTNiWMFJvrzwuc2kA==
   dependencies:
     "@navikt/ds-css" "^0.18.26"
     "@navikt/ds-icons" "^0.8.18"
