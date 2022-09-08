@@ -1,15 +1,6 @@
 import React from 'react';
-import { Router } from 'react-router-dom';
-import { createBrowserHistory } from 'history';
+import { BrowserRouter } from 'react-router-dom';
 
-const history = createBrowserHistory({
-  basename: '/fplos/',
-});
-
-const withRouterProvider = (story) => (
-  <Router history={history}>
-    { story() }
-  </Router>
-);
+const withRouterProvider = story => <BrowserRouter>{story()}</BrowserRouter>;
 
 export default withRouterProvider;
