@@ -12,10 +12,10 @@ on:
 
 env:
   IMAGE_BASE_CR: ghcr.io/${{ github.repository }}
-  
+
 jobs:
   build-og-deploy:
-    name: Deploye til DEV og PROD 
+    name: Deploye til DEV og PROD
     runs-on: ubuntu-latest
     steps:
       - name: Hente kode
@@ -38,8 +38,10 @@ jobs:
         run: yarn install --ignore-optional --no-progress --frozen-lockfile
         env:
           NODE_AUTH_TOKEN: ${{ secrets.READER_TOKEN  }}
-      - name: Tester og linting
-        run: yarn test && yarn less:lint
+      - name: Tester
+        run: yarn test --maxWorkers=2
+      - name: Linting
+        run: yarn less:lint
       - name: Bygge dist
         run: yarn build
       - name: Sette Docker-navn og -tag
@@ -68,5 +70,3 @@ jobs:
           CLUSTER: prod-fss
           RESOURCE: nais/frontend/k9-los-web.yml
           VARS: nais/frontend/prod.json
-
-

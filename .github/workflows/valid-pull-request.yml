@@ -2,14 +2,14 @@ name: Valider pull request
 on:
   pull_request:
     paths-ignore:
-      - "**.md"
-      - "**.MD"
-      - ".gitignore"
-      - "LICENCE"
-      - "CODEOWNERS"
-      - "dev/**"
-      - "**.yml"
-      - "**.yaml"
+      - '**.md'
+      - '**.MD'
+      - '.gitignore'
+      - 'LICENCE'
+      - 'CODEOWNERS'
+      - 'dev/**'
+      - '**.yml'
+      - '**.yaml'
 
 jobs:
   valid-pull-request:
@@ -24,12 +24,15 @@ jobs:
         with:
           node-version: 16.x
           registry-url: https://npm.pkg.github.com/
-          scope: "@navikt"
+          scope: '@navikt'
+          cache: 'yarn'
       - name: Installere dependencies
         run: yarn install --ignore-optional --no-progress --frozen-lockfile
         env:
           NODE_AUTH_TOKEN: ${{ secrets.READER_TOKEN  }}
-      - name: Tester og linting
-        run: yarn test && yarn less:lint
+      - name: Tester
+        run: yarn test --maxWorkers=2
+      - name: Linting
+        run: yarn less:lint
       - name: Bygge
         run: yarn build
