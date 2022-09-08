@@ -20,12 +20,15 @@ jobs:
           node-version: 16.x
           registry-url: https://npm.pkg.github.com/
           scope: '@navikt'
+          cache: 'yarn'
       - name: Installere moduler
         run: yarn install --ignore-optional --no-progress --frozen-lockfile
         env:
           NODE_AUTH_TOKEN: ${{ secrets.READER_TOKEN  }}
-      - name: Tester og linting
-        run: yarn test && yarn less:lint
+      - name: Tester
+        run: yarn test --maxWorkers=2
+      - name: Linting
+        run: yarn less:lint
       - name: Bygge kode
         run: yarn build
       - name: Opprett release med Sentry
