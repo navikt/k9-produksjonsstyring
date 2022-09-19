@@ -17,6 +17,7 @@
     "plugin:@typescript-eslint/recommended",
     "plugin:react/recommended",
     "plugin:import/typescript",
+    "plugin:postcss-modules/recommended",
     "prettier"
   ],
   "settings": {
