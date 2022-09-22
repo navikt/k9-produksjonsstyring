@@ -92,29 +92,30 @@ const SorteringVelger: FunctionComponent<OwnProps & WrappedComponentProps> = ({
         {koSorteringer.map(
           koSortering =>
             koSortering.kode === 'OPPRBEH' && (
-              <Checkbox
-                key={koSortering.kode}
-                value={koSortering.kode}
-                data-testid={`kriterie-${koSortering.kode}`}
-                checked={true}
-                onChange={e => leggTilEllerFjerneFiltrering(e.target.value, e.target.checked)}
-              >
-                {koSortering.felttype === 'DATO' && (
-                  <>
+              <React.Fragment key={koSortering.kode}>
+                <Checkbox
+                  value={koSortering.kode}
+                  data-testid={`kriterie-${koSortering.kode}`}
+                  checked={true}
+                  onChange={e => leggTilEllerFjerneFiltrering(e.target.value, e.target.checked)}
+                >
+                  {koSortering.felttype === 'DATO' && (
                     <span className={styles.kriterierTitel}>
                       {getKodeverknavnFraKode(koSortering.kode, kodeverkTyper.KO_SORTERING, alleKodeverk)}
                     </span>
-                    <DatoSorteringValg
-                      intl={intl}
-                      valgtOppgavekoId={valgtOppgavekoId}
-                      hentOppgaveko={hentOppgaveko}
-                      lagreOppgavekoSorteringTidsintervallDato={lagreOppgavekoSorteringTidsintervallDato}
-                      fomDato={fomDato}
-                      tomDato={tomDato}
-                    />
-                  </>
+                  )}
+                </Checkbox>
+                {koSortering.felttype === 'DATO' && (
+                  <DatoSorteringValg
+                    intl={intl}
+                    valgtOppgavekoId={valgtOppgavekoId}
+                    hentOppgaveko={hentOppgaveko}
+                    lagreOppgavekoSorteringTidsintervallDato={lagreOppgavekoSorteringTidsintervallDato}
+                    fomDato={fomDato}
+                    tomDato={tomDato}
+                  />
                 )}
-              </Checkbox>
+              </React.Fragment>
             ),
         )}
 

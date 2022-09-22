@@ -3,46 +3,46 @@ import { hasValidDate } from 'utils/validation/validators';
 import { Undertekst } from 'nav-frontend-typografi';
 import { FormattedMessage, WrappedComponentProps } from 'react-intl';
 import React, { FunctionComponent } from 'react';
-import {
-  DatepickerField,
-} from 'form/FinalFields';
+import { DatepickerField } from 'form/FinalFields';
 import { ISO_DATE_FORMAT, DDMMYYYY_DATE_FORMAT } from 'utils/formats';
 import moment from 'moment';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import ArrowBox from 'sharedComponents/ArrowBox';
 import styles from './sorteringVelger.less';
 
-const getLagreDatoFn = (lagreOppgavekoSorteringTidsintervallDato, valgtOppgavekoId, annenDato, erFomDato, hentKo) => (e) => {
-  let dato = e.target.value;
-  if (dato) {
-    dato = moment(dato, DDMMYYYY_DATE_FORMAT, true);
-  }
-  if (!dato || dato.isValid()) {
-    const d = dato ? dato.format(ISO_DATE_FORMAT) : dato;
+const getLagreDatoFn =
+  (lagreOppgavekoSorteringTidsintervallDato, valgtOppgavekoId, annenDato, erFomDato, hentKo) => e => {
+    let dato = e.target.value;
+    if (dato) {
+      dato = moment(dato, DDMMYYYY_DATE_FORMAT, true);
+    }
+    if (!dato || dato.isValid()) {
+      const d = dato ? dato.format(ISO_DATE_FORMAT) : dato;
 
-    const params = erFomDato ? {
-      id: valgtOppgavekoId,
-      fomDato: d,
-      tomDato: annenDato,
-    } : {
-      id: valgtOppgavekoId,
-      fomDato: annenDato,
-      tomDato: d,
-    };
+      const params = erFomDato
+        ? {
+            id: valgtOppgavekoId,
+            fomDato: d,
+            tomDato: annenDato,
+          }
+        : {
+            id: valgtOppgavekoId,
+            fomDato: annenDato,
+            tomDato: d,
+          };
 
-    return lagreOppgavekoSorteringTidsintervallDato(params)
-      .then(() => {
+      return lagreOppgavekoSorteringTidsintervallDato(params).then(() => {
         hentKo(valgtOppgavekoId);
       });
-  }
-  return undefined;
-};
+    }
+    return undefined;
+  };
 interface OwnProps {
-    valgtOppgavekoId: string;
-    lagreOppgavekoSorteringTidsintervallDato: (params: {id: string, fomDato: string, tomDato: string}) => void;
-    hentOppgaveko:(id: string) => void;
-    fomDato: string;
-    tomDato: string;
+  valgtOppgavekoId: string;
+  lagreOppgavekoSorteringTidsintervallDato: (params: { id: string; fomDato: string; tomDato: string }) => void;
+  hentOppgaveko: (id: string) => void;
+  fomDato: string;
+  tomDato: string;
 }
 
 export const DatoSorteringValg: FunctionComponent<OwnProps & WrappedComponentProps> = ({
@@ -51,12 +51,12 @@ export const DatoSorteringValg: FunctionComponent<OwnProps & WrappedComponentPro
   fomDato,
   tomDato,
   hentOppgaveko,
-}) => (<div className={styles.arrowBoxContainer}>
-  <ArrowBox>
-    <Undertekst>
-      <FormattedMessage id="SorteringVelger.FiltrerPaTidsintervall" />
-    </Undertekst>
-    <>
+}) => (
+  <div className={styles.arrowBoxContainer}>
+    <ArrowBox>
+      <Undertekst>
+        <FormattedMessage id="SorteringVelger.FiltrerPaTidsintervall" />
+      </Undertekst>
       <FlexContainer>
         <FlexRow>
           <FlexColumn>
@@ -65,7 +65,13 @@ export const DatoSorteringValg: FunctionComponent<OwnProps & WrappedComponentPro
               label={{ id: 'SorteringVelger.Fom' }}
               onBlurValidation
               validate={[hasValidDate]}
-              onBlur={getLagreDatoFn(lagreOppgavekoSorteringTidsintervallDato, valgtOppgavekoId, tomDato, true, hentOppgaveko)}
+              onBlur={getLagreDatoFn(
+                lagreOppgavekoSorteringTidsintervallDato,
+                valgtOppgavekoId,
+                tomDato,
+                true,
+                hentOppgaveko,
+              )}
             />
           </FlexColumn>
           <FlexColumn>
@@ -79,14 +85,19 @@ export const DatoSorteringValg: FunctionComponent<OwnProps & WrappedComponentPro
               label={{ id: 'SorteringVelger.Tom' }}
               onBlurValidation
               validate={[hasValidDate]}
-              onBlur={getLagreDatoFn(lagreOppgavekoSorteringTidsintervallDato, valgtOppgavekoId, fomDato, false, hentOppgaveko)}
+              onBlur={getLagreDatoFn(
+                lagreOppgavekoSorteringTidsintervallDato,
+                valgtOppgavekoId,
+                fomDato,
+                false,
+                hentOppgaveko,
+              )}
             />
           </FlexColumn>
         </FlexRow>
       </FlexContainer>
-    </>
-    <VerticalSpacer eightPx />
-  </ArrowBox>
+      <VerticalSpacer eightPx />
+    </ArrowBox>
   </div>
 );
 
