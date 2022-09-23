@@ -1,7 +1,7 @@
 import { Search } from '@navikt/ds-icons';
 import { BodyShort, Button, Checkbox, Heading, Label } from '@navikt/ds-react';
 import { Combobox, ComboboxInput, ComboboxList, ComboboxPopover } from '@reach/combobox';
-import React, { FormEventHandler, useMemo, useState } from 'react';
+import React, { FormEventHandler, useEffect, useMemo, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import Merkelapp from './merkelapp/Merkelapp';
 import Merkelapper from './merkelapp/Merkelapper';
@@ -25,9 +25,11 @@ type Props = {
   label: string;
   description?: string;
   suggestions: SuggestionsType[];
-  groups: Array<{ navn: string; koder: string[] }>;
+  groups: string[];
   heading: string;
   addButtonText: string;
+  updateSelection: (values: string[]) => void;
+  selectedValues: string[];
 };
 
 export const SearchWithDropdown: React.FC<Props> = ({
@@ -37,17 +39,28 @@ export const SearchWithDropdown: React.FC<Props> = ({
   groups,
   heading,
   addButtonText,
+  updateSelection,
+  selectedValues,
 }) => {
-  const [selectedSuggestionValues, setSelectedSuggestionValues] = useState<string[]>([]);
+  const [selectedSuggestionValues, setSelectedSuggestionValues] = useState(selectedValues);
   const [filteredSuggestions, setFilteredSuggestions] = useState(suggestions);
   const [currentInput, setCurrentInput] = useState('');
   const [openSuggestionGroups, setOpenSuggestionGroups] = useState<string[]>([]);
-  const [confirmedSuggestionValues, setConfirmedSuggestionValues] = useState<string[]>([]);
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const inputId = useMemo(() => uuidv4(), []);
   const descriptionId = useMemo(() => uuidv4(), []);
 
   const getSuggestion = (suggestionValue: string) => suggestions.find(s => s.value === suggestionValue);
+
+  useEffect(() => {
+    const selectedGroups = [];
+    setSelectedSuggestionValues(selectedValues);
+    selectedValues.forEach(value => {
+      const selectedGroup = getSuggestion(value).group;
+      selectedGroups.push(selectedGroup);
+    });
+    setOpenSuggestionGroups([...new Set(selectedGroups)]);
+  }, [selectedValues]);
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const suggestionLabel = event.target.value;
@@ -107,15 +120,7 @@ export const SearchWithDropdown: React.FC<Props> = ({
 
   const onRemoveSuggestion = (suggestionValue: string) => {
     const newListofSelectedValues = selectedSuggestionValues.filter(s => s !== suggestionValue);
-    setSelectedSuggestionValues(newListofSelectedValues);
-    setConfirmedSuggestionValues(newListofSelectedValues);
-    const groupOfRemovedSuggestion = getSuggestion(suggestionValue).group;
-    const groupOfRemovedSuggestionHasOtherSelectedSuggestions = newListofSelectedValues.some(
-      value => getSuggestion(value).group === groupOfRemovedSuggestion,
-    );
-    if (!groupOfRemovedSuggestionHasOtherSelectedSuggestions) {
-      setOpenSuggestionGroups(openSuggestionGroups.filter(s => s !== groupOfRemovedSuggestion));
-    }
+    updateSelection(newListofSelectedValues);
   };
 
   return (
@@ -154,24 +159,24 @@ export const SearchWithDropdown: React.FC<Props> = ({
                 <fieldset className={styles.fieldset}>
                   <legend className="navds-sr-only">{heading}</legend>
                   {groups
-                    .filter(group => filteredSuggestions.some(suggestion => suggestion.group === group.navn))
+                    .filter(group => filteredSuggestions.some(suggestion => suggestion.group === group))
                     .map(group => {
-                      const suggestionsInThisGroup = suggestions.filter(suggestion => suggestion.group === group.navn);
+                      const suggestionsInThisGroup = suggestions.filter(suggestion => suggestion.group === group);
                       const numberOfSelectedItemsInGroup = selectedSuggestionValues.filter(
-                        suggestionValue => getSuggestion(suggestionValue).group === group.navn,
+                        suggestionValue => getSuggestion(suggestionValue).group === group,
                       ).length;
                       return (
-                        <React.Fragment key={group.navn}>
+                        <React.Fragment key={group}>
                           <SelectCheckbox
-                            value={group.navn}
-                            label={group.navn}
+                            value={group}
+                            label={group}
                             onClick={suggestionGroup => handleSuggestionGroupToggle(suggestionGroup)}
                             numberOfItems={numberOfSelectedItemsInGroup}
-                            isChecked={openSuggestionGroups.includes(group.navn)}
+                            isChecked={openSuggestionGroups.includes(group)}
                           />
-                          {openSuggestionGroups.includes(group.navn) &&
+                          {openSuggestionGroups.includes(group) &&
                             suggestionsInThisGroup.map(suggestion => (
-                              <div key={suggestion.value} className={styles.suggestionSubgroup}>
+                              <div key={suggestion.label} className={styles.suggestionSubgroup}>
                                 <Checkbox
                                   className={styles.suggestionCheckbox}
                                   value={suggestion.value}
@@ -190,7 +195,7 @@ export const SearchWithDropdown: React.FC<Props> = ({
               <p className={styles.popoverButtonWrapper}>
                 <Button
                   onClick={() => {
-                    setConfirmedSuggestionValues(selectedSuggestionValues);
+                    updateSelection(selectedSuggestionValues);
                     setIsPopoverOpen(false);
                   }}
                   variant="primary"
@@ -203,13 +208,13 @@ export const SearchWithDropdown: React.FC<Props> = ({
           )}
         </Combobox>
 
-        {confirmedSuggestionValues.length > 0 && (
+        {selectedValues.length > 0 && (
           <Heading className={styles.merkelapperHeading} level="4" size="xsmall">
             Valgte filter:
           </Heading>
         )}
         <Merkelapper>
-          {confirmedSuggestionValues.map(suggestion => (
+          {selectedValues.map(suggestion => (
             <Merkelapp key={suggestion} onClick={() => onRemoveSuggestion(suggestion)}>
               {`${suggestion} - ${getSuggestion(suggestion).label}`}
             </Merkelapp>

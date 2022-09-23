@@ -9,7 +9,7 @@ const APP_DIR = path.resolve(ROOT_DIR, 'app');
 
 const config = {
   mode: 'development',
-  devtool: 'eval-cheap-source-map',
+  devtool: 'eval-cheap-module-source-map',
 
   entry: ['webpack-dev-server/client?http://localhost:8030', 'webpack/hot/only-dev-server', `${APP_DIR}/index.tsx`],
 

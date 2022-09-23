@@ -40,5 +40,5 @@ export type Kriterie = Readonly<{
   tom?: string;
 
   checked: boolean;
-  koder: boolean;
+  koder: string[];
 }>;

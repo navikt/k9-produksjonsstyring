@@ -9,6 +9,7 @@ enum kodeverkTyper {
   FAGSYSTEM = 'Fagsystem',
   VENTEÅRSAK = 'Venteårsak',
   MERKNAD_TYPE = 'MerknadType',
+  OPPGAVE_KODE = 'OppgaveKode',
 }
 
 export default kodeverkTyper;

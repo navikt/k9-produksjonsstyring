@@ -1,75 +1,57 @@
-import React, { Fragment, FunctionComponent } from 'react';
-import { FormattedMessage } from 'react-intl';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
-import VerticalSpacer from 'sharedComponents/VerticalSpacer';
-import ArrowBox from 'sharedComponents/ArrowBox';
-import { CheckboxField, RadioGroupField, RadioOption } from 'form/FinalFields';
+import React, { FunctionComponent } from 'react';
 
-import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
-import useKodeverk from 'api/rest-api-hooks/src/global-data/useKodeverk';
 import { K9LosApiKeys } from 'api/k9LosApi';
+import { useRestApiRunner } from 'api/rest-api-hooks';
+import useKodeverk from 'api/rest-api-hooks/src/global-data/useKodeverk';
+import { Oppgaveko } from 'avdelingsleder/behandlingskoer/oppgavekoTsType';
+import SearchWithDropdown from 'sharedComponents/SearchWithDropdown';
+import KriterierType from '../../../../types/KriterierType';
 import styles from './andreKriterierVelger.less';
 
 interface OwnProps {
   valgtOppgavekoId: string;
-  values: any;
-  hentOppgaveko:(id: string) => void;
+  values: Oppgaveko;
+  hentOppgaveko: (id: string) => void;
 }
 
 /**
  * AndreKriterierVelger
  */
-const AndreKriterierVelger: FunctionComponent<OwnProps> = ({
-  valgtOppgavekoId,
-  values,
-  hentOppgaveko,
-}) => {
-  const andreKriterierTyper = useKodeverk(kodeverkTyper.ANDRE_KRITERIER_TYPE);
-  const { startRequest: lagreOppgavekoAndreKriterier } = useRestApiRunner(K9LosApiKeys.LAGRE_OPPGAVEKO_ANDRE_KRITERIER);
+const AndreKriterierVelger: FunctionComponent<OwnProps> = ({ valgtOppgavekoId, values, hentOppgaveko }) => {
+  const { startRequest: lagreOppgavekoKoder } = useRestApiRunner(K9LosApiKeys.LAGRE_OPPGAVEKO_KRITERIER);
+
+  const andreKriterierTyper = useKodeverk(kodeverkTyper.OPPGAVE_KODE);
+  const formaterteOppgavekoder = andreKriterierTyper
+    .map(oppgavekode => ({
+      value: oppgavekode.kode,
+      label: oppgavekode.navn,
+      group: oppgavekode.gruppering,
+    }))
+    .sort((a, b) => Number(a.value) - Number(b.value));
+  const grupper = [...new Set(formaterteOppgavekoder.map(oppgavekode => oppgavekode.group))].sort();
+  const valgteKoder =
+    values?.kriterier?.find(kriterie => kriterie.kriterierType.kode === KriterierType.OppgvekodeType)?.koder || [];
+  const handleOppgavekodeChange = (koder: string[]) =>
+    lagreOppgavekoKoder({
+      id: valgtOppgavekoId,
+      kriterierType: KriterierType.OppgvekodeType,
+      koder,
+    }).then(() => {
+      hentOppgaveko(valgtOppgavekoId);
+    });
 
   return (
     <div className={styles.container}>
-      {andreKriterierTyper.map((akt) => (
-        <Fragment key={akt.kode}>
-          <VerticalSpacer fourPx />
-          <CheckboxField
-            key={akt.kode}
-            name={akt.kode}
-            label={akt.navn}
-            onChange={(isChecked) => lagreOppgavekoAndreKriterier({
-              id: valgtOppgavekoId, andreKriterierType: akt.kode, checked: isChecked, inkluder: true,
-            }).then(() => {
-              hentOppgaveko(valgtOppgavekoId);
-            })}
-          />
-          {values[akt.kode] && (
-          <>
-            <VerticalSpacer sixteenPx />
-            <div className={styles.arrowbox}>
-              <ArrowBox alignOffset={30}>
-                <RadioGroupField
-                  name={`${akt.kode}_inkluder`}
-                  onChange={(skalInkludere) => lagreOppgavekoAndreKriterier({
-                    id: valgtOppgavekoId, andreKriterierType: akt.kode, checked: true, inkluder: skalInkludere,
-                  }).then(() => {
-                    hentOppgaveko(valgtOppgavekoId);
-                  })}
-                >
-                  <RadioOption
-                    value
-                    label={<FormattedMessage id="AndreKriterierVelger.TaMed" />}
-                  />
-                  <RadioOption
-                    value={false}
-                    label={<FormattedMessage id="AndreKriterierVelger.Fjern" />}
-                  />
-                </RadioGroupField>
-              </ArrowBox>
-            </div>
-          </>
-          )}
-        </Fragment>
-      ))}
+      <SearchWithDropdown
+        label="Velg aksjonspunkt"
+        suggestions={formaterteOppgavekoder}
+        groups={grupper}
+        addButtonText="Legg til aksjonspunkt"
+        heading="Velg aksjonspunkter"
+        updateSelection={handleOppgavekodeChange}
+        selectedValues={valgteKoder}
+      />
     </div>
   );
 };

@@ -1,27 +1,27 @@
 import React, { FunctionComponent } from 'react';
 
-import { Form } from 'react-final-form';
-import { FormattedMessage, injectIntl, IntlShape, WrappedComponentProps } from 'react-intl';
-import { Normaltekst } from 'nav-frontend-typografi';
-import { hasValidName, maxLength, minLength, required } from 'utils/validation/validators';
-import { InputField } from 'form/FinalFields';
-import Image from 'sharedComponents/Image';
+import { K9LosApiKeys } from 'api/k9LosApi';
+import { useRestApi } from 'api/rest-api-hooks';
+import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
 import SkjermetVelger from 'avdelingsleder/behandlingskoer/components/oppgavekoForm/SkjermetVelger';
 import SaksbehandlereForOppgavekoForm from 'avdelingsleder/behandlingskoer/components/saksbehandlerForm/SaksbehandlereForOppgavekoForm';
-import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
-import { K9LosApiKeys } from 'api/k9LosApi';
 import { Saksbehandler } from 'avdelingsleder/bemanning/saksbehandlerTsType';
-import { useRestApi } from 'api/rest-api-hooks';
+import { InputField } from 'form/FinalFields';
+import { Normaltekst } from 'nav-frontend-typografi';
+import { Form } from 'react-final-form';
+import { FormattedMessage, injectIntl, IntlShape, WrappedComponentProps } from 'react-intl';
+import Image from 'sharedComponents/Image';
+import { hasValidName, maxLength, minLength, required } from 'utils/validation/validators';
 import { Oppgaveko } from '../../oppgavekoTsType';
+import AndreKriterierVelger from './AndreKriterierVelger';
 import AutoLagringVedBlur from './AutoLagringVedBlur';
 import BehandlingstypeVelger from './BehandlingstypeVelger';
-import AndreKriterierVelger from './AndreKriterierVelger';
 import FagsakYtelseTypeVelger from './FagsakYtelseTypeVelger';
 import SorteringVelger from './SorteringVelger';
 
-import styles from './utvalgskriterierForOppgavekoForm.less';
 import binIcon from '../../../../../images/bin-1.svg';
 import MerknadVelger from './MerknadVelger';
+import styles from './utvalgskriterierForOppgavekoForm.less';
 
 const minLength3 = minLength(3);
 const maxLength100 = maxLength(100);
@@ -111,6 +111,7 @@ export const UtvalgskriterierForOppgavekoForm: FunctionComponent<OwnProps & Wrap
                   hentOppgaveko={hentKo}
                 />
                 <SkjermetVelger valgtOppgaveko={valgtOppgaveko} hentOppgaveko={hentKo} />
+                {/* <BeslutteroppgaveVelger valgtOppgaveko={valgtOppgaveko} hentOppgaveko={hentKo} /> */}
                 <BehandlingstypeVelger
                   valgtOppgavekoId={valgtOppgaveko.id}
                   hentOppgaveko={hentKo}
