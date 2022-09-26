@@ -1,6 +1,6 @@
-import React, {FunctionComponent, useCallback, useState} from 'react';
-import {FormattedMessage} from 'react-intl';
-import {Normaltekst,} from 'nav-frontend-typografi';
+import React, { FunctionComponent, useCallback, useState } from 'react';
+import { FormattedMessage } from 'react-intl';
+import { Normaltekst } from 'nav-frontend-typografi';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
 import Image from 'sharedComponents/Image';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
@@ -9,15 +9,14 @@ import TableRow from 'sharedComponents/TableRow';
 import TableColumn from 'sharedComponents/TableColumn';
 import DateLabel from 'sharedComponents/DateLabel';
 import Chevron from 'nav-frontend-chevron';
-import {Knapp} from 'nav-frontend-knapper';
-import UtvalgskriterierForOppgavekoForm
-  from 'avdelingsleder/behandlingskoer/components/oppgavekoForm/UtvalgskriterierForOppgavekoForm';
+import { Knapp } from 'nav-frontend-knapper';
+import UtvalgskriterierForOppgavekoForm from 'avdelingsleder/behandlingskoer/components/oppgavekoForm/UtvalgskriterierForOppgavekoForm';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
-import {K9LosApiKeys} from 'api/k9LosApi';
+import { K9LosApiKeys } from 'api/k9LosApi';
 import useKodeverk from 'api/rest-api-hooks/src/global-data/useKodeverk';
 import SletteOppgavekoModal from './SletteOppgavekoModal';
-import {Oppgaveko} from '../oppgavekoTsType';
+import { Oppgaveko } from '../oppgavekoTsType';
 
 import styles from './gjeldendeOppgavekoerTabell.less';
 import addCircle from '../../../../images/add-circle-bla.svg';
@@ -37,10 +36,10 @@ interface OwnProps {
   resetValgtOppgavekoId: () => void;
   valgtOppgavekoId?: string;
   requestFinished: boolean;
-  hentAlleOppgavekoer:() => void;
+  hentAlleOppgavekoer: () => void;
 }
 
-const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 /**
  * GjeldendeOppgavekoerTabell
@@ -58,14 +57,14 @@ export const GjeldendeOppgavekoerTabell: FunctionComponent<OwnProps> = ({
   const { startRequest: fjernOppgaveko } = useRestApiRunner(K9LosApiKeys.SLETT_OPPGAVEKO);
   const { startRequest: hentOppgaveko } = useRestApiRunner<Oppgaveko>(K9LosApiKeys.HENT_OPPGAVEKO);
 
-  const { startRequest: lagNyOppgaveko } = useRestApiRunner<{id: string}>(K9LosApiKeys.OPPRETT_NY_OPPGAVEKO);
+  const { startRequest: lagNyOppgaveko } = useRestApiRunner<{ id: string }>(K9LosApiKeys.OPPRETT_NY_OPPGAVEKO);
 
   const hentOppgaveKoFn = (id: string) => {
-    hentOppgaveko({ id }).then((ko) => setValgtKo(ko));
+    hentOppgaveko({ id }).then(ko => setValgtKo(ko));
   };
 
   const lagNyOppgavekoFn = useCallback(() => {
-    lagNyOppgaveko().then((data) => {
+    lagNyOppgaveko().then(data => {
       setValgtOppgavekoId(data.id);
       hentAlleOppgavekoer();
       hentOppgaveKoFn(data.id);
@@ -93,11 +92,10 @@ export const GjeldendeOppgavekoerTabell: FunctionComponent<OwnProps> = ({
 
   const fjernOppgavekoFn = useCallback((oppgaveko: Oppgaveko): void => {
     closeSletteModal();
-    fjernOppgaveko({ id: oppgaveko.id })
-      .then(() => {
-        resetValgtOppgavekoId();
-        hentAlleOppgavekoer();
-      });
+    fjernOppgaveko({ id: oppgaveko.id }).then(() => {
+      resetValgtOppgavekoId();
+      hentAlleOppgavekoer();
+    });
   }, []);
 
   const lagNyOppgavekoOnKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>) => {
@@ -116,14 +114,20 @@ export const GjeldendeOppgavekoerTabell: FunctionComponent<OwnProps> = ({
 
   const antallFagytelseTyper = 6;
   const formatStonadstyper = (valgteFagsakYtelseTyper?: string[]) => {
-    if (!valgteFagsakYtelseTyper || valgteFagsakYtelseTyper.length === 0 || valgteFagsakYtelseTyper.length >= antallFagytelseTyper) {
+    if (
+      !valgteFagsakYtelseTyper ||
+      valgteFagsakYtelseTyper.length === 0 ||
+      valgteFagsakYtelseTyper.length >= antallFagytelseTyper
+    ) {
       return <FormattedMessage id="GjeldendeOppgavekoerTabell.Alle" />;
     }
 
-    return valgteFagsakYtelseTyper.map((fyt) => {
-      const type = fagsakYtelseTyper.find((def) => def.kode === fyt);
-      return type ? type.navn : '';
-    }).join(', ');
+    return valgteFagsakYtelseTyper
+      .map(fyt => {
+        const type = fagsakYtelseTyper.find(def => def.kode === fyt);
+        return type ? type.navn : '';
+      })
+      .join(', ');
   };
 
   return (
@@ -134,28 +138,27 @@ export const GjeldendeOppgavekoerTabell: FunctionComponent<OwnProps> = ({
           className={styles.addKnapp}
           tabIndex={0}
           onClick={lagNyOppgavekoOnClick}
-          onKeyDown={(e) => lagNyOppgavekoOnKeyDown(e)}
+          onKeyDown={e => lagNyOppgavekoOnKeyDown(e)}
         >
           <Image src={addCircle} className={styles.addIcon} />
           <FormattedMessage id="GjeldendeOppgavekoerTabell.LeggTilListe" />
         </Knapp>
       )}
-      {oppgavekoer.length === 0 && !requestFinished && (
-        <NavFrontendSpinner type="XL" className={styles.spinner} />
-      )}
+      {oppgavekoer.length === 0 && !requestFinished && <NavFrontendSpinner type="XL" className={styles.spinner} />}
       {oppgavekoer.length === 0 && requestFinished && (
-      <>
-        <VerticalSpacer eightPx />
-        <Normaltekst><FormattedMessage id="GjeldendeOppgavekoerTabell.IngenLister" /></Normaltekst>
-        <VerticalSpacer eightPx />
-      </>
+        <>
+          <VerticalSpacer eightPx />
+          <Normaltekst>
+            <FormattedMessage id="GjeldendeOppgavekoerTabell.IngenLister" />
+          </Normaltekst>
+          <VerticalSpacer eightPx />
+        </>
       )}
       {oppgavekoer.length > 0 && (
         <Table headerTextCodes={headerTextCodes}>
-          {oppgavekoer.map((oppgaveko) => (
-            <>
+          {oppgavekoer.map(oppgaveko => (
+            <React.Fragment key={oppgaveko.id}>
               <TableRow
-                key={oppgaveko.id}
                 className={oppgaveko.id === valgtOppgavekoId ? styles.isSelected : styles.notSelected}
                 id={oppgaveko.id}
                 onMouseDown={setValgtOppgaveko}
@@ -169,7 +172,11 @@ export const GjeldendeOppgavekoerTabell: FunctionComponent<OwnProps> = ({
                   <DateLabel dateString={oppgaveko.sistEndret} />
                 </TableColumn>
                 <TableColumn>
-                  <Chevron key={oppgaveko.id} type={(valgtOppgavekoId && valgtOppgavekoId === oppgaveko.id) ? 'opp' : 'ned'} className={styles.chevron} />
+                  <Chevron
+                    key={oppgaveko.id}
+                    type={valgtOppgavekoId && valgtOppgavekoId === oppgaveko.id ? 'opp' : 'ned'}
+                    className={styles.chevron}
+                  />
                 </TableColumn>
               </TableRow>
 
@@ -186,17 +193,12 @@ export const GjeldendeOppgavekoerTabell: FunctionComponent<OwnProps> = ({
               )}
 
               {visSlettModal && (
-              <SletteOppgavekoModal
-                valgtOppgaveko={valgtKo}
-                cancel={closeSletteModal}
-                submit={fjernOppgavekoFn}
-              />
+                <SletteOppgavekoModal valgtOppgaveko={valgtKo} cancel={closeSletteModal} submit={fjernOppgavekoFn} />
               )}
-            </>
+            </React.Fragment>
           ))}
         </Table>
       )}
-
     </>
   );
 };

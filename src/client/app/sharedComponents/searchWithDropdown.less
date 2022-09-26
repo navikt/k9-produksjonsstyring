@@ -17,12 +17,20 @@
   border-color: var(--navds-search-color-border);
   border-radius: var(--navds-border-radius-medium);
   box-shadow: var(--navds-shadow-medium);
-  padding-bottom: 0.75rem;
+  padding: 18px 0;
   transform: translateY(4px);
 }
 
 .list[data-reach-combobox-list] {
+  list-style-type: none;
+  margin: 0 0 18px;
   padding: 0;
+
+  ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
 }
 
 .suggestion[data-reach-combobox-option][data-highlighted],

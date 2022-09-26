@@ -1,6 +1,4 @@
-import React, {
-  FunctionComponent, useCallback, useState,
-} from 'react';
+import React, { FunctionComponent, useCallback, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Normaltekst, Element } from 'nav-frontend-typografi';
 import Image from 'sharedComponents/Image';
@@ -20,10 +18,7 @@ import { Saksbehandler } from '../saksbehandlerTsType';
 
 import styles from './saksbehandlereTabell.less';
 
-const headerTextCodes = [
-  'SaksbehandlereTabell.Navn',
-  'EMPTY_1',
-];
+const headerTextCodes = ['SaksbehandlereTabell.Navn', 'EMPTY_1'];
 
 interface OwnProps {
   saksbehandlere: Saksbehandler[];
@@ -33,10 +28,7 @@ interface OwnProps {
 /**
  * SaksbehandlereTabell
  */
-const SaksbehandlereTabell: FunctionComponent<OwnProps> = ({
-  saksbehandlere,
-  hentAlleSaksbehandlere,
-}) => {
+const SaksbehandlereTabell: FunctionComponent<OwnProps> = ({ saksbehandlere, hentAlleSaksbehandlere }) => {
   const [valgtSaksbehandler, setValgtSaksbehandler] = useState<Saksbehandler>();
   const [visAddSaksbehadler, setVisAddSaksbehandler] = useState(false);
 
@@ -58,7 +50,9 @@ const SaksbehandlereTabell: FunctionComponent<OwnProps> = ({
     }
   };
 
-  const onAddClick = () => { setVisAddSaksbehandler(true); };
+  const onAddClick = () => {
+    setVisAddSaksbehandler(true);
+  };
 
   return (
     <>
@@ -66,60 +60,48 @@ const SaksbehandlereTabell: FunctionComponent<OwnProps> = ({
         <Image src={saksbehandlereGra} className={styles.icon} />
         <FormattedMessage id="SaksbehandlereTabell.Saksbehandlere" />
       </Element>
-      <Knapp
-        mini
-        className={styles.addKnapp}
-        tabIndex={0}
-        onClick={onAddClick}
-      >
+      <Knapp mini className={styles.addKnapp} tabIndex={0} onClick={onAddClick}>
         <Image src={addCircle} className={styles.addIcon} />
         <FormattedMessage id="LeggTilSaksbehandlerForm.LeggTil" />
       </Knapp>
-      {visAddSaksbehadler
-      && (
-      <LeggTilSaksbehandlerForm
-        hentAlleSaksbehandlere={hentAlleSaksbehandlere}
-        saksbehandlere={saksbehandlere}
-        lukkForm={lukkForm}
-      />
+      {visAddSaksbehadler && (
+        <LeggTilSaksbehandlerForm
+          hentAlleSaksbehandlere={hentAlleSaksbehandlere}
+          saksbehandlere={saksbehandlere}
+          lukkForm={lukkForm}
+        />
       )}
       {saksbehandlere.length === 0 && (
-      <>
-        <VerticalSpacer eightPx />
-        <Normaltekst><FormattedMessage id="SaksbehandlereTabell.IngenSaksbehandlere" /></Normaltekst>
-        <VerticalSpacer eightPx />
-      </>
+        <>
+          <VerticalSpacer eightPx />
+          <Normaltekst>
+            <FormattedMessage id="SaksbehandlereTabell.IngenSaksbehandlere" />
+          </Normaltekst>
+          <VerticalSpacer eightPx />
+        </>
       )}
       {saksbehandlere.length > 0 && (
         <Table headerTextCodes={headerTextCodes} noHover>
-          {saksbehandlere.map((saksbehandler) => (
-            <>
-              <TableRow
-                key={saksbehandler.brukerIdent}
-                onMouseDown={() => onClick(saksbehandler)}
-                onKeyDown={() => onClick(saksbehandler)}
-              >
+          {saksbehandlere.map(saksbehandler => (
+            <React.Fragment key={saksbehandler.brukerIdent || saksbehandler.epost}>
+              <TableRow onMouseDown={() => onClick(saksbehandler)} onKeyDown={() => onClick(saksbehandler)}>
                 <TableColumn>{saksbehandler.navn != null ? saksbehandler.navn : saksbehandler.epost}</TableColumn>
                 <TableColumn>
                   <Chevron
                     key={saksbehandler.brukerIdent}
-                    type={(valgtSaksbehandler && valgtSaksbehandler === saksbehandler) ? 'opp' : 'ned'}
+                    type={valgtSaksbehandler && valgtSaksbehandler === saksbehandler ? 'opp' : 'ned'}
                     className={styles.chevron}
                   />
                 </TableColumn>
               </TableRow>
               {valgtSaksbehandler === saksbehandler && (
-              <TableRow>
-                <TableColumn>
-                  <SaksbehandlerInfo
-                    saksbehandler={saksbehandler}
-                    fjernSaksbehandler={fjernSaksbehandlerFn}
-                  />
-                </TableColumn>
-              </TableRow>
-
+                <TableRow>
+                  <TableColumn>
+                    <SaksbehandlerInfo saksbehandler={saksbehandler} fjernSaksbehandler={fjernSaksbehandlerFn} />
+                  </TableColumn>
+                </TableRow>
               )}
-            </>
+            </React.Fragment>
           ))}
         </Table>
       )}

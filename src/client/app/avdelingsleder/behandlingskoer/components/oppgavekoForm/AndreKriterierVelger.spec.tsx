@@ -1,137 +1,79 @@
 import React from 'react';
-import { expect } from 'chai';
 import sinon from 'sinon';
-import { shallow } from 'enzyme';
 
-import andreKriterierType from 'kodeverk/andreKriterierType';
-import { CheckboxField, RadioGroupField, RadioOption } from 'form/FinalFields';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { K9LosApiKeys } from 'api/k9LosApi';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
 import RestApiTestMocker from '../../../../../../../setup/testHelpers/RestApiTestMocker';
-import { K9LosApiKeys } from 'api/k9LosApi';
 import AndreKriterierVelger from './AndreKriterierVelger';
 
 describe('<AndreKriterierVelger>', () => {
-  const andreKriterier = [{
-    kode: andreKriterierType.TIL_BESLUTTER,
-    navn: 'Til beslutter',
-  }, {
-    kode: andreKriterierType.AVKLAR_MEDLEMSKAP,
-    navn: 'Registrer papirsøknad',
-  }];
+  const oppgavekø = {
+    id: '65d96681-d3e9-4594-9c26-905e87b7c484',
+    navn: 'Ny kø',
+    sortering: {
+      sorteringType: {
+        kode: 'OPPRBEH',
+        navn: 'Dato for opprettelse av behandling',
+        felttype: 'DATO',
+        feltkategori: '',
+        kodeverk: 'KO_SORTERING',
+      },
+      fomDato: null,
+      tomDato: null,
+    },
+    behandlingTyper: [],
+    fagsakYtelseTyper: [],
+    andreKriterier: [],
+    skjermet: false,
+    sistEndret: '2022-09-26',
+    antallBehandlinger: 0,
+    saksbehandlere: [],
+    kriterier: [],
+  };
 
-  it('skal vise checkbox for Til beslutter', () => {
+  const andreKriterier = [
+    {
+      kode: '9001',
+      navn: 'Sykdom',
+      kodeverk: 'OPPGAVE_KODE',
+      gruppering: 'Sykdom',
+    },
+    {
+      kode: '5015',
+      navn: 'Forslå vedtak',
+      kodeverk: 'OPPGAVE_KODE',
+      gruppering: 'Vedtak',
+    },
+    {
+      kode: '5028',
+      navn: 'Foreslå vedtak manuelt',
+      kodeverk: 'OPPGAVE_KODE',
+      gruppering: 'Vedtak',
+    },
+    {
+      kode: '5016',
+      navn: 'Fatte vedtak',
+      kodeverk: 'OPPGAVE_KODE',
+      gruppering: 'Vedtak',
+    },
+  ];
+
+  it('skal kunne filtrere og vise checkbox', () => {
+    const lagreOppgavekoKoderFn = sinon.spy();
     new RestApiTestMocker()
-      .withKodeverk(kodeverkTyper.ANDRE_KRITERIER_TYPE, andreKriterier)
-      .withDummyRunner()
+      .withKodeverk(kodeverkTyper.OPPGAVE_KODE, andreKriterier)
+      .withRestCallRunner(K9LosApiKeys.LAGRE_OPPGAVEKO_KRITERIER, {
+        startRequest: params => {
+          lagreOppgavekoKoderFn(params);
+          return Promise.resolve();
+        },
+      })
       .runTest(() => {
-        const wrapper = shallow(<AndreKriterierVelger
-          valgtOppgavekoId="1"
-          values={{}}
-          hentOppgaveko={sinon.spy()}
-        />);
-
-        const checkboxer = wrapper.find(CheckboxField);
-        expect(checkboxer).to.have.length(2);
-        const tilBeslutterCheckbox = checkboxer.first();
-        expect(tilBeslutterCheckbox.prop('name')).to.eql(andreKriterierType.TIL_BESLUTTER);
-
-        expect(wrapper.find(RadioGroupField)).to.have.length(0);
-        expect(wrapper.find(RadioOption)).to.have.length(0);
-      });
-  });
-
-  it('skal vise checkbox for Avklar medlemskap', () => {
-    new RestApiTestMocker()
-      .withKodeverk(kodeverkTyper.ANDRE_KRITERIER_TYPE, andreKriterier)
-      .withDummyRunner()
-      .runTest(() => {
-        const wrapper = shallow(<AndreKriterierVelger
-          valgtOppgavekoId="1"
-          values={{}}
-          hentOppgaveko={sinon.spy()}
-        />);
-
-        const checkboxer = wrapper.find(CheckboxField);
-        expect(checkboxer).to.have.length(2);
-        const tilBeslutterCheckbox = checkboxer.last();
-        expect(tilBeslutterCheckbox.prop('name')).to.eql(andreKriterierType.AVKLAR_MEDLEMSKAP);
-
-        expect(wrapper.find(RadioGroupField)).to.have.length(0);
-        expect(wrapper.find(RadioOption)).to.have.length(0);
-      });
-  });
-
-  it('skal lagre valgt for Til beslutter ved klikk på checkbox', () => {
-    const lagreAndreKriterierFn = sinon.spy();
-
-    new RestApiTestMocker()
-      .withKodeverk(kodeverkTyper.ANDRE_KRITERIER_TYPE, andreKriterier)
-      .withRestCallRunner(K9LosApiKeys.LAGRE_OPPGAVEKO_ANDRE_KRITERIER,
-        { startRequest: (params) => { lagreAndreKriterierFn(params); return Promise.resolve(); } })
-      .runTest(() => {
-        const wrapper = shallow(<AndreKriterierVelger
-          valgtOppgavekoId="1"
-          values={{}}
-          hentOppgaveko={sinon.spy()}
-        />);
-
-        const checkbox = wrapper.find(CheckboxField).first();
-        checkbox.prop('onChange')(true);
-
-        expect(lagreAndreKriterierFn.calledOnce).to.be.true;
-        const { args } = lagreAndreKriterierFn.getCalls()[0];
-        expect(args).to.have.length(1);
-        expect(args[0].id).to.eql('1');
-        expect(args[0].andreKriterierType).to.eql(andreKriterierType.TIL_BESLUTTER);
-        expect(args[0].checked).to.true;
-        expect(args[0].inkluder).to.true;
-      });
-  });
-
-  it('skal vise radioknapper for å ta med eller fjerne', () => {
-    new RestApiTestMocker()
-      .withKodeverk(kodeverkTyper.ANDRE_KRITERIER_TYPE, andreKriterier)
-      .withDummyRunner()
-      .runTest(() => {
-        const wrapper = shallow(<AndreKriterierVelger
-          valgtOppgavekoId="1"
-          hentOppgaveko={sinon.spy()}
-          values={{
-            [andreKriterierType.TIL_BESLUTTER]: true,
-            [`${andreKriterierType.TIL_BESLUTTER}_inkluder`]: true,
-          }}
-        />);
-
-        expect(wrapper.find(RadioGroupField)).to.have.length(1);
-        expect(wrapper.find(RadioOption)).to.have.length(2);
-      });
-  });
-
-  it('skal valge å fjerne inkludering av beslutter', () => {
-    const lagreAndreKriterierFn = sinon.spy();
-    new RestApiTestMocker()
-      .withKodeverk(kodeverkTyper.ANDRE_KRITERIER_TYPE, andreKriterier)
-      .withRestCallRunner(K9LosApiKeys.LAGRE_OPPGAVEKO_ANDRE_KRITERIER,
-        { startRequest: (params) => { lagreAndreKriterierFn(params); return Promise.resolve(); } })
-      .runTest(() => {
-        const wrapper = shallow(<AndreKriterierVelger
-          valgtOppgavekoId="1"
-          hentOppgaveko={sinon.spy()}
-          values={{
-            [andreKriterierType.TIL_BESLUTTER]: true,
-            [`${andreKriterierType.TIL_BESLUTTER}_inkluder`]: true,
-          }}
-        />);
-
-        wrapper.find(RadioGroupField).prop('onChange')(false);
-
-        expect(lagreAndreKriterierFn.calledOnce).to.be.true;
-        const { args } = lagreAndreKriterierFn.getCalls()[0];
-        expect(args).to.have.length(1);
-        expect(args[0].id).to.eql('1');
-        expect(args[0].andreKriterierType).to.eql(andreKriterierType.TIL_BESLUTTER);
-        expect(args[0].checked).to.true;
-        expect(args[0].inkluder).to.false;
+        render(<AndreKriterierVelger valgtOppgavekoId="1" values={oppgavekø} hentOppgaveko={sinon.spy()} />);
+        userEvent.type(screen.getByLabelText('Velg aksjonspunkt'), 'Foreslå vedtak manuelt');
+        expect(screen.getByLabelText('5028 - Foreslå vedtak manuelt')).toBeVisible();
       });
   });
 });

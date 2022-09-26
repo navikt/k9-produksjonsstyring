@@ -46,6 +46,7 @@ export const SearchWithDropdown: React.FC<Props> = ({
   const [filteredSuggestions, setFilteredSuggestions] = useState(suggestions);
   const [currentInput, setCurrentInput] = useState('');
   const [openSuggestionGroups, setOpenSuggestionGroups] = useState<string[]>([]);
+  const [showFilteredSuggestionsOnly, setShowFilteredSuggestionsOnly] = useState(false);
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const inputId = useMemo(() => uuidv4(), []);
   const descriptionId = useMemo(() => uuidv4(), []);
@@ -60,6 +61,9 @@ export const SearchWithDropdown: React.FC<Props> = ({
       selectedGroups.push(selectedGroup);
     });
     setOpenSuggestionGroups([...new Set(selectedGroups)]);
+    setShowFilteredSuggestionsOnly(false);
+    setFilteredSuggestions(suggestions);
+    setCurrentInput('');
   }, [selectedValues]);
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -67,6 +71,7 @@ export const SearchWithDropdown: React.FC<Props> = ({
     setCurrentInput(suggestionLabel);
     if (!suggestionLabel) {
       setFilteredSuggestions(suggestions);
+      setShowFilteredSuggestionsOnly(false);
     } else {
       setFilteredSuggestions(
         suggestions.filter(
@@ -74,6 +79,7 @@ export const SearchWithDropdown: React.FC<Props> = ({
             s.label.toLowerCase().indexOf(suggestionLabel.toLowerCase()) > -1 || s.value.indexOf(suggestionLabel) > -1,
         ),
       );
+      setShowFilteredSuggestionsOnly(true);
     }
   };
 
@@ -152,46 +158,62 @@ export const SearchWithDropdown: React.FC<Props> = ({
 
           {isPopoverOpen && groups.length > 0 && (
             <ComboboxPopover className={styles.suggestionPopover}>
-              <ComboboxList className={styles.list}>
-                <Heading className={styles.listHeading} level="3" size="xsmall">
-                  Grupper
-                </Heading>
-                <fieldset className={styles.fieldset}>
-                  <legend className="navds-sr-only">{heading}</legend>
-                  {groups
-                    .filter(group => filteredSuggestions.some(suggestion => suggestion.group === group))
-                    .map(group => {
-                      const suggestionsInThisGroup = suggestions.filter(suggestion => suggestion.group === group);
-                      const numberOfSelectedItemsInGroup = selectedSuggestionValues.filter(
-                        suggestionValue => getSuggestion(suggestionValue).group === group,
-                      ).length;
-                      return (
-                        <React.Fragment key={group}>
-                          <SelectCheckbox
-                            value={group}
-                            label={group}
-                            onClick={suggestionGroup => handleSuggestionGroupToggle(suggestionGroup)}
-                            numberOfItems={numberOfSelectedItemsInGroup}
-                            isChecked={openSuggestionGroups.includes(group)}
-                          />
-                          {openSuggestionGroups.includes(group) &&
-                            suggestionsInThisGroup.map(suggestion => (
-                              <div key={suggestion.label} className={styles.suggestionSubgroup}>
-                                <Checkbox
-                                  className={styles.suggestionCheckbox}
-                                  value={suggestion.value}
-                                  onClick={() => onSelect(suggestion.value)}
-                                  checked={selectedSuggestionValues.includes(suggestion.value)}
-                                >
-                                  {`${suggestion.value} - ${suggestion.label}`}
-                                </Checkbox>
-                              </div>
-                            ))}
-                        </React.Fragment>
-                      );
-                    })}
-                </fieldset>
-              </ComboboxList>
+              <Heading className={styles.listHeading} level="3" size="xsmall">
+                Grupper
+              </Heading>
+              <fieldset className={styles.fieldset}>
+                <legend className="navds-sr-only">{heading}</legend>
+                <ComboboxList className={styles.list}>
+                  {!showFilteredSuggestionsOnly &&
+                    groups
+                      .filter(group => filteredSuggestions.some(suggestion => suggestion.group === group))
+                      .map(group => {
+                        const suggestionsInThisGroup = suggestions.filter(suggestion => suggestion.group === group);
+                        const numberOfSelectedItemsInGroup = selectedSuggestionValues.filter(
+                          suggestionValue => getSuggestion(suggestionValue).group === group,
+                        ).length;
+                        return (
+                          <li key={group}>
+                            <SelectCheckbox
+                              value={group}
+                              label={group}
+                              onClick={suggestionGroup => handleSuggestionGroupToggle(suggestionGroup)}
+                              numberOfItems={numberOfSelectedItemsInGroup}
+                              isChecked={openSuggestionGroups.includes(group)}
+                            />
+                            {openSuggestionGroups.includes(group) && (
+                              <ul>
+                                {suggestionsInThisGroup.map(suggestion => (
+                                  <li key={suggestion.value} className={styles.suggestionSubgroup}>
+                                    <Checkbox
+                                      className={styles.suggestionCheckbox}
+                                      value={suggestion.value}
+                                      onClick={() => onSelect(suggestion.value)}
+                                      checked={selectedSuggestionValues.includes(suggestion.value)}
+                                    >
+                                      {`${suggestion.value} - ${suggestion.label}`}
+                                    </Checkbox>
+                                  </li>
+                                ))}
+                              </ul>
+                            )}
+                          </li>
+                        );
+                      })}
+                  {showFilteredSuggestionsOnly &&
+                    filteredSuggestions.map(suggestion => (
+                      <Checkbox
+                        key={suggestion.value}
+                        className={styles.suggestionCheckbox}
+                        value={suggestion.value}
+                        onClick={() => onSelect(suggestion.value)}
+                        checked={selectedSuggestionValues.includes(suggestion.value)}
+                      >
+                        {`${suggestion.value} - ${suggestion.label}`}
+                      </Checkbox>
+                    ))}
+                </ComboboxList>
+              </fieldset>
               <p className={styles.popoverButtonWrapper}>
                 <Button
                   onClick={() => {
@@ -200,6 +222,7 @@ export const SearchWithDropdown: React.FC<Props> = ({
                   }}
                   variant="primary"
                   size="medium"
+                  type="button"
                 >
                   {addButtonText}
                 </Button>
