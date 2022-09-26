@@ -1,3 +1,5 @@
+@import '@{coreModulePath}nav-frontend-core/less/_variabler';
+
 .statusAksjonspunkt {
   animation-duration: 1s;
   animation-name: fadein;
@@ -57,8 +59,6 @@
   }
 }
 
-@import '@{coreModulePath}nav-frontend-core/less/_variabler';
-
 .linkElement() {
   border: 1px solid @navGra20;
   border-bottom: none;
@@ -87,19 +87,10 @@
 
   background-color: transparent;
   color: @navBla;
-  padding: 0.5rem 2.5rem 0.5rem 2.5rem;
+  padding: 0.5rem 2.5rem;
 
-  &.isActive,
-  &:active {
-    border: none;
-    color: @navMorkGra;
-    padding: 0.7rem 2.5rem 0.5rem 2.5rem;
-    text-decoration: none;
-
-    &:focus {
-      color: @navLilla;
-      text-decoration: none;
-    }
+  &:hover {
+    color: @navBla;
   }
 
   &.isActive {
@@ -109,7 +100,7 @@
 
   &:focus {
     color: @navBla;
-    padding: 0.5rem 2.5rem 0.5rem 2.5rem;
+    padding: 0.5rem 2.5rem;
     text-decoration: none;
 
     &:hover {
@@ -117,7 +108,17 @@
     }
   }
 
-  &:hover {
-    color: @navBla;
+  /* stylelint-disable-next-line no-descending-specificity */
+  &.isActive,
+  &:active {
+    border: none;
+    color: @navMorkGra;
+    padding: 0.7rem 2.5rem 0.5rem;
+    text-decoration: none;
+
+    &:focus {
+      color: @navLilla;
+      text-decoration: none;
+    }
   }
 }

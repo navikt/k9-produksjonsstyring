@@ -160,15 +160,16 @@
     background-color: @grayBackground;
   }
 
-  &:empty:hover {
-    background-color: transparent;
-  }
-
   &:last-child {
     color: @navRod;
   }
+
+  &:empty:hover {
+    background-color: transparent;
+  }
 }
 
+/* stylelint-disable-next-line no-descending-specificity */
 .DayPicker--interactionDisabled .DayPicker-Day {
   cursor: default;
 }
@@ -186,6 +187,7 @@
   }
 }
 
+/* stylelint-disable-next-line no-descending-specificity */
 .DayPicker-Day--disabled:hover {
   background-color: transparent;
 }
@@ -207,7 +209,7 @@
   color: @navRod;
 }
 
-.DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside) {
+.DayPicker-Day--selected:not(.DayPicker-Day--disabled, .DayPicker-Day--outside) {
   background-color: @navDypBla;
   color: @white;
 }
