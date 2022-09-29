@@ -1,21 +1,21 @@
+import { Checkbox, Label } from '@navikt/ds-react';
+import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
+import { useGlobalStateRestApiData } from 'api/rest-api-hooks';
+import useKodeverk from 'api/rest-api-hooks/src/global-data/useKodeverk';
+import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
+import BelopSorteringValg from 'avdelingsleder/behandlingskoer/components/oppgavekoForm/BelopSorteringValg';
+import { Kriterie } from 'avdelingsleder/behandlingskoer/oppgavekoTsType';
+import AlleKodeverk from 'kodeverk/alleKodeverkTsType';
+import kodeverkTyper from 'kodeverk/kodeverkTyper';
+import KoSortering from 'kodeverk/KoSortering';
+import KoSorteringType from 'kodeverk/KoSorteringTsType';
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import { FormattedMessage, injectIntl, WrappedComponentProps } from 'react-intl';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
-import kodeverkTyper from 'kodeverk/kodeverkTyper';
-import KoSorteringType from 'kodeverk/KoSorteringTsType';
-import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
-import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
-import useKodeverk from 'api/rest-api-hooks/src/global-data/useKodeverk';
-import AlleKodeverk from 'kodeverk/alleKodeverkTsType';
-import { useGlobalStateRestApiData } from 'api/rest-api-hooks';
 import { getKodeverknavnFraKode } from 'utils/kodeverkUtils';
-import DatoSorteringValg from './DatoSorteringValg';
-import BelopSorteringValg from 'avdelingsleder/behandlingskoer/components/oppgavekoForm/BelopSorteringValg';
-import styles from './utvalgskriterierForOppgavekoForm.less';
 import KriterierType from '../../../../types/KriterierType';
-import { Kriterie } from 'avdelingsleder/behandlingskoer/oppgavekoTsType';
-import { Checkbox, Label } from '@navikt/ds-react';
-import KoSortering from 'kodeverk/KoSortering';
+import DatoSorteringValg from './DatoSorteringValg';
+import styles from './utvalgskriterierForOppgavekoForm.less';
 
 interface OwnProps {
   intl: any;
@@ -92,29 +92,30 @@ const SorteringVelger: FunctionComponent<OwnProps & WrappedComponentProps> = ({
         {koSorteringer.map(
           koSortering =>
             koSortering.kode === 'OPPRBEH' && (
-              <Checkbox
-                key={koSortering.kode}
-                value={koSortering.kode}
-                data-testid={`kriterie-${koSortering.kode}`}
-                checked={true}
-                onChange={e => leggTilEllerFjerneFiltrering(e.target.value, e.target.checked)}
-              >
-                {koSortering.felttype === 'DATO' && (
-                  <>
+              <React.Fragment key={koSortering.kode}>
+                <Checkbox
+                  value={koSortering.kode}
+                  data-testid={`kriterie-${koSortering.kode}`}
+                  checked
+                  onChange={e => leggTilEllerFjerneFiltrering(e.target.value, e.target.checked)}
+                >
+                  {koSortering.felttype === 'DATO' && (
                     <span className={styles.kriterierTitel}>
                       {getKodeverknavnFraKode(koSortering.kode, kodeverkTyper.KO_SORTERING, alleKodeverk)}
                     </span>
-                    <DatoSorteringValg
-                      intl={intl}
-                      valgtOppgavekoId={valgtOppgavekoId}
-                      hentOppgaveko={hentOppgaveko}
-                      lagreOppgavekoSorteringTidsintervallDato={lagreOppgavekoSorteringTidsintervallDato}
-                      fomDato={fomDato}
-                      tomDato={tomDato}
-                    />
-                  </>
+                  )}
+                </Checkbox>
+                {koSortering.felttype === 'DATO' && (
+                  <DatoSorteringValg
+                    intl={intl}
+                    valgtOppgavekoId={valgtOppgavekoId}
+                    hentOppgaveko={hentOppgaveko}
+                    lagreOppgavekoSorteringTidsintervallDato={lagreOppgavekoSorteringTidsintervallDato}
+                    fomDato={fomDato}
+                    tomDato={tomDato}
+                  />
                 )}
-              </Checkbox>
+              </React.Fragment>
             ),
         )}
 
@@ -140,8 +141,8 @@ const SorteringVelger: FunctionComponent<OwnProps & WrappedComponentProps> = ({
               </span>
               {koKriterie.felttype === 'BELOP' && valgtFiltrering.includes(koKriterie.kode) && (
                 <BelopSorteringValg
-                  til={parseInt(filtreringPåBelop?.tom) || 0}
-                  fra={parseInt(filtreringPåBelop?.fom) || 0}
+                  til={parseInt(filtreringPåBelop?.tom, 10) || 0}
+                  fra={parseInt(filtreringPåBelop?.fom, 10) || 0}
                   lagreFilteringBelopp={lagreFilteringBelopp}
                 />
               )}
