@@ -11,27 +11,28 @@ import styles from './andreKriterierVelger.less';
 
 interface OwnProps {
   valgtOppgavekoId: string;
-  values: Oppgaveko;
+  valgtOppgaveko: Oppgaveko;
   hentOppgaveko: (id: string) => void;
 }
 
 /**
  * AndreKriterierVelger
  */
-const AndreKriterierVelger: FunctionComponent<OwnProps> = ({ valgtOppgavekoId, values, hentOppgaveko }) => {
+const AndreKriterierVelger: FunctionComponent<OwnProps> = ({ valgtOppgavekoId, valgtOppgaveko, hentOppgaveko }) => {
   const { startRequest: lagreOppgavekoKoder } = useRestApiRunner(K9LosApiKeys.LAGRE_OPPGAVEKO_KRITERIER);
 
   const andreKriterierTyper = useKodeverk(kodeverkTyper.OPPGAVE_KODE);
   const formaterteOppgavekoder = andreKriterierTyper
     .map(oppgavekode => ({
       value: oppgavekode.kode,
-      label: oppgavekode.navn,
+      label: `${oppgavekode.kode} - ${oppgavekode.navn}`,
       group: oppgavekode.gruppering,
     }))
     .sort((a, b) => Number(a.value) - Number(b.value));
   const grupper = [...new Set(formaterteOppgavekoder.map(oppgavekode => oppgavekode.group))].sort();
   const valgteKoder =
-    values?.kriterier?.find(kriterie => kriterie.kriterierType.kode === KriterierType.OppgvekodeType)?.koder || [];
+    valgtOppgaveko?.kriterier?.find(kriterie => kriterie.kriterierType.kode === KriterierType.OppgvekodeType)?.koder ||
+    [];
   const handleOppgavekodeChange = (koder: string[]) =>
     lagreOppgavekoKoder({
       id: valgtOppgavekoId,

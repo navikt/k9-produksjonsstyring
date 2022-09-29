@@ -5,4 +5,5 @@ export type Saksbehandler = Readonly<{
   navn?: string;
   epost: string;
   oppgavekoer: string[];
-}>
+  enhet?: string;
+}>;

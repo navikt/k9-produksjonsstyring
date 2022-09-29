@@ -1,13 +1,14 @@
+import { Normaltekst } from 'nav-frontend-typografi';
 import React, { FunctionComponent } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Normaltekst } from 'nav-frontend-typografi';
 
-import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import { RadioGroupField, RadioOption } from 'form/FinalFields';
+import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 
-import { Oppgaveko } from 'avdelingsleder/behandlingskoer/oppgavekoTsType';
-import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
 import { K9LosApiKeys } from 'api/k9LosApi';
+import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
+import { Oppgaveko } from 'avdelingsleder/behandlingskoer/oppgavekoTsType';
+import andreKriterierType from 'kodeverk/andreKriterierType';
 import styles from './beslutteroppgaveVelger.less';
 
 interface OwnProps {
@@ -16,7 +17,18 @@ interface OwnProps {
 }
 
 export const BeslutteroppgaveVelger: FunctionComponent<OwnProps> = ({ valgtOppgaveko, hentOppgaveko }) => {
-  const { startRequest: lagreBeslutteroppgave } = useRestApiRunner(K9LosApiKeys.LAGRE_OPPGAVEKO_SKJERMET); // endre endepunkt
+  const { startRequest: lagreOppgavekoAndreKriterier } = useRestApiRunner(K9LosApiKeys.LAGRE_OPPGAVEKO_ANDRE_KRITERIER);
+
+  const handleOnChange = (isChecked: boolean) => {
+    lagreOppgavekoAndreKriterier({
+      id: valgtOppgaveko.id,
+      andreKriterierType: andreKriterierType.TIL_BESLUTTER,
+      checked: isChecked,
+      inkluder: true,
+    }).then(() => {
+      hentOppgaveko(valgtOppgaveko.id);
+    });
+  };
 
   return (
     <div className={styles.container}>
@@ -24,16 +36,7 @@ export const BeslutteroppgaveVelger: FunctionComponent<OwnProps> = ({ valgtOppga
         <FormattedMessage id="BeslutteroppgaveVelger.Beslutteroppgave" />
       </Normaltekst>
       <VerticalSpacer eightPx />
-      <RadioGroupField
-        direction="vertical"
-        name="beslutteroppgave"
-        onChange={isChecked =>
-          // sette riktige verdier
-          lagreBeslutteroppgave({ id: valgtOppgaveko.id, skjermet: isChecked }).then(() => {
-            hentOppgaveko(valgtOppgaveko.id);
-          })
-        }
-      >
+      <RadioGroupField direction="vertical" name="beslutteroppgave" onChange={handleOnChange}>
         <RadioOption label="Ja" value />
         <RadioOption label="Nei" value={false} />
       </RadioGroupField>

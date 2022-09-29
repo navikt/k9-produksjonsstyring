@@ -12,6 +12,7 @@ import { Form } from 'react-final-form';
 import { FormattedMessage, injectIntl, IntlShape, WrappedComponentProps } from 'react-intl';
 import Image from 'sharedComponents/Image';
 import { hasValidName, maxLength, minLength, required } from 'utils/validation/validators';
+import andreKriterierType from 'kodeverk/andreKriterierType';
 import { Oppgaveko } from '../../oppgavekoTsType';
 import AndreKriterierVelger from './AndreKriterierVelger';
 import AutoLagringVedBlur from './AutoLagringVedBlur';
@@ -22,6 +23,7 @@ import SorteringVelger from './SorteringVelger';
 import binIcon from '../../../../../images/bin-1.svg';
 import MerknadVelger from './MerknadVelger';
 import styles from './utvalgskriterierForOppgavekoForm.less';
+import BeslutteroppgaveVelger from './BeslutteroppgaveVelger';
 
 const minLength3 = minLength(3);
 const maxLength100 = maxLength(100);
@@ -46,6 +48,10 @@ const buildInitialValues = (intl: IntlShape, ko: Oppgaveko) => {
     ? ko.andreKriterier.reduce((acc, ak) => ({ ...acc, [`${ak.andreKriterierType}_inkluder`]: ak.inkluder }), {})
     : {};
 
+  const beslutterOppgaveInkluder =
+    ko?.andreKriterier.find(kriterie => kriterie.andreKriterierType === andreKriterierType.TIL_BESLUTTER)?.checked ||
+    false;
+
   return {
     id: ko.id,
     navn: ko.navn ? ko.navn : intl.formatMessage({ id: 'UtvalgskriterierForOppgavekoForm.NyListe' }),
@@ -56,6 +62,7 @@ const buildInitialValues = (intl: IntlShape, ko: Oppgaveko) => {
     skjermet: ko.skjermet,
     fagsakYtelseTyper,
     behandlingTypes,
+    beslutteroppgave: beslutterOppgaveInkluder,
     ...andreKriterierTyper,
     ...andreKriterierInkluder,
   };
@@ -111,7 +118,7 @@ export const UtvalgskriterierForOppgavekoForm: FunctionComponent<OwnProps & Wrap
                   hentOppgaveko={hentKo}
                 />
                 <SkjermetVelger valgtOppgaveko={valgtOppgaveko} hentOppgaveko={hentKo} />
-                {/* <BeslutteroppgaveVelger valgtOppgaveko={valgtOppgaveko} hentOppgaveko={hentKo} /> */}
+                <BeslutteroppgaveVelger valgtOppgaveko={valgtOppgaveko} hentOppgaveko={hentKo} />
                 <BehandlingstypeVelger
                   valgtOppgavekoId={valgtOppgaveko.id}
                   hentOppgaveko={hentKo}
@@ -123,7 +130,11 @@ export const UtvalgskriterierForOppgavekoForm: FunctionComponent<OwnProps & Wrap
                   <FormattedMessage id="UtvalgskriterierForOppgavekoForm.Kriterier" />
                 </Normaltekst>
                 <hr className={styles.line} />
-                <AndreKriterierVelger valgtOppgavekoId={valgtOppgaveko.id} values={values} hentOppgaveko={hentKo} />
+                <AndreKriterierVelger
+                  valgtOppgavekoId={valgtOppgaveko.id}
+                  hentOppgaveko={hentKo}
+                  valgtOppgaveko={valgtOppgaveko}
+                />
                 <MerknadVelger valgtOppgavekoId={valgtOppgaveko.id} values={values} hentOppgaveko={hentKo} />
                 <SorteringVelger
                   valgtOppgavekoId={valgtOppgaveko.id}

@@ -191,7 +191,7 @@ export const SearchWithDropdown: React.FC<Props> = ({
                                       onClick={() => onSelect(suggestion.value)}
                                       checked={selectedSuggestionValues.includes(suggestion.value)}
                                     >
-                                      {`${suggestion.value} - ${suggestion.label}`}
+                                      {suggestion.label}
                                     </Checkbox>
                                   </li>
                                 ))}
@@ -209,7 +209,7 @@ export const SearchWithDropdown: React.FC<Props> = ({
                         onClick={() => onSelect(suggestion.value)}
                         checked={selectedSuggestionValues.includes(suggestion.value)}
                       >
-                        {`${suggestion.value} - ${suggestion.label}`}
+                        {suggestion.label}
                       </Checkbox>
                     ))}
                 </ComboboxList>
@@ -239,7 +239,7 @@ export const SearchWithDropdown: React.FC<Props> = ({
         <Merkelapper>
           {selectedValues.map(suggestion => (
             <Merkelapp key={suggestion} onClick={() => onRemoveSuggestion(suggestion)}>
-              {`${suggestion} - ${getSuggestion(suggestion).label}`}
+              {getSuggestion(suggestion).label}
             </Merkelapp>
           ))}
         </Merkelapper>

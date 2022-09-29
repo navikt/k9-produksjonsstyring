@@ -24,6 +24,7 @@ export type Oppgaveko = Readonly<{
 type AnnetKriterie = Readonly<{
   andreKriterierType: string;
   inkluder: boolean;
+  checked: boolean;
 }>;
 
 export type Kriterie = Readonly<{
