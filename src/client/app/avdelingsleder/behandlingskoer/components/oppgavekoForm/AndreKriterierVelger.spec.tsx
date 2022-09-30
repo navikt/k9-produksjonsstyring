@@ -71,7 +71,7 @@ describe('<AndreKriterierVelger>', () => {
         },
       })
       .runTest(() => {
-        render(<AndreKriterierVelger valgtOppgavekoId="1" values={oppgavekø} hentOppgaveko={sinon.spy()} />);
+        render(<AndreKriterierVelger valgtOppgavekoId="1" valgtOppgaveko={oppgavekø} hentOppgaveko={sinon.spy()} />);
         userEvent.type(screen.getByLabelText('Velg aksjonspunkt'), 'Foreslå vedtak manuelt');
         expect(screen.getByLabelText('5028 - Foreslå vedtak manuelt')).toBeVisible();
       });

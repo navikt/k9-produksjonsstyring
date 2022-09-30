@@ -1,13 +1,9 @@
 import React from 'react';
-import { shallow } from 'enzyme';
-import { expect } from 'chai';
 import sinon from 'sinon';
-import { Form } from 'react-final-form';
-import { Column } from 'nav-frontend-grid';
 
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import andreKriterierType from 'kodeverk/andreKriterierType';
-import { CheckboxField } from 'form/FinalFields';
-import RestApiTestMocker from '../../../../../../../setup/testHelpers/RestApiTestMocker';
 import SaksbehandlereForOppgavekoForm from './SaksbehandlereForOppgavekoForm';
 
 describe('<SaksbehandlereForOppgavekoForm>', () => {
@@ -16,76 +12,51 @@ describe('<SaksbehandlereForOppgavekoForm>', () => {
     navn: 'Nyansatte',
     sistEndret: '2017-08-31',
     skjermet: false,
-    andreKriterierTyper: [{
-      kode: andreKriterierType.TIL_BESLUTTER,
-      navn: 'Til beslutter',
-    }, {
-      kode: andreKriterierType.AVKLAR_MEDLEMSKAP,
-      navn: 'Avklar medlemskap',
-    }],
+    andreKriterierTyper: [
+      {
+        kode: andreKriterierType.TIL_BESLUTTER,
+        navn: 'Til beslutter',
+      },
+      {
+        kode: andreKriterierType.AVKLAR_MEDLEMSKAP,
+        navn: 'Avklar medlemskap',
+      },
+    ],
     antallBehandlinger: 68,
     saksbehandlere: [],
+    kriterier: [],
   };
 
-  it('skal vise kun en kolonne med saksbehandlere når det er tilordnet en saksbehandler', () => {
-    const saksbehandlere = [{
-      brukerIdent: 'TEST1',
-      navn: 'Espen Utvikler',
-      epost: 'epost',
-      oppgavekoer: ['OMP'],
-    }];
+  it('skal vise checkboxer og støtte filtrering', () => {
+    const saksbehandlere = [
+      {
+        brukerIdent: 'TEST1',
+        navn: 'Walter Lemon',
+        epost: 'epost1',
+        oppgavekoer: ['OMP'],
+        enhet: 'Sørlandet',
+      },
+      {
+        brukerIdent: 'TEST2',
+        navn: 'Water Melon',
+        epost: 'epost2',
+        oppgavekoer: ['OMP'],
+        enhet: 'Kristiania',
+      },
+    ];
 
-    const wrapper = shallow(<SaksbehandlereForOppgavekoForm
-      valgtOppgaveko={oppgaveko}
-      alleSaksbehandlere={saksbehandlere}
-      hentOppgaveko={sinon.spy()}
-    />).find(Form).renderProp('render')();
-
-    const kolonner = wrapper.find(Column);
-    expect(kolonner).to.have.length(2);
-
-    const checkBox = kolonner.first().find(CheckboxField);
-    expect(checkBox).to.have.length(1);
-    expect(checkBox.prop('name')).is.eql('epost');
-    expect(checkBox.prop('label')).is.eql('Espen Utvikler');
-
-    expect(kolonner.last().find(CheckboxField)).to.have.length(0);
-  });
-
-  it('skal vise to kolonner med saksbehandlere når det er tilordnet to saksbehandler', () => {
-    const saksbehandlere = [{
-      brukerIdent: 'TEST1',
-      navn: 'Walter Lemon',
-      epost: 'epost1',
-      oppgavekoer: ['OMP'],
-    }, {
-      brukerIdent: 'TEST2',
-      navn: 'Water Melon',
-      epost: 'epost2',
-      oppgavekoer: ['OMP'],
-    }];
-
-    new RestApiTestMocker()
-      .withDummyRunner()
-      .runTest(() => {
-        const wrapper = shallow(<SaksbehandlereForOppgavekoForm
-          valgtOppgaveko={oppgaveko}
-          alleSaksbehandlere={saksbehandlere}
-          hentOppgaveko={sinon.spy()}
-        />).find(Form).renderProp('render')();
-
-        const kolonner = wrapper.find(Column);
-        expect(kolonner).to.have.length(2);
-
-        const checkBox1 = kolonner.first().find(CheckboxField);
-        expect(checkBox1).to.have.length(1);
-        expect(checkBox1.prop('name')).is.eql('epost1');
-        expect(checkBox1.prop('label')).is.eql('Walter Lemon');
-
-        const checkBox2 = kolonner.last().find(CheckboxField);
-        expect(checkBox2).to.have.length(1);
-        expect(checkBox2.prop('name')).is.eql('epost2');
-        expect(checkBox2.prop('label')).is.eql('Water Melon');
-      });
+    render(
+      <SaksbehandlereForOppgavekoForm
+        valgtOppgaveko={oppgaveko}
+        alleSaksbehandlere={saksbehandlere}
+        hentOppgaveko={sinon.spy()}
+      />,
+    );
+    userEvent.click(screen.getByLabelText('Velg saksbehandlere'));
+    expect(screen.getByLabelText('Kristiania')).toBeVisible();
+    expect(screen.getByLabelText('Sørlandet')).toBeVisible();
+    expect(screen.queryByLabelText('Walter Lemon')).toBe(null);
+    userEvent.type(screen.getByLabelText('Velg saksbehandlere'), 'Lemon');
+    expect(screen.getByLabelText('Walter Lemon')).toBeVisible();
   });
 });
