@@ -32,12 +32,29 @@ const SaksbehandlereForOppgavekoForm: FunctionComponent<OwnProps> = ({
 
   const grupper = [...new Set(formaterteSaksbehandlere.map(oppgavekode => oppgavekode.group))].sort();
 
-  const handleSaksbehandlerChange = (saksbehandlere: string[]) =>
-    knyttSaksbehandlerTilOppgaveko({}).then(() => {
+  const valgteSaksbehandlere = valgtOppgaveko?.saksbehandlere?.map(sb => sb.epost) || [];
+
+  const handleSaksbehandlerChange = (nyeValgteSaksbehandlereposter: string[] = []) => {
+    const nyeValgteSaksbehandlere = nyeValgteSaksbehandlereposter
+      .filter(saksbehandlerEpost => !valgteSaksbehandlere.includes(saksbehandlerEpost))
+      .map(saksbehandlerEpost => ({
+        id: valgtOppgaveko.id,
+        epost: saksbehandlerEpost,
+        checked: true,
+      }));
+    const saksbehandlererSomSkalFjernes = valgteSaksbehandlere
+      .filter(valgtSaksbehandler => !nyeValgteSaksbehandlereposter.includes(valgtSaksbehandler))
+      .map(valgtSaksbehandler => ({
+        id: valgtOppgaveko.id,
+        epost: valgtSaksbehandler,
+        checked: false,
+      }));
+    const data = nyeValgteSaksbehandlere.concat(saksbehandlererSomSkalFjernes);
+
+    return knyttSaksbehandlerTilOppgaveko(data).then(() => {
       hentOppgaveko(valgtOppgaveko.id);
     });
-
-  const valgteSaksbehandlere = valgtOppgaveko?.saksbehandlere?.map(sb => sb.epost) || [];
+  };
 
   return (
     <div className={styles.panel}>

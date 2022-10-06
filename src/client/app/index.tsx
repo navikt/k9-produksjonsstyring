@@ -10,6 +10,7 @@ import { RestApiErrorProvider } from 'api/error/RestApiErrorContext';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { config } from 'utils/reactQueryConfig';
 import '@navikt/ds-css';
+import '@reach/combobox/styles.css';
 
 /* eslint no-undef: "error" */
 const environment = window.location.hostname;
