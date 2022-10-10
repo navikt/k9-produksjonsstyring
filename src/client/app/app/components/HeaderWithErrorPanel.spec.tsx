@@ -38,8 +38,6 @@ describe('<HeaderWithErrorPanel>', () => {
         expect(header).has.length(1);
 
         expect(header.find(Header)).has.length(1);
-        expect(header.find('Popover')).has.length(1);
-        expect(header.find('UserPanel')).has.length(1);
 
         const feilmelding = JSON.stringify(wrapper.find('DriftsmeldingPanel').prop('driftsmeldinger'));
         expect(feilmelding).to.include('1');

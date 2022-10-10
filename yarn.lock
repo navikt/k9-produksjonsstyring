@@ -2296,10 +2296,10 @@
   resolved "https://npm.pkg.github.com/download/@navikt/ft-kodeverk/1.0.19/8d3ace4c9a51ae1c34ff2dc2a1cb4e23d982d1d5#8d3ace4c9a51ae1c34ff2dc2a1cb4e23d982d1d5"
   integrity sha512-NMWVi65tink8PaA0acOHZT6GLkBhbV0OExsAFVugsq5e0lcR4QoYunu53GySy44WwbfrtWQBDreQA0f3HJFEKQ==
 
-"@navikt/ft-plattform-komponenter@1.2.2":
-  version "1.2.2"
-  resolved "https://npm.pkg.github.com/download/@navikt/ft-plattform-komponenter/1.2.2/e215867a516d83888a5ee90be3a0b5c210325842#e215867a516d83888a5ee90be3a0b5c210325842"
-  integrity sha512-FWqO3YJTj0j1j8lksTjau2BD78Bzrjvw93hDyiMOTrIs8tBQP2mFCKjvnAtytBSGckl5TUzNmE/wd6gP4eOysw==
+"@navikt/ft-plattform-komponenter@1.2.3":
+  version "1.2.3"
+  resolved "https://npm.pkg.github.com/download/@navikt/ft-plattform-komponenter/1.2.3/3519de461a47a3b8a05469ff503716e262d78816#3519de461a47a3b8a05469ff503716e262d78816"
+  integrity sha512-kGfDXaw0Vcf9qBRW1vMu81s64ekckgXDFprEs+rwV6eUVxqO2l8k4qIAVkyEk93WZDE28PTVujCF03bIDM5lAA==
   dependencies:
     "@navikt/ds-css" "^1.3.5"
     "@navikt/ds-icons" "^1.3.5"
