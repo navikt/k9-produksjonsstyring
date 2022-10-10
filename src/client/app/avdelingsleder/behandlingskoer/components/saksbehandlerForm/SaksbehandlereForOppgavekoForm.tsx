@@ -23,11 +23,12 @@ const SaksbehandlereForOppgavekoForm: FunctionComponent<OwnProps> = ({
   hentOppgaveko,
 }) => {
   const { startRequest: knyttSaksbehandlerTilOppgaveko } = useRestApiRunner(K9LosApiKeys.LAGRE_OPPGAVEKO_SAKSBEHANDLER);
+  const manglerGruppering = 'Mangler gruppering';
 
   const formaterteSaksbehandlere = alleSaksbehandlere.map(saksbehandler => ({
     value: saksbehandler.epost,
-    label: saksbehandler.navn,
-    group: saksbehandler.enhet,
+    label: saksbehandler.navn || saksbehandler.epost,
+    group: saksbehandler.enhet || manglerGruppering,
   }));
 
   const grupper = [...new Set(formaterteSaksbehandlere.map(oppgavekode => oppgavekode.group))].sort();
