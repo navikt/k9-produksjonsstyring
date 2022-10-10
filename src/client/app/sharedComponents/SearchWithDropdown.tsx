@@ -138,8 +138,8 @@ export const SearchWithDropdown: React.FC<Props> = ({
         <BodyShort size="small" as="div" id={descriptionId} className="navds-form-field__description">
           {description}
         </BodyShort>
-        <Combobox className="navds-search__wrapper" onSelect={onSelect} openOnFocus>
-          <div className="navds-search__wrapper-inner">
+        <Combobox className={`navds-search__wrapper ${styles.searchWrapper}`} onSelect={onSelect} openOnFocus>
+          <div className={`navds-search__wrapper-inner ${styles.searchWrapper__inner}`}>
             <ComboboxInput
               id={inputId}
               autoComplete="off"
@@ -150,7 +150,7 @@ export const SearchWithDropdown: React.FC<Props> = ({
               onFocus={() => setIsPopoverOpen(true)}
             />
           </div>
-          <button type="button" className={buttonClassName}>
+          <button type="button" className={`${buttonClassName} ${styles.searchButton}`}>
             <span className="navds-button__icon">
               <Search />
             </span>
