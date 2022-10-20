@@ -1,16 +1,16 @@
-import React from 'react';
-import { BrowserRouter } from 'react-router-dom';
-import { createRoot } from 'react-dom/client';
 import { init } from '@sentry/browser';
+import React from 'react';
+import { render } from 'react-dom';
+import { BrowserRouter } from 'react-router-dom';
 
-import AppIndex from 'app/AppIndex';
-import { RestApiProvider } from 'api/rest-api-hooks/src/RestApiContext';
-import { k9LosApi } from 'api/k9LosApi';
-import { RestApiErrorProvider } from 'api/error/RestApiErrorContext';
-import { QueryClient, QueryClientProvider } from 'react-query';
-import { config } from 'utils/reactQueryConfig';
 import '@navikt/ds-css';
 import '@navikt/ft-plattform-komponenter/dist/style.css';
+import { RestApiErrorProvider } from 'api/error/RestApiErrorContext';
+import { k9LosApi } from 'api/k9LosApi';
+import { RestApiProvider } from 'api/rest-api-hooks/src/RestApiContext';
+import AppIndex from 'app/AppIndex';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { config } from 'utils/reactQueryConfig';
 
 /* eslint no-undef: "error" */
 const environment = window.location.hostname;
@@ -26,11 +26,10 @@ const renderFunc = Component => {
   if (app === null) {
     throw new Error('No app element');
   }
-  const root = createRoot(app);
 
   const queryClient = new QueryClient(config);
 
-  root.render(
+  render(
     <BrowserRouter>
       <RestApiProvider requestApi={k9LosApi}>
         <RestApiErrorProvider>
@@ -40,6 +39,7 @@ const renderFunc = Component => {
         </RestApiErrorProvider>
       </RestApiProvider>
     </BrowserRouter>,
+    app,
   );
 };
 
