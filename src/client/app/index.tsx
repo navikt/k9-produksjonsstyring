@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
-import { render } from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { init } from '@sentry/browser';
 
 import AppIndex from 'app/AppIndex';
@@ -26,10 +26,11 @@ const renderFunc = Component => {
   if (app === null) {
     throw new Error('No app element');
   }
+  const root = createRoot(app);
 
   const queryClient = new QueryClient(config);
 
-  render(
+  root.render(
     <BrowserRouter>
       <RestApiProvider requestApi={k9LosApi}>
         <RestApiErrorProvider>
@@ -39,7 +40,6 @@ const renderFunc = Component => {
         </RestApiErrorProvider>
       </RestApiProvider>
     </BrowserRouter>,
-    app,
   );
 };
 
