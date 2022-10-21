@@ -14,5 +14,6 @@ module.exports = {
     'keyframes-name-pattern': null,
     'value-no-vendor-prefix': null,
     'property-no-vendor-prefix': null,
+    'import-notation': null
   },
 };
