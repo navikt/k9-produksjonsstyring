@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect } from 'react';
+import React, { FunctionComponent, useEffect, useMemo } from 'react';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
 import { K9LosApiKeys } from 'api/k9LosApi';
@@ -20,9 +20,30 @@ const EndreOppgavekoerPanel: FunctionComponent<OwnProps & WrappedComponentProps>
   valgtOppgavekoId,
   resetValgtOppgavekoId,
 }) => {
-  const { data: oppgaverAntallTotalt, startRequest: hentOppgaverAntallTotalt } = useRestApiRunner<number>(K9LosApiKeys.OPPGAVE_ANTALL_TOTALT);
-  const { data: oppgavekoer = [], startRequest: hentAlleOppgavekoer, state } = useRestApiRunner<Oppgaveko[]>(K9LosApiKeys.OPPGAVEKOER);
+  const { data: oppgaverAntallTotalt, startRequest: hentOppgaverAntallTotalt } = useRestApiRunner<number>(
+    K9LosApiKeys.OPPGAVE_ANTALL_TOTALT,
+  );
+  const {
+    data: oppgavekoer = [],
+    startRequest: hentAlleOppgavekoer,
+    state,
+  } = useRestApiRunner<Oppgaveko[]>(K9LosApiKeys.OPPGAVEKOER);
   const requestFinished = state === RestApiState.SUCCESS;
+
+  const sortedOppgavekoer = useMemo(
+    () =>
+      [...oppgavekoer].sort((a, b) => {
+        const nyKøConstant = 'Ny kø';
+        if (a.navn === nyKøConstant) {
+          return -1;
+        }
+        if (b.navn === nyKøConstant) {
+          return 1;
+        }
+        return a.navn.localeCompare(b.navn);
+      }),
+    [oppgavekoer],
+  );
 
   useEffect(() => {
     hentOppgaverAntallTotalt();
@@ -31,7 +52,7 @@ const EndreOppgavekoerPanel: FunctionComponent<OwnProps & WrappedComponentProps>
 
   return (
     <GjeldendeOppgavekoerTabell
-      oppgavekoer={oppgavekoer}
+      oppgavekoer={sortedOppgavekoer}
       resetValgtOppgavekoId={resetValgtOppgavekoId}
       requestFinished={requestFinished}
       setValgtOppgavekoId={setValgtOppgavekoId}
