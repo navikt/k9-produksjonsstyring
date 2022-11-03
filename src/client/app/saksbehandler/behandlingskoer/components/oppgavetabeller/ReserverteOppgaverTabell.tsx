@@ -15,7 +15,7 @@ import menuIconBlueUrl from 'images/ic-menu-18px_blue.svg';
 import menuIconBlackUrl from 'images/ic-menu-18px_black.svg';
 
 import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
-import NavFrontendSpinner from 'nav-frontend-spinner';
+import { Loader } from '@navikt/ds-react';
 
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
 import Reservasjon from 'avdelingsleder/reservasjoner/reservasjonTsType';
@@ -28,9 +28,9 @@ import kodeverkTyper from 'kodeverk/kodeverkTyper';
 import AlleKodeverk from 'kodeverk/alleKodeverkTsType';
 import { useGlobalStateRestApiData } from 'api/rest-api-hooks';
 import { getKodeverknavnFraKode } from 'utils/kodeverkUtils';
+import KommentarMedMerknad from 'saksbehandler/components/KommentarMedMerknad';
 import OppgaveHandlingerMenu from '../menu/OppgaveHandlingerMenu';
 import styles from './oppgaverTabell.less';
-import KommentarMedMerknad from 'saksbehandler/components/KommentarMedMerknad';
 
 interface OwnProps {
   apneOppgave: (oppgave: Oppgave) => void;
@@ -133,7 +133,7 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps & WrappedComponentPro
   return (
     <div>
       {reserverteOppgaverState.length === 0 && !requestFinishedState && (
-        <NavFrontendSpinner type="XL" className={styles.spinner} />
+        <Loader size="2xlarge" className={styles.spinner} />
       )}
 
       {reserverteOppgaverState.length === 0 && requestFinishedState && (
@@ -180,6 +180,7 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps & WrappedComponentPro
                     id="OppgaveHandlingerMenu.ReservertTil"
                     values={{
                       ...getDateAndTime(oppgave.status.reservertTilTidspunkt),
+                      // eslint-disable-next-line react/no-unstable-nested-components
                       b: (...chunks) => <b>{chunks}</b>,
                     }}
                   />

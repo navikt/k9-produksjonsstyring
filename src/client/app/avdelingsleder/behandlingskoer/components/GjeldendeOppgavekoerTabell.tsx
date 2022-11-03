@@ -11,7 +11,7 @@ import DateLabel from 'sharedComponents/DateLabel';
 import Chevron from 'nav-frontend-chevron';
 import { Knapp } from 'nav-frontend-knapper';
 import UtvalgskriterierForOppgavekoForm from 'avdelingsleder/behandlingskoer/components/oppgavekoForm/UtvalgskriterierForOppgavekoForm';
-import NavFrontendSpinner from 'nav-frontend-spinner';
+import { Loader } from '@navikt/ds-react';
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
 import { K9LosApiKeys } from 'api/k9LosApi';
 import useKodeverk from 'api/rest-api-hooks/src/global-data/useKodeverk';
@@ -147,7 +147,7 @@ export const GjeldendeOppgavekoerTabell: FunctionComponent<OwnProps> = ({
           <FormattedMessage id="GjeldendeOppgavekoerTabell.LeggTilListe" />
         </Knapp>
       )}
-      {oppgavekoer.length === 0 && !requestFinished && <NavFrontendSpinner type="XL" className={styles.spinner} />}
+      {oppgavekoer.length === 0 && !requestFinished && <Loader size="2xlarge" className={styles.spinner} />}
       {oppgavekoer.length === 0 && requestFinished && (
         <>
           <VerticalSpacer eightPx />

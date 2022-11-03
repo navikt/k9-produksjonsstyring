@@ -1,30 +1,28 @@
-import React, { FunctionComponent, useState } from 'react';
-import { injectIntl, WrappedComponentProps, FormattedMessage } from 'react-intl';
-import { Normaltekst } from 'nav-frontend-typografi';
-import VerticalSpacer from 'sharedComponents/VerticalSpacer';
-import Panel from 'nav-frontend-paneler';
-import { ISO_DATE_FORMAT } from 'utils/formats';
+import { Heading, Label, Loader, Select } from '@navikt/ds-react';
 import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
-import NavFrontendSpinner from 'nav-frontend-spinner';
+import { useGlobalStateRestApiData } from 'api/rest-api-hooks';
+import useRestApi from 'api/rest-api-hooks/src/local-data/useRestApi';
+import RestApiState from 'api/rest-api-hooks/src/RestApiState';
 import {
   ALLE_YTELSETYPER_VALGT,
   sjekkOmOppgaveSkalLeggesTil,
   ytelseTyper,
 } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
-import { ToggleKnapp } from 'nav-frontend-toggle';
 import NyeOgFerdigstilteMedStonadstype from 'avdelingsleder/nokkeltall/nyeOgFerdigstilteMedStonadstypeTsType';
-import useRestApi from 'api/rest-api-hooks/src/local-data/useRestApi';
-import RestApiState from 'api/rest-api-hooks/src/RestApiState';
 import dayjs from 'dayjs';
-import { getValueFromLocalStorage } from 'utils/localStorageHelper';
-import { lagreTilLocalStorageCallback } from 'utils/localStorageHelper';
-import Teller from './Teller';
+import AlleKodeverk from 'kodeverk/alleKodeverkTsType';
+import kodeverkTyper from 'kodeverk/kodeverkTyper';
+import Panel from 'nav-frontend-paneler';
+import { ToggleKnapp } from 'nav-frontend-toggle';
+import { Normaltekst } from 'nav-frontend-typografi';
+import React, { FunctionComponent, useState } from 'react';
+import { FormattedMessage, injectIntl, WrappedComponentProps } from 'react-intl';
+import VerticalSpacer from 'sharedComponents/VerticalSpacer';
+import { ISO_DATE_FORMAT } from 'utils/formats';
+import { getKodeverknavnFraKode } from 'utils/kodeverkUtils';
+import { getValueFromLocalStorage, lagreTilLocalStorageCallback } from 'utils/localStorageHelper';
 import styles from './inngangOgFerdigstiltePanel.less';
-import { Heading, Label, Select } from '@navikt/ds-react';
-import AlleKodeverk from "kodeverk/alleKodeverkTsType";
-import { useGlobalStateRestApiData } from "api/rest-api-hooks";
-import { getKodeverknavnFraKode } from "utils/kodeverkUtils";
-import kodeverkTyper from "kodeverk/kodeverkTyper";
+import Teller from './Teller';
 
 export const slaSammenLikeBehandlingstyper = oppgaver => {
   const sammenslatte = [];
@@ -141,7 +139,7 @@ export const InngangOgFerdigstiltePanel: FunctionComponent<WrappedComponentProps
         </Normaltekst>
       )}
       {nyeOgFerdigstilteOppgaverIdag.length === 0 && !requestFinished && (
-        <NavFrontendSpinner type="XL" className={styles.spinner} />
+        <Loader size="2xlarge" className={styles.spinner} />
       )}
       <div className={styles.container}>
         {((erIdagValgt && nyeOgFerdigstilteOppgaverIdag.length > 0) ||
