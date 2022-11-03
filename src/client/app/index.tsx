@@ -1,15 +1,16 @@
-import React from 'react';
-import { BrowserRouter } from 'react-router-dom';
-import { render } from 'react-dom';
 import { init } from '@sentry/browser';
+import React from 'react';
+import { render } from 'react-dom';
+import { BrowserRouter } from 'react-router-dom';
 
-import AppIndex from 'app/AppIndex';
-import { RestApiProvider } from 'api/rest-api-hooks/src/RestApiContext';
-import { k9LosApi } from 'api/k9LosApi';
+import '@navikt/ds-css';
+import '@navikt/ft-plattform-komponenter/dist/style.css';
 import { RestApiErrorProvider } from 'api/error/RestApiErrorContext';
+import { k9LosApi } from 'api/k9LosApi';
+import { RestApiProvider } from 'api/rest-api-hooks/src/RestApiContext';
+import AppIndex from 'app/AppIndex';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { config } from 'utils/reactQueryConfig';
-import '@navikt/ds-css';
 
 /* eslint no-undef: "error" */
 const environment = window.location.hostname;

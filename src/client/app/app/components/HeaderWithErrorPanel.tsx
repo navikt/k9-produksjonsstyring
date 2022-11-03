@@ -1,21 +1,21 @@
-import React, { FunctionComponent, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
-import { Popover, SystemButton, UserPanel, Header, BoxedListWithLinks } from '@navikt/k9-react-components';
 import Endringslogg from '@navikt/familie-endringslogg';
+import { BoxedListWithLinks, Header, Popover, SystemButton, UserPanel } from '@navikt/ft-plattform-komponenter';
 import { RETTSKILDE_URL, SYSTEMRUTINE_URL } from 'api/eksterneLenker';
 import Knapp from 'nav-frontend-knapper';
+import React, { FunctionComponent, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 
-import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
-import ErrorFormatter from 'app/feilhandtering/ErrorFormatter';
-import useRestApi from 'api/rest-api-hooks/src/local-data/useRestApi';
-import { useGlobalStateRestApiData } from 'api/rest-api-hooks';
-import NavAnsatt from 'app/navAnsattTsType';
-import DriftsmeldingPanel from 'app/components/DriftsmeldingPanel';
-import useRestApiErrorDispatcher from 'api/error/useRestApiErrorDispatcher';
 import useRestApiError from 'api/error/useRestApiError';
-import styles from './headerWithErrorPanel.less';
-import ErrorMessagePanel from './ErrorMessagePanel';
+import useRestApiErrorDispatcher from 'api/error/useRestApiErrorDispatcher';
+import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
+import { useGlobalStateRestApiData } from 'api/rest-api-hooks';
+import useRestApi from 'api/rest-api-hooks/src/local-data/useRestApi';
+import DriftsmeldingPanel from 'app/components/DriftsmeldingPanel';
+import ErrorFormatter from 'app/feilhandtering/ErrorFormatter';
+import NavAnsatt from 'app/navAnsattTsType';
 import { Driftsmelding } from '../../admin/driftsmeldinger/driftsmeldingTsType';
+import ErrorMessagePanel from './ErrorMessagePanel';
+import styles from './headerWithErrorPanel.less';
 
 interface OwnProps {
   queryStrings: {
@@ -136,6 +136,46 @@ const HeaderWithErrorPanel: FunctionComponent<OwnProps & WrappedComponentProps> 
     return true;
   };
 
+  const popperPropsChildren = useCallback(
+    () => (
+      <BoxedListWithLinks
+        onClick={() => {
+          setLenkePanelApent(false);
+        }}
+        items={[
+          {
+            name: intl.formatMessage({ id: 'Header.Rettskilde' }),
+            href: RETTSKILDE_URL,
+            isExternal: true,
+          },
+          {
+            name: intl.formatMessage({ id: 'Header.Systemrutine' }),
+            href: SYSTEMRUTINE_URL,
+            isExternal: true,
+          },
+        ]}
+      />
+    ),
+    [],
+  );
+
+  const referencePropsChildren = useCallback(
+    ({ ref }) => (
+      <div ref={ref}>
+        <SystemButton
+          onClick={() => {
+            if (erAvdelingerPanelApent) {
+              setAvdelingerPanelApent(false);
+            }
+            setLenkePanelApent(!erLenkePanelApent);
+          }}
+          isToggled={erLenkePanelApent}
+        />
+      </div>
+    ),
+    [erLenkePanelApent],
+  );
+
   return (
     <header ref={fixedHeaderRef} className={isDev ? styles.containerDev : styles.container}>
       <div ref={wrapperRef}>
@@ -176,43 +216,13 @@ const HeaderWithErrorPanel: FunctionComponent<OwnProps & WrappedComponentProps> 
             renderArrowElement
             customPopperStyles={{ top: '11px', zIndex: 1 }}
             popperProps={{
-              children: () => (
-                <BoxedListWithLinks
-                  onClick={() => {
-                    setLenkePanelApent(false);
-                  }}
-                  items={[
-                    {
-                      name: intl.formatMessage({ id: 'Header.Rettskilde' }),
-                      href: RETTSKILDE_URL,
-                      isExternal: true,
-                    },
-                    {
-                      name: intl.formatMessage({ id: 'Header.Systemrutine' }),
-                      href: SYSTEMRUTINE_URL,
-                      isExternal: true,
-                    },
-                  ]}
-                />
-              ),
+              children: popperPropsChildren,
               placement: 'bottom-start',
-              positionFixed: true,
+              strategy: 'fixed',
             }}
             referenceProps={{
               // eslint-disable-next-line react/prop-types
-              children: ({ ref }) => (
-                <div ref={ref}>
-                  <SystemButton
-                    onClick={() => {
-                      if (erAvdelingerPanelApent) {
-                        setAvdelingerPanelApent(false);
-                      }
-                      setLenkePanelApent(!erLenkePanelApent);
-                    }}
-                    isToggled={erLenkePanelApent}
-                  />
-                </div>
-              ),
+              children: referencePropsChildren,
             }}
           />
           {brukerPanel}

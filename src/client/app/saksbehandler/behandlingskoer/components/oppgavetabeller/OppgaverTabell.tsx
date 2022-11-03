@@ -13,7 +13,7 @@ import bubbletextUrl from 'images/bubbletext.svg';
 import bubbletextFilledUrl from 'images/bubbletext_filled.svg';
 
 import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
-import NavFrontendSpinner from 'nav-frontend-spinner';
+import { Loader } from '@navikt/ds-react';
 
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
 import { Oppgaveko } from 'saksbehandler/behandlingskoer/oppgavekoTsType';
@@ -76,9 +76,7 @@ export const OppgaverTabell: FunctionComponent<OwnProps & WrappedComponentProps>
 
   return (
     <div>
-      {oppgaverTilBehandling.length === 0 && !requestFinished && (
-        <NavFrontendSpinner type="XL" className={styles.spinner} />
-      )}
+      {oppgaverTilBehandling.length === 0 && !requestFinished && <Loader size="2xlarge" className={styles.spinner} />}
       {oppgaverTilBehandling.length === 0 && requestFinished && !valgtKo.skjermet && (
         <>
           <VerticalSpacer eightPx />
