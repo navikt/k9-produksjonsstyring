@@ -162,7 +162,7 @@
     "react-test-renderer": "^18.2.0",
     "sinon": "^14.0.1",
     "sinon-chai": "^3.7.0",
-    "stylelint": "^14.14.0",
+    "stylelint": "^14.14.1",
     "stylelint-config-prettier": "^9.0.3",
     "stylelint-config-standard": "^29.0.0",
     "stylelint-order": "^5.0.0",
