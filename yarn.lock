@@ -1804,23 +1804,47 @@
     strict-event-emitter "^0.2.4"
     web-encoding "^1.1.5"
 
-"@navikt/ds-css@1.5.3", "@navikt/ds-css@^1.4.0":
+"@navikt/ds-css@1.5.3":
   version "1.5.3"
   resolved "https://npm.pkg.github.com/download/@navikt/ds-css/1.5.3/e08b2a3ca4299954dce1bde5438ea55a877837c9#e08b2a3ca4299954dce1bde5438ea55a877837c9"
   integrity sha512-YEBoOMQrCfFGRmD0v0NCJfqBqiRj89aFwv7SwRIA3qKl82Wd3/2nFhGChLolPd84ZQwPIU87Gs2FnXF5HgU1Ig==
 
-"@navikt/ds-icons@1.5.3", "@navikt/ds-icons@^1.4.0", "@navikt/ds-icons@^1.5.3":
+"@navikt/ds-css@1.5.9":
+  version "1.5.9"
+  resolved "https://npm.pkg.github.com/download/@navikt/ds-css/1.5.9/0fbbf2f8dd3a3e1367d5e4d57ab295b6638872fd#0fbbf2f8dd3a3e1367d5e4d57ab295b6638872fd"
+  integrity sha512-RgLHsMeXb4M8AvlADCYmqWYjvfLPY1ZUbrX4XQbQUD3D0jUSvIR15LjYCltCax3jYxgjyFt6Mb4Vum7xleyZgQ==
+
+"@navikt/ds-icons@1.5.3":
   version "1.5.3"
   resolved "https://npm.pkg.github.com/download/@navikt/ds-icons/1.5.3/ff3afe36c03465365a6f9f49f507d871e22bd7ad#ff3afe36c03465365a6f9f49f507d871e22bd7ad"
   integrity sha512-aELjJMFNtRIDOX3c/4OHn16aw7qzPzg1V/nQ622/AwzJfv/OEG/qP0HZLUgXg6BbOPFv9vKAqnr+3sq3MJQtfg==
 
-"@navikt/ds-react@1.5.3", "@navikt/ds-react@^1.4.0":
+"@navikt/ds-icons@1.5.9", "@navikt/ds-icons@^1.5.3", "@navikt/ds-icons@^1.5.9":
+  version "1.5.9"
+  resolved "https://npm.pkg.github.com/download/@navikt/ds-icons/1.5.9/27850516243aedfe80eb62893f3fc7e1cdbc1707#27850516243aedfe80eb62893f3fc7e1cdbc1707"
+  integrity sha512-3Alijc0JoTUQD92zHJ7Te9vMg02DnglGCBHBwmEAZF9FX324reJwqAvW3u45mWuuX8h3phGUiTTCQHdcXF1vbA==
+
+"@navikt/ds-react@1.5.3":
   version "1.5.3"
   resolved "https://npm.pkg.github.com/download/@navikt/ds-react/1.5.3/fddda8eab390e81d65fc3f1aa34daf95a422657f#fddda8eab390e81d65fc3f1aa34daf95a422657f"
   integrity sha512-b43PAMF26Kw7+duzpvEayoStA3qeyBYTGZF1VRUmeID6OEpcj7ktRzSvidzFE0qWxByzRkvacXq4gccQzAHB8Q==
   dependencies:
     "@floating-ui/react-dom-interactions" "0.9.2"
     "@navikt/ds-icons" "^1.5.3"
+    "@radix-ui/react-tabs" "1.0.0"
+    "@radix-ui/react-toggle-group" "1.0.0"
+    clsx "^1.2.1"
+    date-fns "2.29.3"
+    react-day-picker "8.3.4"
+    react-modal "3.15.1"
+
+"@navikt/ds-react@1.5.9":
+  version "1.5.9"
+  resolved "https://npm.pkg.github.com/download/@navikt/ds-react/1.5.9/b60b5b301fa90756db8710102fc731469b9fc73c#b60b5b301fa90756db8710102fc731469b9fc73c"
+  integrity sha512-NKigIuCJpy38vs+GohO4Wdn59Lm5W+N72NaxRJ7FT5/ncU8aYl8nrqP8FCrdvsAeKsRqZM9qZd2HyC3mH9eR2A==
+  dependencies:
+    "@floating-ui/react-dom-interactions" "0.9.2"
+    "@navikt/ds-icons" "^1.5.9"
     "@radix-ui/react-tabs" "1.0.0"
     "@radix-ui/react-toggle-group" "1.0.0"
     clsx "^1.2.1"
@@ -1844,35 +1868,35 @@
   resolved "https://npm.pkg.github.com/download/@navikt/fnrvalidator/1.3.3/8414963a30e59e3056c9befea7bb022498a2a742#8414963a30e59e3056c9befea7bb022498a2a742"
   integrity sha512-GsLa9ioYPGsDMBHcgKUNoYbZor09KyFIqSaWy8jy1I7f06q6DgUhdpZuRTHLVRCPjWqF2aLzKtvAfrw5dSeakg==
 
-"@navikt/ft-kodeverk@^1.0.21":
-  version "1.0.21"
-  resolved "https://npm.pkg.github.com/download/@navikt/ft-kodeverk/1.0.21/c7ac62f24bc8bbb40208557ceead6efd0edb3d73#c7ac62f24bc8bbb40208557ceead6efd0edb3d73"
-  integrity sha512-Y6yWNaKNhM0G6GHvT3P86lVePKW/k/IsK3mIC8IFGscU8qg9VmVOOxNDf/cLMSZxdm+lyUk+h6pusZ5LU7Vh2Q==
+"@navikt/ft-kodeverk@^1.0.23":
+  version "1.0.23"
+  resolved "https://npm.pkg.github.com/download/@navikt/ft-kodeverk/1.0.23/95275ddadaecdf876f30a6e415980a1e0a8e9146#95275ddadaecdf876f30a6e415980a1e0a8e9146"
+  integrity sha512-t0squfsq/YhfVPnwXRe/BX/a2zLmiG/pR2djZSUjAOc4T4tb8KR4nj0vZ613v0CGsdcN/t0UDZnHj8ZjHpaOEg==
 
-"@navikt/ft-plattform-komponenter@1.2.12":
-  version "1.2.12"
-  resolved "https://npm.pkg.github.com/download/@navikt/ft-plattform-komponenter/1.2.12/6391919b9917b8cbca0713212152d0b86b0ce74e#6391919b9917b8cbca0713212152d0b86b0ce74e"
-  integrity sha512-pET5dtl5JPTnftMy5eZzyxgLDwc8RTvMbeSTPJti+MApn/GMd6zqTIuF1mSaJ1z4vNWUdGOkUJYPY9kR8Zqgrw==
+"@navikt/ft-plattform-komponenter@1.3.10":
+  version "1.3.10"
+  resolved "https://npm.pkg.github.com/download/@navikt/ft-plattform-komponenter/1.3.10/6b0d2fe1487c9ac9bfcf698d9e26103339807976#6b0d2fe1487c9ac9bfcf698d9e26103339807976"
+  integrity sha512-jtGP4a2wBwrMJdDFCVw+ghTpxPHmRzsIsBNneBu1AtiRoxrxtRpf3mIGo0wtnJEElEPnXMVVnOPy82VxVgoGfw==
   dependencies:
-    "@navikt/ds-css" "^1.4.0"
-    "@navikt/ds-icons" "^1.4.0"
-    "@navikt/ds-react" "^1.4.0"
-    "@navikt/ft-utils" "^1.1.7"
+    "@navikt/ds-css" "1.5.9"
+    "@navikt/ds-icons" "1.5.9"
+    "@navikt/ds-react" "1.5.9"
+    "@navikt/ft-utils" "^1.1.9"
 
-"@navikt/ft-types@^1.0.32":
-  version "1.0.32"
-  resolved "https://npm.pkg.github.com/download/@navikt/ft-types/1.0.32/f466e2c13038d947830281e301b5ee7c2c9f414c#f466e2c13038d947830281e301b5ee7c2c9f414c"
-  integrity sha512-pwSCaC5NfeI4UJ0vz2kDdozH8L/Oq3qH4PIlQKPo7maYs/dYEbRuhQBq14dtl3uCZGqMlkLLRZjNHW7eVErKbA==
+"@navikt/ft-types@^1.0.34":
+  version "1.0.34"
+  resolved "https://npm.pkg.github.com/download/@navikt/ft-types/1.0.34/6a8a9f84718b9fee81d9399f1fb27d405600339d#6a8a9f84718b9fee81d9399f1fb27d405600339d"
+  integrity sha512-m+qAxVMvj3DNoLD5GXHemue1+khInnqUqmhXgzBNNp9KlxV6WY0hBSYax0YCXrE1gWDzh7TXAIOAStEzwxx2ww==
   dependencies:
-    "@navikt/ft-kodeverk" "^1.0.21"
+    "@navikt/ft-kodeverk" "^1.0.23"
 
-"@navikt/ft-utils@^1.1.7":
-  version "1.1.7"
-  resolved "https://npm.pkg.github.com/download/@navikt/ft-utils/1.1.7/77cf5e15faba03b206ae485363f3227ab3241173#77cf5e15faba03b206ae485363f3227ab3241173"
-  integrity sha512-m3sPQe4B+ScxuLTaiUtcWrY/4+fMF+owirKcav+INzz68ZrVrBHhOehM48W9CkErnashyF6ySxmgMvpaGviUug==
+"@navikt/ft-utils@^1.1.9":
+  version "1.1.9"
+  resolved "https://npm.pkg.github.com/download/@navikt/ft-utils/1.1.9/07cffbf1c41f9a99f49079ace777325a8d58d8fd#07cffbf1c41f9a99f49079ace777325a8d58d8fd"
+  integrity sha512-sHaSHzfh4n1SpxR1rq1eL3qmQHooOLd10CrV4XmTxaJ3ap1gfe4hpHpZL9iyrogpfGOXEAKdQtlVQgPTBbdv9A==
   dependencies:
-    "@navikt/ft-kodeverk" "^1.0.21"
-    "@navikt/ft-types" "^1.0.32"
+    "@navikt/ft-kodeverk" "^1.0.23"
+    "@navikt/ft-types" "^1.0.34"
     dayjs "1.11.6"
     react-intl "6.2.1"
 
