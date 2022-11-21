@@ -1804,7 +1804,12 @@
     strict-event-emitter "^0.2.4"
     web-encoding "^1.1.5"
 
-"@navikt/ds-css@1.5.3", "@navikt/ds-css@^1.4.0":
+"@navikt/ds-css@2.0.0":
+  version "2.0.0"
+  resolved "https://npm.pkg.github.com/download/@navikt/ds-css/2.0.0/dedf794aea27f12283a5545a629c2fa9b6902568#dedf794aea27f12283a5545a629c2fa9b6902568"
+  integrity sha512-1LvUoH2dXrNn844A37UJxgccLWRAUapoCR1/6kifiYt1PK+E4pdzwlmF+fSjw5P4i7gGzO8D73aYlDCvknHakA==
+
+"@navikt/ds-css@^1.4.0":
   version "1.5.3"
   resolved "https://npm.pkg.github.com/download/@navikt/ds-css/1.5.3/e08b2a3ca4299954dce1bde5438ea55a877837c9#e08b2a3ca4299954dce1bde5438ea55a877837c9"
   integrity sha512-YEBoOMQrCfFGRmD0v0NCJfqBqiRj89aFwv7SwRIA3qKl82Wd3/2nFhGChLolPd84ZQwPIU87Gs2FnXF5HgU1Ig==
