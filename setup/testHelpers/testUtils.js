@@ -25,9 +25,12 @@ export const renderWithAllProviders = (ui, { ...renderOptions } = {}) => {
   const queryClient = new QueryClient(config);
   const Wrapper = ({ children }) => (
     <BrowserRouter>
-      <RestApiProvider requestApi={k9LosApi} initialState={{ KODEVERK: kodeverk }}>
+      <RestApiProvider
+        requestApi={k9LosApi}
+        initialState={{ KODEVERK: kodeverk, NAV_ANSATT: { navn: 'Paul', brukernavn: 'pingpongpaul@nav.no' } }}
+      >
         <QueryClientProvider client={queryClient}>
-          <IntlProvider locale="nb-NO" messages={defaultMessages}>
+          <IntlProvider locale="nb-NO" defaultLocale="nb-NO" messages={defaultMessages}>
             {children}
           </IntlProvider>
         </QueryClientProvider>
