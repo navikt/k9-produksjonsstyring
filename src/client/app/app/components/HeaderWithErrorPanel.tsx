@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
+import { useIntl } from 'react-intl';
 
 import Endringslogg from '@navikt/familie-endringslogg';
 import { BoxedListWithLinks, Header, Popover, SystemButton, UserPanel } from '@navikt/ft-plattform-komponenter';
@@ -68,15 +68,11 @@ const useOutsideClickEvent = (
  * Denne viser lenke tilbake til hovedsiden, nettside-navnet og NAV-ansatt navn.
  * I tillegg vil den vise potensielle feilmeldinger i ErrorMessagePanel.
  */
-const HeaderWithErrorPanel: FunctionComponent<OwnProps & WrappedComponentProps> = ({
-  intl,
-  queryStrings,
-  crashMessage,
-  setSiteHeight,
-}) => {
+const HeaderWithErrorPanel: FunctionComponent<OwnProps> = ({ queryStrings, crashMessage, setSiteHeight }) => {
   const [erLenkePanelApent, setLenkePanelApent] = useState(false);
   const [erAvdelingerPanelApent, setAvdelingerPanelApent] = useState(false);
   const navigate = useNavigate();
+  const intl = useIntl();
 
   const navAnsatt = useGlobalStateRestApiData<NavAnsatt>(RestApiGlobalStatePathsKeys.NAV_ANSATT);
   const { data: driftsmeldinger = [] } = useRestApi<Driftsmelding[]>(K9LosApiKeys.DRIFTSMELDINGER);
@@ -246,4 +242,4 @@ const HeaderWithErrorPanel: FunctionComponent<OwnProps & WrappedComponentProps> 
   );
 };
 
-export default injectIntl(HeaderWithErrorPanel);
+export default HeaderWithErrorPanel;
