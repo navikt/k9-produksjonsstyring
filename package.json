@@ -108,7 +108,7 @@
     "@storybook/addons": "^6.5.14-alpha.0",
     "@storybook/builder-webpack5": "^6.5.14-alpha.0",
     "@storybook/cli": "^6.5.14-alpha.0",
-    "@storybook/manager-webpack5": "^6.5.14-alpha.0",
+    "@storybook/manager-webpack5": "^7.0.0-alpha.10",
     "@storybook/react": "^6.5.14-alpha.0",
     "@storybook/theming": "^6.5.14-alpha.0",
     "@testing-library/react": "^12.1.4",
