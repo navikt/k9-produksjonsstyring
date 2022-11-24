@@ -23,7 +23,7 @@ import soek from './soek';
 // Derfor burde nok ting kun legges i dette arrayet midlertidig
 let handlers = [];
 
-const developmentHandlers = {
+export const developmentHandlers = {
   ferdigstilteHistorikk: rest.get('/api/avdelingsleder/nokkeltall/ferdigstilte-historikk', (req, res, ctx) =>
     res(ctx.json(giRandomDato(ferdigstilteHistorikk, 14))),
   ),
@@ -64,9 +64,11 @@ const developmentHandlers = {
     res(ctx.json(saksbehandlereIOppgaveko)),
   ),
   oppgaver: rest.get('/api/saksbehandler/oppgaver/antall', (req, res, ctx) => res(ctx.json(10))),
-
   oppgavekoer: rest.get('/api/saksbehandler/oppgaveko', (req, res, ctx) => res(ctx.json(saksbehandlerOppgaveko))),
   sok: rest.post('/api/fagsak/sok', (req, res, ctx) => res(ctx.json(soek))),
+  saksbehandler: rest.get('/api/saksbehandler', (req, res, ctx) =>
+    res(ctx.json({ navn: 'Paul', brukernavn: 'pingpongpaul@nav.no' })),
+  ),
 };
 
 if (process.env.MSW_MODE === 'dev') {

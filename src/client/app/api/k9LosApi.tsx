@@ -1,6 +1,6 @@
 import { RestApiConfigBuilder, createRequestApi } from './rest-api';
 
-const isDevelopment = process.env.NODE_ENV === 'development';
+const isDevelopment = process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test';
 
 export enum RestApiGlobalStatePathsKeys {
   KODEVERK = 'KODEVERK',
@@ -72,9 +72,9 @@ export enum K9LosApiKeys {
   LEGG_TIL_BEHANDLET_OPPGAVE = 'LEGG_TIL_BEHANDLET_OPPGAVE',
   HENT_ALLE_RESERVASJONER = 'HENT_ALLE_RESERVASJONER',
   AVDELINGSLEDER_OPPHEVER_RESERVASJON = 'AVDELINGSLEDER_OPPHEVER_RESERVASJON',
-  SEARCH_AKTOERID= 'SEARCH_AKTOERID',
-  HENT_BEHANDLINGER_SOM_GÅR_AV_VENT='HENT_BEHANDLINGER_SOM_GÅR_AV_VENT',
-  FÅ_OPPGAVE_FRA_KO='FÅ_OPPGAVE_FRA_KO'
+  SEARCH_AKTOERID = 'SEARCH_AKTOERID',
+  HENT_BEHANDLINGER_SOM_GÅR_AV_VENT = 'HENT_BEHANDLINGER_SOM_GÅR_AV_VENT',
+  FÅ_OPPGAVE_FRA_KO = 'FÅ_OPPGAVE_FRA_KO',
 }
 
 const CONTEXT_PATH = isDevelopment ? 'api' : '';
@@ -128,9 +128,18 @@ export const endpoints = new RestApiConfigBuilder(CONTEXT_PATH)
   .withPost('/avdelingsleder/oppgavekoer/sortering', K9LosApiKeys.LAGRE_OPPGAVEKO_SORTERING)
   .withPost('/avdelingsleder/oppgavekoer/kriterier', K9LosApiKeys.LAGRE_OPPGAVEKO_KRITERIER)
   .withPost('/avdelingsleder/oppgavekoer/skjermet', K9LosApiKeys.LAGRE_OPPGAVEKO_SKJERMET)
-  .withPost('/avdelingsleder/oppgavekoer/sortering-tidsintervall-type', K9LosApiKeys.LAGRE_OPPGAVEKO_SORTERING_DYNAMISK_PERIDE)
-  .withPost('/avdelingsleder/oppgavekoer/sortering-tidsintervall-dager', K9LosApiKeys.LAGRE_OPPGAVEKO_SORTERING_TIDSINTERVALL_DAGER)
-  .withPost('/avdelingsleder/oppgavekoer/sortering-tidsintervall-dato', K9LosApiKeys.LAGRE_OPPGAVEKO_SORTERING_TIDSINTERVALL_DATO)
+  .withPost(
+    '/avdelingsleder/oppgavekoer/sortering-tidsintervall-type',
+    K9LosApiKeys.LAGRE_OPPGAVEKO_SORTERING_DYNAMISK_PERIDE,
+  )
+  .withPost(
+    '/avdelingsleder/oppgavekoer/sortering-tidsintervall-dager',
+    K9LosApiKeys.LAGRE_OPPGAVEKO_SORTERING_TIDSINTERVALL_DAGER,
+  )
+  .withPost(
+    '/avdelingsleder/oppgavekoer/sortering-tidsintervall-dato',
+    K9LosApiKeys.LAGRE_OPPGAVEKO_SORTERING_TIDSINTERVALL_DATO,
+  )
   .withPost('/avdelingsleder/oppgavekoer/saksbehandler', K9LosApiKeys.LAGRE_OPPGAVEKO_SAKSBEHANDLER)
   .withPost('/avdelingsleder/reservasjoner/opphev', K9LosApiKeys.AVDELINGSLEDER_OPPHEVER_RESERVASJON)
 
@@ -150,7 +159,10 @@ export const endpoints = new RestApiConfigBuilder(CONTEXT_PATH)
   .withGet('/avdelingsleder/nokkeltall/ferdigstilte-historikk', K9LosApiKeys.HENT_FERDIGSTILTE_HISTORIKK)
   .withGet('/avdelingsleder/nokkeltall/nye-historikk', K9LosApiKeys.HENT_NYE_HISTORIKK)
   .withGet('/avdelingsleder/nokkeltall/behandlinger-manuelt-vent-historikk', K9LosApiKeys.HENT_OPPGAVER_MANUELT_PA_VENT)
-  .withGet('/avdelingsleder/nokkeltall/behandlinger-forste-stonadsdag', K9LosApiKeys.HENT_OPPGAVER_PER_FORSTE_STONADSDAG)
+  .withGet(
+    '/avdelingsleder/nokkeltall/behandlinger-forste-stonadsdag',
+    K9LosApiKeys.HENT_OPPGAVER_PER_FORSTE_STONADSDAG,
+  )
   .withGet('/avdelingsleder/nokkeltall//dagens-tall', K9LosApiKeys.HENT_DAGENS_TALL)
   .withGet('/avdelingsleder/nokkeltall/alle-paa-vent_v2', K9LosApiKeys.HENT_BEHANDLINGER_SOM_GÅR_AV_VENT)
 
