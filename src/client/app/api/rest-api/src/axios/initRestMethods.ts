@@ -5,7 +5,7 @@ const openPreview = data => {
     window.open(URL.createObjectURL(data));
   }
 };
-const isLocal = process.env.NODE_ENV === 'development';
+const isLocal = process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test';
 const isDev = window.location.hostname.includes('dev.adeo.no');
 const proxyUrl = isDev
   ? 'https://k9-los-oidc-auth-proxy.dev.intern.nav.no/api/k9-los-api'

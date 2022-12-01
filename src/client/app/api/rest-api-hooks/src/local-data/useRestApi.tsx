@@ -1,6 +1,4 @@
-import {
-  useState, useEffect, DependencyList, useContext,
-} from 'react';
+import { useState, useEffect, DependencyList, useContext } from 'react';
 
 import { REQUEST_POLLING_CANCELLED } from 'api/rest-api';
 import { K9LosApiKeys } from 'api/k9LosApi';
@@ -15,10 +13,15 @@ interface RestApiData<T> {
 }
 
 /**
-  * Hook som utfører et restkall ved mount. En kan i tillegg legge ved en dependencies-liste som kan trigge ny henting når data
-  * blir oppdatert. Hook returnerer rest-kallets status/resultat/feil
-  */
-function useRestApi<T>(key: K9LosApiKeys, params: any = {}, keepData = false, dependencies: DependencyList = []):RestApiData<T> {
+ * Hook som utfører et restkall ved mount. En kan i tillegg legge ved en dependencies-liste som kan trigge ny henting når data
+ * blir oppdatert. Hook returnerer rest-kallets status/resultat/feil
+ */
+function useRestApi<T>(
+  key: K9LosApiKeys,
+  params: any = {},
+  keepData = false,
+  dependencies: DependencyList = [],
+): RestApiData<T> {
   const [data, setData] = useState({
     state: RestApiState.NOT_STARTED,
     error: undefined,
@@ -28,14 +31,15 @@ function useRestApi<T>(key: K9LosApiKeys, params: any = {}, keepData = false, de
   const requestApi = useContext(RestApiRequestContext);
 
   useEffect(() => {
-    setData((oldState) => ({
+    setData(oldState => ({
       state: RestApiState.LOADING,
       error: undefined,
       data: keepData ? oldState.data : undefined,
     }));
 
-    requestApi.startRequest(key, params)
-      .then((dataRes) => {
+    requestApi
+      .startRequest(key, params)
+      .then(dataRes => {
         if (dataRes.payload !== REQUEST_POLLING_CANCELLED) {
           setData({
             state: RestApiState.SUCCESS,
@@ -44,7 +48,7 @@ function useRestApi<T>(key: K9LosApiKeys, params: any = {}, keepData = false, de
           });
         }
       })
-      .catch((error) => {
+      .catch(error => {
         setData({
           state: RestApiState.ERROR,
           data: undefined,
