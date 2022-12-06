@@ -370,6 +370,7 @@
   "UtvalgskriterierForOppgavekoForm.Kriterier": "Andre kriterier",
   "UtvalgskriterierForOppgavekoForm.Saksbehandlere": "Saksbehandlere",
   "UtvalgskriterierForOppgavekoForm.Merknader": "Merknader",
+  "UtvalgskriterierForOppgavekoForm.NyeSøknadsperioder": "Nye søknadsperioder",
 
   "ValidationMessage.NotEmpty": "Feltet må fylles ut",
   "ValidationMessage.MinLength": "Du må skrive minst {length} tegn",

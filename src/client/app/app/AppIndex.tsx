@@ -1,5 +1,3 @@
-/* eslint-disable global-require */
-/* eslint-disable @typescript-eslint/no-var-requires */
 import React, { FunctionComponent, useCallback, useState } from 'react';
 import { parseQueryString } from 'utils/urlUtils';
 import { useIdleTimer } from 'react-idle-timer';
@@ -21,16 +19,11 @@ import ErrorBoundary from './ErrorBoundary';
  * Komponenten er også ansvarlig for å hente innlogget NAV-ansatt, rettskilde-url, systemrutine-url
  * og kodeverk fra server og lagre desse i klientens state.
  */
-const AppIndex: FunctionComponent = function () {
+const AppIndex: FunctionComponent = () => {
   const [headerHeight, setHeaderHeight] = useState(0);
   const [crashMessage, setCrashMessage] = useState<string>();
   const [sessionHarUtlopt, setSessionHarUtlopt] = useState<boolean>(false);
   const timeout = 1000 * 60 * 58;
-
-  if (process.env.NODE_ENV === 'development') {
-    const { worker } = require('../../mocks/browser');
-    worker.start({ onUnhandledRequest: 'bypass' });
-  }
 
   const handleOnIdle = (): void => {
     setSessionHarUtlopt(true);

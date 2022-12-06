@@ -1,3 +1,5 @@
+/* eslint-disable global-require */
+/* eslint-disable @typescript-eslint/no-var-requires */
 import { init } from '@sentry/browser';
 import React from 'react';
 import { render } from 'react-dom';
@@ -20,6 +22,11 @@ init({
   release: process.env.SENTRY_RELEASE || 'unknown',
   environment,
 });
+
+if (process.env.NODE_ENV === 'development') {
+  const { worker } = require('../mocks/browser');
+  worker.start({ onUnhandledRequest: 'bypass' });
+}
 
 const renderFunc = Component => {
   const app = document.getElementById('app');

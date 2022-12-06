@@ -8,8 +8,8 @@ import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner
 import useKodeverk from 'api/rest-api-hooks/src/global-data/useKodeverk';
 import { K9LosApiKeys } from 'api/k9LosApi';
 import { Label } from '@navikt/ds-react';
-import KriterierType from '../../../../types/KriterierType';
 import { Kriterie } from 'avdelingsleder/behandlingskoer/oppgavekoTsType';
+import KriterierType from '../../../../types/KriterierType';
 
 interface OwnProps {
   valgtOppgavekoId: string;
@@ -21,7 +21,7 @@ const MerknadVelger: FunctionComponent<OwnProps> = ({ valgtOppgavekoId, values, 
   const merknadsTyper = useKodeverk(kodeverkTyper.MERKNAD_TYPE);
   const { startRequest: lagreOppgavekoMerknader } = useRestApiRunner(K9LosApiKeys.LAGRE_OPPGAVEKO_KRITERIER);
 
-  const merknadValues = values['kriterier'].filter(
+  const merknadValues = values.kriterier.filter(
     (kriterier: Kriterie) => kriterier.kriterierType.felttypeKodeverk === kodeverkTyper.MERKNAD_TYPE,
   );
   const aktiveMerknader = merknadValues[0]?.koder || [];
@@ -31,6 +31,7 @@ const MerknadVelger: FunctionComponent<OwnProps> = ({ valgtOppgavekoId, values, 
   }
   return (
     <>
+      <VerticalSpacer twentyPx />
       <Label size="small" style={{ color: '#262626' }}>
         <FormattedMessage id="UtvalgskriterierForOppgavekoForm.Merknader" />
       </Label>
