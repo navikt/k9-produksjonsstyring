@@ -2071,15 +2071,15 @@
     strict-event-emitter "^0.2.4"
     web-encoding "^1.1.5"
 
-"@navikt/ds-css@1.5.3":
-  version "1.5.3"
-  resolved "https://npm.pkg.github.com/download/@navikt/ds-css/1.5.3/e08b2a3ca4299954dce1bde5438ea55a877837c9#e08b2a3ca4299954dce1bde5438ea55a877837c9"
-  integrity sha512-YEBoOMQrCfFGRmD0v0NCJfqBqiRj89aFwv7SwRIA3qKl82Wd3/2nFhGChLolPd84ZQwPIU87Gs2FnXF5HgU1Ig==
-
 "@navikt/ds-css@1.5.9":
   version "1.5.9"
   resolved "https://npm.pkg.github.com/download/@navikt/ds-css/1.5.9/0fbbf2f8dd3a3e1367d5e4d57ab295b6638872fd#0fbbf2f8dd3a3e1367d5e4d57ab295b6638872fd"
   integrity sha512-RgLHsMeXb4M8AvlADCYmqWYjvfLPY1ZUbrX4XQbQUD3D0jUSvIR15LjYCltCax3jYxgjyFt6Mb4Vum7xleyZgQ==
+
+"@navikt/ds-css@2.0.9":
+  version "2.0.9"
+  resolved "https://npm.pkg.github.com/download/@navikt/ds-css/2.0.9/dba249df2f0198b7eabe3441dbf4df32d2b13fe9#dba249df2f0198b7eabe3441dbf4df32d2b13fe9"
+  integrity sha512-BWgyaj/p9q7w6zjbMwi4TDbcCyo0q914qO3xtWZSkdfOq8XPw/sn5N/L59KL3SMF0nNoZ8K6NLN94uzNCVTGGw==
 
 "@navikt/ds-icons@1.5.3", "@navikt/ds-icons@^1.5.3":
   version "1.5.3"
@@ -11090,16 +11090,7 @@ loader-runner@^4.1.0, loader-runner@^4.2.0:
   resolved "https://registry.yarnpkg.com/loader-runner/-/loader-runner-4.3.0.tgz#c1b4a163b99f614830353b16755e7149ac2314e1"
   integrity sha512-3R/1M+yS3j5ou80Me59j7F9IMs4PXs3VqRrm0TU3AbKPxlmpoY1TNscJV/oGJXo8qCatFGTfDbY6W6ipGOYXfg==
 
-loader-utils@^1.2.3, loader-utils@^2.0.0, loader-utils@^2.0.3:
-  version "2.0.4"
-  resolved "https://registry.yarnpkg.com/loader-utils/-/loader-utils-2.0.4.tgz#8b5cb38b5c34a9a018ee1fc0e6a066d1dfcc528c"
-  integrity sha512-xXqpXoINfFhgua9xiqD8fPFHgkoq1mmmpE92WlDbm9rNRd/EbRb+Gqf908T2DMfuHjjJlksiK2RbHVOdD/MqSw==
-  dependencies:
-    big.js "^5.2.2"
-    emojis-list "^3.0.0"
-    json5 "^2.1.2"
-
-loader-utils@^2.0.4:
+loader-utils@^1.2.3, loader-utils@^2.0.0, loader-utils@^2.0.3, loader-utils@^2.0.4:
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/loader-utils/-/loader-utils-2.0.4.tgz#8b5cb38b5c34a9a018ee1fc0e6a066d1dfcc528c"
   integrity sha512-xXqpXoINfFhgua9xiqD8fPFHgkoq1mmmpE92WlDbm9rNRd/EbRb+Gqf908T2DMfuHjjJlksiK2RbHVOdD/MqSw==
