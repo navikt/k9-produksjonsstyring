@@ -2081,17 +2081,17 @@
   resolved "https://npm.pkg.github.com/download/@navikt/ds-css/1.5.9/0fbbf2f8dd3a3e1367d5e4d57ab295b6638872fd#0fbbf2f8dd3a3e1367d5e4d57ab295b6638872fd"
   integrity sha512-RgLHsMeXb4M8AvlADCYmqWYjvfLPY1ZUbrX4XQbQUD3D0jUSvIR15LjYCltCax3jYxgjyFt6Mb4Vum7xleyZgQ==
 
-"@navikt/ds-icons@1.5.3", "@navikt/ds-icons@^1.5.3":
-  version "1.5.3"
-  resolved "https://npm.pkg.github.com/download/@navikt/ds-icons/1.5.3/ff3afe36c03465365a6f9f49f507d871e22bd7ad#ff3afe36c03465365a6f9f49f507d871e22bd7ad"
-  integrity sha512-aELjJMFNtRIDOX3c/4OHn16aw7qzPzg1V/nQ622/AwzJfv/OEG/qP0HZLUgXg6BbOPFv9vKAqnr+3sq3MJQtfg==
-
 "@navikt/ds-icons@1.5.9":
   version "1.5.9"
   resolved "https://npm.pkg.github.com/download/@navikt/ds-icons/1.5.9/27850516243aedfe80eb62893f3fc7e1cdbc1707#27850516243aedfe80eb62893f3fc7e1cdbc1707"
   integrity sha512-3Alijc0JoTUQD92zHJ7Te9vMg02DnglGCBHBwmEAZF9FX324reJwqAvW3u45mWuuX8h3phGUiTTCQHdcXF1vbA==
 
-"@navikt/ds-icons@^1.5.9":
+"@navikt/ds-icons@2.0.10":
+  version "2.0.10"
+  resolved "https://npm.pkg.github.com/download/@navikt/ds-icons/2.0.10/de484386c4477b6fc4165d05775a43e496491a89#de484386c4477b6fc4165d05775a43e496491a89"
+  integrity sha512-QsBBPEbG7+I1x0nwBcIi6GwRkCi9V+/kcDLO700Sg5qxqu2SPkbhKOsGeZLt17r0GT127aKbbkVoWkw3ZKVUfA==
+
+"@navikt/ds-icons@^1.5.3", "@navikt/ds-icons@^1.5.9":
   version "1.5.10"
   resolved "https://npm.pkg.github.com/download/@navikt/ds-icons/1.5.10/40c493b2be774d2baada7ea158a88ed7c9bd661e#40c493b2be774d2baada7ea158a88ed7c9bd661e"
   integrity sha512-0IOEbIo+NjKEUtyRna7KMSIi950qpU73t7sazhlQzvTm2akT24mNkLn+aHpRv7dZ4pwlUPv4d80+IGk2W/pvbw==
@@ -11090,16 +11090,7 @@ loader-runner@^4.1.0, loader-runner@^4.2.0:
   resolved "https://registry.yarnpkg.com/loader-runner/-/loader-runner-4.3.0.tgz#c1b4a163b99f614830353b16755e7149ac2314e1"
   integrity sha512-3R/1M+yS3j5ou80Me59j7F9IMs4PXs3VqRrm0TU3AbKPxlmpoY1TNscJV/oGJXo8qCatFGTfDbY6W6ipGOYXfg==
 
-loader-utils@^1.2.3, loader-utils@^2.0.0, loader-utils@^2.0.3:
-  version "2.0.4"
-  resolved "https://registry.yarnpkg.com/loader-utils/-/loader-utils-2.0.4.tgz#8b5cb38b5c34a9a018ee1fc0e6a066d1dfcc528c"
-  integrity sha512-xXqpXoINfFhgua9xiqD8fPFHgkoq1mmmpE92WlDbm9rNRd/EbRb+Gqf908T2DMfuHjjJlksiK2RbHVOdD/MqSw==
-  dependencies:
-    big.js "^5.2.2"
-    emojis-list "^3.0.0"
-    json5 "^2.1.2"
-
-loader-utils@^2.0.4:
+loader-utils@^1.2.3, loader-utils@^2.0.0, loader-utils@^2.0.3, loader-utils@^2.0.4:
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/loader-utils/-/loader-utils-2.0.4.tgz#8b5cb38b5c34a9a018ee1fc0e6a066d1dfcc528c"
   integrity sha512-xXqpXoINfFhgua9xiqD8fPFHgkoq1mmmpE92WlDbm9rNRd/EbRb+Gqf908T2DMfuHjjJlksiK2RbHVOdD/MqSw==
