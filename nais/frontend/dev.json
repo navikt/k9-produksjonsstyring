@@ -1,8 +1,7 @@
 {
   "ingresses": [
     "https://k9-los-web.dev.adeo.no",
-    "https://k9-los-web.dev-fss.nais.io",
-    "https://app-q1.adeo.no/k9-los-web"
+    "https://k9-los-web.dev-fss.nais.io"
   ],
   "env": {
     "AUTH_PROXY_URL": "https://k9-los-oidc-auth-proxy.dev.intern.nav.no/api/k9-los-api",
