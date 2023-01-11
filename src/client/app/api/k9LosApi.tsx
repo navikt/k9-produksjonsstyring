@@ -75,6 +75,8 @@ export enum K9LosApiKeys {
   SEARCH_AKTOERID = 'SEARCH_AKTOERID',
   HENT_BEHANDLINGER_SOM_GÅR_AV_VENT = 'HENT_BEHANDLINGER_SOM_GÅR_AV_VENT',
   FÅ_OPPGAVE_FRA_KO = 'FÅ_OPPGAVE_FRA_KO',
+  OPPGAVE_QUERY = 'OPPGAVE_QUERY',
+  OPPGAVE_QUERY_FELTER = 'OPPGAVE_QUERY_FELTER',
 }
 
 const CONTEXT_PATH = isDevelopment ? 'api' : '';
@@ -176,6 +178,9 @@ export const endpoints = new RestApiConfigBuilder(CONTEXT_PATH)
 
   /* /api/kodeverk */
   .withGet('/kodeverk', K9LosApiKeys.KODEVERK)
+
+  .withPost('/ny-oppgavestyring/oppgave/query', K9LosApiKeys.OPPGAVE_QUERY)
+  .withGet('/ny-oppgavestyring/oppgave/felter', K9LosApiKeys.OPPGAVE_QUERY_FELTER)
 
   .build();
 

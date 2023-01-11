@@ -2,6 +2,7 @@ import React, { FunctionComponent } from 'react';
 import { Route, Routes } from 'react-router-dom';
 
 import AvdelingslederIndex from 'avdelingsleder/AvdelingslederIndex';
+import FilterIndex from '../../filter/FilterIndex';
 import SaksbehandlerIndex from 'saksbehandler/SaksbehandlerIndex';
 import AdminIndex from '../../admin/AdminIndex';
 import MissingPage from './MissingPage';
@@ -26,6 +27,7 @@ const Home: FunctionComponent<OwnProps> = function ({
   return (
     <div className={styles.content} style={{ margin: `${headerHeight + 10}px auto 0` }}>
       <Routes>
+        <Route path="/filter" element={<FilterIndex />} />
         <Route path="/" element={<SaksbehandlerIndex />} />
         <Route path="/avdelingsleder" element={<AvdelingslederIndex />} />
         <Route path="/admin" element={<AdminIndex />} />
