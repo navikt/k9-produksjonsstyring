@@ -21,8 +21,6 @@ export default class OppgaveQueryModel {
         } else {
             this.oppgaveQuery = oppgaveQuery;
         }
-        console.log("CONSTR");
-        console.log(JSON.stringify(this.oppgaveQuery));
     }
 
 
