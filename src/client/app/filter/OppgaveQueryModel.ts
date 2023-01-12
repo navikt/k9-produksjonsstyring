@@ -1,4 +1,4 @@
-import { Oppgaverad, Oppgavefeltverdi, EnkelFeltuttrekk, Feltuttrekk, OppgaveQuery, FiltereContainer, CombineOppgavefilter, FeltverdiOppgavefilter, Oppgavefilter } from './filterTsTypes.ts';
+import { OppgaveQuery } from './filterTsTypes';
 
 import { v4 as uuid } from 'uuid';
 
@@ -7,19 +7,20 @@ export default class OppgaveQueryModel {
     private oppgaveQuery: OppgaveQuery;
 
     constructor(oppgaveQuery: OppgaveQuery) {
-        if (oppgaveQuery == null) {
-            oppgaveQuery = {
+        let newOppgaveQuery = oppgaveQuery;
+        if (newOppgaveQuery == null) {
+            newOppgaveQuery = {
                 "filtere": [],
                 "select": []
             }
         }
 
-        oppgaveQuery = JSON.parse(JSON.stringify(oppgaveQuery));
+        newOppgaveQuery = JSON.parse(JSON.stringify(newOppgaveQuery));
 
-        if (oppgaveQuery.id == null) {
-            this.oppgaveQuery = OppgaveQueryModel.updateIdentities(oppgaveQuery);
+        if (!newOppgaveQuery.id) {
+            this.oppgaveQuery = OppgaveQueryModel.updateIdentities(newOppgaveQuery);
         } else {
-            this.oppgaveQuery = oppgaveQuery;
+            this.oppgaveQuery = newOppgaveQuery;
         }
     }
 
@@ -28,7 +29,7 @@ export default class OppgaveQueryModel {
         oppgaveQuery.id = uuid();
         oppgaveQuery.filtere.forEach(f => {
             f.id = uuid();
-            if (f.filtere != null) {
+            if (f.filtere) {
                 updateIdentities(f);
             }
         });
@@ -40,15 +41,15 @@ export default class OppgaveQueryModel {
     }
 
     removeFilter(id) {
-        return this._removeFilter(this.oppgaveQuery, id);
+        return this.internalRemoveFilter(this.oppgaveQuery, id);
     }
 
-    private _removeFilter(oppgaveQuery, id) {
-        const index = oppgaveQuery.filtere.findIndex(f => f.id == id);
+    private internalRemoveFilter(oppgaveQuery, id) {
+        const index = oppgaveQuery.filtere.findIndex(f => f.id === id);
         if (index >= 0) {
             oppgaveQuery.filtere.splice(index, 1);
         } else {
-            oppgaveQuery.filtere.filter(f => f.filtere != null).forEach(f => this._removeFilter(f, id));
+            oppgaveQuery.filtere.filter(f => f.filtere).forEach(f => this.internalRemoveFilter(f, id));
         }
         return this;
     }
@@ -60,10 +61,10 @@ export default class OppgaveQueryModel {
             }
         }
 
-        return this._getById(this.oppgaveQuery, id);
+        return this.internalGetById(this.oppgaveQuery, id);
     }
 
-    private _getById(oppgaveQuery, id) {
+    private internalGetById(oppgaveQuery, id) {
         if (oppgaveQuery.id === id) {
             return oppgaveQuery;
         }
@@ -75,7 +76,7 @@ export default class OppgaveQueryModel {
             if (f.id === id) {
                 return f;
             }
-            const result = this._getById(f, id);
+            const result = this.internalGetById(f, id);
             if (result != null) {
                 return result;
             }
@@ -85,10 +86,10 @@ export default class OppgaveQueryModel {
     }
 
     addFilter(id) {
-        return this._addFilter(this.oppgaveQuery, id);
+        return this.internalAddFilter(this.oppgaveQuery, id);
     }
 
-    private _addFilter(oppgaveQuery, id) {
+    private internalAddFilter(oppgaveQuery, id) {
         if (oppgaveQuery.id === id) {
             oppgaveQuery.filtere.push({
                 "id": uuid(),
@@ -99,39 +100,39 @@ export default class OppgaveQueryModel {
                 "verdi" : null
             });
         } else {
-            oppgaveQuery.filtere.filter(f => f.filtere != null).forEach(f => this._addFilter(f, id));
+            oppgaveQuery.filtere.filter(f => f.filtere).forEach(f => this.internalAddFilter(f, id));
         }
         return this;
     }
 
     updateFilter(id, data) {
-        return this._updateFilter(this.oppgaveQuery, id, data);
+        return this.internalUdateFilter(this.oppgaveQuery, id, data);
     }
 
-    private _updateFilter(oppgaveQuery, id, data) {
+    private internalUdateFilter(oppgaveQuery: OppgaveQuery, id, data) {
         const index = oppgaveQuery.filtere.findIndex(f => f.id === id);
         if (index >= 0) {
             oppgaveQuery.filtere[index] = data;
         } else {
-            oppgaveQuery.filtere.filter(f => f.filtere != null).forEach(f => this._updateFilter(f, id, data));
+            oppgaveQuery.filtere.filter(f => f.filtere).forEach(f => this.internalUdateFilter(f, id, data));
         }
         return this;
     }
 
     addGruppe(id) {
-        return this._addGruppe(this.oppgaveQuery, id);
+        return this.internalAddGruppe(this.oppgaveQuery, id);
     }
 
-    private _addGruppe(oppgaveQuery, id) {
+    private internalAddGruppe(oppgaveQuery, id) {
         if (oppgaveQuery.id === id) {
             oppgaveQuery.filtere.push({
                 "id": uuid(),
                 "type" : "combine",
-                "combineOperator": (oppgaveQuery.combineOperator == null || oppgaveQuery.combineOperator === "AND") ? "OR" : "AND",
+                "combineOperator": (!oppgaveQuery.combineOperator || oppgaveQuery.combineOperator === "AND") ? "OR" : "AND",
                 "filtere": []
             });
         } else {
-            oppgaveQuery.filtere.filter(f => f.filtere != null).forEach(f => this._addGruppe(f, id));
+            oppgaveQuery.filtere.filter(f => f.filtere != null).forEach(f => this.internalAddGruppe(f, id));
         }
         return this;
     }
@@ -147,7 +148,7 @@ export default class OppgaveQueryModel {
     }
 
     removeSelectFelt(id) {
-        const index = this.oppgaveQuery.select.findIndex(f => f.id == id);
+        const index = this.oppgaveQuery.select.findIndex(f => f.id === id);
         if (index >= 0) {
             this.oppgaveQuery.select.splice(index, 1);
         }

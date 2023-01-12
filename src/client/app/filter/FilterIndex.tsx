@@ -1,40 +1,21 @@
-import React, { useContext, useState } from 'react';
+import React from 'react';
 
-import useRestApi from 'api/rest-api-hooks/src/local-data/useRestApi';
 import { K9LosApiKeys, k9LosApi } from 'api/k9LosApi';
-
 import { REQUEST_POLLING_CANCELLED } from 'api/rest-api';
-import useGlobalStateRestApiData from 'api/rest-api-hooks/src/global-data/useGlobalStateRestApiData';
-import { RestApiRequestContext } from 'api/RestApiContext';
 
-import { Knapp } from 'nav-frontend-knapper';
-import { FlexColumn, FlexContainer, FlexRow } from 'sharedComponents/flexGrid';
+import { Search } from "@navikt/ds-icons";
+import { Alert, Button, ReadMore } from "@navikt/ds-react";
 
-import { Add, Delete, Search } from "@navikt/ds-icons";
-import { Alert, Button, BodyLong, Heading, Modal, Panel, ReadMore, Select, Table, TextField } from "@navikt/ds-react";
-
-import { Undertekst } from 'nav-frontend-typografi';
-
-import { v4 as uuid } from 'uuid';
+import { SelectFelt, Oppgavefelt, FiltereContainer, Oppgavefilter } from './filterTsTypes';
+import OppgavefilterPanel from './parts/OppgavefilterPanel';
+import OppgaveQueryModel from './OppgaveQueryModel';
+import LeggTilFilterButton from './parts/LeggTilFilterButton';
+import LeggTilGruppeButton from './parts/LeggTilGruppeButton';
+import OppgaveQueryResultat from './parts/OppgaveQueryResultat';
+import OppgaveSelectFelter from './parts/OppgaveSelectFelter';
+import { kodeFraKey, områdeFraKey } from './utils'
 
 import styles from './filterIndex.less';
-
-import { Oppgaverad, Oppgavefeltverdi, EnkelSelectFelt, SelectFelt, Oppgavefelt, OppgaveQuery, FiltereContainer, CombineOppgavefilter, FeltverdiOppgavefilter, Oppgavefilter } from './filterTsTypes.ts';
-import OppgaveQueryModel from './OppgaveQueryModel.ts';
-import LeggTilFilterButton from './parts/LeggTilFilterButton.tsx';
-import LeggTilGruppeButton from './parts/LeggTilGruppeButton.tsx';
-import OppgaveQueryResultat from './parts/OppgaveQueryResultat.tsx';
-import OppgaveSelectFelter from './parts/OppgaveSelectFelter.tsx';
-import { feltverdiKey, visningsnavnForFelt } from './utils.ts'
-
-
-function områdeFraKey(key) {
-  return key.split("__")[0];
-}
-
-function kodeFraKey(key) {
-  return key.split("__")[1];
-}
 
 class FilterIndex extends React.Component {
 
@@ -71,11 +52,8 @@ class FilterIndex extends React.Component {
         this.setState({
           felter: []
         });
+        throw error;
       });
-  }
-
-  hentFeltdefinisjoner() {
-
   }
 
   executeOppgavesøk() {
@@ -89,7 +67,7 @@ class FilterIndex extends React.Component {
           });
         }
       })
-      .catch(error => {
+      .catch(() => {
         this.setState({
           oppgaver: [],
           queryError: "Klarte ikke å kjøre søk grunnet ukjent feil."
@@ -97,40 +75,40 @@ class FilterIndex extends React.Component {
       });
   }
 
-  fjernFilter(oppgavefilter: Oppgavefiler) {
-    this.setState((state, props) => ({
+  fjernFilter(oppgavefilter: Oppgavefilter) {
+    this.setState((state) => ({
       oppgaveQuery: new OppgaveQueryModel(state.oppgaveQuery).removeFilter(oppgavefilter.id).toOppgaveQuery()
     }));
   }
 
   leggTilFilter(filterContainer: FiltereContainer) {
-    this.setState((state, props) => ({
+    this.setState((state) => ({
       oppgaveQuery: new OppgaveQueryModel(state.oppgaveQuery).addFilter(filterContainer.id).toOppgaveQuery()
     }));
   };
 
   leggTilGruppe(filterContainer: FiltereContainer) {
-    this.setState((state, props) => ({
+    this.setState((state) => ({
       oppgaveQuery: new OppgaveQueryModel(state.oppgaveQuery).addGruppe(filterContainer.id).toOppgaveQuery()
     }));
   };
 
   fjernSelectFelt(oppgavefelt: Oppgavefelt) {
-    this.setState((state, props) => ({
+    this.setState((state) => ({
       oppgaveQuery: new OppgaveQueryModel(state.oppgaveQuery).removeSelectFelt(oppgavefelt.id).toOppgaveQuery()
     }));
   };
 
   leggTilEnkelSelectFelt(filtereContainer: FiltereContainer) {
-    this.setState((state, props) => ({
+    this.setState((state) => ({
       oppgaveQuery: new OppgaveQueryModel(state.oppgaveQuery).addEnkelSelectFelt(state.oppgaveQuery, filtereContainer.id).toOppgaveQuery(),
       oppgaver: null
     }));
   };
 
   oppdaterFilter(id, newData) {
-    this.setState((state, props) => {
-      const oppgaveQueryModel = new OppgaveQueryModel(state.oppgaveQuery);;
+    this.setState((state) => {
+      const oppgaveQueryModel = new OppgaveQueryModel(state.oppgaveQuery);
       const oppgavefilterToUpdate = oppgaveQueryModel.getById(id);
       const data = {
         ...oppgavefilterToUpdate,
@@ -144,14 +122,14 @@ class FilterIndex extends React.Component {
     });
   }
 
-  oppdaterEnkelSelectFelt(selectFelt: SelectFelt) {
-    this.setState((state, props) => {
+  oppdaterEnkelSelectFelt(selectFelt: SelectFelt, verdi: String) {
+    this.setState((state) => {
       const newOppgaveQueryModel = new OppgaveQueryModel(state.oppgaveQuery);
       const selectToUpdate = newOppgaveQueryModel.getById(selectFelt.id);
       const data = {
         ...selectToUpdate,
-        "område" : områdeFraKey(event.target.value),
-        "kode" : kodeFraKey(event.target.value)
+        "område" : områdeFraKey(verdi),
+        "kode" : kodeFraKey(verdi)
       };
 
       newOppgaveQueryModel.updateEnkelSelectFelt(selectFelt.id, data);
@@ -164,7 +142,6 @@ class FilterIndex extends React.Component {
 
   render() {
     const oppgaveQuery = this.state.oppgaveQuery;
-    const oppgaveQueryModel = new OppgaveQueryModel(oppgaveQuery);
     const oppgaver = this.state.oppgaver;
     const felter = this.state.felter;
 
@@ -172,79 +149,19 @@ class FilterIndex extends React.Component {
       return null;
     }
 
-    const renderFjernFilterKnapp = (oppgavefilter, filtereContainer) => {
-      return <Button className={styles.filterFjern} icon={<Delete aria-hidden />} size="small" variant="tertiary" onClick={() => this.fjernFilter(oppgavefilter)}></Button>
-    }
-
-    const renderOppgaveFilter = (oppgavefilter, filtereContainer) => {
-      if (oppgavefilter.type === "feltverdi") {
-        const handleChangeKey = (event) => {
-          this.oppdaterFilter(oppgavefilter.id, {
-            "område" : områdeFraKey(event.target.value),
-            "kode" : kodeFraKey(event.target.value)
-          });
-        };
-
-        const handleChangeOperator = (event) => {
-          this.oppdaterFilter(oppgavefilter.id, {
-            "operator" : event.target.value
-          });
-        };
-
-        const handleChangeValue = (event) => {
-          this.oppdaterFilter(oppgavefilter.id, {
-            "verdi" : event.target.value
-          });
-        };
-
-        return (
-          <Panel className={styles.filter + " " + styles.filterFelt} key={oppgavefilter.id} border>
-            { renderFjernFilterKnapp(oppgavefilter, filtereContainer) }
-            <Heading level="5" size="xsmall">Felt</Heading>
-            <Select defaultValue={feltverdiKey(oppgavefilter)} onBlur={handleChangeKey}>
-              <option value="">Velg felt</option>
-              {
-                felter.map(function(feltdefinisjon, i) {
-                  return <option value={feltverdiKey(feltdefinisjon)}>{feltdefinisjon.visningsnavn}</option>
-                })
-              }
-            </Select>
-            <Select defaultValue={oppgavefilter.operator} onBlur={handleChangeOperator}>
-              <option value="EQUALS">er lik</option>
-              <option value="NOT_EQUALS">er IKKE lik</option>
-              <option value="IN">inneholder</option>
-              <option value="NOT_IN">inneholder IKKE</option>
-              <option value="LESS_THAN">mindre enn (&#60;)</option>
-              <option value="GREATER_THAN">større enn (&#62;)</option>
-              <option value="LESS_THAN_OR_EQUALS">mindre enn eller lik (&#60;=)</option>
-              <option value="GREATER_THAN_OR_EQUALS">større enn eller lik (&#62;=)</option>
-            </Select>
-            <TextField defaultValue={oppgavefilter.verdi} onBlur={handleChangeValue}/>
-          </Panel>
-        );
-      } else if (oppgavefilter.type === "combine") {
-        return (
-          <Panel className={styles.filter + " " + styles.filterGruppe} key={oppgavefilter.id} border>
-            { renderFjernFilterKnapp(oppgavefilter, filtereContainer) }
-            <Heading level="5" size="xsmall">{(oppgavefilter.combineOperator === "OR") ? "Minimum en av disse må gjelde for oppgaven" : "Alle disse må gjelde for oppgaven"}</Heading>
-            { oppgavefilter.filtere.map((item) => renderOppgaveFilter(item, oppgavefilter)) }
-            <LeggTilFilterButton filterContainer={oppgavefilter} onLeggTilFilter={this.leggTilFilter} />
-            <LeggTilGruppeButton filterContainer={oppgavefilter} onLeggTilGruppe={this.leggTilGruppe} />
-          </Panel>
-        );
-      } else {
-        throw new Error("Unhandled type: " + oppgavefilter.type);
-      }
-    }
-
     return (
       <div className={styles.filterTopp}>
-        { oppgaveQuery.filtere.map((item) => renderOppgaveFilter(item, oppgaveQuery)) }
+        { oppgaveQuery.filtere.map((item) =>  (
+          <OppgavefilterPanel felter={felter} oppgavefilter={item}
+                    onLeggTilFilter={this.leggTilFilter} onLeggTilGruppe={this.leggTilGruppe}
+                    onOppdaterFilter={this.oppdaterFilter} onFjernFilter={this.fjernFilter} />
+        ))}
         <LeggTilFilterButton filterContainer={oppgaveQuery} onLeggTilFilter={this.leggTilFilter} />
         <LeggTilGruppeButton filterContainer={oppgaveQuery} onLeggTilGruppe={this.leggTilGruppe} />
 
         <ReadMore className={styles.feltvalgBlokk} header="Velg felter som skal vises">
-          <OppgaveSelectFelter felter={felter} oppgaveQuery={oppgaveQuery} onLeggTil={this.leggTilEnkelSelectFelt} onOppdater={this.oppdaterEnkelSelectFelt} onFjern={this.fjernSelectFelt} />
+          <OppgaveSelectFelter felter={felter} oppgaveQuery={oppgaveQuery}
+                onLeggTil={this.leggTilEnkelSelectFelt} onOppdater={this.oppdaterEnkelSelectFelt} onFjern={this.fjernSelectFelt} />
         </ReadMore>
 
         <div className={styles.filterButtonGroup}>

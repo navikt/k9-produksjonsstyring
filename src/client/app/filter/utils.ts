@@ -11,3 +11,11 @@ export const visningsnavnForFelt = (felter: Oppgavefelt[], område: String, kode
   console.log("Mangler visningsnavn for: " + område + "." + kode);
   return kode;
 };
+
+export function områdeFraKey(key) {
+  return key.split("__")[0];
+}
+
+export function kodeFraKey(key) {
+  return key.split("__")[1];
+}

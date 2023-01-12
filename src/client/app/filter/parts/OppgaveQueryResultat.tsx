@@ -1,7 +1,7 @@
 import React from 'react';
 import { Table } from "@navikt/ds-react";
 
-import { visningsnavnForFelt } from '../utils.ts'
+import { visningsnavnForFelt } from '../utils'
 
 interface OwnProps {
    felter: Oppgavefelt[],
