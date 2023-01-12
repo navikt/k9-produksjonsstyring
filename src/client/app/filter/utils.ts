@@ -1,11 +1,11 @@
 export function feltverdiKey(item) {
-  return `${item.område !== null ? item.område : ''  }__${  item.kode}`;
+  return `${item.område !== null ? item.område : ''}__${item.kode}`;
 }
 
 export const visningsnavnForFelt = (felter: Oppgavefelt[], område: string, kode: string) => {
   const result = felter.find(felt => felt.område === område && felt.kode === kode);
   if (result !== null) {
-    return result;
+    return result.visningsnavn;
   }
   return kode;
 };
