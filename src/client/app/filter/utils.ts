@@ -1,21 +1,20 @@
 export function feltverdiKey(item) {
-  return item.område + "__" + item.kode;
+  return `${item.område !== null ? item.område : ''  }__${  item.kode}`;
 }
 
-export const visningsnavnForFelt = (felter: Oppgavefelt[], område: String, kode: String) => {
-  for (const felt of felter) {
-    if (felt.område == område && felt.kode == kode) {
-      return felt.visningsnavn;
-    }
+export const visningsnavnForFelt = (felter: Oppgavefelt[], område: string, kode: string) => {
+  const result = felter.find(felt => felt.område === område && felt.kode === kode);
+  if (result !== null) {
+    return result;
   }
-  console.log("Mangler visningsnavn for: " + område + "." + kode);
   return kode;
 };
 
 export function områdeFraKey(key) {
-  return key.split("__")[0];
+  const område = key.split('__')[0];
+  return område.length > 0 ? område : null;
 }
 
 export function kodeFraKey(key) {
-  return key.split("__")[1];
+  return key.split('__')[1];
 }
