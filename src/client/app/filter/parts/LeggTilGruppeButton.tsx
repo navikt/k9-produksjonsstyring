@@ -10,8 +10,7 @@ interface OwnProps {
    onLeggTilGruppe: (fc: FilterContainer) => void,
 }
 
-
-const LeggTilGruppeButton = ({filterContainer, onLeggTilFilter}): OwnProps => {
+const LeggTilGruppeButton = ({filterContainer, onLeggTilGruppe}): OwnProps => {
     return <Button className={styles.filterLeggTil} icon={<Add aria-hidden />} size="xsmall" variant="tertiary" onClick={() => onLeggTilGruppe(filterContainer)}>Legg til gruppe</Button>
 }
 

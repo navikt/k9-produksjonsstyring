@@ -229,7 +229,7 @@ class FilterIndex extends React.Component {
             <Heading level="5" size="xsmall">{(oppgavefilter.combineOperator === "OR") ? "Minimum en av disse må gjelde for oppgaven" : "Alle disse må gjelde for oppgaven"}</Heading>
             { oppgavefilter.filtere.map((item) => renderOppgaveFilter(item, oppgavefilter)) }
             <LeggTilFilterButton filterContainer={oppgavefilter} onLeggTilFilter={this.leggTilFilter} />
-            <LeggTilGruppeButton filterContainer={oppgavefilter} onLeggTilFilter={this.leggTilGruppe} />
+            <LeggTilGruppeButton filterContainer={oppgavefilter} onLeggTilGruppe={this.leggTilGruppe} />
           </Panel>
         );
       } else {
@@ -241,7 +241,7 @@ class FilterIndex extends React.Component {
       <div className={styles.filterTopp}>
         { oppgaveQuery.filtere.map((item) => renderOppgaveFilter(item, oppgaveQuery)) }
         <LeggTilFilterButton filterContainer={oppgaveQuery} onLeggTilFilter={this.leggTilFilter} />
-        <LeggTilGruppeButton filterContainer={oppgaveQuery} onLeggTilFilter={this.leggTilGruppe} />
+        <LeggTilGruppeButton filterContainer={oppgaveQuery} onLeggTilGruppe={this.leggTilGruppe} />
 
         <ReadMore className={styles.feltvalgBlokk} header="Velg felter som skal vises">
           <OppgaveSelectFelter felter={felter} oppgaveQuery={oppgaveQuery} onLeggTil={this.leggTilEnkelSelectFelt} onOppdater={this.oppdaterEnkelSelectFelt} onFjern={this.fjernSelectFelt} />
