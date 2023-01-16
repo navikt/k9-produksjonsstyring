@@ -1,21 +1,21 @@
-/*export type Oppgave = Readonly<{
+/* export type Oppgave = Readonly<{
   id: number;
-}>;*/
+}>; */
 
 export type Oppgavefilter = {
-  type: String;
+  type: string;
 };
 
 export type FeltverdiOppgavefilter = Oppgavefilter & {
-  område: String;
-  kode: String;
-  operator: String;
+  område: string;
+  kode: string;
+  operator: string;
   verdi: object;
 };
 
 export type CombineOppgavefilter = Oppgavefilter &
   FilterContainer & {
-    combineOperator: String;
+    combineOperator: string;
   };
 
 export type FilterContainer = {
@@ -27,17 +27,17 @@ export type OppgaveQuery = FilterContainer & {
 };
 
 export type SelectFelt = {
-  type: String;
+  type: string;
 };
 
 export type EnkelSelectFelt = SelectFelt & {
-  område: String;
-  kode: String;
+  område: string;
+  kode: string;
 };
 
 export type Oppgavefeltverdi = {
-  område: String;
-  kode: String;
+  område: string;
+  kode: string;
   verdi: object;
 };
 
@@ -46,7 +46,8 @@ export type Oppgaverad = {
 };
 
 export type Oppgavefelt = {
-  område: String;
-  kode: String;
-  visningsnavn: String;
+  område: string;
+  kode: string;
+  visningsnavn: string;
+  tolkes_som: string;
 };
