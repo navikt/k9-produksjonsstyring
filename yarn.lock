@@ -2071,15 +2071,15 @@
     strict-event-emitter "^0.2.4"
     web-encoding "^1.1.5"
 
-"@navikt/ds-css@1.5.3":
-  version "1.5.3"
-  resolved "https://npm.pkg.github.com/download/@navikt/ds-css/1.5.3/e08b2a3ca4299954dce1bde5438ea55a877837c9#e08b2a3ca4299954dce1bde5438ea55a877837c9"
-  integrity sha512-YEBoOMQrCfFGRmD0v0NCJfqBqiRj89aFwv7SwRIA3qKl82Wd3/2nFhGChLolPd84ZQwPIU87Gs2FnXF5HgU1Ig==
-
 "@navikt/ds-css@1.5.9":
   version "1.5.9"
   resolved "https://npm.pkg.github.com/download/@navikt/ds-css/1.5.9/0fbbf2f8dd3a3e1367d5e4d57ab295b6638872fd#0fbbf2f8dd3a3e1367d5e4d57ab295b6638872fd"
   integrity sha512-RgLHsMeXb4M8AvlADCYmqWYjvfLPY1ZUbrX4XQbQUD3D0jUSvIR15LjYCltCax3jYxgjyFt6Mb4Vum7xleyZgQ==
+
+"@navikt/ds-css@2.0.17":
+  version "2.0.17"
+  resolved "https://npm.pkg.github.com/download/@navikt/ds-css/2.0.17/da458df8e0e746124091babd9bb5fcf2d5445a20#da458df8e0e746124091babd9bb5fcf2d5445a20"
+  integrity sha512-vBDFqyA0CpAG5+DbJIYdoBOLhMJPUbO1CmppdAq7l6UZemgzf46pnGRjyIjngTgxVOm4Xlnlc7d1Ymf5jPfmCA==
 
 "@navikt/ds-icons@1.5.3", "@navikt/ds-icons@^1.5.3":
   version "1.5.3"
