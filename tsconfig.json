@@ -21,10 +21,8 @@
       "sharedComponents/*": ["app/sharedComponents/*"],
       "avdelingsleder/*": ["app/avdelingsleder/*"],
       "saksbehandler/*": ["app/saksbehandler/*"],
-      "utils/*": ["app/utils/*"],
+      "utils/*": ["app/utils/*"]
     }
   },
-  "include": [
-    "src"
-, "setup/testHelpers/testUtils.js"  ],
+  "include": ["src", "setup/testHelpers/testUtils.js"]
 }
