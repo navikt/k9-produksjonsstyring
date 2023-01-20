@@ -8,7 +8,7 @@
   "dependencies": {
     "@formatjs/intl-datetimeformat": "^6.4.3",
     "@formatjs/intl-numberformat": "^8.3.3",
-    "@navikt/ds-css": "2.0.12",
+    "@navikt/ds-css": "2.0.18",
     "@navikt/ds-icons": "2.0.12",
     "@navikt/ds-react": "2.0.12",
     "@navikt/familie-endringslogg": "^3.0.8",
