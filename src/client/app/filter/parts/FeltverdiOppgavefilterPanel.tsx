@@ -43,18 +43,6 @@ function renderFilterOperatorOgVerdi(
   onOppdaterFilter: (id: string, data: object) => void,
 ) {
   if (feltdefinisjon.tolkes_som === 'boolean') {
-    if (oppgavefilter.operator !== 'EQUALS') {
-      onOppdaterFilter(oppgavefilter.id, {
-        operator: 'EQUALS',
-      });
-    }
-
-    if (oppgavefilter.verdi === null) {
-      onOppdaterFilter(oppgavefilter.id, {
-        verdi: 'false',
-      });
-    }
-
     const handleChangeValue = event => {
       onOppdaterFilter(oppgavefilter.id, {
         verdi: event.target.checked.toString(),
@@ -84,15 +72,34 @@ function renderFilterOperatorOgVerdi(
   );
 }
 
+function finnFeltdefinisjon(felter, område: string, kode: string) {
+  return felter.find(fd => fd.område === område && fd.kode === kode);
+}
+
 const FeltverdiOppgavefilterPanel = ({ felter, oppgavefilter, onOppdaterFilter, onFjernFilter }): OwnProps => {
   const handleChangeKey = event => {
-    onOppdaterFilter(oppgavefilter.id, {
-      område: områdeFraKey(event.target.value),
-      kode: kodeFraKey(event.target.value),
-    });
+    const område = områdeFraKey(event.target.value);
+    const kode = kodeFraKey(event.target.value);
+    const feltdefinisjon = finnFeltdefinisjon(felter, område, kode);
+
+    if (feltdefinisjon.tolkes_som === 'boolean') {
+      onOppdaterFilter(oppgavefilter.id, {
+        område,
+        kode,
+        operator: 'EQUALS',
+        verdi: 'false',
+      });
+    } else {
+      onOppdaterFilter(oppgavefilter.id, {
+        område,
+        kode,
+        operator: 'EQUALS',
+        verdi: '',
+      });
+    }
   };
 
-  const feltdefinisjon = felter.find(fd => fd.område === oppgavefilter.område && fd.kode === oppgavefilter.kode);
+  const feltdefinisjon = finnFeltdefinisjon(felter, oppgavefilter.område, oppgavefilter.kode);
 
   return (
     <Panel className={`${styles.filter} ${styles.filterFelt}`} key={oppgavefilter.id} border>
