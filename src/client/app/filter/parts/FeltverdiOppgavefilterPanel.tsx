@@ -82,7 +82,7 @@ const FeltverdiOppgavefilterPanel = ({ felter, oppgavefilter, onOppdaterFilter, 
     const kode = kodeFraKey(event.target.value);
     const feltdefinisjon = finnFeltdefinisjon(felter, område, kode);
 
-    if (feltdefinisjon.tolkes_som === 'boolean') {
+    if (feltdefinisjon && feltdefinisjon.tolkes_som === 'boolean') {
       onOppdaterFilter(oppgavefilter.id, {
         område,
         kode,
