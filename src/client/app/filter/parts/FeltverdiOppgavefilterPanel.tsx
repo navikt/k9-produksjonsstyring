@@ -95,7 +95,7 @@ const FeltverdiOppgavefilterPanel = ({ felter, oppgavefilter, onOppdaterFilter, 
   const feltdefinisjon = felter.find(fd => fd.område === oppgavefilter.område && fd.kode === oppgavefilter.kode);
 
   return (
-    <Panel className={`${styles.filter  } ${  styles.filterFelt}`} key={oppgavefilter.id} border>
+    <Panel className={`${styles.filter} ${styles.filterFelt}`} key={oppgavefilter.id} border>
       <FjernFilterButton oppgavefilter={oppgavefilter} onFjernFilter={onFjernFilter} />
       <Heading level="5" size="xsmall">
         Felt
@@ -103,7 +103,11 @@ const FeltverdiOppgavefilterPanel = ({ felter, oppgavefilter, onOppdaterFilter, 
       <div>
         <Select defaultValue={feltverdiKey(oppgavefilter)} onChange={handleChangeKey}>
           <option value="">Velg felt</option>
-          {felter.map(fd => <option value={feltverdiKey(fd)}>{fd.visningsnavn}</option>)}
+          {felter.map(fd => (
+            <option key={feltverdiKey(fd)} value={feltverdiKey(fd)}>
+              {fd.visningsnavn}
+            </option>
+          ))}
         </Select>
         {oppgavefilter.kode && renderFilterOperatorOgVerdi(feltdefinisjon, oppgavefilter, onOppdaterFilter)}
       </div>

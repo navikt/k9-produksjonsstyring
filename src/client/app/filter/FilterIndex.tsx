@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { v4 as uuid } from 'uuid';
 import { K9LosApiKeys, k9LosApi } from 'api/k9LosApi';
 import { REQUEST_POLLING_CANCELLED } from 'api/rest-api';
 
@@ -56,12 +57,20 @@ class FilterIndex extends React.Component {
   }
 
   executeOppgavesøk() {
+    function updateIdentities(oppgaverader: Oppgaverad[]) {
+      oppgaverader.forEach(o => {
+        /* eslint-disable no-param-reassign */
+        o.id = uuid();
+      });
+      return oppgaverader;
+    }
+
     k9LosApi
       .startRequest(K9LosApiKeys.OPPGAVE_QUERY, this.state.oppgaveQuery)
       .then(dataRes => {
         if (dataRes.payload !== REQUEST_POLLING_CANCELLED) {
           this.setState({
-            oppgaver: dataRes.payload,
+            oppgaver: updateIdentities(dataRes.payload),
             queryError: null,
           });
         }
@@ -154,6 +163,7 @@ class FilterIndex extends React.Component {
       <div className={styles.filterTopp}>
         {oppgaveQuery.filtere.map(item => (
           <OppgavefilterPanel
+            key={item.id}
             felter={felter}
             oppgavefilter={item}
             onLeggTilFilter={this.leggTilFilter}
