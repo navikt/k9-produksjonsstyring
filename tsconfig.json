@@ -21,6 +21,7 @@
       "sharedComponents/*": ["app/sharedComponents/*"],
       "avdelingsleder/*": ["app/avdelingsleder/*"],
       "saksbehandler/*": ["app/saksbehandler/*"],
+      "filter/*": ["app/filter/*"],
       "utils/*": ["app/utils/*"]
     }
   },
