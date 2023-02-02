@@ -22,10 +22,8 @@
       "avdelingsleder/*": ["app/avdelingsleder/*"],
       "saksbehandler/*": ["app/saksbehandler/*"],
       "filter/*": ["app/filter/*"],
-      "utils/*": ["app/utils/*"],
+      "utils/*": ["app/utils/*"]
     }
   },
-  "include": [
-    "src"
-, "setup/testHelpers/testUtils.js"  ],
+  "include": ["src", "setup/testHelpers/testUtils.js"]
 }
