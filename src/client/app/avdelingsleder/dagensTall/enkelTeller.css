@@ -17,7 +17,7 @@
 }
 .frame {
   background-color: #fff;
-  box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 5px 1px rgba(0, 0, 0, 20%);
   height: 105px;
   justify-content: center;
   margin-right: 32px;

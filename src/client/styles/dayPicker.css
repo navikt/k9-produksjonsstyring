@@ -143,6 +143,7 @@
 .DayPicker--interactionDisabled .DayPicker-Day {
   cursor: default;
 }
+
 /* Default modifiers */
 .DayPicker-Day--disabled,
 .DayPicker-Day--disabled:last-child {

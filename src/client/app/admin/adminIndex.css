@@ -43,14 +43,15 @@
   padding: 0.5rem 2.5rem;
   text-decoration: none;
 }
-.link:focus:hover {
-  color: #0067c5;
-}
+
 .link.isActive,
 .link:active {
   color: #005b82;
   padding: 0.7rem 2.5rem 0.5rem;
   text-decoration: none;
+}
+.link:focus:hover {
+  color: #0067c5;
 }
 .link.isActive:focus,
 .link:active:focus {

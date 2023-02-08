@@ -46,13 +46,6 @@
 .DayPicker-Months {
   display: flex;
 }
-.DayPicker-Month {
-  border-collapse: collapse;
-  border-spacing: 0;
-  display: table;
-  margin: 1rem 1em 0;
-  user-select: none;
-}
 .DayPicker-NavBar {
   left: 0;
   padding: 0 0.5em;
@@ -143,6 +136,7 @@
 .DayPicker--interactionDisabled .DayPicker-Day {
   cursor: default;
 }
+
 /* Default modifiers */
 .DayPicker-Day--disabled,
 .DayPicker-Day--disabled:last-child {
@@ -186,7 +180,7 @@ body {
   width: 300px;
 }
 .modal__overlay {
-  background-color: rgba(61, 56, 49, 0.9);
+  background-color: rgba(61, 56, 49, 90%);
 }
 .textarea--medMeta__teller {
   color: #262626;
