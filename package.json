@@ -182,7 +182,7 @@
     "dev": "cross-env NODE_ENV=development NODE_ICU_DATA=./node_modules/full-icu node webpack/webpack.dev.server.js --config webpack/webpack.dev.js",
     "build": "cross-env NODE_ENV=production SENTRY_RELEASE=$(git rev-parse --short HEAD) webpack --config webpack/webpack.prod.js",
     "ts-check": "tsc --pretty",
-    "less:lint": "stylelint \"src/**/*.less\"",
+    "css:lint": "stylelint \"src/**/*.css\"",
     "up": "docker-compose up -d --remove-orphans --build",
     "down": "docker-compose down",
     "sentry-release": "(export SENTRY_RELEASE=$(git rev-parse --short HEAD); node ./setup/sentry-release.js)",
