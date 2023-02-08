@@ -139,6 +139,14 @@ export const UtvalgskriterierForOppgavekoForm: FunctionComponent<OwnProps & Wrap
                   kodeverkType={kodeverkTyper.NYE_KRAV}
                   endepunkt={K9LosApiKeys.LAGRE_OPPGAVEKO_KRITERIER}
                 />
+                <OppgaveKoKriterieVelger
+                  valgtOppgavekoId={valgtOppgaveko.id}
+                  values={values}
+                  hentOppgaveko={hentKo}
+                  kodeverkType={kodeverkTyper.SOKNADSDATA_ENDRET}
+                  endepunkt={K9LosApiKeys.LAGRE_OPPGAVEKO_KRITERIER}
+                />
+
                 <MerknadVelger valgtOppgavekoId={valgtOppgaveko.id} values={values} hentOppgaveko={hentKo} />
                 <SorteringVelger
                   valgtOppgavekoId={valgtOppgaveko.id}
