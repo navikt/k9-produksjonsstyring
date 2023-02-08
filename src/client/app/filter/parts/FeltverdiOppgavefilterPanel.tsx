@@ -7,7 +7,7 @@ import { kodeFraKey, områdeFraKey, feltverdiKey } from '../utils';
 
 import FjernFilterButton from './FjernFilterButton';
 
-import styles from '../filterIndex.less';
+import styles from '../filterIndex.css';
 
 interface OwnProps {
   felter: Oppgavefelt[];

@@ -5,7 +5,7 @@ import classnames from 'classnames/bind';
 import Image from 'sharedComponents/Image';
 import endretFelt from 'images/sharedComponents/endret_felt.svg';
 
-import styles from './editedIcon.less';
+import styles from './editedIcon.css';
 
 const classNames = classnames.bind(styles);
 

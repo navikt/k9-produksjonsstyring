@@ -9,21 +9,26 @@ import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner
 import { K9LosApiKeys } from 'api/k9LosApi';
 import { Oppgaveko } from '../../oppgavekoTsType';
 
-import styles from './saksbehandlereForOppgavekoForm.less';
+import styles from './saksbehandlereForOppgavekoForm.css';
 
 interface OwnProps {
   valgtOppgaveko: Oppgaveko;
   alleSaksbehandlere: Saksbehandler[];
-  hentOppgaveko:(id: string) => void;
+  hentOppgaveko: (id: string) => void;
 }
 
 /**
  * SaksbehandlereForOppgavekoForm
  */
-const SaksbehandlereForOppgavekoForm: FunctionComponent<OwnProps> = ({ valgtOppgaveko, alleSaksbehandlere, hentOppgaveko }) => {
+const SaksbehandlereForOppgavekoForm: FunctionComponent<OwnProps> = ({
+  valgtOppgaveko,
+  alleSaksbehandlere,
+  hentOppgaveko,
+}) => {
   const buildInitialValues = () => {
-    const identer = valgtOppgaveko.saksbehandlere ? valgtOppgaveko.saksbehandlere.reduce((acc, sb) => (
-      { ...acc, [sb.epost.replace(/\./g, '')]: true }), {}) : {};
+    const identer = valgtOppgaveko.saksbehandlere
+      ? valgtOppgaveko.saksbehandlere.reduce((acc, sb) => ({ ...acc, [sb.epost.replace(/\./g, '')]: true }), {})
+      : {};
     return {
       ...identer,
     };
@@ -43,34 +48,46 @@ const SaksbehandlereForOppgavekoForm: FunctionComponent<OwnProps> = ({ valgtOppg
         <div className={styles.panel}>
           <VerticalSpacer sixteenPx />
           {alleSaksbehandlere.length === 0 && (
-          <FormattedMessage id="SaksbehandlereForOppgavekoForm.IngenSaksbehandlere" />
+            <FormattedMessage id="SaksbehandlereForOppgavekoForm.IngenSaksbehandlere" />
           )}
           {alleSaksbehandlere.length > 0 && (
             <Row>
               <Column xs="4">
-                {alleSaksbehandlereVenstreListe.map((s) => (
+                {alleSaksbehandlereVenstreListe.map(s => (
                   <div key={s.epost} className={styles.checkBox}>
                     <CheckboxField
                       key={s.epost}
                       name={s.epost.replace(/\./g, '')}
                       label={s.navn ? s.navn : s.epost.split('@')[0]}
-                      onChange={(isChecked) => knyttSaksbehandlerTilOppgaveko({ id: valgtOppgaveko.id, epost: s.epost, checked: isChecked }).then(() => {
-                        hentOppgaveko(valgtOppgaveko.id);
-                      })}
+                      onChange={isChecked =>
+                        knyttSaksbehandlerTilOppgaveko({
+                          id: valgtOppgaveko.id,
+                          epost: s.epost,
+                          checked: isChecked,
+                        }).then(() => {
+                          hentOppgaveko(valgtOppgaveko.id);
+                        })
+                      }
                     />
                   </div>
                 ))}
               </Column>
               <Column xs="7" className={styles.hoyre}>
-                {alleSaksbehandlereHoyreListe.map((s) => (
+                {alleSaksbehandlereHoyreListe.map(s => (
                   <div key={s.epost} className={styles.checkBox}>
                     <CheckboxField
                       key={s.epost}
                       name={s.epost.replace(/\./g, '')}
                       label={s.navn ? s.navn : s.epost}
-                      onChange={(isChecked) => knyttSaksbehandlerTilOppgaveko({ id: valgtOppgaveko.id, epost: s.epost, checked: isChecked }).then(() => {
-                        hentOppgaveko(valgtOppgaveko.id);
-                      })}
+                      onChange={isChecked =>
+                        knyttSaksbehandlerTilOppgaveko({
+                          id: valgtOppgaveko.id,
+                          epost: s.epost,
+                          checked: isChecked,
+                        }).then(() => {
+                          hentOppgaveko(valgtOppgaveko.id);
+                        })
+                      }
                     />
                   </div>
                 ))}

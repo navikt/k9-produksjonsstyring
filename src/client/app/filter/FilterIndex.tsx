@@ -16,7 +16,7 @@ import OppgaveQueryResultat from './parts/OppgaveQueryResultat';
 import OppgaveSelectFelter from './parts/OppgaveSelectFelter';
 import { kodeFraKey, områdeFraKey } from './utils';
 
-import styles from './filterIndex.less';
+import styles from './filterIndex.css';
 
 class FilterIndex extends React.Component {
   constructor(props) {

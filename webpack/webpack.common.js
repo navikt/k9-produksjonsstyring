@@ -21,7 +21,7 @@ const config = {
         include: APP_DIR,
       },
       {
-        test: /\.(less|css)?$/,
+        test: /\.css?$/,
         use: [
           {
             loader: MiniCssExtractPlugin.loader,
@@ -35,19 +35,6 @@ const config = {
               importLoaders: 1,
               modules: {
                 localIdentName: '[name]_[local]_[contenthash:base64:5]',
-              },
-            },
-          },
-          {
-            loader: 'less-loader',
-            options: {
-              lessOptions: {
-                modules: true,
-                localIdentName: '[name]_[local]_[contenthash:base64:5]',
-                modifyVars: {
-                  nodeModulesPath: '~',
-                  coreModulePath: '~',
-                },
               },
             },
           },
@@ -115,7 +102,7 @@ const config = {
       sharedComponents: path.join(APP_DIR, 'sharedComponents'),
       utils: path.join(APP_DIR, 'utils'),
     },
-    extensions: ['.js', '.jsx', '.tsx', '.ts', '.less'],
+    extensions: ['.js', '.jsx', '.tsx', '.ts', '.less', '.css'],
   },
 
   externals: {

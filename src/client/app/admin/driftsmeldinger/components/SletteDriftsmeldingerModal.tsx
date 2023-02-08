@@ -10,7 +10,7 @@ import Modal from 'sharedComponents/Modal';
 import advarselImageUrl from 'images/advarsel.svg';
 import { Driftsmelding } from '../driftsmeldingTsType';
 
-import styles from './sletteDriftsmeldingerModal.less';
+import styles from './sletteDriftsmeldingerModal.css';
 
 type TsProps = Readonly<{
   intl: any;
@@ -61,12 +61,7 @@ const SletteDriftsmeldingModal: FunctionComponent<TsProps & WrappedComponentProp
         >
           {intl.formatMessage({ id: 'SletteDriftsmeldingModal.Ja' })}
         </Hovedknapp>
-        <Knapp
-          className={styles.cancelButton}
-          mini
-          htmlType="reset"
-          onClick={closeSletteModal}
-        >
+        <Knapp className={styles.cancelButton} mini htmlType="reset" onClick={closeSletteModal}>
           {intl.formatMessage({ id: 'SletteDriftsmeldingModal.Nei' })}
         </Knapp>
       </Column>

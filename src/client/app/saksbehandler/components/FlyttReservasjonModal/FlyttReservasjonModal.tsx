@@ -10,11 +10,11 @@ import { FormattedMessage, WrappedComponentProps } from 'react-intl';
 import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
 import { OppgaveStatus } from 'saksbehandler/oppgaveStatusTsType';
 import NavAnsatt from 'app/navAnsattTsType';
-import styles from './flyttReservasjonsmodal.less';
+import styles from './flyttReservasjonsmodal.css';
 import useRestApiRunner from '../../../api/rest-api-hooks/src/local-data/useRestApiRunner';
 import useGlobalStateRestApiData from '../../../api/rest-api-hooks/src/global-data/useGlobalStateRestApiData';
 
-interface OwnProps{
+interface OwnProps {
   oppgave: Oppgave;
   oppgaveStatus: OppgaveStatus;
   lukkFlyttReservasjonsmodal: () => void;
@@ -35,7 +35,8 @@ export const FlyttReservasjonsmodal: FunctionComponent<OwnProps & WrappedCompone
   const { startRequest: reserverOppgave } = useRestApiRunner<OppgaveStatus>(K9LosApiKeys.RESERVER_OPPGAVE);
   const { kanReservere } = useGlobalStateRestApiData<NavAnsatt>(RestApiGlobalStatePathsKeys.NAV_ANSATT);
 
-  const [visManglerReservasjonsrettigheterFeilmelding, setVisManglerReservasjonsrettigheterFeilmelding] = useState<boolean>(false);
+  const [visManglerReservasjonsrettigheterFeilmelding, setVisManglerReservasjonsrettigheterFeilmelding] =
+    useState<boolean>(false);
 
   const overstyrReservasjonTilSaksbehandlerSomArbeiderMedAnnenPart = () => {
     if (kanReservere) {
@@ -63,11 +64,13 @@ export const FlyttReservasjonsmodal: FunctionComponent<OwnProps & WrappedCompone
         overstyrSjekk: true,
       };
 
-      reserverOppgave(params).then((nyOppgaveStatus) => {
-        if (nyOppgaveStatus.erReservert && nyOppgaveStatus.erReservertAvInnloggetBruker) {
-          openSak(oppgave);
-        }
-      }).then(() => hentReserverteOppgaver());
+      reserverOppgave(params)
+        .then(nyOppgaveStatus => {
+          if (nyOppgaveStatus.erReservert && nyOppgaveStatus.erReservertAvInnloggetBruker) {
+            openSak(oppgave);
+          }
+        })
+        .then(() => hentReserverteOppgaver());
     } else {
       setVisManglerReservasjonsrettigheterFeilmelding(true);
     }
@@ -119,7 +122,6 @@ export const FlyttReservasjonsmodal: FunctionComponent<OwnProps & WrappedCompone
             onClick={() => overstyrReservasjonTilInnloggetSaksbehandlerFn()}
           >
             {intl.formatMessage({ id: 'FlyttReservasjonModal.OverstyrReservasjon' })}
-
           </Hovedknapp>
           <Knapp
             className={styles.flyttReservasjonModal_knapper__knapp}
@@ -133,7 +135,9 @@ export const FlyttReservasjonsmodal: FunctionComponent<OwnProps & WrappedCompone
         </div>
         {visManglerReservasjonsrettigheterFeilmelding && (
           <div className={styles.flyttReservasjonModal__feilmelding}>
-            <Element><FormattedMessage id="FlyttReservasjonModal.Feil" /></Element>
+            <Element>
+              <FormattedMessage id="FlyttReservasjonModal.Feil" />
+            </Element>
           </div>
         )}
       </div>

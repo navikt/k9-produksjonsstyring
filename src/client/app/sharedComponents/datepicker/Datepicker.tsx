@@ -7,7 +7,7 @@ import { DDMMYYYY_DATE_FORMAT } from 'utils/formats';
 import CalendarOverlay from './CalendarOverlay';
 import CalendarToggleButton from './CalendarToggleButton';
 
-import styles from './datepicker.less';
+import styles from './datepicker.css';
 
 class Datepicker extends Component {
   constructor() {
@@ -75,12 +75,8 @@ class Datepicker extends Component {
   }
 
   render() {
-    const {
-      label, placeholder, onChange, onBlur, value, feil, disabled,
-    } = this.props;
-    const {
-      inputOffsetTop, inputOffsetWidth, showCalendar,
-    } = this.state;
+    const { label, placeholder, onChange, onBlur, value, feil, disabled } = this.props;
+    const { inputOffsetTop, inputOffsetWidth, showCalendar } = this.state;
 
     return (
       <>
@@ -107,17 +103,16 @@ class Datepicker extends Component {
             disabled={disabled}
           />
         </div>
-        {showCalendar
-        && (
-        <CalendarOverlay
-          disabled={disabled}
-          value={value}
-          onDayChange={this.handleDayChange}
-          onClose={this.hideCalendar}
-          elementIsCalendarButton={this.elementIsCalendarButton}
-          className={styles.calendarRoot}
-          dayPickerClassName={styles.calendarWrapper}
-        />
+        {showCalendar && (
+          <CalendarOverlay
+            disabled={disabled}
+            value={value}
+            onDayChange={this.handleDayChange}
+            onClose={this.hideCalendar}
+            elementIsCalendarButton={this.elementIsCalendarButton}
+            className={styles.calendarRoot}
+            dayPickerClassName={styles.calendarWrapper}
+          />
         )}
       </>
     );

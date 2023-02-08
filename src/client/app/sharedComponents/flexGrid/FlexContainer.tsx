@@ -2,14 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
 
-import styles from './flexContainer.less';
+import styles from './flexContainer.css';
 
 const classNames = classnames.bind(styles);
 
 const FlexContainer = ({ children, wrap }) => (
-  <div className={classNames('flexContainer', 'fluid', { flexWrap: wrap })}>
-    {children}
-  </div>
+  <div className={classNames('flexContainer', 'fluid', { flexWrap: wrap })}>{children}</div>
 );
 
 FlexContainer.propTypes = {

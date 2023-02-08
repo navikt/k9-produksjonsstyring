@@ -18,7 +18,7 @@ import ModalMedIkon from 'sharedComponents/modal/ModalMedIkon';
 import OppgavekoVelgerForm from './OppgavekoVelgerForm';
 import OppgaverTabell from './oppgavetabeller/OppgaverTabell';
 
-import styles from './oppgavekoPanel.less';
+import styles from './oppgavekoPanel.css';
 import RestApiState from '../../../api/rest-api-hooks/src/RestApiState';
 import advarselImageUrl from '../../../../images/advarsel.svg';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';

@@ -21,7 +21,7 @@ import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import { ISO_DATE_FORMAT } from 'utils/formats';
 import { getKodeverknavnFraKode } from 'utils/kodeverkUtils';
 import { getValueFromLocalStorage, lagreTilLocalStorageCallback } from 'utils/localStorageHelper';
-import styles from './inngangOgFerdigstiltePanel.less';
+import styles from './inngangOgFerdigstiltePanel.css';
 import Teller from './Teller';
 
 export const slaSammenLikeBehandlingstyper = oppgaver => {

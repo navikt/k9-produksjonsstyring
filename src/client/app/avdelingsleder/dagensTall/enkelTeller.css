@@ -1,0 +1,59 @@
+.beskrivelse {
+  color: #262626;
+  font-family: 'Source Sans Pro', Arial, sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-align: center;
+  word-wrap: break-word;
+}
+.beskrivelse p {
+  margin-top: auto;
+}
+@media only screen and (max-width: 1600px) {
+  .beskrivelse {
+    font-size: 15px;
+  }
+}
+.frame {
+  background-color: #fff;
+  box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.2);
+  height: 105px;
+  justify-content: center;
+  margin-right: 32px;
+  margin-top: 0.75rem;
+  padding: 0.5rem;
+  text-align: center;
+  width: 120px;
+}
+@media only screen and (max-width: 1600px) {
+  .frame {
+    height: 105px;
+    width: 115px;
+  }
+}
+.number {
+  color: #262626;
+  font-family: 'Source Sans Pro', Arial, sans-serif;
+  font-size: 25px;
+  font-weight: 300;
+  letter-spacing: 0;
+  margin-top: auto;
+  padding-bottom: 0.75rem;
+  text-align: center;
+}
+@media only screen and (max-width: 1600px) {
+  .number {
+    font-size: 25px;
+  }
+}
+.line {
+  color: #262626;
+  margin-top: -40px;
+  width: 90%;
+}
+@media only screen and (max-width: 1600px) {
+  .line {
+    margin-top: -40px;
+  }
+}

@@ -1,0 +1,23 @@
+.container {
+  background-color: #f1f1f1;
+  border: 1px solid #4cadcd;
+  border-radius: 15px;
+  box-sizing: border-box;
+  display: flex;
+  font-family: 'Source Sans Pro', Arial, sans-serif;
+  font-size: 0.875rem;
+  font-weight: normal;
+  justify-content: center;
+  margin-left: 0.5rem;
+  padding: 0 0.5rem;
+}
+.hastesak {
+  background-color: #fde8e6;
+  border: 1px solid #ba3a26;
+}
+.hastesakIkon {
+  margin-top: 2px;
+}
+.hastesakIkon path:first-of-type {
+  fill: #ba3a26;
+}

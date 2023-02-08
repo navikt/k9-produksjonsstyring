@@ -3,14 +3,17 @@ import classnames from 'classnames/bind';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { Undertekst } from 'nav-frontend-typografi';
 
-import styles from './label.less';
+import styles from './label.css';
 
 const classNames = classnames.bind(styles);
 
-export type LabelType = string | ReactNode | {
-  id: string;
-  args?: any;
-};
+export type LabelType =
+  | string
+  | ReactNode
+  | {
+      id: string;
+      args?: any;
+    };
 
 interface OwnProps {
   input: LabelType;
@@ -42,7 +45,13 @@ export class Label extends Component<OwnProps & WrappedComponentProps> {
     if (!input) {
       return null;
     }
-    return <span className={classNames('labelWrapper', { readOnly })}><TypoElem tag="span" className={styles.label}>{this.format(input)}</TypoElem></span>;
+    return (
+      <span className={classNames('labelWrapper', { readOnly })}>
+        <TypoElem tag="span" className={styles.label}>
+          {this.format(input)}
+        </TypoElem>
+      </span>
+    );
   }
 }
 

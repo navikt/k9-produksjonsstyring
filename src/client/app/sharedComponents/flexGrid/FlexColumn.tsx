@@ -1,7 +1,7 @@
 import React, { ReactNode, FunctionComponent } from 'react';
 import classnames from 'classnames/bind';
 
-import styles from './flexColumn.less';
+import styles from './flexColumn.css';
 
 const classNames = classnames.bind(styles);
 
@@ -10,13 +10,8 @@ interface OwnProps {
   className?: string;
 }
 
-const FlexColumn: FunctionComponent<OwnProps> = ({
-  children,
-  className,
-}) => (
-  <div className={classNames('flexColumn', className)}>
-    {children}
-  </div>
+const FlexColumn: FunctionComponent<OwnProps> = ({ children, className }) => (
+  <div className={classNames('flexColumn', className)}>{children}</div>
 );
 
 export default FlexColumn;

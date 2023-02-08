@@ -8,12 +8,13 @@ import { DDMMYYYY_DATE_FORMAT } from 'utils/formats';
 import CalendarToggleButton from '../datepicker/CalendarToggleButton';
 import PeriodCalendarOverlay from './PeriodCalendarOverlay';
 
-import styles from './periodpicker.less';
+import styles from './periodpicker.css';
 
-const getStartDateInput = (props) => haystack(props, props.names[0]).input;
-const getEndDateInput = (props) => haystack(props, props.names[1]).input;
-const isValidDate = (date) => moment(date, DDMMYYYY_DATE_FORMAT, true).isValid();
-const createPeriod = (startDay, endDay) => `${moment(startDay).format(DDMMYYYY_DATE_FORMAT)} - ${moment(endDay).format(DDMMYYYY_DATE_FORMAT)}`;
+const getStartDateInput = props => haystack(props, props.names[0]).input;
+const getEndDateInput = props => haystack(props, props.names[1]).input;
+const isValidDate = date => moment(date, DDMMYYYY_DATE_FORMAT, true).isValid();
+const createPeriod = (startDay, endDay) =>
+  `${moment(startDay).format(DDMMYYYY_DATE_FORMAT)} - ${moment(endDay).format(DDMMYYYY_DATE_FORMAT)}`;
 
 interface OwnProps {
   names: string[];
@@ -167,12 +168,8 @@ class Periodpicker extends Component<OwnProps, StateProps> {
   }
 
   render() {
-    const {
-      label, placeholder, feil, names, disabled, disabledDays,
-    } = this.props;
-    const {
-      period, inputOffsetTop, inputOffsetWidth, showCalendar,
-    } = this.state;
+    const { label, placeholder, feil, names, disabled, disabledDays } = this.props;
+    const { period, inputOffsetTop, inputOffsetWidth, showCalendar } = this.state;
 
     return (
       <>
@@ -199,19 +196,18 @@ class Periodpicker extends Component<OwnProps, StateProps> {
             disabled={disabled}
           />
         </div>
-        {showCalendar
-        && (
-        <PeriodCalendarOverlay
-          disabled={disabled}
-          startDate={this.parseToDate(names[0])}
-          endDate={this.parseToDate(names[1])}
-          onDayChange={this.handleDayChange}
-          elementIsCalendarButton={this.elementIsCalendarButton}
-          className={styles.calendarRoot}
-          dayPickerClassName={styles.calendarWrapper}
-          onClose={this.hideCalendar}
-          disabledDays={disabledDays}
-        />
+        {showCalendar && (
+          <PeriodCalendarOverlay
+            disabled={disabled}
+            startDate={this.parseToDate(names[0])}
+            endDate={this.parseToDate(names[1])}
+            onDayChange={this.handleDayChange}
+            elementIsCalendarButton={this.elementIsCalendarButton}
+            className={styles.calendarRoot}
+            dayPickerClassName={styles.calendarWrapper}
+            onClose={this.hideCalendar}
+            disabledDays={disabledDays}
+          />
         )}
       </>
     );

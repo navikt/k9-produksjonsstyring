@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
 
-import styles from './tableColumn.less';
+import styles from './tableColumn.css';
 
 const classNames = classnames.bind(styles);
 
@@ -11,19 +11,11 @@ const classNames = classnames.bind(styles);
  *
  * Presentasjonskomponent. Tabellkolonne som brukes av komponenten Table.
  */
-const TableColumn = ({
-  children,
-  className,
-  hidden,
-}) => {
+const TableColumn = ({ children, className, hidden }) => {
   if (hidden) {
     return null;
   }
-  return (
-    <td className={classNames(styles.columnStyle, className)}>
-      {children}
-    </td>
-  );
+  return <td className={classNames(styles.columnStyle, className)}>{children}</td>;
 };
 
 TableColumn.propTypes = {

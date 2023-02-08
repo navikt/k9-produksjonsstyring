@@ -5,7 +5,7 @@ import classnames from 'classnames/bind';
 import TableRow from './TableRow';
 import TableColumn from './TableColumn';
 
-import styles from './table.less';
+import styles from './table.css';
 
 const classNames = classnames.bind(styles);
 
@@ -34,22 +34,24 @@ const Table: FunctionComponent<OwnProps> = ({
   <table className={classNames('table', { [classNameTable]: classNameTable, noHover })}>
     <thead>
       <TableRow isHeader noHover={noHover}>
-        {headerTextCodes.map((headerElement) => (typeof headerElement === 'string' && headerElement.startsWith(EMPTY_STRING)
-          ? <TableColumn key={headerElement}>&nbsp;</TableColumn>
-          : (
+        {headerTextCodes.map(headerElement =>
+          typeof headerElement === 'string' && headerElement.startsWith(EMPTY_STRING) ? (
+            <TableColumn key={headerElement}>&nbsp;</TableColumn>
+          ) : (
             <TableColumn key={headerElement.key ? headerElement.key : headerElement}>
               <FormattedMessage id={headerElement} />
             </TableColumn>
-          )))}
-        {headerColumnContent.map((element) => (
-          <TableColumn key={element.key}>
-            {element}
-          </TableColumn>
+          ),
+        )}
+        {headerColumnContent.map(element => (
+          <TableColumn key={element.key}>{element}</TableColumn>
         ))}
       </TableRow>
     </thead>
     <tbody>
-      {Array.isArray(children) ? React.Children.map(children, ((child) => React.cloneElement(child, { noHover }))) : React.cloneElement(children, { noHover })}
+      {Array.isArray(children)
+        ? React.Children.map(children, child => React.cloneElement(child, { noHover }))
+        : React.cloneElement(children, { noHover })}
     </tbody>
   </table>
 );

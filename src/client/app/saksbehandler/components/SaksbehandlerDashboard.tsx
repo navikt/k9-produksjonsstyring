@@ -7,20 +7,17 @@ import FagsakSearchIndex from '../fagsakSearch/FagsakSearchIndex';
 import BehandlingskoerIndex from '../behandlingskoer/BehandlingskoerIndex';
 import SaksstotteIndex from '../saksstotte/SaksstotteIndex';
 
-import styles from './saksbehandlerDashboard.less';
+import styles from './saksbehandlerDashboard.css';
 
 interface OwnProps {
-    valgtOppgavekoId?: string;
-    setValgtOppgavekoId: (id: string) => void;
+  valgtOppgavekoId?: string;
+  setValgtOppgavekoId: (id: string) => void;
 }
 
 /**
  * SaksbehandlerDashboard
  */
-export const SaksbehandlerDashboard: FunctionComponent<OwnProps> = ({
-  valgtOppgavekoId,
-  setValgtOppgavekoId,
-}) => {
+export const SaksbehandlerDashboard: FunctionComponent<OwnProps> = ({ valgtOppgavekoId, setValgtOppgavekoId }) => {
   const k9sakUrl = useGlobalStateRestApiData<{ verdi?: string }>(RestApiGlobalStatePathsKeys.K9SAK_URL);
   const k9punsjUrl = useGlobalStateRestApiData<{ verdi?: string }>(RestApiGlobalStatePathsKeys.PUNSJ_URL);
   const omsorgspengerUrl = useGlobalStateRestApiData<{ verdi?: string }>(RestApiGlobalStatePathsKeys.OMSORGSPENGER_URL);

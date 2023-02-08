@@ -7,10 +7,11 @@ import { injectIntl, FormattedMessage, WrappedComponentProps } from 'react-intl'
 import renderNavField from './renderNavField';
 import { LabelType } from './Label';
 
-import styles from './textAreaField.less';
+import styles from './textAreaField.css';
 import ReadOnlyField from './ReadOnlyField';
 
-const composeValidators = (validators) => (value) => (validators ? validators.reduce((error, validator) => error || validator(value), undefined) : []);
+const composeValidators = validators => value =>
+  validators ? validators.reduce((error, validator) => error || validator(value), undefined) : [];
 
 interface TextAreaWithBadgeProps {
   badges?: {
@@ -32,22 +33,16 @@ const TextAreaWithBadge: FunctionComponent<TextAreaWithBadgeProps & WrappedCompo
   ...otherProps
 }) => (
   <div className={badges ? styles.textAreaFieldWithBadges : null}>
-    { badges
-      && (
+    {badges && (
       <div className={styles.etikettWrapper}>
-        { badges.map(({ textId, type, title }) => (
+        {badges.map(({ textId, type, title }) => (
           <EtikettFokus key={textId} type={type} title={intl.formatMessage({ id: title })}>
             <FormattedMessage id={textId} />
           </EtikettFokus>
         ))}
       </div>
-      )}
-    <NavTextarea
-      label={label}
-      value={value}
-      onChange={onChange}
-      {...otherProps}
-    />
+    )}
+    <NavTextarea label={label} value={value} onChange={onChange} {...otherProps} />
   </div>
 );
 
@@ -60,22 +55,20 @@ const renderNavTextArea = renderNavField(injectIntl(TextAreaWithBadge));
 interface OwnProps {
   name: string;
   label: LabelType;
-  validate?: (((text: any) => ({ id: string; length?: number }
-      | { length: any; id?: string })[])
-      | ((value: any) => { id: string }[])
-      | ((text: any) => ({ id: string; text?: string }
-      | { text: any; id?: string })[]))[];
+  validate?: (
+    | ((text: any) => ({ id: string; length?: number } | { length: any; id?: string })[])
+    | ((value: any) => { id: string }[])
+    | ((text: any) => ({ id: string; text?: string } | { text: any; id?: string })[])
+  )[];
   readOnly?: boolean;
   maxLength?: number;
 }
 
-const TextAreaField: FunctionComponent<OwnProps> = ({
-  name, label, validate, readOnly, ...otherProps
-}) => (
+const TextAreaField: FunctionComponent<OwnProps> = ({ name, label, validate, readOnly, ...otherProps }) => (
   <Field
     name={name}
     validate={composeValidators(validate)}
-        // @ts-ignore
+    // @ts-ignore
     component={readOnly ? ReadOnlyField : renderNavTextArea}
     label={label}
     {...otherProps}

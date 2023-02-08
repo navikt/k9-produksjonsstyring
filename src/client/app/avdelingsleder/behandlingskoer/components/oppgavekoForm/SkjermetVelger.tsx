@@ -8,17 +8,14 @@ import { RadioGroupField, RadioOption } from 'form/FinalFields';
 import { Oppgaveko } from 'avdelingsleder/behandlingskoer/oppgavekoTsType';
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
 import { K9LosApiKeys } from 'api/k9LosApi';
-import styles from './utvalgskriterierForOppgavekoForm.less';
+import styles from './utvalgskriterierForOppgavekoForm.css';
 
 interface OwnProps {
-    valgtOppgaveko: Oppgaveko;
-    hentOppgaveko:(id: string) => void;
+  valgtOppgaveko: Oppgaveko;
+  hentOppgaveko: (id: string) => void;
 }
 
-export const SkjermetVelger: FunctionComponent<OwnProps> = ({
-  valgtOppgaveko,
-  hentOppgaveko,
-}) => {
+export const SkjermetVelger: FunctionComponent<OwnProps> = ({ valgtOppgaveko, hentOppgaveko }) => {
   const { startRequest: lagreOppgavekoSkjermet } = useRestApiRunner(K9LosApiKeys.LAGRE_OPPGAVEKO_SKJERMET);
 
   return (
@@ -30,18 +27,14 @@ export const SkjermetVelger: FunctionComponent<OwnProps> = ({
       <RadioGroupField
         direction="vertical"
         name="skjermet"
-        onChange={(isChecked) => lagreOppgavekoSkjermet({ id: valgtOppgaveko.id, skjermet: isChecked }).then(() => {
-          hentOppgaveko(valgtOppgaveko.id);
-        })}
+        onChange={isChecked =>
+          lagreOppgavekoSkjermet({ id: valgtOppgaveko.id, skjermet: isChecked }).then(() => {
+            hentOppgaveko(valgtOppgaveko.id);
+          })
+        }
       >
-        <RadioOption
-          label="Ja"
-          value
-        />
-        <RadioOption
-          label="Nei"
-          value={false}
-        />
+        <RadioOption label="Ja" value />
+        <RadioOption label="Nei" value={false} />
       </RadioGroupField>
     </div>
   );

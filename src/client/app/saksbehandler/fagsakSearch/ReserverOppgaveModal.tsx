@@ -11,22 +11,16 @@ import Modal from 'sharedComponents/Modal';
 import advarselImageUrl from 'images/advarsel.svg';
 
 import { Oppgave } from 'saksbehandler/oppgaveTsType';
-import styles from './reserverOppgaveModal.less';
+import styles from './reserverOppgaveModal.css';
 
 type TsProps = Readonly<{
-    cancel: (oppgave: Oppgave, selectOppgaveCallback) => void;
-    submit: (oppgave: Oppgave, selectOppgaveCallback) => void;
-    valgtOppgave: Oppgave;
-    selectOppgaveCallback: () => void;
-
+  cancel: (oppgave: Oppgave, selectOppgaveCallback) => void;
+  submit: (oppgave: Oppgave, selectOppgaveCallback) => void;
+  valgtOppgave: Oppgave;
+  selectOppgaveCallback: () => void;
 }>;
 
-export const ReserverOppgaveModal = ({
-  cancel,
-  submit,
-  valgtOppgave,
-  selectOppgaveCallback,
-}: TsProps) => (
+export const ReserverOppgaveModal = ({ cancel, submit, valgtOppgave, selectOppgaveCallback }: TsProps) => (
   <Modal
     className={styles.modal}
     closeButton={false}

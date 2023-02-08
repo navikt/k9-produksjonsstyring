@@ -6,7 +6,7 @@ import MenuButton from './MenuButton';
 import OpphevReservasjonModal from './OpphevReservasjonModal';
 import FlyttReservasjonModal from './FlyttReservasjonModal';
 
-import styles from './oppgaveHandlingerMenu.less';
+import styles from './oppgaveHandlingerMenu.css';
 
 const getOffsetPositionStyle = offset =>
   window.innerWidth > offset.left + 250

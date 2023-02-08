@@ -12,14 +12,14 @@ import Modal from 'sharedComponents/Modal';
 
 import advarselImageUrl from 'images/advarsel.svg';
 
-import styles from './oppgaveErReservertAvAnnenModal.less';
+import styles from './oppgaveErReservertAvAnnenModal.css';
 
 type OwnProps = Readonly<{
-    lukkErReservertModalOgOpneOppgave: (oppgave: Oppgave) => void;
-    oppgave: Oppgave;
-    oppgaveStatus: OppgaveStatus;
-    lukkModal: () => void;
-}>
+  lukkErReservertModalOgOpneOppgave: (oppgave: Oppgave) => void;
+  oppgave: Oppgave;
+  oppgaveStatus: OppgaveStatus;
+  lukkModal: () => void;
+}>;
 
 const getClickEvent = (lukkErReservertModalOgOpneOppgave, oppgave) => () => lukkErReservertModalOgOpneOppgave(oppgave);
 
@@ -57,7 +57,8 @@ export const OppgaveErReservertAvAnnenModal: FunctionComponent<OwnProps & Wrappe
             id="OppgaveErReservertAvAnnenModal.ReservertAv"
             values={{
               saksbehandlerid: oppgaveStatus.reservertAv,
-              saksbehandlernavn: typeof oppgaveStatus.reservertAvNavn !== 'undefined' ? oppgaveStatus.reservertAvNavn : '',
+              saksbehandlernavn:
+                typeof oppgaveStatus.reservertAvNavn !== 'undefined' ? oppgaveStatus.reservertAvNavn : '',
               ...getDateAndTime(oppgaveStatus.reservertTilTidspunkt),
             }}
           />
@@ -66,13 +67,7 @@ export const OppgaveErReservertAvAnnenModal: FunctionComponent<OwnProps & Wrappe
     </Row>
     <Row>
       <div className={styles.knappContainer}>
-        <Knapp
-          className={styles.tilbakeButton}
-          mini
-          htmlType="button"
-          onClick={() => lukkModal()}
-          autoFocus
-        >
+        <Knapp className={styles.tilbakeButton} mini htmlType="button" onClick={() => lukkModal()} autoFocus>
           {intl.formatMessage({ id: 'OppgaveErReservertAvAnnenModal.GåTilKøen' })}
         </Knapp>
         <Hovedknapp

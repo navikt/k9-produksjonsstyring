@@ -1,7 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import {
-  injectIntl, WrappedComponentProps, FormattedMessage,
-} from 'react-intl';
+import { injectIntl, WrappedComponentProps, FormattedMessage } from 'react-intl';
 
 import { Form } from 'react-final-form';
 import { Knapp } from 'nav-frontend-knapper';
@@ -16,9 +14,10 @@ import { InputField } from 'form/FinalFields';
 import { RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
 import NavAnsatt from 'app/navAnsattTsType';
 import useGlobalStateRestApiData from 'api/rest-api-hooks/src/global-data/useGlobalStateRestApiData';
-import styles from './searchForm.less';
+import styles from './searchForm.css';
 
-const isButtonDisabled = (searchString, searchStarted, searchResultAccessDenied) => (!searchResultAccessDenied.feilmelding && searchStarted) || !searchString;
+const isButtonDisabled = (searchString, searchStarted, searchResultAccessDenied) =>
+  (!searchResultAccessDenied.feilmelding && searchStarted) || !searchString;
 
 interface OwnProps {
   onSubmit: ({ searchString: string, skalReservere: boolean }) => void;

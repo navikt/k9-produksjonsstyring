@@ -18,7 +18,7 @@ import useKodeverk from 'api/rest-api-hooks/src/global-data/useKodeverk';
 import SletteOppgavekoModal from './SletteOppgavekoModal';
 import { Oppgaveko } from '../oppgavekoTsType';
 
-import styles from './gjeldendeOppgavekoerTabell.less';
+import styles from './gjeldendeOppgavekoerTabell.css';
 import addCircle from '../../../../images/add-circle-bla.svg';
 
 const headerTextCodes = [
