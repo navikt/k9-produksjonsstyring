@@ -33,10 +33,6 @@ const config = {
       favicon: path.join(ROOT_DIR, 'favicon.ico'),
       template: path.join(ROOT_DIR, 'index.html'),
     }),
-    new MiniCssExtractPlugin({
-      filename: 'style_[chunkhash].css',
-      ignoreOrder: true,
-    }),
     new webpack.EnvironmentPlugin({ SENTRY_RELEASE: null }),
   ],
 

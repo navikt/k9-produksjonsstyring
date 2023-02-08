@@ -89,7 +89,7 @@ const config = {
 
   plugins: [
     new MiniCssExtractPlugin({
-      filename: isDevelopment ? 'style[name].css' : 'style[name]_[contenthash].css',
+      filename: 'style_[contenthash].css',
       ignoreOrder: true,
     }),
     new CircularDependencyPlugin({
