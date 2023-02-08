@@ -65,7 +65,15 @@ const config = {
             },
           },
         ],
-        include: [STYLE_DIR, CORE_DIR],
+        include: [CORE_DIR],
+      },
+      {
+        test: /\.css$/, use: [{
+          loader: MiniCssExtractPlugin.loader,
+          options: {
+            publicPath: isDevelopment ? './' : '',
+          },
+        }, 'css-loader'], include: [STYLE_DIR]
       },
       {
         test: /\.svg/,
