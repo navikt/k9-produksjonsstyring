@@ -143,7 +143,7 @@ export const UtvalgskriterierForOppgavekoForm: FunctionComponent<OwnProps & Wrap
                   valgtOppgavekoId={valgtOppgaveko.id}
                   values={values}
                   hentOppgaveko={hentKo}
-                  kodeverkType={kodeverkTyper.SOKNADSDATA_ENDRET}
+                  kodeverkType={kodeverkTyper.FRA_ENDRINGSDIALOG}
                   endepunkt={K9LosApiKeys.LAGRE_OPPGAVEKO_KRITERIER}
                 />
 
