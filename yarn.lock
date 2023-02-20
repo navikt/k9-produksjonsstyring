@@ -1822,10 +1822,10 @@
     react-day-picker "8.3.4"
     react-modal "3.15.1"
 
-"@navikt/familie-endringslogg@^3.0.8":
-  version "3.0.12"
-  resolved "https://npm.pkg.github.com/download/@navikt/familie-endringslogg/3.0.12/c081ce84699bb0acb877b04fb42282d8c92f37f5#c081ce84699bb0acb877b04fb42282d8c92f37f5"
-  integrity sha512-/Avu53RdxwrUPaSDOkSEnUGJLH3Q5brcPljGUJ3FzRvd5I4Ck4ZMRlnRPDgPSWxQHeIzQbYAHQic4zmcYHOddQ==
+"@navikt/familie-endringslogg@^8.1.0":
+  version "8.1.0"
+  resolved "https://npm.pkg.github.com/download/@navikt/familie-endringslogg/8.1.0/65a9ce7f00f2407365192368ff184055e3d2096d#65a9ce7f00f2407365192368ff184055e3d2096d"
+  integrity sha512-omz6oUk208AfxjbK8V2G9sRffX8kVK1xWedtDO9TPQGzbHEgYJZkqKsUmNIMyANZ5nH0VjKIvrfhrz1DnYUcRw==
   dependencies:
     "@portabletext/react" "^1.0.6"
     "@types/react-modal" "^3.13.1"
