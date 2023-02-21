@@ -10,6 +10,7 @@ enum kodeverkTyper {
   VENTEÅRSAK = 'Venteårsak',
   MERKNAD_TYPE = 'MerknadType',
   NYE_KRAV = 'NYE_KRAV',
+  FRA_ENDRINGSDIALOG = 'FRA_ENDRINGSDIALOG',
 }
 
 export default kodeverkTyper;
