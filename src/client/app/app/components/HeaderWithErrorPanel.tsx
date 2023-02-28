@@ -17,7 +17,7 @@ import ErrorFormatter from 'app/feilhandtering/ErrorFormatter';
 import NavAnsatt from 'app/navAnsattTsType';
 import { Driftsmelding } from '../../admin/driftsmeldinger/driftsmeldingTsType';
 import ErrorMessagePanel from './ErrorMessagePanel';
-import styles from './headerWithErrorPanel.less';
+import styles from './headerWithErrorPanel.css';
 
 interface OwnProps {
   queryStrings: {

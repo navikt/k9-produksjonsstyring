@@ -16,13 +16,13 @@ import useTrackRouteParam from 'app/data/trackRouteParam';
 import IkkeTilgangTilAvdelingslederPanel from './components/IkkeTilgangTilAvdelingslederPanel';
 import AdminPanels from './AdminPanels';
 
-import styles from './adminIndex.less';
+import styles from './adminIndex.css';
 import AdminDashboard from './components/AdminDashboard';
 import EndreDriftsmeldingerIndex from './driftsmeldinger/EndreDriftsmeldingerIndex';
 
 const classNames = classnames.bind(styles);
 
-const renderPanel = (avdelingslederPanel) => {
+const renderPanel = avdelingslederPanel => {
   if (avdelingslederPanel === AdminPanels.DRIFTSMELDINGER) {
     return <EndreDriftsmeldingerIndex />;
   }
@@ -34,7 +34,11 @@ const messageId = {
 };
 
 const getTab = (avdelingslederPanel, activeAvdelingslederPanel, getDriftsmeldingerPanelLocation) => ({
-  label: (<Undertittel><FormattedMessage id={messageId[avdelingslederPanel]} /></Undertittel>),
+  label: (
+    <Undertittel>
+      <FormattedMessage id={messageId[avdelingslederPanel]} />
+    </Undertittel>
+  ),
   aktiv: avdelingslederPanel === activeAvdelingslederPanel,
   // eslint-disable-next-line react/prop-types
   linkCreator: ({ children, className }) => (
@@ -47,7 +51,7 @@ const getTab = (avdelingslederPanel, activeAvdelingslederPanel, getDriftsmelding
   ),
 });
 
-const hentPanelFromUrlOrDefault = (location) => {
+const hentPanelFromUrlOrDefault = location => {
   const panelFromUrl = parseQueryString(location.search);
   return panelFromUrl.avdelingsleder ? panelFromUrl.avdelingsleder : AdminPanels.DRIFTSMELDINGER;
 };
@@ -72,13 +76,8 @@ export const AdminIndex: FunctionComponent = () => {
     return (
       <AdminDashboard key={activePanel}>
         <div>
-          <Tabs tabs={[
-            getTab(AdminPanels.DRIFTSMELDINGER, activePanel, getDriftsmeldingerPanelLocation),
-          ]}
-          />
-          <Panel className={styles.panelPadding}>
-            {renderPanel(activePanel)}
-          </Panel>
+          <Tabs tabs={[getTab(AdminPanels.DRIFTSMELDINGER, activePanel, getDriftsmeldingerPanelLocation)]} />
+          <Panel className={styles.panelPadding}>{renderPanel(activePanel)}</Panel>
         </div>
       </AdminDashboard>
     );

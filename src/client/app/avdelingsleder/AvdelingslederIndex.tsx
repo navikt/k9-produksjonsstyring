@@ -34,11 +34,11 @@ import IkkeTilgangTilAvdelingslederPanel from './components/IkkeTilgangTilAvdeli
 import AvdelingslederPanels from './avdelingslederPanels';
 import EndreBehandlingskoerIndex from './behandlingskoer/EndreBehandlingskoerIndex';
 
-import styles from './avdelingslederIndex.less';
+import styles from './avdelingslederIndex.css';
 
 const classNames = classnames.bind(styles);
 
-const renderAvdelingslederPanel = (avdelingslederPanel) => {
+const renderAvdelingslederPanel = avdelingslederPanel => {
   switch (avdelingslederPanel) {
     case AvdelingslederPanels.BEHANDLINGSKOER:
       return <EndreBehandlingskoerIndex />;
@@ -72,10 +72,17 @@ const getTab = (avdelingslederPanel, activeAvdelingslederPanel, getAvdelingslede
     <div className={styles.tabLabel}>
       <Image
         className={styles.tabIcon}
-        src={activeAvdelingslederPanel === avdelingslederPanel ? tabStyle[avdelingslederPanel][0] : tabStyle[avdelingslederPanel][1]}
+        src={
+          activeAvdelingslederPanel === avdelingslederPanel
+            ? tabStyle[avdelingslederPanel][0]
+            : tabStyle[avdelingslederPanel][1]
+        }
       />
-      <Undertittel><FormattedMessage id={messageId[avdelingslederPanel]} /></Undertittel>
-    </div>),
+      <Undertittel>
+        <FormattedMessage id={messageId[avdelingslederPanel]} />
+      </Undertittel>
+    </div>
+  ),
   aktiv: avdelingslederPanel === activeAvdelingslederPanel,
   // eslint-disable-next-line react/prop-types
   linkCreator: ({ children, className }) => (
@@ -97,15 +104,19 @@ export const AvdelingslederIndex: FunctionComponent = () => {
     isQueryParam: true,
   });
 
-  const { startRequest: hentAntallIdag, data: totaltIdag = 0 } = useRestApiRunner<number>(K9LosApiKeys.OPPGAVE_ANTALL_TOTALT);
-  const { startRequest: hentDagensTall, data: dagensTall = [] } = useRestApiRunner<ApneBehandlinger[]>(K9LosApiKeys.HENT_DAGENS_TALL);
+  const { startRequest: hentAntallIdag, data: totaltIdag = 0 } = useRestApiRunner<number>(
+    K9LosApiKeys.OPPGAVE_ANTALL_TOTALT,
+  );
+  const { startRequest: hentDagensTall, data: dagensTall = [] } = useRestApiRunner<ApneBehandlinger[]>(
+    K9LosApiKeys.HENT_DAGENS_TALL,
+  );
 
   useEffect(() => {
     hentAntallIdag();
     hentDagensTall();
   }, []);
 
-  const getPanelFromUrlOrDefault = (loc) => {
+  const getPanelFromUrlOrDefault = loc => {
     const panelFromUrl = parseQueryString(loc.search);
     return panelFromUrl.avdelingsleder ? panelFromUrl.avdelingsleder : AvdelingslederPanels.BEHANDLINGSKOER;
   };
@@ -130,18 +141,24 @@ export const AvdelingslederIndex: FunctionComponent = () => {
         </Row>
         <VerticalSpacer twentyPx />
         <Row>
-          <AvdelingslederDashboard key={activeAvdelingslederPanel} visSaksbehandlere={activeAvdelingslederPanel === AvdelingslederPanels.BEHANDLINGSKOER}>
+          <AvdelingslederDashboard
+            key={activeAvdelingslederPanel}
+            visSaksbehandlere={activeAvdelingslederPanel === AvdelingslederPanels.BEHANDLINGSKOER}
+          >
             <div>
-              <Tabs tabs={[
-                getTab(AvdelingslederPanels.BEHANDLINGSKOER, activeAvdelingslederPanel, getAvdelingslederPanelLocation),
-                getTab(AvdelingslederPanels.NOKKELTALL, activeAvdelingslederPanel, getAvdelingslederPanelLocation),
-                getTab(AvdelingslederPanels.PROGNOSE, activeAvdelingslederPanel, getAvdelingslederPanelLocation),
-                getTab(AvdelingslederPanels.RESERVASJONER, activeAvdelingslederPanel, getAvdelingslederPanelLocation),
-              ]}
+              <Tabs
+                tabs={[
+                  getTab(
+                    AvdelingslederPanels.BEHANDLINGSKOER,
+                    activeAvdelingslederPanel,
+                    getAvdelingslederPanelLocation,
+                  ),
+                  getTab(AvdelingslederPanels.NOKKELTALL, activeAvdelingslederPanel, getAvdelingslederPanelLocation),
+                  getTab(AvdelingslederPanels.PROGNOSE, activeAvdelingslederPanel, getAvdelingslederPanelLocation),
+                  getTab(AvdelingslederPanels.RESERVASJONER, activeAvdelingslederPanel, getAvdelingslederPanelLocation),
+                ]}
               />
-              <Panel className={styles.panelPadding}>
-                {renderAvdelingslederPanel(activeAvdelingslederPanel)}
-              </Panel>
+              <Panel className={styles.panelPadding}>{renderAvdelingslederPanel(activeAvdelingslederPanel)}</Panel>
             </div>
           </AvdelingslederDashboard>
         </Row>

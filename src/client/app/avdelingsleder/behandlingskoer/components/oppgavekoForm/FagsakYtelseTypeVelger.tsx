@@ -10,10 +10,10 @@ import kodeverkTyper from 'kodeverk/kodeverkTyper';
 import useKodeverk from 'api/rest-api-hooks/src/global-data/useKodeverk';
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
 import { K9LosApiKeys } from 'api/k9LosApi';
-import styles from './utvalgskriterierForOppgavekoForm.less';
+import styles from './utvalgskriterierForOppgavekoForm.css';
 
 const finnFagsakYtelseTypeNavn = (fagsakYtelseTyper, valgtFagsakYtelseType) => {
-  const type = fagsakYtelseTyper.find((fyt) => fyt.kode === valgtFagsakYtelseType);
+  const type = fagsakYtelseTyper.find(fyt => fyt.kode === valgtFagsakYtelseType);
   return type ? type.navn : '';
 };
 
@@ -31,7 +31,9 @@ const FagsakYtelseTypeVelger: FunctionComponent<OwnProps> = ({
   fagsakYtelseTyper,
   hentOppgaveko,
 }) => {
-  const { startRequest: lagreOppgavekoFagsakYtelseType } = useRestApiRunner(K9LosApiKeys.LAGRE_OPPGAVEKO_FAGSAK_YTELSE_TYPE);
+  const { startRequest: lagreOppgavekoFagsakYtelseType } = useRestApiRunner(
+    K9LosApiKeys.LAGRE_OPPGAVEKO_FAGSAK_YTELSE_TYPE,
+  );
   const alleFagsakYtelseTyper = useKodeverk(kodeverkTyper.FAGSAK_YTELSE_TYPE);
 
   const fagytelseTyperValt = [];
@@ -46,7 +48,7 @@ const FagsakYtelseTypeVelger: FunctionComponent<OwnProps> = ({
     fagytelseTyperValt.push(fagsakYtelseType.OMSORGSDAGER);
     fagytelseTyperValt.push(fagsakYtelseType.PLEIEPENGER_SYKT_BARN);
   } else {
-    fagsakYtelseTyper.forEach((type) => {
+    fagsakYtelseTyper.forEach(type => {
       if (!fagytelseTyperValt.includes(type) && !fagytelseTyperKnyttetTilOmsorgsdager.includes(type)) {
         fagytelseTyperValt.push(type);
       }
@@ -78,35 +80,35 @@ const FagsakYtelseTypeVelger: FunctionComponent<OwnProps> = ({
       <CheckboxField
         name={fagsakYtelseType.OMSORGSPENGER}
         label={finnFagsakYtelseTypeNavn(alleFagsakYtelseTyper, fagsakYtelseType.OMSORGSPENGER)}
-        onChange={(checked) => hantereFagytelsetypeValg(fagsakYtelseType.OMSORGSPENGER, checked)}
+        onChange={checked => hantereFagytelsetypeValg(fagsakYtelseType.OMSORGSPENGER, checked)}
         checked={fagytelseTyperValt.includes(fagsakYtelseType.OMSORGSPENGER)}
       />
       <VerticalSpacer fourPx />
       <CheckboxField
         name={fagsakYtelseType.OMSORGSDAGER}
         label="Omsorgsdager"
-        onChange={(checked) => hantereFagytelsetypeValg(fagsakYtelseType.OMSORGSDAGER, checked)}
+        onChange={checked => hantereFagytelsetypeValg(fagsakYtelseType.OMSORGSDAGER, checked)}
         checked={fagytelseTyperValt.includes(fagsakYtelseType.OMSORGSDAGER)}
       />
       <VerticalSpacer fourPx />
       <CheckboxField
         name={fagsakYtelseType.PLEIEPENGER_SYKT_BARN}
         label={finnFagsakYtelseTypeNavn(alleFagsakYtelseTyper, fagsakYtelseType.PLEIEPENGER_SYKT_BARN)}
-        onChange={(checked) => hantereFagytelsetypeValg(fagsakYtelseType.PLEIEPENGER_SYKT_BARN, checked)}
+        onChange={checked => hantereFagytelsetypeValg(fagsakYtelseType.PLEIEPENGER_SYKT_BARN, checked)}
         checked={fagytelseTyperValt.includes(fagsakYtelseType.PLEIEPENGER_SYKT_BARN)}
       />
       <VerticalSpacer fourPx />
       <CheckboxField
         name={fagsakYtelseType.PPN}
         label={finnFagsakYtelseTypeNavn(alleFagsakYtelseTyper, fagsakYtelseType.PPN)}
-        onChange={(checked) => hantereFagytelsetypeValg(fagsakYtelseType.PPN, checked)}
+        onChange={checked => hantereFagytelsetypeValg(fagsakYtelseType.PPN, checked)}
         checked={fagytelseTyperValt.includes(fagsakYtelseType.PPN)}
       />
       <VerticalSpacer fourPx />
       <CheckboxField
         name={fagsakYtelseType.UKJENT}
         label={finnFagsakYtelseTypeNavn(alleFagsakYtelseTyper, fagsakYtelseType.UKJENT)}
-        onChange={(checked) => hantereFagytelsetypeValg(fagsakYtelseType.UKJENT, checked)}
+        onChange={checked => hantereFagytelsetypeValg(fagsakYtelseType.UKJENT, checked)}
         checked={fagytelseTyperValt.includes(fagsakYtelseType.UKJENT)}
       />
     </div>

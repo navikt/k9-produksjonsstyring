@@ -1,0 +1,20 @@
+.navnInput {
+  width: 300px;
+}
+.marginFilters {
+  margin-left: 30px;
+}
+.saksbehandlerIkon {
+  padding-top: 36px;
+}
+.tooltipHeader {
+  font-size: 16px;
+}
+.oppgavevelgerform_container {
+  background: #cce1ff80;
+  border-radius: 5px;
+  padding: 1rem;
+}
+.nyOppgaveBtn {
+  text-transform: none;
+}

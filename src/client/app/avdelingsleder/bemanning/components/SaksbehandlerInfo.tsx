@@ -6,11 +6,11 @@ import { Normaltekst } from 'nav-frontend-typografi';
 import { v4 as uuid4 } from 'uuid';
 
 import SletteSaksbehandlerModal from 'avdelingsleder/bemanning/components/SletteSaksbehandlerModal';
-import styles from './saksbehandlerInfo.less';
+import styles from './saksbehandlerInfo.css';
 
 interface OwnProps {
-    saksbehandler: Saksbehandler
-    fjernSaksbehandler: (epost: string) => void;
+  saksbehandler: Saksbehandler;
+  fjernSaksbehandler: (epost: string) => void;
 }
 
 const SaksbehandlerInfo: FunctionComponent<OwnProps & WrappedComponentProps> = ({
@@ -27,8 +27,15 @@ const SaksbehandlerInfo: FunctionComponent<OwnProps & WrappedComponentProps> = (
       <FlexRow>
         <FlexColumn className={styles.koer}>
           <Normaltekst className={styles.overskrift}>Køer</Normaltekst>
-          {saksbehandler.oppgavekoer.length === 0 && <Normaltekst className={styles.info}>Ingen køer tildelt</Normaltekst>}
-          {saksbehandler.oppgavekoer.length > 0 && saksbehandler.oppgavekoer.map((ko) => <Normaltekst key={uuid4()} className={styles.info}>{ko}</Normaltekst>)}
+          {saksbehandler.oppgavekoer.length === 0 && (
+            <Normaltekst className={styles.info}>Ingen køer tildelt</Normaltekst>
+          )}
+          {saksbehandler.oppgavekoer.length > 0 &&
+            saksbehandler.oppgavekoer.map(ko => (
+              <Normaltekst key={uuid4()} className={styles.info}>
+                {ko}
+              </Normaltekst>
+            ))}
         </FlexColumn>
       </FlexRow>
       <div className={styles.container}>
@@ -56,18 +63,22 @@ const SaksbehandlerInfo: FunctionComponent<OwnProps & WrappedComponentProps> = (
           id="slett"
           className={styles.slett}
           role="button"
-          onClick={() => { setVisSlettModal(true); }}
-          onKeyDown={() => { setVisSlettModal(true); }}
+          onClick={() => {
+            setVisSlettModal(true);
+          }}
+          onKeyDown={() => {
+            setVisSlettModal(true);
+          }}
         >
           Slett saksbehandler
         </div>
       </FlexRow>
       {visSlettModal === true && (
-      <SletteSaksbehandlerModal
-        valgtSaksbehandler={saksbehandler}
-        closeSletteModal={lukkSlettModal}
-        fjernSaksbehandler={fjernSaksbehandler}
-      />
+        <SletteSaksbehandlerModal
+          valgtSaksbehandler={saksbehandler}
+          closeSletteModal={lukkSlettModal}
+          fjernSaksbehandler={fjernSaksbehandler}
+        />
       )}
     </>
   );

@@ -10,7 +10,7 @@ import { useGlobalStateRestApiData } from 'api/rest-api-hooks';
 import { RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
 import { getKodeverkFraKode, getKodeverknavnFraKode } from 'utils/kodeverkUtils';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
-import styles from './dagensTallPanel.less';
+import styles from './dagensTallPanel.css';
 
 interface OwnProps {
   totaltIdag: number;

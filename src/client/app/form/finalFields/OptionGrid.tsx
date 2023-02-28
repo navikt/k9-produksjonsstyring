@@ -3,23 +3,20 @@ import PropTypes from 'prop-types';
 import { FlexContainer, FlexRow, FlexColumn } from 'sharedComponents/flexGrid';
 import { range } from 'utils/arrayUtils';
 import EditedIcon from 'sharedComponents/EditedIcon';
-import styles from './optionGrid.less';
+import styles from './optionGrid.css';
 
-export const OptionGrid = ({
-  id, columns, rows, options, spaceBetween, isEdited, direction,
-}) => {
+export const OptionGrid = ({ id, columns, rows, options, spaceBetween, isEdited, direction }) => {
   if (direction === 'vertical') {
     const numRows = rows || options.length;
     return (
       <FlexContainer fluid id={id}>
         <FlexColumn className={styles.fullBreddeIE}>
-          {range(numRows)
-            .map((rowIndex) => (
-              <FlexRow key={`row${rowIndex}`} spaceBetween={spaceBetween}>
-                {options.filter((option, optionIndex) => optionIndex % numRows === rowIndex)}
-                {isEdited && <EditedIcon className="radioEdited" />}
-              </FlexRow>
-            ))}
+          {range(numRows).map(rowIndex => (
+            <FlexRow key={`row${rowIndex}`} spaceBetween={spaceBetween}>
+              {options.filter((option, optionIndex) => optionIndex % numRows === rowIndex)}
+              {isEdited && <EditedIcon className="radioEdited" />}
+            </FlexRow>
+          ))}
         </FlexColumn>
       </FlexContainer>
     );
@@ -28,12 +25,11 @@ export const OptionGrid = ({
   return (
     <FlexContainer fluid id={id}>
       <FlexRow spaceBetween={spaceBetween}>
-        {range(numColumns)
-          .map((columnIndex) => (
-            <FlexColumn key={`column${columnIndex}`}>
-              {options.filter((option, optionIndex) => optionIndex % numColumns === columnIndex)}
-            </FlexColumn>
-          ))}
+        {range(numColumns).map(columnIndex => (
+          <FlexColumn key={`column${columnIndex}`}>
+            {options.filter((option, optionIndex) => optionIndex % numColumns === columnIndex)}
+          </FlexColumn>
+        ))}
         {isEdited && <EditedIcon className="radioEdited" />}
       </FlexRow>
     </FlexContainer>

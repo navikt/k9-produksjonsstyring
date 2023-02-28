@@ -21,7 +21,7 @@ const config = {
         include: APP_DIR,
       },
       {
-        test: /\.(less|css)?$/,
+        test: /\.css?$/,
         use: [
           {
             loader: MiniCssExtractPlugin.loader,
@@ -35,19 +35,6 @@ const config = {
               importLoaders: 1,
               modules: {
                 localIdentName: '[name]_[local]_[contenthash:base64:5]',
-              },
-            },
-          },
-          {
-            loader: 'less-loader',
-            options: {
-              lessOptions: {
-                modules: true,
-                localIdentName: '[name]_[local]_[contenthash:base64:5]',
-                modifyVars: {
-                  nodeModulesPath: '~',
-                  coreModulePath: '~',
-                },
               },
             },
           },
@@ -78,7 +65,15 @@ const config = {
             },
           },
         ],
-        include: [STYLE_DIR, CORE_DIR],
+        include: [CORE_DIR],
+      },
+      {
+        test: /\.css$/, use: [{
+          loader: MiniCssExtractPlugin.loader,
+          options: {
+            publicPath: isDevelopment ? './' : '',
+          },
+        }, 'css-loader'], include: [STYLE_DIR]
       },
       {
         test: /\.svg/,
@@ -89,7 +84,7 @@ const config = {
 
   plugins: [
     new MiniCssExtractPlugin({
-      filename: isDevelopment ? 'style[name].css' : 'style[name]_[contenthash].css',
+      filename: 'style_[contenthash].css',
       ignoreOrder: true,
     }),
     new CircularDependencyPlugin({
@@ -115,7 +110,7 @@ const config = {
       sharedComponents: path.join(APP_DIR, 'sharedComponents'),
       utils: path.join(APP_DIR, 'utils'),
     },
-    extensions: ['.js', '.jsx', '.tsx', '.ts', '.less'],
+    extensions: ['.js', '.jsx', '.tsx', '.ts', '.less', '.css'],
   },
 
   externals: {

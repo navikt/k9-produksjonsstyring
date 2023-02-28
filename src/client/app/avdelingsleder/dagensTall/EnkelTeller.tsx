@@ -1,9 +1,9 @@
 import React, { FunctionComponent } from 'react';
-import styles from './enkelTeller.less';
+import styles from './enkelTeller.css';
 
 interface OwnProps {
-    antall: number;
-    tekst: string;
+  antall: number;
+  tekst: string;
 }
 const EnkelTeller: FunctionComponent<OwnProps> = ({ antall, tekst }) => (
   <div className={styles.frame}>

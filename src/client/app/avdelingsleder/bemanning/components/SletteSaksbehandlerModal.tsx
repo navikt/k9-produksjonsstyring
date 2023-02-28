@@ -8,7 +8,7 @@ import Modal from 'sharedComponents/Modal';
 
 import { Saksbehandler } from '../saksbehandlerTsType';
 
-import styles from './sletteSaksbehandlerModal.less';
+import styles from './sletteSaksbehandlerModal.css';
 
 type OwnProps = Readonly<{
   intl: any;
@@ -37,17 +37,15 @@ const SletteSaksbehandlerModal: FunctionComponent<OwnProps & WrappedComponentPro
   >
     <div className={styles.text}>
       <Normaltekst>
-        <FormattedMessage id="SletteSaksbehandlerModal.SletteSaksbehandler" values={{ saksbehandlerNavn: valgtSaksbehandler.navn }} />
+        <FormattedMessage
+          id="SletteSaksbehandlerModal.SletteSaksbehandler"
+          values={{ saksbehandlerNavn: valgtSaksbehandler.navn }}
+        />
       </Normaltekst>
     </div>
     <div className={styles.buttons}>
       <Column>
-        <Knapp
-          className={styles.cancelButton}
-          mini
-          htmlType="reset"
-          onClick={closeSletteModal}
-        >
+        <Knapp className={styles.cancelButton} mini htmlType="reset" onClick={closeSletteModal}>
           {intl.formatMessage({ id: 'SletteSaksbehandlerModal.Nei' })}
         </Knapp>
       </Column>

@@ -9,7 +9,7 @@ import urlKvinne from 'images/kvinne.svg';
 import Person from '../../personTsType';
 import AlderVisning from './Aldervisning';
 
-import styles from './personInfo.less';
+import styles from './personInfo.css';
 
 interface OwnProps {
   person: Person;
@@ -26,13 +26,8 @@ interface OwnProps {
  * erDod:false diskresjonskode:"6" dodsdato:"1990.03.03"} medPanel />
  * ```
  */
-const PersonInfo: FunctionComponent<OwnProps & WrappedComponentProps> = ({
-  person,
-  intl,
-}) => {
-  const {
-    navn, personnummer, kjoenn, doedsdato,
-  } = person;
+const PersonInfo: FunctionComponent<OwnProps & WrappedComponentProps> = ({ person, intl }) => {
+  const { navn, personnummer, kjoenn, doedsdato } = person;
   return (
     <div>
       <Image
@@ -43,13 +38,9 @@ const PersonInfo: FunctionComponent<OwnProps & WrappedComponentProps> = ({
       <div className={styles.infoPlaceholder}>
         <div>
           <Undertittel>
-            {navn}
-            {' '}
-            {doedsdato && <AlderVisning doedsdato={doedsdato} />}
+            {navn} {doedsdato && <AlderVisning doedsdato={doedsdato} />}
           </Undertittel>
-          <Undertekst>
-            {personnummer}
-          </Undertekst>
+          <Undertekst>{personnummer}</Undertekst>
         </div>
       </div>
     </div>

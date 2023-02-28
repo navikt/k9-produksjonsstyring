@@ -3,7 +3,7 @@ import { injectIntl, WrappedComponentProps, FormattedMessage } from 'react-intl'
 import diskresjonskodeType from 'kodeverk/diskresjonskodeType';
 
 import { EtikettAdvarsel, EtikettInfo, EtikettFokus } from 'nav-frontend-etiketter';
-import styles from './merkepanel.less';
+import styles from './merkepanel.css';
 
 interface OwnProps {
   erDod?: boolean;
@@ -20,25 +20,27 @@ interface OwnProps {
  *  <MerkePanel erDod={false} diskresjonskode="SPSF"  />
  * ```
  */
-export const MerkePanel: FunctionComponent<OwnProps & WrappedComponentProps> = ({
-  intl,
-  erDod,
-  diskresjonskode,
-}) => (
+export const MerkePanel: FunctionComponent<OwnProps & WrappedComponentProps> = ({ intl, erDod, diskresjonskode }) => (
   <div className={styles.merkePanel}>
     {erDod && (
-    <EtikettInfo className={styles.dodMerke} title={intl.formatMessage({ id: 'MerkePanel.DodTittel' })}>
-      <FormattedMessage id="MerkePanel.Dod" />
-    </EtikettInfo>
+      <EtikettInfo className={styles.dodMerke} title={intl.formatMessage({ id: 'MerkePanel.DodTittel' })}>
+        <FormattedMessage id="MerkePanel.Dod" />
+      </EtikettInfo>
     )}
     {diskresjonskode === diskresjonskodeType.KODE6 && !erDod && (
-      <EtikettAdvarsel className={styles.merkeDiskresjonskoder} title={intl.formatMessage({ id: 'MerkePanel.Diskresjon6Tittel' })}>
+      <EtikettAdvarsel
+        className={styles.merkeDiskresjonskoder}
+        title={intl.formatMessage({ id: 'MerkePanel.Diskresjon6Tittel' })}
+      >
         <FormattedMessage id="MerkePanel.Diskresjon6" />
       </EtikettAdvarsel>
     )}
 
     {diskresjonskode === diskresjonskodeType.KODE7 && !erDod && (
-      <EtikettFokus className={styles.merkeDiskresjonskoder} title={intl.formatMessage({ id: 'MerkePanel.Diskresjon7Tittel' })}>
+      <EtikettFokus
+        className={styles.merkeDiskresjonskoder}
+        title={intl.formatMessage({ id: 'MerkePanel.Diskresjon7Tittel' })}
+      >
         <FormattedMessage id="MerkePanel.Diskresjon7" />
       </EtikettFokus>
     )}

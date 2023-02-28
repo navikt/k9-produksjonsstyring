@@ -8,7 +8,7 @@ import { ISO_DATE_FORMAT, DDMMYYYY_DATE_FORMAT } from 'utils/formats';
 import moment from 'moment';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import ArrowBox from 'sharedComponents/ArrowBox';
-import styles from './sorteringVelger.less';
+import styles from './sorteringVelger.css';
 
 const getLagreDatoFn =
   (lagreOppgavekoSorteringTidsintervallDato, valgtOppgavekoId, annenDato, erFomDato, hentKo) => e => {

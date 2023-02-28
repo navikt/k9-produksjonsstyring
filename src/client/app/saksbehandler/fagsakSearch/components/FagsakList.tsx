@@ -17,7 +17,7 @@ import { getKodeverknavnFraKode } from 'utils/kodeverkUtils';
 import AlleKodeverk from 'kodeverk/alleKodeverkTsType';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
 import { WarningColored } from '@navikt/ds-icons';
-import styles from './fagsakList.less';
+import styles from './fagsakList.css';
 import KommentarMedMerknad from 'saksbehandler/components/KommentarMedMerknad';
 
 const headerTextCodes = [
@@ -27,7 +27,7 @@ const headerTextCodes = [
   'FagsakList.Stonadstype',
   'FagsakList.Status',
   'EMPTY_2',
-  'EMPTY_3'
+  'EMPTY_3',
 ];
 
 interface OwnProps {

@@ -1,10 +1,10 @@
 import React, { FunctionComponent } from 'react';
-import styles from './teller.less';
+import styles from './teller.css';
 
 interface OwnProps {
-    forklaring: string;
-    venstreTall: number;
-    hoyreTall: number
+  forklaring: string;
+  venstreTall: number;
+  hoyreTall: number;
 }
 const Teller: FunctionComponent<OwnProps> = ({ forklaring, venstreTall, hoyreTall }) => (
   <div className={styles.frame}>

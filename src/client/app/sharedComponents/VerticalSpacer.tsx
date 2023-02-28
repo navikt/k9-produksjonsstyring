@@ -1,17 +1,17 @@
 import React, { FunctionComponent } from 'react';
 import classnames from 'classnames/bind';
 
-import styles from './verticalSpacer.less';
+import styles from './verticalSpacer.css';
 
 const classNames = classnames.bind(styles);
 
 interface OwnProps {
-    fourPx?: boolean;
-    eightPx?: boolean;
-    sixteenPx?: boolean;
-    twentyPx?: boolean;
-    thirtyTwoPx?: boolean;
-    fourtyPx?: boolean;
+  fourPx?: boolean;
+  eightPx?: boolean;
+  sixteenPx?: boolean;
+  twentyPx?: boolean;
+  thirtyTwoPx?: boolean;
+  fourtyPx?: boolean;
 }
 
 /**
@@ -27,14 +27,15 @@ const VerticalSpacer: FunctionComponent<OwnProps> = ({
   thirtyTwoPx = false,
   fourtyPx = false,
 }) => (
-  <div className={classNames({
-    fourPx,
-    eightPx,
-    sixteenPx,
-    twentyPx,
-    thirtyTwoPx,
-    fourtyPx,
-  })}
+  <div
+    className={classNames({
+      fourPx,
+      eightPx,
+      sixteenPx,
+      twentyPx,
+      thirtyTwoPx,
+      fourtyPx,
+    })}
   />
 );
 

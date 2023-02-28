@@ -30,7 +30,7 @@ import { useGlobalStateRestApiData } from 'api/rest-api-hooks';
 import { getKodeverknavnFraKode } from 'utils/kodeverkUtils';
 import KommentarMedMerknad from 'saksbehandler/components/KommentarMedMerknad';
 import OppgaveHandlingerMenu from '../menu/OppgaveHandlingerMenu';
-import styles from './oppgaverTabell.less';
+import styles from './oppgaverTabell.css';
 
 interface OwnProps {
   apneOppgave: (oppgave: Oppgave) => void;

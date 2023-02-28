@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl';
 import Panel from 'nav-frontend-paneler';
 import { Undertittel, Normaltekst } from 'nav-frontend-typografi';
 
-import styles from './missingPage.less';
+import styles from './missingPage.css';
 
 /**
  * MissingPage

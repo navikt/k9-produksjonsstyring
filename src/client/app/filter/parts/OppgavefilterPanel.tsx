@@ -8,7 +8,7 @@ import FjernFilterButton from './FjernFilterButton';
 import LeggTilFilterButton from './LeggTilFilterButton';
 import LeggTilGruppeButton from './LeggTilGruppeButton';
 
-import styles from '../filterIndex.less';
+import styles from '../filterIndex.css';
 
 interface OppgavefilterPanelProps {
   felter: Oppgavefelt[];
@@ -37,7 +37,8 @@ const OppgavefilterPanel = ({
         onFjernFilter={onFjernFilter}
       />
     );
-  } if (oppgavefilter.type === 'combine') {
+  }
+  if (oppgavefilter.type === 'combine') {
     return (
       <CombineOppgavefilterPanel
         felter={felter}
@@ -48,9 +49,8 @@ const OppgavefilterPanel = ({
         onFjernFilter={onFjernFilter}
       />
     );
-  } 
-    throw new Error(`Unhandled type: ${  oppgavefilter.type}`);
-  
+  }
+  throw new Error(`Unhandled type: ${oppgavefilter.type}`);
 };
 
 interface CombineOppgavefilterPanelProps {
@@ -70,27 +70,27 @@ const CombineOppgavefilterPanel = ({
   onOppdaterFilter,
   onFjernFilter,
 }): CombineOppgavefilterPanelProps => (
-    <Panel className={`${styles.filter  } ${  styles.filterGruppe}`} key={oppgavefilter.id} border>
-      <FjernFilterButton oppgavefilter={oppgavefilter} onFjernFilter={onFjernFilter} />
-      <Heading level="5" size="xsmall">
-        {oppgavefilter.combineOperator === 'OR'
-          ? 'Minimum en av disse må gjelde for oppgaven'
-          : 'Alle disse må gjelde for oppgaven'}
-      </Heading>
-      {oppgavefilter.filtere.map(item => (
-        <OppgavefilterPanel
-          key={item.id}
-          felter={felter}
-          oppgavefilter={item}
-          onLeggTilFilter={onLeggTilFilter}
-          onLeggTilGruppe={onLeggTilGruppe}
-          onOppdaterFilter={onOppdaterFilter}
-          onFjernFilter={onFjernFilter}
-        />
-      ))}
-      <LeggTilFilterButton filterContainer={oppgavefilter} onLeggTilFilter={onLeggTilFilter} />
-      <LeggTilGruppeButton filterContainer={oppgavefilter} onLeggTilGruppe={onLeggTilGruppe} />
-    </Panel>
-  );
+  <Panel className={`${styles.filter} ${styles.filterGruppe}`} key={oppgavefilter.id} border>
+    <FjernFilterButton oppgavefilter={oppgavefilter} onFjernFilter={onFjernFilter} />
+    <Heading level="5" size="xsmall">
+      {oppgavefilter.combineOperator === 'OR'
+        ? 'Minimum en av disse må gjelde for oppgaven'
+        : 'Alle disse må gjelde for oppgaven'}
+    </Heading>
+    {oppgavefilter.filtere.map(item => (
+      <OppgavefilterPanel
+        key={item.id}
+        felter={felter}
+        oppgavefilter={item}
+        onLeggTilFilter={onLeggTilFilter}
+        onLeggTilGruppe={onLeggTilGruppe}
+        onOppdaterFilter={onOppdaterFilter}
+        onFjernFilter={onFjernFilter}
+      />
+    ))}
+    <LeggTilFilterButton filterContainer={oppgavefilter} onLeggTilFilter={onLeggTilFilter} />
+    <LeggTilGruppeButton filterContainer={oppgavefilter} onLeggTilGruppe={onLeggTilGruppe} />
+  </Panel>
+);
 
 export default OppgavefilterPanel;

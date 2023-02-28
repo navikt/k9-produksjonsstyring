@@ -11,7 +11,7 @@ import { useGlobalStateRestApiData } from 'api/rest-api-hooks';
 import { getKodeverknavnFraKode } from 'utils/kodeverkUtils';
 import DatoSorteringValg from './DatoSorteringValg';
 import BelopSorteringValg from 'avdelingsleder/behandlingskoer/components/oppgavekoForm/BelopSorteringValg';
-import styles from './utvalgskriterierForOppgavekoForm.less';
+import styles from './utvalgskriterierForOppgavekoForm.css';
 import KriterierType from '../../../../types/KriterierType';
 import { Kriterie } from 'avdelingsleder/behandlingskoer/oppgavekoTsType';
 import { Checkbox, Label } from '@navikt/ds-react';
