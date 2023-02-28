@@ -36,8 +36,8 @@ const renderSelectFelt = (felter, felt, onOppdater, onFjern) => (
   <div className={styles.selectEnkelFelt} key={felt.id}>
     <Select
       className={styles.noGap}
-      defaultValue={feltverdiKey(felt)}
-      onBlur={event => onOppdater(felt, event.target.value)}
+      value={feltverdiKey(felt)}
+      onChange={event => onOppdater(felt, event.target.value)}
     >
       <option value="">Velg felt</option>
       {felter.map(feltdefinisjon => (

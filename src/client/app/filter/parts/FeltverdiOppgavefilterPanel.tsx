@@ -24,7 +24,7 @@ function renderFilterOperator(oppgavefilter: Oppgavefilter, onOppdaterFilter: (i
   };
 
   return (
-    <Select defaultValue={oppgavefilter.operator} onBlur={handleChangeOperator}>
+    <Select value={oppgavefilter.operator} onChange={handleChangeOperator}>
       <option value="EQUALS">er lik</option>
       <option value="NOT_EQUALS">er IKKE lik</option>
       <option value="IN">inneholder</option>
@@ -52,7 +52,7 @@ function renderFilterOperatorOgVerdi(
     /* TODO: Endre til ja/nei/ikke-satt */
 
     return (
-      <Checkbox defaultValue={oppgavefilter.verdi} onChange={handleChangeValue}>
+      <Checkbox value={oppgavefilter.verdi} onChange={handleChangeValue}>
         Ja
       </Checkbox>
     );
@@ -67,7 +67,7 @@ function renderFilterOperatorOgVerdi(
   return (
     <>
       {renderFilterOperator(oppgavefilter, onOppdaterFilter)}
-      <TextField defaultValue={oppgavefilter.verdi} onBlur={handleChangeValue} />
+      <TextField value={oppgavefilter.verdi} onChange={handleChangeValue} />
     </>
   );
 }
@@ -108,7 +108,7 @@ const FeltverdiOppgavefilterPanel = ({ felter, oppgavefilter, onOppdaterFilter, 
         Felt
       </Heading>
       <div>
-        <Select defaultValue={feltverdiKey(oppgavefilter)} onChange={handleChangeKey}>
+        <Select value={feltverdiKey(oppgavefilter)} onChange={handleChangeKey}>
           <option value="">Velg felt</option>
           {felter.map(fd => (
             <option key={feltverdiKey(fd)} value={feltverdiKey(fd)}>
