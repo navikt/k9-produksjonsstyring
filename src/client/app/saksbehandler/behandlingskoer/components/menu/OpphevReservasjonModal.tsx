@@ -4,17 +4,14 @@ import { injectIntl, WrappedComponentProps, FormattedMessage } from 'react-intl'
 import { Form } from 'react-final-form';
 import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
 import { Undertittel } from 'nav-frontend-typografi';
-import {
-  hasValidText, maxLength, minLength, required,
-} from 'utils/validation/validators';
+import { hasValidText, maxLength, minLength, required } from 'utils/validation/validators';
 import { TextAreaField } from 'form/FinalFields';
 import Modal from 'sharedComponents/Modal';
 
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
 import { K9LosApiKeys } from 'api/k9LosApi';
-import styles from './opphevReservasjonModal.less';
 import { captureMessage } from '@sentry/browser';
-
+import styles from './opphevReservasjonModal.css';
 
 const minLength3 = minLength(3);
 const maxLength1500 = maxLength(1500);
@@ -39,17 +36,25 @@ export const OpphevReservasjonModal: FunctionComponent<OwnProps & WrappedCompone
   cancel,
   hentReserverteOppgaver,
   oppgaveId,
-  oppgaveSaksnummer
+  oppgaveSaksnummer,
 }) => {
   const { startRequest: opphevOppgavereservasjon } = useRestApiRunner(K9LosApiKeys.OPPHEV_OPPGAVERESERVASJON);
 
-  const opphevReservasjonFn = useCallback((begrunnelse: string) => opphevOppgavereservasjon({ oppgaveId, oppgaveSaksnummer, begrunnelse })
-    .then(() => {
-      captureMessage(`Legg tilbake: ${oppgaveSaksnummer} - Tidspunkt: ${new Date().toLocaleString('no-NO', { timeZone: 'Europe/Oslo' })}`)
-      setTimeout(() => {}, 1000);
-      hentReserverteOppgaver();
-      cancel();
-    }), [oppgaveId]);
+  const opphevReservasjonFn = useCallback(
+    (begrunnelse: string) =>
+      opphevOppgavereservasjon({ oppgaveId, oppgaveSaksnummer, begrunnelse }).then(() => {
+        captureMessage(
+          `Legg tilbake: ${oppgaveSaksnummer} - Tidspunkt: ${new Date().toLocaleString('no-NO', {
+            timeZone: 'Europe/Oslo',
+          })}`,
+        );
+        // eslint-disable-next-line @typescript-eslint/no-empty-function
+        setTimeout(() => {}, 1000);
+        hentReserverteOppgaver();
+        cancel();
+      }),
+    [oppgaveId],
+  );
 
   return (
     <Modal
@@ -60,30 +65,22 @@ export const OpphevReservasjonModal: FunctionComponent<OwnProps & WrappedCompone
       onRequestClose={cancel}
     >
       <Form
-        onSubmit={(values) => opphevReservasjonFn(values.begrunnelse)}
+        onSubmit={values => opphevReservasjonFn(values.begrunnelse)}
         render={({ handleSubmit }) => (
           <form onSubmit={handleSubmit}>
-            <Undertittel><FormattedMessage id="OpphevReservasjonModal.Begrunnelse" /></Undertittel>
+            <Undertittel>
+              <FormattedMessage id="OpphevReservasjonModal.Begrunnelse" />
+            </Undertittel>
             <TextAreaField
               name="begrunnelse"
               label={intl.formatMessage({ id: 'OpphevReservasjonModal.Hjelpetekst' })}
               validate={[required, maxLength1500, minLength3, hasValidText]}
               maxLength={1500}
             />
-            <Hovedknapp
-              className={styles.submitButton}
-              mini
-              htmlType="submit"
-              autoFocus
-            >
+            <Hovedknapp className={styles.submitButton} mini htmlType="submit" autoFocus>
               {intl.formatMessage({ id: 'OpphevReservasjonModal.Ok' })}
             </Hovedknapp>
-            <Knapp
-              className={styles.cancelButton}
-              mini
-              htmlType="reset"
-              onClick={cancel}
-            >
+            <Knapp className={styles.cancelButton} mini htmlType="reset" onClick={cancel}>
               {intl.formatMessage({ id: 'OpphevReservasjonModal.Avbryt' })}
             </Knapp>
           </form>

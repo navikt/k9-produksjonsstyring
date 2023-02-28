@@ -22,7 +22,7 @@ import { getKodeverknavnFraKode } from 'utils/kodeverkUtils';
 import arrowIcon from '../../../../images/arrow-left-3.svg';
 import arrowIconRight from '../../../../images/arrow-right-3.svg';
 import useGlobalStateRestApiData from '../../../api/rest-api-hooks/src/global-data/useGlobalStateRestApiData';
-import styles from './reservasjonerTabell.less';
+import styles from './reservasjonerTabell.css';
 
 const headerTextCodes = [
   'EMPTY_1',

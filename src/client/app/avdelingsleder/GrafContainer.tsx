@@ -8,7 +8,7 @@ import { lagreTilLocalStorageCallback } from 'utils/localStorageHelper';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import { uker, fremtidigeUker, ytelseTyper } from './nokkeltall/nokkeltallUtils';
 
-import styles from './grafContainer.less';
+import styles from './grafContainer.css';
 
 interface OwnProps {
   setAntallUkerSomSkalVises?: (uker: string) => void;
@@ -85,11 +85,13 @@ const GrafContainer = ({
               size="small"
               value={valgtYtelseType}
             >
-              {ytelseTyper.filter(ytelsestype => utenPunsj ? ytelsestype.navn !== 'Punsj' : true).map(u => (
-                <option key={u.kode} value={u.kode}>
-                  {u.navn}
-                </option>
-              ))}
+              {ytelseTyper
+                .filter(ytelsestype => (utenPunsj ? ytelsestype.navn !== 'Punsj' : true))
+                .map(u => (
+                  <option key={u.kode} value={u.kode}>
+                    {u.navn}
+                  </option>
+                ))}
             </Select>
           </Column>
         )}

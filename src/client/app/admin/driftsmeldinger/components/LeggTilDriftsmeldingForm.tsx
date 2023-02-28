@@ -1,7 +1,5 @@
 import React, { FunctionComponent, useState } from 'react';
-import {
-  injectIntl, FormattedMessage,
-} from 'react-intl';
+import { injectIntl, FormattedMessage } from 'react-intl';
 
 import { Form } from 'react-final-form';
 import { Knapp } from 'nav-frontend-knapper';
@@ -14,14 +12,14 @@ import { FlexContainer, FlexRow, FlexColumn } from 'sharedComponents/flexGrid';
 
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
 import { K9LosApiKeys } from 'api/k9LosApi';
-import styles from './leggTilDriftsmeldingForm.less';
+import styles from './leggTilDriftsmeldingForm.css';
 import { Driftsmelding } from '../driftsmeldingTsType';
 
 /**
  * LeggTilDriftsmeldingForm
  */
 interface OwnProps {
-    hentAlleDriftsmeldinger: () => void;
+  hentAlleDriftsmeldinger: () => void;
 }
 
 export const LeggTilDriftsmeldingForm: FunctionComponent<OwnProps> = ({ hentAlleDriftsmeldinger }) => {
@@ -31,16 +29,16 @@ export const LeggTilDriftsmeldingForm: FunctionComponent<OwnProps> = ({ hentAlle
 
   const addDriftsmelding = (melding: string, resetFormValues: () => void) => {
     setLeggerTilNyDriftsmelding(true);
-    leggTilDriftsmelding({ driftsmelding: melding }).then(() => hentAlleDriftsmeldinger()).then(() => setLeggerTilNyDriftsmelding(false));
+    leggTilDriftsmelding({ driftsmelding: melding })
+      .then(() => hentAlleDriftsmeldinger())
+      .then(() => setLeggerTilNyDriftsmelding(false));
     resetFormValues();
   };
 
   return (
     <Form
       onSubmit={() => undefined}
-      render={({
-        submitting, handleSubmit, form, values,
-      }) => (
+      render={({ submitting, handleSubmit, form, values }) => (
         <div>
           <Element>
             <FormattedMessage id="LeggTilDriftsmeldingForm.LeggTil" />

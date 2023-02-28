@@ -10,7 +10,7 @@ import useTrackRouteParam from 'app/data/trackRouteParam';
 import useRestApiRunner from '../api/rest-api-hooks/src/local-data/useRestApiRunner';
 import AktoerGrid from './AktoerGrid';
 
-import styles from './aktoerIndex.less';
+import styles from './aktoerIndex.css';
 
 /**
  * AktoerIndex
@@ -18,11 +18,13 @@ import styles from './aktoerIndex.less';
 export const AktoerIndex: FunctionComponent = () => {
   const { selected: selectedAktoerId } = useTrackRouteParam<string>({
     paramName: 'aktoerId',
-    parse: (aktoerIdFromUrl) => Number.parseInt(aktoerIdFromUrl, 10),
+    parse: aktoerIdFromUrl => Number.parseInt(aktoerIdFromUrl, 10),
   });
 
   const {
-    startRequest: sokAktoerId, state, data: resultat,
+    startRequest: sokAktoerId,
+    state,
+    data: resultat,
   } = useRestApiRunner<SokeResultat>(K9LosApiKeys.SEARCH_AKTOERID);
 
   useEffect(() => {
@@ -44,16 +46,10 @@ export const AktoerIndex: FunctionComponent = () => {
   }
 
   if (state === RestApiState.SUCCESS && !resultat.ikkeTilgang) {
-    return (
-      <AktoerGrid
-        resultat={resultat}
-      />
-    );
+    return <AktoerGrid resultat={resultat} />;
   }
 
-  return (
-    <p className={styles.ugyldig}>{`Ugyldig aktørId: ${selectedAktoerId}`}</p>
-  );
+  return <p className={styles.ugyldig}>{`Ugyldig aktørId: ${selectedAktoerId}`}</p>;
 };
 
 export default AktoerIndex;

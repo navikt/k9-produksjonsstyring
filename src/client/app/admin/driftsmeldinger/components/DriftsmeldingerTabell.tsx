@@ -13,27 +13,22 @@ import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner
 import { K9LosApiKeys } from 'api/k9LosApi';
 import { Driftsmelding } from '../driftsmeldingTsType';
 
-import styles from './driftsmeldingerTabell.less';
+import styles from './driftsmeldingerTabell.css';
 import SletteDriftsmeldingerModal from './SletteDriftsmeldingerModal';
 
-const headerTextCodes = [
-  'DriftsmeldingTabell.Tekst',
-  'DriftsmeldingTabell.Aktiv',
-  'DriftsmeldingTabell.Dato',
-];
+const headerTextCodes = ['DriftsmeldingTabell.Tekst', 'DriftsmeldingTabell.Aktiv', 'DriftsmeldingTabell.Dato'];
 
 interface OwnProps {
   driftsmeldinger: Driftsmelding[];
   hentAlleDriftsmeldinger: () => void;
 }
 
+const boldChunks = (...chunks) => <b>{chunks}</b>;
+
 /**
  * DriftsmeldingerTabell
  */
-const DriftsmeldingerTabell: FunctionComponent<OwnProps> = ({
-  driftsmeldinger,
-  hentAlleDriftsmeldinger,
-}) => {
+const DriftsmeldingerTabell: FunctionComponent<OwnProps> = ({ driftsmeldinger, hentAlleDriftsmeldinger }) => {
   const [showSlettModal, setShowSlettModal] = useState(false);
   const [valgtDriftsmelding, setValgtDriftsmelding] = useState<Driftsmelding>(undefined);
 
@@ -58,17 +53,21 @@ const DriftsmeldingerTabell: FunctionComponent<OwnProps> = ({
 
   return (
     <>
-      <Element><FormattedMessage id="DriftsmeldingerTabell.Driftsmeldinger" /></Element>
+      <Element>
+        <FormattedMessage id="DriftsmeldingerTabell.Driftsmeldinger" />
+      </Element>
       {sorterteDriftsmeldinger.length === 0 && (
-      <>
-        <VerticalSpacer eightPx />
-        <Normaltekst><FormattedMessage id="DriftsmeldingerTabell.IngenDriftsmeldinger" /></Normaltekst>
-        <VerticalSpacer eightPx />
-      </>
+        <>
+          <VerticalSpacer eightPx />
+          <Normaltekst>
+            <FormattedMessage id="DriftsmeldingerTabell.IngenDriftsmeldinger" />
+          </Normaltekst>
+          <VerticalSpacer eightPx />
+        </>
       )}
       {sorterteDriftsmeldinger.length > 0 && (
         <Table headerTextCodes={headerTextCodes} noHover>
-          {sorterteDriftsmeldinger.map((driftsmelding) => (
+          {sorterteDriftsmeldinger.map(driftsmelding => (
             <TableRow key={driftsmelding.id}>
               <TableColumn>{driftsmelding.melding}</TableColumn>
               <TableColumn>
@@ -76,7 +75,11 @@ const DriftsmeldingerTabell: FunctionComponent<OwnProps> = ({
                   <Checkbox
                     label=""
                     checked={driftsmelding.aktiv}
-                    onChange={(e) => switchDriftsmelding({ id: driftsmelding.id, aktiv: e.target.checked }).then(() => hentAlleDriftsmeldinger())}
+                    onChange={e =>
+                      switchDriftsmelding({ id: driftsmelding.id, aktiv: e.target.checked }).then(() =>
+                        hentAlleDriftsmeldinger(),
+                      )
+                    }
                     name="aktiv"
                   />
                 </div>
@@ -86,7 +89,7 @@ const DriftsmeldingerTabell: FunctionComponent<OwnProps> = ({
                   id="DriftsmeldingerTabell.Dato"
                   values={{
                     ...getDateAndTime(driftsmelding.dato),
-                    b: (...chunks) => <b>{chunks}</b>,
+                    b: boldChunks,
                   }}
                 />
               </TableColumn>

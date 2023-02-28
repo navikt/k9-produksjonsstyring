@@ -1,7 +1,5 @@
 import React, { FunctionComponent, useState } from 'react';
-import {
-  injectIntl, WrappedComponentProps, FormattedMessage,
-} from 'react-intl';
+import { injectIntl, WrappedComponentProps, FormattedMessage } from 'react-intl';
 
 import { Form } from 'react-final-form';
 import { Knapp } from 'nav-frontend-knapper';
@@ -15,7 +13,7 @@ import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner
 import { K9LosApiKeys } from 'api/k9LosApi';
 import { Saksbehandler } from '../saksbehandlerTsType';
 
-import styles from './leggTilSaksbehandlerForm.less';
+import styles from './leggTilSaksbehandlerForm.css';
 
 interface OwnProps {
   saksbehandlere: Saksbehandler[];
@@ -35,7 +33,8 @@ export const LeggTilSaksbehandlerForm: FunctionComponent<OwnProps & WrappedCompo
   const [showWarning, setShowWarning] = useState(false);
   const [leggerTilNySaksbehandler, setLeggerTilNySaksbehandler] = useState(false);
 
-  const { startRequest: leggTilSaksbehandler, resetRequestData: resetSaksbehandlerSok } = useRestApiRunner<Saksbehandler>(K9LosApiKeys.SAKSBEHANDLER_SOK);
+  const { startRequest: leggTilSaksbehandler, resetRequestData: resetSaksbehandlerSok } =
+    useRestApiRunner<Saksbehandler>(K9LosApiKeys.SAKSBEHANDLER_SOK);
 
   const resetSok = (resetFormValues: () => void) => {
     resetSaksbehandlerSok();
@@ -45,15 +44,17 @@ export const LeggTilSaksbehandlerForm: FunctionComponent<OwnProps & WrappedCompo
 
   const addSaksbehandler = (epost: string, resetFormValues: () => void) => {
     setLeggerTilNySaksbehandler(true);
-    if (saksbehandlere.some((s) => s.epost.toLowerCase() === epost.toLowerCase())) {
+    if (saksbehandlere.some(s => s.epost.toLowerCase() === epost.toLowerCase())) {
       setShowWarning(true);
       setLeggerTilNySaksbehandler(false);
     } else {
-      leggTilSaksbehandler({ epost }).then(() => {
-        resetSok(resetFormValues);
-        setLeggerTilNySaksbehandler(false);
-        lukkForm();
-      }).then(() => (hentAlleSaksbehandlere()));
+      leggTilSaksbehandler({ epost })
+        .then(() => {
+          resetSok(resetFormValues);
+          setLeggerTilNySaksbehandler(false);
+          lukkForm();
+        })
+        .then(() => hentAlleSaksbehandlere());
     }
   };
 
@@ -62,9 +63,7 @@ export const LeggTilSaksbehandlerForm: FunctionComponent<OwnProps & WrappedCompo
   return (
     <Form
       onSubmit={() => undefined}
-      render={({
-        submitting, handleSubmit, form, values,
-      }) => (
+      render={({ submitting, handleSubmit, form, values }) => (
         <div>
           <Element>
             <FormattedMessage id="LeggTilSaksbehandlerForm.LeggTil" />
@@ -98,16 +97,9 @@ export const LeggTilSaksbehandlerForm: FunctionComponent<OwnProps & WrappedCompo
           </FlexContainer>
           {showWarning && (
             <>
-              <Normaltekst>
-                {formatText()}
-              </Normaltekst>
+              <Normaltekst>{formatText()}</Normaltekst>
               <FlexColumn>
-                <Knapp
-                  mini
-                  htmlType="button"
-                  tabIndex={0}
-                  onClick={() => resetSok(form.reset)}
-                >
+                <Knapp mini htmlType="button" tabIndex={0} onClick={() => resetSok(form.reset)}>
                   <FormattedMessage id="LeggTilSaksbehandlerForm.Nullstill" />
                 </Knapp>
               </FlexColumn>

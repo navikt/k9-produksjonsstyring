@@ -7,14 +7,12 @@ import Oppgave from 'saksbehandler/oppgaveTsType';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import { SokeResultat } from 'saksbehandler/fagsakSearch/sokeResultatTsType';
 import queryString from 'query-string';
-import {
-  hasValidSaksnummerEllerJournalpostFormat,
-} from 'utils/validation/validators';
+import { hasValidSaksnummerEllerJournalpostFormat } from 'utils/validation/validators';
 import PersonInfo from './person/PersonInfo';
 import SearchForm from './SearchForm';
 import FagsakList from './FagsakList';
 
-import styles from './fagsakSearch.less';
+import styles from './fagsakSearch.css';
 
 interface OwnProps {
   resultat: SokeResultat;
@@ -29,7 +27,7 @@ interface OwnProps {
   goToFagsak: (oppgave: Oppgave) => void;
 }
 
-const skalViseListe = (resultat) => {
+const skalViseListe = resultat => {
   if (!resultat && !resultat.oppgaver) {
     return false;
   }
@@ -52,10 +50,12 @@ const FagsakSearch: FunctionComponent<OwnProps> = ({
   resetSearch,
   goToFagsak,
 }) => {
-  const [oppgaveSoktForViaQueryErAlleredeReservert, setOppgaveSoktForViaParamsErAlleredeReservert] = useState<Oppgave>(null);
+  const [oppgaveSoktForViaQueryErAlleredeReservert, setOppgaveSoktForViaParamsErAlleredeReservert] =
+    useState<Oppgave>(null);
   const { location } = window;
   const queryFraURL = queryString.parse(typeof location !== 'undefined' ? location.search : '');
-  const erSokViaQueryParams = typeof queryFraURL.sok !== 'undefined' && !hasValidSaksnummerEllerJournalpostFormat(queryFraURL.sok);
+  const erSokViaQueryParams =
+    typeof queryFraURL.sok !== 'undefined' && !hasValidSaksnummerEllerJournalpostFormat(queryFraURL.sok);
 
   useEffect(() => {
     if (erSokViaQueryParams) {
@@ -68,12 +68,16 @@ const FagsakSearch: FunctionComponent<OwnProps> = ({
   }, []);
 
   useEffect(() => {
-    const eksistererEttResultatFraQuerySok = erSokViaQueryParams && resultat
-      && resultat.ikkeTilgang === false && resultat.oppgaver.length === 1;
+    const eksistererEttResultatFraQuerySok =
+      erSokViaQueryParams && resultat && resultat.ikkeTilgang === false && resultat.oppgaver.length === 1;
 
     if (eksistererEttResultatFraQuerySok && resultat.oppgaver[0].status.erReservertAvInnloggetBruker) {
       goToFagsak(resultat.oppgaver[0]);
-    } else if (eksistererEttResultatFraQuerySok && resultat.oppgaver[0].status.erReservert && !resultat.oppgaver[0].status.erReservertAvInnloggetBruker) {
+    } else if (
+      eksistererEttResultatFraQuerySok &&
+      resultat.oppgaver[0].status.erReservert &&
+      !resultat.oppgaver[0].status.erReservertAvInnloggetBruker
+    ) {
       setOppgaveSoktForViaParamsErAlleredeReservert(resultat.oppgaver[0]);
     } else {
       setOppgaveSoktForViaParamsErAlleredeReservert(null);
@@ -88,23 +92,29 @@ const FagsakSearch: FunctionComponent<OwnProps> = ({
         searchResultAccessDenied={searchResultAccessDenied}
         resetSearch={resetSearch}
       />
-      {searchResultReceived && resultat && resultat.oppgaver.length === 0 && resultat.ikkeTilgang === false
-    && <Normaltekst className={styles.label}><FormattedMessage id="FagsakSearch.ZeroSearchResults" /></Normaltekst>}
-      {searchResultReceived && resultat && resultat.oppgaver.length === 0 && resultat.ikkeTilgang === true
-    && <Normaltekst className={styles.label}><FormattedMessage id="FagsakSearch.IkkeTilgang" /></Normaltekst>}
-      {searchResultReceived && skalViseListe(resultat) && (
-      <>
-        {resultat.person && <PersonInfo person={resultat.person} />}
-        <VerticalSpacer sixteenPx />
-        <Normaltekst>
-          <FormattedMessage id="FagsakSearch.FlereApneBehandlinger" />
+      {searchResultReceived && resultat && resultat.oppgaver.length === 0 && resultat.ikkeTilgang === false && (
+        <Normaltekst className={styles.label}>
+          <FormattedMessage id="FagsakSearch.ZeroSearchResults" />
         </Normaltekst>
-        <FagsakList
-          fagsakOppgaver={resultat.oppgaver}
-          selectOppgaveCallback={selectOppgaveCallback}
-          oppgaveSoktForViaQueryErAlleredeReservert={oppgaveSoktForViaQueryErAlleredeReservert}
-        />
-      </>
+      )}
+      {searchResultReceived && resultat && resultat.oppgaver.length === 0 && resultat.ikkeTilgang === true && (
+        <Normaltekst className={styles.label}>
+          <FormattedMessage id="FagsakSearch.IkkeTilgang" />
+        </Normaltekst>
+      )}
+      {searchResultReceived && skalViseListe(resultat) && (
+        <>
+          {resultat.person && <PersonInfo person={resultat.person} />}
+          <VerticalSpacer sixteenPx />
+          <Normaltekst>
+            <FormattedMessage id="FagsakSearch.FlereApneBehandlinger" />
+          </Normaltekst>
+          <FagsakList
+            fagsakOppgaver={resultat.oppgaver}
+            selectOppgaveCallback={selectOppgaveCallback}
+            oppgaveSoktForViaQueryErAlleredeReservert={oppgaveSoktForViaQueryErAlleredeReservert}
+          />
+        </>
       )}
     </div>
   );

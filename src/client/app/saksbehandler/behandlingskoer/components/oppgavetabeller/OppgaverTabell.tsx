@@ -27,7 +27,7 @@ import { getKodeverknavnFraKode } from 'utils/kodeverkUtils';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
 import AlleKodeverk from 'kodeverk/alleKodeverkTsType';
 import { useGlobalStateRestApiData } from 'api/rest-api-hooks';
-import styles from './oppgaverTabell.less';
+import styles from './oppgaverTabell.css';
 
 interface OwnProps {
   valgtOppgavekoId: string;

@@ -2,13 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
 
-import styles from './flexRow.less';
+import styles from './flexRow.css';
 
 const classNames = classnames.bind(styles);
 
-const FlexRow = ({
-  children, spaceBetween, alignItemsToBaseline, alignItemsToFlexEnd, wrap,
-}) => (
+const FlexRow = ({ children, spaceBetween, alignItemsToBaseline, alignItemsToFlexEnd, wrap }) => (
   <div className={classNames('flexRow', { spaceBetween }, { alignItemsToBaseline }, { alignItemsToFlexEnd }, { wrap })}>
     {children}
   </div>

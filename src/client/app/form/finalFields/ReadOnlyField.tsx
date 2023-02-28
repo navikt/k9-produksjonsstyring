@@ -4,9 +4,9 @@ import { Normaltekst } from 'nav-frontend-typografi';
 import EditedIcon from 'sharedComponents/EditedIcon';
 import Label, { LabelType } from './Label';
 
-import styles from './readOnlyField.less';
+import styles from './readOnlyField.css';
 
-const hasValue = (value) => value !== undefined && value !== null && value !== '';
+const hasValue = value => value !== undefined && value !== null && value !== '';
 
 interface OwnProps {
   label?: LabelType;
@@ -16,9 +16,7 @@ interface OwnProps {
   isEdited?: boolean;
 }
 
-export const ReadOnlyField: FunctionComponent<OwnProps> = ({
-  label, input, isEdited,
-}) => {
+export const ReadOnlyField: FunctionComponent<OwnProps> = ({ label, input, isEdited }) => {
   if (!hasValue(input.value)) {
     return null;
   }

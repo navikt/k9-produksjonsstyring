@@ -6,7 +6,7 @@ import MenuButton from './MenuButton';
 import OpphevReservasjonModal from './OpphevReservasjonModal';
 import FlyttReservasjonModal from './FlyttReservasjonModal';
 
-import styles from './oppgaveHandlingerMenu.less';
+import styles from './oppgaveHandlingerMenu.css';
 
 const getOffsetPositionStyle = offset =>
   window.innerWidth > offset.left + 250
@@ -66,13 +66,13 @@ export class OppgaveHandlingerMenu extends Component<OwnProps, OwnState> {
     toggleEventListeners(true, this.handleOutsideClick);
   }
 
-  componentDidMount = () => {
+  componentDidMount() {
     if (this.menuButtonRef && this.menuButtonRef.current) {
       this.menuButtonRef.current.focus();
     }
   };
 
-  componentWillUnmount = () => {
+  componentWillUnmount() {
     toggleEventListeners(false, this.handleOutsideClick);
   };
 
@@ -122,7 +122,7 @@ export class OppgaveHandlingerMenu extends Component<OwnProps, OwnState> {
     });
   };
 
-  render = () => {
+  render() {
     const { oppgave, offset, hentReserverteOppgaver, toggleMenu } = this.props;
     const { showOpphevReservasjonModal, showFlyttReservasjonModal } = this.state;
 

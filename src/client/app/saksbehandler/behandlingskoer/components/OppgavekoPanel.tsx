@@ -15,14 +15,14 @@ import ReserverteOppgaverTabell from 'saksbehandler/behandlingskoer/components/o
 import NavFrontendChevron from 'nav-frontend-chevron';
 import OppgaveTabellMenyAntallOppgaver from 'saksbehandler/behandlingskoer/components/oppgavetabeller/OppgaveTabellMenyAntallOppgaver';
 import ModalMedIkon from 'sharedComponents/modal/ModalMedIkon';
+import kodeverkTyper from 'kodeverk/kodeverkTyper';
+import merknadType from 'kodeverk/merknadType';
 import OppgavekoVelgerForm from './OppgavekoVelgerForm';
 import OppgaverTabell from './oppgavetabeller/OppgaverTabell';
 
-import styles from './oppgavekoPanel.less';
+import styles from './oppgavekoPanel.css';
 import RestApiState from '../../../api/rest-api-hooks/src/RestApiState';
 import advarselImageUrl from '../../../../images/advarsel.svg';
-import kodeverkTyper from 'kodeverk/kodeverkTyper';
-import merknadType from 'kodeverk/merknadType';
 
 interface OwnProps {
   setValgtOppgavekoId: (id: string) => void;
@@ -90,8 +90,7 @@ const OppgavekoPanel: FunctionComponent<OwnProps> = ({
 
   const sorterteOppgavekoerIBokstavsordning = oppgavekoer.sort((a, b) => a.navn.localeCompare(b.navn));
   return (
-    <>
-      <div className={styles.container}>
+    <div className={styles.container}>
         <Undertittel>
           <FormattedMessage id="OppgavekoPanel.StartBehandling" />
         </Undertittel>
@@ -192,7 +191,6 @@ const OppgavekoPanel: FunctionComponent<OwnProps> = ({
           )}
         </div>
       </div>
-    </>
   );
 };
 

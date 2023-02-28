@@ -7,7 +7,7 @@ import AppConfigResolver from './AppConfigResolver';
 import LanguageProvider from './LanguageProvider';
 import HeaderWithErrorPanel from './components/HeaderWithErrorPanel';
 import Home from './components/Home';
-import '../../styles/global.less';
+import '../../styles/global.css';
 import advarselImageUrl from '../../images/advarsel.svg';
 import ErrorBoundary from './ErrorBoundary';
 

@@ -7,16 +7,22 @@ import { getK9punsjRef, getK9sakHref, getOmsorgspengerRef } from 'app/paths';
 import Oppgave from 'saksbehandler/oppgaveTsType';
 import PersonInfo from 'saksbehandler/fagsakSearch/components/person/PersonInfo';
 import Lenke from 'nav-frontend-lenker';
-import { getKodeverknavnFraKode } from "utils/kodeverkUtils";
-import AlleKodeverk from "kodeverk/alleKodeverkTsType";
-import kodeverkTyper from "kodeverk/kodeverkTyper";
+import { getKodeverknavnFraKode } from 'utils/kodeverkUtils';
+import AlleKodeverk from 'kodeverk/alleKodeverkTsType';
+import kodeverkTyper from 'kodeverk/kodeverkTyper';
 import useGlobalStateRestApiData from '../api/rest-api-hooks/src/global-data/useGlobalStateRestApiData';
-import styles from './aktoerGrid.less';
+import styles from './aktoerGrid.css';
 import OppgaveSystem from '../types/OppgaveSystem';
 
 interface OwnProps {
-    resultat: SokeResultat;
+  resultat: SokeResultat;
 }
+
+const linkFunc = (url, props) => (
+  <Lenke href={url} className={props.className}>
+    {props.children}
+  </Lenke>
+);
 
 export const AktoerGrid: FunctionComponent<OwnProps> = ({ resultat }) => {
   const k9sakUrl = useGlobalStateRestApiData<{ verdi?: string }>(RestApiGlobalStatePathsKeys.K9SAK_URL);
@@ -38,19 +44,13 @@ export const AktoerGrid: FunctionComponent<OwnProps> = ({ resultat }) => {
     <div className={styles.list}>
       {resultat.person && (
         <div className={styles.personInfo}>
-          <PersonInfo
-            person={resultat.person}
-          />
+          <PersonInfo person={resultat.person} />
         </div>
       )}
       {resultat.oppgaver.length ? (
-        resultat.oppgaver.map((oppgave) => (
+        resultat.oppgaver.map(oppgave => (
           <Lenkepanel
-            linkCreator={(props) => (
-              <Lenke href={getUrl(oppgave)} className={props.className}>
-                {props.children}
-              </Lenke>
-            )}
+            linkCreator={props => linkFunc(getUrl(oppgave), props)}
             key={oppgave.saksnummer}
             href="#"
             tittelProps="normaltekst"

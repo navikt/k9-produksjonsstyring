@@ -33,6 +33,6 @@ jobs:
       - name: Tester
         run: yarn test --maxWorkers=2
       - name: Linting
-        run: yarn less:lint
+        run: yarn css:lint
       - name: Bygge
         run: yarn build

@@ -8,7 +8,7 @@ import { CheckboxField, RadioGroupField, RadioOption } from 'form/FinalFields';
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
 import useKodeverk from 'api/rest-api-hooks/src/global-data/useKodeverk';
 import { K9LosApiKeys } from 'api/k9LosApi';
-import styles from './andreKriterierVelger.less';
+import styles from './andreKriterierVelger.css';
 
 interface OwnProps {
   valgtOppgavekoId: string;

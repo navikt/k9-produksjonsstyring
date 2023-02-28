@@ -8,7 +8,7 @@ import Modal from 'sharedComponents/Modal';
 
 import { Oppgaveko } from '../oppgavekoTsType';
 
-import styles from './sletteOppgavekoModal.less';
+import styles from './sletteOppgavekoModal.css';
 
 type TsProps = Readonly<{
   intl: any;
@@ -51,12 +51,7 @@ export const SletteOppgavekoModal: FunctionComponent<TsProps & WrappedComponentP
         >
           {intl.formatMessage({ id: 'SletteOppgavekoModal.Ja' })}
         </Hovedknapp>
-        <Knapp
-          className={styles.cancelButton}
-          mini
-          htmlType="reset"
-          onClick={cancel}
-        >
+        <Knapp className={styles.cancelButton} mini htmlType="reset" onClick={cancel}>
           {intl.formatMessage({ id: 'SletteOppgavekoModal.Nei' })}
         </Knapp>
       </Column>

@@ -23,7 +23,7 @@ import SorteringVelger from './SorteringVelger';
 import binIcon from '../../../../../images/bin-1.svg';
 import MerknadVelger from './MerknadVelger';
 import OppgaveKoKriterieVelger from './OppgaveKøKriterieVelger';
-import styles from './utvalgskriterierForOppgavekoForm.less';
+import styles from './utvalgskriterierForOppgavekoForm.css';
 
 const minLength3 = minLength(3);
 const maxLength100 = maxLength(100);

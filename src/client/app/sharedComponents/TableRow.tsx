@@ -2,13 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
 
-import styles from './tableRow.less';
+import styles from './tableRow.css';
 
 const classNames = classnames.bind(styles);
 
-const createMouseDownHandler = (onMouseDown, id, model) => (e) => onMouseDown && onMouseDown(e, id, model);
+const createMouseDownHandler = (onMouseDown, id, model) => e => onMouseDown && onMouseDown(e, id, model);
 
-const findNearestRow = (element) => (element.tagName === 'TR' ? element : findNearestRow(element.parentElement));
+const findNearestRow = element => (element.tagName === 'TR' ? element : findNearestRow(element.parentElement));
 
 const setFocus = (e, isNext) => {
   const row = findNearestRow(e.target);
@@ -21,7 +21,7 @@ const setFocus = (e, isNext) => {
   }
 };
 
-const createKeyHandler = (onKeyDown, id, model) => (e) => {
+const createKeyHandler = (onKeyDown, id, model) => e => {
   if (e.key === 'ArrowDown') {
     setFocus(e, true);
   } else if (e.key === 'ArrowUp') {
@@ -55,7 +55,7 @@ const TableRow = ({
   <tr
     className={classNames(className, {
       rowHeader: isHeader,
-      rowContent: (!isHeader && !noHover),
+      rowContent: !isHeader && !noHover,
       selected: isSelected,
       bold: isBold,
       dashedBottomBorder: isDashedBottomBorder,
@@ -71,10 +71,7 @@ const TableRow = ({
 );
 
 TableRow.propTypes = {
-  id: PropTypes.oneOfType([
-    PropTypes.number,
-    PropTypes.string,
-  ]),
+  id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   model: PropTypes.shape({}),
   isHeader: PropTypes.bool,
   onMouseDown: PropTypes.func,

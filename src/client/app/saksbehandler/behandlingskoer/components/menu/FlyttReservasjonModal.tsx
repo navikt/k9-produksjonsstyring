@@ -10,7 +10,10 @@ import { FlexContainer, FlexRow, FlexColumn } from 'sharedComponents/flexGrid';
 import {
   dateAfterOrEqual,
   hasValidDate,
-  hasValidText, maxLength, minLength, required,
+  hasValidText,
+  maxLength,
+  minLength,
+  required,
 } from 'utils/validation/validators';
 import { TextAreaField, InputField, DatepickerField } from 'form/FinalFields';
 import Modal from 'sharedComponents/Modal';
@@ -20,7 +23,7 @@ import RestApiState from 'api/rest-api-hooks/src/RestApiState';
 import NavAnsatt from 'app/navAnsattTsType';
 import { Saksbehandler } from '../../saksbehandlerTsType';
 
-import styles from './flyttReservasjonModal.less';
+import styles from './flyttReservasjonModal.css';
 import useGlobalStateRestApiData from '../../../../api/rest-api-hooks/src/global-data/useGlobalStateRestApiData';
 
 const minLength3 = minLength(3);
@@ -40,14 +43,22 @@ interface OwnProps {
  * Presentasjonskomponent. Modal som lar en søke opp en saksbehandler som saken skal flyttes til. En kan også begrunne hvorfor saken skal flyttes.
  */
 export const FlyttReservasjonModal: FunctionComponent<OwnProps & WrappedComponentProps> = ({
-  intl, showModal, closeModal, oppgaveId, oppgaveReservertTil, eksisterendeBegrunnelse
+  intl,
+  showModal,
+  closeModal,
+  oppgaveId,
+  oppgaveReservertTil,
+  eksisterendeBegrunnelse,
 }) => {
   const {
-    startRequest, state, data: saksbehandler, resetRequestData,
+    startRequest,
+    state,
+    data: saksbehandler,
+    resetRequestData,
   } = useRestApiRunner<Saksbehandler>(K9LosApiKeys.FLYTT_RESERVASJON_SAKSBEHANDLER_SOK);
   const { startRequest: endreOppgaveReservasjon } = useRestApiRunner(K9LosApiKeys.ENDRE_OPPGAVERESERVASJON);
 
-  const finnSaksbehandler = useCallback((brukerIdent) => startRequest({ brukerIdent }), []);
+  const finnSaksbehandler = useCallback(brukerIdent => startRequest({ brukerIdent }), []);
 
   const { navn } = useGlobalStateRestApiData<NavAnsatt>(RestApiGlobalStatePathsKeys.NAV_ANSATT);
 
@@ -68,11 +79,11 @@ export const FlyttReservasjonModal: FunctionComponent<OwnProps & WrappedComponen
         params.reserverTil = reservertTilDato;
       }
 
-      return endreOppgaveReservasjon(params)
-        .then(() => {
-          closeModal();
-        });
-    }, [],
+      return endreOppgaveReservasjon(params).then(() => {
+        closeModal();
+      });
+    },
+    [],
   );
 
   const onSubmit = (brukerIdent: string, begrunnelse: string, reservertTilDato: string) => {
@@ -84,14 +95,15 @@ export const FlyttReservasjonModal: FunctionComponent<OwnProps & WrappedComponen
       return intl.formatMessage({ id: 'LeggTilSaksbehandlerForm.FinnesIkke' });
     }
 
-    return saksbehandler
-      ? `${saksbehandler.navn}`
-      : '';
+    return saksbehandler ? `${saksbehandler.navn}` : '';
   };
 
-  useEffect(() => () => {
-    resetRequestData();
-  }, []);
+  useEffect(
+    () => () => {
+      resetRequestData();
+    },
+    [],
+  );
 
   return (
     <Modal
@@ -102,11 +114,9 @@ export const FlyttReservasjonModal: FunctionComponent<OwnProps & WrappedComponen
       onRequestClose={closeModal}
     >
       <Form
-        onSubmit={(values) => finnSaksbehandler(values.brukerIdent)}
+        onSubmit={values => finnSaksbehandler(values.brukerIdent)}
         initialValues={{ brukerIdent: navn || '' }}
-        render={({
-          handleSubmit, values,
-        }) => (
+        render={({ handleSubmit, values }) => (
           <form onSubmit={handleSubmit}>
             <Element>
               <FormattedMessage id="FlyttReservasjonModal.Titel" />
@@ -137,20 +147,20 @@ export const FlyttReservasjonModal: FunctionComponent<OwnProps & WrappedComponen
               </FlexRow>
             </FlexContainer>
             {state === RestApiState.SUCCESS && (
-            <>
-              <Normaltekst>{formatText()}</Normaltekst>
-              <VerticalSpacer sixteenPx />
-            </>
+              <>
+                <Normaltekst>{formatText()}</Normaltekst>
+                <VerticalSpacer sixteenPx />
+              </>
             )}
           </form>
         )}
       />
       <Form
-        onSubmit={(values) => onSubmit(saksbehandler ? saksbehandler.brukerIdent : '', values.begrunnelse, values.reserverTil)}
+        onSubmit={values =>
+          onSubmit(saksbehandler ? saksbehandler.brukerIdent : '', values.begrunnelse, values.reserverTil)
+        }
         initialValues={{ reserverTil: oppgaveReservertTil || '', begrunnelse: eksisterendeBegrunnelse || '' }}
-        render={({
-          handleSubmit, values,
-        }) => (
+        render={({ handleSubmit, values }) => (
           <form onSubmit={handleSubmit}>
             <VerticalSpacer sixteenPx />
             <div className={styles.test}>
@@ -174,16 +184,11 @@ export const FlyttReservasjonModal: FunctionComponent<OwnProps & WrappedComponen
               className={styles.submitButton}
               mini
               htmlType="submit"
-              disabled={!saksbehandler || (!values.begrunnelse || values.begrunnelse.length < 3)}
+              disabled={!saksbehandler || !values.begrunnelse || values.begrunnelse.length < 3}
             >
               {intl.formatMessage({ id: 'FlyttReservasjonModal.Ok' })}
             </Hovedknapp>
-            <Knapp
-              className={styles.cancelButton}
-              mini
-              htmlType="reset"
-              onClick={closeModal}
-            >
+            <Knapp className={styles.cancelButton} mini htmlType="reset" onClick={closeModal}>
               {intl.formatMessage({ id: 'FlyttReservasjonModal.Avbryt' })}
             </Knapp>
           </form>

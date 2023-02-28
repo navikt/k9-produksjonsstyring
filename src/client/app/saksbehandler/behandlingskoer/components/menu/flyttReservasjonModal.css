@@ -1,0 +1,18 @@
+.modal {
+  width: 450px;
+}
+@media all and (min-height: 650px) {
+  .modal {
+    overflow: visible;
+  }
+}
+.submitButton {
+  margin-right: 10px;
+  margin-top: 20px;
+}
+.cancelButton {
+  margin-top: 20px;
+}
+.button {
+  margin-top: 36px;
+}

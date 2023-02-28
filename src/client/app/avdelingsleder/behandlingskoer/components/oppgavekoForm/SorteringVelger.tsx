@@ -9,13 +9,13 @@ import useKodeverk from 'api/rest-api-hooks/src/global-data/useKodeverk';
 import AlleKodeverk from 'kodeverk/alleKodeverkTsType';
 import { useGlobalStateRestApiData } from 'api/rest-api-hooks';
 import { getKodeverknavnFraKode } from 'utils/kodeverkUtils';
-import DatoSorteringValg from './DatoSorteringValg';
-import BelopSorteringValg from 'avdelingsleder/behandlingskoer/components/oppgavekoForm/BelopSorteringValg';
-import styles from './utvalgskriterierForOppgavekoForm.less';
-import KriterierType from '../../../../types/KriterierType';
 import { Kriterie } from 'avdelingsleder/behandlingskoer/oppgavekoTsType';
 import { Checkbox, Label } from '@navikt/ds-react';
 import KoSortering from 'kodeverk/KoSortering';
+import BelopSorteringValg from 'avdelingsleder/behandlingskoer/components/oppgavekoForm/BelopSorteringValg';
+import DatoSorteringValg from './DatoSorteringValg';
+import styles from './utvalgskriterierForOppgavekoForm.css';
+import KriterierType from '../../../../types/KriterierType';
 
 interface OwnProps {
   intl: any;
@@ -96,7 +96,7 @@ const SorteringVelger: FunctionComponent<OwnProps & WrappedComponentProps> = ({
                 <Checkbox
                   value={koSortering.kode}
                   data-testid={`kriterie-${koSortering.kode}`}
-                  checked={true}
+                  checked
                   onChange={e => leggTilEllerFjerneFiltrering(e.target.value, e.target.checked)}
                 >
                   {koSortering.felttype === 'DATO' && (
@@ -141,8 +141,8 @@ const SorteringVelger: FunctionComponent<OwnProps & WrappedComponentProps> = ({
               </span>
               {koKriterie.felttype === 'BELOP' && valgtFiltrering.includes(koKriterie.kode) && (
                 <BelopSorteringValg
-                  til={parseInt(filtreringPåBelop?.tom) || 0}
-                  fra={parseInt(filtreringPåBelop?.fom) || 0}
+                  til={parseInt(filtreringPåBelop?.tom, 10) || 0}
+                  fra={parseInt(filtreringPåBelop?.fom, 10) || 0}
                   lagreFilteringBelopp={lagreFilteringBelopp}
                 />
               )}

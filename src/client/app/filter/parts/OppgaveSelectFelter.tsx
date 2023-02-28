@@ -6,7 +6,7 @@ import { Button, Select } from '@navikt/ds-react';
 import { SelectFelt, FilterContainer } from '../filterTsTypes';
 import { feltverdiKey } from '../utils';
 
-import styles from './OppgaveSelectFelter.less';
+import styles from './OppgaveSelectFelter.css';
 
 interface OwnProps {
   felter: Oppgavefelt[];

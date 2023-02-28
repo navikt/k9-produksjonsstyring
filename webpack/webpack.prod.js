@@ -1,4 +1,4 @@
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
@@ -33,10 +33,6 @@ const config = {
       favicon: path.join(ROOT_DIR, 'favicon.ico'),
       template: path.join(ROOT_DIR, 'index.html'),
     }),
-    new MiniCssExtractPlugin({
-      filename: 'style_[chunkhash].css',
-      ignoreOrder: true,
-    }),
     new webpack.EnvironmentPlugin({ SENTRY_RELEASE: null }),
   ],
 
@@ -45,7 +41,7 @@ const config = {
       new TerserPlugin({
         parallel: true,
       }),
-      new OptimizeCSSAssetsPlugin({}),
+      new CssMinimizerPlugin(),
     ],
     splitChunks: {
       chunks: 'all',
