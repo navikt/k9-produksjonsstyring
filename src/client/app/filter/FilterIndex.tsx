@@ -27,6 +27,7 @@ class FilterIndex extends React.Component {
       felter: [],
       oppgaver: null,
       queryError: null,
+      loading: false,
     };
 
     this.executeOppgavesøk = this.executeOppgavesøk.bind(this);
@@ -45,6 +46,10 @@ class FilterIndex extends React.Component {
         if (dataRes.payload !== REQUEST_POLLING_CANCELLED) {
           this.setState({
             felter: dataRes.payload.felter,
+          });
+        } else {
+          this.setState({
+            felter: [],
           });
         }
       })
@@ -65,6 +70,14 @@ class FilterIndex extends React.Component {
       return oppgaverader;
     }
 
+    if (this.state.loading) {
+      return;
+    }
+
+    this.setState({
+      loading: true,
+    });
+
     k9LosApi
       .startRequest(K9LosApiKeys.OPPGAVE_QUERY, this.state.oppgaveQuery)
       .then(dataRes => {
@@ -72,6 +85,13 @@ class FilterIndex extends React.Component {
           this.setState({
             oppgaver: updateIdentities(dataRes.payload),
             queryError: null,
+            loading: false,
+          });
+        } else {
+          this.setState({
+            oppgaver: [],
+            queryError: 'Klarte ikke å kjøre søk grunnet tidsavbrudd.',
+            loading: false,
           });
         }
       })
@@ -79,6 +99,7 @@ class FilterIndex extends React.Component {
         this.setState({
           oppgaver: [],
           queryError: 'Klarte ikke å kjøre søk grunnet ukjent feil.',
+          loading: false,
         });
       });
   }
@@ -186,7 +207,7 @@ class FilterIndex extends React.Component {
         </ReadMore>
 
         <div className={styles.filterButtonGroup}>
-          <Button icon={<Search aria-hidden />} onClick={this.executeOppgavesøk}>
+          <Button icon={<Search aria-hidden />} onClick={this.executeOppgavesøk} loading={this.state.loading}>
             Søk
           </Button>
         </div>
