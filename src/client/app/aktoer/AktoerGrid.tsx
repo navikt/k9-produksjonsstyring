@@ -18,6 +18,12 @@ interface OwnProps {
   resultat: SokeResultat;
 }
 
+const linkFunc = (url, props) => (
+  <Lenke href={url} className={props.className}>
+    {props.children}
+  </Lenke>
+);
+
 export const AktoerGrid: FunctionComponent<OwnProps> = ({ resultat }) => {
   const k9sakUrl = useGlobalStateRestApiData<{ verdi?: string }>(RestApiGlobalStatePathsKeys.K9SAK_URL);
   const k9punsjUrl = useGlobalStateRestApiData<{ verdi?: string }>(RestApiGlobalStatePathsKeys.PUNSJ_URL);
@@ -44,11 +50,7 @@ export const AktoerGrid: FunctionComponent<OwnProps> = ({ resultat }) => {
       {resultat.oppgaver.length ? (
         resultat.oppgaver.map(oppgave => (
           <Lenkepanel
-            linkCreator={props => (
-              <Lenke href={getUrl(oppgave)} className={props.className}>
-                {props.children}
-              </Lenke>
-            )}
+            linkCreator={props => linkFunc(getUrl(oppgave), props)}
             key={oppgave.saksnummer}
             href="#"
             tittelProps="normaltekst"

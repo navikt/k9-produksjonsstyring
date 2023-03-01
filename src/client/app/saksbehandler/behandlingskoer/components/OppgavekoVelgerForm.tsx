@@ -15,13 +15,13 @@ import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner
 import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import { Hovedknapp } from 'nav-frontend-knapper';
-import { Saksbehandler } from '../saksbehandlerTsType';
 
-import styles from './oppgavekoVelgerForm.css';
 import AlleKodeverk from 'kodeverk/alleKodeverkTsType';
 import { getKodeverknavnFraKode } from 'utils/kodeverkUtils';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
 import { useGlobalStateRestApiData } from 'api/rest-api-hooks';
+import styles from './oppgavekoVelgerForm.css';
+import { Saksbehandler } from '../saksbehandlerTsType';
 
 interface OwnProps {
   oppgavekoer: Oppgaveko[];

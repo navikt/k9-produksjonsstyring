@@ -10,8 +10,7 @@ interface OwnProps {
   onLeggTilGruppe: (fc: FilterContainer) => void;
 }
 
-const LeggTilGruppeButton = ({ filterContainer, onLeggTilGruppe }): OwnProps => {
-  return (
+const LeggTilGruppeButton = ({ filterContainer, onLeggTilGruppe }): OwnProps => (
     <Button
       className={styles.filterLeggTil}
       icon={<Add aria-hidden />}
@@ -22,6 +21,5 @@ const LeggTilGruppeButton = ({ filterContainer, onLeggTilGruppe }): OwnProps => 
       Legg til gruppe
     </Button>
   );
-};
 
 export default LeggTilGruppeButton;

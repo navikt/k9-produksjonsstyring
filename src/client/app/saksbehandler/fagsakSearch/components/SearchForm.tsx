@@ -47,9 +47,7 @@ export const SearchForm: FunctionComponent<OwnProps & WrappedComponentProps> = (
         <form className={styles.container} onSubmit={handleSubmit}>
           <Undertittel>{intl.formatMessage({ id: 'Search.SearchFagsakOrPerson' })}</Undertittel>
           {kanSaksbehandle && (
-            <>
-              <VerticalSpacer sixteenPx />
-            </>
+            <VerticalSpacer sixteenPx />
           )}
           <VerticalSpacer eightPx />
           <FlexContainer>

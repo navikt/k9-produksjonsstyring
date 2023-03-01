@@ -10,16 +10,14 @@ interface OwnProps {
   onFjernFilter: (oppgavefilter: Oppgavefilter) => void;
 }
 
-const FjernFilterButton = ({ oppgavefilter, onFjernFilter }): OwnProps => {
-  return (
+const FjernFilterButton = ({ oppgavefilter, onFjernFilter }): OwnProps => (
     <Button
       className={styles.filterFjern}
       icon={<Delete aria-hidden />}
       size="small"
       variant="tertiary"
       onClick={() => onFjernFilter(oppgavefilter)}
-    ></Button>
+     />
   );
-};
 
 export default FjernFilterButton;

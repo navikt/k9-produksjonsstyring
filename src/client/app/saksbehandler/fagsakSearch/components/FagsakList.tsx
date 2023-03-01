@@ -12,13 +12,13 @@ import NavAnsatt from 'app/navAnsattTsType';
 import { RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
 import { getYearFromString } from 'utils/dateUtils';
 import ModalMedIkon from 'sharedComponents/modal/ModalMedIkon';
-import OppgaveSystem from '../../../types/OppgaveSystem';
 import { getKodeverknavnFraKode } from 'utils/kodeverkUtils';
 import AlleKodeverk from 'kodeverk/alleKodeverkTsType';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
 import { WarningColored } from '@navikt/ds-icons';
-import styles from './fagsakList.css';
 import KommentarMedMerknad from 'saksbehandler/components/KommentarMedMerknad';
+import styles from './fagsakList.css';
+import OppgaveSystem from '../../../types/OppgaveSystem';
 
 const headerTextCodes = [
   'EMPTY_1',

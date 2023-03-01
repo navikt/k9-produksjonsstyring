@@ -10,8 +10,7 @@ interface OwnProps {
   onLeggTilFilter: (fc: FilterContainer) => void;
 }
 
-const LeggTilFilterButton = ({ filterContainer, onLeggTilFilter }): OwnProps => {
-  return (
+const LeggTilFilterButton = ({ filterContainer, onLeggTilFilter }): OwnProps => (
     <Button
       className={styles.filterLeggTil}
       icon={<Add aria-hidden />}
@@ -22,6 +21,5 @@ const LeggTilFilterButton = ({ filterContainer, onLeggTilFilter }): OwnProps => 
       Legg til filter
     </Button>
   );
-};
 
 export default LeggTilFilterButton;

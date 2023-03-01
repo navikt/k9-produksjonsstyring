@@ -23,6 +23,8 @@ interface OwnProps {
   hentAlleDriftsmeldinger: () => void;
 }
 
+const boldChunks = (...chunks) => <b>{chunks}</b>;
+
 /**
  * DriftsmeldingerTabell
  */
@@ -87,7 +89,7 @@ const DriftsmeldingerTabell: FunctionComponent<OwnProps> = ({ driftsmeldinger, h
                   id="DriftsmeldingerTabell.Dato"
                   values={{
                     ...getDateAndTime(driftsmelding.dato),
-                    b: (...chunks) => <b>{chunks}</b>,
+                    b: boldChunks,
                   }}
                 />
               </TableColumn>

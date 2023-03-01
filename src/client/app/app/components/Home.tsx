@@ -2,8 +2,8 @@ import React, { FunctionComponent } from 'react';
 import { Route, Routes } from 'react-router-dom';
 
 import AvdelingslederIndex from 'avdelingsleder/AvdelingslederIndex';
-import FilterIndex from '../../filter/FilterIndex';
 import SaksbehandlerIndex from 'saksbehandler/SaksbehandlerIndex';
+import FilterIndex from '../../filter/FilterIndex';
 import AdminIndex from '../../admin/AdminIndex';
 import MissingPage from './MissingPage';
 

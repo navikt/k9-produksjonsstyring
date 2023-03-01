@@ -12,10 +12,8 @@ interface OwnProps {
 
 const OppgaveTabellMenyAntallOppgaver: FunctionComponent<OwnProps> = ({ antallOppgaver, tekstId, hastesak }) => (
   <div className={classnames(styles.container, { [styles.hastesak]: hastesak && !!antallOppgaver })}>
-    <>
-      {hastesak && !!antallOppgaver && <WarningColored className={styles.hastesakIkon} />}
+    {hastesak && !!antallOppgaver && <WarningColored className={styles.hastesakIkon} />}
       <FormattedMessage id={tekstId} values={{ antall: antallOppgaver }} />
-    </>
   </div>
 );
 

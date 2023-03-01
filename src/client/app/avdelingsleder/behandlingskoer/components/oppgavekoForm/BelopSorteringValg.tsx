@@ -1,10 +1,10 @@
 import React from 'react';
 import { TextField } from '@navikt/ds-react';
+import { useFormik } from 'formik';
 import ArrowBox from 'sharedComponents/ArrowBox';
 import { Undertekst } from 'nav-frontend-typografi';
 import { FormattedMessage } from 'react-intl';
 import styles from './utvalgskriterierForOppgavekoForm.css';
-import { useFormik } from 'formik';
 
 const validate = values => {
   const errors: {
@@ -42,7 +42,7 @@ const BelopSorteringValg: React.FunctionComponent<OwnProps> = ({ til, fra, lagre
           <div className={styles.belopContainer}>
             <TextField
               name="fraBelop"
-              onChange={e => formik.handleChange({ target: { name: 'fraBelop', value: parseInt(e.target.value) } })}
+              onChange={e => formik.handleChange({ target: { name: 'fraBelop', value: parseInt(e.target.value, 10) } })}
               value={formik.values.fraBelop}
               onBlur={() => formik.handleSubmit()}
               size="small"
@@ -54,7 +54,7 @@ const BelopSorteringValg: React.FunctionComponent<OwnProps> = ({ til, fra, lagre
             </Undertekst>
             <TextField
               name="tilBelop"
-              onChange={e => formik.handleChange({ target: { name: 'tilBelop', value: parseInt(e.target.value) } })}
+              onChange={e => formik.handleChange({ target: { name: 'tilBelop', value: parseInt(e.target.value, 10) } })}
               value={formik.values.tilBelop}
               onBlur={() => formik.handleSubmit()}
               size="small"

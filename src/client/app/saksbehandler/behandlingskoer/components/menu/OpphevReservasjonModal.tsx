@@ -10,8 +10,8 @@ import Modal from 'sharedComponents/Modal';
 
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
 import { K9LosApiKeys } from 'api/k9LosApi';
-import styles from './opphevReservasjonModal.css';
 import { captureMessage } from '@sentry/browser';
+import styles from './opphevReservasjonModal.css';
 
 const minLength3 = minLength(3);
 const maxLength1500 = maxLength(1500);
@@ -48,6 +48,7 @@ export const OpphevReservasjonModal: FunctionComponent<OwnProps & WrappedCompone
             timeZone: 'Europe/Oslo',
           })}`,
         );
+        // eslint-disable-next-line @typescript-eslint/no-empty-function
         setTimeout(() => {}, 1000);
         hentReserverteOppgaver();
         cancel();

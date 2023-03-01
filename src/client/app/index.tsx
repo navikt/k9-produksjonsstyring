@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import { init } from '@sentry/browser';
 import React from 'react';
-import { render } from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 
 import '@navikt/ds-css';
@@ -35,8 +35,8 @@ const renderFunc = Component => {
   }
 
   const queryClient = new QueryClient(config);
-
-  render(
+  const root = createRoot(app);
+  root.render(
     <BrowserRouter>
       <RestApiProvider requestApi={k9LosApi}>
         <RestApiErrorProvider>
@@ -46,7 +46,6 @@ const renderFunc = Component => {
         </RestApiErrorProvider>
       </RestApiProvider>
     </BrowserRouter>,
-    app,
   );
 };
 
