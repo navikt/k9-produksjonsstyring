@@ -196,5 +196,6 @@
     "src/client/**/*.ts?(x)": "eslint --cache --fix",
     "*.(le|c)ss": "stylelint --fix",
     "src/client/**/*.{ts,tsx,js,jsx,css,less}": "prettier --write"
-  }
+  },
+  "packageManager": "yarn@3.4.1"
 }

@@ -2,8 +2,13 @@
 
 # dependencies
 /node_modules
-/.pnp
-.pnp.js
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
 
 # testing
 /coverage
@@ -23,6 +28,5 @@ yarn-debug.log*
 yarn-error.log*
 
 .idea
-.yarnrc
 .eslintcache
 jest_cache
