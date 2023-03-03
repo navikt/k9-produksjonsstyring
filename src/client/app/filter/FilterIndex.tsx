@@ -4,7 +4,7 @@ import { v4 as uuid } from 'uuid';
 import { K9LosApiKeys, k9LosApi } from 'api/k9LosApi';
 import { REQUEST_POLLING_CANCELLED } from 'api/rest-api';
 
-import { Search } from '@navikt/ds-icons';
+import { Download, Search } from '@navikt/ds-icons';
 import { Alert, Button, ReadMore, TextField } from '@navikt/ds-react';
 
 import { SelectFelt, Oppgavefelt, OrderFelt, FiltereContainer, Oppgavefilter } from './filterTsTypes';
@@ -29,9 +29,12 @@ class FilterIndex extends React.Component {
       oppgaver: null,
       queryError: null,
       loading: false,
+      loadingDownload: false,
     };
 
     this.executeOppgavesøk = this.executeOppgavesøk.bind(this);
+    this.executeOppgavesøkToFile = this.executeOppgavesøkToFile.bind(this);
+
     this.fjernFilter = this.fjernFilter.bind(this);
     this.leggTilFilter = this.leggTilFilter.bind(this);
     this.leggTilGruppe = this.leggTilGruppe.bind(this);
@@ -107,6 +110,38 @@ class FilterIndex extends React.Component {
           oppgaver: [],
           queryError: 'Klarte ikke å kjøre søk grunnet ukjent feil.',
           loading: false,
+        });
+      });
+  }
+
+  executeOppgavesøkToFile() {
+    if (this.state.loadingDownload) {
+      return;
+    }
+
+    this.setState({
+      loadingDownload: true,
+    });
+
+    k9LosApi
+      .startRequest(K9LosApiKeys.OPPGAVE_QUERY_TO_FILE, new OppgaveQueryModel(this.state.oppgaveQuery).updateLimit(-1).toOppgaveQuery())
+      .then(dataRes => {
+        if (dataRes.payload !== REQUEST_POLLING_CANCELLED) {
+          this.setState({
+            queryError: null,
+            loadingDownload: false,
+          });
+        } else {
+          this.setState({
+            queryError: 'Klarte ikke å kjøre søk grunnet tidsavbrudd.',
+            loadingDownload: false,
+          });
+        }
+      })
+      .catch(() => {
+        this.setState({
+          queryError: 'Klarte ikke å kjøre søk grunnet ukjent feil.',
+          loadingDownload: false,
         });
       });
   }
@@ -273,6 +308,9 @@ class FilterIndex extends React.Component {
           <Button icon={<Search aria-hidden />} onClick={this.executeOppgavesøk} loading={this.state.loading}>
             Søk
           </Button>
+          <Button icon={<Download aria-hidden />} onClick={this.executeOppgavesøkToFile} loading={this.state.loadingDownload}>
+            Last ned CSV
+          </Button>
         </div>
 
         {this.state.queryError && <Alert variant="error">{this.state.queryError}</Alert>}
@@ -286,7 +324,7 @@ class FilterIndex extends React.Component {
             htmlSize="4"
             type="number"
             defaultValue={oppgaveQuery.limit}
-            onBlur={(event) => this.oppdaterLimit(parseInt(event.target.value) || 0)}
+            onBlur={(event) => this.oppdaterLimit(parseInt(event.target.value, 10) || 0)}
           />
         </>}
       </div>

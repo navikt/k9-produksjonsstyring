@@ -1,8 +1,16 @@
-const openPreview = data => {
+const openPreview = (data, filename) => {
   if (window.navigator.msSaveOrOpenBlob) {
-    window.navigator.msSaveOrOpenBlob(data);
+    window.navigator.msSaveOrOpenBlob(data, filename);
   } else {
-    window.open(URL.createObjectURL(data));
+    // Last ned filinnholdet i nettleser:
+    const downloadLink = document.createElement("a");
+    downloadLink.style = "display: none";
+    downloadLink.href = URL.createObjectURL(data);
+    downloadLink.download = filename;
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+    URL.revokeObjectURL(downloadLink.href)
+    downloadLink.remove();
   }
 };
 const isLocal = process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test';
@@ -100,7 +108,14 @@ const postBlob = axiosInstance => (url: string, data: any) => post(axiosInstance
 // TODO (TOR) Åpninga av dokument bør vel ikkje ligga her?
 const postAndOpenBlob = axiosInstance => (url: string, data: any) =>
   postBlob(axiosInstance)(url, data).then(response => {
-    openPreview(response.data);
+    let filename = "data";
+    const attachmentPrefix = "attachment; filename=";
+    if (response.headers
+        && response.headers["content-disposition"]
+        && response.headers["content-disposition"].indexOf(attachmentPrefix) >= 0) {
+      filename = response.headers["content-disposition"].substring(attachmentPrefix.length);
+    }
+    openPreview(response.data, filename);
     return {
       ...response,
       data: 'blob opened as preview', // Don't waste memory by storing blob in state
