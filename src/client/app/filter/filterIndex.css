@@ -43,3 +43,7 @@
 .feltvalgBlokk {
   margin-top: var(--a-spacing-8);
 }
+.limitTextField {
+  margin-top: var(--a-spacing-8);
+  padding-bottom: var(--a-spacing-16);
+}

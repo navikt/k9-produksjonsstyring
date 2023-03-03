@@ -5,7 +5,7 @@ import { K9LosApiKeys, k9LosApi } from 'api/k9LosApi';
 import { REQUEST_POLLING_CANCELLED } from 'api/rest-api';
 
 import { Search } from '@navikt/ds-icons';
-import { Alert, Button, ReadMore } from '@navikt/ds-react';
+import { Alert, Button, ReadMore, TextField } from '@navikt/ds-react';
 
 import { SelectFelt, Oppgavefelt, OrderFelt, FiltereContainer, Oppgavefilter } from './filterTsTypes';
 import OppgavefilterPanel from './parts/OppgavefilterPanel';
@@ -44,6 +44,8 @@ class FilterIndex extends React.Component {
     this.fjernOrderFelt = this.fjernOrderFelt.bind(this);
     this.leggTilEnkelOrderFelt = this.leggTilEnkelOrderFelt.bind(this);
     this.oppdaterEnkelOrderFelt = this.oppdaterEnkelOrderFelt.bind(this);
+
+    this.oppdaterLimit = this.oppdaterLimit.bind(this);
 
     k9LosApi
       .startRequest(K9LosApiKeys.OPPGAVE_QUERY_FELTER)
@@ -214,6 +216,14 @@ class FilterIndex extends React.Component {
     });
   }
 
+  oppdaterLimit(limit: number) {
+    this.setState(state => ({
+      oppgaveQuery: new OppgaveQueryModel(state.oppgaveQuery)
+        .updateLimit(limit)
+        .toOppgaveQuery(),
+    }));
+  }
+
   render() {
     const { oppgaveQuery } = this.state;
     const { oppgaver } = this.state;
@@ -267,7 +277,18 @@ class FilterIndex extends React.Component {
 
         {this.state.queryError && <Alert variant="error">{this.state.queryError}</Alert>}
 
-        {oppgaver && <OppgaveQueryResultat felter={felter} oppgaveQuery={oppgaveQuery} oppgaver={oppgaver} />}
+        {oppgaver && <>
+          <OppgaveQueryResultat felter={felter} oppgaveQuery={oppgaveQuery} oppgaver={oppgaver} />
+          <TextField
+            className={styles.limitTextField}
+            label="Maksimalt antall rader"
+            description="Du kan endre antallet rader som blir hentet ned ved søk. Trykk på søkeknappen etter å ha oppdatert antallet. Merk at høye tall kan medføre at du må vente en stund før svaret kommer. Hvis søket blir avbrutt, fordi det tar for lang tid, så kan du forsøke det samme søket på nytt."
+            htmlSize="4"
+            type="number"
+            defaultValue={oppgaveQuery.limit}
+            onBlur={(event) => this.oppdaterLimit(parseInt(event.target.value) || 0)}
+          />
+        </>}
       </div>
     );
   }

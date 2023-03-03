@@ -25,6 +25,7 @@ export type FilterContainer = {
 export type OppgaveQuery = FilterContainer & {
   select: SelectFelt[];
   order: OrderFelt[];
+  limit: number;
 };
 
 export type OrderFelt = {

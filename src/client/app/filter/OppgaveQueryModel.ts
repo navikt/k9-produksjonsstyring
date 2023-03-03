@@ -13,6 +13,7 @@ export default class OppgaveQueryModel {
                 "filtere": [],
                 "select": [],
                 "order": [],
+                "limit": 10,
             }
         }
 
@@ -25,6 +26,11 @@ export default class OppgaveQueryModel {
         }
     }
 
+
+    updateLimit(limit: number) {
+        this.oppgaveQuery.limit = limit;
+        return this;
+    }
 
     private static updateIdentities(oppgaveQuery) {
         oppgaveQuery.id = uuid();
