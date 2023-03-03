@@ -24,6 +24,17 @@ export type FilterContainer = {
 
 export type OppgaveQuery = FilterContainer & {
   select: SelectFelt[];
+  order: OrderFelt[];
+};
+
+export type OrderFelt = {
+  type: string;
+};
+
+export type EnkelOrderFelt = OrderFelt & {
+  område: string;
+  kode: string;
+  økende: boolean;
 };
 
 export type SelectFelt = {

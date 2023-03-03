@@ -11,7 +11,8 @@ export default class OppgaveQueryModel {
         if (newOppgaveQuery == null) {
             newOppgaveQuery = {
                 "filtere": [],
-                "select": []
+                "select": [],
+                "order": [],
             }
         }
 
@@ -32,6 +33,12 @@ export default class OppgaveQueryModel {
             if (f.filtere) {
                 updateIdentities(f);
             }
+        });
+        oppgaveQuery.select.forEach(f => {
+            f.id = uuid();
+        });
+        oppgaveQuery.order.forEach(f => {
+            f.id = uuid();
         });
         return oppgaveQuery;
     }
@@ -56,6 +63,12 @@ export default class OppgaveQueryModel {
 
     getById(id) {
         for (let f of this.oppgaveQuery.select) {
+            if (f.id === id) {
+                return f;
+            }
+        }
+
+        for (let f of this.oppgaveQuery.order) {
             if (f.id === id) {
                 return f;
             }
@@ -159,6 +172,33 @@ export default class OppgaveQueryModel {
         const index = this.oppgaveQuery.select.findIndex(f => f.id === id);
         if (index >= 0) {
             this.oppgaveQuery.select[index] = data;
+        }
+        return this;
+    }
+
+    addEnkelOrderFelt() {
+        this.oppgaveQuery.order.push({
+            "id": uuid(),
+            "type" : "enkel",
+            "område" : null,
+            "kode" : null,
+            "økende": true,
+        });
+        return this;
+    }
+
+    removeOrderFelt(id) {
+        const index = this.oppgaveQuery.order.findIndex(f => f.id === id);
+        if (index >= 0) {
+            this.oppgaveQuery.order.splice(index, 1);
+        }
+        return this;
+    }
+
+    updateEnkelOrderFelt(id, data) {
+        const index = this.oppgaveQuery.order.findIndex(f => f.id === id);
+        if (index >= 0) {
+            this.oppgaveQuery.order[index] = data;
         }
         return this;
     }

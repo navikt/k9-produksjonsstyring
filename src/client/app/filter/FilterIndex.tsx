@@ -7,11 +7,12 @@ import { REQUEST_POLLING_CANCELLED } from 'api/rest-api';
 import { Search } from '@navikt/ds-icons';
 import { Alert, Button, ReadMore } from '@navikt/ds-react';
 
-import { SelectFelt, Oppgavefelt, FiltereContainer, Oppgavefilter } from './filterTsTypes';
+import { SelectFelt, Oppgavefelt, OrderFelt, FiltereContainer, Oppgavefilter } from './filterTsTypes';
 import OppgavefilterPanel from './parts/OppgavefilterPanel';
 import OppgaveQueryModel from './OppgaveQueryModel';
 import LeggTilFilterButton from './parts/LeggTilFilterButton';
 import LeggTilGruppeButton from './parts/LeggTilGruppeButton';
+import OppgaveOrderFelter from './parts/OppgaveOrderFelter';
 import OppgaveQueryResultat from './parts/OppgaveQueryResultat';
 import OppgaveSelectFelter from './parts/OppgaveSelectFelter';
 import { kodeFraKey, områdeFraKey } from './utils';
@@ -39,6 +40,10 @@ class FilterIndex extends React.Component {
     this.fjernSelectFelt = this.fjernSelectFelt.bind(this);
     this.leggTilEnkelSelectFelt = this.leggTilEnkelSelectFelt.bind(this);
     this.oppdaterEnkelSelectFelt = this.oppdaterEnkelSelectFelt.bind(this);
+
+    this.fjernOrderFelt = this.fjernOrderFelt.bind(this);
+    this.leggTilEnkelOrderFelt = this.leggTilEnkelOrderFelt.bind(this);
+    this.oppdaterEnkelOrderFelt = this.oppdaterEnkelOrderFelt.bind(this);
 
     k9LosApi
       .startRequest(K9LosApiKeys.OPPGAVE_QUERY_FELTER)
@@ -107,31 +112,35 @@ class FilterIndex extends React.Component {
   fjernFilter(oppgavefilter: Oppgavefilter) {
     this.setState(state => ({
       oppgaveQuery: new OppgaveQueryModel(state.oppgaveQuery).removeFilter(oppgavefilter.id).toOppgaveQuery(),
+      oppgaver: null,
     }));
   }
 
   leggTilFilter(filterContainer: FiltereContainer) {
     this.setState(state => ({
       oppgaveQuery: new OppgaveQueryModel(state.oppgaveQuery).addFilter(filterContainer.id).toOppgaveQuery(),
+      oppgaver: null,
     }));
   }
 
   leggTilGruppe(filterContainer: FiltereContainer) {
     this.setState(state => ({
       oppgaveQuery: new OppgaveQueryModel(state.oppgaveQuery).addGruppe(filterContainer.id).toOppgaveQuery(),
+      oppgaver: null,
     }));
   }
 
   fjernSelectFelt(oppgavefelt: Oppgavefelt) {
     this.setState(state => ({
       oppgaveQuery: new OppgaveQueryModel(state.oppgaveQuery).removeSelectFelt(oppgavefelt.id).toOppgaveQuery(),
+      oppgaver: null,
     }));
   }
 
-  leggTilEnkelSelectFelt(filtereContainer: FiltereContainer) {
+  leggTilEnkelSelectFelt() {
     this.setState(state => ({
       oppgaveQuery: new OppgaveQueryModel(state.oppgaveQuery)
-        .addEnkelSelectFelt(state.oppgaveQuery, filtereContainer.id)
+        .addEnkelSelectFelt()
         .toOppgaveQuery(),
       oppgaver: null,
     }));
@@ -149,6 +158,7 @@ class FilterIndex extends React.Component {
 
       return {
         oppgaveQuery: oppgaveQueryModel.toOppgaveQuery(),
+        oppgaver: null,
       };
     });
   }
@@ -164,6 +174,39 @@ class FilterIndex extends React.Component {
       };
 
       newOppgaveQueryModel.updateEnkelSelectFelt(selectFelt.id, data);
+      return {
+        oppgaveQuery: newOppgaveQueryModel.toOppgaveQuery(),
+        oppgaver: null,
+      };
+    });
+  }
+
+  fjernOrderFelt(orderFelt: OrderFelt) {
+    this.setState(state => ({
+      oppgaveQuery: new OppgaveQueryModel(state.oppgaveQuery).removeOrderFelt(orderFelt.id).toOppgaveQuery(),
+      oppgaver: null,
+    }));
+  }
+
+  leggTilEnkelOrderFelt() {
+    this.setState(state => ({
+      oppgaveQuery: new OppgaveQueryModel(state.oppgaveQuery)
+        .addEnkelOrderFelt()
+        .toOppgaveQuery(),
+      oppgaver: null,
+    }));
+  }
+
+  oppdaterEnkelOrderFelt(orderFelt: OrderFelt, newData) {
+    this.setState(state => {
+      const newOppgaveQueryModel = new OppgaveQueryModel(state.oppgaveQuery);
+      const orderToUpdate = newOppgaveQueryModel.getById(orderFelt.id);
+      const data = {
+        ...orderToUpdate,
+        ...newData,
+      };
+
+      newOppgaveQueryModel.updateEnkelOrderFelt(orderFelt.id, data);
       return {
         oppgaveQuery: newOppgaveQueryModel.toOppgaveQuery(),
         oppgaver: null,
@@ -203,6 +246,16 @@ class FilterIndex extends React.Component {
             onLeggTil={this.leggTilEnkelSelectFelt}
             onOppdater={this.oppdaterEnkelSelectFelt}
             onFjern={this.fjernSelectFelt}
+          />
+        </ReadMore>
+
+        <ReadMore className={styles.feltvalgBlokk} header="Velg sortering">
+          <OppgaveOrderFelter
+            felter={felter}
+            oppgaveQuery={oppgaveQuery}
+            onLeggTil={this.leggTilEnkelOrderFelt}
+            onOppdater={this.oppdaterEnkelOrderFelt}
+            onFjern={this.fjernOrderFelt}
           />
         </ReadMore>
 
