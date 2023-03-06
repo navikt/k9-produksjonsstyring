@@ -1,0 +1,110 @@
+.searchContainer {
+  background: #e6f0ff;
+  border-radius: 5px;
+  padding: 30px 30px 22px;
+}
+
+.form:global(.navds-form-field) {
+  justify-items: stretch;
+}
+
+.input:global(.navds-search__input) {
+  padding-right: 64px;
+}
+
+.suggestionPopover[data-reach-combobox-popover] {
+  background-color: white;
+  border-color: var(--navds-search-color-border);
+  border-radius: var(--navds-border-radius-medium);
+  box-shadow: var(--navds-shadow-medium);
+  padding: 18px 0;
+  transform: translateY(4px);
+}
+
+.list[data-reach-combobox-list] {
+  list-style-type: none;
+  margin: 0 0 18px;
+  padding: 0;
+
+  ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+}
+
+.suggestion[data-reach-combobox-option] {
+  padding-bottom: 0.5rem;
+  padding-top: 0.5rem;
+}
+
+.suggestion[data-reach-combobox-option][data-highlighted],
+.suggestion[data-reach-combobox-option]:hover {
+  background-color: var(--navds-global-color-blue-100);
+}
+
+.suggestion:first-child {
+  border-radius: var(--navds-border-radius-medium) var(--navds-border-radius-medium) 0 0;
+}
+
+.suggestion:last-child {
+  border-radius: 0 0 var(--navds-border-radius-medium) var(--navds-border-radius-medium);
+}
+
+.suggestion:only-child {
+  border-radius: var(--navds-border-radius-medium);
+}
+
+.suggestion [data-user-value] {
+  font-weight: bold;
+}
+
+.suggestion [data-suggested-value] {
+  font-weight: normal;
+}
+
+.suggestionSubgroup {
+  padding-left: 2rem;
+}
+
+.suggestionCheckbox {
+  border-bottom: 1px solid #cfcfcf;
+  padding: 0 1.25rem;
+
+  &:global(.navds-checkbox) {
+    width: 100%;
+  }
+}
+
+.listHeading {
+  border-bottom: 1px solid #cfcfcf;
+  padding: 0 1.25rem 0.6875rem;
+}
+
+.fieldset {
+  border: none;
+  padding: 0;
+}
+
+.popoverButtonWrapper {
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+.merkelapperHeading:global(.navds-heading) {
+  margin: 20px 0 4px;
+}
+
+.searchWrapper {
+  position: relative;
+}
+
+.searchWrapper__inner {
+  width: calc(100% - 2px);
+}
+
+.searchButton {
+  position: absolute;
+  right: 0;
+}
