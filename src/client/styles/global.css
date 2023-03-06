@@ -1,3 +1,8 @@
+@import 'tailwindcss/base';
+@import '@navikt/ds-css';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
 .DayPickerInput-OverlayWrapper {
   height: 0;
   position: relative;

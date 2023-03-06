@@ -5,7 +5,6 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 
-import '@navikt/ds-css';
 import '@navikt/ft-plattform-komponenter/dist/style.css';
 import { RestApiErrorProvider } from 'api/error/RestApiErrorContext';
 import { k9LosApi } from 'api/k9LosApi';

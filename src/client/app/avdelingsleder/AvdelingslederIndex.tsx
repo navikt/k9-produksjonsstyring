@@ -35,6 +35,7 @@ import AvdelingslederPanels from './avdelingslederPanels';
 import EndreBehandlingskoerIndex from './behandlingskoer/EndreBehandlingskoerIndex';
 
 import styles from './avdelingslederIndex.css';
+import BehandlingskoerIndex from './behandlingskoerV2/BehandlingskoerIndex';
 
 const classNames = classnames.bind(styles);
 
@@ -42,6 +43,8 @@ const renderAvdelingslederPanel = avdelingslederPanel => {
   switch (avdelingslederPanel) {
     case AvdelingslederPanels.BEHANDLINGSKOER:
       return <EndreBehandlingskoerIndex />;
+    case AvdelingslederPanels.BEHANDLINGSKOER_V2:
+      return <BehandlingskoerIndex />;
     case AvdelingslederPanels.NOKKELTALL:
       return <NokkeltallIndex />;
     case AvdelingslederPanels.PROGNOSE:
@@ -55,6 +58,7 @@ const renderAvdelingslederPanel = avdelingslederPanel => {
 
 const messageId = {
   [AvdelingslederPanels.BEHANDLINGSKOER]: 'AvdelingslederIndex.Behandlingskoer',
+  [AvdelingslederPanels.BEHANDLINGSKOER_V2]: 'AvdelingslederIndex.Behandlingskoer.V2',
   [AvdelingslederPanels.NOKKELTALL]: 'AvdelingslederIndex.Nokkeltall',
   [AvdelingslederPanels.PROGNOSE]: 'AvdelingslederIndex.Prognose',
   [AvdelingslederPanels.RESERVASJONER]: 'AvdelingslederIndex.Reservasjoner',
@@ -62,6 +66,7 @@ const messageId = {
 
 const tabStyle = {
   [AvdelingslederPanels.BEHANDLINGSKOER]: [koerSvart, koerBla],
+  [AvdelingslederPanels.BEHANDLINGSKOER_V2]: [koerSvart, koerBla],
   [AvdelingslederPanels.NOKKELTALL]: [nokkelSvart, nokkelBla],
   [AvdelingslederPanels.PROGNOSE]: [prognoseSort, prognoseBlå],
   [AvdelingslederPanels.RESERVASJONER]: [reservasjonSvart, reservasjonBla],
@@ -150,6 +155,11 @@ export const AvdelingslederIndex: FunctionComponent = () => {
                 tabs={[
                   getTab(
                     AvdelingslederPanels.BEHANDLINGSKOER,
+                    activeAvdelingslederPanel,
+                    getAvdelingslederPanelLocation,
+                  ),
+                  getTab(
+                    AvdelingslederPanels.BEHANDLINGSKOER_V2,
                     activeAvdelingslederPanel,
                     getAvdelingslederPanelLocation,
                   ),

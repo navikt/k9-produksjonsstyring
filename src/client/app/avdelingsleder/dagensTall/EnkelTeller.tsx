@@ -1,4 +1,6 @@
 import React, { FunctionComponent } from 'react';
+import classNames from 'classnames';
+
 import styles from './enkelTeller.css';
 
 interface OwnProps {
@@ -6,14 +8,13 @@ interface OwnProps {
   tekst: string;
 }
 const EnkelTeller: FunctionComponent<OwnProps> = ({ antall, tekst }) => (
-  <div className={styles.frame}>
+  <div className={classNames(styles.frame, 'divide-y')}>
     <div className={styles.container}>
       <div className={styles.venstre}>
         <p className={styles.number}>{antall}</p>
       </div>
-      <hr className={styles.line} />
     </div>
-    <div className={styles.beskrivelse}>
+    <div className={classNames(styles.beskrivelse, 'py-2')}>
       <p>{tekst}</p>
     </div>
   </div>

@@ -68,12 +68,18 @@ const config = {
         include: [CORE_DIR],
       },
       {
-        test: /\.css$/, use: [{
-          loader: MiniCssExtractPlugin.loader,
-          options: {
-            publicPath: isDevelopment ? './' : '',
+        test: /\.css$/,
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              publicPath: isDevelopment ? './' : '',
+            },
           },
-        }, 'css-loader'], include: [STYLE_DIR]
+          'css-loader',
+          'postcss-loader',
+        ],
+        include: [STYLE_DIR],
       },
       {
         test: /\.svg/,
