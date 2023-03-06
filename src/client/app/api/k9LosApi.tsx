@@ -76,6 +76,7 @@ export enum K9LosApiKeys {
   HENT_BEHANDLINGER_SOM_GÅR_AV_VENT = 'HENT_BEHANDLINGER_SOM_GÅR_AV_VENT',
   FÅ_OPPGAVE_FRA_KO = 'FÅ_OPPGAVE_FRA_KO',
   OPPGAVE_QUERY = 'OPPGAVE_QUERY',
+  OPPGAVE_QUERY_TO_FILE = 'OPPGAVE_QUERY_TO_FILE',
   OPPGAVE_QUERY_FELTER = 'OPPGAVE_QUERY_FELTER',
 }
 
@@ -180,6 +181,7 @@ export const endpoints = new RestApiConfigBuilder(CONTEXT_PATH)
   .withGet('/kodeverk', K9LosApiKeys.KODEVERK)
 
   .withPost('/ny-oppgavestyring/oppgave/query', K9LosApiKeys.OPPGAVE_QUERY)
+  .withPostAndOpenBlob('/ny-oppgavestyring/oppgave/queryToFile', K9LosApiKeys.OPPGAVE_QUERY_TO_FILE)
   .withGet('/ny-oppgavestyring/oppgave/felter', K9LosApiKeys.OPPGAVE_QUERY_FELTER)
 
   .build();
