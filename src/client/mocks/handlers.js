@@ -17,7 +17,6 @@ import saksbehandlerOppgaveko from './saksbehandlerOppgaveko';
 import saksbehandlereIOppgaveko from './saksbehandlereIOppgaveko';
 import soek from './soek';
 // Alle handlers som ligger direkte i dette arrayet vil gjelde
-// selv om k9-sak-web startes uten env spesielle env-variabler.
 // Requesten treffer handlerne i stedet for eventuelle eksisterende APIer
 // f.eks hvis vi har handlere til alle APIene vi bruker her, vil vi aldri treffe den faktiske backenden når vi kjører opp lokalt.
 // Derfor burde nok ting kun legges i dette arrayet midlertidig
@@ -67,7 +66,7 @@ export const developmentHandlers = {
   oppgavekoer: rest.get('/api/saksbehandler/oppgaveko', (req, res, ctx) => res(ctx.json(saksbehandlerOppgaveko))),
   sok: rest.post('/api/fagsak/sok', (req, res, ctx) => res(ctx.json(soek))),
   saksbehandlere: rest.get('/api/avdelingsleder/saksbehandlere', (req, res, ctx) =>
-    res(ctx.json([{ navn: 'Ping Pong Paul', brukernavn: 'pingpongpaul@nav.no' }])),
+    res(ctx.json([{ navn: 'Ping Pong Paul', brukernavn: 'M088876', epost: 'pingpongpaul@nav.no' }])),
   ),
 };
 

@@ -15,7 +15,6 @@ const BehandlingsKoForm = () => {
   }, []);
 
   const manglerGruppering = 'Mangler gruppering';
-  console.log(alleSaksbehandlere);
   const formaterteSaksbehandlere = alleSaksbehandlere.map(saksbehandler => ({
     value: saksbehandler.epost,
     label: saksbehandler.navn || saksbehandler.epost,
