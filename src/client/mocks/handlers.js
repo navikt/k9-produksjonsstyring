@@ -66,8 +66,8 @@ export const developmentHandlers = {
   oppgaver: rest.get('/api/saksbehandler/oppgaver/antall', (req, res, ctx) => res(ctx.json(10))),
   oppgavekoer: rest.get('/api/saksbehandler/oppgaveko', (req, res, ctx) => res(ctx.json(saksbehandlerOppgaveko))),
   sok: rest.post('/api/fagsak/sok', (req, res, ctx) => res(ctx.json(soek))),
-  saksbehandler: rest.get('/api/saksbehandler', (req, res, ctx) =>
-    res(ctx.json({ navn: 'Paul', brukernavn: 'pingpongpaul@nav.no' })),
+  saksbehandlere: rest.get('/api/avdelingsleder/saksbehandlere', (req, res, ctx) =>
+    res(ctx.json([{ navn: 'Ping Pong Paul', brukernavn: 'pingpongpaul@nav.no' }])),
   ),
 };
 

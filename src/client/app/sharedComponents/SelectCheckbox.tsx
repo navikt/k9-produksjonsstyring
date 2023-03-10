@@ -1,7 +1,7 @@
 import { Checkbox } from '@navikt/ds-react';
 import { Next } from '@navikt/ds-icons';
 import React from 'react';
-import styles from './selectCheckbox.less';
+import styles from './selectCheckbox.css';
 
 interface Props {
   value: string;

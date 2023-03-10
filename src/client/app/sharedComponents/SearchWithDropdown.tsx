@@ -5,7 +5,7 @@ import React, { FormEventHandler, useEffect, useMemo, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import Merkelapp from './merkelapp/Merkelapp';
 import Merkelapper from './merkelapp/Merkelapper';
-import styles from './searchWithDropdown.less';
+import styles from './searchWithDropdown.css';
 import SelectCheckbox from './SelectCheckbox';
 
 const formClassName = `${styles.form} navds-form-field`;

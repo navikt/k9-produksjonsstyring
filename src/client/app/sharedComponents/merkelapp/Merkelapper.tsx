@@ -1,5 +1,5 @@
 import React, { FunctionComponent, ReactNode } from 'react';
-import styles from './merkelapp.less';
+import styles from './merkelapp.css';
 
 type Props = {
   children: ReactNode;

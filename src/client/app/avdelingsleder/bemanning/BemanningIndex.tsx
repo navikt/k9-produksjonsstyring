@@ -23,11 +23,7 @@ const BemanningIndex: FunctionComponent = () => {
 
   return (
     <div className={styles.saksbehandlereContent}>
-      {!smallScreen && (
-        <EnkelTeller antall={alleSaksbehandlere.length} tekst="Saksbehandlere">
-          {' '}
-        </EnkelTeller>
-      )}
+      {!smallScreen && <EnkelTeller antall={alleSaksbehandlere.length} tekst="Saksbehandlere" />}
       <SaksbehandlerePanel saksbehandlere={alleSaksbehandlere} hentAlleSaksbehandlere={hentAlleSaksbehandlere} />
     </div>
   );
