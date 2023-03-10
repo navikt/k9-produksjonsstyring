@@ -3,7 +3,6 @@
   flex-wrap: wrap;
   gap: 0.5rem;
 }
-
 .merkelapp {
   align-items: center;
   background-color: white;
@@ -16,16 +15,13 @@
   padding: 6px 12px;
   text-align: left;
 }
-
 .merkelapp:hover {
   background-color: var(--navds-button-color-secondary-background-hover);
   color: var(--navds-button-color-secondary-text-hover);
 }
-
 .merkelapp:focus {
   box-shadow: 0 0 0 3px var(--navds-semantic-color-focus);
 }
-
 .tekst {
   -webkit-box-orient: vertical;
   display: -webkit-box;
