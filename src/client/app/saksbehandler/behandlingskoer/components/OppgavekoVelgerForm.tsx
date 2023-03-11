@@ -256,6 +256,7 @@ export const OppgavekoVelgerForm: FunctionComponent<OwnProps & WrappedComponentP
         )}
       />
       <Hovedknapp
+        id="Frodes knapp"
         className={styles.nyOppgaveBtn}
         spinner={erRestApiKallLoading}
         disabled={erRestApiKallLoading}
