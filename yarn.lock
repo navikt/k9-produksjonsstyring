@@ -2839,21 +2839,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@navikt/ft-kodeverk@npm:^2.0.5":
-  version: 2.0.5
-  resolution: "@navikt/ft-kodeverk@npm:2.0.5::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40navikt%2Fft-kodeverk%2F2.0.5%2F0efe67743a8bc3276351cf4ffa7cf44d16c8d70a"
-  checksum: 2d95277e7fcf16eb84e021e68f3c989ab2b3e264e5336d9c64c0057b1f8aba9eabacd191b20a11b590f130aa8919f13174d2fdeef42ec9f0c31fdf6e8e88b440
+"@navikt/ft-kodeverk@npm:^2.0.6":
+  version: 2.0.6
+  resolution: "@navikt/ft-kodeverk@npm:2.0.6::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40navikt%2Fft-kodeverk%2F2.0.6%2Fc42f014a2e046470933a2b1f79ec4eea733158c9"
+  checksum: cc51d988779507c9f8473c5bf543e387a3a5ee308c58173f687a5a5158560e2166063fd3f607adce462513d69b35aef8be50739b953121c5b797f03ff7c1a4b2
   languageName: node
   linkType: hard
 
-"@navikt/ft-plattform-komponenter@npm:2.0.5":
-  version: 2.0.5
-  resolution: "@navikt/ft-plattform-komponenter@npm:2.0.5::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40navikt%2Fft-plattform-komponenter%2F2.0.5%2Fa09148cb2df8c73398803c6d76eb4346461fb940"
+"@navikt/ft-plattform-komponenter@npm:2.0.6":
+  version: 2.0.6
+  resolution: "@navikt/ft-plattform-komponenter@npm:2.0.6::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40navikt%2Fft-plattform-komponenter%2F2.0.6%2Fe1a70a25acbdf74a06c9503e971f3e78516c4539"
   dependencies:
     "@navikt/ds-css": 2.7.6
     "@navikt/ds-icons": 2.7.6
     "@navikt/ds-react": 2.7.6
-    "@navikt/ft-utils": ^2.0.5
+    "@navikt/ft-utils": ^2.0.6
   peerDependencies:
     "@popperjs/core": 2.11.6
     classnames: 2.3.2
@@ -2864,27 +2864,27 @@ __metadata:
     react-collapse: 5.1.1
     react-dom: 18.2.0
     react-popper: 2.3.0
-  checksum: a320d315e3747ee5fc38e5dea51cbe0f951501dd060650a4b7645c152ced67f207773ef660093f5e4cc89bde4e96e5bbd272c1d7f0da51381a0574183894c28d
+  checksum: f14126230ec89513089302e71467af05a1cb75066b2408e15ed771f09d2f913199b4f2591658334c51f250a45202e3819fc71d6f0b07c5275c00b1e9cc6ade58
   languageName: node
   linkType: hard
 
-"@navikt/ft-types@npm:^2.0.5":
-  version: 2.0.5
-  resolution: "@navikt/ft-types@npm:2.0.5::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40navikt%2Fft-types%2F2.0.5%2Fabd57801375d7c54dc3bba20ca9c3dbd02ff8932"
+"@navikt/ft-types@npm:^2.0.6":
+  version: 2.0.6
+  resolution: "@navikt/ft-types@npm:2.0.6::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40navikt%2Fft-types%2F2.0.6%2F5d9ec6c1a287e678eff16b22febcbed801b536b2"
   dependencies:
-    "@navikt/ft-kodeverk": ^2.0.5
+    "@navikt/ft-kodeverk": ^2.0.6
   peerDependencies:
     "@navikt/ft-kodeverk": 1.x
-  checksum: ad5f86edf92b0a0026367cf95038b9eb8362a5d171e726bcefa01886e80ba0885253e03ea2b7953304a6cbffebe51c7c5d27579221cec3d18c0b80bb78aed796
+  checksum: 2b0ffb2662b13a05b9739f612b387b2e05981aef7ba77aee08c507b5c5f1148a6b2fc4d716c03233649bd93af69ea200265ef78f9e3dffa6c123ae31a8ab882b
   languageName: node
   linkType: hard
 
-"@navikt/ft-utils@npm:^2.0.5":
-  version: 2.0.5
-  resolution: "@navikt/ft-utils@npm:2.0.5::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40navikt%2Fft-utils%2F2.0.5%2Fe5cb7428718a0ddaf98890b15faf2fee1aa00735"
+"@navikt/ft-utils@npm:^2.0.6":
+  version: 2.0.6
+  resolution: "@navikt/ft-utils@npm:2.0.6::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40navikt%2Fft-utils%2F2.0.6%2Fa7b994de3ec39483a3da8d5122397ef37838fca4"
   dependencies:
-    "@navikt/ft-kodeverk": ^2.0.5
-    "@navikt/ft-types": ^2.0.5
+    "@navikt/ft-kodeverk": ^2.0.6
+    "@navikt/ft-types": ^2.0.6
     dayjs: 1.11.7
     react-intl: 6.2.10
   peerDependencies:
@@ -2892,7 +2892,7 @@ __metadata:
     "@navikt/ft-types": 1.x
     dayjs: 1.11.7
     react-intl: 6.2.10
-  checksum: f7a6bf27cbfc184b27b3bad09cfa07b248ad12c24ee123e6ae49f87bc9e36e0baf254e8410a5b3ee9e871216400ece9c14ccdd96c2d37c57fec8d653c2737e2d
+  checksum: fa2e5c5362ddfaa5a0354f44f7a2d37f798ecf63b821cdc9a79709c51e50953124f16dc512791072281d3a17e66a4bb180894fd20f7874beef30207e5c4f5bc0
   languageName: node
   linkType: hard
 
@@ -14795,7 +14795,7 @@ __metadata:
     "@navikt/ds-react": 2.7.6
     "@navikt/familie-endringslogg": ^8.1.0
     "@navikt/fnrvalidator": 1.3.3
-    "@navikt/ft-plattform-komponenter": 2.0.5
+    "@navikt/ft-plattform-komponenter": 2.0.6
     "@popperjs/core": ^2.11.6
     "@sentry/browser": ^7.42.0
     "@sentry/cli": ^2.14.4
