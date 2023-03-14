@@ -174,7 +174,7 @@
     "webpack-merge": "5.8.0"
   },
   "resolutions": {
-    "loader-utils": "2.0.3"
+    "got": "11.8.5"
   },
   "scripts": {
     "start-express": "node ./server.js",
