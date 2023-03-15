@@ -1,4 +1,4 @@
-import { stringifyUrl } from 'query-string';
+import querystring from 'query-string';
 import { formatQueryString, parseQueryString } from 'utils/urlUtils';
 
 import { Location } from './locationTsType';
@@ -33,7 +33,10 @@ export const getK9sakHref = (k9sakUrl: string, saksnummer: string, behandlingId?
   ].reduce(reducer, {});
 
   if (behandlingId) {
-    return stringifyUrl({ url: `${k9sakUrl}/fagsak/${saksnummer}/behandling/${behandlingId}/`, query: queryParams });
+    return querystring.stringifyUrl({
+      url: `${k9sakUrl}/fagsak/${saksnummer}/behandling/${behandlingId}/`,
+      query: queryParams,
+    });
   }
 
   return `${k9sakUrl}/fagsak/${saksnummer}/`;
