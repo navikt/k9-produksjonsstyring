@@ -25,6 +25,7 @@ const config = {
   },
 
   rules: {
+    'import/no-extraneous-dependencies': OFF,
     'import/extensions': [
       'error',
       'ignorePackages',

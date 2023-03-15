@@ -66,7 +66,18 @@ export const developmentHandlers = {
   oppgavekoer: rest.get('/api/saksbehandler/oppgaveko', (req, res, ctx) => res(ctx.json(saksbehandlerOppgaveko))),
   sok: rest.post('/api/fagsak/sok', (req, res, ctx) => res(ctx.json(soek))),
   saksbehandlere: rest.get('/api/avdelingsleder/saksbehandlere', (req, res, ctx) =>
-    res(ctx.json([{ navn: 'Ping Pong Paul', brukernavn: 'M088876', epost: 'pingpongpaul@nav.no' }])),
+    res(
+      ctx.json([
+        { navn: 'Ping Pong Paul', brukernavn: 'M088876', epost: 'pingpongpaul@nav.no' },
+        { navn: 'Per Persen', brukernavn: 'M111111', epost: 'saksbehandler1@nav.no' },
+        { navn: 'Helmut Hageberg', brukernavn: 'M222222', epost: 'saksbehandler2@nav.no' },
+        { navn: 'Tom Tanks', brukernavn: 'M333333', epost: 'saksbehandler3@nav.no' },
+        { navn: 'Hallo Hansen', brukernavn: 'M444444', epost: 'saksbehandler4@nav.no' },
+        { navn: 'George Oscar Bluth', brukernavn: 'M555555', epost: 'saksbehandler5@nav.no' },
+        { navn: 'Hacker Jørgen', brukernavn: 'M666666', epost: 'saksbehandler6@nav.no' },
+        { navn: 'Jorge Hermansen', brukernavn: 'M777777', epost: 'saksbehandler7@nav.no' },
+      ]),
+    ),
   ),
 };
 
