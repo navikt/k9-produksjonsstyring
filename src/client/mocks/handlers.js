@@ -16,6 +16,7 @@ import saksbehandlerOppgaver from './saksbehandlerOppgaver';
 import saksbehandlerOppgaveko from './saksbehandlerOppgaveko';
 import saksbehandlereIOppgaveko from './saksbehandlereIOppgaveko';
 import soek from './soek';
+import { uniqueId } from 'lodash';
 // Alle handlers som ligger direkte i dette arrayet vil gjelde
 // Requesten treffer handlerne i stedet for eventuelle eksisterende APIer
 // f.eks hvis vi har handlere til alle APIene vi bruker her, vil vi aldri treffe den faktiske backenden når vi kjører opp lokalt.
@@ -69,13 +70,63 @@ export const developmentHandlers = {
     res(
       ctx.json([
         { navn: 'Ping Pong Paul', brukernavn: 'M088876', epost: 'pingpongpaul@nav.no' },
-        { navn: 'Per Persen', brukernavn: 'M111111', epost: 'saksbehandler1@nav.no' },
+        { navn: 'Strenge Stian', brukernavn: 'M111111', epost: 'saksbehandler1@nav.no' },
         { navn: 'Helmut Hageberg', brukernavn: 'M222222', epost: 'saksbehandler2@nav.no' },
-        { navn: 'Tom Tanks', brukernavn: 'M333333', epost: 'saksbehandler3@nav.no' },
-        { navn: 'Hallo Hansen', brukernavn: 'M444444', epost: 'saksbehandler4@nav.no' },
-        { navn: 'George Oscar Bluth', brukernavn: 'M555555', epost: 'saksbehandler5@nav.no' },
+        { navn: 'Avslå Altesen', brukernavn: 'M333333', epost: 'saksbehandler3@nav.no' },
+        { navn: 'Conrad Coinflip', brukernavn: 'M444444', epost: 'saksbehandler4@nav.no' },
+        { navn: 'Jeg Har Mange Navn Og Bruker Helst Alle', brukernavn: 'M555555', epost: 'saksbehandler5@nav.no' },
         { navn: 'Hacker Jørgen', brukernavn: 'M666666', epost: 'saksbehandler6@nav.no' },
         { navn: 'Jorge Hermansen', brukernavn: 'M777777', epost: 'saksbehandler7@nav.no' },
+        { navn: 'Rettferdige Reidun', brukernavn: 'M888888', epost: 'saksbehandler8@nav.no' },
+      ]),
+    ),
+  ),
+  oppgavemodellV2OpprettKø: rest.post('/api/opprett/v2', async (req, res, ctx) => {
+    const data = await req.json();
+    return res(
+      ctx.json({
+        id: '1',
+        tittel: data.tittel,
+      }),
+    );
+  }),
+  oppgavemodellV2OppdaterKø: rest.post('/api/oppdater/v2', async (req, res, ctx) => {
+    const data = await req.json();
+    return res(
+      ctx.json({
+        id: '1',
+        tittel: 'Beskrivende tittel',
+        forklaring: 'godt forklart tekst om hva formålet med køen er',
+        oppgavequery: [],
+        saksbehandlere: [],
+        ...data,
+        versjon: data.versjon ? data.versjon + 1 : 1,
+      }),
+    );
+  }),
+  oppgavemodellV2HentKø: rest.get('/api/hent/v2', async (req, res, ctx) =>
+    res(
+      ctx.json({
+        id: '1',
+        tittel: 'Beskrivende tittel',
+        forklaring: 'godt forklart tekst om hva formålet med køen er',
+        oppgavequery: [],
+        saksbehandlere: [],
+        versjon: 1,
+      }),
+    ),
+  ),
+  oppgavemodellV2HentAlleKø: rest.get('/api/alleKøer/v2', async (req, res, ctx) =>
+    res(
+      ctx.json([
+        {
+          id: '1',
+          tittel: 'Beskrivende tittel',
+          forklaring: 'godt forklart tekst om hva formålet med køen er',
+          oppgavequery: [],
+          saksbehandlere: [],
+          versjon: 1,
+        },
       ]),
     ),
   ),

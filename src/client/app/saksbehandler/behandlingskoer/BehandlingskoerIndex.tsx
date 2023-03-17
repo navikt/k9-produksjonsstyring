@@ -128,18 +128,16 @@ const BehandlingskoerIndex: FunctionComponent<OwnProps & WrappedComponentProps> 
   }
 
   return (
-    <>
-      <OppgavekoPanel
-        valgtOppgavekoId={valgtOppgavekoId}
-        setValgtOppgavekoId={setValgtOppgavekoId}
-        apneOppgave={apneOppgave}
-        oppgavekoer={oppgavekoer}
-        requestFinished={state === RestApiState.SUCCESS}
-        oppgaverTilBehandling={oppgaverTilBehandling}
-        reserverteOppgaver={reserverteOppgaver}
-        hentReserverteOppgaver={hentReserverteOppgaver}
-      />
-    </>
+    <OppgavekoPanel
+      valgtOppgavekoId={valgtOppgavekoId}
+      setValgtOppgavekoId={setValgtOppgavekoId}
+      apneOppgave={apneOppgave}
+      oppgavekoer={oppgavekoer}
+      requestFinished={state === RestApiState.SUCCESS}
+      oppgaverTilBehandling={oppgaverTilBehandling}
+      reserverteOppgaver={reserverteOppgaver}
+      hentReserverteOppgaver={hentReserverteOppgaver}
+    />
   );
 };
 

@@ -40,7 +40,7 @@ const renderFunc = Component => {
       <RestApiProvider requestApi={k9LosApi}>
         <RestApiErrorProvider>
           <QueryClientProvider client={queryClient}>
-            <Component />
+            <Component rootElement={app} />
           </QueryClientProvider>
         </RestApiErrorProvider>
       </RestApiProvider>

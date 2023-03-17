@@ -5,9 +5,10 @@ import { K9LosApiKeys, k9LosApi } from 'api/k9LosApi';
 import { REQUEST_POLLING_CANCELLED } from 'api/rest-api';
 
 import { Download, Search } from '@navikt/ds-icons';
+import { FloppydiskIcon } from '@navikt/aksel-icons';
 import { Alert, Button, ReadMore, TextField } from '@navikt/ds-react';
 
-import { SelectFelt, Oppgavefelt, OrderFelt, FiltereContainer, Oppgavefilter } from './filterTsTypes';
+import { SelectFelt, Oppgavefelt, OrderFelt, FiltereContainer, Oppgavefilter, OppgaveQuery } from './filterTsTypes';
 import OppgavefilterPanel from './parts/OppgavefilterPanel';
 import OppgaveQueryModel from './OppgaveQueryModel';
 import LeggTilFilterButton from './parts/LeggTilFilterButton';
@@ -19,7 +20,11 @@ import { kodeFraKey, områdeFraKey } from './utils';
 
 import styles from './filterIndex.css';
 
-class FilterIndex extends React.Component {
+interface OwnProps {
+  lagre: (oppgaveQuery: OppgaveQuery) => void;
+}
+
+class FilterIndex extends React.Component<OwnProps> {
   constructor(props) {
     super(props);
 
@@ -124,7 +129,10 @@ class FilterIndex extends React.Component {
     });
 
     k9LosApi
-      .startRequest(K9LosApiKeys.OPPGAVE_QUERY_TO_FILE, new OppgaveQueryModel(this.state.oppgaveQuery).updateLimit(-1).toOppgaveQuery())
+      .startRequest(
+        K9LosApiKeys.OPPGAVE_QUERY_TO_FILE,
+        new OppgaveQueryModel(this.state.oppgaveQuery).updateLimit(-1).toOppgaveQuery(),
+      )
       .then(dataRes => {
         if (dataRes.payload !== REQUEST_POLLING_CANCELLED) {
           this.setState({
@@ -176,9 +184,7 @@ class FilterIndex extends React.Component {
 
   leggTilEnkelSelectFelt() {
     this.setState(state => ({
-      oppgaveQuery: new OppgaveQueryModel(state.oppgaveQuery)
-        .addEnkelSelectFelt()
-        .toOppgaveQuery(),
+      oppgaveQuery: new OppgaveQueryModel(state.oppgaveQuery).addEnkelSelectFelt().toOppgaveQuery(),
       oppgaver: null,
     }));
   }
@@ -227,9 +233,7 @@ class FilterIndex extends React.Component {
 
   leggTilEnkelOrderFelt() {
     this.setState(state => ({
-      oppgaveQuery: new OppgaveQueryModel(state.oppgaveQuery)
-        .addEnkelOrderFelt()
-        .toOppgaveQuery(),
+      oppgaveQuery: new OppgaveQueryModel(state.oppgaveQuery).addEnkelOrderFelt().toOppgaveQuery(),
       oppgaver: null,
     }));
   }
@@ -253,9 +257,7 @@ class FilterIndex extends React.Component {
 
   oppdaterLimit(limit: number) {
     this.setState(state => ({
-      oppgaveQuery: new OppgaveQueryModel(state.oppgaveQuery)
-        .updateLimit(limit)
-        .toOppgaveQuery(),
+      oppgaveQuery: new OppgaveQueryModel(state.oppgaveQuery).updateLimit(limit).toOppgaveQuery(),
     }));
   }
 
@@ -263,6 +265,7 @@ class FilterIndex extends React.Component {
     const { oppgaveQuery } = this.state;
     const { oppgaver } = this.state;
     const { felter } = this.state;
+    const { lagre } = this.props;
 
     if (felter.length === 0) {
       return null;
@@ -305,28 +308,43 @@ class FilterIndex extends React.Component {
         </ReadMore>
 
         <div className={styles.filterButtonGroup}>
+          {lagre && (
+            <Button
+              icon={<FloppydiskIcon />}
+              onClick={() => lagre(this.state.oppgaveQuery)}
+              loading={this.state.loading}
+            >
+              Lagre
+            </Button>
+          )}
           <Button icon={<Search aria-hidden />} onClick={this.executeOppgavesøk} loading={this.state.loading}>
             Søk
           </Button>
-          <Button icon={<Download aria-hidden />} onClick={this.executeOppgavesøkToFile} loading={this.state.loadingDownload}>
+          <Button
+            icon={<Download aria-hidden />}
+            onClick={this.executeOppgavesøkToFile}
+            loading={this.state.loadingDownload}
+          >
             Last ned CSV
           </Button>
         </div>
 
         {this.state.queryError && <Alert variant="error">{this.state.queryError}</Alert>}
 
-        {oppgaver && <>
-          <OppgaveQueryResultat felter={felter} oppgaveQuery={oppgaveQuery} oppgaver={oppgaver} />
-          <TextField
-            className={styles.limitTextField}
-            label="Maksimalt antall rader"
-            description="Du kan endre antallet rader som blir hentet ned ved søk. Trykk på søkeknappen etter å ha oppdatert antallet. Merk at høye tall kan medføre at du må vente en stund før svaret kommer. Hvis søket blir avbrutt, fordi det tar for lang tid, så kan du forsøke det samme søket på nytt."
-            htmlSize="4"
-            type="number"
-            defaultValue={oppgaveQuery.limit}
-            onBlur={(event) => this.oppdaterLimit(parseInt(event.target.value, 10) || 0)}
-          />
-        </>}
+        {oppgaver && (
+          <>
+            <OppgaveQueryResultat felter={felter} oppgaveQuery={oppgaveQuery} oppgaver={oppgaver} />
+            <TextField
+              className={styles.limitTextField}
+              label="Maksimalt antall rader"
+              description="Du kan endre antallet rader som blir hentet ned ved søk. Trykk på søkeknappen etter å ha oppdatert antallet. Merk at høye tall kan medføre at du må vente en stund før svaret kommer. Hvis søket blir avbrutt, fordi det tar for lang tid, så kan du forsøke det samme søket på nytt."
+              htmlSize={4}
+              type="number"
+              defaultValue={oppgaveQuery.limit}
+              onBlur={event => this.oppdaterLimit(parseInt(event.target.value, 10) || 0)}
+            />
+          </>
+        )}
       </div>
     );
   }
