@@ -16,61 +16,61 @@ import styles from './leggTilDriftsmeldingForm.css';
  * LeggTilDriftsmeldingForm
  */
 interface OwnProps {
-  hentAlleDriftsmeldinger: () => void;
+    hentAlleDriftsmeldinger: () => void;
 }
 
 export const LeggTilDriftsmeldingForm: FunctionComponent<OwnProps> = ({ hentAlleDriftsmeldinger }) => {
-  const [leggerTilNyDriftsmelding, setLeggerTilNyDriftsmelding] = useState(false);
+    const [leggerTilNyDriftsmelding, setLeggerTilNyDriftsmelding] = useState(false);
 
-  const { startRequest: leggTilDriftsmelding } = useRestApiRunner<Driftsmelding>(K9LosApiKeys.LAGRE_DRIFTSMELDING);
+    const { startRequest: leggTilDriftsmelding } = useRestApiRunner<Driftsmelding>(K9LosApiKeys.LAGRE_DRIFTSMELDING);
 
-  const addDriftsmelding = (melding: string, resetFormValues: () => void) => {
-    setLeggerTilNyDriftsmelding(true);
-    leggTilDriftsmelding({ driftsmelding: melding })
-      .then(() => hentAlleDriftsmeldinger())
-      .then(() => setLeggerTilNyDriftsmelding(false));
-    resetFormValues();
-  };
+    const addDriftsmelding = (melding: string, resetFormValues: () => void) => {
+        setLeggerTilNyDriftsmelding(true);
+        leggTilDriftsmelding({ driftsmelding: melding })
+            .then(() => hentAlleDriftsmeldinger())
+            .then(() => setLeggerTilNyDriftsmelding(false));
+        resetFormValues();
+    };
 
-  return (
-    <Form
-      onSubmit={() => undefined}
-      render={({ submitting, handleSubmit, form, values }) => (
-        <div>
-          <Element>
-            <FormattedMessage id="LeggTilDriftsmeldingForm.LeggTil" />
-          </Element>
-          <VerticalSpacer eightPx />
-          <FlexContainer>
-            <FlexRow>
-              <FlexColumn>
-                <InputField
-                  name="melding"
-                  className={styles.epost}
-                  label={<FormattedMessage id="LeggTilDriftsmeldingForm.Melding" />}
-                  bredde="L"
-                  validate={[hasValidEmailFormat]}
-                />
-              </FlexColumn>
-              <FlexColumn>
-                <Knapp
-                  mini
-                  htmlType="submit"
-                  className={styles.button}
-                  spinner={submitting}
-                  disabled={submitting || leggerTilNyDriftsmelding}
-                  tabIndex={0}
-                  onClick={() => addDriftsmelding(values.melding, form.reset)}
-                >
-                  <FormattedMessage id="LeggTilDriftsmeldingForm.Legg_Til" />
-                </Knapp>
-              </FlexColumn>
-            </FlexRow>
-          </FlexContainer>
-        </div>
-      )}
-    />
-  );
+    return (
+        <Form
+            onSubmit={() => undefined}
+            render={({ submitting, handleSubmit, form, values }) => (
+                <div>
+                    <Element>
+                        <FormattedMessage id="LeggTilDriftsmeldingForm.LeggTil" />
+                    </Element>
+                    <VerticalSpacer eightPx />
+                    <FlexContainer>
+                        <FlexRow>
+                            <FlexColumn>
+                                <InputField
+                                    name="melding"
+                                    className={styles.epost}
+                                    label={<FormattedMessage id="LeggTilDriftsmeldingForm.Melding" />}
+                                    bredde="L"
+                                    validate={[hasValidEmailFormat]}
+                                />
+                            </FlexColumn>
+                            <FlexColumn>
+                                <Knapp
+                                    mini
+                                    htmlType="submit"
+                                    className={styles.button}
+                                    spinner={submitting}
+                                    disabled={submitting || leggerTilNyDriftsmelding}
+                                    tabIndex={0}
+                                    onClick={() => addDriftsmelding(values.melding, form.reset)}
+                                >
+                                    <FormattedMessage id="LeggTilDriftsmeldingForm.Legg_Til" />
+                                </Knapp>
+                            </FlexColumn>
+                        </FlexRow>
+                    </FlexContainer>
+                </div>
+            )}
+        />
+    );
 };
 
 export default injectIntl(LeggTilDriftsmeldingForm);

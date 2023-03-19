@@ -14,134 +14,134 @@ import useRestApiRunner from '../../../api/rest-api-hooks/src/local-data/useRest
 import styles from './flyttReservasjonsmodal.css';
 
 interface OwnProps {
-  oppgave: Oppgave;
-  oppgaveStatus: OppgaveStatus;
-  lukkFlyttReservasjonsmodal: () => void;
-  openSak: (oppgave: Oppgave) => void;
-  hentReserverteOppgaver?: () => void;
-  hentOppgaverTilBehandling?: () => void;
+    oppgave: Oppgave;
+    oppgaveStatus: OppgaveStatus;
+    lukkFlyttReservasjonsmodal: () => void;
+    openSak: (oppgave: Oppgave) => void;
+    hentReserverteOppgaver?: () => void;
+    hentOppgaverTilBehandling?: () => void;
 }
 
 export const FlyttReservasjonsmodal: FunctionComponent<OwnProps & WrappedComponentProps> = ({
-  intl,
-  oppgave,
-  oppgaveStatus,
-  lukkFlyttReservasjonsmodal,
-  openSak,
-  hentReserverteOppgaver,
-  hentOppgaverTilBehandling,
+    intl,
+    oppgave,
+    oppgaveStatus,
+    lukkFlyttReservasjonsmodal,
+    openSak,
+    hentReserverteOppgaver,
+    hentOppgaverTilBehandling,
 }) => {
-  const { startRequest: reserverOppgave } = useRestApiRunner<OppgaveStatus>(K9LosApiKeys.RESERVER_OPPGAVE);
-  const { kanReservere } = useGlobalStateRestApiData<NavAnsatt>(RestApiGlobalStatePathsKeys.NAV_ANSATT);
+    const { startRequest: reserverOppgave } = useRestApiRunner<OppgaveStatus>(K9LosApiKeys.RESERVER_OPPGAVE);
+    const { kanReservere } = useGlobalStateRestApiData<NavAnsatt>(RestApiGlobalStatePathsKeys.NAV_ANSATT);
 
-  const [visManglerReservasjonsrettigheterFeilmelding, setVisManglerReservasjonsrettigheterFeilmelding] =
-    useState<boolean>(false);
+    const [visManglerReservasjonsrettigheterFeilmelding, setVisManglerReservasjonsrettigheterFeilmelding] =
+        useState<boolean>(false);
 
-  const overstyrReservasjonTilSaksbehandlerSomArbeiderMedAnnenPart = () => {
-    if (kanReservere) {
-      const params = {
-        overstyrIdent: oppgaveStatus.reservertAv,
-        oppgaveId: oppgave.eksternId,
-        overstyrSjekk: true,
-        overstyrBegrunnelse: 'Flyttes til deg fordi du jobber med den andre parts sak.',
-      };
-      reserverOppgave(params).then(() => {
-        if (typeof hentOppgaverTilBehandling !== 'undefined') {
-          hentOppgaverTilBehandling();
+    const overstyrReservasjonTilSaksbehandlerSomArbeiderMedAnnenPart = () => {
+        if (kanReservere) {
+            const params = {
+                overstyrIdent: oppgaveStatus.reservertAv,
+                oppgaveId: oppgave.eksternId,
+                overstyrSjekk: true,
+                overstyrBegrunnelse: 'Flyttes til deg fordi du jobber med den andre parts sak.',
+            };
+            reserverOppgave(params).then(() => {
+                if (typeof hentOppgaverTilBehandling !== 'undefined') {
+                    hentOppgaverTilBehandling();
+                }
+                lukkFlyttReservasjonsmodal();
+            });
+        } else {
+            setVisManglerReservasjonsrettigheterFeilmelding(true);
         }
-        lukkFlyttReservasjonsmodal();
-      });
-    } else {
-      setVisManglerReservasjonsrettigheterFeilmelding(true);
-    }
-  };
+    };
 
-  const overstyrReservasjonTilInnloggetSaksbehandlerFn = () => {
-    if (kanReservere) {
-      const params = {
-        oppgaveId: oppgave.eksternId,
-        overstyrSjekk: true,
-      };
+    const overstyrReservasjonTilInnloggetSaksbehandlerFn = () => {
+        if (kanReservere) {
+            const params = {
+                oppgaveId: oppgave.eksternId,
+                overstyrSjekk: true,
+            };
 
-      reserverOppgave(params)
-        .then(nyOppgaveStatus => {
-          if (nyOppgaveStatus.erReservert && nyOppgaveStatus.erReservertAvInnloggetBruker) {
-            openSak(oppgave);
-          }
-        })
-        .then(() => hentReserverteOppgaver());
-    } else {
-      setVisManglerReservasjonsrettigheterFeilmelding(true);
-    }
-  };
+            reserverOppgave(params)
+                .then((nyOppgaveStatus) => {
+                    if (nyOppgaveStatus.erReservert && nyOppgaveStatus.erReservertAvInnloggetBruker) {
+                        openSak(oppgave);
+                    }
+                })
+                .then(() => hentReserverteOppgaver());
+        } else {
+            setVisManglerReservasjonsrettigheterFeilmelding(true);
+        }
+    };
 
-  return (
-    <Modal
-      className={styles.flyttReservasjonModal}
-      isOpen
-      closeButton={false}
-      contentLabel={intl.formatMessage({ id: 'FlyttReservasjonModal.ReservertAvEnkel' })}
-      onRequestClose={() => lukkFlyttReservasjonsmodal()}
-    >
-      <div className={styles.oppgaveReservertAvAnnenModal}>
-        <div className={styles.flyttReservasjonModal_informasjon}>
-          <div className={styles.flyttReservasjonModal_image__container}>
-            <Image
-              className={styles.flyttReservasjonModal_image}
-              alt={intl.formatMessage({ id: 'FlyttReservasjonModal.ReservertAvEnkel' })}
-              src={advarselImageUrl}
-            />
-          </div>
-          <div className={styles.flyttReservasjonModal_text}>
-            <Normaltekst>
-              <FormattedMessage
-                id="FlyttReservasjonModal.ReservertAv"
-                values={{
-                  saksbehandlerid: oppgaveStatus.reservertAv,
-                  saksbehandlernavn: oppgaveStatus.reservertAvNavn,
-                }}
-              />
-            </Normaltekst>
-          </div>
-        </div>
-        <div className={styles.flyttReservasjonModal_knapper__container}>
-          <Hovedknapp
-            mini
-            htmlType="button"
-            className={styles.flyttReservasjonModal_knapper__knapp}
-            onClick={() => overstyrReservasjonTilSaksbehandlerSomArbeiderMedAnnenPart()}
-          >
-            {intl.formatMessage({ id: 'FlyttReservasjonModal.FlyttReservasjon' })}
-          </Hovedknapp>
+    return (
+        <Modal
+            className={styles.flyttReservasjonModal}
+            isOpen
+            closeButton={false}
+            contentLabel={intl.formatMessage({ id: 'FlyttReservasjonModal.ReservertAvEnkel' })}
+            onRequestClose={() => lukkFlyttReservasjonsmodal()}
+        >
+            <div className={styles.oppgaveReservertAvAnnenModal}>
+                <div className={styles.flyttReservasjonModal_informasjon}>
+                    <div className={styles.flyttReservasjonModal_image__container}>
+                        <Image
+                            className={styles.flyttReservasjonModal_image}
+                            alt={intl.formatMessage({ id: 'FlyttReservasjonModal.ReservertAvEnkel' })}
+                            src={advarselImageUrl}
+                        />
+                    </div>
+                    <div className={styles.flyttReservasjonModal_text}>
+                        <Normaltekst>
+                            <FormattedMessage
+                                id="FlyttReservasjonModal.ReservertAv"
+                                values={{
+                                    saksbehandlerid: oppgaveStatus.reservertAv,
+                                    saksbehandlernavn: oppgaveStatus.reservertAvNavn,
+                                }}
+                            />
+                        </Normaltekst>
+                    </div>
+                </div>
+                <div className={styles.flyttReservasjonModal_knapper__container}>
+                    <Hovedknapp
+                        mini
+                        htmlType="button"
+                        className={styles.flyttReservasjonModal_knapper__knapp}
+                        onClick={() => overstyrReservasjonTilSaksbehandlerSomArbeiderMedAnnenPart()}
+                    >
+                        {intl.formatMessage({ id: 'FlyttReservasjonModal.FlyttReservasjon' })}
+                    </Hovedknapp>
 
-          <Hovedknapp
-            className={styles.flyttReservasjonModal_knapper__knapp}
-            mini
-            htmlType="button"
-            onClick={() => overstyrReservasjonTilInnloggetSaksbehandlerFn()}
-          >
-            {intl.formatMessage({ id: 'FlyttReservasjonModal.OverstyrReservasjon' })}
-          </Hovedknapp>
-          <Knapp
-            className={styles.flyttReservasjonModal_knapper__knapp}
-            mini
-            htmlType="button"
-            onClick={() => lukkFlyttReservasjonsmodal()}
-            autoFocus
-          >
-            {intl.formatMessage({ id: 'OppgaveErReservertAvAnnenModal.GåTilKøen' })}
-          </Knapp>
-        </div>
-        {visManglerReservasjonsrettigheterFeilmelding && (
-          <div className={styles.flyttReservasjonModal__feilmelding}>
-            <Element>
-              <FormattedMessage id="FlyttReservasjonModal.Feil" />
-            </Element>
-          </div>
-        )}
-      </div>
-    </Modal>
-  );
+                    <Hovedknapp
+                        className={styles.flyttReservasjonModal_knapper__knapp}
+                        mini
+                        htmlType="button"
+                        onClick={() => overstyrReservasjonTilInnloggetSaksbehandlerFn()}
+                    >
+                        {intl.formatMessage({ id: 'FlyttReservasjonModal.OverstyrReservasjon' })}
+                    </Hovedknapp>
+                    <Knapp
+                        className={styles.flyttReservasjonModal_knapper__knapp}
+                        mini
+                        htmlType="button"
+                        onClick={() => lukkFlyttReservasjonsmodal()}
+                        autoFocus
+                    >
+                        {intl.formatMessage({ id: 'OppgaveErReservertAvAnnenModal.GåTilKøen' })}
+                    </Knapp>
+                </div>
+                {visManglerReservasjonsrettigheterFeilmelding && (
+                    <div className={styles.flyttReservasjonModal__feilmelding}>
+                        <Element>
+                            <FormattedMessage id="FlyttReservasjonModal.Feil" />
+                        </Element>
+                    </div>
+                )}
+            </div>
+        </Modal>
+    );
 };
 
 export default FlyttReservasjonsmodal;

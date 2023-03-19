@@ -6,18 +6,18 @@ import sinon from 'sinon';
 import MenuButton from './MenuButton';
 
 describe('<MenuButton>', () => {
-  it('skal rendre meny-knapp', () => {
-    const onClick = sinon.spy();
+    it('skal rendre meny-knapp', () => {
+        const onClick = sinon.spy();
 
-    const wrapper = shallow(
-      <MenuButton onClick={onClick}>
-        <div>test</div>
-      </MenuButton>,
-    );
+        const wrapper = shallow(
+            <MenuButton onClick={onClick}>
+                <div>test</div>
+            </MenuButton>,
+        );
 
-    const menuButton = wrapper.find('button');
-    expect(menuButton).has.length(1);
-    expect(menuButton.prop('onClick')).is.eql(onClick);
-    expect(menuButton.find(Undertekst).prop('children')).is.eql(<div>test</div>);
-  });
+        const menuButton = wrapper.find('button');
+        expect(menuButton).has.length(1);
+        expect(menuButton.prop('onClick')).is.eql(onClick);
+        expect(menuButton.find(Undertekst).prop('children')).is.eql(<div>test</div>);
+    });
 });

@@ -3,9 +3,9 @@ import IkkeTilgangTilKode6AvdelingPanel from 'avdelingsleder/components/IkkeTilg
 import withIntl from '../../decorators/withIntl';
 
 export default {
-  title: 'avdelingsleder/IkkeTilgangTilKode6AvdelingPanel',
-  component: IkkeTilgangTilKode6AvdelingPanel,
-  decorators: [withIntl],
+    title: 'avdelingsleder/IkkeTilgangTilKode6AvdelingPanel',
+    component: IkkeTilgangTilKode6AvdelingPanel,
+    decorators: [withIntl],
 };
 
 export const skalViseIkkeTilgangGrunnetKode6 = () => <IkkeTilgangTilKode6AvdelingPanel />;

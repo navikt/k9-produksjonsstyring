@@ -10,12 +10,12 @@ import SaksbehandlerDashboard from './components/SaksbehandlerDashboard';
  */
 
 const SaksbehandlerIndex = () => {
-  const [valgtOppgavekoId, setValgtOppgavekoId] = useState<string>();
-  const { kanSaksbehandle } = useGlobalStateRestApiData<NavAnsatt>(RestApiGlobalStatePathsKeys.NAV_ANSATT);
-  if (!kanSaksbehandle) {
-    return <IkkeTilgangTilAvdelingslederPanel />;
-  }
-  return <SaksbehandlerDashboard valgtOppgavekoId={valgtOppgavekoId} setValgtOppgavekoId={setValgtOppgavekoId} />;
+    const [valgtOppgavekoId, setValgtOppgavekoId] = useState<string>();
+    const { kanSaksbehandle } = useGlobalStateRestApiData<NavAnsatt>(RestApiGlobalStatePathsKeys.NAV_ANSATT);
+    if (!kanSaksbehandle) {
+        return <IkkeTilgangTilAvdelingslederPanel />;
+    }
+    return <SaksbehandlerDashboard valgtOppgavekoId={valgtOppgavekoId} setValgtOppgavekoId={setValgtOppgavekoId} />;
 };
 
 export default SaksbehandlerIndex;

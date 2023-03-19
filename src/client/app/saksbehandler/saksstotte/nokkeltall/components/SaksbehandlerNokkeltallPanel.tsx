@@ -5,25 +5,25 @@ import NyeOgFerdigstilteOppgaverForIdagPanel from './nyeOgFerdigstilteOppgaverFo
 import NyeOgFerdigstilteOppgaverForSisteSyvPanel from './nyeOgFerdigstilteOppgaverForSisteSyv/NyeOgFerdigstilteOppgaverForSisteSyvPanel';
 
 interface OwnProps {
-  nyeOgFerdigstilteOppgaver: NyeOgFerdigstilteOppgaver[];
+    nyeOgFerdigstilteOppgaver: NyeOgFerdigstilteOppgaver[];
 }
 
 /**
  * SaksbehandlerNokkeltallPanel.
  */
 const SaksbehandlerNokkeltallPanel: FunctionComponent<OwnProps> = ({ nyeOgFerdigstilteOppgaver }) => {
-  const height = 300;
+    const height = 300;
 
-  return (
-    <div>
-      <NyeOgFerdigstilteOppgaverForIdagPanel nyeOgFerdigstilteOppgaver={nyeOgFerdigstilteOppgaver} />
-      <VerticalSpacer sixteenPx />
-      <NyeOgFerdigstilteOppgaverForSisteSyvPanel
-        height={height}
-        nyeOgFerdigstilteOppgaver={nyeOgFerdigstilteOppgaver}
-      />
-    </div>
-  );
+    return (
+        <div>
+            <NyeOgFerdigstilteOppgaverForIdagPanel nyeOgFerdigstilteOppgaver={nyeOgFerdigstilteOppgaver} />
+            <VerticalSpacer sixteenPx />
+            <NyeOgFerdigstilteOppgaverForSisteSyvPanel
+                height={height}
+                nyeOgFerdigstilteOppgaver={nyeOgFerdigstilteOppgaver}
+            />
+        </div>
+    );
 };
 
 export default SaksbehandlerNokkeltallPanel;

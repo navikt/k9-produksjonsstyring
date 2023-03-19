@@ -18,35 +18,35 @@ import { config } from 'utils/reactQueryConfig';
 const environment = window.location.hostname;
 
 init({
-  dsn: 'https://ee88a0763c614159ba73dbae305f737e@sentry.gc.nav.no/38',
-  release: process.env.SENTRY_RELEASE || 'unknown',
-  environment,
+    dsn: 'https://ee88a0763c614159ba73dbae305f737e@sentry.gc.nav.no/38',
+    release: process.env.SENTRY_RELEASE || 'unknown',
+    environment,
 });
 
 if (process.env.NODE_ENV === 'development') {
-  const { worker } = require('../mocks/browser');
-  worker.start({ onUnhandledRequest: 'bypass' });
+    const { worker } = require('../mocks/browser');
+    worker.start({ onUnhandledRequest: 'bypass' });
 }
 
-const renderFunc = Component => {
-  const app = document.getElementById('app');
-  if (app === null) {
-    throw new Error('No app element');
-  }
+const renderFunc = (Component) => {
+    const app = document.getElementById('app');
+    if (app === null) {
+        throw new Error('No app element');
+    }
 
-  const queryClient = new QueryClient(config);
-  const root = createRoot(app);
-  root.render(
-    <BrowserRouter>
-      <RestApiProvider requestApi={k9LosApi}>
-        <RestApiErrorProvider>
-          <QueryClientProvider client={queryClient}>
-            <Component />
-          </QueryClientProvider>
-        </RestApiErrorProvider>
-      </RestApiProvider>
-    </BrowserRouter>,
-  );
+    const queryClient = new QueryClient(config);
+    const root = createRoot(app);
+    root.render(
+        <BrowserRouter>
+            <RestApiProvider requestApi={k9LosApi}>
+                <RestApiErrorProvider>
+                    <QueryClientProvider client={queryClient}>
+                        <Component />
+                    </QueryClientProvider>
+                </RestApiErrorProvider>
+            </RestApiProvider>
+        </BrowserRouter>,
+    );
 };
 
 renderFunc(AppIndex);

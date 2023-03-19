@@ -11,59 +11,59 @@ import { intlMock, shallowWithIntl } from '../../../../../../setup/testHelpers/i
 import SearchForm from './SearchForm';
 
 describe('<SearchForm>', () => {
-  let contextStub;
+    let contextStub;
 
-  const intl: IntlShape = {
-    ...intlMock,
-  };
-  it('skal ha et søkefelt og en søkeknapp', () => {
-    contextStub = sinon.stub(useRestApiData, 'default').callsFake(() => ({ kanSaksbehandle: true }));
-    const formProps = {
-      handleSubmit: sinon.spy(),
-      values: { searchString: '' },
+    const intl: IntlShape = {
+        ...intlMock,
     };
-    const wrapper = shallow(
-      <SearchForm.WrappedComponent
-        intl={intl}
-        onSubmit={sinon.spy()}
-        searchStarted
-        resetSearch={sinon.spy()}
-        // @ts-ignore
-      />,
-    )
-      .find(Form)
-      .renderProp('render')(formProps);
+    it('skal ha et søkefelt og en søkeknapp', () => {
+        contextStub = sinon.stub(useRestApiData, 'default').callsFake(() => ({ kanSaksbehandle: true }));
+        const formProps = {
+            handleSubmit: sinon.spy(),
+            values: { searchString: '' },
+        };
+        const wrapper = shallow(
+            <SearchForm.WrappedComponent
+                intl={intl}
+                onSubmit={sinon.spy()}
+                searchStarted
+                resetSearch={sinon.spy()}
+                // @ts-ignore
+            />,
+        )
+            .find(Form)
+            .renderProp('render')(formProps);
 
-    expect(wrapper.find(InputField)).to.have.length(1);
-    expect(wrapper.find(Knapp)).to.have.length(1);
-    contextStub.restore();
-  });
+        expect(wrapper.find(InputField)).to.have.length(1);
+        expect(wrapper.find(Knapp)).to.have.length(1);
+        contextStub.restore();
+    });
 
-  it('skal utføre søk når en trykker på søkeknapp', () => {
-    contextStub = sinon.stub(useRestApiData, 'default').callsFake(() => ({ kanSaksbehandle: true }));
-    const onButtonClick = sinon.spy();
-    const formProps = {
-      handleSubmit: onButtonClick,
-      values: { searchString: '' },
-    };
+    it('skal utføre søk når en trykker på søkeknapp', () => {
+        contextStub = sinon.stub(useRestApiData, 'default').callsFake(() => ({ kanSaksbehandle: true }));
+        const onButtonClick = sinon.spy();
+        const formProps = {
+            handleSubmit: onButtonClick,
+            values: { searchString: '' },
+        };
 
-    const wrapper = shallowWithIntl(
-      <SearchForm.WrappedComponent
-        intl={intl}
-        onSubmit={onButtonClick}
-        searchStarted
-        resetSearch={sinon.spy()}
-        // @ts-ignore
-      />,
-    )
-      .find(Form)
-      .renderProp('render')(formProps);
+        const wrapper = shallowWithIntl(
+            <SearchForm.WrappedComponent
+                intl={intl}
+                onSubmit={onButtonClick}
+                searchStarted
+                resetSearch={sinon.spy()}
+                // @ts-ignore
+            />,
+        )
+            .find(Form)
+            .renderProp('render')(formProps);
 
-    const form = wrapper.find('form');
-    const preventDefault = () => undefined;
-    form.simulate('submit', { preventDefault });
+        const form = wrapper.find('form');
+        const preventDefault = () => undefined;
+        form.simulate('submit', { preventDefault });
 
-    expect(onButtonClick).to.have.property('callCount', 1);
-    contextStub.restore();
-  });
+        expect(onButtonClick).to.have.property('callCount', 1);
+        contextStub.restore();
+    });
 });

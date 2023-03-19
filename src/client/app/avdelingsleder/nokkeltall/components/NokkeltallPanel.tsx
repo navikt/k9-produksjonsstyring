@@ -10,30 +10,30 @@ import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import FordelingAvBehandlingstypePanel from './fordelingAvBehandlingstype/FordelingAvBehandlingstypePanel';
 
 interface OwnProps {
-  alleOppgaver: AlleOppgaver[];
-  ferdigstiltePerDato: HistoriskData[];
-  beholdningPerDato?: HistoriskData[];
-  nyePerDato?: HistoriskData[];
+    alleOppgaver: AlleOppgaver[];
+    ferdigstiltePerDato: HistoriskData[];
+    beholdningPerDato?: HistoriskData[];
+    nyePerDato?: HistoriskData[];
 }
 const NokkeltallPanel: FunctionComponent<OwnProps> = ({
-  alleOppgaver,
-  ferdigstiltePerDato,
-  beholdningPerDato,
-  nyePerDato,
+    alleOppgaver,
+    ferdigstiltePerDato,
+    beholdningPerDato,
+    nyePerDato,
 }) => (
-  <div>
-    <InngangOgFerdigstiltePanel />
-    <VerticalSpacer twentyPx />
-    <NyeHistorikkPanel nyePerDato={nyePerDato} />
-    <VerticalSpacer twentyPx />
-    <FerdigstilteHistorikkPanel ferdigstiltePerDato={ferdigstiltePerDato} />
-    <VerticalSpacer twentyPx />
-    <BeholdningHistorikkPanel beholdningPerDato={beholdningPerDato} />
-    <VerticalSpacer twentyPx />
-    <FordelingAvBehandlingstypePanel alleOppgaver={alleOppgaver} />
-    <VerticalSpacer twentyPx />
-    <AksjonspunkterPerEnhetPanel />
-  </div>
+    <div>
+        <InngangOgFerdigstiltePanel />
+        <VerticalSpacer twentyPx />
+        <NyeHistorikkPanel nyePerDato={nyePerDato} />
+        <VerticalSpacer twentyPx />
+        <FerdigstilteHistorikkPanel ferdigstiltePerDato={ferdigstiltePerDato} />
+        <VerticalSpacer twentyPx />
+        <BeholdningHistorikkPanel beholdningPerDato={beholdningPerDato} />
+        <VerticalSpacer twentyPx />
+        <FordelingAvBehandlingstypePanel alleOppgaver={alleOppgaver} />
+        <VerticalSpacer twentyPx />
+        <AksjonspunkterPerEnhetPanel />
+    </div>
 );
 
 export default NokkeltallPanel;

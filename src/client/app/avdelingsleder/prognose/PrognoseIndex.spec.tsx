@@ -3,9 +3,9 @@ import { renderWithAllProviders } from '../../../../../setup/testHelpers/testUti
 import PrognoseIndex from './PrognoseIndex';
 
 describe('<PrognoseIndex>', () => {
-  it('skal vise grafpaneler', () => {
-    // TODO legg in test igen når man bruker react query.
-    renderWithAllProviders(<PrognoseIndex />);
-    // expect(screen.getByText('BehandlingerGårAvVentÅrsaker.Tittel')).toBeDefined();
-  });
+    it('skal vise grafpaneler', () => {
+        // TODO legg in test igen når man bruker react query.
+        renderWithAllProviders(<PrognoseIndex />);
+        // expect(screen.getByText('BehandlingerGårAvVentÅrsaker.Tittel')).toBeDefined();
+    });
 });

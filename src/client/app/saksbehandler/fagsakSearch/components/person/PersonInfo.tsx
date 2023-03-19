@@ -9,7 +9,7 @@ import AlderVisning from './Aldervisning';
 import styles from './personInfo.css';
 
 interface OwnProps {
-  person: Person;
+    person: Person;
 }
 
 /**
@@ -24,24 +24,24 @@ interface OwnProps {
  * ```
  */
 const PersonInfo: FunctionComponent<OwnProps & WrappedComponentProps> = ({ person, intl }) => {
-  const { navn, personnummer, kjoenn, doedsdato } = person;
-  return (
-    <div>
-      <Image
-        className={styles.icon}
-        src={kjoenn === 'KVINNE' ? urlKvinne : urlMann}
-        alt={intl.formatMessage({ id: 'Person.ImageText' })}
-      />
-      <div className={styles.infoPlaceholder}>
+    const { navn, personnummer, kjoenn, doedsdato } = person;
+    return (
         <div>
-          <Undertittel>
-            {navn} {doedsdato && <AlderVisning doedsdato={doedsdato} />}
-          </Undertittel>
-          <Undertekst>{personnummer}</Undertekst>
+            <Image
+                className={styles.icon}
+                src={kjoenn === 'KVINNE' ? urlKvinne : urlMann}
+                alt={intl.formatMessage({ id: 'Person.ImageText' })}
+            />
+            <div className={styles.infoPlaceholder}>
+                <div>
+                    <Undertittel>
+                        {navn} {doedsdato && <AlderVisning doedsdato={doedsdato} />}
+                    </Undertittel>
+                    <Undertekst>{personnummer}</Undertekst>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  );
+    );
 };
 
 export default injectIntl(PersonInfo);

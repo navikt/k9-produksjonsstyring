@@ -2,8 +2,8 @@ import { FunctionComponent, useEffect } from 'react';
 import { setValueInLocalStorage } from 'utils/localStorageHelper';
 
 interface OwnProps {
-  stateKey: string;
-  values: any;
+    stateKey: string;
+    values: any;
 }
 
 /**
@@ -13,11 +13,11 @@ interface OwnProps {
  * ved navigering fra og til komponenter som har en final-form.
  */
 const StoreValuesInLocalStorage: FunctionComponent<OwnProps> = ({ stateKey, values }) => {
-  useEffect(() => {
-    setValueInLocalStorage(stateKey, JSON.stringify(values));
-  }, [values]);
+    useEffect(() => {
+        setValueInLocalStorage(stateKey, JSON.stringify(values));
+    }, [values]);
 
-  return null;
+    return null;
 };
 
 export default StoreValuesInLocalStorage;

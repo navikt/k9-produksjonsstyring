@@ -13,15 +13,15 @@ import PropTypes from 'prop-types';
  * ```
  */
 const DateTimeLabel = ({ dateTimeString }) => (
-  <div>
-    <FormattedDate day="2-digit" month="2-digit" year="numeric" value={new Date(dateTimeString)} />
-    {' - '}
-    <FormattedTime value={new Date(dateTimeString)} />
-  </div>
+    <div>
+        <FormattedDate day="2-digit" month="2-digit" year="numeric" value={new Date(dateTimeString)} />
+        {' - '}
+        <FormattedTime value={new Date(dateTimeString)} />
+    </div>
 );
 
 DateTimeLabel.propTypes = {
-  dateTimeString: PropTypes.string.isRequired,
+    dateTimeString: PropTypes.string.isRequired,
 };
 
 export default DateTimeLabel;

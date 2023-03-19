@@ -7,8 +7,8 @@ import { RestApiStateContext } from '../RestApiContext';
  * må @see useGlobalStateRestApi først brukes for å hente data fra backend
  */
 function useGlobalStateRestApiData<T>(key: RestApiGlobalStatePathsKeys): T {
-  const state = useContext(RestApiStateContext);
-  return state[key];
+    const state = useContext(RestApiStateContext);
+    return state[key];
 }
 
 export default useGlobalStateRestApiData;

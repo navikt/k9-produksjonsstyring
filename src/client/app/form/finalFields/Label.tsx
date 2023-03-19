@@ -7,51 +7,51 @@ import styles from './label.css';
 const classNames = classnames.bind(styles);
 
 export type LabelType =
-  | string
-  | ReactNode
-  | {
-      id: string;
-      args?: any;
-    };
+    | string
+    | ReactNode
+    | {
+          id: string;
+          args?: any;
+      };
 
 interface OwnProps {
-  input: LabelType;
-  typographyElement?: ReactType;
-  readOnly?: boolean;
+    input: LabelType;
+    typographyElement?: ReactType;
+    readOnly?: boolean;
 }
 
 export class Label extends Component<OwnProps & WrappedComponentProps> {
-  static defaultProps = {
-    typographyElement: Undertekst,
-    readOnly: false,
-  };
+    static defaultProps = {
+        typographyElement: Undertekst,
+        readOnly: false,
+    };
 
-  constructor(props) {
-    super(props);
-    this.format = this.format.bind(this);
-  }
-
-  format(label) {
-    if (label && label.id) {
-      const { intl } = this.props;
-      return intl.formatMessage({ id: label.id }, label.args);
+    constructor(props) {
+        super(props);
+        this.format = this.format.bind(this);
     }
-    return label;
-  }
 
-  render() {
-    const { input, readOnly, typographyElement: TypoElem } = this.props;
-    if (!input) {
-      return null;
+    format(label) {
+        if (label && label.id) {
+            const { intl } = this.props;
+            return intl.formatMessage({ id: label.id }, label.args);
+        }
+        return label;
     }
-    return (
-      <span className={classNames('labelWrapper', { readOnly })}>
-        <TypoElem tag="span" className={styles.label}>
-          {this.format(input)}
-        </TypoElem>
-      </span>
-    );
-  }
+
+    render() {
+        const { input, readOnly, typographyElement: TypoElem } = this.props;
+        if (!input) {
+            return null;
+        }
+        return (
+            <span className={classNames('labelWrapper', { readOnly })}>
+                <TypoElem tag="span" className={styles.label}>
+                    {this.format(input)}
+                </TypoElem>
+            </span>
+        );
+    }
 }
 
 export default injectIntl(Label);

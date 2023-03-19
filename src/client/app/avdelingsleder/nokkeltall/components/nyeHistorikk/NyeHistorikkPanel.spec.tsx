@@ -5,16 +5,16 @@ import { renderWithAllProviders } from '../../../../../../../setup/testHelpers/t
 import { NyeHistorikkPanel } from './NyeHistorikkPanel';
 
 describe('<NyeHistorikkPanel>', () => {
-  it('kan velge option i dropdowns', () => {
-    renderWithAllProviders(<NyeHistorikkPanel nyePerDato={[]} />);
+    it('kan velge option i dropdowns', () => {
+        renderWithAllProviders(<NyeHistorikkPanel nyePerDato={[]} />);
 
-    const ukeSelect = screen.getAllByRole('combobox')[0];
-    const ytelseSelect = screen.getAllByRole('combobox')[1];
+        const ukeSelect = screen.getAllByRole('combobox')[0];
+        const ytelseSelect = screen.getAllByRole('combobox')[1];
 
-    expect(ukeSelect).toBeVisible();
-    expect(ytelseSelect).toBeVisible();
+        expect(ukeSelect).toBeVisible();
+        expect(ytelseSelect).toBeVisible();
 
-    userEvent.click(screen.getByText('Historikk.FireSisteUker'));
-    userEvent.click(screen.getByText(/Punsj/i));
-  });
+        userEvent.click(screen.getByText('Historikk.FireSisteUker'));
+        userEvent.click(screen.getByText(/Punsj/i));
+    });
 });

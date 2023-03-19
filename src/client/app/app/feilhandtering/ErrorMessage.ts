@@ -1,30 +1,30 @@
 class ErrorMessage {
-  text: string;
+    text: string;
 
-  code: string;
+    code: string;
 
-  params: any;
+    params: any;
 
-  type?: any;
+    type?: any;
 
-  static withMessage(message: string, type?: any) {
-    const errorMessage = new ErrorMessage();
-    errorMessage.text = message;
-    if (type !== undefined) {
-      errorMessage.type = type;
+    static withMessage(message: string, type?: any) {
+        const errorMessage = new ErrorMessage();
+        errorMessage.text = message;
+        if (type !== undefined) {
+            errorMessage.type = type;
+        }
+        return errorMessage;
     }
-    return errorMessage;
-  }
 
-  static withMessageCode(messageCode: string, params: any, type?: any) {
-    const errorMessage = new ErrorMessage();
-    errorMessage.code = messageCode;
-    errorMessage.params = params;
-    if (type !== undefined) {
-      errorMessage.type = type;
+    static withMessageCode(messageCode: string, params: any, type?: any) {
+        const errorMessage = new ErrorMessage();
+        errorMessage.code = messageCode;
+        errorMessage.params = params;
+        if (type !== undefined) {
+            errorMessage.type = type;
+        }
+        return errorMessage;
     }
-    return errorMessage;
-  }
 }
 
 export default ErrorMessage;

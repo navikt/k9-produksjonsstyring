@@ -15,40 +15,40 @@ import styles from './aktoerIndex.css';
  * AktoerIndex
  */
 export const AktoerIndex: FunctionComponent = () => {
-  const { selected: selectedAktoerId } = useTrackRouteParam<string>({
-    paramName: 'aktoerId',
-    parse: aktoerIdFromUrl => Number.parseInt(aktoerIdFromUrl, 10),
-  });
+    const { selected: selectedAktoerId } = useTrackRouteParam<string>({
+        paramName: 'aktoerId',
+        parse: (aktoerIdFromUrl) => Number.parseInt(aktoerIdFromUrl, 10),
+    });
 
-  const {
-    startRequest: sokAktoerId,
-    state,
-    data: resultat,
-  } = useRestApiRunner<SokeResultat>(K9LosApiKeys.SEARCH_AKTOERID);
+    const {
+        startRequest: sokAktoerId,
+        state,
+        data: resultat,
+    } = useRestApiRunner<SokeResultat>(K9LosApiKeys.SEARCH_AKTOERID);
 
-  useEffect(() => {
-    sokAktoerId({ aktoerId: selectedAktoerId });
-  }, []);
+    useEffect(() => {
+        sokAktoerId({ aktoerId: selectedAktoerId });
+    }, []);
 
-  if (state === RestApiState.LOADING) {
-    return <LoadingPanel />;
-  }
+    if (state === RestApiState.LOADING) {
+        return <LoadingPanel />;
+    }
 
-  if (state === RestApiState.SUCCESS && resultat.ikkeTilgang) {
-    return (
-      <Panel className={styles.container}>
-        <Undertittel>
-          <FormattedMessage id="FagsakSearch.IkkeTilgang" />
-        </Undertittel>
-      </Panel>
-    );
-  }
+    if (state === RestApiState.SUCCESS && resultat.ikkeTilgang) {
+        return (
+            <Panel className={styles.container}>
+                <Undertittel>
+                    <FormattedMessage id="FagsakSearch.IkkeTilgang" />
+                </Undertittel>
+            </Panel>
+        );
+    }
 
-  if (state === RestApiState.SUCCESS && !resultat.ikkeTilgang) {
-    return <AktoerGrid resultat={resultat} />;
-  }
+    if (state === RestApiState.SUCCESS && !resultat.ikkeTilgang) {
+        return <AktoerGrid resultat={resultat} />;
+    }
 
-  return <p className={styles.ugyldig}>{`Ugyldig aktørId: ${selectedAktoerId}`}</p>;
+    return <p className={styles.ugyldig}>{`Ugyldig aktørId: ${selectedAktoerId}`}</p>;
 };
 
 export default AktoerIndex;

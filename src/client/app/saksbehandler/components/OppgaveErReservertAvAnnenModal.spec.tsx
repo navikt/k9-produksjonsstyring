@@ -13,78 +13,78 @@ import { intlMock, shallowWithIntl } from '../../../../../setup/testHelpers/intl
 import { OppgaveErReservertAvAnnenModal } from './OppgaveErReservertAvAnnenModal';
 
 describe('<OppgaveErReservertAvAnnenModal>', () => {
-  const dato = dayjs().add(2, 'hours').format();
-  const oppgave = {
-    eksternId: '1',
-    status: {
-      erReservert: false,
-      reservertTilTidspunkt: dato,
-      reservertAv: '123455',
-      reservertAvNavn: 'test',
-    },
-    saksnummer: '1',
-    behandlingId: 2,
-    personnummer: '1234567',
-    navn: 'Espen Utvikler',
-    system: 'FPSAK',
-    behandlingstype: {
-      kode: behandlingType.FORSTEGANGSSOKNAD,
-      navn: '',
-    },
-    opprettetTidspunkt: '2017-01-01',
-    behandlingsfrist: '2017-01-01',
-    erTilSaksbehandling: true,
-    fagsakYtelseType: {
-      kode: fagsakYtelseType.OMSORGSPENGER,
-      navn: 'FP',
-    },
-    behandlingStatus: {
-      kode: behandlingStatus.OPPRETTET,
-      navn: '',
-    },
-  };
+    const dato = dayjs().add(2, 'hours').format();
+    const oppgave = {
+        eksternId: '1',
+        status: {
+            erReservert: false,
+            reservertTilTidspunkt: dato,
+            reservertAv: '123455',
+            reservertAvNavn: 'test',
+        },
+        saksnummer: '1',
+        behandlingId: 2,
+        personnummer: '1234567',
+        navn: 'Espen Utvikler',
+        system: 'FPSAK',
+        behandlingstype: {
+            kode: behandlingType.FORSTEGANGSSOKNAD,
+            navn: '',
+        },
+        opprettetTidspunkt: '2017-01-01',
+        behandlingsfrist: '2017-01-01',
+        erTilSaksbehandling: true,
+        fagsakYtelseType: {
+            kode: fagsakYtelseType.OMSORGSPENGER,
+            navn: 'FP',
+        },
+        behandlingStatus: {
+            kode: behandlingStatus.OPPRETTET,
+            navn: '',
+        },
+    };
 
-  it('skal vise modal med reservasjonsdata', () => {
-    const wrapper = shallowWithIntl(
-      <OppgaveErReservertAvAnnenModal
-        intl={intlMock}
-        lukkErReservertModalOgOpneOppgave={sinon.spy()}
-        oppgave={oppgave}
-        oppgaveStatus={oppgave.status}
-      />,
-    );
+    it('skal vise modal med reservasjonsdata', () => {
+        const wrapper = shallowWithIntl(
+            <OppgaveErReservertAvAnnenModal
+                intl={intlMock}
+                lukkErReservertModalOgOpneOppgave={sinon.spy()}
+                oppgave={oppgave}
+                oppgaveStatus={oppgave.status}
+            />,
+        );
 
-    expect(wrapper.find(Modal)).has.length(1);
-    const fmessage = wrapper.find(FormattedMessage);
-    expect(fmessage).has.length(1);
-    const dagOgTidspunkt = getDateAndTime(dato);
-    expect(fmessage.prop('values')).is.eql({
-      date: dagOgTidspunkt.date,
-      time: dagOgTidspunkt.time,
-      saksbehandlerid: '123455',
-      saksbehandlernavn: 'test',
+        expect(wrapper.find(Modal)).has.length(1);
+        const fmessage = wrapper.find(FormattedMessage);
+        expect(fmessage).has.length(1);
+        const dagOgTidspunkt = getDateAndTime(dato);
+        expect(fmessage.prop('values')).is.eql({
+            date: dagOgTidspunkt.date,
+            time: dagOgTidspunkt.time,
+            saksbehandlerid: '123455',
+            saksbehandlernavn: 'test',
+        });
     });
-  });
 
-  it('skal lukke modal og åpne oppgave ved trykk på knapp', () => {
-    const lukkOgApneFn = sinon.spy();
-    const wrapper = shallowWithIntl(
-      <OppgaveErReservertAvAnnenModal
-        intl={intlMock}
-        lukkErReservertModalOgOpneOppgave={lukkOgApneFn}
-        oppgave={oppgave}
-        oppgaveStatus={oppgave.status}
-      />,
-    );
+    it('skal lukke modal og åpne oppgave ved trykk på knapp', () => {
+        const lukkOgApneFn = sinon.spy();
+        const wrapper = shallowWithIntl(
+            <OppgaveErReservertAvAnnenModal
+                intl={intlMock}
+                lukkErReservertModalOgOpneOppgave={lukkOgApneFn}
+                oppgave={oppgave}
+                oppgaveStatus={oppgave.status}
+            />,
+        );
 
-    const knapp = wrapper.find(Hovedknapp);
-    expect(knapp).has.length(1);
+        const knapp = wrapper.find(Hovedknapp);
+        expect(knapp).has.length(1);
 
-    knapp.prop('onClick')();
+        knapp.prop('onClick')();
 
-    expect(lukkOgApneFn.calledOnce).to.be.true;
-    const { args } = lukkOgApneFn.getCalls()[0];
-    expect(args).to.have.length(1);
-    expect(args[0]).to.eql(oppgave);
-  });
+        expect(lukkOgApneFn.calledOnce).to.be.true;
+        const { args } = lukkOgApneFn.getCalls()[0];
+        expect(args).to.have.length(1);
+        expect(args[0]).to.eql(oppgave);
+    });
 });

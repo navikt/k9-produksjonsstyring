@@ -5,8 +5,8 @@ import diskresjonskodeType from 'kodeverk/diskresjonskodeType';
 import styles from './merkepanel.css';
 
 interface OwnProps {
-  erDod?: boolean;
-  diskresjonskode?: string;
+    erDod?: boolean;
+    diskresjonskode?: string;
 }
 
 /**
@@ -20,35 +20,35 @@ interface OwnProps {
  * ```
  */
 export const MerkePanel: FunctionComponent<OwnProps & WrappedComponentProps> = ({ intl, erDod, diskresjonskode }) => (
-  <div className={styles.merkePanel}>
-    {erDod && (
-      <EtikettInfo className={styles.dodMerke} title={intl.formatMessage({ id: 'MerkePanel.DodTittel' })}>
-        <FormattedMessage id="MerkePanel.Dod" />
-      </EtikettInfo>
-    )}
-    {diskresjonskode === diskresjonskodeType.KODE6 && !erDod && (
-      <EtikettAdvarsel
-        className={styles.merkeDiskresjonskoder}
-        title={intl.formatMessage({ id: 'MerkePanel.Diskresjon6Tittel' })}
-      >
-        <FormattedMessage id="MerkePanel.Diskresjon6" />
-      </EtikettAdvarsel>
-    )}
+    <div className={styles.merkePanel}>
+        {erDod && (
+            <EtikettInfo className={styles.dodMerke} title={intl.formatMessage({ id: 'MerkePanel.DodTittel' })}>
+                <FormattedMessage id="MerkePanel.Dod" />
+            </EtikettInfo>
+        )}
+        {diskresjonskode === diskresjonskodeType.KODE6 && !erDod && (
+            <EtikettAdvarsel
+                className={styles.merkeDiskresjonskoder}
+                title={intl.formatMessage({ id: 'MerkePanel.Diskresjon6Tittel' })}
+            >
+                <FormattedMessage id="MerkePanel.Diskresjon6" />
+            </EtikettAdvarsel>
+        )}
 
-    {diskresjonskode === diskresjonskodeType.KODE7 && !erDod && (
-      <EtikettFokus
-        className={styles.merkeDiskresjonskoder}
-        title={intl.formatMessage({ id: 'MerkePanel.Diskresjon7Tittel' })}
-      >
-        <FormattedMessage id="MerkePanel.Diskresjon7" />
-      </EtikettFokus>
-    )}
-  </div>
+        {diskresjonskode === diskresjonskodeType.KODE7 && !erDod && (
+            <EtikettFokus
+                className={styles.merkeDiskresjonskoder}
+                title={intl.formatMessage({ id: 'MerkePanel.Diskresjon7Tittel' })}
+            >
+                <FormattedMessage id="MerkePanel.Diskresjon7" />
+            </EtikettFokus>
+        )}
+    </div>
 );
 
 MerkePanel.defaultProps = {
-  diskresjonskode: '',
-  erDod: false,
+    diskresjonskode: '',
+    erDod: false,
 };
 
 export default injectIntl(MerkePanel);

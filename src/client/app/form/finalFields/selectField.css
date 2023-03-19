@@ -1,26 +1,26 @@
 .navSelect select {
-  -ms-overflow-style: -ms-autohiding-scrollbar;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
 }
 .navSelect select:disabled {
-  background: none;
-  background-color: #e9e7e7;
-  border: 0;
-  border-color: #b7b1a9;
-  box-shadow: none;
-  color: #3e3832;
-  padding-left: 0;
-  padding-right: 0;
+    background: none;
+    background-color: #e9e7e7;
+    border: 0;
+    border-color: #b7b1a9;
+    box-shadow: none;
+    color: #3e3832;
+    padding-left: 0;
+    padding-right: 0;
 }
 .navSelect select:required:invalid {
-  color: gray;
+    color: gray;
 }
 .navSelect option {
-  color: black;
+    color: black;
 }
 .navSelect option[disabled] {
-  color: gray;
+    color: gray;
 }
 .navSelectReadOnly > div::before,
 .navSelectReadOnly > div::after {
-  display: none;
+    display: none;
 }

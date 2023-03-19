@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 import styles from './menuButton.css';
 
 type TsProps = Readonly<{
-  onClick: () => void;
-  children: Node;
+    onClick: () => void;
+    children: Node;
 }>;
 
 /**
@@ -14,14 +14,14 @@ type TsProps = Readonly<{
  * Presentasjonskomponent. Lager lenker i behandlingsmeny
  */
 const MenuButton = React.forwardRef(({ onClick, children }: TsProps, ref) => (
-  <button ref={ref} className={styles.button} onClick={onClick} type="button">
-    <Undertekst>{children}</Undertekst>
-  </button>
+    <button ref={ref} className={styles.button} onClick={onClick} type="button">
+        <Undertekst>{children}</Undertekst>
+    </button>
 ));
 
 MenuButton.propTypes = {
-  onClick: PropTypes.func.isRequired,
-  children: PropTypes.element.isRequired,
+    onClick: PropTypes.func.isRequired,
+    children: PropTypes.element.isRequired,
 };
 
 export default MenuButton;

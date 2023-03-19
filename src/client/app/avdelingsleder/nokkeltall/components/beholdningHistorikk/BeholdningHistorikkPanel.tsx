@@ -14,7 +14,7 @@ import HistorikkGraf from '../../HistorikkGraf';
 import HistoriskData from '../../historiskDataTsType';
 
 interface OwnProps {
-  beholdningPerDato?: HistoriskData[];
+    beholdningPerDato?: HistoriskData[];
 }
 
 const id = 'beholdningForm';
@@ -23,47 +23,57 @@ const id = 'beholdningForm';
  * BeholdningHistorikkPanel.
  */
 export const BeholdningHistorikkPanel: FunctionComponent<OwnProps & WrappedComponentProps> = ({
-  beholdningPerDato,
+    beholdningPerDato,
 }) => {
-  const intl = useIntl();
-  const behandlingTyper = useKodeverk(kodeverkTyper.BEHANDLING_TYPE);
-  const [valgtYtelseType, setValgtYtelseType] = useState<string>(
-    getValueFromLocalStorage(`${id}-ytelsestype`) || ALLE_YTELSETYPER_VALGT,
-  );
+    const intl = useIntl();
+    const behandlingTyper = useKodeverk(kodeverkTyper.BEHANDLING_TYPE);
+    const [valgtYtelseType, setValgtYtelseType] = useState<string>(
+        getValueFromLocalStorage(`${id}-ytelsestype`) || ALLE_YTELSETYPER_VALGT,
+    );
 
-  const [antallUkerSomSkalVises, setAntallUkerSomSkalVises] = useState<string>(
-    getValueFromLocalStorage(`${id}-uker`) || UKE_2,
-  );
+    const [antallUkerSomSkalVises, setAntallUkerSomSkalVises] = useState<string>(
+        getValueFromLocalStorage(`${id}-uker`) || UKE_2,
+    );
 
-  const alleKodeverk: AlleKodeverk = useGlobalStateRestApiData(RestApiGlobalStatePathsKeys.KODEVERK);
+    const alleKodeverk: AlleKodeverk = useGlobalStateRestApiData(RestApiGlobalStatePathsKeys.KODEVERK);
 
-  return (
-    <GrafContainer
-      valgtYtelseType={valgtYtelseType}
-      antallUkerSomSkalVises={antallUkerSomSkalVises}
-      setValgtYtelseType={setValgtYtelseType}
-      setAntallUkerSomSkalVises={setAntallUkerSomSkalVises}
-      tittel={intl.formatMessage({ id: 'BeholdningHistorikkPanel.Beholdning' })}
-      id={id}
-    >
-      <>
-        {valgtYtelseType === fagsakYtelseType.PUNSJ && (
-          <HistorikkGrafForPunsj
-            isFireUkerValgt={antallUkerSomSkalVises === UKE_4}
-            historiskData={filtrereNyePerDato(valgtYtelseType, antallUkerSomSkalVises, beholdningPerDato, alleKodeverk)}
-          />
-        )}
+    return (
+        <GrafContainer
+            valgtYtelseType={valgtYtelseType}
+            antallUkerSomSkalVises={antallUkerSomSkalVises}
+            setValgtYtelseType={setValgtYtelseType}
+            setAntallUkerSomSkalVises={setAntallUkerSomSkalVises}
+            tittel={intl.formatMessage({ id: 'BeholdningHistorikkPanel.Beholdning' })}
+            id={id}
+        >
+            <>
+                {valgtYtelseType === fagsakYtelseType.PUNSJ && (
+                    <HistorikkGrafForPunsj
+                        isFireUkerValgt={antallUkerSomSkalVises === UKE_4}
+                        historiskData={filtrereNyePerDato(
+                            valgtYtelseType,
+                            antallUkerSomSkalVises,
+                            beholdningPerDato,
+                            alleKodeverk,
+                        )}
+                    />
+                )}
 
-        {valgtYtelseType !== fagsakYtelseType.PUNSJ && (
-          <HistorikkGraf
-            isFireUkerValgt={antallUkerSomSkalVises === UKE_4}
-            behandlingTyper={behandlingTyper}
-            historiskData={filtrereNyePerDato(valgtYtelseType, antallUkerSomSkalVises, beholdningPerDato, alleKodeverk)}
-          />
-        )}
-      </>
-    </GrafContainer>
-  );
+                {valgtYtelseType !== fagsakYtelseType.PUNSJ && (
+                    <HistorikkGraf
+                        isFireUkerValgt={antallUkerSomSkalVises === UKE_4}
+                        behandlingTyper={behandlingTyper}
+                        historiskData={filtrereNyePerDato(
+                            valgtYtelseType,
+                            antallUkerSomSkalVises,
+                            beholdningPerDato,
+                            alleKodeverk,
+                        )}
+                    />
+                )}
+            </>
+        </GrafContainer>
+    );
 };
 
 export default injectIntl(BeholdningHistorikkPanel);

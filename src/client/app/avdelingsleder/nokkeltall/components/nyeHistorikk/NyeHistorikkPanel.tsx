@@ -14,48 +14,58 @@ import { getValueFromLocalStorage } from 'utils/localStorageHelper';
 import HistoriskData from '../../historiskDataTsType';
 
 interface OwnProps {
-  nyePerDato?: HistoriskData[];
+    nyePerDato?: HistoriskData[];
 }
 
 export const NyeHistorikkPanel: FunctionComponent<OwnProps> = ({ nyePerDato }) => {
-  const id = 'nyeBehandlinger';
-  const [valgtYtelseType, setValgtYtelseType] = useState<string>(
-    getValueFromLocalStorage(`${id}-ytelsestype`) || ALLE_YTELSETYPER_VALGT,
-  );
-  const [antallUkerSomSkalVises, setAntallUkerSomSkalVises] = useState<string>(
-    getValueFromLocalStorage(`${id}-uker`) || UKE_2,
-  );
-  const intl = useIntl();
-  const behandlingTyper = useKodeverk(kodeverkTyper.BEHANDLING_TYPE);
-  const alleKodeverk: AlleKodeverk = useGlobalStateRestApiData(RestApiGlobalStatePathsKeys.KODEVERK);
+    const id = 'nyeBehandlinger';
+    const [valgtYtelseType, setValgtYtelseType] = useState<string>(
+        getValueFromLocalStorage(`${id}-ytelsestype`) || ALLE_YTELSETYPER_VALGT,
+    );
+    const [antallUkerSomSkalVises, setAntallUkerSomSkalVises] = useState<string>(
+        getValueFromLocalStorage(`${id}-uker`) || UKE_2,
+    );
+    const intl = useIntl();
+    const behandlingTyper = useKodeverk(kodeverkTyper.BEHANDLING_TYPE);
+    const alleKodeverk: AlleKodeverk = useGlobalStateRestApiData(RestApiGlobalStatePathsKeys.KODEVERK);
 
-  return (
-    <GrafContainer
-      valgtYtelseType={valgtYtelseType}
-      antallUkerSomSkalVises={antallUkerSomSkalVises}
-      setValgtYtelseType={setValgtYtelseType}
-      setAntallUkerSomSkalVises={setAntallUkerSomSkalVises}
-      tittel={intl.formatMessage({ id: 'NyeHistorikkPanel.Nye' })}
-      id={id}
-    >
-      <>
-        {valgtYtelseType === fagsakYtelseType.PUNSJ && (
-          <HistorikkGrafForPunsj
-            isFireUkerValgt={antallUkerSomSkalVises === UKE_4}
-            historiskData={filtrereNyePerDato(valgtYtelseType, antallUkerSomSkalVises, nyePerDato, alleKodeverk)}
-          />
-        )}
+    return (
+        <GrafContainer
+            valgtYtelseType={valgtYtelseType}
+            antallUkerSomSkalVises={antallUkerSomSkalVises}
+            setValgtYtelseType={setValgtYtelseType}
+            setAntallUkerSomSkalVises={setAntallUkerSomSkalVises}
+            tittel={intl.formatMessage({ id: 'NyeHistorikkPanel.Nye' })}
+            id={id}
+        >
+            <>
+                {valgtYtelseType === fagsakYtelseType.PUNSJ && (
+                    <HistorikkGrafForPunsj
+                        isFireUkerValgt={antallUkerSomSkalVises === UKE_4}
+                        historiskData={filtrereNyePerDato(
+                            valgtYtelseType,
+                            antallUkerSomSkalVises,
+                            nyePerDato,
+                            alleKodeverk,
+                        )}
+                    />
+                )}
 
-        {valgtYtelseType !== fagsakYtelseType.PUNSJ && (
-          <HistorikkGraf
-            isFireUkerValgt={antallUkerSomSkalVises === UKE_4}
-            behandlingTyper={behandlingTyper}
-            historiskData={filtrereNyePerDato(valgtYtelseType, antallUkerSomSkalVises, nyePerDato, alleKodeverk)}
-          />
-        )}
-      </>
-    </GrafContainer>
-  );
+                {valgtYtelseType !== fagsakYtelseType.PUNSJ && (
+                    <HistorikkGraf
+                        isFireUkerValgt={antallUkerSomSkalVises === UKE_4}
+                        behandlingTyper={behandlingTyper}
+                        historiskData={filtrereNyePerDato(
+                            valgtYtelseType,
+                            antallUkerSomSkalVises,
+                            nyePerDato,
+                            alleKodeverk,
+                        )}
+                    />
+                )}
+            </>
+        </GrafContainer>
+    );
 };
 
 export default NyeHistorikkPanel;

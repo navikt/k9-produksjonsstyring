@@ -13,27 +13,29 @@ import PropTypes from 'prop-types';
  * ```
  */
 const PeriodLabel = ({ dateStringFom, dateStringTom, showTodayString }) => (
-  <span>
-    <FormattedDate day="2-digit" month="2-digit" year="numeric" value={new Date(dateStringFom)} />
-    {' - '}
-    {dateStringTom && <FormattedDate day="2-digit" month="2-digit" year="numeric" value={new Date(dateStringTom)} />}
-    {showTodayString && !dateStringTom && (
-      <span>
-        <FormattedMessage id="PeriodLabel.DateToday" />
-      </span>
-    )}
-  </span>
+    <span>
+        <FormattedDate day="2-digit" month="2-digit" year="numeric" value={new Date(dateStringFom)} />
+        {' - '}
+        {dateStringTom && (
+            <FormattedDate day="2-digit" month="2-digit" year="numeric" value={new Date(dateStringTom)} />
+        )}
+        {showTodayString && !dateStringTom && (
+            <span>
+                <FormattedMessage id="PeriodLabel.DateToday" />
+            </span>
+        )}
+    </span>
 );
 
 PeriodLabel.propTypes = {
-  dateStringFom: PropTypes.string.isRequired,
-  dateStringTom: PropTypes.string,
-  showTodayString: PropTypes.bool,
+    dateStringFom: PropTypes.string.isRequired,
+    dateStringTom: PropTypes.string,
+    showTodayString: PropTypes.bool,
 };
 
 PeriodLabel.defaultProps = {
-  dateStringTom: undefined,
-  showTodayString: false,
+    dateStringTom: undefined,
+    showTodayString: false,
 };
 
 export default PeriodLabel;

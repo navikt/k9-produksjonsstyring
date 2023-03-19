@@ -6,39 +6,39 @@ import renderNavField from './renderNavField';
 
 const metaMock = {};
 
-const getInputMock = input => ({
-  name: 'mockInput',
-  onBlur: sinon.spy(),
-  onChange: sinon.spy(),
-  onDragStart: sinon.spy(),
-  onDrop: sinon.spy(),
-  onFocus: sinon.spy(),
-  ...input,
+const getInputMock = (input) => ({
+    name: 'mockInput',
+    onBlur: sinon.spy(),
+    onChange: sinon.spy(),
+    onDragStart: sinon.spy(),
+    onDrop: sinon.spy(),
+    onFocus: sinon.spy(),
+    ...input,
 });
 
 const MockField = () => <div />;
 const RenderedMockField = renderNavField(MockField).WrappedComponent;
 
 describe('renderNavField', () => {
-  it('skal ikke vise feil i utgangspunktet', () => {
-    const meta = { ...metaMock, submitFailed: false, error: [{ id: 'ValidationMessage.NotEmpty' }] };
+    it('skal ikke vise feil i utgangspunktet', () => {
+        const meta = { ...metaMock, submitFailed: false, error: [{ id: 'ValidationMessage.NotEmpty' }] };
 
-    const wrapper = shallowWithIntl(<RenderedMockField input={getInputMock({})} meta={meta} intl={intlMock} />);
-    const mockField = wrapper.find(MockField);
+        const wrapper = shallowWithIntl(<RenderedMockField input={getInputMock({})} meta={meta} intl={intlMock} />);
+        const mockField = wrapper.find(MockField);
 
-    expect(mockField).to.have.length(1);
-    const props = mockField.at(0).props() as { feil: string };
-    expect(props.feil).to.be.undefined;
-  });
+        expect(mockField).to.have.length(1);
+        const props = mockField.at(0).props() as { feil: string };
+        expect(props.feil).to.be.undefined;
+    });
 
-  it('skal vise feil hvis submit har feilet', () => {
-    const meta = { ...metaMock, submitFailed: true, error: [{ id: 'ValidationMessage.NotEmpty' }] };
+    it('skal vise feil hvis submit har feilet', () => {
+        const meta = { ...metaMock, submitFailed: true, error: [{ id: 'ValidationMessage.NotEmpty' }] };
 
-    const wrapper = shallowWithIntl(<RenderedMockField input={getInputMock({})} meta={meta} intl={intlMock} />);
-    const mockField = wrapper.find(MockField);
+        const wrapper = shallowWithIntl(<RenderedMockField input={getInputMock({})} meta={meta} intl={intlMock} />);
+        const mockField = wrapper.find(MockField);
 
-    expect(mockField).to.have.length(1);
-    const props = mockField.at(0).props() as { feil: string };
-    expect(props.feil).to.eql('Feltet må fylles ut');
-  });
+        expect(mockField).to.have.length(1);
+        const props = mockField.at(0).props() as { feil: string };
+        expect(props.feil).to.eql('Feltet må fylles ut');
+    });
 });

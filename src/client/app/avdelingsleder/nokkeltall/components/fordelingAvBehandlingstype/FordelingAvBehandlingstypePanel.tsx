@@ -10,7 +10,7 @@ import kodeverkTyper from 'kodeverk/kodeverkTyper';
 import { getValueFromLocalStorage } from 'utils/localStorageHelper';
 
 interface OwnProps {
-  alleOppgaver?: AlleOppgaver[];
+    alleOppgaver?: AlleOppgaver[];
 }
 
 const id = 'fordelingAvBehandlingstype';
@@ -19,26 +19,28 @@ const id = 'fordelingAvBehandlingstype';
  * FordelingAvBehandlingstypePanel.
  */
 export const FordelingAvBehandlingstypePanel: FunctionComponent<OwnProps> = ({ alleOppgaver }) => {
-  const intl = useIntl();
-  const behandlingTyper = useKodeverk(kodeverkTyper.BEHANDLING_TYPE);
-  const [valgtYtelseType, setValgtYtelseType] = useState<string>(
-    getValueFromLocalStorage(`${id}-ytelsestype`) || ALLE_YTELSETYPER_VALGT,
-  );
+    const intl = useIntl();
+    const behandlingTyper = useKodeverk(kodeverkTyper.BEHANDLING_TYPE);
+    const [valgtYtelseType, setValgtYtelseType] = useState<string>(
+        getValueFromLocalStorage(`${id}-ytelsestype`) || ALLE_YTELSETYPER_VALGT,
+    );
 
-  return (
-    <GrafContainer
-      valgtYtelseType={valgtYtelseType}
-      setValgtYtelseType={setValgtYtelseType}
-      tittel={intl.formatMessage({ id: 'FordelingAvBehandlingstypePanel.Fordeling' })}
-      id={id}
-    >
-      <FordelingAvBehandlingstypeGraf
-        behandlingTyper={behandlingTyper}
-        alleOppgaver={alleOppgaver ? alleOppgaver.filter(ofa => sjekkOmOppgaveSkalLeggesTil(valgtYtelseType, ofa)) : []}
-        erPunsjValgt={valgtYtelseType === fagsakYtelseType.PUNSJ}
-      />
-    </GrafContainer>
-  );
+    return (
+        <GrafContainer
+            valgtYtelseType={valgtYtelseType}
+            setValgtYtelseType={setValgtYtelseType}
+            tittel={intl.formatMessage({ id: 'FordelingAvBehandlingstypePanel.Fordeling' })}
+            id={id}
+        >
+            <FordelingAvBehandlingstypeGraf
+                behandlingTyper={behandlingTyper}
+                alleOppgaver={
+                    alleOppgaver ? alleOppgaver.filter((ofa) => sjekkOmOppgaveSkalLeggesTil(valgtYtelseType, ofa)) : []
+                }
+                erPunsjValgt={valgtYtelseType === fagsakYtelseType.PUNSJ}
+            />
+        </GrafContainer>
+    );
 };
 
 export default FordelingAvBehandlingstypePanel;

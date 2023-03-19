@@ -7,11 +7,11 @@ import SistBehandledeSaker from './SistBehandledeSaker';
  * SaksstottePaneler
  */
 const SaksstottePaneler: FunctionComponent = () => (
-  <>
-    <SistBehandledeSaker />
-    <VerticalSpacer twentyPx />
-    <SaksbehandlerNokkeltallIndex />
-  </>
+    <>
+        <SistBehandledeSaker />
+        <VerticalSpacer twentyPx />
+        <SaksbehandlerNokkeltallIndex />
+    </>
 );
 
 export default SaksstottePaneler;

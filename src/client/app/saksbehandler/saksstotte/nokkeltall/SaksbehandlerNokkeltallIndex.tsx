@@ -8,12 +8,12 @@ import SaksbehandlerNokkeltallPanel from './components/SaksbehandlerNokkeltallPa
  * SaksbehandlerNokkeltallIndex
  */
 const SaksbehandlerNokkeltallIndex: FunctionComponent = () => {
-  const { data: nyeOgFerdigstilteOppgaver = [] } = useRestApi<NyeOgFerdigstilteOppgaver[]>(
-    K9LosApiKeys.HENT_NYE_OG_FERDIGSTILTE_OPPGAVER,
-    {},
-    true,
-  );
-  return <SaksbehandlerNokkeltallPanel nyeOgFerdigstilteOppgaver={nyeOgFerdigstilteOppgaver} />;
+    const { data: nyeOgFerdigstilteOppgaver = [] } = useRestApi<NyeOgFerdigstilteOppgaver[]>(
+        K9LosApiKeys.HENT_NYE_OG_FERDIGSTILTE_OPPGAVER,
+        {},
+        true,
+    );
+    return <SaksbehandlerNokkeltallPanel nyeOgFerdigstilteOppgaver={nyeOgFerdigstilteOppgaver} />;
 };
 
 export default SaksbehandlerNokkeltallIndex;

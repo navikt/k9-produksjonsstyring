@@ -3,41 +3,41 @@ import RequestConfig from '../RequestConfig';
 import RequestApi from './RequestApi';
 
 describe('RequestApi', () => {
-  const httpClientGeneralMock = {
-    get: () => undefined,
-    post: () => undefined,
-    put: () => undefined,
-    getBlob: () => undefined,
-    postBlob: () => undefined,
-    postAndOpenBlob: () => undefined,
-    getAsync: () => undefined,
-    postAsync: () => undefined,
-    putAsync: () => undefined,
-  };
-
-  it('skal utføre get-request', async () => {
-    const response = {
-      data: 'data',
-      status: 200,
-      headers: {
-        location: '',
-      },
+    const httpClientGeneralMock = {
+        get: () => undefined,
+        post: () => undefined,
+        put: () => undefined,
+        getBlob: () => undefined,
+        postBlob: () => undefined,
+        postAndOpenBlob: () => undefined,
+        getAsync: () => undefined,
+        postAsync: () => undefined,
+        putAsync: () => undefined,
     };
 
-    const httpClientMock = {
-      ...httpClientGeneralMock,
-      get: () => Promise.resolve(response),
-    };
+    it('skal utføre get-request', async () => {
+        const response = {
+            data: 'data',
+            status: 200,
+            headers: {
+                location: '',
+            },
+        };
 
-    const requestConfig = new RequestConfig('BEHANDLING', '/behandling');
-    const params = {
-      behandlingId: 1,
-    };
+        const httpClientMock = {
+            ...httpClientGeneralMock,
+            get: () => Promise.resolve(response),
+        };
 
-    const api = new RequestApi(httpClientMock, [requestConfig]);
+        const requestConfig = new RequestConfig('BEHANDLING', '/behandling');
+        const params = {
+            behandlingId: 1,
+        };
 
-    const result = await api.startRequest(requestConfig.name, params);
+        const api = new RequestApi(httpClientMock, [requestConfig]);
 
-    expect(result.payload).to.eql('data');
-  });
+        const result = await api.startRequest(requestConfig.name, params);
+
+        expect(result.payload).to.eql('data');
+    });
 });

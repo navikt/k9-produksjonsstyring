@@ -11,7 +11,7 @@ import styles from './home.css';
 export const aktoerPath = '/aktoer/:aktoerId(\\d+)';
 
 interface OwnProps {
-  headerHeight: number;
+    headerHeight: number;
 }
 
 /**
@@ -20,18 +20,18 @@ interface OwnProps {
  * Presentasjonskomponent. Wrapper for sideinnholdet som vises under header.
  */
 const Home: FunctionComponent<OwnProps> = function ({ headerHeight }) {
-  return (
-    <div className={styles.content} style={{ margin: `${headerHeight + 10}px auto 0` }}>
-      <Routes>
-        <Route path="/filter" element={<FilterIndex />} />
-        <Route path="/" element={<SaksbehandlerIndex />} />
-        <Route path="/avdelingsleder" element={<AvdelingslederIndex />} />
-        <Route path="/admin" element={<AdminIndex />} />
-        <Route path={aktoerPath} element={<AktoerIndex />} />
-        <Route element={<MissingPage />} />
-      </Routes>
-    </div>
-  );
+    return (
+        <div className={styles.content} style={{ margin: `${headerHeight + 10}px auto 0` }}>
+            <Routes>
+                <Route path="/filter" element={<FilterIndex />} />
+                <Route path="/" element={<SaksbehandlerIndex />} />
+                <Route path="/avdelingsleder" element={<AvdelingslederIndex />} />
+                <Route path="/admin" element={<AdminIndex />} />
+                <Route path={aktoerPath} element={<AktoerIndex />} />
+                <Route element={<MissingPage />} />
+            </Routes>
+        </div>
+    );
 };
 
 export default Home;

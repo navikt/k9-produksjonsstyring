@@ -9,15 +9,15 @@ import LeggTilDriftsmeldingForm from './LeggTilDriftsmeldingForm';
  */
 
 interface OwnProps {
-  driftsmeldinger: Driftsmelding[];
-  hentAlleDriftsmeldinger: () => void;
+    driftsmeldinger: Driftsmelding[];
+    hentAlleDriftsmeldinger: () => void;
 }
 const DriftsmeldingerPanel: FunctionComponent<OwnProps> = ({ driftsmeldinger, hentAlleDriftsmeldinger }) => (
-  <>
-    <DriftsmeldingerTabell driftsmeldinger={driftsmeldinger} hentAlleDriftsmeldinger={hentAlleDriftsmeldinger} />
-    <VerticalSpacer sixteenPx />
-    <LeggTilDriftsmeldingForm hentAlleDriftsmeldinger={hentAlleDriftsmeldinger} />
-  </>
+    <>
+        <DriftsmeldingerTabell driftsmeldinger={driftsmeldinger} hentAlleDriftsmeldinger={hentAlleDriftsmeldinger} />
+        <VerticalSpacer sixteenPx />
+        <LeggTilDriftsmeldingForm hentAlleDriftsmeldinger={hentAlleDriftsmeldinger} />
+    </>
 );
 
 export default DriftsmeldingerPanel;
