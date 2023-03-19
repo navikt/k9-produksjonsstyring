@@ -1,13 +1,11 @@
 import React, { FunctionComponent, ReactNode } from 'react';
-import classnames from 'classnames/bind';
 import { Field } from 'react-final-form';
+import classnames from 'classnames/bind';
 import { FieldValidator } from 'final-form';
-
 import CustomNavSelect from './CustomNavSelect';
-import renderNavField from './renderNavField';
 import { LabelType } from './Label';
 import ReadOnlyField from './ReadOnlyField';
-
+import renderNavField from './renderNavField';
 import styles from './selectField.css';
 
 const classNames = classnames.bind(styles);

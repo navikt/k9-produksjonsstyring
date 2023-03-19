@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import { action } from '@storybook/addon-actions';
-
 import { LeggTilSaksbehandlerForm } from 'avdelingsleder/bemanning/components/LeggTilSaksbehandlerForm';
 import Saksbehandler from 'avdelingsleder/bemanning/saksbehandlerTsType';
-
 import withIntl from '../../../decorators/withIntl';
 
 export default {
@@ -12,7 +10,7 @@ export default {
   decorators: [withIntl],
 };
 
-export const skalVisePanelForÅLeggeTilSaksbehandlere = (intl) => {
+export const skalVisePanelForÅLeggeTilSaksbehandlere = intl => {
   const [erFerdig, setFerdig] = useState(false);
   const [saksbehandler, setSaksbehandler] = useState<Saksbehandler>();
   const finnSaksbehandler = () => {
@@ -37,7 +35,7 @@ export const skalVisePanelForÅLeggeTilSaksbehandlere = (intl) => {
   );
 };
 
-export const skalVisePanelForNårSaksbehandlerErLagtTilAllerede = (intl) => {
+export const skalVisePanelForNårSaksbehandlerErLagtTilAllerede = intl => {
   const [erFerdig, setFerdig] = useState(false);
   const [saksbehandler, setSaksbehandler] = useState<Saksbehandler>();
   const finnSaksbehandler = () => {

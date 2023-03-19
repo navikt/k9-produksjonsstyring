@@ -1,11 +1,9 @@
 import React from 'react';
 import { action } from '@storybook/addon-actions';
-
-import OpphevReservasjonModal from 'saksbehandler/behandlingskoer/components/menu/OpphevReservasjonModal';
 import behandlingStatus from 'kodeverk/behandlingStatus';
 import behandlingType from 'kodeverk/behandlingType';
 import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
-
+import OpphevReservasjonModal from 'saksbehandler/behandlingskoer/components/menu/OpphevReservasjonModal';
 import withIntl from '../../../decorators/withIntl';
 
 export default {

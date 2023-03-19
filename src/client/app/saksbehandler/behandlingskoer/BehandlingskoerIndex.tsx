@@ -1,15 +1,15 @@
 import React, { FunctionComponent, useCallback, useEffect } from 'react';
-import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
+import { WrappedComponentProps, injectIntl } from 'react-intl';
 import { getK9punsjRef, getK9sakHref, getOmsorgspengerRef } from 'app/paths';
+import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
+import { useRestApi } from 'api/rest-api-hooks';
+import RestApiState from 'api/rest-api-hooks/src/RestApiState';
+import useGlobalStateRestApiData from 'api/rest-api-hooks/src/global-data/useGlobalStateRestApiData';
+import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
 import { Oppgaveko } from 'saksbehandler/behandlingskoer/oppgavekoTsType';
 import Oppgave from 'saksbehandler/oppgaveTsType';
-import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
-import { useRestApi } from 'api/rest-api-hooks';
-import useGlobalStateRestApiData from 'api/rest-api-hooks/src/global-data/useGlobalStateRestApiData';
-import RestApiState from 'api/rest-api-hooks/src/RestApiState';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
-import OppgavekoPanel from './components/OppgavekoPanel';
 import OppgaveSystem from '../../types/OppgaveSystem';
+import OppgavekoPanel from './components/OppgavekoPanel';
 
 interface OwnProps {
   k9sakUrl: string;

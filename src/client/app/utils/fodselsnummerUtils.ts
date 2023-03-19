@@ -8,7 +8,7 @@ const sum = (fodselsnummer, faktors) => {
   return s;
 };
 
-export const isValidFodselsnummer = (input) => {
+export const isValidFodselsnummer = input => {
   const fodselsnummer = `${input}`;
   if (!fodselsnummerPattern.test(fodselsnummer)) {
     return false;

@@ -1,9 +1,9 @@
 import RequestConfig from '../RequestConfig';
 
 class RestApiRequestContext {
-  endpointName: string
+  endpointName: string;
 
-  config: RequestConfig
+  config: RequestConfig;
 
   hostname = '';
 
@@ -15,13 +15,13 @@ class RestApiRequestContext {
   withHostname = (hostname: string) => {
     this.hostname = hostname;
     return this;
-  }
+  };
 
-  getEndpointName = () => this.endpointName
+  getEndpointName = () => this.endpointName;
 
-  getConfig = () => this.config
+  getConfig = () => this.config;
 
-  getHostname = () => this.hostname
+  getHostname = () => this.hostname;
 }
 
 export default RestApiRequestContext;

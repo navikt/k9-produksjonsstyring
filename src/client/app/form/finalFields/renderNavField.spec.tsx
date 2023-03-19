@@ -1,13 +1,12 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-
-import { shallowWithIntl, intlMock } from '../../../../../setup/testHelpers/intl-enzyme-test-helper';
+import { intlMock, shallowWithIntl } from '../../../../../setup/testHelpers/intl-enzyme-test-helper';
 import renderNavField from './renderNavField';
 
 const metaMock = {};
 
-const getInputMock = (input) => ({
+const getInputMock = input => ({
   name: 'mockInput',
   onBlur: sinon.spy(),
   onChange: sinon.spy(),

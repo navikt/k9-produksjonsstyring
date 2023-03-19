@@ -1,13 +1,11 @@
 import React, { FunctionComponent } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Normaltekst } from 'nav-frontend-typografi';
-
-import VerticalSpacer from 'sharedComponents/VerticalSpacer';
-import { RadioGroupField, RadioOption } from 'form/FinalFields';
-
-import { Oppgaveko } from 'avdelingsleder/behandlingskoer/oppgavekoTsType';
-import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
 import { K9LosApiKeys } from 'api/k9LosApi';
+import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
+import { Oppgaveko } from 'avdelingsleder/behandlingskoer/oppgavekoTsType';
+import { RadioGroupField, RadioOption } from 'form/FinalFields';
+import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import styles from './utvalgskriterierForOppgavekoForm.css';
 
 interface OwnProps {

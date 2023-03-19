@@ -1,14 +1,12 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { Row, Column } from 'nav-frontend-grid';
-import { Heading, Panel, Select } from '@navikt/ds-react';
+import { Column, Row } from 'nav-frontend-grid';
 import Hjelpetekst from 'nav-frontend-hjelpetekst';
-
-import { lagreTilLocalStorageCallback } from 'utils/localStorageHelper';
+import { Heading, Panel, Select } from '@navikt/ds-react';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
-import { uker, fremtidigeUker, ytelseTyper } from './nokkeltall/nokkeltallUtils';
-
+import { lagreTilLocalStorageCallback } from 'utils/localStorageHelper';
 import styles from './grafContainer.css';
+import { fremtidigeUker, uker, ytelseTyper } from './nokkeltall/nokkeltallUtils';
 
 interface OwnProps {
   setAntallUkerSomSkalVises?: (uker: string) => void;

@@ -1,7 +1,4 @@
-import React, {
-  FunctionComponent, useState, useCallback, ReactNode, KeyboardEvent, MouseEvent,
-} from 'react';
-
+import React, { FunctionComponent, KeyboardEvent, MouseEvent, ReactNode, useCallback, useState } from 'react';
 import Tooltip from './Tooltip';
 
 interface OwnProps {
@@ -43,7 +40,7 @@ const Image: FunctionComponent<OwnProps> = ({
     setHoovering(false);
   }, []);
 
-  const onKeyDownFn = useCallback((e) => {
+  const onKeyDownFn = useCallback(e => {
     if (e.key === 'Enter' || e.key === ' ') {
       if (onKeyDown) {
         onKeyDown(e);

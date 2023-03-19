@@ -1,9 +1,8 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
-
-import SaksstottePaneler from './components/SaksstottePaneler';
 import SaksstotteIndex from './SaksstotteIndex';
+import SaksstottePaneler from './components/SaksstottePaneler';
 
 describe('<SaksstotteIndex>', () => {
   it('skal vise alle saksstøttepanel', () => {

@@ -1,15 +1,14 @@
 import React, { Fragment, FunctionComponent } from 'react';
 import { FormattedMessage } from 'react-intl';
+import { captureMessage } from '@sentry/browser';
 import Lenke from 'nav-frontend-lenker';
-import { Undertittel, Normaltekst } from 'nav-frontend-typografi';
-
+import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import { getK9punsjRef, getK9sakHref, getOmsorgspengerRef } from 'app/paths';
-import VerticalSpacer from 'sharedComponents/VerticalSpacer';
-import BehandletOppgave from 'saksbehandler/saksstotte/behandletOppgaveTsType';
 import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
 import useGlobalStateRestApiData from 'api/rest-api-hooks/src/global-data/useGlobalStateRestApiData';
 import useRestApi from 'api/rest-api-hooks/src/local-data/useRestApi';
-import { captureMessage } from '@sentry/browser';
+import BehandletOppgave from 'saksbehandler/saksstotte/behandletOppgaveTsType';
+import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 
 const EMPTY_ARRAY = [];
 
@@ -38,32 +37,35 @@ const SistBehandledeSaker: FunctionComponent = () => {
   };
 
   const sendVidereTilFagsak = (sbs: BehandletOppgave) => {
-    captureMessage(`Send til: ${sbs.saksnummer || sbs.journalpostId} - Tidspunkt: ${new Date().toLocaleString('no-NO', { timeZone: 'Europe/Oslo' })}`);
+    captureMessage(
+      `Send til: ${sbs.saksnummer || sbs.journalpostId} - Tidspunkt: ${new Date().toLocaleString('no-NO', {
+        timeZone: 'Europe/Oslo',
+      })}`,
+    );
     window.location.assign(getUrl(sbs));
   };
 
   return (
     <>
-      <Undertittel><FormattedMessage id="SistBehandledeSaker.SistBehandledeSaker" /></Undertittel>
+      <Undertittel>
+        <FormattedMessage id="SistBehandledeSaker.SistBehandledeSaker" />
+      </Undertittel>
       <VerticalSpacer eightPx />
-      {sistBehandledeSaker.length === 0
-                && <Normaltekst><FormattedMessage id="SistBehandledeSaker.IngenBehandlinger" /></Normaltekst>}
+      {sistBehandledeSaker.length === 0 && (
+        <Normaltekst>
+          <FormattedMessage id="SistBehandledeSaker.IngenBehandlinger" />
+        </Normaltekst>
+      )}
       {sistBehandledeSaker.map((sbs, index) => (
         <Fragment key={sbs.behandlingId}>
           <Normaltekst>
-            {sbs.navn
-              ? (
-                <Lenke
-                  onClick={() => sendVidereTilFagsak(sbs)}
-                >
-                  {`${sbs.navn} ${sbs.personnummer}`}
-                </Lenke>
-              )
-              : (
-                <Lenke onClick={() => sendVidereTilFagsak(sbs)}>
-                  <FormattedMessage id="SistBehandledeSaker.Behandling" values={{ index: index + 1 }} />
-                </Lenke>
-              )}
+            {sbs.navn ? (
+              <Lenke onClick={() => sendVidereTilFagsak(sbs)}>{`${sbs.navn} ${sbs.personnummer}`}</Lenke>
+            ) : (
+              <Lenke onClick={() => sendVidereTilFagsak(sbs)}>
+                <FormattedMessage id="SistBehandledeSaker.Behandling" values={{ index: index + 1 }} />
+              </Lenke>
+            )}
           </Normaltekst>
           <VerticalSpacer eightPx />
         </Fragment>

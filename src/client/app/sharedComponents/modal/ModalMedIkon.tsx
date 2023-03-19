@@ -1,13 +1,11 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
+import classnames from 'classnames/bind';
 import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
 import { Normaltekst } from 'nav-frontend-typografi';
-
+import PropTypes from 'prop-types';
 import Image from 'sharedComponents/Image';
 import Modal from 'sharedComponents/Modal';
-
-import classnames from 'classnames/bind';
 import styles from './modalMedIkon.css';
 
 type TsProps = Readonly<{

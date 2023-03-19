@@ -1,18 +1,17 @@
 import React, { FunctionComponent, useState } from 'react';
+import { FormattedMessage, WrappedComponentProps } from 'react-intl';
+import advarselImageUrl from 'images/advarsel.svg';
 import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
-
+import NavAnsatt from 'app/navAnsattTsType';
+import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
+import { OppgaveStatus } from 'saksbehandler/oppgaveStatusTsType';
 import Oppgave from 'saksbehandler/oppgaveTsType';
 import Image from 'sharedComponents/Image';
 import Modal from 'sharedComponents/Modal';
-import advarselImageUrl from 'images/advarsel.svg';
-import { FormattedMessage, WrappedComponentProps } from 'react-intl';
-import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
-import { OppgaveStatus } from 'saksbehandler/oppgaveStatusTsType';
-import NavAnsatt from 'app/navAnsattTsType';
-import styles from './flyttReservasjonsmodal.css';
-import useRestApiRunner from '../../../api/rest-api-hooks/src/local-data/useRestApiRunner';
 import useGlobalStateRestApiData from '../../../api/rest-api-hooks/src/global-data/useGlobalStateRestApiData';
+import useRestApiRunner from '../../../api/rest-api-hooks/src/local-data/useRestApiRunner';
+import styles from './flyttReservasjonsmodal.css';
 
 interface OwnProps {
   oppgave: Oppgave;

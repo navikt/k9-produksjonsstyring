@@ -1,11 +1,8 @@
 import React from 'react';
-
 import { Add, Delete } from '@navikt/ds-icons';
 import { Button, Select } from '@navikt/ds-react';
-
 import { SelectFelt } from '../filterTsTypes';
 import { feltverdiKey } from '../utils';
-
 import styles from './OppgaveSelectFelter.css';
 
 interface OwnProps {
@@ -20,7 +17,7 @@ const renderFjernSelectFeltKnapp = (felt, onFjern) => (
   <Button icon={<Delete aria-hidden />} size="medium" variant="tertiary" onClick={() => onFjern(felt)} />
 );
 
-const renderAddEnkelSelectFeltKnapp = (onLeggTil) => (
+const renderAddEnkelSelectFeltKnapp = onLeggTil => (
   <Button
     className={styles.selectLeggTil}
     icon={<Add aria-hidden />}

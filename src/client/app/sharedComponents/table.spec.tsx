@@ -1,17 +1,13 @@
 import React from 'react';
-import { shallow } from 'enzyme';
-import { expect } from 'chai';
 import { FormattedMessage } from 'react-intl';
-
+import { expect } from 'chai';
+import { shallow } from 'enzyme';
 import Table from './Table';
 import TableColumn from './TableColumn';
 import TableRow from './TableRow';
 
 describe('<Table>', () => {
-  const headerTextCodes = [
-    'FagsakList.Saksnummer',
-    'FagsakList.Sakstype',
-  ];
+  const headerTextCodes = ['FagsakList.Saksnummer', 'FagsakList.Sakstype'];
 
   it('skal vise korrekt antall kolonneheadere med korrekt tekst', () => {
     const wrapper = shallow(

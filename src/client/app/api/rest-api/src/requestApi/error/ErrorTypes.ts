@@ -13,7 +13,9 @@ export const ErrorTypes = {
 
 export const handledErrorTypes = [ErrorTypes.MANGLER_TILGANG_FEIL];
 
-export const getErrorResponseData = (error: ErrorType) => (error && error.response && error.response.data ? error.response.data : error);
-export const errorOfType = (error: ErrorType, errorType: string) => error && (getErrorResponseData(error).type === errorType);
+export const getErrorResponseData = (error: ErrorType) =>
+  error && error.response && error.response.data ? error.response.data : error;
+export const errorOfType = (error: ErrorType, errorType: string) =>
+  error && getErrorResponseData(error).type === errorType;
 
 export const isHandledError = (errorType?: string) => errorType && handledErrorTypes.includes(errorType);

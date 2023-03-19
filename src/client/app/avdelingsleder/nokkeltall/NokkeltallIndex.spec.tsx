@@ -1,7 +1,6 @@
 import React from 'react';
-import { shallow } from 'enzyme';
 import { expect } from 'chai';
-
+import { shallow } from 'enzyme';
 import { K9LosApiKeys } from 'api/k9LosApi';
 import RestApiTestMocker from '../../../../../setup/testHelpers/RestApiTestMocker';
 import NokkeltallIndex from './NokkeltallIndex';

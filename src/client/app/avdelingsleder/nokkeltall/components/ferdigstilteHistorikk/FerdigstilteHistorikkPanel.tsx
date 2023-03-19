@@ -1,18 +1,16 @@
 import React, { FunctionComponent, useState } from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
-import kodeverkTyper from 'kodeverk/kodeverkTyper';
-
-import { ALLE_YTELSETYPER_VALGT, filtrereNyePerDato, UKE_2, UKE_4 } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
-
+import { WrappedComponentProps, injectIntl } from 'react-intl';
+import { RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
+import { useGlobalStateRestApiData } from 'api/rest-api-hooks';
 import useKodeverk from 'api/rest-api-hooks/src/global-data/useKodeverk';
-import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
+import GrafContainer from 'avdelingsleder/GrafContainer';
 import HistorikkGraf from 'avdelingsleder/nokkeltall/HistorikkGraf';
 import HistorikkGrafForPunsj from 'avdelingsleder/nokkeltall/HistorikkGrafForPunsj';
+import { ALLE_YTELSETYPER_VALGT, UKE_2, UKE_4, filtrereNyePerDato } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
+import AlleKodeverk from 'kodeverk/alleKodeverkTsType';
+import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
+import kodeverkTyper from 'kodeverk/kodeverkTyper';
 import { getValueFromLocalStorage } from 'utils/localStorageHelper';
-import GrafContainer from 'avdelingsleder/GrafContainer';
-import AlleKodeverk from "kodeverk/alleKodeverkTsType";
-import { useGlobalStateRestApiData } from "api/rest-api-hooks";
-import { RestApiGlobalStatePathsKeys } from "api/k9LosApi";
 import HistoriskData from '../../historiskDataTsType';
 
 interface OwnProps {
@@ -52,7 +50,12 @@ export const FerdigstilteHistorikkPanel: FunctionComponent<OwnProps & WrappedCom
         {valgtYtelseType === fagsakYtelseType.PUNSJ && (
           <HistorikkGrafForPunsj
             isFireUkerValgt={antallUkerSomSkalVises === UKE_4}
-            historiskData={filtrereNyePerDato(valgtYtelseType, antallUkerSomSkalVises, ferdigstiltePerDato, alleKodeverk)}
+            historiskData={filtrereNyePerDato(
+              valgtYtelseType,
+              antallUkerSomSkalVises,
+              ferdigstiltePerDato,
+              alleKodeverk,
+            )}
           />
         )}
 
@@ -60,7 +63,12 @@ export const FerdigstilteHistorikkPanel: FunctionComponent<OwnProps & WrappedCom
           <HistorikkGraf
             isFireUkerValgt={antallUkerSomSkalVises === UKE_4}
             behandlingTyper={behandlingTyper}
-            historiskData={filtrereNyePerDato(valgtYtelseType, antallUkerSomSkalVises, ferdigstiltePerDato, alleKodeverk)}
+            historiskData={filtrereNyePerDato(
+              valgtYtelseType,
+              antallUkerSomSkalVises,
+              ferdigstiltePerDato,
+              alleKodeverk,
+            )}
           />
         )}
       </>

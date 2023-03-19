@@ -1,8 +1,6 @@
 import React from 'react';
 import { action } from '@storybook/addon-actions';
-
 import { SearchForm } from 'saksbehandler/fagsakSearch/components/SearchForm';
-
 import withIntl from '../../../decorators/withIntl';
 
 export default {
@@ -11,7 +9,7 @@ export default {
   decorators: [withIntl],
 };
 
-export const skalViseSøkeskjema = (intl) => (
+export const skalViseSøkeskjema = intl => (
   <SearchForm
     intl={intl}
     onSubmit={action('button-click')}
@@ -21,7 +19,7 @@ export const skalViseSøkeskjema = (intl) => (
   />
 );
 
-export const skalViseSøkeskjemaNårEnIkkeKanVelgeÅReservere = (intl) => (
+export const skalViseSøkeskjemaNårEnIkkeKanVelgeÅReservere = intl => (
   <SearchForm
     intl={intl}
     onSubmit={action('button-click')}
@@ -31,7 +29,7 @@ export const skalViseSøkeskjemaNårEnIkkeKanVelgeÅReservere = (intl) => (
   />
 );
 
-export const skalViseSøkeskjemaNårSøkPågår = (intl) => (
+export const skalViseSøkeskjemaNårSøkPågår = intl => (
   <SearchForm
     intl={intl}
     onSubmit={action('button-click')}

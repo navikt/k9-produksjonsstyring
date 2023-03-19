@@ -70,7 +70,7 @@ const alleOppgaverMock = [
     behandlingType: 'PAPIRINNTEKTSOPPLYSNINGER',
     tilBehandling: false,
     antall: 10,
-  }
+  },
 ];
 
 export default alleOppgaverMock;

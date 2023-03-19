@@ -1,14 +1,14 @@
+import { ErrorResponse } from '../ResponseTsType';
 import EventType from '../eventType';
-import { ErrorType } from './errorTsType';
 import { isHandledError } from './ErrorTypes';
 import TimeoutError from './TimeoutError';
-import { ErrorResponse } from '../ResponseTsType';
+import { ErrorType } from './errorTsType';
 
-type NotificationEmitter = (eventType: keyof typeof EventType, data?: any, isPollingRequest?: boolean) => void
+type NotificationEmitter = (eventType: keyof typeof EventType, data?: any, isPollingRequest?: boolean) => void;
 
-const isString = (value) => typeof value === 'string';
+const isString = value => typeof value === 'string';
 
-const isOfTypeBlob = (error) => error && error.config && error.config.responseType === 'blob';
+const isOfTypeBlob = error => error && error.config && error.config.responseType === 'blob';
 
 const blobParser = (blob: any): Promise<string> => {
   const fileReader = new FileReader();
@@ -43,9 +43,9 @@ interface FormatedError {
 }
 
 class RequestErrorEventHandler {
-  notify: NotificationEmitter
+  notify: NotificationEmitter;
 
-  isPollingRequest: boolean
+  isPollingRequest: boolean;
 
   constructor(notificationEmitter: NotificationEmitter, isPollingRequest: boolean) {
     this.notify = notificationEmitter;
@@ -68,7 +68,11 @@ class RequestErrorEventHandler {
     }
 
     if (formattedError.isGatewayTimeoutOrNotFound) {
-      this.notify(EventType.REQUEST_GATEWAY_TIMEOUT_OR_NOT_FOUND, { location: formattedError.location }, this.isPollingRequest);
+      this.notify(
+        EventType.REQUEST_GATEWAY_TIMEOUT_OR_NOT_FOUND,
+        { location: formattedError.location },
+        this.isPollingRequest,
+      );
     } else if (formattedError.isForbidden || formattedError.isUnauthorized) {
       this.notify(EventType.REQUEST_FORBIDDEN, formattedError.data ? formattedError.data : { message: error.message });
     } else if (formattedError.is418) {
@@ -80,10 +84,11 @@ class RequestErrorEventHandler {
     }
   };
 
-  getFormattedData = (data: string | Record<string, any>): string | Record<string, any> => (isString(data) ? { message: data } : data);
+  getFormattedData = (data: string | Record<string, any>): string | Record<string, any> =>
+    isString(data) ? { message: data } : data;
 
-  findErrorData = (response: {data?: any; status?: number; statusText?: string}): string | ErrorResponse => (response.data
-    ? response.data : response.statusText);
+  findErrorData = (response: { data?: any; status?: number; statusText?: string }): string | ErrorResponse =>
+    response.data ? response.data : response.statusText;
 
   formatError = (error: ErrorType): FormatedError => {
     const response = error && error.response ? error.response : undefined;

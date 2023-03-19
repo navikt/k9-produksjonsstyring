@@ -2,15 +2,15 @@ import React, { FunctionComponent } from 'react';
 import { Field } from 'react-final-form';
 import { Checkbox as NavCheckbox } from 'nav-frontend-skjema';
 import { Normaltekst } from 'nav-frontend-typografi';
-
-import renderNavField from './renderNavField';
 import { LabelType } from './Label';
+import renderNavField from './renderNavField';
 
-const composeValidators = (validators) => (value) => validators.reduce((error, validator) => error || validator(value), undefined);
+const composeValidators = validators => value =>
+  validators.reduce((error, validator) => error || validator(value), undefined);
 
 export const RenderCheckboxField = renderNavField(({ onChange, label, ...otherProps }) => (
   <NavCheckbox
-    onChange={(e) => onChange(e.target.checked)}
+    onChange={e => onChange(e.target.checked)}
     checked={otherProps.value}
     label={React.cloneElement(label, { typographyElement: Normaltekst })}
     {...otherProps}
@@ -27,9 +27,7 @@ interface OwnProps {
   checked?: boolean;
 }
 
-const CheckboxField: FunctionComponent<OwnProps> = ({
-  name, label, validate, readOnly, ...otherProps
-}) => (
+const CheckboxField: FunctionComponent<OwnProps> = ({ name, label, validate, readOnly, ...otherProps }) => (
   <Field
     type="checkbox"
     name={name}

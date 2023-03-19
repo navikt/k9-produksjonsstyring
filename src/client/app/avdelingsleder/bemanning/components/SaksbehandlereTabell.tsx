@@ -1,21 +1,20 @@
 import React, { FunctionComponent, useCallback, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Normaltekst, Element } from 'nav-frontend-typografi';
-import Image from 'sharedComponents/Image';
 import addCircle from 'images/add-circle-bla.svg';
-import VerticalSpacer from 'sharedComponents/VerticalSpacer';
-import Table from 'sharedComponents/Table';
-import TableRow from 'sharedComponents/TableRow';
-import TableColumn from 'sharedComponents/TableColumn';
-import { Knapp } from 'nav-frontend-knapper';
 import Chevron from 'nav-frontend-chevron';
-import SaksbehandlerInfo from 'avdelingsleder/bemanning/components/SaksbehandlerInfo';
-import LeggTilSaksbehandlerForm from 'avdelingsleder/bemanning/components/LeggTilSaksbehandlerForm';
-import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
+import { Knapp } from 'nav-frontend-knapper';
+import { Element, Normaltekst } from 'nav-frontend-typografi';
 import { K9LosApiKeys } from 'api/k9LosApi';
+import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
+import LeggTilSaksbehandlerForm from 'avdelingsleder/bemanning/components/LeggTilSaksbehandlerForm';
+import SaksbehandlerInfo from 'avdelingsleder/bemanning/components/SaksbehandlerInfo';
+import Image from 'sharedComponents/Image';
+import Table from 'sharedComponents/Table';
+import TableColumn from 'sharedComponents/TableColumn';
+import TableRow from 'sharedComponents/TableRow';
+import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import saksbehandlereGra from '../../../../images/saksbehandlereGra.svg';
 import { Saksbehandler } from '../saksbehandlerTsType';
-
 import styles from './saksbehandlereTabell.css';
 
 const headerTextCodes = ['SaksbehandlereTabell.Navn', 'EMPTY_1'];

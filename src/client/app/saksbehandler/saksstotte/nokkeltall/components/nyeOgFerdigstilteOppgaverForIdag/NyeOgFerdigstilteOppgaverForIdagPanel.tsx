@@ -1,24 +1,23 @@
 import React, { FunctionComponent, useMemo, useState } from 'react';
-import moment from 'moment';
 import { FormattedMessage } from 'react-intl';
-import { Undertittel, Element } from 'nav-frontend-typografi';
-
-import kodeverkTyper from 'kodeverk/kodeverkTyper';
-import { ISO_DATE_FORMAT } from 'utils/formats';
-import VerticalSpacer from 'sharedComponents/VerticalSpacer';
+import moment from 'moment';
+import { Select } from 'nav-frontend-skjema';
+import { Element, Undertittel } from 'nav-frontend-typografi';
+import { RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
+import { useGlobalStateRestApiData } from 'api/rest-api-hooks';
 import useKodeverk from 'api/rest-api-hooks/src/global-data/useKodeverk';
-import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
 import {
   ALLE_YTELSETYPER_VALGT,
   sjekkOmOppgaveSkalLeggesTil,
   slaSammenAllePunsjBehandlingstyperForNyeOgFerdigstilleOppgaver,
   slaSammenLikeBehandlingstyperForNyeOgFerdigstilleOppgaver,
 } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
-import { Select } from 'nav-frontend-skjema';
-import NyeOgFerdigstilteOppgaverForIdagGraf from 'saksbehandler/saksstotte/nokkeltall/components/nyeOgFerdigstilteOppgaverForIdag/NyeOgFerdigstilteOppgaverForIdagGraf';
 import AlleKodeverk from 'kodeverk/alleKodeverkTsType';
-import { useGlobalStateRestApiData } from 'api/rest-api-hooks';
-import { RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
+import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
+import kodeverkTyper from 'kodeverk/kodeverkTyper';
+import NyeOgFerdigstilteOppgaverForIdagGraf from 'saksbehandler/saksstotte/nokkeltall/components/nyeOgFerdigstilteOppgaverForIdag/NyeOgFerdigstilteOppgaverForIdagGraf';
+import VerticalSpacer from 'sharedComponents/VerticalSpacer';
+import { ISO_DATE_FORMAT } from 'utils/formats';
 import styles from '../nyeOgFerdigstilteOppgaverFelles.css';
 import NyeOgFerdigstilteOppgaver, { fagytelsetyperForOppgaveFiltrering } from '../nyeOgFerdigstilteOppgaverTsType';
 

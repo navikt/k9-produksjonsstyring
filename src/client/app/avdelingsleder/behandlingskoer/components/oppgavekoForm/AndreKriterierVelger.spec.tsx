@@ -1,34 +1,32 @@
 import React from 'react';
 import { expect } from 'chai';
-import sinon from 'sinon';
 import { shallow } from 'enzyme';
-
-import andreKriterierType from 'kodeverk/andreKriterierType';
+import sinon from 'sinon';
+import { K9LosApiKeys } from 'api/k9LosApi';
 import { CheckboxField, RadioGroupField, RadioOption } from 'form/FinalFields';
+import andreKriterierType from 'kodeverk/andreKriterierType';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
 import RestApiTestMocker from '../../../../../../../setup/testHelpers/RestApiTestMocker';
-import { K9LosApiKeys } from 'api/k9LosApi';
 import AndreKriterierVelger from './AndreKriterierVelger';
 
 describe('<AndreKriterierVelger>', () => {
-  const andreKriterier = [{
-    kode: andreKriterierType.TIL_BESLUTTER,
-    navn: 'Til beslutter',
-  }, {
-    kode: andreKriterierType.AVKLAR_MEDLEMSKAP,
-    navn: 'Registrer papirsøknad',
-  }];
+  const andreKriterier = [
+    {
+      kode: andreKriterierType.TIL_BESLUTTER,
+      navn: 'Til beslutter',
+    },
+    {
+      kode: andreKriterierType.AVKLAR_MEDLEMSKAP,
+      navn: 'Registrer papirsøknad',
+    },
+  ];
 
   it('skal vise checkbox for Til beslutter', () => {
     new RestApiTestMocker()
       .withKodeverk(kodeverkTyper.ANDRE_KRITERIER_TYPE, andreKriterier)
       .withDummyRunner()
       .runTest(() => {
-        const wrapper = shallow(<AndreKriterierVelger
-          valgtOppgavekoId="1"
-          values={{}}
-          hentOppgaveko={sinon.spy()}
-        />);
+        const wrapper = shallow(<AndreKriterierVelger valgtOppgavekoId="1" values={{}} hentOppgaveko={sinon.spy()} />);
 
         const checkboxer = wrapper.find(CheckboxField);
         expect(checkboxer).to.have.length(2);
@@ -45,11 +43,7 @@ describe('<AndreKriterierVelger>', () => {
       .withKodeverk(kodeverkTyper.ANDRE_KRITERIER_TYPE, andreKriterier)
       .withDummyRunner()
       .runTest(() => {
-        const wrapper = shallow(<AndreKriterierVelger
-          valgtOppgavekoId="1"
-          values={{}}
-          hentOppgaveko={sinon.spy()}
-        />);
+        const wrapper = shallow(<AndreKriterierVelger valgtOppgavekoId="1" values={{}} hentOppgaveko={sinon.spy()} />);
 
         const checkboxer = wrapper.find(CheckboxField);
         expect(checkboxer).to.have.length(2);
@@ -66,14 +60,14 @@ describe('<AndreKriterierVelger>', () => {
 
     new RestApiTestMocker()
       .withKodeverk(kodeverkTyper.ANDRE_KRITERIER_TYPE, andreKriterier)
-      .withRestCallRunner(K9LosApiKeys.LAGRE_OPPGAVEKO_ANDRE_KRITERIER,
-        { startRequest: (params) => { lagreAndreKriterierFn(params); return Promise.resolve(); } })
+      .withRestCallRunner(K9LosApiKeys.LAGRE_OPPGAVEKO_ANDRE_KRITERIER, {
+        startRequest: params => {
+          lagreAndreKriterierFn(params);
+          return Promise.resolve();
+        },
+      })
       .runTest(() => {
-        const wrapper = shallow(<AndreKriterierVelger
-          valgtOppgavekoId="1"
-          values={{}}
-          hentOppgaveko={sinon.spy()}
-        />);
+        const wrapper = shallow(<AndreKriterierVelger valgtOppgavekoId="1" values={{}} hentOppgaveko={sinon.spy()} />);
 
         const checkbox = wrapper.find(CheckboxField).first();
         checkbox.prop('onChange')(true);
@@ -93,14 +87,16 @@ describe('<AndreKriterierVelger>', () => {
       .withKodeverk(kodeverkTyper.ANDRE_KRITERIER_TYPE, andreKriterier)
       .withDummyRunner()
       .runTest(() => {
-        const wrapper = shallow(<AndreKriterierVelger
-          valgtOppgavekoId="1"
-          hentOppgaveko={sinon.spy()}
-          values={{
-            [andreKriterierType.TIL_BESLUTTER]: true,
-            [`${andreKriterierType.TIL_BESLUTTER}_inkluder`]: true,
-          }}
-        />);
+        const wrapper = shallow(
+          <AndreKriterierVelger
+            valgtOppgavekoId="1"
+            hentOppgaveko={sinon.spy()}
+            values={{
+              [andreKriterierType.TIL_BESLUTTER]: true,
+              [`${andreKriterierType.TIL_BESLUTTER}_inkluder`]: true,
+            }}
+          />,
+        );
 
         expect(wrapper.find(RadioGroupField)).to.have.length(1);
         expect(wrapper.find(RadioOption)).to.have.length(2);
@@ -111,17 +107,23 @@ describe('<AndreKriterierVelger>', () => {
     const lagreAndreKriterierFn = sinon.spy();
     new RestApiTestMocker()
       .withKodeverk(kodeverkTyper.ANDRE_KRITERIER_TYPE, andreKriterier)
-      .withRestCallRunner(K9LosApiKeys.LAGRE_OPPGAVEKO_ANDRE_KRITERIER,
-        { startRequest: (params) => { lagreAndreKriterierFn(params); return Promise.resolve(); } })
+      .withRestCallRunner(K9LosApiKeys.LAGRE_OPPGAVEKO_ANDRE_KRITERIER, {
+        startRequest: params => {
+          lagreAndreKriterierFn(params);
+          return Promise.resolve();
+        },
+      })
       .runTest(() => {
-        const wrapper = shallow(<AndreKriterierVelger
-          valgtOppgavekoId="1"
-          hentOppgaveko={sinon.spy()}
-          values={{
-            [andreKriterierType.TIL_BESLUTTER]: true,
-            [`${andreKriterierType.TIL_BESLUTTER}_inkluder`]: true,
-          }}
-        />);
+        const wrapper = shallow(
+          <AndreKriterierVelger
+            valgtOppgavekoId="1"
+            hentOppgaveko={sinon.spy()}
+            values={{
+              [andreKriterierType.TIL_BESLUTTER]: true,
+              [`${andreKriterierType.TIL_BESLUTTER}_inkluder`]: true,
+            }}
+          />,
+        );
 
         wrapper.find(RadioGroupField).prop('onChange')(false);
 

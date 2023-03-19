@@ -1,9 +1,7 @@
-import React, { useState, useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Form } from 'react-final-form';
-
 import AndreKriterierVelger from 'avdelingsleder/behandlingskoer/components/oppgavekoForm/AndreKriterierVelger';
 import andreKriterierType from 'kodeverk/andreKriterierType';
-
 import withIntl from '../../../decorators/withIntl.js';
 import alleKodeverk from '../../../mocks/alleKodeverk.json';
 
@@ -19,7 +17,7 @@ export const skalViseVelgerAvAndreKriterier = () => {
     [`${andreKriterierType.TIL_BESLUTTER}_inkluder`]: true,
   });
   const lagre = useCallback((_oppgavekoId, akType, isChecked, skalInkludere) => {
-    leggTilVerdi((oldState) => ({
+    leggTilVerdi(oldState => ({
       ...oldState,
       [akType.kode]: isChecked,
       [`${akType.kode}_inkluder`]: skalInkludere,

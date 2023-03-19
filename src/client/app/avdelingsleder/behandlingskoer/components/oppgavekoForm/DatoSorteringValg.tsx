@@ -1,13 +1,13 @@
-import { FlexColumn, FlexContainer, FlexRow } from 'sharedComponents/flexGrid';
-import { hasValidDate } from 'utils/validation/validators';
-import { Undertekst } from 'nav-frontend-typografi';
-import { FormattedMessage, WrappedComponentProps } from 'react-intl';
 import React, { FunctionComponent } from 'react';
-import { DatepickerField } from 'form/FinalFields';
-import { ISO_DATE_FORMAT, DDMMYYYY_DATE_FORMAT } from 'utils/formats';
+import { FormattedMessage, WrappedComponentProps } from 'react-intl';
 import moment from 'moment';
-import VerticalSpacer from 'sharedComponents/VerticalSpacer';
+import { Undertekst } from 'nav-frontend-typografi';
+import { DatepickerField } from 'form/FinalFields';
 import ArrowBox from 'sharedComponents/ArrowBox';
+import VerticalSpacer from 'sharedComponents/VerticalSpacer';
+import { FlexColumn, FlexContainer, FlexRow } from 'sharedComponents/flexGrid';
+import { DDMMYYYY_DATE_FORMAT, ISO_DATE_FORMAT } from 'utils/formats';
+import { hasValidDate } from 'utils/validation/validators';
 import styles from './sorteringVelger.css';
 
 const getLagreDatoFn =

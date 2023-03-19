@@ -1,15 +1,15 @@
 import React, { FunctionComponent, useCallback, useState } from 'react';
-import { parseQueryString } from 'utils/urlUtils';
 import { useIdleTimer } from 'react-idle-timer';
-import ModalMedIkon from 'sharedComponents/modal/ModalMedIkon';
 import { useLocation } from 'react-router';
+import ModalMedIkon from 'sharedComponents/modal/ModalMedIkon';
+import { parseQueryString } from 'utils/urlUtils';
+import advarselImageUrl from '../../images/advarsel.svg';
+import '../../styles/global.css';
 import AppConfigResolver from './AppConfigResolver';
+import ErrorBoundary from './ErrorBoundary';
 import LanguageProvider from './LanguageProvider';
 import HeaderWithErrorPanel from './components/HeaderWithErrorPanel';
 import Home from './components/Home';
-import '../../styles/global.css';
-import advarselImageUrl from '../../images/advarsel.svg';
-import ErrorBoundary from './ErrorBoundary';
 
 /**
  * AppIndex

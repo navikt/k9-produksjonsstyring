@@ -1,20 +1,18 @@
 import React, { FunctionComponent, useMemo } from 'react';
-import { FormattedMessage, injectIntl, WrappedComponentProps } from 'react-intl';
+import { FormattedMessage, WrappedComponentProps, injectIntl } from 'react-intl';
 import dayjs from 'dayjs';
-
 import { Normaltekst } from 'nav-frontend-typografi';
-
 import NyeOgFerdigstilteOppgaver from 'saksbehandler/saksstotte/nokkeltall/components/nyeOgFerdigstilteOppgaverTsType';
 import ReactECharts from 'sharedComponents/echart/ReactEcharts';
 import { momentDateFormat } from 'utils/dateUtils';
 import {
   fargerForLegendsForMineNyeFerdigstilte,
+  graferOpacity,
   gridDef,
   legendStyle,
   tooltipTextStyle,
   yAxisDef,
   yXAxisFontSizeSaksbehandlerNokkeltall,
-  graferOpacity,
 } from '../../../../../../styles/echartStyle';
 
 interface OwnProps {

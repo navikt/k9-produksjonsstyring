@@ -1,7 +1,5 @@
 import React from 'react';
-
 import IkkeTilgangTilAvdelingslederPanel from 'avdelingsleder/components/IkkeTilgangTilAvdelingslederPanel';
-
 import withIntl from '../../decorators/withIntl';
 
 export default {
@@ -10,6 +8,4 @@ export default {
   decorators: [withIntl],
 };
 
-export const skalViseIkkeTilgangTilAvdelingsleder = () => (
-  <IkkeTilgangTilAvdelingslederPanel />
-);
+export const skalViseIkkeTilgangTilAvdelingsleder = () => <IkkeTilgangTilAvdelingslederPanel />;

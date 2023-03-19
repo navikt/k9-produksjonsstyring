@@ -1,31 +1,30 @@
-import React, { useMemo, FunctionComponent } from 'react';
-import dayjs from 'dayjs';
-import { ISO_DATE_FORMAT } from 'utils/formats';
-
-import HistoriskData from 'avdelingsleder/nokkeltall/historiskDataTsType';
-import ReactECharts from 'sharedComponents/echart/ReactEcharts';
-import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
-import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
+import React, { FunctionComponent, useMemo } from 'react';
 import { FormattedMessage } from 'react-intl';
+import dayjs from 'dayjs';
+import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
+import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 import { Normaltekst } from 'nav-frontend-typografi';
+import HistoriskData from 'avdelingsleder/nokkeltall/historiskDataTsType';
 import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
+import ReactECharts from 'sharedComponents/echart/ReactEcharts';
 import { momentDateFormat } from 'utils/dateUtils';
-import Koordinat from '../../types/Koordinat';
+import { ISO_DATE_FORMAT } from 'utils/formats';
 import {
+  eChartXAxisTickDefAvdelningslederNokkeltall,
   grafHeight,
+  graferOpacity,
   gridDef,
   legendStyle,
   seriesStyleAvdelningslederNokkeltall,
   tooltipTextStyle,
   xAxisFontSizeAvdelningslederNokkeltall,
-  eChartXAxisTickDefAvdelningslederNokkeltall,
   yAxisFontSizeAvdelningslederNokkeltall,
   yAxisMarginTextBarAvdelningslederNokkeltall,
-  graferOpacity,
 } from '../../../styles/echartStyle';
 import useKodeverk from '../../api/rest-api-hooks/src/global-data/useKodeverk';
-import omsorgsdagerYtelsetyper from "../../types/OmsorgsdagerYtelsetyper";
+import Koordinat from '../../types/Koordinat';
+import omsorgsdagerYtelsetyper from '../../types/OmsorgsdagerYtelsetyper';
 
 dayjs.extend(isSameOrBefore);
 dayjs.extend(isSameOrAfter);
@@ -34,10 +33,14 @@ const samletNavnForOmsorgsdager = 'OMD';
 const fagytelseTyperFarger = {
   [fagsakYtelseType.PLEIEPENGER_SYKT_BARN]: '#0067C5',
   [fagsakYtelseType.OMSORGSPENGER]: '#66CBEC',
-  [samletNavnForOmsorgsdager]: '#FF9100'
+  [samletNavnForOmsorgsdager]: '#FF9100',
 };
 
-export const fagytelseTyperSomSkalVises = [fagsakYtelseType.PLEIEPENGER_SYKT_BARN, fagsakYtelseType.OMSORGSPENGER, samletNavnForOmsorgsdager];
+export const fagytelseTyperSomSkalVises = [
+  fagsakYtelseType.PLEIEPENGER_SYKT_BARN,
+  fagsakYtelseType.OMSORGSPENGER,
+  samletNavnForOmsorgsdager,
+];
 
 const konverterTilKoordinaterGruppertPaFagytelsetype = (
   oppgaverForAvdeling: HistoriskData[],
@@ -48,12 +51,14 @@ const konverterTilKoordinaterGruppertPaFagytelsetype = (
       y: o.antall,
     };
 
-    if(omsorgsdagerYtelsetyper.includes(o.fagsakYtelseType)){
+    if (omsorgsdagerYtelsetyper.includes(o.fagsakYtelseType)) {
       const eksisterendeKoordinater = acc[samletNavnForOmsorgsdager];
 
       return {
         ...acc,
-        [samletNavnForOmsorgsdager]: eksisterendeKoordinater ? eksisterendeKoordinater.concat(nyKoordinat) : [nyKoordinat],
+        [samletNavnForOmsorgsdager]: eksisterendeKoordinater
+          ? eksisterendeKoordinater.concat(nyKoordinat)
+          : [nyKoordinat],
       };
     }
 
@@ -89,8 +94,8 @@ const fyllInnManglendeDatoerOgSorterEtterDato = (
 
 const finnFagytelsetypeNavn = (fagytelseTyper, fagytelsetypeKode: string) => {
   const type = fagytelseTyper.find(bt => bt.kode === fagytelsetypeKode);
-  if(fagytelsetypeKode === samletNavnForOmsorgsdager){
-    return 'Omsorgsdager'
+  if (fagytelsetypeKode === samletNavnForOmsorgsdager) {
+    return 'Omsorgsdager';
   }
   return type ? type.navn : '';
 };

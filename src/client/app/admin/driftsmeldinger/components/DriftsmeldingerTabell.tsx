@@ -1,20 +1,19 @@
 import React, { FunctionComponent, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Normaltekst, Element } from 'nav-frontend-typografi';
-import Image from 'sharedComponents/Image';
 import removeIcon from 'images/remove.svg';
-import VerticalSpacer from 'sharedComponents/VerticalSpacer';
-import Table from 'sharedComponents/Table';
-import TableRow from 'sharedComponents/TableRow';
-import TableColumn from 'sharedComponents/TableColumn';
 import { Checkbox } from 'nav-frontend-skjema';
-import { getDateAndTime } from 'utils/dateUtils';
-import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
+import { Element, Normaltekst } from 'nav-frontend-typografi';
 import { K9LosApiKeys } from 'api/k9LosApi';
+import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
+import Image from 'sharedComponents/Image';
+import Table from 'sharedComponents/Table';
+import TableColumn from 'sharedComponents/TableColumn';
+import TableRow from 'sharedComponents/TableRow';
+import VerticalSpacer from 'sharedComponents/VerticalSpacer';
+import { getDateAndTime } from 'utils/dateUtils';
 import { Driftsmelding } from '../driftsmeldingTsType';
-
-import styles from './driftsmeldingerTabell.css';
 import SletteDriftsmeldingerModal from './SletteDriftsmeldingerModal';
+import styles from './driftsmeldingerTabell.css';
 
 const headerTextCodes = ['DriftsmeldingTabell.Tekst', 'DriftsmeldingTabell.Aktiv', 'DriftsmeldingTabell.Dato'];
 

@@ -1,19 +1,17 @@
 import React, { FunctionComponent } from 'react';
-import { injectIntl, WrappedComponentProps, FormattedMessage } from 'react-intl';
-
 import { Form } from 'react-final-form';
+import { FormattedMessage, WrappedComponentProps, injectIntl } from 'react-intl';
+import advarselIcon from 'images/advarsel.svg';
 import { Knapp } from 'nav-frontend-knapper';
 import { Undertittel } from 'nav-frontend-typografi';
-import { FlexContainer, FlexRow, FlexColumn } from 'sharedComponents/flexGrid';
-import VerticalSpacer from 'sharedComponents/VerticalSpacer';
-import Image from 'sharedComponents/Image';
-import advarselIcon from 'images/advarsel.svg';
-import { hasValidSaksnummerOrFodselsnummerFormat } from 'utils/validation/validators';
-import { InputField } from 'form/FinalFields';
-
-import { RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
 import NavAnsatt from 'app/navAnsattTsType';
+import { RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
 import useGlobalStateRestApiData from 'api/rest-api-hooks/src/global-data/useGlobalStateRestApiData';
+import { InputField } from 'form/FinalFields';
+import Image from 'sharedComponents/Image';
+import VerticalSpacer from 'sharedComponents/VerticalSpacer';
+import { FlexColumn, FlexContainer, FlexRow } from 'sharedComponents/flexGrid';
+import { hasValidSaksnummerOrFodselsnummerFormat } from 'utils/validation/validators';
 import styles from './searchForm.css';
 
 const isButtonDisabled = (searchString, searchStarted, searchResultAccessDenied) =>
@@ -46,9 +44,7 @@ export const SearchForm: FunctionComponent<OwnProps & WrappedComponentProps> = (
       render={({ handleSubmit, values }) => (
         <form className={styles.container} onSubmit={handleSubmit}>
           <Undertittel>{intl.formatMessage({ id: 'Search.SearchFagsakOrPerson' })}</Undertittel>
-          {kanSaksbehandle && (
-            <VerticalSpacer sixteenPx />
-          )}
+          {kanSaksbehandle && <VerticalSpacer sixteenPx />}
           <VerticalSpacer eightPx />
           <FlexContainer>
             <FlexRow>

@@ -1,24 +1,23 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import NavFrontendChevron from 'nav-frontend-chevron';
-import Oppgave from 'saksbehandler/oppgaveTsType';
-import Table from 'sharedComponents/Table';
-import TableRow from 'sharedComponents/TableRow';
-import TableColumn from 'sharedComponents/TableColumn';
 import advarselImageUrl from 'images/advarsel.svg';
-
 import timeglassUrl from 'images/timeglass.svg';
-import useGlobalStateRestApiData from 'api/rest-api-hooks/src/global-data/useGlobalStateRestApiData';
+import NavFrontendChevron from 'nav-frontend-chevron';
+import { WarningColored } from '@navikt/ds-icons';
 import NavAnsatt from 'app/navAnsattTsType';
 import { RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
-import { getYearFromString } from 'utils/dateUtils';
-import ModalMedIkon from 'sharedComponents/modal/ModalMedIkon';
-import { getKodeverknavnFraKode } from 'utils/kodeverkUtils';
+import useGlobalStateRestApiData from 'api/rest-api-hooks/src/global-data/useGlobalStateRestApiData';
 import AlleKodeverk from 'kodeverk/alleKodeverkTsType';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
-import { WarningColored } from '@navikt/ds-icons';
 import KommentarMedMerknad from 'saksbehandler/components/KommentarMedMerknad';
-import styles from './fagsakList.css';
+import Oppgave from 'saksbehandler/oppgaveTsType';
+import Table from 'sharedComponents/Table';
+import TableColumn from 'sharedComponents/TableColumn';
+import TableRow from 'sharedComponents/TableRow';
+import ModalMedIkon from 'sharedComponents/modal/ModalMedIkon';
+import { getYearFromString } from 'utils/dateUtils';
+import { getKodeverknavnFraKode } from 'utils/kodeverkUtils';
 import OppgaveSystem from '../../../types/OppgaveSystem';
+import styles from './fagsakList.css';
 
 const headerTextCodes = [
   'EMPTY_1',

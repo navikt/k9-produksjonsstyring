@@ -5,12 +5,14 @@ const behandlingerSomGårAvVent = [
     behandlingType: 'Revurdering',
     dato: frist,
     antall: 10,
-  }, {
+  },
+  {
     fagsakYtelseType: 'OMP',
     behandlingType: 'Revurdering',
     dato: frist,
     antall: 10,
-  }, {
+  },
+  {
     fagsakYtelseType: 'OMP_KS',
     behandlingType: 'Revurdering',
     dato: frist,

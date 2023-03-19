@@ -1,5 +1,4 @@
-import { useContext, useCallback } from 'react';
-
+import { useCallback, useContext } from 'react';
 import { RestApiErrorDispatchContext } from './RestApiErrorContext';
 
 /**
@@ -7,7 +6,7 @@ import { RestApiErrorDispatchContext } from './RestApiErrorContext';
  */
 const useRestApiErrorDispatcher = () => {
   const dispatch = useContext(RestApiErrorDispatchContext);
-  const addErrorMessage = useCallback((data) => {
+  const addErrorMessage = useCallback(data => {
     if (dispatch) {
       dispatch({ type: 'add', data });
     }

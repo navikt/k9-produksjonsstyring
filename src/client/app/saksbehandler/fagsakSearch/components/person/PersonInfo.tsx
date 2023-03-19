@@ -1,14 +1,11 @@
 import React, { FunctionComponent } from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
-import { Undertittel, Undertekst } from 'nav-frontend-typografi';
-
-import Image from 'sharedComponents/Image';
-import urlMann from 'images/mann.svg';
+import { WrappedComponentProps, injectIntl } from 'react-intl';
 import urlKvinne from 'images/kvinne.svg';
-
+import urlMann from 'images/mann.svg';
+import { Undertekst, Undertittel } from 'nav-frontend-typografi';
+import Image from 'sharedComponents/Image';
 import Person from '../../personTsType';
 import AlderVisning from './Aldervisning';
-
 import styles from './personInfo.css';
 
 interface OwnProps {

@@ -1,21 +1,22 @@
 import React from 'react';
-import { shallow } from 'enzyme';
 import { expect } from 'chai';
+import { shallow } from 'enzyme';
 import sinon from 'sinon';
-
 import { AutoLagringVedBlur } from './AutoLagringVedBlur';
 
 describe('<AutoLagringVedBlur>', () => {
   it('skal lagre når en går ut av feltet navn', () => {
     const lagreFn = sinon.spy();
 
-    const wrapper = shallow(<AutoLagringVedBlur
-      lagre={lagreFn}
-      active="navn"
-      invalid={false}
-      values={{ navn: 'Nytt listenavn' }}
-      fieldNames={['navn']}
-    />);
+    const wrapper = shallow(
+      <AutoLagringVedBlur
+        lagre={lagreFn}
+        active="navn"
+        invalid={false}
+        values={{ navn: 'Nytt listenavn' }}
+        fieldNames={['navn']}
+      />,
+    );
 
     const changedProps = {
       active: 'annet felt',
@@ -33,13 +34,15 @@ describe('<AutoLagringVedBlur>', () => {
   it('skal ikke lagre når en ikke har byttet felt', () => {
     const lagreFn = sinon.spy();
 
-    const wrapper = shallow(<AutoLagringVedBlur
-      lagre={lagreFn}
-      active="navn"
-      invalid={false}
-      values={{ navn: 'Nyansatte' }}
-      fieldNames={['navn']}
-    />);
+    const wrapper = shallow(
+      <AutoLagringVedBlur
+        lagre={lagreFn}
+        active="navn"
+        invalid={false}
+        values={{ navn: 'Nyansatte' }}
+        fieldNames={['navn']}
+      />,
+    );
 
     const changedProps = {
       active: 'navn',

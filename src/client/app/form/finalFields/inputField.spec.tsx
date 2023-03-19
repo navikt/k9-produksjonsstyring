@@ -1,21 +1,11 @@
 import React from 'react';
-import { expect } from 'chai';
 import { Form } from 'react-final-form';
-
+import { expect } from 'chai';
 import { mountWithIntl } from '../../../../../setup/testHelpers/intl-enzyme-test-helper';
 import InputField from './InputField';
 
-const mountFieldInForm = (field, initialValues) => mountWithIntl(
-  <Form
-    onSubmit={() => undefined}
-    initialValues={initialValues}
-    render={() => (
-      <>
-        {field}
-      </>
-    )}
-  />,
-);
+const mountFieldInForm = (field, initialValues) =>
+  mountWithIntl(<Form onSubmit={() => undefined} initialValues={initialValues} render={() => <>{field}</>} />);
 
 describe('<InputField>', () => {
   it('Skal rendre input', () => {

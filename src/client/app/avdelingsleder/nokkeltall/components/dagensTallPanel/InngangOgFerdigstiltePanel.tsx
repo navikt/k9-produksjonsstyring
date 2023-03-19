@@ -1,28 +1,28 @@
+import React, { FunctionComponent, useState } from 'react';
+import { FormattedMessage, WrappedComponentProps, injectIntl } from 'react-intl';
+import dayjs from 'dayjs';
+import Panel from 'nav-frontend-paneler';
+import { ToggleKnapp } from 'nav-frontend-toggle';
+import { Normaltekst } from 'nav-frontend-typografi';
 import { Heading, Label, Loader, Select } from '@navikt/ds-react';
 import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
 import { useGlobalStateRestApiData } from 'api/rest-api-hooks';
-import useRestApi from 'api/rest-api-hooks/src/local-data/useRestApi';
 import RestApiState from 'api/rest-api-hooks/src/RestApiState';
+import useRestApi from 'api/rest-api-hooks/src/local-data/useRestApi';
 import {
   ALLE_YTELSETYPER_VALGT,
   sjekkOmOppgaveSkalLeggesTil,
   ytelseTyper,
 } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
 import NyeOgFerdigstilteMedStonadstype from 'avdelingsleder/nokkeltall/nyeOgFerdigstilteMedStonadstypeTsType';
-import dayjs from 'dayjs';
 import AlleKodeverk from 'kodeverk/alleKodeverkTsType';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
-import Panel from 'nav-frontend-paneler';
-import { ToggleKnapp } from 'nav-frontend-toggle';
-import { Normaltekst } from 'nav-frontend-typografi';
-import React, { FunctionComponent, useState } from 'react';
-import { FormattedMessage, injectIntl, WrappedComponentProps } from 'react-intl';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import { ISO_DATE_FORMAT } from 'utils/formats';
 import { getKodeverknavnFraKode } from 'utils/kodeverkUtils';
 import { getValueFromLocalStorage, lagreTilLocalStorageCallback } from 'utils/localStorageHelper';
-import styles from './inngangOgFerdigstiltePanel.css';
 import Teller from './Teller';
+import styles from './inngangOgFerdigstiltePanel.css';
 
 export const slaSammenLikeBehandlingstyper = oppgaver => {
   const sammenslatte = [];

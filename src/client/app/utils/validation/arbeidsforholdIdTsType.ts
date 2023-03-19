@@ -1,4 +1,3 @@
-
 type ArbeidsforholdId = Readonly<{
   eksternArbeidsforholdId?: string;
   internArbeidsforholdId?: string;

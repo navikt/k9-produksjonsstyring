@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import moment from 'moment';
 import { Input } from 'nav-frontend-skjema';
-
+import PropTypes from 'prop-types';
 import { DDMMYYYY_DATE_FORMAT } from 'utils/formats';
 import CalendarOverlay from './CalendarOverlay';
 import CalendarToggleButton from './CalendarToggleButton';
-
 import styles from './datepicker.css';
 
 class Datepicker extends Component {

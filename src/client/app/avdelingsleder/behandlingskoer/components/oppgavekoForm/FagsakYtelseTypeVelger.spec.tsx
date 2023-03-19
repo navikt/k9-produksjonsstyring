@@ -1,30 +1,28 @@
 import React from 'react';
 import { expect } from 'chai';
-import sinon from 'sinon';
 import { shallow } from 'enzyme';
-
+import sinon from 'sinon';
+import { K9LosApiKeys } from 'api/k9LosApi';
 import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
-import { K9LosApiKeys } from 'api/k9LosApi';
 import RestApiTestMocker from '../../../../../../../setup/testHelpers/RestApiTestMocker';
 import FagsakYtelseTypeVelger from './FagsakYtelseTypeVelger';
 
 describe('<FagsakYtelseTypeVelger>', () => {
-  const fagsakYtelseTyper = [
-    fagsakYtelseType.OMSORGSPENGER,
-    fagsakYtelseType.PLEIEPENGER_SYKT_BARN,
-];
+  const fagsakYtelseTyper = [fagsakYtelseType.OMSORGSPENGER, fagsakYtelseType.PLEIEPENGER_SYKT_BARN];
 
   it('skal vise checkboxer for ytelsetyper', () => {
     new RestApiTestMocker()
       .withKodeverk(kodeverkTyper.FAGSAK_YTELSE_TYPE, fagsakYtelseTyper)
       .withDummyRunner()
       .runTest(() => {
-        const wrapper = shallow(<FagsakYtelseTypeVelger
-          valgtOppgavekoId="1"
-          fagsakYtelseTyper={[fagsakYtelseTyper[0]]}
-          hentOppgaveko={sinon.spy()}
-        />);
+        const wrapper = shallow(
+          <FagsakYtelseTypeVelger
+            valgtOppgavekoId="1"
+            fagsakYtelseTyper={[fagsakYtelseTyper[0]]}
+            hentOppgaveko={sinon.spy()}
+          />,
+        );
 
         const radios = wrapper.find('CheckboxField');
         expect(radios).to.have.length(5);
@@ -46,14 +44,16 @@ describe('<FagsakYtelseTypeVelger>', () => {
 
     new RestApiTestMocker()
       .withKodeverk(kodeverkTyper.FAGSAK_YTELSE_TYPE, fagsakYtelseTyper)
-      .withRestCallRunner(K9LosApiKeys.LAGRE_OPPGAVEKO_FAGSAK_YTELSE_TYPE,
-        { startRequest: (params) => { lagreYtelseTypeFn(params); return Promise.resolve(); } })
+      .withRestCallRunner(K9LosApiKeys.LAGRE_OPPGAVEKO_FAGSAK_YTELSE_TYPE, {
+        startRequest: params => {
+          lagreYtelseTypeFn(params);
+          return Promise.resolve();
+        },
+      })
       .runTest(() => {
-        const wrapper = shallow(<FagsakYtelseTypeVelger
-          valgtOppgavekoId="1"
-          fagsakYtelseTyper={[]}
-          hentOppgaveko={sinon.spy()}
-        />);
+        const wrapper = shallow(
+          <FagsakYtelseTypeVelger valgtOppgavekoId="1" fagsakYtelseTyper={[]} hentOppgaveko={sinon.spy()} />,
+        );
 
         const radios = wrapper.find('CheckboxField');
         expect(radios).to.have.length(5);
@@ -76,7 +76,10 @@ describe('<FagsakYtelseTypeVelger>', () => {
         const { args } = lagreYtelseTypeFn.getCalls()[0];
         expect(args).to.have.length(1);
         expect(args[0].id).to.eql('1');
-        expect(args[0].fagsakYtelseType).to.eql([fagsakYtelseType.OMSORGSDAGER, fagsakYtelseType.PLEIEPENGER_SYKT_BARN]);
+        expect(args[0].fagsakYtelseType).to.eql([
+          fagsakYtelseType.OMSORGSDAGER,
+          fagsakYtelseType.PLEIEPENGER_SYKT_BARN,
+        ]);
       });
   });
 });

@@ -1,14 +1,14 @@
-import { Detail } from '@navikt/ds-react';
-import { Normaltekst } from 'nav-frontend-typografi';
 import React, { ReactNode, useCallback } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { OppgaveStatus } from 'saksbehandler/oppgaveStatusTsType';
-import Oppgave from 'saksbehandler/oppgaveTsType';
-import { getDateAndTime } from 'utils/dateUtils';
-import Image from 'sharedComponents/Image';
 import bubbletextBlack from 'images/bubbletext_black.svg';
 import bubbletextFilledUrl from 'images/bubbletext_filled.svg';
+import { Normaltekst } from 'nav-frontend-typografi';
+import { Detail } from '@navikt/ds-react';
+import { OppgaveStatus } from 'saksbehandler/oppgaveStatusTsType';
+import Oppgave from 'saksbehandler/oppgaveTsType';
+import Image from 'sharedComponents/Image';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
+import { getDateAndTime } from 'utils/dateUtils';
 
 const createTooltip = (oppgaveStatus: OppgaveStatus): ReactNode | undefined => {
   const { flyttetReservasjon } = oppgaveStatus;

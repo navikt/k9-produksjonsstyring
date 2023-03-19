@@ -1,16 +1,16 @@
 import React, { FunctionComponent, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { ALLE_YTELSETYPER_VALGT, filtrereNyePerDato, UKE_2, UKE_4 } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
+import { RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
+import { useGlobalStateRestApiData } from 'api/rest-api-hooks';
 import useKodeverk from 'api/rest-api-hooks/src/global-data/useKodeverk';
-import kodeverkTyper from 'kodeverk/kodeverkTyper';
-import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
+import GrafContainer from 'avdelingsleder/GrafContainer';
 import HistorikkGraf from 'avdelingsleder/nokkeltall/HistorikkGraf';
 import HistorikkGrafForPunsj from 'avdelingsleder/nokkeltall/HistorikkGrafForPunsj';
+import { ALLE_YTELSETYPER_VALGT, UKE_2, UKE_4, filtrereNyePerDato } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
+import AlleKodeverk from 'kodeverk/alleKodeverkTsType';
+import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
+import kodeverkTyper from 'kodeverk/kodeverkTyper';
 import { getValueFromLocalStorage } from 'utils/localStorageHelper';
-import GrafContainer from 'avdelingsleder/GrafContainer';
-import AlleKodeverk from "kodeverk/alleKodeverkTsType";
-import { useGlobalStateRestApiData } from "api/rest-api-hooks";
-import { RestApiGlobalStatePathsKeys } from "api/k9LosApi";
 import HistoriskData from '../../historiskDataTsType';
 
 interface OwnProps {

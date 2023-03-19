@@ -1,8 +1,6 @@
 import React from 'react';
 import { action } from '@storybook/addon-actions';
-
 import SletteOppgavekoModal from 'avdelingsleder/behandlingskoer/components/SletteOppgavekoModal';
-
 import withIntl from '../../../decorators/withIntl.js';
 
 export default {

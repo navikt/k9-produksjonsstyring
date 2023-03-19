@@ -1,14 +1,13 @@
 import React, { FunctionComponent } from 'react';
 import { Form } from 'react-final-form';
 import { FormattedMessage } from 'react-intl';
-import { Row, Column } from 'nav-frontend-grid';
-import VerticalSpacer from 'sharedComponents/VerticalSpacer';
-import { CheckboxField } from 'form/FinalFields';
-import { Saksbehandler } from 'avdelingsleder/bemanning/saksbehandlerTsType';
-import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
+import { Column, Row } from 'nav-frontend-grid';
 import { K9LosApiKeys } from 'api/k9LosApi';
+import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
+import { Saksbehandler } from 'avdelingsleder/bemanning/saksbehandlerTsType';
+import { CheckboxField } from 'form/FinalFields';
+import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import { Oppgaveko } from '../../oppgavekoTsType';
-
 import styles from './saksbehandlereForOppgavekoForm.css';
 
 interface OwnProps {

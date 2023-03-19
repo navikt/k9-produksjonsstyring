@@ -1,14 +1,13 @@
 import React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { FormattedMessage } from 'react-intl';
-
-import Modal from 'sharedComponents/Modal';
-import Oppgave from 'saksbehandler/oppgaveTsType';
-import FlyttReservasjonsmodal from 'saksbehandler/components/FlyttReservasjonModal/FlyttReservasjonModal';
 import { RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
-import { shallowWithIntl, intlMock } from '../../../../../../setup/testHelpers/intl-enzyme-test-helper';
+import FlyttReservasjonsmodal from 'saksbehandler/components/FlyttReservasjonModal/FlyttReservasjonModal';
+import Oppgave from 'saksbehandler/oppgaveTsType';
+import Modal from 'sharedComponents/Modal';
 import RestApiTestMocker from '../../../../../../setup/testHelpers/RestApiTestMocker';
+import { intlMock, shallowWithIntl } from '../../../../../../setup/testHelpers/intl-enzyme-test-helper';
 
 describe('<FlyttReservasjonModal>', () => {
   const oppgave: Oppgave = {
@@ -61,33 +60,31 @@ describe('<FlyttReservasjonModal>', () => {
   };
 
   it('skal vise modal med riktig data', () => {
-    new RestApiTestMocker()
-      .withGlobalData(RestApiGlobalStatePathsKeys.NAV_ANSATT, navAnsatt)
-      .runTest(() => {
-        const wrapper = shallowWithIntl(
-          <FlyttReservasjonsmodal
-            intl={intlMock}
-            lukkFlyttReservasjonsmodal={sinon.spy()}
-            oppgave={oppgave}
-            oppgaveStatus={oppgave.status}
-            openSak={sinon.spy()}
-            hentReserverteOppgaver={sinon.spy()}
-            hentOppgaverTilBehandling={sinon.spy()}
-          />,
-        );
+    new RestApiTestMocker().withGlobalData(RestApiGlobalStatePathsKeys.NAV_ANSATT, navAnsatt).runTest(() => {
+      const wrapper = shallowWithIntl(
+        <FlyttReservasjonsmodal
+          intl={intlMock}
+          lukkFlyttReservasjonsmodal={sinon.spy()}
+          oppgave={oppgave}
+          oppgaveStatus={oppgave.status}
+          openSak={sinon.spy()}
+          hentReserverteOppgaver={sinon.spy()}
+          hentOppgaverTilBehandling={sinon.spy()}
+        />,
+      );
 
-        expect(wrapper.find(Modal)).has.length(1);
-        const fmessage = wrapper.find(FormattedMessage);
-        expect(fmessage).has.length(1);
+      expect(wrapper.find(Modal)).has.length(1);
+      const fmessage = wrapper.find(FormattedMessage);
+      expect(fmessage).has.length(1);
 
-        expect(fmessage.prop('id')).to.equal('FlyttReservasjonModal.ReservertAv');
+      expect(fmessage.prop('id')).to.equal('FlyttReservasjonModal.ReservertAv');
 
-        expect(fmessage.prop('values')).is.eql({
-          saksbehandlerid: oppgave.status.reservertAv,
-          saksbehandlernavn: oppgave.status.reservertAvNavn,
-        });
-
-        expect(wrapper.find('.flyttReservasjonModal_knapper__knapp')).has.length(3);
+      expect(fmessage.prop('values')).is.eql({
+        saksbehandlerid: oppgave.status.reservertAv,
+        saksbehandlernavn: oppgave.status.reservertAvNavn,
       });
+
+      expect(wrapper.find('.flyttReservasjonModal_knapper__knapp')).has.length(3);
+    });
   });
 });

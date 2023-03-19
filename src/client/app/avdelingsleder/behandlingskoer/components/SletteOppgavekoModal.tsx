@@ -1,13 +1,10 @@
 import React, { FunctionComponent } from 'react';
-import { injectIntl, WrappedComponentProps, FormattedMessage } from 'react-intl';
-import { Row, Column } from 'nav-frontend-grid';
+import { FormattedMessage, WrappedComponentProps, injectIntl } from 'react-intl';
+import { Column, Row } from 'nav-frontend-grid';
 import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
 import { Normaltekst } from 'nav-frontend-typografi';
-
 import Modal from 'sharedComponents/Modal';
-
 import { Oppgaveko } from '../oppgavekoTsType';
-
 import styles from './sletteOppgavekoModal.css';
 
 type TsProps = Readonly<{

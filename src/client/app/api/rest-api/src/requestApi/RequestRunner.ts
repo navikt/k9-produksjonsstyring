@@ -1,9 +1,9 @@
 import EventType from 'api/rest-api/src/requestApi/eventType';
-import RequestProcess from './RequestProcess';
-import NotificationMapper from './NotificationMapper';
-import RestApiRequestContext from './RestApiRequestContext';
-import { RequestType } from '../RequestConfig';
 import HttpClientApi from '../HttpClientApiTsType';
+import { RequestType } from '../RequestConfig';
+import NotificationMapper from './NotificationMapper';
+import RequestProcess from './RequestProcess';
+import RestApiRequestContext from './RestApiRequestContext';
 
 const getMethod = (httpClientApi: HttpClientApi, restMethod: string) => {
   if (restMethod === RequestType.GET) {
@@ -27,8 +27,8 @@ const getMethod = (httpClientApi: HttpClientApi, restMethod: string) => {
   return httpClientApi.postAndOpenBlob;
 };
 
-type Notify = (eventType: keyof typeof EventType, data?: any, isPolling?: boolean) => void
-type NotificationEmitter = (eventType: keyof typeof EventType, data?: any) => void
+type Notify = (eventType: keyof typeof EventType, data?: any, isPolling?: boolean) => void;
+type NotificationEmitter = (eventType: keyof typeof EventType, data?: any) => void;
 
 /**
  * RequestRunner
@@ -41,7 +41,7 @@ type NotificationEmitter = (eventType: keyof typeof EventType, data?: any) => vo
 class RequestRunner {
   httpClientApi: HttpClientApi;
 
-  context: RestApiRequestContext
+  context: RestApiRequestContext;
 
   process: RequestProcess;
 
@@ -54,29 +54,34 @@ class RequestRunner {
 
   private getConfig = () => this.context.getConfig();
 
-  private getRestMethod = () => getMethod(this.httpClientApi, this.getConfig().restMethod)
+  private getRestMethod = () => getMethod(this.httpClientApi, this.getConfig().restMethod);
 
   private getPath = (): string => {
     const contextPath = this.getConfig().contextPath ? `/${this.getConfig().contextPath}` : '';
     return this.getConfig().path ? `${this.context.getHostname()}${contextPath}${this.getConfig().path}` : undefined;
-  }
+  };
 
   public cancelRequest = () => {
     if (this.process) {
       this.process.cancel();
     }
-  }
+  };
 
   public startProcess = (params: any, notificationMapper?: NotificationMapper) => {
     this.cancelRequest();
 
-    this.process = new RequestProcess(this.httpClientApi, this.getRestMethod(), this.getPath(), this.getConfig().config);
+    this.process = new RequestProcess(
+      this.httpClientApi,
+      this.getRestMethod(),
+      this.getPath(),
+      this.getConfig().config,
+    );
     if (notificationMapper) {
       this.process.setNotificationEmitter(notificationMapper.getNotificationEmitter());
     }
 
     return this.process.run(params || this.getConfig().requestPayload);
-  }
+  };
 }
 
 export default RequestRunner;

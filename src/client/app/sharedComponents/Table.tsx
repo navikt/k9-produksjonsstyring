@@ -1,10 +1,8 @@
-import React, { ReactElement, FunctionComponent } from 'react';
+import React, { FunctionComponent, ReactElement } from 'react';
 import { FormattedMessage } from 'react-intl';
 import classnames from 'classnames/bind';
-
-import TableRow from './TableRow';
 import TableColumn from './TableColumn';
-
+import TableRow from './TableRow';
 import styles from './table.css';
 
 const classNames = classnames.bind(styles);

@@ -1,8 +1,8 @@
-import RequestRunner from './RequestRunner';
-import RestApiRequestContext from './RestApiRequestContext';
 import HttpClientApi from '../HttpClientApiTsType';
 import RequestConfig from '../RequestConfig';
 import NotificationMapper from './NotificationMapper';
+import RequestRunner from './RequestRunner';
+import RestApiRequestContext from './RestApiRequestContext';
 
 /**
  * RequestApi
@@ -11,19 +11,22 @@ import NotificationMapper from './NotificationMapper';
  * de enkelte endepunktene. Det blir så satt opp RequestRunner's for endepunktene. Desse kan hentes via metoden @see getRequestRunner.
  */
 class RequestApi {
-  requestRunnersMappedByName: {[key: string]: RequestRunner};
+  requestRunnersMappedByName: { [key: string]: RequestRunner };
 
   notificationMapper: NotificationMapper = new NotificationMapper();
 
   constructor(httpClientApi: HttpClientApi, configs: RequestConfig[]) {
-    this.requestRunnersMappedByName = configs.reduce((acc, config) => ({
-      ...acc,
-      [config.name]: new RequestRunner(httpClientApi, new RestApiRequestContext(config)),
-    }), {});
+    this.requestRunnersMappedByName = configs.reduce(
+      (acc, config) => ({
+        ...acc,
+        [config.name]: new RequestRunner(httpClientApi, new RestApiRequestContext(config)),
+      }),
+      {},
+    );
   }
 
-  public startRequest = (endpointName: string, params: any) => this.requestRunnersMappedByName[endpointName]
-    .startProcess(params, this.notificationMapper)
+  public startRequest = (endpointName: string, params: any) =>
+    this.requestRunnersMappedByName[endpointName].startProcess(params, this.notificationMapper);
 
   public cancelRequest = (endpointName: string) => this.requestRunnersMappedByName[endpointName].cancelRequest();
 

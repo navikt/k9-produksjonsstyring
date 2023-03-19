@@ -1,7 +1,6 @@
 import { expect } from 'chai';
-
-import RequestApi from './RequestApi';
 import RequestConfig from '../RequestConfig';
+import RequestApi from './RequestApi';
 
 describe('RequestApi', () => {
   const httpClientGeneralMock = {

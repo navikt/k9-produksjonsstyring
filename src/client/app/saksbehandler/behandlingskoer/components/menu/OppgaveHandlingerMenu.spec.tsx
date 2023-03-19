@@ -2,14 +2,13 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
-
 import behandlingStatus from 'kodeverk/behandlingStatus';
-import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
 import behandlingType from 'kodeverk/behandlingType';
-import OppgaveHandlingerMenu from './OppgaveHandlingerMenu';
-import OpphevReservasjonModal from './OpphevReservasjonModal';
+import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
 import FlyttReservasjonModal from './FlyttReservasjonModal';
 import MenuButton from './MenuButton';
+import OppgaveHandlingerMenu from './OppgaveHandlingerMenu';
+import OpphevReservasjonModal from './OpphevReservasjonModal';
 
 describe('<OppgaveHandlingerMenu>', () => {
   const oppgave = {
@@ -108,7 +107,7 @@ describe('<OppgaveHandlingerMenu>', () => {
   });
 
   it('skal vise modal for forlenging av reservasjon', async () => {
-    const forlengOppgaveReservasjonFn = (oppgaveId) => Promise.resolve(`${oppgaveId}`);
+    const forlengOppgaveReservasjonFn = oppgaveId => Promise.resolve(`${oppgaveId}`);
     const wrapper = shallow(
       <OppgaveHandlingerMenu
         toggleMenu={sinon.spy()}

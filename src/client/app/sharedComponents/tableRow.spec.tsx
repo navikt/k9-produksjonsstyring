@@ -1,21 +1,16 @@
 import React from 'react';
-import { shallow } from 'enzyme';
 import { expect } from 'chai';
+import { shallow } from 'enzyme';
 import sinon from 'sinon';
-
-import TableRow from './TableRow';
 import TableColumn from './TableColumn';
+import TableRow from './TableRow';
 
 describe('<TableRow>', () => {
   it('skal lage en rad og rendre children inne denne', () => {
     const mouseEventFunction = sinon.spy();
     const keyEventFunction = sinon.spy();
     const wrapper = shallow(
-      <TableRow
-        id={1}
-        onMouseDown={mouseEventFunction}
-        onKeyDown={keyEventFunction}
-      >
+      <TableRow id={1} onMouseDown={mouseEventFunction} onKeyDown={keyEventFunction}>
         <TableColumn>{1}</TableColumn>
       </TableRow>,
     );
@@ -30,11 +25,7 @@ describe('<TableRow>', () => {
     const mouseEventFunction = sinon.spy();
     const keyEventFunction = sinon.spy();
     const wrapper = shallow(
-      <TableRow
-        id={1}
-        onMouseDown={mouseEventFunction}
-        onKeyDown={keyEventFunction}
-      >
+      <TableRow id={1} onMouseDown={mouseEventFunction} onKeyDown={keyEventFunction}>
         <TableColumn>{1}</TableColumn>
       </TableRow>,
     );

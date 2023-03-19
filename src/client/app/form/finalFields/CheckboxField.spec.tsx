@@ -2,13 +2,12 @@ import React from 'react';
 import chai, { expect } from 'chai';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
-
-import { mountWithIntl, intlMock } from '../../../../../setup/testHelpers/intl-enzyme-test-helper';
+import { intlMock, mountWithIntl } from '../../../../../setup/testHelpers/intl-enzyme-test-helper';
 import { RenderCheckboxField } from './CheckboxField';
 
 chai.use(sinonChai);
 
-const getInputMock = (input) => ({
+const getInputMock = input => ({
   name: 'mockInput',
   onBlur: sinon.spy(),
   onChange: sinon.spy(),
@@ -22,12 +21,7 @@ describe('<CheckboxField>', () => {
   it('skal kalle onChange med boolsk verdi for checked', () => {
     const onChange = sinon.spy();
     const wrapper = mountWithIntl(
-      <RenderCheckboxField
-        intl={intlMock}
-        input={getInputMock({ onChange })}
-        meta={{}}
-        label="field"
-      />,
+      <RenderCheckboxField intl={intlMock} input={getInputMock({ onChange })} meta={{}} label="field" />,
     );
 
     const checkbox = wrapper.find('input');
@@ -43,24 +37,14 @@ describe('<CheckboxField>', () => {
 
   it('skal initialisere checked med verdi fra input', () => {
     const wrapperTrue = mountWithIntl(
-      <RenderCheckboxField
-        intl={intlMock}
-        input={getInputMock({ value: true })}
-        meta={{}}
-        label="field"
-      />,
+      <RenderCheckboxField intl={intlMock} input={getInputMock({ value: true })} meta={{}} label="field" />,
     );
 
     const checkboxTrue = wrapperTrue.find('input');
     expect(checkboxTrue.props().checked).to.be.true;
 
     const wrapperFalse = mountWithIntl(
-      <RenderCheckboxField
-        intl={intlMock}
-        input={getInputMock({ value: false })}
-        meta={{}}
-        label="field"
-      />,
+      <RenderCheckboxField intl={intlMock} input={getInputMock({ value: false })} meta={{}} label="field" />,
     );
 
     const checkboxFalse = wrapperFalse.find('input');

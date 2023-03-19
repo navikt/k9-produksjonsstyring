@@ -1,13 +1,9 @@
 import React from 'react';
-
 import { Checkbox, Heading, Panel, Select, TextField } from '@navikt/ds-react';
-
-import { FeltverdiOppgavefilter, Oppgavefelt } from '../filterTsTypes';
-import { kodeFraKey, områdeFraKey, feltverdiKey } from '../utils';
-
-import FjernFilterButton from './FjernFilterButton';
-
 import styles from '../filterIndex.css';
+import { FeltverdiOppgavefilter, Oppgavefelt } from '../filterTsTypes';
+import { feltverdiKey, kodeFraKey, områdeFraKey } from '../utils';
+import FjernFilterButton from './FjernFilterButton';
 
 interface OwnProps {
   felter: Oppgavefelt[];

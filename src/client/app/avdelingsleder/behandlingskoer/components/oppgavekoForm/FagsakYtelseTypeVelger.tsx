@@ -1,15 +1,13 @@
 import React, { FunctionComponent } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Normaltekst } from 'nav-frontend-typografi';
-
-import VerticalSpacer from 'sharedComponents/VerticalSpacer';
-import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
-import { CheckboxField } from 'form/FinalFields';
-import kodeverkTyper from 'kodeverk/kodeverkTyper';
-
+import { K9LosApiKeys } from 'api/k9LosApi';
 import useKodeverk from 'api/rest-api-hooks/src/global-data/useKodeverk';
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
-import { K9LosApiKeys } from 'api/k9LosApi';
+import { CheckboxField } from 'form/FinalFields';
+import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
+import kodeverkTyper from 'kodeverk/kodeverkTyper';
+import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import styles from './utvalgskriterierForOppgavekoForm.css';
 
 const finnFagsakYtelseTypeNavn = (fagsakYtelseTyper, valgtFagsakYtelseType) => {

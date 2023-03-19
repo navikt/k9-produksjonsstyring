@@ -1,7 +1,5 @@
 import React from 'react';
-
 import MissingPage from 'app/components/MissingPage';
-
 import withIntl from '../decorators/withIntl';
 import withRouter from '../decorators/withRouter';
 

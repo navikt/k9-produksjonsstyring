@@ -1,6 +1,6 @@
 // src/mocks/server.js
-import { setupServer } from 'msw/node';
 import { rest } from 'msw';
+import { setupServer } from 'msw/node';
 
 // This configures a request mocking server with the given request handlers.
 // eslint-disable-next-line import/prefer-default-export

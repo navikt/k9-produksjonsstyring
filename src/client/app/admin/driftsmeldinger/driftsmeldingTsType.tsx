@@ -5,4 +5,4 @@ export type Driftsmelding = Readonly<{
   dato: string;
   aktiv: boolean;
   aktivert: string;
-}>
+}>;

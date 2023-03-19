@@ -1,15 +1,15 @@
 import React, { FunctionComponent, useMemo } from 'react';
+import { WrappedComponentProps, injectIntl } from 'react-intl';
 import { Normaltekst } from 'nav-frontend-typografi';
+import { RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
+import { useGlobalStateRestApiData } from 'api/rest-api-hooks';
 import EnkelTeller from 'avdelingsleder/dagensTall/EnkelTeller';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
 import ApneBehandlinger from 'avdelingsleder/dagensTall/apneBehandlingerTsType';
 import { behandlingstypeOrder, punsjKodeverkNavn } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
-import behandlingType from 'kodeverk/behandlingType';
 import AlleKodeverk from 'kodeverk/alleKodeverkTsType';
-import { useGlobalStateRestApiData } from 'api/rest-api-hooks';
-import { RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
-import { getKodeverkFraKode, getKodeverknavnFraKode } from 'utils/kodeverkUtils';
+import behandlingType from 'kodeverk/behandlingType';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
+import { getKodeverkFraKode, getKodeverknavnFraKode } from 'utils/kodeverkUtils';
 import styles from './dagensTallPanel.css';
 
 interface OwnProps {

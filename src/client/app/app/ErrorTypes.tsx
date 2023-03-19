@@ -14,12 +14,13 @@ export const ErrorTypes = {
 
 export const handledErrorTypes = [ErrorTypes.MANGLER_TILGANG_FEIL];
 
-export const getErrorResponseData = (error: Error) => (error && error.response && error.response.data ? error.response.data : error);
-export const errorOfType = (error: Error, errorType: string) => error && (getErrorResponseData(error).type === errorType);
+export const getErrorResponseData = (error: Error) =>
+  error && error.response && error.response.data ? error.response.data : error;
+export const errorOfType = (error: Error, errorType: string) => error && getErrorResponseData(error).type === errorType;
 
 export const isHandledError = (errorType?: string) => errorType && handledErrorTypes.includes(errorType);
 
-const hasStatusCode = (statusCode) => (errorStatus?: string) => errorStatus === statusCode;
+const hasStatusCode = statusCode => (errorStatus?: string) => errorStatus === statusCode;
 
 export const is401Error = hasStatusCode(401);
 

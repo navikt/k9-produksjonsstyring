@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 // Css er satt opp på en spesiell måte her fordi React ikke støtter psydo-element i inline css. Her er en avhengig av å dynamisk
 // endre enkelte variabler i after/before. Bedre løsninger finnes sikkert?
-const getArrowBoxTopCss = (alignOffset) => [
+const getArrowBoxTopCss = alignOffset => [
   `.arrowBoxTop${alignOffset} {`,
   '  background: #ffffff;',
   '  border: 1px solid #cccccc;',
@@ -16,7 +16,7 @@ const getArrowBoxTopCss = (alignOffset) => [
   `.arrowBoxTop${alignOffset}:before {`,
   '  border: solid transparent;',
   '  bottom: 100%;',
-  '  content: \' \';',
+  "  content: ' ';",
   '  height: 0;',
   `  left: ${alignOffset}px;`,
   '  pointer-events: none;',
@@ -32,8 +32,9 @@ const getArrowBoxTopCss = (alignOffset) => [
   '  border-bottom-color: #cccccc;',
   '  border-width: 12px;',
   '  margin-left: -12px;',
-  '}'];
-const getArrowBoxLeftCss = (alignOffset) => [
+  '}',
+];
+const getArrowBoxLeftCss = alignOffset => [
   `.arrowBoxLeft${alignOffset} {`,
   '  background: #ffffff;',
   '  border: 1px solid #cccccc;',
@@ -45,7 +46,7 @@ const getArrowBoxLeftCss = (alignOffset) => [
   `.arrowBoxLeft${alignOffset}:after,`,
   `.arrowBoxLeft${alignOffset}:before {`,
   '  border: solid transparent;',
-  '  content: \' \';',
+  "  content: ' ';",
   '  height: 0;',
   '  pointer-events: none;',
   '  position: absolute;',
@@ -62,8 +63,10 @@ const getArrowBoxLeftCss = (alignOffset) => [
   '  border-right-color: #cccccc;',
   '  border-width: 12px;',
   '  margin-left: -12px;',
-  '}'];
-const getArrowBox = (alignOffset, alignLeft) => (alignLeft ? getArrowBoxLeftCss(alignOffset) : getArrowBoxTopCss(alignOffset));
+  '}',
+];
+const getArrowBox = (alignOffset, alignLeft) =>
+  alignLeft ? getArrowBoxLeftCss(alignOffset) : getArrowBoxTopCss(alignOffset);
 const getClassName = (alignOffset, alignLeft, hideBorder) => {
   if (hideBorder) {
     return '';
@@ -86,18 +89,15 @@ const getOffset = (alignOffset, alignLeft) => {
  *
  * Vise innhold med ramme og pil
  */
-const ArrowBox = ({
-  children,
-  alignOffset,
-  alignLeft,
-  hideBorder,
-}) => {
+const ArrowBox = ({ children, alignOffset, alignLeft, hideBorder }) => {
   const offset = getOffset(alignOffset, alignLeft);
   return (
     <>
-      <style dangerouslySetInnerHTML={{ // eslint-disable-line react/no-danger
-        __html: getArrowBox(offset, alignLeft).join('\n'),
-      }}
+      <style
+        dangerouslySetInnerHTML={{
+          // eslint-disable-line react/no-danger
+          __html: getArrowBox(offset, alignLeft).join('\n'),
+        }}
       />
       <div className={getClassName(offset, alignLeft, hideBorder)}>{children}</div>
     </>

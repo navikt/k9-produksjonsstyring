@@ -1,12 +1,10 @@
 import React, { FunctionComponent } from 'react';
 import Panel from 'nav-frontend-paneler';
-
-import useGlobalStateRestApiData from 'api/rest-api-hooks/src/global-data/useGlobalStateRestApiData';
 import { RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
-import FagsakSearchIndex from '../fagsakSearch/FagsakSearchIndex';
+import useGlobalStateRestApiData from 'api/rest-api-hooks/src/global-data/useGlobalStateRestApiData';
 import BehandlingskoerIndex from '../behandlingskoer/BehandlingskoerIndex';
+import FagsakSearchIndex from '../fagsakSearch/FagsakSearchIndex';
 import SaksstotteIndex from '../saksstotte/SaksstotteIndex';
-
 import styles from './saksbehandlerDashboard.css';
 
 interface OwnProps {

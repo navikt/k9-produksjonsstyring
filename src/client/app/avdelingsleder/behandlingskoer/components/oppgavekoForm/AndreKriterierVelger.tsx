@@ -1,13 +1,12 @@
 import React, { Fragment, FunctionComponent } from 'react';
 import { FormattedMessage } from 'react-intl';
-import kodeverkTyper from 'kodeverk/kodeverkTyper';
-import VerticalSpacer from 'sharedComponents/VerticalSpacer';
-import ArrowBox from 'sharedComponents/ArrowBox';
-import { CheckboxField, RadioGroupField, RadioOption } from 'form/FinalFields';
-
-import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
-import useKodeverk from 'api/rest-api-hooks/src/global-data/useKodeverk';
 import { K9LosApiKeys } from 'api/k9LosApi';
+import useKodeverk from 'api/rest-api-hooks/src/global-data/useKodeverk';
+import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
+import { CheckboxField, RadioGroupField, RadioOption } from 'form/FinalFields';
+import kodeverkTyper from 'kodeverk/kodeverkTyper';
+import ArrowBox from 'sharedComponents/ArrowBox';
+import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import styles from './andreKriterierVelger.css';
 
 interface OwnProps {

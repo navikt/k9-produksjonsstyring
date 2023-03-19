@@ -1,21 +1,20 @@
 import React from 'react';
-import { expect } from 'chai';
 import { FormattedMessage, IntlShape } from 'react-intl';
+import { expect } from 'chai';
 import sinon from 'sinon';
-
-import behandlingType from 'kodeverk/behandlingType';
-import behandlingStatus from 'kodeverk/behandlingStatus';
-import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
-import DateLabel from 'sharedComponents/DateLabel';
-import TableRow from 'sharedComponents/TableRow';
-import TableColumn from 'sharedComponents/TableColumn';
-import Image from 'sharedComponents/Image';
 import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
+import behandlingStatus from 'kodeverk/behandlingStatus';
+import behandlingType from 'kodeverk/behandlingType';
+import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
 import ReserverteOppgaverTabell from 'saksbehandler/behandlingskoer/components/oppgavetabeller/ReserverteOppgaverTabell';
-import { intlMock, shallowWithIntl } from '../../../../../../../setup/testHelpers/intl-enzyme-test-helper';
-import RestApiTestMocker from '../../../../../../../setup/testHelpers/RestApiTestMocker';
-import kodeverk from '../../../../../mocks/kodeverk';
 import KommentarMedMerknad from 'saksbehandler/components/KommentarMedMerknad';
+import DateLabel from 'sharedComponents/DateLabel';
+import Image from 'sharedComponents/Image';
+import TableColumn from 'sharedComponents/TableColumn';
+import TableRow from 'sharedComponents/TableRow';
+import RestApiTestMocker from '../../../../../../../setup/testHelpers/RestApiTestMocker';
+import { intlMock, shallowWithIntl } from '../../../../../../../setup/testHelpers/intl-enzyme-test-helper';
+import kodeverk from '../../../../../mocks/kodeverk';
 
 describe('<ReserverOppgaveTabell>', () => {
   const intl: Partial<IntlShape> = {

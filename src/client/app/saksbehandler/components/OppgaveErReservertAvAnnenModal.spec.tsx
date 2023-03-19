@@ -1,17 +1,16 @@
 import React from 'react';
-import { expect } from 'chai';
-import sinon from 'sinon';
 import { FormattedMessage } from 'react-intl';
+import { expect } from 'chai';
+import dayjs from 'dayjs';
 import { Hovedknapp } from 'nav-frontend-knapper';
-
+import sinon from 'sinon';
+import behandlingStatus from 'kodeverk/behandlingStatus';
+import behandlingType from 'kodeverk/behandlingType';
+import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
 import Modal from 'sharedComponents/Modal';
 import { getDateAndTime } from 'utils/dateUtils';
-import behandlingStatus from 'kodeverk/behandlingStatus';
-import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
-import behandlingType from 'kodeverk/behandlingType';
-import dayjs from 'dayjs';
+import { intlMock, shallowWithIntl } from '../../../../../setup/testHelpers/intl-enzyme-test-helper';
 import { OppgaveErReservertAvAnnenModal } from './OppgaveErReservertAvAnnenModal';
-import { shallowWithIntl, intlMock } from '../../../../../setup/testHelpers/intl-enzyme-test-helper';
 
 describe('<OppgaveErReservertAvAnnenModal>', () => {
   const dato = dayjs().add(2, 'hours').format();

@@ -2,107 +2,114 @@ import moment from 'moment';
 import { fodselsnummerPattern, isValidFodselsnummer } from 'utils/fodselsnummerUtils';
 import { DDMMYYYY_DATE_FORMAT, ISO_DATE_FORMAT } from 'utils/formats';
 import {
-  isRequiredMessage,
-  minLengthMessage,
-  invalidNumberMessage,
-  maxLengthMessage,
-  minValueMessage,
-  maxValueMessage,
-  invalidDateMessage,
-  invalidIntegerMessage,
-  invalidDecimalMessage,
-  dateNotBeforeOrEqualMessage,
+  arrayMinLengthMessage,
   dateNotAfterOrEqualMessage,
+  dateNotBeforeOrEqualMessage,
   dateRangesOverlappingMessage,
+  datesNotEqual,
+  invalidDateMessage,
+  invalidDatesInPeriodMessage,
+  invalidDecimalMessage,
+  invalidEmailMessage,
   invalidFodselsnummerFormatMessage,
   invalidFodselsnummerMessage,
-  invalidTextMessage,
-  invalidSaksnummerOrFodselsnummerFormatMessage,
-  invalidValueMessage,
-  arrayMinLengthMessage,
+  invalidIntegerMessage,
+  invalidNumberMessage,
   invalidPeriodMessage,
-  invalidDatesInPeriodMessage,
   invalidPeriodRangeMessage,
-  datesNotEqual,
-  invalidEmailMessage, invalidSaksnummerOrJournalpostIdFormatMessage,
+  invalidSaksnummerOrFodselsnummerFormatMessage,
+  invalidSaksnummerOrJournalpostIdFormatMessage,
+  invalidTextMessage,
+  invalidValueMessage,
+  isRequiredMessage,
+  maxLengthMessage,
+  maxValueMessage,
+  minLengthMessage,
+  minValueMessage,
 } from './messages';
 import {
-  isoDateRegex,
-  numberRegex,
-  numberOptionalNegativeRegex,
-  integerRegex,
-  integerOptionalNegativeRegex,
-  decimalRegex,
-  textRegex,
-  textGyldigRegex,
-  isEmpty,
-  yesterday,
-  tomorrow,
   dateRangesAreSequential,
-  nameRegex,
-  nameGyldigRegex,
-  saksnummerOrFodselsnummerPattern,
+  decimalRegex,
   emailPattern,
+  integerOptionalNegativeRegex,
+  integerRegex,
+  isEmpty,
+  isoDateRegex,
+  nameGyldigRegex,
+  nameRegex,
+  numberOptionalNegativeRegex,
+  numberRegex,
+  saksnummerOrFodselsnummerPattern,
   saksnummerOrJournalpostidPattern,
+  textGyldigRegex,
+  textRegex,
+  tomorrow,
+  yesterday,
 } from './validatorsHelper';
 
-export const required = (value) => (isEmpty(value) ? isRequiredMessage() : undefined);
-export const notDash = (value) => (value === '-' ? isRequiredMessage() : undefined);
-export const requiredIfNotPristine = (value, allValues, props) => (props.pristine || !isEmpty(value) ? undefined : isRequiredMessage());
-export const requiredIfCustomFunctionIsTrue = (isRequiredFunction) => (value, allValues, props) => (isEmpty(value) && isRequiredFunction(allValues, props)
-  ? isRequiredMessage() : undefined);
+export const required = value => (isEmpty(value) ? isRequiredMessage() : undefined);
+export const notDash = value => (value === '-' ? isRequiredMessage() : undefined);
+export const requiredIfNotPristine = (value, allValues, props) =>
+  props.pristine || !isEmpty(value) ? undefined : isRequiredMessage();
+export const requiredIfCustomFunctionIsTrue = isRequiredFunction => (value, allValues, props) =>
+  isEmpty(value) && isRequiredFunction(allValues, props) ? isRequiredMessage() : undefined;
 
-export const minLength = (length) => (text) => (isEmpty(text) || text.toString().trim().length >= length ? null : minLengthMessage(length));
-export const maxLength = (length) => (text) => (isEmpty(text) || text.toString().trim().length <= length ? null : maxLengthMessage(length));
+export const minLength = length => text =>
+  isEmpty(text) || text.toString().trim().length >= length ? null : minLengthMessage(length);
+export const maxLength = length => text =>
+  isEmpty(text) || text.toString().trim().length <= length ? null : maxLengthMessage(length);
 
-export const minValue = (length) => (number) => (number >= length ? null : minValueMessage(length));
-export const maxValue = (length) => (number) => (number <= length ? null : maxValueMessage(length));
+export const minValue = length => number => number >= length ? null : minValueMessage(length);
+export const maxValue = length => number => number <= length ? null : maxValueMessage(length);
 
-const hasValidNumber = (text) => (isEmpty(text) || numberRegex.test(text) ? null : invalidNumberMessage(text));
-const hasValidPosOrNegNumber = (text) => (isEmpty(text) || numberOptionalNegativeRegex.test(text) ? null : invalidNumberMessage(text));
-const hasValidInt = (text) => (isEmpty(text) || integerRegex.test(text) ? null : invalidIntegerMessage(text));
-const hasValidPosOrNegInt = (text) => (isEmpty(text) || integerOptionalNegativeRegex.test(text) ? null : invalidIntegerMessage(text));
-const hasValidDec = (text) => (isEmpty(text) || decimalRegex.test(text) ? null : invalidDecimalMessage(text));
-export const hasValidInteger = (text) => (hasValidNumber(text) || hasValidInt(text));
-export const hasValidPosOrNegInteger = (text) => (hasValidPosOrNegNumber(text) || hasValidPosOrNegInt(text));
-export const hasValidDecimal = (text) => (hasValidNumber(text) || hasValidDec(text));
+const hasValidNumber = text => (isEmpty(text) || numberRegex.test(text) ? null : invalidNumberMessage(text));
+const hasValidPosOrNegNumber = text =>
+  isEmpty(text) || numberOptionalNegativeRegex.test(text) ? null : invalidNumberMessage(text);
+const hasValidInt = text => (isEmpty(text) || integerRegex.test(text) ? null : invalidIntegerMessage(text));
+const hasValidPosOrNegInt = text =>
+  isEmpty(text) || integerOptionalNegativeRegex.test(text) ? null : invalidIntegerMessage(text);
+const hasValidDec = text => (isEmpty(text) || decimalRegex.test(text) ? null : invalidDecimalMessage(text));
+export const hasValidInteger = text => hasValidNumber(text) || hasValidInt(text);
+export const hasValidPosOrNegInteger = text => hasValidPosOrNegNumber(text) || hasValidPosOrNegInt(text);
+export const hasValidDecimal = text => hasValidNumber(text) || hasValidDec(text);
 
-export const hasValidSaksnummerOrFodselsnummerFormat = (text) => (isEmpty(text) || saksnummerOrFodselsnummerPattern.test(text)
-  ? null : invalidSaksnummerOrFodselsnummerFormatMessage());
+export const hasValidSaksnummerOrFodselsnummerFormat = text =>
+  isEmpty(text) || saksnummerOrFodselsnummerPattern.test(text) ? null : invalidSaksnummerOrFodselsnummerFormatMessage();
 
-export const hasValidSaksnummerEllerJournalpostFormat = (text) => (isEmpty(text) || saksnummerOrJournalpostidPattern.test(text)
-  ? null : invalidSaksnummerOrJournalpostIdFormatMessage());
+export const hasValidSaksnummerEllerJournalpostFormat = text =>
+  isEmpty(text) || saksnummerOrJournalpostidPattern.test(text) ? null : invalidSaksnummerOrJournalpostIdFormatMessage();
 
-export const hasValidEmailFormat = (text) => (isEmpty(text) || emailPattern.test(text)
-  ? null : invalidEmailMessage());
+export const hasValidEmailFormat = text => (isEmpty(text) || emailPattern.test(text) ? null : invalidEmailMessage());
 
-export const hasValidDate = (text) => (isEmpty(text) || isoDateRegex.test(text) ? null : invalidDateMessage());
-export const dateBeforeOrEqual = (latest) => (text) => (
-  (isEmpty(text) || moment(text).isSameOrBefore(moment(latest).startOf('day')))
+export const hasValidDate = text => (isEmpty(text) || isoDateRegex.test(text) ? null : invalidDateMessage());
+export const dateBeforeOrEqual = latest => text =>
+  isEmpty(text) || moment(text).isSameOrBefore(moment(latest).startOf('day'))
     ? null
-    : dateNotBeforeOrEqualMessage(moment(latest).format(DDMMYYYY_DATE_FORMAT))
-);
+    : dateNotBeforeOrEqualMessage(moment(latest).format(DDMMYYYY_DATE_FORMAT));
 const getErrorMessage = (earliest, customErrorMessage) => {
   const date = moment(earliest).format(DDMMYYYY_DATE_FORMAT);
   return customErrorMessage ? customErrorMessage(date) : dateNotAfterOrEqualMessage(date);
 };
-export const dateAfterOrEqual = (earliest, customErrorMessageFunction = undefined) => (text) => (
-  (isEmpty(text) || moment(text).isSameOrAfter(moment(earliest).startOf('day')))
-    ? null
-    : getErrorMessage(earliest, customErrorMessageFunction)
-);
-export const dateRangesNotOverlapping = (ranges) => (dateRangesAreSequential(ranges) ? null : dateRangesOverlappingMessage());
+export const dateAfterOrEqual =
+  (earliest, customErrorMessageFunction = undefined) =>
+  text =>
+    isEmpty(text) || moment(text).isSameOrAfter(moment(earliest).startOf('day'))
+      ? null
+      : getErrorMessage(earliest, customErrorMessageFunction);
+export const dateRangesNotOverlapping = ranges =>
+  dateRangesAreSequential(ranges) ? null : dateRangesOverlappingMessage();
 
-export const dateBeforeToday = (text) => dateBeforeOrEqual(yesterday())(text);
-export const dateBeforeOrEqualToToday = (text) => dateBeforeOrEqual(moment().startOf('day'))(text);
-export const dateAfterToday = (text) => dateAfterOrEqual(tomorrow())(text);
+export const dateBeforeToday = text => dateBeforeOrEqual(yesterday())(text);
+export const dateBeforeOrEqualToToday = text => dateBeforeOrEqual(moment().startOf('day'))(text);
+export const dateAfterToday = text => dateAfterOrEqual(tomorrow())(text);
 // @ts-ignore Fiks
-export const dateAfterOrEqualToToday = (text) => dateAfterOrEqual(moment().startOf('day'))(text);
+export const dateAfterOrEqualToToday = text => dateAfterOrEqual(moment().startOf('day'))(text);
 
-export const hasValidFodselsnummerFormat = (text) => (!fodselsnummerPattern.test(text) ? invalidFodselsnummerFormatMessage() : null);
-export const hasValidFodselsnummer = (text) => (!isValidFodselsnummer(text) ? invalidFodselsnummerMessage() : null);
+export const hasValidFodselsnummerFormat = text =>
+  !fodselsnummerPattern.test(text) ? invalidFodselsnummerFormatMessage() : null;
+export const hasValidFodselsnummer = text => (!isValidFodselsnummer(text) ? invalidFodselsnummerMessage() : null);
 
-export const hasValidText = (text) => {
+export const hasValidText = text => {
   if (!textRegex.test(text)) {
     const illegalChars = text.replace(textGyldigRegex, '');
     return invalidTextMessage(illegalChars.replace(/[\t]/g, 'Tabulatortegn'));
@@ -110,7 +117,7 @@ export const hasValidText = (text) => {
   return null;
 };
 
-export const hasValidName = (text) => {
+export const hasValidName = text => {
   if (!nameRegex.test(text)) {
     const illegalChars = text.replace(nameGyldigRegex, '');
     return invalidTextMessage(illegalChars.replace(/[\t]/g, 'Tabulatortegn'));
@@ -118,14 +125,15 @@ export const hasValidName = (text) => {
   return null;
 };
 
-export const hasValidValue = (value) => (invalidValue) => (value === invalidValue ? invalidValueMessage(value) : null);
-export const arrayMinLength = (length) => (value) => {
+export const hasValidValue = value => invalidValue => value === invalidValue ? invalidValueMessage(value) : null;
+export const arrayMinLength = length => value => {
   const a = true;
-  return (value && a && value.length >= length ? null : arrayMinLengthMessage(length));
+  return value && a && value.length >= length ? null : arrayMinLengthMessage(length);
 };
 
 export const dateIsAfter = (date, checkAgainsDate) => moment(date).isAfter(checkAgainsDate);
-export const isDatesEqual = (date1, date2) => (date1 !== date2 ? datesNotEqual(moment(date2).format(DDMMYYYY_DATE_FORMAT)) : null);
+export const isDatesEqual = (date1, date2) =>
+  date1 !== date2 ? datesNotEqual(moment(date2).format(DDMMYYYY_DATE_FORMAT)) : null;
 
 const validateDate = (dateAsText, date, earliestDate, latestDate) => {
   let error = required(dateAsText) || hasValidDate(dateAsText);
@@ -165,7 +173,7 @@ export const hasValidPeriodIncludingOtherErrors = (values, otherErrors = [{}], o
     }
     return null;
   });
-  if (arrayErrors.some((errors) => errors !== null)) {
+  if (arrayErrors.some(errors => errors !== null)) {
     return arrayErrors;
   }
   const overlapError = dateRangesNotOverlapping(values.map(({ periodeFom, periodeTom }) => [periodeFom, periodeTom]));
@@ -191,7 +199,8 @@ export const isWithinOpptjeningsperiode = (fomDateLimit, tomDateLimit) => (fom, 
   return isBefore || isAfter ? invalidPeriodRangeMessage() : null;
 };
 
-export const validateProsentandel = (prosentandel) => required(prosentandel) || hasValidDecimal(prosentandel) || hasValidNumber(prosentandel.replace('.', ''));
+export const validateProsentandel = prosentandel =>
+  required(prosentandel) || hasValidDecimal(prosentandel) || hasValidNumber(prosentandel.replace('.', ''));
 
 export const ariaCheck = () => {
   let errors = [];
@@ -201,7 +210,7 @@ export const ariaCheck = () => {
       errors = document.getElementsByClassName('skjemaelement__feilmelding');
     } else if (document.getElementsByClassName('alertstripe--advarsel')) {
       // @ts-ignore Fiks
-      errors = (document.getElementsByClassName('alertstripe--advarsel'));
+      errors = document.getElementsByClassName('alertstripe--advarsel');
     }
     if (errors.length > 0) {
       const ariaNavTab = document.createAttribute('tabindex');

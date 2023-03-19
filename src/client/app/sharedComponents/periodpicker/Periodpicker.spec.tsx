@@ -1,23 +1,24 @@
 import React from 'react';
-import { shallow } from 'enzyme';
 import { expect } from 'chai';
-import sinon from 'sinon';
+import { shallow } from 'enzyme';
 import moment from 'moment';
 import { Input } from 'nav-frontend-skjema';
-
-import { DDMMYYYY_DATE_FORMAT } from 'utils/formats';
+import sinon from 'sinon';
 import CalendarToggleButton from 'sharedComponents/datepicker/CalendarToggleButton';
+import { DDMMYYYY_DATE_FORMAT } from 'utils/formats';
 import PeriodCalendarOverlay from './PeriodCalendarOverlay';
 import Periodpicker from './Periodpicker';
 
 describe('<Periodpicker>', () => {
   it('skal vise periodefelt med angitt periode', () => {
-    const wrapper = shallow(<Periodpicker
-      names={['fromDate', 'toDate']}
-      // @ts-ignore
-      fromDate={{ input: { value: '30.08.2017' } }}
-      toDate={{ input: { value: '31.10.2017' } }}
-    />);
+    const wrapper = shallow(
+      <Periodpicker
+        names={['fromDate', 'toDate']}
+        // @ts-ignore
+        fromDate={{ input: { value: '30.08.2017' } }}
+        toDate={{ input: { value: '31.10.2017' } }}
+      />,
+    );
 
     const inputField = wrapper.find(Input);
     expect(inputField).to.have.length(1);
@@ -26,12 +27,14 @@ describe('<Periodpicker>', () => {
   });
 
   it('skal vise dato-velger ved trykk på knapp', () => {
-    const wrapper = shallow(<Periodpicker
-      names={['fromDate', 'toDate']}
+    const wrapper = shallow(
+      <Periodpicker
+        names={['fromDate', 'toDate']}
         // @ts-ignore
-      fromDate={{ input: { value: '30.08.2017' } }}
-      toDate={{ input: { value: '31.10.2017' } }}
-    />);
+        fromDate={{ input: { value: '30.08.2017' } }}
+        toDate={{ input: { value: '31.10.2017' } }}
+      />,
+    );
 
     const button = wrapper.find(CalendarToggleButton);
     button.prop('toggleShowCalendar')();
@@ -45,12 +48,14 @@ describe('<Periodpicker>', () => {
 
   it('skal lage periode med lik start- og sluttdato når en velger dato og det ikke finnes noe fra før', () => {
     const onChangeCallback = sinon.spy();
-    const wrapper = shallow(<Periodpicker
-      names={['fromDate', 'toDate']}
+    const wrapper = shallow(
+      <Periodpicker
+        names={['fromDate', 'toDate']}
         // @ts-ignore
-      fromDate={{ input: { value: '', onChange: onChangeCallback } }}
-      toDate={{ input: { value: '', onChange: onChangeCallback } }}
-    />);
+        fromDate={{ input: { value: '', onChange: onChangeCallback } }}
+        toDate={{ input: { value: '', onChange: onChangeCallback } }}
+      />,
+    );
 
     wrapper.setState({ showCalendar: true });
 
@@ -64,12 +69,14 @@ describe('<Periodpicker>', () => {
 
   it('skal lage periode med lik start- og sluttdato når en velger dato og det ikke finnes noe fra før', () => {
     const onChangeCallback = sinon.spy();
-    const wrapper = shallow(<Periodpicker
-      names={['fromDate', 'toDate']}
+    const wrapper = shallow(
+      <Periodpicker
+        names={['fromDate', 'toDate']}
         // @ts-ignore
-      fromDate={{ input: { value: '', onChange: onChangeCallback } }}
-      toDate={{ input: { value: '', onChange: onChangeCallback } }}
-    />);
+        fromDate={{ input: { value: '', onChange: onChangeCallback } }}
+        toDate={{ input: { value: '', onChange: onChangeCallback } }}
+      />,
+    );
 
     wrapper.setState({ showCalendar: true });
 
@@ -83,12 +90,14 @@ describe('<Periodpicker>', () => {
 
   it('skal lage periode med ny startdato når en velger dato etter nåværende periode', () => {
     const onChangeCallback = sinon.spy();
-    const wrapper = shallow(<Periodpicker
-      names={['fromDate', 'toDate']}
+    const wrapper = shallow(
+      <Periodpicker
+        names={['fromDate', 'toDate']}
         // @ts-ignore
-      fromDate={{ input: { value: '30.08.2017', onChange: onChangeCallback } }}
-      toDate={{ input: { value: '30.10.2017', onChange: onChangeCallback } }}
-    />);
+        fromDate={{ input: { value: '30.08.2017', onChange: onChangeCallback } }}
+        toDate={{ input: { value: '30.10.2017', onChange: onChangeCallback } }}
+      />,
+    );
 
     const inputField = wrapper.find(Input);
     const ref = inputField.prop('inputRef') as (params: any) => void;
@@ -107,12 +116,14 @@ describe('<Periodpicker>', () => {
 
   it('skal lage periode med ny sluttdato når en velger dato etter nåværende periode', () => {
     const onChangeCallback = sinon.spy();
-    const wrapper = shallow(<Periodpicker
-      names={['fromDate', 'toDate']}
+    const wrapper = shallow(
+      <Periodpicker
+        names={['fromDate', 'toDate']}
         // @ts-ignore
-      fromDate={{ input: { value: '30.08.2017', onChange: onChangeCallback } }}
-      toDate={{ input: { value: '30.10.2017', onChange: onChangeCallback } }}
-    />);
+        fromDate={{ input: { value: '30.08.2017', onChange: onChangeCallback } }}
+        toDate={{ input: { value: '30.10.2017', onChange: onChangeCallback } }}
+      />,
+    );
 
     const inputField = wrapper.find(Input);
     const ref = inputField.prop('inputRef') as (params: any) => void;

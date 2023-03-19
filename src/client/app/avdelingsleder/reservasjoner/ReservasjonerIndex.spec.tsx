@@ -1,7 +1,6 @@
-import { shallow } from 'enzyme';
-import { expect } from 'chai';
 import React from 'react';
-
+import { expect } from 'chai';
+import { shallow } from 'enzyme';
 import { K9LosApiKeys } from 'api/k9LosApi';
 import behandlingType from 'kodeverk/behandlingType';
 import RestApiTestMocker from '../../../../../setup/testHelpers/RestApiTestMocker';
@@ -10,17 +9,19 @@ import ReservasjonerTabell from './components/ReservasjonerTabell';
 
 describe('<ReservasjonerIndex>', () => {
   it('skal hente reservasjoner ved lasting av komponent og så vise dem i panel', () => {
-    const reservasjoner = [{
-      reservertAvUid: '2323',
-      reservertAvNavn: 'Espen Utvikler',
-      reservertTilTidspunkt: '2019-01-01',
-      oppgaveId: 1,
-      oppgaveSaksNr: 2,
-      behandlingType: {
-        kode: behandlingType.FORSTEGANGSSOKNAD,
-        kodeverk: '',
+    const reservasjoner = [
+      {
+        reservertAvUid: '2323',
+        reservertAvNavn: 'Espen Utvikler',
+        reservertTilTidspunkt: '2019-01-01',
+        oppgaveId: 1,
+        oppgaveSaksNr: 2,
+        behandlingType: {
+          kode: behandlingType.FORSTEGANGSSOKNAD,
+          kodeverk: '',
+        },
       },
-    }];
+    ];
 
     new RestApiTestMocker()
       .withRestCallRunner(K9LosApiKeys.HENT_ALLE_RESERVASJONER, { data: reservasjoner, startRequest: () => undefined })

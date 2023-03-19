@@ -1,11 +1,10 @@
 import React, { FunctionComponent, useState } from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
-import { Saksbehandler } from 'avdelingsleder/bemanning/saksbehandlerTsType';
-import { FlexRow, FlexColumn } from 'sharedComponents/flexGrid';
+import { WrappedComponentProps, injectIntl } from 'react-intl';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { v4 as uuid4 } from 'uuid';
-
 import SletteSaksbehandlerModal from 'avdelingsleder/bemanning/components/SletteSaksbehandlerModal';
+import { Saksbehandler } from 'avdelingsleder/bemanning/saksbehandlerTsType';
+import { FlexColumn, FlexRow } from 'sharedComponents/flexGrid';
 import styles from './saksbehandlerInfo.css';
 
 interface OwnProps {

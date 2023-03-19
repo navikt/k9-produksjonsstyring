@@ -1,16 +1,16 @@
 import React, { FunctionComponent } from 'react';
 import { Field } from 'react-final-form';
 import moment from 'moment';
-
-import { ISO_DATE_FORMAT, DDMMYYYY_DATE_FORMAT, ACCEPTED_DATE_INPUT_FORMATS } from 'utils/formats';
 import Datepicker from 'sharedComponents/datepicker/Datepicker';
-import renderNavField from './renderNavField';
-import ReadOnlyField from './ReadOnlyField';
+import { ACCEPTED_DATE_INPUT_FORMATS, DDMMYYYY_DATE_FORMAT, ISO_DATE_FORMAT } from 'utils/formats';
 import { LabelType } from './Label';
+import ReadOnlyField from './ReadOnlyField';
+import renderNavField from './renderNavField';
 
-const composeValidators = (validators) => (value) => validators.reduce((error, validator) => error || validator(value), undefined);
+const composeValidators = validators => value =>
+  validators.reduce((error, validator) => error || validator(value), undefined);
 
-const isoToDdMmYyyy = (string) => {
+const isoToDdMmYyyy = string => {
   const parsedDate = moment(string, ISO_DATE_FORMAT, true);
   if (parsedDate.isValid()) {
     return parsedDate.format(DDMMYYYY_DATE_FORMAT);
@@ -18,10 +18,10 @@ const isoToDdMmYyyy = (string) => {
   return string;
 };
 
-const acceptedFormatToIso = (string) => {
-  const validDate = ACCEPTED_DATE_INPUT_FORMATS
-    .map((format) => moment(string, format, true))
-    .find((parsedDate) => parsedDate.isValid());
+const acceptedFormatToIso = string => {
+  const validDate = ACCEPTED_DATE_INPUT_FORMATS.map(format => moment(string, format, true)).find(parsedDate =>
+    parsedDate.isValid(),
+  );
   if (validDate) {
     return validDate.format(ISO_DATE_FORMAT);
   }
@@ -30,7 +30,7 @@ const acceptedFormatToIso = (string) => {
 
 export const RenderDatepickerField = renderNavField(Datepicker);
 
-interface OwnProps{
+interface OwnProps {
   name: string;
   label?: LabelType;
   readOnly?: boolean;
@@ -48,17 +48,24 @@ interface OwnProps{
 }
 
 const DatepickerField: FunctionComponent<OwnProps> = ({
-  name, label, readOnly, format, parse, isEdited, validate, ...otherProps
+  name,
+  label,
+  readOnly,
+  format,
+  parse,
+  isEdited,
+  validate,
+  ...otherProps
 }) => (
   <Field
     name={name}
     validate={validate ? composeValidators(validate) : undefined}
-        // @ts-ignore
+    // @ts-ignore
     component={readOnly ? ReadOnlyField : RenderDatepickerField}
     label={label}
     {...otherProps}
-    format={(value) => isoToDdMmYyyy(format(value))}
-    parse={(value) => parse(acceptedFormatToIso(value))}
+    format={value => isoToDdMmYyyy(format(value))}
+    parse={value => parse(acceptedFormatToIso(value))}
     readOnly={readOnly}
     readOnlyHideEmpty
     isEdited={isEdited}
@@ -69,8 +76,8 @@ DatepickerField.defaultProps = {
   label: '',
   readOnly: false,
   isEdited: false,
-  format: (value) => value,
-  parse: (value) => value,
+  format: value => value,
+  parse: value => value,
 };
 
 export default DatepickerField;

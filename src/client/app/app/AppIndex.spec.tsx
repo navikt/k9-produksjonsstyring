@@ -12,7 +12,7 @@ const mockConfig = {
 jest.mock('react-router', () => ({
   // @ts-ignore
   ...jest.requireActual('react-router'),
-  useLocation: () => (mockConfig),
+  useLocation: () => mockConfig,
 }));
 
 describe('<AppIndex>', () => {

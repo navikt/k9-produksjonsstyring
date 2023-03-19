@@ -1,8 +1,6 @@
-import { useState, useEffect, DependencyList, useContext } from 'react';
-
-import { REQUEST_POLLING_CANCELLED } from 'api/rest-api';
+import { DependencyList, useContext, useEffect, useState } from 'react';
 import { K9LosApiKeys } from 'api/k9LosApi';
-
+import { REQUEST_POLLING_CANCELLED } from 'api/rest-api';
 import { RestApiRequestContext } from '../RestApiContext';
 import RestApiState from '../RestApiState';
 

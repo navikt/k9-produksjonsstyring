@@ -1,7 +1,6 @@
 import React, { Node } from 'react';
-import PropTypes from 'prop-types';
 import { Undertekst } from 'nav-frontend-typografi';
-
+import PropTypes from 'prop-types';
 import styles from './menuButton.css';
 
 type TsProps = Readonly<{

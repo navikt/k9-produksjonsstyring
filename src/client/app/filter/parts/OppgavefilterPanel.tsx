@@ -1,14 +1,11 @@
 import React from 'react';
-
 import { Heading, Panel } from '@navikt/ds-react';
-
+import styles from '../filterIndex.css';
 import { FilterContainer, Oppgavefilter } from '../filterTsTypes';
 import FeltverdiOppgavefilterPanel from './FeltverdiOppgavefilterPanel';
 import FjernFilterButton from './FjernFilterButton';
 import LeggTilFilterButton from './LeggTilFilterButton';
 import LeggTilGruppeButton from './LeggTilGruppeButton';
-
-import styles from '../filterIndex.css';
 
 interface OppgavefilterPanelProps {
   felter: Oppgavefelt[];

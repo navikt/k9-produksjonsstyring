@@ -1,16 +1,16 @@
 import React from 'react';
-import { shallow } from 'enzyme';
-import { expect } from 'chai';
-import sinon from 'sinon';
 import { FormattedMessage } from 'react-intl';
+import { expect } from 'chai';
+import { shallow } from 'enzyme';
+import sinon from 'sinon';
+import { K9LosApiKeys } from 'api/k9LosApi';
 import behandlingType from 'kodeverk/behandlingType';
 import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
-import Table from 'sharedComponents/Table';
-import TableRow from 'sharedComponents/TableRow';
-import TableColumn from 'sharedComponents/TableColumn';
-import RestApiTestMocker from '../../../../../../setup/testHelpers/RestApiTestMocker';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
-import { K9LosApiKeys } from 'api/k9LosApi';
+import Table from 'sharedComponents/Table';
+import TableColumn from 'sharedComponents/TableColumn';
+import TableRow from 'sharedComponents/TableRow';
+import RestApiTestMocker from '../../../../../../setup/testHelpers/RestApiTestMocker';
 import { GjeldendeOppgavekoerTabell } from './GjeldendeOppgavekoerTabell';
 
 describe('<GjeldendeOppgavekoerTabell>', () => {
@@ -18,21 +18,25 @@ describe('<GjeldendeOppgavekoerTabell>', () => {
   afterEach(() => {
     restApiMocker.resetMock();
   });
-  const behandlingstyper = [{
-    kode: behandlingType.FORSTEGANGSSOKNAD,
-    navn: '',
-  }, {
-    kode: behandlingType.REVURDERING,
-    navn: '',
-  },
+  const behandlingstyper = [
+    {
+      kode: behandlingType.FORSTEGANGSSOKNAD,
+      navn: '',
+    },
+    {
+      kode: behandlingType.REVURDERING,
+      navn: '',
+    },
   ];
-  const fagsakYtelseTyper = [{
-    kode: fagsakYtelseType.OMSORGSPENGER,
-    navn: '',
-  }, {
-    kode: fagsakYtelseType.PLEIEPENGER_SYKT_BARN,
-    navn: '',
-  },
+  const fagsakYtelseTyper = [
+    {
+      kode: fagsakYtelseType.OMSORGSPENGER,
+      navn: '',
+    },
+    {
+      kode: fagsakYtelseType.PLEIEPENGER_SYKT_BARN,
+      navn: '',
+    },
   ];
 
   it('skal ikke vise tabell når ingen oppgavekoer finnes', () => {
@@ -43,13 +47,15 @@ describe('<GjeldendeOppgavekoerTabell>', () => {
       .withKodeverk(kodeverkTyper.FAGSAK_YTELSE_TYPE, fagsakYtelseTyper)
       .withDummyRunner()
       .runTest(() => {
-        const wrapper = shallow(<GjeldendeOppgavekoerTabell
-          oppgavekoer={oppgavekoer}
-          setValgtOppgavekoId={sinon.spy()}
-          resetValgtOppgavekoId={sinon.spy()}
-          hentAlleOppgavekoer={sinon.spy()}
-          requestFinished
-        />);
+        const wrapper = shallow(
+          <GjeldendeOppgavekoerTabell
+            oppgavekoer={oppgavekoer}
+            setValgtOppgavekoId={sinon.spy()}
+            resetValgtOppgavekoId={sinon.spy()}
+            hentAlleOppgavekoer={sinon.spy()}
+            requestFinished
+          />,
+        );
 
         const tekstComp = wrapper.find(FormattedMessage);
         expect(tekstComp).to.have.length(2);
@@ -59,38 +65,43 @@ describe('<GjeldendeOppgavekoerTabell>', () => {
   });
 
   it('skal vise to oppgavekoer', () => {
-    const oppgavekoer = [{
-      id: '1',
-      navn: 'Nyansatte',
-      sistEndret: '2017-08-31',
-      erTilBeslutter: false,
-      erRegistrerPapirsoknad: false,
-      saksbehandlere: [],
-      skjermet: false,
-      antallBehandlinger: 38,
-    }, {
-      id: '2',
-      navn: 'Kun foreldrepenger',
-      sistEndret: '2018-08-31',
-      erTilBeslutter: false,
-      erRegistrerPapirsoknad: false,
-      saksbehandlere: [],
-      skjermet: false,
-      antallBehandlinger: 54,
-    }];
+    const oppgavekoer = [
+      {
+        id: '1',
+        navn: 'Nyansatte',
+        sistEndret: '2017-08-31',
+        erTilBeslutter: false,
+        erRegistrerPapirsoknad: false,
+        saksbehandlere: [],
+        skjermet: false,
+        antallBehandlinger: 38,
+      },
+      {
+        id: '2',
+        navn: 'Kun foreldrepenger',
+        sistEndret: '2018-08-31',
+        erTilBeslutter: false,
+        erRegistrerPapirsoknad: false,
+        saksbehandlere: [],
+        skjermet: false,
+        antallBehandlinger: 54,
+      },
+    ];
 
     new RestApiTestMocker()
       .withKodeverk(kodeverkTyper.BEHANDLING_TYPE, behandlingstyper)
       .withKodeverk(kodeverkTyper.FAGSAK_YTELSE_TYPE, fagsakYtelseTyper)
       .withDummyRunner()
       .runTest(() => {
-        const wrapper = shallow(<GjeldendeOppgavekoerTabell
-          oppgavekoer={oppgavekoer}
-          setValgtOppgavekoId={sinon.spy()}
-          resetValgtOppgavekoId={sinon.spy()}
-          hentAlleOppgavekoer={sinon.spy()}
-          requestFinished
-        />);
+        const wrapper = shallow(
+          <GjeldendeOppgavekoerTabell
+            oppgavekoer={oppgavekoer}
+            setValgtOppgavekoId={sinon.spy()}
+            resetValgtOppgavekoId={sinon.spy()}
+            hentAlleOppgavekoer={sinon.spy()}
+            requestFinished
+          />,
+        );
 
         expect(wrapper.find(FormattedMessage)).to.have.length(3);
         expect(wrapper.find(Table)).to.have.length(1);
@@ -108,16 +119,18 @@ describe('<GjeldendeOppgavekoerTabell>', () => {
   });
 
   it('skal sette valgt oppgavekø ved trykk på rad i tabell', async () => {
-    const oppgavekoer = [{
-      id: '1',
-      navn: 'Nyansatte',
-      sistEndret: '2017-08-31',
-      erTilBeslutter: false,
-      erRegistrerPapirsoknad: false,
-      saksbehandlere: [],
-      skjermet: false,
-      antallBehandlinger: 78,
-    }];
+    const oppgavekoer = [
+      {
+        id: '1',
+        navn: 'Nyansatte',
+        sistEndret: '2017-08-31',
+        erTilBeslutter: false,
+        erRegistrerPapirsoknad: false,
+        saksbehandlere: [],
+        skjermet: false,
+        antallBehandlinger: 78,
+      },
+    ];
     const setValgtOppgavekoIdFn = sinon.spy();
 
     restApiMocker
@@ -126,13 +139,15 @@ describe('<GjeldendeOppgavekoerTabell>', () => {
       .withDummyRunner()
       .mock();
 
-    const wrapper = shallow(<GjeldendeOppgavekoerTabell
-      oppgavekoer={oppgavekoer}
-      setValgtOppgavekoId={setValgtOppgavekoIdFn}
-      resetValgtOppgavekoId={sinon.spy()}
-      hentAlleOppgavekoer={sinon.spy()}
-      requestFinished
-    />);
+    const wrapper = shallow(
+      <GjeldendeOppgavekoerTabell
+        oppgavekoer={oppgavekoer}
+        setValgtOppgavekoId={setValgtOppgavekoIdFn}
+        resetValgtOppgavekoId={sinon.spy()}
+        hentAlleOppgavekoer={sinon.spy()}
+        requestFinished
+      />,
+    );
 
     const rader = wrapper.find(TableRow);
     expect(rader).to.have.length(1);
@@ -144,22 +159,25 @@ describe('<GjeldendeOppgavekoerTabell>', () => {
   });
 
   it('skal vise antall saksbehandlere tilknyttet oppgavekøen', () => {
-    const oppgavekoer = [{
-      id: '1',
-      navn: 'Nyansatte',
-      sistEndret: '2017-08-31',
-      erTilBeslutter: false,
-      skjermet: false,
-      erRegistrerPapirsoknad: false,
-      saksbehandlere: [{
-        navn: 'Sara',
-        brukerIdent: 'fslkjd',
-        epost: 'epost',
-        oppgavekoer: ['OMP'],
-
-      }],
-      antallBehandlinger: 78,
-    }];
+    const oppgavekoer = [
+      {
+        id: '1',
+        navn: 'Nyansatte',
+        sistEndret: '2017-08-31',
+        erTilBeslutter: false,
+        skjermet: false,
+        erRegistrerPapirsoknad: false,
+        saksbehandlere: [
+          {
+            navn: 'Sara',
+            brukerIdent: 'fslkjd',
+            epost: 'epost',
+            oppgavekoer: ['OMP'],
+          },
+        ],
+        antallBehandlinger: 78,
+      },
+    ];
 
     new RestApiTestMocker()
       .withKodeverk(kodeverkTyper.BEHANDLING_TYPE, behandlingstyper)
@@ -168,13 +186,15 @@ describe('<GjeldendeOppgavekoerTabell>', () => {
       .withRestCallRunner(K9LosApiKeys.SLETT_OPPGAVEKO, { startRequest: () => undefined })
       .withRestCallRunner(K9LosApiKeys.OPPRETT_NY_OPPGAVEKO, { startRequest: () => undefined })
       .runTest(() => {
-        const wrapper = shallow(<GjeldendeOppgavekoerTabell
-          oppgavekoer={oppgavekoer}
-          setValgtOppgavekoId={sinon.spy()}
-          resetValgtOppgavekoId={sinon.spy()}
-          hentAlleOppgavekoer={sinon.spy()}
-          requestFinished
-        />);
+        const wrapper = shallow(
+          <GjeldendeOppgavekoerTabell
+            oppgavekoer={oppgavekoer}
+            setValgtOppgavekoId={sinon.spy()}
+            resetValgtOppgavekoId={sinon.spy()}
+            hentAlleOppgavekoer={sinon.spy()}
+            requestFinished
+          />,
+        );
 
         expect(wrapper.find(Table)).to.have.length(1);
         const rader = wrapper.find(TableRow);

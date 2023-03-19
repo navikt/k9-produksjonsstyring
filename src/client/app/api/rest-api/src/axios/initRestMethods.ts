@@ -3,13 +3,13 @@ const openPreview = (data, filename) => {
     window.navigator.msSaveOrOpenBlob(data, filename);
   } else {
     // Last ned filinnholdet i nettleser:
-    const downloadLink = document.createElement("a");
-    downloadLink.style = "display: none";
+    const downloadLink = document.createElement('a');
+    downloadLink.style = 'display: none';
     downloadLink.href = URL.createObjectURL(data);
     downloadLink.download = filename;
     document.body.appendChild(downloadLink);
     downloadLink.click();
-    URL.revokeObjectURL(downloadLink.href)
+    URL.revokeObjectURL(downloadLink.href);
     downloadLink.remove();
   }
 };
@@ -108,12 +108,14 @@ const postBlob = axiosInstance => (url: string, data: any) => post(axiosInstance
 // TODO (TOR) Åpninga av dokument bør vel ikkje ligga her?
 const postAndOpenBlob = axiosInstance => (url: string, data: any) =>
   postBlob(axiosInstance)(url, data).then(response => {
-    let filename = "data";
-    const attachmentPrefix = "attachment; filename=";
-    if (response.headers
-        && response.headers["content-disposition"]
-        && response.headers["content-disposition"].indexOf(attachmentPrefix) >= 0) {
-      filename = response.headers["content-disposition"].substring(attachmentPrefix.length);
+    let filename = 'data';
+    const attachmentPrefix = 'attachment; filename=';
+    if (
+      response.headers &&
+      response.headers['content-disposition'] &&
+      response.headers['content-disposition'].indexOf(attachmentPrefix) >= 0
+    ) {
+      filename = response.headers['content-disposition'].substring(attachmentPrefix.length);
     }
     openPreview(response.data, filename);
     return {

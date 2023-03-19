@@ -1,8 +1,8 @@
 import React from 'react';
-import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
+import { fargerForLegendsForAksjonspunkterPerEnhet } from 'styles/echartStyle';
 import Stolpediagram from 'avdelingsleder/Stolpediagram';
 import AksjonspunkterPerEnhetType from 'avdelingsleder/nokkeltall/AksjonspunkterPerEnhetType';
-import { fargerForLegendsForAksjonspunkterPerEnhet } from 'styles/echartStyle';
+import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
 import OppgaveSystem from '../../../../types/OppgaveSystem';
 
 interface OwnProps {
@@ -30,8 +30,7 @@ const AksjonspunkterPerEnhetDiagram = ({
 
   const LivetsSluttfaseBehandlinger: AksjonspunkterPerEnhetType[] = aksjonspunkterPerEnhet.filter(
     behandling =>
-      behandling.fagsakYtelseType === fagsakYtelseType.PPN &&
-      behandling.fagsystemType !== OppgaveSystem.PUNSJ,
+      behandling.fagsakYtelseType === fagsakYtelseType.PPN && behandling.fagsystemType !== OppgaveSystem.PUNSJ,
   );
 
   const OMDBehandlinger: AksjonspunkterPerEnhetType[] = aksjonspunkterPerEnhet.filter(

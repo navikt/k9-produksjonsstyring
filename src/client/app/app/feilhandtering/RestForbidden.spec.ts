@@ -1,5 +1,4 @@
 import { expect } from 'chai';
-
 import RestForbiddenFormatter from 'app/feilhandtering/RestForbidden';
 import ErrorMessage from './ErrorMessage';
 import ErrorEventType from './errorEventType';
@@ -21,7 +20,8 @@ describe('RestTimeoutFormatter', () => {
       message: 'timeout',
       location: 'url',
     };
-    expect(new RestForbiddenFormatter().format(errorData))
-      .to.eql(ErrorMessage.withMessageCode('Rest.ErrorMessage.Forbidden', errorData));
+    expect(new RestForbiddenFormatter().format(errorData)).to.eql(
+      ErrorMessage.withMessageCode('Rest.ErrorMessage.Forbidden', errorData),
+    );
   });
 });

@@ -6,6 +6,6 @@ type Reservasjon = Readonly<{
   saksnummer: string;
   behandlingType: string;
   tilBeslutter: boolean;
-}>
+}>;
 
 export default Reservasjon;

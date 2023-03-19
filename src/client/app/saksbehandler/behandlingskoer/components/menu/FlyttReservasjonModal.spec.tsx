@@ -1,16 +1,15 @@
 import React from 'react';
-import { expect } from 'chai';
-import sinon from 'sinon';
-import { IntlShape } from 'react-intl';
 import { Form } from 'react-final-form';
+import { IntlShape } from 'react-intl';
+import { expect } from 'chai';
 import { Hovedknapp } from 'nav-frontend-knapper';
 import { Normaltekst } from 'nav-frontend-typografi';
-
+import sinon from 'sinon';
 import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
 import { RestApiState } from 'api/rest-api-hooks';
 import { DatepickerField, TextAreaField } from 'form/FinalFields';
 import RestApiTestMocker from '../../../../../../../setup/testHelpers/RestApiTestMocker';
-import { shallowWithIntl, intlMock } from '../../../../../../../setup/testHelpers/intl-enzyme-test-helper';
+import { intlMock, shallowWithIntl } from '../../../../../../../setup/testHelpers/intl-enzyme-test-helper';
 import FlyttReservasjonModal from './FlyttReservasjonModal';
 
 describe('<FlyttReservasjonModal>', () => {
@@ -25,22 +24,23 @@ describe('<FlyttReservasjonModal>', () => {
       handleSubmit: sinon.spy(),
       values: {},
     };
-    new RestApiTestMocker()
-      .withGlobalData(RestApiGlobalStatePathsKeys.NAV_ANSATT, { navn: 'Per' })
-      .runTest(() => {
-        const wrapper = shallowWithIntl(
-          <FlyttReservasjonModal.WrappedComponent
-            intl={intl}
-            showModal
-            oppgaveId={oppgaveId}
-            closeModal={sinon.spy()}
-            hentAlleReservasjonerEllerOppgaver={sinon.spy()}
-          />,
-          // @ts-ignore
-        ).find(Form).first().renderProp('render')(formProps);
+    new RestApiTestMocker().withGlobalData(RestApiGlobalStatePathsKeys.NAV_ANSATT, { navn: 'Per' }).runTest(() => {
+      const wrapper = shallowWithIntl(
+        <FlyttReservasjonModal.WrappedComponent
+          intl={intl}
+          showModal
+          oppgaveId={oppgaveId}
+          closeModal={sinon.spy()}
+          hentAlleReservasjonerEllerOppgaver={sinon.spy()}
+        />,
+        // @ts-ignore
+      )
+        .find(Form)
+        .first()
+        .renderProp('render')(formProps);
 
-        expect(wrapper.find(Normaltekst)).has.length(0);
-      });
+      expect(wrapper.find(Normaltekst)).has.length(0);
+    });
   });
 
   it('skal vise at saksbehandler ikke finnes når søket er utført og ingen saksbehandler vart returnert', () => {
@@ -49,7 +49,10 @@ describe('<FlyttReservasjonModal>', () => {
       values: {},
     };
     new RestApiTestMocker()
-      .withRestCallRunner(K9LosApiKeys.FLYTT_RESERVASJON_SAKSBEHANDLER_SOK, { state: RestApiState.SUCCESS, data: undefined })
+      .withRestCallRunner(K9LosApiKeys.FLYTT_RESERVASJON_SAKSBEHANDLER_SOK, {
+        state: RestApiState.SUCCESS,
+        data: undefined,
+      })
       .withRestCallRunner(K9LosApiKeys.ENDRE_OPPGAVERESERVASJON, { startRequest: () => Promise.resolve() })
       .withRestCallRunner(K9LosApiKeys.FLYTT_RESERVASJON, { startRequest: () => Promise.resolve() })
       .withGlobalData(RestApiGlobalStatePathsKeys.NAV_ANSATT, { navn: 'Per' })
@@ -63,7 +66,10 @@ describe('<FlyttReservasjonModal>', () => {
             hentAlleReservasjonerEllerOppgaver={sinon.spy()}
           />,
           // @ts-ignore
-        ).find(Form).first().renderProp('render')(formProps);
+        )
+          .find(Form)
+          .first()
+          .renderProp('render')(formProps);
 
         const tekst = wrapper.find(Normaltekst);
         expect(tekst).has.length(1);
@@ -82,7 +88,10 @@ describe('<FlyttReservasjonModal>', () => {
     };
 
     new RestApiTestMocker()
-      .withRestCallRunner(K9LosApiKeys.FLYTT_RESERVASJON_SAKSBEHANDLER_SOK, { state: RestApiState.SUCCESS, data: saksbehandler })
+      .withRestCallRunner(K9LosApiKeys.FLYTT_RESERVASJON_SAKSBEHANDLER_SOK, {
+        state: RestApiState.SUCCESS,
+        data: saksbehandler,
+      })
       .withRestCallRunner(K9LosApiKeys.ENDRE_OPPGAVERESERVASJON, { startRequest: () => Promise.resolve() })
       .withRestCallRunner(K9LosApiKeys.FLYTT_RESERVASJON, { startRequest: () => Promise.resolve() })
       .withGlobalData(RestApiGlobalStatePathsKeys.NAV_ANSATT, { navn: 'Per' })
@@ -96,7 +105,10 @@ describe('<FlyttReservasjonModal>', () => {
             hentAlleReservasjonerEllerOppgaver={sinon.spy()}
           />,
           // @ts-ignore
-        ).find(Form).first().renderProp('render')(formProps);
+        )
+          .find(Form)
+          .first()
+          .renderProp('render')(formProps);
 
         const tekst = wrapper.find(Normaltekst);
         expect(tekst).has.length(1);
@@ -112,24 +124,25 @@ describe('<FlyttReservasjonModal>', () => {
       },
     };
 
-    new RestApiTestMocker()
-      .withGlobalData(RestApiGlobalStatePathsKeys.NAV_ANSATT, { navn: 'Per' })
-      .runTest(() => {
-        const wrapper = shallowWithIntl(
-          <FlyttReservasjonModal.WrappedComponent
-            intl={intl}
-            showModal
-            oppgaveId={oppgaveId}
-            closeModal={sinon.spy()}
-            hentAlleReservasjonerEllerOppgaver={sinon.spy()}
-          />,
-          // @ts-ignore
-        ).find(Form).first().renderProp('render')(formProps);
+    new RestApiTestMocker().withGlobalData(RestApiGlobalStatePathsKeys.NAV_ANSATT, { navn: 'Per' }).runTest(() => {
+      const wrapper = shallowWithIntl(
+        <FlyttReservasjonModal.WrappedComponent
+          intl={intl}
+          showModal
+          oppgaveId={oppgaveId}
+          closeModal={sinon.spy()}
+          hentAlleReservasjonerEllerOppgaver={sinon.spy()}
+        />,
+        // @ts-ignore
+      )
+        .find(Form)
+        .first()
+        .renderProp('render')(formProps);
 
-        const knapper = wrapper.find(Hovedknapp);
-        expect(knapper).has.length(1);
-        expect(knapper.first().prop('disabled')).is.false;
-      });
+      const knapper = wrapper.find(Hovedknapp);
+      expect(knapper).has.length(1);
+      expect(knapper.first().prop('disabled')).is.false;
+    });
   });
 
   it('skal vise søkeknapp som disablet når en ikke har skrevet noe i brukerident-feltet', () => {
@@ -138,24 +151,25 @@ describe('<FlyttReservasjonModal>', () => {
       values: {},
     };
 
-    new RestApiTestMocker()
-      .withGlobalData(RestApiGlobalStatePathsKeys.NAV_ANSATT, { navn: 'Per' })
-      .runTest(() => {
-        const wrapper = shallowWithIntl(
-          <FlyttReservasjonModal.WrappedComponent
-            intl={intl}
-            showModal
-            oppgaveId={oppgaveId}
-            closeModal={sinon.spy()}
-            hentAlleReservasjonerEllerOppgaver={sinon.spy()}
-          />,
-          // @ts-ignore
-        ).find(Form).first().renderProp('render')(formProps);
+    new RestApiTestMocker().withGlobalData(RestApiGlobalStatePathsKeys.NAV_ANSATT, { navn: 'Per' }).runTest(() => {
+      const wrapper = shallowWithIntl(
+        <FlyttReservasjonModal.WrappedComponent
+          intl={intl}
+          showModal
+          oppgaveId={oppgaveId}
+          closeModal={sinon.spy()}
+          hentAlleReservasjonerEllerOppgaver={sinon.spy()}
+        />,
+        // @ts-ignore
+      )
+        .find(Form)
+        .first()
+        .renderProp('render')(formProps);
 
-        const knapper = wrapper.find(Hovedknapp);
-        expect(knapper).has.length(1);
-        expect(knapper.first().prop('disabled')).is.true;
-      });
+      const knapper = wrapper.find(Hovedknapp);
+      expect(knapper).has.length(1);
+      expect(knapper.first().prop('disabled')).is.true;
+    });
   });
 
   it('skal vise søkeknapp som disablet når søk er startet', () => {
@@ -167,7 +181,10 @@ describe('<FlyttReservasjonModal>', () => {
     };
 
     new RestApiTestMocker()
-      .withRestCallRunner(K9LosApiKeys.FLYTT_RESERVASJON_SAKSBEHANDLER_SOK, { state: RestApiState.LOADING, data: undefined })
+      .withRestCallRunner(K9LosApiKeys.FLYTT_RESERVASJON_SAKSBEHANDLER_SOK, {
+        state: RestApiState.LOADING,
+        data: undefined,
+      })
       .withRestCallRunner(K9LosApiKeys.ENDRE_OPPGAVERESERVASJON, { startRequest: () => Promise.resolve() })
       .withRestCallRunner(K9LosApiKeys.FLYTT_RESERVASJON, { startRequest: () => Promise.resolve() })
       .withGlobalData(RestApiGlobalStatePathsKeys.NAV_ANSATT, { navn: 'Per' })
@@ -181,7 +198,10 @@ describe('<FlyttReservasjonModal>', () => {
             hentAlleReservasjonerEllerOppgaver={sinon.spy()}
           />,
           // @ts-ignore
-        ).find(Form).first().renderProp('render')(formProps);
+        )
+          .find(Form)
+          .first()
+          .renderProp('render')(formProps);
 
         const knapper = wrapper.find(Hovedknapp);
         expect(knapper).has.length(1);
@@ -203,7 +223,10 @@ describe('<FlyttReservasjonModal>', () => {
     };
 
     new RestApiTestMocker()
-      .withRestCallRunner(K9LosApiKeys.FLYTT_RESERVASJON_SAKSBEHANDLER_SOK, { state: RestApiState.SUCCESS, data: saksbehandler })
+      .withRestCallRunner(K9LosApiKeys.FLYTT_RESERVASJON_SAKSBEHANDLER_SOK, {
+        state: RestApiState.SUCCESS,
+        data: saksbehandler,
+      })
       .withRestCallRunner(K9LosApiKeys.ENDRE_OPPGAVERESERVASJON, { startRequest: () => Promise.resolve() })
       .withRestCallRunner(K9LosApiKeys.FLYTT_RESERVASJON, { startRequest: () => Promise.resolve() })
       .withGlobalData(RestApiGlobalStatePathsKeys.NAV_ANSATT, { navn: 'Per' })
@@ -217,7 +240,10 @@ describe('<FlyttReservasjonModal>', () => {
             hentAlleReservasjonerEllerOppgaver={sinon.spy()}
           />,
           // @ts-ignore
-        ).find(Form).last().renderProp('render')(formProps);
+        )
+          .find(Form)
+          .last()
+          .renderProp('render')(formProps);
 
         const knapper = wrapper.find(Hovedknapp);
         expect(knapper).has.length(1);
@@ -235,7 +261,10 @@ describe('<FlyttReservasjonModal>', () => {
     };
 
     new RestApiTestMocker()
-      .withRestCallRunner(K9LosApiKeys.FLYTT_RESERVASJON_SAKSBEHANDLER_SOK, { state: RestApiState.SUCCESS, data: undefined })
+      .withRestCallRunner(K9LosApiKeys.FLYTT_RESERVASJON_SAKSBEHANDLER_SOK, {
+        state: RestApiState.SUCCESS,
+        data: undefined,
+      })
       .withRestCallRunner(K9LosApiKeys.ENDRE_OPPGAVERESERVASJON, { startRequest: () => Promise.resolve() })
       .withRestCallRunner(K9LosApiKeys.FLYTT_RESERVASJON, { startRequest: () => Promise.resolve() })
       .withGlobalData(RestApiGlobalStatePathsKeys.NAV_ANSATT, { navn: 'Per' })
@@ -249,7 +278,10 @@ describe('<FlyttReservasjonModal>', () => {
             hentAlleReservasjonerEllerOppgaver={sinon.spy()}
           />,
           // @ts-ignore
-        ).find(Form).last().renderProp('render')(formProps);
+        )
+          .find(Form)
+          .last()
+          .renderProp('render')(formProps);
 
         const knapper = wrapper.find(Hovedknapp);
         expect(knapper).has.length(1);
@@ -271,7 +303,10 @@ describe('<FlyttReservasjonModal>', () => {
     };
 
     new RestApiTestMocker()
-      .withRestCallRunner(K9LosApiKeys.FLYTT_RESERVASJON_SAKSBEHANDLER_SOK, { state: RestApiState.SUCCESS, data: saksbehandler })
+      .withRestCallRunner(K9LosApiKeys.FLYTT_RESERVASJON_SAKSBEHANDLER_SOK, {
+        state: RestApiState.SUCCESS,
+        data: saksbehandler,
+      })
       .withRestCallRunner(K9LosApiKeys.ENDRE_OPPGAVERESERVASJON, { startRequest: () => Promise.resolve() })
       .withRestCallRunner(K9LosApiKeys.FLYTT_RESERVASJON, { startRequest: () => Promise.resolve() })
       .withGlobalData(RestApiGlobalStatePathsKeys.NAV_ANSATT, { navn: 'Per' })
@@ -285,7 +320,10 @@ describe('<FlyttReservasjonModal>', () => {
             hentAlleReservasjonerEllerOppgaver={sinon.spy()}
           />,
           // @ts-ignore
-        ).find(Form).last().renderProp('render')(formProps);
+        )
+          .find(Form)
+          .last()
+          .renderProp('render')(formProps);
 
         const knapper = wrapper.find(Hovedknapp);
         expect(knapper).has.length(1);
@@ -307,7 +345,10 @@ describe('<FlyttReservasjonModal>', () => {
     };
 
     new RestApiTestMocker()
-      .withRestCallRunner(K9LosApiKeys.FLYTT_RESERVASJON_SAKSBEHANDLER_SOK, { state: RestApiState.SUCCESS, data: saksbehandler })
+      .withRestCallRunner(K9LosApiKeys.FLYTT_RESERVASJON_SAKSBEHANDLER_SOK, {
+        state: RestApiState.SUCCESS,
+        data: saksbehandler,
+      })
       .withRestCallRunner(K9LosApiKeys.ENDRE_OPPGAVERESERVASJON, { startRequest: () => Promise.resolve() })
       .withRestCallRunner(K9LosApiKeys.FLYTT_RESERVASJON, { startRequest: () => Promise.resolve() })
       .withGlobalData(RestApiGlobalStatePathsKeys.NAV_ANSATT, { navn: 'Per' })
@@ -321,7 +362,10 @@ describe('<FlyttReservasjonModal>', () => {
             hentAlleReservasjonerEllerOppgaver={sinon.spy()}
           />,
           // @ts-ignore
-        ).find(Form).last().renderProp('render')(formProps);
+        )
+          .find(Form)
+          .last()
+          .renderProp('render')(formProps);
 
         const knapper = wrapper.find(Hovedknapp);
         expect(knapper).has.length(1);

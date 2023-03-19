@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { Select as NavSelect } from 'nav-frontend-skjema';
+import PropTypes from 'prop-types';
 
 class CustomNavSelect extends Component {
   constructor() {
@@ -26,20 +26,23 @@ class CustomNavSelect extends Component {
   }
 
   getOptionValues() {
-    const { props: { selectValues } } = this;
-    return selectValues
-      .map((option) => option.props)
-      .map((props = {}) => props.value);
+    const {
+      props: { selectValues },
+    } = this;
+    return selectValues.map(option => option.props).map((props = {}) => props.value);
   }
 
   selectedValue(value) {
-    const selectedValue = this.getOptionValues().find((optionValue) => optionValue === value);
+    const selectedValue = this.getOptionValues().find(optionValue => optionValue === value);
 
     return selectedValue || '';
   }
 
   checkCorrespondingOptionForValue() {
-    const { getOptionValues, props: { value } } = this;
+    const {
+      getOptionValues,
+      props: { value },
+    } = this;
     // (aa) added "&& value !== ''" as to not spam other browsers
     if (!getOptionValues().includes(value) && value !== '') {
       // eslint-disable-next-line no-console
@@ -51,9 +54,7 @@ class CustomNavSelect extends Component {
     const {
       handleSelectRef,
       selectedValue,
-      props: {
-        placeholder, selectValues, value, hideValueOnDisable, disabled, ...otherProps
-      },
+      props: { placeholder, selectValues, value, hideValueOnDisable, disabled, ...otherProps },
     } = this;
     return (
       <NavSelect
@@ -62,7 +63,11 @@ class CustomNavSelect extends Component {
         value={hideValueOnDisable && disabled ? '' : selectedValue(value)}
         disabled={disabled}
       >
-        {placeholder && <option value="" disabled>{placeholder}</option>}
+        {placeholder && (
+          <option value="" disabled>
+            {placeholder}
+          </option>
+        )}
         {selectValues}
       </NavSelect>
     );

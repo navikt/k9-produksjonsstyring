@@ -1,12 +1,11 @@
 import React, { FunctionComponent } from 'react';
-
-import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import NyeOgFerdigstilteOppgaver from 'saksbehandler/saksstotte/nokkeltall/components/nyeOgFerdigstilteOppgaverTsType';
+import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import NyeOgFerdigstilteOppgaverForIdagPanel from './nyeOgFerdigstilteOppgaverForIdag/NyeOgFerdigstilteOppgaverForIdagPanel';
 import NyeOgFerdigstilteOppgaverForSisteSyvPanel from './nyeOgFerdigstilteOppgaverForSisteSyv/NyeOgFerdigstilteOppgaverForSisteSyvPanel';
 
 interface OwnProps {
-    nyeOgFerdigstilteOppgaver: NyeOgFerdigstilteOppgaver[]
+  nyeOgFerdigstilteOppgaver: NyeOgFerdigstilteOppgaver[];
 }
 
 /**
@@ -17,9 +16,7 @@ const SaksbehandlerNokkeltallPanel: FunctionComponent<OwnProps> = ({ nyeOgFerdig
 
   return (
     <div>
-      <NyeOgFerdigstilteOppgaverForIdagPanel
-        nyeOgFerdigstilteOppgaver={nyeOgFerdigstilteOppgaver}
-      />
+      <NyeOgFerdigstilteOppgaverForIdagPanel nyeOgFerdigstilteOppgaver={nyeOgFerdigstilteOppgaver} />
       <VerticalSpacer sixteenPx />
       <NyeOgFerdigstilteOppgaverForSisteSyvPanel
         height={height}

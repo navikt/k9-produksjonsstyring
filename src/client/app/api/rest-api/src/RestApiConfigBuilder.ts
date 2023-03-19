@@ -1,7 +1,8 @@
 import RequestAdditionalConfig from './RequestAdditionalConfigTsType';
 import RequestConfig from './RequestConfig';
 
-const createConfigWithPathAndConfig = (name, path, contextPath, config) => new RequestConfig(name, path, contextPath, config);
+const createConfigWithPathAndConfig = (name, path, contextPath, config) =>
+  new RequestConfig(name, path, contextPath, config);
 
 /**
  * RestApiConfigBuilder

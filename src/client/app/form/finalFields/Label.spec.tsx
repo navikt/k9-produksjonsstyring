@@ -1,9 +1,8 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
-import { intlMock } from '../../../../../setup/testHelpers/intl-enzyme-test-helper';
 import { Undertekst } from 'nav-frontend-typografi';
-
+import { intlMock } from '../../../../../setup/testHelpers/intl-enzyme-test-helper';
 import { Label } from './Label';
 
 const FORMATTED_MESSAGE = 'En formatert melding';

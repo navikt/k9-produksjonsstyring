@@ -1,6 +1,6 @@
 import React from 'react';
-import PrognoseIndex from './PrognoseIndex';
 import { renderWithAllProviders } from '../../../../../setup/testHelpers/testUtils';
+import PrognoseIndex from './PrognoseIndex';
 
 describe('<PrognoseIndex>', () => {
   it('skal vise grafpaneler', () => {

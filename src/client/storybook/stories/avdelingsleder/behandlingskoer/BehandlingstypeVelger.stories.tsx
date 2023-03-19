@@ -1,9 +1,7 @@
-import React, { useState, useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Form } from 'react-final-form';
-
 import BehandlingstypeVelger from 'avdelingsleder/behandlingskoer/components/oppgavekoForm/BehandlingstypeVelger';
 import behandlingType from 'kodeverk/behandlingType';
-
 import withIntl from '../../../decorators/withIntl.js';
 import alleKodeverk from '../../../mocks/alleKodeverk.json';
 
@@ -18,7 +16,7 @@ export const skalViseVelgerForBehandlingstyper = () => {
     [behandlingType.FORSTEGANGSSOKNAD]: true,
   });
   const lagre = useCallback((_oppgavekoId, bt, isChecked) => {
-    leggTilVerdi((oldState) => ({
+    leggTilVerdi(oldState => ({
       ...oldState,
       [bt.kode]: isChecked,
     }));
@@ -29,11 +27,7 @@ export const skalViseVelgerForBehandlingstyper = () => {
       onSubmit={() => undefined}
       initialValues={verdier}
       render={() => (
-        <BehandlingstypeVelger
-          alleKodeverk={alleKodeverk}
-          valgtOppgavekoId={1}
-          lagreOppgavekoBehandlingstype={lagre}
-        />
+        <BehandlingstypeVelger alleKodeverk={alleKodeverk} valgtOppgavekoId={1} lagreOppgavekoBehandlingstype={lagre} />
       )}
     />
   );

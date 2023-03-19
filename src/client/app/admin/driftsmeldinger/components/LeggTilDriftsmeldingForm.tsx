@@ -1,19 +1,16 @@
 import React, { FunctionComponent, useState } from 'react';
-import { injectIntl, FormattedMessage } from 'react-intl';
-
 import { Form } from 'react-final-form';
+import { FormattedMessage, injectIntl } from 'react-intl';
 import { Knapp } from 'nav-frontend-knapper';
 import { Element } from 'nav-frontend-typografi';
-
-import { hasValidEmailFormat } from 'utils/validation/validators';
-import VerticalSpacer from 'sharedComponents/VerticalSpacer';
-import { InputField } from 'form/FinalFields';
-import { FlexContainer, FlexRow, FlexColumn } from 'sharedComponents/flexGrid';
-
-import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
 import { K9LosApiKeys } from 'api/k9LosApi';
-import styles from './leggTilDriftsmeldingForm.css';
+import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
+import { InputField } from 'form/FinalFields';
+import VerticalSpacer from 'sharedComponents/VerticalSpacer';
+import { FlexColumn, FlexContainer, FlexRow } from 'sharedComponents/flexGrid';
+import { hasValidEmailFormat } from 'utils/validation/validators';
 import { Driftsmelding } from '../driftsmeldingTsType';
+import styles from './leggTilDriftsmeldingForm.css';
 
 /**
  * LeggTilDriftsmeldingForm

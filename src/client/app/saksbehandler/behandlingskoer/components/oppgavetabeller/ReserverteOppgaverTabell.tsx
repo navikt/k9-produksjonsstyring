@@ -1,34 +1,31 @@
 import React, { FunctionComponent, useCallback, useEffect, useRef, useState } from 'react';
-import { FormattedMessage, injectIntl, useIntl, WrappedComponentProps } from 'react-intl';
+import { FormattedMessage, WrappedComponentProps, injectIntl, useIntl } from 'react-intl';
 import classNames from 'classnames';
+import menuIconBlackUrl from 'images/ic-menu-18px_black.svg';
+import menuIconBlueUrl from 'images/ic-menu-18px_blue.svg';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { WarningColored } from '@navikt/ds-icons';
-
-import { getDateAndTime } from 'utils/dateUtils';
-import Image from 'sharedComponents/Image';
-import Oppgave from 'saksbehandler/oppgaveTsType';
-import Table from 'sharedComponents/Table';
-import TableRow from 'sharedComponents/TableRow';
-import TableColumn from 'sharedComponents/TableColumn';
-import DateLabel from 'sharedComponents/DateLabel';
-import menuIconBlueUrl from 'images/ic-menu-18px_blue.svg';
-import menuIconBlackUrl from 'images/ic-menu-18px_black.svg';
-
-import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
 import { Loader } from '@navikt/ds-react';
-
+import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
+import { useGlobalStateRestApiData } from 'api/rest-api-hooks';
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
 import Reservasjon from 'avdelingsleder/reservasjoner/reservasjonTsType';
+import AlleKodeverk from 'kodeverk/alleKodeverkTsType';
+import kodeverkTyper from 'kodeverk/kodeverkTyper';
 import {
   getHeaderCodes,
   hentIDFraSak,
 } from 'saksbehandler/behandlingskoer/components/oppgavetabeller/oppgavetabellerfelles';
-import VerticalSpacer from 'sharedComponents/VerticalSpacer';
-import kodeverkTyper from 'kodeverk/kodeverkTyper';
-import AlleKodeverk from 'kodeverk/alleKodeverkTsType';
-import { useGlobalStateRestApiData } from 'api/rest-api-hooks';
-import { getKodeverknavnFraKode } from 'utils/kodeverkUtils';
 import KommentarMedMerknad from 'saksbehandler/components/KommentarMedMerknad';
+import Oppgave from 'saksbehandler/oppgaveTsType';
+import DateLabel from 'sharedComponents/DateLabel';
+import Image from 'sharedComponents/Image';
+import Table from 'sharedComponents/Table';
+import TableColumn from 'sharedComponents/TableColumn';
+import TableRow from 'sharedComponents/TableRow';
+import VerticalSpacer from 'sharedComponents/VerticalSpacer';
+import { getDateAndTime } from 'utils/dateUtils';
+import { getKodeverknavnFraKode } from 'utils/kodeverkUtils';
 import OppgaveHandlingerMenu from '../menu/OppgaveHandlingerMenu';
 import styles from './oppgaverTabell.css';
 

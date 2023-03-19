@@ -1,27 +1,26 @@
 import React, { FunctionComponent, ReactNode, useEffect } from 'react';
-import moment from 'moment';
 import { Form, FormSpy } from 'react-final-form';
-import { FormattedMessage, injectIntl, IntlShape, WrappedComponentProps } from 'react-intl';
-import { Element, Undertekst } from 'nav-frontend-typografi';
-import { DDMMYYYY_DATE_FORMAT } from 'utils/formats';
-import Image from 'sharedComponents/Image';
-import { FlexColumn, FlexContainer, FlexRow } from 'sharedComponents/flexGrid';
-import LabelWithHeader from 'sharedComponents/LabelWithHeader';
-import { Oppgaveko } from 'saksbehandler/behandlingskoer/oppgavekoTsType';
-import { SelectField } from 'form/FinalFields';
-import gruppeHoverUrl from 'images/gruppe_hover.svg';
+import { FormattedMessage, IntlShape, WrappedComponentProps, injectIntl } from 'react-intl';
 import gruppeUrl from 'images/gruppe.svg';
-import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
-import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
-import VerticalSpacer from 'sharedComponents/VerticalSpacer';
+import gruppeHoverUrl from 'images/gruppe_hover.svg';
+import moment from 'moment';
 import { Hovedknapp } from 'nav-frontend-knapper';
-
-import AlleKodeverk from 'kodeverk/alleKodeverkTsType';
-import { getKodeverknavnFraKode } from 'utils/kodeverkUtils';
-import kodeverkTyper from 'kodeverk/kodeverkTyper';
+import { Element, Undertekst } from 'nav-frontend-typografi';
+import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
 import { useGlobalStateRestApiData } from 'api/rest-api-hooks';
-import styles from './oppgavekoVelgerForm.css';
+import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
+import { SelectField } from 'form/FinalFields';
+import AlleKodeverk from 'kodeverk/alleKodeverkTsType';
+import kodeverkTyper from 'kodeverk/kodeverkTyper';
+import { Oppgaveko } from 'saksbehandler/behandlingskoer/oppgavekoTsType';
+import Image from 'sharedComponents/Image';
+import LabelWithHeader from 'sharedComponents/LabelWithHeader';
+import VerticalSpacer from 'sharedComponents/VerticalSpacer';
+import { FlexColumn, FlexContainer, FlexRow } from 'sharedComponents/flexGrid';
+import { DDMMYYYY_DATE_FORMAT } from 'utils/formats';
+import { getKodeverknavnFraKode } from 'utils/kodeverkUtils';
 import { Saksbehandler } from '../saksbehandlerTsType';
+import styles from './oppgavekoVelgerForm.css';
 
 interface OwnProps {
   oppgavekoer: Oppgaveko[];

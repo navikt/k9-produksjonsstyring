@@ -1,18 +1,15 @@
 import React, { FunctionComponent, useState } from 'react';
-import { injectIntl, WrappedComponentProps, FormattedMessage } from 'react-intl';
-
 import { Form } from 'react-final-form';
+import { FormattedMessage, WrappedComponentProps, injectIntl } from 'react-intl';
 import { Knapp } from 'nav-frontend-knapper';
-import { Normaltekst, Element } from 'nav-frontend-typografi';
-
-import { hasValidEmailFormat } from 'utils/validation/validators';
-import VerticalSpacer from 'sharedComponents/VerticalSpacer';
-import { InputField } from 'form/FinalFields';
-import { FlexContainer, FlexRow, FlexColumn } from 'sharedComponents/flexGrid';
-import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
+import { Element, Normaltekst } from 'nav-frontend-typografi';
 import { K9LosApiKeys } from 'api/k9LosApi';
+import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
+import { InputField } from 'form/FinalFields';
+import VerticalSpacer from 'sharedComponents/VerticalSpacer';
+import { FlexColumn, FlexContainer, FlexRow } from 'sharedComponents/flexGrid';
+import { hasValidEmailFormat } from 'utils/validation/validators';
 import { Saksbehandler } from '../saksbehandlerTsType';
-
 import styles from './leggTilSaksbehandlerForm.css';
 
 interface OwnProps {

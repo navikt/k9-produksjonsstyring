@@ -1,8 +1,7 @@
 import React, { FunctionComponent } from 'react';
-import { injectIntl, WrappedComponentProps, FormattedMessage } from 'react-intl';
+import { FormattedMessage, WrappedComponentProps, injectIntl } from 'react-intl';
+import { EtikettAdvarsel, EtikettFokus, EtikettInfo } from 'nav-frontend-etiketter';
 import diskresjonskodeType from 'kodeverk/diskresjonskodeType';
-
-import { EtikettAdvarsel, EtikettInfo, EtikettFokus } from 'nav-frontend-etiketter';
 import styles from './merkepanel.css';
 
 interface OwnProps {

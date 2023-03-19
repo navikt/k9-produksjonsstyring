@@ -1,28 +1,26 @@
-import React, {
-  FunctionComponent, useMemo,
-} from 'react';
-
-import { ISO_DATE_FORMAT } from 'utils/formats';
+import React, { FunctionComponent, useMemo } from 'react';
+import { FormattedMessage } from 'react-intl';
 import dayjs from 'dayjs';
+import { Normaltekst } from 'nav-frontend-typografi';
 import ReactECharts from 'sharedComponents/echart/ReactEcharts';
 import { momentDateFormat } from 'utils/dateUtils';
-import { Normaltekst } from 'nav-frontend-typografi';
-import { FormattedMessage } from 'react-intl';
-
-import {IBehandlingerSomGarAvVentType}
-  from './behandlingerSomGårAvVentType';
+import { ISO_DATE_FORMAT } from 'utils/formats';
 import {
+  eChartXAxisTickDefAvdelningslederNokkeltall,
   fargerForLegendsForBehandlingerPåVent,
-  gridDef, seriesStyleAvdelningslederNokkeltall,
+  gridDef,
+  seriesStyleAvdelningslederNokkeltall,
   tooltipTextStyle,
   xAxisFontSizeAvdelningslederNokkeltall,
-  eChartXAxisTickDefAvdelningslederNokkeltall,
   yAxisFontSizeAvdelningslederNokkeltall,
   yAxisMarginTextBarAvdelningslederNokkeltall,
 } from '../../../../styles/echartStyle';
+import { IBehandlingerSomGarAvVentType } from './behandlingerSomGårAvVentType';
 
-const slaSammenBehandlingstyperOgFyllInnTomme = (behandlingerPåVent: IBehandlingerSomGarAvVentType[], antallUkerFremITid: number):
-  [string, number][] => {
+const slaSammenBehandlingstyperOgFyllInnTomme = (
+  behandlingerPåVent: IBehandlingerSomGarAvVentType[],
+  antallUkerFremITid: number,
+): [string, number][] => {
   const behandlingerSomGårAvVentPerDag = [];
   const antallDagerFremITid: number = antallUkerFremITid * 7;
 
@@ -31,26 +29,23 @@ const slaSammenBehandlingstyperOgFyllInnTomme = (behandlingerPåVent: IBehandlin
     const dagerFremITid = dayjs().add(antallDagerFremITid, 'days').startOf('day');
 
     for (let dato = iDag; dato.isBefore(dagerFremITid); dato = dato.add(1, 'days')) {
-      const behandlingerSomGårAvVentPåDenneDagen = behandlingerPåVent.filter((o) => dayjs(o.dato).startOf('day').isSame(dato));
+      const behandlingerSomGårAvVentPåDenneDagen = behandlingerPåVent.filter(o =>
+        dayjs(o.dato).startOf('day').isSame(dato),
+      );
       if (behandlingerSomGårAvVentPåDenneDagen.length === 0) {
+        behandlingerSomGårAvVentPerDag.push([dayjs(dato).format(ISO_DATE_FORMAT), 0]);
+      } else {
         behandlingerSomGårAvVentPerDag.push([
           dayjs(dato).format(ISO_DATE_FORMAT),
-          0,
+          behandlingerSomGårAvVentPåDenneDagen.reduce((acc, d) => acc + d.antall, 0),
         ]);
-      } else {
-        behandlingerSomGårAvVentPerDag.push(
-          [
-            dayjs(dato).format(ISO_DATE_FORMAT),
-            behandlingerSomGårAvVentPåDenneDagen.reduce((acc, d) => acc + d.antall, 0),
-          ],
-        );
       }
     }
   }
   return behandlingerSomGårAvVentPerDag;
 };
 
-interface OwnProps{
+interface OwnProps {
   behandlingerSomGårAvVent: IBehandlingerSomGarAvVentType[];
   antallUkerSomSkalVises: string;
 }
@@ -61,7 +56,12 @@ const BehandlingerGårAvVentGraf: FunctionComponent<OwnProps> = ({
 }) => {
   const periodeStart = dayjs();
   const periodeSlutt = dayjs().add(antallUkerSomSkalVises === '4' ? 4 : 2, 'w');
-  const oppgaverInomValgtPeriode: IBehandlingerSomGarAvVentType[] = behandlingerSomGårAvVent.filter((oppgave) => oppgave.antall > 0 && dayjs(oppgave.dato).isSameOrBefore(periodeSlutt, 'day') && dayjs(oppgave.dato).isSameOrAfter(periodeStart, 'day'));
+  const oppgaverInomValgtPeriode: IBehandlingerSomGarAvVentType[] = behandlingerSomGårAvVent.filter(
+    oppgave =>
+      oppgave.antall > 0 &&
+      dayjs(oppgave.dato).isSameOrBefore(periodeSlutt, 'day') &&
+      dayjs(oppgave.dato).isSameOrAfter(periodeStart, 'day'),
+  );
 
   const behandlingerSomGårAvVentToUkerFremITid: [string, number][] = useMemo(
     () => slaSammenBehandlingstyperOgFyllInnTomme(oppgaverInomValgtPeriode, 2),
@@ -95,7 +95,7 @@ const BehandlingerGårAvVentGraf: FunctionComponent<OwnProps> = ({
               type: 'solid',
             },
             label: {
-              formatter: (params) => {
+              formatter: params => {
                 if (params.axisDimension === 'y') {
                   return parseInt(params.value as string, 10).toString();
                 }
@@ -131,7 +131,6 @@ const BehandlingerGårAvVentGraf: FunctionComponent<OwnProps> = ({
               show: true,
             },
           },
-
         ],
         yAxis: [
           {
@@ -149,7 +148,10 @@ const BehandlingerGårAvVentGraf: FunctionComponent<OwnProps> = ({
           emphasis: {
             focus: 'series',
           },
-          data: antallUkerSomSkalVises === '4' ? behandlingerSomGårAvVentFireUkerFremITid : behandlingerSomGårAvVentToUkerFremITid,
+          data:
+            antallUkerSomSkalVises === '4'
+              ? behandlingerSomGårAvVentFireUkerFremITid
+              : behandlingerSomGårAvVentToUkerFremITid,
         },
         color: fargerForLegendsForBehandlingerPåVent,
       }}

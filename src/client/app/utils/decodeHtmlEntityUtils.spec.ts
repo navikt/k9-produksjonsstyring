@@ -1,5 +1,4 @@
 import { expect } from 'chai';
-
 import decodeHtmlEntity from './decodeHtmlEntityUtils';
 
 describe('decode-Html-Entity', () => {

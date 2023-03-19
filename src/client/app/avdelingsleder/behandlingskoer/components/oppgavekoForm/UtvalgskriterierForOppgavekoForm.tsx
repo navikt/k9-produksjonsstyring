@@ -1,5 +1,7 @@
 import React, { FunctionComponent } from 'react';
-
+import { Form } from 'react-final-form';
+import { FormattedMessage, IntlShape, WrappedComponentProps, injectIntl } from 'react-intl';
+import { Normaltekst } from 'nav-frontend-typografi';
 import { K9LosApiKeys } from 'api/k9LosApi';
 import { useRestApi } from 'api/rest-api-hooks';
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
@@ -7,22 +9,18 @@ import SkjermetVelger from 'avdelingsleder/behandlingskoer/components/oppgavekoF
 import SaksbehandlereForOppgavekoForm from 'avdelingsleder/behandlingskoer/components/saksbehandlerForm/SaksbehandlereForOppgavekoForm';
 import { Saksbehandler } from 'avdelingsleder/bemanning/saksbehandlerTsType';
 import { InputField } from 'form/FinalFields';
-import { Normaltekst } from 'nav-frontend-typografi';
-import { Form } from 'react-final-form';
-import { FormattedMessage, injectIntl, IntlShape, WrappedComponentProps } from 'react-intl';
+import kodeverkTyper from 'kodeverk/kodeverkTyper';
 import Image from 'sharedComponents/Image';
 import { hasValidName, maxLength, minLength, required } from 'utils/validation/validators';
-import kodeverkTyper from 'kodeverk/kodeverkTyper';
+import binIcon from '../../../../../images/bin-1.svg';
 import { Oppgaveko } from '../../oppgavekoTsType';
 import AndreKriterierVelger from './AndreKriterierVelger';
 import AutoLagringVedBlur from './AutoLagringVedBlur';
 import BehandlingstypeVelger from './BehandlingstypeVelger';
 import FagsakYtelseTypeVelger from './FagsakYtelseTypeVelger';
-import SorteringVelger from './SorteringVelger';
-
-import binIcon from '../../../../../images/bin-1.svg';
 import MerknadVelger from './MerknadVelger';
 import OppgaveKoKriterieVelger from './OppgaveKøKriterieVelger';
+import SorteringVelger from './SorteringVelger';
 import styles from './utvalgskriterierForOppgavekoForm.css';
 
 const minLength3 = minLength(3);

@@ -1,20 +1,17 @@
-import {
-  Params,
-  useLocation, useParams,
-} from 'react-router-dom';
+import { Params, useLocation, useParams } from 'react-router-dom';
 import { Location } from 'history';
 import { parseQueryString } from 'utils/urlUtils';
 
 const defaultConfig = {
   paramName: '',
-  parse: (a) => a,
+  parse: a => a,
   isQueryParam: false,
 };
 
 interface Config {
-  paramName?: string,
-  parse?: (a: any) => any,
-  isQueryParam?: boolean,
+  paramName?: string;
+  parse?: (a: any) => any;
+  isQueryParam?: boolean;
 }
 
 const mapMatchToParam = (params: Params, location: Location, trackingConfig: Required<Config>) => {

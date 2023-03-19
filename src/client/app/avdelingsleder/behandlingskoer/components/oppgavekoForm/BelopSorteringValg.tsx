@@ -1,9 +1,9 @@
 import React from 'react';
-import { TextField } from '@navikt/ds-react';
-import { useFormik } from 'formik';
-import ArrowBox from 'sharedComponents/ArrowBox';
-import { Undertekst } from 'nav-frontend-typografi';
 import { FormattedMessage } from 'react-intl';
+import { useFormik } from 'formik';
+import { Undertekst } from 'nav-frontend-typografi';
+import { TextField } from '@navikt/ds-react';
+import ArrowBox from 'sharedComponents/ArrowBox';
 import styles from './utvalgskriterierForOppgavekoForm.css';
 
 const validate = values => {

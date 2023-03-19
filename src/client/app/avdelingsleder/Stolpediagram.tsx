@@ -1,13 +1,11 @@
-import dayjs from 'dayjs';
-import customParseFormat from 'dayjs/plugin/customParseFormat';
 import React from 'react';
 import { useIntl } from 'react-intl';
-
+import dayjs from 'dayjs';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
 import ReactECharts from 'sharedComponents/echart/ReactEcharts';
-
 import { defaultFontSize, grafHeight, legendStyle } from '../../styles/echartStyle';
-import HistoriskData from './nokkeltall/historiskDataTsType';
 import AksjonspunkterPerEnhetType from './nokkeltall/AksjonspunkterPerEnhetType';
+import HistoriskData from './nokkeltall/historiskDataTsType';
 
 dayjs.extend(customParseFormat);
 
@@ -22,7 +20,7 @@ interface IStolpediagramSerie {
   name: string;
   itemStyle?: {
     color: string;
-  }
+  };
   data: HistoriskData[] | AksjonspunkterPerEnhetType[];
 }
 
@@ -88,7 +86,7 @@ const Stolpediagram = ({ series, labels, legendColors = [], fremITid = false, uk
     series: series.map((serie, index) => ({
       ...serie,
       data: mapAntallTilRiktigDato(serie.data, datoer),
-      itemStyle: serie.itemStyle || { color: legendColors[index] },
+      itemStyle: serie.itemStyle || { color: legendColors[index] },
     })),
   };
   return <ReactECharts height={grafHeight} option={option} />;

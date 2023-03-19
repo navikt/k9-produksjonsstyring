@@ -1,21 +1,21 @@
 /* eslint-disable import/no-mutable-exports */
 import { rest } from 'msw';
-
-import { giRandomDato } from './mockUtils';
-import ferdigstilteHistorikk from './ferdigstilteHistorikk';
-import dagensTall from './dagensTall';
-import nyeOgFerdigstilteOppgaver from './nyeOgFerdigstilteOppgaver';
-import løsteAksjonspunkterPerEnhet from './løsteAksjonspunkterPerEnhet';
-import behandlingerSomGårAvVentÅrsaker from './behandlingerSomGårAvVentÅrsaker';
-import behandlingerSomGårAvVent from './behandlingerSomGårAvVent';
-import behandlingerUnderArbeid from './behandlingerUnderArbeid';
-import nyeOgFerdigstilteOppgaverMedStonadstype from './nyeOgFerdigstilteOppgaverMedStonadstype';
 import avdelningsledareReservasjoner from './avdelningsledareReservasjoner';
-import saksbehandlerReservasjoner from './saksbehandlerReservasjoner';
-import saksbehandlerOppgaver from './saksbehandlerOppgaver';
+import behandlingerSomGårAvVent from './behandlingerSomGårAvVent';
+import behandlingerSomGårAvVentÅrsaker from './behandlingerSomGårAvVentÅrsaker';
+import behandlingerUnderArbeid from './behandlingerUnderArbeid';
+import dagensTall from './dagensTall';
+import ferdigstilteHistorikk from './ferdigstilteHistorikk';
+import løsteAksjonspunkterPerEnhet from './løsteAksjonspunkterPerEnhet';
+import { giRandomDato } from './mockUtils';
+import nyeOgFerdigstilteOppgaver from './nyeOgFerdigstilteOppgaver';
+import nyeOgFerdigstilteOppgaverMedStonadstype from './nyeOgFerdigstilteOppgaverMedStonadstype';
 import saksbehandlerOppgaveko from './saksbehandlerOppgaveko';
+import saksbehandlerOppgaver from './saksbehandlerOppgaver';
+import saksbehandlerReservasjoner from './saksbehandlerReservasjoner';
 import saksbehandlereIOppgaveko from './saksbehandlereIOppgaveko';
 import soek from './soek';
+
 // Alle handlers som ligger direkte i dette arrayet vil gjelde
 // selv om k9-sak-web startes uten env spesielle env-variabler.
 // Requesten treffer handlerne i stedet for eventuelle eksisterende APIer

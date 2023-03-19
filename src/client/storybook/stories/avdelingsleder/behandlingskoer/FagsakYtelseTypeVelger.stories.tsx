@@ -1,9 +1,7 @@
-import React, { useState, useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Form } from 'react-final-form';
-
 import FagsakYtelseTypeVelger from 'avdelingsleder/behandlingskoer/components/oppgavekoForm/FagsakYtelseTypeVelger';
 import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
-
 import withIntl from '../../../decorators/withIntl.js';
 import alleKodeverk from '../../../mocks/alleKodeverk.json';
 
@@ -18,7 +16,7 @@ export const skalViseVelgerForFagsakYtelseTyper = () => {
     fagsakYtelseType: fagsakYtelseType.FORELDREPRENGER,
   });
   const lagre = useCallback((_oppgavekoId, fyt) => {
-    leggTilVerdi((oldState) => ({
+    leggTilVerdi(oldState => ({
       ...oldState,
       fagsakYtelseType: fyt,
     }));

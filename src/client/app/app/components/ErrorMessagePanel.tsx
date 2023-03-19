@@ -1,12 +1,10 @@
 import React, { FunctionComponent, useMemo } from 'react';
-import { injectIntl, WrappedComponentProps, IntlShape } from 'react-intl';
-import { Row, Column } from 'nav-frontend-grid';
-import { Undertekst } from 'nav-frontend-typografi';
-
-import decodeHtmlEntity from 'utils/decodeHtmlEntityUtils';
-import EventType from 'api/rest-api/src/requestApi/eventType';
-
+import { IntlShape, WrappedComponentProps, injectIntl } from 'react-intl';
+import { Column, Row } from 'nav-frontend-grid';
 import Lukknapp from 'nav-frontend-lukknapp';
+import { Undertekst } from 'nav-frontend-typografi';
+import EventType from 'api/rest-api/src/requestApi/eventType';
+import decodeHtmlEntity from 'utils/decodeHtmlEntityUtils';
 import styles from './errorMessagePanel.css';
 
 export const getErrorMessageList = (

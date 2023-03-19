@@ -1,21 +1,17 @@
 import React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
-import { FormattedMessage } from 'react-intl';
-
 import Table from 'sharedComponents/Table';
-import TableRow from 'sharedComponents/TableRow';
 import TableColumn from 'sharedComponents/TableColumn';
+import TableRow from 'sharedComponents/TableRow';
 import SaksbehandlereTabell from './SaksbehandlereTabell';
 import SletteSaksbehandlerModal from './SletteSaksbehandlerModal';
 
 describe('<SaksbehandlereTabell>', () => {
   it('skal vise tekst som viser at ingen saksbehandlere er lagt til', () => {
-    const wrapper = shallow(<SaksbehandlereTabell
-      saksbehandlere={[]}
-      fjernSaksbehandler={sinon.spy()}
-    />);
+    const wrapper = shallow(<SaksbehandlereTabell saksbehandlere={[]} fjernSaksbehandler={sinon.spy()} />);
 
     const message = wrapper.find(FormattedMessage);
     expect(message).to.have.length(3);
@@ -26,23 +22,28 @@ describe('<SaksbehandlereTabell>', () => {
   });
 
   it('skal vise to saksbehandlere sortert i tabell', () => {
-    const saksbehandlere = [{
-      brukerIdent: 'TEST1',
-      navn: 'Espen Utvikler',
-      epost: 'epost',
-      oppgavekoer: ['OMP'],
-    }, {
-      brukerIdent: 'TEST2',
-      navn: 'Auto Joachim',
-      epost: 'epost',
-      oppgavekoer: ['OMP'],
-    }];
-    const wrapper = shallow(<SaksbehandlereTabell
-      saksbehandlere={saksbehandlere}
-      fjernSaksbehandler={sinon.spy()}
-      leggTilSaksbehandler={sinon.spy()}
-      resetSaksbehandlerSok={sinon.spy()}
-    />);
+    const saksbehandlere = [
+      {
+        brukerIdent: 'TEST1',
+        navn: 'Espen Utvikler',
+        epost: 'epost',
+        oppgavekoer: ['OMP'],
+      },
+      {
+        brukerIdent: 'TEST2',
+        navn: 'Auto Joachim',
+        epost: 'epost',
+        oppgavekoer: ['OMP'],
+      },
+    ];
+    const wrapper = shallow(
+      <SaksbehandlereTabell
+        saksbehandlere={saksbehandlere}
+        fjernSaksbehandler={sinon.spy()}
+        leggTilSaksbehandler={sinon.spy()}
+        resetSaksbehandlerSok={sinon.spy()}
+      />,
+    );
 
     expect(wrapper.find(FormattedMessage)).to.have.length(2);
     expect(wrapper.find(Table)).to.have.length(1);

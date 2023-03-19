@@ -1,15 +1,15 @@
 import { momentDateFormat, timeFormat } from 'utils/dateUtils';
-import ErrorEventType from './errorEventType';
 import ErrorMessage from './ErrorMessage';
 import Formatter from './Formatter';
+import ErrorEventType from './errorEventType';
 
 const HALTED_PROCESS_TASK_MESSAGE_CODE = 'Rest.ErrorMessage.General';
 const DELAYED_PROCESS_TASK_MESSAGE_CODE = 'Rest.ErrorMessage.DownTime';
 
 interface ErrorData {
-   message: string;
-   status: string;
-   eta: string;
+  message: string;
+  status: string;
+  eta: string;
 }
 
 class RestHaltedOrDelayedFormatter implements Formatter<ErrorData> {
@@ -23,7 +23,11 @@ class RestHaltedOrDelayedFormatter implements Formatter<ErrorData> {
       return ErrorMessage.withMessageCode(HALTED_PROCESS_TASK_MESSAGE_CODE, { errorDetails: message });
     }
     if (status === 'DELAYED') {
-      return ErrorMessage.withMessageCode(DELAYED_PROCESS_TASK_MESSAGE_CODE, { date: momentDateFormat(eta), time: timeFormat(eta), message });
+      return ErrorMessage.withMessageCode(DELAYED_PROCESS_TASK_MESSAGE_CODE, {
+        date: momentDateFormat(eta),
+        time: timeFormat(eta),
+        message,
+      });
     }
     return undefined;
   };

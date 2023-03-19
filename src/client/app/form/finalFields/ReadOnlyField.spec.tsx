@@ -2,7 +2,6 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import { Normaltekst } from 'nav-frontend-typografi';
-
 import EditedIcon from 'sharedComponents/EditedIcon';
 import Label from './Label';
 import ReadOnlyField from './ReadOnlyField';

@@ -1,18 +1,17 @@
 import React, { FunctionComponent, useMemo, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Normaltekst } from 'nav-frontend-typografi';
-
-import VerticalSpacer from 'sharedComponents/VerticalSpacer';
-import kodeverkTyper from 'kodeverk/kodeverkTyper';
-import behandlingType from 'kodeverk/behandlingType';
-import { CheckboxField } from 'form/FinalFields';
-import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
-import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
-import useKodeverk from 'api/rest-api-hooks/src/global-data/useKodeverk';
-import { punsjKodeverkNavn } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
 import NavFrontendChevron from 'nav-frontend-chevron';
-import AlleKodeverk from 'kodeverk/alleKodeverkTsType';
+import { Normaltekst } from 'nav-frontend-typografi';
+import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
 import { useGlobalStateRestApiData } from 'api/rest-api-hooks';
+import useKodeverk from 'api/rest-api-hooks/src/global-data/useKodeverk';
+import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
+import { punsjKodeverkNavn } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
+import { CheckboxField } from 'form/FinalFields';
+import AlleKodeverk from 'kodeverk/alleKodeverkTsType';
+import behandlingType from 'kodeverk/behandlingType';
+import kodeverkTyper from 'kodeverk/kodeverkTyper';
+import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import { getKodeverkFraKode, getKodeverknavnFraKode } from 'utils/kodeverkUtils';
 import punsjBehandlingstyper from '../../../../types/PunsjBehandlingstyper';
 import styles from './utvalgskriterierForOppgavekoForm.css';

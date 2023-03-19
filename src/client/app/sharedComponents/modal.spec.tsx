@@ -9,11 +9,7 @@ describe('<Modal>', () => {
   it('skal rendre modal med children', () => {
     const wrapper = shallow(
       <div id="app">
-        <Modal
-          ariaHideApp={false}
-          {...otherProps}
-          shouldCloseOnOverlayClick={false}
-        >
+        <Modal ariaHideApp={false} {...otherProps} shouldCloseOnOverlayClick={false}>
           <div className="content">test</div>
         </Modal>
       </div>,

@@ -1,12 +1,10 @@
 import React, { FunctionComponent, ReactNode } from 'react';
-import classnames from 'classnames/bind';
 import { Field } from 'react-final-form';
+import classnames from 'classnames/bind';
 import { SkjemaGruppe as NavSkjemaGruppe } from 'nav-frontend-skjema';
-
-import renderNavField from './renderNavField';
 import OptionGrid from './OptionGrid';
-
 import styles from './radioGroupField.css';
+import renderNavField from './renderNavField';
 
 const classNames = classnames.bind(styles);
 

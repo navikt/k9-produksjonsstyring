@@ -7,7 +7,7 @@ type Fagsak = Readonly<{
   person: Person;
   behandlingStatus?: Kodeverk;
   opprettet: string;
-  fagsystem: Kodeverk
+  fagsystem: Kodeverk;
   aktiv: boolean;
 }>;
 

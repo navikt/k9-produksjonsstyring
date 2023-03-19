@@ -1,9 +1,8 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-
-import asyncPollingStatus from './asyncPollingStatus';
-import RequestProcess, { REQUEST_POLLING_CANCELLED } from './RequestProcess';
 import NotificationMapper from './NotificationMapper';
+import RequestProcess, { REQUEST_POLLING_CANCELLED } from './RequestProcess';
+import asyncPollingStatus from './asyncPollingStatus';
 
 class NotificationHelper {
   mapper: NotificationMapper;
@@ -93,31 +92,35 @@ describe('RequestProcess', () => {
       },
     };
 
-    const allGetResults = [{
-      ...response,
-      data: {
-        status: asyncPollingStatus.PENDING,
-        message: 'Polling continues',
-        pollIntervalMillis: 0,
+    const allGetResults = [
+      {
+        ...response,
+        data: {
+          status: asyncPollingStatus.PENDING,
+          message: 'Polling continues',
+          pollIntervalMillis: 0,
+        },
       },
-    }, {
-      ...response,
-      data: {
-        status: asyncPollingStatus.PENDING,
-        message: 'Polling continues',
-        pollIntervalMillis: 0,
+      {
+        ...response,
+        data: {
+          status: asyncPollingStatus.PENDING,
+          message: 'Polling continues',
+          pollIntervalMillis: 0,
+        },
       },
-    }];
+    ];
 
     const httpClientMock = {
       ...httpClientGeneralMock,
-      getAsync: () => Promise.resolve({
-        ...response,
-        status: HTTP_ACCEPTED,
-        headers: {
-          location: 'http://polling.url',
-        },
-      }),
+      getAsync: () =>
+        Promise.resolve({
+          ...response,
+          status: HTTP_ACCEPTED,
+          headers: {
+            location: 'http://polling.url',
+          },
+        }),
       get: () => Promise.resolve(allGetResults.shift()),
     };
 
@@ -161,21 +164,23 @@ describe('RequestProcess', () => {
 
     const httpClientMock = {
       ...httpClientGeneralMock,
-      getAsync: () => Promise.resolve({
-        ...response,
-        status: HTTP_ACCEPTED,
-        headers: {
-          location: 'test',
-        },
-      }),
-      get: () => Promise.resolve({
-        ...response,
-        data: {
-          status: asyncPollingStatus.PENDING,
-          message: 'Polling continues',
-          pollIntervalMillis: 0,
-        },
-      }),
+      getAsync: () =>
+        Promise.resolve({
+          ...response,
+          status: HTTP_ACCEPTED,
+          headers: {
+            location: 'test',
+          },
+        }),
+      get: () =>
+        Promise.resolve({
+          ...response,
+          data: {
+            status: asyncPollingStatus.PENDING,
+            message: 'Polling continues',
+            pollIntervalMillis: 0,
+          },
+        }),
     };
 
     const params = {
@@ -185,7 +190,10 @@ describe('RequestProcess', () => {
     const process = new RequestProcess(httpClientMock, httpClientMock.getAsync, 'behandling', defaultConfig);
     const mapper = new NotificationMapper();
     // Etter en runde med polling vil en stoppe prosessen via event
-    mapper.addUpdatePollingMessageEventHandler(() => { process.cancel(); return Promise.resolve(''); });
+    mapper.addUpdatePollingMessageEventHandler(() => {
+      process.cancel();
+      return Promise.resolve('');
+    });
     process.setNotificationEmitter(mapper.getNotificationEmitter());
 
     const resResponse = await process.run(params);

@@ -1,9 +1,13 @@
 import { expect } from 'chai';
-
 import {
-  calcDaysAndWeeksWithWeekends, calcDaysAndWeeks, splitWeeksAndDays, momentDateFormat, timeFormat, addDaysToDate, findDifferenceInMonthsAndDays,
-}
-  from './dateUtils';
+  addDaysToDate,
+  calcDaysAndWeeks,
+  calcDaysAndWeeksWithWeekends,
+  findDifferenceInMonthsAndDays,
+  momentDateFormat,
+  splitWeeksAndDays,
+  timeFormat,
+} from './dateUtils';
 
 describe('dateutils', () => {
   describe('calcDaysAndWeeksWithWeekends', () => {
@@ -36,7 +40,10 @@ describe('dateutils', () => {
     it('Skal kalkulere antall dager mellom to datoer inkludert helger og skrive det ut som uker og dager', () => {
       const days = 33;
       const weeks = 2;
-      expect(splitWeeksAndDays(weeks, days)).is.eql([{ weeks: 4, days: 1 }, { weeks: 4, days: 2 }]);
+      expect(splitWeeksAndDays(weeks, days)).is.eql([
+        { weeks: 4, days: 1 },
+        { weeks: 4, days: 2 },
+      ]);
     });
   });
 

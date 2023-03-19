@@ -10,4 +10,4 @@ export type ErrorType = Readonly<{
   config?: {
     responseType: string;
   };
-}>
+}>;

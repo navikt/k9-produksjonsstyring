@@ -1,5 +1,4 @@
 import React, { FunctionComponent } from 'react';
-
 import BemanningIndex from 'avdelingsleder/bemanning/BemanningIndex';
 import styles from './avdelingslederDashboard.css';
 

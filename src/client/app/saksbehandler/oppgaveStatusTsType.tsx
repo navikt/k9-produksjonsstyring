@@ -13,4 +13,4 @@ export type OppgaveStatus = Readonly<{
     begrunnelse: string;
   };
   kanOverstyres?: boolean;
-}>
+}>;

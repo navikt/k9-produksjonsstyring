@@ -1,31 +1,29 @@
-import React, { useMemo, FunctionComponent } from 'react';
+import React, { FunctionComponent, useMemo } from 'react';
+import { FormattedMessage } from 'react-intl';
 import dayjs from 'dayjs';
-import { ISO_DATE_FORMAT } from 'utils/formats';
-import behandlingType from 'kodeverk/behandlingType';
-
+import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
+import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
+import { Normaltekst } from 'nav-frontend-typografi';
 import HistoriskData from 'avdelingsleder/nokkeltall/historiskDataTsType';
 import { behandlingstypeOrder } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
+import behandlingType from 'kodeverk/behandlingType';
+import KodeverkMedNavn from 'kodeverk/kodeverkMedNavnTsType';
 import ReactECharts from 'sharedComponents/echart/ReactEcharts';
-import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
-import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
-import { FormattedMessage } from 'react-intl';
-import { Normaltekst } from 'nav-frontend-typografi';
-
 import { dateFormat } from 'utils/dateUtils';
-import Koordinat from '../../types/Koordinat';
+import { ISO_DATE_FORMAT } from 'utils/formats';
 import {
+  eChartXAxisTickDefAvdelningslederNokkeltall,
   grafHeight,
+  graferOpacity,
   gridDef,
   legendStyle,
   seriesStyleAvdelningslederNokkeltall,
   tooltipTextStyle,
   xAxisFontSizeAvdelningslederNokkeltall,
-  eChartXAxisTickDefAvdelningslederNokkeltall,
   yAxisFontSizeAvdelningslederNokkeltall,
   yAxisMarginTextBarAvdelningslederNokkeltall,
-  graferOpacity,
 } from '../../../styles/echartStyle';
-import KodeverkMedNavn from "kodeverk/kodeverkMedNavnTsType";
+import Koordinat from '../../types/Koordinat';
 
 dayjs.extend(isSameOrBefore);
 dayjs.extend(isSameOrAfter);

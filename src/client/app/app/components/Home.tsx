@@ -1,14 +1,12 @@
 import React, { FunctionComponent } from 'react';
 import { Route, Routes } from 'react-router-dom';
-
 import AvdelingslederIndex from 'avdelingsleder/AvdelingslederIndex';
 import SaksbehandlerIndex from 'saksbehandler/SaksbehandlerIndex';
-import FilterIndex from '../../filter/FilterIndex';
 import AdminIndex from '../../admin/AdminIndex';
-import MissingPage from './MissingPage';
-
-import styles from './home.css';
 import AktoerIndex from '../../aktoer/AktoerIndex';
+import FilterIndex from '../../filter/FilterIndex';
+import MissingPage from './MissingPage';
+import styles from './home.css';
 
 export const aktoerPath = '/aktoer/:aktoerId(\\d+)';
 

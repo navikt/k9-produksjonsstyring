@@ -1,9 +1,8 @@
-import { act, screen, waitFor } from '@testing-library/react';
 import React from 'react';
-
+import { act, screen, waitFor } from '@testing-library/react';
 import { renderWithAllProviders } from '../../../../../setup/testHelpers/testUtils';
-import HeaderWithErrorPanel from './HeaderWithErrorPanel';
 import { server } from '../../../mocks/server';
+import HeaderWithErrorPanel from './HeaderWithErrorPanel';
 
 const setSiteHeight = (headerHeight: number): void => null;
 const crashMessage = 'CrashMessage';

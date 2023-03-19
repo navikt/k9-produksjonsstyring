@@ -1,22 +1,23 @@
-import EventType from './eventType';
-import asyncPollingStatus from './asyncPollingStatus';
 import HttpClientApi from '../HttpClientApiTsType';
-import { Response } from './ResponseTsType';
 import RequestAdditionalConfig from '../RequestAdditionalConfigTsType';
-import TimeoutError from './error/TimeoutError';
+import { Response } from './ResponseTsType';
+import asyncPollingStatus from './asyncPollingStatus';
 import RequestErrorEventHandler from './error/RequestErrorEventHandler';
+import TimeoutError from './error/TimeoutError';
+import EventType from './eventType';
 
 const HTTP_ACCEPTED = 202;
 const MAX_POLLING_ATTEMPTS = 150;
 export const REQUEST_POLLING_CANCELLED = 'INTERNAL_CANCELLATION';
 
-const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
 
-const hasLocationAndStatusDelayedOrHalted = (responseData) => responseData.location && (responseData.status === asyncPollingStatus.DELAYED
-    || responseData.status === asyncPollingStatus.HALTED);
+const hasLocationAndStatusDelayedOrHalted = responseData =>
+  responseData.location &&
+  (responseData.status === asyncPollingStatus.DELAYED || responseData.status === asyncPollingStatus.HALTED);
 
-type Notify = (eventType: keyof typeof EventType, data?: any, isPolling?: boolean) => void
-type NotificationEmitter = (eventType: keyof typeof EventType, data?: any) => void
+type Notify = (eventType: keyof typeof EventType, data?: any, isPolling?: boolean) => void;
+type NotificationEmitter = (eventType: keyof typeof EventType, data?: any) => void;
 
 interface ResponseDataLink {
   href: string;
@@ -49,8 +50,12 @@ class RequestProcess {
 
   isPollingRequest = false;
 
-  constructor(httpClientApi: HttpClientApi, restMethod: (url: string, params: any, responseType?: string) => Promise<Response>,
-    path: string, config: RequestAdditionalConfig) {
+  constructor(
+    httpClientApi: HttpClientApi,
+    restMethod: (url: string, params: any, responseType?: string) => Promise<Response>,
+    path: string,
+    config: RequestAdditionalConfig,
+  ) {
     this.httpClientApi = httpClientApi;
     this.restMethod = restMethod;
     this.path = path;
@@ -60,7 +65,7 @@ class RequestProcess {
 
   setNotificationEmitter = (notificationEmitter: NotificationEmitter) => {
     this.notify = notificationEmitter;
-  }
+  };
 
   execLongPolling = async (location: string, pollingInterval = 0, pollingCounter = 0): Promise<Response> => {
     if (pollingCounter === this.maxPollingLimit) {
@@ -90,7 +95,11 @@ class RequestProcess {
     return statusOrResultResponse;
   };
 
-  execute = async (path: string, restMethod: (path: string, params?: any) => Promise<Response>, params: any): Promise<Response> => {
+  execute = async (
+    path: string,
+    restMethod: (path: string, params?: any) => Promise<Response>,
+    params: any,
+  ): Promise<Response> => {
     let response = await restMethod(path, params);
     if ('status' in response && response.status === HTTP_ACCEPTED) {
       this.isPollingRequest = true;
@@ -109,13 +118,13 @@ class RequestProcess {
       }
     }
     return response;
-  }
+  };
 
   cancel = () => {
     this.isCancelled = true;
-  }
+  };
 
-  run = async (params: any): Promise<{payload: any}> => {
+  run = async (params: any): Promise<{ payload: any }> => {
     this.notify(EventType.REQUEST_STARTED);
 
     try {
@@ -131,7 +140,7 @@ class RequestProcess {
       new RequestErrorEventHandler(this.notify, this.isPollingRequest).handleError(error);
       throw error;
     }
-  }
+  };
 }
 
 export default RequestProcess;

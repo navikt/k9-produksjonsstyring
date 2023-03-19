@@ -4,4 +4,4 @@ export type Saksbehandler = Readonly<{
   brukerIdent?: string;
   navn?: string;
   epost: string;
-}>
+}>;

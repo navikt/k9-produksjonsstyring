@@ -1,13 +1,13 @@
-import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
-import behandlingType from 'kodeverk/behandlingType';
-import NyeOgFerdigstilteMedStonadstype from 'avdelingsleder/nokkeltall/nyeOgFerdigstilteMedStonadstypeTsType';
-import HistoriskData from 'avdelingsleder/nokkeltall/historiskDataTsType';
-import AlleOppgaver from 'avdelingsleder/nokkeltall/components/fordelingAvBehandlingstype/alleOppgaverTsType';
-import NyeOgFerdigstilteOppgaver from 'saksbehandler/saksstotte/nokkeltall/components/nyeOgFerdigstilteOppgaverTsType';
 import dayjs from 'dayjs';
-import AlleKodeverk from "kodeverk/alleKodeverkTsType";
-import { getKodeverkFraKode } from "utils/kodeverkUtils";
-import kodeverkTyper from "kodeverk/kodeverkTyper";
+import AlleOppgaver from 'avdelingsleder/nokkeltall/components/fordelingAvBehandlingstype/alleOppgaverTsType';
+import HistoriskData from 'avdelingsleder/nokkeltall/historiskDataTsType';
+import NyeOgFerdigstilteMedStonadstype from 'avdelingsleder/nokkeltall/nyeOgFerdigstilteMedStonadstypeTsType';
+import AlleKodeverk from 'kodeverk/alleKodeverkTsType';
+import behandlingType from 'kodeverk/behandlingType';
+import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
+import kodeverkTyper from 'kodeverk/kodeverkTyper';
+import NyeOgFerdigstilteOppgaver from 'saksbehandler/saksstotte/nokkeltall/components/nyeOgFerdigstilteOppgaverTsType';
+import { getKodeverkFraKode } from 'utils/kodeverkUtils';
 import omsorgsdagerYtelsetyper from '../../types/OmsorgsdagerYtelsetyper';
 import punsjBehandlingstyper from '../../types/PunsjBehandlingstyper';
 
@@ -94,7 +94,7 @@ export const slaSammenLikeBehandlingstyperOgDatoer = (oppgaver: HistoriskData[],
       sammenslatte.push({
         behandlingType: o.behandlingType,
         dato: o.dato,
-        antall: o.antall
+        antall: o.antall,
       });
     } else {
       sammenslatte[index] = {
@@ -131,7 +131,7 @@ export const slaSammenLikeBehandlingstyperForNyeOgFerdigstilleOppgaver = (oppgav
 
 export const slaSammenAllePunsjBehandlingstyperForNyeOgFerdigstilleOppgaver = (
   oppgaver: NyeOgFerdigstilteOppgaver[],
-  alleKodeverk: AlleKodeverk
+  alleKodeverk: AlleKodeverk,
 ) => {
   const sammenslatte = [];
 
@@ -171,8 +171,7 @@ export const slaSammenPunsjBehandlingstyperOgDatoer = (oppgaver: HistoriskData[]
       return;
     }
     const index = sammenslatte.findIndex(
-      s =>
-        s.behandlingType === 'PUNSJ' && s.dato === o.dato && s.fagsakYtelseType === o.fagsakYtelseType,
+      s => s.behandlingType === 'PUNSJ' && s.dato === o.dato && s.fagsakYtelseType === o.fagsakYtelseType,
     );
     if (index === -1) {
       sammenslatte.push({
@@ -206,14 +205,17 @@ export const sjekkOmOppgaveSkalLeggesTil = (
     case fagsakYtelseType.PUNSJ:
       return punsjBehandlingstyper.includes(oppgave.behandlingType);
     case fagsakYtelseType.OMSORGSDAGER:
-      return !punsjBehandlingstyper.includes(oppgave.behandlingType) && omsorgsdagerYtelsetyper.includes(oppgave.fagsakYtelseType);
-    case ALLE_YTELSETYPER_VALGT: {
       return (
         !punsjBehandlingstyper.includes(oppgave.behandlingType) &&
-        (omsorgsdagerYtelsetyper.includes(oppgave.fagsakYtelseType) ||
-          oppgave.fagsakYtelseType === fagsakYtelseType.OMSORGSPENGER ||
-          oppgave.fagsakYtelseType === fagsakYtelseType.PLEIEPENGER_SYKT_BARN) ||
-          oppgave.fagsakYtelseType === fagsakYtelseType.PPN
+        omsorgsdagerYtelsetyper.includes(oppgave.fagsakYtelseType)
+      );
+    case ALLE_YTELSETYPER_VALGT: {
+      return (
+        (!punsjBehandlingstyper.includes(oppgave.behandlingType) &&
+          (omsorgsdagerYtelsetyper.includes(oppgave.fagsakYtelseType) ||
+            oppgave.fagsakYtelseType === fagsakYtelseType.OMSORGSPENGER ||
+            oppgave.fagsakYtelseType === fagsakYtelseType.PLEIEPENGER_SYKT_BARN)) ||
+        oppgave.fagsakYtelseType === fagsakYtelseType.PPN
       );
     }
     default:
@@ -225,7 +227,7 @@ export const filtrereNyePerDato = (
   ytelseType: string,
   ukevalg: string,
   nyePerDato: HistoriskData[],
-  alleKodeverk: AlleKodeverk
+  alleKodeverk: AlleKodeverk,
 ): HistoriskData[] => {
   if (nyePerDato) {
     if (ytelseType === 'PUNSJ') {
@@ -233,14 +235,14 @@ export const filtrereNyePerDato = (
         nyePerDato
           .filter(ofa => sjekkOmOppgaveSkalLeggesTil(ytelseType, ofa))
           .filter(ofa => erDatoInnenforPeriode(ofa, ukevalg)),
-        alleKodeverk
+        alleKodeverk,
       );
     }
     return slaSammenLikeBehandlingstyperOgDatoer(
       nyePerDato
         .filter(ofa => sjekkOmOppgaveSkalLeggesTil(ytelseType, ofa))
         .filter(ofa => erDatoInnenforPeriode(ofa, ukevalg)),
-      alleKodeverk
+      alleKodeverk,
     );
   }
   return [];

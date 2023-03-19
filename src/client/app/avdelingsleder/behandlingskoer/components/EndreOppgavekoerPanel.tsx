@@ -1,8 +1,8 @@
 import React, { FunctionComponent, useEffect, useMemo } from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
-import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
+import { WrappedComponentProps, injectIntl } from 'react-intl';
 import { K9LosApiKeys } from 'api/k9LosApi';
 import RestApiState from 'api/rest-api-hooks/src/RestApiState';
+import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
 import { Oppgaveko } from '../oppgavekoTsType';
 import GjeldendeOppgavekoerTabell from './GjeldendeOppgavekoerTabell';
 

@@ -42,13 +42,7 @@ class CalendarToggleButton extends Component<OwnProps, StateProps> {
   }
 
   render() {
-    const {
-      className,
-      inputOffsetTop,
-      inputOffsetWidth,
-      disabled,
-      toggleShowCalendar,
-    } = this.props;
+    const { className, inputOffsetTop, inputOffsetWidth, disabled, toggleShowCalendar } = this.props;
 
     const { buttonWidth } = this.state;
 

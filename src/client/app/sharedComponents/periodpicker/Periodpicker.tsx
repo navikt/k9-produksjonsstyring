@@ -1,13 +1,11 @@
-import React, { ReactNode, Component } from 'react';
+import React, { Component, ReactNode } from 'react';
+import { DateUtils } from 'react-day-picker';
 import moment from 'moment';
 import { Input } from 'nav-frontend-skjema';
-import { DateUtils } from 'react-day-picker';
-
 import { haystack } from 'utils/arrayUtils';
 import { DDMMYYYY_DATE_FORMAT } from 'utils/formats';
 import CalendarToggleButton from '../datepicker/CalendarToggleButton';
 import PeriodCalendarOverlay from './PeriodCalendarOverlay';
-
 import styles from './periodpicker.css';
 
 const getStartDateInput = props => haystack(props, props.names[0]).input;

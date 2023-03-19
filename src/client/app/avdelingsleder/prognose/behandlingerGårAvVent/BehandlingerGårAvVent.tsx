@@ -1,17 +1,16 @@
 import React, { FunctionComponent, useState } from 'react';
-
-import { injectIntl, WrappedComponentProps } from 'react-intl';
-import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
-import { ALLE_YTELSETYPER_VALGT, punsjKodeverkNavn, UKE_2 } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
-import { IBehandlingerSomGarAvVentType } from './behandlingerSomGårAvVentType';
-import BehandlingerGårAvVentGraf from './BehandlingerGårAvVentGraf';
+import { WrappedComponentProps, injectIntl } from 'react-intl';
+import { RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
+import { useGlobalStateRestApiData } from 'api/rest-api-hooks';
 import GrafContainer from 'avdelingsleder/GrafContainer';
+import { ALLE_YTELSETYPER_VALGT, UKE_2, punsjKodeverkNavn } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
+import AlleKodeverk from 'kodeverk/alleKodeverkTsType';
+import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
+import kodeverkTyper from 'kodeverk/kodeverkTyper';
+import { getKodeverkFraKode } from 'utils/kodeverkUtils';
 import { getValueFromLocalStorage } from 'utils/localStorageHelper';
-import { getKodeverkFraKode } from "utils/kodeverkUtils";
-import kodeverkTyper from "kodeverk/kodeverkTyper";
-import { useGlobalStateRestApiData } from "api/rest-api-hooks";
-import { RestApiGlobalStatePathsKeys } from "api/k9LosApi";
-import AlleKodeverk from "kodeverk/alleKodeverkTsType";
+import BehandlingerGårAvVentGraf from './BehandlingerGårAvVentGraf';
+import { IBehandlingerSomGarAvVentType } from './behandlingerSomGårAvVentType';
 
 interface OwnProps {
   behandlingerSomGårAvVent: IBehandlingerSomGarAvVentType[];
@@ -54,16 +53,19 @@ const BehandlingerGårAvVent: FunctionComponent<OwnProps & WrappedComponentProps
   );
 
   const LivetsSluttfaseBehandlinger: IBehandlingerSomGarAvVentType[] = behandlingerSomGårAvVent.filter(
-    behandling => behandling.fagsakYtelseType === fagsakYtelseType.PPN &&
-      getKodeverkFraKode(behandling.behandlingType, kodeverkTyper.BEHANDLING_TYPE, alleKodeverk) !== punsjKodeverkNavn
+    behandling =>
+      behandling.fagsakYtelseType === fagsakYtelseType.PPN &&
+      getKodeverkFraKode(behandling.behandlingType, kodeverkTyper.BEHANDLING_TYPE, alleKodeverk) !== punsjKodeverkNavn,
   );
 
   const PunsjBehandlinger: IBehandlingerSomGarAvVentType[] = behandlingerSomGårAvVent.filter(
-    behandling => getKodeverkFraKode(behandling.behandlingType, kodeverkTyper.BEHANDLING_TYPE, alleKodeverk) === punsjKodeverkNavn,
+    behandling =>
+      getKodeverkFraKode(behandling.behandlingType, kodeverkTyper.BEHANDLING_TYPE, alleKodeverk) === punsjKodeverkNavn,
   );
 
   const AlleBehandlingerUtomPunsj: IBehandlingerSomGarAvVentType[] = behandlingerSomGårAvVent.filter(
-    behandling => getKodeverkFraKode(behandling.behandlingType, kodeverkTyper.BEHANDLING_TYPE, alleKodeverk) !== punsjKodeverkNavn,
+    behandling =>
+      getKodeverkFraKode(behandling.behandlingType, kodeverkTyper.BEHANDLING_TYPE, alleKodeverk) !== punsjKodeverkNavn,
   );
 
   const hentBehandlingerKnyttetTilYtelseType = () => {

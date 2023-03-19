@@ -1,10 +1,8 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
-
-import Image from 'sharedComponents/Image';
 import endretFelt from 'images/sharedComponents/endret_felt.svg';
-
+import PropTypes from 'prop-types';
+import Image from 'sharedComponents/Image';
 import styles from './editedIcon.css';
 
 const classNames = classnames.bind(styles);

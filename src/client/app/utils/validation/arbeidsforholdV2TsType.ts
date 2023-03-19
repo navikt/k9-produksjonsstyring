@@ -1,8 +1,8 @@
+import ArbeidsforholdId from './arbeidsforholdIdTsType';
+import Arbeidsgiver from './arbeidsgiverTsType';
+import Inntektsmelding from './inntektsmeldingTsType';
 import Kodeverk from './kodeverkTsType';
-import ArbeidsforholdId from "./arbeidsforholdIdTsType";
-import Arbeidsgiver from "./arbeidsgiverTsType";
-import Periode from "./periodeTsType";
-import Inntektsmelding from "./inntektsmeldingTsType";
+import Periode from './periodeTsType';
 
 type Arbeidsforhold = Readonly<{
   id?: string;

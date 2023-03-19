@@ -1,12 +1,16 @@
 import React, { FunctionComponent, useCallback, useEffect } from 'react';
-import { injectIntl, WrappedComponentProps, FormattedMessage } from 'react-intl';
-
 import { Form } from 'react-final-form';
+import { FormattedMessage, WrappedComponentProps, injectIntl } from 'react-intl';
 import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
-import { Normaltekst, Element } from 'nav-frontend-typografi';
-
+import { Element, Normaltekst } from 'nav-frontend-typografi';
+import NavAnsatt from 'app/navAnsattTsType';
+import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
+import RestApiState from 'api/rest-api-hooks/src/RestApiState';
+import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
+import { DatepickerField, InputField, TextAreaField } from 'form/FinalFields';
+import Modal from 'sharedComponents/Modal';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
-import { FlexContainer, FlexRow, FlexColumn } from 'sharedComponents/flexGrid';
+import { FlexColumn, FlexContainer, FlexRow } from 'sharedComponents/flexGrid';
 import {
   dateAfterOrEqual,
   hasValidDate,
@@ -15,16 +19,9 @@ import {
   minLength,
   required,
 } from 'utils/validation/validators';
-import { TextAreaField, InputField, DatepickerField } from 'form/FinalFields';
-import Modal from 'sharedComponents/Modal';
-import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
-import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
-import RestApiState from 'api/rest-api-hooks/src/RestApiState';
-import NavAnsatt from 'app/navAnsattTsType';
-import { Saksbehandler } from '../../saksbehandlerTsType';
-
-import styles from './flyttReservasjonModal.css';
 import useGlobalStateRestApiData from '../../../../api/rest-api-hooks/src/global-data/useGlobalStateRestApiData';
+import { Saksbehandler } from '../../saksbehandlerTsType';
+import styles from './flyttReservasjonModal.css';
 
 const minLength3 = minLength(3);
 const maxLength1500 = maxLength(1500);

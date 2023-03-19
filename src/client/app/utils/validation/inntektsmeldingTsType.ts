@@ -1,8 +1,8 @@
-import Kodeverk from "./kodeverkTsType";
+import Kodeverk from './kodeverkTsType';
 
 type Inntektsmelding = Readonly<{
   journalpostId?: string;
-  mottattTidspunkt?:string;
+  mottattTidspunkt?: string;
   status?: Kodeverk;
   begrunnelse?: string;
 }>;

@@ -1,25 +1,19 @@
 import React from 'react';
-import { expect } from 'chai';
 import { Form } from 'react-final-form';
-
+import { expect } from 'chai';
 import { mountWithIntl } from '../../../../../setup/testHelpers/intl-enzyme-test-helper';
 import SelectField from './SelectField';
 
 const selectValues = [
-  <option value="true" key="option1">Ja</option>,
-  <option value="false" key="option2">Nei</option>,
+  <option value="true" key="option1">
+    Ja
+  </option>,
+  <option value="false" key="option2">
+    Nei
+  </option>,
 ];
 
-const mountFieldInForm = (field) => mountWithIntl(
-  <Form
-    onSubmit={() => undefined}
-    render={() => (
-      <>
-        {field}
-      </>
-    )}
-  />,
-);
+const mountFieldInForm = field => mountWithIntl(<Form onSubmit={() => undefined} render={() => <>{field}</>} />);
 
 describe('<SelectField>', () => {
   it('Skal rendre select', () => {

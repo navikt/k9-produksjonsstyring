@@ -1,6 +1,5 @@
-import React, { ReactNode, FunctionComponent } from 'react';
+import React, { FunctionComponent, ReactNode } from 'react';
 import { Normaltekst, Undertekst } from 'nav-frontend-typografi';
-
 import styles from './labelWithHeader.css';
 
 interface OwnProps {

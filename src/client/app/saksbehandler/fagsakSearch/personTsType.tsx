@@ -3,6 +3,6 @@ type Person = Readonly<{
   personnummer: string;
   kjoenn: string;
   doedsdato?: string;
-}>
+}>;
 
 export default Person;

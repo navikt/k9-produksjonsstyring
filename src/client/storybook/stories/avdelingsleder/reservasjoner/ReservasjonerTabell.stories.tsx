@@ -1,9 +1,7 @@
-import React, { useState, useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { action } from '@storybook/addon-actions';
-
 import ReservasjonerTabell from 'avdelingsleder/reservasjoner/components/ReservasjonerTabell';
 import behandlingType from 'kodeverk/behandlingType';
-
 import withIntl from '../../../decorators/withIntl.js';
 
 export default {
@@ -24,28 +22,31 @@ export const skalViseAtIngenReservasjonerBleFunnet = () => (
 );
 
 export const skalViseTabellMedReservasjoner = () => {
-  const [reservasjoner, fjernReservasjon] = useState([{
-    reservertAv: 'Espen Utvikler',
-    reservertTilTidspunkt: '2020-01-10',
-    oppgaveId: 1,
-    oppgaveSaksNr: 122234,
-    behandlingType: {
-      kode: behandlingType.FORSTEGANGSSOKNAD,
-      navn: 'Førstegangssøknad',
+  const [reservasjoner, fjernReservasjon] = useState([
+    {
+      reservertAv: 'Espen Utvikler',
+      reservertTilTidspunkt: '2020-01-10',
+      oppgaveId: 1,
+      oppgaveSaksNr: 122234,
+      behandlingType: {
+        kode: behandlingType.FORSTEGANGSSOKNAD,
+        navn: 'Førstegangssøknad',
+      },
     },
-  }, {
-    reservertAv: 'Eirik Utvikler',
-    reservertTilTidspunkt: '2020-01-01',
-    oppgaveId: 2,
-    oppgaveSaksNr: 23454,
-    behandlingType: {
-      kode: behandlingType.KLAGE,
-      navn: 'Klage',
+    {
+      reservertAv: 'Eirik Utvikler',
+      reservertTilTidspunkt: '2020-01-01',
+      oppgaveId: 2,
+      oppgaveSaksNr: 23454,
+      behandlingType: {
+        kode: behandlingType.KLAGE,
+        navn: 'Klage',
+      },
     },
-  }]);
+  ]);
 
-  const opphevReservasjon = useCallback((oppgaveId) => {
-    fjernReservasjon((oldState) => oldState.filter((s) => s.oppgaveId !== oppgaveId));
+  const opphevReservasjon = useCallback(oppgaveId => {
+    fjernReservasjon(oldState => oldState.filter(s => s.oppgaveId !== oppgaveId));
   }, []);
 
   return (

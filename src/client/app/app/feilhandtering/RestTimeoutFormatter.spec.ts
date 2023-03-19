@@ -1,7 +1,6 @@
 import { expect } from 'chai';
-
-import RestTimeoutFormatter from './RestTimeoutFormatter';
 import ErrorMessage from './ErrorMessage';
+import RestTimeoutFormatter from './RestTimeoutFormatter';
 import ErrorEventType from './errorEventType';
 
 describe('RestTimeoutFormatter', () => {
@@ -21,7 +20,8 @@ describe('RestTimeoutFormatter', () => {
       message: 'timeout',
       location: 'url',
     };
-    expect(new RestTimeoutFormatter().format(errorData))
-      .to.eql(ErrorMessage.withMessageCode('Rest.ErrorMessage.PollingTimeout', errorData));
+    expect(new RestTimeoutFormatter().format(errorData)).to.eql(
+      ErrorMessage.withMessageCode('Rest.ErrorMessage.PollingTimeout', errorData),
+    );
   });
 });

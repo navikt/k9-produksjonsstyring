@@ -1,15 +1,14 @@
-import { CheckboxField, RadioGroupField, RadioOption } from 'form/FinalFields';
-import kodeverkTyper from 'kodeverk/kodeverkTyper';
 import React, { FunctionComponent } from 'react';
 import { FormattedMessage } from 'react-intl';
-import ArrowBox from 'sharedComponents/ArrowBox';
-import VerticalSpacer from 'sharedComponents/VerticalSpacer';
-
 import { Label } from '@navikt/ds-react';
 import { K9LosApiKeys } from 'api/k9LosApi';
 import useKodeverk from 'api/rest-api-hooks/src/global-data/useKodeverk';
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
+import { CheckboxField, RadioGroupField, RadioOption } from 'form/FinalFields';
 import KoSorteringType from 'kodeverk/KoSorteringTsType';
+import kodeverkTyper from 'kodeverk/kodeverkTyper';
+import ArrowBox from 'sharedComponents/ArrowBox';
+import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 
 interface OwnProps {
   valgtOppgavekoId: string;

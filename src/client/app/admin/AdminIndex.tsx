@@ -1,23 +1,21 @@
 import React, { FunctionComponent } from 'react';
 import { FormattedMessage } from 'react-intl';
-import classnames from 'classnames/bind';
 import { NavLink } from 'react-router-dom';
+import classnames from 'classnames/bind';
 import Panel from 'nav-frontend-paneler';
 import Tabs from 'nav-frontend-tabs';
 import { Undertittel } from 'nav-frontend-typografi';
-
+import useTrackRouteParam from 'app/data/trackRouteParam';
+import NavAnsatt from 'app/navAnsattTsType';
+import { getPanelLocationCreator } from 'app/paths';
+import { RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
+import useGlobalStateRestApiData from 'api/rest-api-hooks/src/global-data/useGlobalStateRestApiData';
 import LoadingPanel from 'sharedComponents/LoadingPanel';
 import { parseQueryString } from 'utils/urlUtils';
-import { getPanelLocationCreator } from 'app/paths';
-import useGlobalStateRestApiData from 'api/rest-api-hooks/src/global-data/useGlobalStateRestApiData';
-import NavAnsatt from 'app/navAnsattTsType';
-import { RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
-import useTrackRouteParam from 'app/data/trackRouteParam';
-import IkkeTilgangTilAvdelingslederPanel from './components/IkkeTilgangTilAvdelingslederPanel';
 import AdminPanels from './AdminPanels';
-
 import styles from './adminIndex.css';
 import AdminDashboard from './components/AdminDashboard';
+import IkkeTilgangTilAvdelingslederPanel from './components/IkkeTilgangTilAvdelingslederPanel';
 import EndreDriftsmeldingerIndex from './driftsmeldinger/EndreDriftsmeldingerIndex';
 
 const classNames = classnames.bind(styles);

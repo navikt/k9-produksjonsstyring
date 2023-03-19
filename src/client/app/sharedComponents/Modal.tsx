@@ -1,6 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import NavModal from 'nav-frontend-modal';
+import PropTypes from 'prop-types';
 
 /**
  * Modal

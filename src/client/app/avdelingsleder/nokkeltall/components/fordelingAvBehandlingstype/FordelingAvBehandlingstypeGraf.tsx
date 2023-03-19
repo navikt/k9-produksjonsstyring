@@ -1,14 +1,15 @@
 import React, { FunctionComponent, useMemo } from 'react';
-
-import { injectIntl, WrappedComponentProps } from 'react-intl';
-
-import behandlingType from 'kodeverk/behandlingType';
-import ReactECharts from 'sharedComponents/echart/ReactEcharts';
+import { WrappedComponentProps, injectIntl } from 'react-intl';
+import { RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
+import { useGlobalStateRestApiData } from 'api/rest-api-hooks';
 import { punsjKodeverkNavn } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
-import kodeverkTyper from 'kodeverk/kodeverkTyper';
+import AlleKodeverk from 'kodeverk/alleKodeverkTsType';
+import behandlingType from 'kodeverk/behandlingType';
 import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
-import AlleOppgaver from './alleOppgaverTsType';
-
+import KodeverkMedNavn from 'kodeverk/kodeverkMedNavnTsType';
+import kodeverkTyper from 'kodeverk/kodeverkTyper';
+import ReactECharts from 'sharedComponents/echart/ReactEcharts';
+import { getKodeverkFraKode } from 'utils/kodeverkUtils';
 import {
   fargerForLegendsFordelingAvBehandlingstype,
   grafHeight,
@@ -19,11 +20,7 @@ import {
   yXAxisFontSizeSaksbehandlerNokkeltall,
 } from '../../../../../styles/echartStyle';
 import useKodeverk from '../../../../api/rest-api-hooks/src/global-data/useKodeverk';
-import { getKodeverkFraKode } from "utils/kodeverkUtils";
-import AlleKodeverk from "kodeverk/alleKodeverkTsType";
-import { useGlobalStateRestApiData } from "api/rest-api-hooks";
-import { RestApiGlobalStatePathsKeys } from "api/k9LosApi";
-import KodeverkMedNavn from "kodeverk/kodeverkMedNavnTsType";
+import AlleOppgaver from './alleOppgaverTsType';
 
 const behandlingstypeOrder = [
   behandlingType.TILBAKEBETALING,
@@ -36,14 +33,20 @@ const behandlingstypeOrder = [
 
 const fagytelseTypeOrder = [fagsakYtelseType.OMSORGSPENGER, fagsakYtelseType.PLEIEPENGER_SYKT_BARN];
 
-const slåSammen = (oppgaverForAvdeling: AlleOppgaver[], erPunsjValgt: boolean, alleKodeverk: AlleKodeverk): number[] => {
+const slåSammen = (
+  oppgaverForAvdeling: AlleOppgaver[],
+  erPunsjValgt: boolean,
+  alleKodeverk: AlleKodeverk,
+): number[] => {
   const test = oppgaverForAvdeling.reduce((acc, o) => {
     const index = erPunsjValgt
       ? fagytelseTypeOrder.findIndex(bo => bo === o.fagsakYtelseType) + 1
       : behandlingstypeOrder.findIndex(bo => bo === o.behandlingType) + 1;
     if (
-      (erPunsjValgt && getKodeverkFraKode(o.behandlingType, kodeverkTyper.BEHANDLING_TYPE, alleKodeverk) === punsjKodeverkNavn) ||
-      (!erPunsjValgt && getKodeverkFraKode(o.behandlingType, kodeverkTyper.BEHANDLING_TYPE, alleKodeverk) !== punsjKodeverkNavn)
+      (erPunsjValgt &&
+        getKodeverkFraKode(o.behandlingType, kodeverkTyper.BEHANDLING_TYPE, alleKodeverk) === punsjKodeverkNavn) ||
+      (!erPunsjValgt &&
+        getKodeverkFraKode(o.behandlingType, kodeverkTyper.BEHANDLING_TYPE, alleKodeverk) !== punsjKodeverkNavn)
     ) {
       return {
         ...acc,
@@ -81,7 +84,6 @@ const FordelingAvBehandlingstypeGraf: FunctionComponent<OwnProps & WrappedCompon
   const fagytelseTyper = useKodeverk(kodeverkTyper.FAGSAK_YTELSE_TYPE);
   const alleKodeverk: AlleKodeverk = useGlobalStateRestApiData(RestApiGlobalStatePathsKeys.KODEVERK);
 
-
   const finnBehandlingTypeNavn = useMemo(() => {
     if (erPunsjValgt) {
       return ['Punsj'];
@@ -102,7 +104,7 @@ const FordelingAvBehandlingstypeGraf: FunctionComponent<OwnProps & WrappedCompon
       slåSammen(
         alleOppgaver.filter(o => o.tilBehandling),
         erPunsjValgt,
-        alleKodeverk
+        alleKodeverk,
       ),
     [alleOppgaver],
   );
@@ -111,7 +113,7 @@ const FordelingAvBehandlingstypeGraf: FunctionComponent<OwnProps & WrappedCompon
       slåSammen(
         alleOppgaver.filter(o => !o.tilBehandling),
         erPunsjValgt,
-        alleKodeverk
+        alleKodeverk,
       ),
     [alleOppgaver],
   );

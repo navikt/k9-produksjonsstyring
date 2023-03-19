@@ -1,10 +1,9 @@
 import React from 'react';
-import { expect } from 'chai';
-import sinon from 'sinon';
 import { IntlShape } from 'react-intl';
+import { expect } from 'chai';
 import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
-
-import { shallowWithIntl, intlMock } from '../../../../../../setup/testHelpers/intl-enzyme-test-helper';
+import sinon from 'sinon';
+import { intlMock, shallowWithIntl } from '../../../../../../setup/testHelpers/intl-enzyme-test-helper';
 import SletteSaksbehandlerModal from './SletteSaksbehandlerModal';
 
 describe('<SletteSaksbehandlerModal>', () => {
@@ -19,12 +18,14 @@ describe('<SletteSaksbehandlerModal>', () => {
       oppgavekoer: ['OMP'],
     };
 
-    const wrapper = shallowWithIntl(<SletteSaksbehandlerModal.WrappedComponent
-      intl={intl}
-      valgtSaksbehandler={saksbehandler}
-      closeSletteModal={sinon.spy()}
-      fjernSaksbehandler={sinon.spy()}
-    />);
+    const wrapper = shallowWithIntl(
+      <SletteSaksbehandlerModal.WrappedComponent
+        intl={intl}
+        valgtSaksbehandler={saksbehandler}
+        closeSletteModal={sinon.spy()}
+        fjernSaksbehandler={sinon.spy()}
+      />,
+    );
 
     expect(wrapper.find(Hovedknapp)).to.have.length(1);
     expect(wrapper.find(Knapp)).to.have.length(1);
@@ -39,12 +40,14 @@ describe('<SletteSaksbehandlerModal>', () => {
     };
     const submitFn = sinon.spy();
 
-    const wrapper = shallowWithIntl(<SletteSaksbehandlerModal.WrappedComponent
-      intl={intl}
-      valgtSaksbehandler={saksbehandler}
-      closeSletteModal={sinon.spy()}
-      fjernSaksbehandler={submitFn}
-    />);
+    const wrapper = shallowWithIntl(
+      <SletteSaksbehandlerModal.WrappedComponent
+        intl={intl}
+        valgtSaksbehandler={saksbehandler}
+        closeSletteModal={sinon.spy()}
+        fjernSaksbehandler={submitFn}
+      />,
+    );
 
     const sletteknapp = wrapper.find(Hovedknapp);
     expect(sletteknapp).to.have.length(1);

@@ -1,12 +1,10 @@
 import React from 'react';
 import ReactModal from 'react-modal';
 import { action } from '@storybook/addon-actions';
-
-import OppgaveErReservertAvAnnenModal from 'saksbehandler/components/OppgaveErReservertAvAnnenModal';
 import behandlingStatus from 'kodeverk/behandlingStatus';
 import behandlingType from 'kodeverk/behandlingType';
 import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
-
+import OppgaveErReservertAvAnnenModal from 'saksbehandler/components/OppgaveErReservertAvAnnenModal';
 import withIntl from '../../decorators/withIntl';
 
 export default {

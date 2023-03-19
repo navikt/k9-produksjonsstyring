@@ -1,8 +1,5 @@
-import {
-  useState, useEffect, useContext, DependencyList,
-} from 'react';
+import { DependencyList, useContext, useEffect, useState } from 'react';
 import { RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
-
 import { RestApiDispatchContext, RestApiRequestContext } from '../RestApiContext';
 import RestApiState from '../RestApiState';
 
@@ -25,7 +22,11 @@ const defaultOptions = {
 /**
  * Hook som henter data fra backend (ved mount) og deretter lagrer i @see RestApiContext
  */
-function useGlobalStateRestApi<T>(key: RestApiGlobalStatePathsKeys, params: any = {}, options: Options = defaultOptions):RestApiData<T> {
+function useGlobalStateRestApi<T>(
+  key: RestApiGlobalStatePathsKeys,
+  params: any = {},
+  options: Options = defaultOptions,
+): RestApiData<T> {
   const [data, setData] = useState({
     state: RestApiState.LOADING,
     error: undefined,
@@ -45,8 +46,9 @@ function useGlobalStateRestApi<T>(key: RestApiGlobalStatePathsKeys, params: any 
         data: undefined,
       });
 
-      requestApi.startRequest(key, params)
-        .then((dataRes) => {
+      requestApi
+        .startRequest(key, params)
+        .then(dataRes => {
           dispatch({ type: 'success', key, data: dataRes.payload });
           setData({
             state: RestApiState.SUCCESS,
@@ -54,7 +56,7 @@ function useGlobalStateRestApi<T>(key: RestApiGlobalStatePathsKeys, params: any 
             error: undefined,
           });
         })
-        .catch((error) => {
+        .catch(error => {
           setData({
             state: RestApiState.ERROR,
             data: undefined,

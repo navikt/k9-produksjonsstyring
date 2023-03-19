@@ -1,12 +1,11 @@
-import sinon from 'sinon';
 import { expect } from 'chai';
-
-import RestApiRequestContext from './RestApiRequestContext';
-import NotificationMapper from './NotificationMapper';
-import asyncPollingStatus from './asyncPollingStatus';
-import RequestRunner from './RequestRunner';
+import sinon from 'sinon';
 import RequestConfig from '../RequestConfig';
+import NotificationMapper from './NotificationMapper';
 import { REQUEST_POLLING_CANCELLED } from './RequestProcess';
+import RequestRunner from './RequestRunner';
+import RestApiRequestContext from './RestApiRequestContext';
+import asyncPollingStatus from './asyncPollingStatus';
 
 const httpClientGeneralMock = {
   get: () => undefined,
@@ -83,24 +82,26 @@ describe('RequestRunner', () => {
 
     const httpClientMock = {
       ...httpClientGeneralMock,
-      getAsync: () => Promise.resolve({
-        data: 'test',
-        status: HTTP_ACCEPTED,
-        headers: {
-          location: 'test',
-        },
-      }),
-      get: () => Promise.resolve({
-        data: {
-          status: asyncPollingStatus.PENDING,
-          message: 'Polling continues',
-          pollIntervalMillis: 0,
-        },
-        status: 200,
-        headers: {
-          location: '',
-        },
-      }),
+      getAsync: () =>
+        Promise.resolve({
+          data: 'test',
+          status: HTTP_ACCEPTED,
+          headers: {
+            location: 'test',
+          },
+        }),
+      get: () =>
+        Promise.resolve({
+          data: {
+            status: asyncPollingStatus.PENDING,
+            message: 'Polling continues',
+            pollIntervalMillis: 0,
+          },
+          status: 200,
+          headers: {
+            location: '',
+          },
+        }),
     };
 
     const requestConfig = new RequestConfig('BEHANDLING', '/behandling').withGetAsyncMethod();
@@ -113,7 +114,10 @@ describe('RequestRunner', () => {
     const runner = new RequestRunner(httpClientMock, context);
     const mapper = new NotificationMapper();
     // Etter en runde med polling vil en stoppe prosessen via event
-    mapper.addUpdatePollingMessageEventHandler(() => { runner.cancelRequest(); return Promise.resolve(''); });
+    mapper.addUpdatePollingMessageEventHandler(() => {
+      runner.cancelRequest();
+      return Promise.resolve('');
+    });
 
     const response = await runner.startProcess(params, mapper);
 

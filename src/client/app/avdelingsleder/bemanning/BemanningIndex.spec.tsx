@@ -1,7 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
-
 import BemanningIndex from './BemanningIndex';
 import SaksbehandlerePanel from './components/SaksbehandlerePanel';
 

@@ -1,8 +1,6 @@
 import React from 'react';
-
-import PersonInfo from 'saksbehandler/fagsakSearch/components/person/PersonInfo';
 import diskresjonskodeType from 'kodeverk/diskresjonskodeType';
-
+import PersonInfo from 'saksbehandler/fagsakSearch/components/person/PersonInfo';
 import withIntl from '../../../decorators/withIntl';
 
 export default {

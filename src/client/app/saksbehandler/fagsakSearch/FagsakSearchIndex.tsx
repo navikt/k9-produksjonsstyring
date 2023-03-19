@@ -1,19 +1,18 @@
 import React, { FunctionComponent, useState } from 'react';
-import OppgaveErReservertAvAnnenModal from 'saksbehandler/components/OppgaveErReservertAvAnnenModal';
+import { WrappedComponentProps, injectIntl } from 'react-intl';
+import NavAnsatt from 'app/navAnsattTsType';
 import { getK9punsjRef, getK9sakHref, getOmsorgspengerRef } from 'app/paths';
-
+import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
+import { ErrorTypes, errorOfType, getErrorResponseData } from 'api/rest-api';
+import useGlobalStateRestApiData from 'api/rest-api-hooks/src/global-data/useGlobalStateRestApiData';
+import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
+import { FlyttReservasjonsmodal } from 'saksbehandler/components/FlyttReservasjonModal/FlyttReservasjonModal';
+import OppgaveErReservertAvAnnenModal from 'saksbehandler/components/OppgaveErReservertAvAnnenModal';
+import { SokeResultat } from 'saksbehandler/fagsakSearch/sokeResultatTsType';
 import { OppgaveStatus } from 'saksbehandler/oppgaveStatusTsType';
 import Oppgave from 'saksbehandler/oppgaveTsType';
-import { SokeResultat } from 'saksbehandler/fagsakSearch/sokeResultatTsType';
-import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
-import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
-import useGlobalStateRestApiData from 'api/rest-api-hooks/src/global-data/useGlobalStateRestApiData';
-import NavAnsatt from 'app/navAnsattTsType';
-import { errorOfType, ErrorTypes, getErrorResponseData } from 'api/rest-api';
-import { FlyttReservasjonsmodal } from 'saksbehandler/components/FlyttReservasjonModal/FlyttReservasjonModal';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
-import FagsakSearch from './components/FagsakSearch';
 import OppgaveSystem from '../../types/OppgaveSystem';
+import FagsakSearch from './components/FagsakSearch';
 
 interface OwnProps {
   k9sakUrl: string;

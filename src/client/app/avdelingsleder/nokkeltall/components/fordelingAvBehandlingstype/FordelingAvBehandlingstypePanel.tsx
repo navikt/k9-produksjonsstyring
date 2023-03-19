@@ -1,13 +1,14 @@
 import React, { FunctionComponent, useState } from 'react';
 import { useIntl } from 'react-intl';
-import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
-import kodeverkTyper from 'kodeverk/kodeverkTyper';
+import useKodeverk from 'api/rest-api-hooks/src/global-data/useKodeverk';
+import GrafContainer from 'avdelingsleder/GrafContainer';
+import FordelingAvBehandlingstypeGraf from 'avdelingsleder/nokkeltall/components/fordelingAvBehandlingstype/FordelingAvBehandlingstypeGraf';
 import AlleOppgaver from 'avdelingsleder/nokkeltall/components/fordelingAvBehandlingstype/alleOppgaverTsType';
 import { ALLE_YTELSETYPER_VALGT, sjekkOmOppgaveSkalLeggesTil } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
-import useKodeverk from 'api/rest-api-hooks/src/global-data/useKodeverk';
-import FordelingAvBehandlingstypeGraf from 'avdelingsleder/nokkeltall/components/fordelingAvBehandlingstype/FordelingAvBehandlingstypeGraf';
+import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
+import kodeverkTyper from 'kodeverk/kodeverkTyper';
 import { getValueFromLocalStorage } from 'utils/localStorageHelper';
-import GrafContainer from 'avdelingsleder/GrafContainer';
+
 interface OwnProps {
   alleOppgaver?: AlleOppgaver[];
 }

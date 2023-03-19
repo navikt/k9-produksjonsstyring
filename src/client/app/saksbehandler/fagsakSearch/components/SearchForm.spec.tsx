@@ -1,13 +1,13 @@
 import React from 'react';
-import { expect } from 'chai';
-import { IntlShape } from 'react-intl';
-import { shallow } from 'enzyme';
 import { Form } from 'react-final-form';
-import sinon from 'sinon';
+import { IntlShape } from 'react-intl';
+import { expect } from 'chai';
+import { shallow } from 'enzyme';
 import { Knapp } from 'nav-frontend-knapper';
+import sinon from 'sinon';
 import * as useRestApiData from 'api/rest-api-hooks/src/global-data/useGlobalStateRestApiData';
 import { InputField } from 'form/FinalFields';
-import { shallowWithIntl, intlMock } from '../../../../../../setup/testHelpers/intl-enzyme-test-helper';
+import { intlMock, shallowWithIntl } from '../../../../../../setup/testHelpers/intl-enzyme-test-helper';
 import SearchForm from './SearchForm';
 
 describe('<SearchForm>', () => {
@@ -17,9 +17,7 @@ describe('<SearchForm>', () => {
     ...intlMock,
   };
   it('skal ha et søkefelt og en søkeknapp', () => {
-    contextStub = sinon
-      .stub(useRestApiData, 'default')
-      .callsFake(() => ({ kanSaksbehandle: true }));
+    contextStub = sinon.stub(useRestApiData, 'default').callsFake(() => ({ kanSaksbehandle: true }));
     const formProps = {
       handleSubmit: sinon.spy(),
       values: { searchString: '' },
@@ -42,9 +40,7 @@ describe('<SearchForm>', () => {
   });
 
   it('skal utføre søk når en trykker på søkeknapp', () => {
-    contextStub = sinon
-      .stub(useRestApiData, 'default')
-      .callsFake(() => ({ kanSaksbehandle: true }));
+    contextStub = sinon.stub(useRestApiData, 'default').callsFake(() => ({ kanSaksbehandle: true }));
     const onButtonClick = sinon.spy();
     const formProps = {
       handleSubmit: onButtonClick,

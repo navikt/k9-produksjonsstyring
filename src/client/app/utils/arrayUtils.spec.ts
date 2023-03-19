@@ -1,12 +1,9 @@
 import { expect } from 'chai';
-
-import {
-  range, haystack,
-} from './arrayUtils';
+import { haystack, range } from './arrayUtils';
 
 describe('arrayUtils', () => {
   describe('range', () => {
-    it('skal lage en rekkefølge fra og med 0 med lengde \'length\'', () => {
+    it("skal lage en rekkefølge fra og med 0 med lengde 'length'", () => {
       const rangeZero = range(0);
       const rangeOne = range(1);
       const rangeTwo = range(2);

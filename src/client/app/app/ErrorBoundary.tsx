@@ -1,4 +1,4 @@
-import { Component, ReactNode, ErrorInfo } from 'react';
+import { Component, ErrorInfo, ReactNode } from 'react';
 import { captureException, withScope } from '@sentry/browser';
 
 interface OwnProps {
@@ -19,21 +19,23 @@ export class ErrorBoundary extends Component<OwnProps, State> {
   componentDidCatch(error: Error, info: ErrorInfo): void {
     const { errorMessageCallback } = this.props;
 
-    withScope((scope) => {
-      Object.keys(info).forEach((key) => {
+    withScope(scope => {
+      Object.keys(info).forEach(key => {
         // @ts-ignore Fiks
         scope.setExtra(key, info[key]);
         captureException(error);
       });
     });
 
-    errorMessageCallback([
-      error.toString(),
-      info.componentStack
-        .split('\n')
-        .map((line) => line.trim())
-        .find((line) => !!line),
-    ].join(' '));
+    errorMessageCallback(
+      [
+        error.toString(),
+        info.componentStack
+          .split('\n')
+          .map(line => line.trim())
+          .find(line => !!line),
+      ].join(' '),
+    );
 
     // eslint-disable-next-line no-console
     console.error(error);

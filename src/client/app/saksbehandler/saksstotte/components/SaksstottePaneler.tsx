@@ -1,8 +1,6 @@
 import React, { FunctionComponent } from 'react';
-
-import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import SaksbehandlerNokkeltallIndex from 'saksbehandler/saksstotte/nokkeltall/SaksbehandlerNokkeltallIndex';
-
+import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import SistBehandledeSaker from './SistBehandledeSaker';
 
 /**

@@ -1,6 +1,6 @@
-import ErrorEventType from './errorEventType';
 import ErrorMessage from './ErrorMessage';
 import Formatter from './Formatter';
+import ErrorEventType from './errorEventType';
 
 const TIMEOUT_MESSAGE_CODE = 'Rest.ErrorMessage.PollingTimeout';
 

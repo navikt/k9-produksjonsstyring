@@ -1,21 +1,11 @@
 import React from 'react';
-import { expect } from 'chai';
 import { Form } from 'react-final-form';
-
+import { expect } from 'chai';
 import { mountWithIntl } from '../../../../../setup/testHelpers/intl-enzyme-test-helper';
 import RadioGroupField from './RadioGroupField';
 import RadioOption from './RadioOption';
 
-const mountFieldInForm = (field) => mountWithIntl(
-  <Form
-    onSubmit={() => undefined}
-    render={() => (
-      <>
-        {field}
-      </>
-    )}
-  />,
-);
+const mountFieldInForm = field => mountWithIntl(<Form onSubmit={() => undefined} render={() => <>{field}</>} />);
 
 describe('<RadioGroupField>', () => {
   it('Skal rendre radio inputs', () => {

@@ -1,14 +1,13 @@
 import React from 'react';
 import { screen } from '@testing-library/react';
-import { renderWithAllProviders } from '../../../../../../../setup/testHelpers/testUtils';
-
+import { RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
 import KoSortering from 'kodeverk/KoSortering';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
-import { RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
 import RestApiTestMocker from '../../../../../../../setup/testHelpers/RestApiTestMocker';
-import SorteringVelger from './SorteringVelger';
+import { renderWithAllProviders } from '../../../../../../../setup/testHelpers/testUtils';
 import kodeverk from '../../../../../mocks/kodeverk';
 import KriterierType from '../../../../types/KriterierType';
+import SorteringVelger from './SorteringVelger';
 
 describe('<SorteringVelger>', () => {
   const koSorteringTyper = [

@@ -1,13 +1,31 @@
 import { expect } from 'chai';
-
-import { DDMMYYYY_DATE_FORMAT, ISO_DATE_FORMAT } from 'utils/formats';
 import dayjs from 'dayjs';
+import { DDMMYYYY_DATE_FORMAT, ISO_DATE_FORMAT } from 'utils/formats';
 import {
-  required, requiredIfNotPristine, requiredIfCustomFunctionIsTrue, minLength, maxLength, minValue, maxValue,
-  hasValidInteger, hasValidDecimal, hasValidDate, dateBeforeOrEqual, dateAfterOrEqual, dateRangesNotOverlapping,
-  dateBeforeToday, dateBeforeOrEqualToToday, dateAfterToday, dateAfterOrEqualToToday,
-  hasValidFodselsnummerFormat, hasValidFodselsnummer, hasValidText, hasValidName,
-  hasValidSaksnummerOrFodselsnummerFormat, hasValidPeriod, isWithinOpptjeningsperiode,
+  dateAfterOrEqual,
+  dateAfterOrEqualToToday,
+  dateAfterToday,
+  dateBeforeOrEqual,
+  dateBeforeOrEqualToToday,
+  dateBeforeToday,
+  dateRangesNotOverlapping,
+  hasValidDate,
+  hasValidDecimal,
+  hasValidFodselsnummer,
+  hasValidFodselsnummerFormat,
+  hasValidInteger,
+  hasValidName,
+  hasValidPeriod,
+  hasValidSaksnummerOrFodselsnummerFormat,
+  hasValidText,
+  isWithinOpptjeningsperiode,
+  maxLength,
+  maxValue,
+  minLength,
+  minValue,
+  required,
+  requiredIfCustomFunctionIsTrue,
+  requiredIfNotPristine,
 } from './validators';
 
 const today = dayjs();
@@ -279,14 +297,20 @@ describe('Validators', () => {
 
   describe('dateRangesNotOverlapping', () => {
     it('skal feile når perioder overlapper', () => {
-      const periods = [['2017-10-10', '2017-12-10'], ['2017-01-10', '2017-10-11']];
+      const periods = [
+        ['2017-10-10', '2017-12-10'],
+        ['2017-01-10', '2017-10-11'],
+      ];
       const result = dateRangesNotOverlapping(periods);
       expect(result).has.length(1);
       expect(result[0]).is.eql({ id: 'ValidationMessage.DateRangesOverlapping' });
     });
 
     it('skal ikke feile når perioder ikke overlapper', () => {
-      const periods = [['2017-10-10', '2017-12-10'], ['2017-01-10', '2017-10-09']];
+      const periods = [
+        ['2017-10-10', '2017-12-10'],
+        ['2017-01-10', '2017-10-09'],
+      ];
       const result = dateRangesNotOverlapping(periods);
       expect(result).is.null;
     });
@@ -401,9 +425,9 @@ describe('Validators', () => {
 
   describe('hasValidText', () => {
     it('skal ikke feile når tekst ikke har ugyldig tegn', () => {
-      const result = hasValidText('Hei hei\n'
-        + 'Áá Čč Đđ Ŋŋ Šš Ŧŧ Žž Ää Ææ Øø Åå\n'
-        + 'Lorem + ipsum_dolor, - (sit) amet?! 100%: §2&3="I\'m";');
+      const result = hasValidText(
+        'Hei hei\n' + 'Áá Čč Đđ Ŋŋ Šš Ŧŧ Žž Ää Ææ Øø Åå\n' + 'Lorem + ipsum_dolor, - (sit) amet?! 100%: §2&3="I\'m";',
+      );
       expect(result).is.null;
     });
 
@@ -417,9 +441,7 @@ describe('Validators', () => {
 
   describe('hasValidName', () => {
     it('skal ikke feile når navn ikke har ugyldig tegn', () => {
-      const result = hasValidName('Navn navn'
-        + 'Áá Čč Đđ Ŋŋ Šš Ŧŧ Žž Ää Ææ Øø Åå'
-        + ' - . \' ');
+      const result = hasValidName('Navn navn' + 'Áá Čč Đđ Ŋŋ Šš Ŧŧ Žž Ää Ææ Øø Åå' + " - . ' ");
       expect(result).is.null;
     });
 

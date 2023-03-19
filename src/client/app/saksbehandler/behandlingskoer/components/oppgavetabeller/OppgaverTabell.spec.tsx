@@ -1,20 +1,19 @@
 import React from 'react';
-import { expect } from 'chai';
 import { FormattedMessage, IntlShape } from 'react-intl';
+import { expect } from 'chai';
 import sinon from 'sinon';
-
-import behandlingType from 'kodeverk/behandlingType';
-import behandlingStatus from 'kodeverk/behandlingStatus';
-import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
-import DateLabel from 'sharedComponents/DateLabel';
-import TableRow from 'sharedComponents/TableRow';
-import TableColumn from 'sharedComponents/TableColumn';
 import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
+import behandlingStatus from 'kodeverk/behandlingStatus';
+import behandlingType from 'kodeverk/behandlingType';
+import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
 import { Oppgaveko } from 'saksbehandler/behandlingskoer/oppgavekoTsType';
-import { intlMock, shallowWithIntl } from '../../../../../../../setup/testHelpers/intl-enzyme-test-helper';
+import DateLabel from 'sharedComponents/DateLabel';
+import TableColumn from 'sharedComponents/TableColumn';
+import TableRow from 'sharedComponents/TableRow';
 import RestApiTestMocker from '../../../../../../../setup/testHelpers/RestApiTestMocker';
+import { intlMock, shallowWithIntl } from '../../../../../../../setup/testHelpers/intl-enzyme-test-helper';
+import kodeverk from '../../../../../mocks/kodeverk';
 import { OppgaverTabell } from './OppgaverTabell';
-import kodeverk from "../../../../../mocks/kodeverk";
 
 describe('<OppgaverTabell>', () => {
   const intl: Partial<IntlShape> = {
@@ -29,41 +28,44 @@ describe('<OppgaverTabell>', () => {
     skjermet: false,
   };
 
-  const oppgaverTilBehandling = [{
-    eksternId: '1',
-    status: {
-      erReservert: false,
+  const oppgaverTilBehandling = [
+    {
+      eksternId: '1',
+      status: {
+        erReservert: false,
+      },
+      saksnummer: '1',
+      behandlingId: 2,
+      journalpostId: null,
+      personnummer: '123456789',
+      navn: 'Espen Utvikler',
+      system: 'K9SAK',
+      behandlingstype: behandlingType.FORSTEGANGSSOKNAD,
+      opprettetTidspunkt: '2019-01-02',
+      behandlingsfrist: '2019-03-03',
+      erTilSaksbehandling: true,
+      fagsakYtelseType: fagsakYtelseType.OMSORGSPENGER,
+      behandlingStatus: behandlingStatus.OPPRETTET,
     },
-    saksnummer: '1',
-    behandlingId: 2,
-    journalpostId: null,
-    personnummer: '123456789',
-    navn: 'Espen Utvikler',
-    system: 'K9SAK',
-    behandlingstype: behandlingType.FORSTEGANGSSOKNAD,
-    opprettetTidspunkt: '2019-01-02',
-    behandlingsfrist: '2019-03-03',
-    erTilSaksbehandling: true,
-    fagsakYtelseType: fagsakYtelseType.OMSORGSPENGER,
-    behandlingStatus: behandlingStatus.OPPRETTET,
-  }, {
-    eksternId: '2',
-    status: {
-      erReservert: false,
+    {
+      eksternId: '2',
+      status: {
+        erReservert: false,
+      },
+      saksnummer: '2',
+      behandlingId: 2,
+      journalpostId: null,
+      personnummer: '657643535',
+      navn: 'Espen Solstråle',
+      system: 'FPSAK',
+      behandlingstype: behandlingType.FORSTEGANGSSOKNAD,
+      opprettetTidspunkt: '2018-01-02',
+      behandlingsfrist: '2018-03-03',
+      erTilSaksbehandling: true,
+      fagsakYtelseType: fagsakYtelseType.OMSORGSPENGER,
+      behandlingStatus: behandlingStatus.OPPRETTET,
     },
-    saksnummer: '2',
-    behandlingId: 2,
-    journalpostId: null,
-    personnummer: '657643535',
-    navn: 'Espen Solstråle',
-    system: 'FPSAK',
-    behandlingstype: behandlingType.FORSTEGANGSSOKNAD,
-    opprettetTidspunkt: '2018-01-02',
-    behandlingsfrist: '2018-03-03',
-    erTilSaksbehandling: true,
-    fagsakYtelseType:fagsakYtelseType.OMSORGSPENGER,
-    behandlingStatus: behandlingStatus.OPPRETTET,
-  }];
+  ];
 
   it('skal vise kriterievelger og liste over neste oppgaver', () => {
     new RestApiTestMocker()
@@ -71,14 +73,16 @@ describe('<OppgaverTabell>', () => {
       .withRestCallRunner(K9LosApiKeys.OPPGAVEKO, { startRequest: () => undefined, data: undefined })
       .withGlobalData(RestApiGlobalStatePathsKeys.KODEVERK, kodeverk)
       .runTest(() => {
-        const wrapper = shallowWithIntl(<OppgaverTabell
-          intl={intl}
-          valgtKo={valgtKo}
-          reserverOppgave={sinon.spy()}
-          valgtOppgavekoId="1"
-          oppgaverTilBehandling={oppgaverTilBehandling}
-          requestFinished
-        />);
+        const wrapper = shallowWithIntl(
+          <OppgaverTabell
+            intl={intl}
+            valgtKo={valgtKo}
+            reserverOppgave={sinon.spy()}
+            valgtOppgavekoId="1"
+            oppgaverTilBehandling={oppgaverTilBehandling}
+            requestFinished
+          />,
+        );
 
         const tableRows = wrapper.find(TableRow);
         expect(tableRows).has.length(2);
@@ -103,14 +107,16 @@ describe('<OppgaverTabell>', () => {
       .withRestCallRunner(K9LosApiKeys.OPPGAVEKO, { startRequest: () => undefined, data: undefined })
       .withGlobalData(RestApiGlobalStatePathsKeys.KODEVERK, kodeverk)
       .runTest(() => {
-        const wrapper = shallowWithIntl(<OppgaverTabell
-          intl={intl}
-          valgtKo={valgtKo}
-          reserverOppgave={sinon.spy()}
-          valgtOppgavekoId="1"
-          oppgaverTilBehandling={[]}
-          requestFinished
-        />);
+        const wrapper = shallowWithIntl(
+          <OppgaverTabell
+            intl={intl}
+            valgtKo={valgtKo}
+            reserverOppgave={sinon.spy()}
+            valgtOppgavekoId="1"
+            oppgaverTilBehandling={[]}
+            requestFinished
+          />,
+        );
 
         const message = wrapper.find(FormattedMessage);
         expect(message).has.length(1);

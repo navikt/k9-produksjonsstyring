@@ -1,25 +1,24 @@
 import React, { FunctionComponent, useCallback, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Normaltekst } from 'nav-frontend-typografi';
-import kodeverkTyper from 'kodeverk/kodeverkTyper';
-import Image from 'sharedComponents/Image';
-import VerticalSpacer from 'sharedComponents/VerticalSpacer';
-import Table from 'sharedComponents/Table';
-import TableRow from 'sharedComponents/TableRow';
-import TableColumn from 'sharedComponents/TableColumn';
-import DateLabel from 'sharedComponents/DateLabel';
 import Chevron from 'nav-frontend-chevron';
 import { Knapp } from 'nav-frontend-knapper';
-import UtvalgskriterierForOppgavekoForm from 'avdelingsleder/behandlingskoer/components/oppgavekoForm/UtvalgskriterierForOppgavekoForm';
+import { Normaltekst } from 'nav-frontend-typografi';
 import { Loader } from '@navikt/ds-react';
-import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
 import { K9LosApiKeys } from 'api/k9LosApi';
 import useKodeverk from 'api/rest-api-hooks/src/global-data/useKodeverk';
-import SletteOppgavekoModal from './SletteOppgavekoModal';
-import { Oppgaveko } from '../oppgavekoTsType';
-
-import styles from './gjeldendeOppgavekoerTabell.css';
+import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
+import UtvalgskriterierForOppgavekoForm from 'avdelingsleder/behandlingskoer/components/oppgavekoForm/UtvalgskriterierForOppgavekoForm';
+import kodeverkTyper from 'kodeverk/kodeverkTyper';
+import DateLabel from 'sharedComponents/DateLabel';
+import Image from 'sharedComponents/Image';
+import Table from 'sharedComponents/Table';
+import TableColumn from 'sharedComponents/TableColumn';
+import TableRow from 'sharedComponents/TableRow';
+import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import addCircle from '../../../../images/add-circle-bla.svg';
+import { Oppgaveko } from '../oppgavekoTsType';
+import SletteOppgavekoModal from './SletteOppgavekoModal';
+import styles from './gjeldendeOppgavekoerTabell.css';
 
 const headerTextCodes = [
   'GjeldendeOppgavekoerTabell.Listenavn',

@@ -1,16 +1,14 @@
 import React, { FunctionComponent, useCallback } from 'react';
-import { injectIntl, WrappedComponentProps, FormattedMessage } from 'react-intl';
-
 import { Form } from 'react-final-form';
+import { FormattedMessage, WrappedComponentProps, injectIntl } from 'react-intl';
+import { captureMessage } from '@sentry/browser';
 import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
 import { Undertittel } from 'nav-frontend-typografi';
-import { hasValidText, maxLength, minLength, required } from 'utils/validation/validators';
+import { K9LosApiKeys } from 'api/k9LosApi';
+import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
 import { TextAreaField } from 'form/FinalFields';
 import Modal from 'sharedComponents/Modal';
-
-import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
-import { K9LosApiKeys } from 'api/k9LosApi';
-import { captureMessage } from '@sentry/browser';
+import { hasValidText, maxLength, minLength, required } from 'utils/validation/validators';
 import styles from './opphevReservasjonModal.css';
 
 const minLength3 = minLength(3);

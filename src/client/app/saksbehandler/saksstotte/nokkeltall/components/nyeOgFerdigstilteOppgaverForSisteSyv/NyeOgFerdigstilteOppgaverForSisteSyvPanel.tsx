@@ -1,24 +1,23 @@
 import React, { FunctionComponent, useMemo, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
+import dayjs from 'dayjs';
+import { Select } from 'nav-frontend-skjema';
 import { Element } from 'nav-frontend-typografi';
-
-import { ISO_DATE_FORMAT } from 'utils/formats';
-import VerticalSpacer from 'sharedComponents/VerticalSpacer';
-import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
+import { RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
+import { useGlobalStateRestApiData } from 'api/rest-api-hooks';
 import {
   ALLE_YTELSETYPER_VALGT,
   sjekkOmOppgaveSkalLeggesTil,
   slaSammenAllePunsjBehandlingstyperForNyeOgFerdigstilleOppgaver,
   slaSammenLikeBehandlingstyperForNyeOgFerdigstilleOppgaver,
 } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
-import { Select } from 'nav-frontend-skjema';
-import NyeOgFerdigstilteOppgaverForSisteSyvGraf from 'saksbehandler/saksstotte/nokkeltall/components/nyeOgFerdigstilteOppgaverForSisteSyv/NyeOgFerdigstilteOppgaverForSisteSyvGraf';
-import dayjs from 'dayjs';
 import AlleKodeverk from 'kodeverk/alleKodeverkTsType';
-import { useGlobalStateRestApiData } from 'api/rest-api-hooks';
-import { RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
-import NyeOgFerdigstilteOppgaver, { fagytelsetyperForOppgaveFiltrering } from '../nyeOgFerdigstilteOppgaverTsType';
+import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
+import NyeOgFerdigstilteOppgaverForSisteSyvGraf from 'saksbehandler/saksstotte/nokkeltall/components/nyeOgFerdigstilteOppgaverForSisteSyv/NyeOgFerdigstilteOppgaverForSisteSyvGraf';
+import VerticalSpacer from 'sharedComponents/VerticalSpacer';
+import { ISO_DATE_FORMAT } from 'utils/formats';
 import styles from '../nyeOgFerdigstilteOppgaverFelles.css';
+import NyeOgFerdigstilteOppgaver, { fagytelsetyperForOppgaveFiltrering } from '../nyeOgFerdigstilteOppgaverTsType';
 
 export const getNyeOgFerdigstilteForSisteSyvDager = (nyeOgFerdigstilte: NyeOgFerdigstilteOppgaver[] = []) => {
   const iDag = dayjs().startOf('day');

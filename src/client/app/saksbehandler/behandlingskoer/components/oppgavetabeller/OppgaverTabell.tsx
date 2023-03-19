@@ -1,32 +1,29 @@
 import React, { FunctionComponent, ReactNode, useCallback, useEffect } from 'react';
-import { FormattedMessage, injectIntl, WrappedComponentProps } from 'react-intl';
-import { Normaltekst } from 'nav-frontend-typografi';
-
-import Image from 'sharedComponents/Image';
-import VerticalSpacer from 'sharedComponents/VerticalSpacer';
-import Oppgave from 'saksbehandler/oppgaveTsType';
-import Table from 'sharedComponents/Table';
-import TableRow from 'sharedComponents/TableRow';
-import TableColumn from 'sharedComponents/TableColumn';
-import DateLabel from 'sharedComponents/DateLabel';
+import { FormattedMessage, WrappedComponentProps, injectIntl } from 'react-intl';
 import bubbletextUrl from 'images/bubbletext.svg';
 import bubbletextFilledUrl from 'images/bubbletext_filled.svg';
-
-import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
+import { Normaltekst } from 'nav-frontend-typografi';
 import { Loader } from '@navikt/ds-react';
-
+import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
+import { useGlobalStateRestApiData } from 'api/rest-api-hooks';
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
-import { Oppgaveko } from 'saksbehandler/behandlingskoer/oppgavekoTsType';
+import AlleKodeverk from 'kodeverk/alleKodeverkTsType';
+import kodeverkTyper from 'kodeverk/kodeverkTyper';
 import {
   getHeaderCodes,
   hentIDFraSak,
 } from 'saksbehandler/behandlingskoer/components/oppgavetabeller/oppgavetabellerfelles';
+import { Oppgaveko } from 'saksbehandler/behandlingskoer/oppgavekoTsType';
 import { OppgaveStatus } from 'saksbehandler/oppgaveStatusTsType';
+import Oppgave from 'saksbehandler/oppgaveTsType';
+import DateLabel from 'sharedComponents/DateLabel';
+import Image from 'sharedComponents/Image';
+import Table from 'sharedComponents/Table';
+import TableColumn from 'sharedComponents/TableColumn';
+import TableRow from 'sharedComponents/TableRow';
+import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import { getDateAndTime } from 'utils/dateUtils';
 import { getKodeverknavnFraKode } from 'utils/kodeverkUtils';
-import kodeverkTyper from 'kodeverk/kodeverkTyper';
-import AlleKodeverk from 'kodeverk/alleKodeverkTsType';
-import { useGlobalStateRestApiData } from 'api/rest-api-hooks';
 import styles from './oppgaverTabell.css';
 
 interface OwnProps {

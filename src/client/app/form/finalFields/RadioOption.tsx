@@ -1,7 +1,6 @@
-import React, { FunctionComponent, ReactNode, CSSProperties } from 'react';
+import React, { CSSProperties, FunctionComponent, ReactNode } from 'react';
 import { Radio as NavRadio } from 'nav-frontend-skjema';
 import { Normaltekst } from 'nav-frontend-typografi';
-
 import Label, { LabelType } from './Label';
 
 interface OwnProps {

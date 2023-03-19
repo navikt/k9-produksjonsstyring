@@ -1,14 +1,12 @@
 import React from 'react';
+import { Form } from 'react-final-form';
 import { expect } from 'chai';
 import sinon from 'sinon';
-
-import { Form } from 'react-final-form';
-
-import behandlingStatus from 'kodeverk/behandlingStatus';
-import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
 import { TextAreaField } from 'form/FinalFields';
-import { shallowWithIntl, intlMock } from '../../../../../../../setup/testHelpers/intl-enzyme-test-helper';
+import behandlingStatus from 'kodeverk/behandlingStatus';
 import behandlingType from 'kodeverk/behandlingType';
+import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
+import { intlMock, shallowWithIntl } from '../../../../../../../setup/testHelpers/intl-enzyme-test-helper';
 import { OpphevReservasjonModal } from './OpphevReservasjonModal';
 
 describe('<OpphevReservasjonModal>', () => {
@@ -41,22 +39,18 @@ describe('<OpphevReservasjonModal>', () => {
 
   it('skal rendre modal for å oppgi begrunnelse for oppheving av reservasjon', () => {
     const wrapper = shallowWithIntl(
-      <OpphevReservasjonModal
-        intl={intlMock}
-        oppgave={oppgave}
-        showModal
-        cancel={sinon.spy()}
-        submit={sinon.spy()}
-      />,
+      <OpphevReservasjonModal intl={intlMock} oppgave={oppgave} showModal cancel={sinon.spy()} submit={sinon.spy()} />,
     );
 
     const form = wrapper.find(Form);
     expect(form).has.length(1);
 
     const handleSubmitFn = sinon.spy();
-    const formWrapper = shallowWithIntl(form.prop('render')({
-      handleSubmit: handleSubmitFn,
-    }));
+    const formWrapper = shallowWithIntl(
+      form.prop('render')({
+        handleSubmit: handleSubmitFn,
+      }),
+    );
 
     expect(formWrapper.find(TextAreaField)).has.length(1);
 

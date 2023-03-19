@@ -1,5 +1,4 @@
 import { expect } from 'chai';
-
 import DefaultFormatter from './DefaultFormatter';
 import ErrorMessage from './ErrorMessage';
 

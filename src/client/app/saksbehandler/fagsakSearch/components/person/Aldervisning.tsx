@@ -1,10 +1,8 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Normaltekst } from 'nav-frontend-typografi';
-
+import PropTypes from 'prop-types';
 import DateLabel from 'sharedComponents/DateLabel';
-
 import styles from './aldervisning.css';
 
 interface TsProps {

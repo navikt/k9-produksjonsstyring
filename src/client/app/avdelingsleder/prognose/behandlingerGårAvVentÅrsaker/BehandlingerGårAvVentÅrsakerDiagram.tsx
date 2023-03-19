@@ -1,15 +1,14 @@
 import React from 'react';
-
-import { punsjKodeverkNavn } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
-import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
-import Stolpediagram from 'avdelingsleder/Stolpediagram';
-import { IBehandlingerSomGarAvVentType } from '../behandlingerGårAvVent/behandlingerSomGårAvVentType';
 import { fargeForTotalt, fargerForLegendsForBehandlingerPåVentÅrsaker } from 'styles/echartStyle';
-import AlleKodeverk from "kodeverk/alleKodeverkTsType";
-import { useGlobalStateRestApiData } from "api/rest-api-hooks";
-import { RestApiGlobalStatePathsKeys } from "api/k9LosApi";
-import { getKodeverkFraKode, getKodeverknavnFraKode } from "utils/kodeverkUtils";
-import kodeverkTyper from "kodeverk/kodeverkTyper";
+import { RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
+import { useGlobalStateRestApiData } from 'api/rest-api-hooks';
+import Stolpediagram from 'avdelingsleder/Stolpediagram';
+import { punsjKodeverkNavn } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
+import AlleKodeverk from 'kodeverk/alleKodeverkTsType';
+import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
+import kodeverkTyper from 'kodeverk/kodeverkTyper';
+import { getKodeverkFraKode, getKodeverknavnFraKode } from 'utils/kodeverkUtils';
+import { IBehandlingerSomGarAvVentType } from '../behandlingerGårAvVent/behandlingerSomGårAvVentType';
 
 interface OwnProps {
   behandlingerGaarAvVentAarsaker: IBehandlingerSomGarAvVentType[];
@@ -52,11 +51,13 @@ const BehandlingerGårAvVentÅrsakerDiagram = ({
   );
 
   const PunsjBehandlinger: IBehandlingerSomGarAvVentType[] = behandlingerGaarAvVentAarsaker.filter(
-    behandling => getKodeverkFraKode(behandling.behandlingType, kodeverkTyper.BEHANDLING_TYPE, alleKodeverk) === punsjKodeverkNavn,
+    behandling =>
+      getKodeverkFraKode(behandling.behandlingType, kodeverkTyper.BEHANDLING_TYPE, alleKodeverk) === punsjKodeverkNavn,
   );
 
   const AlleBehandlingerUtomPunsj: IBehandlingerSomGarAvVentType[] = behandlingerGaarAvVentAarsaker.filter(
-    behandling => getKodeverkFraKode(behandling.behandlingType, kodeverkTyper.BEHANDLING_TYPE, alleKodeverk) !== punsjKodeverkNavn,
+    behandling =>
+      getKodeverkFraKode(behandling.behandlingType, kodeverkTyper.BEHANDLING_TYPE, alleKodeverk) !== punsjKodeverkNavn,
   );
 
   const hentBehandlingerKnyttetTilYtelseType = () => {
@@ -80,26 +81,30 @@ const BehandlingerGårAvVentÅrsakerDiagram = ({
     ...behandling,
     dato: behandling.frist,
   }));
-  const venteårsaker = [...new Set(behandlinger.map(behandling => getKodeverknavnFraKode(behandling.venteårsak, kodeverkTyper.VENTEÅRSAK, alleKodeverk)))];
+  const venteårsaker = [
+    ...new Set(
+      behandlinger.map(behandling =>
+        getKodeverknavnFraKode(behandling.venteårsak, kodeverkTyper.VENTEÅRSAK, alleKodeverk),
+      ),
+    ),
+  ];
   const series = venteårsaker.map(venteårsak => ({
     name: venteårsak,
     type: 'bar',
-    data: behandlinger.filter(behandling => getKodeverknavnFraKode(behandling.venteårsak, kodeverkTyper.VENTEÅRSAK, alleKodeverk) === venteårsak),
-    itemStyle: fargerForLegendsForBehandlingerPåVentÅrsaker[venteårsak] ? {color: fargerForLegendsForBehandlingerPåVentÅrsaker[venteårsak]} : undefined
+    data: behandlinger.filter(
+      behandling =>
+        getKodeverknavnFraKode(behandling.venteårsak, kodeverkTyper.VENTEÅRSAK, alleKodeverk) === venteårsak,
+    ),
+    itemStyle: fargerForLegendsForBehandlingerPåVentÅrsaker[venteårsak]
+      ? { color: fargerForLegendsForBehandlingerPåVentÅrsaker[venteårsak] }
+      : undefined,
   }));
-  const totalt = { name: 'Totalt', type: 'bar', data: behandlinger, itemStyle: {color: fargeForTotalt}};
+  const totalt = { name: 'Totalt', type: 'bar', data: behandlinger, itemStyle: { color: fargeForTotalt } };
 
   const alleSeries = [totalt, ...series];
   const labels = ['Totalt', ...venteårsaker];
 
-  return (
-    <Stolpediagram
-      series={alleSeries}
-      uker={antallUkerSomSkalVises}
-      labels={labels}
-      fremITid
-    />
-  );
+  return <Stolpediagram series={alleSeries} uker={antallUkerSomSkalVises} labels={labels} fremITid />;
 };
 
 export default BehandlingerGårAvVentÅrsakerDiagram;

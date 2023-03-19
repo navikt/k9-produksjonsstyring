@@ -1,15 +1,14 @@
 import React, { FunctionComponent, useEffect } from 'react';
-import { SokeResultat } from 'saksbehandler/fagsakSearch/sokeResultatTsType';
-import { K9LosApiKeys } from 'api/k9LosApi';
-import { RestApiState } from 'api/rest-api-hooks';
-import LoadingPanel from 'sharedComponents/LoadingPanel';
-import { Undertittel } from 'nav-frontend-typografi';
 import { FormattedMessage } from 'react-intl';
 import Panel from 'nav-frontend-paneler';
+import { Undertittel } from 'nav-frontend-typografi';
 import useTrackRouteParam from 'app/data/trackRouteParam';
+import { K9LosApiKeys } from 'api/k9LosApi';
+import { RestApiState } from 'api/rest-api-hooks';
+import { SokeResultat } from 'saksbehandler/fagsakSearch/sokeResultatTsType';
+import LoadingPanel from 'sharedComponents/LoadingPanel';
 import useRestApiRunner from '../api/rest-api-hooks/src/local-data/useRestApiRunner';
 import AktoerGrid from './AktoerGrid';
-
 import styles from './aktoerIndex.css';
 
 /**

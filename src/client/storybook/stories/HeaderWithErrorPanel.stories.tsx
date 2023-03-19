@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import { action } from '@storybook/addon-actions';
-
-import EventType from 'api/rest-api/src/requestApi/eventType';
 import HeaderWithErrorPanel from 'app/components/HeaderWithErrorPanel';
-
+import EventType from 'api/rest-api/src/requestApi/eventType';
 import withIntl from '../decorators/withIntl';
 
 export default {

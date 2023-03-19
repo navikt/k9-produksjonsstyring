@@ -1,18 +1,17 @@
 import React, { FunctionComponent, useState } from 'react';
-import { injectIntl, useIntl, WrappedComponentProps } from 'react-intl';
-
-import kodeverkTyper from 'kodeverk/kodeverkTyper';
-import { ALLE_YTELSETYPER_VALGT, filtrereNyePerDato, UKE_2, UKE_4 } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
+import { WrappedComponentProps, injectIntl, useIntl } from 'react-intl';
+import { RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
+import { useGlobalStateRestApiData } from 'api/rest-api-hooks';
 import useKodeverk from 'api/rest-api-hooks/src/global-data/useKodeverk';
-import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
-import HistorikkGrafForPunsj from 'avdelingsleder/nokkeltall/HistorikkGrafForPunsj';
 import GrafContainer from 'avdelingsleder/GrafContainer';
+import HistorikkGrafForPunsj from 'avdelingsleder/nokkeltall/HistorikkGrafForPunsj';
+import { ALLE_YTELSETYPER_VALGT, UKE_2, UKE_4, filtrereNyePerDato } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
+import AlleKodeverk from 'kodeverk/alleKodeverkTsType';
+import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
+import kodeverkTyper from 'kodeverk/kodeverkTyper';
 import { getValueFromLocalStorage } from 'utils/localStorageHelper';
-import AlleKodeverk from "kodeverk/alleKodeverkTsType";
-import { useGlobalStateRestApiData } from "api/rest-api-hooks";
-import { RestApiGlobalStatePathsKeys } from "api/k9LosApi";
-import HistoriskData from '../../historiskDataTsType';
 import HistorikkGraf from '../../HistorikkGraf';
+import HistoriskData from '../../historiskDataTsType';
 
 interface OwnProps {
   beholdningPerDato?: HistoriskData[];

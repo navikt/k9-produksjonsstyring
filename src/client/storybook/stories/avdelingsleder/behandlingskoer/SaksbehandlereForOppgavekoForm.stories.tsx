@@ -1,7 +1,5 @@
 import React, { useCallback, useState } from 'react';
-
 import { SaksbehandlereForOppgavekoForm } from 'avdelingsleder/behandlingskoer/components/saksbehandlerForm/SaksbehandlereForOppgavekoForm';
-
 import withIntl from '../../../decorators/withIntl.js';
 
 export default {
@@ -20,30 +18,34 @@ export const skalVisePanelForÅLeggeSaksbehandlereTilEnOppgaveko = () => {
   });
 
   const leggTilSaksbehandler = useCallback((_oppgavekoId, brukerIdent, isChecked) => {
-    setOppgaveko((oldState) => ({
+    setOppgaveko(oldState => ({
       ...oldState,
       saksbehandlerIdenter: isChecked
         ? oldState.saksbehandlerIdenter.concat(brukerIdent)
-        : oldState.saksbehandlerIdenter.filter((i) => i !== brukerIdent),
+        : oldState.saksbehandlerIdenter.filter(i => i !== brukerIdent),
     }));
   }, []);
 
   return (
     <SaksbehandlereForOppgavekoForm
       valgtOppgaveko={oppgaveko}
-      avdelingensSaksbehandlere={[{
-        brukerIdent: 'E23232',
-        navn: 'Espen Utvikler',
-        avdelingsnavn: ['NAV Viken'],
-      }, {
-        brukerIdent: 'S34354',
-        navn: 'Steffen',
-        avdelingsnavn: ['NAV Viken'],
-      }, {
-        brukerIdent: 'E24353',
-        navn: 'Eirik',
-        avdelingsnavn: ['NAV Viken'],
-      }]}
+      avdelingensSaksbehandlere={[
+        {
+          brukerIdent: 'E23232',
+          navn: 'Espen Utvikler',
+          avdelingsnavn: ['NAV Viken'],
+        },
+        {
+          brukerIdent: 'S34354',
+          navn: 'Steffen',
+          avdelingsnavn: ['NAV Viken'],
+        },
+        {
+          brukerIdent: 'E24353',
+          navn: 'Eirik',
+          avdelingsnavn: ['NAV Viken'],
+        },
+      ]}
       knyttSaksbehandlerTilOppgaveko={leggTilSaksbehandler}
     />
   );

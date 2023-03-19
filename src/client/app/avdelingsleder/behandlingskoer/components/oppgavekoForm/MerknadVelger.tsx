@@ -1,14 +1,13 @@
 import React, { Fragment, FunctionComponent } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
+import { Label } from '@navikt/ds-react';
+import { K9LosApiKeys } from 'api/k9LosApi';
+import useKodeverk from 'api/rest-api-hooks/src/global-data/useKodeverk';
+import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
+import { Kriterie } from 'avdelingsleder/behandlingskoer/oppgavekoTsType';
+import { CheckboxField } from 'form/FinalFields';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
-import { CheckboxField } from 'form/FinalFields';
-
-import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
-import useKodeverk from 'api/rest-api-hooks/src/global-data/useKodeverk';
-import { K9LosApiKeys } from 'api/k9LosApi';
-import { Label } from '@navikt/ds-react';
-import { Kriterie } from 'avdelingsleder/behandlingskoer/oppgavekoTsType';
 import KriterierType from '../../../../types/KriterierType';
 
 interface OwnProps {

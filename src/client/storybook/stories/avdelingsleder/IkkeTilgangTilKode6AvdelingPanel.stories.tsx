@@ -1,7 +1,5 @@
 import React from 'react';
-
 import IkkeTilgangTilKode6AvdelingPanel from 'avdelingsleder/components/IkkeTilgangTilKode6AvdelingPanel';
-
 import withIntl from '../../decorators/withIntl';
 
 export default {
@@ -10,6 +8,4 @@ export default {
   decorators: [withIntl],
 };
 
-export const skalViseIkkeTilgangGrunnetKode6 = () => (
-  <IkkeTilgangTilKode6AvdelingPanel />
-);
+export const skalViseIkkeTilgangGrunnetKode6 = () => <IkkeTilgangTilKode6AvdelingPanel />;

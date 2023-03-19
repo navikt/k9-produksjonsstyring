@@ -1,14 +1,12 @@
-import React, {
-  createContext, useReducer, FunctionComponent, ReactNode,
-} from 'react';
+import React, { FunctionComponent, ReactNode, createContext, useReducer } from 'react';
 
 const defaultInitialState = {
   errors: [],
 };
 
-type Action = {type: 'add', data: any } | {type: 'remove'}
-type Dispatch = (action: Action) => void
-type State = {errors: any[]}
+type Action = { type: 'add'; data: any } | { type: 'remove' };
+type Dispatch = (action: Action) => void;
+type State = { errors: any[] };
 
 export const RestApiErrorStateContext = createContext<State>(defaultInitialState);
 export const RestApiErrorDispatchContext = createContext<Dispatch | undefined>(undefined);
@@ -21,10 +19,7 @@ interface OwnProps {
 /**
  * State for å lagre feil oppstår ved rest-kall
  */
-export const RestApiErrorProvider: FunctionComponent<OwnProps> = ({
-  children,
-  initialState,
-}): JSX.Element => {
+export const RestApiErrorProvider: FunctionComponent<OwnProps> = ({ children, initialState }): JSX.Element => {
   const [state, dispatch] = useReducer((oldState, action) => {
     switch (action.type) {
       case 'add':
@@ -40,9 +35,7 @@ export const RestApiErrorProvider: FunctionComponent<OwnProps> = ({
 
   return (
     <RestApiErrorStateContext.Provider value={state}>
-      <RestApiErrorDispatchContext.Provider value={dispatch}>
-        {children}
-      </RestApiErrorDispatchContext.Provider>
+      <RestApiErrorDispatchContext.Provider value={dispatch}>{children}</RestApiErrorDispatchContext.Provider>
     </RestApiErrorStateContext.Provider>
   );
 };

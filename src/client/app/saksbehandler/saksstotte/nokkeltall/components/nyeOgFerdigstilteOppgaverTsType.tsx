@@ -5,7 +5,7 @@ type NyeOgFerdigstilteOppgaver = Readonly<{
   antallFerdigstilte: number;
   antallFerdigstilteMine: number;
   dato: string;
-}>
+}>;
 
 export default NyeOgFerdigstilteOppgaver;
 
@@ -15,5 +15,5 @@ export enum fagytelsetyperForOppgaveFiltrering {
   PLEIEPENGER_SYKT_BARN = 'Pleiepenger',
   PUNSJ = 'Punsj',
   PPN = 'Livets Sluttfase',
-  ALLE_YTELSETYPER_VALGT = 'Alle ytelser'
+  ALLE_YTELSETYPER_VALGT = 'Alle ytelser',
 }

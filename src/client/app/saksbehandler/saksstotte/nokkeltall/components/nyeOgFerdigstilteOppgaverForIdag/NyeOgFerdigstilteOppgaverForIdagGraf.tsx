@@ -1,27 +1,25 @@
-import React, { useMemo, FunctionComponent } from 'react';
-import { FormattedMessage, injectIntl, WrappedComponentProps } from 'react-intl';
-
-import behandlingType from 'kodeverk/behandlingType';
-
-import ReactECharts from 'sharedComponents/echart/ReactEcharts';
-import { punsjKodeverkNavn } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
+import React, { FunctionComponent, useMemo } from 'react';
+import { FormattedMessage, WrappedComponentProps, injectIntl } from 'react-intl';
 import { Normaltekst } from 'nav-frontend-typografi';
-import { fagytelseTyperSomSkalVises } from 'avdelingsleder/nokkeltall/HistorikkGrafForPunsj';
-import kodeverkTyper from 'kodeverk/kodeverkTyper';
+import { RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
 import { useGlobalStateRestApiData, useKodeverk } from 'api/rest-api-hooks';
-import NyeOgFerdigstilteOppgaver from '../nyeOgFerdigstilteOppgaverTsType';
-
+import { fagytelseTyperSomSkalVises } from 'avdelingsleder/nokkeltall/HistorikkGrafForPunsj';
+import { punsjKodeverkNavn } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
+import AlleKodeverk from 'kodeverk/alleKodeverkTsType';
+import behandlingType from 'kodeverk/behandlingType';
+import KodeverkMedNavn from 'kodeverk/kodeverkMedNavnTsType';
+import kodeverkTyper from 'kodeverk/kodeverkTyper';
+import ReactECharts from 'sharedComponents/echart/ReactEcharts';
+import { getKodeverkFraKode } from 'utils/kodeverkUtils';
 import {
   fargerForLegendsForMineNyeFerdigstilte,
   gridDef,
   legendStyle,
   maxBarWith,
-  tooltipTextStyle, yXAxisFontSizeSaksbehandlerNokkeltall,
+  tooltipTextStyle,
+  yXAxisFontSizeSaksbehandlerNokkeltall,
 } from '../../../../../../styles/echartStyle';
-import AlleKodeverk from "kodeverk/alleKodeverkTsType";
-import {RestApiGlobalStatePathsKeys} from "api/k9LosApi";
-import { getKodeverkFraKode } from "utils/kodeverkUtils";
-import KodeverkMedNavn from "kodeverk/kodeverkMedNavnTsType";
+import NyeOgFerdigstilteOppgaver from '../nyeOgFerdigstilteOppgaverTsType';
 
 const behandlingstypeOrder = [
   behandlingType.TILBAKEBETALING,
@@ -29,7 +27,8 @@ const behandlingstypeOrder = [
   // behandlingType.ANKE,
   // behandlingType.KLAGE,
   behandlingType.REVURDERING,
-  behandlingType.FORSTEGANGSSOKNAD];
+  behandlingType.FORSTEGANGSSOKNAD,
+];
 
 interface OwnProps {
   behandlingTyper: KodeverkMedNavn[];
@@ -51,16 +50,16 @@ const NyeOgFerdigstilteOppgaverForIdagGraf: FunctionComponent<OwnProps & Wrapped
 
   const behandlingTypeNavnForYAkse = useMemo(() => {
     if (skalPunsjbehandlingerVises) {
-      return fagytelseTyperSomSkalVises.map((t) => {
-        const type = fagytelseTyper.find((ytelse) => ytelse.kode === t);
+      return fagytelseTyperSomSkalVises.map(t => {
+        const type = fagytelseTyper.find(ytelse => ytelse.kode === t);
         return type ? type.navn : '';
       });
     }
-    return behandlingstypeOrder.map((bType) => {
+    return behandlingstypeOrder.map(bType => {
       if (bType === behandlingType.FORSTEGANGSSOKNAD) {
         return intl.formatMessage({ id: 'NyeOgFerdigstilteOppgaverForIdagGraf.Førstegangsbehandling' });
       }
-      const type = behandlingTyper.find((bt) => bt.kode === bType);
+      const type = behandlingTyper.find(bt => bt.kode === bType);
       return type ? type.navn : '';
     });
   }, [behandlingTyper, skalPunsjbehandlingerVises]);
@@ -70,8 +69,12 @@ const NyeOgFerdigstilteOppgaverForIdagGraf: FunctionComponent<OwnProps & Wrapped
 
   const filtrereUtRelevanteOppgaver = (valgtProperty: string): number[] => {
     if (skalPunsjbehandlingerVises) {
-      return fagytelseTyperSomSkalVises.map((type) => {
-        const oppgave = nyeOgFerdigstilteOppgaver.find((o) => o.fagsakYtelseType === type && getKodeverkFraKode(o.behandlingType, kodeverkTyper.BEHANDLING_TYPE, alleKodeverk) === punsjKodeverkNavn);
+      return fagytelseTyperSomSkalVises.map(type => {
+        const oppgave = nyeOgFerdigstilteOppgaver.find(
+          o =>
+            o.fagsakYtelseType === type &&
+            getKodeverkFraKode(o.behandlingType, kodeverkTyper.BEHANDLING_TYPE, alleKodeverk) === punsjKodeverkNavn,
+        );
 
         if (oppgave) {
           return oppgave[valgtProperty];
@@ -80,8 +83,12 @@ const NyeOgFerdigstilteOppgaverForIdagGraf: FunctionComponent<OwnProps & Wrapped
       });
     }
 
-    return behandlingstypeOrder.map((type) => {
-      const oppgave = nyeOgFerdigstilteOppgaver.find((o) => o.behandlingType === type && getKodeverkFraKode(o.behandlingType, kodeverkTyper.BEHANDLING_TYPE, alleKodeverk) !== punsjKodeverkNavn);
+    return behandlingstypeOrder.map(type => {
+      const oppgave = nyeOgFerdigstilteOppgaver.find(
+        o =>
+          o.behandlingType === type &&
+          getKodeverkFraKode(o.behandlingType, kodeverkTyper.BEHANDLING_TYPE, alleKodeverk) !== punsjKodeverkNavn,
+      );
       if (oppgave) {
         return oppgave[valgtProperty];
       }
@@ -89,7 +96,10 @@ const NyeOgFerdigstilteOppgaverForIdagGraf: FunctionComponent<OwnProps & Wrapped
     });
   };
 
-  const dataFerdigstilte = useMemo(() => filtrereUtRelevanteOppgaver('antallFerdigstilte'), [nyeOgFerdigstilteOppgaver]);
+  const dataFerdigstilte = useMemo(
+    () => filtrereUtRelevanteOppgaver('antallFerdigstilte'),
+    [nyeOgFerdigstilteOppgaver],
+  );
   const dataNye = useMemo(() => filtrereUtRelevanteOppgaver('antallNye'), [nyeOgFerdigstilteOppgaver]);
 
   if (nyeOgFerdigstilteOppgaver.length === 0) {

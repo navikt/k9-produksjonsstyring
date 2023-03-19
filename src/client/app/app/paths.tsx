@@ -1,6 +1,5 @@
 import querystring from 'query-string';
 import { formatQueryString, parseQueryString } from 'utils/urlUtils';
-
 import { Location } from './locationTsType';
 
 export const AVDELINGSLEDER_PATH = 'avdelingsleder';

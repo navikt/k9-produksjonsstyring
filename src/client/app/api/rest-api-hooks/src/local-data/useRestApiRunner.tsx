@@ -1,5 +1,4 @@
-import { useState, useCallback, useContext } from 'react';
-
+import { useCallback, useContext, useState } from 'react';
 import { K9LosApiKeys } from 'api/k9LosApi';
 import { ErrorType, REQUEST_POLLING_CANCELLED } from 'api/rest-api';
 import { RestApiRequestContext } from '../RestApiContext';
@@ -17,7 +16,7 @@ interface RestApiData<T> {
 /**
  * Hook som gir deg ein funksjon til å starte restkall, i tillegg til kallets status/resultat/feil
  */
-function useRestApiRunner<T>(key: K9LosApiKeys):RestApiData<T> {
+function useRestApiRunner<T>(key: K9LosApiKeys): RestApiData<T> {
   const [data, setData] = useState({
     state: RestApiState.NOT_STARTED,
     data: undefined,
@@ -26,15 +25,16 @@ function useRestApiRunner<T>(key: K9LosApiKeys):RestApiData<T> {
 
   const requestApi = useContext(RestApiRequestContext);
 
-  const startRequest = useCallback((params: any = {}, keepData = false):Promise<T> => {
-    setData((oldState) => ({
+  const startRequest = useCallback((params: any = {}, keepData = false): Promise<T> => {
+    setData(oldState => ({
       state: RestApiState.LOADING,
       data: keepData ? oldState.data : undefined,
       error: undefined,
     }));
 
-    return requestApi.startRequest(key, params)
-      .then((dataRes) => {
+    return requestApi
+      .startRequest(key, params)
+      .then(dataRes => {
         if (dataRes.payload !== REQUEST_POLLING_CANCELLED) {
           setData({
             state: RestApiState.SUCCESS,
@@ -45,7 +45,7 @@ function useRestApiRunner<T>(key: K9LosApiKeys):RestApiData<T> {
 
         return Promise.resolve(dataRes.payload);
       })
-      .catch((error) => {
+      .catch(error => {
         setData({
           state: RestApiState.ERROR,
           data: undefined,

@@ -1,7 +1,7 @@
-import { WarningColored } from '@navikt/ds-icons';
-import classnames from 'classnames';
 import React, { FunctionComponent } from 'react';
 import { FormattedMessage } from 'react-intl';
+import classnames from 'classnames';
+import { WarningColored } from '@navikt/ds-icons';
 import styles from './oppgaverTabellMenyAntallOppgaver.css';
 
 interface OwnProps {
@@ -13,7 +13,7 @@ interface OwnProps {
 const OppgaveTabellMenyAntallOppgaver: FunctionComponent<OwnProps> = ({ antallOppgaver, tekstId, hastesak }) => (
   <div className={classnames(styles.container, { [styles.hastesak]: hastesak && !!antallOppgaver })}>
     {hastesak && !!antallOppgaver && <WarningColored className={styles.hastesakIkon} />}
-      <FormattedMessage id={tekstId} values={{ antall: antallOppgaver }} />
+    <FormattedMessage id={tekstId} values={{ antall: antallOppgaver }} />
   </div>
 );
 

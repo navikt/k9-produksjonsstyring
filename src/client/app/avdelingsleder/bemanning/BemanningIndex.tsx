@@ -1,11 +1,10 @@
 import React, { FunctionComponent, useEffect } from 'react';
-import EnkelTeller from 'avdelingsleder/dagensTall/EnkelTeller';
 import { K9LosApiKeys } from 'api/k9LosApi';
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
-import { Saksbehandler } from './saksbehandlerTsType';
+import EnkelTeller from 'avdelingsleder/dagensTall/EnkelTeller';
 import SaksbehandlerePanel from './components/SaksbehandlerePanel';
-
 import styles from './components/saksbehandlereTabell.css';
+import { Saksbehandler } from './saksbehandlerTsType';
 
 const smallScreen = window.innerWidth < 1650;
 

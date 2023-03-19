@@ -1,7 +1,6 @@
 import React from 'react';
-import { shallow } from 'enzyme';
 import { expect } from 'chai';
-
+import { shallow } from 'enzyme';
 import SaksbehandlerNokkeltallPanel from './SaksbehandlerNokkeltallPanel';
 import NyeOgFerdigstilteOppgaverForIdagPanel from './nyeOgFerdigstilteOppgaverForIdag/NyeOgFerdigstilteOppgaverForIdagPanel';
 import NyeOgFerdigstilteOppgaverForSisteSyvPanel from './nyeOgFerdigstilteOppgaverForSisteSyv/NyeOgFerdigstilteOppgaverForSisteSyvPanel';

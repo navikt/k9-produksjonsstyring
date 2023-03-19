@@ -1,18 +1,15 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Normaltekst } from 'nav-frontend-typografi';
-
-import Oppgave from 'saksbehandler/oppgaveTsType';
-
-import VerticalSpacer from 'sharedComponents/VerticalSpacer';
-import { SokeResultat } from 'saksbehandler/fagsakSearch/sokeResultatTsType';
 import queryString from 'query-string';
+import { SokeResultat } from 'saksbehandler/fagsakSearch/sokeResultatTsType';
+import Oppgave from 'saksbehandler/oppgaveTsType';
+import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import { hasValidSaksnummerEllerJournalpostFormat } from 'utils/validation/validators';
-import PersonInfo from './person/PersonInfo';
-import SearchForm from './SearchForm';
 import FagsakList from './FagsakList';
-
+import SearchForm from './SearchForm';
 import styles from './fagsakSearch.css';
+import PersonInfo from './person/PersonInfo';
 
 interface OwnProps {
   resultat: SokeResultat;

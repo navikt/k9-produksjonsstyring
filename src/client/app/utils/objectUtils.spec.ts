@@ -1,6 +1,5 @@
 // noinspection JSUnresolvedVariable
 import { expect } from 'chai';
-
 import isObject from './objectUtils';
 
 describe('Object-utils', () => {

@@ -1,21 +1,21 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { FormattedMessage, injectIntl, WrappedComponentProps } from 'react-intl';
-import VerticalSpacer from 'sharedComponents/VerticalSpacer';
-import kodeverkTyper from 'kodeverk/kodeverkTyper';
-import KoSorteringType from 'kodeverk/KoSorteringTsType';
-import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
-import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
-import useKodeverk from 'api/rest-api-hooks/src/global-data/useKodeverk';
-import AlleKodeverk from 'kodeverk/alleKodeverkTsType';
-import { useGlobalStateRestApiData } from 'api/rest-api-hooks';
-import { getKodeverknavnFraKode } from 'utils/kodeverkUtils';
-import { Kriterie } from 'avdelingsleder/behandlingskoer/oppgavekoTsType';
+import { FormattedMessage, WrappedComponentProps, injectIntl } from 'react-intl';
 import { Checkbox, Label } from '@navikt/ds-react';
-import KoSortering from 'kodeverk/KoSortering';
+import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
+import { useGlobalStateRestApiData } from 'api/rest-api-hooks';
+import useKodeverk from 'api/rest-api-hooks/src/global-data/useKodeverk';
+import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
 import BelopSorteringValg from 'avdelingsleder/behandlingskoer/components/oppgavekoForm/BelopSorteringValg';
+import { Kriterie } from 'avdelingsleder/behandlingskoer/oppgavekoTsType';
+import KoSortering from 'kodeverk/KoSortering';
+import KoSorteringType from 'kodeverk/KoSorteringTsType';
+import AlleKodeverk from 'kodeverk/alleKodeverkTsType';
+import kodeverkTyper from 'kodeverk/kodeverkTyper';
+import VerticalSpacer from 'sharedComponents/VerticalSpacer';
+import { getKodeverknavnFraKode } from 'utils/kodeverkUtils';
+import KriterierType from '../../../../types/KriterierType';
 import DatoSorteringValg from './DatoSorteringValg';
 import styles from './utvalgskriterierForOppgavekoForm.css';
-import KriterierType from '../../../../types/KriterierType';
 
 interface OwnProps {
   intl: any;

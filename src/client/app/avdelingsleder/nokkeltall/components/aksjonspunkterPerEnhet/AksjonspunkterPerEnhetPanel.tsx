@@ -1,14 +1,12 @@
 import React, { FunctionComponent, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useQuery } from 'react-query';
-
 import { Loader } from '@navikt/ds-react';
-
-import { ALLE_YTELSETYPER_VALGT, UKE_2 } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
-import GrafContainer from 'avdelingsleder/GrafContainer';
-import { getValueFromLocalStorage } from 'utils/localStorageHelper';
-import AksjonspunkterPerEnhetType from 'avdelingsleder/nokkeltall/AksjonspunkterPerEnhetType';
 import { Error } from 'app/errorTsType';
+import GrafContainer from 'avdelingsleder/GrafContainer';
+import AksjonspunkterPerEnhetType from 'avdelingsleder/nokkeltall/AksjonspunkterPerEnhetType';
+import { ALLE_YTELSETYPER_VALGT, UKE_2 } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
+import { getValueFromLocalStorage } from 'utils/localStorageHelper';
 import AksjonspunkterPerEnhetDiagram from './AksjonspunkterPerEnhetDiagram';
 
 const AksjonspunkterPerEnhetPanel: FunctionComponent = () => {

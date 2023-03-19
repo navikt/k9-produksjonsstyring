@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FlexContainer, FlexRow, FlexColumn } from 'sharedComponents/flexGrid';
-import { range } from 'utils/arrayUtils';
 import EditedIcon from 'sharedComponents/EditedIcon';
+import { FlexColumn, FlexContainer, FlexRow } from 'sharedComponents/flexGrid';
+import { range } from 'utils/arrayUtils';
 import styles from './optionGrid.css';
 
 export const OptionGrid = ({ id, columns, rows, options, spaceBetween, isEdited, direction }) => {

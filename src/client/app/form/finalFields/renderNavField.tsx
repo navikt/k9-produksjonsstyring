@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
-
+import { WrappedComponentProps, injectIntl } from 'react-intl';
 import Label, { LabelType } from './Label';
 
 interface OwnProps {
@@ -18,7 +17,7 @@ interface OwnProps {
   onBlurValidation?: boolean;
 }
 
-const renderNavField = (WrappedNavFieldComponent) => {
+const renderNavField = WrappedNavFieldComponent => {
   class FieldComponent extends Component<OwnProps & WrappedComponentProps> {
     static defaultProps = {
       readOnly: false,
@@ -43,7 +42,14 @@ const renderNavField = (WrappedNavFieldComponent) => {
 
     render() {
       const {
-        input, meta: { submitFailed, error }, label, readOnly, isEdited, readOnlyHideEmpty, onBlurValidation, ...otherProps
+        input,
+        meta: { submitFailed, error },
+        label,
+        readOnly,
+        isEdited,
+        readOnlyHideEmpty,
+        onBlurValidation,
+        ...otherProps
       } = this.props;
       const isEmpty = input.value === null || input.value === undefined || input.value === '';
       if (readOnly && readOnlyHideEmpty && isEmpty) {
@@ -57,7 +63,9 @@ const renderNavField = (WrappedNavFieldComponent) => {
       if (!readOnly) {
         return <WrappedNavFieldComponent {...fieldProps} {...input} {...otherProps} readOnly={readOnly} />;
       }
-      return <WrappedNavFieldComponent {...fieldProps} {...input} isEdited={isEdited} {...otherProps} readOnly={readOnly} />;
+      return (
+        <WrappedNavFieldComponent {...fieldProps} {...input} isEdited={isEdited} {...otherProps} readOnly={readOnly} />
+      );
     }
   }
 

@@ -1,8 +1,7 @@
 import React, { Component, ReactNode, ReactType } from 'react';
+import { WrappedComponentProps, injectIntl } from 'react-intl';
 import classnames from 'classnames/bind';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { Undertekst } from 'nav-frontend-typografi';
-
 import styles from './label.css';
 
 const classNames = classnames.bind(styles);

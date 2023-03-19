@@ -2,10 +2,9 @@ import React, { Component, MouseEvent } from 'react';
 import { FormattedMessage } from 'react-intl';
 import Oppgave from 'saksbehandler/oppgaveTsType';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
+import FlyttReservasjonModal from './FlyttReservasjonModal';
 import MenuButton from './MenuButton';
 import OpphevReservasjonModal from './OpphevReservasjonModal';
-import FlyttReservasjonModal from './FlyttReservasjonModal';
-
 import styles from './oppgaveHandlingerMenu.css';
 
 const getOffsetPositionStyle = offset =>
@@ -70,11 +69,11 @@ export class OppgaveHandlingerMenu extends Component<OwnProps, OwnState> {
     if (this.menuButtonRef && this.menuButtonRef.current) {
       this.menuButtonRef.current.focus();
     }
-  };
+  }
 
   componentWillUnmount() {
     toggleEventListeners(false, this.handleOutsideClick);
-  };
+  }
 
   handleOutsideClick = (event: MouseEvent<HTMLButtonElement>) => {
     const { imageNode } = this.props;
@@ -168,7 +167,7 @@ export class OppgaveHandlingerMenu extends Component<OwnProps, OwnState> {
         )}
       </>
     );
-  };
+  }
 }
 
 export default OppgaveHandlingerMenu;

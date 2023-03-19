@@ -1,8 +1,10 @@
 import { expect } from 'chai';
-
 import AvdelingslederPanels from './avdelingslederPanels';
 import {
-  avdelingslederReducer, setSelectedAvdelingslederPanel, resetBehandlingSupport, getSelectedAvdelingslederPanel,
+  avdelingslederReducer,
+  getSelectedAvdelingslederPanel,
+  resetBehandlingSupport,
+  setSelectedAvdelingslederPanel,
 } from './duck';
 
 describe('Avdelingsleder-reducer', () => {

@@ -1,18 +1,18 @@
-import { FormattedMessage } from 'react-intl';
 import React, { FunctionComponent } from 'react';
+import { FormattedMessage } from 'react-intl';
 import Lenkepanel from 'nav-frontend-lenkepanel';
-import { SokeResultat } from 'saksbehandler/fagsakSearch/sokeResultatTsType';
-import { RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
-import { getK9punsjRef, getK9sakHref, getOmsorgspengerRef } from 'app/paths';
-import Oppgave from 'saksbehandler/oppgaveTsType';
-import PersonInfo from 'saksbehandler/fagsakSearch/components/person/PersonInfo';
 import Lenke from 'nav-frontend-lenker';
-import { getKodeverknavnFraKode } from 'utils/kodeverkUtils';
+import { getK9punsjRef, getK9sakHref, getOmsorgspengerRef } from 'app/paths';
+import { RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
 import AlleKodeverk from 'kodeverk/alleKodeverkTsType';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
+import PersonInfo from 'saksbehandler/fagsakSearch/components/person/PersonInfo';
+import { SokeResultat } from 'saksbehandler/fagsakSearch/sokeResultatTsType';
+import Oppgave from 'saksbehandler/oppgaveTsType';
+import { getKodeverknavnFraKode } from 'utils/kodeverkUtils';
 import useGlobalStateRestApiData from '../api/rest-api-hooks/src/global-data/useGlobalStateRestApiData';
-import styles from './aktoerGrid.css';
 import OppgaveSystem from '../types/OppgaveSystem';
+import styles from './aktoerGrid.css';
 
 interface OwnProps {
   resultat: SokeResultat;

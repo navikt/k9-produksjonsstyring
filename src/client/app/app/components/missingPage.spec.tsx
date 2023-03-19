@@ -1,10 +1,9 @@
 import React from 'react';
-import { shallow } from 'enzyme';
-import { expect } from 'chai';
-import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
+import { Link } from 'react-router-dom';
+import { expect } from 'chai';
+import { shallow } from 'enzyme';
 import Panel from 'nav-frontend-paneler';
-
 import MissingPage from './MissingPage';
 
 describe('<MissingPage>', () => {

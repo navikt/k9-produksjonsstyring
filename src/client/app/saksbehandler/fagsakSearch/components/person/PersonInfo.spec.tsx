@@ -1,10 +1,9 @@
 import React from 'react';
-import { expect } from 'chai';
-import { Undertittel, Undertekst } from 'nav-frontend-typografi';
-
-import Image from 'sharedComponents/Image';
 import { IntlShape } from 'react-intl';
-import { shallowWithIntl, intlMock } from '../../../../../../../setup/testHelpers/intl-enzyme-test-helper';
+import { expect } from 'chai';
+import { Undertekst, Undertittel } from 'nav-frontend-typografi';
+import Image from 'sharedComponents/Image';
+import { intlMock, shallowWithIntl } from '../../../../../../../setup/testHelpers/intl-enzyme-test-helper';
 import PersonInfo from './PersonInfo';
 
 describe('<PersonInfo>', () => {
@@ -23,10 +22,7 @@ describe('<PersonInfo>', () => {
         navn: 'test',
       },
     };
-    const wrapper = shallowWithIntl(<PersonInfo.WrappedComponent
-      intl={intl}
-      person={person}
-    />);
+    const wrapper = shallowWithIntl(<PersonInfo.WrappedComponent intl={intl} person={person} />);
 
     const image = wrapper.find(Image);
     expect(image.prop('alt')).to.eql('Personinformasjon');
