@@ -46,8 +46,9 @@ const BehandlingsKoForm = () => {
     >
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <InputField label="Navn" name="navn" validate={[required, minLength(3)]} />
+          <InputField label="Navn" name="navn" size="medium" validate={[required, minLength(3)]} />
           <TextAreaField
+            size="medium"
             name="beskrivelse"
             label="Beskrivelse"
             description="Her kan du legge inn en valgfri beskrivelse av hva denne køen inneholder."
