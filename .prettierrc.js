@@ -14,6 +14,7 @@ module.exports = {
   trailingComma: 'all',
   useTabs: false,
   importOrder: [
+    '^react',
     '<THIRD_PARTY_MODULES>',
     '^@navikt/(.*)$',
     '^app/(.*)$',
@@ -28,6 +29,5 @@ module.exports = {
     '^utils/(.*)$',
     '^[./]',
   ],
-  importOrderSeparation: true,
   importOrderSortSpecifiers: true,
 };
