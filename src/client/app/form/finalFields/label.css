@@ -1,12 +1,12 @@
 .labelWrapper > .label {
-  line-height: 1.15rem;
+    line-height: 1.15rem;
 }
 @media only screen and (max-width: 1600px) {
-  .labelWrapper > .label {
-    font-size: 13px;
-  }
+    .labelWrapper > .label {
+        font-size: 13px;
+    }
 }
 .readOnly {
-  display: inline-block;
-  margin-bottom: 0.5rem;
+    display: inline-block;
+    margin-bottom: 0.5rem;
 }

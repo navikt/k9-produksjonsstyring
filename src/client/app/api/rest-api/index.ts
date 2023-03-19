@@ -1,6 +1,6 @@
+import RequestConfig from './src/RequestConfig';
 import getAxiosHttpClientApi from './src/axios/axiosHttpClientApi';
 import RequestApi from './src/requestApi/RequestApi';
-import RequestConfig from './src/RequestConfig';
 
 export { default as NotificationMapper } from './src/requestApi/NotificationMapper';
 export { REQUEST_POLLING_CANCELLED } from './src/requestApi/RequestProcess';

@@ -1,9 +1,8 @@
 import React, { FunctionComponent } from 'react';
-import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
+import { Link } from 'react-router-dom';
 import Panel from 'nav-frontend-paneler';
-import { Undertittel, Normaltekst } from 'nav-frontend-typografi';
-
+import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import styles from './missingPage.css';
 
 /**
@@ -13,16 +12,16 @@ import styles from './missingPage.css';
  * Det blir presentert en generell feilmelding og en lenke som tar NAV-ansatt tilbake til hovedsiden.
  */
 const MissingPage: FunctionComponent = () => (
-  <Panel className={styles.container}>
-    <Undertittel>
-      <FormattedMessage id="MissingPage.PageIsMissing" />
-    </Undertittel>
-    <Normaltekst>
-      <Link to="/">
-        <FormattedMessage id="MissingPage.Home" />
-      </Link>
-    </Normaltekst>
-  </Panel>
+    <Panel className={styles.container}>
+        <Undertittel>
+            <FormattedMessage id="MissingPage.PageIsMissing" />
+        </Undertittel>
+        <Normaltekst>
+            <Link to="/">
+                <FormattedMessage id="MissingPage.Home" />
+            </Link>
+        </Normaltekst>
+    </Panel>
 );
 
 export default MissingPage;

@@ -1,20 +1,18 @@
+import { v4 as uuid } from 'uuid';
 import { OppgaveQuery } from './filterTsTypes';
 
-import { v4 as uuid } from 'uuid';
-
 export default class OppgaveQueryModel {
-
     private oppgaveQuery: OppgaveQuery;
 
     constructor(oppgaveQuery: OppgaveQuery) {
         let newOppgaveQuery = oppgaveQuery;
         if (newOppgaveQuery == null) {
             newOppgaveQuery = {
-                "filtere": [],
-                "select": [],
-                "order": [],
-                "limit": 10,
-            }
+                filtere: [],
+                select: [],
+                order: [],
+                limit: 10,
+            };
         }
 
         newOppgaveQuery = JSON.parse(JSON.stringify(newOppgaveQuery));
@@ -26,7 +24,6 @@ export default class OppgaveQueryModel {
         }
     }
 
-
     updateLimit(limit: number) {
         this.oppgaveQuery.limit = limit;
         return this;
@@ -34,16 +31,16 @@ export default class OppgaveQueryModel {
 
     private static updateIdentities(oppgaveQuery) {
         oppgaveQuery.id = uuid();
-        oppgaveQuery.filtere.forEach(f => {
+        oppgaveQuery.filtere.forEach((f) => {
             f.id = uuid();
             if (f.filtere) {
                 updateIdentities(f);
             }
         });
-        oppgaveQuery.select.forEach(f => {
+        oppgaveQuery.select.forEach((f) => {
             f.id = uuid();
         });
-        oppgaveQuery.order.forEach(f => {
+        oppgaveQuery.order.forEach((f) => {
             f.id = uuid();
         });
         return oppgaveQuery;
@@ -58,11 +55,11 @@ export default class OppgaveQueryModel {
     }
 
     private internalRemoveFilter(oppgaveQuery, id) {
-        const index = oppgaveQuery.filtere.findIndex(f => f.id === id);
+        const index = oppgaveQuery.filtere.findIndex((f) => f.id === id);
         if (index >= 0) {
             oppgaveQuery.filtere.splice(index, 1);
         } else {
-            oppgaveQuery.filtere.filter(f => f.filtere).forEach(f => this.internalRemoveFilter(f, id));
+            oppgaveQuery.filtere.filter((f) => f.filtere).forEach((f) => this.internalRemoveFilter(f, id));
         }
         return this;
     }
@@ -111,15 +108,15 @@ export default class OppgaveQueryModel {
     private internalAddFilter(oppgaveQuery, id) {
         if (oppgaveQuery.id === id) {
             oppgaveQuery.filtere.push({
-                "id": uuid(),
-                "type" : "feltverdi",
-                "område" : null,
-                "kode" : null,
-                "operator" : "EQUALS",
-                "verdi" : null
+                id: uuid(),
+                type: 'feltverdi',
+                område: null,
+                kode: null,
+                operator: 'EQUALS',
+                verdi: null,
             });
         } else {
-            oppgaveQuery.filtere.filter(f => f.filtere).forEach(f => this.internalAddFilter(f, id));
+            oppgaveQuery.filtere.filter((f) => f.filtere).forEach((f) => this.internalAddFilter(f, id));
         }
         return this;
     }
@@ -129,11 +126,11 @@ export default class OppgaveQueryModel {
     }
 
     private internalUdateFilter(oppgaveQuery: OppgaveQuery, id, data) {
-        const index = oppgaveQuery.filtere.findIndex(f => f.id === id);
+        const index = oppgaveQuery.filtere.findIndex((f) => f.id === id);
         if (index >= 0) {
             oppgaveQuery.filtere[index] = data;
         } else {
-            oppgaveQuery.filtere.filter(f => f.filtere).forEach(f => this.internalUdateFilter(f, id, data));
+            oppgaveQuery.filtere.filter((f) => f.filtere).forEach((f) => this.internalUdateFilter(f, id, data));
         }
         return this;
     }
@@ -145,29 +142,29 @@ export default class OppgaveQueryModel {
     private internalAddGruppe(oppgaveQuery, id) {
         if (oppgaveQuery.id === id) {
             oppgaveQuery.filtere.push({
-                "id": uuid(),
-                "type" : "combine",
-                "combineOperator": (!oppgaveQuery.combineOperator || oppgaveQuery.combineOperator === "AND") ? "OR" : "AND",
-                "filtere": []
+                id: uuid(),
+                type: 'combine',
+                combineOperator: !oppgaveQuery.combineOperator || oppgaveQuery.combineOperator === 'AND' ? 'OR' : 'AND',
+                filtere: [],
             });
         } else {
-            oppgaveQuery.filtere.filter(f => f.filtere != null).forEach(f => this.internalAddGruppe(f, id));
+            oppgaveQuery.filtere.filter((f) => f.filtere != null).forEach((f) => this.internalAddGruppe(f, id));
         }
         return this;
     }
 
     addEnkelSelectFelt() {
         this.oppgaveQuery.select.push({
-            "id": uuid(),
-            "type" : "enkel",
-            "område" : null,
-            "kode" : null,
+            id: uuid(),
+            type: 'enkel',
+            område: null,
+            kode: null,
         });
         return this;
     }
 
     removeSelectFelt(id) {
-        const index = this.oppgaveQuery.select.findIndex(f => f.id === id);
+        const index = this.oppgaveQuery.select.findIndex((f) => f.id === id);
         if (index >= 0) {
             this.oppgaveQuery.select.splice(index, 1);
         }
@@ -175,7 +172,7 @@ export default class OppgaveQueryModel {
     }
 
     updateEnkelSelectFelt(id, data) {
-        const index = this.oppgaveQuery.select.findIndex(f => f.id === id);
+        const index = this.oppgaveQuery.select.findIndex((f) => f.id === id);
         if (index >= 0) {
             this.oppgaveQuery.select[index] = data;
         }
@@ -184,17 +181,17 @@ export default class OppgaveQueryModel {
 
     addEnkelOrderFelt() {
         this.oppgaveQuery.order.push({
-            "id": uuid(),
-            "type" : "enkel",
-            "område" : null,
-            "kode" : null,
-            "økende": true,
+            id: uuid(),
+            type: 'enkel',
+            område: null,
+            kode: null,
+            økende: true,
         });
         return this;
     }
 
     removeOrderFelt(id) {
-        const index = this.oppgaveQuery.order.findIndex(f => f.id === id);
+        const index = this.oppgaveQuery.order.findIndex((f) => f.id === id);
         if (index >= 0) {
             this.oppgaveQuery.order.splice(index, 1);
         }
@@ -202,7 +199,7 @@ export default class OppgaveQueryModel {
     }
 
     updateEnkelOrderFelt(id, data) {
-        const index = this.oppgaveQuery.order.findIndex(f => f.id === id);
+        const index = this.oppgaveQuery.order.findIndex((f) => f.id === id);
         if (index >= 0) {
             this.oppgaveQuery.order[index] = data;
         }

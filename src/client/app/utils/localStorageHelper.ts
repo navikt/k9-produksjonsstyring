@@ -1,17 +1,17 @@
 export const getValueFromLocalStorage = (key: string): string | undefined => {
-  const value = window.localStorage.getItem(key);
-  return value !== 'undefined' && value !== null ? value : undefined;
+    const value = window.localStorage.getItem(key);
+    return value !== 'undefined' && value !== null ? value : undefined;
 };
 
 export const setValueInLocalStorage = (key: string, value: any) => {
-  window.localStorage.setItem(key, value);
+    window.localStorage.setItem(key, value);
 };
 
 export const removeValueFromLocalStorage = (key: string) => {
-  window.localStorage.removeItem(key);
+    window.localStorage.removeItem(key);
 };
 
 export const lagreTilLocalStorageCallback = (key, value, callback) => {
-  setValueInLocalStorage(key, value);
-  callback(value);
+    setValueInLocalStorage(key, value);
+    callback(value);
 };

@@ -1,6 +1,6 @@
 type ApneBehandlinger = Readonly<{
     behandlingType: string;
-    antall:number;
-}>
+    antall: number;
+}>;
 
 export default ApneBehandlinger;

@@ -14,4 +14,4 @@ export type Oppgaveko = Readonly<{
         tomDato?: string;
     };
     skjermet: boolean;
-}>
+}>;

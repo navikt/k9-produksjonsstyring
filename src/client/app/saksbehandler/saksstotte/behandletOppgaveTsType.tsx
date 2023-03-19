@@ -6,6 +6,6 @@ type BehandletOppgave = Readonly<{
     eksternId: string;
     journalpostId: string;
     system: string;
-}>
+}>;
 
 export default BehandletOppgave;

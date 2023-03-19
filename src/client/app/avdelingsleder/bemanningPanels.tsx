@@ -1,5 +1,5 @@
 const BemanningPanels = {
-  SAKSBEHANDLERE: 'saksbehandlere',
+    SAKSBEHANDLERE: 'saksbehandlere',
 };
 
 export default BemanningPanels;

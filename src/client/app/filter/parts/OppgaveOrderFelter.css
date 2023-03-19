@@ -1,16 +1,16 @@
 .orderEnkelFelt {
-  display: flex;
-  align-items: center;
-  margin-top: var(--a-spacing-2);
+    display: flex;
+    align-items: center;
+    margin-top: var(--a-spacing-2);
 }
 .orderLeggTil {
-  margin-top: var(--a-spacing-4);
+    margin-top: var(--a-spacing-4);
 }
 .noGap {
-  gap: 0;
+    gap: 0;
 }
 
 .orderDirection {
-  gap: 0;
-  margin-left: var(--a-spacing-2);
+    gap: 0;
+    margin-left: var(--a-spacing-2);
 }
