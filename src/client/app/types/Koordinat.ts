@@ -1,6 +1,6 @@
 interface Koordinat {
-    x: Date;
-    y: number;
+	x: Date;
+	y: number;
 }
 
 export default Koordinat;

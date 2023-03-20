@@ -9,15 +9,15 @@ import { Driftsmelding } from './driftsmeldingTsType';
  */
 
 const EndreDriftsmeldingerIndex = () => {
-    const { startRequest: hentAlleDriftsmeldinger, data: driftsmeldinger = [] } = useRestApiRunner<Driftsmelding[]>(
-        K9LosApiKeys.DRIFTSMELDINGER,
-    );
+	const { startRequest: hentAlleDriftsmeldinger, data: driftsmeldinger = [] } = useRestApiRunner<Driftsmelding[]>(
+		K9LosApiKeys.DRIFTSMELDINGER,
+	);
 
-    useEffect(() => {
-        hentAlleDriftsmeldinger();
-    }, []);
+	useEffect(() => {
+		hentAlleDriftsmeldinger();
+	}, []);
 
-    return <DriftsmeldingerPanel driftsmeldinger={driftsmeldinger} hentAlleDriftsmeldinger={hentAlleDriftsmeldinger} />;
+	return <DriftsmeldingerPanel driftsmeldinger={driftsmeldinger} hentAlleDriftsmeldinger={hentAlleDriftsmeldinger} />;
 };
 
 export default EndreDriftsmeldingerIndex;

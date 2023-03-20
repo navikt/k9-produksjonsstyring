@@ -7,48 +7,48 @@ import OpphevReservasjonModal from 'saksbehandler/behandlingskoer/components/men
 import withIntl from '../../../decorators/withIntl';
 
 export default {
-    title: 'saksbehandler/behandlingskoer/OpphevReservasjonModal',
-    component: OpphevReservasjonModal,
-    decorators: [withIntl],
+	title: 'saksbehandler/behandlingskoer/OpphevReservasjonModal',
+	component: OpphevReservasjonModal,
+	decorators: [withIntl],
 };
 
 export const skalViseModalForEndringAvReservasjon = () => (
-    <OpphevReservasjonModal
-        showModal
-        cancel={action('button-click')}
-        submit={action('button-click')}
-        oppgave={{
-            id: 1,
-            status: {
-                erReservert: false,
-                flyttetReservasjon: {
-                    tidspunkt: '2019-02-02',
-                    uid: '23423',
-                    navn: 'Espen Utvikler',
-                    begrunnelse: 'Flyttet',
-                },
-            },
-            saksnummer: 1234,
-            personnummer: '1212',
-            navn: 'Espen Utvikler',
-            system: 'SAK',
-            behandlingstype: {
-                kode: behandlingType.FORSTEGANGSSOKNAD,
-                navn: 'Førstegangssøknad',
-            },
-            behandlingStatus: {
-                kode: behandlingStatus.BEHANDLING_UTREDES,
-                navn: 'Behandling utredes',
-            },
-            opprettetTidspunkt: '2019-01-01',
-            behandlingsfrist: '2019-01-01',
-            fagsakYtelseType: {
-                kode: fagsakYtelseType.FORELDREPRENGER,
-                navn: 'Foreldrepenger',
-            },
-            erTilSaksbehandling: true,
-            behandlingId: '1',
-            href: '',
-        }}
-    />
+	<OpphevReservasjonModal
+		showModal
+		cancel={action('button-click')}
+		submit={action('button-click')}
+		oppgave={{
+			id: 1,
+			status: {
+				erReservert: false,
+				flyttetReservasjon: {
+					tidspunkt: '2019-02-02',
+					uid: '23423',
+					navn: 'Espen Utvikler',
+					begrunnelse: 'Flyttet',
+				},
+			},
+			saksnummer: 1234,
+			personnummer: '1212',
+			navn: 'Espen Utvikler',
+			system: 'SAK',
+			behandlingstype: {
+				kode: behandlingType.FORSTEGANGSSOKNAD,
+				navn: 'Førstegangssøknad',
+			},
+			behandlingStatus: {
+				kode: behandlingStatus.BEHANDLING_UTREDES,
+				navn: 'Behandling utredes',
+			},
+			opprettetTidspunkt: '2019-01-01',
+			behandlingsfrist: '2019-01-01',
+			fagsakYtelseType: {
+				kode: fagsakYtelseType.FORELDREPRENGER,
+				navn: 'Foreldrepenger',
+			},
+			erTilSaksbehandling: true,
+			behandlingId: '1',
+			href: '',
+		}}
+	/>
 );

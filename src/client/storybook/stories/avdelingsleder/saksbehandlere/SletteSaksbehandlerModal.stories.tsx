@@ -4,19 +4,19 @@ import SletteSaksbehandlerModal from 'avdelingsleder/bemanning/components/Slette
 import withIntl from '../../../decorators/withIntl';
 
 export default {
-    title: 'avdelingsleder/saksbehandlere/SletteSaksbehandlerModal',
-    component: SletteSaksbehandlerModal,
-    decorators: [withIntl],
+	title: 'avdelingsleder/saksbehandlere/SletteSaksbehandlerModal',
+	component: SletteSaksbehandlerModal,
+	decorators: [withIntl],
 };
 
 export const skalViseModalForSlettingAvSaksbehandler = () => (
-    <SletteSaksbehandlerModal
-        valgtSaksbehandler={{
-            brukerIdent: 'R12122',
-            navn: 'Espen Utvikler',
-            avdelingsnavn: [],
-        }}
-        closeSletteModal={action('button-click')}
-        fjernSaksbehandler={action('button-click')}
-    />
+	<SletteSaksbehandlerModal
+		valgtSaksbehandler={{
+			brukerIdent: 'R12122',
+			navn: 'Espen Utvikler',
+			avdelingsnavn: [],
+		}}
+		closeSletteModal={action('button-click')}
+		fjernSaksbehandler={action('button-click')}
+	/>
 );

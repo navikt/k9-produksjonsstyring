@@ -1,6 +1,6 @@
 .tittel {
-    display: flex;
+	display: flex;
 }
 .tittel .hjelpetekst {
-    margin-left: 0.5rem;
+	margin-left: 0.5rem;
 }

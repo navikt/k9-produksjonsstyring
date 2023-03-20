@@ -1,6 +1,6 @@
 /* NOTE: Rekkefølgen styrer visning */
 const AdminPanels = {
-    DRIFTSMELDINGER: 'driftsmeldinger',
+	DRIFTSMELDINGER: 'driftsmeldinger',
 };
 
 export default AdminPanels;

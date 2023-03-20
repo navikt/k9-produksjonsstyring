@@ -8,24 +8,24 @@ import ReservasjonerTabell from './components/ReservasjonerTabell';
 const EMPTY_ARRAY = [];
 
 export const ReservasjonerIndex: FunctionComponent = () => {
-    const {
-        data: reservasjoner = EMPTY_ARRAY,
-        state,
-        startRequest: hentAlleReservasjoner,
-    } = useRestApiRunner<Reservasjon[]>(K9LosApiKeys.HENT_ALLE_RESERVASJONER);
-    const requestFinished = state === RestApiState.SUCCESS;
+	const {
+		data: reservasjoner = EMPTY_ARRAY,
+		state,
+		startRequest: hentAlleReservasjoner,
+	} = useRestApiRunner<Reservasjon[]>(K9LosApiKeys.HENT_ALLE_RESERVASJONER);
+	const requestFinished = state === RestApiState.SUCCESS;
 
-    useEffect(() => {
-        hentAlleReservasjoner();
-    }, []);
+	useEffect(() => {
+		hentAlleReservasjoner();
+	}, []);
 
-    return (
-        <ReservasjonerTabell
-            reservasjoner={reservasjoner}
-            hentAlleReservasjoner={hentAlleReservasjoner}
-            requestFinished={requestFinished}
-        />
-    );
+	return (
+		<ReservasjonerTabell
+			reservasjoner={reservasjoner}
+			hentAlleReservasjoner={hentAlleReservasjoner}
+			requestFinished={requestFinished}
+		/>
+	);
 };
 
 export default ReservasjonerIndex;

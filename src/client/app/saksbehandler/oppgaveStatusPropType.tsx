@@ -1,16 +1,16 @@
 import PropTypes from 'prop-types';
 
 const oppgaveStatusPropType = PropTypes.shape({
-    erReservert: PropTypes.bool.isRequired,
-    reservertTilTidspunkt: PropTypes.string,
-    erReservertAvInnloggetBruker: PropTypes.bool,
-    reservertAv: PropTypes.string,
-    flyttetReservasjon: PropTypes.shape({
-        tidspunkt: PropTypes.string,
-        uid: PropTypes.string,
-        navn: PropTypes.string,
-        begrunnelse: PropTypes.string,
-    }),
+	erReservert: PropTypes.bool.isRequired,
+	reservertTilTidspunkt: PropTypes.string,
+	erReservertAvInnloggetBruker: PropTypes.bool,
+	reservertAv: PropTypes.string,
+	flyttetReservasjon: PropTypes.shape({
+		tidspunkt: PropTypes.string,
+		uid: PropTypes.string,
+		navn: PropTypes.string,
+		begrunnelse: PropTypes.string,
+	}),
 });
 
 export default oppgaveStatusPropType;

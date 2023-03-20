@@ -6,10 +6,10 @@ import NyeOgFerdigstilteOppgaverForIdagPanel from './nyeOgFerdigstilteOppgaverFo
 import NyeOgFerdigstilteOppgaverForSisteSyvPanel from './nyeOgFerdigstilteOppgaverForSisteSyv/NyeOgFerdigstilteOppgaverForSisteSyvPanel';
 
 describe('<SaksbehandlerNokkeltallPanel>', () => {
-    it('skal vise grafpaneler', () => {
-        const wrapper = shallow(<SaksbehandlerNokkeltallPanel nyeOgFerdigstilteOppgaver={[]} />);
+	it('skal vise grafpaneler', () => {
+		const wrapper = shallow(<SaksbehandlerNokkeltallPanel nyeOgFerdigstilteOppgaver={[]} />);
 
-        expect(wrapper.find(NyeOgFerdigstilteOppgaverForIdagPanel)).to.have.length(1);
-        expect(wrapper.find(NyeOgFerdigstilteOppgaverForSisteSyvPanel)).to.have.length(1);
-    });
+		expect(wrapper.find(NyeOgFerdigstilteOppgaverForIdagPanel)).to.have.length(1);
+		expect(wrapper.find(NyeOgFerdigstilteOppgaverForSisteSyvPanel)).to.have.length(1);
+	});
 });

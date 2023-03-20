@@ -1,30 +1,30 @@
 .row {
-    align-items: center;
-    display: flex;
+	align-items: center;
+	display: flex;
 }
 .container {
-    max-width: 85vw;
-    min-width: 40vw;
-    padding: 0 1rem;
+	max-width: 85vw;
+	min-width: 40vw;
+	padding: 0 1rem;
 }
 .buttons {
-    margin-left: auto;
+	margin-left: auto;
 }
 .submitButton {
-    margin-right: 10px;
+	margin-right: 10px;
 }
 .cancelButton {
-    margin-bottom: 0.25rem;
+	margin-bottom: 0.25rem;
 }
 .divider {
-    border-left: 1px solid #b7b1a9;
-    margin-left: 1.5rem;
+	border-left: 1px solid #b7b1a9;
+	margin-left: 1.5rem;
 }
 .image {
-    height: 1.5rem;
-    margin: auto;
-    width: 1.5rem;
+	height: 1.5rem;
+	margin: auto;
+	width: 1.5rem;
 }
 .text {
-    margin: 1rem 5rem 1rem 1rem;
+	margin: 1rem 5rem 1rem 1rem;
 }

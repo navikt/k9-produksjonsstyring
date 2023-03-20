@@ -6,16 +6,16 @@ import { Error } from './errorTsType';
  */
 
 export const ErrorTypes = {
-    MANGLER_TILGANG_FEIL: 'MANGLER_TILGANG_FEIL',
-    TOMT_RESULTAT_FEIL: 'TOMT_RESULTAT_FEIL',
-    BEHANDLING_ENDRET_FEIL: 'BEHANDLING_ENDRET_FEIL',
-    GENERELL_FEIL: 'GENERELL_FEIL',
+	MANGLER_TILGANG_FEIL: 'MANGLER_TILGANG_FEIL',
+	TOMT_RESULTAT_FEIL: 'TOMT_RESULTAT_FEIL',
+	BEHANDLING_ENDRET_FEIL: 'BEHANDLING_ENDRET_FEIL',
+	GENERELL_FEIL: 'GENERELL_FEIL',
 };
 
 export const handledErrorTypes = [ErrorTypes.MANGLER_TILGANG_FEIL];
 
 export const getErrorResponseData = (error: Error) =>
-    error && error.response && error.response.data ? error.response.data : error;
+	error && error.response && error.response.data ? error.response.data : error;
 export const errorOfType = (error: Error, errorType: string) => error && getErrorResponseData(error).type === errorType;
 
 export const isHandledError = (errorType?: string) => errorType && handledErrorTypes.includes(errorType);

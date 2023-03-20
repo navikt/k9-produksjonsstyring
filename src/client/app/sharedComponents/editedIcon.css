@@ -1,12 +1,12 @@
 .editedIcon {
-    display: inline-block;
-    margin-left: 12px;
-    vertical-align: text-bottom;
+	display: inline-block;
+	margin-left: 12px;
+	vertical-align: text-bottom;
 }
 .editedIcon img {
-    height: 24px;
-    width: 25px;
+	height: 24px;
+	width: 25px;
 }
 .radioEdited {
-    margin-left: 4px;
+	margin-left: 4px;
 }

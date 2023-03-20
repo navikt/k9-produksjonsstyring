@@ -2,8 +2,8 @@ import React from 'react';
 import SearchWithDropdown from 'sharedComponents/SearchWithDropdown';
 
 export default {
-    title: 'SearchWithDropdown',
-    component: SearchWithDropdown,
+	title: 'SearchWithDropdown',
+	component: SearchWithDropdown,
 };
 
 const oppgavekodeKodeverk = [

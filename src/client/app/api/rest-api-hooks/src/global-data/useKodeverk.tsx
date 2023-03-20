@@ -7,8 +7,8 @@ import useGlobalStateRestApiData from './useGlobalStateRestApiData';
  * må @see useGlobalStateRestApi først brukes for å hente data fra backend
  */
 function useKodeverk<T = KodeverkMedNavn>(kodeverkType: string): T[] {
-    const alleKodeverk = useGlobalStateRestApiData<{ [key: string]: T[] }>(RestApiGlobalStatePathsKeys.KODEVERK);
-    return alleKodeverk[kodeverkType];
+	const alleKodeverk = useGlobalStateRestApiData<{ [key: string]: T[] }>(RestApiGlobalStatePathsKeys.KODEVERK);
+	return alleKodeverk[kodeverkType];
 }
 
 export default useKodeverk;

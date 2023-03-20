@@ -4,9 +4,9 @@ import withIntl from '../decorators/withIntl';
 import withRouter from '../decorators/withRouter';
 
 export default {
-    title: 'MissingPage',
-    component: MissingPage,
-    decorators: [withIntl, withRouter],
+	title: 'MissingPage',
+	component: MissingPage,
+	decorators: [withIntl, withRouter],
 };
 
 export const skalViseSideKanIkkeFinnes = () => <MissingPage />;

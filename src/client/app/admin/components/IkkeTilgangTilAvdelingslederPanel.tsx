@@ -8,11 +8,11 @@ import styles from './ikkeTilgangTilAvdelingslederPanel.css';
  * IkkeTilgangTilAvdelingslederPanel
  */
 const IkkeTilgangTilAvdelingslederPanel = () => (
-    <Panel className={styles.container}>
-        <Undertittel>
-            <FormattedMessage id="IkkeTilgangTilAvdelingslederPanel.HarIkkeTilgang" />
-        </Undertittel>
-    </Panel>
+	<Panel className={styles.container}>
+		<Undertittel>
+			<FormattedMessage id="IkkeTilgangTilAvdelingslederPanel.HarIkkeTilgang" />
+		</Undertittel>
+	</Panel>
 );
 
 export default IkkeTilgangTilAvdelingslederPanel;

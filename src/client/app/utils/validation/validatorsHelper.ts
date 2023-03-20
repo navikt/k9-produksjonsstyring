@@ -10,16 +10,16 @@ export const saksnummerOrFodselsnummerPattern = /^(?:(\w|\d){5}|(\w|\d){7}|(^\d{
 export const saksnummerOrJournalpostidPattern = /^(?:(\w|\d){5}|(\w|\d){7}|(^\d{9}$))$/;
 // eslint-disable-next-line no-useless-escape,max-len
 export const emailPattern =
-    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+	/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 export const textRegex =
-    /^[0-9a-zA-ZæøåÆØÅAaÁáBbCcČčDdĐđEeFfGgHhIiJjKkLlMmNnŊŋOoPpRrSsŠšTtŦŧUuVvZzŽžéôèÉöüäÖÜÄ .'\-/%§!?@_()+:;,="&\n]*$/;
+	/^[0-9a-zA-ZæøåÆØÅAaÁáBbCcČčDdĐđEeFfGgHhIiJjKkLlMmNnŊŋOoPpRrSsŠšTtŦŧUuVvZzŽžéôèÉöüäÖÜÄ .'\-/%§!?@_()+:;,="&\n]*$/;
 export const textGyldigRegex =
-    /[0-9a-zA-ZæøåÆØÅAaÁáBbCcČčDdĐđEeFfGgHhIiJjKkLlMmNnŊŋOoPpRrSsŠšTtŦŧUuVvZzŽžéôèÉöüäÖÜÄ .'\-/%§!?@_()+:;,="&\n]*/g;
+	/[0-9a-zA-ZæøåÆØÅAaÁáBbCcČčDdĐđEeFfGgHhIiJjKkLlMmNnŊŋOoPpRrSsŠšTtŦŧUuVvZzŽžéôèÉöüäÖÜÄ .'\-/%§!?@_()+:;,="&\n]*/g;
 
 export const nameRegex = /^[0-9a-zA-ZæøåÆØÅAaÁáBbCcČčDdĐđEeFfGgHhIiJjKkLlMmNnŊŋOoPpRrSsŠšTtŦŧUuVvZzŽžéôèÉöüäÖÜÄ .'-]*$/;
 export const nameGyldigRegex =
-    /[0-9a-zA-ZæøåÆØÅAaÁáBbCcČčDdĐđEeFfGgHhIiJjKkLlMmNnŊŋOoPpRrSsŠšTtŦŧUuVvZzŽžéôèÉöüäÖÜÄ .'-]*/g;
+	/[0-9a-zA-ZæøåÆØÅAaÁáBbCcČčDdĐđEeFfGgHhIiJjKkLlMmNnŊŋOoPpRrSsŠšTtŦŧUuVvZzŽžéôèÉöüäÖÜÄ .'-]*/g;
 
 export const isEmpty = (text) => text === null || text === undefined || text.toString().trim().length === 0;
 
@@ -27,15 +27,15 @@ export const yesterday = () => moment().subtract(1, 'days').startOf('day');
 export const tomorrow = () => moment().add(1, 'days').startOf('day');
 
 export const dateRangesAreSequential = (ranges) => {
-    const isBeforeTheNextDate = (element, index, array) => {
-        const current = moment(element).startOf('day');
-        const next = index + 1 < array.length ? moment(array[index + 1]).startOf('day') : null;
-        return next !== null ? current.isBefore(next) : true;
-    };
+	const isBeforeTheNextDate = (element, index, array) => {
+		const current = moment(element).startOf('day');
+		const next = index + 1 < array.length ? moment(array[index + 1]).startOf('day') : null;
+		return next !== null ? current.isBefore(next) : true;
+	};
 
-    return [...ranges]
-        .sort((range1, range2) => (moment(range1[0]).startOf('day').isAfter(moment(range2[0]).startOf('day')) ? 1 : -1))
-        .map((range) => (range[0] === range[1] ? [range[0]] : range))
-        .reduce((range1, range2) => range1.concat(range2))
-        .every(isBeforeTheNextDate);
+	return [...ranges]
+		.sort((range1, range2) => (moment(range1[0]).startOf('day').isAfter(moment(range2[0]).startOf('day')) ? 1 : -1))
+		.map((range) => (range[0] === range[1] ? [range[0]] : range))
+		.reduce((range1, range2) => range1.concat(range2))
+		.every(isBeforeTheNextDate);
 };
