@@ -186,7 +186,7 @@
 		"css:lint": "stylelint \"src/**/*.css\"",
 		"up": "docker-compose up -d --remove-orphans --build",
 		"down": "docker-compose down",
-		"sentry-release": "(SENTRY_RELEASE=$(git rev-parse --short HEAD); node ./scripts/sentry-release)",
+		"sentry-release": "(SENTRY_RELEASE=$(git rev-parse --short HEAD); node ./setup/sentry-release.js)",
 		"storybook": "start-storybook -p 7001",
 		"prepare": "husky install"
 	},
