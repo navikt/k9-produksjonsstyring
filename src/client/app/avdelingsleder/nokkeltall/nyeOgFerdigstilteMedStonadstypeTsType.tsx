@@ -4,6 +4,6 @@ type NyeOgFerdigstilteMedStonadstype = Readonly<{
     nye: number;
     ferdigstilte: number;
     dato: string;
-}>
+}>;
 
 export default NyeOgFerdigstilteMedStonadstype;

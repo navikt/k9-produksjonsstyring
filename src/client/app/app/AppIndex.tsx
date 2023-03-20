@@ -1,16 +1,16 @@
 import React, { FunctionComponent, useCallback, useEffect, useState } from 'react';
-import { parseQueryString } from 'utils/urlUtils';
 import { useIdleTimer } from 'react-idle-timer';
+import { useLocation } from 'react-router';
 import { Modal } from '@navikt/ds-react';
 import ModalMedIkon from 'sharedComponents/modal/ModalMedIkon';
-import { useLocation } from 'react-router';
+import { parseQueryString } from 'utils/urlUtils';
+import advarselImageUrl from '../../images/advarsel.svg';
+import '../../styles/global.css';
 import AppConfigResolver from './AppConfigResolver';
+import ErrorBoundary from './ErrorBoundary';
 import LanguageProvider from './LanguageProvider';
 import HeaderWithErrorPanel from './components/HeaderWithErrorPanel';
 import Home from './components/Home';
-import '../../styles/global.css';
-import advarselImageUrl from '../../images/advarsel.svg';
-import ErrorBoundary from './ErrorBoundary';
 
 /**
  * AppIndex
@@ -21,58 +21,62 @@ import ErrorBoundary from './ErrorBoundary';
  * og kodeverk fra server og lagre desse i klientens state.
  */
 const AppIndex: FunctionComponent = ({ rootElement }: { rootElement: JSX.Element }) => {
-  useEffect(() => {
-    Modal.setAppElement(rootElement);
-  }, []);
-  const [headerHeight, setHeaderHeight] = useState(0);
-  const [crashMessage, setCrashMessage] = useState<string>();
-  const [sessionHarUtlopt, setSessionHarUtlopt] = useState<boolean>(false);
-  const timeout = 1000 * 60 * 58;
+    useEffect(() => {
+        Modal.setAppElement(rootElement);
+    }, []);
+    const [headerHeight, setHeaderHeight] = useState(0);
+    const [crashMessage, setCrashMessage] = useState<string>();
+    const [sessionHarUtlopt, setSessionHarUtlopt] = useState<boolean>(false);
+    const timeout = 1000 * 60 * 58;
 
-  const handleOnIdle = (): void => {
-    setSessionHarUtlopt(true);
-  };
+    const handleOnIdle = (): void => {
+        setSessionHarUtlopt(true);
+    };
 
-  useIdleTimer({
-    timeout,
-    onIdle: handleOnIdle,
-  });
+    useIdleTimer({
+        timeout,
+        onIdle: handleOnIdle,
+    });
 
-  const setSiteHeight = useCallback((newHeaderHeight): void => {
-    document.documentElement.setAttribute('style', `height: calc(100% - ${newHeaderHeight}px)`);
-    setHeaderHeight(newHeaderHeight);
-  }, []);
+    const setSiteHeight = useCallback((newHeaderHeight): void => {
+        document.documentElement.setAttribute('style', `height: calc(100% - ${newHeaderHeight}px)`);
+        setHeaderHeight(newHeaderHeight);
+    }, []);
 
-  const addErrorMessageAndSetAsCrashed = (error: string) => {
-    setCrashMessage(error);
-  };
+    const addErrorMessageAndSetAsCrashed = (error: string) => {
+        setCrashMessage(error);
+    };
 
-  const location = useLocation();
-  const queryStrings = parseQueryString(location.search);
+    const location = useLocation();
+    const queryStrings = parseQueryString(location.search);
 
-  return (
-    <ErrorBoundary errorMessageCallback={addErrorMessageAndSetAsCrashed}>
-      <AppConfigResolver>
-        <LanguageProvider>
-          <HeaderWithErrorPanel queryStrings={queryStrings} setSiteHeight={setSiteHeight} crashMessage={crashMessage} />
-          {sessionHarUtlopt && (
-            <ModalMedIkon
-              cancel={() => {
-                window.location.reload();
-              }}
-              tekst={{
-                valgmulighetB: 'Logg inn',
-                formattedMessageId: 'LoggetUtModal.Tekst',
-              }}
-              ikonUrl={advarselImageUrl}
-              ikonAlt="Varseltrekant"
-            />
-          )}
-          {crashMessage === undefined && <Home headerHeight={headerHeight} />}
-        </LanguageProvider>
-      </AppConfigResolver>
-    </ErrorBoundary>
-  );
+    return (
+        <ErrorBoundary errorMessageCallback={addErrorMessageAndSetAsCrashed}>
+            <AppConfigResolver>
+                <LanguageProvider>
+                    <HeaderWithErrorPanel
+                        queryStrings={queryStrings}
+                        setSiteHeight={setSiteHeight}
+                        crashMessage={crashMessage}
+                    />
+                    {sessionHarUtlopt && (
+                        <ModalMedIkon
+                            cancel={() => {
+                                window.location.reload();
+                            }}
+                            tekst={{
+                                valgmulighetB: 'Logg inn',
+                                formattedMessageId: 'LoggetUtModal.Tekst',
+                            }}
+                            ikonUrl={advarselImageUrl}
+                            ikonAlt="Varseltrekant"
+                        />
+                    )}
+                    {crashMessage === undefined && <Home headerHeight={headerHeight} />}
+                </LanguageProvider>
+            </AppConfigResolver>
+        </ErrorBoundary>
+    );
 };
 
 export default AppIndex;

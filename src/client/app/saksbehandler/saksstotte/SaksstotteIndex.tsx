@@ -4,8 +4,6 @@ import SaksstottePaneler from './components/SaksstottePaneler';
 /**
  * SaksstotteIndex
  */
-const SaksstotteIndex: FunctionComponent = () => (
-  <SaksstottePaneler />
-);
+const SaksstotteIndex: FunctionComponent = () => <SaksstottePaneler />;
 
 export default SaksstotteIndex;

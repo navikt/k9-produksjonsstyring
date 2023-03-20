@@ -1,56 +1,56 @@
 .oppgaveContainer {
-  margin-left: 60px;
-  margin-right: auto;
-  width: 100%;
+    margin-left: 60px;
+    margin-right: auto;
+    width: 100%;
 }
 .leftColumn {
-  float: left;
-  margin-right: 40px;
-  width: 65%;
+    float: left;
+    margin-right: 40px;
+    width: 65%;
 }
 .rightColumn {
-  float: left;
-  margin-top: -155px;
-  padding-left: 20px;
-  width: 25%;
+    float: left;
+    margin-top: -155px;
+    padding-left: 20px;
+    width: 25%;
 }
 .rightColumn > div {
-  margin-bottom: 16px;
+    margin-bottom: 16px;
 }
 @media all and (max-width: 1650px) {
-  .oppgaveContainer {
-    margin-left: 30px;
-  }
-  .leftColumn {
-    width: 100%;
-  }
-  .rightColumn {
-    margin-left: 0;
-    margin-top: 20px;
-    width: 100%;
-  }
-  .gridContainer {
-    display: flex;
-    flex-flow: row wrap;
-    max-height: 100%;
-    max-width: 100%;
-  }
-  .sakslisteContent {
-    order: 3;
-  }
-  .avdelingslederContent {
-    max-width: 1000px;
-  }
+    .oppgaveContainer {
+        margin-left: 30px;
+    }
+    .leftColumn {
+        width: 100%;
+    }
+    .rightColumn {
+        margin-left: 0;
+        margin-top: 20px;
+        width: 100%;
+    }
+    .gridContainer {
+        display: flex;
+        flex-flow: row wrap;
+        max-height: 100%;
+        max-width: 100%;
+    }
+    .sakslisteContent {
+        order: 3;
+    }
+    .avdelingslederContent {
+        max-width: 1000px;
+    }
 }
 @media all and (max-width: 800px) {
-  .gridContainer {
-    max-width: 640px;
-  }
+    .gridContainer {
+        max-width: 640px;
+    }
 }
 .avdelingslederContent {
-  margin-bottom: 20px;
-  margin-right: 20px;
-  min-width: -webkit-fill-available;
-  min-width: -moz-available;
-  width: fit-content;
+    margin-bottom: 20px;
+    margin-right: 20px;
+    min-width: -webkit-fill-available;
+    min-width: -moz-available;
+    width: fit-content;
 }

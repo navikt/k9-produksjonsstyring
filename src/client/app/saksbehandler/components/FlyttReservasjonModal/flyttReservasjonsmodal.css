@@ -1,45 +1,45 @@
 .flyttReservasjonModal {
-  display: flex;
-  flex-direction: column;
-  padding: 2rem;
-  width: 62rem;
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+    width: 62rem;
 }
 .flyttReservasjonModal_informasjon {
-  display: flex;
-  justify-content: left;
-  margin-left: 1rem;
-  max-width: 55rem;
+    display: flex;
+    justify-content: left;
+    margin-left: 1rem;
+    max-width: 55rem;
 }
 .flyttReservasjonModal_image {
-  height: 25px;
-  width: 25px;
+    height: 25px;
+    width: 25px;
 }
 .flyttReservasjonModal_image__container {
-  align-items: center;
-  display: flex;
+    align-items: center;
+    display: flex;
 }
 .flyttReservasjonModal_text {
-  align-items: center;
-  border-left: 1px solid #b7b1a9;
-  border-right: 0 solid #b7b1a9;
-  display: flex;
-  margin-left: 30px;
-  min-height: 37px;
+    align-items: center;
+    border-left: 1px solid #b7b1a9;
+    border-right: 0 solid #b7b1a9;
+    display: flex;
+    margin-left: 30px;
+    min-height: 37px;
 }
 .flyttReservasjonModal_text > * {
-  margin-left: 30px;
+    margin-left: 30px;
 }
 .flyttReservasjonModal_knapper__container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-evenly;
-  padding: 1rem 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    padding: 1rem 0 0;
 }
 .flyttReservasjonModal_knapper__knapp {
-  margin-top: 0.75rem;
+    margin-top: 0.75rem;
 }
 .flyttReservasjonModal__feilmelding {
-  color: #ba3a26;
-  margin-left: 0.5rem;
-  margin-top: 0.5rem;
+    color: #ba3a26;
+    margin-left: 0.5rem;
+    margin-top: 0.5rem;
 }
