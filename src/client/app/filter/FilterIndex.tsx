@@ -17,333 +17,333 @@ import OppgavefilterPanel from './parts/OppgavefilterPanel';
 import { kodeFraKey, områdeFraKey } from './utils';
 
 interface OwnProps {
-    lagre: (oppgaveQuery: OppgaveQuery) => void;
+	lagre: (oppgaveQuery: OppgaveQuery) => void;
 }
 
 class FilterIndex extends React.Component<OwnProps> {
-    constructor(props) {
-        super(props);
+	constructor(props) {
+		super(props);
 
-        this.state = {
-            oppgaveQuery: new OppgaveQueryModel().toOppgaveQuery(),
-            felter: [],
-            oppgaver: null,
-            queryError: null,
-            loading: false,
-            loadingDownload: false,
-        };
+		this.state = {
+			oppgaveQuery: new OppgaveQueryModel().toOppgaveQuery(),
+			felter: [],
+			oppgaver: null,
+			queryError: null,
+			loading: false,
+			loadingDownload: false,
+		};
 
-        this.executeOppgavesøk = this.executeOppgavesøk.bind(this);
-        this.executeOppgavesøkToFile = this.executeOppgavesøkToFile.bind(this);
+		this.executeOppgavesøk = this.executeOppgavesøk.bind(this);
+		this.executeOppgavesøkToFile = this.executeOppgavesøkToFile.bind(this);
 
-        this.fjernFilter = this.fjernFilter.bind(this);
-        this.leggTilFilter = this.leggTilFilter.bind(this);
-        this.leggTilGruppe = this.leggTilGruppe.bind(this);
-        this.oppdaterFilter = this.oppdaterFilter.bind(this);
+		this.fjernFilter = this.fjernFilter.bind(this);
+		this.leggTilFilter = this.leggTilFilter.bind(this);
+		this.leggTilGruppe = this.leggTilGruppe.bind(this);
+		this.oppdaterFilter = this.oppdaterFilter.bind(this);
 
-        this.fjernSelectFelt = this.fjernSelectFelt.bind(this);
-        this.leggTilEnkelSelectFelt = this.leggTilEnkelSelectFelt.bind(this);
-        this.oppdaterEnkelSelectFelt = this.oppdaterEnkelSelectFelt.bind(this);
+		this.fjernSelectFelt = this.fjernSelectFelt.bind(this);
+		this.leggTilEnkelSelectFelt = this.leggTilEnkelSelectFelt.bind(this);
+		this.oppdaterEnkelSelectFelt = this.oppdaterEnkelSelectFelt.bind(this);
 
-        this.fjernOrderFelt = this.fjernOrderFelt.bind(this);
-        this.leggTilEnkelOrderFelt = this.leggTilEnkelOrderFelt.bind(this);
-        this.oppdaterEnkelOrderFelt = this.oppdaterEnkelOrderFelt.bind(this);
+		this.fjernOrderFelt = this.fjernOrderFelt.bind(this);
+		this.leggTilEnkelOrderFelt = this.leggTilEnkelOrderFelt.bind(this);
+		this.oppdaterEnkelOrderFelt = this.oppdaterEnkelOrderFelt.bind(this);
 
-        this.oppdaterLimit = this.oppdaterLimit.bind(this);
+		this.oppdaterLimit = this.oppdaterLimit.bind(this);
 
-        k9LosApi
-            .startRequest(K9LosApiKeys.OPPGAVE_QUERY_FELTER)
-            .then((dataRes) => {
-                if (dataRes.payload !== REQUEST_POLLING_CANCELLED) {
-                    this.setState({
-                        felter: dataRes.payload.felter,
-                    });
-                } else {
-                    this.setState({
-                        felter: [],
-                    });
-                }
-            })
-            .catch((error) => {
-                this.setState({
-                    felter: [],
-                });
-                throw error;
-            });
-    }
+		k9LosApi
+			.startRequest(K9LosApiKeys.OPPGAVE_QUERY_FELTER)
+			.then((dataRes) => {
+				if (dataRes.payload !== REQUEST_POLLING_CANCELLED) {
+					this.setState({
+						felter: dataRes.payload.felter,
+					});
+				} else {
+					this.setState({
+						felter: [],
+					});
+				}
+			})
+			.catch((error) => {
+				this.setState({
+					felter: [],
+				});
+				throw error;
+			});
+	}
 
-    executeOppgavesøk() {
-        function updateIdentities(oppgaverader: Oppgaverad[]) {
-            oppgaverader.forEach((o) => {
-                /* eslint-disable no-param-reassign */
-                o.id = uuid();
-            });
-            return oppgaverader;
-        }
+	executeOppgavesøk() {
+		function updateIdentities(oppgaverader: Oppgaverad[]) {
+			oppgaverader.forEach((o) => {
+				/* eslint-disable no-param-reassign */
+				o.id = uuid();
+			});
+			return oppgaverader;
+		}
 
-        if (this.state.loading) {
-            return;
-        }
+		if (this.state.loading) {
+			return;
+		}
 
-        this.setState({
-            loading: true,
-        });
+		this.setState({
+			loading: true,
+		});
 
-        k9LosApi
-            .startRequest(K9LosApiKeys.OPPGAVE_QUERY, this.state.oppgaveQuery)
-            .then((dataRes) => {
-                if (dataRes.payload !== REQUEST_POLLING_CANCELLED) {
-                    this.setState({
-                        oppgaver: updateIdentities(dataRes.payload),
-                        queryError: null,
-                        loading: false,
-                    });
-                } else {
-                    this.setState({
-                        oppgaver: [],
-                        queryError: 'Klarte ikke å kjøre søk grunnet tidsavbrudd.',
-                        loading: false,
-                    });
-                }
-            })
-            .catch(() => {
-                this.setState({
-                    oppgaver: [],
-                    queryError: 'Klarte ikke å kjøre søk grunnet ukjent feil.',
-                    loading: false,
-                });
-            });
-    }
+		k9LosApi
+			.startRequest(K9LosApiKeys.OPPGAVE_QUERY, this.state.oppgaveQuery)
+			.then((dataRes) => {
+				if (dataRes.payload !== REQUEST_POLLING_CANCELLED) {
+					this.setState({
+						oppgaver: updateIdentities(dataRes.payload),
+						queryError: null,
+						loading: false,
+					});
+				} else {
+					this.setState({
+						oppgaver: [],
+						queryError: 'Klarte ikke å kjøre søk grunnet tidsavbrudd.',
+						loading: false,
+					});
+				}
+			})
+			.catch(() => {
+				this.setState({
+					oppgaver: [],
+					queryError: 'Klarte ikke å kjøre søk grunnet ukjent feil.',
+					loading: false,
+				});
+			});
+	}
 
-    executeOppgavesøkToFile() {
-        if (this.state.loadingDownload) {
-            return;
-        }
+	executeOppgavesøkToFile() {
+		if (this.state.loadingDownload) {
+			return;
+		}
 
-        this.setState({
-            loadingDownload: true,
-        });
+		this.setState({
+			loadingDownload: true,
+		});
 
-        k9LosApi
-            .startRequest(
-                K9LosApiKeys.OPPGAVE_QUERY_TO_FILE,
-                new OppgaveQueryModel(this.state.oppgaveQuery).updateLimit(-1).toOppgaveQuery(),
-            )
-            .then((dataRes) => {
-                if (dataRes.payload !== REQUEST_POLLING_CANCELLED) {
-                    this.setState({
-                        queryError: null,
-                        loadingDownload: false,
-                    });
-                } else {
-                    this.setState({
-                        queryError: 'Klarte ikke å kjøre søk grunnet tidsavbrudd.',
-                        loadingDownload: false,
-                    });
-                }
-            })
-            .catch(() => {
-                this.setState({
-                    queryError: 'Klarte ikke å kjøre søk grunnet ukjent feil.',
-                    loadingDownload: false,
-                });
-            });
-    }
+		k9LosApi
+			.startRequest(
+				K9LosApiKeys.OPPGAVE_QUERY_TO_FILE,
+				new OppgaveQueryModel(this.state.oppgaveQuery).updateLimit(-1).toOppgaveQuery(),
+			)
+			.then((dataRes) => {
+				if (dataRes.payload !== REQUEST_POLLING_CANCELLED) {
+					this.setState({
+						queryError: null,
+						loadingDownload: false,
+					});
+				} else {
+					this.setState({
+						queryError: 'Klarte ikke å kjøre søk grunnet tidsavbrudd.',
+						loadingDownload: false,
+					});
+				}
+			})
+			.catch(() => {
+				this.setState({
+					queryError: 'Klarte ikke å kjøre søk grunnet ukjent feil.',
+					loadingDownload: false,
+				});
+			});
+	}
 
-    fjernFilter(oppgavefilter: Oppgavefilter) {
-        this.setState((state) => ({
-            oppgaveQuery: new OppgaveQueryModel(state.oppgaveQuery).removeFilter(oppgavefilter.id).toOppgaveQuery(),
-            oppgaver: null,
-        }));
-    }
+	fjernFilter(oppgavefilter: Oppgavefilter) {
+		this.setState((state) => ({
+			oppgaveQuery: new OppgaveQueryModel(state.oppgaveQuery).removeFilter(oppgavefilter.id).toOppgaveQuery(),
+			oppgaver: null,
+		}));
+	}
 
-    leggTilFilter(filterContainer: FiltereContainer) {
-        this.setState((state) => ({
-            oppgaveQuery: new OppgaveQueryModel(state.oppgaveQuery).addFilter(filterContainer.id).toOppgaveQuery(),
-            oppgaver: null,
-        }));
-    }
+	leggTilFilter(filterContainer: FiltereContainer) {
+		this.setState((state) => ({
+			oppgaveQuery: new OppgaveQueryModel(state.oppgaveQuery).addFilter(filterContainer.id).toOppgaveQuery(),
+			oppgaver: null,
+		}));
+	}
 
-    leggTilGruppe(filterContainer: FiltereContainer) {
-        this.setState((state) => ({
-            oppgaveQuery: new OppgaveQueryModel(state.oppgaveQuery).addGruppe(filterContainer.id).toOppgaveQuery(),
-            oppgaver: null,
-        }));
-    }
+	leggTilGruppe(filterContainer: FiltereContainer) {
+		this.setState((state) => ({
+			oppgaveQuery: new OppgaveQueryModel(state.oppgaveQuery).addGruppe(filterContainer.id).toOppgaveQuery(),
+			oppgaver: null,
+		}));
+	}
 
-    fjernSelectFelt(oppgavefelt: Oppgavefelt) {
-        this.setState((state) => ({
-            oppgaveQuery: new OppgaveQueryModel(state.oppgaveQuery).removeSelectFelt(oppgavefelt.id).toOppgaveQuery(),
-            oppgaver: null,
-        }));
-    }
+	fjernSelectFelt(oppgavefelt: Oppgavefelt) {
+		this.setState((state) => ({
+			oppgaveQuery: new OppgaveQueryModel(state.oppgaveQuery).removeSelectFelt(oppgavefelt.id).toOppgaveQuery(),
+			oppgaver: null,
+		}));
+	}
 
-    leggTilEnkelSelectFelt() {
-        this.setState((state) => ({
-            oppgaveQuery: new OppgaveQueryModel(state.oppgaveQuery).addEnkelSelectFelt().toOppgaveQuery(),
-            oppgaver: null,
-        }));
-    }
+	leggTilEnkelSelectFelt() {
+		this.setState((state) => ({
+			oppgaveQuery: new OppgaveQueryModel(state.oppgaveQuery).addEnkelSelectFelt().toOppgaveQuery(),
+			oppgaver: null,
+		}));
+	}
 
-    oppdaterFilter(id, newData) {
-        this.setState((state) => {
-            const oppgaveQueryModel = new OppgaveQueryModel(state.oppgaveQuery);
-            const oppgavefilterToUpdate = oppgaveQueryModel.getById(id);
-            const data = {
-                ...oppgavefilterToUpdate,
-                ...newData,
-            };
-            oppgaveQueryModel.updateFilter(id, data);
+	oppdaterFilter(id, newData) {
+		this.setState((state) => {
+			const oppgaveQueryModel = new OppgaveQueryModel(state.oppgaveQuery);
+			const oppgavefilterToUpdate = oppgaveQueryModel.getById(id);
+			const data = {
+				...oppgavefilterToUpdate,
+				...newData,
+			};
+			oppgaveQueryModel.updateFilter(id, data);
 
-            return {
-                oppgaveQuery: oppgaveQueryModel.toOppgaveQuery(),
-                oppgaver: null,
-            };
-        });
-    }
+			return {
+				oppgaveQuery: oppgaveQueryModel.toOppgaveQuery(),
+				oppgaver: null,
+			};
+		});
+	}
 
-    oppdaterEnkelSelectFelt(selectFelt: SelectFelt, verdi: string) {
-        this.setState((state) => {
-            const newOppgaveQueryModel = new OppgaveQueryModel(state.oppgaveQuery);
-            const selectToUpdate = newOppgaveQueryModel.getById(selectFelt.id);
-            const data = {
-                ...selectToUpdate,
-                område: områdeFraKey(verdi),
-                kode: kodeFraKey(verdi),
-            };
+	oppdaterEnkelSelectFelt(selectFelt: SelectFelt, verdi: string) {
+		this.setState((state) => {
+			const newOppgaveQueryModel = new OppgaveQueryModel(state.oppgaveQuery);
+			const selectToUpdate = newOppgaveQueryModel.getById(selectFelt.id);
+			const data = {
+				...selectToUpdate,
+				område: områdeFraKey(verdi),
+				kode: kodeFraKey(verdi),
+			};
 
-            newOppgaveQueryModel.updateEnkelSelectFelt(selectFelt.id, data);
-            return {
-                oppgaveQuery: newOppgaveQueryModel.toOppgaveQuery(),
-                oppgaver: null,
-            };
-        });
-    }
+			newOppgaveQueryModel.updateEnkelSelectFelt(selectFelt.id, data);
+			return {
+				oppgaveQuery: newOppgaveQueryModel.toOppgaveQuery(),
+				oppgaver: null,
+			};
+		});
+	}
 
-    fjernOrderFelt(orderFelt: OrderFelt) {
-        this.setState((state) => ({
-            oppgaveQuery: new OppgaveQueryModel(state.oppgaveQuery).removeOrderFelt(orderFelt.id).toOppgaveQuery(),
-            oppgaver: null,
-        }));
-    }
+	fjernOrderFelt(orderFelt: OrderFelt) {
+		this.setState((state) => ({
+			oppgaveQuery: new OppgaveQueryModel(state.oppgaveQuery).removeOrderFelt(orderFelt.id).toOppgaveQuery(),
+			oppgaver: null,
+		}));
+	}
 
-    leggTilEnkelOrderFelt() {
-        this.setState((state) => ({
-            oppgaveQuery: new OppgaveQueryModel(state.oppgaveQuery).addEnkelOrderFelt().toOppgaveQuery(),
-            oppgaver: null,
-        }));
-    }
+	leggTilEnkelOrderFelt() {
+		this.setState((state) => ({
+			oppgaveQuery: new OppgaveQueryModel(state.oppgaveQuery).addEnkelOrderFelt().toOppgaveQuery(),
+			oppgaver: null,
+		}));
+	}
 
-    oppdaterEnkelOrderFelt(orderFelt: OrderFelt, newData) {
-        this.setState((state) => {
-            const newOppgaveQueryModel = new OppgaveQueryModel(state.oppgaveQuery);
-            const orderToUpdate = newOppgaveQueryModel.getById(orderFelt.id);
-            const data = {
-                ...orderToUpdate,
-                ...newData,
-            };
+	oppdaterEnkelOrderFelt(orderFelt: OrderFelt, newData) {
+		this.setState((state) => {
+			const newOppgaveQueryModel = new OppgaveQueryModel(state.oppgaveQuery);
+			const orderToUpdate = newOppgaveQueryModel.getById(orderFelt.id);
+			const data = {
+				...orderToUpdate,
+				...newData,
+			};
 
-            newOppgaveQueryModel.updateEnkelOrderFelt(orderFelt.id, data);
-            return {
-                oppgaveQuery: newOppgaveQueryModel.toOppgaveQuery(),
-                oppgaver: null,
-            };
-        });
-    }
+			newOppgaveQueryModel.updateEnkelOrderFelt(orderFelt.id, data);
+			return {
+				oppgaveQuery: newOppgaveQueryModel.toOppgaveQuery(),
+				oppgaver: null,
+			};
+		});
+	}
 
-    oppdaterLimit(limit: number) {
-        this.setState((state) => ({
-            oppgaveQuery: new OppgaveQueryModel(state.oppgaveQuery).updateLimit(limit).toOppgaveQuery(),
-        }));
-    }
+	oppdaterLimit(limit: number) {
+		this.setState((state) => ({
+			oppgaveQuery: new OppgaveQueryModel(state.oppgaveQuery).updateLimit(limit).toOppgaveQuery(),
+		}));
+	}
 
-    render() {
-        const { oppgaveQuery } = this.state;
-        const { oppgaver } = this.state;
-        const { felter } = this.state;
-        const { lagre } = this.props;
+	render() {
+		const { oppgaveQuery } = this.state;
+		const { oppgaver } = this.state;
+		const { felter } = this.state;
+		const { lagre } = this.props;
 
-        if (felter.length === 0) {
-            return null;
-        }
+		if (felter.length === 0) {
+			return null;
+		}
 
-        return (
-            <div className={styles.filterTopp}>
-                {oppgaveQuery.filtere.map((item) => (
-                    <OppgavefilterPanel
-                        key={item.id}
-                        felter={felter}
-                        oppgavefilter={item}
-                        onLeggTilFilter={this.leggTilFilter}
-                        onLeggTilGruppe={this.leggTilGruppe}
-                        onOppdaterFilter={this.oppdaterFilter}
-                        onFjernFilter={this.fjernFilter}
-                    />
-                ))}
-                <LeggTilFilterButton filterContainer={oppgaveQuery} onLeggTilFilter={this.leggTilFilter} />
-                <LeggTilGruppeButton filterContainer={oppgaveQuery} onLeggTilGruppe={this.leggTilGruppe} />
+		return (
+			<div className={styles.filterTopp}>
+				{oppgaveQuery.filtere.map((item) => (
+					<OppgavefilterPanel
+						key={item.id}
+						felter={felter}
+						oppgavefilter={item}
+						onLeggTilFilter={this.leggTilFilter}
+						onLeggTilGruppe={this.leggTilGruppe}
+						onOppdaterFilter={this.oppdaterFilter}
+						onFjernFilter={this.fjernFilter}
+					/>
+				))}
+				<LeggTilFilterButton filterContainer={oppgaveQuery} onLeggTilFilter={this.leggTilFilter} />
+				<LeggTilGruppeButton filterContainer={oppgaveQuery} onLeggTilGruppe={this.leggTilGruppe} />
 
-                <ReadMore className={styles.feltvalgBlokk} header="Velg felter som skal vises">
-                    <OppgaveSelectFelter
-                        felter={felter}
-                        oppgaveQuery={oppgaveQuery}
-                        onLeggTil={this.leggTilEnkelSelectFelt}
-                        onOppdater={this.oppdaterEnkelSelectFelt}
-                        onFjern={this.fjernSelectFelt}
-                    />
-                </ReadMore>
+				<ReadMore className={styles.feltvalgBlokk} header="Velg felter som skal vises">
+					<OppgaveSelectFelter
+						felter={felter}
+						oppgaveQuery={oppgaveQuery}
+						onLeggTil={this.leggTilEnkelSelectFelt}
+						onOppdater={this.oppdaterEnkelSelectFelt}
+						onFjern={this.fjernSelectFelt}
+					/>
+				</ReadMore>
 
-                <ReadMore className={styles.feltvalgBlokk} header="Velg sortering">
-                    <OppgaveOrderFelter
-                        felter={felter}
-                        oppgaveQuery={oppgaveQuery}
-                        onLeggTil={this.leggTilEnkelOrderFelt}
-                        onOppdater={this.oppdaterEnkelOrderFelt}
-                        onFjern={this.fjernOrderFelt}
-                    />
-                </ReadMore>
+				<ReadMore className={styles.feltvalgBlokk} header="Velg sortering">
+					<OppgaveOrderFelter
+						felter={felter}
+						oppgaveQuery={oppgaveQuery}
+						onLeggTil={this.leggTilEnkelOrderFelt}
+						onOppdater={this.oppdaterEnkelOrderFelt}
+						onFjern={this.fjernOrderFelt}
+					/>
+				</ReadMore>
 
-                <div className={styles.filterButtonGroup}>
-                    {lagre && (
-                        <Button
-                            icon={<FloppydiskIcon />}
-                            onClick={() => lagre(this.state.oppgaveQuery)}
-                            loading={this.state.loading}
-                        >
-                            Lagre
-                        </Button>
-                    )}
-                    <Button icon={<Search aria-hidden />} onClick={this.executeOppgavesøk} loading={this.state.loading}>
-                        Søk
-                    </Button>
-                    <Button
-                        icon={<Download aria-hidden />}
-                        onClick={this.executeOppgavesøkToFile}
-                        loading={this.state.loadingDownload}
-                    >
-                        Last ned CSV
-                    </Button>
-                </div>
+				<div className={styles.filterButtonGroup}>
+					{lagre && (
+						<Button
+							icon={<FloppydiskIcon />}
+							onClick={() => lagre(this.state.oppgaveQuery)}
+							loading={this.state.loading}
+						>
+							Lagre
+						</Button>
+					)}
+					<Button icon={<Search aria-hidden />} onClick={this.executeOppgavesøk} loading={this.state.loading}>
+						Søk
+					</Button>
+					<Button
+						icon={<Download aria-hidden />}
+						onClick={this.executeOppgavesøkToFile}
+						loading={this.state.loadingDownload}
+					>
+						Last ned CSV
+					</Button>
+				</div>
 
-                {this.state.queryError && <Alert variant="error">{this.state.queryError}</Alert>}
+				{this.state.queryError && <Alert variant="error">{this.state.queryError}</Alert>}
 
-                {oppgaver && (
-                    <>
-                        <OppgaveQueryResultat felter={felter} oppgaveQuery={oppgaveQuery} oppgaver={oppgaver} />
-                        <TextField
-                            className={styles.limitTextField}
-                            label="Maksimalt antall rader"
-                            description="Du kan endre antallet rader som blir hentet ned ved søk. Trykk på søkeknappen etter å ha oppdatert antallet. Merk at høye tall kan medføre at du må vente en stund før svaret kommer. Hvis søket blir avbrutt, fordi det tar for lang tid, så kan du forsøke det samme søket på nytt."
-                            htmlSize={4}
-                            type="number"
-                            defaultValue={oppgaveQuery.limit}
-                            onBlur={(event) => this.oppdaterLimit(parseInt(event.target.value, 10) || 0)}
-                        />
-                    </>
-                )}
-            </div>
-        );
-    }
+				{oppgaver && (
+					<>
+						<OppgaveQueryResultat felter={felter} oppgaveQuery={oppgaveQuery} oppgaver={oppgaver} />
+						<TextField
+							className={styles.limitTextField}
+							label="Maksimalt antall rader"
+							description="Du kan endre antallet rader som blir hentet ned ved søk. Trykk på søkeknappen etter å ha oppdatert antallet. Merk at høye tall kan medføre at du må vente en stund før svaret kommer. Hvis søket blir avbrutt, fordi det tar for lang tid, så kan du forsøke det samme søket på nytt."
+							htmlSize={4}
+							type="number"
+							defaultValue={oppgaveQuery.limit}
+							onBlur={(event) => this.oppdaterLimit(parseInt(event.target.value, 10) || 0)}
+						/>
+					</>
+				)}
+			</div>
+		);
+	}
 }
 
 export default FilterIndex;
