@@ -18,6 +18,8 @@ import { kodeFraKey, områdeFraKey } from './utils';
 
 interface OwnProps {
 	lagre: (oppgaveQuery: OppgaveQuery) => void;
+	avbryt: () => void;
+	initialQuery?: OppgaveQuery;
 }
 
 class FilterIndex extends React.Component<OwnProps> {
@@ -25,7 +27,7 @@ class FilterIndex extends React.Component<OwnProps> {
 		super(props);
 
 		this.state = {
-			oppgaveQuery: new OppgaveQueryModel().toOppgaveQuery(),
+			oppgaveQuery: props.initialQuery || new OppgaveQueryModel().toOppgaveQuery(),
 			felter: [],
 			oppgaver: null,
 			queryError: null,
@@ -261,7 +263,7 @@ class FilterIndex extends React.Component<OwnProps> {
 		const { oppgaveQuery } = this.state;
 		const { oppgaver } = this.state;
 		const { felter } = this.state;
-		const { lagre } = this.props;
+		const { lagre, avbryt } = this.props;
 
 		if (felter.length === 0) {
 			return null;
@@ -305,18 +307,29 @@ class FilterIndex extends React.Component<OwnProps> {
 
 				<div className={styles.filterButtonGroup}>
 					{lagre && (
-						<Button
-							icon={<FloppydiskIcon />}
-							onClick={() => lagre(this.state.oppgaveQuery)}
-							loading={this.state.loading}
-						>
-							Lagre
-						</Button>
+						<>
+							<Button
+								icon={<FloppydiskIcon />}
+								onClick={() => lagre(this.state.oppgaveQuery)}
+								loading={this.state.loading}
+							>
+								Lagre
+							</Button>
+							<Button className="mr-2" variant="secondary" onClick={avbryt}>
+								Avbryt
+							</Button>
+						</>
 					)}
-					<Button icon={<Search aria-hidden />} onClick={this.executeOppgavesøk} loading={this.state.loading}>
+					<Button
+						variant={lagre ? 'tertiary' : 'primary'}
+						icon={<Search aria-hidden />}
+						onClick={this.executeOppgavesøk}
+						loading={this.state.loading}
+					>
 						Søk
 					</Button>
 					<Button
+						variant={lagre ? 'tertiary' : 'primary'}
 						icon={<Download aria-hidden />}
 						onClick={this.executeOppgavesøkToFile}
 						loading={this.state.loadingDownload}

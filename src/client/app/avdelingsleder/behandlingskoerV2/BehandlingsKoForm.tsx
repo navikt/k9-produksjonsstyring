@@ -1,11 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FormattedMessage } from 'react-intl';
-import { BodyShort, Button, Modal } from '@navikt/ds-react';
+import { useMutation } from 'react-query';
+import axios from 'axios';
+import { Kødefinisjon } from 'types/Kødefinisjon';
+import { Edit } from '@navikt/ds-icons';
+import { Button, Modal } from '@navikt/ds-react';
 import { Form, InputField, TextAreaField } from '@navikt/ft-form-hooks';
 import { arrayMinLength, minLength, required } from '@navikt/ft-form-validators';
 import { K9LosApiKeys } from 'api/k9LosApi';
 import { useRestApiRunner } from 'api/rest-api-hooks';
+import EnkelTeller from 'avdelingsleder/dagensTall/EnkelTeller';
 import FilterIndex from 'filter/FilterIndex';
 import OppgaveQueryModel from 'filter/OppgaveQueryModel';
 import { Saksbehandler } from 'saksbehandler/behandlingskoer/saksbehandlerTsType';
@@ -20,6 +25,11 @@ const BehandlingsKoForm = () => {
 	const { startRequest: hentAlleSaksbehandlere, data: alleSaksbehandlere = [] } = useRestApiRunner<Saksbehandler[]>(
 		K9LosApiKeys.SAKSBEHANDLERE,
 	);
+
+	const mutation = useMutation<Kødefinisjon, unknown, { tittel: string }>((payload) =>
+		axios.post('/api/oppdater/v2', payload).then((res) => res.data),
+	);
+
 	useEffect(() => {
 		hentAlleSaksbehandlere();
 	}, []);
@@ -37,8 +47,11 @@ const BehandlingsKoForm = () => {
 		label: saksbehandler.navn || saksbehandler.epost,
 		group: saksbehandler.enhet || manglerGruppering,
 	}));
-	const lagreOppgaveQuery = (oppgaveQuery) => formMethods.setValue(fieldnames.OPPGAVE_QUERY, oppgaveQuery);
-	const onSubmit = (data) => console.log(data);
+	const lagreOppgaveQuery = (oppgaveQuery) => {
+		formMethods.setValue(fieldnames.OPPGAVE_QUERY, oppgaveQuery);
+		setVisModal(false);
+	};
+	const onSubmit = (data) => mutation.mutate(data);
 	const grupper = [...new Set(formaterteSaksbehandlere.map((oppgavekode) => oppgavekode.group))].sort();
 	const saksbehandlere = formMethods.watch(fieldnames.SAKSBEHANDLERE);
 	formMethods.register(fieldnames.SAKSBEHANDLERE, {
@@ -85,18 +98,33 @@ const BehandlingsKoForm = () => {
 					)}
 				</div>
 			</div>
-			<div>
-				<BodyShort className="inline-block">{`${antallOppgaver} oppgaver i køen.`}</BodyShort>
-			</div>
-			<div className="mt-8 flex gap-4">
-				<Button type="submit">Lagre</Button>
-				<Button variant="secondary" type="button" onClick={() => setVisModal(true)}>
+			<div className="flex">
+				<div className="inline-block">
+					<EnkelTeller antall={antallOppgaver} tekst="Oppgaver i denne køen" />
+				</div>
+				<Button
+					className="ml-1 my-auto "
+					variant="tertiary"
+					type="button"
+					onClick={() => setVisModal(true)}
+					icon={<Edit />}
+				>
 					Endre filter
+				</Button>
+			</div>
+			<div className="mt-16 flex gap-4">
+				<Button type="submit">Lagre</Button>
+				<Button variant="secondary" type="button" onClick={() => console.error('implementer meg er du snill')}>
+					Avbryt
 				</Button>
 			</div>
 			<Modal className="w-4/6" open={visModal} onClose={() => setVisModal(false)}>
 				<Modal.Content className="ml-[-75px]">
-					<FilterIndex lagre={lagreOppgaveQuery} />
+					<FilterIndex
+						initialQuery={formMethods.watch(fieldnames.OPPGAVE_QUERY)}
+						lagre={lagreOppgaveQuery}
+						avbryt={() => setVisModal(false)}
+					/>
 				</Modal.Content>
 			</Modal>
 		</Form>
