@@ -8,11 +8,11 @@ import styles from './ikkeTilgangTilKode6AvdelingPanel.css';
  * IkkeTilgangTilKode6AvdelingPanel
  */
 const IkkeTilgangTilKode6AvdelingPanel = () => (
-    <Panel className={styles.container}>
-        <Undertittel>
-            <FormattedMessage id="IkkeTilgangTilKode6AvdelingPanel.HarIkkeTilgang" />
-        </Undertittel>
-    </Panel>
+	<Panel className={styles.container}>
+		<Undertittel>
+			<FormattedMessage id="IkkeTilgangTilKode6AvdelingPanel.HarIkkeTilgang" />
+		</Undertittel>
+	</Panel>
 );
 
 export default IkkeTilgangTilKode6AvdelingPanel;

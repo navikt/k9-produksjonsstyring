@@ -7,17 +7,17 @@ import BehandlingerGårAvVent from './behandlingerGårAvVent/BehandlingerGårAvV
 import BehandlingerSomGaarAvVentAarsakerPanel from './behandlingerGårAvVentÅrsaker/BehandlingerGårAvVentÅrsakerPanel';
 
 const PrognoseIndex: FunctionComponent = () => {
-    const { data, state } = useRestApi<any>(K9LosApiKeys.HENT_BEHANDLINGER_SOM_GÅR_AV_VENT);
+	const { data, state } = useRestApi<any>(K9LosApiKeys.HENT_BEHANDLINGER_SOM_GÅR_AV_VENT);
 
-    return (
-        <div>
-            {state === RestApiState.SUCCESS && <BehandlingerGårAvVent behandlingerSomGårAvVent={data.påVent || []} />}
-            <VerticalSpacer twentyPx />
-            {state === RestApiState.SUCCESS && (
-                <BehandlingerSomGaarAvVentAarsakerPanel påVentMedVenteårsak={data.påVentMedVenteårsak || []} />
-            )}
-        </div>
-    );
+	return (
+		<div>
+			{state === RestApiState.SUCCESS && <BehandlingerGårAvVent behandlingerSomGårAvVent={data.påVent || []} />}
+			<VerticalSpacer twentyPx />
+			{state === RestApiState.SUCCESS && (
+				<BehandlingerSomGaarAvVentAarsakerPanel påVentMedVenteårsak={data.påVentMedVenteårsak || []} />
+			)}
+		</div>
+	);
 };
 
 export default PrognoseIndex;

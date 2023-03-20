@@ -5,9 +5,9 @@ import BemanningIndex from './BemanningIndex';
 import SaksbehandlerePanel from './components/SaksbehandlerePanel';
 
 describe('<BemanningIndex>', () => {
-    it('skal hente saksbehandlere ved lasting av komponent og så vise desse i panel', () => {
-        const wrapper = shallow(<BemanningIndex />);
+	it('skal hente saksbehandlere ved lasting av komponent og så vise desse i panel', () => {
+		const wrapper = shallow(<BemanningIndex />);
 
-        expect(wrapper.find(SaksbehandlerePanel)).to.have.length(1);
-    });
+		expect(wrapper.find(SaksbehandlerePanel)).to.have.length(1);
+	});
 });

@@ -7,46 +7,46 @@ export const AVDELINGSLEDER_PATH = 'avdelingsleder';
 const emptyQueryString = (queryString) => queryString === '?' || !queryString;
 
 const updateQueryParams = (queryString, nextParams) => {
-    const prevParams = emptyQueryString(queryString) ? {} : parseQueryString(queryString);
-    return formatQueryString({
-        ...prevParams,
-        ...nextParams,
-    });
+	const prevParams = emptyQueryString(queryString) ? {} : parseQueryString(queryString);
+	return formatQueryString({
+		...prevParams,
+		...nextParams,
+	});
 };
 
 const getLocationWithQueryParams = (location, queryParams) => ({
-    ...location,
-    search: updateQueryParams(location.search, queryParams),
+	...location,
+	search: updateQueryParams(location.search, queryParams),
 });
 
 export const getPanelLocationCreator = (location: Location) => (avdelingslederPanel: string) =>
-    getLocationWithQueryParams(location, { fane: avdelingslederPanel });
+	getLocationWithQueryParams(location, { fane: avdelingslederPanel });
 export const getPanelLocationCreatorDriftsmeldinger = (location: Location) => (adminPanel: string) =>
-    getLocationWithQueryParams(location, { fane: adminPanel });
+	getLocationWithQueryParams(location, { fane: adminPanel });
 
 export const getK9sakHref = (k9sakUrl: string, saksnummer: string, behandlingId?: number) => {
-    const reducer = (previousValue, param) => (param.include ? { ...previousValue, ...param.query } : previousValue);
-    const queryParams = [
-        { include: behandlingId, query: { fakta: 'default' } },
-        { include: behandlingId, query: { punkt: 'default' } },
-    ].reduce(reducer, {});
+	const reducer = (previousValue, param) => (param.include ? { ...previousValue, ...param.query } : previousValue);
+	const queryParams = [
+		{ include: behandlingId, query: { fakta: 'default' } },
+		{ include: behandlingId, query: { punkt: 'default' } },
+	].reduce(reducer, {});
 
-    if (behandlingId) {
-        return querystring.stringifyUrl({
-            url: `${k9sakUrl}/fagsak/${saksnummer}/behandling/${behandlingId}/`,
-            query: queryParams,
-        });
-    }
+	if (behandlingId) {
+		return querystring.stringifyUrl({
+			url: `${k9sakUrl}/fagsak/${saksnummer}/behandling/${behandlingId}/`,
+			query: queryParams,
+		});
+	}
 
-    return `${k9sakUrl}/fagsak/${saksnummer}/`;
+	return `${k9sakUrl}/fagsak/${saksnummer}/`;
 };
 
 export const getK9tilbakeHref = (k9tilbakeUrl: string, saksnummer: string, eksternId?: string) =>
-    eksternId
-        ? `${k9tilbakeUrl}/tilbake/${saksnummer}/behandling/${eksternId}/?punkt=default&fakta=default`
-        : `${k9tilbakeUrl}/tilbake/${saksnummer}`;
+	eksternId
+		? `${k9tilbakeUrl}/tilbake/${saksnummer}/behandling/${eksternId}/?punkt=default&fakta=default`
+		: `${k9tilbakeUrl}/tilbake/${saksnummer}`;
 
 export const getK9punsjRef = (k9punsjUrl: string, journalpostId: string) => `${k9punsjUrl}/${journalpostId}`;
 
 export const getOmsorgspengerRef = (omsorgspengerUrl: string, saksnummer: string) =>
-    `${omsorgspengerUrl}/sak/${saksnummer}`;
+	`${omsorgspengerUrl}/sak/${saksnummer}`;

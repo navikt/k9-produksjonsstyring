@@ -13,91 +13,86 @@ import { getKodeverkFraKode, getKodeverknavnFraKode } from 'utils/kodeverkUtils'
 import styles from './dagensTallPanel.css';
 
 interface OwnProps {
-    totaltIdag: number;
-    dagensTall: ApneBehandlinger[];
+	totaltIdag: number;
+	dagensTall: ApneBehandlinger[];
 }
 
 const DagensTallPanel: FunctionComponent<OwnProps & WrappedComponentProps> = ({ totaltIdag, dagensTall }) => {
-    const sortedDagensTall = (tall: ApneBehandlinger[]) =>
-        useMemo(
-            () =>
-                tall.sort(
-                    (dt1, dt2) =>
-                        behandlingstypeOrder.indexOf(dt1.behandlingType) -
-                        behandlingstypeOrder.indexOf(dt2.behandlingType),
-                ),
-            [dagensTall],
-        );
+	const sortedDagensTall = (tall: ApneBehandlinger[]) =>
+		useMemo(
+			() =>
+				tall.sort(
+					(dt1, dt2) =>
+						behandlingstypeOrder.indexOf(dt1.behandlingType) - behandlingstypeOrder.indexOf(dt2.behandlingType),
+				),
+			[dagensTall],
+		);
 
-    const behandlingstyperSist = [];
-    const behandlingstyperForst = [];
-    const behandlingsKoderSomSkalVisesForst = [
-        behandlingType.ANKE,
-        behandlingType.FORSTEGANGSSOKNAD,
-        behandlingType.INNSYN,
-        behandlingType.KLAGE,
-        behandlingType.REVURDERING,
-        behandlingType.TILBAKEBETALING,
-    ];
+	const behandlingstyperSist = [];
+	const behandlingstyperForst = [];
+	const behandlingsKoderSomSkalVisesForst = [
+		behandlingType.ANKE,
+		behandlingType.FORSTEGANGSSOKNAD,
+		behandlingType.INNSYN,
+		behandlingType.KLAGE,
+		behandlingType.REVURDERING,
+		behandlingType.TILBAKEBETALING,
+	];
 
-    const alleKodeverk: AlleKodeverk = useGlobalStateRestApiData(RestApiGlobalStatePathsKeys.KODEVERK);
+	const alleKodeverk: AlleKodeverk = useGlobalStateRestApiData(RestApiGlobalStatePathsKeys.KODEVERK);
 
-    const punsjBehandlinger = [];
-    sortedDagensTall(dagensTall).forEach((dt) => {
-        if (behandlingsKoderSomSkalVisesForst.includes(dt.behandlingType)) behandlingstyperForst.push(dt);
-        else if (
-            dt.behandlingType &&
-            getKodeverkFraKode(dt.behandlingType, kodeverkTyper.BEHANDLING_TYPE, alleKodeverk) === punsjKodeverkNavn
-        )
-            punsjBehandlinger.push(dt);
-        else behandlingstyperSist.push(dt);
-    });
+	const punsjBehandlinger = [];
+	sortedDagensTall(dagensTall).forEach((dt) => {
+		if (behandlingsKoderSomSkalVisesForst.includes(dt.behandlingType)) behandlingstyperForst.push(dt);
+		else if (
+			dt.behandlingType &&
+			getKodeverkFraKode(dt.behandlingType, kodeverkTyper.BEHANDLING_TYPE, alleKodeverk) === punsjKodeverkNavn
+		)
+			punsjBehandlinger.push(dt);
+		else behandlingstyperSist.push(dt);
+	});
 
-    const punsjTall = {
-        antall: 0,
-        behandlingType: 'Punsj',
-    };
+	const punsjTall = {
+		antall: 0,
+		behandlingType: 'Punsj',
+	};
 
-    punsjBehandlinger.forEach((behandlingstype) => {
-        punsjTall.antall += behandlingstype.antall;
-    });
+	punsjBehandlinger.forEach((behandlingstype) => {
+		punsjTall.antall += behandlingstype.antall;
+	});
 
-    const dagensTallIRettRekkefoljd = [...behandlingstyperForst, ...behandlingstyperSist, punsjTall];
+	const dagensTallIRettRekkefoljd = [...behandlingstyperForst, ...behandlingstyperSist, punsjTall];
 
-    const getTekst = (behandlingTypeFraDagensTall: string) => {
-        const tekst = getKodeverknavnFraKode(behandlingTypeFraDagensTall, kodeverkTyper.BEHANDLING_TYPE, alleKodeverk);
-        if (tekst === 'Førstegangsbehandling') {
-            return `Førstegangs-\
+	const getTekst = (behandlingTypeFraDagensTall: string) => {
+		const tekst = getKodeverknavnFraKode(behandlingTypeFraDagensTall, kodeverkTyper.BEHANDLING_TYPE, alleKodeverk);
+		if (tekst === 'Førstegangsbehandling') {
+			return `Førstegangs-\
       behandling`;
-        }
-        return tekst;
-    };
+		}
+		return tekst;
+	};
 
-    return (
-        <div className={styles.dagensTallContainer}>
-            <Normaltekst className={styles.header}>Status</Normaltekst>
-            <div className={styles.container}>
-                <EnkelTeller antall={totaltIdag} tekst="Åpne behandlinger" />
+	return (
+		<div className={styles.dagensTallContainer}>
+			<Normaltekst className={styles.header}>Status</Normaltekst>
+			<div className={styles.container}>
+				<EnkelTeller antall={totaltIdag} tekst="Åpne behandlinger" />
 
-                {dagensTall &&
-                    dagensTallIRettRekkefoljd.map((dt) => (
-                        <EnkelTeller
-                            key={
-                                dt.behandlingType === 'Punsj'
-                                    ? 'Punsj'
-                                    : getKodeverknavnFraKode(
-                                          dt.behandlingType,
-                                          kodeverkTyper.BEHANDLING_TYPE,
-                                          alleKodeverk,
-                                      )
-                            }
-                            antall={dt.antall}
-                            tekst={dt.behandlingType === 'Punsj' ? 'Punsj' : getTekst(dt.behandlingType)}
-                        />
-                    ))}
-            </div>
-        </div>
-    );
+				{dagensTall &&
+					dagensTallIRettRekkefoljd.map((dt) => (
+						<EnkelTeller
+							key={
+								dt.behandlingType === 'Punsj'
+									? 'Punsj'
+									: getKodeverknavnFraKode(dt.behandlingType, kodeverkTyper.BEHANDLING_TYPE, alleKodeverk)
+							}
+							antall={dt.antall}
+							tekst={dt.behandlingType === 'Punsj' ? 'Punsj' : getTekst(dt.behandlingType)}
+						/>
+					))}
+			</div>
+		</div>
+	);
 };
 
 export default injectIntl(DagensTallPanel);

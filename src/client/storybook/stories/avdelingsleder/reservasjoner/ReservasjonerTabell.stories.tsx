@@ -5,58 +5,58 @@ import behandlingType from 'kodeverk/behandlingType';
 import withIntl from '../../../decorators/withIntl.js';
 
 export default {
-    title: 'avdelingsleder/reservasjoner/ReservasjonerTabell',
-    component: ReservasjonerTabell,
-    decorators: [withIntl],
+	title: 'avdelingsleder/reservasjoner/ReservasjonerTabell',
+	component: ReservasjonerTabell,
+	decorators: [withIntl],
 };
 
 export const skalViseAtIngenReservasjonerBleFunnet = () => (
-    <ReservasjonerTabell
-        reservasjoner={[]}
-        opphevReservasjon={action('button-click') as () => Promise<string>}
-        endreOppgaveReservasjon={action('button-click') as () => Promise<string>}
-        flyttReservasjon={action('button-click') as () => Promise<string>}
-        finnSaksbehandler={action('button-click') as () => Promise<string>}
-        nullstillSaksbehandler={action('button-click') as () => Promise<string>}
-    />
+	<ReservasjonerTabell
+		reservasjoner={[]}
+		opphevReservasjon={action('button-click') as () => Promise<string>}
+		endreOppgaveReservasjon={action('button-click') as () => Promise<string>}
+		flyttReservasjon={action('button-click') as () => Promise<string>}
+		finnSaksbehandler={action('button-click') as () => Promise<string>}
+		nullstillSaksbehandler={action('button-click') as () => Promise<string>}
+	/>
 );
 
 export const skalViseTabellMedReservasjoner = () => {
-    const [reservasjoner, fjernReservasjon] = useState([
-        {
-            reservertAv: 'Espen Utvikler',
-            reservertTilTidspunkt: '2020-01-10',
-            oppgaveId: 1,
-            oppgaveSaksNr: 122234,
-            behandlingType: {
-                kode: behandlingType.FORSTEGANGSSOKNAD,
-                navn: 'Førstegangssøknad',
-            },
-        },
-        {
-            reservertAv: 'Eirik Utvikler',
-            reservertTilTidspunkt: '2020-01-01',
-            oppgaveId: 2,
-            oppgaveSaksNr: 23454,
-            behandlingType: {
-                kode: behandlingType.KLAGE,
-                navn: 'Klage',
-            },
-        },
-    ]);
+	const [reservasjoner, fjernReservasjon] = useState([
+		{
+			reservertAv: 'Espen Utvikler',
+			reservertTilTidspunkt: '2020-01-10',
+			oppgaveId: 1,
+			oppgaveSaksNr: 122234,
+			behandlingType: {
+				kode: behandlingType.FORSTEGANGSSOKNAD,
+				navn: 'Førstegangssøknad',
+			},
+		},
+		{
+			reservertAv: 'Eirik Utvikler',
+			reservertTilTidspunkt: '2020-01-01',
+			oppgaveId: 2,
+			oppgaveSaksNr: 23454,
+			behandlingType: {
+				kode: behandlingType.KLAGE,
+				navn: 'Klage',
+			},
+		},
+	]);
 
-    const opphevReservasjon = useCallback((oppgaveId) => {
-        fjernReservasjon((oldState) => oldState.filter((s) => s.oppgaveId !== oppgaveId));
-    }, []);
+	const opphevReservasjon = useCallback((oppgaveId) => {
+		fjernReservasjon((oldState) => oldState.filter((s) => s.oppgaveId !== oppgaveId));
+	}, []);
 
-    return (
-        <ReservasjonerTabell
-            reservasjoner={reservasjoner}
-            opphevReservasjon={opphevReservasjon as () => Promise<string>}
-            endreOppgaveReservasjon={action('button-click') as () => Promise<string>}
-            flyttReservasjon={action('button-click') as () => Promise<string>}
-            finnSaksbehandler={action('button-click') as () => Promise<string>}
-            nullstillSaksbehandler={action('button-click') as () => Promise<string>}
-        />
-    );
+	return (
+		<ReservasjonerTabell
+			reservasjoner={reservasjoner}
+			opphevReservasjon={opphevReservasjon as () => Promise<string>}
+			endreOppgaveReservasjon={action('button-click') as () => Promise<string>}
+			flyttReservasjon={action('button-click') as () => Promise<string>}
+			finnSaksbehandler={action('button-click') as () => Promise<string>}
+			nullstillSaksbehandler={action('button-click') as () => Promise<string>}
+		/>
+	);
 };

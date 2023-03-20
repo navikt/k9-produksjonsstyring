@@ -6,11 +6,11 @@ import { intlMock, shallowWithIntl } from '../../../../../../../setup/testHelper
 import { MerkePanel } from './Merkepanel';
 
 describe('<MerkePanel>', () => {
-    const intl: IntlShape = {
-        ...intlMock,
-    };
-    it('skal sjekke at kun merking om død vises når person er død', () => {
-        const wrapper = shallowWithIntl(<MerkePanel erDod diskresjonskode={diskresjonskodeType.KODE6} intl={intl} />);
-        expect(wrapper.find(FormattedMessage).prop('id')).to.equal('MerkePanel.Dod');
-    });
+	const intl: IntlShape = {
+		...intlMock,
+	};
+	it('skal sjekke at kun merking om død vises når person er død', () => {
+		const wrapper = shallowWithIntl(<MerkePanel erDod diskresjonskode={diskresjonskodeType.KODE6} intl={intl} />);
+		expect(wrapper.find(FormattedMessage).prop('id')).to.equal('MerkePanel.Dod');
+	});
 });

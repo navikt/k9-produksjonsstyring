@@ -5,15 +5,15 @@ import { renderWithAllProviders } from '../../../../../../../setup/testHelpers/t
 import FordelingAvBehandlingstypePanel from './FordelingAvBehandlingstypePanel';
 
 describe('<FordelingAvBehandlingstypePanel>', () => {
-    it.skip('kan velge option i dropdown', () => {
-        renderWithAllProviders(<FordelingAvBehandlingstypePanel alleOppgaver={[]} />);
+	it.skip('kan velge option i dropdown', () => {
+		renderWithAllProviders(<FordelingAvBehandlingstypePanel alleOppgaver={[]} />);
 
-        const ukeSelect = screen.queryByRole('combobox');
-        const ytelseSelect = screen.getByRole('combobox');
+		const ukeSelect = screen.queryByRole('combobox');
+		const ytelseSelect = screen.getByRole('combobox');
 
-        expect(ukeSelect).not.toBeVisible();
-        expect(ytelseSelect).toBeVisible();
+		expect(ukeSelect).not.toBeVisible();
+		expect(ytelseSelect).toBeVisible();
 
-        userEvent.click(screen.getByText(/Pleiepenger sykt barn/i));
-    });
+		userEvent.click(screen.getByText(/Pleiepenger sykt barn/i));
+	});
 });

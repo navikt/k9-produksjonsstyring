@@ -13,11 +13,11 @@ import PropTypes from 'prop-types';
  * ```
  */
 const DateLabel = ({ dateString }) => (
-    <FormattedDate day="2-digit" month="2-digit" year="numeric" value={new Date(dateString)} />
+	<FormattedDate day="2-digit" month="2-digit" year="numeric" value={new Date(dateString)} />
 );
 
 DateLabel.propTypes = {
-    dateString: PropTypes.string.isRequired,
+	dateString: PropTypes.string.isRequired,
 };
 
 export default DateLabel;

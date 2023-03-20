@@ -14,17 +14,17 @@ const classNames = classnames.bind(styles);
  */
 
 const EditedIcon = ({ className }) => (
-    <span className={classNames('editedIcon', className)}>
-        <Image src={endretFelt} titleCode="Behandling.EditedField" altCode="Behandling.EditedField" />
-    </span>
+	<span className={classNames('editedIcon', className)}>
+		<Image src={endretFelt} titleCode="Behandling.EditedField" altCode="Behandling.EditedField" />
+	</span>
 );
 
 EditedIcon.propTypes = {
-    className: PropTypes.string,
+	className: PropTypes.string,
 };
 
 EditedIcon.defaultProps = {
-    className: '',
+	className: '',
 };
 
 export default EditedIcon;

@@ -38,147 +38,133 @@ import IkkeTilgangTilAvdelingslederPanel from './components/IkkeTilgangTilAvdeli
 const classNames = classnames.bind(styles);
 
 const renderAvdelingslederPanel = (avdelingslederPanel) => {
-    switch (avdelingslederPanel) {
-        case AvdelingslederPanels.BEHANDLINGSKOER:
-            return <EndreBehandlingskoerIndex />;
-        case AvdelingslederPanels.NOKKELTALL:
-            return <NokkeltallIndex />;
-        case AvdelingslederPanels.PROGNOSE:
-            return <PrognoseIndex />;
-        case AvdelingslederPanels.RESERVASJONER:
-            return <ReservasjonerIndex />;
-        default:
-            return null;
-    }
+	switch (avdelingslederPanel) {
+		case AvdelingslederPanels.BEHANDLINGSKOER:
+			return <EndreBehandlingskoerIndex />;
+		case AvdelingslederPanels.NOKKELTALL:
+			return <NokkeltallIndex />;
+		case AvdelingslederPanels.PROGNOSE:
+			return <PrognoseIndex />;
+		case AvdelingslederPanels.RESERVASJONER:
+			return <ReservasjonerIndex />;
+		default:
+			return null;
+	}
 };
 
 const messageId = {
-    [AvdelingslederPanels.BEHANDLINGSKOER]: 'AvdelingslederIndex.Behandlingskoer',
-    [AvdelingslederPanels.NOKKELTALL]: 'AvdelingslederIndex.Nokkeltall',
-    [AvdelingslederPanels.PROGNOSE]: 'AvdelingslederIndex.Prognose',
-    [AvdelingslederPanels.RESERVASJONER]: 'AvdelingslederIndex.Reservasjoner',
+	[AvdelingslederPanels.BEHANDLINGSKOER]: 'AvdelingslederIndex.Behandlingskoer',
+	[AvdelingslederPanels.NOKKELTALL]: 'AvdelingslederIndex.Nokkeltall',
+	[AvdelingslederPanels.PROGNOSE]: 'AvdelingslederIndex.Prognose',
+	[AvdelingslederPanels.RESERVASJONER]: 'AvdelingslederIndex.Reservasjoner',
 };
 
 const tabStyle = {
-    [AvdelingslederPanels.BEHANDLINGSKOER]: [koerSvart, koerBla],
-    [AvdelingslederPanels.NOKKELTALL]: [nokkelSvart, nokkelBla],
-    [AvdelingslederPanels.PROGNOSE]: [prognoseSort, prognoseBlå],
-    [AvdelingslederPanels.RESERVASJONER]: [reservasjonSvart, reservasjonBla],
+	[AvdelingslederPanels.BEHANDLINGSKOER]: [koerSvart, koerBla],
+	[AvdelingslederPanels.NOKKELTALL]: [nokkelSvart, nokkelBla],
+	[AvdelingslederPanels.PROGNOSE]: [prognoseSort, prognoseBlå],
+	[AvdelingslederPanels.RESERVASJONER]: [reservasjonSvart, reservasjonBla],
 };
 
 const getTab = (avdelingslederPanel, activeAvdelingslederPanel, getAvdelingslederPanelLocation) => ({
-    label: (
-        <div className={styles.tabLabel}>
-            <Image
-                className={styles.tabIcon}
-                src={
-                    activeAvdelingslederPanel === avdelingslederPanel
-                        ? tabStyle[avdelingslederPanel][0]
-                        : tabStyle[avdelingslederPanel][1]
-                }
-            />
-            <Undertittel>
-                <FormattedMessage id={messageId[avdelingslederPanel]} />
-            </Undertittel>
-        </div>
-    ),
-    aktiv: avdelingslederPanel === activeAvdelingslederPanel,
-    // eslint-disable-next-line react/prop-types
-    linkCreator: ({ children, className }) => (
-        <NavLink
-            to={getAvdelingslederPanelLocation(avdelingslederPanel)}
-            className={classNames(className, 'link', { isActive: activeAvdelingslederPanel === avdelingslederPanel })}
-        >
-            {children}
-        </NavLink>
-    ),
+	label: (
+		<div className={styles.tabLabel}>
+			<Image
+				className={styles.tabIcon}
+				src={
+					activeAvdelingslederPanel === avdelingslederPanel
+						? tabStyle[avdelingslederPanel][0]
+						: tabStyle[avdelingslederPanel][1]
+				}
+			/>
+			<Undertittel>
+				<FormattedMessage id={messageId[avdelingslederPanel]} />
+			</Undertittel>
+		</div>
+	),
+	aktiv: avdelingslederPanel === activeAvdelingslederPanel,
+	// eslint-disable-next-line react/prop-types
+	linkCreator: ({ children, className }) => (
+		<NavLink
+			to={getAvdelingslederPanelLocation(avdelingslederPanel)}
+			className={classNames(className, 'link', { isActive: activeAvdelingslederPanel === avdelingslederPanel })}
+		>
+			{children}
+		</NavLink>
+	),
 });
 
 /**
  * AvdelingslederIndex
  */
 export const AvdelingslederIndex: FunctionComponent = () => {
-    const { selected: activeAvdelingslederPanelTemp, location } = useTrackRouteParam({
-        paramName: 'fane',
-        isQueryParam: true,
-    });
+	const { selected: activeAvdelingslederPanelTemp, location } = useTrackRouteParam({
+		paramName: 'fane',
+		isQueryParam: true,
+	});
 
-    const { startRequest: hentAntallIdag, data: totaltIdag = 0 } = useRestApiRunner<number>(
-        K9LosApiKeys.OPPGAVE_ANTALL_TOTALT,
-    );
-    const { startRequest: hentDagensTall, data: dagensTall = [] } = useRestApiRunner<ApneBehandlinger[]>(
-        K9LosApiKeys.HENT_DAGENS_TALL,
-    );
+	const { startRequest: hentAntallIdag, data: totaltIdag = 0 } = useRestApiRunner<number>(
+		K9LosApiKeys.OPPGAVE_ANTALL_TOTALT,
+	);
+	const { startRequest: hentDagensTall, data: dagensTall = [] } = useRestApiRunner<ApneBehandlinger[]>(
+		K9LosApiKeys.HENT_DAGENS_TALL,
+	);
 
-    useEffect(() => {
-        hentAntallIdag();
-        hentDagensTall();
-    }, []);
+	useEffect(() => {
+		hentAntallIdag();
+		hentDagensTall();
+	}, []);
 
-    const getPanelFromUrlOrDefault = (loc) => {
-        const panelFromUrl = parseQueryString(loc.search);
-        return panelFromUrl.avdelingsleder ? panelFromUrl.avdelingsleder : AvdelingslederPanels.BEHANDLINGSKOER;
-    };
+	const getPanelFromUrlOrDefault = (loc) => {
+		const panelFromUrl = parseQueryString(loc.search);
+		return panelFromUrl.avdelingsleder ? panelFromUrl.avdelingsleder : AvdelingslederPanels.BEHANDLINGSKOER;
+	};
 
-    const { kanOppgavestyre } = useGlobalStateRestApiData<NavAnsatt>(RestApiGlobalStatePathsKeys.NAV_ANSATT);
+	const { kanOppgavestyre } = useGlobalStateRestApiData<NavAnsatt>(RestApiGlobalStatePathsKeys.NAV_ANSATT);
 
-    const getAvdelingslederPanelLocation = getPanelLocationCreator(location);
-    const activeAvdelingslederPanel = activeAvdelingslederPanelTemp || getPanelFromUrlOrDefault(location);
+	const getAvdelingslederPanelLocation = getPanelLocationCreator(location);
+	const activeAvdelingslederPanel = activeAvdelingslederPanelTemp || getPanelFromUrlOrDefault(location);
 
-    if (!kanOppgavestyre) {
-        return <IkkeTilgangTilAvdelingslederPanel />;
-    }
+	if (!kanOppgavestyre) {
+		return <IkkeTilgangTilAvdelingslederPanel />;
+	}
 
-    if (activeAvdelingslederPanel) {
-        return (
-            <>
-                <Row>
-                    <Normaltekst className={styles.paneltekst}>Avdelingslederpanel</Normaltekst>
-                </Row>
-                <Row>
-                    <DagensTallPanel totaltIdag={totaltIdag} dagensTall={dagensTall} />
-                </Row>
-                <VerticalSpacer twentyPx />
-                <Row>
-                    <AvdelingslederDashboard
-                        key={activeAvdelingslederPanel}
-                        visSaksbehandlere={activeAvdelingslederPanel === AvdelingslederPanels.BEHANDLINGSKOER}
-                    >
-                        <div>
-                            <Tabs
-                                tabs={[
-                                    getTab(
-                                        AvdelingslederPanels.BEHANDLINGSKOER,
-                                        activeAvdelingslederPanel,
-                                        getAvdelingslederPanelLocation,
-                                    ),
-                                    getTab(
-                                        AvdelingslederPanels.NOKKELTALL,
-                                        activeAvdelingslederPanel,
-                                        getAvdelingslederPanelLocation,
-                                    ),
-                                    getTab(
-                                        AvdelingslederPanels.PROGNOSE,
-                                        activeAvdelingslederPanel,
-                                        getAvdelingslederPanelLocation,
-                                    ),
-                                    getTab(
-                                        AvdelingslederPanels.RESERVASJONER,
-                                        activeAvdelingslederPanel,
-                                        getAvdelingslederPanelLocation,
-                                    ),
-                                ]}
-                            />
-                            <Panel className={styles.panelPadding}>
-                                {renderAvdelingslederPanel(activeAvdelingslederPanel)}
-                            </Panel>
-                        </div>
-                    </AvdelingslederDashboard>
-                </Row>
-            </>
-        );
-    }
-    return <LoadingPanel />;
+	if (activeAvdelingslederPanel) {
+		return (
+			<>
+				<Row>
+					<Normaltekst className={styles.paneltekst}>Avdelingslederpanel</Normaltekst>
+				</Row>
+				<Row>
+					<DagensTallPanel totaltIdag={totaltIdag} dagensTall={dagensTall} />
+				</Row>
+				<VerticalSpacer twentyPx />
+				<Row>
+					<AvdelingslederDashboard
+						key={activeAvdelingslederPanel}
+						visSaksbehandlere={activeAvdelingslederPanel === AvdelingslederPanels.BEHANDLINGSKOER}
+					>
+						<div>
+							<Tabs
+								tabs={[
+									getTab(
+										AvdelingslederPanels.BEHANDLINGSKOER,
+										activeAvdelingslederPanel,
+										getAvdelingslederPanelLocation,
+									),
+									getTab(AvdelingslederPanels.NOKKELTALL, activeAvdelingslederPanel, getAvdelingslederPanelLocation),
+									getTab(AvdelingslederPanels.PROGNOSE, activeAvdelingslederPanel, getAvdelingslederPanelLocation),
+									getTab(AvdelingslederPanels.RESERVASJONER, activeAvdelingslederPanel, getAvdelingslederPanelLocation),
+								]}
+							/>
+							<Panel className={styles.panelPadding}>{renderAvdelingslederPanel(activeAvdelingslederPanel)}</Panel>
+						</div>
+					</AvdelingslederDashboard>
+				</Row>
+			</>
+		);
+	}
+	return <LoadingPanel />;
 };
 
 export default AvdelingslederIndex;
