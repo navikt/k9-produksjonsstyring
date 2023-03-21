@@ -17,8 +17,8 @@ import OppgavefilterPanel from './parts/OppgavefilterPanel';
 import { kodeFraKey, områdeFraKey } from './utils';
 
 interface OwnProps {
-	lagre: (oppgaveQuery: OppgaveQuery) => void;
-	avbryt: () => void;
+	lagre?: (oppgaveQuery: OppgaveQuery) => void;
+	avbryt?: () => void;
 	initialQuery?: OppgaveQuery;
 }
 

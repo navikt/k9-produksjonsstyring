@@ -107,9 +107,10 @@ export const developmentHandlers = {
 			ctx.json({
 				id: '1',
 				tittel: 'Beskrivende tittel',
-				forklaring: 'godt forklart tekst om hva formålet med køen er',
+				beskrivelse: 'godt forklart tekst om hva formålet med køen er',
 				oppgavequery: [],
 				saksbehandlere: [],
+				sistEndret: 'dato',
 				...data,
 				versjon: data.versjon ? data.versjon + 1 : 1,
 			}),
@@ -120,22 +121,48 @@ export const developmentHandlers = {
 			ctx.json({
 				id: '1',
 				tittel: 'Beskrivende tittel',
-				forklaring: 'godt forklart tekst om hva formålet med køen er',
-				oppgavequery: [],
+				beskrivelse: 'godt forklart tekst om hva formålet med køen er',
+				oppgaveQuery: [],
 				saksbehandlere: [],
+				antallOppgaver: 5,
+				sistEndret: 'dato',
+
 				versjon: 1,
 			}),
 		),
 	),
-	oppgavemodellV2HentAlleKø: rest.get('/api/alleKøer/v2', async (req, res, ctx) =>
+	oppgavemodellV2HentAlleKø: rest.get('/api/koer/v2', async (req, res, ctx) =>
 		res(
 			ctx.json([
 				{
 					id: '1',
 					tittel: 'Beskrivende tittel',
-					forklaring: 'godt forklart tekst om hva formålet med køen er',
-					oppgavequery: [],
+					beskrivelse: 'godt forklart tekst om hva formålet med køen er',
+					oppgaveQuery: [],
+					saksbehandlere: ['saksbehandler1103@nav.no', 'saksbehandler11909@nav.no', 'saksbehandler11@nav.no'],
+					antallOppgaver: 5,
+					sistEndret: 'dato',
+					versjon: 1,
+				},
+				{
+					id: '2',
+					tittel: 'Kø 2',
+					beskrivelse: 'godt forklart tekst om hva formålet med køen er',
+					oppgaveQuery: [],
 					saksbehandlere: [],
+					antallOppgaver: 1002,
+					sistEndret: 'dato',
+
+					versjon: 1,
+				},
+				{
+					id: '3',
+					tittel: 'Kø 3',
+					beskrivelse: 'godt forklart tekst om hva formålet med køen er',
+					oppgaveQuery: [],
+					saksbehandlere: [],
+					antallOppgaver: 0,
+					sistEndret: 'dato',
 					versjon: 1,
 				},
 			]),

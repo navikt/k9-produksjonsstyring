@@ -22,6 +22,7 @@ export const config = {
 	defaultOptions: {
 		queries: {
 			queryFn: defaultQuery,
+			refetchOnWindowFocus: false,
 		},
 	},
 };

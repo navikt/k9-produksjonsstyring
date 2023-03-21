@@ -1,5 +1,6 @@
-import React, { FunctionComponent, useCallback, useState } from 'react';
+import React, { FunctionComponent, useCallback, useContext, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
+import { useQueryClient } from 'react-query';
 import addCircle from 'images/add-circle-bla.svg';
 import Chevron from 'nav-frontend-chevron';
 import { Knapp } from 'nav-frontend-knapper';
@@ -8,6 +9,7 @@ import { K9LosApiKeys } from 'api/k9LosApi';
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
 import LeggTilSaksbehandlerForm from 'avdelingsleder/bemanning/components/LeggTilSaksbehandlerForm';
 import SaksbehandlerInfo from 'avdelingsleder/bemanning/components/SaksbehandlerInfo';
+import { AvdelingslederContext } from 'avdelingsleder/context';
 import Image from 'sharedComponents/Image';
 import Table from 'sharedComponents/Table';
 import TableColumn from 'sharedComponents/TableColumn';
@@ -19,21 +21,21 @@ import styles from './saksbehandlereTabell.css';
 
 const headerTextCodes = ['SaksbehandlereTabell.Navn', 'EMPTY_1'];
 
-interface OwnProps {
-	saksbehandlere: Saksbehandler[];
-	hentAlleSaksbehandlere: () => void;
-}
-
 /**
  * SaksbehandlereTabell
  */
-const SaksbehandlereTabell: FunctionComponent<OwnProps> = ({ saksbehandlere, hentAlleSaksbehandlere }) => {
+const SaksbehandlereTabell: FunctionComponent = () => {
 	const [valgtSaksbehandler, setValgtSaksbehandler] = useState<Saksbehandler>();
 	const [visAddSaksbehadler, setVisAddSaksbehandler] = useState(false);
+	const { saksbehandlere } = useContext(AvdelingslederContext);
+
+	const queryClient = useQueryClient();
 
 	const { startRequest: fjernSaksbehandler } = useRestApiRunner<Saksbehandler>(K9LosApiKeys.SLETT_SAKSBEHANDLER);
 	const fjernSaksbehandlerFn = useCallback((epost: string) => {
-		fjernSaksbehandler({ epost }).then(() => hentAlleSaksbehandlere());
+		fjernSaksbehandler({ epost }).then(() =>
+			queryClient.invalidateQueries({ queryKey: '/avdelingsleder/saksbehandlere' }),
+		);
 		setValgtSaksbehandler(undefined);
 	}, []);
 
@@ -63,13 +65,7 @@ const SaksbehandlereTabell: FunctionComponent<OwnProps> = ({ saksbehandlere, hen
 				<Image src={addCircle} className={styles.addIcon} />
 				<FormattedMessage id="LeggTilSaksbehandlerForm.LeggTil" />
 			</Knapp>
-			{visAddSaksbehadler && (
-				<LeggTilSaksbehandlerForm
-					hentAlleSaksbehandlere={hentAlleSaksbehandlere}
-					saksbehandlere={saksbehandlere}
-					lukkForm={lukkForm}
-				/>
-			)}
+			{visAddSaksbehadler && <LeggTilSaksbehandlerForm lukkForm={lukkForm} />}
 			{saksbehandlere.length === 0 && (
 				<>
 					<VerticalSpacer eightPx />
@@ -82,7 +78,7 @@ const SaksbehandlereTabell: FunctionComponent<OwnProps> = ({ saksbehandlere, hen
 			{saksbehandlere.length > 0 && (
 				<Table headerTextCodes={headerTextCodes} noHover>
 					{saksbehandlere.map((saksbehandler) => (
-						<>
+						<React.Fragment key={saksbehandler.brukerIdent}>
 							<TableRow
 								key={saksbehandler.brukerIdent}
 								onMouseDown={() => onClick(saksbehandler)}
@@ -104,7 +100,7 @@ const SaksbehandlereTabell: FunctionComponent<OwnProps> = ({ saksbehandlere, hen
 									</TableColumn>
 								</TableRow>
 							)}
-						</>
+						</React.Fragment>
 					))}
 				</Table>
 			)}

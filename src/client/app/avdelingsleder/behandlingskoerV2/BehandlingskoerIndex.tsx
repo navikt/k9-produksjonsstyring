@@ -1,20 +1,103 @@
-import React from 'react';
-import { useMutation } from 'react-query';
+import React, { useState } from 'react';
+import { useMutation, useQuery } from 'react-query';
 import axios from 'axios';
 import { Kødefinisjon } from 'types/Kødefinisjon';
-import { Button } from '@navikt/ds-react';
+import { Loader, Table } from '@navikt/ds-react';
 import BehandlingsKoForm from './BehandlingsKoForm';
 
 const BehandlingskoerIndex = () => {
+	const { data, isLoading } = useQuery<Kødefinisjon[]>('/koer/v2', { placeholderData: [] });
 	const mutation = useMutation<Kødefinisjon, unknown, { tittel: string }>((payload) =>
 		axios.post('/api/opprett/v2', payload).then((res) => res.data),
 	);
-	return (
-		<>
-			<BehandlingsKoForm />
 
-			{/* <Button onClick={() => mutation.mutate({ tittel: 'kø' })}>Legg til ny kø</Button> */}
-		</>
+	const [sort, setSort] = useState(null);
+	const [ekspanderteKøer, setEkspanderteKøer] = useState([]);
+
+	const onOpenChange = (køId) => {
+		if (ekspanderteKøer.includes(køId)) {
+			setEkspanderteKøer(ekspanderteKøer.filter((v) => v !== køId));
+		} else setEkspanderteKøer([...ekspanderteKøer, køId]);
+	};
+
+	const handleSort = (sortKey) => {
+		setSort(
+			sort && sortKey === sort.orderBy && sort.direction === 'descending'
+				? undefined
+				: {
+						orderBy: sortKey,
+						direction: sort && sortKey === sort.orderBy && sort.direction === 'ascending' ? 'descending' : 'ascending',
+				  },
+		);
+	};
+
+	const sortData = data
+		.slice()
+		.map((v) => ({ ...v, saksbehandlere: v.saksbehandlere.length }))
+		.sort((a, b) => {
+			if (sort) {
+				// eslint-disable-next-line @typescript-eslint/no-shadow
+				const comparator = (a, b, orderBy) => {
+					if (b[orderBy] < a[orderBy] || b[orderBy] === undefined) {
+						return -1;
+					}
+					if (b[orderBy] > a[orderBy]) {
+						return 1;
+					}
+					return 0;
+				};
+
+				return sort.direction === 'ascending' ? comparator(b, a, sort.orderBy) : comparator(a, b, sort.orderBy);
+			}
+			return 1;
+		});
+
+	if (isLoading) {
+		return <Loader />;
+	}
+
+	return (
+		<Table sort={sort} onSortChange={(sortKey) => handleSort(sortKey)}>
+			<Table.Header>
+				<Table.Row>
+					<Table.ColumnHeader sortKey="tittel" sortable>
+						Navn
+					</Table.ColumnHeader>
+					<Table.ColumnHeader sortKey="saksbehandlere" sortable scope="col">
+						Antall saksbehandlere
+					</Table.ColumnHeader>
+					<Table.ColumnHeader sortKey="antallOppgaver" sortable scope="col">
+						Antall behandlinger
+					</Table.ColumnHeader>
+					<Table.ColumnHeader scope="col" sortKey="Sist endret" sortable>
+						Sist endret
+					</Table.ColumnHeader>
+					<Table.HeaderCell />
+				</Table.Row>
+			</Table.Header>
+			<Table.Body>
+				{sortData.map((kø) => (
+					<Table.ExpandableRow
+						key={kø.id}
+						onOpenChange={() => onOpenChange(kø.id)}
+						open={ekspanderteKøer.includes(kø.id)}
+						togglePlacement="right"
+						content={
+							<BehandlingsKoForm
+								kø={data.find((v) => v.id === kø.id)}
+								ekspandert={ekspanderteKøer.includes(kø.id)}
+								lukk={() => onOpenChange(kø.id)}
+							/>
+						}
+					>
+						<Table.DataCell scope="row">{kø.tittel}</Table.DataCell>
+						<Table.DataCell>{kø.saksbehandlere}</Table.DataCell>
+						<Table.DataCell>{kø.antallOppgaver}</Table.DataCell>
+						<Table.DataCell>{kø.sistEndret}</Table.DataCell>
+					</Table.ExpandableRow>
+				))}
+			</Table.Body>
+		</Table>
 	);
 };
 

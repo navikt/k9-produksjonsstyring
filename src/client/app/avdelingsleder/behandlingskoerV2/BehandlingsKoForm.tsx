@@ -1,46 +1,53 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FormattedMessage } from 'react-intl';
 import { useMutation } from 'react-query';
 import axios from 'axios';
 import { Kødefinisjon } from 'types/Kødefinisjon';
 import { Edit } from '@navikt/ds-icons';
-import { Button, Modal } from '@navikt/ds-react';
+import { Button, ErrorMessage, Modal } from '@navikt/ds-react';
 import { Form, InputField, TextAreaField } from '@navikt/ft-form-hooks';
 import { arrayMinLength, minLength, required } from '@navikt/ft-form-validators';
-import { K9LosApiKeys } from 'api/k9LosApi';
-import { useRestApiRunner } from 'api/rest-api-hooks';
+import { AvdelingslederContext } from 'avdelingsleder/context';
 import EnkelTeller from 'avdelingsleder/dagensTall/EnkelTeller';
 import FilterIndex from 'filter/FilterIndex';
-import OppgaveQueryModel from 'filter/OppgaveQueryModel';
-import { Saksbehandler } from 'saksbehandler/behandlingskoer/saksbehandlerTsType';
 import SearchWithDropdown from 'sharedComponents/SearchWithDropdown';
 
 enum fieldnames {
+	TITTEL = 'tittel',
 	SAKSBEHANDLERE = 'saksbehandlere',
 	OPPGAVE_QUERY = 'oppgaveQuery',
+	BESKRIVELSE = 'beskrivelse',
 }
 
-const BehandlingsKoForm = () => {
-	const { startRequest: hentAlleSaksbehandlere, data: alleSaksbehandlere = [] } = useRestApiRunner<Saksbehandler[]>(
-		K9LosApiKeys.SAKSBEHANDLERE,
+interface OwnProps {
+	kø: Kødefinisjon;
+	lukk: () => void;
+	ekspandert: boolean;
+}
+
+const BehandlingsKoForm = ({ kø, lukk, ekspandert }: OwnProps) => {
+	const [visFilterModal, setVisFilterModal] = useState(false);
+	const [visLagreModal, setVisLagreModal] = useState(false);
+	const lagreMutation = useMutation<Kødefinisjon, unknown, { tittel: string }>(
+		(payload) => axios.post('/api/oppdater/v2', payload).then((res) => res.data),
+		{ onSuccess: () => setVisLagreModal(false) },
 	);
-
-	const mutation = useMutation<Kødefinisjon, unknown, { tittel: string }>((payload) =>
-		axios.post('/api/oppdater/v2', payload).then((res) => res.data),
-	);
-
-	useEffect(() => {
-		hentAlleSaksbehandlere();
-	}, []);
-
 	const formMethods = useForm({
 		defaultValues: {
-			[fieldnames.SAKSBEHANDLERE]: [],
-			[fieldnames.OPPGAVE_QUERY]: new OppgaveQueryModel().toOppgaveQuery(),
+			[fieldnames.TITTEL]: kø.tittel,
+			[fieldnames.SAKSBEHANDLERE]: kø.saksbehandlere,
+			[fieldnames.OPPGAVE_QUERY]: kø.oppgaveQuery,
+			[fieldnames.BESKRIVELSE]: kø.beskrivelse,
 		},
 	});
-	const [visModal, setVisModal] = useState(false);
+
+	useEffect(() => {
+		formMethods.reset();
+	}, [ekspandert]);
+
+	const { saksbehandlere: alleSaksbehandlere } = useContext(AvdelingslederContext);
+
 	const manglerGruppering = 'Mangler gruppering';
 	const formaterteSaksbehandlere = alleSaksbehandlere.map((saksbehandler) => ({
 		value: saksbehandler.epost,
@@ -49,9 +56,11 @@ const BehandlingsKoForm = () => {
 	}));
 	const lagreOppgaveQuery = (oppgaveQuery) => {
 		formMethods.setValue(fieldnames.OPPGAVE_QUERY, oppgaveQuery);
-		setVisModal(false);
+		setVisFilterModal(false);
 	};
-	const onSubmit = (data) => mutation.mutate(data);
+	const onSubmit = (data) => {
+		lagreMutation.mutate(data);
+	};
 	const grupper = [...new Set(formaterteSaksbehandlere.map((oppgavekode) => oppgavekode.group))].sort();
 	const saksbehandlere = formMethods.watch(fieldnames.SAKSBEHANDLERE);
 	formMethods.register(fieldnames.SAKSBEHANDLERE, {
@@ -59,15 +68,10 @@ const BehandlingsKoForm = () => {
 	});
 	const antallOppgaver = 0;
 	return (
-		<Form
-			formMethods={formMethods}
-			onSubmit={(values) => {
-				onSubmit(values);
-			}}
-		>
+		<Form formMethods={formMethods}>
 			<div className="grid grid-cols-2 gap-4">
 				<div>
-					<InputField label="Navn" name="navn" size="medium" validate={[required, minLength(3)]} />
+					<InputField label="Navn" name={fieldnames.TITTEL} size="medium" validate={[required, minLength(3)]} />
 					<TextAreaField
 						size="medium"
 						name="beskrivelse"
@@ -106,24 +110,40 @@ const BehandlingsKoForm = () => {
 					className="ml-1 my-auto "
 					variant="tertiary"
 					type="button"
-					onClick={() => setVisModal(true)}
+					onClick={() => setVisFilterModal(true)}
 					icon={<Edit />}
 				>
 					Endre filter
 				</Button>
 			</div>
 			<div className="mt-16 flex gap-4">
-				<Button type="submit">Lagre</Button>
-				<Button variant="secondary" type="button" onClick={() => console.error('implementer meg er du snill')}>
-					Avbryt
+				<Button
+					type="button"
+					onClick={async () => {
+						const isValid = await formMethods.trigger();
+						if (isValid) {
+							setVisLagreModal(true);
+						}
+					}}
+				>
+					Lagre kø
+				</Button>
+				<Button variant="secondary" type="button" onClick={lukk}>
+					Lukk uten å lagre
 				</Button>
 			</div>
-			<Modal className="w-4/6" open={visModal} onClose={() => setVisModal(false)}>
+			{lagreMutation.isError && <ErrorMessage>Noe gikk galt ved lagring av kø</ErrorMessage>}
+
+			<Modal className="w-4/6" open={visLagreModal} onClose={() => setVisLagreModal(false)}>
+				<Modal.Content>halla kompis! er du sikker på at du vil lagre?</Modal.Content>
+				<Button onClick={formMethods.handleSubmit((values) => onSubmit(values))}>Lagre kø</Button>
+			</Modal>
+			<Modal className="w-4/6" open={visFilterModal} onClose={() => setVisFilterModal(false)}>
 				<Modal.Content className="ml-[-75px]">
 					<FilterIndex
 						initialQuery={formMethods.watch(fieldnames.OPPGAVE_QUERY)}
 						lagre={lagreOppgaveQuery}
-						avbryt={() => setVisModal(false)}
+						avbryt={() => setVisFilterModal(false)}
 					/>
 				</Modal.Content>
 			</Modal>

@@ -1,5 +1,6 @@
-import React, { FunctionComponent, useEffect } from 'react';
+import React, { FunctionComponent, useEffect, useMemo } from 'react';
 import { FormattedMessage } from 'react-intl';
+import { useQuery } from 'react-query';
 import { NavLink } from 'react-router-dom';
 import classnames from 'classnames/bind';
 import reservasjonBla from 'images/delete-1.svg';
@@ -20,6 +21,7 @@ import { getPanelLocationCreator } from 'app/paths';
 import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
 import useGlobalStateRestApiData from 'api/rest-api-hooks/src/global-data/useGlobalStateRestApiData';
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
+import { Saksbehandler } from 'avdelingsleder/bemanning/saksbehandlerTsType';
 import DagensTallPanel from 'avdelingsleder/dagensTall/DagensTallPanel';
 import ApneBehandlinger from 'avdelingsleder/dagensTall/apneBehandlingerTsType';
 import NokkeltallIndex from 'avdelingsleder/nokkeltall/NokkeltallIndex';
@@ -35,6 +37,7 @@ import EndreBehandlingskoerIndex from './behandlingskoer/EndreBehandlingskoerInd
 import BehandlingskoerIndex from './behandlingskoerV2/BehandlingskoerIndex';
 import AvdelingslederDashboard from './components/AvdelingslederDashboard';
 import IkkeTilgangTilAvdelingslederPanel from './components/IkkeTilgangTilAvdelingslederPanel';
+import { AvdelingslederContext, AvdelingslederContextState } from './context';
 
 const classNames = classnames.bind(styles);
 
@@ -115,10 +118,19 @@ export const AvdelingslederIndex: FunctionComponent = () => {
 		K9LosApiKeys.HENT_DAGENS_TALL,
 	);
 
+	const { data: alleSaksbehandlere, isSuccess } = useQuery<Saksbehandler[]>('/avdelingsleder/saksbehandlere');
+
 	useEffect(() => {
 		hentAntallIdag();
 		hentDagensTall();
 	}, []);
+
+	const avdelingslederContextValue = useMemo<AvdelingslederContextState>(
+		() => ({
+			saksbehandlere: isSuccess ? alleSaksbehandlere : [],
+		}),
+		[alleSaksbehandlere],
+	);
 
 	const getPanelFromUrlOrDefault = (loc) => {
 		const panelFromUrl = parseQueryString(loc.search);
@@ -136,7 +148,7 @@ export const AvdelingslederIndex: FunctionComponent = () => {
 
 	if (activeAvdelingslederPanel) {
 		return (
-			<>
+			<AvdelingslederContext.Provider value={avdelingslederContextValue}>
 				<Row>
 					<Normaltekst className={styles.paneltekst}>Avdelingslederpanel</Normaltekst>
 				</Row>
@@ -171,7 +183,7 @@ export const AvdelingslederIndex: FunctionComponent = () => {
 						</div>
 					</AvdelingslederDashboard>
 				</Row>
-			</>
+			</AvdelingslederContext.Provider>
 		);
 	}
 	return <LoadingPanel />;
