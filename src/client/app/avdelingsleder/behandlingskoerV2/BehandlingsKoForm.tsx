@@ -5,7 +5,7 @@ import { useMutation } from 'react-query';
 import axios from 'axios';
 import { Kødefinisjon } from 'types/Kødefinisjon';
 import { Edit } from '@navikt/ds-icons';
-import { Button, ErrorMessage, Modal } from '@navikt/ds-react';
+import { BodyShort, Button, ErrorMessage, Heading, Modal } from '@navikt/ds-react';
 import { Form, InputField, TextAreaField } from '@navikt/ft-form-hooks';
 import { arrayMinLength, minLength, required } from '@navikt/ft-form-validators';
 import { AvdelingslederContext } from 'avdelingsleder/context';
@@ -134,9 +134,21 @@ const BehandlingsKoForm = ({ kø, lukk, ekspandert }: OwnProps) => {
 			</div>
 			{lagreMutation.isError && <ErrorMessage>Noe gikk galt ved lagring av kø</ErrorMessage>}
 
-			<Modal className="w-4/6" open={visLagreModal} onClose={() => setVisLagreModal(false)}>
-				<Modal.Content>halla kompis! er du sikker på at du vil lagre?</Modal.Content>
-				<Button onClick={formMethods.handleSubmit((values) => onSubmit(values))}>Lagre kø</Button>
+			<Modal className="w-2/6" open={visLagreModal} onClose={() => setVisLagreModal(false)}>
+				<Modal.Content>
+					<Heading spacing level="2" size="medium">
+						Lagre kø
+					</Heading>
+					<div className="h-[75px] flex items-center">
+						<BodyShort>Er du sikker på at du ønsker å lagre køen?</BodyShort>
+					</div>
+					<Button className="mt-2" onClick={formMethods.handleSubmit((values) => onSubmit(values))}>
+						Lagre kø
+					</Button>
+					<Button className="ml-2" variant="secondary" onClick={() => setVisLagreModal(false)}>
+						Avbryt
+					</Button>
+				</Modal.Content>
 			</Modal>
 			<Modal className="w-4/6" open={visFilterModal} onClose={() => setVisFilterModal(false)}>
 				<Modal.Content className="ml-[-75px]">
