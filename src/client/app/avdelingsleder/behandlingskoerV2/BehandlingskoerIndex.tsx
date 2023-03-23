@@ -1,16 +1,14 @@
 import React, { useState } from 'react';
-import { useMutation, useQuery } from 'react-query';
-import axios from 'axios';
+import { useQuery } from 'react-query';
 import { Kødefinisjon } from 'types/Kødefinisjon';
-import { Loader, Table } from '@navikt/ds-react';
+import { Button, Loader, Table } from '@navikt/ds-react';
 import BehandlingsKoForm from './BehandlingsKoForm';
+import NyKøModal from './NyKøModal';
 
 const BehandlingskoerIndex = () => {
 	const { data, isLoading } = useQuery<Kødefinisjon[]>('/koer/v2', { placeholderData: [] });
-	const mutation = useMutation<Kødefinisjon, unknown, { tittel: string }>((payload) =>
-		axios.post('/api/opprett/v2', payload).then((res) => res.data),
-	);
 
+	const [visNyKøModal, setVisNyKøModal] = useState(false);
 	const [sort, setSort] = useState(null);
 	const [ekspanderteKøer, setEkspanderteKøer] = useState([]);
 
@@ -57,47 +55,53 @@ const BehandlingskoerIndex = () => {
 	}
 
 	return (
-		<Table sort={sort} onSortChange={(sortKey) => handleSort(sortKey)}>
-			<Table.Header>
-				<Table.Row>
-					<Table.ColumnHeader sortKey="tittel" sortable>
-						Navn
-					</Table.ColumnHeader>
-					<Table.ColumnHeader sortKey="saksbehandlere" sortable scope="col">
-						Antall saksbehandlere
-					</Table.ColumnHeader>
-					<Table.ColumnHeader sortKey="antallOppgaver" sortable scope="col">
-						Antall behandlinger
-					</Table.ColumnHeader>
-					<Table.ColumnHeader scope="col" sortKey="Sist endret" sortable>
-						Sist endret
-					</Table.ColumnHeader>
-					<Table.HeaderCell />
-				</Table.Row>
-			</Table.Header>
-			<Table.Body>
-				{sortData.map((kø) => (
-					<Table.ExpandableRow
-						key={kø.id}
-						onOpenChange={() => onOpenChange(kø.id)}
-						open={ekspanderteKøer.includes(kø.id)}
-						togglePlacement="right"
-						content={
-							<BehandlingsKoForm
-								kø={data.find((v) => v.id === kø.id)}
-								ekspandert={ekspanderteKøer.includes(kø.id)}
-								lukk={() => onOpenChange(kø.id)}
-							/>
-						}
-					>
-						<Table.DataCell scope="row">{kø.tittel}</Table.DataCell>
-						<Table.DataCell>{kø.saksbehandlere}</Table.DataCell>
-						<Table.DataCell>{kø.antallOppgaver}</Table.DataCell>
-						<Table.DataCell>{kø.sistEndret}</Table.DataCell>
-					</Table.ExpandableRow>
-				))}
-			</Table.Body>
-		</Table>
+		<>
+			<Button className="my-4" variant="secondary" onClick={() => setVisNyKøModal(true)}>
+				Opprett ny kø
+			</Button>
+			<Table sort={sort} zebraStripes onSortChange={(sortKey) => handleSort(sortKey)}>
+				<Table.Header>
+					<Table.Row>
+						<Table.ColumnHeader sortKey="tittel" sortable>
+							Navn
+						</Table.ColumnHeader>
+						<Table.ColumnHeader sortKey="saksbehandlere" sortable scope="col">
+							Antall saksbehandlere
+						</Table.ColumnHeader>
+						<Table.ColumnHeader sortKey="antallOppgaver" sortable scope="col">
+							Antall behandlinger
+						</Table.ColumnHeader>
+						<Table.ColumnHeader scope="col" sortKey="Sist endret" sortable>
+							Sist endret
+						</Table.ColumnHeader>
+						<Table.HeaderCell />
+					</Table.Row>
+				</Table.Header>
+				<Table.Body>
+					{sortData.map((kø) => (
+						<Table.ExpandableRow
+							key={kø.id}
+							onOpenChange={() => onOpenChange(kø.id)}
+							open={ekspanderteKøer.includes(kø.id)}
+							togglePlacement="right"
+							content={
+								<BehandlingsKoForm
+									kø={data.find((v) => v.id === kø.id)}
+									ekspandert={ekspanderteKøer.includes(kø.id)}
+									lukk={() => onOpenChange(kø.id)}
+								/>
+							}
+						>
+							<Table.DataCell scope="row">{kø.tittel}</Table.DataCell>
+							<Table.DataCell>{kø.saksbehandlere}</Table.DataCell>
+							<Table.DataCell>{kø.antallOppgaver}</Table.DataCell>
+							<Table.DataCell>{kø.sistEndret}</Table.DataCell>
+						</Table.ExpandableRow>
+					))}
+				</Table.Body>
+			</Table>
+			{visNyKøModal && <NyKøModal vis lukk={() => setVisNyKøModal(false)} />}
+		</>
 	);
 };
 

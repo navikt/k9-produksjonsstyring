@@ -150,7 +150,7 @@ const BehandlingsKoForm = ({ kø, lukk, ekspandert }: OwnProps) => {
 					</Button>
 				</Modal.Content>
 			</Modal>
-			<Modal className="w-4/6" open={visFilterModal} onClose={() => setVisFilterModal(false)}>
+			<Modal className="w-3/6" open={visFilterModal} onClose={() => setVisFilterModal(false)}>
 				<Modal.Content className="ml-[-75px]">
 					<FilterIndex
 						initialQuery={formMethods.watch(fieldnames.OPPGAVE_QUERY)}
