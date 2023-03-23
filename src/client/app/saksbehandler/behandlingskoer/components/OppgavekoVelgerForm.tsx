@@ -1,25 +1,19 @@
 import React, { FunctionComponent, ReactNode, useEffect } from 'react';
 import { Form, FormSpy } from 'react-final-form';
-import { FormattedMessage, IntlShape, WrappedComponentProps, injectIntl } from 'react-intl';
+import { FormattedMessage, WrappedComponentProps, injectIntl } from 'react-intl';
 import gruppeUrl from 'images/gruppe.svg';
 import gruppeHoverUrl from 'images/gruppe_hover.svg';
-import moment from 'moment';
 import { Hovedknapp } from 'nav-frontend-knapper';
 import { Element, Undertekst } from 'nav-frontend-typografi';
-import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
-import { useGlobalStateRestApiData } from 'api/rest-api-hooks';
+import { K9LosApiKeys } from 'api/k9LosApi';
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
 import { SelectField } from 'form/FinalFields';
-import AlleKodeverk from 'kodeverk/alleKodeverkTsType';
-import kodeverkTyper from 'kodeverk/kodeverkTyper';
 import { Oppgaveko } from 'saksbehandler/behandlingskoer/oppgavekoTsType';
 import Image from 'sharedComponents/Image';
-import LabelWithHeader from 'sharedComponents/LabelWithHeader';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import { FlexColumn, FlexContainer, FlexRow } from 'sharedComponents/flexGrid';
-import { DDMMYYYY_DATE_FORMAT } from 'utils/formats';
-import { getKodeverknavnFraKode } from 'utils/kodeverkUtils';
 import { Saksbehandler } from '../saksbehandlerTsType';
+import OldOppsummeringAvKø from './OldOppsummeringAvKø';
 import styles from './oppgavekoVelgerForm.css';
 
 interface OwnProps {
@@ -31,6 +25,25 @@ interface OwnProps {
 	plukkNyOppgave: () => void;
 	erRestApiKallLoading: boolean;
 }
+
+const createTooltip = (saksbehandlere: Saksbehandler[]): ReactNode | undefined => {
+	if (!saksbehandlere || saksbehandlere.length === 0) {
+		return undefined;
+	}
+
+	return (
+		<div>
+			<Element className={styles.tooltipHeader}>
+				<FormattedMessage id="OppgavekoVelgerForm.SaksbehandlerToolip" />
+			</Element>
+			{saksbehandlere
+				.sort((n1, n2) => n1.epost.localeCompare(n2.epost))
+				.map((s) => (
+					<li key={s.epost}>{s.navn ? s.navn : s.epost}</li>
+				))}
+		</div>
+	);
+};
 
 const getDefaultOppgaveko = (oppgavekoer, getValueFromLocalStorage, removeValueFromLocalStorage) => {
 	const lagretOppgavekoId = getValueFromLocalStorage('id');
@@ -59,63 +72,6 @@ const getInitialValues = (oppgavekoer, getValueFromLocalStorage, removeValueFrom
 	};
 };
 
-const getValgtOppgaveko = (oppgavekoer: Oppgaveko[], oppgavekoId: string) =>
-	oppgavekoer.find((s) => oppgavekoId === `${s.id}`);
-
-const getStonadstyper = (intl: IntlShape, alleKodeverk: AlleKodeverk, oppgaveko?: Oppgaveko) =>
-	oppgaveko && oppgaveko.fagsakYtelseTyper.length > 0
-		? oppgaveko.fagsakYtelseTyper.map((type) =>
-				getKodeverknavnFraKode(type, kodeverkTyper.FAGSAK_YTELSE_TYPE, alleKodeverk),
-		  )
-		: [intl.formatMessage({ id: 'OppgavekoVelgerForm.Alle' })];
-
-const getBehandlingstyper = (intl: IntlShape, alleKodeverk: AlleKodeverk, oppgaveko?: Oppgaveko) =>
-	oppgaveko && oppgaveko.behandlingTyper.length > 0
-		? oppgaveko.behandlingTyper.map((type) => getKodeverknavnFraKode(type, kodeverkTyper.BEHANDLING_TYPE, alleKodeverk))
-		: [intl.formatMessage({ id: 'OppgavekoVelgerForm.Alle' })];
-
-const getAndreKriterier = (intl: IntlShape, oppgaveko?: Oppgaveko) => {
-	if (oppgaveko && oppgaveko.andreKriterier.length > 0) {
-		return oppgaveko.andreKriterier.map((ak) =>
-			ak.inkluder
-				? ak.andreKriterierType.navn
-				: intl.formatMessage({ id: 'OppgavekoVelgerForm.Uten' }, { kriterie: ak.andreKriterierType.navn }),
-		);
-	}
-	return [intl.formatMessage({ id: 'OppgavekoVelgerForm.Alle' })];
-};
-
-const getSorteringsnavn = (intl: IntlShape, oppgaveko?: Oppgaveko) => {
-	if (!oppgaveko || !oppgaveko.sortering) {
-		return '';
-	}
-	const { sorteringType, fomDato, tomDato } = oppgaveko.sortering;
-	let values = {
-		br: <br />,
-		fomDato: undefined,
-		tomDato: undefined,
-		navn: undefined,
-	};
-
-	if (!fomDato && !tomDato) {
-		return sorteringType.navn;
-	}
-	values = {
-		navn: sorteringType.navn,
-		fomDato: fomDato ? moment(fomDato).format(DDMMYYYY_DATE_FORMAT) : undefined,
-		tomDato: tomDato ? moment(tomDato).format(DDMMYYYY_DATE_FORMAT) : undefined,
-		br: <br />,
-	};
-
-	if (!values.fomDato) {
-		return intl.formatMessage({ id: 'OppgavekoVelgerForm.SorteringsinfoTom' }, values) as string;
-	}
-	if (!values.tomDato) {
-		return intl.formatMessage({ id: 'OppgavekoVelgerForm.SorteringsinfoFom' }, values) as string;
-	}
-	return intl.formatMessage({ id: 'OppgavekoVelgerForm.Sorteringsinfo' }, values) as string;
-};
-
 /**
  * OppgavekoVelgerForm
  *
@@ -130,13 +86,13 @@ export const OppgavekoVelgerForm: FunctionComponent<OwnProps & WrappedComponentP
 	plukkNyOppgave,
 	erRestApiKallLoading,
 }) => {
-	const { data: saksbehandlere, startRequest: hentSaksbehandlere } = useRestApiRunner<Saksbehandler[]>(
-		K9LosApiKeys.OPPGAVEKO_SAKSBEHANDLERE,
-	);
 	const { startRequest: fetchAntallOppgaver, data: antallOppgaver } = useRestApiRunner<number>(
 		K9LosApiKeys.BEHANDLINGSKO_OPPGAVE_ANTALL,
 	);
-	const alleKodeverk: AlleKodeverk = useGlobalStateRestApiData(RestApiGlobalStatePathsKeys.KODEVERK);
+
+	const { data: saksbehandlere, startRequest: hentSaksbehandlere } = useRestApiRunner<Saksbehandler[]>(
+		K9LosApiKeys.OPPGAVEKO_SAKSBEHANDLERE,
+	);
 
 	useEffect(() => {
 		if (oppgavekoer.length > 0) {
@@ -153,24 +109,6 @@ export const OppgavekoVelgerForm: FunctionComponent<OwnProps & WrappedComponentP
 		}
 	}, []);
 
-	const createTooltip = (): ReactNode | undefined => {
-		if (!saksbehandlere || saksbehandlere.length === 0) {
-			return undefined;
-		}
-
-		return (
-			<div>
-				<Element className={styles.tooltipHeader}>
-					<FormattedMessage id="OppgavekoVelgerForm.SaksbehandlerToolip" />
-				</Element>
-				{saksbehandlere
-					.sort((n1, n2) => n1.epost.localeCompare(n2.epost))
-					.map((s) => (
-						<li key={s.epost}>{s.navn ? s.navn : s.epost}</li>
-					))}
-			</div>
-		);
-	};
 	return (
 		<div className={styles.oppgavevelgerform_container}>
 			<Form
@@ -184,7 +122,6 @@ export const OppgavekoVelgerForm: FunctionComponent<OwnProps & WrappedComponentP
 									setValueInLocalStorage('id', val.values.id);
 									const { id } = val.values;
 									setValgtOppgavekoId(id);
-									hentSaksbehandlere({ id });
 									fetchAntallOppgaver({ id });
 								}
 							}}
@@ -212,53 +149,23 @@ export const OppgavekoVelgerForm: FunctionComponent<OwnProps & WrappedComponentP
 									</Undertekst>
 									<VerticalSpacer sixteenPx />
 								</FlexColumn>
-								{values.id && (
-									<>
-										<FlexColumn>
-											<div className={styles.saksbehandlerIkon} />
-											<Image
-												alt={intl.formatMessage({ id: 'OppgavekoVelgerForm.Saksbehandlere' })}
-												src={gruppeUrl}
-												srcHover={gruppeHoverUrl}
-												tooltip={createTooltip()}
-											/>
-										</FlexColumn>
-										<FlexColumn className={styles.marginFilters}>
-											<LabelWithHeader
-												header={intl.formatMessage({ id: 'OppgavekoVelgerForm.Stonadstype' })}
-												texts={getStonadstyper(intl, alleKodeverk, getValgtOppgaveko(oppgavekoer, values.id))}
-											/>
-										</FlexColumn>
-										<FlexColumn className={styles.marginFilters}>
-											<LabelWithHeader
-												header={intl.formatMessage({
-													id: 'OppgavekoVelgerForm.Behandlingstype',
-												})}
-												texts={getBehandlingstyper(intl, alleKodeverk, getValgtOppgaveko(oppgavekoer, values.id))}
-											/>
-										</FlexColumn>
-										<FlexColumn className={styles.marginFilters}>
-											<LabelWithHeader
-												header={intl.formatMessage({
-													id: 'OppgavekoVelgerForm.AndreKriterier',
-												})}
-												texts={getAndreKriterier(intl, getValgtOppgaveko(oppgavekoer, values.id))}
-											/>
-										</FlexColumn>
-										<FlexColumn className={styles.marginFilters}>
-											<LabelWithHeader
-												header={intl.formatMessage({ id: 'OppgavekoVelgerForm.Sortering' })}
-												texts={[getSorteringsnavn(intl, getValgtOppgaveko(oppgavekoer, values.id))]}
-											/>
-										</FlexColumn>
-									</>
-								)}
+								<FlexColumn>
+									<div className={styles.saksbehandlerIkon} />
+									<Image
+										alt={intl.formatMessage({ id: 'OppgavekoVelgerForm.Saksbehandlere' })}
+										src={gruppeUrl}
+										srcHover={gruppeHoverUrl}
+										tooltip={createTooltip(saksbehandlere)}
+									/>
+								</FlexColumn>
+								<OldOppsummeringAvKø id={values.id} oppgavekoer={oppgavekoer} />
 							</FlexRow>
 						</FlexContainer>
 					</form>
 				)}
 			/>
 			<Hovedknapp
+				id="frode sin knapp"
 				className={styles.nyOppgaveBtn}
 				spinner={erRestApiKallLoading}
 				disabled={erRestApiKallLoading}

@@ -57,7 +57,6 @@ const OppgavekoPanel: FunctionComponent<OwnProps> = ({
 		error: restApiError,
 		resetRequestData,
 	} = useRestApiRunner<Oppgave>(K9LosApiKeys.FÅ_OPPGAVE_FRA_KO);
-	const merknadstyper = useKodeverk(kodeverkTyper.MERKNAD_TYPE);
 
 	const valgtKo = oppgavekoer.find((ko) => ko.id === valgtOppgavekoId);
 
