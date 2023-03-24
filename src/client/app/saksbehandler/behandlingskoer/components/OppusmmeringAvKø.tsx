@@ -6,7 +6,7 @@ import { OppgavekøV1 } from '../oppgavekoTsType';
 interface OwnProps {
 	oppgavekø: OppgavekøV1 | OppgavekøV2;
 }
-const OppusmmeringAvKø = ({ oppgavekø }: OwnProps) => {
+const OppsummeringAvKø = ({ oppgavekø }: OwnProps) => {
 	if (!oppgavekø || !('versjon' in oppgavekø)) {
 		return null;
 	}
@@ -19,4 +19,4 @@ const OppusmmeringAvKø = ({ oppgavekø }: OwnProps) => {
 	);
 };
 
-export default OppusmmeringAvKø;
+export default OppsummeringAvKø;

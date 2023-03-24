@@ -15,7 +15,7 @@ import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import { FlexColumn, FlexContainer, FlexRow } from 'sharedComponents/flexGrid';
 import { Saksbehandler } from '../saksbehandlerTsType';
 import OldOppsummeringAvKø from './OldOppsummeringAvKø';
-import OppusmmeringAvKø from './OppusmmeringAvKø';
+import OppsummeringAvKø from './OppusmmeringAvKø';
 import styles from './oppgavekoVelgerForm.css';
 
 interface OwnProps {
@@ -163,7 +163,7 @@ export const OppgavekoVelgerForm: FunctionComponent<OwnProps & WrappedComponentP
 									<VerticalSpacer sixteenPx />
 								</FlexColumn>
 
-								{values.id && <OppusmmeringAvKø oppgavekø={getValgtOppgaveko(oppgavekoer, values.id)} />}
+								{values.id && <OppsummeringAvKø oppgavekø={getValgtOppgaveko(oppgavekoer, values.id)} />}
 								{values.id && <OldOppsummeringAvKø oppgaveko={getValgtOppgaveko(oppgavekoer, values.id)} />}
 							</FlexRow>
 						</FlexContainer>
