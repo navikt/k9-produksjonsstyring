@@ -153,7 +153,11 @@ export const developmentHandlers = {
 				{
 					id: '2',
 					tittel: 'Kø 2',
-					beskrivelse: 'godt forklart tekst om hva formålet med køen er',
+					beskrivelse:
+						'godt forklart tekst om hva formålet med køen er. og den skal være lang lang lang lang lang lang lang lang ' +
+						'lang lang lang lang lang lang lang lang lang lang lang lang lang lang lang lang lang lang lang lang lang lang' +
+						'lang lang lang lang lang lang lang |lang lang lang lang lang lang lang lang lang lang lang lang lang lang lang lang lang lang lang ' +
+						'slang lang lang lang lang lang lang lang lang lang lang lang lang lang lang lang lang lang lang lang lang lang lang lang',
 					oppgaveQuery: {
 						filtere: [],
 						select: [],
