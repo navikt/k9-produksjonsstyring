@@ -12,7 +12,7 @@ const OppusmmeringAvKø = ({ oppgavekø }: OwnProps) => {
 	}
 
 	return (
-		<div className="ml-8">
+		<div>
 			<Detail>Beskrivelse av køen</Detail>
 			<BodyShort className="mt-4">{oppgavekø.beskrivelse}</BodyShort>
 		</div>
