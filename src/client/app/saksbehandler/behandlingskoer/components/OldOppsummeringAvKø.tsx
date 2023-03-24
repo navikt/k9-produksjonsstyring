@@ -1,6 +1,7 @@
 import React from 'react';
 import { IntlShape, useIntl } from 'react-intl';
 import moment from 'moment';
+import { OppgavekøV2 } from 'types/OppgavekøV2Type';
 import { RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
 import { useGlobalStateRestApiData } from 'api/rest-api-hooks';
 import AlleKodeverk from 'kodeverk/alleKodeverkTsType';
@@ -9,25 +10,22 @@ import LabelWithHeader from 'sharedComponents/LabelWithHeader';
 import { FlexColumn } from 'sharedComponents/flexGrid';
 import { DDMMYYYY_DATE_FORMAT } from 'utils/formats';
 import { getKodeverknavnFraKode } from 'utils/kodeverkUtils';
-import { Oppgaveko } from '../oppgavekoTsType';
+import { OppgavekøV1 } from '../oppgavekoTsType';
 import styles from './oppgavekoVelgerForm.css';
 
-const getValgtOppgaveko = (oppgavekoer: Oppgaveko[], oppgavekoId: string) =>
-	oppgavekoer.find((s) => oppgavekoId === `${s.id}`);
-
-const getStonadstyper = (intl: IntlShape, alleKodeverk: AlleKodeverk, oppgaveko?: Oppgaveko) =>
+const getStonadstyper = (intl: IntlShape, alleKodeverk: AlleKodeverk, oppgaveko?: OppgavekøV1) =>
 	oppgaveko && oppgaveko.fagsakYtelseTyper.length > 0
 		? oppgaveko.fagsakYtelseTyper.map((type) =>
 				getKodeverknavnFraKode(type, kodeverkTyper.FAGSAK_YTELSE_TYPE, alleKodeverk),
 		  )
 		: [intl.formatMessage({ id: 'OppgavekoVelgerForm.Alle' })];
 
-const getBehandlingstyper = (intl: IntlShape, alleKodeverk: AlleKodeverk, oppgaveko?: Oppgaveko) =>
+const getBehandlingstyper = (intl: IntlShape, alleKodeverk: AlleKodeverk, oppgaveko?: OppgavekøV1) =>
 	oppgaveko && oppgaveko.behandlingTyper.length > 0
 		? oppgaveko.behandlingTyper.map((type) => getKodeverknavnFraKode(type, kodeverkTyper.BEHANDLING_TYPE, alleKodeverk))
 		: [intl.formatMessage({ id: 'OppgavekoVelgerForm.Alle' })];
 
-const getAndreKriterier = (intl: IntlShape, oppgaveko?: Oppgaveko) => {
+const getAndreKriterier = (intl: IntlShape, oppgaveko?: OppgavekøV1) => {
 	if (oppgaveko && oppgaveko.andreKriterier.length > 0) {
 		return oppgaveko.andreKriterier.map((ak) =>
 			ak.inkluder
@@ -38,7 +36,7 @@ const getAndreKriterier = (intl: IntlShape, oppgaveko?: Oppgaveko) => {
 	return [intl.formatMessage({ id: 'OppgavekoVelgerForm.Alle' })];
 };
 
-const getSorteringsnavn = (intl: IntlShape, oppgaveko?: Oppgaveko) => {
+const getSorteringsnavn = (intl: IntlShape, oppgaveko?: OppgavekøV1) => {
 	if (!oppgaveko || !oppgaveko.sortering) {
 		return '';
 	}
@@ -70,15 +68,14 @@ const getSorteringsnavn = (intl: IntlShape, oppgaveko?: Oppgaveko) => {
 };
 
 interface OwnProps {
-	oppgavekoer: Oppgaveko[];
-	id?: string;
+	oppgaveko: OppgavekøV1 | OppgavekøV2;
 }
 
-const OldOppsummeringAvKø = ({ id, oppgavekoer }: OwnProps) => {
+const OldOppsummeringAvKø = ({ oppgaveko }: OwnProps) => {
 	const intl = useIntl();
 
 	const alleKodeverk: AlleKodeverk = useGlobalStateRestApiData(RestApiGlobalStatePathsKeys.KODEVERK);
-	if (!id) {
+	if (!oppgaveko || 'versjon' in oppgaveko) {
 		return null;
 	}
 
@@ -87,7 +84,7 @@ const OldOppsummeringAvKø = ({ id, oppgavekoer }: OwnProps) => {
 			<FlexColumn className={styles.marginFilters}>
 				<LabelWithHeader
 					header={intl.formatMessage({ id: 'OppgavekoVelgerForm.Stonadstype' })}
-					texts={getStonadstyper(intl, alleKodeverk, getValgtOppgaveko(oppgavekoer, id))}
+					texts={getStonadstyper(intl, alleKodeverk, oppgaveko)}
 				/>
 			</FlexColumn>
 			<FlexColumn className={styles.marginFilters}>
@@ -95,7 +92,7 @@ const OldOppsummeringAvKø = ({ id, oppgavekoer }: OwnProps) => {
 					header={intl.formatMessage({
 						id: 'OppgavekoVelgerForm.Behandlingstype',
 					})}
-					texts={getBehandlingstyper(intl, alleKodeverk, getValgtOppgaveko(oppgavekoer, id))}
+					texts={getBehandlingstyper(intl, alleKodeverk, oppgaveko)}
 				/>
 			</FlexColumn>
 			<FlexColumn className={styles.marginFilters}>
@@ -103,14 +100,14 @@ const OldOppsummeringAvKø = ({ id, oppgavekoer }: OwnProps) => {
 					header={intl.formatMessage({
 						id: 'OppgavekoVelgerForm.AndreKriterier',
 					})}
-					texts={getAndreKriterier(intl, getValgtOppgaveko(oppgavekoer, id))}
+					texts={getAndreKriterier(intl, oppgaveko)}
 				/>
-			</FlexColumn>
-			<FlexColumn className={styles.marginFilters}>
-				<LabelWithHeader
-					header={intl.formatMessage({ id: 'OppgavekoVelgerForm.Sortering' })}
-					texts={[getSorteringsnavn(intl, getValgtOppgaveko(oppgavekoer, id))]}
-				/>
+				<div className="mt-4">
+					<LabelWithHeader
+						header={intl.formatMessage({ id: 'OppgavekoVelgerForm.Sortering' })}
+						texts={[getSorteringsnavn(intl, oppgaveko)]}
+					/>
+				</div>
 			</FlexColumn>
 		</>
 	);

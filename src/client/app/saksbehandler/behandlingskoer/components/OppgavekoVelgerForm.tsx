@@ -5,19 +5,21 @@ import gruppeUrl from 'images/gruppe.svg';
 import gruppeHoverUrl from 'images/gruppe_hover.svg';
 import { Hovedknapp } from 'nav-frontend-knapper';
 import { Element, Undertekst } from 'nav-frontend-typografi';
+import { Button, ReadMore } from '@navikt/ds-react';
 import { K9LosApiKeys } from 'api/k9LosApi';
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
 import { SelectField } from 'form/FinalFields';
-import { Oppgaveko } from 'saksbehandler/behandlingskoer/oppgavekoTsType';
+import { OppgavekøV1 } from 'saksbehandler/behandlingskoer/oppgavekoTsType';
 import Image from 'sharedComponents/Image';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import { FlexColumn, FlexContainer, FlexRow } from 'sharedComponents/flexGrid';
 import { Saksbehandler } from '../saksbehandlerTsType';
 import OldOppsummeringAvKø from './OldOppsummeringAvKø';
+import OppusmmeringAvKø from './OppusmmeringAvKø';
 import styles from './oppgavekoVelgerForm.css';
 
 interface OwnProps {
-	oppgavekoer: Oppgaveko[];
+	oppgavekoer: OppgavekøV1[];
 	setValgtOppgavekoId: (id: string) => void;
 	getValueFromLocalStorage: (key: string) => string;
 	setValueInLocalStorage: (key: string, value: string) => void;
@@ -44,6 +46,9 @@ const createTooltip = (saksbehandlere: Saksbehandler[]): ReactNode | undefined =
 		</div>
 	);
 };
+
+const getValgtOppgaveko = (oppgavekoer: OppgavekøV1[], oppgavekoId: string) =>
+	oppgavekoer.find((s) => oppgavekoId === `${s.id}`);
 
 const getDefaultOppgaveko = (oppgavekoer, getValueFromLocalStorage, removeValueFromLocalStorage) => {
 	const lagretOppgavekoId = getValueFromLocalStorage('id');
@@ -89,15 +94,16 @@ export const OppgavekoVelgerForm: FunctionComponent<OwnProps & WrappedComponentP
 	const { startRequest: fetchAntallOppgaver, data: antallOppgaver } = useRestApiRunner<number>(
 		K9LosApiKeys.BEHANDLINGSKO_OPPGAVE_ANTALL,
 	);
+	const oppgavekoerSortertAlfabetisk = oppgavekoer.sort((a, b) => a.navn.localeCompare(b.navn));
 
 	const { data: saksbehandlere, startRequest: hentSaksbehandlere } = useRestApiRunner<Saksbehandler[]>(
 		K9LosApiKeys.OPPGAVEKO_SAKSBEHANDLERE,
 	);
 
 	useEffect(() => {
-		if (oppgavekoer.length > 0) {
+		if (oppgavekoerSortertAlfabetisk.length > 0) {
 			const defaultOppgavekoId = getDefaultOppgaveko(
-				oppgavekoer,
+				oppgavekoerSortertAlfabetisk,
 				getValueFromLocalStorage,
 				removeValueFromLocalStorage,
 			);
@@ -113,7 +119,11 @@ export const OppgavekoVelgerForm: FunctionComponent<OwnProps & WrappedComponentP
 		<div className={styles.oppgavevelgerform_container}>
 			<Form
 				onSubmit={() => undefined}
-				initialValues={getInitialValues(oppgavekoer, getValueFromLocalStorage, removeValueFromLocalStorage)}
+				initialValues={getInitialValues(
+					oppgavekoerSortertAlfabetisk,
+					getValueFromLocalStorage,
+					removeValueFromLocalStorage,
+				)}
 				render={({ values = {} }) => (
 					<form>
 						<FormSpy
@@ -133,7 +143,7 @@ export const OppgavekoVelgerForm: FunctionComponent<OwnProps & WrappedComponentP
 									<SelectField
 										name="id"
 										label={intl.formatMessage({ id: 'OppgavekoVelgerForm.Oppgaveko' })}
-										selectValues={oppgavekoer.map((oppgaveko) => (
+										selectValues={oppgavekoerSortertAlfabetisk.map((oppgaveko) => (
 											<option key={oppgaveko.id} value={`${oppgaveko.id}`}>
 												{oppgaveko.navn}
 											</option>
@@ -146,33 +156,29 @@ export const OppgavekoVelgerForm: FunctionComponent<OwnProps & WrappedComponentP
 											id="OppgavekoVelgerForm.AntallOppgaver"
 											values={{ antall: antallOppgaver || 0 }}
 										/>
+										<ReadMore size="small" header="Andre saksbehandlere i køen">
+											{createTooltip(saksbehandlere)}
+										</ReadMore>
 									</Undertekst>
 									<VerticalSpacer sixteenPx />
 								</FlexColumn>
-								<FlexColumn>
-									<div className={styles.saksbehandlerIkon} />
-									<Image
-										alt={intl.formatMessage({ id: 'OppgavekoVelgerForm.Saksbehandlere' })}
-										src={gruppeUrl}
-										srcHover={gruppeHoverUrl}
-										tooltip={createTooltip(saksbehandlere)}
-									/>
-								</FlexColumn>
-								<OldOppsummeringAvKø id={values.id} oppgavekoer={oppgavekoer} />
+
+								{values.id && <OppusmmeringAvKø oppgavekø={getValgtOppgaveko(oppgavekoer, values.id)} />}
+								{values.id && <OldOppsummeringAvKø oppgaveko={getValgtOppgaveko(oppgavekoer, values.id)} />}
 							</FlexRow>
 						</FlexContainer>
 					</form>
 				)}
 			/>
-			<Hovedknapp
+			<Button
 				id="frode sin knapp"
-				className={styles.nyOppgaveBtn}
-				spinner={erRestApiKallLoading}
+				className="mt-4 max-w-sm"
+				loading={erRestApiKallLoading}
 				disabled={erRestApiKallLoading}
 				onClick={() => plukkNyOppgave()}
 			>
 				{intl.formatMessage({ id: 'OppgavekoVelgerForm.PlukkNyOppgave' })}
-			</Hovedknapp>
+			</Button>
 		</div>
 	);
 };

@@ -2,7 +2,7 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useMutation, useQueryClient } from 'react-query';
 import axios from 'axios';
-import { Kødefinisjon } from 'types/Kødefinisjon';
+import { OppgavekøV2 } from 'types/OppgavekøV2Type';
 import { Button, Heading, Modal } from '@navikt/ds-react';
 import { Form, InputField } from '@navikt/ft-form-hooks';
 import { minLength, required } from '@navikt/ft-form-validators';
@@ -18,7 +18,7 @@ interface OwnProps {
 
 const NyKøModal = ({ vis, lukk }: OwnProps) => {
 	const queryClient = useQueryClient();
-	const mutation = useMutation<Kødefinisjon, unknown, { tittel: string }>(
+	const mutation = useMutation<OppgavekøV2, unknown, { tittel: string }>(
 		(payload) => axios.post('/api/opprett/v2', payload).then((res) => res.data),
 		{
 			onSuccess: () => {

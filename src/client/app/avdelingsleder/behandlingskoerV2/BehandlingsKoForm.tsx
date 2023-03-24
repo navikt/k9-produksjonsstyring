@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { FormattedMessage } from 'react-intl';
 import { useMutation } from 'react-query';
 import axios from 'axios';
-import { Kødefinisjon } from 'types/Kødefinisjon';
+import { OppgavekøV2 } from 'types/OppgavekøV2Type';
 import { Edit } from '@navikt/ds-icons';
 import { BodyShort, Button, ErrorMessage, Heading, Modal } from '@navikt/ds-react';
 import { Form, InputField, TextAreaField } from '@navikt/ft-form-hooks';
@@ -21,7 +21,7 @@ enum fieldnames {
 }
 
 interface OwnProps {
-	kø: Kødefinisjon;
+	kø: OppgavekøV2;
 	lukk: () => void;
 	ekspandert: boolean;
 }
@@ -29,7 +29,7 @@ interface OwnProps {
 const BehandlingsKoForm = ({ kø, lukk, ekspandert }: OwnProps) => {
 	const [visFilterModal, setVisFilterModal] = useState(false);
 	const [visLagreModal, setVisLagreModal] = useState(false);
-	const lagreMutation = useMutation<Kødefinisjon, unknown, { tittel: string }>(
+	const lagreMutation = useMutation<OppgavekøV2, unknown, { tittel: string }>(
 		(payload) => axios.post('/api/oppdater/v2', payload).then((res) => res.data),
 		{ onSuccess: () => setVisLagreModal(false) },
 	);

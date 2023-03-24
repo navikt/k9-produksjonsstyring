@@ -1,6 +1,6 @@
 import { OppgaveQuery } from 'filter/filterTsTypes';
 
-export interface Kødefinisjon {
+export interface OppgavekøV2 {
 	id: number;
 	tittel: string;
 	beskrivelse: string;

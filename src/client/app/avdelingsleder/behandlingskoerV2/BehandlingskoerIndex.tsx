@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { useQuery } from 'react-query';
-import { Kødefinisjon } from 'types/Kødefinisjon';
+import { OppgavekøV2 } from 'types/OppgavekøV2Type';
 import { Button, Loader, Table } from '@navikt/ds-react';
 import BehandlingsKoForm from './BehandlingsKoForm';
 import NyKøModal from './NyKøModal';
 
 const BehandlingskoerIndex = () => {
-	const { data, isLoading } = useQuery<Kødefinisjon[]>('/koer/v2', { placeholderData: [] });
+	const { data, isLoading } = useQuery<OppgavekøV2[]>('/koer/v2', { placeholderData: [] });
 
 	const [visNyKøModal, setVisNyKøModal] = useState(false);
 	const [sort, setSort] = useState(null);

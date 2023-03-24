@@ -23,6 +23,7 @@ export enum K9LosApiKeys {
 	K9TILBAKE_URL = 'K9TILBAKE_URL',
 	FEATURE_TOGGLES = 'FEATURE_TOGGLES',
 	OPPGAVEKO = 'OPPGAVEKO',
+	OPPGAVEKO_V2 = 'OPPGAVEKO_V2',
 	HENT_OPPGAVEKO = 'HENT_OPPGAVEKO',
 	RESERVER_OPPGAVE = 'RESERVER_OPPGAVE',
 	ENDRE_OPPGAVERESERVASJON = 'ENDRE_OPPGAVERESERVASJON',
@@ -98,6 +99,7 @@ export const endpoints = new RestApiConfigBuilder(CONTEXT_PATH)
 
 	/* /api/saksbehandler/saksliste */
 	.withGet('/saksbehandler/oppgaveko', K9LosApiKeys.OPPGAVEKO)
+	.withGet('/saksbehandler/oppgaveko/v2', K9LosApiKeys.OPPGAVEKO_V2)
 	.withGet('/saksbehandler/oppgaveko/saksbehandlere', K9LosApiKeys.OPPGAVEKO_SAKSBEHANDLERE)
 
 	/* /api/saksbehandler/oppgave */
