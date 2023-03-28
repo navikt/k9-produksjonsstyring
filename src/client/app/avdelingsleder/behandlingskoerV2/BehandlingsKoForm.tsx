@@ -69,19 +69,28 @@ const BehandlingsKoForm = ({ kø, lukk, ekspandert }: OwnProps) => {
 	const antallOppgaver = 0;
 	return (
 		<Form formMethods={formMethods}>
-			<div className="grid grid-cols-2 gap-4">
+			<div className="grid grid-cols-2 gap-16">
 				<div>
-					<InputField label="Navn" name={fieldnames.TITTEL} size="medium" validate={[required, minLength(3)]} />
-					<TextAreaField
-						size="medium"
-						name="beskrivelse"
-						label="Beskrivelse"
-						description="Her kan du legge inn en valgfri beskrivelse av hva denne køen inneholder."
-						className="my-8"
-						validate={[required]}
-					/>
+					<Heading className="mb-2" size="small">
+						Om køen
+					</Heading>
+					<div className="bg-[#e6f0ff] rounded p-7 pb-3">
+						<InputField label="Navn" name={fieldnames.TITTEL} size="medium" validate={[required, minLength(3)]} />
+						<TextAreaField
+							size="medium"
+							name="beskrivelse"
+							label="Beskrivelse"
+							description="Her kan du legge inn en valgfri beskrivelse av hva denne køen inneholder."
+							className="my-8"
+							validate={[required]}
+						/>
+					</div>
 				</div>
 				<div className="w-full">
+					<Heading className="mb-2" size="small">
+						Saksbehandlere
+					</Heading>
+
 					{alleSaksbehandlere.length === 0 && (
 						<FormattedMessage id="SaksbehandlereForOppgavekoForm.IngenSaksbehandlere" />
 					)}
@@ -102,9 +111,11 @@ const BehandlingsKoForm = ({ kø, lukk, ekspandert }: OwnProps) => {
 					)}
 				</div>
 			</div>
-			<div className="flex">
+			<div className="flex mt-6 gap-4">
 				<div className="inline-block">
-					<EnkelTeller antall={antallOppgaver} tekst="Oppgaver i denne køen" />
+					<div className="bg-gray-100 rounded p-2">
+						Antall behandlinger: <span>{`${antallOppgaver}`}</span>
+					</div>
 				</div>
 				<Button
 					className="ml-1 my-auto "
@@ -113,7 +124,7 @@ const BehandlingsKoForm = ({ kø, lukk, ekspandert }: OwnProps) => {
 					onClick={() => setVisFilterModal(true)}
 					icon={<Edit />}
 				>
-					Endre filter
+					Endre filter for kø
 				</Button>
 			</div>
 			<div className="mt-16 flex gap-4">
@@ -136,7 +147,7 @@ const BehandlingsKoForm = ({ kø, lukk, ekspandert }: OwnProps) => {
 
 			<Modal className="w-2/6" open={visLagreModal} onClose={() => setVisLagreModal(false)}>
 				<Modal.Content>
-					<Heading spacing level="2" size="medium">
+					<Heading spacing level="1" size="medium">
 						Lagre kø
 					</Heading>
 					<div className="h-[75px] flex items-center">
@@ -152,6 +163,9 @@ const BehandlingsKoForm = ({ kø, lukk, ekspandert }: OwnProps) => {
 			</Modal>
 			<Modal className="w-3/6" open={visFilterModal} onClose={() => setVisFilterModal(false)}>
 				<Modal.Content className="ml-[-75px]">
+					<Heading className="ml-[80px] mb-8" level="1" size="small">
+						Endre filter for behandlingskø
+					</Heading>
 					<FilterIndex
 						initialQuery={formMethods.watch(fieldnames.OPPGAVE_QUERY)}
 						lagre={lagreOppgaveQuery}

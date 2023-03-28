@@ -1,6 +1,6 @@
 .searchContainer {
 	background: #e6f0ff;
-	border-radius: 5px;
+	border-radius: 4px;
 	padding: 30px 30px 22px;
 }
 .form:global(.navds-form-field) {

@@ -108,7 +108,7 @@ const OppgavekoPanel: FunctionComponent<OwnProps> = ({
 					className={styles.behandlingskoerKnapp}
 					onClick={() => setVisHastesakReservasjoner(!visHastesakReservasjoner)}
 				>
-					<NavFrontendChevron type={visHastesakReservasjoner ? 'ned' : 'høyre'} />
+					<NavFrontendChevron type={visHastesakReservasjoner ? 'ned' : 'høyre'} className={styles.chevron} />
 					<Element style={{ marginRight: '0.825rem' }}>
 						<FormattedMessage id="OppgaverTabell.ReserverteHastesaker" />
 					</Element>
@@ -132,7 +132,7 @@ const OppgavekoPanel: FunctionComponent<OwnProps> = ({
 					className={styles.behandlingskoerKnapp}
 					onClick={() => setVisReservasjonerIKO(!visReservasjoneriKo)}
 				>
-					<NavFrontendChevron type={visReservasjoneriKo ? 'ned' : 'høyre'} />
+					<NavFrontendChevron type={visReservasjoneriKo ? 'ned' : 'høyre'} className={styles.chevron} />
 					<Element>
 						<FormattedMessage id="OppgaverTabell.ReserverteOppgaver" />
 					</Element>
@@ -171,7 +171,7 @@ const OppgavekoPanel: FunctionComponent<OwnProps> = ({
 					className={styles.behandlingskoerKnapp}
 					onClick={() => setVisBehandlingerIKo(!visBehandlingerIKo)}
 				>
-					<NavFrontendChevron type={visBehandlingerIKo ? 'ned' : 'høyre'} />
+					<NavFrontendChevron type={visBehandlingerIKo ? 'ned' : 'høyre'} className={styles.chevron} />
 					<Element>
 						<FormattedMessage id="OppgaverTabell.DineNesteSaker" />
 					</Element>
