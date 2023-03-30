@@ -1,7 +1,8 @@
 import React from 'react';
 import { Checkbox, Heading, Panel, Select, TextField } from '@navikt/ds-react';
+import AksjonspunktVelger from 'avdelingsleder/behandlingskoerV2/components/AksjonspunktVelger';
 import styles from '../filterIndex.css';
-import { FeltverdiOppgavefilter, Oppgavefelt } from '../filterTsTypes';
+import { FeltverdiOppgavefilter, Oppgavefelt, Oppgavefilter } from '../filterTsTypes';
 import { feltverdiKey, kodeFraKey, områdeFraKey } from '../utils';
 import FjernFilterButton from './FjernFilterButton';
 
@@ -38,6 +39,7 @@ function renderFilterOperatorOgVerdi(
 	oppgavefilter: Oppgavefilter,
 	onOppdaterFilter: (id: string, data: object) => void,
 ) {
+	console.log(feltdefinisjon);
 	if (feltdefinisjon.tolkes_som === 'boolean') {
 		const handleChangeValue = (event) => {
 			onOppdaterFilter(oppgavefilter.id, {
@@ -51,6 +53,19 @@ function renderFilterOperatorOgVerdi(
 			<Checkbox value={oppgavefilter.verdi} onChange={handleChangeValue}>
 				Ja
 			</Checkbox>
+		);
+	}
+	if (true) {
+		console.log(oppgavefilter);
+		return (
+			<AksjonspunktVelger
+				onChange={(aksjonspunkter) =>
+					onOppdaterFilter(oppgavefilter.id, {
+						verdi: aksjonspunkter,
+					})
+				}
+				valgteAksjonspunkter={oppgavefilter.verdi}
+			/>
 		);
 	}
 
@@ -94,9 +109,12 @@ const FeltverdiOppgavefilterPanel = ({ felter, oppgavefilter, onOppdaterFilter, 
 			});
 		}
 	};
-
+	console.log(felter);
+	// aksjonspunkt
+	// aktivtAksjonspunkt
+	// løsbartAksjonspunkt
 	const feltdefinisjon = finnFeltdefinisjon(felter, oppgavefilter.område, oppgavefilter.kode);
-
+	console.log(oppgavefilter);
 	return (
 		<Panel className={`${styles.filter} ${styles.filterFelt}`} key={oppgavefilter.id} border>
 			<FjernFilterButton oppgavefilter={oppgavefilter} onFjernFilter={onFjernFilter} />
