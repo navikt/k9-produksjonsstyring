@@ -164,7 +164,7 @@
 		"sinon-chai": "3.7.0",
 		"stylelint": "15.4.0",
 		"stylelint-config-prettier": "9.0.5",
-		"stylelint-config-standard": "30.0.1",
+		"stylelint-config-standard": "32.0.0",
 		"stylelint-order": "6.0.3",
 		"terser-webpack-plugin": "5.3.7",
 		"thread-loader": "3.0.4",
