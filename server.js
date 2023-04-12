@@ -14,7 +14,7 @@ server.use(
 					process.env.AUTH_PROXY_BASE_URL,
 					process.env.AUTH_PROXY_BASE_URL_WSS,
 					'https://sentry.gc.nav.no',
-					'https://familie-endringslogg.intern.dev.nav.no',
+					'https://familie-endringslogg.intern.dev.nav.no/',
 					'https://familie-endringslogg.intern.nav.no/',
 				],
 				frameSrc: ["'none'"],
