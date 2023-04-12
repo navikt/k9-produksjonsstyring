@@ -200,7 +200,7 @@ const HeaderWithErrorPanel: FunctionComponent<OwnProps> = ({ queryStrings, crash
 								appName="K9 Sak"
 								backendUrl={
 									isDev
-										? 'https://familie-endringslogg.dev.intern.nav.no'
+										? 'https://familie-endringslogg.intern.dev.nav.no'
 										: 'https://familie-endringslogg.intern.nav.no'
 								}
 								stil="lys"
