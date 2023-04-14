@@ -15364,7 +15364,7 @@ __metadata:
     react-day-picker: 7.4.10
     react-dom: 18.2.0
     react-final-form: 6.5.9
-    react-idle-timer: 5.5.3
+    react-idle-timer: 5.6.0
     react-intl: 6.3.2
     react-modal: 3.16.1
     react-motion: 0.5.2
@@ -19459,13 +19459,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-idle-timer@npm:5.5.3":
-  version: 5.5.3
-  resolution: "react-idle-timer@npm:5.5.3"
+"react-idle-timer@npm:5.6.0":
+  version: 5.6.0
+  resolution: "react-idle-timer@npm:5.6.0"
   peerDependencies:
     react: ">=16"
     react-dom: ">=16"
-  checksum: 0c5cbe4890376aff47b0cd91f2f2e76e303f63f071bf69c4918f6de63c5cbb89f19b3b80a24b597c4dc31f7aed0c6a1396446f5d949e1f847c3db746d82a0c3b
+  checksum: 3ff08253b946254b405e636e9a066a9efc38d48294783a00fd0edea5246334704399429ce4e5f6306cc3f84577ee370b3c961a8062f95674555cf56db325652f
   languageName: node
   linkType: hard
 
