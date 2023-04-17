@@ -13,7 +13,10 @@ interface OwnProps {
 	onFjernFilter: (oppgavefilter: Oppgavefilter) => void;
 }
 
-function renderFilterOperator(oppgavefilter: Oppgavefilter, onOppdaterFilter: (id: string, data: object) => void) {
+function renderFilterOperator(
+	oppgavefilter: FeltverdiOppgavefilter,
+	onOppdaterFilter: (id: string, data: object) => void,
+) {
 	const handleChangeOperator = (event) => {
 		onOppdaterFilter(oppgavefilter.id, {
 			operator: event.target.value,
@@ -21,7 +24,7 @@ function renderFilterOperator(oppgavefilter: Oppgavefilter, onOppdaterFilter: (i
 	};
 
 	return (
-		<Select value={oppgavefilter.operator} onChange={handleChangeOperator}>
+		<Select label="" value={oppgavefilter.operator} onChange={handleChangeOperator}>
 			<option value="EQUALS">er lik</option>
 			<option value="NOT_EQUALS">er IKKE lik</option>
 			<option value="IN">inneholder</option>
@@ -35,11 +38,22 @@ function renderFilterOperator(oppgavefilter: Oppgavefilter, onOppdaterFilter: (i
 }
 
 function renderFilterOperatorOgVerdi(
-	feltdefinisjon,
-	oppgavefilter: Oppgavefilter,
+	feltdefinisjon: Oppgavefelt,
+	oppgavefilter: FeltverdiOppgavefilter,
 	onOppdaterFilter: (id: string, data: object) => void,
 ) {
-	console.log(feltdefinisjon);
+	if (feltdefinisjon.erListetype) {
+		return (
+			<AksjonspunktVelger
+				onChange={(aksjonspunkter) =>
+					onOppdaterFilter(oppgavefilter.id, {
+						verdi: aksjonspunkter,
+					})
+				}
+				valgteAksjonspunkter={oppgavefilter.verdi}
+			/>
+		);
+	}
 	if (feltdefinisjon.tolkes_som === 'boolean') {
 		const handleChangeValue = (event) => {
 			onOppdaterFilter(oppgavefilter.id, {
@@ -55,19 +69,6 @@ function renderFilterOperatorOgVerdi(
 			</Checkbox>
 		);
 	}
-	if (true) {
-		console.log(oppgavefilter);
-		return (
-			<AksjonspunktVelger
-				onChange={(aksjonspunkter) =>
-					onOppdaterFilter(oppgavefilter.id, {
-						verdi: aksjonspunkter,
-					})
-				}
-				valgteAksjonspunkter={oppgavefilter.verdi}
-			/>
-		);
-	}
 
 	const handleChangeValue = (event) => {
 		onOppdaterFilter(oppgavefilter.id, {
@@ -78,7 +79,7 @@ function renderFilterOperatorOgVerdi(
 	return (
 		<>
 			{renderFilterOperator(oppgavefilter, onOppdaterFilter)}
-			<TextField value={oppgavefilter.verdi} onChange={handleChangeValue} />
+			<TextField label="" value={oppgavefilter.verdi} onChange={handleChangeValue} />
 		</>
 	);
 }
@@ -87,7 +88,7 @@ function finnFeltdefinisjon(felter, område: string, kode: string) {
 	return felter.find((fd) => fd.område === område && fd.kode === kode);
 }
 
-const FeltverdiOppgavefilterPanel = ({ felter, oppgavefilter, onOppdaterFilter, onFjernFilter }): OwnProps => {
+const FeltverdiOppgavefilterPanel = ({ felter, oppgavefilter, onOppdaterFilter, onFjernFilter }: OwnProps) => {
 	const handleChangeKey = (event) => {
 		const område = områdeFraKey(event.target.value);
 		const kode = kodeFraKey(event.target.value);
@@ -109,12 +110,10 @@ const FeltverdiOppgavefilterPanel = ({ felter, oppgavefilter, onOppdaterFilter, 
 			});
 		}
 	};
-	console.log(felter);
 	// aksjonspunkt
 	// aktivtAksjonspunkt
 	// løsbartAksjonspunkt
 	const feltdefinisjon = finnFeltdefinisjon(felter, oppgavefilter.område, oppgavefilter.kode);
-	console.log(oppgavefilter);
 	return (
 		<Panel className={`${styles.filter} ${styles.filterFelt}`} key={oppgavefilter.id} border>
 			<FjernFilterButton oppgavefilter={oppgavefilter} onFjernFilter={onFjernFilter} />
@@ -122,7 +121,7 @@ const FeltverdiOppgavefilterPanel = ({ felter, oppgavefilter, onOppdaterFilter, 
 				Felt
 			</Heading>
 			<div>
-				<Select value={feltverdiKey(oppgavefilter)} onChange={handleChangeKey}>
+				<Select label="" value={feltverdiKey(oppgavefilter)} onChange={handleChangeKey}>
 					<option value="">Velg felt</option>
 					{felter.map((fd) => (
 						<option key={feltverdiKey(fd)} value={feltverdiKey(fd)}>

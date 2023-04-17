@@ -7,10 +7,11 @@ export type Oppgavefilter = {
 };
 
 export type FeltverdiOppgavefilter = Oppgavefilter & {
+	id: string;
 	område: string;
 	kode: string;
 	operator: string;
-	verdi: object;
+	verdi: any;
 };
 
 export type CombineOppgavefilter = Oppgavefilter &
@@ -62,4 +63,5 @@ export type Oppgavefelt = {
 	kode: string;
 	visningsnavn: string;
 	tolkes_som: string;
+	erListetype: boolean;
 };

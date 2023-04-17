@@ -9,7 +9,6 @@
 }
 .filterFelt > div {
 	display: flex;
-	align-items: center;
 	gap: var(--a-spacing-4);
 	margin-top: var(--a-spacing-4);
 }
