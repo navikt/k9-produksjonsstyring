@@ -1,6 +1,7 @@
 import React from 'react';
 import { Add } from '@navikt/ds-icons';
 import { Button } from '@navikt/ds-react';
+import { FilterContainer } from 'filter/filterTsTypes';
 import styles from './LeggTilGruppeButton.css';
 
 interface OwnProps {
@@ -8,7 +9,7 @@ interface OwnProps {
 	onLeggTilGruppe: (fc: FilterContainer) => void;
 }
 
-const LeggTilGruppeButton = ({ filterContainer, onLeggTilGruppe }): OwnProps => (
+const LeggTilGruppeButton = ({ filterContainer, onLeggTilGruppe }: OwnProps) => (
 	<Button
 		className={styles.filterLeggTil}
 		icon={<Add aria-hidden />}

@@ -3,11 +3,11 @@
 }>; */
 
 export type Oppgavefilter = {
+	id: string;
 	type: string;
 };
 
 export type FeltverdiOppgavefilter = Oppgavefilter & {
-	id: string;
 	område: string;
 	kode: string;
 	operator: string;
@@ -20,7 +20,7 @@ export type CombineOppgavefilter = Oppgavefilter &
 	};
 
 export type FilterContainer = {
-	filtere: Oppgavefilter[];
+	filtere: FeltverdiOppgavefilter[];
 };
 
 export type OppgaveQuery = FilterContainer & {

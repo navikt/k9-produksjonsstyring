@@ -1,7 +1,13 @@
 import React from 'react';
 import { Heading, Panel } from '@navikt/ds-react';
 import styles from '../filterIndex.css';
-import { FilterContainer, Oppgavefilter } from '../filterTsTypes';
+import {
+	CombineOppgavefilter,
+	FeltverdiOppgavefilter,
+	FilterContainer,
+	Oppgavefelt,
+	Oppgavefilter,
+} from '../filterTsTypes';
 import FeltverdiOppgavefilterPanel from './FeltverdiOppgavefilterPanel';
 import FjernFilterButton from './FjernFilterButton';
 import LeggTilFilterButton from './LeggTilFilterButton';
@@ -9,7 +15,7 @@ import LeggTilGruppeButton from './LeggTilGruppeButton';
 
 interface OppgavefilterPanelProps {
 	felter: Oppgavefelt[];
-	oppgavefilter: Oppgavefilter;
+	oppgavefilter: FeltverdiOppgavefilter | CombineOppgavefilter;
 	onLeggTilFilter: (fc: FilterContainer) => void;
 	onLeggTilGruppe: (fc: FilterContainer) => void;
 	onOppdaterFilter: (id: string, data: object) => void;
@@ -24,8 +30,8 @@ const OppgavefilterPanel = ({
 	onLeggTilGruppe,
 	onOppdaterFilter,
 	onFjernFilter,
-}): OppgavefilterPanelProps => {
-	if (oppgavefilter.type === 'feltverdi') {
+}: OppgavefilterPanelProps) => {
+	if (oppgavefilter.type === 'feltverdi' && 'operator' in oppgavefilter) {
 		return (
 			<FeltverdiOppgavefilterPanel
 				felter={felter}
@@ -35,7 +41,7 @@ const OppgavefilterPanel = ({
 			/>
 		);
 	}
-	if (oppgavefilter.type === 'combine') {
+	if (oppgavefilter.type === 'combine' && 'combineOperator' in oppgavefilter) {
 		return (
 			<CombineOppgavefilterPanel
 				felter={felter}
@@ -52,7 +58,7 @@ const OppgavefilterPanel = ({
 
 interface CombineOppgavefilterPanelProps {
 	felter: Oppgavefelt[];
-	oppgavefilter: Oppgavefilter;
+	oppgavefilter: CombineOppgavefilter;
 	onLeggTilFilter: (fc: FilterContainer) => void;
 	onLeggTilGruppe: (fc: FilterContainer) => void;
 	onOppdaterFilter: (id: string, data: object) => void;
@@ -66,7 +72,7 @@ const CombineOppgavefilterPanel = ({
 	onLeggTilGruppe,
 	onOppdaterFilter,
 	onFjernFilter,
-}): CombineOppgavefilterPanelProps => (
+}: CombineOppgavefilterPanelProps) => (
 	<Panel className={`${styles.filter} ${styles.filterGruppe}`} key={oppgavefilter.id} border>
 		<FjernFilterButton oppgavefilter={oppgavefilter} onFjernFilter={onFjernFilter} />
 		<Heading level="5" size="xsmall">

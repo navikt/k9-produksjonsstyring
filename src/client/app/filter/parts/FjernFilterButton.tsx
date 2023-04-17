@@ -1,12 +1,12 @@
 import React from 'react';
 import { Delete } from '@navikt/ds-icons';
 import { Button } from '@navikt/ds-react';
-import { FeltverdiOppgavefilter } from 'filter/filterTsTypes';
+import { CombineOppgavefilter, FeltverdiOppgavefilter } from 'filter/filterTsTypes';
 import styles from './FjernFilterButton.css';
 
 interface OwnProps {
-	oppgavefilter: FeltverdiOppgavefilter;
-	onFjernFilter: (oppgavefilter: FeltverdiOppgavefilter) => void;
+	oppgavefilter: FeltverdiOppgavefilter | CombineOppgavefilter;
+	onFjernFilter: (oppgavefilter: FeltverdiOppgavefilter | CombineOppgavefilter) => void;
 }
 
 const FjernFilterButton = ({ oppgavefilter, onFjernFilter }: OwnProps) => (
