@@ -1,5 +1,5 @@
 import React from 'react';
-import { Checkbox, Heading, Panel, Select, TextField } from '@navikt/ds-react';
+import { Checkbox, CheckboxGroup, Heading, Panel, Select, TextField } from '@navikt/ds-react';
 import AksjonspunktVelger from 'avdelingsleder/behandlingskoerV2/components/AksjonspunktVelger';
 import styles from '../filterIndex.css';
 import { FeltverdiOppgavefilter, Oppgavefelt, Oppgavefilter } from '../filterTsTypes';
@@ -57,16 +57,21 @@ function renderFilterOperatorOgVerdi(
 	if (feltdefinisjon.tolkes_som === 'boolean') {
 		const handleChangeValue = (event) => {
 			onOppdaterFilter(oppgavefilter.id, {
-				verdi: event.target.checked.toString(),
+				verdi: event,
 			});
 		};
 
-		/* TODO: Endre til ja/nei/ikke-satt */
-
 		return (
-			<Checkbox value={oppgavefilter.verdi} onChange={handleChangeValue}>
-				Ja
-			</Checkbox>
+			<CheckboxGroup
+				className={styles.feltvalgCheckboxes}
+				hideLegend
+				legend={feltdefinisjon.visningsnavn}
+				onChange={handleChangeValue}
+			>
+				<Checkbox value="ja">Ja</Checkbox>
+				<Checkbox value="nei">Nei</Checkbox>
+				<Checkbox value="ikkeSatt">Ikke satt</Checkbox>
+			</CheckboxGroup>
 		);
 	}
 

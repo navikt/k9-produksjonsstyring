@@ -7,6 +7,11 @@
 .filterFelt {
 	padding-left: 0;
 }
+.feltvalgCheckboxes div {
+	display: flex;
+	gap: 1.325rem;
+	margin-left: 1rem;
+}
 .filterFelt > div {
 	display: flex;
 	gap: var(--a-spacing-4);
