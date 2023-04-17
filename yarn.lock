@@ -2581,14 +2581,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@formatjs/intl-numberformat@npm:8.3.5":
-  version: 8.3.5
-  resolution: "@formatjs/intl-numberformat@npm:8.3.5"
+"@formatjs/intl-numberformat@npm:8.4.0":
+  version: 8.4.0
+  resolution: "@formatjs/intl-numberformat@npm:8.4.0"
   dependencies:
     "@formatjs/ecma402-abstract": 1.14.3
     "@formatjs/intl-localematcher": 0.2.32
     tslib: ^2.4.0
-  checksum: 6eb305b20ae5a639e5e721ed425387bfd58b427e17ba9c15e23e56e45e65fa4c6065f5237577c3b763c000aad2f6d3f1140fd89ab89ce21ac0fc25f84e68032e
+  checksum: e66ba344f4562f00b4f45ddb9b5e2e4006e47a7d62cab89f689d077df768e629bbdf2891a2053dc9bf33a592a157c09d1dfa803ac98630e628b94e0b9a5edf59
   languageName: node
   linkType: hard
 
@@ -15282,7 +15282,7 @@ __metadata:
     "@babel/register": 7.21.0
     "@commercetools/enzyme-extensions": 5.0.0
     "@formatjs/intl-datetimeformat": 6.6.0
-    "@formatjs/intl-numberformat": 8.3.5
+    "@formatjs/intl-numberformat": 8.4.0
     "@navikt/ds-css": 2.8.12
     "@navikt/ds-icons": 2.8.11
     "@navikt/ds-react": 2.8.12
