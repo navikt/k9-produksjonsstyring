@@ -7,8 +7,7 @@ import BehandlingsKoForm from './BehandlingsKoForm';
 import NyKøModal from './NyKøModal';
 
 const BehandlingskoerIndex = () => {
-	const { data, isLoading } = useQuery<OppgavekøV2[]>(apiPaths.hentOppgavekoer, { placeholderData: [] });
-
+	const { data, isLoading, error } = useQuery<OppgavekøV2[]>(apiPaths.hentOppgavekoer);
 	const [visNyKøModal, setVisNyKøModal] = useState(false);
 	const [sort, setSort] = useState(null);
 	const [ekspanderteKøer, setEkspanderteKøer] = useState([]);
@@ -51,9 +50,12 @@ const BehandlingskoerIndex = () => {
 				}
 				return 1;
 			});
-
 	if (isLoading) {
 		return <Loader />;
+	}
+
+	if (error) {
+		return <>Noe gikk galt ved lasting av køer.</>;
 	}
 
 	return (

@@ -115,9 +115,6 @@ const FeltverdiOppgavefilterPanel = ({ felter, oppgavefilter, onOppdaterFilter, 
 			});
 		}
 	};
-	// aksjonspunkt
-	// aktivtAksjonspunkt
-	// løsbartAksjonspunkt
 	const feltdefinisjon = finnFeltdefinisjon(felter, oppgavefilter.område, oppgavefilter.kode);
 	return (
 		<Panel className={`${styles.filter} ${styles.filterFelt}`} key={oppgavefilter.id} border>
