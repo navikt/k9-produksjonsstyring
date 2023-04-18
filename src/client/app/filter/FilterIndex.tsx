@@ -7,7 +7,16 @@ import { K9LosApiKeys, k9LosApi } from 'api/k9LosApi';
 import { REQUEST_POLLING_CANCELLED } from 'api/rest-api';
 import OppgaveQueryModel from './OppgaveQueryModel';
 import styles from './filterIndex.css';
-import { FiltereContainer, OppgaveQuery, Oppgavefelt, Oppgavefilter, OrderFelt, SelectFelt } from './filterTsTypes';
+import {
+	EnkelOrderFelt,
+	EnkelSelectFelt,
+	OppgaveQuery,
+	Oppgavefelt,
+	Oppgavefilter,
+	Oppgaverad,
+	OrderFelt,
+	SelectFelt,
+} from './filterTsTypes';
 import LeggTilFilterButton from './parts/LeggTilFilterButton';
 import LeggTilGruppeButton from './parts/LeggTilGruppeButton';
 import OppgaveOrderFelter from './parts/OppgaveOrderFelter';
@@ -22,7 +31,16 @@ interface OwnProps {
 	initialQuery?: OppgaveQuery;
 }
 
-class FilterIndex extends React.Component<OwnProps> {
+interface OwnState {
+	oppgaveQuery: OppgaveQuery;
+	felter: Oppgavefelt[];
+	oppgaver?: Oppgaverad[];
+	queryError?: string;
+	loading: boolean;
+	loadingDownload: boolean;
+}
+
+class FilterIndex extends React.Component<OwnProps, OwnState> {
 	constructor(props) {
 		super(props);
 
@@ -54,7 +72,7 @@ class FilterIndex extends React.Component<OwnProps> {
 		this.oppdaterLimit = this.oppdaterLimit.bind(this);
 
 		k9LosApi
-			.startRequest(K9LosApiKeys.OPPGAVE_QUERY_FELTER)
+			.startRequest(K9LosApiKeys.OPPGAVE_QUERY_FELTER, undefined)
 			.then((dataRes) => {
 				if (dataRes.payload !== REQUEST_POLLING_CANCELLED) {
 					this.setState({
@@ -76,10 +94,10 @@ class FilterIndex extends React.Component<OwnProps> {
 
 	executeOppgavesøk() {
 		function updateIdentities(oppgaverader: Oppgaverad[]) {
-			oppgaverader.forEach((o) => {
-				/* eslint-disable no-param-reassign */
-				o.id = uuid();
-			});
+			oppgaverader.map((v) => ({
+				...v,
+				id: uuid(),
+			}));
 			return oppgaverader;
 		}
 
@@ -159,21 +177,21 @@ class FilterIndex extends React.Component<OwnProps> {
 		}));
 	}
 
-	leggTilFilter(filterContainer: FiltereContainer) {
+	leggTilFilter(filterContainer: OppgaveQuery) {
 		this.setState((state) => ({
 			oppgaveQuery: new OppgaveQueryModel(state.oppgaveQuery).addFilter(filterContainer.id).toOppgaveQuery(),
 			oppgaver: null,
 		}));
 	}
 
-	leggTilGruppe(filterContainer: FiltereContainer) {
+	leggTilGruppe(filterContainer: OppgaveQuery) {
 		this.setState((state) => ({
 			oppgaveQuery: new OppgaveQueryModel(state.oppgaveQuery).addGruppe(filterContainer.id).toOppgaveQuery(),
 			oppgaver: null,
 		}));
 	}
 
-	fjernSelectFelt(oppgavefelt: Oppgavefelt) {
+	fjernSelectFelt(oppgavefelt: EnkelSelectFelt) {
 		this.setState((state) => ({
 			oppgaveQuery: new OppgaveQueryModel(state.oppgaveQuery).removeSelectFelt(oppgavefelt.id).toOppgaveQuery(),
 			oppgaver: null,
@@ -204,7 +222,7 @@ class FilterIndex extends React.Component<OwnProps> {
 		});
 	}
 
-	oppdaterEnkelSelectFelt(selectFelt: SelectFelt, verdi: string) {
+	oppdaterEnkelSelectFelt(selectFelt: EnkelSelectFelt, verdi: string) {
 		this.setState((state) => {
 			const newOppgaveQueryModel = new OppgaveQueryModel(state.oppgaveQuery);
 			const selectToUpdate = newOppgaveQueryModel.getById(selectFelt.id);
@@ -222,7 +240,7 @@ class FilterIndex extends React.Component<OwnProps> {
 		});
 	}
 
-	fjernOrderFelt(orderFelt: OrderFelt) {
+	fjernOrderFelt(orderFelt: EnkelOrderFelt) {
 		this.setState((state) => ({
 			oppgaveQuery: new OppgaveQueryModel(state.oppgaveQuery).removeOrderFelt(orderFelt.id).toOppgaveQuery(),
 			oppgaver: null,
@@ -236,7 +254,7 @@ class FilterIndex extends React.Component<OwnProps> {
 		}));
 	}
 
-	oppdaterEnkelOrderFelt(orderFelt: OrderFelt, newData) {
+	oppdaterEnkelOrderFelt(orderFelt: EnkelOrderFelt, newData) {
 		this.setState((state) => {
 			const newOppgaveQueryModel = new OppgaveQueryModel(state.oppgaveQuery);
 			const orderToUpdate = newOppgaveQueryModel.getById(orderFelt.id);

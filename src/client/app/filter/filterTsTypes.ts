@@ -3,11 +3,11 @@
 }>; */
 
 export type Oppgavefilter = {
-	id: string;
 	type: string;
 };
 
 export type FeltverdiOppgavefilter = Oppgavefilter & {
+	id: string;
 	område: string;
 	kode: string;
 	operator: string;
@@ -20,12 +20,13 @@ export type CombineOppgavefilter = Oppgavefilter &
 	};
 
 export type FilterContainer = {
+	id: string;
 	filtere: FeltverdiOppgavefilter[];
 };
 
 export type OppgaveQuery = FilterContainer & {
-	select: SelectFelt[];
-	order: OrderFelt[];
+	select: EnkelSelectFelt[];
+	order: EnkelOrderFelt[];
 	limit: number;
 };
 
@@ -34,6 +35,7 @@ export type OrderFelt = {
 };
 
 export type EnkelOrderFelt = OrderFelt & {
+	id: string;
 	område: string;
 	kode: string;
 	økende: boolean;
@@ -44,6 +46,7 @@ export type SelectFelt = {
 };
 
 export type EnkelSelectFelt = SelectFelt & {
+	id: string;
 	område: string;
 	kode: string;
 };
@@ -51,10 +54,11 @@ export type EnkelSelectFelt = SelectFelt & {
 export type Oppgavefeltverdi = {
 	område: string;
 	kode: string;
-	verdi: object;
+	verdi: string;
 };
 
 export type Oppgaverad = {
+	id?: string;
 	felter: Oppgavefeltverdi[];
 };
 

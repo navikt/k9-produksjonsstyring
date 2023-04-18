@@ -1,5 +1,6 @@
 import React from 'react';
 import { Table } from '@navikt/ds-react';
+import { OppgaveQuery, Oppgavefelt, Oppgaverad } from 'filter/filterTsTypes';
 import { visningsnavnForFelt } from '../utils';
 
 interface OwnProps {
@@ -8,7 +9,7 @@ interface OwnProps {
 	oppgaver: Oppgaverad[];
 }
 
-const OppgaveQueryResultat = ({ felter, oppgaveQuery, oppgaver }): OwnProps => (
+const OppgaveQueryResultat = ({ felter, oppgaveQuery, oppgaver }: OwnProps) => (
 	<Table>
 		<Table.Header>
 			<Table.Row>
