@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { useQuery } from 'react-query';
-import { OppgavekøV2 } from 'types/OppgavekøV2Type';
+import { OppgavekøerV2 } from 'types/OppgavekøV2Type';
 import { Button, Loader, Table } from '@navikt/ds-react';
 import { apiPaths } from 'api/k9LosApi';
 import BehandlingsKoForm from './BehandlingsKoForm';
 import NyKøModal from './NyKøModal';
 
 const BehandlingskoerIndex = () => {
-	const { data, isLoading, error } = useQuery<OppgavekøV2[]>(apiPaths.hentOppgavekoer);
+	const { data, isLoading, error } = useQuery<OppgavekøerV2>(apiPaths.hentOppgavekoer);
 	const [visNyKøModal, setVisNyKøModal] = useState(false);
 	const [sort, setSort] = useState(null);
 	const [ekspanderteKøer, setEkspanderteKøer] = useState([]);
@@ -30,26 +30,24 @@ const BehandlingskoerIndex = () => {
 	};
 
 	const sortData = () =>
-		data
-			.slice()
-			.map((v) => ({ ...v, saksbehandlere: v.saksbehandlere.length }))
-			.sort((a, b) => {
-				if (sort) {
-					// eslint-disable-next-line @typescript-eslint/no-shadow
-					const comparator = (a, b, orderBy) => {
-						if (b[orderBy] < a[orderBy] || b[orderBy] === undefined) {
-							return -1;
-						}
-						if (b[orderBy] > a[orderBy]) {
-							return 1;
-						}
-						return 0;
-					};
+		data?.koer?.slice().sort((a, b) => {
+			if (sort) {
+				// eslint-disable-next-line @typescript-eslint/no-shadow
+				const comparator = (a, b, orderBy) => {
+					if (b[orderBy] < a[orderBy] || b[orderBy] === undefined) {
+						return -1;
+					}
+					if (b[orderBy] > a[orderBy]) {
+						return 1;
+					}
+					return 0;
+				};
 
-					return sort.direction === 'ascending' ? comparator(b, a, sort.orderBy) : comparator(a, b, sort.orderBy);
-				}
-				return 1;
-			});
+				return sort.direction === 'ascending' ? comparator(b, a, sort.orderBy) : comparator(a, b, sort.orderBy);
+			}
+			return 1;
+		});
+
 	if (isLoading) {
 		return <Loader />;
 	}
@@ -91,7 +89,7 @@ const BehandlingskoerIndex = () => {
 								togglePlacement="right"
 								content={
 									<BehandlingsKoForm
-										kø={data.find((v) => v.id === kø.id)}
+										kø={data.koer.find((v) => v.id === kø.id)}
 										ekspandert={ekspanderteKøer.includes(kø.id)}
 										lukk={() => onOpenChange(kø.id)}
 									/>

@@ -84,9 +84,9 @@ export enum K9LosApiKeys {
 export const apiPaths = {
 	hentOppgaveko: '/ny-oppgavestyring/ko/',
 	hentOppgavekoer: '/ny-oppgavestyring/ko/',
-	opprettOppgaveko: '/ny-oppgavestyring/ko/opprett/',
+	opprettOppgaveko: '/ny-oppgavestyring/ko/opprett',
 	oppdaterOppgaveko: '/ny-oppgavestyring/ko/',
-	hentSaksbehandlere: '/avdelingsleder/saksbehandlere/',
+	hentSaksbehandlere: '/avdelingsleder/saksbehandlere',
 };
 
 const CONTEXT_PATH = isDevelopment ? 'api' : '';

@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useCallback, useEffect } from 'react';
 import { WrappedComponentProps, injectIntl } from 'react-intl';
 import { useQuery } from 'react-query';
-import { OppgavekøV2, OppgavekøV2MedNavn } from 'types/OppgavekøV2Type';
+import { OppgavekøV2, OppgavekøV2MedNavn, OppgavekøerV2 as OppgavekøerV2Type } from 'types/OppgavekøV2Type';
 import { getK9punsjRef, getK9sakHref, getOmsorgspengerRef } from 'app/paths';
 import { K9LosApiKeys, RestApiGlobalStatePathsKeys, apiPaths } from 'api/k9LosApi';
 import { useRestApi } from 'api/rest-api-hooks';
@@ -33,10 +33,10 @@ const BehandlingskoerIndex: FunctionComponent<OwnProps & WrappedComponentProps> 
 }) => {
 	const refreshUrl = useGlobalStateRestApiData<{ verdi?: string }>(RestApiGlobalStatePathsKeys.REFRESH_URL);
 	const { data: oppgavekoerV1 = [] } = useRestApi<OppgavekøV1[]>(K9LosApiKeys.OPPGAVEKO);
-	const { data: oppgavekoerV2 } = useQuery<OppgavekøV2[]>(apiPaths.hentOppgavekoer, { placeholderData: [] });
+	const { data: oppgavekoerV2 } = useQuery<OppgavekøerV2Type>(apiPaths.hentOppgavekoer);
 
 	const mapKøV2 = (kø: OppgavekøV2): OppgavekøV2MedNavn => ({ ...kø, navn: kø.tittel });
-	const oppgavekoer = [...oppgavekoerV1, ...oppgavekoerV2.map(mapKøV2)];
+	const oppgavekoer = [...oppgavekoerV1, ...(oppgavekoerV2?.koer || []).map(mapKøV2)];
 	const {
 		startRequest: hentOppgaverTilBehandling,
 		state,

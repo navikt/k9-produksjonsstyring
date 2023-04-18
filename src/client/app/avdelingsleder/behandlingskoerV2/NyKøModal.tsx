@@ -19,15 +19,9 @@ interface OwnProps {
 
 const NyKøModal = ({ vis, lukk }: OwnProps) => {
 	const queryClient = useQueryClient();
-	const mutation = useMutation<OppgavekøV2, unknown, { tittel: string }>(
-		(payload) => axios.post(apiPaths.opprettOppgaveko, payload).then((res) => res.data),
-		{
-			onSuccess: () => {
-				queryClient.invalidateQueries(apiPaths.hentOppgavekoer);
-				lukk();
-			},
-		},
-	);
+	const mutation = useMutation<OppgavekøV2, unknown, { url: string; body: any }>({
+		onSuccess: () => queryClient.invalidateQueries(apiPaths.hentOppgavekoer),
+	});
 
 	const formMethods = useForm({
 		defaultValues: {
@@ -39,7 +33,10 @@ const NyKøModal = ({ vis, lukk }: OwnProps) => {
 		<Modal className="w-3/12" open={vis} onClose={lukk}>
 			<Modal.Content>
 				<Heading size="medium">Opprett ny kø</Heading>
-				<Form formMethods={formMethods} onSubmit={(data) => mutation.mutate(data)}>
+				<Form
+					formMethods={formMethods}
+					onSubmit={(data) => mutation.mutate({ url: apiPaths.opprettOppgaveko, body: data })}
+				>
 					<InputField
 						className="my-6 max-w-sm"
 						label="Navn"

@@ -13,7 +13,7 @@ export const defaultQuery = async ({ queryKey }) => {
 	return data;
 };
 
-export const defaultMutation = async (url, body) => {
+export const defaultMutation = async ({ url, body }) => {
 	const { data } = await axios.post(`${baseURL()}${url}`, body, axiosConfig);
 	return data;
 };
@@ -23,6 +23,9 @@ export const config = {
 		queries: {
 			queryFn: defaultQuery,
 			refetchOnWindowFocus: false,
+		},
+		mutations: {
+			mutationFn: defaultMutation,
 		},
 	},
 };
