@@ -66,7 +66,7 @@ export const developmentHandlers = {
 	oppgaver: rest.get('/api/saksbehandler/oppgaver/antall', (req, res, ctx) => res(ctx.json(10))),
 	oppgavekoer: rest.get('/api/saksbehandler/oppgaveko', (req, res, ctx) => res(ctx.json(saksbehandlerOppgaveko))),
 	sok: rest.post('/api/fagsak/sok', (req, res, ctx) => res(ctx.json(soek))),
-	saksbehandlere: rest.get(`/api/${apiPaths.hentSaksbehandlere}`, (req, res, ctx) =>
+	saksbehandlere: rest.get(`/api${apiPaths.hentSaksbehandlere}/`, (req, res, ctx) =>
 		res(
 			ctx.json([
 				{ navn: 'Ping Pong Paul', brukernavn: 'M088876', epost: 'pingpongpaul@nav.no' },
@@ -93,7 +93,7 @@ export const developmentHandlers = {
 			]),
 		),
 	),
-	oppgavemodellV2OpprettKø: rest.post(`/api/${apiPaths.opprettOppgaveko}`, async (req, res, ctx) => {
+	oppgavemodellV2OpprettKø: rest.post(`/api${apiPaths.opprettOppgaveko}`, async (req, res, ctx) => {
 		const data = await req.json();
 		return res(
 			ctx.json({
@@ -102,7 +102,7 @@ export const developmentHandlers = {
 			}),
 		);
 	}),
-	oppgavemodellV2OppdaterKø: rest.post(`/api/${apiPaths.oppdaterOppgaveko}`, async (req, res, ctx) => {
+	oppgavemodellV2OppdaterKø: rest.post(`/api${apiPaths.oppdaterOppgaveko}`, async (req, res, ctx) => {
 		const data = await req.json();
 		return res(
 			ctx.json({
@@ -117,7 +117,7 @@ export const developmentHandlers = {
 			}),
 		);
 	}),
-	oppgavemodellV2HentKø: rest.get(`/api/${apiPaths.hentOppgaveko}/*`, async (req, res, ctx) =>
+	oppgavemodellV2HentKø: rest.get(`/api${apiPaths.hentOppgaveko}/*`, async (req, res, ctx) =>
 		res(
 			ctx.json({
 				id: '1',
@@ -132,7 +132,7 @@ export const developmentHandlers = {
 			}),
 		),
 	),
-	oppgavemodellV2HentAlleKø: rest.get(`/api/${apiPaths.hentOppgavekoer}`, async (req, res, ctx) =>
+	oppgavemodellV2HentAlleKø: rest.get(`/api${apiPaths.hentOppgavekoer}`, async (req, res, ctx) =>
 		res(
 			ctx.json([
 				{
