@@ -81,6 +81,14 @@ export enum K9LosApiKeys {
 	OPPGAVE_QUERY_FELTER = 'OPPGAVE_QUERY_FELTER',
 }
 
+export const apiPaths = {
+	hentOppgaveko: '/ny-oppgavestyring/ko',
+	hentOppgavekoer: '/ny-oppgavestyring/ko',
+	opprettOppgaveko: '/ny-oppgavestyring/ko/opprett',
+	oppdaterOppgaveko: '/ny-oppgavestyring/ko',
+	hentSaksbehandlere: '/avdelingsleder/saksbehandlere',
+};
+
 const CONTEXT_PATH = isDevelopment ? 'api' : '';
 
 export const endpoints = new RestApiConfigBuilder(CONTEXT_PATH)

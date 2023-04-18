@@ -8,14 +8,13 @@ import { REQUEST_POLLING_CANCELLED } from 'api/rest-api';
 import OppgaveQueryModel from './OppgaveQueryModel';
 import styles from './filterIndex.css';
 import {
+	CombineOppgavefilter,
 	EnkelOrderFelt,
 	EnkelSelectFelt,
+	FeltverdiOppgavefilter,
 	OppgaveQuery,
 	Oppgavefelt,
-	Oppgavefilter,
 	Oppgaverad,
-	OrderFelt,
-	SelectFelt,
 } from './filterTsTypes';
 import LeggTilFilterButton from './parts/LeggTilFilterButton';
 import LeggTilGruppeButton from './parts/LeggTilGruppeButton';
@@ -170,14 +169,14 @@ class FilterIndex extends React.Component<OwnProps, OwnState> {
 			});
 	}
 
-	fjernFilter(oppgavefilter: Oppgavefilter) {
+	fjernFilter(oppgavefilter: FeltverdiOppgavefilter | CombineOppgavefilter) {
 		this.setState((state) => ({
 			oppgaveQuery: new OppgaveQueryModel(state.oppgaveQuery).removeFilter(oppgavefilter.id).toOppgaveQuery(),
 			oppgaver: null,
 		}));
 	}
 
-	leggTilFilter(filterContainer: OppgaveQuery) {
+	leggTilFilter(filterContainer: OppgaveQuery | CombineOppgavefilter) {
 		this.setState((state) => ({
 			oppgaveQuery: new OppgaveQueryModel(state.oppgaveQuery).addFilter(filterContainer.id).toOppgaveQuery(),
 			oppgaver: null,

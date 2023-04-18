@@ -2,6 +2,7 @@ import React, { FunctionComponent, useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import NavFrontendChevron from 'nav-frontend-chevron';
 import { Element, Undertittel } from 'nav-frontend-typografi';
+import { OppgavekøV2MedNavn } from 'types/OppgavekøV2Type';
 import { K9LosApiKeys } from 'api/k9LosApi';
 import { useRestApiRunner } from 'api/rest-api-hooks';
 import merknadType from 'kodeverk/merknadType';
@@ -25,7 +26,7 @@ import OppgaverTabell from './oppgavetabeller/OppgaverTabell';
 interface OwnProps {
 	setValgtOppgavekoId: (id: string) => void;
 	valgtOppgavekoId: string;
-	oppgavekoer: OppgavekøV1[];
+	oppgavekoer: Array<OppgavekøV1 | OppgavekøV2MedNavn>;
 	apneOppgave: (oppgave: Oppgave) => void;
 	reserverteOppgaver: Oppgave[];
 	oppgaverTilBehandling: Oppgave[];
@@ -85,6 +86,7 @@ const OppgavekoPanel: FunctionComponent<OwnProps> = ({
 		(oppgave) => !oppgave.merknad?.merknadKoder?.includes(merknadType.HASTESAK),
 	);
 
+	// TODO: legge inn visning for oppgaver fra ny oppgavemodell
 	return (
 		<div className={styles.container}>
 			<Undertittel>

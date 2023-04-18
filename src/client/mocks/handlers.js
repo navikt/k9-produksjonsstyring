@@ -1,5 +1,6 @@
 /* eslint-disable import/no-mutable-exports */
 import { rest } from 'msw';
+import { apiPaths } from 'api/k9LosApi';
 import avdelningsledareReservasjoner from './avdelningsledareReservasjoner';
 import behandlingerSomGårAvVent from './behandlingerSomGårAvVent';
 import behandlingerSomGårAvVentÅrsaker from './behandlingerSomGårAvVentÅrsaker';
@@ -65,7 +66,7 @@ export const developmentHandlers = {
 	oppgaver: rest.get('/api/saksbehandler/oppgaver/antall', (req, res, ctx) => res(ctx.json(10))),
 	oppgavekoer: rest.get('/api/saksbehandler/oppgaveko', (req, res, ctx) => res(ctx.json(saksbehandlerOppgaveko))),
 	sok: rest.post('/api/fagsak/sok', (req, res, ctx) => res(ctx.json(soek))),
-	saksbehandlere: rest.get('/api/avdelingsleder/saksbehandlere', (req, res, ctx) =>
+	saksbehandlere: rest.get(`/api/${apiPaths.hentSaksbehandlere}`, (req, res, ctx) =>
 		res(
 			ctx.json([
 				{ navn: 'Ping Pong Paul', brukernavn: 'M088876', epost: 'pingpongpaul@nav.no' },
@@ -88,11 +89,11 @@ export const developmentHandlers = {
 				{ navn: 'Bungalo Bernt', brukernavn: 'M010101', epost: 'saksbehandler10@nav.no' },
 				{ navn: 'Tommy Tilbakekreving', brukernavn: 'M323212', epost: 'saksbehandler1103@nav.no' },
 				{ navn: 'Benny Balltre', brukernavn: 'M323212', epost: 'saksbehandler11909@nav.no' },
-				{ navn: 'Kåre Kneskål', brukernavn: 'M010111', epost: 'saksbehandler11@nav.no' },
+				{ navn: 'Ken Kneskål', brukernavn: 'M010111', epost: 'saksbehandler11@nav.no' },
 			]),
 		),
 	),
-	oppgavemodellV2OpprettKø: rest.post('/api/opprett/v2', async (req, res, ctx) => {
+	oppgavemodellV2OpprettKø: rest.post(`/api/${apiPaths.opprettOppgaveko}`, async (req, res, ctx) => {
 		const data = await req.json();
 		return res(
 			ctx.json({
@@ -101,7 +102,7 @@ export const developmentHandlers = {
 			}),
 		);
 	}),
-	oppgavemodellV2OppdaterKø: rest.post('/api/oppdater/v2', async (req, res, ctx) => {
+	oppgavemodellV2OppdaterKø: rest.post(`/api/${apiPaths.oppdaterOppgaveko}`, async (req, res, ctx) => {
 		const data = await req.json();
 		return res(
 			ctx.json({
@@ -116,7 +117,7 @@ export const developmentHandlers = {
 			}),
 		);
 	}),
-	oppgavemodellV2HentKø: rest.get('/api/hent/v2', async (req, res, ctx) =>
+	oppgavemodellV2HentKø: rest.get(`/api/${apiPaths.hentOppgaveko}/*`, async (req, res, ctx) =>
 		res(
 			ctx.json({
 				id: '1',
@@ -131,7 +132,7 @@ export const developmentHandlers = {
 			}),
 		),
 	),
-	oppgavemodellV2HentAlleKø: rest.get('/api/koer/v2', async (req, res, ctx) =>
+	oppgavemodellV2HentAlleKø: rest.get(`/api/${apiPaths.hentOppgavekoer}`, async (req, res, ctx) =>
 		res(
 			ctx.json([
 				{

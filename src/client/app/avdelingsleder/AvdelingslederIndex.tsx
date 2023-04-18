@@ -18,7 +18,7 @@ import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import useTrackRouteParam from 'app/data/trackRouteParam';
 import NavAnsatt from 'app/navAnsattTsType';
 import { getPanelLocationCreator } from 'app/paths';
-import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
+import { K9LosApiKeys, RestApiGlobalStatePathsKeys, apiPaths } from 'api/k9LosApi';
 import useGlobalStateRestApiData from 'api/rest-api-hooks/src/global-data/useGlobalStateRestApiData';
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
 import { Saksbehandler } from 'avdelingsleder/bemanning/saksbehandlerTsType';
@@ -118,7 +118,7 @@ export const AvdelingslederIndex: FunctionComponent = () => {
 		K9LosApiKeys.HENT_DAGENS_TALL,
 	);
 
-	const { data: alleSaksbehandlere, isSuccess } = useQuery<Saksbehandler[]>('/avdelingsleder/saksbehandlere');
+	const { data: alleSaksbehandlere, isSuccess } = useQuery<Saksbehandler[]>(apiPaths.hentSaksbehandlere);
 
 	useEffect(() => {
 		hentAntallIdag();

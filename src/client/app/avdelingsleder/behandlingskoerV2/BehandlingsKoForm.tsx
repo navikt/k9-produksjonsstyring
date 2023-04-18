@@ -8,8 +8,8 @@ import { Edit } from '@navikt/ds-icons';
 import { BodyShort, Button, ErrorMessage, Heading, Modal } from '@navikt/ds-react';
 import { Form, InputField, TextAreaField } from '@navikt/ft-form-hooks';
 import { arrayMinLength, minLength, required } from '@navikt/ft-form-validators';
+import { apiPaths } from 'api/k9LosApi';
 import { AvdelingslederContext } from 'avdelingsleder/context';
-import EnkelTeller from 'avdelingsleder/dagensTall/EnkelTeller';
 import FilterIndex from 'filter/FilterIndex';
 import SearchWithDropdown from 'sharedComponents/SearchWithDropdown';
 
@@ -30,7 +30,7 @@ const BehandlingsKoForm = ({ kø, lukk, ekspandert }: OwnProps) => {
 	const [visFilterModal, setVisFilterModal] = useState(false);
 	const [visLagreModal, setVisLagreModal] = useState(false);
 	const lagreMutation = useMutation<OppgavekøV2, unknown, { tittel: string }>(
-		(payload) => axios.post('/api/oppdater/v2', payload).then((res) => res.data),
+		(payload) => axios.post(apiPaths.oppdaterOppgaveko, payload).then((res) => res.data),
 		{ onSuccess: () => setVisLagreModal(false) },
 	);
 	const formMethods = useForm({
@@ -102,6 +102,7 @@ const BehandlingsKoForm = ({ kø, lukk, ekspandert }: OwnProps) => {
 							addButtonText="Legg til saksbehandlere"
 							heading="Velg saksbehandlere"
 							updateSelection={(valgteSaksbehandlere) => {
+								console.log(valgteSaksbehandlere);
 								formMethods.setValue(fieldnames.SAKSBEHANDLERE, valgteSaksbehandlere);
 								formMethods.trigger('saksbehandlere');
 							}}

@@ -1,16 +1,13 @@
 import React, { FunctionComponent, ReactNode, useEffect } from 'react';
 import { Form, FormSpy } from 'react-final-form';
 import { FormattedMessage, WrappedComponentProps, injectIntl } from 'react-intl';
-import gruppeUrl from 'images/gruppe.svg';
-import gruppeHoverUrl from 'images/gruppe_hover.svg';
-import { Hovedknapp } from 'nav-frontend-knapper';
 import { Element, Undertekst } from 'nav-frontend-typografi';
+import { OppgavekøV2MedNavn } from 'types/OppgavekøV2Type';
 import { Button, ReadMore } from '@navikt/ds-react';
 import { K9LosApiKeys } from 'api/k9LosApi';
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
 import { SelectField } from 'form/FinalFields';
 import { OppgavekøV1 } from 'saksbehandler/behandlingskoer/oppgavekoTsType';
-import Image from 'sharedComponents/Image';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import { FlexColumn, FlexContainer, FlexRow } from 'sharedComponents/flexGrid';
 import { Saksbehandler } from '../saksbehandlerTsType';
@@ -19,7 +16,7 @@ import OppsummeringAvKø from './OppusmmeringAvKø';
 import styles from './oppgavekoVelgerForm.css';
 
 interface OwnProps {
-	oppgavekoer: OppgavekøV1[];
+	oppgavekoer: Array<OppgavekøV1 | OppgavekøV2MedNavn>;
 	setValgtOppgavekoId: (id: string) => void;
 	getValueFromLocalStorage: (key: string) => string;
 	setValueInLocalStorage: (key: string, value: string) => void;
@@ -47,7 +44,7 @@ const createTooltip = (saksbehandlere: Saksbehandler[]): ReactNode | undefined =
 	);
 };
 
-const getValgtOppgaveko = (oppgavekoer: OppgavekøV1[], oppgavekoId: string) =>
+const getValgtOppgaveko = (oppgavekoer: Array<OppgavekøV1 | OppgavekøV2MedNavn>, oppgavekoId: string) =>
 	oppgavekoer.find((s) => oppgavekoId === `${s.id}`);
 
 const getDefaultOppgaveko = (oppgavekoer, getValueFromLocalStorage, removeValueFromLocalStorage) => {

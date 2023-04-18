@@ -10,3 +10,7 @@ export interface OppgavekøV2 {
 	antallOppgaver: string;
 	versjon: number;
 }
+
+export interface OppgavekøV2MedNavn extends OppgavekøV2 {
+	navn: string;
+}

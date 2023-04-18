@@ -6,6 +6,7 @@ import { OppgavekøV2 } from 'types/OppgavekøV2Type';
 import { Button, Heading, Modal } from '@navikt/ds-react';
 import { Form, InputField } from '@navikt/ft-form-hooks';
 import { minLength, required } from '@navikt/ft-form-validators';
+import { apiPaths } from 'api/k9LosApi';
 
 enum fieldnames {
 	TITTEL = 'tittel',
@@ -19,10 +20,10 @@ interface OwnProps {
 const NyKøModal = ({ vis, lukk }: OwnProps) => {
 	const queryClient = useQueryClient();
 	const mutation = useMutation<OppgavekøV2, unknown, { tittel: string }>(
-		(payload) => axios.post('/api/opprett/v2', payload).then((res) => res.data),
+		(payload) => axios.post(apiPaths.opprettOppgaveko, payload).then((res) => res.data),
 		{
 			onSuccess: () => {
-				queryClient.invalidateQueries('/koer/v2');
+				queryClient.invalidateQueries(apiPaths.hentOppgavekoer);
 				lukk();
 			},
 		},
