@@ -7,7 +7,7 @@ interface OwnProps {
 	oppgavekø: OppgavekøV1 | OppgavekøV2;
 }
 const OppsummeringAvKø = ({ oppgavekø }: OwnProps) => {
-	if (!oppgavekø || !('versjon' in oppgavekø)) {
+	if (!oppgavekø || !('tittel' in oppgavekø)) {
 		return null;
 	}
 

@@ -1,12 +1,12 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useMutation, useQueryClient } from 'react-query';
-import axios from 'axios';
 import { OppgavekøV2 } from 'types/OppgavekøV2Type';
 import { Button, Heading, Modal } from '@navikt/ds-react';
 import { Form, InputField } from '@navikt/ft-form-hooks';
 import { minLength, required } from '@navikt/ft-form-validators';
 import { apiPaths } from 'api/k9LosApi';
+import { useNyKøMutation } from 'api/queries/avdelingslederQueries';
 
 enum fieldnames {
 	TITTEL = 'tittel',
@@ -18,10 +18,7 @@ interface OwnProps {
 }
 
 const NyKøModal = ({ vis, lukk }: OwnProps) => {
-	const queryClient = useQueryClient();
-	const mutation = useMutation<OppgavekøV2, unknown, { url: string; body: any }>({
-		onSuccess: () => queryClient.invalidateQueries(apiPaths.hentOppgavekoer),
-	});
+	const mutation = useNyKøMutation(lukk);
 
 	const formMethods = useForm({
 		defaultValues: {
@@ -45,7 +42,7 @@ const NyKøModal = ({ vis, lukk }: OwnProps) => {
 						validate={[required, minLength(3)]}
 					/>
 					<div className="mt-8 flex gap-4">
-						<Button>Opprett kø</Button>
+						<Button loading={mutation.isLoading}>Opprett kø</Button>
 						<Button variant="secondary" type="button" onClick={lukk}>
 							Avbryt
 						</Button>

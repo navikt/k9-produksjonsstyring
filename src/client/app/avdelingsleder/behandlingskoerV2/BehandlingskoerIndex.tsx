@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
-import { useQuery } from 'react-query';
-import { OppgavekøerV2 } from 'types/OppgavekøV2Type';
 import { Button, Loader, Table } from '@navikt/ds-react';
-import { apiPaths } from 'api/k9LosApi';
+import { useAlleKoer } from 'api/queries/avdelingslederQueries';
 import BehandlingsKoForm from './BehandlingsKoForm';
 import NyKøModal from './NyKøModal';
 
 const BehandlingskoerIndex = () => {
-	const { data, isLoading, error } = useQuery<OppgavekøerV2>(apiPaths.hentOppgavekoer);
+	const { data, isLoading, error } = useAlleKoer();
 	const [visNyKøModal, setVisNyKøModal] = useState(false);
 	const [sort, setSort] = useState(null);
 	const [ekspanderteKøer, setEkspanderteKøer] = useState([]);
@@ -28,25 +26,6 @@ const BehandlingskoerIndex = () => {
 				  },
 		);
 	};
-
-	const sortData = () =>
-		data?.koer?.slice().sort((a, b) => {
-			if (sort) {
-				// eslint-disable-next-line @typescript-eslint/no-shadow
-				const comparator = (a, b, orderBy) => {
-					if (b[orderBy] < a[orderBy] || b[orderBy] === undefined) {
-						return -1;
-					}
-					if (b[orderBy] > a[orderBy]) {
-						return 1;
-					}
-					return 0;
-				};
-
-				return sort.direction === 'ascending' ? comparator(b, a, sort.orderBy) : comparator(a, b, sort.orderBy);
-			}
-			return 1;
-		});
 
 	if (isLoading) {
 		return <Loader />;
@@ -80,27 +59,26 @@ const BehandlingskoerIndex = () => {
 					</Table.Row>
 				</Table.Header>
 				<Table.Body>
-					{data &&
-						sortData().map((kø) => (
-							<Table.ExpandableRow
-								key={kø.id}
-								onOpenChange={() => onOpenChange(kø.id)}
-								open={ekspanderteKøer.includes(kø.id)}
-								togglePlacement="right"
-								content={
-									<BehandlingsKoForm
-										kø={data.koer.find((v) => v.id === kø.id)}
-										ekspandert={ekspanderteKøer.includes(kø.id)}
-										lukk={() => onOpenChange(kø.id)}
-									/>
-								}
-							>
-								<Table.DataCell scope="row">{kø.tittel}</Table.DataCell>
-								<Table.DataCell>{kø.saksbehandlere}</Table.DataCell>
-								<Table.DataCell>{kø.antallOppgaver}</Table.DataCell>
-								<Table.DataCell>{kø.sistEndret}</Table.DataCell>
-							</Table.ExpandableRow>
-						))}
+					{data.map((kø) => (
+						<Table.ExpandableRow
+							key={kø.id}
+							onOpenChange={() => onOpenChange(kø.id)}
+							open={ekspanderteKøer.includes(kø.id)}
+							togglePlacement="right"
+							content={
+								<BehandlingsKoForm
+									kø={data.find((v) => v.id === kø.id)}
+									ekspandert={ekspanderteKøer.includes(kø.id)}
+									lukk={() => onOpenChange(kø.id)}
+								/>
+							}
+						>
+							<Table.DataCell scope="row">{kø.tittel}</Table.DataCell>
+							<Table.DataCell>{kø.saksbehandlere}</Table.DataCell>
+							<Table.DataCell>{kø.antallOppgaver}</Table.DataCell>
+							<Table.DataCell>{kø.sistEndret}</Table.DataCell>
+						</Table.ExpandableRow>
+					))}
 				</Table.Body>
 			</Table>
 			{visNyKøModal && <NyKøModal vis lukk={() => setVisNyKøModal(false)} />}

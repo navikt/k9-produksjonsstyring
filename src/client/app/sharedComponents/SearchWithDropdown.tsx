@@ -44,6 +44,8 @@ export const SearchWithDropdown: React.FC<Props> = ({
 	selectedValues,
 	error,
 }) => {
+	console.log('groups', groups);
+	console.log('selectedV', selectedValues);
 	const [selectedSuggestionValues, setSelectedSuggestionValues] = useState(selectedValues);
 	const [filteredSuggestions, setFilteredSuggestions] = useState(suggestions);
 	const [currentInput, setCurrentInput] = useState('');

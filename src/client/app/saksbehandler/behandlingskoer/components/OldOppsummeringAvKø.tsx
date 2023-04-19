@@ -75,7 +75,7 @@ const OldOppsummeringAvKø = ({ oppgaveko }: OwnProps) => {
 	const intl = useIntl();
 
 	const alleKodeverk: AlleKodeverk = useGlobalStateRestApiData(RestApiGlobalStatePathsKeys.KODEVERK);
-	if (!oppgaveko || 'versjon' in oppgaveko) {
+	if (!oppgaveko || 'tittel' in oppgaveko) {
 		return null;
 	}
 

@@ -9,6 +9,7 @@ import { BodyShort, Button, ErrorMessage, Heading, Modal } from '@navikt/ds-reac
 import { Form, InputField, TextAreaField } from '@navikt/ft-form-hooks';
 import { arrayMinLength, minLength, required } from '@navikt/ft-form-validators';
 import { apiPaths } from 'api/k9LosApi';
+import { useOppdaterKøMutation } from 'api/queries/avdelingslederQueries';
 import { AvdelingslederContext } from 'avdelingsleder/context';
 import FilterIndex from 'filter/FilterIndex';
 import SearchWithDropdown from 'sharedComponents/SearchWithDropdown';
@@ -29,14 +30,11 @@ interface OwnProps {
 const BehandlingsKoForm = ({ kø, lukk, ekspandert }: OwnProps) => {
 	const [visFilterModal, setVisFilterModal] = useState(false);
 	const [visLagreModal, setVisLagreModal] = useState(false);
-	const lagreMutation = useMutation<OppgavekøV2, unknown, { tittel: string }>(
-		(payload) => axios.post(apiPaths.oppdaterOppgaveko, payload).then((res) => res.data),
-		{ onSuccess: () => setVisLagreModal(false) },
-	);
+	const lagreMutation = useOppdaterKøMutation(() => setVisLagreModal(false));
 	const formMethods = useForm({
 		defaultValues: {
 			[fieldnames.TITTEL]: kø.tittel,
-			[fieldnames.SAKSBEHANDLERE]: kø.saksbehandlere,
+			[fieldnames.SAKSBEHANDLERE]: kø.saksbehandlere || [],
 			[fieldnames.OPPGAVE_QUERY]: kø.oppgaveQuery,
 			[fieldnames.BESKRIVELSE]: kø.beskrivelse,
 		},
@@ -47,7 +45,6 @@ const BehandlingsKoForm = ({ kø, lukk, ekspandert }: OwnProps) => {
 	}, [ekspandert]);
 
 	const { saksbehandlere: alleSaksbehandlere } = useContext(AvdelingslederContext);
-
 	const manglerGruppering = 'Mangler gruppering';
 	const formaterteSaksbehandlere = alleSaksbehandlere.map((saksbehandler) => ({
 		value: saksbehandler.epost,
@@ -102,7 +99,6 @@ const BehandlingsKoForm = ({ kø, lukk, ekspandert }: OwnProps) => {
 							addButtonText="Legg til saksbehandlere"
 							heading="Velg saksbehandlere"
 							updateSelection={(valgteSaksbehandlere) => {
-								console.log(valgteSaksbehandlere);
 								formMethods.setValue(fieldnames.SAKSBEHANDLERE, valgteSaksbehandlere);
 								formMethods.trigger('saksbehandlere');
 							}}
