@@ -189,7 +189,8 @@
 	"scripts": {
 		"start-express": "node ./server.js",
 		"test": "jest --colors",
-		"dev": "cross-env NODE_ENV=development NODE_ICU_DATA=./node_modules/full-icu node webpack/webpack.dev.server.js --config webpack/webpack.dev.js",
+		"dev-env-variables": "cross-env SAKSBEHANDLER_KAN_VELGE_NYE_KOER=false AVDELINGSLEDER_TILGANG_TIL_NYE_KOER=true NODE_ENV=development",
+		"dev": "yarn dev-env-variables cross-env node webpack/webpack.dev.server.js --config webpack/webpack.dev.js",
 		"build": "cross-env NODE_ENV=production SENTRY_RELEASE=$(git rev-parse --short HEAD) webpack --config webpack/webpack.prod.js",
 		"ts-check": "tsc --pretty",
 		"css:lint": "stylelint \"src/**/*.css\"",

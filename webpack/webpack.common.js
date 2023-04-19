@@ -8,7 +8,6 @@ const CORE_DIR = path.resolve(__dirname, '../node_modules');
 const ROOT_DIR = path.resolve(__dirname, '../src/client');
 const APP_DIR = path.join(ROOT_DIR, 'app');
 const STYLE_DIR = path.join(ROOT_DIR, 'styles');
-
 const config = {
 	module: {
 		rules: [

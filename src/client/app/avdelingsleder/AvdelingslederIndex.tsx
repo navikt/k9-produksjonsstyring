@@ -31,6 +31,7 @@ import Image from 'sharedComponents/Image';
 import LoadingPanel from 'sharedComponents/LoadingPanel';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import { parseQueryString } from 'utils/urlUtils';
+import { avdelingslederTilgangTilNyeKoer } from '../featureToggles';
 import styles from './avdelingslederIndex.css';
 import AvdelingslederPanels from './avdelingslederPanels';
 import EndreBehandlingskoerIndex from './behandlingskoer/EndreBehandlingskoerIndex';
@@ -169,15 +170,16 @@ export const AvdelingslederIndex: FunctionComponent = () => {
 										activeAvdelingslederPanel,
 										getAvdelingslederPanelLocation,
 									),
-									getTab(
-										AvdelingslederPanels.BEHANDLINGSKOER_V2,
-										activeAvdelingslederPanel,
-										getAvdelingslederPanelLocation,
-									),
+									avdelingslederTilgangTilNyeKoer() &&
+										getTab(
+											AvdelingslederPanels.BEHANDLINGSKOER_V2,
+											activeAvdelingslederPanel,
+											getAvdelingslederPanelLocation,
+										),
 									getTab(AvdelingslederPanels.NOKKELTALL, activeAvdelingslederPanel, getAvdelingslederPanelLocation),
 									getTab(AvdelingslederPanels.PROGNOSE, activeAvdelingslederPanel, getAvdelingslederPanelLocation),
 									getTab(AvdelingslederPanels.RESERVASJONER, activeAvdelingslederPanel, getAvdelingslederPanelLocation),
-								]}
+								].filter(Boolean)}
 							/>
 							<Panel className={styles.panelPadding}>{renderAvdelingslederPanel(activeAvdelingslederPanel)}</Panel>
 						</div>

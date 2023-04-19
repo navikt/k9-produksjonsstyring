@@ -10,6 +10,7 @@ import useGlobalStateRestApiData from 'api/rest-api-hooks/src/global-data/useGlo
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
 import { OppgavekøV1 } from 'saksbehandler/behandlingskoer/oppgavekoTsType';
 import Oppgave from 'saksbehandler/oppgaveTsType';
+import { saksbehandlerKanVelgeNyeKoer } from '../../featureToggles';
 import OppgaveSystem from '../../types/OppgaveSystem';
 import OppgavekoPanel from './components/OppgavekoPanel';
 
@@ -33,7 +34,9 @@ const BehandlingskoerIndex: FunctionComponent<OwnProps & WrappedComponentProps> 
 }) => {
 	const refreshUrl = useGlobalStateRestApiData<{ verdi?: string }>(RestApiGlobalStatePathsKeys.REFRESH_URL);
 	const { data: oppgavekoerV1 = [] } = useRestApi<OppgavekøV1[]>(K9LosApiKeys.OPPGAVEKO);
-	const { data: oppgavekoerV2 } = useQuery<OppgavekøerV2Type>(apiPaths.hentOppgavekoer);
+	const { data: oppgavekoerV2 } = useQuery<OppgavekøerV2Type>(apiPaths.hentOppgavekoer, {
+		enabled: saksbehandlerKanVelgeNyeKoer(),
+	});
 
 	const mapKøV2 = (kø: OppgavekøV2): OppgavekøV2MedNavn => ({ ...kø, navn: kø.tittel });
 	const oppgavekoer = [...oppgavekoerV1, ...(oppgavekoerV2?.koer || []).map(mapKøV2)];
