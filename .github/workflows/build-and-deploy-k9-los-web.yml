@@ -2,11 +2,11 @@ name: Build and deploy K9-los-web
 on:
   push:
     paths-ignore:
-      - '**.md'
-      - '.gitignore'
-      - 'CODEOWNERS'
-      - 'LICENCE'
-      - 'nais/proxy/*'
+      - "**.md"
+      - ".gitignore"
+      - "CODEOWNERS"
+      - "LICENCE"
+      - "nais/proxy/*"
     branches:
       - master
 
@@ -58,11 +58,11 @@ jobs:
           APIKEY: ${{ secrets.DEPLOY_KEY }}
           CLUSTER: dev-fss
           RESOURCE: nais/frontend/k9-los-web.yml
-          VARS: nais/frontend/dev.json
+          VARS: nais/frontend/dev.yml
       - name: Deploye til prod
         uses: nais/deploy/actions/deploy@v1
         env:
           APIKEY: ${{ secrets.DEPLOY_KEY }}
           CLUSTER: prod-fss
           RESOURCE: nais/frontend/k9-los-web.yml
-          VARS: nais/frontend/prod.json
+          VARS: nais/frontend/prod.yml
