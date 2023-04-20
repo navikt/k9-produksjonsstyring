@@ -38,10 +38,11 @@ jobs:
         run: yarn test --maxWorkers=2
       - name: Linting
         run: yarn css:lint
-      - name: Sette miljøvariabler
-        run: echo FEATURE_TOGGLES=$(cat prodFeatureToggles.env | tr '\n' ' ') >> $GITHUB_ENV
       - name: Bygge kode
-        run: ${FEATURE_TOGGLES} yarn build
+        run: yarn build
+        env:
+          SAKSBEHANDLER_KAN_VELGE_NYE_KOER: "disabled"
+          AVDELINGSLEDER_TILGANG_TIL_NYE_KOER: "disabled"
       - name: Sette Docker-navn og -tag
         run: |
           echo "TAG=$(date +"%Y%m%d%H%M%S")-$(git rev-parse --short HEAD)" >> $GITHUB_ENV
