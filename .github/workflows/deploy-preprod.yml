@@ -34,6 +34,8 @@ jobs:
         run: yarn css:lint
       - name: Bygge kode
         run: yarn build
+        env:
+          AVDELINGSLEDER_TILGANG_TIL_NYE_KOER: "enabled"
       - name: Opprett release med Sentry
         run: yarn sentry-release
         env:
