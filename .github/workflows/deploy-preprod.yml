@@ -35,7 +35,9 @@ jobs:
       - name: Sette miljøvariabler
         run: echo FEATURE_TOGGLES=$(cat devFeatureToggles.env | tr '\n' ' ') >> $GITHUB_ENV
       - name: Bygge kode
-        run: ${FEATURE_TOGGLES} yarn build
+        run: |
+          echo "$\{FEATURE_TOGGLES}}"
+          yarn build
       - name: Opprett release med Sentry
         run: yarn sentry-release
         env:
