@@ -6,7 +6,7 @@
 		"AUTH_PROXY_BASE_URL": "https://k9-los-oidc-auth-proxy.dev.intern.nav.no",
 		"AUTH_PROXY_BASE_URL_WSS": "wss://k9-los-oidc-auth-proxy.dev.intern.nav.no",
 		"REDIRECT_URL": "https://k9-los-oidc-auth-proxy.dev.intern.nav.no/login?redirect_uri=https://k9-los-web.dev.adeo.no/",
-		"SAKSBEHANDLER_KAN_VELGE_NYE_KOER": "false",
-		"AVDELINGSLEDER_TILGANG_TIL_NYE_KOER": "true"
+		"SAKSBEHANDLER_KAN_VELGE_NYE_KOER": "'false'",
+		"AVDELINGSLEDER_TILGANG_TIL_NYE_KOER": "'true'"
 	}
 }
