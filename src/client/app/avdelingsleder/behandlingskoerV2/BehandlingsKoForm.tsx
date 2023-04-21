@@ -1,15 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FormattedMessage } from 'react-intl';
-import { useMutation } from 'react-query';
-import axios from 'axios';
 import { OppgavekøV2 } from 'types/OppgavekøV2Type';
 import { Edit } from '@navikt/ds-icons';
-import { BodyShort, Button, ErrorMessage, Heading, Modal } from '@navikt/ds-react';
+import { BodyShort, Button, ErrorMessage, Heading, Loader, Modal } from '@navikt/ds-react';
 import { Form, InputField, TextAreaField } from '@navikt/ft-form-hooks';
 import { arrayMinLength, minLength, required } from '@navikt/ft-form-validators';
-import { apiPaths } from 'api/k9LosApi';
-import { useOppdaterKøMutation } from 'api/queries/avdelingslederQueries';
+import { useKo, useOppdaterKøMutation } from 'api/queries/avdelingslederQueries';
 import { AvdelingslederContext } from 'avdelingsleder/context';
 import FilterIndex from 'filter/FilterIndex';
 import SearchWithDropdown from 'sharedComponents/SearchWithDropdown';
@@ -21,30 +18,37 @@ enum fieldnames {
 	BESKRIVELSE = 'beskrivelse',
 }
 
-interface OwnProps {
-	kø: OppgavekøV2;
+interface BaseProps {
 	lukk: () => void;
 	ekspandert: boolean;
 }
 
-const BehandlingsKoForm = ({ kø, lukk, ekspandert }: OwnProps) => {
+interface BehandlingsKoFormContainer extends BaseProps {
+	id: string;
+}
+interface BehandlingsKoFormProps extends BaseProps {
+	kø: OppgavekøV2;
+}
+
+const BehandlingsKoForm = ({ kø, lukk, ekspandert }: BehandlingsKoFormProps) => {
+	const { versjon } = kø;
 	const [visFilterModal, setVisFilterModal] = useState(false);
 	const [visLagreModal, setVisLagreModal] = useState(false);
 	const lagreMutation = useOppdaterKøMutation(() => setVisLagreModal(false));
+	const { saksbehandlere: alleSaksbehandlere } = useContext(AvdelingslederContext);
 	const formMethods = useForm({
 		defaultValues: {
-			[fieldnames.TITTEL]: kø.tittel,
-			[fieldnames.SAKSBEHANDLERE]: kø.saksbehandlere || [],
-			[fieldnames.OPPGAVE_QUERY]: kø.oppgaveQuery,
-			[fieldnames.BESKRIVELSE]: kø.beskrivelse,
+			[fieldnames.TITTEL]: kø?.tittel || '',
+			[fieldnames.SAKSBEHANDLERE]: kø?.saksbehandlere || [],
+			[fieldnames.OPPGAVE_QUERY]: kø?.oppgaveQuery,
+			[fieldnames.BESKRIVELSE]: kø?.beskrivelse || '',
 		},
 	});
 
 	useEffect(() => {
 		formMethods.reset();
-	}, [ekspandert]);
+	}, [ekspandert, versjon]);
 
-	const { saksbehandlere: alleSaksbehandlere } = useContext(AvdelingslederContext);
 	const manglerGruppering = 'Mangler gruppering';
 	const formaterteSaksbehandlere = alleSaksbehandlere.map((saksbehandler) => ({
 		value: saksbehandler.epost,
@@ -174,4 +178,19 @@ const BehandlingsKoForm = ({ kø, lukk, ekspandert }: OwnProps) => {
 	);
 };
 
-export default BehandlingsKoForm;
+const BehandlingsKoFormContainer = (props: BehandlingsKoFormContainer) => {
+	const { lukk, ekspandert } = props;
+	const { data, isLoading, error } = useKo(props.id, { enabled: ekspandert });
+
+	if (isLoading) {
+		return <div className="animate-pulse bg-surface-neutral-subtle h-10 w-full rounded-xl" />;
+	}
+
+	if (error) {
+		return <ErrorMessage>Noe gikk galt ved henting av kø</ErrorMessage>;
+	}
+
+	return <BehandlingsKoForm kø={data} lukk={lukk} ekspandert={ekspandert} />;
+};
+
+export default BehandlingsKoFormContainer;

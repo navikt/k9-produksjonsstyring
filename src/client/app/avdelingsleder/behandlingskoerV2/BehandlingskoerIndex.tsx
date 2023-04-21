@@ -67,16 +67,16 @@ const BehandlingskoerIndex = () => {
 							togglePlacement="right"
 							content={
 								<BehandlingsKoForm
-									kø={data.find((v) => v.id === kø.id)}
+									id={kø.id}
 									ekspandert={ekspanderteKøer.includes(kø.id)}
 									lukk={() => onOpenChange(kø.id)}
 								/>
 							}
 						>
 							<Table.DataCell scope="row">{kø.tittel}</Table.DataCell>
-							<Table.DataCell>{kø.saksbehandlere}</Table.DataCell>
-							<Table.DataCell>{kø.antallOppgaver}</Table.DataCell>
-							<Table.DataCell>{kø.sistEndret}</Table.DataCell>
+							<Table.DataCell>-</Table.DataCell>
+							<Table.DataCell>-</Table.DataCell>
+							<Table.DataCell>-</Table.DataCell>
 						</Table.ExpandableRow>
 					))}
 				</Table.Body>
