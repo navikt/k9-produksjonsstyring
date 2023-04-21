@@ -125,7 +125,6 @@ export const AvdelingslederIndex: FunctionComponent = () => {
 		hentAntallIdag();
 		hentDagensTall();
 	}, []);
-	console.log('toggled:', process.env.AVDELINGSLEDER_TILGANG_TIL_NYE_KOER);
 
 	const avdelingslederContextValue = useMemo<AvdelingslederContextState>(
 		() => ({
