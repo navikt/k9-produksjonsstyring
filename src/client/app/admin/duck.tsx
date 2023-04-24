@@ -5,40 +5,40 @@ const RESET_AVDELINGSLEDER = actionType('RESET_AVDELINGSLEDER');
 
 /* Action creators */
 export const setSelectedPanel = (panelName: string) => ({
-  type: SET_SELECTED_AVDELINGSLEDER_PANEL,
-  payload: panelName,
+	type: SET_SELECTED_AVDELINGSLEDER_PANEL,
+	payload: panelName,
 });
 
 export const resetBehandlingSupport = () => ({
-  type: RESET_AVDELINGSLEDER,
+	type: RESET_AVDELINGSLEDER,
 });
 
 /* Reducer */
 const initialState = {
-  selectedAvdelingslederPanel: undefined,
+	selectedAvdelingslederPanel: undefined,
 };
 
 interface StateTsProp {
-  selectedAvdelingslederPanel?: string;
+	selectedAvdelingslederPanel?: string;
 }
 
 interface ActionTsProp {
-  type: string;
-  payload?: any;
+	type: string;
+	payload?: any;
 }
 
 export const avdelingslederReducer = (state: StateTsProp = initialState, action: ActionTsProp = { type: '' }) => {
-  switch (action.type) {
-    case SET_SELECTED_AVDELINGSLEDER_PANEL:
-      return {
-        ...state,
-        selectedAvdelingslederPanel: action.payload,
-      };
-    case RESET_AVDELINGSLEDER:
-      return initialState;
-    default:
-      return state;
-  }
+	switch (action.type) {
+		case SET_SELECTED_AVDELINGSLEDER_PANEL:
+			return {
+				...state,
+				selectedAvdelingslederPanel: action.payload,
+			};
+		case RESET_AVDELINGSLEDER:
+			return initialState;
+		default:
+			return state;
+	}
 };
 
 const getAvdelingslederContext = (state) => state.default.avdelingslederContext;

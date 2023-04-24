@@ -1,42 +1,42 @@
 .removeImage {
-  cursor: pointer;
-  padding: 5px;
+	cursor: pointer;
+	padding: 5px;
 }
 .panel {
-  margin-top: 60px;
+	margin-top: 60px;
 }
 @media all and (max-width: 1650px) {
-  .panel {
-    margin-top: 20px;
-  }
+	.panel {
+		margin-top: 20px;
+	}
 }
 .icon {
-  height: 23px;
-  margin-right: 5px;
-  width: 24px;
+	height: 23px;
+	margin-right: 5px;
+	width: 24px;
 }
 .tableHeader {
-  color: #262626;
-  font-family: 'Source Sans Pro', Arial, sans-serif;
-  font-size: 18px;
-  letter-spacing: 0;
-  line-height: 23px;
-  margin-bottom: 28px;
+	color: #262626;
+	font-family: 'Source Sans Pro', Arial, sans-serif;
+	font-size: 18px;
+	letter-spacing: 0;
+	line-height: 23px;
+	margin-bottom: 28px;
 }
 .addIcon {
-  height: 16px;
-  margin-right: 5px;
-  width: 16px;
+	height: 16px;
+	margin-right: 5px;
+	width: 16px;
 }
 .addKnapp {
-  height: 40px;
-  margin-bottom: 30px;
+	height: 40px;
+	margin-bottom: 30px;
 }
 .chevron {
-  color: #0067c5;
+	color: #0067c5;
 }
 .saksbehandlereContent {
-  min-width: -webkit-fill-available;
-  min-width: -moz-available;
-  width: fit-content;
+	min-width: -webkit-fill-available;
+	min-width: -moz-available;
+	width: fit-content;
 }
