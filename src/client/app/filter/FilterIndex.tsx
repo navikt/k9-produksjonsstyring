@@ -301,8 +301,11 @@ class FilterIndex extends React.Component<OwnProps, OwnState> {
 				))}
 				<LeggTilFilterButton filterContainer={oppgaveQuery} onLeggTilFilter={this.leggTilFilter} />
 				<LeggTilGruppeButton filterContainer={oppgaveQuery} onLeggTilGruppe={this.leggTilGruppe} />
-
-				<ReadMore className={styles.feltvalgBlokk} header="Velg felter som skal vises">
+				<ReadMore
+					className={styles.feltvalgBlokk}
+					header="Velg felter som skal vises"
+					defaultOpen={!!oppgaveQuery.select.length}
+				>
 					<OppgaveSelectFelter
 						felter={felter}
 						oppgaveQuery={oppgaveQuery}
@@ -312,7 +315,7 @@ class FilterIndex extends React.Component<OwnProps, OwnState> {
 					/>
 				</ReadMore>
 
-				<ReadMore className={styles.feltvalgBlokk} header="Velg sortering">
+				<ReadMore className={styles.feltvalgBlokk} header="Velg sortering" defaultOpen={!!oppgaveQuery.order.length}>
 					<OppgaveOrderFelter
 						felter={felter}
 						oppgaveQuery={oppgaveQuery}

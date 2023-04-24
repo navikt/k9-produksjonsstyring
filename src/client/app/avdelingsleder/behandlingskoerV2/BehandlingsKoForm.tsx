@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { FormattedMessage } from 'react-intl';
 import { OppgavekøV2 } from 'types/OppgavekøV2Type';
 import { Edit } from '@navikt/ds-icons';
-import { BodyShort, Button, ErrorMessage, Heading, Loader, Modal } from '@navikt/ds-react';
+import { Alert, BodyShort, Button, ErrorMessage, Heading, Modal } from '@navikt/ds-react';
 import { Form, InputField, TextAreaField } from '@navikt/ft-form-hooks';
 import { arrayMinLength, minLength, required } from '@navikt/ft-form-validators';
 import { useKo, useOppdaterKøMutation } from 'api/queries/avdelingslederQueries';
@@ -16,6 +16,7 @@ enum fieldnames {
 	SAKSBEHANDLERE = 'saksbehandlere',
 	OPPGAVE_QUERY = 'oppgaveQuery',
 	BESKRIVELSE = 'beskrivelse',
+	FRITT_VALG_AV_OPPGAVE = 'frittValgAvOppgave',
 }
 
 interface BaseProps {
@@ -34,20 +35,31 @@ const BehandlingsKoForm = ({ kø, lukk, ekspandert }: BehandlingsKoFormProps) =>
 	const { versjon } = kø;
 	const [visFilterModal, setVisFilterModal] = useState(false);
 	const [visLagreModal, setVisLagreModal] = useState(false);
-	const lagreMutation = useOppdaterKøMutation(() => setVisLagreModal(false));
+	const [visSuksess, setVisSuksess] = useState(false);
 	const { saksbehandlere: alleSaksbehandlere } = useContext(AvdelingslederContext);
 	const formMethods = useForm({
 		defaultValues: {
 			[fieldnames.TITTEL]: kø?.tittel || '',
 			[fieldnames.SAKSBEHANDLERE]: kø?.saksbehandlere || [],
-			[fieldnames.OPPGAVE_QUERY]: kø?.oppgaveQuery,
+			[fieldnames.OPPGAVE_QUERY]: kø?.oppgaveQuery ? kø?.oppgaveQuery : undefined,
 			[fieldnames.BESKRIVELSE]: kø?.beskrivelse || '',
+			[fieldnames.FRITT_VALG_AV_OPPGAVE]: kø?.frittValgAvOppgave || false,
 		},
 	});
 
+	const lagreMutation = useOppdaterKøMutation(() => {
+		setVisLagreModal(false);
+		setVisSuksess(true);
+	});
 	useEffect(() => {
-		formMethods.reset();
+		formMethods.reset(kø);
 	}, [ekspandert, versjon]);
+
+	useEffect(() => {
+		if (visSuksess) {
+			setTimeout(() => setVisSuksess(false), 3000);
+		}
+	}, [visSuksess]);
 
 	const manglerGruppering = 'Mangler gruppering';
 	const formaterteSaksbehandlere = alleSaksbehandlere.map((saksbehandler) => ({
@@ -56,7 +68,7 @@ const BehandlingsKoForm = ({ kø, lukk, ekspandert }: BehandlingsKoFormProps) =>
 		group: saksbehandler.enhet || manglerGruppering,
 	}));
 	const lagreOppgaveQuery = (oppgaveQuery) => {
-		formMethods.setValue(fieldnames.OPPGAVE_QUERY, oppgaveQuery);
+		formMethods.setValue(fieldnames.OPPGAVE_QUERY, oppgaveQuery, { shouldDirty: true });
 		setVisFilterModal(false);
 	};
 	const onSubmit = (data) => {
@@ -103,7 +115,7 @@ const BehandlingsKoForm = ({ kø, lukk, ekspandert }: BehandlingsKoFormProps) =>
 							addButtonText="Legg til saksbehandlere"
 							heading="Velg saksbehandlere"
 							updateSelection={(valgteSaksbehandlere) => {
-								formMethods.setValue(fieldnames.SAKSBEHANDLERE, valgteSaksbehandlere);
+								formMethods.setValue(fieldnames.SAKSBEHANDLERE, valgteSaksbehandlere, { shouldDirty: true });
 								formMethods.trigger('saksbehandlere');
 							}}
 							error={formMethods.getFieldState('saksbehandlere')?.error?.message}
@@ -115,7 +127,7 @@ const BehandlingsKoForm = ({ kø, lukk, ekspandert }: BehandlingsKoFormProps) =>
 			<div className="flex mt-6 gap-4">
 				<div className="inline-block">
 					<div className="bg-gray-100 rounded p-2">
-						Antall behandlinger: <span>{`${antallOppgaver}`}</span>
+						Antall behandlinger: <span>{`${antallOppgaver || '-'}`}</span>
 					</div>
 				</div>
 				<Button
@@ -128,7 +140,12 @@ const BehandlingsKoForm = ({ kø, lukk, ekspandert }: BehandlingsKoFormProps) =>
 					Endre filter for kø
 				</Button>
 			</div>
-			<div className="mt-16 flex gap-4">
+			{visSuksess && (
+				<Alert variant="success" className="mt-12 max-w-[300px]">
+					Køen er nå lagret!
+				</Alert>
+			)}
+			<div className="mt-8 flex gap-4">
 				<Button
 					type="button"
 					onClick={async () => {
@@ -137,15 +154,14 @@ const BehandlingsKoForm = ({ kø, lukk, ekspandert }: BehandlingsKoFormProps) =>
 							setVisLagreModal(true);
 						}
 					}}
+					disabled={!formMethods.formState.isDirty}
 				>
 					Lagre kø
 				</Button>
 				<Button variant="secondary" type="button" onClick={lukk}>
-					Lukk uten å lagre
+					Lukk
 				</Button>
 			</div>
-			{lagreMutation.isError && <ErrorMessage>Noe gikk galt ved lagring av kø</ErrorMessage>}
-
 			<Modal className="w-2/6" open={visLagreModal} onClose={() => setVisLagreModal(false)}>
 				<Modal.Content>
 					<Heading spacing level="1" size="medium">
@@ -154,7 +170,12 @@ const BehandlingsKoForm = ({ kø, lukk, ekspandert }: BehandlingsKoFormProps) =>
 					<div className="h-[75px] flex items-center">
 						<BodyShort>Er du sikker på at du ønsker å lagre køen?</BodyShort>
 					</div>
-					<Button className="mt-2" onClick={formMethods.handleSubmit((values) => onSubmit(values))}>
+					{lagreMutation.isError && (
+						<div>
+							<ErrorMessage>Noe gikk galt ved lagring av kø</ErrorMessage>
+						</div>
+					)}
+					<Button className="mt-2" onClick={formMethods.handleSubmit((values) => onSubmit({ ...kø, ...values }))}>
 						Lagre kø
 					</Button>
 					<Button className="ml-2" variant="secondary" onClick={() => setVisLagreModal(false)}>
@@ -167,11 +188,7 @@ const BehandlingsKoForm = ({ kø, lukk, ekspandert }: BehandlingsKoFormProps) =>
 					<Heading className="ml-[80px] mb-8" level="1" size="small">
 						Endre filter for behandlingskø
 					</Heading>
-					<FilterIndex
-						initialQuery={formMethods.watch(fieldnames.OPPGAVE_QUERY)}
-						lagre={lagreOppgaveQuery}
-						avbryt={() => setVisFilterModal(false)}
-					/>
+					<FilterIndex lagre={lagreOppgaveQuery} avbryt={() => setVisFilterModal(false)} />
 				</Modal.Content>
 			</Modal>
 		</Form>
@@ -189,6 +206,8 @@ const BehandlingsKoFormContainer = (props: BehandlingsKoFormContainer) => {
 	if (error) {
 		return <ErrorMessage>Noe gikk galt ved henting av kø</ErrorMessage>;
 	}
+
+	if (!data) return null;
 
 	return <BehandlingsKoForm kø={data} lukk={lukk} ekspandert={ekspandert} />;
 };
