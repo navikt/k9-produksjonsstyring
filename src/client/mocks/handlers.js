@@ -7,6 +7,7 @@ import behandlingerSomGårAvVentÅrsaker from './behandlingerSomGårAvVentÅrsak
 import behandlingerUnderArbeid from './behandlingerUnderArbeid';
 import dagensTall from './dagensTall';
 import ferdigstilteHistorikk from './ferdigstilteHistorikk';
+import kodeverk from './kodeverk';
 import løsteAksjonspunkterPerEnhet from './løsteAksjonspunkterPerEnhet';
 import { giRandomDato } from './mockUtils';
 import nyeOgFerdigstilteOppgaver from './nyeOgFerdigstilteOppgaver';
@@ -47,6 +48,41 @@ export const developmentHandlers = {
 		'/api/avdelingsleder/nokkeltall/nye-ferdigstilte-oppsummering',
 		(req, res, ctx) => res(ctx.json(giRandomDato(nyeOgFerdigstilteOppgaverMedStonadstype, 7))),
 	),
+	saksbehandler: rest.get('/api/saksbehandler', (req, res, ctx) =>
+		res(
+			ctx.json({
+				brukernavn: 'saksbehandler@nav.no',
+				navn: 'Saksbehandler Sara',
+				brukerIdent: 'Z123456',
+				kanSaksbehandle: true,
+				kanVeilede: true,
+				kanBeslutte: true,
+				kanBehandleKodeEgenAnsatt: true,
+				kanBehandleKode6: true,
+				kanBehandleKode7: true,
+				kanOppgavestyre: true,
+				kanReservere: true,
+				kanDrifte: true,
+			}),
+		),
+	),
+	k9SakUrl: rest.get('/api/konfig/k9-sak-url', (req, res, ctx) => res(ctx.json({ verdi: 'http://localhost:8080' }))),
+	k9PunsjUrl: rest.get('/api/konfig/k9-punsj-url', (req, res, ctx) =>
+		res(ctx.json({ verdi: 'http://localhost:8080' })),
+	),
+	omsorgspengerUrl: rest.get('/api/konfig/omsorgspenger-url', (req, res, ctx) =>
+		res(ctx.json({ verdi: 'http://localhost:8080' })),
+	),
+	refreshUrl: rest.get('/api/konfig/refresh-url', (req, res, ctx) =>
+		res(
+			ctx.json({
+				verdi: 'ws://localhost:8020/ws',
+			}),
+		),
+	),
+	driftsmeldinger: rest.get('/api/driftsmeldinger', (req, res, ctx) => res(ctx.json([]))),
+	behandlede: rest.get('/api/saksbehandler/nokkeltall/behandlede', (req, res, ctx) => res(ctx.json([]))),
+	kodeverk: rest.get('/api/kodeverk', (req, res, ctx) => res(ctx.json(kodeverk))),
 	aksjonspunkterPerEnhet: rest.get(
 		'/api/avdelingsleder/nokkeltall/aksjonspunkter-per-enhet-historikk',
 		(req, res, ctx) => res(ctx.json(giRandomDato(løsteAksjonspunkterPerEnhet, 7))),
