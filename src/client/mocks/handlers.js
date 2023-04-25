@@ -81,7 +81,7 @@ export const developmentHandlers = {
 		),
 	),
 	driftsmeldinger: rest.get('/api/driftsmeldinger', (req, res, ctx) => res(ctx.json([]))),
-	behandlede: rest.get('/api/saksbehandler/nokkeltall/behandlede', (req, res, ctx) => res(ctx.json([]))),
+	behandlede: rest.get('/api/saksbehandler/oppgaver/behandlede', (req, res, ctx) => res(ctx.json([]))),
 	kodeverk: rest.get('/api/kodeverk', (req, res, ctx) => res(ctx.json(kodeverk))),
 	aksjonspunkterPerEnhet: rest.get(
 		'/api/avdelingsleder/nokkeltall/aksjonspunkter-per-enhet-historikk',
