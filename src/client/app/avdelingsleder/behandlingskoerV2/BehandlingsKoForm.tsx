@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FormattedMessage } from 'react-intl';
 import { OppgavekøV2 } from 'types/OppgavekøV2Type';
+import { FloppydiskIcon } from '@navikt/aksel-icons';
 import { Edit } from '@navikt/ds-icons';
 import { Alert, BodyShort, Button, ErrorMessage, Heading, Modal } from '@navikt/ds-react';
 import { Form, InputField, TextAreaField } from '@navikt/ft-form-hooks';
@@ -175,7 +176,11 @@ const BehandlingsKoForm = ({ kø, lukk, ekspandert }: BehandlingsKoFormProps) =>
 							<ErrorMessage>Noe gikk galt ved lagring av kø</ErrorMessage>
 						</div>
 					)}
-					<Button className="mt-2" onClick={formMethods.handleSubmit((values) => onSubmit({ ...kø, ...values }))}>
+					<Button
+						icon={<FloppydiskIcon />}
+						className="mt-2"
+						onClick={formMethods.handleSubmit((values) => onSubmit({ ...kø, ...values }))}
+					>
 						Lagre kø
 					</Button>
 					<Button className="ml-2" variant="secondary" onClick={() => setVisLagreModal(false)}>
@@ -185,10 +190,14 @@ const BehandlingsKoForm = ({ kø, lukk, ekspandert }: BehandlingsKoFormProps) =>
 			</Modal>
 			<Modal className="w-3/6" open={visFilterModal} onClose={() => setVisFilterModal(false)}>
 				<Modal.Content className="ml-[-75px]">
-					<Heading className="ml-[80px] mb-8" level="1" size="small">
+					<Heading className="ml-[80px] mb-8" level="1" size="medium">
 						Endre filter for behandlingskø
 					</Heading>
-					<FilterIndex lagre={lagreOppgaveQuery} avbryt={() => setVisFilterModal(false)} />
+					<FilterIndex
+						initialQuery={formMethods.watch(fieldnames.OPPGAVE_QUERY)}
+						lagre={lagreOppgaveQuery}
+						avbryt={() => setVisFilterModal(false)}
+					/>
 				</Modal.Content>
 			</Modal>
 		</Form>

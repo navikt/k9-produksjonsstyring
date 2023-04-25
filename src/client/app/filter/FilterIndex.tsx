@@ -42,9 +42,12 @@ interface OwnState {
 class FilterIndex extends React.Component<OwnProps, OwnState> {
 	constructor(props) {
 		super(props);
+		const { initialQuery } = props;
 
 		this.state = {
-			oppgaveQuery: props.initialQuery || new OppgaveQueryModel().toOppgaveQuery(),
+			oppgaveQuery: initialQuery
+				? new OppgaveQueryModel(initialQuery).toOppgaveQuery()
+				: new OppgaveQueryModel().toOppgaveQuery(),
 			felter: [],
 			oppgaver: null,
 			queryError: null,
@@ -328,12 +331,8 @@ class FilterIndex extends React.Component<OwnProps, OwnState> {
 				<div className={styles.filterButtonGroup}>
 					{lagre && (
 						<>
-							<Button
-								icon={<FloppydiskIcon />}
-								onClick={() => lagre(this.state.oppgaveQuery)}
-								loading={this.state.loading}
-							>
-								Lagre
+							<Button onClick={() => lagre(this.state.oppgaveQuery)} loading={this.state.loading}>
+								Endre filter
 							</Button>
 							<Button className="mr-2" variant="secondary" onClick={avbryt}>
 								Avbryt

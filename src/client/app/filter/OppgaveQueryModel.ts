@@ -12,12 +12,8 @@ export default class OppgaveQueryModel {
 				select: [],
 				order: [],
 				limit: 10,
-				id: uuid(),
+				id: '',
 			};
-		}
-
-		if (newOppgaveQuery && !newOppgaveQuery.id) {
-			newOppgaveQuery = { ...newOppgaveQuery, id: uuid() };
 		}
 
 		newOppgaveQuery = JSON.parse(JSON.stringify(newOppgaveQuery));
