@@ -20,8 +20,6 @@ import {
 } from './index';
 import { giRandomDato } from './mockUtils';
 
-/// Create a handler for each API
-
 // Alle handlers som ligger direkte i dette arrayet vil gjelde
 // Requesten treffer handlerne i stedet for eventuelle eksisterende APIer
 // f.eks hvis vi har handlere til alle APIene vi bruker her, vil vi aldri treffe den faktiske backenden når vi kjører opp lokalt.
