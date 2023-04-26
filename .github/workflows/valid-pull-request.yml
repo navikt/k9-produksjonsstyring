@@ -5,9 +5,7 @@ on:
       - "**.md"
       - "**.MD"
       - ".gitignore"
-      - "LICENCE"
       - "CODEOWNERS"
-      - "dev/**"
       - "**.yml"
       - "**.yaml"
 
