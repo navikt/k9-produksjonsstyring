@@ -24,6 +24,7 @@ const headerTextCodes = ['SaksbehandlereTabell.Navn', 'EMPTY_1'];
 /**
  * SaksbehandlereTabell
  */
+
 const SaksbehandlereTabell: FunctionComponent = () => {
 	const [valgtSaksbehandler, setValgtSaksbehandler] = useState<Saksbehandler>();
 	const [visAddSaksbehadler, setVisAddSaksbehandler] = useState(false);
