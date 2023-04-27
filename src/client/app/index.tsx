@@ -23,17 +23,15 @@ init({
 	environment,
 });
 
-if (process.env.NODE_ENV === 'development') {
-	const { worker } = require('../mocks/browser');
-	worker.start({ onUnhandledRequest: 'bypass' });
-}
-
-const renderFunc = (Component) => {
+const renderFunc = async (Component) => {
+	if (process.env.NODE_ENV === 'development') {
+		const { worker } = require('../mocks/browser');
+		await worker.start({ onUnhandledRequest: 'bypass' });
+	}
 	const app = document.getElementById('app');
 	if (app === null) {
 		throw new Error('No app element');
 	}
-
 	const queryClient = new QueryClient(config);
 	const root = createRoot(app);
 	root.render(
