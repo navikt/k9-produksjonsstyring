@@ -46,6 +46,7 @@ const BehandlingsKoForm = ({ kø, lukk, ekspandert }: BehandlingsKoFormProps) =>
 			[fieldnames.BESKRIVELSE]: kø?.beskrivelse || '',
 			[fieldnames.FRITT_VALG_AV_OPPGAVE]: kø?.frittValgAvOppgave || false,
 		},
+		mode: 'all',
 	});
 
 	const lagreMutation = useOppdaterKøMutation(() => {
@@ -141,6 +142,11 @@ const BehandlingsKoForm = ({ kø, lukk, ekspandert }: BehandlingsKoFormProps) =>
 					Endre filter for kø
 				</Button>
 			</div>
+			{formMethods.formState.isDirty && (
+				<Alert variant="warning" className="mt-12 max-w-[500px]">
+					Du har gjort endringer i køen. Husk å lagre endringene før du lukker vinduet.
+				</Alert>
+			)}
 			{visSuksess && (
 				<Alert variant="success" className="mt-12 max-w-[300px]">
 					Køen er nå lagret!
