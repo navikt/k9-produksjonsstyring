@@ -3177,6 +3177,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@navikt/ds-icons@npm:2.9.2":
+  version: 2.9.2
+  resolution: "@navikt/ds-icons@npm:2.9.2::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40navikt%2Fds-icons%2F2.9.2%2F70e4b5a43a7e5c6447c0e7bac77f80ddf622ceb7"
+  peerDependencies:
+    "@types/react": ^17.0.30 || ^18.0.0
+    react: ^17.0.0 || ^18.0.0
+  checksum: c1e5dea234e3871a175ef0c8266204c379a14731be295df2b35107b602da4c7ddb3bc6d4cc22e6262aca775a80f05ad1e3bda17e6a5a2cf3298cc510060dd023
+  languageName: node
+  linkType: hard
+
 "@navikt/ds-react@npm:2.8.15":
   version: 2.8.15
   resolution: "@navikt/ds-react@npm:2.8.15::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40navikt%2Fds-react%2F2.8.15%2F58372cd7bd8d4e28b50e3434ed8b7a6985a5f764"
@@ -15435,7 +15445,7 @@ __metadata:
     "@formatjs/intl-datetimeformat": 6.7.0
     "@formatjs/intl-numberformat": 8.4.1
     "@navikt/ds-css": 2.8.15
-    "@navikt/ds-icons": 2.8.15
+    "@navikt/ds-icons": 2.9.2
     "@navikt/ds-react": 2.8.15
     "@navikt/familie-endringslogg": 8.1.1
     "@navikt/fnrvalidator": 1.3.3
