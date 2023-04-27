@@ -159,7 +159,7 @@ export const developmentHandlers = {
 			}),
 		);
 	}),
-	oppgavemodellV2HentKø: rest.get(`/api${apiPaths.hentOppgaveko}*`, async (req, res, ctx) =>
+	oppgavemodellV2HentKø: rest.get(`/api${apiPaths.hentOppgaveko}:id`, async (req, res, ctx) =>
 		res(
 			ctx.json({
 				id: '1',

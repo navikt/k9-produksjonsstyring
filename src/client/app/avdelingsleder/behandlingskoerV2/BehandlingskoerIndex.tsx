@@ -11,39 +11,49 @@ const BehandlingskoerIndex = () => {
 	const [ekspanderteKøer, setEkspanderteKøer] = useState([]);
 
 	const onOpenChange = (køId) => {
-		if (ekspanderteKøer.includes(køId)) {
-			setEkspanderteKøer(ekspanderteKøer.filter((v) => v !== køId));
-		} else setEkspanderteKøer([...ekspanderteKøer, køId]);
-	};
-
-	const handleSort = (sortKey) => {
-		setSort(
-			sort && sortKey === sort.orderBy && sort.direction === 'descending'
-				? undefined
-				: {
-						orderBy: sortKey,
-						direction: sort && sortKey === sort.orderBy && sort.direction === 'ascending' ? 'descending' : 'ascending',
-				  },
+		setEkspanderteKøer((prevState) =>
+			prevState.includes(køId) ? prevState.filter((v) => v !== køId) : [...prevState, køId],
 		);
 	};
 
-	if (isLoading) {
-		return <Loader />;
-	}
+	const handleSort = (sortKey) => {
+		const newDirection =
+			sort && sortKey === sort.orderBy && sort.direction === 'ascending' ? 'descending' : 'ascending';
+		setSort((prevState) =>
+			prevState && sortKey === prevState.orderBy && prevState.direction === 'descending'
+				? undefined
+				: { orderBy: sortKey, direction: newDirection },
+		);
+	};
 
-	if (error) {
-		return <>Noe gikk galt ved lasting av køer.</>;
-	}
+	const sortData = () => {
+		if (!data || !sort) return data;
+
+		return data.slice().sort((a, b) => {
+			const comparator = (itemA, itemB, orderBy) => {
+				if (itemB[orderBy] < itemA[orderBy] || itemB[orderBy] === undefined) return -1;
+				if (itemB[orderBy] > itemA[orderBy]) return 1;
+				return 0;
+			};
+
+			return sort.direction === 'ascending' ? comparator(b, a, sort.orderBy) : comparator(a, b, sort.orderBy);
+		});
+	};
+
+	if (isLoading) return <Loader />;
+	if (error) return <>Noe gikk galt ved lasting av køer.</>;
+
+	const sortedData = sortData();
 
 	return (
 		<>
 			<Button className="my-4" variant="secondary" onClick={() => setVisNyKøModal(true)}>
 				Opprett ny kø
 			</Button>
-			<Table sort={sort} zebraStripes onSortChange={(sortKey) => handleSort(sortKey)}>
+			<Table sort={sort} zebraStripes onSortChange={handleSort}>
 				<Table.Header>
 					<Table.Row>
-						<Table.ColumnHeader sortKey="tittel" sortable>
+						<Table.ColumnHeader sortKey="tittel" sortable scope="col">
 							Navn
 						</Table.ColumnHeader>
 						<Table.ColumnHeader sortKey="saksbehandlere" sortable scope="col">
@@ -52,33 +62,34 @@ const BehandlingskoerIndex = () => {
 						<Table.ColumnHeader sortKey="antallOppgaver" sortable scope="col">
 							Antall behandlinger
 						</Table.ColumnHeader>
-						<Table.ColumnHeader scope="col" sortKey="Sist endret" sortable>
+						<Table.ColumnHeader sortKey="Sist endret" sortable scope="col">
 							Sist endret
 						</Table.ColumnHeader>
 						<Table.HeaderCell />
 					</Table.Row>
 				</Table.Header>
 				<Table.Body>
-					{data.map((kø) => (
-						<Table.ExpandableRow
-							key={kø.id}
-							onOpenChange={() => onOpenChange(kø.id)}
-							open={ekspanderteKøer.includes(kø.id)}
-							togglePlacement="right"
-							content={
-								<BehandlingsKoForm
-									id={kø.id}
-									ekspandert={ekspanderteKøer.includes(kø.id)}
-									lukk={() => onOpenChange(kø.id)}
-								/>
-							}
-						>
-							<Table.DataCell scope="row">{kø.tittel}</Table.DataCell>
-							<Table.DataCell>-</Table.DataCell>
-							<Table.DataCell>-</Table.DataCell>
-							<Table.DataCell>-</Table.DataCell>
-						</Table.ExpandableRow>
-					))}
+					{sortedData &&
+						sortedData.map((kø) => (
+							<Table.ExpandableRow
+								key={kø.id}
+								onOpenChange={() => onOpenChange(kø.id)}
+								open={ekspanderteKøer.includes(kø.id)}
+								togglePlacement="right"
+								content={
+									<BehandlingsKoForm
+										id={kø.id}
+										ekspandert={ekspanderteKøer.includes(kø.id)}
+										lukk={() => onOpenChange(kø.id)}
+									/>
+								}
+							>
+								<Table.DataCell scope="row">{kø.tittel}</Table.DataCell>
+								<Table.DataCell>-</Table.DataCell>
+								<Table.DataCell>-</Table.DataCell>
+								<Table.DataCell>-</Table.DataCell>
+							</Table.ExpandableRow>
+						))}
 				</Table.Body>
 			</Table>
 			{visNyKøModal && <NyKøModal vis lukk={() => setVisNyKøModal(false)} />}

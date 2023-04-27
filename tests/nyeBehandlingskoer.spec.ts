@@ -4,6 +4,7 @@ test('Kan vise køer', async ({ page }) => {
 	await page.goto('http://localhost:8030');
 	await page.getByRole('button', { name: 'Avdelingslederpanel' }).click();
 	await page.getByRole('link', { name: 'Nye behandlingskøer' }).click();
+	await page.waitForURL('http://localhost:8030/avdelingsleder?fane=behandlingskoerV2');
 	await expect(page.url()).toBe('http://localhost:8030/avdelingsleder?fane=behandlingskoerV2');
 
 	await page.getByRole('cell', { name: 'Beskrivende tittel' }).isVisible();
@@ -24,8 +25,9 @@ test('kan redigere kø', async ({ page }) => {
 	await page.goto('http://localhost:8030/');
 	await page.getByRole('button', { name: 'Avdelingslederpanel' }).click();
 	await page.getByRole('link', { name: 'Nye behandlingskøer' }).click();
+	await page.waitForURL('http://localhost:8030/avdelingsleder?fane=behandlingskoerV2');
 	const køer = await page.getByRole('button', { name: 'Vis mer' }).all();
-
+	await expect(køer.length).toBe(3);
 	await køer[0].click();
 	await page.getByLabel('Beskrivelse').fill('');
 	// trykk lagre og se at det kommer opp feilmelding
@@ -39,16 +41,18 @@ test('kan redigere kø', async ({ page }) => {
 				'\nhar sendt inn, og de er lagt i en lang rekkefølge. De venter på å bli sett på av' +
 				'\nnoen som jobber der. Noen av tingene blir godkjent, og noen blir ikke godkjent.' +
 				'\nDette skjer i et dataprogram som hjelper folk å holde styr på alt.',
-			{ delay: 50 },
+			{ delay: 10 },
 		);
 
-	await page.getByText('Du har gjort endringer i køen. Husk å lagre endringene før du lukker vinduet.');
+	await page.getByLabel('Velg saksbehandlere').click();
+	await page.getByText('Mangler gruppering').click();
+	await page.getByText('Legg til saksbehandlere').click();
+
 	await page.getByRole('button', { name: 'Lagre kø' }).isEnabled();
 	await page.getByRole('button', { name: 'Lagre kø' }).click();
-	// select second lagre kø button
-	const butts = await page.getByRole('button', { name: 'Lagre kø' }).all();
+	await expect(page.getByText('Er du sikker på at du ønsker å lagre køen?')).toBeVisible();
+	await page.getByRole('button', { name: 'Lagre kø' }).click();
 
-	butts[1].click();
 	await page.getByText('Køen er nå lagret!');
 	await page.getByRole('button', { name: 'Lukk' }).click();
 });
