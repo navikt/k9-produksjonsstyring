@@ -1,3 +1,4 @@
+import { QueryClientConfig } from 'react-query';
 import axios from 'axios';
 import { callId } from 'api/rest-api/src/axios/axiosHttpClientApi';
 import { baseURL } from 'api/rest-api/src/axios/initRestMethods';
@@ -23,9 +24,10 @@ export const config = {
 		queries: {
 			queryFn: defaultQuery,
 			refetchOnWindowFocus: false,
+			staleTime: 0,
 		},
 		mutations: {
 			mutationFn: defaultMutation,
 		},
 	},
-};
+} as QueryClientConfig;
