@@ -13,12 +13,13 @@ module.exports = {
 			setupFilesAfterEnv: ['<rootDir>/setup/setup-test-env.js'],
 			testEnvironment: 'jsdom',
 			testMatch: ['**/?(*.)+(spec).+(js|jsx|ts|tsx)'],
-			testPathIgnorePatterns: ['/node_modules/', '/dist/'],
+			testPathIgnorePatterns: ['/node_modules/', '/dist/', '<rootDir>/src/client/tests/'],
 			transform: {
 				'^.+\\.(ts|tsx|js|jsx)?$': 'babel-jest',
 				'^.+.(css|less)$': 'jest-transform-stub',
 			},
 			transformIgnorePatterns: ['<rootDir>.*(node_modules)(?!.*(nav).*).*$'],
+			// ignore tests in tests folder
 			moduleDirectories: ['node_modules', 'src/client', 'src/client/app'],
 		},
 	],
