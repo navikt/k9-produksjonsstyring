@@ -14,3 +14,4 @@ export const relativeTestApiPaths = Object.keys(apiPaths).reduce((acc, key) => {
 	acc[key] = relativeBaseURL + apiPaths[key];
 	return acc;
 }, {}) as typeof apiPaths;
+console.log(relativeTestApiPaths);
