@@ -24,8 +24,6 @@ export const config = {
 		queries: {
 			queryFn: defaultQuery,
 			refetchOnWindowFocus: false,
-			staleTime: !process.env.CI ? 300000 : 0,
-			cacheTime: !process.env.CI ? 300000 : 0,
 		},
 		mutations: {
 			mutationFn: defaultMutation,

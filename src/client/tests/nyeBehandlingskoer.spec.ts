@@ -1,3 +1,4 @@
+import { QueryCache } from 'react-query';
 import { expect, test } from '@playwright/test';
 import { absoluteTestApiPaths } from '../app/testUtils';
 
@@ -31,6 +32,10 @@ test('kan redigere kø', async ({ page }) => {
 	await page.getByRole('link', { name: 'Nye behandlingskøer' }).click();
 	await page.waitForResponse(absoluteTestApiPaths.hentOppgavekoer);
 	const køer = await page.getByRole('button', { name: 'Vis mer' }).all();
+	await page.getByRole('cell', { name: 'Beskrivende tittel' }).isVisible();
+	await page.getByRole('cell', { name: 'Kø 1' }).isVisible();
+	await page.getByRole('cell', { name: 'Kø 2' }).isVisible();
+
 	await køer[0].click();
 	await page.getByLabel('Beskrivelse').fill('');
 	// trykk lagre og se at det kommer opp feilmelding
