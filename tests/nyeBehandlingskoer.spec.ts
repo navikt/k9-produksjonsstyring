@@ -1,4 +1,6 @@
 import { expect, test } from '@playwright/test';
+import { apiPaths } from '../src/client/app/api/k9LosApi';
+import { baseURL } from '../src/client/app/api/rest-api/src/axios/initRestMethods';
 
 test('Kan vise køer', async ({ page }) => {
 	await page.goto('http://localhost:8030');
@@ -26,6 +28,7 @@ test('kan redigere kø', async ({ page }) => {
 	await page.getByRole('button', { name: 'Avdelingslederpanel' }).click();
 	await page.getByRole('link', { name: 'Nye behandlingskøer' }).click();
 	await page.waitForURL('http://localhost:8030/avdelingsleder?fane=behandlingskoerV2');
+	await page.waitForResponse(`${baseURL}${apiPaths}`);
 	const køer = await page.getByRole('button', { name: 'Vis mer' }).all();
 	await expect(køer.length).toBe(3);
 	await køer[0].click();
