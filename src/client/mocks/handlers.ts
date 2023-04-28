@@ -171,7 +171,6 @@ export const developmentHandlers = {
 				saksbehandlere: [],
 				antallOppgaver: 5,
 				sistEndret: 'dato',
-
 				versjon: 1,
 			}),
 		),
