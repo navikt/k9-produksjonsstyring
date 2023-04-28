@@ -1,6 +1,5 @@
 import React from 'react';
 import { v4 as uuid } from 'uuid';
-import { FloppydiskIcon } from '@navikt/aksel-icons';
 import { Download, Search } from '@navikt/ds-icons';
 import { Alert, Button, ReadMore, TextField } from '@navikt/ds-react';
 import { K9LosApiKeys, k9LosApi } from 'api/k9LosApi';

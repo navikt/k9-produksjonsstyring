@@ -50,10 +50,6 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps & WrappedComponentPro
 	const [requestFinishedState, setRequestFinishedState] = useState<boolean>(requestFinished);
 
 	const [valgtOppgaveId, setValgtOppgaveId] = useState<string>();
-	const [offset, setOffset] = useState({
-		left: 0,
-		top: 0,
-	});
 
 	const alleKodeverk: AlleKodeverk = useGlobalStateRestApiData(RestApiGlobalStatePathsKeys.KODEVERK);
 
@@ -114,15 +110,12 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps & WrappedComponentPro
 
 	const toggleMenu = useCallback(
 		(oppgaveValgt: Oppgave) => {
-			const newOffset = ref.current[oppgaveValgt.eksternId]?.getBoundingClientRect();
-
-			if (newOffset) {
+			if (oppgaveValgt) {
 				setShowMenu(!showMenu);
 				setValgtOppgaveId(oppgaveValgt.eksternId);
-				setOffset({ top: newOffset.top, left: newOffset.left });
 			}
 		},
-		[ref.current, showMenu],
+		[valgtOppgaveId, showMenu],
 	);
 
 	const valgtOppgave = reserverteOppgaverState.find((o) => o.eksternId === valgtOppgaveId);
@@ -147,74 +140,71 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps & WrappedComponentPro
 			)}
 
 			{reserverteOppgaverState.length > 0 && requestFinishedState && (
-				<>
-					<Table headerTextCodes={getHeaderCodes(true, hastesaker).filter(Boolean)}>
-						{reserverteOppgaverState.map((oppgave) => (
-							<TableRow
-								key={oppgave.eksternId}
-								onMouseDown={goToFagsak}
-								onKeyDown={goToFagsak}
-								className={classNames(styles.isUnderBehandling, { [styles.hastesak]: hastesaker })}
-								model={oppgave}
-							>
-								{hastesaker && (
-									<TableColumn className={styles.hastesakTd}>
-										<WarningColored className={styles.hastesakIkon} />
-									</TableColumn>
-								)}
-								<TableColumn className={hastesaker ? '' : styles.soekerPadding}>
-									{oppgave.navn ? `${oppgave.navn} ${oppgave.personnummer}` : '<navn>'}
+				<Table headerTextCodes={getHeaderCodes(true, hastesaker).filter(Boolean)}>
+					{reserverteOppgaverState.map((oppgave) => (
+						<TableRow
+							key={oppgave.eksternId}
+							onMouseDown={goToFagsak}
+							onKeyDown={goToFagsak}
+							className={classNames(styles.isUnderBehandling, { [styles.hastesak]: hastesaker })}
+							model={oppgave}
+						>
+							{hastesaker && (
+								<TableColumn className={styles.hastesakTd}>
+									<WarningColored className={styles.hastesakIkon} />
 								</TableColumn>
-								<TableColumn>{hentIDFraSak(oppgave, alleKodeverk)}</TableColumn>
-								<TableColumn>
-									{getKodeverknavnFraKode(oppgave.behandlingstype, kodeverkTyper.BEHANDLING_TYPE, alleKodeverk)}
-								</TableColumn>
-								<TableColumn>
-									{oppgave.opprettetTidspunkt && <DateLabel dateString={oppgave.opprettetTidspunkt} />}
-								</TableColumn>
-								<TableColumn className={styles.reservertTil}>
-									<FormattedMessage
-										id="OppgaveHandlingerMenu.ReservertTil"
-										values={{
-											...getDateAndTime(oppgave.status.reservertTilTidspunkt),
-											// eslint-disable-next-line react/no-unstable-nested-components
-											b: (...chunks) => <b>{chunks}</b>,
-										}}
-									/>
-								</TableColumn>
-								<TableColumn>
-									<KommentarMedMerknad oppgave={oppgave} />
-								</TableColumn>
-								<TableColumn className={styles.noPadding}>
-									<div
-										ref={(el) => {
-											ref.current = { ...ref.current, [oppgave.eksternId]: el };
-										}}
-									>
-										<Image
-											className={styles.image}
-											src={menuIconBlackUrl}
-											srcHover={menuIconBlueUrl}
-											alt={intl.formatMessage({ id: 'OppgaverTabell.OppgaveHandlinger' })}
-											onMouseDown={() => toggleMenu(oppgave)}
-											onKeyDown={() => toggleMenu(oppgave)}
+							)}
+							<TableColumn className={hastesaker ? '' : styles.soekerPadding}>
+								{oppgave.navn ? `${oppgave.navn} ${oppgave.personnummer}` : '<navn>'}
+							</TableColumn>
+							<TableColumn>{hentIDFraSak(oppgave, alleKodeverk)}</TableColumn>
+							<TableColumn>
+								{getKodeverknavnFraKode(oppgave.behandlingstype, kodeverkTyper.BEHANDLING_TYPE, alleKodeverk)}
+							</TableColumn>
+							<TableColumn>
+								{oppgave.opprettetTidspunkt && <DateLabel dateString={oppgave.opprettetTidspunkt} />}
+							</TableColumn>
+							<TableColumn className={styles.reservertTil}>
+								<FormattedMessage
+									id="OppgaveHandlingerMenu.ReservertTil"
+									values={{
+										...getDateAndTime(oppgave.status.reservertTilTidspunkt),
+										// eslint-disable-next-line react/no-unstable-nested-components
+										b: (...chunks) => <b>{chunks}</b>,
+									}}
+								/>
+							</TableColumn>
+							<TableColumn>
+								<KommentarMedMerknad oppgave={oppgave} />
+							</TableColumn>
+							<TableColumn className={styles.menuElement}>
+								<div
+									ref={(el) => {
+										ref.current = { ...ref.current, [oppgave.eksternId]: el };
+									}}
+								>
+									{showMenu && valgtOppgaveId && valgtOppgave && (
+										<OppgaveHandlingerMenu
+											imageNode={ref.current[valgtOppgaveId]}
+											toggleMenu={toggleMenu}
+											oppgave={valgtOppgave}
+											forlengOppgaveReservasjon={forlengOppgaveReservasjonFn}
+											hentReserverteOppgaver={hentReserverteOppgaver}
 										/>
-									</div>
-								</TableColumn>
-							</TableRow>
-						))}
-					</Table>
-					{showMenu && valgtOppgaveId && valgtOppgave && (
-						<OppgaveHandlingerMenu
-							imageNode={ref.current[valgtOppgaveId]}
-							toggleMenu={toggleMenu}
-							offset={offset}
-							oppgave={valgtOppgave}
-							forlengOppgaveReservasjon={forlengOppgaveReservasjonFn}
-							hentReserverteOppgaver={hentReserverteOppgaver}
-						/>
-					)}
-				</>
+									)}
+									<Image
+										className={styles.image}
+										src={menuIconBlackUrl}
+										srcHover={menuIconBlueUrl}
+										alt={intl.formatMessage({ id: 'OppgaverTabell.OppgaveHandlinger' })}
+										onMouseDown={() => toggleMenu(oppgave)}
+										onKeyDown={() => toggleMenu(oppgave)}
+									/>
+								</div>
+							</TableColumn>
+						</TableRow>
+					))}
+				</Table>
 			)}
 		</div>
 	);
