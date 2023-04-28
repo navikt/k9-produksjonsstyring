@@ -1,11 +1,9 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { useMutation, useQueryClient } from 'react-query';
-import { OppgavekøV2 } from 'types/OppgavekøV2Type';
 import { Button, Heading, Modal } from '@navikt/ds-react';
 import { Form, InputField } from '@navikt/ft-form-hooks';
 import { minLength, required } from '@navikt/ft-form-validators';
-import { apiPaths } from 'api/k9LosApi';
+import apiPaths from 'api/apiPaths';
 import { useNyKøMutation } from 'api/queries/avdelingslederQueries';
 
 enum fieldnames {

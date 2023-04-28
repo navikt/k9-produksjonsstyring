@@ -1,6 +1,7 @@
 /* eslint-disable import/no-mutable-exports */
 import { rest } from 'msw';
-import { apiPaths } from 'api/k9LosApi';
+import apiPaths from 'api/apiPaths';
+import { relativeTestApiPaths } from '../app/testUtils';
 import {
 	avdelningsledareReservasjoner,
 	behandlingerSomGårAvVent,
@@ -27,34 +28,35 @@ import { giRandomDato } from './mockUtils';
 let handlers = [];
 
 export const developmentHandlers = {
-	ferdigstilteHistorikk: rest.get('/api/avdelingsleder/nokkeltall/ferdigstilte-historikk', (req, res, ctx) =>
+	ferdigstilteHistorikk: rest.get(relativeTestApiPaths.ferdigstilteHistorikk, (req, res, ctx) =>
 		res(ctx.json(giRandomDato(ferdigstilteHistorikk, 14))),
 	),
-	dagensTall: rest.get('/api/avdelingsleder/nokkeltall//dagens-tall', (req, res, ctx) => res(ctx.json(dagensTall))),
-	allePaaVent: rest.get('/api/avdelingsleder/nokkeltall/alle-paa-vent_v2', (req, res, ctx) =>
+	dagensTall: rest.get(relativeTestApiPaths.dagensTall, (req, res, ctx) => res(ctx.json(dagensTall))),
+	allePaaVent: rest.get(relativeTestApiPaths.allePaaVent, (req, res, ctx) =>
 		res(ctx.json({ påVent: behandlingerSomGårAvVent, påVentMedVenteårsak: behandlingerSomGårAvVentÅrsaker })),
 	),
-	nyeOgFerdigstilteOppgaver: rest.get('/api/saksbehandler/nokkeltall/nye-og-ferdigstilte-oppgaver', (req, res, ctx) =>
+	nyeOgFerdigstilteOppgaver: rest.get(relativeTestApiPaths.nyeOgFerdigstilteOppgaver, (req, res, ctx) =>
 		res(ctx.json(giRandomDato(nyeOgFerdigstilteOppgaver, 7))),
 	),
-	behandlingerUnderArbeid: rest.get('/api/avdelingsleder/nokkeltall/behandlinger-under-arbeid', (req, res, ctx) =>
+	behandlingerUnderArbeid: rest.get(relativeTestApiPaths.behandlingerUnderArbeid, (req, res, ctx) =>
 		res(ctx.json(behandlingerUnderArbeid)),
 	),
-	beholdningPerDato: rest.get('/api/avdelingsleder/nokkeltall/beholdning-historikk', (req, res, ctx) =>
+	beholdningPerDato: rest.get(relativeTestApiPaths.beholdningPerDato, (req, res, ctx) =>
 		res(ctx.json(giRandomDato(ferdigstilteHistorikk, 14))),
 	),
-	nyePerDato: rest.get('/api/avdelingsleder/nokkeltall/nye-historikk', (req, res, ctx) =>
+	nyePerDato: rest.get(relativeTestApiPaths.nyePerDato, (req, res, ctx) =>
 		res(ctx.json(giRandomDato(ferdigstilteHistorikk, 14))),
 	),
-	nyeFerdigstilteOppsummering: rest.get(
-		'/api/avdelingsleder/nokkeltall/nye-ferdigstilte-oppsummering',
-		(req, res, ctx) => res(ctx.json(giRandomDato(nyeOgFerdigstilteOppgaverMedStonadstype, 7))),
+	nyeFerdigstilteOppsummering: rest.get(relativeTestApiPaths.nyeFerdigstilteOppsummering, (req, res, ctx) =>
+		res(ctx.json(giRandomDato(nyeOgFerdigstilteOppgaverMedStonadstype, 7))),
 	),
-	oppgaverAntallTotalt: rest.get('/api/avdelingsleder/oppgaver/antall-totalt', (req, res, ctx) =>
+	oppgaverAntallTotalt: rest.get(relativeTestApiPaths.oppgaverAntallTotalt, (req, res, ctx) =>
 		res(ctx.status(200), ctx.json(0)),
 	),
-	legacyOppgaveKoer: rest.get('/api/avdelingsleder/oppgavekoer', (req, res, ctx) => res(ctx.status(200), ctx.json([]))),
-	saksbehandler: rest.get('/api/saksbehandler', (req, res, ctx) =>
+	legacyOppgaveKoer: rest.get(relativeTestApiPaths.legacyOppgaveKoer, (req, res, ctx) =>
+		res(ctx.status(200), ctx.json([])),
+	),
+	saksbehandler: rest.get(relativeTestApiPaths.saksbehandler, (req, res, ctx) =>
 		res(
 			ctx.json({
 				brukernavn: 'saksbehandler@nav.no',
@@ -72,43 +74,44 @@ export const developmentHandlers = {
 			}),
 		),
 	),
-	k9SakUrl: rest.get('/api/konfig/k9-sak-url', (req, res, ctx) => res(ctx.json({ verdi: 'http://localhost:8040' }))),
-	k9PunsjUrl: rest.get('/api/konfig/k9-punsj-url', (req, res, ctx) =>
+	k9SakUrl: rest.get(relativeTestApiPaths.k9SakUrl, (req, res, ctx) =>
+		res(ctx.json({ verdi: 'http://localhost:8040' })),
+	),
+	k9PunsjUrl: rest.get(relativeTestApiPaths.k9PunsjUrl, (req, res, ctx) =>
 		res(ctx.json({ verdi: 'http://localhost:8050' })),
 	),
-	omsorgspengerUrl: rest.get('/api/konfig/omsorgspenger-url', (req, res, ctx) =>
+	omsorgspengerUrl: rest.get(relativeTestApiPaths.omsorgspengerUrl, (req, res, ctx) =>
 		res(ctx.json({ verdi: 'http://localhost:8090' })),
 	),
-	refreshUrl: rest.get('/api/konfig/refresh-url', (req, res, ctx) =>
+	refreshUrl: rest.get(relativeTestApiPaths.refreshUrl, (req, res, ctx) =>
 		res(
 			ctx.json({
 				verdi: 'ws://localhost:8020/ws',
 			}),
 		),
 	),
-	driftsmeldinger: rest.get('/api/driftsmeldinger', (req, res, ctx) => res(ctx.json([]))),
-	behandlede: rest.get('/api/saksbehandler/oppgaver/behandlede', (req, res, ctx) => res(ctx.json([]))),
-	kodeverk: rest.get('/api/kodeverk', (req, res, ctx) => res(ctx.json(kodeverk))),
-	aksjonspunkterPerEnhet: rest.get(
-		'/api/avdelingsleder/nokkeltall/aksjonspunkter-per-enhet-historikk',
-		(req, res, ctx) => res(ctx.json(giRandomDato(løsteAksjonspunkterPerEnhet, 7))),
+	driftsmeldinger: rest.get(relativeTestApiPaths.driftsmeldinger, (req, res, ctx) => res(ctx.json([]))),
+	behandlede: rest.get(relativeTestApiPaths.behandlede, (req, res, ctx) => res(ctx.json([]))),
+	kodeverk: rest.get(relativeTestApiPaths.kodeverk, (req, res, ctx) => res(ctx.json(kodeverk))),
+	aksjonspunkterPerEnhet: rest.get(relativeTestApiPaths.aksjonspunkterPerEnhet, (req, res, ctx) =>
+		res(ctx.json(giRandomDato(løsteAksjonspunkterPerEnhet, 7))),
 	),
-	avdelinglederReservasjoner: rest.get('/api/avdelingsleder/reservasjoner', (req, res, ctx) =>
+	avdelinglederReservasjoner: rest.get(relativeTestApiPaths.avdelinglederReservasjoner, (req, res, ctx) =>
 		res(ctx.json(avdelningsledareReservasjoner)),
 	),
-	saksbehandlerReservasjoner: rest.get('/api/saksbehandler/oppgaver/reserverte', (req, res, ctx) =>
+	saksbehandlerReservasjoner: rest.get(relativeTestApiPaths.saksbehandlerReservasjoner, (req, res, ctx) =>
 		res(ctx.json(saksbehandlerReservasjoner)),
 	),
-	saksbehandlerOppgaver: rest.get('/api/saksbehandler/oppgaver', (req, res, ctx) =>
+	saksbehandlerOppgaver: rest.get(relativeTestApiPaths.saksbehandlerOppgaver, (req, res, ctx) =>
 		res(ctx.json(saksbehandlerOppgaver)),
 	),
-	saksbehandlereIOppgaveko: rest.get('/api/saksbehandler/oppgaveko/saksbehandlere', (req, res, ctx) =>
+	saksbehandlereIOppgaveko: rest.get(relativeTestApiPaths.saksbehandlereIOppgaveko, (req, res, ctx) =>
 		res(ctx.json(saksbehandlereIOppgaveko)),
 	),
-	oppgaver: rest.get('/api/saksbehandler/oppgaver/antall', (req, res, ctx) => res(ctx.json(10))),
-	oppgavekoer: rest.get('/api/saksbehandler/oppgaveko', (req, res, ctx) => res(ctx.json(saksbehandlerOppgaveko))),
-	sok: rest.post('/api/fagsak/sok', (req, res, ctx) => res(ctx.json(soek))),
-	saksbehandlere: rest.get(`/api${apiPaths.hentSaksbehandlere}`, (req, res, ctx) =>
+	oppgaver: rest.get(relativeTestApiPaths.oppgaver, (req, res, ctx) => res(ctx.json(10))),
+	oppgavekoer: rest.get(relativeTestApiPaths.oppgavekoer, (req, res, ctx) => res(ctx.json(saksbehandlerOppgaveko))),
+	sok: rest.post(relativeTestApiPaths.sok, (req, res, ctx) => res(ctx.json(soek))),
+	saksbehandlere: rest.get(relativeTestApiPaths.saksbehandlere, (req, res, ctx) =>
 		res(
 			ctx.json([
 				{ navn: 'Ping Pong Paul', brukerIdent: 'M088876', epost: 'pingpongpaul@nav.no' },
@@ -144,7 +147,7 @@ export const developmentHandlers = {
 			}),
 		);
 	}),
-	oppgavemodellV2OppdaterKø: rest.post(`/api${apiPaths.oppdaterOppgaveko}`, async (req, res, ctx) => {
+	oppgavemodellV2OppdaterKø: rest.post(relativeTestApiPaths.oppdaterOppgaveko, async (req, res, ctx) => {
 		const data = await req.json();
 		return res(
 			ctx.json({
@@ -159,7 +162,7 @@ export const developmentHandlers = {
 			}),
 		);
 	}),
-	oppgavemodellV2HentKø: rest.get(`/api${apiPaths.hentOppgaveko}:id`, async (req, res, ctx) =>
+	oppgavemodellV2HentKø: rest.get(`${relativeTestApiPaths.oppgavemodellV2HentKø}:id`, async (req, res, ctx) =>
 		res(
 			ctx.json({
 				id: '1',
@@ -174,7 +177,7 @@ export const developmentHandlers = {
 			}),
 		),
 	),
-	oppgavemodellV2HentAlleKø: rest.get(`/api${apiPaths.hentOppgavekoer}`, async (req, res, ctx) =>
+	oppgavemodellV2HentAlleKø: rest.get(relativeTestApiPaths.oppgavemodellV2HentAlleKø, async (req, res, ctx) =>
 		res(
 			ctx.json({
 				koer: [
