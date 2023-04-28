@@ -26,7 +26,6 @@ test('kan redigere kø', async ({ page }) => {
 	await page.goto('http://localhost:8030/');
 	await page.getByRole('button', { name: 'Avdelingslederpanel' }).click();
 	await page.getByRole('link', { name: 'Nye behandlingskøer' }).click();
-	await page.waitForURL('http://localhost:8030/avdelingsleder?fane=behandlingskoerV2');
 	await page.waitForResponse(absoluteTestApiPaths.hentOppgavekoer);
 	const køer = await page.getByRole('button', { name: 'Vis mer' }).all();
 	await expect(køer.length).toBe(3);
