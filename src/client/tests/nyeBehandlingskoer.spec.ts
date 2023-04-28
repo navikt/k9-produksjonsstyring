@@ -31,10 +31,10 @@ test('kan redigere kø', async ({ page }) => {
 	await page.getByRole('button', { name: 'Avdelingslederpanel' }).click();
 	await page.getByRole('link', { name: 'Nye behandlingskøer' }).click();
 	await page.waitForResponse(absoluteTestApiPaths.hentOppgavekoer);
-	const køer = await page.getByRole('button', { name: 'Vis mer' }).all();
 	await page.getByRole('cell', { name: 'Beskrivende tittel' }).isVisible();
 	await page.getByRole('cell', { name: 'Kø 1' }).isVisible();
 	await page.getByRole('cell', { name: 'Kø 2' }).isVisible();
+	const køer = await page.getByRole('button', { name: 'Vis mer' }).all();
 
 	await køer[0].click();
 	await page.getByLabel('Beskrivelse').fill('');
