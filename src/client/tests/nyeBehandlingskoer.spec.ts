@@ -33,9 +33,9 @@ test('kan redigere kø', async ({ page }) => {
 	await page.getByRole('cell', { name: 'Beskrivende tittel' }).isVisible();
 	await page.getByRole('cell', { name: 'Kø 1' }).isVisible();
 	await page.getByRole('cell', { name: 'Kø 2' }).isVisible();
-	const køer = await page.getByRole('button', { name: 'Vis mer' }).all();
 
-	await køer[0]?.click();
+	await page.getByRole('row', { name: 'Beskrivende tittel - - - Vis mer' }).getByRole('button', { name: 'Vis mer' });
+
 	await page.getByText('godt forklart tekst om hva formålet med køen er');
 	await page.getByLabel('Beskrivelse').fill('');
 	// trykk lagre og se at det kommer opp feilmelding
