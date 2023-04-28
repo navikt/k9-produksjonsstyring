@@ -34,7 +34,10 @@ test('kan redigere kø', async ({ page }) => {
 	await page.getByRole('cell', { name: 'Kø 1' }).isVisible();
 	await page.getByRole('cell', { name: 'Kø 2' }).isVisible();
 
-	await page.getByRole('row', { name: 'Beskrivende tittel - - - Vis mer' }).getByRole('button', { name: 'Vis mer' });
+	await page
+		.getByRole('row', { name: 'Beskrivende tittel - - - Vis mer' })
+		.getByRole('button', { name: 'Vis mer' })
+		.click();
 
 	await page.getByText('godt forklart tekst om hva formålet med køen er');
 	await page.getByLabel('Beskrivelse').fill('');
