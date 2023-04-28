@@ -1,8 +1,10 @@
 import { expect, test } from '@playwright/test';
 import { absoluteTestApiPaths } from '../app/testUtils';
 
-test('Kan vise køer', async ({ page }) => {
+test.beforeEach(async ({ page }) => {
 	await page.goto('http://localhost:8030');
+});
+test('Kan vise køer', async ({ page }) => {
 	await page.getByRole('button', { name: 'Avdelingslederpanel' }).click();
 	await page.getByRole('link', { name: 'Nye behandlingskøer' }).click();
 	await page.waitForURL('http://localhost:8030/avdelingsleder?fane=behandlingskoerV2');
@@ -14,7 +16,8 @@ test('Kan vise køer', async ({ page }) => {
 });
 
 test('kan opprette ny kø', async ({ page }) => {
-	await page.goto('http://localhost:8030/avdelingsleder?fane=behandlingskoerV2');
+	await page.getByRole('button', { name: 'Avdelingslederpanel' }).click();
+	await page.getByRole('link', { name: 'Nye behandlingskøer' }).click();
 	await page.getByRole('button', { name: 'Opprett ny kø' }).click();
 	await page.getByRole('textbox', { name: 'Navn' }).fill('te');
 	await page.getByText(/Du må skrive minst 3 tegn/).isVisible();
@@ -23,11 +26,10 @@ test('kan opprette ny kø', async ({ page }) => {
 });
 
 test('kan redigere kø', async ({ page }) => {
-	await page.goto('http://localhost:8030/');
 	await page.getByRole('button', { name: 'Avdelingslederpanel' }).click();
 	await page.getByRole('link', { name: 'Nye behandlingskøer' }).click();
-	await page.waitForResponse(absoluteTestApiPaths.hentOppgavekoer);
 	const køer = await page.getByRole('button', { name: 'Vis mer' }).all();
+	if (page) await page.waitForResponse(absoluteTestApiPaths.hentOppgavekoer);
 	await expect(køer.length).toBe(3);
 	await køer[0].click();
 	await page.getByLabel('Beskrivelse').fill('');
