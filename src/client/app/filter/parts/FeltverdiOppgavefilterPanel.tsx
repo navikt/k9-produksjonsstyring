@@ -43,7 +43,8 @@ function renderFilterOperatorOgVerdi(
 	oppgavefilter: FeltverdiOppgavefilter,
 	onOppdaterFilter: (id: string, data: object) => void,
 ) {
-	if (feltdefinisjon.erListetype) {
+	const aksjonspunktKoder = ['aksjonspunkt', 'aktivtAksjonspunkt', 'løsbartAksjonspunkt'];
+	if (aksjonspunktKoder.includes(feltdefinisjon.kode)) {
 		return (
 			<AksjonspunktVelger
 				onChange={(aksjonspunkter) =>
@@ -105,7 +106,6 @@ function renderFilterOperatorOgVerdi(
 	return (
 		<>
 			{renderFilterOperator(oppgavefilter, onOppdaterFilter)}
-
 			<TextField label="" value={oppgavefilter.verdi} onChange={handleChangeValue} />
 		</>
 	);

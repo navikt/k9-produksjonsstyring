@@ -1,6 +1,7 @@
 import React, { FormEventHandler, useEffect, useMemo, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { ErrorMessage, Heading } from '@navikt/ds-react';
+import { TrashIcon } from '@navikt/aksel-icons';
+import { Button, ErrorMessage, Heading } from '@navikt/ds-react';
 import Merkelapp from '../merkelapp/Merkelapp';
 import Merkelapper from '../merkelapp/Merkelapper';
 import SearchForm from './SearchForm';
@@ -115,7 +116,14 @@ const SearchWithDropdown: React.FC<Props> = (props) => {
 	};
 
 	const onRemoveSuggestion = (suggestionValue: string) => {
-		setSelectedSuggestionValues(selectedSuggestionValues.filter((s) => s !== suggestionValue));
+		const newSelectedValues = selectedSuggestionValues.filter((s) => s !== suggestionValue);
+		setSelectedSuggestionValues(newSelectedValues);
+		updateSelection(newSelectedValues);
+	};
+
+	const removeAllSuggestions = () => {
+		setSelectedSuggestionValues([]);
+		updateSelection([]);
 	};
 
 	return (
@@ -152,10 +160,22 @@ const SearchWithDropdown: React.FC<Props> = (props) => {
 				)}
 			</SearchForm>
 			{selectedValues.length > 0 && (
-				<Heading className={styles.merkelapperHeading} level="4" size="xsmall">
-					Valgte filter:
-				</Heading>
+				<div>
+					<Heading className={styles.merkelapperHeading} level="4" size="xsmall">
+						Valgte filter:
+					</Heading>
+					<Button
+						icon={<TrashIcon />}
+						variant="tertiary"
+						size="small"
+						className="border-border-danger text-border-danger float-right mt-4"
+						onClick={removeAllSuggestions}
+					>
+						Fjern alle
+					</Button>
+				</div>
 			)}
+
 			<Merkelapper>
 				{selectedValues.map((suggestion) => (
 					<Merkelapp key={suggestion} onClick={() => onRemoveSuggestion(suggestion)}>
@@ -163,6 +183,7 @@ const SearchWithDropdown: React.FC<Props> = (props) => {
 					</Merkelapp>
 				))}
 			</Merkelapper>
+
 			{error && <ErrorMessage>{error}</ErrorMessage>}
 		</div>
 	);
