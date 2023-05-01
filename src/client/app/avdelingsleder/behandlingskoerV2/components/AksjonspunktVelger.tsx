@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import useKodeverk from 'api/rest-api-hooks/src/global-data/useKodeverk';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
-import SearchWithDropdown from 'sharedComponents/SearchWithDropdown';
+import SearchWithDropdown from 'sharedComponents/searchWithDropdown/SearchWithDropdown';
 
 interface OwnProps {
 	valgteAksjonspunkter: string[];

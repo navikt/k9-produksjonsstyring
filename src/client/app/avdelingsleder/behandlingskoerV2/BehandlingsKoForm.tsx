@@ -10,7 +10,7 @@ import { arrayMinLength, minLength, required } from '@navikt/ft-form-validators'
 import { useKo, useOppdaterKøMutation } from 'api/queries/avdelingslederQueries';
 import { AvdelingslederContext } from 'avdelingsleder/context';
 import FilterIndex from 'filter/FilterIndex';
-import SearchWithDropdown from 'sharedComponents/SearchWithDropdown';
+import SearchWithDropdown from 'sharedComponents/searchWithDropdown/SearchWithDropdown';
 
 enum fieldnames {
 	TITTEL = 'tittel',

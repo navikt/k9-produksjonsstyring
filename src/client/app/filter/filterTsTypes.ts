@@ -62,10 +62,17 @@ export type Oppgaverad = {
 	felter: Oppgavefeltverdi[];
 };
 
+export type Verdiforklaring = {
+	verdi: string;
+	visningsnavn: string;
+};
+
 export type Oppgavefelt = {
 	område: string;
 	kode: string;
 	visningsnavn: string;
 	tolkes_som: string;
+	verdiforklaringerErUttømmende: boolean;
 	erListetype: boolean;
+	verdiforklaringer: Verdiforklaring[] | null;
 };

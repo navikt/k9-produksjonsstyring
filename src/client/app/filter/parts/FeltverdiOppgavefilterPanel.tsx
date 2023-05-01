@@ -1,6 +1,7 @@
 import React from 'react';
 import { Checkbox, CheckboxGroup, Heading, Panel, Select, TextField } from '@navikt/ds-react';
 import AksjonspunktVelger from 'avdelingsleder/behandlingskoerV2/components/AksjonspunktVelger';
+import SearchWithDropdown from 'sharedComponents/searchWithDropdown/SearchWithDropdown';
 import styles from '../filterIndex.css';
 import { FeltverdiOppgavefilter, Oppgavefelt, Oppgavefilter } from '../filterTsTypes';
 import { feltverdiKey, kodeFraKey, områdeFraKey } from '../utils';
@@ -75,6 +76,26 @@ function renderFilterOperatorOgVerdi(
 		);
 	}
 
+	if (
+		feltdefinisjon.tolkes_som === 'String' &&
+		Array.isArray(feltdefinisjon.verdiforklaringer) &&
+		feltdefinisjon.verdiforklaringer.length > 0
+	) {
+		return (
+			<SearchWithDropdown
+				label={`Velg ${feltdefinisjon.visningsnavn.toLowerCase()}`}
+				suggestions={feltdefinisjon.verdiforklaringer.map((verdiforklaring) => ({
+					label: verdiforklaring.visningsnavn,
+					value: verdiforklaring.verdi,
+				}))}
+				heading=""
+				addButtonText=""
+				updateSelection={() => ({})}
+				selectedValues={[]}
+			/>
+		);
+	}
+
 	const handleChangeValue = (event) => {
 		onOppdaterFilter(oppgavefilter.id, {
 			verdi: event.target.value,
@@ -84,6 +105,7 @@ function renderFilterOperatorOgVerdi(
 	return (
 		<>
 			{renderFilterOperator(oppgavefilter, onOppdaterFilter)}
+
 			<TextField label="" value={oppgavefilter.verdi} onChange={handleChangeValue} />
 		</>
 	);
