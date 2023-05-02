@@ -103,6 +103,7 @@ function renderFilterOperatorOgVerdi(
 							verdi: values,
 						})
 					}
+					oppgavefilter={oppgavefilter}
 				/>
 			</>
 		);
@@ -127,12 +128,14 @@ function finnFeltdefinisjon(felter, område: string, kode: string) {
 }
 
 const FeltverdiOppgavefilterPanel = ({ felter, oppgavefilter, onOppdaterFilter, onFjernFilter }: OwnProps) => {
-	const [isUsingPredefinedValues, setIsUsingPredefinedValues] = React.useState(false);
+	const feltdefinisjon = finnFeltdefinisjon(felter, oppgavefilter.område, oppgavefilter.kode);
+	const [isUsingPredefinedValues, setIsUsingPredefinedValues] = React.useState(
+		feltdefinisjon?.verdiforklaringer?.length > 0,
+	);
 
 	const handleChangeKey = (event) => {
 		const område = områdeFraKey(event.target.value);
 		const kode = kodeFraKey(event.target.value);
-		const feltdefinisjon = finnFeltdefinisjon(felter, område, kode);
 
 		if (feltdefinisjon && feltdefinisjon.verdiforklaringer && feltdefinisjon.verdiforklaringer.length > 0) {
 			if (!isUsingPredefinedValues) {
@@ -158,7 +161,6 @@ const FeltverdiOppgavefilterPanel = ({ felter, oppgavefilter, onOppdaterFilter, 
 			});
 		}
 	};
-	const feltdefinisjon = finnFeltdefinisjon(felter, oppgavefilter.område, oppgavefilter.kode);
 	return (
 		<Panel className={`${styles.filter} ${styles.filterFelt}`} key={oppgavefilter.id} border>
 			<FjernFilterButton oppgavefilter={oppgavefilter} onFjernFilter={onFjernFilter} />

@@ -1,14 +1,15 @@
 import React from 'react';
-import { Oppgavefelt } from 'filter/filterTsTypes';
+import { FeltverdiOppgavefilter, Oppgavefelt } from 'filter/filterTsTypes';
 import SearchWithDropdown from 'sharedComponents/searchWithDropdown/SearchWithDropdown';
 
 interface OwnProps {
 	feltdefinisjon: Oppgavefelt;
 	onChange: (values: string[]) => void;
+	oppgavefilter: FeltverdiOppgavefilter;
 }
 
-const SearchDropdownMedPredefinerteVerdier = ({ feltdefinisjon, onChange }: OwnProps) => {
-	const [selectedValues, setSelectedValues] = React.useState<string[]>([]);
+const SearchDropdownMedPredefinerteVerdier = ({ feltdefinisjon, onChange, oppgavefilter }: OwnProps) => {
+	const [selectedValues, setSelectedValues] = React.useState<string[]>(oppgavefilter?.verdi || []);
 
 	React.useEffect(() => {
 		onChange(selectedValues);

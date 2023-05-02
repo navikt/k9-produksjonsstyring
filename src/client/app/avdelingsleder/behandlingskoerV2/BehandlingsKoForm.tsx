@@ -182,11 +182,7 @@ const BehandlingsKoForm = ({ kø, lukk, ekspandert }: BehandlingsKoFormProps) =>
 							<ErrorMessage>Noe gikk galt ved lagring av kø</ErrorMessage>
 						</div>
 					)}
-					<Button
-						icon={<FloppydiskIcon />}
-						className="mt-2"
-						onClick={formMethods.handleSubmit((values) => onSubmit({ ...kø, ...values }))}
-					>
+					<Button className="mt-2" onClick={formMethods.handleSubmit((values) => onSubmit({ ...kø, ...values }))}>
 						Lagre kø
 					</Button>
 					<Button className="ml-2" variant="secondary" onClick={() => setVisLagreModal(false)}>
@@ -194,7 +190,7 @@ const BehandlingsKoForm = ({ kø, lukk, ekspandert }: BehandlingsKoFormProps) =>
 					</Button>
 				</Modal.Content>
 			</Modal>
-			<Modal className="w-3/6" open={visFilterModal} onClose={() => setVisFilterModal(false)}>
+			<Modal className="w-10/12" open={visFilterModal} onClose={() => setVisFilterModal(false)}>
 				<Modal.Content className="ml-[-75px]">
 					<Heading className="ml-[80px] mb-8" level="1" size="medium">
 						Endre filter for behandlingskø

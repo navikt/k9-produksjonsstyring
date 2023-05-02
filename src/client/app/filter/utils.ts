@@ -1,3 +1,5 @@
+import { Oppgavefelt } from './filterTsTypes';
+
 export function feltverdiKey(item) {
 	return `${item.område !== null ? item.område : ''}__${item.kode}`;
 }
