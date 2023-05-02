@@ -20,17 +20,16 @@ const AksjonspunktVelger: FunctionComponent<OwnProps> = ({ onChange, valgteAksjo
 	const grupper = [...new Set(formaterteOppgavekoder.map((oppgavekode) => oppgavekode.group))].sort();
 
 	return (
-		<div className="max-w-3xl">
-			<SearchWithDropdown
-				label="Velg aksjonspunkt"
-				suggestions={formaterteOppgavekoder}
-				groups={grupper}
-				addButtonText="Legg til aksjonspunkt"
-				heading="Velg aksjonspunkter"
-				updateSelection={onChange}
-				selectedValues={valgteAksjonspunkter || []}
-			/>
-		</div>
+		<SearchWithDropdown
+			label="Velg aksjonspunkt"
+			suggestions={formaterteOppgavekoder}
+			groups={grupper}
+			addButtonText="Legg til aksjonspunkt"
+			heading="Velg aksjonspunkter"
+			updateSelection={onChange}
+			selectedValues={valgteAksjonspunkter || []}
+			className="grow"
+		/>
 	);
 };
 

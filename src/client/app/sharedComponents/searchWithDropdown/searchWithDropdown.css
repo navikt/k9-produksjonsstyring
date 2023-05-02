@@ -79,9 +79,8 @@
 }
 .searchWrapper {
 	position: relative;
-}
-.searchWrapper__inner {
-	width: calc(100% - 2px);
+	display: flex;
+	max-width: 600px;
 }
 .searchButton {
 	position: absolute;

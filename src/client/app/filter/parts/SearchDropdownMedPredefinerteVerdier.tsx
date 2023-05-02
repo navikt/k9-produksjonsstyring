@@ -4,10 +4,15 @@ import SearchWithDropdown from 'sharedComponents/searchWithDropdown/SearchWithDr
 
 interface OwnProps {
 	feltdefinisjon: Oppgavefelt;
+	onChange: (values: string[]) => void;
 }
 
-const SearchDropdownMedPredefinerteVerdier = ({ feltdefinisjon }: OwnProps) => {
+const SearchDropdownMedPredefinerteVerdier = ({ feltdefinisjon, onChange }: OwnProps) => {
 	const [selectedValues, setSelectedValues] = React.useState<string[]>([]);
+
+	React.useEffect(() => {
+		onChange(selectedValues);
+	}, [selectedValues]);
 
 	return (
 		<SearchWithDropdown
@@ -20,7 +25,7 @@ const SearchDropdownMedPredefinerteVerdier = ({ feltdefinisjon }: OwnProps) => {
 			addButtonText={`Legg til ${feltdefinisjon.visningsnavn.toLowerCase()}`}
 			updateSelection={setSelectedValues}
 			selectedValues={selectedValues}
-			className="w-4/12"
+			className="grow"
 		/>
 	);
 };

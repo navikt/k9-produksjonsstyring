@@ -41,12 +41,14 @@ const SearchForm: React.FC<SearchFormProps> = ({
 
 	return (
 		<div className={styles.form}>
-			<Label htmlFor={inputId} className="navds-form-field__label">
+			<Label htmlFor={inputId} className="navds-form-field__label block">
 				{label}
 			</Label>
-			<BodyShort size="small" as="div" id={descriptionId} className="navds-form-field__description">
-				{description}
-			</BodyShort>
+			{description && (
+				<BodyShort size="small" as="div" id={descriptionId} className="navds-form-field__description">
+					{description}
+				</BodyShort>
+			)}
 			<Combobox className={`navds-search__wrapper ${styles.searchWrapper}`} onSelect={onSelect} openOnFocus>
 				<div className={`navds-search__wrapper-inner ${styles.searchWrapper__inner}`}>
 					<ComboboxInput

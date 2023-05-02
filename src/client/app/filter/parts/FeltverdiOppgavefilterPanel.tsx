@@ -31,7 +31,7 @@ function renderFilterOperator(
 			label=""
 			value={oppgavefilter.operator}
 			onChange={handleChangeOperator}
-			className={classNames({ 'mt-[65px]': isUsingPredefinedValues })}
+			className={classNames({ 'mt-[55px]': isUsingPredefinedValues })}
 		>
 			<option value="EQUALS">er lik</option>
 			<option value="NOT_EQUALS">er IKKE lik</option>
@@ -54,14 +54,17 @@ function renderFilterOperatorOgVerdi(
 	const aksjonspunktKoder = ['aksjonspunkt', 'aktivtAksjonspunkt', 'løsbartAksjonspunkt'];
 	if (aksjonspunktKoder.includes(feltdefinisjon.kode)) {
 		return (
-			<AksjonspunktVelger
-				onChange={(aksjonspunkter) =>
-					onOppdaterFilter(oppgavefilter.id, {
-						verdi: aksjonspunkter,
-					})
-				}
-				valgteAksjonspunkter={oppgavefilter.verdi}
-			/>
+			<>
+				{renderFilterOperator(oppgavefilter, onOppdaterFilter, isUsingPredefinedValues)}
+				<AksjonspunktVelger
+					onChange={(aksjonspunkter) =>
+						onOppdaterFilter(oppgavefilter.id, {
+							verdi: aksjonspunkter,
+						})
+					}
+					valgteAksjonspunkter={oppgavefilter.verdi}
+				/>
+			</>
 		);
 	}
 	if (feltdefinisjon.tolkes_som === 'boolean') {
@@ -93,7 +96,14 @@ function renderFilterOperatorOgVerdi(
 		return (
 			<>
 				{renderFilterOperator(oppgavefilter, onOppdaterFilter, isUsingPredefinedValues)}
-				<SearchDropdownMedPredefinerteVerdier feltdefinisjon={feltdefinisjon} />
+				<SearchDropdownMedPredefinerteVerdier
+					feltdefinisjon={feltdefinisjon}
+					onChange={(values) =>
+						onOppdaterFilter(oppgavefilter.id, {
+							verdi: values,
+						})
+					}
+				/>
 			</>
 		);
 	}
@@ -155,12 +165,12 @@ const FeltverdiOppgavefilterPanel = ({ felter, oppgavefilter, onOppdaterFilter, 
 			<Heading level="5" size="xsmall">
 				Felt
 			</Heading>
-			<div>
+			<div className="flex">
 				<Select
 					label=""
 					value={feltverdiKey(oppgavefilter)}
 					onChange={handleChangeKey}
-					className={classNames({ 'mt-[65px]': isUsingPredefinedValues })}
+					className={classNames({ 'mt-[55px]': isUsingPredefinedValues })}
 				>
 					<option value="">Velg felt</option>
 					{felter.map((fd) => (

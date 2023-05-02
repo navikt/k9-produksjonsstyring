@@ -138,7 +138,7 @@ const SearchWithDropdown: React.FC<Props> = (props) => {
 	};
 
 	return (
-		<div className={`${styles.searchContainer} ${className}`}>
+		<div className={`${styles.searchContainer} ${className || ''}`}>
 			<SearchForm
 				label={label}
 				description={description}
