@@ -1,11 +1,12 @@
 import React from 'react';
+import classNames from 'classnames';
 import { Checkbox, CheckboxGroup, Heading, Panel, Select, TextField } from '@navikt/ds-react';
 import AksjonspunktVelger from 'avdelingsleder/behandlingskoerV2/components/AksjonspunktVelger';
-import SearchWithDropdown from 'sharedComponents/searchWithDropdown/SearchWithDropdown';
 import styles from '../filterIndex.css';
 import { FeltverdiOppgavefilter, Oppgavefelt, Oppgavefilter } from '../filterTsTypes';
 import { feltverdiKey, kodeFraKey, områdeFraKey } from '../utils';
 import FjernFilterButton from './FjernFilterButton';
+import SearchDropdownMedPredefinerteVerdier from './SearchDropdownMedPredefinerteVerdier';
 
 interface OwnProps {
 	felter: Oppgavefelt[];
@@ -17,6 +18,7 @@ interface OwnProps {
 function renderFilterOperator(
 	oppgavefilter: FeltverdiOppgavefilter,
 	onOppdaterFilter: (id: string, data: object) => void,
+	isUsingPredefinedValues: boolean,
 ) {
 	const handleChangeOperator = (event) => {
 		onOppdaterFilter(oppgavefilter.id, {
@@ -25,7 +27,12 @@ function renderFilterOperator(
 	};
 
 	return (
-		<Select label="" value={oppgavefilter.operator} onChange={handleChangeOperator}>
+		<Select
+			label=""
+			value={oppgavefilter.operator}
+			onChange={handleChangeOperator}
+			className={classNames({ 'mt-[65px]': isUsingPredefinedValues })}
+		>
 			<option value="EQUALS">er lik</option>
 			<option value="NOT_EQUALS">er IKKE lik</option>
 			<option value="IN">inneholder</option>
@@ -42,6 +49,7 @@ function renderFilterOperatorOgVerdi(
 	feltdefinisjon: Oppgavefelt,
 	oppgavefilter: FeltverdiOppgavefilter,
 	onOppdaterFilter: (id: string, data: object) => void,
+	isUsingPredefinedValues: boolean,
 ) {
 	const aksjonspunktKoder = ['aksjonspunkt', 'aktivtAksjonspunkt', 'løsbartAksjonspunkt'];
 	if (aksjonspunktKoder.includes(feltdefinisjon.kode)) {
@@ -83,17 +91,10 @@ function renderFilterOperatorOgVerdi(
 		feltdefinisjon.verdiforklaringer.length > 0
 	) {
 		return (
-			<SearchWithDropdown
-				label={`Velg ${feltdefinisjon.visningsnavn.toLowerCase()}`}
-				suggestions={feltdefinisjon.verdiforklaringer.map((verdiforklaring) => ({
-					label: verdiforklaring.visningsnavn,
-					value: verdiforklaring.verdi,
-				}))}
-				heading=""
-				addButtonText=""
-				updateSelection={() => ({})}
-				selectedValues={[]}
-			/>
+			<>
+				{renderFilterOperator(oppgavefilter, onOppdaterFilter, isUsingPredefinedValues)}
+				<SearchDropdownMedPredefinerteVerdier feltdefinisjon={feltdefinisjon} />
+			</>
 		);
 	}
 
@@ -105,7 +106,7 @@ function renderFilterOperatorOgVerdi(
 
 	return (
 		<>
-			{renderFilterOperator(oppgavefilter, onOppdaterFilter)}
+			{renderFilterOperator(oppgavefilter, onOppdaterFilter, isUsingPredefinedValues)}
 			<TextField label="" value={oppgavefilter.verdi} onChange={handleChangeValue} />
 		</>
 	);
@@ -116,10 +117,20 @@ function finnFeltdefinisjon(felter, område: string, kode: string) {
 }
 
 const FeltverdiOppgavefilterPanel = ({ felter, oppgavefilter, onOppdaterFilter, onFjernFilter }: OwnProps) => {
+	const [isUsingPredefinedValues, setIsUsingPredefinedValues] = React.useState(false);
+
 	const handleChangeKey = (event) => {
 		const område = områdeFraKey(event.target.value);
 		const kode = kodeFraKey(event.target.value);
 		const feltdefinisjon = finnFeltdefinisjon(felter, område, kode);
+
+		if (feltdefinisjon && feltdefinisjon.verdiforklaringer && feltdefinisjon.verdiforklaringer.length > 0) {
+			if (!isUsingPredefinedValues) {
+				setIsUsingPredefinedValues(true);
+			}
+		} else if (isUsingPredefinedValues) {
+			setIsUsingPredefinedValues(false);
+		}
 
 		if (feltdefinisjon && feltdefinisjon.tolkes_som === 'boolean') {
 			onOppdaterFilter(oppgavefilter.id, {
@@ -145,7 +156,12 @@ const FeltverdiOppgavefilterPanel = ({ felter, oppgavefilter, onOppdaterFilter, 
 				Felt
 			</Heading>
 			<div>
-				<Select label="" value={feltverdiKey(oppgavefilter)} onChange={handleChangeKey}>
+				<Select
+					label=""
+					value={feltverdiKey(oppgavefilter)}
+					onChange={handleChangeKey}
+					className={classNames({ 'mt-[65px]': isUsingPredefinedValues })}
+				>
 					<option value="">Velg felt</option>
 					{felter.map((fd) => (
 						<option key={feltverdiKey(fd)} value={feltverdiKey(fd)}>
@@ -153,7 +169,8 @@ const FeltverdiOppgavefilterPanel = ({ felter, oppgavefilter, onOppdaterFilter, 
 						</option>
 					))}
 				</Select>
-				{oppgavefilter.kode && renderFilterOperatorOgVerdi(feltdefinisjon, oppgavefilter, onOppdaterFilter)}
+				{oppgavefilter.kode &&
+					renderFilterOperatorOgVerdi(feltdefinisjon, oppgavefilter, onOppdaterFilter, isUsingPredefinedValues)}
 			</div>
 		</Panel>
 	);

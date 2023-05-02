@@ -1,4 +1,4 @@
-import React, { FormEventHandler, useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { TrashIcon } from '@navikt/aksel-icons';
 import { Button, ErrorMessage, Heading } from '@navikt/ds-react';
@@ -28,11 +28,22 @@ type Props = {
 	updateSelection: (values: string[]) => void;
 	selectedValues: string[];
 	error?: string;
+	className?: string;
 };
 
 const SearchWithDropdown: React.FC<Props> = (props) => {
-	const { label, description, suggestions, groups, heading, addButtonText, updateSelection, selectedValues, error } =
-		props;
+	const {
+		label,
+		description,
+		suggestions,
+		groups,
+		heading,
+		addButtonText,
+		updateSelection,
+		selectedValues,
+		error,
+		className,
+	} = props;
 
 	const [selectedSuggestionValues, setSelectedSuggestionValues] = useState(selectedValues);
 	const [filteredSuggestions, setFilteredSuggestions] = useState(suggestions);
@@ -127,7 +138,7 @@ const SearchWithDropdown: React.FC<Props> = (props) => {
 	};
 
 	return (
-		<div className={styles.searchContainer}>
+		<div className={`${styles.searchContainer} ${className}`}>
 			<SearchForm
 				label={label}
 				description={description}
