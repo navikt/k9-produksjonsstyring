@@ -14,6 +14,8 @@
 # testing
 /coverage
 /target/
+/playwright-report
+/test-results
 # production
 
 /dist
