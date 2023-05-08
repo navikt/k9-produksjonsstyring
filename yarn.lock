@@ -7138,15 +7138,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"acorn@npm:^8.8.2":
-  version: 8.8.2
-  resolution: "acorn@npm:8.8.2"
-  bin:
-    acorn: bin/acorn
-  checksum: f790b99a1bf63ef160c967e23c46feea7787e531292bb827126334612c234ed489a0dc2c7ba33156416f0ffa8d25bf2b0fdb7f35c2ba60eb3e960572bece4001
-  languageName: node
-  linkType: hard
-
 "address@npm:^1.0.1":
   version: 1.2.2
   resolution: "address@npm:1.2.2"
@@ -15302,18 +15293,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jsdom@npm:21.1.2":
-  version: 21.1.2
-  resolution: "jsdom@npm:21.1.2"
+"jsdom@npm:22.0.0":
+  version: 22.0.0
+  resolution: "jsdom@npm:22.0.0"
   dependencies:
     abab: ^2.0.6
-    acorn: ^8.8.2
-    acorn-globals: ^7.0.0
     cssstyle: ^3.0.0
     data-urls: ^4.0.0
     decimal.js: ^10.4.3
     domexception: ^4.0.0
-    escodegen: ^2.0.0
     form-data: ^4.0.0
     html-encoding-sniffer: ^3.0.0
     http-proxy-agent: ^5.0.0
@@ -15337,7 +15325,7 @@ __metadata:
   peerDependenciesMeta:
     canvas:
       optional: true
-  checksum: 6b3cf2d15e5a5712b3db5ff56eba82b97c9a879b52e95063cc8323bdf8837b6ca15cfec85b57ab71c95c6b4a4098bf67f274c6ff4e9ff519aa4811a04f290610
+  checksum: 5d554ccb1637035d1c3baa832ce6f6c66549b6fa43cc7c39295250092e74a10c2e6c674cb40a208ae850d80436dd109862f95d293528345ab5d6cc5213847f8e
   languageName: node
   linkType: hard
 
@@ -15590,7 +15578,7 @@ __metadata:
     jest: 29.5.0
     jest-environment-jsdom: 29.5.0
     jest-transform-stub: 2.0.0
-    jsdom: 21.1.2
+    jsdom: 22.0.0
     less: 4.1.3
     less-loader: 11.1.0
     lint-staged: 13.2.2
