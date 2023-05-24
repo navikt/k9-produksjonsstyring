@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import classNames from 'classnames';
 import { Checkbox, CheckboxGroup, Heading, Panel, Select, TextField } from '@navikt/ds-react';
 import AksjonspunktVelger from 'avdelingsleder/behandlingskoerV2/components/AksjonspunktVelger';
@@ -62,7 +62,8 @@ function renderFilterOperatorOgVerdi(
 							verdi: aksjonspunkter,
 						})
 					}
-					valgteAksjonspunkter={oppgavefilter.verdi}
+					feltdefinisjon={feltdefinisjon}
+					oppgavefilter={oppgavefilter}
 				/>
 			</>
 		);
@@ -126,12 +127,17 @@ function renderFilterOperatorOgVerdi(
 function finnFeltdefinisjon(felter, område: string, kode: string) {
 	return felter.find((fd) => fd.område === område && fd.kode === kode);
 }
+const harVerdiforklaringer = (feltdefinisjon: Oppgavefelt) =>
+	Array.isArray(feltdefinisjon?.verdiforklaringer) && feltdefinisjon?.verdiforklaringer?.length > 0;
 
 const FeltverdiOppgavefilterPanel = ({ felter, oppgavefilter, onOppdaterFilter, onFjernFilter }: OwnProps) => {
 	const feltdefinisjon = finnFeltdefinisjon(felter, oppgavefilter.område, oppgavefilter.kode);
-	const [isUsingPredefinedValues, setIsUsingPredefinedValues] = React.useState(
-		feltdefinisjon?.verdiforklaringer?.length > 0,
-	);
+	const [isUsingPredefinedValues, setIsUsingPredefinedValues] = React.useState(harVerdiforklaringer(feltdefinisjon));
+
+	useEffect(() => {
+		setIsUsingPredefinedValues(harVerdiforklaringer(feltdefinisjon));
+		onOppdaterFilter(oppgavefilter.id, { verdi: undefined });
+	}, [JSON.stringify(feltdefinisjon)]);
 
 	const handleChangeKey = (event) => {
 		const område = områdeFraKey(event.target.value);

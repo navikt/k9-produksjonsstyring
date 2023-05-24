@@ -18,7 +18,7 @@ interface SuggestionsType {
 	group?: string;
 }
 
-type Props = {
+export type SearchWithDropdownProps = {
 	label: string;
 	description?: string;
 	suggestions: SuggestionsType[];
@@ -31,7 +31,7 @@ type Props = {
 	className?: string;
 };
 
-const SearchWithDropdown: React.FC<Props> = (props) => {
+const SearchWithDropdown: React.FC<SearchWithDropdownProps> = (props) => {
 	const {
 		label,
 		description,
@@ -186,7 +186,6 @@ const SearchWithDropdown: React.FC<Props> = (props) => {
 					</Button>
 				</div>
 			)}
-
 			<Merkelapper>
 				{selectedValues.map((suggestion) => (
 					<Merkelapp key={suggestion} onClick={() => onRemoveSuggestion(suggestion)}>
