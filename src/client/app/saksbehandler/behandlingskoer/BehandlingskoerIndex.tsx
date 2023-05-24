@@ -11,6 +11,7 @@ import useGlobalStateRestApiData from 'api/rest-api-hooks/src/global-data/useGlo
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
 import { OppgavekøV1 } from 'saksbehandler/behandlingskoer/oppgavekoTsType';
 import Oppgave from 'saksbehandler/oppgaveTsType';
+import { get } from 'utils/axios';
 import { saksbehandlerKanVelgeNyeKoer } from '../../featureToggles';
 import OppgaveSystem from '../../types/OppgaveSystem';
 import OppgavekoPanel from './components/OppgavekoPanel';
@@ -35,7 +36,9 @@ const BehandlingskoerIndex: FunctionComponent<OwnProps & WrappedComponentProps> 
 }) => {
 	const refreshUrl = useGlobalStateRestApiData<{ verdi?: string }>(RestApiGlobalStatePathsKeys.REFRESH_URL);
 	const { data: oppgavekoerV1 = [] } = useRestApi<OppgavekøV1[]>(K9LosApiKeys.OPPGAVEKO);
-	const { data: oppgavekoerV2 } = useQuery<OppgavekøerV2Type>(apiPaths.hentOppgavekoer, {
+	const { data: oppgavekoerV2 } = useQuery<OppgavekøerV2Type>({
+		queryKey: [apiPaths.hentOppgavekoer, 'saksbehandler'],
+		queryFn: () => get(apiPaths.hentOppgavekoer),
 		enabled: saksbehandlerKanVelgeNyeKoer(),
 	});
 

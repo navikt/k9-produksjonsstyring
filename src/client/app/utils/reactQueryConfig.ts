@@ -9,6 +9,7 @@ const axiosConfig = {
 	},
 	withCredentials: true,
 };
+
 export const defaultQuery = async ({ queryKey }) => {
 	const { data } = await axios.get(`${baseURL()}${queryKey[0]}`, axiosConfig);
 	return data;
