@@ -4,6 +4,7 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
 import { BrowserRouter } from 'react-router-dom';
 import { init } from '@sentry/browser';
 import '@navikt/ds-css';
@@ -39,6 +40,7 @@ const renderFunc = async (Component) => {
 			<RestApiProvider requestApi={k9LosApi}>
 				<RestApiErrorProvider>
 					<QueryClientProvider client={queryClient}>
+						<ReactQueryDevtools initialIsOpen={false} />
 						<Component rootElement={app} />
 					</QueryClientProvider>
 				</RestApiErrorProvider>
