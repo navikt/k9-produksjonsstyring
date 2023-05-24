@@ -81,6 +81,7 @@ function renderFilterOperatorOgVerdi(
 				hideLegend
 				legend={feltdefinisjon.visningsnavn}
 				onChange={handleChangeValue}
+				value={oppgavefilter.verdi}
 			>
 				<Checkbox value="ja">Ja</Checkbox>
 				<Checkbox value="nei">Nei</Checkbox>
@@ -136,27 +137,18 @@ const FeltverdiOppgavefilterPanel = ({ felter, oppgavefilter, onOppdaterFilter, 
 
 	useEffect(() => {
 		setIsUsingPredefinedValues(harVerdiforklaringer(feltdefinisjon));
-		onOppdaterFilter(oppgavefilter.id, { verdi: undefined });
 	}, [JSON.stringify(feltdefinisjon)]);
 
 	const handleChangeKey = (event) => {
 		const område = områdeFraKey(event.target.value);
 		const kode = kodeFraKey(event.target.value);
 
-		if (feltdefinisjon && feltdefinisjon.verdiforklaringer && feltdefinisjon.verdiforklaringer.length > 0) {
-			if (!isUsingPredefinedValues) {
-				setIsUsingPredefinedValues(true);
-			}
-		} else if (isUsingPredefinedValues) {
-			setIsUsingPredefinedValues(false);
-		}
-
 		if (feltdefinisjon && feltdefinisjon.tolkes_som === 'boolean') {
 			onOppdaterFilter(oppgavefilter.id, {
 				område,
 				kode,
 				operator: 'EQUALS',
-				verdi: 'false',
+				verdi: [],
 			});
 		} else {
 			onOppdaterFilter(oppgavefilter.id, {
