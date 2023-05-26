@@ -75,15 +75,9 @@ class FilterIndex extends React.Component<OwnProps, OwnState> {
 		k9LosApi
 			.startRequest(K9LosApiKeys.OPPGAVE_QUERY_FELTER, undefined)
 			.then((dataRes) => {
-				if (dataRes.payload !== REQUEST_POLLING_CANCELLED) {
-					this.setState({
-						felter: dataRes.payload.felter,
-					});
-				} else {
-					this.setState({
-						felter: [],
-					});
-				}
+				this.setState({
+					felter: dataRes.payload !== REQUEST_POLLING_CANCELLED ? dataRes.payload.felter : [],
+				});
 			})
 			.catch((error) => {
 				this.setState({
@@ -136,8 +130,10 @@ class FilterIndex extends React.Component<OwnProps, OwnState> {
 			});
 	}
 
-	executeOppgavesøkToFile() {
-		if (this.state.loadingDownload) {
+	async executeOppgavesøkToFile() {
+		const { loadingDownload, oppgaveQuery, queryError } = this.state;
+
+		if (loadingDownload) {
 			return;
 		}
 
@@ -145,30 +141,30 @@ class FilterIndex extends React.Component<OwnProps, OwnState> {
 			loadingDownload: true,
 		});
 
-		k9LosApi
-			.startRequest(
+		try {
+			const dataRes = await k9LosApi.startRequest(
 				K9LosApiKeys.OPPGAVE_QUERY_TO_FILE,
-				new OppgaveQueryModel(this.state.oppgaveQuery).updateLimit(-1).toOppgaveQuery(),
-			)
-			.then((dataRes) => {
-				if (dataRes.payload !== REQUEST_POLLING_CANCELLED) {
-					this.setState({
-						queryError: null,
-						loadingDownload: false,
-					});
-				} else {
-					this.setState({
-						queryError: 'Klarte ikke å kjøre søk grunnet tidsavbrudd.',
-						loadingDownload: false,
-					});
-				}
-			})
-			.catch(() => {
+				new OppgaveQueryModel(oppgaveQuery).updateLimit(-1).toOppgaveQuery(),
+			);
+
+			if (dataRes.payload !== REQUEST_POLLING_CANCELLED) {
 				this.setState({
-					queryError: 'Klarte ikke å kjøre søk grunnet ukjent feil.',
-					loadingDownload: false,
+					queryError: null,
 				});
+			} else {
+				this.setState({
+					queryError: 'Klarte ikke å kjøre søk grunnet tidsavbrudd.',
+				});
+			}
+		} catch {
+			this.setState({
+				queryError: 'Klarte ikke å kjøre søk grunnet ukjent feil.',
 			});
+		} finally {
+			this.setState({
+				loadingDownload: false,
+			});
+		}
 	}
 
 	fjernFilter(oppgavefilter: FeltverdiOppgavefilter | CombineOppgavefilter) {
@@ -256,20 +252,12 @@ class FilterIndex extends React.Component<OwnProps, OwnState> {
 	}
 
 	oppdaterEnkelOrderFelt(orderFelt: EnkelOrderFelt, newData) {
-		this.setState((state) => {
-			const newOppgaveQueryModel = new OppgaveQueryModel(state.oppgaveQuery);
-			const orderToUpdate = newOppgaveQueryModel.getById(orderFelt.id);
-			const data = {
-				...orderToUpdate,
-				...newData,
-			};
-
-			newOppgaveQueryModel.updateEnkelOrderFelt(orderFelt.id, data);
-			return {
-				oppgaveQuery: newOppgaveQueryModel.toOppgaveQuery(),
-				oppgaver: null,
-			};
-		});
+		const { oppgaveQuery } = this.state;
+		const newOppgaveQueryModel = new OppgaveQueryModel(oppgaveQuery);
+		const orderToUpdate = newOppgaveQueryModel.getById(orderFelt.id);
+		const data = { ...orderToUpdate, ...newData };
+		newOppgaveQueryModel.updateEnkelOrderFelt(orderFelt.id, data);
+		this.setState({ oppgaveQuery: newOppgaveQueryModel.toOppgaveQuery(), oppgaver: null });
 	}
 
 	oppdaterLimit(limit: number) {

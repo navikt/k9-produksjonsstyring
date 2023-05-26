@@ -11,6 +11,7 @@
 	padding-right: 64px;
 }
 .suggestionPopover[data-reach-combobox-popover] {
+	min-width: 270px;
 	background-color: white;
 	border-color: var(--navds-search-color-border);
 	border-radius: var(--navds-border-radius-medium);
@@ -18,7 +19,12 @@
 	padding: 18px 0;
 	transform: translateY(4px);
 	z-index: var(--a-z-index-tooltip);
+
+	:global .navds-checkbox__label {
+		padding: 12px 0;
+	}
 }
+
 .list[data-reach-combobox-list] {
 	list-style-type: none;
 	margin: 0 0 18px;
@@ -52,6 +58,7 @@
 .suggestion [data-suggested-value] {
 	font-weight: normal;
 }
+
 .suggestionSubgroup {
 	padding-left: 2rem;
 }
@@ -81,7 +88,7 @@
 }
 .searchWrapper {
 	position: relative;
-	display: flex;
+	display: block;
 	max-width: 600px;
 }
 .searchButton {

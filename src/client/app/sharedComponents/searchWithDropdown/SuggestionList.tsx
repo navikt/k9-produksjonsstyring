@@ -19,7 +19,7 @@ const SuggestionList = ({
 	setIsPopoverOpen,
 	getSuggestion,
 }) => (
-	<ComboboxPopover className={styles.suggestionPopover}>
+	<ComboboxPopover className={styles.suggestionPopover} portal={false}>
 		{groups?.length > 0 && (
 			<>
 				<Heading className={styles.listHeading} level="3" size="xsmall">

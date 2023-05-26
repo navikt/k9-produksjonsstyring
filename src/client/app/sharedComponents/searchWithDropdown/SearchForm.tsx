@@ -50,23 +50,25 @@ const SearchForm: React.FC<SearchFormProps> = ({
 				</BodyShort>
 			)}
 			<Combobox className={`navds-search__wrapper ${styles.searchWrapper}`} onSelect={onSelect} openOnFocus>
-				<div className={`navds-search__wrapper-inner ${styles.searchWrapper__inner}`}>
-					<ComboboxInput
-						id={inputId}
-						autoComplete="off"
-						aria-describedby={descriptionId}
-						className={inputClassName}
-						onChange={onChange}
-						value={currentInput}
-						onFocus={() => setIsPopoverOpen(true)}
-						onKeyPress={handleKeyPress}
-					/>
+				<div className="flex">
+					<div className={`navds-search__wrapper-inner ${styles.searchWrapper__inner}`}>
+						<ComboboxInput
+							id={inputId}
+							autoComplete="off"
+							aria-describedby={descriptionId}
+							className={inputClassName}
+							onChange={onChange}
+							value={currentInput}
+							onFocus={() => setIsPopoverOpen(true)}
+							onKeyPress={handleKeyPress}
+						/>
+					</div>
+					<button type="button" className={`${buttonClassName} ${styles.searchButton}`} onClick={onSubmit}>
+						<span className="navds-button__icon">
+							<Search />
+						</span>
+					</button>
 				</div>
-				<button type="button" className={`${buttonClassName} ${styles.searchButton}`} onClick={onSubmit}>
-					<span className="navds-button__icon">
-						<Search />
-					</span>
-				</button>
 				{children}
 			</Combobox>
 		</div>
