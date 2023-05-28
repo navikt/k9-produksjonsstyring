@@ -2,15 +2,16 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FormattedMessage } from 'react-intl';
 import { OppgavekøV2 } from 'types/OppgavekøV2Type';
-import { FloppydiskIcon } from '@navikt/aksel-icons';
+import { TrashIcon } from '@navikt/aksel-icons';
 import { Edit } from '@navikt/ds-icons';
-import { Alert, BodyShort, Button, ErrorMessage, Heading, Modal } from '@navikt/ds-react';
+import { Alert, Button, ErrorMessage, Heading, Modal } from '@navikt/ds-react';
 import { Form, InputField, TextAreaField } from '@navikt/ft-form-hooks';
 import { arrayMinLength, minLength, required } from '@navikt/ft-form-validators';
 import { useKo, useOppdaterKøMutation } from 'api/queries/avdelingslederQueries';
 import { AvdelingslederContext } from 'avdelingsleder/context';
 import FilterIndex from 'filter/FilterIndex';
 import SearchWithDropdown from 'sharedComponents/searchWithDropdown/SearchWithDropdown';
+import LagreKoModal from './LagreKoModal';
 
 enum fieldnames {
 	TITTEL = 'tittel',
@@ -168,28 +169,23 @@ const BehandlingsKoForm = ({ kø, lukk, ekspandert }: BehandlingsKoFormProps) =>
 				<Button variant="secondary" type="button" onClick={lukk}>
 					Lukk
 				</Button>
+				<Button
+					icon={<TrashIcon />}
+					variant="tertiary"
+					className="ml-8 border-border-danger text-border-danger hover:bg-red-100 hover:text-border-danger/75"
+					onClick={() => {
+						throw new Error('Not implemented');
+					}}
+				>
+					Slett kø
+				</Button>
 			</div>
-			<Modal className="w-2/6" open={visLagreModal} onClose={() => setVisLagreModal(false)}>
-				<Modal.Content>
-					<Heading spacing level="1" size="medium">
-						Lagre kø
-					</Heading>
-					<div className="h-[75px] flex items-center">
-						<BodyShort>Er du sikker på at du ønsker å lagre køen?</BodyShort>
-					</div>
-					{lagreMutation.isError && (
-						<div>
-							<ErrorMessage>Noe gikk galt ved lagring av kø</ErrorMessage>
-						</div>
-					)}
-					<Button className="mt-2" onClick={formMethods.handleSubmit((values) => onSubmit({ ...kø, ...values }))}>
-						Lagre kø
-					</Button>
-					<Button className="ml-2" variant="secondary" onClick={() => setVisLagreModal(false)}>
-						Avbryt
-					</Button>
-				</Modal.Content>
-			</Modal>
+			<LagreKoModal
+				visLagreModal={visLagreModal}
+				setVisLagreModal={setVisLagreModal}
+				onSubmit={formMethods.handleSubmit((values) => onSubmit({ ...kø, ...values }))}
+				lagreMutation={lagreMutation}
+			/>
 			<Modal className="w-10/12" open={visFilterModal} onClose={() => setVisFilterModal(false)}>
 				<Modal.Content className="ml-[-75px]">
 					<Heading className="ml-[80px] mb-8" level="1" size="medium">
