@@ -2,6 +2,7 @@ import React from 'react';
 import { Table } from '@navikt/ds-react';
 import { OppgaveQuery, Oppgavefelt, Oppgaverad } from 'filter/filterTsTypes';
 import { visningsnavnForFelt } from '../utils';
+import OppgaveFeltVisning from './OppgaveFeltVisning';
 
 interface Props {
 	felter: Oppgavefelt[];
@@ -28,7 +29,7 @@ const OppgaveQueryResultat = ({ felter, oppgaveQuery, oppgaver }: Props) => (
 				<Table.Row key={oppgave.id}>
 					{oppgave.felter.map((felt) => (
 						<Table.DataCell key={oppgave.id}>
-							{Array.isArray(felt.verdi) ? felt.verdi.join(', ') : felt.verdi}
+							<OppgaveFeltVisning felt={felt} oppgaveFelter={felter} />
 						</Table.DataCell>
 					))}
 				</Table.Row>

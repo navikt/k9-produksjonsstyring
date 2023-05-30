@@ -348,7 +348,6 @@ class FilterIndex extends React.Component<OwnProps, OwnState> {
 
 				{oppgaver && (
 					<>
-						<OppgaveQueryResultat felter={felter} oppgaveQuery={oppgaveQuery} oppgaver={oppgaver} />
 						<TextField
 							className={styles.limitTextField}
 							label="Maksimalt antall rader"
@@ -358,6 +357,7 @@ class FilterIndex extends React.Component<OwnProps, OwnState> {
 							defaultValue={oppgaveQuery.limit}
 							onBlur={(event) => this.oppdaterLimit(parseInt(event.target.value, 10) || 0)}
 						/>
+						<OppgaveQueryResultat felter={felter} oppgaveQuery={oppgaveQuery} oppgaver={oppgaver} />
 					</>
 				)}
 			</div>

@@ -69,12 +69,16 @@ export type Verdiforklaring = {
 	visningsnavn: string;
 };
 
+export enum TolkesSom {
+	String = 'String',
+	Duration = 'Duration',
+	Boolean = 'Boolean',
+}
 export type Oppgavefelt = {
 	område: string;
 	kode: string;
 	visningsnavn: string;
 	tolkes_som: string;
 	verdiforklaringerErUttømmende: boolean;
-	erListetype: boolean;
 	verdiforklaringer: Verdiforklaring[] | null;
 };

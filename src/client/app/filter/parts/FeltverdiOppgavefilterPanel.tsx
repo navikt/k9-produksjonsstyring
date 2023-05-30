@@ -5,7 +5,7 @@ import duration from 'dayjs/plugin/duration';
 import { BodyShort, Checkbox, CheckboxGroup, Heading, Panel, Select, TextField } from '@navikt/ds-react';
 import AksjonspunktVelger from 'avdelingsleder/behandlingskoerV2/components/AksjonspunktVelger';
 import styles from '../filterIndex.css';
-import { FeltverdiOppgavefilter, Oppgavefelt, Oppgavefilter } from '../filterTsTypes';
+import { FeltverdiOppgavefilter, Oppgavefelt, Oppgavefilter, TolkesSom } from '../filterTsTypes';
 import { feltverdiKey, kodeFraKey, områdeFraKey } from '../utils';
 import FjernFilterButton from './FjernFilterButton';
 import SearchDropdownMedPredefinerteVerdier from './SearchDropdownMedPredefinerteVerdier';
@@ -69,7 +69,6 @@ const FilterOperatorOgVerdi = ({
 	isUsingPredefinedValues: boolean;
 }) => {
 	const [dager, setDager] = useState<number | undefined>(dagerInitialValue(oppgavefilter.verdi));
-	console.log(dager);
 
 	const handleChangeValue = (value) => {
 		onOppdaterFilter(oppgavefilter.id, {
@@ -79,7 +78,6 @@ const FilterOperatorOgVerdi = ({
 
 	const handleDaysChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const newDays = parseFloat(e.target.value);
-		console.log(newDays);
 		setDager(newDays);
 		const newDuration = dayjs.duration(newDays, 'days').toISOString();
 		handleChangeValue(newDuration);
@@ -88,18 +86,18 @@ const FilterOperatorOgVerdi = ({
 	const aksjonspunktKoder = ['aksjonspunkt', 'aktivtAksjonspunkt', 'løsbartAksjonspunkt'];
 	if (aksjonspunktKoder.includes(feltdefinisjon.kode)) {
 		return (
-			<>
+			<div className="max-w-500">
 				{renderFilterOperator(oppgavefilter, onOppdaterFilter, isUsingPredefinedValues)}
 				<AksjonspunktVelger
 					onChange={handleChangeValue}
 					feltdefinisjon={feltdefinisjon}
 					oppgavefilter={oppgavefilter}
 				/>
-			</>
+			</div>
 		);
 	}
 
-	if (feltdefinisjon.tolkes_som === 'duration') {
+	if (feltdefinisjon.tolkes_som === TolkesSom.Duration) {
 		return (
 			<>
 				{renderFilterOperator(oppgavefilter, onOppdaterFilter, isUsingPredefinedValues)}
@@ -116,7 +114,7 @@ const FilterOperatorOgVerdi = ({
 		);
 	}
 
-	if (feltdefinisjon.tolkes_som === 'boolean') {
+	if (feltdefinisjon.tolkes_som === TolkesSom.Boolean) {
 		return (
 			<CheckboxGroup
 				className={styles.feltvalgCheckboxes}
@@ -133,19 +131,19 @@ const FilterOperatorOgVerdi = ({
 	}
 
 	if (
-		feltdefinisjon.tolkes_som === 'String' &&
+		feltdefinisjon.tolkes_som === TolkesSom.String &&
 		Array.isArray(feltdefinisjon.verdiforklaringer) &&
 		feltdefinisjon.verdiforklaringer.length > 0
 	) {
 		return (
-			<>
+			<div className="max-w-500">
 				{renderFilterOperator(oppgavefilter, onOppdaterFilter, isUsingPredefinedValues)}
 				<SearchDropdownMedPredefinerteVerdier
 					feltdefinisjon={feltdefinisjon}
 					onChange={handleChangeValue}
 					oppgavefilter={oppgavefilter}
 				/>
-			</>
+			</div>
 		);
 	}
 
