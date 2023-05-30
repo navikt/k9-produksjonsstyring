@@ -1,12 +1,16 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
-import { Checkbox, CheckboxGroup, Heading, Panel, Select, TextField } from '@navikt/ds-react';
+import dayjs from 'dayjs';
+import duration from 'dayjs/plugin/duration';
+import { BodyShort, Checkbox, CheckboxGroup, Heading, Panel, Select, TextField } from '@navikt/ds-react';
 import AksjonspunktVelger from 'avdelingsleder/behandlingskoerV2/components/AksjonspunktVelger';
 import styles from '../filterIndex.css';
 import { FeltverdiOppgavefilter, Oppgavefelt, Oppgavefilter } from '../filterTsTypes';
 import { feltverdiKey, kodeFraKey, områdeFraKey } from '../utils';
 import FjernFilterButton from './FjernFilterButton';
 import SearchDropdownMedPredefinerteVerdier from './SearchDropdownMedPredefinerteVerdier';
+
+dayjs.extend(duration);
 
 interface OwnProps {
 	felter: Oppgavefelt[];
@@ -45,36 +49,74 @@ function renderFilterOperator(
 	);
 }
 
-function renderFilterOperatorOgVerdi(
-	feltdefinisjon: Oppgavefelt,
-	oppgavefilter: FeltverdiOppgavefilter,
-	onOppdaterFilter: (id: string, data: object) => void,
-	isUsingPredefinedValues: boolean,
-) {
+const dagerInitialValue = (verdi: any) => {
+	const days = dayjs.duration(verdi).asDays();
+	if (Number.isNaN(days)) {
+		return undefined;
+	}
+	return days;
+};
+
+const FilterOperatorOgVerdi = ({
+	feltdefinisjon,
+	oppgavefilter,
+	onOppdaterFilter,
+	isUsingPredefinedValues,
+}: {
+	feltdefinisjon: Oppgavefelt;
+	oppgavefilter: FeltverdiOppgavefilter;
+	onOppdaterFilter: (id: string, data: object) => void;
+	isUsingPredefinedValues: boolean;
+}) => {
+	const [dager, setDager] = useState<number | undefined>(dagerInitialValue(oppgavefilter.verdi));
+	console.log(dager);
+
+	const handleChangeValue = (value) => {
+		onOppdaterFilter(oppgavefilter.id, {
+			verdi: value,
+		});
+	};
+
+	const handleDaysChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const newDays = parseFloat(e.target.value);
+		console.log(newDays);
+		setDager(newDays);
+		const newDuration = dayjs.duration(newDays, 'days').toISOString();
+		handleChangeValue(newDuration);
+	};
+
 	const aksjonspunktKoder = ['aksjonspunkt', 'aktivtAksjonspunkt', 'løsbartAksjonspunkt'];
 	if (aksjonspunktKoder.includes(feltdefinisjon.kode)) {
 		return (
 			<>
 				{renderFilterOperator(oppgavefilter, onOppdaterFilter, isUsingPredefinedValues)}
 				<AksjonspunktVelger
-					onChange={(aksjonspunkter) =>
-						onOppdaterFilter(oppgavefilter.id, {
-							verdi: aksjonspunkter,
-						})
-					}
+					onChange={handleChangeValue}
 					feltdefinisjon={feltdefinisjon}
 					oppgavefilter={oppgavefilter}
 				/>
 			</>
 		);
 	}
-	if (feltdefinisjon.tolkes_som === 'boolean') {
-		const handleChangeValue = (event) => {
-			onOppdaterFilter(oppgavefilter.id, {
-				verdi: event,
-			});
-		};
 
+	if (feltdefinisjon.tolkes_som === 'duration') {
+		return (
+			<>
+				{renderFilterOperator(oppgavefilter, onOppdaterFilter, isUsingPredefinedValues)}
+				<TextField
+					label=""
+					value={dager}
+					onChange={handleDaysChange}
+					type="number"
+					placeholder="Antall dager"
+					min="0"
+				/>
+				<BodyShort className="flex justify-center">dager</BodyShort>
+			</>
+		);
+	}
+
+	if (feltdefinisjon.tolkes_som === 'boolean') {
 		return (
 			<CheckboxGroup
 				className={styles.feltvalgCheckboxes}
@@ -100,30 +142,20 @@ function renderFilterOperatorOgVerdi(
 				{renderFilterOperator(oppgavefilter, onOppdaterFilter, isUsingPredefinedValues)}
 				<SearchDropdownMedPredefinerteVerdier
 					feltdefinisjon={feltdefinisjon}
-					onChange={(values) =>
-						onOppdaterFilter(oppgavefilter.id, {
-							verdi: values,
-						})
-					}
+					onChange={handleChangeValue}
 					oppgavefilter={oppgavefilter}
 				/>
 			</>
 		);
 	}
 
-	const handleChangeValue = (event) => {
-		onOppdaterFilter(oppgavefilter.id, {
-			verdi: event.target.value,
-		});
-	};
-
 	return (
 		<>
 			{renderFilterOperator(oppgavefilter, onOppdaterFilter, isUsingPredefinedValues)}
-			<TextField label="" value={oppgavefilter.verdi} onChange={handleChangeValue} />
+			<TextField label="" value={oppgavefilter.verdi} onChange={(e) => handleChangeValue(e.target.value)} />
 		</>
 	);
-}
+};
 
 function finnFeltdefinisjon(felter, område: string, kode: string) {
 	return felter.find((fd) => fd.område === område && fd.kode === kode);
@@ -179,8 +211,14 @@ const FeltverdiOppgavefilterPanel = ({ felter, oppgavefilter, onOppdaterFilter, 
 						</option>
 					))}
 				</Select>
-				{oppgavefilter.kode &&
-					renderFilterOperatorOgVerdi(feltdefinisjon, oppgavefilter, onOppdaterFilter, isUsingPredefinedValues)}
+				{oppgavefilter.kode && (
+					<FilterOperatorOgVerdi
+						feltdefinisjon={feltdefinisjon}
+						oppgavefilter={oppgavefilter}
+						onOppdaterFilter={onOppdaterFilter}
+						isUsingPredefinedValues={isUsingPredefinedValues}
+					/>
+				)}
 			</div>
 		</Panel>
 	);

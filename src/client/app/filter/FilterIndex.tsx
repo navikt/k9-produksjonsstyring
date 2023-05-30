@@ -131,7 +131,7 @@ class FilterIndex extends React.Component<OwnProps, OwnState> {
 	}
 
 	async executeOppgavesøkToFile() {
-		const { loadingDownload, oppgaveQuery, queryError } = this.state;
+		const { loadingDownload, oppgaveQuery } = this.state;
 
 		if (loadingDownload) {
 			return;

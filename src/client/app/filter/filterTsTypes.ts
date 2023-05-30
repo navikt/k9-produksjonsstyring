@@ -19,9 +19,11 @@ export type CombineOppgavefilter = Oppgavefilter &
 		combineOperator: string;
 	};
 
+export type FilterType = FeltverdiOppgavefilter | CombineOppgavefilter;
+
 export type FilterContainer = {
 	id: string;
-	filtere: FeltverdiOppgavefilter[];
+	filtere: FilterType[];
 };
 
 export type OppgaveQuery = FilterContainer & {

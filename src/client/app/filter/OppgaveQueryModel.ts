@@ -1,5 +1,11 @@
 import { v4 as uuid } from 'uuid';
-import { OppgaveQuery } from './filterTsTypes';
+import {
+	CombineOppgavefilter,
+	FeltverdiOppgavefilter,
+	FilterContainer,
+	FilterType,
+	OppgaveQuery,
+} from './filterTsTypes';
 
 export default class OppgaveQueryModel {
 	private oppgaveQuery: OppgaveQuery;
@@ -30,21 +36,30 @@ export default class OppgaveQueryModel {
 		return this;
 	}
 
-	private static updateIdentities(oppgaveQuery) {
-		oppgaveQuery.id = uuid();
-		oppgaveQuery.filtere.forEach((f) => {
-			f.id = uuid();
-			if (f.filtere) {
-				updateIdentities(f);
-			}
-		});
-		oppgaveQuery.select.forEach((f) => {
-			f.id = uuid();
-		});
-		oppgaveQuery.order.forEach((f) => {
-			f.id = uuid();
-		});
-		return oppgaveQuery;
+	private static updateIdentities(oppgaveQuery: OppgaveQuery): OppgaveQuery;
+
+	private static updateIdentities(oppgaveQuery: CombineOppgavefilter): CombineOppgavefilter;
+
+	private static updateIdentities(oppgaveQuery: FilterContainer): FilterContainer;
+
+	private static updateIdentities(oppgaveQuery: OppgaveQuery | CombineOppgavefilter | FilterContainer) {
+		const updatedQuery = { ...oppgaveQuery, id: uuid() };
+		if ('filtere' in updatedQuery) {
+			updatedQuery.filtere = updatedQuery.filtere.map((f) => {
+				const updatedFilter = { ...f, id: uuid() } as FilterType;
+				if (updatedFilter.filtere) {
+					updatedFilter.filtere = updatedFilter.filtere.map(OppgaveQueryModel.updateIdentities);
+				}
+				return updatedFilter;
+			});
+		}
+		if ('select' in updatedQuery) {
+			updatedQuery.select = updatedQuery.select.map((f) => ({ ...f, id: uuid() }));
+		}
+		if ('order' in updatedQuery) {
+			updatedQuery.order = updatedQuery.order.map((f) => ({ ...f, id: uuid() }));
+		}
+		return updatedQuery;
 	}
 
 	toOppgaveQuery(): OppgaveQuery {
@@ -65,23 +80,21 @@ export default class OppgaveQueryModel {
 		return this;
 	}
 
-	getById(id) {
-		for (let f of this.oppgaveQuery.select) {
-			if (f.id === id) {
-				return f;
-			}
+	getById(id: string) {
+		const selected = this.oppgaveQuery.select.find((f) => f.id === id);
+		if (selected) {
+			return selected;
 		}
 
-		for (let f of this.oppgaveQuery.order) {
-			if (f.id === id) {
-				return f;
-			}
+		const ordered = this.oppgaveQuery.order.find((f) => f.id === id);
+		if (ordered) {
+			return ordered;
 		}
 
 		return this.internalGetById(this.oppgaveQuery, id);
 	}
 
-	private internalGetById(oppgaveQuery, id) {
+	private internalGetById(oppgaveQuery: OppgaveQuery, id: string): OppgaveQuery | null {
 		if (oppgaveQuery.id === id) {
 			return oppgaveQuery;
 		}
@@ -89,7 +102,7 @@ export default class OppgaveQueryModel {
 			return null;
 		}
 
-		for (let f of oppgaveQuery.filtere) {
+		for (const f of oppgaveQuery.filtere) {
 			if (f.id === id) {
 				return f;
 			}
@@ -123,15 +136,20 @@ export default class OppgaveQueryModel {
 	}
 
 	updateFilter(id, data) {
-		return this.internalUdateFilter(this.oppgaveQuery, id, data);
+		return this.internalUpdateFilter(this.oppgaveQuery, id, data);
 	}
 
-	private internalUdateFilter(oppgaveQuery: OppgaveQuery, id, data) {
-		const index = oppgaveQuery.filtere.findIndex((f) => f.id === id);
+	private internalUpdateFilter(
+		oppgaveQuery: OppgaveQuery | CombineOppgavefilter | FeltverdiOppgavefilter,
+		id: string,
+		data: FeltverdiOppgavefilter | CombineOppgavefilter,
+	) {
+		const newOppgaveQuery = { ...oppgaveQuery };
+		const index = newOppgaveQuery.filtere.findIndex((f) => f.id === id);
 		if (index >= 0) {
-			oppgaveQuery.filtere[index] = data;
+			newOppgaveQuery.filtere[index] = data;
 		} else {
-			oppgaveQuery.filtere.filter((f) => f.filtere).forEach((f) => this.internalUdateFilter(f, id, data));
+			newOppgaveQuery.filtere.forEach((f) => this.internalUpdateFilter(f, id, data));
 		}
 		return this;
 	}

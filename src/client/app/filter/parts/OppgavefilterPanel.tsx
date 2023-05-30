@@ -74,6 +74,7 @@ const CombineOppgavefilterPanel = ({
 	onFjernFilter,
 }: CombineOppgavefilterPanelProps) => (
 	<Panel className={`${styles.filter} ${styles.filterGruppe}`} key={oppgavefilter.id} border>
+		{console.log(typeof oppgavefilter.filtere)}
 		<FjernFilterButton oppgavefilter={oppgavefilter} onFjernFilter={onFjernFilter} />
 		<Heading level="5" size="xsmall">
 			{oppgavefilter.combineOperator === 'OR'
