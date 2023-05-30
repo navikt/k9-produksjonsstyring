@@ -26,8 +26,7 @@
 		{
 			"files": ["*.spec.ts", "*.spec.tsx"],
 			"rules": {
-				"@typescript-eslint/no-explicit-any": 0,
-				"@typescript-eslint/ban-ts-comment": 0
+				"@typescript-eslint/no-explicit-any": 0
 			}
 		}
 	],
@@ -54,8 +53,6 @@
 		"linebreak-style": "off",
 		"max-len": [1, 160],
 		"@typescript-eslint/explicit-module-boundary-types": "off",
-		// TODO Dessa under er lagt in for att det er mye existerande feil. Må fjernes og utföras feilrettning på
-		"@typescript-eslint/ban-ts-comment": "off",
 		"import/no-named-as-default": "off",
 		"react/jsx-props-no-spreading": "off",
 		"react/destructuring-assignment": "off",
