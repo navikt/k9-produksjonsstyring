@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { v4 as uuid } from 'uuid';
 import { Download, Search } from '@navikt/ds-icons';
 import { Alert, Button, ReadMore, TextField } from '@navikt/ds-react';
@@ -12,7 +12,6 @@ import {
 	EnkelSelectFelt,
 	FeltverdiOppgavefilter,
 	OppgaveQuery,
-	Oppgavefelt,
 	Oppgaverad,
 } from './filterTsTypes';
 import LeggTilFilterButton from './parts/LeggTilFilterButton';
@@ -28,66 +27,17 @@ interface OwnProps {
 	avbryt?: () => void;
 	initialQuery?: OppgaveQuery;
 }
+const FilterIndex = ({ initialQuery, lagre, avbryt }: OwnProps) => {
+	const [oppgaveQuery, setOppgaveQuery] = useState(
+		initialQuery ? new OppgaveQueryModel(initialQuery).toOppgaveQuery() : new OppgaveQueryModel().toOppgaveQuery(),
+	);
+	const [felter, setFelter] = useState([]);
+	const [oppgaver, setOppgaver] = useState(null);
+	const [queryError, setQueryError] = useState(null);
+	const [loading, setLoading] = useState(false);
+	const [loadingDownload, setLoadingDownload] = useState(false);
 
-interface OwnState {
-	oppgaveQuery: OppgaveQuery;
-	felter: Oppgavefelt[];
-	oppgaver?: Oppgaverad[];
-	queryError?: string;
-	loading: boolean;
-	loadingDownload: boolean;
-}
-
-class FilterIndex extends React.Component<OwnProps, OwnState> {
-	constructor(props) {
-		super(props);
-		const { initialQuery } = props;
-
-		this.state = {
-			oppgaveQuery: initialQuery
-				? new OppgaveQueryModel(initialQuery).toOppgaveQuery()
-				: new OppgaveQueryModel().toOppgaveQuery(),
-			felter: [],
-			oppgaver: null,
-			queryError: null,
-			loading: false,
-			loadingDownload: false,
-		};
-
-		this.executeOppgavesøk = this.executeOppgavesøk.bind(this);
-		this.executeOppgavesøkToFile = this.executeOppgavesøkToFile.bind(this);
-
-		this.fjernFilter = this.fjernFilter.bind(this);
-		this.leggTilFilter = this.leggTilFilter.bind(this);
-		this.leggTilGruppe = this.leggTilGruppe.bind(this);
-		this.oppdaterFilter = this.oppdaterFilter.bind(this);
-
-		this.fjernSelectFelt = this.fjernSelectFelt.bind(this);
-		this.leggTilEnkelSelectFelt = this.leggTilEnkelSelectFelt.bind(this);
-		this.oppdaterEnkelSelectFelt = this.oppdaterEnkelSelectFelt.bind(this);
-
-		this.fjernOrderFelt = this.fjernOrderFelt.bind(this);
-		this.leggTilEnkelOrderFelt = this.leggTilEnkelOrderFelt.bind(this);
-		this.oppdaterEnkelOrderFelt = this.oppdaterEnkelOrderFelt.bind(this);
-
-		this.oppdaterLimit = this.oppdaterLimit.bind(this);
-
-		k9LosApi
-			.startRequest(K9LosApiKeys.OPPGAVE_QUERY_FELTER, undefined)
-			.then((dataRes) => {
-				this.setState({
-					felter: dataRes.payload !== REQUEST_POLLING_CANCELLED ? dataRes.payload.felter : [],
-				});
-			})
-			.catch((error) => {
-				this.setState({
-					felter: [],
-				});
-				throw error;
-			});
-	}
-
-	executeOppgavesøk() {
+	const executeOppgavesøk = () => {
 		function updateIdentities(oppgaverader: Oppgaverad[]) {
 			oppgaverader.map((v) => ({
 				...v,
@@ -96,50 +46,38 @@ class FilterIndex extends React.Component<OwnProps, OwnState> {
 			return oppgaverader;
 		}
 
-		if (this.state.loading) {
+		if (loading) {
 			return;
 		}
 
-		this.setState({
-			loading: true,
-		});
+		setLoading(true);
 
 		k9LosApi
-			.startRequest(K9LosApiKeys.OPPGAVE_QUERY, this.state.oppgaveQuery)
+			.startRequest(K9LosApiKeys.OPPGAVE_QUERY, oppgaveQuery)
 			.then((dataRes) => {
 				if (dataRes.payload !== REQUEST_POLLING_CANCELLED) {
-					this.setState({
-						oppgaver: updateIdentities(dataRes.payload),
-						queryError: null,
-						loading: false,
-					});
+					setOppgaver(updateIdentities(dataRes.payload));
+					setQueryError(null);
+					setLoading(false);
 				} else {
-					this.setState({
-						oppgaver: [],
-						queryError: 'Klarte ikke å kjøre søk grunnet tidsavbrudd.',
-						loading: false,
-					});
+					setOppgaver([]);
+					setQueryError('Klarte ikke å kjøre søk grunnet tidsavbrudd.');
+					setLoading(false);
 				}
 			})
 			.catch(() => {
-				this.setState({
-					oppgaver: [],
-					queryError: 'Klarte ikke å kjøre søk grunnet ukjent feil.',
-					loading: false,
-				});
+				setOppgaver([]);
+				setQueryError('Klarte ikke å kjøre søk grunnet ukjent feil.');
+				setLoading(false);
 			});
-	}
+	};
 
-	async executeOppgavesøkToFile() {
-		const { loadingDownload, oppgaveQuery } = this.state;
-
+	const executeOppgavesøkToFile = async () => {
 		if (loadingDownload) {
 			return;
 		}
 
-		this.setState({
-			loadingDownload: true,
-		});
+		setLoadingDownload(true);
 
 		try {
 			const dataRes = await k9LosApi.startRequest(
@@ -148,223 +86,188 @@ class FilterIndex extends React.Component<OwnProps, OwnState> {
 			);
 
 			if (dataRes.payload !== REQUEST_POLLING_CANCELLED) {
-				this.setState({
-					queryError: null,
-				});
+				setQueryError(null);
 			} else {
-				this.setState({
-					queryError: 'Klarte ikke å kjøre søk grunnet tidsavbrudd.',
-				});
+				setQueryError('Klarte ikke å kjøre søk grunnet tidsavbrudd.');
 			}
 		} catch {
-			this.setState({
-				queryError: 'Klarte ikke å kjøre søk grunnet ukjent feil.',
-			});
+			setQueryError('Klarte ikke å kjøre søk grunnet ukjent feil.');
 		} finally {
-			this.setState({
-				loadingDownload: false,
-			});
+			setLoadingDownload(false);
 		}
-	}
+	};
 
-	fjernFilter(oppgavefilter: FeltverdiOppgavefilter | CombineOppgavefilter) {
-		this.setState((state) => ({
-			oppgaveQuery: new OppgaveQueryModel(state.oppgaveQuery).removeFilter(oppgavefilter.id).toOppgaveQuery(),
-			oppgaver: null,
-		}));
-	}
+	const fjernFilter = (oppgavefilter: FeltverdiOppgavefilter | CombineOppgavefilter) => {
+		setOppgaveQuery(() => new OppgaveQueryModel(oppgaveQuery).removeFilter(oppgavefilter.id).toOppgaveQuery());
+	};
 
-	leggTilFilter(filterContainer: OppgaveQuery | CombineOppgavefilter) {
-		this.setState((state) => ({
-			oppgaveQuery: new OppgaveQueryModel(state.oppgaveQuery).addFilter(filterContainer.id).toOppgaveQuery(),
-			oppgaver: null,
-		}));
-	}
+	const leggTilFilter = (filterContainer: OppgaveQuery | CombineOppgavefilter) => {
+		setOppgaveQuery(() => new OppgaveQueryModel(oppgaveQuery).addFilter(filterContainer.id).toOppgaveQuery());
+	};
 
-	leggTilGruppe(filterContainer: OppgaveQuery) {
-		this.setState((state) => ({
-			oppgaveQuery: new OppgaveQueryModel(state.oppgaveQuery).addGruppe(filterContainer.id).toOppgaveQuery(),
-			oppgaver: null,
-		}));
-	}
+	const leggTilGruppe = (filterContainer: OppgaveQuery) => {
+		setOppgaveQuery(() => new OppgaveQueryModel(oppgaveQuery).addGruppe(filterContainer.id).toOppgaveQuery());
+	};
 
-	fjernSelectFelt(oppgavefelt: EnkelSelectFelt) {
-		this.setState((state) => ({
-			oppgaveQuery: new OppgaveQueryModel(state.oppgaveQuery).removeSelectFelt(oppgavefelt.id).toOppgaveQuery(),
-			oppgaver: null,
-		}));
-	}
+	const fjernSelectFelt = (felt: EnkelSelectFelt) => {
+		setOppgaveQuery(() => new OppgaveQueryModel(oppgaveQuery).removeSelectFelt(felt.id).toOppgaveQuery());
+	};
 
-	leggTilEnkelSelectFelt() {
-		this.setState((state) => ({
-			oppgaveQuery: new OppgaveQueryModel(state.oppgaveQuery).addEnkelSelectFelt().toOppgaveQuery(),
-			oppgaver: null,
-		}));
-	}
+	const leggTilEnkelSelectFelt = () => {
+		setOppgaveQuery(() => new OppgaveQueryModel(oppgaveQuery).addEnkelSelectFelt().toOppgaveQuery());
+	};
 
-	oppdaterFilter(id, newData) {
-		this.setState((state) => {
-			const oppgaveQueryModel = new OppgaveQueryModel(state.oppgaveQuery);
-			const oppgavefilterToUpdate = oppgaveQueryModel.getById(id);
-			const data = {
-				...oppgavefilterToUpdate,
-				...newData,
-			};
-			oppgaveQueryModel.updateFilter(id, data);
+	const oppdaterFilter = (id, newData) => {
+		const oppgaveQueryModel = new OppgaveQueryModel(oppgaveQuery);
+		const oppgavefilterToUpdate = oppgaveQueryModel.getById(id);
+		const data = {
+			...oppgavefilterToUpdate,
+			...newData,
+		};
+		oppgaveQueryModel.updateFilter(id, data);
+		setOppgaveQuery(oppgaveQueryModel.toOppgaveQuery());
+	};
 
-			return {
-				oppgaveQuery: oppgaveQueryModel.toOppgaveQuery(),
-				oppgaver: null,
-			};
-		});
-	}
+	const oppdaterEnkelSelectFelt = (selectFelt: EnkelSelectFelt, verdi: string) => {
+		const newOppgaveQueryModel = new OppgaveQueryModel(oppgaveQuery);
+		const selectToUpdate = newOppgaveQueryModel.getById(selectFelt.id);
+		const data = {
+			...selectToUpdate,
+			område: områdeFraKey(verdi),
+			kode: kodeFraKey(verdi),
+		};
 
-	oppdaterEnkelSelectFelt(selectFelt: EnkelSelectFelt, verdi: string) {
-		this.setState((state) => {
-			const newOppgaveQueryModel = new OppgaveQueryModel(state.oppgaveQuery);
-			const selectToUpdate = newOppgaveQueryModel.getById(selectFelt.id);
-			const data = {
-				...selectToUpdate,
-				område: områdeFraKey(verdi),
-				kode: kodeFraKey(verdi),
-			};
+		newOppgaveQueryModel.updateEnkelSelectFelt(selectFelt.id, data);
+		setOppgaveQuery(newOppgaveQueryModel.toOppgaveQuery());
+	};
 
-			newOppgaveQueryModel.updateEnkelSelectFelt(selectFelt.id, data);
-			return {
-				oppgaveQuery: newOppgaveQueryModel.toOppgaveQuery(),
-				oppgaver: null,
-			};
-		});
-	}
+	const fjernOrderFelt = (orderFelt: EnkelOrderFelt) => {
+		setOppgaveQuery(() => new OppgaveQueryModel(oppgaveQuery).removeOrderFelt(orderFelt.id).toOppgaveQuery());
+	};
 
-	fjernOrderFelt(orderFelt: EnkelOrderFelt) {
-		this.setState((state) => ({
-			oppgaveQuery: new OppgaveQueryModel(state.oppgaveQuery).removeOrderFelt(orderFelt.id).toOppgaveQuery(),
-			oppgaver: null,
-		}));
-	}
+	const leggTilEnkelOrderFelt = () => {
+		setOppgaveQuery(() => new OppgaveQueryModel(oppgaveQuery).addEnkelOrderFelt().toOppgaveQuery());
+	};
 
-	leggTilEnkelOrderFelt() {
-		this.setState((state) => ({
-			oppgaveQuery: new OppgaveQueryModel(state.oppgaveQuery).addEnkelOrderFelt().toOppgaveQuery(),
-			oppgaver: null,
-		}));
-	}
-
-	oppdaterEnkelOrderFelt(orderFelt: EnkelOrderFelt, newData) {
-		const { oppgaveQuery } = this.state;
+	const oppdaterEnkelOrderFelt = (orderFelt: EnkelOrderFelt, newData) => {
 		const newOppgaveQueryModel = new OppgaveQueryModel(oppgaveQuery);
 		const orderToUpdate = newOppgaveQueryModel.getById(orderFelt.id);
 		const data = { ...orderToUpdate, ...newData };
 		newOppgaveQueryModel.updateEnkelOrderFelt(orderFelt.id, data);
-		this.setState({ oppgaveQuery: newOppgaveQueryModel.toOppgaveQuery(), oppgaver: null });
+		setOppgaveQuery(newOppgaveQueryModel.toOppgaveQuery());
+	};
+
+	const oppdaterLimit = (limit) => {
+		setOppgaveQuery(() => new OppgaveQueryModel(oppgaveQuery).updateLimit(limit).toOppgaveQuery());
+	};
+
+	useEffect(() => {
+		k9LosApi
+			.startRequest(K9LosApiKeys.OPPGAVE_QUERY_FELTER, undefined)
+			.then((dataRes) => {
+				if (dataRes.payload !== REQUEST_POLLING_CANCELLED) {
+					setFelter(dataRes.payload.felter);
+				}
+			})
+			.catch((error) => {
+				setFelter([]);
+
+				throw error;
+			});
+	}, []);
+
+	if (felter.length === 0) {
+		return null;
 	}
 
-	oppdaterLimit(limit: number) {
-		this.setState((state) => ({
-			oppgaveQuery: new OppgaveQueryModel(state.oppgaveQuery).updateLimit(limit).toOppgaveQuery(),
-		}));
-	}
+	return (
+		<div className={styles.filterTopp}>
+			{oppgaveQuery.filtere.map((item) => (
+				<OppgavefilterPanel
+					key={item.id}
+					felter={felter}
+					oppgavefilter={item}
+					onLeggTilFilter={leggTilFilter}
+					onLeggTilGruppe={leggTilGruppe}
+					onOppdaterFilter={oppdaterFilter}
+					onFjernFilter={fjernFilter}
+				/>
+			))}
+			<LeggTilFilterButton filterContainer={oppgaveQuery} onLeggTilFilter={leggTilFilter} />
+			<LeggTilGruppeButton filterContainer={oppgaveQuery} onLeggTilGruppe={leggTilGruppe} />
+			<ReadMore
+				className={styles.feltvalgBlokk}
+				header="Velg felter som skal vises"
+				defaultOpen={!!oppgaveQuery.select.length}
+			>
+				<OppgaveSelectFelter
+					felter={felter}
+					oppgaveQuery={oppgaveQuery}
+					onLeggTil={leggTilEnkelSelectFelt}
+					onOppdater={oppdaterEnkelSelectFelt}
+					onFjern={fjernSelectFelt}
+				/>
+			</ReadMore>
 
-	render() {
-		const { oppgaveQuery } = this.state;
-		const { oppgaver } = this.state;
-		const { felter } = this.state;
-		const { lagre, avbryt } = this.props;
+			<ReadMore className={styles.feltvalgBlokk} header="Velg sortering" defaultOpen={!!oppgaveQuery.order.length}>
+				<OppgaveOrderFelter
+					felter={felter}
+					oppgaveQuery={oppgaveQuery}
+					onLeggTil={leggTilEnkelOrderFelt}
+					onOppdater={oppdaterEnkelOrderFelt}
+					onFjern={fjernOrderFelt}
+				/>
+			</ReadMore>
 
-		if (felter.length === 0) {
-			return null;
-		}
-
-		return (
-			<div className={styles.filterTopp}>
-				{oppgaveQuery.filtere.map((item) => (
-					<OppgavefilterPanel
-						key={item.id}
-						felter={felter}
-						oppgavefilter={item}
-						onLeggTilFilter={this.leggTilFilter}
-						onLeggTilGruppe={this.leggTilGruppe}
-						onOppdaterFilter={this.oppdaterFilter}
-						onFjernFilter={this.fjernFilter}
-					/>
-				))}
-				<LeggTilFilterButton filterContainer={oppgaveQuery} onLeggTilFilter={this.leggTilFilter} />
-				<LeggTilGruppeButton filterContainer={oppgaveQuery} onLeggTilGruppe={this.leggTilGruppe} />
-				<ReadMore
-					className={styles.feltvalgBlokk}
-					header="Velg felter som skal vises"
-					defaultOpen={!!oppgaveQuery.select.length}
-				>
-					<OppgaveSelectFelter
-						felter={felter}
-						oppgaveQuery={oppgaveQuery}
-						onLeggTil={this.leggTilEnkelSelectFelt}
-						onOppdater={this.oppdaterEnkelSelectFelt}
-						onFjern={this.fjernSelectFelt}
-					/>
-				</ReadMore>
-
-				<ReadMore className={styles.feltvalgBlokk} header="Velg sortering" defaultOpen={!!oppgaveQuery.order.length}>
-					<OppgaveOrderFelter
-						felter={felter}
-						oppgaveQuery={oppgaveQuery}
-						onLeggTil={this.leggTilEnkelOrderFelt}
-						onOppdater={this.oppdaterEnkelOrderFelt}
-						onFjern={this.fjernOrderFelt}
-					/>
-				</ReadMore>
-
-				<div className={styles.filterButtonGroup}>
-					{lagre && (
-						<>
-							<Button onClick={() => lagre(this.state.oppgaveQuery)} loading={this.state.loading}>
-								Endre filter
-							</Button>
-							<Button className="mr-2" variant="secondary" onClick={avbryt}>
-								Avbryt
-							</Button>
-						</>
-					)}
-					<Button
-						variant={lagre ? 'tertiary' : 'primary'}
-						icon={<Search aria-hidden />}
-						onClick={this.executeOppgavesøk}
-						loading={this.state.loading}
-					>
-						Søk
-					</Button>
-					<Button
-						variant={lagre ? 'tertiary' : 'primary'}
-						icon={<Download aria-hidden />}
-						onClick={this.executeOppgavesøkToFile}
-						loading={this.state.loadingDownload}
-					>
-						Last ned CSV
-					</Button>
-				</div>
-
-				{this.state.queryError && <Alert variant="error">{this.state.queryError}</Alert>}
-
-				{oppgaver && (
+			<div className={styles.filterButtonGroup}>
+				{lagre && (
 					<>
-						<ReadMore header={`Maksimalt antall rader: ${oppgaveQuery.limit}. Klikk her for å endre dette.`}>
-							<TextField
-								className={styles.limitTextField}
-								label="Maksimalt antall rader"
-								description="Du kan endre antallet rader som blir hentet ned ved søk. Trykk på søkeknappen etter å ha oppdatert antallet. Merk at høye tall kan medføre at du må vente en stund før svaret kommer. Hvis søket blir avbrutt, fordi det tar for lang tid, så kan du forsøke det samme søket på nytt."
-								htmlSize={4}
-								type="number"
-								defaultValue={oppgaveQuery.limit}
-								onChange={(event) => this.oppdaterLimit(parseInt(event.target.value, 10))}
-							/>
-						</ReadMore>
-						<OppgaveQueryResultat felter={felter} oppgaveQuery={oppgaveQuery} oppgaver={oppgaver} />
+						<Button onClick={() => lagre(oppgaveQuery)} loading={loading}>
+							Endre filter
+						</Button>
+						<Button className="mr-2" variant="secondary" onClick={avbryt}>
+							Avbryt
+						</Button>
 					</>
 				)}
+				<Button
+					variant={lagre ? 'tertiary' : 'primary'}
+					icon={<Search aria-hidden />}
+					onClick={executeOppgavesøk}
+					loading={loading}
+				>
+					Søk
+				</Button>
+				<Button
+					variant={lagre ? 'tertiary' : 'primary'}
+					icon={<Download aria-hidden />}
+					onClick={executeOppgavesøkToFile}
+					loading={loadingDownload}
+				>
+					Last ned CSV
+				</Button>
 			</div>
-		);
-	}
-}
+
+			{queryError && <Alert variant="error">{queryError}</Alert>}
+
+			{oppgaver && (
+				<>
+					<ReadMore header={`Maksimalt antall rader: ${oppgaveQuery.limit}. Klikk her for å endre dette.`}>
+						<TextField
+							className={styles.limitTextField}
+							label="Maksimalt antall rader"
+							description="Du kan endre antallet rader som blir hentet ned ved søk. Trykk på søkeknappen etter å ha oppdatert antallet. Merk at høye tall kan medføre at du må vente en stund før svaret kommer. Hvis søket blir avbrutt, fordi det tar for lang tid, så kan du forsøke det samme søket på nytt."
+							htmlSize={4}
+							type="number"
+							defaultValue={oppgaveQuery.limit}
+							onChange={(event) => oppdaterLimit(parseInt(event.target.value, 10))}
+						/>
+					</ReadMore>
+					<OppgaveQueryResultat felter={felter} oppgaveQuery={oppgaveQuery} oppgaver={oppgaver} />
+				</>
+			)}
+		</div>
+	);
+};
 
 export default FilterIndex;
