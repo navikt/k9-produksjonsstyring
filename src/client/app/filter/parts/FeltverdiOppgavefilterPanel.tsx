@@ -61,12 +61,10 @@ const FilterOperatorOgVerdi = ({
 	feltdefinisjon,
 	oppgavefilter,
 	onOppdaterFilter,
-	isUsingPredefinedValues,
 }: {
 	feltdefinisjon: Oppgavefelt;
 	oppgavefilter: FeltverdiOppgavefilter;
 	onOppdaterFilter: (id: string, data: object) => void;
-	isUsingPredefinedValues: boolean;
 }) => {
 	const [dager, setDager] = useState<number | undefined>(dagerInitialValue(oppgavefilter.verdi));
 
@@ -86,8 +84,7 @@ const FilterOperatorOgVerdi = ({
 	const aksjonspunktKoder = ['aksjonspunkt', 'aktivtAksjonspunkt', 'løsbartAksjonspunkt'];
 	if (aksjonspunktKoder.includes(feltdefinisjon.kode)) {
 		return (
-			<div className="max-w-500">
-				{renderFilterOperator(oppgavefilter, onOppdaterFilter, isUsingPredefinedValues)}
+			<div className="w-[500px]">
 				<AksjonspunktVelger
 					onChange={handleChangeValue}
 					feltdefinisjon={feltdefinisjon}
@@ -100,7 +97,6 @@ const FilterOperatorOgVerdi = ({
 	if (feltdefinisjon.tolkes_som === TolkesSom.Duration) {
 		return (
 			<>
-				{renderFilterOperator(oppgavefilter, onOppdaterFilter, isUsingPredefinedValues)}
 				<TextField
 					label=""
 					value={dager}
@@ -109,7 +105,7 @@ const FilterOperatorOgVerdi = ({
 					placeholder="Antall dager"
 					min="0"
 				/>
-				<BodyShort className="flex justify-center">dager</BodyShort>
+				<BodyShort className="self-center">dager</BodyShort>
 			</>
 		);
 	}
@@ -136,8 +132,7 @@ const FilterOperatorOgVerdi = ({
 		feltdefinisjon.verdiforklaringer.length > 0
 	) {
 		return (
-			<div className="max-w-500">
-				{renderFilterOperator(oppgavefilter, onOppdaterFilter, isUsingPredefinedValues)}
+			<div className="max-width-500">
 				<SearchDropdownMedPredefinerteVerdier
 					feltdefinisjon={feltdefinisjon}
 					onChange={handleChangeValue}
@@ -147,12 +142,7 @@ const FilterOperatorOgVerdi = ({
 		);
 	}
 
-	return (
-		<>
-			{renderFilterOperator(oppgavefilter, onOppdaterFilter, isUsingPredefinedValues)}
-			<TextField label="" value={oppgavefilter.verdi} onChange={(e) => handleChangeValue(e.target.value)} />
-		</>
-	);
+	return <TextField label="" value={oppgavefilter.verdi} onChange={(e) => handleChangeValue(e.target.value)} />;
 };
 
 function finnFeltdefinisjon(felter, område: string, kode: string) {
@@ -210,12 +200,14 @@ const FeltverdiOppgavefilterPanel = ({ felter, oppgavefilter, onOppdaterFilter, 
 					))}
 				</Select>
 				{oppgavefilter.kode && (
-					<FilterOperatorOgVerdi
-						feltdefinisjon={feltdefinisjon}
-						oppgavefilter={oppgavefilter}
-						onOppdaterFilter={onOppdaterFilter}
-						isUsingPredefinedValues={isUsingPredefinedValues}
-					/>
+					<>
+						{renderFilterOperator(oppgavefilter, onOppdaterFilter, isUsingPredefinedValues)}
+						<FilterOperatorOgVerdi
+							feltdefinisjon={feltdefinisjon}
+							oppgavefilter={oppgavefilter}
+							onOppdaterFilter={onOppdaterFilter}
+						/>
+					</>
 				)}
 			</div>
 		</Panel>
