@@ -348,15 +348,17 @@ class FilterIndex extends React.Component<OwnProps, OwnState> {
 
 				{oppgaver && (
 					<>
-						<TextField
-							className={styles.limitTextField}
-							label="Maksimalt antall rader"
-							description="Du kan endre antallet rader som blir hentet ned ved søk. Trykk på søkeknappen etter å ha oppdatert antallet. Merk at høye tall kan medføre at du må vente en stund før svaret kommer. Hvis søket blir avbrutt, fordi det tar for lang tid, så kan du forsøke det samme søket på nytt."
-							htmlSize={4}
-							type="number"
-							defaultValue={oppgaveQuery.limit}
-							onBlur={(event) => this.oppdaterLimit(parseInt(event.target.value, 10) || 0)}
-						/>
+						<ReadMore header={`Maksimalt antall rader: ${oppgaveQuery.limit}. Klikk her for å endre dette.`}>
+							<TextField
+								className={styles.limitTextField}
+								label="Maksimalt antall rader"
+								description="Du kan endre antallet rader som blir hentet ned ved søk. Trykk på søkeknappen etter å ha oppdatert antallet. Merk at høye tall kan medføre at du må vente en stund før svaret kommer. Hvis søket blir avbrutt, fordi det tar for lang tid, så kan du forsøke det samme søket på nytt."
+								htmlSize={4}
+								type="number"
+								defaultValue={oppgaveQuery.limit}
+								onChange={(event) => this.oppdaterLimit(parseInt(event.target.value, 10))}
+							/>
+						</ReadMore>
 						<OppgaveQueryResultat felter={felter} oppgaveQuery={oppgaveQuery} oppgaver={oppgaver} />
 					</>
 				)}
