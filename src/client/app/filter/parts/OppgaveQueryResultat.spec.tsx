@@ -2,7 +2,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import OppgaveQueryResultat from './OppgaveQueryResultat';
-import { felter, oppgaveQueryForDuration, oppgaverMedDuration } from './testdata';
+import { felter, oppgaveQueryForDate, oppgaveQueryForDuration, oppgaverMedDate, oppgaverMedDuration } from './testdata';
 
 describe('OppgaveQueryResultat', () => {
 	it('should render table headers with correct visningsnavn', () => {
@@ -29,9 +29,7 @@ describe('OppgaveQueryResultat', () => {
 	});
 
 	it('should render date correctly', () => {
-		render(
-			<OppgaveQueryResultat felter={felter} oppgaveQuery={oppgaveQueryForDuration} oppgaver={oppgaverMedDuration} />,
-		);
+		render(<OppgaveQueryResultat felter={felter} oppgaveQuery={oppgaveQueryForDate} oppgaver={oppgaverMedDate} />);
 		const expectedDates = [
 			'21.12.2022',
 			'14.09.2021',
