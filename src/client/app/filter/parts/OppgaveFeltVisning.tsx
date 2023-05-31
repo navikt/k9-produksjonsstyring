@@ -22,6 +22,10 @@ const OppgaveFeltVisning = ({ felt, oppgaveFelter }: Props) => {
 		return <div>{formattedDuration}</div>;
 	}
 
+	if (oppgaveFelt.tolkes_som === TolkesSom.Date) {
+		return <div>{dayjs(felt.verdi).format('DD.MM.YYYY')}</div>;
+	}
+
 	return <div>{Array.isArray(felt) ? felt.verdi.join(', ') : felt.verdi}</div>;
 };
 

@@ -72,7 +72,8 @@ export type Verdiforklaring = {
 export enum TolkesSom {
 	String = 'String',
 	Duration = 'Duration',
-	Boolean = 'Boolean',
+	Boolean = 'boolean',
+	Date = 'Date',
 }
 export type Oppgavefelt = {
 	område: string;

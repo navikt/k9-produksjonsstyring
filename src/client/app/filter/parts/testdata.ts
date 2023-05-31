@@ -1,3 +1,235 @@
+export const oppgaveQueryForDuration = {
+	filtere: [
+		{
+			id: '9c826b1e-35f3-416f-a4b2-7c0862e90c9b',
+			type: 'feltverdi',
+			område: 'K9',
+			kode: 'akkumulertVentetidSaksbehandlerForTidligereVersjoner',
+			operator: 'GREATER_THAN',
+			verdi: 'P100DT',
+		},
+	],
+	select: [
+		{
+			id: '77530d5d-0ec6-4a1e-aa5d-ea27a5a30655',
+			type: 'enkel',
+			område: 'K9',
+			kode: 'akkumulertVentetidSaksbehandlerForTidligereVersjoner',
+		},
+	],
+	order: [],
+	limit: 10,
+	id: 'ba50126a-5e5e-4c24-86ea-0255af308837',
+};
+
+export const oppgaverMedDuration = [
+	{
+		felter: [
+			{
+				område: 'K9',
+				kode: 'akkumulertVentetidSaksbehandlerForTidligereVersjoner',
+				verdi: 'PT2729H38M17.206648844S',
+			},
+		],
+	},
+	{
+		felter: [
+			{
+				område: 'K9',
+				kode: 'akkumulertVentetidSaksbehandlerForTidligereVersjoner',
+				verdi: 'PT6726H14M36.343829446S',
+			},
+		],
+	},
+	{
+		felter: [
+			{
+				område: 'K9',
+				kode: 'akkumulertVentetidSaksbehandlerForTidligereVersjoner',
+				verdi: 'PT3073H46M51.467301321S',
+			},
+		],
+	},
+	{
+		felter: [
+			{
+				område: 'K9',
+				kode: 'akkumulertVentetidSaksbehandlerForTidligereVersjoner',
+				verdi: 'PT7033H2M49.007959404S',
+			},
+		],
+	},
+	{
+		felter: [
+			{
+				område: 'K9',
+				kode: 'akkumulertVentetidSaksbehandlerForTidligereVersjoner',
+				verdi: 'PT3718H26M1.401001181S',
+			},
+		],
+	},
+	{
+		felter: [
+			{
+				område: 'K9',
+				kode: 'akkumulertVentetidSaksbehandlerForTidligereVersjoner',
+				verdi: 'PT2811H7M30.840869325S',
+			},
+		],
+	},
+	{
+		felter: [
+			{
+				område: 'K9',
+				kode: 'akkumulertVentetidSaksbehandlerForTidligereVersjoner',
+				verdi: 'PT6647H44M16.82464825S',
+			},
+		],
+	},
+	{
+		felter: [
+			{
+				område: 'K9',
+				kode: 'akkumulertVentetidSaksbehandlerForTidligereVersjoner',
+				verdi: 'PT4010H47M50.980515912S',
+			},
+		],
+	},
+	{
+		felter: [
+			{
+				område: 'K9',
+				kode: 'akkumulertVentetidSaksbehandlerForTidligereVersjoner',
+				verdi: 'PT10198H6M33.2663571S',
+			},
+		],
+	},
+	{
+		felter: [
+			{
+				område: 'K9',
+				kode: 'akkumulertVentetidSaksbehandlerForTidligereVersjoner',
+				verdi: 'PT4204H18M24.56699856S',
+			},
+		],
+	},
+];
+export const oppgaveQueryForDate = {
+	filtere: [
+		{
+			id: 'eb02fb7d-af6f-4844-a8e7-b68d4d4ac57a',
+			type: 'feltverdi',
+			område: 'K9',
+			kode: 'mottattDato',
+			operator: 'NOT_EQUALS',
+			verdi: '2023-02-16T23:00:00.000Z',
+		},
+	],
+	select: [
+		{
+			id: '6a87800f-1d70-4e7e-a414-81a6607fd173',
+			type: 'enkel',
+			område: 'K9',
+			kode: 'mottattDato',
+		},
+	],
+	order: [],
+	limit: 10,
+	id: '4d552437-e47e-44a9-9239-99c8f2ea4963',
+};
+export const oppgaverMedDate = [
+	{
+		felter: [
+			{
+				område: 'K9',
+				kode: 'mottattDato',
+				verdi: '2022-12-21T07:34:47.687703619',
+			},
+		],
+	},
+	{
+		felter: [
+			{
+				område: 'K9',
+				kode: 'mottattDato',
+				verdi: '2021-09-14T16:56:45.581289217',
+			},
+		],
+	},
+	{
+		felter: [
+			{
+				område: 'K9',
+				kode: 'mottattDato',
+				verdi: '2021-12-20T16:03:45.165071571',
+			},
+		],
+	},
+	{
+		felter: [
+			{
+				område: 'K9',
+				kode: 'mottattDato',
+				verdi: '2020-08-26T15:21:39.967493',
+			},
+		],
+	},
+	{
+		felter: [
+			{
+				område: 'K9',
+				kode: 'mottattDato',
+				verdi: '2022-12-25T12:36:34.953825956',
+			},
+		],
+	},
+	{
+		felter: [
+			{
+				område: 'K9',
+				kode: 'mottattDato',
+				verdi: '2021-06-21T13:05:58.255014246',
+			},
+		],
+	},
+	{
+		felter: [
+			{
+				område: 'K9',
+				kode: 'mottattDato',
+				verdi: '2022-12-24T14:30:00.958232203',
+			},
+		],
+	},
+	{
+		felter: [
+			{
+				område: 'K9',
+				kode: 'mottattDato',
+				verdi: '2021-01-20T14:08:50.047604',
+			},
+		],
+	},
+	{
+		felter: [
+			{
+				område: 'K9',
+				kode: 'mottattDato',
+				verdi: '2023-03-10T18:19:58.043496508',
+			},
+		],
+	},
+	{
+		felter: [
+			{
+				område: 'K9',
+				kode: 'mottattDato',
+				verdi: '2021-02-24T12:12:08.434053',
+			},
+		],
+	},
+];
+
 export const felter = [
 	{
 		område: 'K9',

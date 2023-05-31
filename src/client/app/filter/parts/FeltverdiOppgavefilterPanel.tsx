@@ -2,7 +2,17 @@ import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
-import { BodyShort, Checkbox, CheckboxGroup, Heading, Panel, Select, TextField } from '@navikt/ds-react';
+import {
+	BodyShort,
+	Checkbox,
+	CheckboxGroup,
+	Heading,
+	Panel,
+	Select,
+	TextField,
+	UNSAFE_DatePicker,
+	UNSAFE_useDatepicker,
+} from '@navikt/ds-react';
 import AksjonspunktVelger from 'avdelingsleder/behandlingskoerV2/components/AksjonspunktVelger';
 import styles from '../filterIndex.css';
 import { FeltverdiOppgavefilter, Oppgavefelt, Oppgavefilter, TolkesSom } from '../filterTsTypes';
@@ -67,12 +77,15 @@ const FilterOperatorOgVerdi = ({
 	onOppdaterFilter: (id: string, data: object) => void;
 }) => {
 	const [dager, setDager] = useState<number | undefined>(dagerInitialValue(oppgavefilter.verdi));
-
 	const handleChangeValue = (value) => {
 		onOppdaterFilter(oppgavefilter.id, {
 			verdi: value,
 		});
 	};
+	const { datepickerProps, inputProps } = UNSAFE_useDatepicker({
+		fromDate: new Date('Aug 23 2017'),
+		onDateChange: handleChangeValue,
+	});
 
 	const handleDaysChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const newDays = parseFloat(e.target.value);
@@ -110,6 +123,16 @@ const FilterOperatorOgVerdi = ({
 		);
 	}
 
+	if (feltdefinisjon.tolkes_som === TolkesSom.Date) {
+		return (
+			<div className="mt-[-7px]">
+				<UNSAFE_DatePicker {...datepickerProps}>
+					<UNSAFE_DatePicker.Input {...inputProps} />
+				</UNSAFE_DatePicker>
+			</div>
+		);
+	}
+
 	if (feltdefinisjon.tolkes_som === TolkesSom.Boolean) {
 		return (
 			<CheckboxGroup
@@ -132,7 +155,7 @@ const FilterOperatorOgVerdi = ({
 		feltdefinisjon.verdiforklaringer.length > 0
 	) {
 		return (
-			<div className="max-width-500">
+			<div className="w-[500px]">
 				<SearchDropdownMedPredefinerteVerdier
 					feltdefinisjon={feltdefinisjon}
 					onChange={handleChangeValue}
