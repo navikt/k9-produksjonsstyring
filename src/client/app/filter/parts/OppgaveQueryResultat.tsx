@@ -25,6 +25,11 @@ const OppgaveQueryResultat = ({ felter, oppgaveQuery, oppgaver }: Props) => (
 			</Table.Row>
 		</Table.Header>
 		<Table.Body>
+			{oppgaver.length === 0 && (
+				<Table.Row>
+					<Table.DataCell>Ingen oppgaver funnet</Table.DataCell>
+				</Table.Row>
+			)}
 			{oppgaver.map((oppgave) => (
 				<Table.Row key={oppgave.id}>
 					{oppgave.felter.map((felt) => (

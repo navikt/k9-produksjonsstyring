@@ -1,6 +1,4 @@
-import { QueryCache } from 'react-query';
 import { expect, test } from '@playwright/test';
-import { absoluteTestApiPaths } from '../app/testUtils';
 
 test.beforeEach(async ({ page }) => {
 	await page.goto('http://localhost:8030');

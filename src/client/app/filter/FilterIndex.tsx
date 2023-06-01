@@ -260,7 +260,6 @@ const FilterIndex = ({ initialQuery, lagre, avbryt, tittel }: OwnProps) => {
 							onFjern={fjernSelectFelt}
 						/>
 					</ReadMore>
-
 					<ReadMore
 						className={styles.feltvalgBlokk}
 						header="Velg sortering"
@@ -305,7 +304,8 @@ const FilterIndex = ({ initialQuery, lagre, avbryt, tittel }: OwnProps) => {
 							Last ned CSV
 						</Button>
 					</div>
-
+				</div>
+				<div className="mt-10">
 					{queryError && <Alert variant="error">{queryError}</Alert>}
 
 					{oppgaver && (
@@ -321,6 +321,9 @@ const FilterIndex = ({ initialQuery, lagre, avbryt, tittel }: OwnProps) => {
 									onChange={(event) => oppdaterLimit(parseInt(event.target.value, 10))}
 								/>
 							</ReadMore>
+							<Heading size="small" spacing className="mt-6">
+								Søkeresultat
+							</Heading>
 							<OppgaveQueryResultat felter={felter} oppgaveQuery={oppgaveQuery} oppgaver={oppgaver} />
 						</>
 					)}

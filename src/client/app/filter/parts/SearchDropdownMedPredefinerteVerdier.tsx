@@ -23,6 +23,7 @@ const SearchDropdownMedPredefinerteVerdier = ({
 	return (
 		<SearchWithDropdown
 			label={`Velg ${feltdefinisjon.visningsnavn.toLowerCase()}`}
+			id={`${feltdefinisjon.visningsnavn.toLowerCase()}`}
 			suggestions={feltdefinisjon.verdiforklaringer.map((verdiforklaring) => ({
 				label: verdiforklaring.visningsnavn,
 				value: verdiforklaring.verdi,

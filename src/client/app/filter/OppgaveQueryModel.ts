@@ -149,7 +149,7 @@ export default class OppgaveQueryModel {
 		if (index >= 0) {
 			newOppgaveQuery.filtere[index] = data;
 		} else {
-			newOppgaveQuery.filtere.forEach((f) => this.internalUpdateFilter(f, id, data));
+			newOppgaveQuery.filtere.filter((f) => f.filtere).forEach((f) => this.internalUpdateFilter(f, id, data));
 		}
 		return this;
 	}

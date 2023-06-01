@@ -29,6 +29,7 @@ export type SearchWithDropdownProps = {
 	selectedValues: string[];
 	error?: string;
 	className?: string;
+	id?: string;
 };
 
 const SearchWithDropdown: React.FC<SearchWithDropdownProps> = (props) => {
@@ -43,6 +44,7 @@ const SearchWithDropdown: React.FC<SearchWithDropdownProps> = (props) => {
 		selectedValues,
 		error,
 		className,
+		id,
 	} = props;
 
 	const [selectedSuggestionValues, setSelectedSuggestionValues] = useState(selectedValues);
@@ -51,7 +53,7 @@ const SearchWithDropdown: React.FC<SearchWithDropdownProps> = (props) => {
 	const [openSuggestionGroups, setOpenSuggestionGroups] = useState<string[]>([]);
 	const [showFilteredSuggestionsOnly, setShowFilteredSuggestionsOnly] = useState(false);
 	const [isPopoverOpen, setIsPopoverOpen] = useState(false);
-	const inputId = useMemo(() => uuidv4(), []);
+	const inputId = useMemo(() => id || uuidv4(), []);
 	const descriptionId = useMemo(() => uuidv4(), []);
 
 	const getSuggestion = (suggestionValue: string) => suggestions.find((s) => s.value === suggestionValue);
