@@ -5,10 +5,11 @@ import apiPaths from 'api/apiPaths';
 import { baseURL } from 'api/rest-api/src/axios/initRestMethods';
 
 // eslint-disable-next-line import/prefer-default-export
-export const useAlleKoer = () =>
+export const useAlleKoer = (options = {}) =>
 	useQuery<OppgavekøerV2, unknown, OppgavekøV2Enkel[]>({
 		queryKey: [apiPaths.hentOppgavekoer],
 		select: (v) => v.koer,
+		...options,
 	});
 
 export const useNyKøMutation = (callback) => {

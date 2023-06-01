@@ -1,5 +1,4 @@
 .searchContainer {
-	background: #e6f0ff;
 	border-radius: 4px;
 	padding: 30px 30px 22px;
 	max-width: 800px;
@@ -13,9 +12,8 @@
 .suggestionPopover[data-reach-combobox-popover] {
 	min-width: 270px;
 	background-color: white;
-	border-color: var(--navds-search-color-border);
-	border-radius: var(--navds-border-radius-medium);
-	box-shadow: var(--navds-shadow-medium);
+	border-radius: var(--a-border-radius-medium);
+	box-shadow: var(--a-shadow-medium);
 	padding: 18px 0;
 	transform: translateY(4px);
 	z-index: var(--a-z-index-tooltip);
@@ -41,16 +39,16 @@
 }
 .suggestion[data-reach-combobox-option][data-highlighted],
 .suggestion[data-reach-combobox-option]:hover {
-	background-color: var(--navds-global-color-blue-100);
+	background-color: var(--a-blue-100);
 }
 .suggestion:first-child {
-	border-radius: var(--navds-border-radius-medium) var(--navds-border-radius-medium) 0 0;
+	border-radius: var(--a-border-radius-medium) var(--a-border-radius-medium) 0 0;
 }
 .suggestion:last-child {
-	border-radius: 0 0 var(--navds-border-radius-medium) var(--navds-border-radius-medium);
+	border-radius: 0 0 var(--a-border-radius-medium) var(--a-border-radius-medium);
 }
 .suggestion:only-child {
-	border-radius: var(--navds-border-radius-medium);
+	border-radius: var(--a-border-radius-medium);
 }
 .suggestion [data-user-value] {
 	font-weight: bold;

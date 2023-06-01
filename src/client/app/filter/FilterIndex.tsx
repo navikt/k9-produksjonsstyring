@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { v4 as uuid } from 'uuid';
 import { Download, Search } from '@navikt/ds-icons';
-import { Alert, Button, ReadMore, TextField } from '@navikt/ds-react';
+import { Alert, Button, Heading, Loader, ReadMore, Select, TextField } from '@navikt/ds-react';
 import { K9LosApiKeys, k9LosApi } from 'api/k9LosApi';
+import { useAlleKoer, useKo } from 'api/queries/avdelingslederQueries';
 import { REQUEST_POLLING_CANCELLED } from 'api/rest-api';
 import OppgaveQueryModel from './OppgaveQueryModel';
 import styles from './filterIndex.css';
@@ -36,6 +37,16 @@ const FilterIndex = ({ initialQuery, lagre, avbryt }: OwnProps) => {
 	const [queryError, setQueryError] = useState(null);
 	const [loading, setLoading] = useState(false);
 	const [loadingDownload, setLoadingDownload] = useState(false);
+	const [koId, setKoId] = useState(null);
+
+	const { data: koer, isLoading: koerIsLoading } = useAlleKoer();
+
+	useKo(koId, {
+		enabled: !!koId,
+		onSuccess: (data) => {
+			setOppgaveQuery(new OppgaveQueryModel(data.oppgaveQuery).toOppgaveQuery());
+		},
+	});
 
 	const executeOppgavesøk = () => {
 		function updateIdentities(oppgaverader: Oppgaverad[]) {
@@ -182,90 +193,118 @@ const FilterIndex = ({ initialQuery, lagre, avbryt }: OwnProps) => {
 
 	return (
 		<div className={styles.filterTopp}>
-			{oppgaveQuery.filtere.map((item) => (
-				<OppgavefilterPanel
-					key={item.id}
-					felter={felter}
-					oppgavefilter={item}
-					onLeggTilFilter={leggTilFilter}
-					onLeggTilGruppe={leggTilGruppe}
-					onOppdaterFilter={oppdaterFilter}
-					onFjernFilter={fjernFilter}
-				/>
-			))}
-			<LeggTilFilterButton filterContainer={oppgaveQuery} onLeggTilFilter={leggTilFilter} />
-			<LeggTilGruppeButton filterContainer={oppgaveQuery} onLeggTilGruppe={leggTilGruppe} />
-			<ReadMore
-				className={styles.feltvalgBlokk}
-				header="Velg felter som skal vises"
-				defaultOpen={!!oppgaveQuery.select.length}
-			>
-				<OppgaveSelectFelter
-					felter={felter}
-					oppgaveQuery={oppgaveQuery}
-					onLeggTil={leggTilEnkelSelectFelt}
-					onOppdater={oppdaterEnkelSelectFelt}
-					onFjern={fjernSelectFelt}
-				/>
-			</ReadMore>
-
-			<ReadMore className={styles.feltvalgBlokk} header="Velg sortering" defaultOpen={!!oppgaveQuery.order.length}>
-				<OppgaveOrderFelter
-					felter={felter}
-					oppgaveQuery={oppgaveQuery}
-					onLeggTil={leggTilEnkelOrderFelt}
-					onOppdater={oppdaterEnkelOrderFelt}
-					onFjern={fjernOrderFelt}
-				/>
-			</ReadMore>
-
-			<div className={styles.filterButtonGroup}>
-				{lagre && (
-					<>
-						<Button onClick={() => lagre(oppgaveQuery)} loading={loading}>
-							Endre filter
-						</Button>
-						<Button className="mr-2" variant="secondary" onClick={avbryt}>
-							Avbryt
-						</Button>
-					</>
-				)}
-				<Button
-					variant={lagre ? 'tertiary' : 'primary'}
-					icon={<Search aria-hidden />}
-					onClick={executeOppgavesøk}
-					loading={loading}
-				>
-					Søk
-				</Button>
-				<Button
-					variant={lagre ? 'tertiary' : 'primary'}
-					icon={<Download aria-hidden />}
-					onClick={executeOppgavesøkToFile}
-					loading={loadingDownload}
-				>
-					Last ned CSV
-				</Button>
-			</div>
-
-			{queryError && <Alert variant="error">{queryError}</Alert>}
-
-			{oppgaver && (
-				<>
-					<ReadMore header={`Maksimalt antall rader: ${oppgaveQuery.limit}. Klikk her for å endre dette.`}>
-						<TextField
-							className={styles.limitTextField}
-							label="Maksimalt antall rader"
-							description="Du kan endre antallet rader som blir hentet ned ved søk. Trykk på søkeknappen etter å ha oppdatert antallet. Merk at høye tall kan medføre at du må vente en stund før svaret kommer. Hvis søket blir avbrutt, fordi det tar for lang tid, så kan du forsøke det samme søket på nytt."
-							htmlSize={4}
-							type="number"
-							defaultValue={oppgaveQuery.limit}
-							onChange={(event) => oppdaterLimit(parseInt(event.target.value, 10))}
+			<Heading size="large" spacing className="mt-3">
+				Søk på oppgaver
+			</Heading>
+			<div className="mt-10">
+				<ReadMore header="Ta utgangspunkt i eksisterende kø (valgfritt)">
+					{koerIsLoading && <Loader title="Laster køer" />}
+					{koer?.length && (
+						<Select
+							label="Eksisterende køer"
+							onChange={(e) => setKoId(e.target.value)}
+							size="small"
+							className="w-[400px]"
+						>
+							<option value="">Velg kø</option>
+							{koer.map((item) => (
+								<option value={item.id} key={item.id}>
+									{item.tittel}
+								</option>
+							))}
+						</Select>
+					)}
+				</ReadMore>
+				<div className="mt-5">
+					{oppgaveQuery.filtere.map((item) => (
+						<OppgavefilterPanel
+							key={item.id}
+							felter={felter}
+							oppgavefilter={item}
+							onLeggTilFilter={leggTilFilter}
+							onLeggTilGruppe={leggTilGruppe}
+							onOppdaterFilter={oppdaterFilter}
+							onFjernFilter={fjernFilter}
+						/>
+					))}
+					<div className="flex gap-2">
+						<LeggTilFilterButton filterContainer={oppgaveQuery} onLeggTilFilter={leggTilFilter} />
+						<LeggTilGruppeButton filterContainer={oppgaveQuery} onLeggTilGruppe={leggTilGruppe} />
+					</div>
+					<ReadMore
+						className={styles.feltvalgBlokk}
+						header="Velg felter som skal vises"
+						defaultOpen={!!oppgaveQuery.select.length}
+						size="medium"
+					>
+						<OppgaveSelectFelter
+							felter={felter}
+							oppgaveQuery={oppgaveQuery}
+							onLeggTil={leggTilEnkelSelectFelt}
+							onOppdater={oppdaterEnkelSelectFelt}
+							onFjern={fjernSelectFelt}
 						/>
 					</ReadMore>
-					<OppgaveQueryResultat felter={felter} oppgaveQuery={oppgaveQuery} oppgaver={oppgaver} />
-				</>
-			)}
+
+					<ReadMore className={styles.feltvalgBlokk} header="Velg sortering" defaultOpen={!!oppgaveQuery.order.length}>
+						<OppgaveOrderFelter
+							felter={felter}
+							oppgaveQuery={oppgaveQuery}
+							onLeggTil={leggTilEnkelOrderFelt}
+							onOppdater={oppdaterEnkelOrderFelt}
+							onFjern={fjernOrderFelt}
+						/>
+					</ReadMore>
+
+					<div className={styles.filterButtonGroup}>
+						{lagre && (
+							<>
+								<Button onClick={() => lagre(oppgaveQuery)} loading={loading}>
+									Endre filter
+								</Button>
+								<Button className="mr-2" variant="secondary" onClick={avbryt}>
+									Avbryt
+								</Button>
+							</>
+						)}
+						<Button
+							variant={lagre ? 'tertiary' : 'primary'}
+							icon={<Search aria-hidden />}
+							onClick={executeOppgavesøk}
+							loading={loading}
+						>
+							Søk
+						</Button>
+						<Button
+							variant={lagre ? 'tertiary' : 'primary'}
+							icon={<Download aria-hidden />}
+							onClick={executeOppgavesøkToFile}
+							loading={loadingDownload}
+						>
+							Last ned CSV
+						</Button>
+					</div>
+
+					{queryError && <Alert variant="error">{queryError}</Alert>}
+
+					{oppgaver && (
+						<>
+							<ReadMore header={`Maksimalt antall rader: ${oppgaveQuery.limit}. Klikk her for å endre dette.`}>
+								<TextField
+									className={styles.limitTextField}
+									label="Maksimalt antall rader"
+									description="Du kan endre antallet rader som blir hentet ned ved søk. Trykk på søkeknappen etter å ha oppdatert antallet. Merk at høye tall kan medføre at du må vente en stund før svaret kommer. Hvis søket blir avbrutt, fordi det tar for lang tid, så kan du forsøke det samme søket på nytt."
+									htmlSize={4}
+									type="number"
+									defaultValue={oppgaveQuery.limit}
+									onChange={(event) => oppdaterLimit(parseInt(event.target.value, 10))}
+								/>
+							</ReadMore>
+							<OppgaveQueryResultat felter={felter} oppgaveQuery={oppgaveQuery} oppgaver={oppgaver} />
+						</>
+					)}
+				</div>
+			</div>
 		</div>
 	);
 };

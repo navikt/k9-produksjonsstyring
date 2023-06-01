@@ -6,9 +6,9 @@
 .merkelapp {
 	align-items: center;
 	background-color: white;
-	border: 2px solid #0067c5;
-	border-radius: var(--navds-border-radius-medium);
-	color: #0067c5;
+	border: 2px solid var(--a-text-action);
+	border-radius: var(--a-border-radius-medium);
+	color: var(--a-text-action);
 	cursor: pointer;
 	display: inline-flex;
 	gap: 0.5rem;
@@ -16,11 +16,11 @@
 	text-align: left;
 }
 .merkelapp:hover {
-	background-color: var(--navds-button-color-secondary-background-hover);
-	color: var(--navds-button-color-secondary-text-hover);
+	color: var(--a-text-action-selected);
+	border-color: var(--a-text-action-selected);
 }
 .merkelapp:focus {
-	box-shadow: 0 0 0 3px var(--navds-semantic-color-focus);
+	box-shadow: var(--a-shadow-focus);
 }
 .tekst {
 	-webkit-box-orient: vertical;

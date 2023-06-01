@@ -13,8 +13,8 @@ const LeggTilFilterButton = ({ filterContainer, onLeggTilFilter }: OwnProps) => 
 	<Button
 		className={styles.filterLeggTil}
 		icon={<Add aria-hidden />}
-		size="xsmall"
-		variant="tertiary"
+		variant="secondary"
+		size="small"
 		onClick={() => onLeggTilFilter(filterContainer)}
 	>
 		Legg til filter

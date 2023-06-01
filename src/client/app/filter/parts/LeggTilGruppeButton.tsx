@@ -13,8 +13,8 @@ const LeggTilGruppeButton = ({ filterContainer, onLeggTilGruppe }: OwnProps) => 
 	<Button
 		className={styles.filterLeggTil}
 		icon={<Add aria-hidden />}
-		size="xsmall"
-		variant="tertiary"
+		variant="secondary"
+		size="small"
 		onClick={() => onLeggTilGruppe(filterContainer)}
 	>
 		Legg til gruppe
