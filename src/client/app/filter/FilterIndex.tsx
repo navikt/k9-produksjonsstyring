@@ -27,8 +27,9 @@ interface OwnProps {
 	lagre?: (oppgaveQuery: OppgaveQuery) => void;
 	avbryt?: () => void;
 	initialQuery?: OppgaveQuery;
+	tittel: string;
 }
-const FilterIndex = ({ initialQuery, lagre, avbryt }: OwnProps) => {
+const FilterIndex = ({ initialQuery, lagre, avbryt, tittel }: OwnProps) => {
 	const [oppgaveQuery, setOppgaveQuery] = useState(
 		initialQuery ? new OppgaveQueryModel(initialQuery).toOppgaveQuery() : new OppgaveQueryModel().toOppgaveQuery(),
 	);
@@ -38,13 +39,22 @@ const FilterIndex = ({ initialQuery, lagre, avbryt }: OwnProps) => {
 	const [loading, setLoading] = useState(false);
 	const [loadingDownload, setLoadingDownload] = useState(false);
 	const [koId, setKoId] = useState(null);
+	const [visSortering, setVisSortering] = useState(false);
+	const [visFelterSomSkalVises, setVisFelterSomSkalVises] = useState(false);
 
 	const { data: koer, isLoading: koerIsLoading } = useAlleKoer();
 
 	useKo(koId, {
 		enabled: !!koId,
 		onSuccess: (data) => {
-			setOppgaveQuery(new OppgaveQueryModel(data.oppgaveQuery).toOppgaveQuery());
+			const newQuery = new OppgaveQueryModel(data.oppgaveQuery).toOppgaveQuery();
+			setOppgaveQuery(newQuery);
+			if (newQuery.order.length) {
+				setVisSortering(true);
+			}
+			if (newQuery.select.length) {
+				setVisFelterSomSkalVises(true);
+			}
 		},
 	});
 
@@ -194,7 +204,7 @@ const FilterIndex = ({ initialQuery, lagre, avbryt }: OwnProps) => {
 	return (
 		<div className={styles.filterTopp}>
 			<Heading size="large" spacing className="mt-3">
-				Søk på oppgaver
+				{tittel}
 			</Heading>
 			<div className="mt-10">
 				<ReadMore header="Ta utgangspunkt i eksisterende kø (valgfritt)">
@@ -204,7 +214,7 @@ const FilterIndex = ({ initialQuery, lagre, avbryt }: OwnProps) => {
 							label="Eksisterende køer"
 							onChange={(e) => setKoId(e.target.value)}
 							size="small"
-							className="w-[400px]"
+							className="w-[400px] my-7"
 						>
 							<option value="">Velg kø</option>
 							{koer.map((item) => (
@@ -215,7 +225,10 @@ const FilterIndex = ({ initialQuery, lagre, avbryt }: OwnProps) => {
 						</Select>
 					)}
 				</ReadMore>
-				<div className="mt-5">
+				<div className="mt-3 p-4 rounded-lg bg-gray-50 border-t border-gray-300 border-solid">
+					<Heading size="small" spacing className="mt-3">
+						Filterdefinisjon
+					</Heading>
 					{oppgaveQuery.filtere.map((item) => (
 						<OppgavefilterPanel
 							key={item.id}
@@ -235,7 +248,9 @@ const FilterIndex = ({ initialQuery, lagre, avbryt }: OwnProps) => {
 						className={styles.feltvalgBlokk}
 						header="Velg felter som skal vises"
 						defaultOpen={!!oppgaveQuery.select.length}
+						open={visFelterSomSkalVises}
 						size="medium"
+						onClick={() => setVisFelterSomSkalVises(!visFelterSomSkalVises)}
 					>
 						<OppgaveSelectFelter
 							felter={felter}
@@ -246,7 +261,13 @@ const FilterIndex = ({ initialQuery, lagre, avbryt }: OwnProps) => {
 						/>
 					</ReadMore>
 
-					<ReadMore className={styles.feltvalgBlokk} header="Velg sortering" defaultOpen={!!oppgaveQuery.order.length}>
+					<ReadMore
+						className={styles.feltvalgBlokk}
+						header="Velg sortering"
+						defaultOpen={!!oppgaveQuery.order.length}
+						open={visSortering}
+						onClick={() => setVisSortering(!visSortering)}
+					>
 						<OppgaveOrderFelter
 							felter={felter}
 							oppgaveQuery={oppgaveQuery}

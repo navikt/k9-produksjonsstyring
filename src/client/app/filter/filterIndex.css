@@ -3,6 +3,8 @@
 	width: 75%;
 	left: 50%;
 	transform: translateX(-50%);
+
+	--ac-panel-bg: var(--a-gray-50);
 }
 .filterFelt {
 	padding-left: 0;

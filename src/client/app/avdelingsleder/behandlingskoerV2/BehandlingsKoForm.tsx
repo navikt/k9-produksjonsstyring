@@ -113,6 +113,7 @@ const BehandlingsKoForm = ({ kø, lukk, ekspandert }: BehandlingsKoFormProps) =>
 					{alleSaksbehandlere.length > 0 && (
 						<SearchWithDropdown
 							label="Velg saksbehandlere"
+							className="bg-[#e6f0ff] rounded p-7 pb-3"
 							suggestions={formaterteSaksbehandlere}
 							groups={grupper}
 							addButtonText="Legg til saksbehandlere"
@@ -186,16 +187,15 @@ const BehandlingsKoForm = ({ kø, lukk, ekspandert }: BehandlingsKoFormProps) =>
 				onSubmit={formMethods.handleSubmit((values) => onSubmit({ ...kø, ...values }))}
 				lagreMutation={lagreMutation}
 			/>
-			<Modal className="w-10/12" open={visFilterModal} onClose={() => setVisFilterModal(false)}>
+			<Modal className="w-10/12 py-10" open={visFilterModal} onClose={() => setVisFilterModal(false)}>
 				<Modal.Content className="ml-[-75px]">
-					<Heading className="ml-[80px] mb-8" level="1" size="medium">
-						Endre filter for behandlingskø
-					</Heading>
 					<FilterIndex
 						initialQuery={formMethods.watch(fieldnames.OPPGAVE_QUERY)}
 						lagre={lagreOppgaveQuery}
 						avbryt={() => setVisFilterModal(false)}
+						tittel="Endre filter for behandlingskø"
 					/>
+					d
 				</Modal.Content>
 			</Modal>
 		</Form>
