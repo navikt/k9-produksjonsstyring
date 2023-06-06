@@ -17,7 +17,7 @@ const LeggTilGruppeButton = ({ filterContainer, onLeggTilGruppe }: OwnProps) => 
 		size="small"
 		onClick={() => onLeggTilGruppe(filterContainer)}
 	>
-		Legg til gruppe
+		Legg til gruppe av filtere
 	</Button>
 );
 

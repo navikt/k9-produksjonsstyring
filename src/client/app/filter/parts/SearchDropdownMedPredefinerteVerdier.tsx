@@ -13,29 +13,21 @@ const SearchDropdownMedPredefinerteVerdier = ({
 	onChange,
 	oppgavefilter,
 	...rest
-}: SearchDropdownPredefinerteVerdierProps) => {
-	const [selectedValues, setSelectedValues] = React.useState<string[]>(oppgavefilter?.verdi || []);
-
-	React.useEffect(() => {
-		onChange(selectedValues);
-	}, [selectedValues]);
-
-	return (
-		<SearchWithDropdown
-			label={`Velg ${feltdefinisjon.visningsnavn.toLowerCase()}`}
-			id={`${feltdefinisjon.visningsnavn.toLowerCase()}`}
-			suggestions={feltdefinisjon.verdiforklaringer.map((verdiforklaring) => ({
-				label: verdiforklaring.visningsnavn,
-				value: verdiforklaring.verdi,
-			}))}
-			heading={`Velg ${feltdefinisjon.visningsnavn}`}
-			addButtonText={`Legg til ${feltdefinisjon.visningsnavn.toLowerCase()}`}
-			updateSelection={setSelectedValues}
-			selectedValues={selectedValues}
-			className="grow"
-			{...rest}
-		/>
-	);
-};
+}: SearchDropdownPredefinerteVerdierProps) => (
+	<SearchWithDropdown
+		label={`Velg ${feltdefinisjon.visningsnavn.toLowerCase()}`}
+		id={`${feltdefinisjon.visningsnavn.toLowerCase()}`}
+		suggestions={feltdefinisjon.verdiforklaringer.map((verdiforklaring) => ({
+			label: verdiforklaring.visningsnavn,
+			value: verdiforklaring.verdi,
+		}))}
+		heading={`Velg ${feltdefinisjon.visningsnavn}`}
+		addButtonText={`Legg til ${feltdefinisjon.visningsnavn.toLowerCase()}`}
+		updateSelection={onChange}
+		selectedValues={oppgavefilter.verdi || []}
+		className="grow"
+		{...rest}
+	/>
+);
 
 export default SearchDropdownMedPredefinerteVerdier;

@@ -48,16 +48,15 @@ test('kan legge til verdier med tall', async ({ page }) => {
 });
 
 test('kan legge til grupper hvor minimum en av filterene må være oppfylt', async ({ page }) => {
-	await page.locator('body').press('Meta+r');
-	await page.getByRole('button', { name: 'Legg til gruppe' }).click();
+	await page.getByRole('button', { name: 'Legg til gruppe av filtere' }).click();
 	await page
 		.locator('div')
-		.filter({ hasText: /^Minimum en av disse må gjelde for oppgavenLegg til filterLegg til gruppe$/ })
-		.getByRole('button', { name: 'Legg til gruppe' })
+		.filter({ hasText: /^Minimum en av disse må gjelde for oppgavenLegg til filterLegg til gruppe av filtere$/ })
+		.getByRole('button', { name: 'Legg til gruppe av filtere' })
 		.click();
 	await page
 		.locator('div')
-		.filter({ hasText: /^Alle disse må gjelde for oppgavenLegg til filterLegg til gruppe$/ })
+		.filter({ hasText: /^Alle disse må gjelde for oppgavenLegg til filterLegg til gruppe av filtere$/ })
 		.getByRole('button', { name: 'Legg til filter' })
 		.click();
 	await page.locator('#textField-ro').selectOption('K9__ansvarligBeslutter');

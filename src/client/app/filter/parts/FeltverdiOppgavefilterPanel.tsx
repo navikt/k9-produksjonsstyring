@@ -82,6 +82,11 @@ const FilterOperatorOgVerdi = ({
 			verdi: value,
 		});
 	};
+
+	useEffect(() => {
+		handleChangeValue('');
+	}, [JSON.stringify(feltdefinisjon)]);
+
 	const { datepickerProps, inputProps } = UNSAFE_useDatepicker({
 		fromDate: new Date('Aug 23 2017'),
 		onDateChange: handleChangeValue,
