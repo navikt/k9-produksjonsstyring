@@ -1,7 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { v4 as uuid } from 'uuid';
 import { Download, Search } from '@navikt/ds-icons';
-import { Alert, Button, Heading, Loader, ReadMore, Select, TextField } from '@navikt/ds-react';
+import {
+	Alert,
+	BodyShort,
+	Button,
+	Detail,
+	Heading,
+	Label,
+	Loader,
+	ReadMore,
+	Select,
+	TextField,
+} from '@navikt/ds-react';
 import { K9LosApiKeys, k9LosApi } from 'api/k9LosApi';
 import { useAlleKoer, useKo } from 'api/queries/avdelingslederQueries';
 import { REQUEST_POLLING_CANCELLED } from 'api/rest-api';
@@ -324,6 +335,7 @@ const FilterIndex = ({ initialQuery, lagre, avbryt, tittel }: OwnProps) => {
 							<Heading size="small" spacing className="mt-6">
 								Søkeresultat
 							</Heading>
+							<BodyShort className="mb-12">Fant {oppgaver.length} oppgaver.</BodyShort>
 							<OppgaveQueryResultat felter={felter} oppgaveQuery={oppgaveQuery} oppgaver={oppgaver} />
 						</>
 					)}
