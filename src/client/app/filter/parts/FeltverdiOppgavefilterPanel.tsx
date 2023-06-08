@@ -128,7 +128,7 @@ const FilterOperatorOgVerdi = ({
 		);
 	}
 
-	if (feltdefinisjon.tolkes_som === TolkesSom.Date) {
+	if (feltdefinisjon.tolkes_som === TolkesSom.Timestamp) {
 		return (
 			<div className="mt-[-7px]">
 				<UNSAFE_DatePicker {...datepickerProps}>

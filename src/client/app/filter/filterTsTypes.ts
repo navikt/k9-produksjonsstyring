@@ -73,7 +73,7 @@ export enum TolkesSom {
 	String = 'String',
 	Duration = 'Duration',
 	Boolean = 'boolean',
-	Date = 'Date',
+	Timestamp = 'Timestamp',
 }
 export type Oppgavefelt = {
 	område: string;
