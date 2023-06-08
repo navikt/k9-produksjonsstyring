@@ -9,14 +9,20 @@ const axiosConfig = {
 	},
 	withCredentials: true,
 };
+export const axiosInstance = axios.create({
+	headers: {
+		'Nav-Callid': callId,
+	},
+	withCredentials: true,
+});
 
 export const defaultQuery = async ({ queryKey }) => {
-	const { data } = await axios.get(`${baseURL()}${queryKey[0]}`, axiosConfig);
+	const { data } = await axiosInstance.get(`${baseURL()}${queryKey[0]}`, axiosConfig);
 	return data;
 };
 
 export const defaultMutation = async ({ url, body }) => {
-	const { data } = await axios.post(`${baseURL()}${url}`, body, axiosConfig);
+	const { data } = await axiosInstance.post(`${baseURL()}${url}`, body, axiosConfig);
 	return data;
 };
 
