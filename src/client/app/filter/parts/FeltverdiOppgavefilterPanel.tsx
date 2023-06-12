@@ -83,13 +83,18 @@ const FilterOperatorOgVerdi = ({
 		});
 	};
 
+	const onDateChange = (date) => {
+		const newDate = new Date(date.getTime()).toISOString().split('T')[0];
+		handleChangeValue(newDate);
+	};
+
 	useEffect(() => {
 		handleChangeValue('');
 	}, [JSON.stringify(feltdefinisjon)]);
 
 	const { datepickerProps, inputProps } = UNSAFE_useDatepicker({
 		fromDate: new Date('Aug 23 2017'),
-		onDateChange: handleChangeValue,
+		onDateChange,
 	});
 
 	const handleDaysChange = (e: React.ChangeEvent<HTMLInputElement>) => {

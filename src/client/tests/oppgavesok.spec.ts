@@ -3,6 +3,9 @@ import { test } from '@playwright/test';
 test.beforeEach(async ({ page }) => {
 	await page.goto('http://localhost:8030/filter');
 });
+
+// TODO: #textField-ri, #textField-rm er antageligvis ikke stabile nok til å bruke for å lokalisere elementer i testene over tid
+
 test('kan legge til aksjonspunkt', async ({ page }) => {
 	await page.getByRole('button', { name: 'Legg til filter' }).click();
 	await page.locator('#textField-ri').selectOption('K9__aksjonspunkt');
