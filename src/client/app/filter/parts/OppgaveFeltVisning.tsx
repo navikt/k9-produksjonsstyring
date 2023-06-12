@@ -13,7 +13,7 @@ const OppgaveFeltVisning = ({ felt, oppgaveFelter }: Props) => {
 	const oppgaveFelt = oppgaveFelter.find((v) => v.kode === felt.kode);
 
 	if (!oppgaveFelt || !felt.verdi) {
-		return '-';
+		return <div>-</div>;
 	}
 
 	if (oppgaveFelt.tolkes_som === TolkesSom.Boolean) {
