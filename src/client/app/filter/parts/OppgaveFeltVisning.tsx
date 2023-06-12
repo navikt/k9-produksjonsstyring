@@ -12,18 +12,23 @@ interface Props {
 const OppgaveFeltVisning = ({ felt, oppgaveFelter }: Props) => {
 	const oppgaveFelt = oppgaveFelter.find((v) => v.kode === felt.kode);
 
-	if (!oppgaveFelt) {
-		return null;
+	if (!oppgaveFelt || !felt.verdi) {
+		return '-';
+	}
+
+	if (oppgaveFelt.tolkes_som === TolkesSom.Boolean) {
+		return <div>{felt.verdi ? 'Ja' : 'Nei'}</div>;
 	}
 
 	if (oppgaveFelt.tolkes_som === TolkesSom.Duration) {
-		const duration = dayjs.duration(felt.verdi);
+		const duration = felt.verdi ? dayjs.duration(felt.verdi) : dayjs.duration(0);
 		const formattedDuration = `${Math.floor(duration.hours() / 24)}d ${duration.hours() % 24}t`;
 		return <div>{formattedDuration}</div>;
 	}
 
 	if (oppgaveFelt.tolkes_som === TolkesSom.Timestamp) {
-		return <div>{dayjs(felt.verdi).format('DD.MM.YYYY')}</div>;
+		const formattedDate = felt.verdi ? dayjs(felt.verdi).format('DD.MM.YYYY') : '';
+		return <div>{formattedDate}</div>;
 	}
 
 	return <div>{Array.isArray(felt) ? felt.verdi.join(', ') : felt.verdi}</div>;
