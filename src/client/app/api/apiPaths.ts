@@ -30,6 +30,7 @@ const apiPaths = {
 	opprettOppgaveko: '/ny-oppgavestyring/ko/opprett',
 	oppdaterOppgaveko: '/ny-oppgavestyring/ko',
 	hentSaksbehandlere: '/avdelingsleder/saksbehandlere',
+	hentFelter: '/ny-oppgavestyring/oppgave/felter',
 };
 
 export default apiPaths;

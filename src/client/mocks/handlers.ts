@@ -1,5 +1,6 @@
 /* eslint-disable import/no-mutable-exports */
 import { rest } from 'msw';
+import { felter } from 'filter/parts/testdata';
 import { relativeTestApiPaths } from '../app/testUtils';
 import {
 	avdelningsledareReservasjoner,
@@ -233,6 +234,13 @@ export const developmentHandlers = {
 						versjon: 1,
 					},
 				],
+			}),
+		),
+	),
+	hentFelter: rest.get(relativeTestApiPaths.hentFelter, async (req, res, ctx) =>
+		res(
+			ctx.json({
+				felter,
 			}),
 		),
 	),
