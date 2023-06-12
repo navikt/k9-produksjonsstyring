@@ -173,7 +173,7 @@ const SearchWithDropdown: React.FC<SearchWithDropdownProps> = (props) => {
 				)}
 			</SearchForm>
 			{selectedValues.length > 0 && (
-				<div>
+				<div className="flex">
 					<Heading className={styles.merkelapperHeading} level="4" size="xsmall">
 						Valgte filter:
 					</Heading>
