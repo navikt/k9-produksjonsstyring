@@ -32,9 +32,9 @@ jobs:
       - name: Tester
         run: yarn test --maxWorkers=2
       - name: Install Playwright Browsers
-        run: yarn playwright install --with-deps
+        run: yarn playwright install chromium
       - name: Run Playwright tests
-        run: yarn playwright test --project='Chrome Stable'
+        run: yarn playwright test
       - uses: actions/upload-artifact@v3
         if: always()
         with:
