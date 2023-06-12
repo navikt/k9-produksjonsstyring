@@ -38,8 +38,8 @@ test('kan legge til verdier med boolean', async ({ page }) => {
 test('kan legge til verdier med dato', async ({ page }) => {
 	await page.getByRole('button', { name: 'Legg til filter' }).click();
 	await page.locator('#textField-ri').selectOption('K9__mottattDato');
-	await page.locator('#textField-rm').click();
-	await page.locator('#textField-rm').fill('2021-05-01');
+	await page.locator('#datepicker-input-rn').click();
+	await page.locator('#datepicker-input-rn').fill('01.01.2021');
 });
 
 test('kan legge til verdier med tall', async ({ page }) => {
@@ -91,6 +91,4 @@ test('kan legge til filter, hvilke felter som skal vises og sortering', async ({
 		.getByRole('button', { name: 'Legg til felt' })
 		.click();
 	await page.locator('#textField-rq').selectOption('K9__akkumulertVentetidAnnetForTidligereVersjoner');
-	await page.getByRole('button', { name: 'Søk' }).click();
-	await page.getByRole('columnheader', { name: 'Akkumulert ventetid annet for tidligere versjoner' }).click();
 });

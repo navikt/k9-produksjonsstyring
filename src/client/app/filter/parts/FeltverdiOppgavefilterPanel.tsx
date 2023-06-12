@@ -84,6 +84,9 @@ const FilterOperatorOgVerdi = ({
 	};
 
 	const onDateChange = (date) => {
+		if (!date) {
+			return;
+		}
 		const timezoneOffset = date.getTimezoneOffset() * 60000;
 		const newDate = new Date(date.getTime() - timezoneOffset).toISOString().split('T')[0];
 		handleChangeValue(newDate);
