@@ -4,7 +4,6 @@
 /node_modules
 .pnp.*
 .yarn/*
-!.yarn/cache
 !.yarn/patches
 !.yarn/plugins
 !.yarn/releases
@@ -14,6 +13,8 @@
 # testing
 /coverage
 /target/
+/playwright-report
+/test-results
 # production
 
 /dist
