@@ -1,7 +1,7 @@
 name: Valider pull request
 on:
-  push:
   pull_request:
+    types: [opened, synchronize]
     paths-ignore:
       - "**.md"
       - "**.MD"
