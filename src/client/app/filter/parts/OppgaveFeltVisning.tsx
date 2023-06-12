@@ -17,7 +17,8 @@ const OppgaveFeltVisning = ({ felt, oppgaveFelter }: Props) => {
 	}
 
 	if (oppgaveFelt.tolkes_som === TolkesSom.Boolean) {
-		return <div>{felt.verdi ? 'Ja' : 'Nei'}</div>;
+		const booleanValue = felt.verdi === 'true';
+		return <div>{booleanValue ? 'Ja' : 'Nei'}</div>;
 	}
 
 	if (oppgaveFelt.tolkes_som === TolkesSom.Duration) {
