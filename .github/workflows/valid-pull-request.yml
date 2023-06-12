@@ -3,12 +3,10 @@ on:
   pull_request:
     types: [opened, synchronize]
     paths-ignore:
-      - "**.md"
-      - "**.MD"
-      - ".gitignore"
-      - "CODEOWNERS"
-      - "**.yml"
-      - "**.yaml"
+      - '**.md'
+      - '**.MD'
+      - '.gitignore'
+      - 'CODEOWNERS'
 
 jobs:
   valid-pull-request:
