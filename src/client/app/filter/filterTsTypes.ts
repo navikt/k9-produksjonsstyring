@@ -56,7 +56,7 @@ export type EnkelSelectFelt = SelectFelt & {
 export type Oppgavefeltverdi = {
 	område: string;
 	kode: string;
-	verdi: string;
+	verdi: string | string[];
 };
 
 export type Oppgaverad = {

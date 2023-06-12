@@ -21,17 +21,24 @@ const OppgaveFeltVisning = ({ felt, oppgaveFelter }: Props) => {
 	}
 
 	if (oppgaveFelt.tolkes_som === TolkesSom.Duration) {
-		const duration = felt.verdi ? dayjs.duration(felt.verdi) : dayjs.duration(0);
+		const duration = felt.verdi ? dayjs.duration(felt.verdi as string) : dayjs.duration(0);
 		const formattedDuration = `${Math.floor(duration.hours() / 24)}d ${duration.hours() % 24}t`;
 		return <div>{formattedDuration}</div>;
 	}
 
 	if (oppgaveFelt.tolkes_som === TolkesSom.Timestamp) {
-		const formattedDate = felt.verdi ? dayjs(felt.verdi).format('DD.MM.YYYY') : '';
+		const formattedDate = felt.verdi ? dayjs(felt.verdi as string).format('DD.MM.YYYY') : '';
 		return <div>{formattedDate}</div>;
 	}
 
-	return <div>{Array.isArray(felt) ? felt.verdi.join(', ') : felt.verdi}</div>;
+	if (Array.isArray(felt.verdi)) {
+		if (felt.verdi.length === 0) {
+			return <div>-</div>;
+		}
+		return <div>{felt.verdi.join(', ')}</div>;
+	}
+
+	return <div>felt.verdi</div>;
 };
 
 export default OppgaveFeltVisning;
