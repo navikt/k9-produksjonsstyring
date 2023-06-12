@@ -190,10 +190,10 @@ const FilterIndex = ({ initialQuery, lagre, avbryt, tittel }: OwnProps) => {
 	};
 
 	const oppdaterLimit = (limit) => {
-		setOppgaveQuery(() =>
-			new OppgaveQueryModel(oppgaveQuery).updateLimit(!Number.isNaN(limit) ? limit : 0).toOppgaveQuery(),
-		);
-	};
+		if (!Number.isNaN(limit) && limit >= 0) {
+		  setOppgaveQuery(() => new OppgaveQueryModel(oppgaveQuery).updateLimit(limit).toOppgaveQuery());
+		}
+	  };
 
 	useEffect(() => {
 		k9LosApi
@@ -330,6 +330,7 @@ const FilterIndex = ({ initialQuery, lagre, avbryt, tittel }: OwnProps) => {
 									description="Du kan endre antallet rader som blir hentet ned ved søk. Trykk på søkeknappen etter å ha oppdatert antallet. Merk at høye tall kan medføre at du må vente en stund før svaret kommer. Hvis søket blir avbrutt, fordi det tar for lang tid, så kan du forsøke det samme søket på nytt."
 									htmlSize={4}
 									type="number"
+									min={1}
 									defaultValue={oppgaveQuery.limit}
 									onChange={(event) => oppdaterLimit(parseInt(event.target.value, 10))}
 								/>

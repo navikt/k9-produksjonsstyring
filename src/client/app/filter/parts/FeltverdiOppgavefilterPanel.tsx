@@ -147,7 +147,7 @@ const FilterOperatorOgVerdi = ({
 	if (feltdefinisjon.tolkes_som === TolkesSom.Boolean) {
 		return (
 			<CheckboxGroup
-				className={`${styles.feltvalgCheckboxes} flex-wrap`}
+				className={styles.feltvalgCheckboxes}
 				hideLegend
 				legend={feltdefinisjon.visningsnavn}
 				onChange={handleChangeValue}

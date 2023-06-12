@@ -11,9 +11,11 @@
 }
 .feltvalgCheckboxes div {
 	display: flex;
+	flex-wrap: wrap;
 	gap: 1.325rem;
 	margin-left: 1rem;
 }
+
 .filterFelt > div {
 	display: flex;
 	gap: var(--a-spacing-4);
