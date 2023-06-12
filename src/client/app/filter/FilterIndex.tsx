@@ -190,7 +190,9 @@ const FilterIndex = ({ initialQuery, lagre, avbryt, tittel }: OwnProps) => {
 	};
 
 	const oppdaterLimit = (limit) => {
-		setOppgaveQuery(() => new OppgaveQueryModel(oppgaveQuery).updateLimit(limit).toOppgaveQuery());
+		setOppgaveQuery(() =>
+			new OppgaveQueryModel(oppgaveQuery).updateLimit(!Number.isNaN(limit) ? limit : 0).toOppgaveQuery(),
+		);
 	};
 
 	useEffect(() => {
