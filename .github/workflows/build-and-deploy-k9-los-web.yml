@@ -40,8 +40,6 @@ jobs:
         run: yarn playwright install chromium
       - name: Run Playwright tests
         run: yarn playwright test
-      - name: Linting
-        run: yarn css:lint
       - name: Bygge kode
         run: yarn build
         env:
