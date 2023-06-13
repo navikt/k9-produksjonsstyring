@@ -44,6 +44,7 @@ const config = {
 
 	devServer: {
 		historyApiFallback: true,
+		client: { overlay: false },
 	},
 };
 
