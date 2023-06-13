@@ -36,7 +36,8 @@ jobs:
         run: yarn install --immutable
       - name: Tester
         run: yarn test --maxWorkers=2
-
+      - name: Linting
+        run: yarn css:lint
       - name: Bygge kode
         run: yarn build
         env:

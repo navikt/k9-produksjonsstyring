@@ -1,4 +1,4 @@
-FROM node:alpine
+FROM node:18-alpine
 
 LABEL org.opencontainers.image.source=https://github.com/navikt/k9-los-web
 
