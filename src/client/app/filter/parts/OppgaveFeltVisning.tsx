@@ -23,7 +23,9 @@ const OppgaveFeltVisning = ({ felt, oppgaveFelter }: Props) => {
 
 	if (oppgaveFelt.tolkes_som === TolkesSom.Duration) {
 		const duration = felt.verdi ? dayjs.duration(felt.verdi as string) : dayjs.duration(0);
-		const formattedDuration = `${Math.floor(duration.hours() / 24)}d ${duration.hours() % 24}t`;
+		const days = duration.days();
+		const hours = duration.hours();
+		const formattedDuration = `${days}d ${hours}t`;
 		return <div>{formattedDuration}</div>;
 	}
 
@@ -39,7 +41,7 @@ const OppgaveFeltVisning = ({ felt, oppgaveFelter }: Props) => {
 		return <div>{felt.verdi.join(', ')}</div>;
 	}
 
-	return <div>felt.verdi</div>;
+	return <div>{felt.verdi}</div>;
 };
 
 export default OppgaveFeltVisning;
