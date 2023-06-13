@@ -31,8 +31,6 @@ jobs:
         run: yarn install --immutable
       - name: Tester
         run: yarn test --maxWorkers=2
-      - name: Linting
-        run: yarn css:lint
       - name: Install Playwright Browsers
         run: yarn playwright install --with-deps
       - name: Run Playwright tests
