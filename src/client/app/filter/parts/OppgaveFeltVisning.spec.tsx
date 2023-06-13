@@ -87,7 +87,7 @@ describe('OppgaveFeltVisning', () => {
 
 	it('should render formatted duration when tolkes_som is Duration', () => {
 		const { getByText } = render(
-			<OppgaveFeltVisning felt={createOppgaveFeltverdi('felt3', 'P1DT2H')} oppgaveFelter={oppgaveFelter} />,
+			<OppgaveFeltVisning felt={createOppgaveFeltverdi('felt3', 'PT26H32M')} oppgaveFelter={oppgaveFelter} />,
 		);
 		expect(getByText('1d 2t')).toBeInTheDocument();
 	});
