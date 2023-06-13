@@ -33,9 +33,9 @@ jobs:
       - name: Linting
         run: yarn css:lint
       - name: Install Playwright Browsers
-        run: yarn playwright install --with-deps
+        run: yarn playwright install chromium
       - name: Run Playwright tests
-        run: yarn playwright test
+        run: yarn playwright test --browser=chromium
       - uses: actions/upload-artifact@v3
         if: always()
         with:
