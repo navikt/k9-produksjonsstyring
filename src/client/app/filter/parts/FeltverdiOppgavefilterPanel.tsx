@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
 import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
@@ -60,6 +60,9 @@ function renderFilterOperator(
 }
 
 const dagerInitialValue = (verdi: any) => {
+	if (!verdi) {
+		return undefined;
+	}
 	const days = dayjs.duration(verdi).asDays();
 	if (Number.isNaN(days)) {
 		return undefined;
@@ -91,10 +94,6 @@ const FilterOperatorOgVerdi = ({
 		const newDate = new Date(date.getTime() - timezoneOffset).toISOString().split('T')[0];
 		handleChangeValue(newDate);
 	};
-
-	useEffect(() => {
-		handleChangeValue('');
-	}, [JSON.stringify(feltdefinisjon)]);
 
 	const { datepickerProps, inputProps } = UNSAFE_useDatepicker({
 		fromDate: new Date('Aug 23 2017'),
