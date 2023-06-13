@@ -1,5 +1,5 @@
 module.exports = {
-	extends: ['stylelint-config-standard', 'stylelint-config-prettier', '@navikt/aksel-stylelint/recommended'],
+	extends: ['stylelint-config-standard', 'stylelint-config-prettier'],
 	customSyntax: 'postcss-less',
 	rules: {
 		'selector-class-pattern': null,
@@ -17,6 +17,5 @@ module.exports = {
 		'import-notation': null,
 		'rule-empty-line-before': null,
 		'color-function-notation': null,
-		'aksel/no-class-override': null,
 	},
 };
