@@ -35,7 +35,7 @@ jobs:
       - name: Install Playwright Browsers
         run: yarn playwright install chromium
       - name: Run Playwright tests
-        run: yarn playwright test --browser=chromium
+        run: yarn playwright test
       - uses: actions/upload-artifact@v3
         if: always()
         with:
@@ -45,8 +45,8 @@ jobs:
       - name: Bygge kode
         run: yarn build
         env:
-          SAKSBEHANDLER_KAN_VELGE_NYE_KOER: "disabled"
-          AVDELINGSLEDER_TILGANG_TIL_NYE_KOER: "enabled"
+          SAKSBEHANDLER_KAN_VELGE_NYE_KOER: 'disabled'
+          AVDELINGSLEDER_TILGANG_TIL_NYE_KOER: 'enabled'
       - name: Opprett release med Sentry
         run: yarn sentry-release
         env:
