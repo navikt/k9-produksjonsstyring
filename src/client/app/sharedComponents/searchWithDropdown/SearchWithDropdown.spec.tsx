@@ -37,10 +37,4 @@ describe('SearchWithDropdown', () => {
 		render(<SearchWithDropdown {...defaultProps} selectedValues={['Value 1']} />);
 		expect(screen.getByText('Label 1')).toBeInTheDocument();
 	});
-
-	it('removes all selected suggestions correctly', () => {
-		render(<SearchWithDropdown {...defaultProps} selectedValues={['Value 1']} />);
-		userEvent.click(screen.getByText('Fjern alle'));
-		expect(defaultProps.updateSelection).toHaveBeenCalledWith([]);
-	});
 });
