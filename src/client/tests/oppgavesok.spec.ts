@@ -8,7 +8,7 @@ test.beforeEach(async ({ page }) => {
 
 test('kan legge til aksjonspunkt', async ({ page }) => {
 	await page.getByRole('button', { name: 'Legg til filter' }).click();
-	await page.locator('Felt').selectOption('K9__aksjonspunkt');
+	await page.getByLabel('Felt').selectOption('K9__aksjonspunkt');
 	await page.getByText('Velg aksjonspunkt').click();
 	await page.getByLabel('Beregning').check();
 	await page.getByRole('button', { name: 'Legg til aksjonspunkt' }).click();
@@ -17,21 +17,21 @@ test('kan legge til aksjonspunkt', async ({ page }) => {
 
 test('kan legge til verdier som er predefinerte', async ({ page }) => {
 	await page.getByRole('button', { name: 'Legg til filter' }).click();
-	await page.locator('Felt').selectOption('K9__fagsystem');
+	await page.getByLabel('Felt').selectOption('K9__fagsystem');
 	await page.getByLabel('Velg fagsystem').click();
 	await page.locator('label').filter({ hasText: 'K9-punsj' }).click();
 	await page.getByRole('button', { name: 'Legg til fagsystem' }).click();
 });
 test('kan legge til verdier fra fritekst', async ({ page }) => {
 	await page.getByRole('button', { name: 'Legg til filter' }).click();
-	await page.locator('Felt').selectOption('K9__saksnummer');
+	await page.getByLabel('Felt').selectOption('K9__saksnummer');
 	await page.locator('Skriv fritekst').click();
 	await page.locator('Skriv fritekst').fill('D4AILY');
 });
 
 test('kan legge til verdier med boolean', async ({ page }) => {
 	await page.getByRole('button', { name: 'Legg til filter' }).click();
-	await page.locator('Felt').selectOption('K9__avventerTekniskFeil');
+	await page.getByLabel('Felt').selectOption('K9__avventerTekniskFeil');
 	await page.getByLabel('Ja').check();
 });
 
@@ -44,7 +44,7 @@ test('can add date values', async ({ page }) => {
 
 test('kan legge til verdier med tall', async ({ page }) => {
 	await page.getByRole('button', { name: 'Legg til filter' }).click();
-	await page.locator('Felt').selectOption('K9__akkumulertVentetidSaksbehandlerForTidligereVersjoner');
+	await page.getByLabel('Felt').selectOption('K9__akkumulertVentetidSaksbehandlerForTidligereVersjoner');
 	await page.getByText('dager').isVisible();
 	await page.getByPlaceholder('Antall dager').click();
 	await page.getByPlaceholder('Antall dager').fill('10');
@@ -76,7 +76,7 @@ test('kan legge til grupper hvor minimum en av filterene må være oppfylt', asy
 
 test('kan legge til filter, hvilke felter som skal vises og sortering', async ({ page }) => {
 	await page.getByRole('button', { name: 'Legg til filter' }).click();
-	await page.locator('Felt').selectOption('K9__akkumulertVentetidAnnetForTidligereVersjoner');
+	await page.getByLabel('Felt').selectOption('K9__akkumulertVentetidAnnetForTidligereVersjoner');
 	await page.getByPlaceholder('Antall dager').click();
 	await page.getByPlaceholder('Antall dager').fill('1');
 	await page.getByRole('button', { name: 'Velg felter som skal vises' }).click();
