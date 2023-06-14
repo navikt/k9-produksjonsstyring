@@ -3782,9 +3782,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sentry/cli@npm:2.17.5":
-  version: 2.17.5
-  resolution: "@sentry/cli@npm:2.17.5"
+"@sentry/cli@npm:2.19.0":
+  version: 2.19.0
+  resolution: "@sentry/cli@npm:2.19.0"
   dependencies:
     https-proxy-agent: ^5.0.0
     node-fetch: ^2.6.7
@@ -3793,7 +3793,7 @@ __metadata:
     which: ^2.0.2
   bin:
     sentry-cli: bin/sentry-cli
-  checksum: b98bf1521cbbe9f1334196df3fdb4c11cfed874298830bc4d66edc2d086cb04f984830628677f2019fd468da13a458cb0bb8d6abbaa26f65a602e7b10b88db7b
+  checksum: 2dcf288606a96a4f00535d5d4fa7389afb9e75356129299bbe4e1bf1ec32f8002dd137726ff1b7afe4b143c30e6636908304864bdb62de3091b476c286387feb
   languageName: node
   linkType: hard
 
@@ -15520,7 +15520,7 @@ __metadata:
     "@navikt/ft-plattform-komponenter": 2.0.25
     "@popperjs/core": 2.11.7
     "@sentry/browser": 7.51.0
-    "@sentry/cli": 2.17.5
+    "@sentry/cli": 2.19.0
     "@storybook/addon-actions": 6.5.16
     "@storybook/addon-centered": 5.3.21
     "@storybook/addon-docs": 6.5.16
