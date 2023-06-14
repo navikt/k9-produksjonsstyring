@@ -159,8 +159,8 @@ describe('OppgaveFeltVisning', () => {
 	});
 
 	it('should render aksjonspunkter when aksjonspunkter is not null', () => {
-		const oppgaveFelt = createOppgaveFeltverdi(OppgavefilterKode.Aksjonspunkt, ['9001']);
+		const oppgaveFelt = createOppgaveFeltverdi(OppgavefilterKode.Aksjonspunkt, ['9001', '9999']);
 		const { getByText } = render(<OppgaveFeltVisning felt={oppgaveFelt} oppgaveFelter={oppgaveFelter} />);
-		expect(getByText('Kontroller legeerklæring')).toBeInTheDocument();
+		expect(getByText('Kontroller legeerklæring (9001), 9999')).toBeInTheDocument();
 	});
 });

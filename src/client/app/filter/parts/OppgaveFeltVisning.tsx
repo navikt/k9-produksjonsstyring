@@ -1,12 +1,29 @@
 import React from 'react';
 import dayjs from 'dayjs';
 import durationPlugin from 'dayjs/plugin/duration';
-import { Oppgavefelt, Oppgavefeltverdi, TolkesSom } from 'filter/filterTsTypes';
+import { Oppgavefelt, Oppgavefeltverdi, OppgavefilterKode, TolkesSom } from 'filter/filterTsTypes';
 
 dayjs.extend(durationPlugin);
+
+const aksjonspunktKoder = [
+	OppgavefilterKode.Aksjonspunkt,
+	OppgavefilterKode.AktivtAksjonspunkt,
+	OppgavefilterKode.LøsbartAksjonspunkt,
+];
+
 interface Props {
 	oppgaveFelter: Oppgavefelt[];
 	felt: Oppgavefeltverdi;
+}
+
+function getVerdiforklaringer(felt, oppgaveFelt, format = false) {
+	const mapFunc = (v) => {
+		const verdiforklaring = oppgaveFelt.verdiforklaringer.find((item) => item.verdi === v);
+		if (!verdiforklaring) return v;
+		return format ? `${verdiforklaring.visningsnavn} (${v})` : verdiforklaring.visningsnavn;
+	};
+
+	return Array.isArray(felt.verdi) ? felt.verdi.map(mapFunc) : [mapFunc(felt.verdi)];
 }
 
 const OppgaveFeltVisning = ({ felt, oppgaveFelter }: Props) => {
@@ -16,12 +33,16 @@ const OppgaveFeltVisning = ({ felt, oppgaveFelter }: Props) => {
 		return <div>-</div>;
 	}
 
-	if (oppgaveFelt.verdiforklaringer && oppgaveFelt.verdiforklaringer.length > 0) {
-		const verdiforklaringer = Array.isArray(felt.verdi)
-			? felt.verdi.map((v) => oppgaveFelt.verdiforklaringer.find((item) => item.verdi === v)?.visningsnavn || v)
-			: [oppgaveFelt.verdiforklaringer.find((item) => item.verdi === felt.verdi)?.visningsnavn || felt.verdi];
+	if (aksjonspunktKoder.includes(oppgaveFelt.kode)) {
+		const aksjonspunkter = getVerdiforklaringer(felt, oppgaveFelt, true).join(', ');
 
-		return <div>{verdiforklaringer.join(', ')}</div>;
+		return <div>{aksjonspunkter}</div>;
+	}
+
+	if (oppgaveFelt.verdiforklaringer && oppgaveFelt.verdiforklaringer.length > 0) {
+		const verdiforklaringer = getVerdiforklaringer(felt, oppgaveFelt).join(', ');
+
+		return <div>{verdiforklaringer}</div>;
 	}
 
 	if (oppgaveFelt.tolkes_som === TolkesSom.Boolean) {
