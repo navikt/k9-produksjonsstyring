@@ -63,7 +63,12 @@ const SearchForm: React.FC<SearchFormProps> = ({
 							onKeyPress={handleKeyPress}
 						/>
 					</div>
-					<button type="button" className={`${buttonClassName} ${styles.searchButton}`} onClick={onSubmit}>
+					<button
+						type="button"
+						className={`${buttonClassName} ${styles.searchButton}`}
+						onClick={onSubmit}
+						aria-label="search button"
+					>
 						<span className="navds-button__icon">
 							<Search />
 						</span>

@@ -1,15 +1,10 @@
 import React from 'react';
 import dayjs from 'dayjs';
 import durationPlugin from 'dayjs/plugin/duration';
-import { Oppgavefelt, Oppgavefeltverdi, OppgavefilterKode, TolkesSom } from 'filter/filterTsTypes';
+import { Oppgavefelt, Oppgavefeltverdi, TolkesSom } from 'filter/filterTsTypes';
+import { aksjonspunktKoder } from 'filter/konstanter';
 
 dayjs.extend(durationPlugin);
-
-const aksjonspunktKoder = [
-	OppgavefilterKode.Aksjonspunkt,
-	OppgavefilterKode.AktivtAksjonspunkt,
-	OppgavefilterKode.LøsbartAksjonspunkt,
-];
 
 interface Props {
 	oppgaveFelter: Oppgavefelt[];

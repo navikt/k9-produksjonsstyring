@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import { Oppgavefelt } from './filterTsTypes';
 
 export function feltverdiKey(item) {
@@ -42,3 +43,9 @@ export const mapStringToBooleanArray = (values: string[]): (string | null)[] =>
 		}
 		return null;
 	});
+
+export const calculateDays = (verdi: any): number | undefined => {
+	if (!verdi) return undefined;
+	const days = dayjs.duration(verdi).asDays();
+	return Number.isNaN(days) ? undefined : days;
+};
