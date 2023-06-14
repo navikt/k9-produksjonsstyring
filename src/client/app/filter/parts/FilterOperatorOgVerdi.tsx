@@ -22,6 +22,19 @@ const useChangeValue = (oppgavefilter, onOppdaterFilter) => (value) => {
 	});
 };
 
+const useDatepickerSafely = (config) => {
+	const { fromDate, onDateChange, defaultSelected } = config;
+
+	const safeFromDate = dayjs(fromDate).isValid() ? fromDate : undefined;
+	const safeDefaultSelected = dayjs(defaultSelected).isValid() ? defaultSelected : undefined;
+
+	return UNSAFE_useDatepicker({
+		fromDate: safeFromDate,
+		onDateChange,
+		defaultSelected: safeDefaultSelected,
+	});
+};
+
 const FilterOperatorOgVerdi = ({
 	feltdefinisjon,
 	oppgavefilter,
@@ -54,6 +67,7 @@ const FilterOperatorOgVerdi = ({
 	const { datepickerProps, inputProps } = UNSAFE_useDatepicker({
 		fromDate: new Date('Aug 23 2017'),
 		onDateChange,
+		defaultSelected: dayjs(new Date(oppgavefilter.verdi)).isValid() ? new Date(oppgavefilter.verdi) : undefined,
 	});
 
 	const handleDaysChange = (e: React.ChangeEvent<HTMLInputElement>) => {
