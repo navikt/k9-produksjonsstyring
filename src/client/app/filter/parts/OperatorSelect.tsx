@@ -11,7 +11,7 @@ function OperatorSelect({ oppgavefilter, onOppdaterFilter, isUsingPredefinedValu
 
 	return (
 		<Select
-			label="operator"
+			label="Operator"
 			hideLabel
 			value={oppgavefilter.operator}
 			onChange={handleChangeOperator}

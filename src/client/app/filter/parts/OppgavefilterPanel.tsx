@@ -8,7 +8,7 @@ import {
 	Oppgavefelt,
 	Oppgavefilter,
 } from '../filterTsTypes';
-import FeltverdiOppgavefilterPanel from './FeltverdiOppgavefilterPanel';
+import FeltverdiOppgavefilterPanel from './FeltverdiOppgavefilterPanel/FeltverdiOppgavefilterPanel';
 import FjernFilterButton from './FjernFilterButton';
 import LeggTilFilterButton from './LeggTilFilterButton';
 import LeggTilGruppeButton from './LeggTilGruppeButton';

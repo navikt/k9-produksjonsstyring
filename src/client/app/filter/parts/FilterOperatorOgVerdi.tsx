@@ -22,19 +22,6 @@ const useChangeValue = (oppgavefilter, onOppdaterFilter) => (value) => {
 	});
 };
 
-const useDatepickerSafely = (config) => {
-	const { fromDate, onDateChange, defaultSelected } = config;
-
-	const safeFromDate = dayjs(fromDate).isValid() ? fromDate : undefined;
-	const safeDefaultSelected = dayjs(defaultSelected).isValid() ? defaultSelected : undefined;
-
-	return UNSAFE_useDatepicker({
-		fromDate: safeFromDate,
-		onDateChange,
-		defaultSelected: safeDefaultSelected,
-	});
-};
-
 const FilterOperatorOgVerdi = ({
 	feltdefinisjon,
 	oppgavefilter,
@@ -109,7 +96,7 @@ const FilterOperatorOgVerdi = ({
 		return (
 			<div className="mt-[-7px]">
 				<UNSAFE_DatePicker {...datepickerProps}>
-					<UNSAFE_DatePicker.Input {...inputProps} />
+					<UNSAFE_DatePicker.Input {...inputProps} label="Velg dato" />
 				</UNSAFE_DatePicker>
 			</div>
 		);
@@ -147,7 +134,14 @@ const FilterOperatorOgVerdi = ({
 		);
 	}
 
-	return <TextField label="" value={oppgavefilter.verdi} onChange={(e) => handleChangeValue(e.target.value)} />;
+	return (
+		<TextField
+			label="Skriv fritekst"
+			hideLabel
+			value={oppgavefilter.verdi}
+			onChange={(e) => handleChangeValue(e.target.value)}
+		/>
+	);
 };
 
 export default FilterOperatorOgVerdi;

@@ -1,12 +1,13 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import classNames from 'classnames';
 import { Heading, Panel, Select } from '@navikt/ds-react';
-import styles from '../filterIndex.css';
-import { FeltverdiOppgavefilter, Oppgavefelt, Oppgavefilter } from '../filterTsTypes';
-import { feltverdiKey, kodeFraKey, områdeFraKey } from '../utils';
-import FilterOperatorOgVerdi from './FilterOperatorOgVerdi';
-import FjernFilterButton from './FjernFilterButton';
-import OperatorSelect from './OperatorSelect';
+import styles from '../../filterIndex.css';
+import { FeltverdiOppgavefilter, Oppgavefelt, Oppgavefilter } from '../../filterTsTypes';
+import { feltverdiKey, kodeFraKey, områdeFraKey } from '../../utils';
+import FilterOperatorOgVerdi from '../FilterOperatorOgVerdi';
+import FjernFilterButton from '../FjernFilterButton';
+import OperatorSelect from '../OperatorSelect';
+import { generateId } from './idGenerator';
 
 interface Props {
 	felter: Oppgavefelt[];
@@ -16,6 +17,7 @@ interface Props {
 }
 
 const FeltverdiOppgavefilterPanel: React.FC<Props> = ({ felter, oppgavefilter, onOppdaterFilter, onFjernFilter }) => {
+	const testID = useMemo(() => generateId(), []);
 	const [feltdefinisjon, setFeltdefinisjon] = useState<Oppgavefelt | undefined>();
 	const [isUsingPredefinedValues, setIsUsingPredefinedValues] = useState<boolean>(false);
 
@@ -44,14 +46,15 @@ const FeltverdiOppgavefilterPanel: React.FC<Props> = ({ felter, oppgavefilter, o
 	);
 
 	return (
-		<Panel className={`${styles.filter} ${styles.filterFelt}`} key={oppgavefilter.id} border>
+		<Panel className={`${styles.filter} ${styles.filterFelt}`} key={oppgavefilter.id} id={`feltpanel-${testID}`} border>
 			<FjernFilterButton oppgavefilter={oppgavefilter} onFjernFilter={onFjernFilter} />
 			<Heading level="5" size="xsmall">
 				Felt
 			</Heading>
 			<div className="flex">
 				<Select
-					label=""
+					label="Felt"
+					hideLabel
 					value={feltverdiKey(oppgavefilter)}
 					onChange={handleChangeKey}
 					className={classNames({ 'mt-[55px]': isUsingPredefinedValues })}
