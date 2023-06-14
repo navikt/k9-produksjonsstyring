@@ -8,7 +8,7 @@ test.beforeEach(async ({ page }) => {
 
 test('kan legge til aksjonspunkt', async ({ page }) => {
 	await page.getByRole('button', { name: 'Legg til filter' }).click();
-	await page.getByLabel('Feltget').selectOption('K9__aksjonspunkt');
+	await page.getByLabel('Felt').selectOption('K9__aksjonspunkt');
 	await page.getByText('Velg aksjonspunkt').click();
 	await page.getByLabel('Beregning').check();
 	await page.getByRole('button', { name: 'Legg til aksjonspunkt' }).click();
