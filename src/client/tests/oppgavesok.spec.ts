@@ -8,7 +8,7 @@ test.beforeEach(async ({ page }) => {
 
 test('kan legge til aksjonspunkt', async ({ page }) => {
 	await page.getByRole('button', { name: 'Legg til filter' }).click();
-	await page.getByLabel('Felt').selectOption('K9__aksjonspunkt');
+	await page.getByLabel('Feltget').selectOption('K9__aksjonspunkt');
 	await page.getByText('Velg aksjonspunkt').click();
 	await page.getByLabel('Beregning').check();
 	await page.getByRole('button', { name: 'Legg til aksjonspunkt' }).click();
@@ -25,8 +25,8 @@ test('kan legge til verdier som er predefinerte', async ({ page }) => {
 test('kan legge til verdier fra fritekst', async ({ page }) => {
 	await page.getByRole('button', { name: 'Legg til filter' }).click();
 	await page.getByLabel('Felt').selectOption('K9__saksnummer');
-	await page.locator('Skriv fritekst').click();
-	await page.locator('Skriv fritekst').fill('D4AILY');
+	await page.getByLabel('Skriv fritekst').click();
+	await page.getByLabel('Skriv fritekst').fill('D4AILY');
 });
 
 test('kan legge til verdier med boolean', async ({ page }) => {
