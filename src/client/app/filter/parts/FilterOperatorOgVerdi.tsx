@@ -27,7 +27,7 @@ const FilterOperatorOgVerdi = ({
 	oppgavefilter,
 	onOppdaterFilter,
 }: {
-	feltdefinisjon: Oppgavefelt;
+	feltdefinisjon?: Oppgavefelt;
 	oppgavefilter: FeltverdiOppgavefilter;
 	onOppdaterFilter: (id: string, data: object) => void;
 }) => {
@@ -63,7 +63,7 @@ const FilterOperatorOgVerdi = ({
 		handleChangeValue(newDuration);
 	};
 
-	if (aksjonspunktKoder.includes(feltdefinisjon.kode)) {
+	if (aksjonspunktKoder.includes(feltdefinisjon?.kode)) {
 		return (
 			<div className="w-[500px]">
 				<AksjonspunktVelger
@@ -75,7 +75,7 @@ const FilterOperatorOgVerdi = ({
 		);
 	}
 
-	if (feltdefinisjon.tolkes_som === TolkesSom.Duration) {
+	if (feltdefinisjon?.tolkes_som === TolkesSom.Duration) {
 		return (
 			<>
 				<TextField
@@ -91,7 +91,7 @@ const FilterOperatorOgVerdi = ({
 		);
 	}
 
-	if (feltdefinisjon.tolkes_som === TolkesSom.Timestamp) {
+	if (feltdefinisjon?.tolkes_som === TolkesSom.Timestamp) {
 		return (
 			<div className="mt-[-7px]">
 				<UNSAFE_DatePicker {...datepickerProps}>
@@ -101,7 +101,7 @@ const FilterOperatorOgVerdi = ({
 		);
 	}
 
-	if (feltdefinisjon.tolkes_som === TolkesSom.Boolean) {
+	if (feltdefinisjon?.tolkes_som === TolkesSom.Boolean) {
 		return (
 			<CheckboxGroup
 				className={styles.feltvalgCheckboxes}
@@ -118,7 +118,7 @@ const FilterOperatorOgVerdi = ({
 	}
 
 	if (
-		feltdefinisjon.tolkes_som === TolkesSom.String &&
+		feltdefinisjon?.tolkes_som === TolkesSom.String &&
 		Array.isArray(feltdefinisjon.verdiforklaringer) &&
 		feltdefinisjon.verdiforklaringer.length > 0
 	) {
