@@ -82,7 +82,7 @@ const FilterOperatorOgVerdi = ({
 	const [dager, setDager] = useState<number | undefined>(dagerInitialValue(oppgavefilter.verdi));
 	const handleChangeValue = (value) => {
 		onOppdaterFilter(oppgavefilter.id, {
-			verdi: value,
+			verdi: value.trim(),
 		});
 	};
 

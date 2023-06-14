@@ -2,13 +2,13 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import dayjs from 'dayjs';
 import durationPlugin from 'dayjs/plugin/duration';
-import { Oppgavefelt, Oppgavefeltverdi, TolkesSom } from 'filter/filterTsTypes';
+import { Oppgavefeltverdi, OppgavefilterKode, TolkesSom } from 'filter/filterTsTypes';
 import OppgaveFeltVisning from './OppgaveFeltVisning';
 
 dayjs.extend(durationPlugin);
 
 describe('OppgaveFeltVisning', () => {
-	const oppgaveFelter: Oppgavefelt[] = [
+	const oppgaveFelter: any[] = [
 		{
 			kode: 'felt1',
 			visningsnavn: 'Felt 1',
@@ -49,9 +49,39 @@ describe('OppgaveFeltVisning', () => {
 			verdiforklaringerErUttømmende: false,
 			verdiforklaringer: [],
 		},
+		{
+			kode: 'behandlingTypekode',
+			visningsnavn: 'Behandlingstype',
+			tolkes_som: TolkesSom.String,
+			område: '',
+			verdiforklaringerErUttømmende: false,
+			verdiforklaringer: [
+				{
+					verdi: 'BT-002',
+					visningsnavn: 'Førstegangsbehandling',
+				},
+				{
+					verdi: 'BT-003',
+					visningsnavn: 'Klage',
+				},
+			],
+		},
+		{
+			område: 'K9',
+			kode: 'aksjonspunkt',
+			visningsnavn: 'Aksjonspunkt',
+			tolkes_som: 'String',
+			verdiforklaringerErUttømmende: false,
+			verdiforklaringer: [
+				{
+					verdi: '9001',
+					visningsnavn: 'Kontroller legeerklæring',
+				},
+			],
+		},
 	];
 
-	const createOppgaveFeltverdi = (kode: string, verdi: any): Oppgavefeltverdi => ({
+	const createOppgaveFeltverdi = (kode: any, verdi: any): Oppgavefeltverdi => ({
 		kode,
 		verdi,
 		område: '',
@@ -114,5 +144,23 @@ describe('OppgaveFeltVisning', () => {
 			<OppgaveFeltVisning felt={createOppgaveFeltverdi('felt5', ['value1', 'value2'])} oppgaveFelter={oppgaveFelter} />,
 		);
 		expect(getByText('value1, value2')).toBeInTheDocument();
+	});
+
+	it('should render the visningsnavn when behandlingTypekode matches a verdi in verdiforklaringer', () => {
+		const oppgaveFelt = createOppgaveFeltverdi(OppgavefilterKode.BehandlingTypekode, 'BT-002');
+		const { getByText } = render(<OppgaveFeltVisning felt={oppgaveFelt} oppgaveFelter={oppgaveFelter} />);
+		expect(getByText('Førstegangsbehandling')).toBeInTheDocument();
+	});
+
+	it('should render the verdi when behandlingTypekode does not match a verdi in verdiforklaringer', () => {
+		const oppgaveFelt = createOppgaveFeltverdi(OppgavefilterKode.BehandlingTypekode, 'BT-004');
+		const { getByText } = render(<OppgaveFeltVisning felt={oppgaveFelt} oppgaveFelter={oppgaveFelter} />);
+		expect(getByText('BT-004')).toBeInTheDocument();
+	});
+
+	it('should render aksjonspunkter when aksjonspunkter is not null', () => {
+		const oppgaveFelt = createOppgaveFeltverdi(OppgavefilterKode.Aksjonspunkt, ['9001']);
+		const { getByText } = render(<OppgaveFeltVisning felt={oppgaveFelt} oppgaveFelter={oppgaveFelter} />);
+		expect(getByText('Kontroller legeerklæring')).toBeInTheDocument();
 	});
 });

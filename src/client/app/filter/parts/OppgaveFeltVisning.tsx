@@ -16,6 +16,13 @@ const OppgaveFeltVisning = ({ felt, oppgaveFelter }: Props) => {
 		return <div>-</div>;
 	}
 
+	if (oppgaveFelt.verdiforklaringer && oppgaveFelt.verdiforklaringer.length > 0) {
+		const verdiforklaringer = Array.isArray(felt.verdi)
+			? felt.verdi.map((v) => oppgaveFelt.verdiforklaringer.find((item) => item.verdi === v)?.visningsnavn || v)
+			: [oppgaveFelt.verdiforklaringer.find((item) => item.verdi === felt.verdi)?.visningsnavn || felt.verdi];
+
+		return <div>{verdiforklaringer.join(', ')}</div>;
+	}
 	if (oppgaveFelt.tolkes_som === TolkesSom.Boolean) {
 		const booleanValue = felt.verdi === 'true';
 		return <div>{booleanValue ? 'Ja' : 'Nei'}</div>;
