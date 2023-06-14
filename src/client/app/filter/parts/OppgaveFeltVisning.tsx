@@ -23,6 +23,7 @@ const OppgaveFeltVisning = ({ felt, oppgaveFelter }: Props) => {
 
 		return <div>{verdiforklaringer.join(', ')}</div>;
 	}
+
 	if (oppgaveFelt.tolkes_som === TolkesSom.Boolean) {
 		const booleanValue = felt.verdi === 'true';
 		return <div>{booleanValue ? 'Ja' : 'Nei'}</div>;
