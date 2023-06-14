@@ -27,7 +27,7 @@ yarn dev
 1. Kjør vtp, postgres og azure mocks fra [k9-verdikjede](https://github.com/navikt/k9-verdikjede/tree/master/saksbehandling).
 
 ```
-docker-compose up vtp postgres azure-mock
+docker-compose up -d vtp postgres azure-mock
 ```
 
 NB: Husk at få lagt in azure-mock i /etc/hosts i k9-verdikjede`slik att azure-mock mappes til localhost. Hvis ikke dette er utført får man følgende feilmelding: ErrorCaused by: java.net.UnknownHostException: azure-mock.

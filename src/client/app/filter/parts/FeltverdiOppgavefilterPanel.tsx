@@ -16,7 +16,7 @@ import {
 import AksjonspunktVelger from 'avdelingsleder/behandlingskoerV2/components/AksjonspunktVelger';
 import styles from '../filterIndex.css';
 import { FeltverdiOppgavefilter, Oppgavefelt, Oppgavefilter, TolkesSom } from '../filterTsTypes';
-import { feltverdiKey, kodeFraKey, områdeFraKey } from '../utils';
+import { feltverdiKey, kodeFraKey, mapBooleanToStringArray, mapStringToBooleanArray, områdeFraKey } from '../utils';
 import FjernFilterButton from './FjernFilterButton';
 import SearchDropdownMedPredefinerteVerdier from './SearchDropdownMedPredefinerteVerdier';
 
@@ -86,6 +86,14 @@ const FilterOperatorOgVerdi = ({
 		});
 	};
 
+	const handleChangeBoolean = (values: string[]) => {
+		const mappedValues: (string | null)[] = mapStringToBooleanArray(values);
+
+		onOppdaterFilter(oppgavefilter.id, {
+			verdi: mappedValues,
+		});
+	};
+
 	const onDateChange = (date) => {
 		if (!date) {
 			return;
@@ -152,8 +160,8 @@ const FilterOperatorOgVerdi = ({
 				className={styles.feltvalgCheckboxes}
 				hideLegend
 				legend={feltdefinisjon.visningsnavn}
-				onChange={handleChangeValue}
-				value={oppgavefilter.verdi}
+				onChange={handleChangeBoolean}
+				value={mapBooleanToStringArray(oppgavefilter.verdi || [])}
 			>
 				<Checkbox value="ja">Ja</Checkbox>
 				<Checkbox value="nei">Nei</Checkbox>

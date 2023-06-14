@@ -20,3 +20,25 @@ export function områdeFraKey(key) {
 export function kodeFraKey(key) {
 	return key.split('__')[1];
 }
+
+export const mapBooleanToStringArray = (values: (string | null)[]): string[] =>
+	values.map((value) => {
+		if (value === 'true') {
+			return 'ja';
+		}
+		if (value === 'false') {
+			return 'nei';
+		}
+		return 'ikkeSatt';
+	});
+
+export const mapStringToBooleanArray = (values: string[]): (string | null)[] =>
+	values.map((value) => {
+		if (value === 'ja') {
+			return 'true';
+		}
+		if (value === 'nei') {
+			return 'false';
+		}
+		return null;
+	});

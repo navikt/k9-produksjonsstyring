@@ -1,18 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { v4 as uuid } from 'uuid';
 import { Download, Search } from '@navikt/ds-icons';
-import {
-	Alert,
-	BodyShort,
-	Button,
-	Detail,
-	Heading,
-	Label,
-	Loader,
-	ReadMore,
-	Select,
-	TextField,
-} from '@navikt/ds-react';
+import { Alert, BodyShort, Button, Heading, Loader, ReadMore, Select, TextField } from '@navikt/ds-react';
 import { K9LosApiKeys, k9LosApi } from 'api/k9LosApi';
 import { useAlleKoer, useKo } from 'api/queries/avdelingslederQueries';
 import { REQUEST_POLLING_CANCELLED } from 'api/rest-api';
@@ -191,9 +180,9 @@ const FilterIndex = ({ initialQuery, lagre, avbryt, tittel }: OwnProps) => {
 
 	const oppdaterLimit = (limit) => {
 		if (!Number.isNaN(limit) && limit >= 0) {
-		  setOppgaveQuery(() => new OppgaveQueryModel(oppgaveQuery).updateLimit(limit).toOppgaveQuery());
+			setOppgaveQuery(() => new OppgaveQueryModel(oppgaveQuery).updateLimit(limit).toOppgaveQuery());
 		}
-	  };
+	};
 
 	useEffect(() => {
 		k9LosApi
