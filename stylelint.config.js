@@ -18,5 +18,6 @@ module.exports = {
 		'rule-empty-line-before': null,
 		'color-function-notation': null,
 		'aksel/no-class-override': null,
+		'media-feature-range-notation': null,
 	},
 };
