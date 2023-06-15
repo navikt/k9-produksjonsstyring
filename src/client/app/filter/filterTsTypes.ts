@@ -85,6 +85,7 @@ export type Oppgavefelt = {
 };
 
 export enum OppgavefilterKode {
+	Antall = 'Antall',
 	AkkumulertVentetidAnnetForTidligereVersjoner = 'akkumulertVentetidAnnetForTidligereVersjoner',
 	AkkumulertVentetidAnnetIkkeSaksbehandlingstidForTidligereVersjoner = 'akkumulertVentetidAnnetIkkeSaksbehandlingstidForTidligereVersjoner',
 	AkkumulertVentetidArbeidsgiverForTidligereVersjoner = 'akkumulertVentetidArbeidsgiverForTidligereVersjoner',

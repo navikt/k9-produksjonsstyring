@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import { use } from 'chai';
 import { v4 as uuid } from 'uuid';
-import { Download, Search } from '@navikt/ds-icons';
+import { Download, Refresh, Search } from '@navikt/ds-icons';
 import { Alert, BodyShort, Button, Heading, Loader, ReadMore, Select, TextField } from '@navikt/ds-react';
 import { K9LosApiKeys, k9LosApi } from 'api/k9LosApi';
 import { useAlleKoer, useKo } from 'api/queries/avdelingslederQueries';
@@ -29,12 +30,45 @@ interface OwnProps {
 	initialQuery?: OppgaveQuery;
 	tittel: string;
 }
+
+const antallTreffOppgaver = (oppgaver: Oppgaverad[]) => {
+	if (oppgaver.length === 1) {
+		if (oppgaver[0].felter.length === 1 && oppgaver[0].felter[0].kode === 'Antall') {
+			return oppgaver[0].felter[0].verdi as string;
+		}
+	}
+	return String(oppgaver.length);
+};
+
+// Custom deep comparison excluding the limit field
+const hasQueryChangedExcludingLimit = (prev, current) => {
+	const { limit, ...prevRest } = prev;
+	const { limit: currLimit, ...currRest } = current;
+
+	return JSON.stringify(prevRest) !== JSON.stringify(currRest);
+};
 const FilterIndex = ({ initialQuery, lagre, avbryt, tittel }: OwnProps) => {
 	const [oppgaveQuery, setOppgaveQuery] = useState(
 		initialQuery ? new OppgaveQueryModel(initialQuery).toOppgaveQuery() : new OppgaveQueryModel().toOppgaveQuery(),
 	);
+
 	const [felter, setFelter] = useState([]);
-	const [oppgaver, setOppgaver] = useState(null);
+	const [oppgaver, setOppgaver] = useState<Oppgaverad[]>(null);
+	const [antallTreff, setAntallTreff] = useState('0');
+	const [prevOppgaveQuery, setPrevOppgaveQuery] = useState({});
+
+	useEffect(() => {
+		if (Array.isArray(oppgaver)) setAntallTreff(antallTreffOppgaver(oppgaver));
+	}, [oppgaver]);
+
+	useEffect(() => {
+		if (hasQueryChangedExcludingLimit(prevOppgaveQuery, oppgaveQuery)) {
+			setAntallTreff('0');
+			setOppgaver(null);
+			setPrevOppgaveQuery(oppgaveQuery);
+		}
+	}, [oppgaveQuery]);
+
 	const [queryError, setQueryError] = useState(null);
 	const [loading, setLoading] = useState(false);
 	const [loadingDownload, setLoadingDownload] = useState(false);
@@ -312,9 +346,12 @@ const FilterIndex = ({ initialQuery, lagre, avbryt, tittel }: OwnProps) => {
 
 					{oppgaver && (
 						<>
+							<Heading size="small" spacing className="mt-6">
+								Søkeresultat
+							</Heading>
 							<ReadMore header={`Maksimalt antall rader: ${oppgaveQuery.limit}. Klikk her for å endre dette.`}>
 								<TextField
-									className={styles.limitTextField}
+									className={`${styles.limitTextField} inline`}
 									label="Maksimalt antall rader"
 									description="Du kan endre antallet rader som blir hentet ned ved søk. Trykk på søkeknappen etter å ha oppdatert antallet. Merk at høye tall kan medføre at du må vente en stund før svaret kommer. Hvis søket blir avbrutt, fordi det tar for lang tid, så kan du forsøke det samme søket på nytt."
 									htmlSize={4}
@@ -323,12 +360,21 @@ const FilterIndex = ({ initialQuery, lagre, avbryt, tittel }: OwnProps) => {
 									defaultValue={oppgaveQuery.limit}
 									onChange={(event) => oppdaterLimit(parseInt(event.target.value, 10))}
 								/>
+								<Button
+									className="ml-2"
+									variant="tertiary"
+									icon={<Refresh aria-hidden />}
+									size="small"
+									onClick={executeOppgavesøk}
+									loading={loading}
+								>
+									Søk på nytt
+								</Button>
 							</ReadMore>
-							<Heading size="small" spacing className="mt-6">
-								Søkeresultat
-							</Heading>
-							<BodyShort className="mb-12">Fant {oppgaver.length} oppgaver.</BodyShort>
-							<OppgaveQueryResultat felter={felter} oppgaveQuery={oppgaveQuery} oppgaver={oppgaver} />
+							<BodyShort className="mt-6">{`Fant ${antallTreff} oppgaver.`}</BodyShort>
+							{!!antallTreff && (
+								<OppgaveQueryResultat felter={felter} oppgaveQuery={oppgaveQuery} oppgaver={oppgaver} />
+							)}
 						</>
 					)}
 				</div>
