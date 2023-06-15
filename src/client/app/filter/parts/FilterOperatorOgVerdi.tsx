@@ -96,7 +96,7 @@ const FilterOperatorOgVerdi = ({
 		return (
 			<div className="mt-[-7px]">
 				<UNSAFE_DatePicker {...datepickerProps}>
-					<UNSAFE_DatePicker.Input {...inputProps} label="Velg dato" />
+					<UNSAFE_DatePicker.Input {...inputProps} label="Velg dato" hideLabel />
 				</UNSAFE_DatePicker>
 			</div>
 		);
