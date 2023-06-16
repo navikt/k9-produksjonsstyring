@@ -65,3 +65,38 @@ test('kan redigere kø', async ({ page }) => {
 	await page.getByText('Køen er nå lagret!');
 	await page.getByRole('button', { name: 'Lukk' }).click();
 });
+
+test('tidligere lagret kø vises korrekt', async ({ page }) => {
+	await page.goto('http://localhost:8030/avdelingsleder');
+	await page.goto('http://localhost:8030/avdelingsleder');
+	await page.getByRole('link', { name: 'Nye behandlingskøer' }).click();
+	await page.getByRole('row', { name: 'Stians morokø - - - Vis mer' }).getByRole('button', { name: 'Vis mer' }).click();
+	await page.getByRole('button', { name: 'Endre filter for kø' }).click();
+
+	// Timestamp
+	await expect(page.getByText('01.06.2023')).toBeDefined();
+
+	// Duration settes
+	await expect(page.getByLabel('Antall dager')).toHaveValue('3');
+
+	// aksjonspunkter settes
+	await page.getByRole('button', { name: '5038 - Fastsett beregningsgrunnlag' }).click();
+	await page.getByRole('button', { name: '5039 - Ny/endret SN (varig endring)' }).click();
+	await page.getByRole('button', { name: '5046 - Fordel beregningsgrunnlag' }).click();
+	await page.getByRole('button', { name: '5047 - Tidsbegrenset arbeidsforhold' }).click();
+	await page.getByRole('button', { name: '5049 - Ny/endret SN (ny i arb.livet)' }).click();
+	await page.getByRole('button', { name: '5052 - Aktiviteter' }).click();
+	await page.getByRole('button', { name: '5058 - Beregningsfakta' }).click();
+	await page.getByRole('button', { name: '5084 - Feilutbetaling' }).click();
+	await page.getByRole('button', { name: '6014 - Overstyring beregningsaktivitet' }).click();
+	await page.getByRole('button', { name: '6015 - Overstyring beregningsgrunnlag' }).click();
+	// Predefinerte verdier settes
+	await page.getByRole('button', { name: 'Pleiepenger sykt barn' }).click();
+	await page.getByRole('button', { name: 'Omsorgspenger' }).click();
+
+	// boolean settes
+	await expect(page.getByLabel('Ja')).toBeChecked(); // See if ja is checked
+
+	// fritekst settes
+	await expect(page.getByLabel('Skriv fritekst')).toHaveValue('MB4P3'); // filled with MB4P3
+});

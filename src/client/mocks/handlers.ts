@@ -162,6 +162,68 @@ export const developmentHandlers = {
 			}),
 		);
 	}),
+	oppgavemodellV2HentKø4: rest.get(`${relativeTestApiPaths.hentOppgaveko}4`, async (req, res, ctx) =>
+		res(
+			ctx.json({
+				id: 3,
+				versjon: 2,
+				tittel: 'Stians morokø',
+				beskrivelse:
+					'Hvorfor var backend-utvikleren alltid den siste til å forlate kontoret? Fordi han var alltid opptatt med å håndtere køer.\n\nHvordan feirer en backend-utvikler sin bursdag? Han lager en kake og legger den i køen, men får aldri spise den fordi det er alltid en bug som må fikses først.\n\nHvorfor var backend-utvikleren alltid trøtt? Fordi han jobbet i skift - morgen, ettermiddag, kveld og nattskift. Velkommen til livet med køhåndtering!\n\nHva er en backend-utviklers favorittspill? Tetris. Han elsker å sortere blokkene akkurat som han sorterer oppgavene i køen.\n\nHvorfor liker backend-utviklere å se på folk som venter på bussen? Fordi det minner dem om jobben deres - å håndtere køer.\n\nHvorfor ble backend-utvikleren standup-komiker? Fordi han alltid jobber med køer, så han er god på å få ting til å bevege seg raskt.\n',
+				oppgaveQuery: {
+					filtere: [
+						{
+							type: 'feltverdi',
+							område: 'K9',
+							kode: 'vedtaksdato',
+							operator: 'EQUALS',
+							verdi: ['2023-06-01'],
+						},
+						{
+							type: 'feltverdi',
+							område: 'K9',
+							kode: 'akkumulertVentetidSaksbehandlerForTidligereVersjoner',
+							operator: 'EQUALS',
+							verdi: ['P3D'],
+						},
+						{
+							type: 'feltverdi',
+							område: 'K9',
+							kode: 'aktivtAksjonspunkt',
+							operator: 'EQUALS',
+							verdi: ['5038', '5039', '5046', '5047', '5049', '5052', '5058', '5084', '6014', '6015'],
+						},
+						{
+							type: 'feltverdi',
+							område: 'K9',
+							kode: 'ytelsestype',
+							operator: 'EQUALS',
+							verdi: ['PSB', 'OMP'],
+						},
+						{
+							type: 'feltverdi',
+							område: 'K9',
+							kode: 'saksnummer',
+							operator: 'EQUALS',
+							verdi: ['MB4P3'],
+						},
+						{
+							type: 'feltverdi',
+							område: 'K9',
+							kode: 'avventerTekniskFeil',
+							operator: 'EQUALS',
+							verdi: ['true'],
+						},
+					],
+					select: [],
+					order: [],
+					limit: 10,
+				},
+				frittValgAvOppgave: false,
+				saksbehandlere: ['saksbehandler11@nav.no'],
+			}),
+		),
+	),
 	oppgavemodellV2HentKø: rest.get(`${relativeTestApiPaths.hentOppgaveko}:id`, async (req, res, ctx) =>
 		res(
 			ctx.json({
@@ -184,13 +246,6 @@ export const developmentHandlers = {
 						id: '1',
 						tittel: 'Beskrivende tittel',
 						beskrivelse: 'godt forklart tekst om hva formålet med køen er',
-						oppgaveQuery: {
-							filtere: [],
-							select: [],
-							order: [],
-							limit: 10,
-							id: 'da62a94f-2370-4cee-84b3-c6c5d5371c74',
-						},
 						saksbehandlere: ['saksbehandler1103@nav.no', 'saksbehandler11909@nav.no', 'saksbehandler11@nav.no'],
 						antallOppgaver: 5,
 						sistEndret: 'dato',
@@ -204,13 +259,6 @@ export const developmentHandlers = {
 							'lang lang lang lang lang lang lang lang lang lang lang lang lang lang lang lang lang lang lang lang lang lang' +
 							'lang lang lang lang lang lang lang |lang lang lang lang lang lang lang lang lang lang lang lang lang lang lang lang lang lang lang ' +
 							'slang lang lang lang lang lang lang lang lang lang lang lang lang lang lang lang lang lang lang lang lang lang lang lang',
-						oppgaveQuery: {
-							filtere: [],
-							select: [],
-							order: [],
-							limit: 10,
-							id: 'da62a94f-2370-4cee-84b3-c6c5d5371c74',
-						},
 						saksbehandlere: [],
 						antallOppgaver: 1002,
 						sistEndret: 'dato',
@@ -221,17 +269,18 @@ export const developmentHandlers = {
 						id: '3',
 						tittel: 'Kø 3',
 						beskrivelse: 'godt forklart tekst om hva formålet med køen er',
-						oppgaveQuery: {
-							filtere: [],
-							select: [],
-							order: [],
-							limit: 10,
-							id: 'da62a94f-2370-4cee-84b3-c6c5d5371c74',
-						},
 						saksbehandlere: [],
 						antallOppgaver: 0,
 						sistEndret: 'dato',
 						versjon: 1,
+					},
+					{
+						id: 4,
+						versjon: 2,
+						tittel: 'Stians morokø',
+						beskrivelse:
+							'Hvorfor var backend-utvikleren alltid den siste til å forlate kontoret? Fordi han var alltid opptatt med å håndtere køer.\n\nHvordan feirer en backend-utvikler sin bursdag? Han lager en kake og legger den i køen, men får aldri spise den fordi det er alltid en bug som må fikses først.\n\nHvorfor var backend-utvikleren alltid trøtt? Fordi han jobbet i skift - morgen, ettermiddag, kveld og nattskift. Velkommen til livet med køhåndtering!\n\nHva er en backend-utviklers favorittspill? Tetris. Han elsker å sortere blokkene akkurat som han sorterer oppgavene i køen.\n\nHvorfor liker backend-utviklere å se på folk som venter på bussen? Fordi det minner dem om jobben deres - å håndtere køer.\n\nHvorfor ble backend-utvikleren standup-komiker? Fordi han alltid jobber med køer, så han er god på å få ting til å bevege seg raskt.\n',
+						saksbehandlere: ['saksbehandler11@nav.no'],
 					},
 				],
 			}),

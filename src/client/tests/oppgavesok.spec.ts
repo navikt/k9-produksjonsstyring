@@ -45,7 +45,6 @@ test('can add date values', async ({ page }) => {
 test('kan legge til verdier med tall', async ({ page }) => {
 	await page.getByRole('button', { name: 'Legg til filter' }).click();
 	await page.getByLabel('Felt').selectOption('K9__akkumulertVentetidSaksbehandlerForTidligereVersjoner');
-	await page.getByText('dager').isVisible();
 	await page.getByPlaceholder('Antall dager').click();
 	await page.getByPlaceholder('Antall dager').fill('10');
 });

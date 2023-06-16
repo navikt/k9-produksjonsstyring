@@ -31,7 +31,6 @@ const FilterOperatorOgVerdi = ({
 	oppgavefilter: FeltverdiOppgavefilter;
 	onOppdaterFilter: (id: string, data: object) => void;
 }) => {
-	const [dager, setDager] = useState<number | undefined>(calculateDays(oppgavefilter.verdi));
 	const handleChangeValue = useChangeValue(oppgavefilter, onOppdaterFilter);
 
 	const handleChangeBoolean = (values: string[]) => {
@@ -59,7 +58,6 @@ const FilterOperatorOgVerdi = ({
 
 	const handleDaysChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const newDays = parseFloat(e.target.value);
-		setDager(newDays);
 		const newDuration = dayjs.duration(newDays, 'days').toISOString();
 		handleChangeValue(newDuration);
 	};
@@ -80,8 +78,13 @@ const FilterOperatorOgVerdi = ({
 		return (
 			<>
 				<TextField
-					label=""
-					value={dager}
+					label="Antall dager"
+					hideLabel
+					value={
+						Array.isArray(oppgavefilter.verdi) && oppgavefilter.verdi[0]
+							? calculateDays(oppgavefilter.verdi)
+							: undefined
+					}
 					onChange={handleDaysChange}
 					type="number"
 					placeholder="Antall dager"
