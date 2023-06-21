@@ -3236,6 +3236,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@navikt/ds-css@npm:4.3.0":
+  version: 4.3.0
+  resolution: "@navikt/ds-css@npm:4.3.0::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40navikt%2Fds-css%2F4.3.0%2Fe3741ae74c53fcd95e3d33ce257867000383296e"
+  checksum: c568f557548d8982904200d339a6b200a65de264465b69ec4bdf34477188c7d7d24581a25ea4ff149b7e2c5b9756acc5c8aefba565c09c6250ae82a40c424ea1
+  languageName: node
+  linkType: hard
+
 "@navikt/ds-icons@npm:2.9.8, @navikt/ds-icons@npm:^2.9.8":
   version: 2.9.8
   resolution: "@navikt/ds-icons@npm:2.9.8::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40navikt%2Fds-icons%2F2.9.8%2Fb6f22493a3b836e00762dcc0a4397c64beb634e0"
@@ -15512,7 +15519,7 @@ __metadata:
     "@commercetools/enzyme-extensions": 5.0.0
     "@formatjs/intl-datetimeformat": 6.8.0
     "@formatjs/intl-numberformat": 8.5.0
-    "@navikt/ds-css": 2.9.8
+    "@navikt/ds-css": 4.3.0
     "@navikt/ds-icons": 2.9.8
     "@navikt/ds-react": 2.9.8
     "@navikt/familie-endringslogg": 8.1.1
