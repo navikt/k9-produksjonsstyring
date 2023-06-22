@@ -1,14 +1,12 @@
 FROM cgr.dev/chainguard/node:18
 
-LABEL org.opencontainers.image.source=https://github.com/navikt/k9-los-web
-
-WORKDIR /usr/src/client/app
+WORKDIR /usr/src/app
 
 COPY dist ./dist
 COPY server.js .
 COPY node_modules ./node_modules
 COPY package.json .
+COPY src/build/envVariables.js ./envVariables.js
 
-EXPOSE 8030
-CMD ["yarn", "run", "start-express"]
-
+EXPOSE 8080
+CMD ["/usr/bin/yarns", "run", "start-express"]
