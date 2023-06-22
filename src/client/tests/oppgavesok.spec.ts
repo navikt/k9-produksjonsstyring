@@ -49,6 +49,7 @@ test('kan legge til verdier med tall', async ({ page }) => {
 	await page.getByPlaceholder('Antall dager').fill('10');
 });
 
+// skippet pga ustabil selector
 test.skip('kan legge til grupper hvor minimum en av filterene må være oppfylt', async ({ page }) => {
 	await page.getByRole('button', { name: 'Legg til gruppe av filtere' }).click();
 	await page
@@ -73,6 +74,7 @@ test.skip('kan legge til grupper hvor minimum en av filterene må være oppfylt'
 	await page.getByLabel('Ja').check();
 });
 
+// skippet pga ustabil selector
 test.skip('kan legge til filter, hvilke felter som skal vises og sortering', async ({ page }) => {
 	await page.getByRole('button', { name: 'Legg til filter' }).click();
 	await page.getByLabel('Felt').selectOption('K9__akkumulertVentetidAnnetForTidligereVersjoner');
