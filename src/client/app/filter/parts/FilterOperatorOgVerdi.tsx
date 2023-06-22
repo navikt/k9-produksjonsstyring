@@ -1,13 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import dayjs from 'dayjs';
-import {
-	BodyShort,
-	Checkbox,
-	CheckboxGroup,
-	TextField,
-	UNSAFE_DatePicker,
-	UNSAFE_useDatepicker,
-} from '@navikt/ds-react';
+import { BodyShort, Checkbox, CheckboxGroup, DatePicker, TextField, useDatepicker } from '@navikt/ds-react';
 import AksjonspunktVelger from 'avdelingsleder/behandlingskoerV2/components/AksjonspunktVelger';
 import { FeltverdiOppgavefilter, Oppgavefelt, TolkesSom } from 'filter/filterTsTypes';
 import { aksjonspunktKoder } from 'filter/konstanter';
@@ -50,7 +43,7 @@ const FilterOperatorOgVerdi = ({
 		handleChangeValue(newDate);
 	};
 
-	const { datepickerProps, inputProps } = UNSAFE_useDatepicker({
+	const { datepickerProps, inputProps } = useDatepicker({
 		fromDate: new Date('Aug 23 2017'),
 		onDateChange,
 		defaultSelected: dayjs(new Date(oppgavefilter.verdi)).isValid() ? new Date(oppgavefilter.verdi) : undefined,
@@ -98,9 +91,9 @@ const FilterOperatorOgVerdi = ({
 	if (feltdefinisjon?.tolkes_som === TolkesSom.Timestamp) {
 		return (
 			<div className="mt-[-7px]">
-				<UNSAFE_DatePicker {...datepickerProps}>
-					<UNSAFE_DatePicker.Input {...inputProps} label="Velg dato" hideLabel />
-				</UNSAFE_DatePicker>
+				<DatePicker {...datepickerProps}>
+					<DatePicker.Input {...inputProps} label="Velg dato" hideLabel />
+				</DatePicker>
 			</div>
 		);
 	}
