@@ -1,4 +1,4 @@
-FROM node:alpine
+FROM cgr.dev/chainguard/node:18
 
 LABEL org.opencontainers.image.source=https://github.com/navikt/k9-los-web
 
