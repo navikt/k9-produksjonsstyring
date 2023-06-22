@@ -7239,7 +7239,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"autoprefixer@npm:^10.4.14":
+"autoprefixer@npm:10.4.14":
   version: 10.4.14
   resolution: "autoprefixer@npm:10.4.14"
   dependencies:
@@ -15000,7 +15000,7 @@ __metadata:
     "@typescript-eslint/eslint-plugin": 5.60.0
     "@typescript-eslint/parser": 5.60.0
     "@wojtekmaj/enzyme-adapter-react-17": 0.8.0
-    autoprefixer: ^10.4.14
+    autoprefixer: 10.4.14
     axios: 1.4.0
     babel-eslint: 10.1.0
     babel-jest: 29.5.0
