@@ -4590,6 +4590,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@remix-run/router@npm:1.7.0":
+  version: 1.7.0
+  resolution: "@remix-run/router@npm:1.7.0"
+  checksum: 80cab2fda9e4b9047c991e9b05b8bda8afa2adf7b85c785d7e6f593a399eb264d6a74302438babc81833b5d304eae0b22832f27552b1601e2ca9001d94b8e174
+  languageName: node
+  linkType: hard
+
 "@sentry-internal/tracing@npm:7.56.0":
   version: 7.56.0
   resolution: "@sentry-internal/tracing@npm:7.56.0"
@@ -16513,7 +16520,7 @@ __metadata:
     react-motion: 0.5.2
     react-popper: 2.3.0
     react-query: 3.39.3
-    react-router: 6.11.1
+    react-router: 6.14.0
     react-router-dom: 6.11.1
     react-test-renderer: 18.2.0
     sinon: 15.0.4
@@ -20907,6 +20914,17 @@ __metadata:
   peerDependencies:
     react: ">=16.8"
   checksum: c5cafbaac13564d0e325f84ce6e4cbc42de5c381b0f619209f3b101d2b6eae4a8f9ee87b492875e869909dd9bb549d05d2f677085708f79622b872bd45d14bbb
+  languageName: node
+  linkType: hard
+
+"react-router@npm:6.14.0":
+  version: 6.14.0
+  resolution: "react-router@npm:6.14.0"
+  dependencies:
+    "@remix-run/router": 1.7.0
+  peerDependencies:
+    react: ">=16.8"
+  checksum: 50a941746d12e81cea5495505c1afbcd099cc7d497624b013454cfd5a360d9403578f8fb3df17973bf775fbff91cb76477448023d537215e6aa71a8b85ae95bd
   languageName: node
   linkType: hard
 
