@@ -1,4 +1,4 @@
-FROM node:18-alpine
+FROM cgr.dev/chainguard/node:18
 
 LABEL org.opencontainers.image.source=https://github.com/navikt/k9-los-web
 
@@ -10,5 +10,5 @@ COPY node_modules ./node_modules
 COPY package.json .
 
 EXPOSE 8030
-CMD ["yarn", "run", "start-express"]
+CMD ["/usr/bin/npm", "run", "start-express"]
 
