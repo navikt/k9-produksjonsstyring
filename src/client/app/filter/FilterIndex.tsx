@@ -371,7 +371,11 @@ const FilterIndex = ({ initialQuery, lagre, avbryt, tittel }: OwnProps) => {
 									Søk på nytt
 								</Button>
 							</ReadMore>
-							<BodyShort className="mt-6">{`Fant ${antallTreff} oppgaver.`}</BodyShort>
+							<BodyShort className="mt-6">{`Fant ${
+								Number(antallTreff) > 0 && Number(antallTreff) === oppgaveQuery.limit
+									? Number(antallTreff) === oppgaveQuery.limit && `mer enn ${antallTreff} oppgaver`
+									: `${antallTreff} oppgaver`
+							}`}</BodyShort>
 							{!!antallTreff && (
 								<OppgaveQueryResultat felter={felter} oppgaveQuery={oppgaveQuery} oppgaver={oppgaver} />
 							)}
