@@ -16,6 +16,7 @@
 			"app/*": ["app/app/*"],
 			"api/*": ["app/api/*"],
 			"form/*": ["app/form/*"],
+			"hooks/*": ["app/hooks/*"],
 			"kodeverk/*": ["app/kodeverk/*"],
 			"navAnsatt/*": ["app/navAnsatt/*"],
 			"sharedComponents/*": ["app/sharedComponents/*"],

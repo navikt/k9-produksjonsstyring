@@ -4,17 +4,38 @@ import { useAlleKoer } from 'api/queries/avdelingslederQueries';
 import BehandlingsKoForm from './BehandlingsKoForm';
 import NyKøModal from './NyKøModal';
 
+function scrollToId(id: string) {
+	let intervalId: NodeJS.Timeout | undefined;
+
+	const scroll = () => {
+		const element = document.getElementById(id);
+		if (element) {
+			clearInterval(intervalId);
+			setTimeout(() => element.scrollIntoView({ behavior: 'smooth', block: 'end' }), 500);
+		}
+	};
+
+	intervalId = setInterval(scroll, 100);
+}
+
 const BehandlingskoerIndex = () => {
 	const { data, isLoading, error } = useAlleKoer();
 	const [visNyKøModal, setVisNyKøModal] = useState(false);
 	const [sort, setSort] = useState(null);
 	const [ekspanderteKøer, setEkspanderteKøer] = useState([]);
+	const [køSomNettoppBleLaget, setKøSomNettoppBleLaget] = useState('');
 
-	const onOpenChange = (køId) => {
+	const onOpenChange = (køId: string) => {
 		setEkspanderteKøer((prevState) =>
 			prevState.includes(køId) ? prevState.filter((v) => v !== køId) : [...prevState, køId],
 		);
 	};
+	React.useEffect(() => {
+		if (køSomNettoppBleLaget) {
+			setEkspanderteKøer([køSomNettoppBleLaget]);
+			scrollToId(køSomNettoppBleLaget);
+		}
+	}, [køSomNettoppBleLaget]);
 
 	const handleSort = (sortKey) => {
 		const newDirection =
@@ -92,7 +113,15 @@ const BehandlingskoerIndex = () => {
 						))}
 				</Table.Body>
 			</Table>
-			{visNyKøModal && <NyKøModal vis lukk={() => setVisNyKøModal(false)} />}
+			{visNyKøModal && (
+				<NyKøModal
+					vis
+					lukk={() => setVisNyKøModal(false)}
+					onSuccessCallback={(id) => {
+						setKøSomNettoppBleLaget(id);
+					}}
+				/>
+			)}
 		</>
 	);
 };

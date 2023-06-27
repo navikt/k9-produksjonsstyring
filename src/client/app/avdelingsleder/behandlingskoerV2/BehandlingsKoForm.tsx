@@ -24,16 +24,14 @@ enum fieldnames {
 interface BaseProps {
 	lukk: () => void;
 	ekspandert: boolean;
-}
-
-interface BehandlingsKoFormContainer extends BaseProps {
 	id: string;
 }
+
 interface BehandlingsKoFormProps extends BaseProps {
 	kø: OppgavekøV2;
 }
 
-const BehandlingsKoForm = ({ kø, lukk, ekspandert }: BehandlingsKoFormProps) => {
+const BehandlingsKoForm = ({ kø, lukk, ekspandert, id }: BehandlingsKoFormProps) => {
 	const { versjon } = kø;
 	const [visFilterModal, setVisFilterModal] = useState(false);
 	const [visLagreModal, setVisLagreModal] = useState(false);
@@ -154,7 +152,7 @@ const BehandlingsKoForm = ({ kø, lukk, ekspandert }: BehandlingsKoFormProps) =>
 					Køen er nå lagret!
 				</Alert>
 			)}
-			<div className="mt-8 flex gap-4">
+			<div id={id} className="mt-8 flex gap-4">
 				<Button
 					type="button"
 					onClick={async () => {
@@ -202,8 +200,8 @@ const BehandlingsKoForm = ({ kø, lukk, ekspandert }: BehandlingsKoFormProps) =>
 	);
 };
 
-const BehandlingsKoFormContainer = (props: BehandlingsKoFormContainer) => {
-	const { lukk, ekspandert } = props;
+const BehandlingsKoFormContainer = (props: BaseProps) => {
+	const { lukk, ekspandert, id } = props;
 	const { data, isLoading, error } = useKo(props.id, { enabled: ekspandert });
 
 	if (isLoading) {
@@ -216,7 +214,7 @@ const BehandlingsKoFormContainer = (props: BehandlingsKoFormContainer) => {
 
 	if (!data) return null;
 
-	return <BehandlingsKoForm kø={data} lukk={lukk} ekspandert={ekspandert} />;
+	return <BehandlingsKoForm kø={data} id={id} lukk={lukk} ekspandert={ekspandert} />;
 };
 
 export default BehandlingsKoFormContainer;

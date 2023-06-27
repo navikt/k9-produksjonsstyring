@@ -16,9 +16,9 @@ export const useNyKøMutation = (callback) => {
 	const queryClient = useQueryClient();
 
 	return useMutation<OppgavekøV2, unknown, { url: string; body: { tittel: string } }>({
-		onSuccess: () =>
+		onSuccess: (data) =>
 			Promise.all([queryClient.invalidateQueries(apiPaths.hentOppgavekoer)]).then(() => {
-				if (callback) callback();
+				if (callback) callback(data.id);
 			}),
 	});
 };
