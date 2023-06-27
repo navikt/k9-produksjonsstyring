@@ -31,12 +31,20 @@ interface OwnProps {
 	tittel: string;
 }
 
-const antallTreffOppgaver = (oppgaver: Oppgaverad[]) => {
+const resultatErKunAntall = (oppgaver: Oppgaverad[]) => {
 	if (oppgaver.length === 1) {
 		if (oppgaver[0].felter.length === 1 && oppgaver[0].felter[0].kode === 'Antall') {
-			return oppgaver[0].felter[0].verdi as string;
+			return true;
 		}
 	}
+	return false;
+};
+
+const antallTreffOppgaver = (oppgaver: Oppgaverad[]) => {
+	if (resultatErKunAntall(oppgaver)) {
+		return oppgaver[0].felter[0].verdi as string;
+	}
+
 	return String(oppgaver.length);
 };
 
@@ -381,7 +389,7 @@ const FilterIndex = ({ initialQuery, lagre, avbryt, tittel }: OwnProps) => {
 									? Number(antallTreff) === oppgaveQuery.limit && `mer enn ${antallTreff} oppgaver`
 									: `${antallTreff} oppgaver`
 							}`}</BodyShort>
-							{!!antallTreff && (
+							{!resultatErKunAntall(oppgaver) && (
 								<OppgaveQueryResultat felter={felter} oppgaveQuery={oppgaveQuery} oppgaver={oppgaver} />
 							)}
 						</>
