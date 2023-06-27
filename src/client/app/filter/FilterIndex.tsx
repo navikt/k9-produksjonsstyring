@@ -57,14 +57,18 @@ const FilterIndex = ({ initialQuery, lagre, avbryt, tittel }: OwnProps) => {
 	const [antallTreff, setAntallTreff] = useState('0');
 	const [prevOppgaveQuery, setPrevOppgaveQuery] = useState({});
 
+	const nullstillTreff = () => {
+		setAntallTreff('0');
+		setOppgaver(null);
+	};
+
 	useEffect(() => {
 		if (Array.isArray(oppgaver)) setAntallTreff(antallTreffOppgaver(oppgaver));
 	}, [oppgaver]);
 
 	useEffect(() => {
 		if (hasQueryChangedExcludingLimit(prevOppgaveQuery, oppgaveQuery)) {
-			setAntallTreff('0');
-			setOppgaver(null);
+			nullstillTreff();
 			setPrevOppgaveQuery(oppgaveQuery);
 		}
 	}, [oppgaveQuery]);
@@ -93,6 +97,7 @@ const FilterIndex = ({ initialQuery, lagre, avbryt, tittel }: OwnProps) => {
 	});
 
 	const executeOppgavesøk = () => {
+		nullstillTreff();
 		function updateIdentities(oppgaverader: Oppgaverad[]) {
 			oppgaverader.map((v) => ({
 				...v,
