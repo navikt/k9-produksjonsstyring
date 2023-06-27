@@ -52,8 +52,14 @@ const BehandlingskoerIndex = () => {
 
 		return data.slice().sort((a, b) => {
 			const comparator = (itemA, itemB, orderBy) => {
-				if (itemB[orderBy] < itemA[orderBy] || itemB[orderBy] === undefined) return -1;
-				if (itemB[orderBy] > itemA[orderBy]) return 1;
+				let aVal = itemA[orderBy];
+				let bVal = itemB[orderBy];
+				if (orderBy === 'tittel') {
+					aVal = aVal?.toLowerCase();
+					bVal = bVal?.toLowerCase();
+				}
+				if (bVal < aVal || bVal === undefined) return -1;
+				if (bVal > aVal) return 1;
 				return 0;
 			};
 

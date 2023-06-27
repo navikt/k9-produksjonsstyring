@@ -33,7 +33,6 @@ const FilterOperatorOgVerdi = ({
 			verdi: mappedValues,
 		});
 	};
-
 	const onDateChange = (date) => {
 		if (!date) {
 			return;
@@ -90,11 +89,9 @@ const FilterOperatorOgVerdi = ({
 
 	if (feltdefinisjon?.tolkes_som === TolkesSom.Timestamp) {
 		return (
-			<div className="mt-[-7px]">
-				<DatePicker {...datepickerProps}>
-					<DatePicker.Input {...inputProps} label="Velg dato" hideLabel />
-				</DatePicker>
-			</div>
+			<DatePicker {...datepickerProps}>
+				<DatePicker.Input {...inputProps} label="Velg dato" hideLabel />
+			</DatePicker>
 		);
 	}
 
