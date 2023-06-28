@@ -191,7 +191,7 @@ const SearchWithDropdown: React.FC<SearchWithDropdownProps> = (props) => {
 			<Merkelapper>
 				{selectedValues.map((suggestion) => (
 					<Merkelapp key={suggestion} onClick={() => onRemoveSuggestion(suggestion)}>
-						{getSuggestion(suggestion).label}
+						{getSuggestion(suggestion)?.label}
 					</Merkelapp>
 				))}
 			</Merkelapper>
