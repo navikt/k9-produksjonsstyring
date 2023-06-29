@@ -73,7 +73,7 @@ Definer hvilket API som skal mockes og hva som skal returneres i handlers.js
 Kjør opp applikasjonen med følgende kommando for å bruke mockdata fra handlers.js
 
 ```
-MSW_MODE=dev yarn dev
+MSW_MODE=test yarn dev
 ```
 
 #### Windows oppsett

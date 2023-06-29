@@ -270,7 +270,7 @@ export const developmentHandlers = {
 						beskrivelse: 'godt forklart tekst om hva formålet med køen er',
 						saksbehandlere: [],
 						antallOppgaver: 0,
-						sistEndret: 'dato',
+						sistEndret: null,
 						versjon: 1,
 					},
 					{
@@ -296,7 +296,7 @@ export const developmentHandlers = {
 	),
 };
 
-if (process.env.MSW_MODE === 'dev') {
+if (process.env.MSW_MODE === 'test') {
 	handlers = handlers.concat(Object.values(developmentHandlers));
 }
 

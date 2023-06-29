@@ -33,7 +33,7 @@ test('kan redigere kø', async ({ page }) => {
 	await page.getByRole('cell', { name: 'Kø 2' }).isVisible();
 
 	await page
-		.getByRole('row', { name: 'Beskrivende tittel - - - Vis mer' })
+		.getByRole('row', { name: 'Beskrivende tittel 0 - - Vis mer' })
 		.getByRole('button', { name: 'Vis mer' })
 		.click();
 
@@ -70,7 +70,10 @@ test('tidligere lagret kø vises korrekt', async ({ page }) => {
 	await page.goto('http://localhost:8030/avdelingsleder');
 	await page.goto('http://localhost:8030/avdelingsleder');
 	await page.getByRole('link', { name: 'Nye behandlingskøer' }).click();
-	await page.getByRole('row', { name: 'Stians morokø - - - Vis mer' }).getByRole('button', { name: 'Vis mer' }).click();
+	await page
+		.getByRole('row', { name: 'Stians morokø 6 - 28.05.2023 08:57 Vis mer' })
+		.getByRole('button', { name: 'Vis mer' })
+		.click();
 	await page.getByRole('button', { name: 'Endre filter for kø' }).click();
 
 	// Timestamp
