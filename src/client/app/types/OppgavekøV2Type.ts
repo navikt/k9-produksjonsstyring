@@ -16,6 +16,8 @@ export interface OppgavekøV2 extends OppgavekøV2Enkel {
 export interface OppgavekøV2Enkel {
 	id: string;
 	tittel: string;
+	antallSaksbehandlere: number;
+	sistEndret: string | null;
 }
 
 export interface OppgavekøV2MedNavn extends OppgavekøV2 {

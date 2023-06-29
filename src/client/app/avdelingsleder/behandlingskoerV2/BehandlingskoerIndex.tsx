@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import dayjs from 'dayjs';
 import { Button, Loader, Table } from '@navikt/ds-react';
 import { useAlleKoer } from 'api/queries/avdelingslederQueries';
 import BehandlingsKoForm from './BehandlingsKoForm';
@@ -112,9 +113,9 @@ const BehandlingskoerIndex = () => {
 								}
 							>
 								<Table.DataCell scope="row">{kø.tittel}</Table.DataCell>
+								<Table.DataCell>{kø.antallSaksbehandlere}</Table.DataCell>
 								<Table.DataCell>-</Table.DataCell>
-								<Table.DataCell>-</Table.DataCell>
-								<Table.DataCell>-</Table.DataCell>
+								<Table.DataCell>{dayjs(kø.sistEndret).format('DD.MM.YYYY HH:mm')}</Table.DataCell>
 							</Table.ExpandableRow>
 						))}
 				</Table.Body>
