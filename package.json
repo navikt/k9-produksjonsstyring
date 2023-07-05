@@ -102,7 +102,7 @@
 		"@commercetools/enzyme-extensions": "5.0.0",
 		"@storybook/addon-actions": "6.5.16",
 		"@storybook/addon-centered": "5.3.21",
-		"@storybook/addon-docs": "6.5.16",
+		"@storybook/addon-docs": "7.0.26",
 		"@storybook/addon-essentials": "6.5.16",
 		"@storybook/addon-knobs": "6.4.0",
 		"@storybook/addons": "6.5.16",
