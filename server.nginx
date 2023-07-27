@@ -24,7 +24,7 @@ server {
 
   location / {
     add_header              X-Application-Id "${APP_NAME}, pod=${APP_HOSTNAME}"; 
-    add_header              Content-Security-Policy "default-src 'self'; connect-src 'self' '${AUTH_PROXY_BASE_URL}' '${AUTH_PROXY_BASE_URL_WSS}' 'https://sentry.gc.nav.no' 'https://familie-endringslogg.intern.dev.nav.no' 'https://familie-endringslogg.intern.nav.no/'; frame-src 'self' '${AUTH_PROXY_BASE_URL}'; font-src 'self' data: https://cdn.nav.no; img-src 'self' data:; style-src 'self' 'unsafe-inline';";
+    add_header              Content-Security-Policy "default-src 'self'; connect-src 'self' ${AUTH_PROXY_BASE_URL} ${AUTH_PROXY_BASE_URL_WSS} https://sentry.gc.nav.no https://familie-endringslogg.intern.dev.nav.no https://familie-endringslogg.intern.nav.no/; frame-src 'self' ${AUTH_PROXY_BASE_URL}; font-src 'self' data: https://cdn.nav.no; img-src 'self' data:; style-src 'self' 'unsafe-inline';";
     add_header              X-Content-Type-Options "nosniff";
     add_header              X-XSS-Protection "1;mode=block";
     add_header              Strict-Transport-Security "max-age=31536000";
