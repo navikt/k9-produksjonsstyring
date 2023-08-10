@@ -45,7 +45,6 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps & WrappedComponentPro
 	hastesaker,
 }) => {
 	const intl = useIntl();
-	const [showMenu, setShowMenu] = useState(false);
 	const [reserverteOppgaverState, setReserverteOppgaveState] = useState<Oppgave[]>(reserverteOppgaver);
 	const [requestFinishedState, setRequestFinishedState] = useState<boolean>(requestFinished);
 
@@ -61,25 +60,21 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps & WrappedComponentPro
 	const initialRender = useRef(true);
 
 	useEffect(() => {
-		if (!showMenu) {
-			if (
-				reserverteOppgaver.length !== reserverteOppgaverState.length ||
-				!reserverteOppgaver.every((oppgave) => reserverteOppgaverState.includes(oppgave))
-			) {
-				setReserverteOppgaveState(reserverteOppgaver);
-			}
+		if (
+			reserverteOppgaver.length !== reserverteOppgaverState.length ||
+			!reserverteOppgaver.every((oppgave) => reserverteOppgaverState.includes(oppgave))
+		) {
+			setReserverteOppgaveState(reserverteOppgaver);
+		}
 
-			if (requestFinished !== requestFinishedState) {
-				setRequestFinishedState(requestFinished);
-			}
+		if (requestFinished !== requestFinishedState) {
+			setRequestFinishedState(requestFinished);
 		}
 	}, [reserverteOppgaver, requestFinished]);
 
 	useEffect(() => {
-		if (!showMenu && !initialRender.current) {
-			hentReserverteOppgaver();
-		}
-	}, [showMenu]);
+		hentReserverteOppgaver();
+	}, []);
 
 	useEffect(() => {
 		if (initialRender.current) {
@@ -111,11 +106,12 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps & WrappedComponentPro
 	const toggleMenu = useCallback(
 		(oppgaveValgt: Oppgave) => {
 			if (oppgaveValgt) {
-				setShowMenu(!showMenu);
 				setValgtOppgaveId(oppgaveValgt.eksternId);
+			} else {
+				setValgtOppgaveId(undefined);
 			}
 		},
-		[valgtOppgaveId, showMenu],
+		[valgtOppgaveId],
 	);
 
 	const valgtOppgave = reserverteOppgaverState.find((o) => o.eksternId === valgtOppgaveId);
@@ -183,7 +179,7 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps & WrappedComponentPro
 										ref.current = { ...ref.current, [oppgave.eksternId]: el };
 									}}
 								>
-									{showMenu && valgtOppgaveId && valgtOppgave && (
+									{valgtOppgaveId === oppgave.eksternId && valgtOppgave && (
 										<OppgaveHandlingerMenu
 											imageNode={ref.current[valgtOppgaveId]}
 											toggleMenu={toggleMenu}

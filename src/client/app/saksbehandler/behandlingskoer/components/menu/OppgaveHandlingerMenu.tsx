@@ -48,8 +48,7 @@ const OppgaveHandlingerMenu: React.FC<OwnProps> = ({
 				return;
 			}
 		}
-
-		toggleMenu(oppgave);
+		toggleMenu(null);
 	};
 
 	useEffect(() => {
