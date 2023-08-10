@@ -25,6 +25,7 @@ interface OwnProps {
 	imageNode: any;
 	forlengOppgaveReservasjon: (oppgaveId: string) => Promise<Oppgave[]>;
 	hentReserverteOppgaver: (params: any, keepData: boolean) => void;
+	setViserModal: (viserModal: boolean) => void;
 }
 
 const OppgaveHandlingerMenu: React.FC<OwnProps> = ({
@@ -33,12 +34,21 @@ const OppgaveHandlingerMenu: React.FC<OwnProps> = ({
 	imageNode,
 	forlengOppgaveReservasjon,
 	hentReserverteOppgaver,
+	setViserModal,
 }) => {
 	const node = useRef(null);
 	const menuButtonRef = useRef(null);
 
 	const [showOpphevReservasjonModal, setShowOpphevReservasjonModal] = useState(false);
 	const [showFlyttReservasjonModal, setShowFlyttReservasjonModal] = useState(false);
+
+	useEffect(() => {
+		if (showOpphevReservasjonModal || showFlyttReservasjonModal) {
+			setViserModal(true);
+		} else {
+			setViserModal(false);
+		}
+	}, [showOpphevReservasjonModal, showFlyttReservasjonModal]);
 
 	const handleOutsideClick = (event: React.MouseEvent<HTMLButtonElement>) => {
 		if (event && event.target) {

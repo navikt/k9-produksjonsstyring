@@ -45,6 +45,7 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps & WrappedComponentPro
 	hastesaker,
 }) => {
 	const intl = useIntl();
+	const [viserModal, setViserModal] = useState<boolean>(false);
 	const [reserverteOppgaverState, setReserverteOppgaveState] = useState<Oppgave[]>(reserverteOppgaver);
 	const [requestFinishedState, setRequestFinishedState] = useState<boolean>(requestFinished);
 
@@ -92,15 +93,16 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps & WrappedComponentPro
 	const goToFagsak = useCallback(
 		(event: Event, id: number, oppgave: Oppgave) => {
 			if (
-				ref.current &&
-				Object.keys(ref.current).some((key) => ref.current[key] && ref.current[key].contains(event.target))
+				(ref.current &&
+					Object.keys(ref.current).some((key) => ref.current[key] && ref.current[key].contains(event.target))) ||
+				viserModal
 			) {
 				return;
 			}
 			leggTilBehandletOppgave(oppgave);
 			apneOppgave(oppgave);
 		},
-		[ref.current],
+		[ref.current, viserModal],
 	);
 
 	const toggleMenu = useCallback(
@@ -186,6 +188,7 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps & WrappedComponentPro
 											oppgave={valgtOppgave}
 											forlengOppgaveReservasjon={forlengOppgaveReservasjonFn}
 											hentReserverteOppgaver={hentReserverteOppgaver}
+											setViserModal={setViserModal}
 										/>
 									)}
 									<Image
