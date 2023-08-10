@@ -25,7 +25,6 @@ interface OwnProps {
 	imageNode: any;
 	forlengOppgaveReservasjon: (oppgaveId: string) => Promise<Oppgave[]>;
 	hentReserverteOppgaver: (params: any, keepData: boolean) => void;
-	setViserModal: (viserModal: boolean) => void;
 }
 
 const OppgaveHandlingerMenu: React.FC<OwnProps> = ({
@@ -34,7 +33,6 @@ const OppgaveHandlingerMenu: React.FC<OwnProps> = ({
 	imageNode,
 	forlengOppgaveReservasjon,
 	hentReserverteOppgaver,
-	setViserModal,
 }) => {
 	const node = useRef(null);
 	const menuButtonRef = useRef(null);
@@ -42,19 +40,11 @@ const OppgaveHandlingerMenu: React.FC<OwnProps> = ({
 	const [showOpphevReservasjonModal, setShowOpphevReservasjonModal] = useState(false);
 	const [showFlyttReservasjonModal, setShowFlyttReservasjonModal] = useState(false);
 
-	useEffect(() => {
-		if (showOpphevReservasjonModal || showFlyttReservasjonModal) {
-			setViserModal(true);
-		} else {
-			setViserModal(false);
-		}
-	}, [showOpphevReservasjonModal, showFlyttReservasjonModal]);
-
 	const handleOutsideClick = (event: React.MouseEvent<HTMLButtonElement>) => {
 		if (event && event.target) {
 			const harKlikketMeny = node.current && node.current.contains(event.target);
 			const harKlikketIkon = imageNode && imageNode.contains(event.target);
-			if (harKlikketMeny || harKlikketIkon) {
+			if (harKlikketMeny || harKlikketIkon || showOpphevReservasjonModal || showFlyttReservasjonModal) {
 				return;
 			}
 		}
@@ -77,7 +67,7 @@ const OppgaveHandlingerMenu: React.FC<OwnProps> = ({
 	};
 
 	const closeBegrunnelseModal = () => {
-		toggleMenu(oppgave);
+		toggleMenu(null);
 		toggleEventListeners(true, handleOutsideClick);
 		setShowOpphevReservasjonModal(false);
 	};
@@ -88,14 +78,12 @@ const OppgaveHandlingerMenu: React.FC<OwnProps> = ({
 	};
 
 	const closeFlytteModal = () => {
-		toggleMenu(oppgave);
+		toggleMenu(null);
 		setShowFlyttReservasjonModal(false);
 	};
 
 	const forlengReserverasjon = () => {
-		forlengOppgaveReservasjon(oppgave.eksternId).then((_) => {
-			toggleMenu(oppgave);
-		});
+		forlengOppgaveReservasjon(oppgave.eksternId);
 	};
 
 	return (
