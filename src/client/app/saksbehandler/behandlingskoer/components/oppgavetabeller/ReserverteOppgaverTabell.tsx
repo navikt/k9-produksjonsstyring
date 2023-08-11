@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { FunctionComponent, useCallback, useEffect, useRef, useState } from 'react';
 import { FormattedMessage, WrappedComponentProps, injectIntl, useIntl } from 'react-intl';
 import classNames from 'classnames';
@@ -5,7 +6,7 @@ import menuIconBlackUrl from 'images/ic-menu-18px_black.svg';
 import menuIconBlueUrl from 'images/ic-menu-18px_blue.svg';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { WarningColored } from '@navikt/ds-icons';
-import { Loader } from '@navikt/ds-react';
+import { Loader, Table } from '@navikt/ds-react';
 import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
 import { useGlobalStateRestApiData } from 'api/rest-api-hooks';
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
@@ -20,9 +21,6 @@ import KommentarMedMerknad from 'saksbehandler/components/KommentarMedMerknad';
 import Oppgave from 'saksbehandler/oppgaveTsType';
 import DateLabel from 'sharedComponents/DateLabel';
 import Image from 'sharedComponents/Image';
-import Table from 'sharedComponents/Table';
-import TableColumn from 'sharedComponents/TableColumn';
-import TableRow from 'sharedComponents/TableRow';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import { getDateAndTime } from 'utils/dateUtils';
 import { getKodeverknavnFraKode } from 'utils/kodeverkUtils';
@@ -45,15 +43,10 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps & WrappedComponentPro
 	hastesaker,
 }) => {
 	const intl = useIntl();
-	const [showMenu, setShowMenu] = useState(false);
 	const [reserverteOppgaverState, setReserverteOppgaveState] = useState<Oppgave[]>(reserverteOppgaver);
 	const [requestFinishedState, setRequestFinishedState] = useState<boolean>(requestFinished);
 
 	const [valgtOppgaveId, setValgtOppgaveId] = useState<string>();
-	const [offset, setOffset] = useState({
-		left: 0,
-		top: 0,
-	});
 
 	const alleKodeverk: AlleKodeverk = useGlobalStateRestApiData(RestApiGlobalStatePathsKeys.KODEVERK);
 
@@ -65,25 +58,21 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps & WrappedComponentPro
 	const initialRender = useRef(true);
 
 	useEffect(() => {
-		if (!showMenu) {
-			if (
-				reserverteOppgaver.length !== reserverteOppgaverState.length ||
-				!reserverteOppgaver.every((oppgave) => reserverteOppgaverState.includes(oppgave))
-			) {
-				setReserverteOppgaveState(reserverteOppgaver);
-			}
+		if (
+			reserverteOppgaver.length !== reserverteOppgaverState.length ||
+			!reserverteOppgaver.every((oppgave) => reserverteOppgaverState.includes(oppgave))
+		) {
+			setReserverteOppgaveState(reserverteOppgaver);
+		}
 
-			if (requestFinished !== requestFinishedState) {
-				setRequestFinishedState(requestFinished);
-			}
+		if (requestFinished !== requestFinishedState) {
+			setRequestFinishedState(requestFinished);
 		}
 	}, [reserverteOppgaver, requestFinished]);
 
 	useEffect(() => {
-		if (!showMenu && !initialRender.current) {
-			hentReserverteOppgaver();
-		}
-	}, [showMenu]);
+		hentReserverteOppgaver();
+	}, []);
 
 	useEffect(() => {
 		if (initialRender.current) {
@@ -98,35 +87,20 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps & WrappedComponentPro
 
 	const ref = useRef({});
 
-	const goToFagsak = useCallback(
-		(event: Event, id: number, oppgave: Oppgave) => {
-			if (
-				ref.current &&
-				Object.keys(ref.current).some((key) => ref.current[key] && ref.current[key].contains(event.target))
-			) {
-				return;
-			}
-			leggTilBehandletOppgave(oppgave);
-			apneOppgave(oppgave);
-		},
-		[ref.current],
-	);
+	const goToFagsak = (oppgave: Oppgave) => {
+		console.log('ayo');
+		leggTilBehandletOppgave(oppgave);
+		apneOppgave(oppgave);
+	};
 
-	const toggleMenu = useCallback(
-		(oppgaveValgt: Oppgave) => {
-			const newOffset = ref.current[oppgaveValgt.eksternId]?.getBoundingClientRect();
-
-			if (newOffset) {
-				setShowMenu(!showMenu);
-				setValgtOppgaveId(oppgaveValgt.eksternId);
-				setOffset({ top: newOffset.top, left: newOffset.left });
-			}
-		},
-		[ref.current, showMenu],
-	);
-
+	const toggleMenu = (oppgaveValgt: Oppgave) => {
+		if (oppgaveValgt) {
+			setValgtOppgaveId(oppgaveValgt.eksternId);
+		} else {
+			setValgtOppgaveId(undefined);
+		}
+	};
 	const valgtOppgave = reserverteOppgaverState.find((o) => o.eksternId === valgtOppgaveId);
-
 	return (
 		<div>
 			{reserverteOppgaverState.length === 0 && !requestFinishedState && (
@@ -147,32 +121,52 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps & WrappedComponentPro
 			)}
 
 			{reserverteOppgaverState.length > 0 && requestFinishedState && (
-				<>
-					<Table headerTextCodes={getHeaderCodes(true, hastesaker).filter(Boolean)}>
+				<Table>
+					<Table.Header>
+						<Table.Row>
+							{getHeaderCodes(true, hastesaker)
+								.filter(Boolean)
+								.map((header) => (
+									<Table.HeaderCell key={header}>
+										{!header.includes('EMPTY') ? <FormattedMessage id={header} /> : ''}
+									</Table.HeaderCell>
+								))}
+						</Table.Row>
+					</Table.Header>
+					<Table.Body>
 						{reserverteOppgaverState.map((oppgave) => (
-							<TableRow
+							<Table.Row
 								key={oppgave.eksternId}
-								onMouseDown={goToFagsak}
-								onKeyDown={goToFagsak}
 								className={classNames(styles.isUnderBehandling, { [styles.hastesak]: hastesaker })}
-								model={oppgave}
+								onKeyDown={() => goToFagsak(oppgave)}
 							>
 								{hastesaker && (
-									<TableColumn className={styles.hastesakTd}>
+									<Table.DataCell
+										onClick={() => goToFagsak(oppgave)}
+										className={`${styles.hastesakTd} hover:cursor-pointer`}
+									>
 										<WarningColored className={styles.hastesakIkon} />
-									</TableColumn>
+									</Table.DataCell>
 								)}
-								<TableColumn className={hastesaker ? '' : styles.soekerPadding}>
+								<Table.DataCell
+									onClick={() => goToFagsak(oppgave)}
+									className={`${hastesaker ? '' : styles.soekerPadding} hover:cursor-pointer`}
+								>
 									{oppgave.navn ? `${oppgave.navn} ${oppgave.personnummer}` : '<navn>'}
-								</TableColumn>
-								<TableColumn>{hentIDFraSak(oppgave, alleKodeverk)}</TableColumn>
-								<TableColumn>
+								</Table.DataCell>
+								<Table.DataCell onClick={() => goToFagsak(oppgave)} className="hover:cursor-pointer">
+									{hentIDFraSak(oppgave, alleKodeverk)}
+								</Table.DataCell>
+								<Table.DataCell onClick={() => goToFagsak(oppgave)} className="hover:cursor-pointer">
 									{getKodeverknavnFraKode(oppgave.behandlingstype, kodeverkTyper.BEHANDLING_TYPE, alleKodeverk)}
-								</TableColumn>
-								<TableColumn>
+								</Table.DataCell>
+								<Table.DataCell onClick={() => goToFagsak(oppgave)} className="hover:cursor-pointer">
 									{oppgave.opprettetTidspunkt && <DateLabel dateString={oppgave.opprettetTidspunkt} />}
-								</TableColumn>
-								<TableColumn className={styles.reservertTil}>
+								</Table.DataCell>
+								<Table.DataCell
+									onClick={() => goToFagsak(oppgave)}
+									className={`${styles.reservertTil} hover:cursor-pointer`}
+								>
 									<FormattedMessage
 										id="OppgaveHandlingerMenu.ReservertTil"
 										values={{
@@ -181,16 +175,26 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps & WrappedComponentPro
 											b: (...chunks) => <b>{chunks}</b>,
 										}}
 									/>
-								</TableColumn>
-								<TableColumn>
+								</Table.DataCell>
+								<Table.DataCell>
 									<KommentarMedMerknad oppgave={oppgave} />
-								</TableColumn>
-								<TableColumn className={styles.noPadding}>
+								</Table.DataCell>
+								<Table.DataCell className={styles.menuElement}>
 									<div
 										ref={(el) => {
 											ref.current = { ...ref.current, [oppgave.eksternId]: el };
 										}}
+										onKeyDown={(event) => event.stopPropagation()}
 									>
+										{valgtOppgaveId === oppgave.eksternId && (
+											<OppgaveHandlingerMenu
+												imageNode={ref.current[valgtOppgaveId]}
+												toggleMenu={toggleMenu}
+												oppgave={valgtOppgave}
+												forlengOppgaveReservasjon={forlengOppgaveReservasjonFn}
+												hentReserverteOppgaver={hentReserverteOppgaver}
+											/>
+										)}
 										<Image
 											className={styles.image}
 											src={menuIconBlackUrl}
@@ -200,21 +204,11 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps & WrappedComponentPro
 											onKeyDown={() => toggleMenu(oppgave)}
 										/>
 									</div>
-								</TableColumn>
-							</TableRow>
+								</Table.DataCell>
+							</Table.Row>
 						))}
-					</Table>
-					{showMenu && valgtOppgaveId && valgtOppgave && (
-						<OppgaveHandlingerMenu
-							imageNode={ref.current[valgtOppgaveId]}
-							toggleMenu={toggleMenu}
-							offset={offset}
-							oppgave={valgtOppgave}
-							forlengOppgaveReservasjon={forlengOppgaveReservasjonFn}
-							hentReserverteOppgaver={hentReserverteOppgaver}
-						/>
-					)}
-				</>
+					</Table.Body>
+				</Table>
 			)}
 		</div>
 	);

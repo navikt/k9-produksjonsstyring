@@ -1,15 +1,12 @@
 name: Valider pull request
 on:
   pull_request:
+    types: [opened, synchronize]
     paths-ignore:
-      - "**.md"
-      - "**.MD"
-      - ".gitignore"
-      - "LICENCE"
-      - "CODEOWNERS"
-      - "dev/**"
-      - "**.yml"
-      - "**.yaml"
+      - '**.md'
+      - '**.MD'
+      - '.gitignore'
+      - 'CODEOWNERS'
 
 jobs:
   valid-pull-request:
@@ -32,9 +29,19 @@ jobs:
           cache: yarn
       - name: Installere dependencies
         run: yarn install --immutable
+      - name: CSS lint
+        run: yarn css:lint
       - name: Tester
         run: yarn test --maxWorkers=2
-      - name: Linting
-        run: yarn css:lint
+      - name: Install Playwright Browsers
+        run: yarn playwright install --with-deps
+      - name: Run Playwright tests
+        run: yarn playwright test
+      - uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
       - name: Bygge
         run: yarn build

@@ -23,7 +23,7 @@ const Home: FunctionComponent<OwnProps> = function ({ headerHeight }) {
 	return (
 		<div className={styles.content} style={{ margin: `${headerHeight + 10}px auto 0` }}>
 			<Routes>
-				<Route path="/filter" element={<FilterIndex />} />
+				<Route path="/filter" element={<FilterIndex tittel="Søk på oppgaver" />} />
 				<Route path="/" element={<SaksbehandlerIndex />} />
 				<Route path="/avdelingsleder" element={<AvdelingslederIndex />} />
 				<Route path="/admin" element={<AdminIndex />} />

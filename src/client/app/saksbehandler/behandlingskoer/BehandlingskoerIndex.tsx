@@ -1,13 +1,18 @@
 import React, { FunctionComponent, useCallback, useEffect } from 'react';
 import { WrappedComponentProps, injectIntl } from 'react-intl';
+import { useQuery } from 'react-query';
+import { OppgavekøV2, OppgavekøV2MedNavn, OppgavekøerV2 as OppgavekøerV2Type } from 'types/OppgavekøV2Type';
 import { getK9punsjRef, getK9sakHref, getOmsorgspengerRef } from 'app/paths';
+import apiPaths from 'api/apiPaths';
 import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
 import { useRestApi } from 'api/rest-api-hooks';
 import RestApiState from 'api/rest-api-hooks/src/RestApiState';
 import useGlobalStateRestApiData from 'api/rest-api-hooks/src/global-data/useGlobalStateRestApiData';
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
-import { Oppgaveko } from 'saksbehandler/behandlingskoer/oppgavekoTsType';
+import { OppgavekøV1 } from 'saksbehandler/behandlingskoer/oppgavekoTsType';
 import Oppgave from 'saksbehandler/oppgaveTsType';
+import { get } from 'utils/axios';
+import { saksbehandlerKanVelgeNyeKoer } from '../../featureToggles';
 import OppgaveSystem from '../../types/OppgaveSystem';
 import OppgavekoPanel from './components/OppgavekoPanel';
 
@@ -30,7 +35,15 @@ const BehandlingskoerIndex: FunctionComponent<OwnProps & WrappedComponentProps> 
 	omsorgspengerUrl,
 }) => {
 	const refreshUrl = useGlobalStateRestApiData<{ verdi?: string }>(RestApiGlobalStatePathsKeys.REFRESH_URL);
-	const { data: oppgavekoer = [] } = useRestApi<Oppgaveko[]>(K9LosApiKeys.OPPGAVEKO);
+	const { data: oppgavekoerV1 = [] } = useRestApi<OppgavekøV1[]>(K9LosApiKeys.OPPGAVEKO);
+	const { data: oppgavekoerV2 } = useQuery<OppgavekøerV2Type>({
+		queryKey: [apiPaths.hentOppgavekoer, 'saksbehandler'],
+		queryFn: () => get(apiPaths.hentOppgavekoer),
+		enabled: saksbehandlerKanVelgeNyeKoer(),
+	});
+
+	const mapKøV2 = (kø: OppgavekøV2): OppgavekøV2MedNavn => ({ ...kø, navn: kø.tittel });
+	const oppgavekoer = [...oppgavekoerV1, ...(oppgavekoerV2?.koer || []).map(mapKøV2)];
 	const {
 		startRequest: hentOppgaverTilBehandling,
 		state,
@@ -128,18 +141,16 @@ const BehandlingskoerIndex: FunctionComponent<OwnProps & WrappedComponentProps> 
 	}
 
 	return (
-		<>
-			<OppgavekoPanel
-				valgtOppgavekoId={valgtOppgavekoId}
-				setValgtOppgavekoId={setValgtOppgavekoId}
-				apneOppgave={apneOppgave}
-				oppgavekoer={oppgavekoer}
-				requestFinished={state === RestApiState.SUCCESS}
-				oppgaverTilBehandling={oppgaverTilBehandling}
-				reserverteOppgaver={reserverteOppgaver}
-				hentReserverteOppgaver={hentReserverteOppgaver}
-			/>
-		</>
+		<OppgavekoPanel
+			valgtOppgavekoId={valgtOppgavekoId}
+			setValgtOppgavekoId={setValgtOppgavekoId}
+			apneOppgave={apneOppgave}
+			oppgavekoer={oppgavekoer}
+			requestFinished={state === RestApiState.SUCCESS}
+			oppgaverTilBehandling={oppgaverTilBehandling}
+			reserverteOppgaver={reserverteOppgaver}
+			hentReserverteOppgaver={hentReserverteOppgaver}
+		/>
 	);
 };
 

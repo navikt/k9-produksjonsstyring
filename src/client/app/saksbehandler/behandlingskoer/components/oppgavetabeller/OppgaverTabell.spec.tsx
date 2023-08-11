@@ -6,7 +6,7 @@ import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
 import behandlingStatus from 'kodeverk/behandlingStatus';
 import behandlingType from 'kodeverk/behandlingType';
 import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
-import { Oppgaveko } from 'saksbehandler/behandlingskoer/oppgavekoTsType';
+import { OppgavekøV1 } from 'saksbehandler/behandlingskoer/oppgavekoTsType';
 import DateLabel from 'sharedComponents/DateLabel';
 import TableColumn from 'sharedComponents/TableColumn';
 import TableRow from 'sharedComponents/TableRow';
@@ -19,7 +19,7 @@ describe('<OppgaverTabell>', () => {
 	const intl: Partial<IntlShape> = {
 		...intlMock,
 	};
-	const valgtKo: Oppgaveko = {
+	const valgtKo: OppgavekøV1 = {
 		id: '2',
 		navn: 'K9',
 		behandlingTyper: [],

@@ -7,9 +7,8 @@ import FerdigstilteHistorikkPanel from './FerdigstilteHistorikkPanel';
 describe('<NyeHistorikkPanel>', () => {
 	it('kan velge option i dropdowns', () => {
 		renderWithAllProviders(<FerdigstilteHistorikkPanel ferdigstiltePerDato={[]} />);
-
-		const ukeSelect = screen.getAllByRole('combobox')[0];
-		const ytelseSelect = screen.getAllByRole('combobox')[1];
+		const ukeSelect = screen.getByLabelText('Antall uker som skal vises');
+		const ytelseSelect = screen.getByLabelText('Valgt ytelse');
 
 		expect(ukeSelect).toBeVisible();
 		expect(ytelseSelect).toBeVisible();

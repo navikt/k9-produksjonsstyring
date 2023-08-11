@@ -1,7 +1,7 @@
 import React from 'react';
 import { Add, Delete } from '@navikt/ds-icons';
 import { Button, Select } from '@navikt/ds-react';
-import { OrderFelt } from '../filterTsTypes';
+import { OppgaveQuery, Oppgavefelt, OrderFelt } from '../filterTsTypes';
 import { feltverdiKey, kodeFraKey, områdeFraKey } from '../utils';
 import styles from './OppgaveOrderFelter.css';
 
@@ -32,6 +32,7 @@ const renderAddEnkelOrderFeltKnapp = (onLeggTil) => (
 const renderOrderFelt = (felter, felt, onOppdater, onFjern) => (
 	<div className={styles.orderEnkelFelt} key={felt.id}>
 		<Select
+			label=""
 			className={styles.noGap}
 			value={feltverdiKey(felt)}
 			onChange={(event) =>
@@ -49,6 +50,7 @@ const renderOrderFelt = (felter, felt, onOppdater, onFjern) => (
 			))}
 		</Select>
 		<Select
+			label=""
 			className={styles.orderDirection}
 			value={felt.økende}
 			onChange={(event) =>
@@ -69,7 +71,7 @@ const renderOrderFelt = (felter, felt, onOppdater, onFjern) => (
 	</div>
 );
 
-const OppgaveOrderFelter = ({ felter, oppgaveQuery, onLeggTil, onOppdater, onFjern }): OwnProps => (
+const OppgaveOrderFelter = ({ felter, oppgaveQuery, onLeggTil, onOppdater, onFjern }: OwnProps) => (
 	<div>
 		{oppgaveQuery.order && oppgaveQuery.order.map((felt) => renderOrderFelt(felter, felt, onOppdater, onFjern))}
 		{renderAddEnkelOrderFeltKnapp(onLeggTil)}

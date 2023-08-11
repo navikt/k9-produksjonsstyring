@@ -1,13 +1,12 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useContext } from 'react';
 import { Form } from 'react-final-form';
 import { FormattedMessage, IntlShape, WrappedComponentProps, injectIntl } from 'react-intl';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { K9LosApiKeys } from 'api/k9LosApi';
-import { useRestApi } from 'api/rest-api-hooks';
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
 import SkjermetVelger from 'avdelingsleder/behandlingskoer/components/oppgavekoForm/SkjermetVelger';
 import SaksbehandlereForOppgavekoForm from 'avdelingsleder/behandlingskoer/components/saksbehandlerForm/SaksbehandlereForOppgavekoForm';
-import { Saksbehandler } from 'avdelingsleder/bemanning/saksbehandlerTsType';
+import { AvdelingslederContext } from 'avdelingsleder/context';
 import { InputField } from 'form/FinalFields';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
 import Image from 'sharedComponents/Image';
@@ -86,7 +85,7 @@ export const UtvalgskriterierForOppgavekoForm: FunctionComponent<OwnProps & Wrap
 			.then(() => hentKo(values.id));
 	};
 
-	const { data: alleSaksbehandlere = [] } = useRestApi<Saksbehandler[]>(K9LosApiKeys.SAKSBEHANDLERE);
+	const { saksbehandlere: alleSaksbehandlere } = useContext(AvdelingslederContext);
 
 	return (
 		<div className={styles.form}>

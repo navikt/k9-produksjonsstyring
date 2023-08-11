@@ -1,6 +1,7 @@
-import React, { FunctionComponent, useCallback, useState } from 'react';
+import React, { FunctionComponent, useCallback, useEffect, useState } from 'react';
 import { useIdleTimer } from 'react-idle-timer';
 import { useLocation } from 'react-router';
+import { Modal } from '@navikt/ds-react';
 import ModalMedIkon from 'sharedComponents/modal/ModalMedIkon';
 import { parseQueryString } from 'utils/urlUtils';
 import advarselImageUrl from '../../images/advarsel.svg';
@@ -19,7 +20,10 @@ import Home from './components/Home';
  * Komponenten er også ansvarlig for å hente innlogget NAV-ansatt, rettskilde-url, systemrutine-url
  * og kodeverk fra server og lagre desse i klientens state.
  */
-const AppIndex: FunctionComponent = () => {
+const AppIndex: FunctionComponent = ({ rootElement }: { rootElement: JSX.Element }) => {
+	useEffect(() => {
+		Modal.setAppElement(rootElement);
+	}, []);
 	const [headerHeight, setHeaderHeight] = useState(0);
 	const [crashMessage, setCrashMessage] = useState<string>();
 	const [sessionHarUtlopt, setSessionHarUtlopt] = useState<boolean>(false);

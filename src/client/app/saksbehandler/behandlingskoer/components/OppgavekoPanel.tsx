@@ -2,13 +2,13 @@ import React, { FunctionComponent, useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import NavFrontendChevron from 'nav-frontend-chevron';
 import { Element, Undertittel } from 'nav-frontend-typografi';
+import { OppgavekøV2MedNavn } from 'types/OppgavekøV2Type';
 import { K9LosApiKeys } from 'api/k9LosApi';
-import { useKodeverk, useRestApiRunner } from 'api/rest-api-hooks';
-import kodeverkTyper from 'kodeverk/kodeverkTyper';
+import { useRestApiRunner } from 'api/rest-api-hooks';
 import merknadType from 'kodeverk/merknadType';
 import OppgaveTabellMenyAntallOppgaver from 'saksbehandler/behandlingskoer/components/oppgavetabeller/OppgaveTabellMenyAntallOppgaver';
 import ReserverteOppgaverTabell from 'saksbehandler/behandlingskoer/components/oppgavetabeller/ReserverteOppgaverTabell';
-import { Oppgaveko } from 'saksbehandler/behandlingskoer/oppgavekoTsType';
+import { OppgavekøV1 } from 'saksbehandler/behandlingskoer/oppgavekoTsType';
 import Oppgave from 'saksbehandler/oppgaveTsType';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import ModalMedIkon from 'sharedComponents/modal/ModalMedIkon';
@@ -26,7 +26,7 @@ import OppgaverTabell from './oppgavetabeller/OppgaverTabell';
 interface OwnProps {
 	setValgtOppgavekoId: (id: string) => void;
 	valgtOppgavekoId: string;
-	oppgavekoer: Oppgaveko[];
+	oppgavekoer: Array<OppgavekøV1 | OppgavekøV2MedNavn>;
 	apneOppgave: (oppgave: Oppgave) => void;
 	reserverteOppgaver: Oppgave[];
 	oppgaverTilBehandling: Oppgave[];
@@ -57,7 +57,6 @@ const OppgavekoPanel: FunctionComponent<OwnProps> = ({
 		error: restApiError,
 		resetRequestData,
 	} = useRestApiRunner<Oppgave>(K9LosApiKeys.FÅ_OPPGAVE_FRA_KO);
-	const merknadstyper = useKodeverk(kodeverkTyper.MERKNAD_TYPE);
 
 	const valgtKo = oppgavekoer.find((ko) => ko.id === valgtOppgavekoId);
 
@@ -87,7 +86,7 @@ const OppgavekoPanel: FunctionComponent<OwnProps> = ({
 		(oppgave) => !oppgave.merknad?.merknadKoder?.includes(merknadType.HASTESAK),
 	);
 
-	const sorterteOppgavekoerIBokstavsordning = oppgavekoer.sort((a, b) => a.navn.localeCompare(b.navn));
+	// TODO: legge inn visning for oppgaver fra ny oppgavemodell
 	return (
 		<div className={styles.container}>
 			<Undertittel>
@@ -95,7 +94,7 @@ const OppgavekoPanel: FunctionComponent<OwnProps> = ({
 			</Undertittel>
 			<VerticalSpacer sixteenPx />
 			<OppgavekoVelgerForm
-				oppgavekoer={sorterteOppgavekoerIBokstavsordning}
+				oppgavekoer={oppgavekoer}
 				setValgtOppgavekoId={setValgtOppgavekoId}
 				getValueFromLocalStorage={getValueFromLocalStorage}
 				setValueInLocalStorage={setValueInLocalStorage}
@@ -111,7 +110,7 @@ const OppgavekoPanel: FunctionComponent<OwnProps> = ({
 					className={styles.behandlingskoerKnapp}
 					onClick={() => setVisHastesakReservasjoner(!visHastesakReservasjoner)}
 				>
-					<NavFrontendChevron type={visHastesakReservasjoner ? 'ned' : 'høyre'} />
+					<NavFrontendChevron type={visHastesakReservasjoner ? 'ned' : 'høyre'} className={styles.chevron} />
 					<Element style={{ marginRight: '0.825rem' }}>
 						<FormattedMessage id="OppgaverTabell.ReserverteHastesaker" />
 					</Element>
@@ -135,7 +134,7 @@ const OppgavekoPanel: FunctionComponent<OwnProps> = ({
 					className={styles.behandlingskoerKnapp}
 					onClick={() => setVisReservasjonerIKO(!visReservasjoneriKo)}
 				>
-					<NavFrontendChevron type={visReservasjoneriKo ? 'ned' : 'høyre'} />
+					<NavFrontendChevron type={visReservasjoneriKo ? 'ned' : 'høyre'} className={styles.chevron} />
 					<Element>
 						<FormattedMessage id="OppgaverTabell.ReserverteOppgaver" />
 					</Element>
@@ -174,7 +173,7 @@ const OppgavekoPanel: FunctionComponent<OwnProps> = ({
 					className={styles.behandlingskoerKnapp}
 					onClick={() => setVisBehandlingerIKo(!visBehandlingerIKo)}
 				>
-					<NavFrontendChevron type={visBehandlingerIKo ? 'ned' : 'høyre'} />
+					<NavFrontendChevron type={visBehandlingerIKo ? 'ned' : 'høyre'} className={styles.chevron} />
 					<Element>
 						<FormattedMessage id="OppgaverTabell.DineNesteSaker" />
 					</Element>

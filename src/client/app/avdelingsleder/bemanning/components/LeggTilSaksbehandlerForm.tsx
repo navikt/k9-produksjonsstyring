@@ -1,10 +1,12 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent, useContext, useState } from 'react';
 import { Form } from 'react-final-form';
 import { FormattedMessage, WrappedComponentProps, injectIntl } from 'react-intl';
+import { useQueryClient } from 'react-query';
 import { Knapp } from 'nav-frontend-knapper';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import { K9LosApiKeys } from 'api/k9LosApi';
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
+import { AvdelingslederContext } from 'avdelingsleder/context';
 import { InputField } from 'form/FinalFields';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import { FlexColumn, FlexContainer, FlexRow } from 'sharedComponents/flexGrid';
@@ -13,22 +15,17 @@ import { Saksbehandler } from '../saksbehandlerTsType';
 import styles from './leggTilSaksbehandlerForm.css';
 
 interface OwnProps {
-	saksbehandlere: Saksbehandler[];
-	hentAlleSaksbehandlere: () => void;
 	lukkForm: () => void;
 }
 
 /**
  * LeggTilSaksbehandlerForm
  */
-export const LeggTilSaksbehandlerForm: FunctionComponent<OwnProps & WrappedComponentProps> = ({
-	intl,
-	saksbehandlere,
-	lukkForm,
-	hentAlleSaksbehandlere,
-}) => {
+export const LeggTilSaksbehandlerForm: FunctionComponent<OwnProps & WrappedComponentProps> = ({ lukkForm }) => {
 	const [showWarning, setShowWarning] = useState(false);
 	const [leggerTilNySaksbehandler, setLeggerTilNySaksbehandler] = useState(false);
+	const { saksbehandlere } = useContext(AvdelingslederContext);
+	const queryClient = useQueryClient();
 
 	const { startRequest: leggTilSaksbehandler, resetRequestData: resetSaksbehandlerSok } =
 		useRestApiRunner<Saksbehandler>(K9LosApiKeys.SAKSBEHANDLER_SOK);
@@ -51,7 +48,7 @@ export const LeggTilSaksbehandlerForm: FunctionComponent<OwnProps & WrappedCompo
 					setLeggerTilNySaksbehandler(false);
 					lukkForm();
 				})
-				.then(() => hentAlleSaksbehandlere());
+				.then(() => queryClient.invalidateQueries({ queryKey: '/avdelingsleder/saksbehandlere' }));
 		}
 	};
 
@@ -60,7 +57,7 @@ export const LeggTilSaksbehandlerForm: FunctionComponent<OwnProps & WrappedCompo
 	return (
 		<Form
 			onSubmit={() => undefined}
-			render={({ submitting, handleSubmit, form, values }) => (
+			render={({ submitting, form, values }) => (
 				<div>
 					<Element>
 						<FormattedMessage id="LeggTilSaksbehandlerForm.LeggTil" />

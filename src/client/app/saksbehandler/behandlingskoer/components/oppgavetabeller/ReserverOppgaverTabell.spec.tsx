@@ -2,6 +2,7 @@ import React from 'react';
 import { FormattedMessage, IntlShape } from 'react-intl';
 import { expect } from 'chai';
 import sinon from 'sinon';
+import { Table } from '@navikt/ds-react';
 import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
 import behandlingStatus from 'kodeverk/behandlingStatus';
 import behandlingType from 'kodeverk/behandlingType';
@@ -10,8 +11,6 @@ import ReserverteOppgaverTabell from 'saksbehandler/behandlingskoer/components/o
 import KommentarMedMerknad from 'saksbehandler/components/KommentarMedMerknad';
 import DateLabel from 'sharedComponents/DateLabel';
 import Image from 'sharedComponents/Image';
-import TableColumn from 'sharedComponents/TableColumn';
-import TableRow from 'sharedComponents/TableRow';
 import RestApiTestMocker from '../../../../../../../setup/testHelpers/RestApiTestMocker';
 import { intlMock, shallowWithIntl } from '../../../../../../../setup/testHelpers/intl-enzyme-test-helper';
 import kodeverk from '../../../../../mocks/kodeverk';
@@ -70,10 +69,10 @@ describe('<ReserverOppgaveTabell>', () => {
 					/>,
 				);
 
-				const tableRows = wrapper.find(TableRow);
-				expect(tableRows).has.length(1);
+				const tablerows = wrapper.find(Table.Row);
+				expect(tablerows).has.length(2);
 
-				const columnsRow1 = tableRows.last().find(TableColumn);
+				const columnsRow1 = tablerows.at(1).find(Table.DataCell);
 				expect(columnsRow1.first().childAt(0).text()).is.eql('Espen Solstråle 657643535');
 				expect(columnsRow1.at(1).childAt(0).text()).is.eql('2');
 				expect(columnsRow1.at(2).childAt(0).text()).is.eql('Førstegangsbehandling');
@@ -130,10 +129,10 @@ describe('<ReserverOppgaveTabell>', () => {
 					/>,
 				);
 
-				const tableRows = wrapper.find(TableRow);
-				expect(tableRows).has.length(1);
+				const tablerows = wrapper.find(Table.Row);
+				expect(tablerows).has.length(2);
 
-				const columnsRow1 = tableRows.first().find(TableColumn);
+				const columnsRow1 = tablerows.at(1).find(Table.DataCell);
 				expect(columnsRow1.first().childAt(0).text()).is.eql('Espen Solstråle 657643535');
 				expect(columnsRow1.at(1).childAt(0).text()).is.eql('2');
 				expect(columnsRow1.at(2).childAt(0).text()).is.eql('Førstegangsbehandling');
