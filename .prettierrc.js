@@ -21,6 +21,7 @@ module.exports = {
 		'^avdelingsleder/(.*)$',
 		'^filter/(.*)$',
 		'^form/(.*)$',
+		'^hooks/(.*)$',
 		'^kodeverk/(.*)$',
 		'^navAnsatt/(.*)$',
 		'^saksbehandler/(.*)$',

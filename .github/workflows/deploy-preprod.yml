@@ -28,12 +28,25 @@ jobs:
           cache: yarn
       - name: Installere moduler
         run: yarn install --immutable
+      - name: CSS lint
+        run: yarn css:lint
       - name: Tester
         run: yarn test --maxWorkers=2
-      - name: Linting
-        run: yarn css:lint
+      - name: Install Playwright Browsers
+        run: yarn playwright install chromium
+      - name: Run Playwright tests
+        run: yarn playwright test
+      - uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
       - name: Bygge kode
         run: yarn build
+        env:
+          SAKSBEHANDLER_KAN_VELGE_NYE_KOER: 'disabled'
+          AVDELINGSLEDER_TILGANG_TIL_NYE_KOER: 'enabled'
       - name: Opprett release med Sentry
         run: yarn sentry-release
         env:
@@ -56,4 +69,4 @@ jobs:
           APIKEY: ${{ secrets.DEPLOY_KEY }}
           CLUSTER: dev-fss
           RESOURCE: nais/frontend/k9-los-web.yml
-          VARS: nais/frontend/dev.json
+          VARS: nais/frontend/dev.yml

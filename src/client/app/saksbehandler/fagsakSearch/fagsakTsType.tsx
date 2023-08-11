@@ -1,13 +1,13 @@
-import Kodeverk from 'kodeverk/kodeverkTsType';
+import KodeverkMedNavn from 'kodeverk/kodeverkMedNavnTsType';
 import Person from './personTsType';
 
 type Fagsak = Readonly<{
 	saksnummer: string;
-	sakstype: Kodeverk;
+	sakstype: KodeverkMedNavn;
 	person: Person;
-	behandlingStatus?: Kodeverk;
+	behandlingStatus?: KodeverkMedNavn;
 	opprettet: string;
-	fagsystem: Kodeverk;
+	fagsystem: KodeverkMedNavn;
 	aktiv: boolean;
 }>;
 

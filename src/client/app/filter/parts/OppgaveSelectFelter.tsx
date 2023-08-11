@@ -1,7 +1,7 @@
 import React from 'react';
 import { Add, Delete } from '@navikt/ds-icons';
 import { Button, Select } from '@navikt/ds-react';
-import { SelectFelt } from '../filterTsTypes';
+import { EnkelSelectFelt, OppgaveQuery, Oppgavefelt } from '../filterTsTypes';
 import { feltverdiKey } from '../utils';
 import styles from './OppgaveSelectFelter.css';
 
@@ -9,8 +9,8 @@ interface OwnProps {
 	felter: Oppgavefelt[];
 	oppgaveQuery: OppgaveQuery;
 	onLeggTil: () => void;
-	onOppdater: (sf: SelectFelt, verdi: string) => void;
-	onFjern: (sf: SelectFelt) => void;
+	onOppdater: (sf: EnkelSelectFelt, verdi: string) => void;
+	onFjern: (sf: EnkelSelectFelt) => void;
 }
 
 const renderFjernSelectFeltKnapp = (felt, onFjern) => (
@@ -32,6 +32,8 @@ const renderAddEnkelSelectFeltKnapp = (onLeggTil) => (
 const renderSelectFelt = (felter, felt, onOppdater, onFjern) => (
 	<div className={styles.selectEnkelFelt} key={felt.id}>
 		<Select
+			hideLabel
+			label="Velg felt"
 			className={styles.noGap}
 			value={feltverdiKey(felt)}
 			onChange={(event) => onOppdater(felt, event.target.value)}
@@ -47,7 +49,7 @@ const renderSelectFelt = (felter, felt, onOppdater, onFjern) => (
 	</div>
 );
 
-const OppgaveSelectFelter = ({ felter, oppgaveQuery, onLeggTil, onOppdater, onFjern }): OwnProps => (
+const OppgaveSelectFelter = ({ felter, oppgaveQuery, onLeggTil, onOppdater, onFjern }: OwnProps) => (
 	<div>
 		{oppgaveQuery.select && oppgaveQuery.select.map((felt) => renderSelectFelt(felter, felt, onOppdater, onFjern))}
 		{renderAddEnkelSelectFeltKnapp(onLeggTil)}

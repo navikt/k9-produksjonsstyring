@@ -11,6 +11,7 @@ enum kodeverkTyper {
 	MERKNAD_TYPE = 'MerknadType',
 	NYE_KRAV = 'NYE_KRAV',
 	FRA_ENDRINGSDIALOG = 'FRA_ENDRINGSDIALOG',
+	OPPGAVE_KODE = 'OppgaveKode',
 }
 
 export default kodeverkTyper;

@@ -1,0 +1,95 @@
+.searchContainer {
+	border-radius: 4px;
+	padding: 30px 30px 22px;
+	max-width: 800px;
+}
+.form:global(.navds-form-field) {
+	justify-items: stretch;
+}
+.input:global(.navds-search__input) {
+	padding-right: 64px;
+}
+.suggestionPopover[data-reach-combobox-popover] {
+	min-width: 270px;
+	background-color: white;
+	border-radius: var(--a-border-radius-medium);
+	box-shadow: var(--a-shadow-medium);
+	padding: 18px 0;
+	transform: translateY(4px);
+	z-index: var(--a-z-index-tooltip);
+
+	:global .navds-checkbox__label {
+		padding: 12px 0;
+	}
+}
+
+.list[data-reach-combobox-list] {
+	list-style-type: none;
+	margin: 0 0 18px;
+	padding: 0;
+}
+.list[data-reach-combobox-list] ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+.suggestion[data-reach-combobox-option] {
+	padding-bottom: 0.5rem;
+	padding-top: 0.5rem;
+}
+.suggestion[data-reach-combobox-option][data-highlighted],
+.suggestion[data-reach-combobox-option]:hover {
+	background-color: var(--a-blue-100);
+}
+.suggestion:first-child {
+	border-radius: var(--a-border-radius-medium) var(--a-border-radius-medium) 0 0;
+}
+.suggestion:last-child {
+	border-radius: 0 0 var(--a-border-radius-medium) var(--a-border-radius-medium);
+}
+.suggestion:only-child {
+	border-radius: var(--a-border-radius-medium);
+}
+.suggestion [data-user-value] {
+	font-weight: bold;
+}
+.suggestion [data-suggested-value] {
+	font-weight: normal;
+}
+
+.suggestionSubgroup {
+	padding-left: 2rem;
+}
+.suggestionCheckbox {
+	border-bottom: 1px solid #cfcfcf;
+	padding: 0 1.25rem;
+}
+.suggestionCheckbox:global(.navds-checkbox) {
+	width: 100%;
+}
+.listHeading {
+	border-bottom: 1px solid #cfcfcf;
+	padding: 0 1.25rem 0.6875rem;
+}
+.fieldset {
+	border: none;
+	padding: 0;
+}
+.popoverButtonWrapper {
+	margin: 0;
+	padding: 0;
+	text-align: center;
+}
+.merkelapperHeading:global(.navds-heading) {
+	margin: 20px 0 4px;
+	display: inline-block;
+}
+.searchWrapper {
+	position: relative;
+	display: block;
+	max-width: 600px;
+}
+.searchButton {
+	position: absolute;
+	right: 0;
+}
