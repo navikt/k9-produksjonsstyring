@@ -37,8 +37,8 @@ spec:
   {{/each}}
   env:
   {{#each env}}
-    - name: {{@key}}
-      value: {{this}}
+    - name: {{this.name }}
+      value: {{this.value}}
   {{/each}}
     - name: APP_NAME
       value: k9-los-web

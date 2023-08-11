@@ -1,5 +1,6 @@
-import React, { FunctionComponent, useEffect } from 'react';
+import React, { FunctionComponent, useEffect, useMemo } from 'react';
 import { FormattedMessage } from 'react-intl';
+import { useQuery } from 'react-query';
 import { NavLink } from 'react-router-dom';
 import classnames from 'classnames/bind';
 import reservasjonBla from 'images/delete-1.svg';
@@ -17,9 +18,11 @@ import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import useTrackRouteParam from 'app/data/trackRouteParam';
 import NavAnsatt from 'app/navAnsattTsType';
 import { getPanelLocationCreator } from 'app/paths';
+import apiPaths from 'api/apiPaths';
 import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
 import useGlobalStateRestApiData from 'api/rest-api-hooks/src/global-data/useGlobalStateRestApiData';
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
+import { Saksbehandler } from 'avdelingsleder/bemanning/saksbehandlerTsType';
 import DagensTallPanel from 'avdelingsleder/dagensTall/DagensTallPanel';
 import ApneBehandlinger from 'avdelingsleder/dagensTall/apneBehandlingerTsType';
 import NokkeltallIndex from 'avdelingsleder/nokkeltall/NokkeltallIndex';
@@ -29,11 +32,14 @@ import Image from 'sharedComponents/Image';
 import LoadingPanel from 'sharedComponents/LoadingPanel';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import { parseQueryString } from 'utils/urlUtils';
+import { avdelingslederTilgangTilNyeKoer } from '../featureToggles';
 import styles from './avdelingslederIndex.css';
 import AvdelingslederPanels from './avdelingslederPanels';
 import EndreBehandlingskoerIndex from './behandlingskoer/EndreBehandlingskoerIndex';
+import BehandlingskoerIndex from './behandlingskoerV2/BehandlingskoerIndex';
 import AvdelingslederDashboard from './components/AvdelingslederDashboard';
 import IkkeTilgangTilAvdelingslederPanel from './components/IkkeTilgangTilAvdelingslederPanel';
+import { AvdelingslederContext, AvdelingslederContextState } from './context';
 
 const classNames = classnames.bind(styles);
 
@@ -41,6 +47,8 @@ const renderAvdelingslederPanel = (avdelingslederPanel) => {
 	switch (avdelingslederPanel) {
 		case AvdelingslederPanels.BEHANDLINGSKOER:
 			return <EndreBehandlingskoerIndex />;
+		case AvdelingslederPanels.BEHANDLINGSKOER_V2:
+			return <BehandlingskoerIndex />;
 		case AvdelingslederPanels.NOKKELTALL:
 			return <NokkeltallIndex />;
 		case AvdelingslederPanels.PROGNOSE:
@@ -54,6 +62,7 @@ const renderAvdelingslederPanel = (avdelingslederPanel) => {
 
 const messageId = {
 	[AvdelingslederPanels.BEHANDLINGSKOER]: 'AvdelingslederIndex.Behandlingskoer',
+	[AvdelingslederPanels.BEHANDLINGSKOER_V2]: 'AvdelingslederIndex.Behandlingskoer.V2',
 	[AvdelingslederPanels.NOKKELTALL]: 'AvdelingslederIndex.Nokkeltall',
 	[AvdelingslederPanels.PROGNOSE]: 'AvdelingslederIndex.Prognose',
 	[AvdelingslederPanels.RESERVASJONER]: 'AvdelingslederIndex.Reservasjoner',
@@ -61,6 +70,7 @@ const messageId = {
 
 const tabStyle = {
 	[AvdelingslederPanels.BEHANDLINGSKOER]: [koerSvart, koerBla],
+	[AvdelingslederPanels.BEHANDLINGSKOER_V2]: [koerSvart, koerBla],
 	[AvdelingslederPanels.NOKKELTALL]: [nokkelSvart, nokkelBla],
 	[AvdelingslederPanels.PROGNOSE]: [prognoseSort, prognoseBlå],
 	[AvdelingslederPanels.RESERVASJONER]: [reservasjonSvart, reservasjonBla],
@@ -110,10 +120,19 @@ export const AvdelingslederIndex: FunctionComponent = () => {
 		K9LosApiKeys.HENT_DAGENS_TALL,
 	);
 
+	const { data: alleSaksbehandlere, isSuccess } = useQuery<Saksbehandler[]>(apiPaths.hentSaksbehandlere);
+
 	useEffect(() => {
 		hentAntallIdag();
 		hentDagensTall();
 	}, []);
+
+	const avdelingslederContextValue = useMemo<AvdelingslederContextState>(
+		() => ({
+			saksbehandlere: isSuccess ? alleSaksbehandlere : [],
+		}),
+		[alleSaksbehandlere],
+	);
 
 	const getPanelFromUrlOrDefault = (loc) => {
 		const panelFromUrl = parseQueryString(loc.search);
@@ -131,7 +150,7 @@ export const AvdelingslederIndex: FunctionComponent = () => {
 
 	if (activeAvdelingslederPanel) {
 		return (
-			<>
+			<AvdelingslederContext.Provider value={avdelingslederContextValue}>
 				<Row>
 					<Normaltekst className={styles.paneltekst}>Avdelingslederpanel</Normaltekst>
 				</Row>
@@ -152,16 +171,22 @@ export const AvdelingslederIndex: FunctionComponent = () => {
 										activeAvdelingslederPanel,
 										getAvdelingslederPanelLocation,
 									),
+									avdelingslederTilgangTilNyeKoer() &&
+										getTab(
+											AvdelingslederPanels.BEHANDLINGSKOER_V2,
+											activeAvdelingslederPanel,
+											getAvdelingslederPanelLocation,
+										),
 									getTab(AvdelingslederPanels.NOKKELTALL, activeAvdelingslederPanel, getAvdelingslederPanelLocation),
 									getTab(AvdelingslederPanels.PROGNOSE, activeAvdelingslederPanel, getAvdelingslederPanelLocation),
 									getTab(AvdelingslederPanels.RESERVASJONER, activeAvdelingslederPanel, getAvdelingslederPanelLocation),
-								]}
+								].filter(Boolean)}
 							/>
 							<Panel className={styles.panelPadding}>{renderAvdelingslederPanel(activeAvdelingslederPanel)}</Panel>
 						</div>
 					</AvdelingslederDashboard>
 				</Row>
-			</>
+			</AvdelingslederContext.Provider>
 		);
 	}
 	return <LoadingPanel />;

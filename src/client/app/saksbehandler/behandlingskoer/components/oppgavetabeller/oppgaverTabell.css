@@ -4,8 +4,9 @@
 .image {
 	padding: 14px;
 }
-.noPadding {
+.menuElement {
 	padding: 1px;
+	position: relative;
 }
 .reservertTil {
 	font-size: 12px;

@@ -1,29 +1,31 @@
 {
-  "compilerOptions": {
-    "target": "esnext",
-    "module": "es2020",
-    "moduleResolution": "node",
-    "allowJs": true,
-    "noEmit": true,
-    "strict": false,
-    "resolveJsonModule": true,
-    "esModuleInterop": true,
-    "sourceMap": true,
-    "jsx": "react",
-    "typeRoots": ["./node_modules/@types", "./src/@types"],
-    "baseUrl": "src/client/",
-    "paths": {
-      "app/*": ["app/app/*"],
-      "api/*": ["app/api/*"],
-      "form/*": ["app/form/*"],
-      "kodeverk/*": ["app/kodeverk/*"],
-      "navAnsatt/*": ["app/navAnsatt/*"],
-      "sharedComponents/*": ["app/sharedComponents/*"],
-      "avdelingsleder/*": ["app/avdelingsleder/*"],
-      "saksbehandler/*": ["app/saksbehandler/*"],
-      "filter/*": ["app/filter/*"],
-      "utils/*": ["app/utils/*"]
-    }
-  },
-  "include": ["src", "setup/testHelpers/testUtils.js"]
+	"compilerOptions": {
+		"target": "esnext",
+		"module": "es2020",
+		"moduleResolution": "node",
+		"allowJs": true,
+		"noEmit": true,
+		"strict": false,
+		"resolveJsonModule": true,
+		"esModuleInterop": true,
+		"sourceMap": true,
+		"jsx": "react",
+		"typeRoots": ["./node_modules/@types", "./src/@types"],
+		"baseUrl": "src/client/",
+		"paths": {
+			"app/*": ["app/app/*"],
+			"api/*": ["app/api/*"],
+			"form/*": ["app/form/*"],
+			"hooks/*": ["app/hooks/*"],
+			"kodeverk/*": ["app/kodeverk/*"],
+			"navAnsatt/*": ["app/navAnsatt/*"],
+			"sharedComponents/*": ["app/sharedComponents/*"],
+			"avdelingsleder/*": ["app/avdelingsleder/*"],
+			"saksbehandler/*": ["app/saksbehandler/*"],
+			"filter/*": ["app/filter/*"],
+			"types/*": ["app/types/*"],
+			"utils/*": ["app/utils/*"]
+		}
+	},
+	"include": ["src", "setup/testHelpers/testUtils.js"]
 }

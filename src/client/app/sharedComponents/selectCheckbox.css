@@ -1,0 +1,33 @@
+.wrapper {
+	border-bottom: 1px solid #cfcfcf;
+	padding: 0 1.25rem;
+}
+.wrapper :global(.navds-body-short) {
+	align-items: center;
+	display: flex;
+	justify-content: space-between;
+}
+.wrapper :global(.navds-checkbox__content) {
+	width: 100%;
+}
+.wrapper :global(.navds-checkbox) {
+	width: 100%;
+}
+.chevronIconChecked {
+	transform: rotate(90deg);
+}
+.numberBubble {
+	align-items: center;
+	background: #0067c5;
+	border-radius: 50%;
+	color: white;
+	display: flex;
+	height: 1.75rem;
+	justify-content: center;
+	margin-right: 0.8125rem;
+	width: 1.75rem;
+}
+.wrapperRight {
+	align-items: center;
+	display: flex;
+}

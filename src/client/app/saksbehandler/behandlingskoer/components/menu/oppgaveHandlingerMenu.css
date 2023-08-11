@@ -3,7 +3,9 @@
 	border: 1px solid #949899;
 	cursor: default;
 	padding: 10px;
-	position: fixed;
+	position: absolute;
 	width: 250px;
 	z-index: 300;
+	top: 36px;
+	left: -200px;
 }

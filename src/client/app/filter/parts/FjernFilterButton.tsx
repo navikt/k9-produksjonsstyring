@@ -1,14 +1,15 @@
 import React from 'react';
 import { Delete } from '@navikt/ds-icons';
 import { Button } from '@navikt/ds-react';
+import { CombineOppgavefilter, FeltverdiOppgavefilter } from 'filter/filterTsTypes';
 import styles from './FjernFilterButton.css';
 
 interface OwnProps {
-	oppgavefilter: Oppgavefilter;
-	onFjernFilter: (oppgavefilter: Oppgavefilter) => void;
+	oppgavefilter: FeltverdiOppgavefilter | CombineOppgavefilter;
+	onFjernFilter: (oppgavefilter: FeltverdiOppgavefilter | CombineOppgavefilter) => void;
 }
 
-const FjernFilterButton = ({ oppgavefilter, onFjernFilter }): OwnProps => (
+const FjernFilterButton = ({ oppgavefilter, onFjernFilter }: OwnProps) => (
 	<Button
 		className={styles.filterFjern}
 		icon={<Delete aria-hidden />}
