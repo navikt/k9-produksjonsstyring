@@ -1,8 +1,4 @@
-import React, { useEffect } from 'react';
-import { RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
-import { useGlobalStateRestApiData } from 'api/rest-api-hooks';
 import { punsjKodeverkNavn } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
-import AlleKodeverk from 'kodeverk/alleKodeverkTsType';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
 import Oppgave from 'saksbehandler/oppgaveTsType';
 import { getKodeverkFraKode } from 'utils/kodeverkUtils';
@@ -15,6 +11,7 @@ export const getHeaderCodes = (medReservasjoner?: boolean, erHastesaker?: boolea
 	'OppgaverTabell.BehandlingOpprettet',
 	medReservasjoner ? 'OppgaverTabell.Reservasjon' : 'EMPTY_3',
 	'EMPTY_2',
+	'EMPTY_4',
 ];
 
 export const hentIDFraSak = (oppgave: Oppgave, alleKodeverk): string => {

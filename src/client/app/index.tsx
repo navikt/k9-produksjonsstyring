@@ -4,6 +4,7 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
 import { BrowserRouter } from 'react-router-dom';
 import { init } from '@sentry/browser';
 import '@navikt/ds-css';
@@ -23,17 +24,15 @@ init({
 	environment,
 });
 
-if (process.env.NODE_ENV === 'development') {
-	const { worker } = require('../mocks/browser');
-	worker.start({ onUnhandledRequest: 'bypass' });
-}
-
-const renderFunc = (Component) => {
+const renderFunc = async (Component) => {
+	if (process.env.NODE_ENV === 'development') {
+		const { worker } = require('../mocks/browser');
+		await worker.start({ onUnhandledRequest: 'bypass' });
+	}
 	const app = document.getElementById('app');
 	if (app === null) {
 		throw new Error('No app element');
 	}
-
 	const queryClient = new QueryClient(config);
 	const root = createRoot(app);
 	root.render(
@@ -41,7 +40,8 @@ const renderFunc = (Component) => {
 			<RestApiProvider requestApi={k9LosApi}>
 				<RestApiErrorProvider>
 					<QueryClientProvider client={queryClient}>
-						<Component />
+						<ReactQueryDevtools initialIsOpen={false} />
+						<Component rootElement={app} />
 					</QueryClientProvider>
 				</RestApiErrorProvider>
 			</RestApiProvider>

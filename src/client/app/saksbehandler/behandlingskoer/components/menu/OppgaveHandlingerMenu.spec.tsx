@@ -146,25 +146,4 @@ describe('<OppgaveHandlingerMenu>', () => {
 
 		expect(wrapper.find(FlyttReservasjonModal)).has.length(1);
 	});
-
-	it('skal flytte reservasjon og så lukke modal', () => {
-		const wrapper = shallow(
-			<OppgaveHandlingerMenu
-				toggleMenu={sinon.spy()}
-				offset={{
-					top: 10,
-					left: 20,
-				}}
-				oppgave={oppgave}
-				imageNode={<div />}
-				forlengOppgaveReservasjon={sinon.spy()}
-				hentReserverteOppgaver={sinon.spy()}
-			/>,
-		);
-
-		wrapper.setState({ showFlyttReservasjonModal: true });
-
-		const modal = wrapper.find(FlyttReservasjonModal);
-		expect(modal).to.have.length(1);
-	});
 });

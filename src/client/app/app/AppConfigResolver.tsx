@@ -48,12 +48,9 @@ const AppConfigResolver: FunctionComponent<OwnProps> = ({ children }) => {
 	}
 
 	if (
-		stateK9sakUrl === RestApiState.LOADING ||
-		stateNavAnsatt === RestApiState.LOADING ||
-		stateKodeverk === RestApiState.LOADING ||
-		stateSseUrl === RestApiState.LOADING ||
-		stateK9punsjUrl === RestApiState.LOADING ||
-		stateOmsorgspengerUrl === RestApiState.LOADING
+		[stateK9sakUrl, stateNavAnsatt, stateKodeverk, stateSseUrl, stateK9punsjUrl, stateOmsorgspengerUrl].some(
+			(v) => v === RestApiState.LOADING,
+		)
 	) {
 		return <LoadingPanel />;
 	}

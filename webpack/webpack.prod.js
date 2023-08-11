@@ -1,5 +1,5 @@
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const commonEnvConfig = require('./commonEnvConfig');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 const { merge } = require('webpack-merge');
@@ -11,46 +11,44 @@ const ROOT_DIR = path.resolve(__dirname, '../src/client');
 const APP_DIR = path.resolve(ROOT_DIR, 'app');
 
 const config = {
-  mode: 'production',
-  devtool: 'source-map',
-  performance: { hints: false },
+	mode: 'production',
+	devtool: 'source-map',
+	performance: { hints: false },
 
-  entry: [
-    `${APP_DIR}/index.tsx`,
-  ],
+	entry: [`${APP_DIR}/index.tsx`],
 
-  output: {
-    globalObject: 'this',
-    filename: '[name].[contenthash].js',
-    chunkFilename: '[id].[chunkhash].chunk.js',
-    path: path.resolve(__dirname, '../dist/public'),
-    publicPath: '/public/',
-  },
+	output: {
+		globalObject: 'this',
+		filename: '[name].[contenthash].js',
+		chunkFilename: '[id].[chunkhash].chunk.js',
+		path: path.resolve(__dirname, '../dist/public'),
+		publicPath: '/public/',
+	},
 
-  plugins: [
-    new HtmlWebpackPlugin({
-      filename: '../index.html',
-      favicon: path.join(ROOT_DIR, 'favicon.ico'),
-      template: path.join(ROOT_DIR, 'index.html'),
-    }),
-    new webpack.EnvironmentPlugin({ SENTRY_RELEASE: null }),
-  ],
+	plugins: [
+		new HtmlWebpackPlugin({
+			filename: '../index.html',
+			favicon: path.join(ROOT_DIR, 'favicon.ico'),
+			template: path.join(ROOT_DIR, 'index.html'),
+		}),
+		new webpack.EnvironmentPlugin({ ...commonEnvConfig, SENTRY_RELEASE: null }),
+	],
 
-  optimization: {
-    minimizer: [
-      new TerserPlugin({
-        parallel: true,
-      }),
-      new CssMinimizerPlugin(),
-    ],
-    splitChunks: {
-      chunks: 'all',
-    },
-  },
+	optimization: {
+		minimizer: [
+			new TerserPlugin({
+				parallel: true,
+			}),
+			new CssMinimizerPlugin(),
+		],
+		splitChunks: {
+			chunks: 'all',
+		},
+	},
 
-  stats: {
-    children: false,
-  },
+	stats: {
+		children: false,
+	},
 };
 
 module.exports = merge(commonDevAndProd, config);

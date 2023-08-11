@@ -34,12 +34,19 @@ jobs:
           cache: yarn
       - name: Installere dependencies
         run: yarn install --immutable
+      - name: CSS lint
+        run: yarn css:lint
       - name: Tester
         run: yarn test --maxWorkers=2
-      - name: Linting
-        run: yarn css:lint
-      - name: Bygge dist
+      - name: Install Playwright Browsers
+        run: yarn playwright install chromium
+      - name: Run Playwright tests
+        run: yarn playwright test
+      - name: Bygge kode
         run: yarn build
+        env:
+          SAKSBEHANDLER_KAN_VELGE_NYE_KOER: 'disabled'
+          AVDELINGSLEDER_TILGANG_TIL_NYE_KOER: 'disabled'
       - name: Sette Docker-navn og -tag
         run: |
           echo "TAG=$(date +"%Y%m%d%H%M%S")-$(git rev-parse --short HEAD)" >> $GITHUB_ENV
@@ -58,11 +65,11 @@ jobs:
           APIKEY: ${{ secrets.DEPLOY_KEY }}
           CLUSTER: dev-fss
           RESOURCE: nais/frontend/k9-los-web.yml
-          VARS: nais/frontend/dev.json
+          VARS: nais/frontend/dev.yml
       - name: Deploye til prod
         uses: nais/deploy/actions/deploy@v1
         env:
           APIKEY: ${{ secrets.DEPLOY_KEY }}
           CLUSTER: prod-fss
           RESOURCE: nais/frontend/k9-los-web.yml
-          VARS: nais/frontend/prod.json
+          VARS: nais/frontend/prod.yml

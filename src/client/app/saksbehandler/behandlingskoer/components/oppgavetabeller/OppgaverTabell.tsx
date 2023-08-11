@@ -13,7 +13,7 @@ import {
 	getHeaderCodes,
 	hentIDFraSak,
 } from 'saksbehandler/behandlingskoer/components/oppgavetabeller/oppgavetabellerfelles';
-import { Oppgaveko } from 'saksbehandler/behandlingskoer/oppgavekoTsType';
+import { OppgavekøV1 } from 'saksbehandler/behandlingskoer/oppgavekoTsType';
 import { OppgaveStatus } from 'saksbehandler/oppgaveStatusTsType';
 import Oppgave from 'saksbehandler/oppgaveTsType';
 import DateLabel from 'sharedComponents/DateLabel';
@@ -30,7 +30,7 @@ interface OwnProps {
 	valgtOppgavekoId: string;
 	oppgaverTilBehandling: Oppgave[];
 	requestFinished: boolean;
-	valgtKo: Oppgaveko;
+	valgtKo: OppgavekøV1;
 }
 
 /**
@@ -43,7 +43,7 @@ export const OppgaverTabell: FunctionComponent<OwnProps & WrappedComponentProps>
 	requestFinished,
 	valgtKo,
 }) => {
-	const { startRequest: hentOppgaveKo } = useRestApiRunner<Oppgaveko[]>(K9LosApiKeys.OPPGAVEKO);
+	const { startRequest: hentOppgaveKo } = useRestApiRunner<OppgavekøV1[]>(K9LosApiKeys.OPPGAVEKO);
 	const alleKodeverk: AlleKodeverk = useGlobalStateRestApiData(RestApiGlobalStatePathsKeys.KODEVERK);
 
 	useEffect(() => {
