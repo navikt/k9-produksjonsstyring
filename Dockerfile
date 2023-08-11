@@ -1,14 +1,8 @@
-FROM node:18-alpine
+FROM nginxinc/nginx-unprivileged:1.25
 
-LABEL org.opencontainers.image.source=https://github.com/navikt/k9-los-web
+COPY dist /usr/share/nginx/html
+COPY server.nginx /etc/nginx/conf.d/app.conf.template
+COPY start-server.sh /start-server.sh
 
-WORKDIR /usr/src/client/app
-
-COPY dist ./dist
-COPY server.js .
-COPY node_modules ./node_modules
-COPY package.json .
-
-EXPOSE 8030
-CMD ["yarn", "run", "start-express"]
+CMD sh /start-server.sh
 

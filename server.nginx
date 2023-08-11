@@ -1,0 +1,57 @@
+server {
+  listen       8030;
+  server_name  "${APP_HOSTNAME}";
+
+  location @401_json {
+    default_type application/json;
+    return 401 '{"feilmelding":"Bruker ikke innlogget","type":"MANGLER_TILGANG_FEIL"}';
+  }
+
+  location @403_json {
+    default_type application/json;
+    return 403 '{"feilmelding":"Innlogget bruker har ikke tilgang til ressursen","type":"MANGLER_TILGANG_FEIL"}';
+  }
+
+  location @404_json {
+    default_type application/json;
+    return 404 '{"feilmelding":"Kunne ikke finne ressursen, beklager.","type":"IKKE_FUNNET_FEIL"}';
+  }
+
+  location @504_json {
+    default_type application/json;
+    return 504 '{"feilmelding":"Timet ut","type":"GENERELL_FEIL"}';
+  }
+
+  location / {
+    add_header              X-Application-Id "${APP_NAME}, pod=${APP_HOSTNAME}"; 
+    add_header              Content-Security-Policy "default-src 'self'; connect-src 'self' ${AUTH_PROXY_BASE_URL} ${AUTH_PROXY_BASE_URL_WSS} https://sentry.gc.nav.no https://familie-endringslogg.intern.dev.nav.no https://familie-endringslogg.intern.nav.no/; frame-src 'self' ${AUTH_PROXY_BASE_URL}; font-src 'self' data: https://cdn.nav.no; img-src 'self' data:; style-src 'self' 'unsafe-inline';";
+    add_header              X-Content-Type-Options "nosniff";
+    add_header              X-XSS-Protection "1;mode=block";
+    add_header              Strict-Transport-Security "max-age=31536000";
+
+    root   /usr/share/nginx/html;
+    index  index.html index.htm;
+    try_files $uri $uri/ /index.html;    
+  }
+
+    location /public {
+    root   /usr/share/nginx/html;
+    try_files $uri $uri/ =404;
+}
+
+
+  location = /isAlive {
+    return 200 "Application:UP";
+    add_header Content-Type text/plain;
+  }
+
+  location = /isReady {
+    return 200 "Application:READY";
+    add_header Content-Type text/plain;
+  }
+
+  error_log /dev/stdout info;
+  charset utf-8;
+
+  client_body_buffer_size 20M; # Default er satt veldig lavt. Får problemer med enkelte dokument queries.
+}
