@@ -1,5 +1,5 @@
 import React from 'react';
-import SearchWithDropdown from 'sharedComponents/SearchWithDropdown';
+import SearchWithDropdown from 'sharedComponents/searchWithDropdown/SearchWithDropdown';
 
 export default {
 	title: 'SearchWithDropdown',
