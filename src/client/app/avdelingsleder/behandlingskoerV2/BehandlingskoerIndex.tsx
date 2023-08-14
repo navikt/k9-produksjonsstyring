@@ -84,7 +84,7 @@ const BehandlingskoerIndex = () => {
 						<Table.ColumnHeader sortKey="tittel" sortable scope="col">
 							Navn
 						</Table.ColumnHeader>
-						<Table.ColumnHeader sortKey="saksbehandlere" sortable scope="col">
+						<Table.ColumnHeader sortKey="antallSaksbehandlere" sortable scope="col">
 							Antall saksbehandlere
 						</Table.ColumnHeader>
 						<Table.ColumnHeader sortKey="antallOppgaver" sortable scope="col">
