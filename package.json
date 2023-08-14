@@ -111,7 +111,7 @@
 		"@commercetools/enzyme-extensions": "5.0.0",
 		"@navikt/aksel-stylelint": "4.11.1",
 		"@playwright/test": "1.37.0",
-		"@storybook/addon-actions": "6.5.16",
+		"@storybook/addon-actions": "7.2.3",
 		"@storybook/addon-centered": "5.3.21",
 		"@storybook/addon-docs": "6.5.16",
 		"@storybook/addon-essentials": "6.5.16",
