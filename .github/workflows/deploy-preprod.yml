@@ -22,7 +22,7 @@ jobs:
         env:
           NPM_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
       - name: Sette opp Node
-        uses: actions/setup-node@v3.6.0
+        uses: actions/setup-node@v3.8.0
         with:
           node-version: 18.x
           cache: yarn
