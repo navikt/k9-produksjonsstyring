@@ -107,23 +107,31 @@ const SearchWithDropdown: React.FC<SearchWithDropdownProps> = (props) => {
 	};
 
 	const deselectSuggestionGroupAndSubValues = (suggestionGroup: string) => {
-		setOpenSuggestionGroups(openSuggestionGroups.filter((s) => s !== suggestionGroup));
 		setSelectedSuggestionValues(
 			selectedSuggestionValues.filter((suggestionValue) => getSuggestion(suggestionValue).group !== suggestionGroup),
 		);
 	};
 
 	const selectSuggestionGroupAndSubValues = (suggestionGroup: string) => {
-		setOpenSuggestionGroups([...openSuggestionGroups, suggestionGroup]);
 		const relevantSuggestionValues = suggestions.filter((s) => s.group === suggestionGroup).map((s) => s.value);
 		setSelectedSuggestionValues([...selectedSuggestionValues, ...relevantSuggestionValues]);
 	};
 
-	const handleSuggestionGroupToggle = (suggestionGroup: string) => {
-		if (openSuggestionGroups.includes(suggestionGroup)) {
+	const toggleGroupSelectionValues = (suggestionGroup: string) => {
+		const isGroupSelected = selectedSuggestionValues.some(
+			(suggestionValue) => getSuggestion(suggestionValue).group === suggestionGroup,
+		);
+		if (isGroupSelected) {
 			deselectSuggestionGroupAndSubValues(suggestionGroup);
 		} else {
 			selectSuggestionGroupAndSubValues(suggestionGroup);
+		}
+	};
+
+	const toggleGroupOpen = (suggestionGroup: string) => {
+		if (openSuggestionGroups.includes(suggestionGroup)) {
+			setOpenSuggestionGroups(openSuggestionGroups.filter((s) => s !== suggestionGroup));
+		} else {
 			setOpenSuggestionGroups([...openSuggestionGroups, suggestionGroup]);
 		}
 	};
@@ -163,7 +171,8 @@ const SearchWithDropdown: React.FC<SearchWithDropdownProps> = (props) => {
 						showFilteredSuggestionsOnly={showFilteredSuggestionsOnly}
 						selectedSuggestionValues={selectedSuggestionValues}
 						onSelect={onSelect}
-						handleSuggestionGroupToggle={handleSuggestionGroupToggle}
+						toggleGroupSelectionValues={toggleGroupSelectionValues}
+						toggleGroupOpen={toggleGroupOpen}
 						updateSelection={updateSelection}
 						addButtonText={addButtonText}
 						openSuggestionGroups={openSuggestionGroups}

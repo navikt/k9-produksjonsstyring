@@ -7,11 +7,21 @@ interface Props {
 	value: string;
 	label: string;
 	onClick: (suggestionGroup: string) => void;
+	toggleGroupOpen: (suggestionGroup: string) => void;
 	numberOfItems: number;
 	isChecked: boolean;
+	isOpen: boolean;
 }
 
-const SelectCheckbox: React.FC<Props> = ({ value, label, onClick, numberOfItems, isChecked }) => (
+const SelectCheckbox: React.FC<Props> = ({
+	value,
+	label,
+	onClick,
+	numberOfItems,
+	isChecked,
+	toggleGroupOpen,
+	isOpen,
+}) => (
 	<div className={styles.wrapper}>
 		<div className="flex flex-row">
 			<Checkbox className="flex-shrink-0" onClick={() => onClick(value)} value={value} checked={isChecked}>
@@ -20,7 +30,12 @@ const SelectCheckbox: React.FC<Props> = ({ value, label, onClick, numberOfItems,
 			<div className="flex-grow">
 				<div className="flex mt-3 float-right">
 					{numberOfItems ? <div className={styles.numberBubble}>{numberOfItems}</div> : null}
-					<Next className={isChecked ? styles.chevronIconChecked : ''} />
+					<Next
+						width="1.5em"
+						height="1.5em"
+						onClick={() => toggleGroupOpen(value)}
+						className={`${isOpen ? styles.chevronIconChecked : ''} cursor-pointer`}
+					/>
 				</div>
 			</div>
 		</div>
