@@ -7,12 +7,7 @@
 	display: flex;
 	justify-content: space-between;
 }
-.wrapper :global(.navds-checkbox__content) {
-	width: 100%;
-}
-.wrapper :global(.navds-checkbox) {
-	width: 100%;
-}
+
 .chevronIconChecked {
 	transform: rotate(90deg);
 }

@@ -13,13 +13,17 @@ interface Props {
 
 const SelectCheckbox: React.FC<Props> = ({ value, label, onClick, numberOfItems, isChecked }) => (
 	<div className={styles.wrapper}>
-		<Checkbox onClick={() => onClick(value)} value={value} checked={isChecked}>
-			{label}
-			<div className={styles.wrapperRight}>
-				{numberOfItems ? <div className={styles.numberBubble}>{numberOfItems}</div> : null}
-				<Next className={isChecked ? styles.chevronIconChecked : ''} />
+		<div className="flex flex-row">
+			<Checkbox className="flex-shrink-0" onClick={() => onClick(value)} value={value} checked={isChecked}>
+				{label}
+			</Checkbox>
+			<div className="flex-grow">
+				<div className="flex mt-3 float-right">
+					{numberOfItems ? <div className={styles.numberBubble}>{numberOfItems}</div> : null}
+					<Next className={isChecked ? styles.chevronIconChecked : ''} />
+				</div>
 			</div>
-		</Checkbox>
+		</div>
 	</div>
 );
 
