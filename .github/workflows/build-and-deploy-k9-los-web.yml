@@ -15,7 +15,7 @@ env:
 
 jobs:
   build-og-deploy:
-    name: Deploye til DEV og PROD
+    name: Deploye til PROD
     runs-on: ubuntu-latest
     steps:
       - name: Hente kode
@@ -59,13 +59,6 @@ jobs:
           docker push ${IMAGE_BASE_CR} --all-tags
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Deploye til dev
-        uses: nais/deploy/actions/deploy@v1
-        env:
-          APIKEY: ${{ secrets.DEPLOY_KEY }}
-          CLUSTER: dev-fss
-          RESOURCE: nais/frontend/k9-los-web.yml
-          VARS: nais/frontend/dev.yml
       - name: Deploye til prod
         uses: nais/deploy/actions/deploy@v1
         env:
