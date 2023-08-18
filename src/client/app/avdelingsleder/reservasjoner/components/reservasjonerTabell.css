@@ -59,7 +59,6 @@
 	content: url('../../../../images/sharedComponents/kalender_disabled.svg');
 }
 .titelContainer {
-	align-items: flex-end;
 	display: flex;
 	justify-content: space-between;
 }

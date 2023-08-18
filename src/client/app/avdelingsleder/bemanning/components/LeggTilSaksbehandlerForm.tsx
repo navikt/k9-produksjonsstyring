@@ -1,29 +1,25 @@
 import React, { FunctionComponent, useContext, useState } from 'react';
-import { Form } from 'react-final-form';
-import { FormattedMessage, WrappedComponentProps, injectIntl } from 'react-intl';
+import { Field, FieldMetaState, Form } from 'react-final-form';
+import { FormattedMessage } from 'react-intl';
 import { useQueryClient } from 'react-query';
+import { FormApi } from 'final-form';
 import { Knapp } from 'nav-frontend-knapper';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
+import { Button, TextField } from '@navikt/ds-react';
+import { PlusIcon } from '@navikt/ft-plattform-komponenter';
 import { K9LosApiKeys } from 'api/k9LosApi';
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
 import { AvdelingslederContext } from 'avdelingsleder/context';
-import { InputField } from 'form/FinalFields';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
-import { FlexColumn, FlexContainer, FlexRow } from 'sharedComponents/flexGrid';
+import { FlexColumn } from 'sharedComponents/flexGrid';
 import { hasValidEmailFormat } from 'utils/validation/validators';
 import { Saksbehandler } from '../saksbehandlerTsType';
-import styles from './leggTilSaksbehandlerForm.css';
-
-interface OwnProps {
-	lukkForm: () => void;
-}
 
 /**
  * LeggTilSaksbehandlerForm
  */
-export const LeggTilSaksbehandlerForm: FunctionComponent<OwnProps & WrappedComponentProps> = ({ lukkForm }) => {
+export const LeggTilSaksbehandlerForm: FunctionComponent = () => {
 	const [showWarning, setShowWarning] = useState(false);
-	const [leggerTilNySaksbehandler, setLeggerTilNySaksbehandler] = useState(false);
 	const { saksbehandlere } = useContext(AvdelingslederContext);
 	const queryClient = useQueryClient();
 
@@ -36,17 +32,18 @@ export const LeggTilSaksbehandlerForm: FunctionComponent<OwnProps & WrappedCompo
 		setShowWarning(false);
 	};
 
-	const addSaksbehandler = (epost: string, resetFormValues: () => void) => {
-		setLeggerTilNySaksbehandler(true);
+	const addSaksbehandler = (epost: string, form: FormApi<any, Partial<any>>, meta: FieldMetaState<any>) => {
+		if (meta.error) {
+			form.blur('epost');
+			return;
+		}
 		if (saksbehandlere.some((s) => s.epost.toLowerCase() === epost.toLowerCase())) {
 			setShowWarning(true);
-			setLeggerTilNySaksbehandler(false);
 		} else {
 			leggTilSaksbehandler({ epost })
 				.then(() => {
-					resetSok(resetFormValues);
-					setLeggerTilNySaksbehandler(false);
-					lukkForm();
+					resetSok(form.reset);
+					form.resetFieldState('epost');
 				})
 				.then(() => queryClient.invalidateQueries({ queryKey: '/avdelingsleder/saksbehandlere' }));
 		}
@@ -63,32 +60,33 @@ export const LeggTilSaksbehandlerForm: FunctionComponent<OwnProps & WrappedCompo
 						<FormattedMessage id="LeggTilSaksbehandlerForm.LeggTil" />
 					</Element>
 					<VerticalSpacer eightPx />
-					<FlexContainer>
-						<FlexRow>
-							<FlexColumn>
-								<InputField
-									name="epost"
-									className={styles.epost}
-									label="Epost"
-									bredde="L"
-									validate={[hasValidEmailFormat]}
-								/>
-							</FlexColumn>
-							<FlexColumn>
-								<Knapp
-									mini
-									htmlType="submit"
-									className={styles.button}
-									spinner={submitting}
-									disabled={submitting || leggerTilNySaksbehandler}
-									tabIndex={0}
-									onClick={() => addSaksbehandler(values.epost, form.reset)}
-								>
-									<FormattedMessage id="LeggTilSaksbehandlerForm.Sok" />
-								</Knapp>
-							</FlexColumn>
-						</FlexRow>
-					</FlexContainer>
+					<div className="flex flex-row">
+						<Field name="epost" validate={hasValidEmailFormat}>
+							{({ input, meta }) => (
+								<>
+									<TextField
+										onChange={input.onChange}
+										onBlur={input.onBlur}
+										value={input.value}
+										label="Epost"
+										size="small"
+										className="w-72"
+										error={meta.touched && meta.error?.[0] && <FormattedMessage id={meta.error[0].id} />}
+									/>
+									<Button
+										className="ml-4 h-[30px] mt-[1.7rem]"
+										loading={submitting}
+										size="small"
+										variant="secondary"
+										onClick={() => addSaksbehandler(values.epost, form, meta)}
+										icon={<PlusIcon />}
+									>
+										<FormattedMessage id="LeggTilSaksbehandlerForm.LeggTil" />
+									</Button>
+								</>
+							)}
+						</Field>
+					</div>
 					{showWarning && (
 						<>
 							<Normaltekst>{formatText()}</Normaltekst>
@@ -105,4 +103,4 @@ export const LeggTilSaksbehandlerForm: FunctionComponent<OwnProps & WrappedCompo
 	);
 };
 
-export default injectIntl(LeggTilSaksbehandlerForm);
+export default LeggTilSaksbehandlerForm;

@@ -3,11 +3,6 @@ import { FormattedMessage } from 'react-intl';
 import { useQuery } from 'react-query';
 import { NavLink } from 'react-router-dom';
 import classnames from 'classnames/bind';
-import { Row } from 'nav-frontend-grid';
-import Panel from 'nav-frontend-paneler';
-import Tabs from 'nav-frontend-tabs';
-import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
-import { PersonGroupIcon } from '@navikt/aksel-icons';
 import reservasjonBla from 'images/delete-1.svg';
 import reservasjonSvart from 'images/delete-11.svg';
 import koerSvart from 'images/drawer-22.svg';
@@ -16,6 +11,11 @@ import nokkelSvart from 'images/key-hole-1.svg';
 import nokkelBla from 'images/key-hole-11.svg';
 import prognoseBlå from 'images/prognose-bla.svg';
 import prognoseSort from 'images/prognose-sort.svg';
+import { Row } from 'nav-frontend-grid';
+import Panel from 'nav-frontend-paneler';
+import Tabs from 'nav-frontend-tabs';
+import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
+import { PersonGroupIcon } from '@navikt/aksel-icons';
 import useTrackRouteParam from 'app/data/trackRouteParam';
 import NavAnsatt from 'app/navAnsattTsType';
 import { getPanelLocationCreator } from 'app/paths';
@@ -38,6 +38,7 @@ import styles from './avdelingslederIndex.css';
 import AvdelingslederPanels from './avdelingslederPanels';
 import EndreBehandlingskoerIndex from './behandlingskoer/EndreBehandlingskoerIndex';
 import BehandlingskoerIndex from './behandlingskoerV2/BehandlingskoerIndex';
+import SaksbehandlereTabell from './bemanning/components/SaksbehandlereTabell';
 import AvdelingslederDashboard from './components/AvdelingslederDashboard';
 import IkkeTilgangTilAvdelingslederPanel from './components/IkkeTilgangTilAvdelingslederPanel';
 import { AvdelingslederContext, AvdelingslederContextState } from './context';
@@ -56,6 +57,8 @@ const renderAvdelingslederPanel = (avdelingslederPanel) => {
 			return <PrognoseIndex />;
 		case AvdelingslederPanels.RESERVASJONER:
 			return <ReservasjonerIndex />;
+		case AvdelingslederPanels.SAKSBEHANDLERE:
+			return <SaksbehandlereTabell />;
 		default:
 			return null;
 	}
@@ -77,8 +80,8 @@ const tabStyle = {
 	[AvdelingslederPanels.PROGNOSE]: [prognoseSort, prognoseBlå],
 	[AvdelingslederPanels.RESERVASJONER]: [reservasjonSvart, reservasjonBla],
 	[AvdelingslederPanels.SAKSBEHANDLERE]: [
-		<PersonGroupIcon title="a11y-title" fontSize="1.5rem" />,
-		<PersonGroupIcon title="a11y-title" fontSize="1.5rem" />,
+		<PersonGroupIcon key="aktiv" title="a11y-title" fontSize="1.5rem" />,
+		<PersonGroupIcon key="inaktiv" title="a11y-title" fontSize="1.5rem" />,
 	],
 };
 
@@ -172,12 +175,7 @@ export const AvdelingslederIndex: FunctionComponent = () => {
 				</Row>
 				<VerticalSpacer twentyPx />
 				<Row>
-					<AvdelingslederDashboard
-						visSaksbehandlere={
-							activeAvdelingslederPanel === AvdelingslederPanels.BEHANDLINGSKOER ||
-							activeAvdelingslederPanel === AvdelingslederPanels.BEHANDLINGSKOER_V2
-						}
-					>
+					<AvdelingslederDashboard>
 						<div>
 							<Tabs
 								tabs={[

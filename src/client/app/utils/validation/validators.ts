@@ -79,7 +79,12 @@ export const hasValidSaksnummerOrFodselsnummerFormat = (text) =>
 export const hasValidSaksnummerEllerJournalpostFormat = (text) =>
 	isEmpty(text) || saksnummerOrJournalpostidPattern.test(text) ? null : invalidSaksnummerOrJournalpostIdFormatMessage();
 
-export const hasValidEmailFormat = (text) => (isEmpty(text) || emailPattern.test(text) ? null : invalidEmailMessage());
+export const hasValidEmailFormat = (text) => {
+	if (isEmpty(text) || !emailPattern.test(text)) {
+		return invalidEmailMessage();
+	}
+	return null;
+};
 
 export const hasValidDate = (text) => (isEmpty(text) || isoDateRegex.test(text) ? null : invalidDateMessage());
 export const dateBeforeOrEqual = (latest) => (text) =>
