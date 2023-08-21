@@ -21,10 +21,10 @@ const SaksbehandlerInfo: FunctionComponent<OwnProps> = ({ saksbehandler, fjernSa
 	return (
 		<div>
 			<Normaltekst className={styles.overskrift}>Køer</Normaltekst>
-			{saksbehandler.oppgavekoer.length === 0 && <Normaltekst className={styles.info}>Ingen køer tildelt</Normaltekst>}
-			{saksbehandler.oppgavekoer.length > 0 &&
+			{!saksbehandler?.oppgavekoer?.length && <Normaltekst className={styles.info}>Ingen køer tildelt</Normaltekst>}
+			{saksbehandler?.oppgavekoer?.length > 0 &&
 				saksbehandler.oppgavekoer.map((ko) => (
-					<Normaltekst key={uuid4()} className={styles.info}>
+					<Normaltekst key={ko} className={styles.info}>
 						{ko}
 					</Normaltekst>
 				))}
@@ -35,8 +35,9 @@ const SaksbehandlerInfo: FunctionComponent<OwnProps> = ({ saksbehandler, fjernSa
 				}}
 				className="bg-red-400 hover:bg-red-600 mt-6"
 				size="small"
+				icon={<TrashIcon />}
 			>
-				<TrashIcon /> Slett saksbehandler
+				Slett saksbehandler
 			</Button>
 			{visSlettModal === true && (
 				<SletteSaksbehandlerModal
