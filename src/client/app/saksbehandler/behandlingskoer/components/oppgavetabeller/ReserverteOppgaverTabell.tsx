@@ -30,7 +30,7 @@ import styles from './oppgaverTabell.css';
 interface OwnProps {
 	apneOppgave: (oppgave: Oppgave) => void;
 	reserverteOppgaver: Oppgave[];
-	hentReserverteOppgaver: (params: undefined, keepData: boolean) => void;
+	hentReserverteOppgaver: () => void;
 	requestFinished: boolean;
 	hastesaker?: boolean;
 }
@@ -71,7 +71,7 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps & WrappedComponentPro
 	}, [reserverteOppgaver, requestFinished]);
 
 	useEffect(() => {
-		hentReserverteOppgaver(undefined, true);
+		hentReserverteOppgaver();
 	}, []);
 
 	useEffect(() => {
@@ -81,8 +81,7 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps & WrappedComponentPro
 	});
 
 	const forlengOppgaveReservasjonFn = useCallback(
-		(oppgaveId: string): Promise<any> =>
-			forlengOppgavereservasjon({ oppgaveId }).then(() => hentReserverteOppgaver(undefined, true)),
+		(oppgaveId: string): Promise<any> => forlengOppgavereservasjon({ oppgaveId }).then(() => hentReserverteOppgaver()),
 		[],
 	);
 

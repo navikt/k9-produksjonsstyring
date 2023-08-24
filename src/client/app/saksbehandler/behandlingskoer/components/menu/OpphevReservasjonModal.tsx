@@ -20,7 +20,7 @@ type OwnProps = Readonly<{
 	oppgaveId: string;
 	oppgaveSaksnummer: string;
 	cancel: () => void;
-	hentReserverteOppgaver: (params: undefined, keepData: boolean) => void;
+	hentReserverteOppgaver: () => void;
 }>;
 
 /**
@@ -48,7 +48,7 @@ export const OpphevReservasjonModal: FunctionComponent<OwnProps & WrappedCompone
 				);
 				// eslint-disable-next-line @typescript-eslint/no-empty-function
 				setTimeout(() => {}, 1000);
-				hentReserverteOppgaver(undefined, true);
+				hentReserverteOppgaver();
 				cancel();
 			}),
 		[oppgaveId],
