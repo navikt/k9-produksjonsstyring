@@ -57,7 +57,7 @@ const BehandlingskoerIndex: FunctionComponent<OwnProps & WrappedComponentProps> 
 	const handleEvent = (e: MessageEvent) => {
 		const data = JSON.parse(e.data);
 		if (data.melding === 'oppdaterReserverte') {
-			hentReserverteOppgaver();
+			hentReserverteOppgaver(undefined, true);
 		} else if (data.melding === 'oppdaterTilBehandling') {
 			if (valgtOppgavekoId === data.id) {
 				hentOppgaverTilBehandling({ id: valgtOppgavekoId });
@@ -95,7 +95,7 @@ const BehandlingskoerIndex: FunctionComponent<OwnProps & WrappedComponentProps> 
 		if (valgtOppgavekoId !== undefined) {
 			hentOppgaverTilBehandling({ id: valgtOppgavekoId });
 		}
-		hentReserverteOppgaver();
+		hentReserverteOppgaver(undefined, true);
 	}, [valgtOppgavekoId]);
 
 	const openFagsak = (oppgave: Oppgave) => {
