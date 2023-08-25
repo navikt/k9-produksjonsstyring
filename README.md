@@ -1,79 +1,75 @@
-## Komme i gang
+# Komme i gang
 
-k9-los-web har dependencies til pakker publisert fra [k9-saksbehandling-frontend](https://github.com/navikt/k9-saksbehandling-frontend).
+## Dependencies
 
-For å få hentet pakker fra GitHub sitt pakkeregistry må man sette opp lokal NPM med autentisering mot GitHub med en Personal Access Token (PAT) med `read:packages`-tilgang i lokalt utviklingsmiljø, før man gjør `yarn install`. GitHub har en guide på hvordan man gjør dette [her](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-npm-registry#authenticating-to-github-packages).
+`k9-los-web` har dependencies til pakker publisert fra [k9-saksbehandling-frontend](https://github.com/navikt/k9-saksbehandling-frontend).
 
-TLDR er å opprette en GitHub PAT med kun `read:packages`-tilgang, enable SSO, og putte det i en egen ~/.yarnrc.yml-fil slik:
+## Oppsett for Lokal Utvikling
 
-```
-npmRegistries:
-  https://npm.pkg.github.com:
-    npmAlwaysAuth: true
-    npmAuthToken: <token>
-```
+### Autentisering med GitHub's Package Registry
 
-Merk at dette _ikke_ skal sjekkes inn i versjonskontroll.
+Før du kjører `yarn install`, sett opp lokal NPM for autentisering mot GitHub ved hjelp av en Personal Access Token (PAT) med `read:packages`-tilgang. For mer informasjon, se den [offisielle GitHub-guiden](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-npm-registry#authenticating-to-github-packages).
 
-Når dette er gjort kan man kjøre dette på rot av repo'et for å kjøre opp lokalt utviklingsmiljø:
+**Korte Trinn**:
 
-```
-yarn install
-yarn dev
-```
+1. Opprett en GitHub PAT med `read:packages`-tilgang.
+2. Aktiver SSO.
+3. Legg følgende i `~/.yarnrc.yml`:
 
-## Lokal utvikling
+   ```yaml
+   npmRegistries:
+     https://npm.pkg.github.com:
+       npmAlwaysAuth: true
+       npmAuthToken: <token>
+   ```
 
-1. Kjør vtp, postgres og azure mocks fra [k9-verdikjede](https://github.com/navikt/k9-verdikjede/tree/master/saksbehandling).
+⚠️ Merk: Dette skal ikke sjekkes inn i versjonskontroll.
 
-```
-docker-compose up -d vtp postgres azure-mock
-```
+#### Lokal utvikling
 
-NB: Husk at få lagt in azure-mock i /etc/hosts i k9-verdikjede`slik att azure-mock mappes til localhost. Hvis ikke dette er utført får man følgende feilmelding: ErrorCaused by: java.net.UnknownHostException: azure-mock.
-
-Verdi som ska legges in i hosts filen:
+0. Legg inn azure-mock i /etc/hosts. Hvis ikke dette er utført får man følgende feilmelding: ErrorCaused by: java.net.UnknownHostException: azure-mock.
+   Verdi som skal legges inn i hosts filen:
 
 ```
+
 127.0.0.1 azure-mock
-```
-
-2. Last ned [k9-los-api](https://github.com/navikt/k9-los-api). Start klassen no.nav.k9.K9LosDev med vm-options under. Bytt ut path til riktig for trustStore og keyStore.
-
-Eksempel fra Windows miljø
 
 ```
+
+1. Kjør opp docker-containerene i verdikjede (https://github.com/navikt/k9-verdikjede)
+2. Start k9-los-api (https://github.com/navikt/k9-los-api) lokalt.
+   Start klassen no.nav.k9.K9LosDev med vm-options under. Bytt ut path til riktig for trustStore og keyStore.
+   Eksempel fra Windows miljø
+
+```
+
 -Djavax.net.ssl.trustStore=/Users/specifik_users_name/.modig/trustStore.jks -Djavax.net.ssl.keyStore=/Users/specifik_users_name/.modig/keyStore.jks -Djavax.net.ssl.trustStorePassword=changeit -Djavax.net.ssl.keyStorePassword=devillokeystore1234
-```
-
-3.
 
 ```
-yarn dev
-```
 
-#### Nyttig informasjon for lokal utvikling
+4. Kjør opp k9-los-web lokalt med yarn dev
+5. Legg til saksbehandler@nav.no som saksbehandler i avdelingslederpanelet
+6. Opprett ønsket kø i avdelingslederpanelet og legg til saksbehandler i køen
 
-Mocke oppgaver i backend
+cd /saksbehandling
+docker-compose up -d k9-sak-web vtp
 
-```
-http://localhost:8020/mock
-```
+6. Kjør tester i verdikjede for å opprette saker. Man kan slette deler av testene for å få behandlinger som ikke er ferdigstilt.
 
-Mock e-postadresse som kan brukes for og legge til saksbehandler i køer.
-
-```
-saksbehandler@nav.no
-```
+Nå kan du søke opp saksnummeret eller søkeren i k9-los-web. Dersom oppgaven matcher kriteriene i en av dine køer vil den også dukke opp i listen over oppgaver.
 
 ##### Mock Service Worker
 
 MSW kan brukes til å enkelt mocke API-requests.
 Definer hvilket API som skal mockes og hva som skal returneres i handlers.js
 Kjør opp applikasjonen med følgende kommando for å bruke mockdata fra handlers.js
+Dette er mest nyttig dersom man skal teste en spesifikk case som er vanskelig å få til med ekte data.
+Ellers er det anbefalt å benytte verdikjede for å få mest mulig likt oppsett som i produksjon.
 
 ```
+
 MSW_MODE=test yarn dev
+
 ```
 
 #### Windows oppsett
@@ -81,9 +77,11 @@ MSW_MODE=test yarn dev
 For att kjøre vtp som fungerer for LOS lokalt kan det hente att man må specifisere path til modig i docker-compose.
 
 ```
+
 C:/Users/xxxxxxx/.modig:/app/.modig
+
 ```
 
 ### For NAV-ansatte
 
-Interne henvendelser kan sendes via Slack i kanalen **#sif_saksbehandling**.
+Interne henvendelser kan sendes via Slack i kanalen **#k9-los**.

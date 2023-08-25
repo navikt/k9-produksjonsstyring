@@ -2,11 +2,11 @@
 import React, { FunctionComponent, useCallback, useEffect, useRef, useState } from 'react';
 import { FormattedMessage, WrappedComponentProps, injectIntl, useIntl } from 'react-intl';
 import classNames from 'classnames';
-import menuIconBlackUrl from 'images/ic-menu-18px_black.svg';
-import menuIconBlueUrl from 'images/ic-menu-18px_blue.svg';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { WarningColored } from '@navikt/ds-icons';
 import { Loader, Table } from '@navikt/ds-react';
+import menuIconBlueUrl from 'images/ic-menu-18px_blue.svg';
+import menuIconBlackUrl from 'images/ic-menu-18px_black.svg';
 import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
 import { useGlobalStateRestApiData } from 'api/rest-api-hooks';
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
@@ -88,7 +88,6 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps & WrappedComponentPro
 	const ref = useRef({});
 
 	const goToFagsak = (oppgave: Oppgave) => {
-		console.log('ayo');
 		leggTilBehandletOppgave(oppgave);
 		apneOppgave(oppgave);
 	};
