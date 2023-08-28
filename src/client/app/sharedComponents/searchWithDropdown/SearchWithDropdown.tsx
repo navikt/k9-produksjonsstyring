@@ -62,8 +62,8 @@ const SearchWithDropdown: React.FC<SearchWithDropdownProps> = (props) => {
 		const selectedGroups = [];
 		setSelectedSuggestionValues(selectedValues);
 		selectedValues.forEach((value) => {
-			const selectedGroup = getSuggestion(value).group;
-			selectedGroups.push(selectedGroup);
+			const selectedGroup = getSuggestion(value)?.group;
+			if (selectedGroup) selectedGroups.push(selectedGroup);
 		});
 		setOpenSuggestionGroups([...new Set(selectedGroups)]);
 		setShowFilteredSuggestionsOnly(false);
