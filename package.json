@@ -187,7 +187,8 @@
 		"webpack-merge": "5.9.0"
 	},
 	"resolutions": {
-		"got": "11.8.5"
+		"got": "11.8.5",
+		"@navikt/ds-react": "4.12.1"
 	},
 	"scripts": {
 		"start-express": "node ./server.js",
