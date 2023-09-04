@@ -186,9 +186,6 @@
 		"webpack-dev-server": "4.15.1",
 		"webpack-merge": "5.9.0"
 	},
-	"resolutions": {
-		"got": "11.8.5"
-	},
 	"scripts": {
 		"start-express": "node ./server.js",
 		"test": "jest --colors",
