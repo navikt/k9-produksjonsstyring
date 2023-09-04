@@ -3,6 +3,10 @@ on:
   push:
     paths:
       - 'nais/proxy/k9-los-oidc-auth-proxy-redis.yml'
+      - '.github/workflows/deploy-redis.yml'
+  workflow_dispatch:
+  schedule:
+    - cron: '0 2 * * 6' # At 02:00 on Saturday.
 jobs:
   deploy:
     name: deploy redis
