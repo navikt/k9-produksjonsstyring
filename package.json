@@ -186,6 +186,9 @@
 		"webpack-dev-server": "4.15.1",
 		"webpack-merge": "5.9.0"
 	},
+	"resolutions": {
+		"@navikt/ds-react": "4.12.1"
+	},
 	"scripts": {
 		"start-express": "node ./server.js",
 		"test": "jest --colors",

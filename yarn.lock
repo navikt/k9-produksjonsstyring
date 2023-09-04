@@ -3100,13 +3100,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@navikt/aksel-icons@npm:^5.2.1":
-  version: 5.3.1
-  resolution: "@navikt/aksel-icons@npm:5.3.1::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40navikt%2Faksel-icons%2F5.3.1%2Fafec1fb5c98bd01bd528f1e345f2f2b2660baaa9"
-  checksum: 9cefb129e4077c5a7421efa79435e2f23df8e28fc811e209c6e9ac7e23bb13b7448b154ad955b06cd45a5d8b32ba1d460c60560cf43d62d33c12a2024cedf3e1
-  languageName: node
-  linkType: hard
-
 "@navikt/aksel-stylelint@npm:4.12.1":
   version: 4.12.1
   resolution: "@navikt/aksel-stylelint@npm:4.12.1::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40navikt%2Faksel-stylelint%2F4.12.1%2Fdacb9c6934606870dc31c2d8e7f4fcc4c43ba00d"
@@ -3154,24 +3147,6 @@ __metadata:
     "@types/react": ^17.0.30 || ^18.0.0
     react: ^17.0.0 || ^18.0.0
   checksum: a680b5c6a9353d2b8be0f1ff6527703973709dbd231db63be5bc954ffc4e11efd52aade1d0787554240371278811025673c58fb817ec272b8ebe615e687f5edc
-  languageName: node
-  linkType: hard
-
-"@navikt/ds-react@npm:5.2.1":
-  version: 5.2.1
-  resolution: "@navikt/ds-react@npm:5.2.1::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40navikt%2Fds-react%2F5.2.1%2Fc43b6af3e53f69a4fa47741729610f17535c40d1"
-  dependencies:
-    "@floating-ui/react": 0.24.1
-    "@navikt/aksel-icons": ^5.2.1
-    "@radix-ui/react-tabs": 1.0.0
-    "@radix-ui/react-toggle-group": 1.0.0
-    clsx: ^1.2.1
-    date-fns: 2.29.3
-    react-day-picker: 8.3.4
-  peerDependencies:
-    "@types/react": ^17.0.30 || ^18.0.0
-    react: ^17.0.0 || ^18.0.0
-  checksum: 722c3ad7b460d40ae3325884741df1fce40d5f05f0973bdf0677b6231560fd5e7b03d206ccc30b5ca591cfd0ba94ae536cfdd8194bf85fc639a2b69cf51c9781
   languageName: node
   linkType: hard
 
