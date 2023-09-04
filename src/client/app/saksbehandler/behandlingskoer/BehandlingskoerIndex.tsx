@@ -49,9 +49,11 @@ const BehandlingskoerIndex: FunctionComponent<OwnProps & WrappedComponentProps> 
 		state,
 		data: oppgaverTilBehandling = [],
 	} = useRestApiRunner<Oppgave[]>(K9LosApiKeys.OPPGAVER_TIL_BEHANDLING);
-	const { startRequest: hentReserverteOppgaver, data: reserverteOppgaver = [] } = useRestApiRunner<Oppgave[]>(
+	const { startRequest: getReserverteOppgaver, data: reserverteOppgaver = [] } = useRestApiRunner<Oppgave[]>(
 		K9LosApiKeys.RESERVERTE_OPPGAVER,
 	);
+
+	const hentReserverteOppgaver = () => getReserverteOppgaver(undefined, true);
 	const { startRequest: leggTilBehandletOppgave } = useRestApiRunner(K9LosApiKeys.LEGG_TIL_BEHANDLET_OPPGAVE);
 
 	const handleEvent = (e: MessageEvent) => {
