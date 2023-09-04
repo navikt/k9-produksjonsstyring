@@ -11,6 +11,9 @@ jobs:
   deploy-dev:
     name: Deploye til DEV
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: write
     steps:
       - name: Hente kode
         uses: actions/checkout@v3
@@ -22,7 +25,7 @@ jobs:
         env:
           NPM_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
       - name: Sette opp Node
-        uses: actions/setup-node@v3.6.0
+        uses: actions/setup-node@v3
         with:
           node-version: 18.x
           cache: yarn
