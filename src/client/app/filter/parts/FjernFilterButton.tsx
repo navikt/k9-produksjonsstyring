@@ -6,7 +6,7 @@ import styles from './FjernFilterButton.css';
 
 interface OwnProps {
 	oppgavefilter: FeltverdiOppgavefilter | CombineOppgavefilter;
-	onFjernFilter: (oppgavefilter: FeltverdiOppgavefilter | CombineOppgavefilter) => void;
+	onFjernFilter: (id: string) => void;
 }
 
 const FjernFilterButton = ({ oppgavefilter, onFjernFilter }: OwnProps) => (
@@ -15,7 +15,7 @@ const FjernFilterButton = ({ oppgavefilter, onFjernFilter }: OwnProps) => (
 		icon={<Delete aria-hidden />}
 		size="small"
 		variant="tertiary"
-		onClick={() => onFjernFilter(oppgavefilter)}
+		onClick={() => onFjernFilter(oppgavefilter.id)}
 	/>
 );
 

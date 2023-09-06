@@ -1,23 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import { use } from 'chai';
+import React, { useEffect, useMemo, useState } from 'react';
 import { v4 as uuid } from 'uuid';
+import { PlusCircleIcon } from '@navikt/aksel-icons';
 import { Download, Refresh, Search } from '@navikt/ds-icons';
 import { Alert, BodyShort, Button, Heading, Loader, ReadMore, Select, TextField } from '@navikt/ds-react';
 import { K9LosApiKeys, k9LosApi } from 'api/k9LosApi';
 import { useAlleKoer, useKo } from 'api/queries/avdelingslederQueries';
 import { REQUEST_POLLING_CANCELLED } from 'api/rest-api';
+import FilterContext from './FilterContext';
 import OppgaveQueryModel from './OppgaveQueryModel';
 import styles from './filterIndex.css';
-import {
-	CombineOppgavefilter,
-	EnkelOrderFelt,
-	EnkelSelectFelt,
-	FeltverdiOppgavefilter,
-	OppgaveQuery,
-	Oppgaverad,
-} from './filterTsTypes';
-import LeggTilFilterButton from './parts/LeggTilFilterButton';
-import LeggTilGruppeButton from './parts/LeggTilGruppeButton';
+import { EnkelOrderFelt, EnkelSelectFelt, OppgaveQuery, Oppgavefelt, Oppgaverad } from './filterTsTypes';
 import OppgaveOrderFelter from './parts/OppgaveOrderFelter';
 import OppgaveQueryResultat from './parts/OppgaveQueryResultat';
 import OppgaveSelectFelter from './parts/OppgaveSelectFelter';
@@ -59,8 +51,7 @@ const FilterIndex = ({ initialQuery, lagre, avbryt, tittel }: OwnProps) => {
 	const [oppgaveQuery, setOppgaveQuery] = useState(
 		initialQuery ? new OppgaveQueryModel(initialQuery).toOppgaveQuery() : new OppgaveQueryModel().toOppgaveQuery(),
 	);
-
-	const [felter, setFelter] = useState([]);
+	const [felter, setFelter] = useState<Oppgavefelt[]>([]);
 	const [oppgaver, setOppgaver] = useState<Oppgaverad[]>(null);
 	const [antallTreff, setAntallTreff] = useState('0');
 	const [prevOppgaveQuery, setPrevOppgaveQuery] = useState({});
@@ -165,16 +156,16 @@ const FilterIndex = ({ initialQuery, lagre, avbryt, tittel }: OwnProps) => {
 		}
 	};
 
-	const fjernFilter = (oppgavefilter: FeltverdiOppgavefilter | CombineOppgavefilter) => {
-		setOppgaveQuery(() => new OppgaveQueryModel(oppgaveQuery).removeFilter(oppgavefilter.id).toOppgaveQuery());
+	const fjernFilter = (id: string) => {
+		setOppgaveQuery(() => new OppgaveQueryModel(oppgaveQuery).removeFilter(id).toOppgaveQuery());
 	};
 
-	const leggTilFilter = (filterContainer: OppgaveQuery | CombineOppgavefilter) => {
-		setOppgaveQuery(() => new OppgaveQueryModel(oppgaveQuery).addFilter(filterContainer.id).toOppgaveQuery());
+	const leggTilFilter = (id: string) => {
+		setOppgaveQuery(() => new OppgaveQueryModel(oppgaveQuery).addFilter(id).toOppgaveQuery());
 	};
 
-	const leggTilGruppe = (filterContainer: OppgaveQuery) => {
-		setOppgaveQuery(() => new OppgaveQueryModel(oppgaveQuery).addGruppe(filterContainer.id).toOppgaveQuery());
+	const leggTilGruppe = (id: string) => {
+		setOppgaveQuery(() => new OppgaveQueryModel(oppgaveQuery).addGruppe(id).toOppgaveQuery());
 	};
 
 	const fjernSelectFelt = (felt: EnkelSelectFelt) => {
@@ -185,7 +176,7 @@ const FilterIndex = ({ initialQuery, lagre, avbryt, tittel }: OwnProps) => {
 		setOppgaveQuery(() => new OppgaveQueryModel(oppgaveQuery).addEnkelSelectFelt().toOppgaveQuery());
 	};
 
-	const oppdaterFilter = (id, newData) => {
+	const oppdaterFilter = (id: string, newData) => {
 		const oppgaveQueryModel = new OppgaveQueryModel(oppgaveQuery);
 		const oppgavefilterToUpdate = oppgaveQueryModel.getById(id);
 		const data = {
@@ -230,6 +221,17 @@ const FilterIndex = ({ initialQuery, lagre, avbryt, tittel }: OwnProps) => {
 			setOppgaveQuery(() => new OppgaveQueryModel(oppgaveQuery).updateLimit(limit).toOppgaveQuery());
 		}
 	};
+
+	const filterContextValues = useMemo(
+		() => ({
+			kriterierSomKanVelges: felter,
+			oppdaterFilter,
+			leggTilFilter,
+			leggTilGruppe,
+			fjernFilter,
+		}),
+		[felter, oppgaveQuery],
+	);
 
 	useEffect(() => {
 		k9LosApi
@@ -276,23 +278,22 @@ const FilterIndex = ({ initialQuery, lagre, avbryt, tittel }: OwnProps) => {
 				</ReadMore>
 				<div className="mt-3 p-4 rounded-lg bg-gray-50 border-t border-gray-300 border-solid">
 					<Heading size="small" spacing className="mt-3">
-						Filterdefinisjon
+						Kriterier for kø
 					</Heading>
-					{oppgaveQuery.filtere.map((item) => (
-						<OppgavefilterPanel
-							key={item.id}
-							felter={felter}
-							oppgavefilter={item}
-							onLeggTilFilter={leggTilFilter}
-							onLeggTilGruppe={leggTilGruppe}
-							onOppdaterFilter={oppdaterFilter}
-							onFjernFilter={fjernFilter}
-						/>
-					))}
-					<div className="flex gap-2">
-						<LeggTilFilterButton filterContainer={oppgaveQuery} onLeggTilFilter={leggTilFilter} />
-						<LeggTilGruppeButton filterContainer={oppgaveQuery} onLeggTilGruppe={leggTilGruppe} />
-					</div>
+					<FilterContext.Provider value={filterContextValues}>
+						{oppgaveQuery.filtere.map((item) => (
+							<OppgavefilterPanel key={item.id} oppgavefilter={item} />
+						))}
+					</FilterContext.Provider>
+					<Button
+						className="mt-4 mb-13"
+						icon={<PlusCircleIcon aria-hidden />}
+						variant="tertiary"
+						size="small"
+						onClick={() => leggTilFilter(oppgaveQuery.id)}
+					>
+						Legg til nytt kriterie
+					</Button>
 					<ReadMore
 						className={styles.feltvalgBlokk}
 						header="Velg felter som skal vises"
