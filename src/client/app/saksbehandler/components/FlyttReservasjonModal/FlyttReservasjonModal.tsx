@@ -18,7 +18,6 @@ interface OwnProps {
 	oppgaveStatus: OppgaveStatus;
 	lukkFlyttReservasjonsmodal: () => void;
 	openSak: (oppgave: Oppgave) => void;
-	hentReserverteOppgaver?: () => void;
 	hentOppgaverTilBehandling?: () => void;
 }
 
@@ -28,7 +27,6 @@ export const FlyttReservasjonsmodal: FunctionComponent<OwnProps & WrappedCompone
 	oppgaveStatus,
 	lukkFlyttReservasjonsmodal,
 	openSak,
-	hentReserverteOppgaver,
 	hentOppgaverTilBehandling,
 }) => {
 	const { startRequest: reserverOppgave } = useRestApiRunner<OppgaveStatus>(K9LosApiKeys.RESERVER_OPPGAVE);
@@ -63,13 +61,11 @@ export const FlyttReservasjonsmodal: FunctionComponent<OwnProps & WrappedCompone
 				overstyrSjekk: true,
 			};
 
-			reserverOppgave(params)
-				.then((nyOppgaveStatus) => {
-					if (nyOppgaveStatus.erReservert && nyOppgaveStatus.erReservertAvInnloggetBruker) {
-						openSak(oppgave);
-					}
-				})
-				.then(() => hentReserverteOppgaver());
+			reserverOppgave(params).then((nyOppgaveStatus) => {
+				if (nyOppgaveStatus.erReservert && nyOppgaveStatus.erReservertAvInnloggetBruker) {
+					openSak(oppgave);
+				}
+			});
 		} else {
 			setVisManglerReservasjonsrettigheterFeilmelding(true);
 		}
