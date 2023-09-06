@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import dayjs from 'dayjs';
+import { FilesIcon, PlusCircleIcon, TrashIcon } from '@navikt/aksel-icons';
 import { Button, Loader, Table } from '@navikt/ds-react';
 import { useAlleKoer } from 'api/queries/avdelingslederQueries';
 import BehandlingsKoForm from './BehandlingsKoForm';
@@ -75,17 +76,19 @@ const BehandlingskoerIndex = () => {
 
 	return (
 		<>
-			<Button className="my-4" variant="secondary" onClick={() => setVisNyKøModal(true)}>
-				Opprett ny kø
+			<Button className="my-7" variant="primary" onClick={() => setVisNyKøModal(true)} icon={<PlusCircleIcon />}>
+				Legg til ny behandlingskø
 			</Button>
-			<Table sort={sort} zebraStripes onSortChange={handleSort}>
+			<Table sort={sort} zebraStripes onSortChange={handleSort} size="small">
 				<Table.Header>
 					<Table.Row>
+						<Table.ColumnHeader scope="col" />
 						<Table.ColumnHeader sortKey="tittel" sortable scope="col">
-							Navn
+							Kønavn
 						</Table.ColumnHeader>
+						<Table.ColumnHeader>Stønad</Table.ColumnHeader>
 						<Table.ColumnHeader sortKey="antallSaksbehandlere" sortable scope="col">
-							Antall saksbehandlere
+							Saksbehandlere
 						</Table.ColumnHeader>
 						<Table.ColumnHeader sortKey="antallOppgaver" sortable scope="col">
 							Antall behandlinger
@@ -97,27 +100,35 @@ const BehandlingskoerIndex = () => {
 					</Table.Row>
 				</Table.Header>
 				<Table.Body>
-					{sortedData &&
-						sortedData.map((kø) => (
-							<Table.ExpandableRow
-								key={kø.id}
-								onOpenChange={() => onOpenChange(kø.id)}
-								open={ekspanderteKøer.includes(kø.id)}
-								togglePlacement="right"
-								content={
-									<BehandlingsKoForm
-										id={kø.id}
-										ekspandert={ekspanderteKøer.includes(kø.id)}
-										lukk={() => onOpenChange(kø.id)}
-									/>
-								}
-							>
-								<Table.DataCell scope="row">{kø.tittel}</Table.DataCell>
-								<Table.DataCell>{kø.antallSaksbehandlere || '0'}</Table.DataCell>
-								<Table.DataCell>-</Table.DataCell>
-								<Table.DataCell>{kø.sistEndret ? dayjs(kø.sistEndret).format('DD.MM.YYYY HH:mm') : '-'}</Table.DataCell>
-							</Table.ExpandableRow>
-						))}
+					{sortedData?.map((kø) => (
+						<Table.ExpandableRow
+							key={kø.id}
+							onOpenChange={() => onOpenChange(kø.id)}
+							open={ekspanderteKøer.includes(kø.id)}
+							togglePlacement="left"
+							content={
+								<BehandlingsKoForm
+									id={kø.id}
+									ekspandert={ekspanderteKøer.includes(kø.id)}
+									lukk={() => onOpenChange(kø.id)}
+								/>
+							}
+						>
+							<Table.DataCell scope="row">{kø.tittel}</Table.DataCell>
+							<Table.DataCell>-</Table.DataCell>
+							<Table.DataCell>{kø.antallSaksbehandlere || '0'}</Table.DataCell>
+							<Table.DataCell>-</Table.DataCell>
+							<Table.DataCell>{kø.sistEndret ? dayjs(kø.sistEndret).format('DD.MM.YYYY HH:mm') : '-'}</Table.DataCell>
+							<Table.DataCell align="right">
+								<Button variant="tertiary" size="small" icon={<FilesIcon />}>
+									Kopier
+								</Button>
+								<Button variant="tertiary" size="small" icon={<TrashIcon />}>
+									Slett
+								</Button>
+							</Table.DataCell>
+						</Table.ExpandableRow>
+					))}
 				</Table.Body>
 			</Table>
 			{visNyKøModal && (

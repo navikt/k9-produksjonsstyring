@@ -2,9 +2,8 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FormattedMessage } from 'react-intl';
 import { OppgavekøV2 } from 'types/OppgavekøV2Type';
-import { TrashIcon } from '@navikt/aksel-icons';
 import { Edit } from '@navikt/ds-icons';
-import { Alert, Button, ErrorMessage, Heading, Modal } from '@navikt/ds-react';
+import { Alert, Button, ErrorMessage, Heading, Label, Modal } from '@navikt/ds-react';
 import { Form, InputField, TextAreaField } from '@navikt/ft-form-hooks';
 import { arrayMinLength, minLength, required } from '@navikt/ft-form-validators';
 import { useKo, useOppdaterKøMutation } from 'api/queries/avdelingslederQueries';
@@ -80,7 +79,7 @@ const BehandlingsKoForm = ({ kø, lukk, ekspandert, id }: BehandlingsKoFormProps
 	formMethods.register(fieldnames.SAKSBEHANDLERE, {
 		validate: (sb) => arrayMinLength(1)(sb),
 	});
-	const antallOppgaver = 0;
+
 	return (
 		<Form formMethods={formMethods}>
 			<div className="grid grid-cols-2 gap-16">
@@ -96,7 +95,8 @@ const BehandlingsKoForm = ({ kø, lukk, ekspandert, id }: BehandlingsKoFormProps
 							label="Beskrivelse"
 							description="Her kan du legge inn en valgfri beskrivelse av hva denne køen inneholder."
 							className="my-8"
-							validate={[required]}
+							maxLength={4000}
+							validate={[required, minLength(3)]}
 						/>
 					</div>
 				</div>
@@ -106,7 +106,12 @@ const BehandlingsKoForm = ({ kø, lukk, ekspandert, id }: BehandlingsKoFormProps
 					</Heading>
 
 					{alleSaksbehandlere.length === 0 && (
-						<FormattedMessage id="SaksbehandlereForOppgavekoForm.IngenSaksbehandlere" />
+						<>
+							<FormattedMessage id="SaksbehandlereForOppgavekoForm.IngenSaksbehandlere" />
+							{formMethods.getFieldState('saksbehandlere')?.error?.message && (
+								<ErrorMessage>{formMethods.getFieldState('saksbehandlere')?.error?.message}</ErrorMessage>
+							)}
+						</>
 					)}
 					{alleSaksbehandlere.length > 0 && (
 						<SearchWithDropdown
@@ -126,20 +131,19 @@ const BehandlingsKoForm = ({ kø, lukk, ekspandert, id }: BehandlingsKoFormProps
 					)}
 				</div>
 			</div>
-			<div className="flex mt-6 gap-4">
-				<div className="inline-block">
-					<div className="bg-gray-100 rounded p-2">
-						Antall behandlinger: <span>{`${antallOppgaver || '-'}`}</span>
-					</div>
+			<div className="mt-8">
+				<div>
+					<Label size="small">Kriterier for kø:</Label>
 				</div>
 				<Button
-					className="ml-1 my-auto "
+					className="ml-1 mt-1 "
+					size="small"
 					variant="tertiary"
 					type="button"
 					onClick={() => setVisFilterModal(true)}
 					icon={<Edit />}
 				>
-					Endre filter for kø
+					Endre kriterier
 				</Button>
 			</div>
 			{formMethods.formState.isDirty && (
@@ -163,20 +167,10 @@ const BehandlingsKoForm = ({ kø, lukk, ekspandert, id }: BehandlingsKoFormProps
 					}}
 					disabled={!formMethods.formState.isDirty}
 				>
-					Lagre kø
+					Lagre behandlingskø
 				</Button>
 				<Button variant="secondary" type="button" onClick={lukk}>
-					Lukk
-				</Button>
-				<Button
-					icon={<TrashIcon />}
-					variant="tertiary"
-					className="ml-8 border-border-danger text-border-danger hover:bg-red-100 hover:text-border-danger/75"
-					onClick={() => {
-						throw new Error('Not implemented');
-					}}
-				>
-					Slett kø
+					Lukk uten å lagre
 				</Button>
 			</div>
 			<LagreKoModal
@@ -193,7 +187,6 @@ const BehandlingsKoForm = ({ kø, lukk, ekspandert, id }: BehandlingsKoFormProps
 						avbryt={() => setVisFilterModal(false)}
 						tittel="Endre filter for behandlingskø"
 					/>
-					d
 				</Modal.Content>
 			</Modal>
 		</Form>
