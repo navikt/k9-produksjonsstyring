@@ -18,7 +18,7 @@ test('Kan vise køer', async ({ page }) => {
 test('kan opprette ny kø', async ({ page }) => {
 	await page.getByRole('button', { name: 'Avdelingslederpanel' }).click();
 	await page.getByRole('link', { name: 'Nye behandlingskøer' }).click();
-	await page.getByRole('button', { name: 'Opprett ny kø' }).click();
+	await page.getByRole('button', { name: 'Legg til ny behandlingskø' }).click();
 	await page.getByRole('textbox', { name: 'Navn' }).fill('te');
 	await page.getByText(/Du må skrive minst 3 tegn/).isVisible();
 	await page.getByRole('textbox', { name: 'Navn' }).fill('testkø');
@@ -33,14 +33,14 @@ test('kan redigere kø', async ({ page }) => {
 	await page.getByRole('cell', { name: 'Kø 2' }).isVisible();
 
 	await page
-		.getByRole('row', { name: 'Beskrivende tittel 0 - - Vis mer' })
+		.getByRole('row', { name: /Beskrivende tittel/i })
 		.getByRole('button', { name: 'Vis mer' })
 		.click();
 
 	await page.getByText('godt forklart tekst om hva formålet med køen er');
 	await page.getByLabel('Beskrivelse').fill('');
 	// trykk lagre og se at det kommer opp feilmelding
-	await page.getByRole('button', { name: 'Lagre' }).click();
+	await page.getByRole('button', { name: 'Lagre behandlingskø' }).click();
 	await page.getByText('Feltet er påkrevd');
 
 	await page
@@ -57,10 +57,10 @@ test('kan redigere kø', async ({ page }) => {
 	await page.getByText('Mangler gruppering').click();
 	await page.getByText('Legg til saksbehandlere').click();
 
-	await page.getByRole('button', { name: 'Lagre kø' }).isEnabled();
-	await page.getByRole('button', { name: 'Lagre kø' }).click();
-	await expect(page.getByText('Er du sikker på at du ønsker å lagre køen?')).toBeVisible();
-	await page.getByRole('button', { name: 'Lagre kø' }).click();
+	await page.getByRole('button', { name: 'Lagre behandlingskø' }).isEnabled();
+	await page.getByRole('button', { name: 'Lagre behandlingskø' }).click();
+	await expect(page.getByText('Er du sikker på at du ønsker å lagre behandlingskøen?')).toBeVisible();
+	await page.getByRole('button', { name: 'Lagre behandlingskø' }).click();
 
 	await page.getByText('Køen er nå lagret!');
 	await page.getByRole('button', { name: 'Lukk' }).click();
@@ -70,11 +70,8 @@ test('tidligere lagret kø vises korrekt', async ({ page }) => {
 	await page.goto('http://localhost:8030/avdelingsleder');
 	await page.goto('http://localhost:8030/avdelingsleder');
 	await page.getByRole('link', { name: 'Nye behandlingskøer' }).click();
-	await page
-		.getByRole('row', { name: 'Stians morokø 6 - 28.05.2023 08:57 Vis mer' })
-		.getByRole('button', { name: 'Vis mer' })
-		.click();
-	await page.getByRole('button', { name: 'Endre filter for kø' }).click();
+	await page.getByRole('row', { name: 'Stians morokø' }).getByRole('button', { name: 'Vis mer' }).click();
+	await page.getByRole('button', { name: 'Endre kriterier' }).click();
 
 	// Timestamp
 	await expect(page.getByText('01.06.2023')).toBeDefined();
