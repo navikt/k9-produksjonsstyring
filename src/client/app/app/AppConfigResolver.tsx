@@ -44,7 +44,7 @@ const AppConfigResolver: FunctionComponent<OwnProps> = ({ children }) => {
 	);
 
 	if (stateNavAnsatt === RestApiState.ERROR) {
-		window.location.assign(PROXY_REDIRECT_URL);
+		return 'Det skjedde en feil under innlogging. Vennligst prøv igjen senere.';
 	}
 
 	if (
