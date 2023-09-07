@@ -79,7 +79,7 @@ const BehandlingskoerIndex = () => {
 			<Button className="my-7" variant="primary" onClick={() => setVisNyKøModal(true)} icon={<PlusCircleIcon />}>
 				Legg til ny behandlingskø
 			</Button>
-			<Table sort={sort} zebraStripes onSortChange={handleSort}>
+			<Table sort={sort} zebraStripes onSortChange={handleSort} size="small">
 				<Table.Header>
 					<Table.Row>
 						<Table.ColumnHeader scope="col" />
