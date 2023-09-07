@@ -188,6 +188,7 @@ const BehandlingsKoForm = ({ kø, lukk, ekspandert, id }: BehandlingsKoFormProps
 							avbryt={() => setVisFilterModal(false)}
 							tittel="Kriterier for kø"
 							visningV2
+							køvisning
 						/>
 					</Modal.Body>
 				</Modal>

@@ -23,7 +23,7 @@ const VelgKriterie = ({ oppgavefilter }: Props) => {
 		}
 		const { område, kode } = kriterie;
 
-		const updateData = { område, kode };
+		const updateData = { område, kode, verdi: undefined };
 		oppdaterFilter(oppgavefilter.id, updateData);
 	};
 

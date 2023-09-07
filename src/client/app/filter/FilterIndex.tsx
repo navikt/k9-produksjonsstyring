@@ -2,18 +2,18 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { v4 as uuid } from 'uuid';
 import { PlusCircleIcon } from '@navikt/aksel-icons';
 import { Download, Refresh, Search } from '@navikt/ds-icons';
-import { Alert, BodyShort, Button, Heading, Loader, ReadMore, Select, TextField } from '@navikt/ds-react';
+import { Alert, BodyShort, Button, Heading, ReadMore, TextField } from '@navikt/ds-react';
 import { K9LosApiKeys, k9LosApi } from 'api/k9LosApi';
-import { useAlleKoer, useKo } from 'api/queries/avdelingslederQueries';
+import { useKo } from 'api/queries/avdelingslederQueries';
 import { REQUEST_POLLING_CANCELLED } from 'api/rest-api';
 import FilterContext from './FilterContext';
 import OppgaveQueryModel from './OppgaveQueryModel';
 import styles from './filterIndex.css';
-import { EnkelOrderFelt, EnkelSelectFelt, OppgaveQuery, Oppgavefelt, Oppgaverad } from './filterTsTypes';
-import OppgaveOrderFelter from './parts/OppgaveOrderFelter';
+import { EnkelSelectFelt, OppgaveQuery, Oppgavefelt, Oppgaverad } from './filterTsTypes';
 import OppgaveQueryResultat from './parts/OppgaveQueryResultat';
 import OppgaveSelectFelter from './parts/OppgaveSelectFelter';
 import OppgavefilterPanel from './parts/OppgavefilterPanel';
+import Sortering from './parts/Sortering';
 import { kodeFraKey, områdeFraKey } from './utils';
 
 interface OwnProps {
@@ -22,6 +22,7 @@ interface OwnProps {
 	initialQuery?: OppgaveQuery;
 	tittel: string;
 	visningV2?: boolean;
+	køvisning?: boolean;
 }
 
 const resultatErKunAntall = (oppgaver: Oppgaverad[]) => {
@@ -48,7 +49,7 @@ const hasQueryChangedExcludingLimit = (prev, current) => {
 
 	return JSON.stringify(prevRest) !== JSON.stringify(currRest);
 };
-const FilterIndex = ({ initialQuery, lagre, avbryt, tittel, visningV2 }: OwnProps) => {
+const FilterIndex = ({ initialQuery, lagre, avbryt, tittel, visningV2, køvisning }: OwnProps) => {
 	const [oppgaveQuery, setOppgaveQuery] = useState(
 		initialQuery ? new OppgaveQueryModel(initialQuery).toOppgaveQuery() : new OppgaveQueryModel().toOppgaveQuery(),
 	);
@@ -78,19 +79,13 @@ const FilterIndex = ({ initialQuery, lagre, avbryt, tittel, visningV2 }: OwnProp
 	const [loading, setLoading] = useState(false);
 	const [loadingDownload, setLoadingDownload] = useState(false);
 	const [koId, setKoId] = useState(null);
-	const [visSortering, setVisSortering] = useState(false);
 	const [visFelterSomSkalVises, setVisFelterSomSkalVises] = useState(false);
-
-	const { data: koer, isLoading: koerIsLoading } = useAlleKoer();
 
 	useKo(koId, {
 		enabled: !!koId,
 		onSuccess: (data) => {
 			const newQuery = new OppgaveQueryModel(data.oppgaveQuery).toOppgaveQuery();
 			setOppgaveQuery(newQuery);
-			if (newQuery.order.length) {
-				setVisSortering(true);
-			}
 			if (newQuery.select.length) {
 				setVisFelterSomSkalVises(true);
 			}
@@ -202,19 +197,19 @@ const FilterIndex = ({ initialQuery, lagre, avbryt, tittel, visningV2 }: OwnProp
 		setOppgaveQuery(newOppgaveQueryModel.toOppgaveQuery());
 	};
 
-	const fjernOrderFelt = (orderFelt: EnkelOrderFelt) => {
-		setOppgaveQuery(() => new OppgaveQueryModel(oppgaveQuery).removeOrderFelt(orderFelt.id).toOppgaveQuery());
+	const fjernOrderFelt = (id) => {
+		setOppgaveQuery(() => new OppgaveQueryModel(oppgaveQuery).removeOrderFelt(id).toOppgaveQuery());
 	};
 
 	const leggTilEnkelOrderFelt = () => {
 		setOppgaveQuery(() => new OppgaveQueryModel(oppgaveQuery).addEnkelOrderFelt().toOppgaveQuery());
 	};
 
-	const oppdaterEnkelOrderFelt = (orderFelt: EnkelOrderFelt, newData) => {
+	const oppdaterEnkelOrderFelt = (id, newData) => {
 		const newOppgaveQueryModel = new OppgaveQueryModel(oppgaveQuery);
-		const orderToUpdate = newOppgaveQueryModel.getById(orderFelt.id);
+		const orderToUpdate = newOppgaveQueryModel.getById(id);
 		const data = { ...orderToUpdate, ...newData };
-		newOppgaveQueryModel.updateEnkelOrderFelt(orderFelt.id, data);
+		newOppgaveQueryModel.updateEnkelOrderFelt(id, data);
 		setOppgaveQuery(newOppgaveQueryModel.toOppgaveQuery());
 	};
 
@@ -276,37 +271,32 @@ const FilterIndex = ({ initialQuery, lagre, avbryt, tittel, visningV2 }: OwnProp
 				>
 					Legg til nytt kriterie
 				</Button>
-				<ReadMore
-					className={styles.feltvalgBlokk}
-					header="Velg felter som skal vises"
-					defaultOpen={!!oppgaveQuery.select.length}
-					open={visFelterSomSkalVises}
-					size="medium"
-					onClick={() => setVisFelterSomSkalVises(!visFelterSomSkalVises)}
-				>
-					<OppgaveSelectFelter
-						felter={felter}
-						oppgaveQuery={oppgaveQuery}
-						onLeggTil={leggTilEnkelSelectFelt}
-						onOppdater={oppdaterEnkelSelectFelt}
-						onFjern={fjernSelectFelt}
-					/>
-				</ReadMore>
-				<ReadMore
-					className={styles.feltvalgBlokk}
-					header="Velg sortering"
-					defaultOpen={!!oppgaveQuery.order.length}
-					open={visSortering}
-					onClick={() => setVisSortering(!visSortering)}
-				>
-					<OppgaveOrderFelter
-						felter={felter}
-						oppgaveQuery={oppgaveQuery}
-						onLeggTil={leggTilEnkelOrderFelt}
-						onOppdater={oppdaterEnkelOrderFelt}
-						onFjern={fjernOrderFelt}
-					/>
-				</ReadMore>
+				{!køvisning && (
+					<ReadMore
+						className={styles.feltvalgBlokk}
+						header="Velg felter som skal vises"
+						defaultOpen={!!oppgaveQuery.select.length}
+						open={visFelterSomSkalVises}
+						size="medium"
+						onClick={() => setVisFelterSomSkalVises(!visFelterSomSkalVises)}
+					>
+						<OppgaveSelectFelter
+							felter={felter}
+							oppgaveQuery={oppgaveQuery}
+							onLeggTil={leggTilEnkelSelectFelt}
+							onOppdater={oppdaterEnkelSelectFelt}
+							onFjern={fjernSelectFelt}
+						/>
+					</ReadMore>
+				)}
+				<Sortering
+					køvisning={køvisning}
+					felter={felter}
+					oppgaveQuery={oppgaveQuery}
+					slett={fjernOrderFelt}
+					leggTil={leggTilEnkelOrderFelt}
+					oppdater={oppdaterEnkelOrderFelt}
+				/>
 
 				<div className={styles.filterButtonGroup}>
 					{lagre && (
@@ -319,7 +309,7 @@ const FilterIndex = ({ initialQuery, lagre, avbryt, tittel, visningV2 }: OwnProp
 							</Button>
 						</div>
 					)}
-					{!lagre && (
+					{!køvisning && (
 						<>
 							<Button
 								variant={lagre ? 'tertiary' : 'primary'}

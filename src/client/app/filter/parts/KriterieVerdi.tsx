@@ -42,11 +42,12 @@ const KriterieVerdi = ({
 		const newDate = new Date(date.getTime() - timezoneOffset).toISOString().split('T')[0];
 		handleChangeValue(newDate);
 	};
-
+	const initialDate =
+		oppgavefilter.verdi && dayjs(new Date(oppgavefilter.verdi)).isValid() ? new Date(oppgavefilter.verdi) : undefined;
 	const { datepickerProps, inputProps } = useDatepicker({
-		fromDate: new Date('Aug 23 2017'),
+		fromDate: new Date('23 2017'),
 		onDateChange,
-		defaultSelected: dayjs(new Date(oppgavefilter.verdi)).isValid() ? new Date(oppgavefilter.verdi) : undefined,
+		defaultSelected: initialDate,
 	});
 
 	const handleDaysChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -57,41 +58,31 @@ const KriterieVerdi = ({
 
 	if (aksjonspunktKoder.includes(feltdefinisjon?.kode)) {
 		return (
-			<div className="w-[500px]">
-				<AksjonspunktVelger
-					onChange={handleChangeValue}
-					feltdefinisjon={feltdefinisjon}
-					oppgavefilter={oppgavefilter}
-				/>
-			</div>
+			<AksjonspunktVelger onChange={handleChangeValue} feltdefinisjon={feltdefinisjon} oppgavefilter={oppgavefilter} />
 		);
 	}
 
 	if (feltdefinisjon?.tolkes_som === TolkesSom.Duration) {
 		return (
-			<>
-				<TextField
-					label="Antall dager"
-					hideLabel
-					value={
-						Array.isArray(oppgavefilter.verdi) && oppgavefilter.verdi[0]
-							? calculateDays(oppgavefilter.verdi)
-							: undefined
-					}
-					onChange={handleDaysChange}
-					type="number"
-					placeholder="Antall dager"
-					min="0"
-				/>
-				<BodyShort className="self-center">dager</BodyShort>
-			</>
+			<TextField
+				label="Antall dager"
+				size="small"
+				hideLabel
+				value={
+					Array.isArray(oppgavefilter.verdi) && oppgavefilter.verdi[0] ? calculateDays(oppgavefilter.verdi) : undefined
+				}
+				onChange={handleDaysChange}
+				type="number"
+				placeholder="Antall dager"
+				min="0"
+			/>
 		);
 	}
 
 	if (feltdefinisjon?.tolkes_som === TolkesSom.Timestamp) {
 		return (
 			<DatePicker {...datepickerProps}>
-				<DatePicker.Input {...inputProps} label="Velg dato" hideLabel />
+				<DatePicker.Input {...inputProps} size="small" label="Velg dato" hideLabel />
 			</DatePicker>
 		);
 	}

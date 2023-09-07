@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-pascal-case */
 
 /* eslint-disable camelcase */
-import React, { useContext, useMemo, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { UNSAFE_Combobox } from '@navikt/ds-react';
 import FilterContext from 'filter/FilterContext';
 import { FeltverdiOppgavefilter, Oppgavefelt } from 'filter/filterTsTypes';
@@ -17,10 +17,6 @@ const MultiSelectKriterie = ({ feltdefinisjon, oppgavefilter }: Props) => {
 	const selectedOptions = oppgavefilter.verdi?.map(
 		(v) => feltdefinisjon.verdiforklaringer.find((verdiforklaring) => verdiforklaring.verdi === v).visningsnavn,
 	);
-	const filteredOptions = useMemo(
-		() => feltdefinisjon.verdiforklaringer?.map((v) => v.visningsnavn).filter((option) => option.includes(value)),
-		[value, JSON.stringify(oppgavefilter)],
-	);
 
 	const onToggleSelected = (option: string, isSelected: boolean) => {
 		const verdi = feltdefinisjon?.verdiforklaringer.find((v) => v.visningsnavn === option)?.verdi;
@@ -35,8 +31,12 @@ const MultiSelectKriterie = ({ feltdefinisjon, oppgavefilter }: Props) => {
 			<UNSAFE_Combobox
 				size="small"
 				label={feltdefinisjon.visningsnavn}
+				shouldAutocomplete
+				clearButton
+				onClear={() => {
+					setValue('');
+				}}
 				hideLabel
-				filteredOptions={filteredOptions}
 				options={feltdefinisjon.verdiforklaringer?.map((v) => v.visningsnavn)}
 				isMultiSelect
 				onChange={(event) => {

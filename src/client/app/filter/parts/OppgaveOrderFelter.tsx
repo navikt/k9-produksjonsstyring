@@ -1,16 +1,16 @@
 import React from 'react';
 import { Add, Delete } from '@navikt/ds-icons';
 import { Button, Select } from '@navikt/ds-react';
-import { OppgaveQuery, Oppgavefelt, OrderFelt } from '../filterTsTypes';
+import { OppgaveQuery, Oppgavefelt } from '../filterTsTypes';
 import { feltverdiKey, kodeFraKey, områdeFraKey } from '../utils';
 import styles from './OppgaveOrderFelter.css';
 
 interface OwnProps {
 	felter: Oppgavefelt[];
 	oppgaveQuery: OppgaveQuery;
-	onLeggTil: () => void;
-	onOppdater: (of: OrderFelt, verdi: string) => void;
-	onFjern: (of: OrderFelt) => void;
+	leggTil: () => void;
+	oppdater: (id: string, verdi: string) => void;
+	slett: (id: string) => void;
 }
 
 const renderFjernOrderFeltKnapp = (felt, onFjern) => (
@@ -25,7 +25,7 @@ const renderAddEnkelOrderFeltKnapp = (onLeggTil) => (
 		variant="tertiary"
 		onClick={() => onLeggTil()}
 	>
-		Legg til felt
+		Legg til sortering
 	</Button>
 );
 
@@ -71,10 +71,10 @@ const renderOrderFelt = (felter, felt, onOppdater, onFjern) => (
 	</div>
 );
 
-const OppgaveOrderFelter = ({ felter, oppgaveQuery, onLeggTil, onOppdater, onFjern }: OwnProps) => (
+const OppgaveOrderFelter = ({ felter, oppgaveQuery, leggTil, oppdater, slett }: OwnProps) => (
 	<div>
-		{oppgaveQuery.order && oppgaveQuery.order.map((felt) => renderOrderFelt(felter, felt, onOppdater, onFjern))}
-		{renderAddEnkelOrderFeltKnapp(onLeggTil)}
+		{oppgaveQuery.order && oppgaveQuery.order.map((felt) => renderOrderFelt(felter, felt, oppdater, slett))}
+		{renderAddEnkelOrderFeltKnapp(leggTil)}
 	</div>
 );
 
