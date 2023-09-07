@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 import classNames from 'classnames';
-import { Panel, Select } from '@navikt/ds-react';
+import { Delete } from '@navikt/ds-icons';
+import { Button, Panel, Select } from '@navikt/ds-react';
 import FilterContext from 'filter/FilterContext';
 import styles from '../../filterIndex.css';
 import { FeltverdiOppgavefilter, Oppgavefelt } from '../../filterTsTypes';
@@ -62,11 +63,7 @@ const FeltverdiOppgavefilterPanel: React.FC<Props> = ({ oppgavefilter }) => {
 				</Select>
 				{oppgavefilter.kode && (
 					<>
-						<OperatorSelect
-							oppgavefilter={oppgavefilter}
-							onOppdaterFilter={oppdaterFilter}
-							isUsingPredefinedValues={isUsingPredefinedValues}
-						/>
+						<OperatorSelect oppgavefilter={oppgavefilter} onOppdaterFilter={oppdaterFilter} />
 						<FilterOperatorOgVerdi
 							feltdefinisjon={feltdefinisjon}
 							oppgavefilter={oppgavefilter}
@@ -75,7 +72,12 @@ const FeltverdiOppgavefilterPanel: React.FC<Props> = ({ oppgavefilter }) => {
 					</>
 				)}
 			</div>
-			<FjernFilterButton oppgavefilter={oppgavefilter} onFjernFilter={fjernFilter} />
+			<Button
+				icon={<Delete aria-hidden />}
+				size="small"
+				variant="tertiary"
+				onClick={() => fjernFilter(oppgavefilter.id)}
+			/>
 		</Panel>
 	);
 };

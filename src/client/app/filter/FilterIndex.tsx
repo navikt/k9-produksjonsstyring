@@ -21,6 +21,7 @@ interface OwnProps {
 	avbryt?: () => void;
 	initialQuery?: OppgaveQuery;
 	tittel: string;
+	visningV2?: boolean;
 }
 
 const resultatErKunAntall = (oppgaver: Oppgaverad[]) => {
@@ -47,7 +48,7 @@ const hasQueryChangedExcludingLimit = (prev, current) => {
 
 	return JSON.stringify(prevRest) !== JSON.stringify(currRest);
 };
-const FilterIndex = ({ initialQuery, lagre, avbryt, tittel }: OwnProps) => {
+const FilterIndex = ({ initialQuery, lagre, avbryt, tittel, visningV2 }: OwnProps) => {
 	const [oppgaveQuery, setOppgaveQuery] = useState(
 		initialQuery ? new OppgaveQueryModel(initialQuery).toOppgaveQuery() : new OppgaveQueryModel().toOppgaveQuery(),
 	);
@@ -253,37 +254,21 @@ const FilterIndex = ({ initialQuery, lagre, avbryt, tittel }: OwnProps) => {
 	}
 
 	return (
-		<div className={styles.filterTopp}>
-			<Heading size="large" spacing className="mt-3">
+		<div>
+			<Heading size="medium" spacing className="mt-3">
 				{tittel}
 			</Heading>
-			<div className="mt-10">
-				<ReadMore header="Ta utgangspunkt i eksisterende kø (valgfritt)">
-					{koerIsLoading && <Loader title="Laster køer" />}
-					{koer?.length && (
-						<Select
-							label="Eksisterende køer"
-							onChange={(e) => setKoId(e.target.value)}
-							size="small"
-							className="w-[400px] my-7"
-						>
-							<option value="">Velg kø</option>
-							{koer.map((item) => (
-								<option value={item.id} key={item.id}>
-									{item.tittel}
-								</option>
-							))}
-						</Select>
-					)}
-				</ReadMore>
-				<div className="mt-3 p-4 rounded-lg bg-gray-50 border-t border-gray-300 border-solid">
+			<div>
+				<div className="mt-3 p-4 rounded-lg">
 					<Heading size="small" spacing className="mt-3">
 						Kriterier for kø
 					</Heading>
 					<FilterContext.Provider value={filterContextValues}>
-						{oppgaveQuery.filtere.map((item) => (
-							<OppgavefilterPanel key={item.id} oppgavefilter={item} />
-						))}
+						<div className="flex flex-col gap-4">
+							{oppgaveQuery.filtere.map((item) => (
+								<OppgavefilterPanel key={item.id} oppgavefilter={item} visningV2={visningV2} />
+							))}
+						</div>
 					</FilterContext.Provider>
 					<Button
 						className="mt-4 mb-13"
@@ -328,31 +313,35 @@ const FilterIndex = ({ initialQuery, lagre, avbryt, tittel }: OwnProps) => {
 
 					<div className={styles.filterButtonGroup}>
 						{lagre && (
-							<>
-								<Button onClick={() => lagre(oppgaveQuery)} loading={loading}>
-									Endre filter
-								</Button>
+							<div className="ml-auto">
 								<Button className="mr-2" variant="secondary" onClick={avbryt}>
 									Avbryt
 								</Button>
+								<Button onClick={() => lagre(oppgaveQuery)} loading={loading}>
+									Lagre
+								</Button>
+							</div>
+						)}
+						{!lagre && (
+							<>
+								<Button
+									variant={lagre ? 'tertiary' : 'primary'}
+									icon={<Search aria-hidden />}
+									onClick={executeOppgavesøk}
+									loading={loading}
+								>
+									Søk
+								</Button>
+								<Button
+									variant={lagre ? 'tertiary' : 'primary'}
+									icon={<Download aria-hidden />}
+									onClick={executeOppgavesøkToFile}
+									loading={loadingDownload}
+								>
+									Last ned CSV
+								</Button>
 							</>
 						)}
-						<Button
-							variant={lagre ? 'tertiary' : 'primary'}
-							icon={<Search aria-hidden />}
-							onClick={executeOppgavesøk}
-							loading={loading}
-						>
-							Søk
-						</Button>
-						<Button
-							variant={lagre ? 'tertiary' : 'primary'}
-							icon={<Download aria-hidden />}
-							onClick={executeOppgavesøkToFile}
-							loading={loadingDownload}
-						>
-							Last ned CSV
-						</Button>
 					</div>
 				</div>
 				<div className="mt-10">

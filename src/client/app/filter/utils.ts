@@ -1,9 +1,54 @@
 import dayjs from 'dayjs';
-import { Oppgavefelt } from './filterTsTypes';
+import { Oppgavefelt, TolkesSom } from './filterTsTypes';
+
+export const OPERATORS = {
+	// Eksakt lik
+	EQUALS: 'EQUALS',
+	// Ikke lik
+	NOT_EQUALS: 'NOT_EQUALS',
+	// Ett av kriteriene i IN må være oppfylt
+	IN: 'IN',
+	// Eksluderer alle som er i NOT_IN
+	NOT_IN: 'NOT_IN',
+	// Mindre enn
+	LESS_THAN: 'LESS_THAN',
+	// Mindre enn eller lik
+	LESS_THAN_OR_EQUALS: 'LESS_THAN_OR_EQUALS',
+	// Større enn
+	GREATER_THAN: 'GREATER_THAN',
+	// Større enn eller lik
+	GREATER_THAN_OR_EQUALS: 'GREATER_THAN_OR_EQUALS',
+};
 
 export function feltverdiKey(item) {
 	return `${item.område !== null ? item.område : ''}__${item.kode}`;
 }
+
+export const operatorsFraTolkesSom = (tolkesSom: string, antallVerdiforklaringer = 0) => {
+	// Boolean -> in
+	// Hvis String uten verdiforklaringer -> equals
+	// Hvis String med mindre enn 4 verdiforklaringer -> IN
+	// Hvis String med 4 eller flere verdiforklaringer -> IN, NOT_IN
+	// Timestamp alltid LESS_THAN_OR_EQUALS, GREATER_THAN_OR_EQUALS
+	// Duration alltid LESS_THAN_OR_EQUALS, GREATER_THAN_OR_EQUALS
+	switch (tolkesSom) {
+		case TolkesSom.String:
+			if (antallVerdiforklaringer === 0) {
+				return [OPERATORS.EQUALS];
+			}
+			if (antallVerdiforklaringer < 4) {
+				return [OPERATORS.IN];
+			}
+			return [OPERATORS.IN, OPERATORS.NOT_IN];
+		case TolkesSom.Boolean:
+			return [OPERATORS.IN];
+		case TolkesSom.Duration:
+		case TolkesSom.Timestamp:
+			return [OPERATORS.LESS_THAN_OR_EQUALS, OPERATORS.GREATER_THAN_OR_EQUALS];
+		default:
+			return Object.values(OPERATORS);
+	}
+};
 
 export const visningsnavnForFelt = (felter: Oppgavefelt[], område: string, kode: string) => {
 	const result = felter.find((felt) => felt.område === område && felt.kode === kode);

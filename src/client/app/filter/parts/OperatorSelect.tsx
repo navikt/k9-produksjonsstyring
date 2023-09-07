@@ -1,8 +1,7 @@
 import React from 'react';
-import classNames from 'classnames';
 import { Select } from '@navikt/ds-react';
 
-function OperatorSelect({ oppgavefilter, onOppdaterFilter, isUsingPredefinedValues }) {
+function OperatorSelect({ oppgavefilter, onOppdaterFilter }) {
 	const handleChangeOperator = (event) => {
 		onOppdaterFilter(oppgavefilter.id, {
 			operator: event.target.value,
@@ -10,13 +9,7 @@ function OperatorSelect({ oppgavefilter, onOppdaterFilter, isUsingPredefinedValu
 	};
 
 	return (
-		<Select
-			label="Operator"
-			hideLabel
-			value={oppgavefilter.operator}
-			onChange={handleChangeOperator}
-			className={classNames({ 'mt-[55px]': isUsingPredefinedValues })}
-		>
+		<Select label="Operator" size="small" hideLabel value={oppgavefilter.operator} onChange={handleChangeOperator}>
 			<option value="EQUALS">er lik</option>
 			<option value="NOT_EQUALS">er IKKE lik</option>
 			<option value="IN">inneholder</option>

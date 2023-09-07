@@ -1,0 +1,168 @@
+import React, { useContext } from 'react';
+import dayjs from 'dayjs';
+import { BodyShort, Checkbox, CheckboxGroup, DatePicker, TextField, useDatepicker } from '@navikt/ds-react';
+import AksjonspunktVelger from 'avdelingsleder/behandlingskoerV2/components/AksjonspunktVelger';
+import FilterContext from 'filter/FilterContext';
+import { FeltverdiOppgavefilter, Oppgavefelt, TolkesSom } from 'filter/filterTsTypes';
+import { aksjonspunktKoder } from 'filter/konstanter';
+import { calculateDays, mapBooleanToStringArray, mapStringToBooleanArray } from 'filter/utils';
+import styles from '../filterIndex.css';
+import MultiSelectCombobox from './MultiSelectCombobox';
+import SearchDropdownMedPredefinerteVerdier from './SearchDropdownMedPredefinerteVerdier';
+
+const useChangeValue = (oppgavefilter, onOppdaterFilter) => (value) => {
+	const trimmedValue = typeof value === 'string' ? value.trim() : value;
+	onOppdaterFilter(oppgavefilter.id, {
+		verdi: trimmedValue,
+	});
+};
+
+const KriterieVerdi = ({
+	feltdefinisjon,
+	oppgavefilter,
+}: {
+	feltdefinisjon?: Oppgavefelt;
+	oppgavefilter: FeltverdiOppgavefilter;
+}) => {
+	const { oppdaterFilter } = useContext(FilterContext);
+
+	const handleChangeValue = useChangeValue(oppgavefilter, oppdaterFilter);
+
+	const handleChangeBoolean = (values: string[]) => {
+		const mappedValues: (string | null)[] = mapStringToBooleanArray(values);
+
+		oppdaterFilter(oppgavefilter.id, {
+			verdi: mappedValues,
+		});
+	};
+	const onDateChange = (date) => {
+		if (!date) {
+			return;
+		}
+		const timezoneOffset = date.getTimezoneOffset() * 60000;
+		const newDate = new Date(date.getTime() - timezoneOffset).toISOString().split('T')[0];
+		handleChangeValue(newDate);
+	};
+
+	const { datepickerProps, inputProps } = useDatepicker({
+		fromDate: new Date('Aug 23 2017'),
+		onDateChange,
+		defaultSelected: dayjs(new Date(oppgavefilter.verdi)).isValid() ? new Date(oppgavefilter.verdi) : undefined,
+	});
+
+	const handleDaysChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const newDays = parseFloat(e.target.value);
+		const newDuration = dayjs.duration(newDays, 'days').toISOString();
+		handleChangeValue(newDuration);
+	};
+
+	if (aksjonspunktKoder.includes(feltdefinisjon?.kode)) {
+		return (
+			<div className="w-[500px]">
+				<AksjonspunktVelger
+					onChange={handleChangeValue}
+					feltdefinisjon={feltdefinisjon}
+					oppgavefilter={oppgavefilter}
+				/>
+			</div>
+		);
+	}
+
+	if (feltdefinisjon?.tolkes_som === TolkesSom.Duration) {
+		return (
+			<>
+				<TextField
+					label="Antall dager"
+					hideLabel
+					value={
+						Array.isArray(oppgavefilter.verdi) && oppgavefilter.verdi[0]
+							? calculateDays(oppgavefilter.verdi)
+							: undefined
+					}
+					onChange={handleDaysChange}
+					type="number"
+					placeholder="Antall dager"
+					min="0"
+				/>
+				<BodyShort className="self-center">dager</BodyShort>
+			</>
+		);
+	}
+
+	if (feltdefinisjon?.tolkes_som === TolkesSom.Timestamp) {
+		return (
+			<DatePicker {...datepickerProps}>
+				<DatePicker.Input {...inputProps} label="Velg dato" hideLabel />
+			</DatePicker>
+		);
+	}
+
+	if (feltdefinisjon?.tolkes_som === TolkesSom.Boolean) {
+		return (
+			<CheckboxGroup
+				size="small"
+				className={`${styles.feltvalgCheckboxes}`}
+				hideLegend
+				legend={feltdefinisjon.visningsnavn}
+				onChange={handleChangeBoolean}
+				value={mapBooleanToStringArray(oppgavefilter.verdi || [])}
+			>
+				<Checkbox value="ja">Ja</Checkbox>
+				<Checkbox value="nei">Nei</Checkbox>
+			</CheckboxGroup>
+		);
+	}
+
+	if (
+		feltdefinisjon?.tolkes_som === TolkesSom.String &&
+		Array.isArray(feltdefinisjon.verdiforklaringer) &&
+		feltdefinisjon.verdiforklaringer.length < 4
+	) {
+		return (
+			<CheckboxGroup
+				className={`${styles.feltvalgCheckboxes}`}
+				size="small"
+				hideLegend
+				legend={feltdefinisjon.visningsnavn}
+				onChange={handleChangeValue}
+				value={oppgavefilter.verdi}
+			>
+				{feltdefinisjon.verdiforklaringer.map((verdiforklaring) => (
+					<Checkbox key={verdiforklaring.visningsnavn} value={verdiforklaring.verdi}>
+						{verdiforklaring.visningsnavn}
+					</Checkbox>
+				))}
+			</CheckboxGroup>
+		);
+	}
+
+	if (
+		feltdefinisjon?.tolkes_som === TolkesSom.String &&
+		Array.isArray(feltdefinisjon.verdiforklaringer) &&
+		feltdefinisjon.verdiforklaringer.length > 3
+	) {
+		return (
+			// eslint-disable-next-line react/jsx-pascal-case, camelcase
+			<MultiSelectCombobox
+				label={feltdefinisjon.visningsnavn}
+				options={feltdefinisjon.verdiforklaringer.map((v) => v.visningsnavn)}
+				selectedOptions={
+					oppgavefilter.verdi?.map(
+						(v) => feltdefinisjon.verdiforklaringer.find((verdiforklaring) => verdiforklaring.verdi === v).visningsnavn,
+					) || []
+				}
+			/>
+		);
+	}
+
+	return (
+		<TextField
+			label="Skriv fritekst"
+			hideLabel
+			value={oppgavefilter.verdi}
+			onChange={(e) => handleChangeValue(e.target.value)}
+		/>
+	);
+};
+
+export default KriterieVerdi;

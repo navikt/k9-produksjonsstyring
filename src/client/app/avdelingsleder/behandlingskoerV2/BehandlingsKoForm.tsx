@@ -170,7 +170,7 @@ const BehandlingsKoForm = ({ kø, lukk, ekspandert, id }: BehandlingsKoFormProps
 					Lagre behandlingskø
 				</Button>
 				<Button variant="secondary" type="button" onClick={lukk}>
-					Lukk uten å lagre
+					{formMethods.formState.isDirty ? 'Lukk uten å lagre' : 'Lukk'}
 				</Button>
 			</div>
 			<LagreKoModal
@@ -179,13 +179,14 @@ const BehandlingsKoForm = ({ kø, lukk, ekspandert, id }: BehandlingsKoFormProps
 				onSubmit={formMethods.handleSubmit((values) => onSubmit({ ...kø, ...values }))}
 				lagreMutation={lagreMutation}
 			/>
-			<Modal className="w-10/12 py-10" open={visFilterModal} onClose={() => setVisFilterModal(false)}>
-				<Modal.Content className="ml-[-75px]">
+			<Modal className="w-[44rem] h-[45rem]" open={visFilterModal} onClose={() => setVisFilterModal(false)}>
+				<Modal.Content>
 					<FilterIndex
 						initialQuery={formMethods.watch(fieldnames.OPPGAVE_QUERY)}
 						lagre={lagreOppgaveQuery}
 						avbryt={() => setVisFilterModal(false)}
-						tittel="Endre filter for behandlingskø"
+						tittel="Kriterier for kø"
+						visningV2
 					/>
 				</Modal.Content>
 			</Modal>
