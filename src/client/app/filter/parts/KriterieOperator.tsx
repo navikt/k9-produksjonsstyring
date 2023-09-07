@@ -22,7 +22,7 @@ function KriterieOperator({ oppgavefilter }) {
 	);
 
 	useEffect(() => {
-		if (operators.length) {
+		if (operators.length && !operators.includes(oppgavefilter.operator)) {
 			oppdaterFilter(oppgavefilter.id, {
 				operator: operators[0],
 			});
@@ -39,7 +39,14 @@ function KriterieOperator({ oppgavefilter }) {
 
 	if (operators.length === 2 && operators.includes(OPERATORS.IN) && operators.includes(OPERATORS.NOT_IN)) {
 		return (
-			<Select label="Operator" size="small" hideLabel value={oppgavefilter.operator} onChange={handleChangeOperator}>
+			<Select
+				className="min-w-[8rem]"
+				label="Operator"
+				size="small"
+				hideLabel
+				value={oppgavefilter.operator}
+				onChange={handleChangeOperator}
+			>
 				<option value="IN">Inkluder</option>
 				<option value="NOT_IN">Ekskluder</option>
 			</Select>
@@ -52,14 +59,28 @@ function KriterieOperator({ oppgavefilter }) {
 		operators.includes(OPERATORS.LESS_THAN_OR_EQUALS)
 	) {
 		return (
-			<Select label="Operator" size="small" hideLabel value={oppgavefilter.operator} onChange={handleChangeOperator}>
+			<Select
+				className="min-w-[8rem]"
+				label="Operator"
+				size="small"
+				hideLabel
+				value={oppgavefilter.operator}
+				onChange={handleChangeOperator}
+			>
 				<option value="LESS_THAN_OR_EQUALS">mindre enn eller lik (&#60;=)</option>
 				<option value="GREATER_THAN_OR_EQUALS">større enn eller lik (&#62;=)</option>
 			</Select>
 		);
 	}
 	return (
-		<Select label="Operator" size="small" hideLabel value={oppgavefilter.operator} onChange={handleChangeOperator}>
+		<Select
+			className="min-w-[8rem]"
+			label="Operator"
+			size="small"
+			hideLabel
+			value={oppgavefilter.operator}
+			onChange={handleChangeOperator}
+		>
 			<option value="EQUALS">er lik</option>
 			<option value="NOT_EQUALS">er IKKE lik</option>
 			<option value="IN">Inkluder</option>

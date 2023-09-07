@@ -2,7 +2,7 @@
 
 /* eslint-disable camelcase */
 import React, { useContext, useMemo, useState } from 'react';
-import { ComboboxProps, UNSAFE_Combobox } from '@navikt/ds-react';
+import { UNSAFE_Combobox } from '@navikt/ds-react';
 import FilterContext from 'filter/FilterContext';
 import { FeltverdiOppgavefilter, Oppgavefelt } from 'filter/filterTsTypes';
 
@@ -11,12 +11,11 @@ interface Props {
 	oppgavefilter: FeltverdiOppgavefilter;
 }
 
-const MultiSelectKriterie = ({ feltdefinisjon, oppgavefilter }: Props & ComboboxProps) => {
+const MultiSelectKriterie = ({ feltdefinisjon, oppgavefilter }: Props) => {
 	const [value, setValue] = useState('');
 	const { oppdaterFilter } = useContext(FilterContext);
-	console.log(oppgavefilter);
 	const selectedOptions = oppgavefilter.verdi?.map(
-		(v) => v === feltdefinisjon.verdiforklaringer.find((verdiforklaring) => verdiforklaring.verdi).visningsnavn,
+		(v) => feltdefinisjon.verdiforklaringer.find((verdiforklaring) => verdiforklaring.verdi === v).visningsnavn,
 	);
 	const filteredOptions = useMemo(
 		() => feltdefinisjon.verdiforklaringer?.map((v) => v.visningsnavn).filter((option) => option.includes(value)),
@@ -24,8 +23,6 @@ const MultiSelectKriterie = ({ feltdefinisjon, oppgavefilter }: Props & Combobox
 	);
 
 	const onToggleSelected = (option: string, isSelected: boolean) => {
-		console.log(option);
-		console.log(isSelected);
 		const verdi = feltdefinisjon?.verdiforklaringer.find((v) => v.visningsnavn === option)?.verdi;
 		if (isSelected) {
 			oppdaterFilter(oppgavefilter.id, { verdi: [...(oppgavefilter?.verdi || []), verdi] });
@@ -33,10 +30,10 @@ const MultiSelectKriterie = ({ feltdefinisjon, oppgavefilter }: Props & Combobox
 			oppdaterFilter(oppgavefilter.id, { verdi: oppgavefilter.verdi?.filter((o) => o !== verdi) });
 		}
 	};
-	console.log(value);
 	return (
 		<div>
 			<UNSAFE_Combobox
+				size="small"
 				label={feltdefinisjon.visningsnavn}
 				hideLabel
 				filteredOptions={filteredOptions}

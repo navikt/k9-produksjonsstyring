@@ -30,9 +30,13 @@ const Kriterie: React.FC<Props> = ({ oppgavefilter }) => {
 				{feltdefinisjon?.visningsnavn}:
 			</Label>
 			{oppgavefilter.kode && (
-				<div className="flex max-w-[21rem]">
-					<KriterieOperator oppgavefilter={oppgavefilter} />
-					<KriterieVerdi feltdefinisjon={feltdefinisjon} oppgavefilter={oppgavefilter} />
+				<div className="flex gap-4">
+					<div className="self-center">
+						<KriterieOperator oppgavefilter={oppgavefilter} />
+					</div>
+					<div className="self-center">
+						<KriterieVerdi feltdefinisjon={feltdefinisjon} oppgavefilter={oppgavefilter} />
+					</div>
 				</div>
 			)}
 			<Button

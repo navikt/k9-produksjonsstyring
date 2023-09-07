@@ -31,6 +31,8 @@ const NyKøModal = ({ vis, lukk, onSuccessCallback }: OwnProps) => {
 		},
 	});
 
+	if (!vis) return null;
+
 	return (
 		<Modal className="w-[44rem]" open={vis} onClose={lukk} portal>
 			<Modal.Body>

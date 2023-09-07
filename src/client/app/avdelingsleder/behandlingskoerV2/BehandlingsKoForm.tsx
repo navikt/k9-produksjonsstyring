@@ -179,17 +179,19 @@ const BehandlingsKoForm = ({ kø, lukk, ekspandert, id }: BehandlingsKoFormProps
 				onSubmit={formMethods.handleSubmit((values) => onSubmit({ ...kø, ...values }))}
 				lagreMutation={lagreMutation}
 			/>
-			<Modal className="w-[44rem] h-[45rem]" open={visFilterModal} onClose={() => setVisFilterModal(false)} portal>
-				<Modal.Body>
-					<FilterIndex
-						initialQuery={formMethods.watch(fieldnames.OPPGAVE_QUERY)}
-						lagre={lagreOppgaveQuery}
-						avbryt={() => setVisFilterModal(false)}
-						tittel="Kriterier for kø"
-						visningV2
-					/>
-				</Modal.Body>
-			</Modal>
+			{visFilterModal && (
+				<Modal className="w-[44rem] h-[45rem]" open={visFilterModal} onClose={() => setVisFilterModal(false)} portal>
+					<Modal.Body>
+						<FilterIndex
+							initialQuery={formMethods.watch(fieldnames.OPPGAVE_QUERY)}
+							lagre={lagreOppgaveQuery}
+							avbryt={() => setVisFilterModal(false)}
+							tittel="Kriterier for kø"
+							visningV2
+						/>
+					</Modal.Body>
+				</Modal>
+			)}
 		</Form>
 	);
 };

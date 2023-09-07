@@ -13,6 +13,7 @@ const LagreKoModal: React.FC<LagreKoModalProps> = ({ visLagreModal, setVisLagreM
 		setVisLagreModal(false);
 		lagreMutation.reset();
 	};
+	if (!visLagreModal) return null;
 	return (
 		<Modal className="w-2/6" open={visLagreModal} onClose={onClose} portal>
 			<Modal.Body>
