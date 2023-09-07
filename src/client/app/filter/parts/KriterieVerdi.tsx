@@ -7,8 +7,7 @@ import { FeltverdiOppgavefilter, Oppgavefelt, TolkesSom } from 'filter/filterTsT
 import { aksjonspunktKoder } from 'filter/konstanter';
 import { calculateDays, mapBooleanToStringArray, mapStringToBooleanArray } from 'filter/utils';
 import styles from '../filterIndex.css';
-import MultiSelectCombobox from './MultiSelectCombobox';
-import SearchDropdownMedPredefinerteVerdier from './SearchDropdownMedPredefinerteVerdier';
+import MultiSelectKriterie from './MultiSelectKriterie';
 
 const useChangeValue = (oppgavefilter, onOppdaterFilter) => (value) => {
 	const trimmedValue = typeof value === 'string' ? value.trim() : value;
@@ -143,15 +142,7 @@ const KriterieVerdi = ({
 	) {
 		return (
 			// eslint-disable-next-line react/jsx-pascal-case, camelcase
-			<MultiSelectCombobox
-				label={feltdefinisjon.visningsnavn}
-				options={feltdefinisjon.verdiforklaringer.map((v) => v.visningsnavn)}
-				selectedOptions={
-					oppgavefilter.verdi?.map(
-						(v) => feltdefinisjon.verdiforklaringer.find((verdiforklaring) => verdiforklaring.verdi === v).visningsnavn,
-					) || []
-				}
-			/>
+			<MultiSelectKriterie feltdefinisjon={feltdefinisjon} oppgavefilter={oppgavefilter} />
 		);
 	}
 

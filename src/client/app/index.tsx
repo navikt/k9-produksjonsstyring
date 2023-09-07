@@ -41,7 +41,7 @@ const renderFunc = async (Component) => {
 				<RestApiErrorProvider>
 					<QueryClientProvider client={queryClient}>
 						<ReactQueryDevtools initialIsOpen={false} />
-						<Component rootElement={app} />
+						<Component />
 					</QueryClientProvider>
 				</RestApiErrorProvider>
 			</RestApiProvider>
