@@ -115,11 +115,11 @@ export default class OppgaveQueryModel {
 		return null;
 	}
 
-	addFilter(id) {
-		return this.internalAddFilter(this.oppgaveQuery, id);
+	addFilter(id, data?: any) {
+		return this.internalAddFilter(this.oppgaveQuery, id, data);
 	}
 
-	private internalAddFilter(oppgaveQuery, id) {
+	private internalAddFilter(oppgaveQuery, id, data = {}) {
 		if (oppgaveQuery.id === id) {
 			oppgaveQuery.filtere.push({
 				id: uuid(),
@@ -128,6 +128,7 @@ export default class OppgaveQueryModel {
 				kode: null,
 				operator: 'EQUALS',
 				verdi: null,
+				...data,
 			});
 		} else {
 			oppgaveQuery.filtere.filter((f) => f.filtere).forEach((f) => this.internalAddFilter(f, id));
@@ -202,7 +203,7 @@ export default class OppgaveQueryModel {
 		this.oppgaveQuery.order.push({
 			id: uuid(),
 			type: 'enkel',
-			område: null,
+			område: 'K9',
 			kode: null,
 			økende: true,
 			...data,

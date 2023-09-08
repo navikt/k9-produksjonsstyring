@@ -216,10 +216,13 @@ const FilterIndex = ({ initialQuery, lagre, avbryt, tittel, visningV2, køvisnin
 	};
 
 	const oppdaterSortering = (id, newData) => {
+		console.log(newData);
 		const newOppgaveQueryModel = new OppgaveQueryModel(oppgaveQuery);
 		const orderToUpdate = newOppgaveQueryModel.getById(id);
 		const data = { ...orderToUpdate, ...newData };
+		console.log(data);
 		newOppgaveQueryModel.updateEnkelOrderFelt(id, data);
+		console.log(newOppgaveQueryModel.toOppgaveQuery());
 		setOppgaveQuery(newOppgaveQueryModel.toOppgaveQuery());
 	};
 

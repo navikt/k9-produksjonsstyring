@@ -1,15 +1,15 @@
 import React, { useContext, useEffect, useMemo } from 'react';
 import { Select } from '@navikt/ds-react';
-import {FilterContext} from 'filter/FilterContext';
+import { FilterContext } from 'filter/FilterContext';
 import { OPERATORS, operatorsFraTolkesSom } from 'filter/utils';
 
 function KriterieOperator({ oppgavefilter }) {
 	const { oppdaterFilter, kriterierSomKanVelges } = useContext(FilterContext);
+	const kriterieDefinisjon = kriterierSomKanVelges.find((kriterie) => kriterie.kode === oppgavefilter.kode);
 
-	const kriterieDefinisjon = kriterierSomKanVelges.find(
-		(kriterie) => kriterie.område === oppgavefilter.område && kriterie.kode === oppgavefilter.kode,
-	);
-
+	if (!kriterieDefinisjon) {
+		throw Error('KriterieDefinisjon ikke funnet');
+	}
 	const handleChangeOperator = (event) => {
 		oppdaterFilter(oppgavefilter.id, {
 			operator: event.target.value,

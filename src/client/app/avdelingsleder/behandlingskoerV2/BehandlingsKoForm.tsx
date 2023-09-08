@@ -5,12 +5,13 @@ import { OppgavekøV2 } from 'types/OppgavekøV2Type';
 import { Edit } from '@navikt/ds-icons';
 import { Alert, Button, ErrorMessage, Heading, Label, Modal } from '@navikt/ds-react';
 import { Form, InputField, TextAreaField } from '@navikt/ft-form-hooks';
-import { arrayMinLength, minLength, required } from '@navikt/ft-form-validators';
+import {  minLength, required } from '@navikt/ft-form-validators';
 import { useKo, useOppdaterKøMutation } from 'api/queries/avdelingslederQueries';
 import { AvdelingslederContext } from 'avdelingsleder/context';
 import FilterIndex from 'filter/FilterIndex';
 import SearchWithDropdown from 'sharedComponents/searchWithDropdown/SearchWithDropdown';
 import LagreKoModal from './LagreKoModal';
+import { initialKøQuery, oppgaveQueryErTomt } from './utils';
 
 enum fieldnames {
 	TITTEL = 'tittel',
@@ -36,14 +37,15 @@ const BehandlingsKoForm = ({ kø, lukk, ekspandert, id }: BehandlingsKoFormProps
 	const [visLagreModal, setVisLagreModal] = useState(false);
 	const [visSuksess, setVisSuksess] = useState(false);
 	const { saksbehandlere: alleSaksbehandlere } = useContext(AvdelingslederContext);
+	const defaultValues = {
+		[fieldnames.TITTEL]: kø?.tittel || '',
+		[fieldnames.SAKSBEHANDLERE]: kø?.saksbehandlere || [],
+		[fieldnames.OPPGAVE_QUERY]: oppgaveQueryErTomt(kø?.oppgaveQuery) ? initialKøQuery() : kø?.oppgaveQuery,
+		[fieldnames.BESKRIVELSE]: kø?.beskrivelse || '',
+		[fieldnames.FRITT_VALG_AV_OPPGAVE]: kø?.frittValgAvOppgave || false,
+	};
 	const formMethods = useForm({
-		defaultValues: {
-			[fieldnames.TITTEL]: kø?.tittel || '',
-			[fieldnames.SAKSBEHANDLERE]: kø?.saksbehandlere || [],
-			[fieldnames.OPPGAVE_QUERY]: kø?.oppgaveQuery ? kø?.oppgaveQuery : undefined,
-			[fieldnames.BESKRIVELSE]: kø?.beskrivelse || '',
-			[fieldnames.FRITT_VALG_AV_OPPGAVE]: kø?.frittValgAvOppgave || false,
-		},
+		defaultValues,
 		mode: 'all',
 	});
 
@@ -52,7 +54,7 @@ const BehandlingsKoForm = ({ kø, lukk, ekspandert, id }: BehandlingsKoFormProps
 		setVisSuksess(true);
 	});
 	useEffect(() => {
-		formMethods.reset(kø);
+		formMethods.reset(defaultValues);
 	}, [ekspandert, versjon]);
 
 	useEffect(() => {
@@ -76,9 +78,6 @@ const BehandlingsKoForm = ({ kø, lukk, ekspandert, id }: BehandlingsKoFormProps
 	};
 	const grupper = [...new Set(formaterteSaksbehandlere.map((oppgavekode) => oppgavekode.group))].sort();
 	const saksbehandlere = formMethods.watch(fieldnames.SAKSBEHANDLERE);
-	formMethods.register(fieldnames.SAKSBEHANDLERE, {
-		validate: (sb) => arrayMinLength(1)(sb),
-	});
 
 	return (
 		<Form formMethods={formMethods}>

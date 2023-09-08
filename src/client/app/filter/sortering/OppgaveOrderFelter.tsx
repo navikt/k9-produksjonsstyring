@@ -6,7 +6,7 @@ import { feltverdiKey, kodeFraKey, områdeFraKey } from '../utils';
 import styles from './OppgaveOrderFelter.css';
 
 const renderFjernOrderFeltKnapp = (felt, onFjern) => (
-	<Button icon={<Delete aria-hidden />} size="medium" variant="tertiary" onClick={() => onFjern(felt)} />
+	<Button icon={<Delete aria-hidden />} size="medium" variant="tertiary" onClick={() => onFjern(felt.id)} />
 );
 
 const renderAddEnkelOrderFeltKnapp = (onLeggTil) => (
@@ -28,7 +28,7 @@ const renderOrderFelt = (felter, felt, onOppdater, onFjern) => (
 			className={styles.noGap}
 			value={feltverdiKey(felt)}
 			onChange={(event) =>
-				onOppdater(felt, {
+				onOppdater(felt.id, {
 					område: områdeFraKey(event.target.value),
 					kode: kodeFraKey(event.target.value),
 				})

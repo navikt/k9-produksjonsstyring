@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { Delete } from '@navikt/ds-icons';
 import { Button, Label } from '@navikt/ds-react';
-import {FilterContext} from 'filter/FilterContext';
+import { FilterContext } from 'filter/FilterContext';
 import { FeltverdiOppgavefilter, Oppgavefelt } from '../filterTsTypes';
 import { generateId } from './FeltverdiOppgavefilterPanel/idGenerator';
 import KriterieOperator from './KriterieOperator';
@@ -18,11 +18,11 @@ const Kriterie: React.FC<Props> = ({ oppgavefilter }) => {
 	const [feltdefinisjon, setFeltdefinisjon] = useState<Oppgavefelt | undefined>();
 
 	useEffect(() => {
-		const feltdef = kriterierSomKanVelges.find(
-			(fd) => fd.område === oppgavefilter.område && fd.kode === oppgavefilter.kode,
-		);
+		const feltdef = kriterierSomKanVelges.find((fd) => fd.kode === oppgavefilter.kode);
 		setFeltdefinisjon(feltdef);
 	}, [kriterierSomKanVelges, oppgavefilter.område, oppgavefilter.kode]);
+
+	const kriterieErPåkrevd = feltdefinisjon?.kode === 'oppgavestatus';
 
 	return (
 		<div id={`feltpanel-${testID}`} className="flex items-center gap-4 rounded bg-surface-selected py-4 pl-3 pr-1">
@@ -39,13 +39,15 @@ const Kriterie: React.FC<Props> = ({ oppgavefilter }) => {
 					</div>
 				</div>
 			)}
-			<Button
-				className="ml-auto"
-				icon={<Delete aria-hidden />}
-				size="small"
-				variant="tertiary"
-				onClick={() => fjernFilter(oppgavefilter.id)}
-			/>
+			{!kriterieErPåkrevd && (
+				<Button
+					className="ml-auto"
+					icon={<Delete aria-hidden />}
+					size="small"
+					variant="tertiary"
+					onClick={() => fjernFilter(oppgavefilter.id)}
+				/>
+			)}
 		</div>
 	);
 };
