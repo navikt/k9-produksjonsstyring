@@ -1,6 +1,6 @@
 import React, { useContext, useMemo, useState } from 'react';
 import { BodyLong, Button, Label, Select } from '@navikt/ds-react';
-import FilterContext from 'filter/FilterContext';
+import {FilterContext} from 'filter/FilterContext';
 import { FeltverdiOppgavefilter, Oppgavefelt } from 'filter/filterTsTypes';
 import { feltverdiKey, kodeFraKey } from 'filter/utils';
 

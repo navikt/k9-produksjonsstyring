@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { Oppgavefelt, TolkesSom } from './filterTsTypes';
+import { Oppgavefelt, Oppgaverad, TolkesSom } from './filterTsTypes';
 
 export const OPERATORS = {
 	// Eksakt lik
@@ -100,4 +100,20 @@ export const calculateDays = (verdi: any[]): number | undefined => {
 		return Number.isNaN(days) ? acc : acc + days;
 	}, 0);
 	return totalDays;
+};
+
+export const resultatErKunAntall = (oppgaver: Oppgaverad[]) => {
+	if (oppgaver.length === 1) {
+		if (oppgaver[0].felter.length === 1 && oppgaver[0].felter[0].kode === 'Antall') {
+			return true;
+		}
+	}
+	return false;
+};
+export const antallTreffOppgaver = (oppgaver: Oppgaverad[]) => {
+	if (resultatErKunAntall(oppgaver)) {
+		return oppgaver[0].felter[0].verdi as string;
+	}
+
+	return String(oppgaver.length);
 };

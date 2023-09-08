@@ -3,7 +3,7 @@
 /* eslint-disable camelcase */
 import React, { useContext, useState } from 'react';
 import { UNSAFE_Combobox } from '@navikt/ds-react';
-import FilterContext from 'filter/FilterContext';
+import {FilterContext} from 'filter/FilterContext';
 import { FeltverdiOppgavefilter, Oppgavefelt } from 'filter/filterTsTypes';
 
 interface Props {

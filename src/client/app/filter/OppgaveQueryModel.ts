@@ -198,13 +198,14 @@ export default class OppgaveQueryModel {
 		return this;
 	}
 
-	addEnkelOrderFelt() {
+	addEnkelOrderFelt(data = {}) {
 		this.oppgaveQuery.order.push({
 			id: uuid(),
 			type: 'enkel',
 			område: null,
 			kode: null,
 			økende: true,
+			...data,
 		});
 		return this;
 	}
@@ -214,6 +215,11 @@ export default class OppgaveQueryModel {
 		if (index >= 0) {
 			this.oppgaveQuery.order.splice(index, 1);
 		}
+		return this;
+	}
+
+	nullstillOrderFelt() {
+		this.oppgaveQuery.order = [];
 		return this;
 	}
 

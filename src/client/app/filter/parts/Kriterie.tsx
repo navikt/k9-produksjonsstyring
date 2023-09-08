@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { Delete } from '@navikt/ds-icons';
 import { Button, Label } from '@navikt/ds-react';
-import FilterContext from 'filter/FilterContext';
+import {FilterContext} from 'filter/FilterContext';
 import { FeltverdiOppgavefilter, Oppgavefelt } from '../filterTsTypes';
 import { generateId } from './FeltverdiOppgavefilterPanel/idGenerator';
 import KriterieOperator from './KriterieOperator';

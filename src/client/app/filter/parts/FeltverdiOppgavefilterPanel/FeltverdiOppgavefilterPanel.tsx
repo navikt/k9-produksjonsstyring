@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useMemo, useState } from 'react';
 import classNames from 'classnames';
 import { Delete } from '@navikt/ds-icons';
 import { Button, Panel, Select } from '@navikt/ds-react';
-import FilterContext from 'filter/FilterContext';
+import {FilterContext} from 'filter/FilterContext';
 import styles from '../../filterIndex.css';
 import { FeltverdiOppgavefilter, Oppgavefelt } from '../../filterTsTypes';
 import { feltverdiKey, kodeFraKey, områdeFraKey } from '../../utils';

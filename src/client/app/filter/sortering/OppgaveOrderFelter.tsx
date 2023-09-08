@@ -1,17 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Add, Delete } from '@navikt/ds-icons';
 import { Button, Select } from '@navikt/ds-react';
-import { OppgaveQuery, Oppgavefelt } from '../filterTsTypes';
+import { OrderContext } from 'filter/FilterContext';
 import { feltverdiKey, kodeFraKey, områdeFraKey } from '../utils';
 import styles from './OppgaveOrderFelter.css';
-
-interface OwnProps {
-	felter: Oppgavefelt[];
-	oppgaveQuery: OppgaveQuery;
-	leggTil: () => void;
-	oppdater: (id: string, verdi: string) => void;
-	slett: (id: string) => void;
-}
 
 const renderFjernOrderFeltKnapp = (felt, onFjern) => (
 	<Button icon={<Delete aria-hidden />} size="medium" variant="tertiary" onClick={() => onFjern(felt)} />
@@ -71,11 +63,18 @@ const renderOrderFelt = (felter, felt, onOppdater, onFjern) => (
 	</div>
 );
 
-const OppgaveOrderFelter = ({ felter, oppgaveQuery, leggTil, oppdater, slett }: OwnProps) => (
-	<div>
-		{oppgaveQuery.order && oppgaveQuery.order.map((felt) => renderOrderFelt(felter, felt, oppdater, slett))}
-		{renderAddEnkelOrderFeltKnapp(leggTil)}
-	</div>
-);
+const OppgaveOrderFelter = () => {
+	const { kriterierSomKanVelges, oppgaveQuery, leggTilSortering, oppdaterSortering, fjernSortering } =
+		useContext(OrderContext);
+	return (
+		<div>
+			{oppgaveQuery.order &&
+				oppgaveQuery.order.map((felt) =>
+					renderOrderFelt(kriterierSomKanVelges, felt, oppdaterSortering, fjernSortering),
+				)}
+			{renderAddEnkelOrderFeltKnapp(leggTilSortering)}
+		</div>
+	);
+};
 
 export default OppgaveOrderFelter;

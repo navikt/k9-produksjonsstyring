@@ -1,5 +1,5 @@
 import React from 'react';
-import { Oppgavefelt } from './filterTsTypes';
+import { OppgaveQuery, Oppgavefelt } from './filterTsTypes';
 
 export type FilterContextType = {
 	kriterierSomKanVelges: Oppgavefelt[];
@@ -9,6 +9,15 @@ export type FilterContextType = {
 	leggTilGruppe: (id: string) => void;
 };
 
-const FilterContext = React.createContext<FilterContextType>(null);
+export type OrderContextType = {
+	kriterierSomKanVelges: Oppgavefelt[];
+	oppgaveQuery: OppgaveQuery;
+	oppdaterSortering: (id: string, newData: any) => void;
+	fjernSortering: (id: string) => void;
+	leggTilSortering: (data?: any) => void;
+	nullstillOgLeggTilSortering: (data?: any) => void;
+	nullstillSortering: () => void;
+};
 
-export default FilterContext;
+export const FilterContext = React.createContext<FilterContextType>(null);
+export const OrderContext = React.createContext<OrderContextType>(null);

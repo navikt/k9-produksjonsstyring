@@ -6,14 +6,14 @@ import { Alert, BodyShort, Button, Heading, ReadMore, TextField } from '@navikt/
 import { K9LosApiKeys, k9LosApi } from 'api/k9LosApi';
 import { useKo } from 'api/queries/avdelingslederQueries';
 import { REQUEST_POLLING_CANCELLED } from 'api/rest-api';
-import FilterContext from './FilterContext';
+import { FilterContext, OrderContext } from './FilterContext';
 import OppgaveQueryModel from './OppgaveQueryModel';
 import styles from './filterIndex.css';
 import { EnkelSelectFelt, OppgaveQuery, Oppgavefelt, Oppgaverad } from './filterTsTypes';
 import OppgaveQueryResultat from './parts/OppgaveQueryResultat';
 import OppgaveSelectFelter from './parts/OppgaveSelectFelter';
 import OppgavefilterPanel from './parts/OppgavefilterPanel';
-import Sortering from './parts/Sortering';
+import SorteringContainer from './sortering/SorteringContainer';
 import { kodeFraKey, områdeFraKey } from './utils';
 
 interface OwnProps {
@@ -197,15 +197,25 @@ const FilterIndex = ({ initialQuery, lagre, avbryt, tittel, visningV2, køvisnin
 		setOppgaveQuery(newOppgaveQueryModel.toOppgaveQuery());
 	};
 
-	const fjernOrderFelt = (id) => {
+	const fjernSortering = (id) => {
 		setOppgaveQuery(() => new OppgaveQueryModel(oppgaveQuery).removeOrderFelt(id).toOppgaveQuery());
 	};
 
-	const leggTilEnkelOrderFelt = () => {
-		setOppgaveQuery(() => new OppgaveQueryModel(oppgaveQuery).addEnkelOrderFelt().toOppgaveQuery());
+	const nullstillSortering = () => {
+		setOppgaveQuery(() => new OppgaveQueryModel({ ...oppgaveQuery, order: [] }).toOppgaveQuery());
 	};
 
-	const oppdaterEnkelOrderFelt = (id, newData) => {
+	const nullstillOgLeggTilSortering = (data?: any) => {
+		const newQuery = new OppgaveQueryModel({ ...oppgaveQuery, order: [] }).addEnkelOrderFelt(data).toOppgaveQuery();
+		setOppgaveQuery(newQuery);
+	};
+
+	const leggTilSortering = (data?: any) => {
+		const newQuery = new OppgaveQueryModel(oppgaveQuery).addEnkelOrderFelt(data).toOppgaveQuery();
+		setOppgaveQuery(newQuery);
+	};
+
+	const oppdaterSortering = (id, newData) => {
 		const newOppgaveQueryModel = new OppgaveQueryModel(oppgaveQuery);
 		const orderToUpdate = newOppgaveQueryModel.getById(id);
 		const data = { ...orderToUpdate, ...newData };
@@ -228,6 +238,19 @@ const FilterIndex = ({ initialQuery, lagre, avbryt, tittel, visningV2, køvisnin
 			fjernFilter,
 		}),
 		[felter, oppgaveQuery],
+	);
+
+	const orderContextValues = useMemo(
+		() => ({
+			kriterierSomKanVelges: felter,
+			oppgaveQuery,
+			leggTilSortering,
+			oppdaterSortering,
+			fjernSortering,
+			nullstillSortering,
+			nullstillOgLeggTilSortering,
+		}),
+		[felter, oppgaveQuery, oppdaterSortering],
 	);
 
 	useEffect(() => {
@@ -289,14 +312,9 @@ const FilterIndex = ({ initialQuery, lagre, avbryt, tittel, visningV2, køvisnin
 						/>
 					</ReadMore>
 				)}
-				<Sortering
-					køvisning={køvisning}
-					felter={felter}
-					oppgaveQuery={oppgaveQuery}
-					slett={fjernOrderFelt}
-					leggTil={leggTilEnkelOrderFelt}
-					oppdater={oppdaterEnkelOrderFelt}
-				/>
+				<OrderContext.Provider value={orderContextValues}>
+					<SorteringContainer køvisning={køvisning} />
+				</OrderContext.Provider>
 
 				<div className={styles.filterButtonGroup}>
 					{lagre && (

@@ -1,11 +1,10 @@
 import React, { useContext } from 'react';
 import { Delete } from '@navikt/ds-icons';
 import { Button, Heading, Panel } from '@navikt/ds-react';
-import FilterContext from 'filter/FilterContext';
+import { FilterContext } from 'filter/FilterContext';
 import styles from '../filterIndex.css';
 import { CombineOppgavefilter, FeltverdiOppgavefilter } from '../filterTsTypes';
 import FeltverdiOppgavefilterPanel from './FeltverdiOppgavefilterPanel/FeltverdiOppgavefilterPanel';
-import FjernFilterButton from './FjernFilterButton';
 import Kriterie from './Kriterie';
 import VelgKriterie from './VelgKriterie';
 

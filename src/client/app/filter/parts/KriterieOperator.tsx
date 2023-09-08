@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useMemo } from 'react';
 import { Select } from '@navikt/ds-react';
-import FilterContext from 'filter/FilterContext';
+import {FilterContext} from 'filter/FilterContext';
 import { OPERATORS, operatorsFraTolkesSom } from 'filter/utils';
 
 function KriterieOperator({ oppgavefilter }) {
