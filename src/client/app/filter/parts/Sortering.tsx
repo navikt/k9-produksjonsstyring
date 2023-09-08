@@ -1,7 +1,10 @@
 import React from 'react';
+import { useMutation } from 'react-query';
 import { Refresh } from '@navikt/ds-icons';
 import { Button, Select } from '@navikt/ds-react';
+import apiPaths from 'api/apiPaths';
 import { OppgaveQuery, Oppgavefelt } from 'filter/filterTsTypes';
+import { defaultMutation } from 'utils/reactQueryConfig';
 import OppgaveOrderFelter from './OppgaveOrderFelter';
 
 interface Props {
@@ -14,6 +17,9 @@ interface Props {
 }
 
 const Sortering = ({ køvisning, oppgaveQuery, felter, slett, leggTil, oppdater }: Props) => {
+	const { mutate, data, isLoading } = useMutation<unknown, unknown, { url: string; body: OppgaveQuery }>({});
+	console.log(data);
+
 	if (!køvisning) {
 		return (
 			<OppgaveOrderFelter
@@ -34,7 +40,12 @@ const Sortering = ({ køvisning, oppgaveQuery, felter, slett, leggTil, oppdater 
 			</div>
 			<div className="flex flex-col m-auto">
 				<span>Antall oppgaver: 0</span>
-				<Button variant="tertiary" icon={<Refresh aria-hidden />} size="small">
+				<Button
+					variant="tertiary"
+					icon={<Refresh aria-hidden />}
+					size="small"
+					onClick={() => mutate({ url: apiPaths.hentOppgaver, body: oppgaveQuery })}
+				>
 					Oppdater antall
 				</Button>
 			</div>
