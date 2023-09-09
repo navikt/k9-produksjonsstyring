@@ -23,7 +23,7 @@ interface OwnProps {
  *
  * Presentasjonskomponent. Wrapper for sideinnholdet som vises under header.
  */
-const Home: FunctionComponent<OwnProps> = function ({ headerHeight }) {
+const Home: FunctionComponent<OwnProps> = ({ headerHeight }) => {
 	const { data } = useQuery<{ felter: Oppgavefelt[] }>(apiPaths.hentOppgaveFelter);
 	const contextValues = useMemo(() => ({ felter: data ? data.felter : [] }), [data]);
 

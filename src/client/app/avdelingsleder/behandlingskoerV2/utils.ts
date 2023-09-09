@@ -1,17 +1,35 @@
+import { useMemo } from 'react';
 import OppgaveQueryModel from 'filter/OppgaveQueryModel';
-import { OppgaveQuery, OppgavefilterKode } from 'filter/filterTsTypes';
+import { OppgaveQuery, Oppgavefelt, OppgavefilterKode } from 'filter/filterTsTypes';
 import { OPERATORS } from 'filter/utils';
 
-export const initialKøQuery = () => {
-	// TODO: disse må settes med verdier fra backend apiPaths.hentOppgaveFelter for å få riktig område.
+export const initialKøQuery = (felter: Oppgavefelt[]) => {
 	const query = new OppgaveQueryModel();
 	const { id } = query.toOppgaveQuery();
 
+	const initialQueryFilterKoder = [
+		OppgavefilterKode.MottattDato,
+		OppgavefilterKode.Oppgavestatus,
+		OppgavefilterKode.Ytelsestype,
+		OppgavefilterKode.Totrinnskontroll,
+	];
+
+	// filtrerer på de feltene vi trenger i initialQuery. Mapper om til kode og område
+	const feltDefinisjoner = felter
+		.filter((felt) => initialQueryFilterKoder.includes(felt.kode))
+		.reduce(
+			(definisjoner, { kode, område }) => ({
+				...definisjoner,
+				[kode]: { kode, område },
+			}),
+			{},
+		);
+
 	const initialQuery = query
-		.addEnkelOrderFelt({ kode: OppgavefilterKode.MottattDato, økende: true })
-		.addFilter(id, { kode: OppgavefilterKode.Oppgavestatus, verdi: ['AAPEN'], operator: OPERATORS.IN })
-		.addFilter(id, { kode: OppgavefilterKode.Ytelsestype, verdi: undefined })
-		.addFilter(id, { kode: OppgavefilterKode.Totrinnskontroll, verdi: undefined })
+		.addEnkelOrderFelt({ ...feltDefinisjoner[OppgavefilterKode.MottattDato], økende: true })
+		.addFilter(id, { ...feltDefinisjoner[OppgavefilterKode.Oppgavestatus], verdi: ['AAPEN'], operator: OPERATORS.IN })
+		// .addFilter(id, { ...feltDefinisjoner[OppgavefilterKode.Ytelsestype], verdi: undefined })
+		// .addFilter(id, { ...feltDefinisjoner[OppgavefilterKode.Totrinnskontroll], verdi: undefined })
 		.toOppgaveQuery();
 	return initialQuery;
 };
