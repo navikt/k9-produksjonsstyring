@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { Delete } from '@navikt/ds-icons';
 import { Button, Label } from '@navikt/ds-react';
+import AppContext from 'app/AppContext';
 import { FilterContext } from 'filter/FilterContext';
 import { FeltverdiOppgavefilter, Oppgavefelt } from '../filterTsTypes';
 import { generateId } from './FeltverdiOppgavefilterPanel/idGenerator';
@@ -14,11 +15,14 @@ interface Props {
 const Kriterie: React.FC<Props> = ({ oppgavefilter }) => {
 	const testID = useMemo(() => generateId(), []);
 
-	const { kriterierSomKanVelges, fjernFilter } = useContext(FilterContext);
+	const { fjernFilter } = useContext(FilterContext);
+	const { felter: kriterierSomKanVelges } = useContext(AppContext);
 	const [feltdefinisjon, setFeltdefinisjon] = useState<Oppgavefelt | undefined>();
 
 	useEffect(() => {
-		const feltdef = kriterierSomKanVelges.find((fd) => fd.kode === oppgavefilter.kode);
+		const feltdef = kriterierSomKanVelges.find(
+			(fd) => fd.område === oppgavefilter.område && fd.kode === oppgavefilter.kode,
+		);
 		setFeltdefinisjon(feltdef);
 	}, [kriterierSomKanVelges, oppgavefilter.område, oppgavefilter.kode]);
 

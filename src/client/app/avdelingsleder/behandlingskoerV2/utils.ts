@@ -3,6 +3,7 @@ import { OppgaveQuery, OppgavefilterKode } from 'filter/filterTsTypes';
 import { OPERATORS } from 'filter/utils';
 
 export const initialKøQuery = () => {
+	// TODO: disse må settes med verdier fra backend apiPaths.hentOppgaveFelter for å få riktig område.
 	const query = new OppgaveQueryModel();
 	const { id } = query.toOppgaveQuery();
 

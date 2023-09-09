@@ -203,7 +203,7 @@ export default class OppgaveQueryModel {
 		this.oppgaveQuery.order.push({
 			id: uuid(),
 			type: 'enkel',
-			område: 'K9',
+			område: null,
 			kode: null,
 			økende: true,
 			...data,

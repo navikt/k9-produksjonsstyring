@@ -5,7 +5,7 @@ import { OppgavekøV2 } from 'types/OppgavekøV2Type';
 import { Edit } from '@navikt/ds-icons';
 import { Alert, Button, ErrorMessage, Heading, Label, Modal } from '@navikt/ds-react';
 import { Form, InputField, TextAreaField } from '@navikt/ft-form-hooks';
-import {  minLength, required } from '@navikt/ft-form-validators';
+import { minLength, required } from '@navikt/ft-form-validators';
 import { useKo, useOppdaterKøMutation } from 'api/queries/avdelingslederQueries';
 import { AvdelingslederContext } from 'avdelingsleder/context';
 import FilterIndex from 'filter/FilterIndex';

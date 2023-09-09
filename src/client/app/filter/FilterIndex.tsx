@@ -3,6 +3,7 @@ import { v4 as uuid } from 'uuid';
 import { PlusCircleIcon } from '@navikt/aksel-icons';
 import { Download, Refresh, Search } from '@navikt/ds-icons';
 import { Alert, BodyShort, Button, Heading, ReadMore, TextField } from '@navikt/ds-react';
+import AppContext from 'app/AppContext';
 import { K9LosApiKeys, k9LosApi } from 'api/k9LosApi';
 import { useKo } from 'api/queries/avdelingslederQueries';
 import { REQUEST_POLLING_CANCELLED } from 'api/rest-api';
@@ -54,7 +55,9 @@ const FilterIndex = ({ initialQuery, lagre, avbryt, tittel, visningV2, køvisnin
 		initialQuery ? new OppgaveQueryModel(initialQuery).toOppgaveQuery() : new OppgaveQueryModel().toOppgaveQuery(),
 	);
 
-	const [felter, setFelter] = useState<Oppgavefelt[]>([]);
+	const { felter } = React.useContext(AppContext);
+	console.log(felter);
+
 	const [oppgaver, setOppgaver] = useState<Oppgaverad[]>(null);
 	const [antallTreff, setAntallTreff] = useState('0');
 	const [prevOppgaveQuery, setPrevOppgaveQuery] = useState({});
@@ -216,13 +219,10 @@ const FilterIndex = ({ initialQuery, lagre, avbryt, tittel, visningV2, køvisnin
 	};
 
 	const oppdaterSortering = (id, newData) => {
-		console.log(newData);
 		const newOppgaveQueryModel = new OppgaveQueryModel(oppgaveQuery);
 		const orderToUpdate = newOppgaveQueryModel.getById(id);
 		const data = { ...orderToUpdate, ...newData };
-		console.log(data);
 		newOppgaveQueryModel.updateEnkelOrderFelt(id, data);
-		console.log(newOppgaveQueryModel.toOppgaveQuery());
 		setOppgaveQuery(newOppgaveQueryModel.toOppgaveQuery());
 	};
 
@@ -234,7 +234,6 @@ const FilterIndex = ({ initialQuery, lagre, avbryt, tittel, visningV2, køvisnin
 
 	const filterContextValues = useMemo(
 		() => ({
-			kriterierSomKanVelges: felter,
 			oppdaterFilter,
 			leggTilFilter,
 			leggTilGruppe,
@@ -245,7 +244,6 @@ const FilterIndex = ({ initialQuery, lagre, avbryt, tittel, visningV2, køvisnin
 
 	const orderContextValues = useMemo(
 		() => ({
-			kriterierSomKanVelges: felter,
 			oppgaveQuery,
 			leggTilSortering,
 			oppdaterSortering,
@@ -255,21 +253,6 @@ const FilterIndex = ({ initialQuery, lagre, avbryt, tittel, visningV2, køvisnin
 		}),
 		[felter, oppgaveQuery, oppdaterSortering],
 	);
-
-	useEffect(() => {
-		k9LosApi
-			.startRequest(K9LosApiKeys.OPPGAVE_QUERY_FELTER, undefined)
-			.then((dataRes) => {
-				if (dataRes.payload !== REQUEST_POLLING_CANCELLED) {
-					setFelter(dataRes.payload.felter);
-				}
-			})
-			.catch((error) => {
-				setFelter([]);
-
-				throw error;
-			});
-	}, []);
 
 	if (felter.length === 0) {
 		return null;

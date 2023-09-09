@@ -1,8 +1,7 @@
 import React from 'react';
-import { OppgaveQuery, Oppgavefelt } from './filterTsTypes';
+import { OppgaveQuery } from './filterTsTypes';
 
 export type FilterContextType = {
-	kriterierSomKanVelges: Oppgavefelt[];
 	oppdaterFilter: (id: string, newData: any) => void;
 	fjernFilter: (id: string) => void;
 	leggTilFilter: (id: string) => void;
@@ -10,7 +9,6 @@ export type FilterContextType = {
 };
 
 export type OrderContextType = {
-	kriterierSomKanVelges: Oppgavefelt[];
 	oppgaveQuery: OppgaveQuery;
 	oppdaterSortering: (id: string, newData: any) => void;
 	fjernSortering: (id: string) => void;

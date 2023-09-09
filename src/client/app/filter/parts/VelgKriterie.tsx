@@ -1,6 +1,7 @@
 import React, { useContext, useMemo, useState } from 'react';
 import { BodyLong, Button, Label, Select } from '@navikt/ds-react';
-import {FilterContext} from 'filter/FilterContext';
+import AppContext from 'app/AppContext';
+import { FilterContext } from 'filter/FilterContext';
 import { FeltverdiOppgavefilter, Oppgavefelt } from 'filter/filterTsTypes';
 import { feltverdiKey, kodeFraKey } from 'filter/utils';
 
@@ -9,7 +10,8 @@ interface Props {
 }
 
 const VelgKriterie = ({ oppgavefilter }: Props) => {
-	const { kriterierSomKanVelges, oppdaterFilter, fjernFilter } = useContext(FilterContext);
+	const { oppdaterFilter, fjernFilter } = useContext(FilterContext);
+	const { felter: kriterierSomKanVelges } = useContext(AppContext);
 	const [valgtKriterie, setValgtKriterie] = useState<Oppgavefelt>();
 
 	const handleSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -17,6 +19,7 @@ const VelgKriterie = ({ oppgavefilter }: Props) => {
 		const kriterie = kriterierSomKanVelges.find((k) => k.kode === kode);
 		setValgtKriterie(kriterie);
 	};
+
 	const leggTil = (kriterie: Oppgavefelt) => {
 		if (!kriterie) {
 			return;

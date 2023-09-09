@@ -3,11 +3,13 @@ export const mapKodeTilSorteringParams = (kode: string) => {
 		case 'mottattDatoEldstTilNyest':
 			return {
 				kode: 'mottattDato',
+				område: 'K9',
 				økende: true,
 			};
 		case 'mottattDatoNyestTilEldst':
 			return {
 				kode: 'mottattDato',
+				område: 'K9',
 				økende: false,
 			};
 

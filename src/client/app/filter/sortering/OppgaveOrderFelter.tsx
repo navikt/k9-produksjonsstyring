@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { Add, Delete } from '@navikt/ds-icons';
 import { Button, Select } from '@navikt/ds-react';
+import AppContext from 'app/AppContext';
 import { OrderContext } from 'filter/FilterContext';
 import { feltverdiKey, kodeFraKey, områdeFraKey } from '../utils';
 import styles from './OppgaveOrderFelter.css';
@@ -64,14 +65,13 @@ const renderOrderFelt = (felter, felt, onOppdater, onFjern) => (
 );
 
 const OppgaveOrderFelter = () => {
-	const { kriterierSomKanVelges, oppgaveQuery, leggTilSortering, oppdaterSortering, fjernSortering } =
-		useContext(OrderContext);
+	const { oppgaveQuery, leggTilSortering, oppdaterSortering, fjernSortering } = useContext(OrderContext);
+	const { felter: kriterierSomKanVelges } = useContext(AppContext);
 	return (
 		<div>
-			{oppgaveQuery.order &&
-				oppgaveQuery.order.map((felt) =>
-					renderOrderFelt(kriterierSomKanVelges, felt, oppdaterSortering, fjernSortering),
-				)}
+			{oppgaveQuery?.order?.map((felt) =>
+				renderOrderFelt(kriterierSomKanVelges, felt, oppdaterSortering, fjernSortering),
+			)}
 			{renderAddEnkelOrderFeltKnapp(leggTilSortering)}
 		</div>
 	);

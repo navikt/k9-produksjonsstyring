@@ -2,12 +2,12 @@ import React, { useContext, useEffect, useMemo, useState } from 'react';
 import classNames from 'classnames';
 import { Delete } from '@navikt/ds-icons';
 import { Button, Panel, Select } from '@navikt/ds-react';
-import {FilterContext} from 'filter/FilterContext';
+import AppContext from 'app/AppContext';
+import { FilterContext } from 'filter/FilterContext';
 import styles from '../../filterIndex.css';
 import { FeltverdiOppgavefilter, Oppgavefelt } from '../../filterTsTypes';
 import { feltverdiKey, kodeFraKey, områdeFraKey } from '../../utils';
 import FilterOperatorOgVerdi from '../FilterOperatorOgVerdi';
-import FjernFilterButton from '../FjernFilterButton';
 import OperatorSelect from '../OperatorSelect';
 import { generateId } from './idGenerator';
 
@@ -18,7 +18,8 @@ interface Props {
 const FeltverdiOppgavefilterPanel: React.FC<Props> = ({ oppgavefilter }) => {
 	const testID = useMemo(() => generateId(), []);
 
-	const { kriterierSomKanVelges, oppdaterFilter, fjernFilter } = useContext(FilterContext);
+	const { oppdaterFilter, fjernFilter } = useContext(FilterContext);
+	const { felter: kriterierSomKanVelges } = useContext(AppContext);
 	const [feltdefinisjon, setFeltdefinisjon] = useState<Oppgavefelt | undefined>();
 	const [isUsingPredefinedValues, setIsUsingPredefinedValues] = useState<boolean>(false);
 
