@@ -56,7 +56,6 @@ const FilterIndex = ({ initialQuery, lagre, avbryt, tittel, visningV2, køvisnin
 	);
 
 	const { felter } = React.useContext(AppContext);
-	console.log(felter);
 
 	const [oppgaver, setOppgaver] = useState<Oppgaverad[]>(null);
 	const [antallTreff, setAntallTreff] = useState('0');
@@ -259,8 +258,8 @@ const FilterIndex = ({ initialQuery, lagre, avbryt, tittel, visningV2, køvisnin
 	}
 
 	return (
-		<div>
-			<div className="mt-3 p-4 rounded-lg">
+		<>
+			<div className="mt-3 p-4 rounded-lg flex flex-col flex-grow">
 				<Heading size="small" spacing className="mt-3">
 					{tittel}
 				</Heading>
@@ -271,15 +270,17 @@ const FilterIndex = ({ initialQuery, lagre, avbryt, tittel, visningV2, køvisnin
 						))}
 					</div>
 				</FilterContext.Provider>
-				<Button
-					className="mt-4 mb-13"
-					icon={<PlusCircleIcon aria-hidden />}
-					variant="tertiary"
-					size="small"
-					onClick={() => leggTilFilter(oppgaveQuery.id)}
-				>
-					Legg til nytt kriterie
-				</Button>
+				<div>
+					<Button
+						className="mt-4 mb-13"
+						icon={<PlusCircleIcon aria-hidden />}
+						variant="tertiary"
+						size="small"
+						onClick={() => leggTilFilter(oppgaveQuery.id)}
+					>
+						Legg til nytt kriterie
+					</Button>
+				</div>
 				{!køvisning && (
 					<ReadMore
 						className={styles.feltvalgBlokk}
@@ -298,21 +299,23 @@ const FilterIndex = ({ initialQuery, lagre, avbryt, tittel, visningV2, køvisnin
 						/>
 					</ReadMore>
 				)}
-				<OrderContext.Provider value={orderContextValues}>
-					<SorteringContainer køvisning={køvisning} />
-				</OrderContext.Provider>
+				<div className="mt-auto">
+					<OrderContext.Provider value={orderContextValues}>
+						<SorteringContainer køvisning={køvisning} />
+					</OrderContext.Provider>
 
-				<div className={styles.filterButtonGroup}>
-					{lagre && (
-						<div className="ml-auto">
-							<Button className="mr-2" variant="secondary" onClick={avbryt}>
-								Avbryt
-							</Button>
-							<Button onClick={() => lagre(oppgaveQuery)} loading={loading}>
-								Lagre
-							</Button>
-						</div>
-					)}
+					<div className={styles.filterButtonGroup}>
+						{lagre && (
+							<div className="ml-auto">
+								<Button className="mr-2" variant="secondary" onClick={avbryt}>
+									Avbryt
+								</Button>
+								<Button onClick={() => lagre(oppgaveQuery)} loading={loading}>
+									Lagre
+								</Button>
+							</div>
+						)}
+					</div>
 					{!køvisning && (
 						<>
 							<Button
@@ -335,48 +338,50 @@ const FilterIndex = ({ initialQuery, lagre, avbryt, tittel, visningV2, køvisnin
 					)}
 				</div>
 			</div>
-			<div className="mt-10">
-				{queryError && <Alert variant="error">{queryError}</Alert>}
+			{!køvisning && (
+				<div className="mt-10">
+					{queryError && <Alert variant="error">{queryError}</Alert>}
 
-				{oppgaver && (
-					<>
-						<Heading size="small" spacing className="mt-6">
-							Søkeresultat
-						</Heading>
-						<ReadMore header={`Maksimalt antall rader: ${oppgaveQuery.limit}. Klikk her for å endre dette.`}>
-							<TextField
-								className={`${styles.limitTextField} inline`}
-								label="Maksimalt antall rader"
-								description="Du kan endre antallet rader som blir hentet ned ved søk. Trykk på søkeknappen etter å ha oppdatert antallet. Merk at høye tall kan medføre at du må vente en stund før svaret kommer. Hvis søket blir avbrutt, fordi det tar for lang tid, så kan du forsøke det samme søket på nytt."
-								htmlSize={4}
-								type="number"
-								min={1}
-								defaultValue={oppgaveQuery.limit}
-								onChange={(event) => oppdaterLimit(parseInt(event.target.value, 10))}
-							/>
-							<Button
-								className="ml-2"
-								variant="tertiary"
-								icon={<Refresh aria-hidden />}
-								size="small"
-								onClick={executeOppgavesøk}
-								loading={loading}
-							>
-								Søk på nytt
-							</Button>
-						</ReadMore>
-						<BodyShort className="mt-6">{`Fant ${
-							Number(antallTreff) > 0 && Number(antallTreff) === oppgaveQuery.limit
-								? Number(antallTreff) === oppgaveQuery.limit && `mer enn ${antallTreff} oppgaver`
-								: `${antallTreff} oppgaver`
-						}`}</BodyShort>
-						{!resultatErKunAntall(oppgaver) && (
-							<OppgaveQueryResultat felter={felter} oppgaveQuery={oppgaveQuery} oppgaver={oppgaver} />
-						)}
-					</>
-				)}
-			</div>
-		</div>
+					{oppgaver && (
+						<>
+							<Heading size="small" spacing className="mt-6">
+								Søkeresultat
+							</Heading>
+							<ReadMore header={`Maksimalt antall rader: ${oppgaveQuery.limit}. Klikk her for å endre dette.`}>
+								<TextField
+									className={`${styles.limitTextField} inline`}
+									label="Maksimalt antall rader"
+									description="Du kan endre antallet rader som blir hentet ned ved søk. Trykk på søkeknappen etter å ha oppdatert antallet. Merk at høye tall kan medføre at du må vente en stund før svaret kommer. Hvis søket blir avbrutt, fordi det tar for lang tid, så kan du forsøke det samme søket på nytt."
+									htmlSize={4}
+									type="number"
+									min={1}
+									defaultValue={oppgaveQuery.limit}
+									onChange={(event) => oppdaterLimit(parseInt(event.target.value, 10))}
+								/>
+								<Button
+									className="ml-2"
+									variant="tertiary"
+									icon={<Refresh aria-hidden />}
+									size="small"
+									onClick={executeOppgavesøk}
+									loading={loading}
+								>
+									Søk på nytt
+								</Button>
+							</ReadMore>
+							<BodyShort className="mt-6">{`Fant ${
+								Number(antallTreff) > 0 && Number(antallTreff) === oppgaveQuery.limit
+									? Number(antallTreff) === oppgaveQuery.limit && `mer enn ${antallTreff} oppgaver`
+									: `${antallTreff} oppgaver`
+							}`}</BodyShort>
+							{!resultatErKunAntall(oppgaver) && (
+								<OppgaveQueryResultat felter={felter} oppgaveQuery={oppgaveQuery} oppgaver={oppgaver} />
+							)}
+						</>
+					)}
+				</div>
+			)}
+		</>
 	);
 };
 
