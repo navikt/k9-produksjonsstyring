@@ -1,19 +1,19 @@
-import React, { FunctionComponent, useCallback, useEffect, useRef, useState } from 'react';
+import React, { FunctionComponent, useCallback, useEffect } from 'react';
 import { WrappedComponentProps, injectIntl } from 'react-intl';
 import { useQuery } from 'react-query';
 import { OppgavekøV2, OppgavekøV2MedNavn, OppgavekøerV2 as OppgavekøerV2Type } from 'types/OppgavekøV2Type';
 import { getK9punsjRef, getK9sakHref, getOmsorgspengerRef } from 'app/paths';
 import apiPaths from 'api/apiPaths';
-import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
+import { K9LosApiKeys } from 'api/k9LosApi';
 import { useRestApi } from 'api/rest-api-hooks';
 import RestApiState from 'api/rest-api-hooks/src/RestApiState';
-import useGlobalStateRestApiData from 'api/rest-api-hooks/src/global-data/useGlobalStateRestApiData';
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
 import { OppgavekøV1 } from 'saksbehandler/behandlingskoer/oppgavekoTsType';
 import Oppgave from 'saksbehandler/oppgaveTsType';
 import { get } from 'utils/axios';
 import { saksbehandlerKanVelgeNyeKoer } from '../../featureToggles';
 import OppgaveSystem from '../../types/OppgaveSystem';
+import OppgaveSocket from './OppgaveSocket';
 import OppgavekoPanel from './components/OppgavekoPanel';
 
 interface OwnProps {
@@ -34,9 +34,6 @@ const BehandlingskoerIndex: FunctionComponent<OwnProps & WrappedComponentProps> 
 	valgtOppgavekoId,
 	omsorgspengerUrl,
 }) => {
-	const refreshUrl = useGlobalStateRestApiData<{ verdi?: string }>(RestApiGlobalStatePathsKeys.REFRESH_URL);
-	const [websocketLastHandledTime, setWebsocketLastHandledTime] = useState(0);
-	const socketRef = useRef(null);
 	const { data: oppgavekoerV1 = [] } = useRestApi<OppgavekøV1[]>(K9LosApiKeys.OPPGAVEKO);
 	const { data: oppgavekoerV2 } = useQuery<OppgavekøerV2Type>({
 		queryKey: [apiPaths.hentOppgavekoer, 'saksbehandler'],
@@ -58,16 +55,6 @@ const BehandlingskoerIndex: FunctionComponent<OwnProps & WrappedComponentProps> 
 	const hentReserverteOppgaver = () => getReserverteOppgaver(undefined, true);
 	const { startRequest: leggTilBehandletOppgave } = useRestApiRunner(K9LosApiKeys.LEGG_TIL_BEHANDLET_OPPGAVE);
 
-	const handleEvent = (e: MessageEvent) => {
-		const data = JSON.parse(e.data);
-		if (data.melding === 'oppdaterReserverte') {
-			hentReserverteOppgaver();
-		} else if (data.melding === 'oppdaterTilBehandling') {
-			if (valgtOppgavekoId === data.id) {
-				hentOppgaverTilBehandling({ id: valgtOppgavekoId });
-			}
-		}
-	};
 	useEffect(() => {
 		hentReserverteOppgaver();
 	}, []);
@@ -77,46 +64,6 @@ const BehandlingskoerIndex: FunctionComponent<OwnProps & WrappedComponentProps> 
 			hentOppgaverTilBehandling({ id: valgtOppgavekoId });
 		}
 	}, [valgtOppgavekoId]);
-
-	useEffect(() => {
-		socketRef.current = new WebSocket(refreshUrl.verdi);
-
-		socketRef.current.onopen = () => {
-			// eslint-disable-next-line no-console
-			console.log('connected');
-		};
-
-		socketRef.current.onmessage = (evt) => {
-			const currentTime = new Date().getTime();
-			// Check if it's been more than 10 seconds since the last time
-			if (currentTime - websocketLastHandledTime >= 10000) {
-				handleEvent(evt);
-				setWebsocketLastHandledTime(currentTime);
-			}
-		};
-
-		socketRef.current.onclose = (event) => {
-			// eslint-disable-next-line no-console
-			if (event.wasClean) {
-				console.log(`Closed cleanly, code=${event.code}, reason=${event.reason}`);
-			} else {
-				console.log('Connection died');
-			}
-		};
-
-		socketRef.current.onerror = (err) => {
-			// eslint-disable-next-line no-console
-			console.error('Socket encountered error: ', err, 'Closing socket');
-			socketRef.current.close();
-		};
-
-		// Clean up the WebSocket when every time useEffect runs again or when component is unmounted
-		return () => {
-			if (socketRef.current) {
-				socketRef.current.close();
-			}
-		};
-	}, [valgtOppgavekoId, websocketLastHandledTime]);
 
 	const openFagsak = (oppgave: Oppgave) => {
 		leggTilBehandletOppgave(oppgave);
@@ -161,16 +108,23 @@ const BehandlingskoerIndex: FunctionComponent<OwnProps & WrappedComponentProps> 
 	}
 
 	return (
-		<OppgavekoPanel
-			valgtOppgavekoId={valgtOppgavekoId}
-			setValgtOppgavekoId={setValgtOppgavekoId}
-			apneOppgave={apneOppgave}
-			oppgavekoer={oppgavekoer}
-			requestFinished={state === RestApiState.SUCCESS}
-			oppgaverTilBehandling={oppgaverTilBehandling}
-			reserverteOppgaver={reserverteOppgaver}
-			hentReserverteOppgaver={hentReserverteOppgaver}
-		/>
+		<>
+			<OppgaveSocket
+				hentReserverteOppgaver={hentReserverteOppgaver}
+				hentOppgaverTilBehandling={hentOppgaverTilBehandling}
+				valgtOppgavekoId={valgtOppgavekoId}
+			/>
+			<OppgavekoPanel
+				valgtOppgavekoId={valgtOppgavekoId}
+				setValgtOppgavekoId={setValgtOppgavekoId}
+				apneOppgave={apneOppgave}
+				oppgavekoer={oppgavekoer}
+				requestFinished={state === RestApiState.SUCCESS}
+				oppgaverTilBehandling={oppgaverTilBehandling}
+				reserverteOppgaver={reserverteOppgaver}
+				hentReserverteOppgaver={hentReserverteOppgaver}
+			/>
+		</>
 	);
 };
 
