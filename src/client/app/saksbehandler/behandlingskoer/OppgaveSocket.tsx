@@ -58,6 +58,7 @@ const OppgaveSocket = ({ hentOppgaverTilBehandling, hentReserverteOppgaver, valg
 		ws.onerror = (err) => {
 			console.error('Socket encountered an error:', err, 'Closing socket.');
 			ws.close();
+			setRetryCount((prev) => prev + 1);
 		};
 
 		socketRef.current = ws;
