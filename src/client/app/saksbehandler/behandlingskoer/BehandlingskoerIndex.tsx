@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useCallback, useEffect } from 'react';
+import React, { FunctionComponent, useCallback, useEffect, useRef, useState } from 'react';
 import { WrappedComponentProps, injectIntl } from 'react-intl';
 import { useQuery } from 'react-query';
 import { OppgavekøV2, OppgavekøV2MedNavn, OppgavekøerV2 as OppgavekøerV2Type } from 'types/OppgavekøV2Type';
@@ -35,6 +35,7 @@ const BehandlingskoerIndex: FunctionComponent<OwnProps & WrappedComponentProps> 
 	omsorgspengerUrl,
 }) => {
 	const refreshUrl = useGlobalStateRestApiData<{ verdi?: string }>(RestApiGlobalStatePathsKeys.REFRESH_URL);
+	const [lastHandledTime, setLastHandledTime] = useState(0);
 	const { data: oppgavekoerV1 = [] } = useRestApi<OppgavekøV1[]>(K9LosApiKeys.OPPGAVEKO);
 	const { data: oppgavekoerV2 } = useQuery<OppgavekøerV2Type>({
 		queryKey: [apiPaths.hentOppgavekoer, 'saksbehandler'],
@@ -66,39 +67,59 @@ const BehandlingskoerIndex: FunctionComponent<OwnProps & WrappedComponentProps> 
 			}
 		}
 	};
-
-	const socket = new WebSocket(refreshUrl.verdi);
+	useEffect(() => {
+		hentReserverteOppgaver();
+	}, []);
 
 	useEffect(() => {
-		socket.onopen = () => {
-			// on connecting, do nothing but log it to the console
+		if (valgtOppgavekoId) {
+			hentOppgaverTilBehandling({ id: valgtOppgavekoId });
+		}
+	}, [valgtOppgavekoId]);
+
+	// Use useRef to store the WebSocket instance
+	const socketRef = useRef(null);
+
+	useEffect(() => {
+		// Initialize the WebSocket
+		socketRef.current = new WebSocket(refreshUrl.verdi);
+
+		socketRef.current.onopen = () => {
 			// eslint-disable-next-line no-console
 			console.log('connected');
 		};
 
-		socket.onmessage = (evt) => {
-			// listen to data sent from the websocket server
-			handleEvent(evt);
+		socketRef.current.onmessage = (evt) => {
+			const currentTime = new Date().getTime();
+			// Check if it's been more than 10 seconds since the last time
+			if (currentTime - lastHandledTime >= 10000) {
+				handleEvent(evt);
+				setLastHandledTime(currentTime);
+			}
 		};
 
-		socket.onclose = (ev) => {
+		socketRef.current.onclose = (event) => {
 			// eslint-disable-next-line no-console
-			console.log(`disconnected, reason: ${ev.reason}`);
-			// automatically try to reconnect on connection loss
+			if (event.wasClean) {
+				console.log(`Closed cleanly, code=${event.code}, reason=${event.reason}`);
+			} else {
+				console.log('Connection died');
+			}
 		};
 
-		socket.onerror = (err) => {
+		socketRef.current.onerror = (err) => {
 			// eslint-disable-next-line no-console
 			console.error('Socket encountered error: ', err, 'Closing socket');
-
-			socket.close();
+			socketRef.current.close();
 		};
 
-		if (valgtOppgavekoId !== undefined) {
-			hentOppgaverTilBehandling({ id: valgtOppgavekoId });
-		}
-		hentReserverteOppgaver();
-	}, [valgtOppgavekoId]);
+		// Clean up the WebSocket when the component is unmounted
+		return () => {
+			if (socketRef.current) {
+				socketRef.current.close();
+			}
+		};
+	}, [valgtOppgavekoId, lastHandledTime]);
 
 	const openFagsak = (oppgave: Oppgave) => {
 		leggTilBehandletOppgave(oppgave);
