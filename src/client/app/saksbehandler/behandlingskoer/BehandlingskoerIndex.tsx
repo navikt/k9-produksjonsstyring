@@ -36,6 +36,7 @@ const BehandlingskoerIndex: FunctionComponent<OwnProps & WrappedComponentProps> 
 }) => {
 	const refreshUrl = useGlobalStateRestApiData<{ verdi?: string }>(RestApiGlobalStatePathsKeys.REFRESH_URL);
 	const [lastHandledTime, setLastHandledTime] = useState(0);
+	const socketRef = useRef(null);
 	const { data: oppgavekoerV1 = [] } = useRestApi<OppgavekøV1[]>(K9LosApiKeys.OPPGAVEKO);
 	const { data: oppgavekoerV2 } = useQuery<OppgavekøerV2Type>({
 		queryKey: [apiPaths.hentOppgavekoer, 'saksbehandler'],
@@ -77,11 +78,7 @@ const BehandlingskoerIndex: FunctionComponent<OwnProps & WrappedComponentProps> 
 		}
 	}, [valgtOppgavekoId]);
 
-	// Use useRef to store the WebSocket instance
-	const socketRef = useRef(null);
-
 	useEffect(() => {
-		// Initialize the WebSocket
 		socketRef.current = new WebSocket(refreshUrl.verdi);
 
 		socketRef.current.onopen = () => {
@@ -113,7 +110,7 @@ const BehandlingskoerIndex: FunctionComponent<OwnProps & WrappedComponentProps> 
 			socketRef.current.close();
 		};
 
-		// Clean up the WebSocket when the component is unmounted
+		// Clean up the WebSocket when every time useEffect runs again or when component is unmounted
 		return () => {
 			if (socketRef.current) {
 				socketRef.current.close();
