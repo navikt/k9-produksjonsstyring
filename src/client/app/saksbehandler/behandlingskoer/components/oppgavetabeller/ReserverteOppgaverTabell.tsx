@@ -43,8 +43,6 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps & WrappedComponentPro
 	hastesaker,
 }) => {
 	const intl = useIntl();
-	const [reserverteOppgaverState, setReserverteOppgaveState] = useState<Oppgave[]>(reserverteOppgaver);
-	const [requestFinishedState, setRequestFinishedState] = useState<boolean>(requestFinished);
 
 	const [valgtOppgaveId, setValgtOppgaveId] = useState<string>();
 
@@ -56,19 +54,6 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps & WrappedComponentPro
 	);
 
 	const initialRender = useRef(true);
-
-	useEffect(() => {
-		if (
-			reserverteOppgaver.length !== reserverteOppgaverState.length ||
-			!reserverteOppgaver.every((oppgave) => reserverteOppgaverState.includes(oppgave))
-		) {
-			setReserverteOppgaveState(reserverteOppgaver);
-		}
-
-		if (requestFinished !== requestFinishedState) {
-			setRequestFinishedState(requestFinished);
-		}
-	}, [reserverteOppgaver, requestFinished]);
 
 	useEffect(() => {
 		if (initialRender.current) {
@@ -95,14 +80,12 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps & WrappedComponentPro
 			setValgtOppgaveId(undefined);
 		}
 	};
-	const valgtOppgave = reserverteOppgaverState.find((o) => o.eksternId === valgtOppgaveId);
+	const valgtOppgave = reserverteOppgaver.find((o) => o.eksternId === valgtOppgaveId);
 	return (
 		<div>
-			{reserverteOppgaverState.length === 0 && !requestFinishedState && (
-				<Loader size="2xlarge" className={styles.spinner} />
-			)}
+			{reserverteOppgaver.length === 0 && !requestFinished && <Loader size="2xlarge" className={styles.spinner} />}
 
-			{reserverteOppgaverState.length === 0 && requestFinishedState && (
+			{reserverteOppgaver.length === 0 && requestFinished && (
 				<>
 					<VerticalSpacer eightPx />
 					<Normaltekst>
@@ -115,7 +98,7 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps & WrappedComponentPro
 				</>
 			)}
 
-			{reserverteOppgaverState.length > 0 && requestFinishedState && (
+			{reserverteOppgaver.length > 0 && requestFinished && (
 				<Table>
 					<Table.Header>
 						<Table.Row>
@@ -129,7 +112,7 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps & WrappedComponentPro
 						</Table.Row>
 					</Table.Header>
 					<Table.Body>
-						{reserverteOppgaverState.map((oppgave) => (
+						{reserverteOppgaver.map((oppgave) => (
 							<Table.Row
 								key={oppgave.eksternId}
 								className={classNames(styles.isUnderBehandling, { [styles.hastesak]: hastesaker })}
