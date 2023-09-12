@@ -10,20 +10,32 @@ interface Props {
 }
 
 const VelgKriterie = ({ oppgavefilter }: Props) => {
-	const { oppdaterFilter, fjernFilter } = useContext(FilterContext);
+	const { oppdaterFilter, fjernFilter, leggTilGruppe, oppgaveQuery } = useContext(FilterContext);
 	const { felter: kriterierSomKanVelges } = useContext(AppContext);
-	const [valgtKriterie, setValgtKriterie] = useState<Oppgavefelt>();
-
+	const [valgtKriterie, setValgtKriterie] = useState<Oppgavefelt | string>();
 	const handleSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
+		if (event.target.value === '__gruppe') {
+			setValgtKriterie(event.target.value);
+			return;
+		}
 		const kode = kodeFraKey(event.target.value);
 		const kriterie = kriterierSomKanVelges.find((k) => k.kode === kode);
 		setValgtKriterie(kriterie);
 	};
 
-	const leggTil = (kriterie: Oppgavefelt) => {
+	const leggTil = (kriterie: Oppgavefelt | string) => {
 		if (!kriterie) {
 			return;
 		}
+
+		if (typeof kriterie === 'string') {
+			if (kriterie === '__gruppe') {
+				leggTilGruppe(oppgaveQuery.id);
+				return;
+			}
+			return;
+		}
+
 		const { område, kode } = kriterie;
 
 		const updateData = { område, kode, verdi: undefined };
@@ -45,10 +57,13 @@ const VelgKriterie = ({ oppgavefilter }: Props) => {
 				<Select
 					label="Velg kriterie:"
 					size="small"
-					value={valgtKriterie ? feltverdiKey(valgtKriterie) : undefined}
+					value={
+						valgtKriterie && typeof valgtKriterie === 'object' ? feltverdiKey(valgtKriterie) : (valgtKriterie as string)
+					}
 					onChange={handleSelect}
 				>
 					<option>Velg kriterie</option>
+					<option value="__gruppe">Gruppe</option>
 					{options}
 				</Select>
 				<div className="flex gap-4 mt-4">

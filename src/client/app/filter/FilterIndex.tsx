@@ -2,15 +2,15 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { v4 as uuid } from 'uuid';
 import { PlusCircleIcon } from '@navikt/aksel-icons';
 import { Download, Refresh, Search } from '@navikt/ds-icons';
-import { Alert, BodyShort, Button, Heading, ReadMore, TextField } from '@navikt/ds-react';
+import { Alert, BodyShort, Button, Heading, Loader, ReadMore, Select, TextField } from '@navikt/ds-react';
 import AppContext from 'app/AppContext';
 import { K9LosApiKeys, k9LosApi } from 'api/k9LosApi';
-import { useKo } from 'api/queries/avdelingslederQueries';
+import { useAlleKoer, useKo } from 'api/queries/avdelingslederQueries';
 import { REQUEST_POLLING_CANCELLED } from 'api/rest-api';
 import { FilterContext, OrderContext } from './FilterContext';
 import OppgaveQueryModel from './OppgaveQueryModel';
 import styles from './filterIndex.css';
-import { EnkelSelectFelt, OppgaveQuery, Oppgavefelt, Oppgaverad } from './filterTsTypes';
+import { EnkelSelectFelt, OppgaveQuery, Oppgaverad } from './filterTsTypes';
 import OppgaveQueryResultat from './parts/OppgaveQueryResultat';
 import OppgaveSelectFelter from './parts/OppgaveSelectFelter';
 import OppgavefilterPanel from './parts/OppgavefilterPanel';
@@ -81,16 +81,14 @@ const FilterIndex = ({ initialQuery, lagre, avbryt, tittel, visningV2, køvisnin
 	const [loading, setLoading] = useState(false);
 	const [loadingDownload, setLoadingDownload] = useState(false);
 	const [koId, setKoId] = useState(null);
-	const [visFelterSomSkalVises, setVisFelterSomSkalVises] = useState(false);
+
+	const { data: koer, isLoading: koerIsLoading } = useAlleKoer({ enabled: !køvisning });
 
 	useKo(koId, {
 		enabled: !!koId,
 		onSuccess: (data) => {
 			const newQuery = new OppgaveQueryModel(data.oppgaveQuery).toOppgaveQuery();
 			setOppgaveQuery(newQuery);
-			if (newQuery.select.length) {
-				setVisFelterSomSkalVises(true);
-			}
 		},
 	});
 
@@ -233,6 +231,7 @@ const FilterIndex = ({ initialQuery, lagre, avbryt, tittel, visningV2, køvisnin
 
 	const filterContextValues = useMemo(
 		() => ({
+			oppgaveQuery,
 			oppdaterFilter,
 			leggTilFilter,
 			leggTilGruppe,
@@ -263,6 +262,26 @@ const FilterIndex = ({ initialQuery, lagre, avbryt, tittel, visningV2, køvisnin
 				<Heading size="small" spacing className="mt-3">
 					{tittel}
 				</Heading>
+				{!køvisning && (
+					<ReadMore header="Ta utgangspunkt i eksisterende kø (valgfritt)">
+						{koerIsLoading && <Loader title="Laster køer" />}
+						{!!koer?.length && (
+							<Select
+								label="Eksisterende køer"
+								onChange={(e) => setKoId(e.target.value)}
+								size="small"
+								className="w-[400px] my-7"
+							>
+								<option value="">Velg kø</option>
+								{koer.map((item) => (
+									<option value={item.id} key={item.id}>
+										{item.tittel}
+									</option>
+								))}
+							</Select>
+						)}
+					</ReadMore>
+				)}
 				<FilterContext.Provider value={filterContextValues}>
 					<div className="flex flex-col gap-4">
 						{oppgaveQuery.filtere.map((item) => (
@@ -282,22 +301,13 @@ const FilterIndex = ({ initialQuery, lagre, avbryt, tittel, visningV2, køvisnin
 					</Button>
 				</div>
 				{!køvisning && (
-					<ReadMore
-						className={styles.feltvalgBlokk}
-						header="Velg felter som skal vises"
-						defaultOpen={!!oppgaveQuery.select.length}
-						open={visFelterSomSkalVises}
-						size="medium"
-						onClick={() => setVisFelterSomSkalVises(!visFelterSomSkalVises)}
-					>
-						<OppgaveSelectFelter
-							felter={felter}
-							oppgaveQuery={oppgaveQuery}
-							onLeggTil={leggTilEnkelSelectFelt}
-							onOppdater={oppdaterEnkelSelectFelt}
-							onFjern={fjernSelectFelt}
-						/>
-					</ReadMore>
+					<OppgaveSelectFelter
+						felter={felter}
+						oppgaveQuery={oppgaveQuery}
+						onLeggTil={leggTilEnkelSelectFelt}
+						onOppdater={oppdaterEnkelSelectFelt}
+						onFjern={fjernSelectFelt}
+					/>
 				)}
 				<div className="mt-auto">
 					<OrderContext.Provider value={orderContextValues}>

@@ -66,7 +66,6 @@ const BehandlingskoerIndex: FunctionComponent<OwnProps & WrappedComponentProps> 
 			}
 		}
 	};
-
 	const socket = new WebSocket(refreshUrl.verdi);
 
 	useEffect(() => {

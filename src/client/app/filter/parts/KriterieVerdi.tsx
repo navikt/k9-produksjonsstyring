@@ -106,6 +106,7 @@ const KriterieVerdi = ({
 	if (
 		feltdefinisjon?.tolkes_som === TolkesSom.String &&
 		Array.isArray(feltdefinisjon.verdiforklaringer) &&
+		feltdefinisjon.verdiforklaringer.length &&
 		feltdefinisjon.verdiforklaringer.length < 4
 	) {
 		return (
@@ -129,6 +130,7 @@ const KriterieVerdi = ({
 	if (
 		feltdefinisjon?.tolkes_som === TolkesSom.String &&
 		Array.isArray(feltdefinisjon.verdiforklaringer) &&
+		feltdefinisjon.verdiforklaringer.length &&
 		feltdefinisjon.verdiforklaringer.length > 3
 	) {
 		return (
@@ -140,6 +142,7 @@ const KriterieVerdi = ({
 	return (
 		<TextField
 			label="Skriv fritekst"
+			size="small"
 			hideLabel
 			value={oppgavefilter.verdi}
 			onChange={(e) => handleChangeValue(e.target.value)}

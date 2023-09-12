@@ -1,5 +1,6 @@
 import React from 'react';
-import { Add, Delete } from '@navikt/ds-icons';
+import { PlusCircleIcon } from '@navikt/aksel-icons';
+import { Delete } from '@navikt/ds-icons';
 import { Button, Select } from '@navikt/ds-react';
 import { EnkelSelectFelt, OppgaveQuery, Oppgavefelt } from '../filterTsTypes';
 import { feltverdiKey } from '../utils';
@@ -18,14 +19,8 @@ const renderFjernSelectFeltKnapp = (felt, onFjern) => (
 );
 
 const renderAddEnkelSelectFeltKnapp = (onLeggTil) => (
-	<Button
-		className={styles.selectLeggTil}
-		icon={<Add aria-hidden />}
-		size="xsmall"
-		variant="tertiary"
-		onClick={() => onLeggTil()}
-	>
-		Legg til felt
+	<Button icon={<PlusCircleIcon aria-hidden />} size="small" variant="tertiary" onClick={() => onLeggTil()}>
+		Legg til felt som skal vises i søkeresultat
 	</Button>
 );
 

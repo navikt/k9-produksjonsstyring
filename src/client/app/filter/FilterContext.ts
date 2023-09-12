@@ -2,6 +2,7 @@ import React from 'react';
 import { OppgaveQuery } from './filterTsTypes';
 
 export type FilterContextType = {
+	oppgaveQuery: OppgaveQuery;
 	oppdaterFilter: (id: string, newData: any) => void;
 	fjernFilter: (id: string) => void;
 	leggTilFilter: (id: string) => void;

@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
-import { Add, Delete } from '@navikt/ds-icons';
+import { PlusCircleIcon } from '@navikt/aksel-icons';
+import { Delete } from '@navikt/ds-icons';
 import { Button, Select } from '@navikt/ds-react';
 import AppContext from 'app/AppContext';
 import { OrderContext } from 'filter/FilterContext';
@@ -13,8 +14,8 @@ const renderFjernOrderFeltKnapp = (felt, onFjern) => (
 const renderAddEnkelOrderFeltKnapp = (onLeggTil) => (
 	<Button
 		className={styles.orderLeggTil}
-		icon={<Add aria-hidden />}
-		size="xsmall"
+		icon={<PlusCircleIcon aria-hidden />}
+		size="small"
 		variant="tertiary"
 		onClick={() => onLeggTil()}
 	>
