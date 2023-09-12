@@ -109,7 +109,7 @@
 		"@babel/preset-typescript": "7.22.11",
 		"@babel/register": "7.22.5",
 		"@commercetools/enzyme-extensions": "5.0.0",
-		"@navikt/aksel-stylelint": "4.12.1",
+		"@navikt/aksel-stylelint": "5.4.1",
 		"@playwright/test": "1.37.1",
 		"@storybook/addon-actions": "6.5.16",
 		"@storybook/addon-centered": "5.3.21",
