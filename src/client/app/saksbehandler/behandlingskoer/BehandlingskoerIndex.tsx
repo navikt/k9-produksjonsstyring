@@ -35,7 +35,7 @@ const BehandlingskoerIndex: FunctionComponent<OwnProps & WrappedComponentProps> 
 	omsorgspengerUrl,
 }) => {
 	const refreshUrl = useGlobalStateRestApiData<{ verdi?: string }>(RestApiGlobalStatePathsKeys.REFRESH_URL);
-	const [lastHandledTime, setLastHandledTime] = useState(0);
+	const [websocketLastHandledTime, setWebsocketLastHandledTime] = useState(0);
 	const socketRef = useRef(null);
 	const { data: oppgavekoerV1 = [] } = useRestApi<OppgavekøV1[]>(K9LosApiKeys.OPPGAVEKO);
 	const { data: oppgavekoerV2 } = useQuery<OppgavekøerV2Type>({
@@ -89,9 +89,9 @@ const BehandlingskoerIndex: FunctionComponent<OwnProps & WrappedComponentProps> 
 		socketRef.current.onmessage = (evt) => {
 			const currentTime = new Date().getTime();
 			// Check if it's been more than 10 seconds since the last time
-			if (currentTime - lastHandledTime >= 10000) {
+			if (currentTime - websocketLastHandledTime >= 10000) {
 				handleEvent(evt);
-				setLastHandledTime(currentTime);
+				setWebsocketLastHandledTime(currentTime);
 			}
 		};
 
@@ -116,7 +116,7 @@ const BehandlingskoerIndex: FunctionComponent<OwnProps & WrappedComponentProps> 
 				socketRef.current.close();
 			}
 		};
-	}, [valgtOppgavekoId, lastHandledTime]);
+	}, [valgtOppgavekoId, websocketLastHandledTime]);
 
 	const openFagsak = (oppgave: Oppgave) => {
 		leggTilBehandletOppgave(oppgave);
