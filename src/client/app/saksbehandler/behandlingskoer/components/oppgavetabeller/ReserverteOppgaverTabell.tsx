@@ -2,11 +2,11 @@
 import React, { FunctionComponent, useCallback, useEffect, useRef, useState } from 'react';
 import { FormattedMessage, WrappedComponentProps, injectIntl, useIntl } from 'react-intl';
 import classNames from 'classnames';
+import menuIconBlackUrl from 'images/ic-menu-18px_black.svg';
+import menuIconBlueUrl from 'images/ic-menu-18px_blue.svg';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { WarningColored } from '@navikt/ds-icons';
 import { Loader, Table } from '@navikt/ds-react';
-import menuIconBlueUrl from 'images/ic-menu-18px_blue.svg';
-import menuIconBlackUrl from 'images/ic-menu-18px_black.svg';
 import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
 import { useGlobalStateRestApiData } from 'api/rest-api-hooks';
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
@@ -43,8 +43,6 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps & WrappedComponentPro
 	hastesaker,
 }) => {
 	const intl = useIntl();
-	const [reserverteOppgaverState, setReserverteOppgaveState] = useState<Oppgave[]>(reserverteOppgaver);
-	const [requestFinishedState, setRequestFinishedState] = useState<boolean>(requestFinished);
 
 	const [valgtOppgaveId, setValgtOppgaveId] = useState<string>();
 
@@ -56,23 +54,6 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps & WrappedComponentPro
 	);
 
 	const initialRender = useRef(true);
-
-	useEffect(() => {
-		if (
-			reserverteOppgaver.length !== reserverteOppgaverState.length ||
-			!reserverteOppgaver.every((oppgave) => reserverteOppgaverState.includes(oppgave))
-		) {
-			setReserverteOppgaveState(reserverteOppgaver);
-		}
-
-		if (requestFinished !== requestFinishedState) {
-			setRequestFinishedState(requestFinished);
-		}
-	}, [reserverteOppgaver, requestFinished]);
-
-	useEffect(() => {
-		hentReserverteOppgaver();
-	}, []);
 
 	useEffect(() => {
 		if (initialRender.current) {
@@ -99,14 +80,12 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps & WrappedComponentPro
 			setValgtOppgaveId(undefined);
 		}
 	};
-	const valgtOppgave = reserverteOppgaverState.find((o) => o.eksternId === valgtOppgaveId);
+	const valgtOppgave = reserverteOppgaver.find((o) => o.eksternId === valgtOppgaveId);
 	return (
 		<div>
-			{reserverteOppgaverState.length === 0 && !requestFinishedState && (
-				<Loader size="2xlarge" className={styles.spinner} />
-			)}
+			{reserverteOppgaver.length === 0 && !requestFinished && <Loader size="2xlarge" className={styles.spinner} />}
 
-			{reserverteOppgaverState.length === 0 && requestFinishedState && (
+			{reserverteOppgaver.length === 0 && requestFinished && (
 				<>
 					<VerticalSpacer eightPx />
 					<Normaltekst>
@@ -119,7 +98,7 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps & WrappedComponentPro
 				</>
 			)}
 
-			{reserverteOppgaverState.length > 0 && requestFinishedState && (
+			{reserverteOppgaver.length > 0 && requestFinished && (
 				<Table>
 					<Table.Header>
 						<Table.Row>
@@ -133,7 +112,7 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps & WrappedComponentPro
 						</Table.Row>
 					</Table.Header>
 					<Table.Body>
-						{reserverteOppgaverState.map((oppgave) => (
+						{reserverteOppgaver.map((oppgave) => (
 							<Table.Row
 								key={oppgave.eksternId}
 								className={classNames(styles.isUnderBehandling, { [styles.hastesak]: hastesaker })}
