@@ -11,7 +11,7 @@
 		"@navikt/aksel-icons": "4.12.1",
 		"@navikt/ds-css": "4.12.3",
 		"@navikt/ds-icons": "3.4.3",
-		"@navikt/ds-react": "4.12.1",
+		"@navikt/ds-react": "5.5.0",
 		"@navikt/ds-tailwind": "4.12.1",
 		"@navikt/ds-tokens": "4.12.1",
 		"@navikt/familie-endringslogg": "8.1.1",
@@ -187,7 +187,7 @@
 		"webpack-merge": "5.9.0"
 	},
 	"resolutions": {
-		"@navikt/ds-react": "4.12.1"
+		"@navikt/ds-react": "5.5.0"
 	},
 	"scripts": {
 		"start-express": "node ./server.js",
