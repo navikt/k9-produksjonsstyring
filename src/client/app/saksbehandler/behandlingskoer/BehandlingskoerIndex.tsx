@@ -4,16 +4,16 @@ import { useQuery } from 'react-query';
 import { OppgavekøV2, OppgavekøV2MedNavn, OppgavekøerV2 as OppgavekøerV2Type } from 'types/OppgavekøV2Type';
 import { getK9punsjRef, getK9sakHref, getOmsorgspengerRef } from 'app/paths';
 import apiPaths from 'api/apiPaths';
-import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
+import { K9LosApiKeys } from 'api/k9LosApi';
 import { useRestApi } from 'api/rest-api-hooks';
 import RestApiState from 'api/rest-api-hooks/src/RestApiState';
-import useGlobalStateRestApiData from 'api/rest-api-hooks/src/global-data/useGlobalStateRestApiData';
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
 import { OppgavekøV1 } from 'saksbehandler/behandlingskoer/oppgavekoTsType';
 import Oppgave from 'saksbehandler/oppgaveTsType';
 import { get } from 'utils/axios';
 import { saksbehandlerKanVelgeNyeKoer } from '../../featureToggles';
 import OppgaveSystem from '../../types/OppgaveSystem';
+import OppgaveSocket from './OppgaveSocket';
 import OppgavekoPanel from './components/OppgavekoPanel';
 
 interface OwnProps {
@@ -34,7 +34,6 @@ const BehandlingskoerIndex: FunctionComponent<OwnProps & WrappedComponentProps> 
 	valgtOppgavekoId,
 	omsorgspengerUrl,
 }) => {
-	const refreshUrl = useGlobalStateRestApiData<{ verdi?: string }>(RestApiGlobalStatePathsKeys.REFRESH_URL);
 	const { data: oppgavekoerV1 = [] } = useRestApi<OppgavekøV1[]>(K9LosApiKeys.OPPGAVEKO);
 	const { data: oppgavekoerV2 } = useQuery<OppgavekøerV2Type>({
 		queryKey: [apiPaths.hentOppgavekoer, 'saksbehandler'],
@@ -56,47 +55,14 @@ const BehandlingskoerIndex: FunctionComponent<OwnProps & WrappedComponentProps> 
 	const hentReserverteOppgaver = () => getReserverteOppgaver(undefined, true);
 	const { startRequest: leggTilBehandletOppgave } = useRestApiRunner(K9LosApiKeys.LEGG_TIL_BEHANDLET_OPPGAVE);
 
-	const handleEvent = (e: MessageEvent) => {
-		const data = JSON.parse(e.data);
-		if (data.melding === 'oppdaterReserverte') {
-			hentReserverteOppgaver();
-		} else if (data.melding === 'oppdaterTilBehandling') {
-			if (valgtOppgavekoId === data.id) {
-				hentOppgaverTilBehandling({ id: valgtOppgavekoId });
-			}
-		}
-	};
-	const socket = new WebSocket(refreshUrl.verdi);
+	useEffect(() => {
+		hentReserverteOppgaver();
+	}, []);
 
 	useEffect(() => {
-		socket.onopen = () => {
-			// on connecting, do nothing but log it to the console
-			// eslint-disable-next-line no-console
-			console.log('connected');
-		};
-
-		socket.onmessage = (evt) => {
-			// listen to data sent from the websocket server
-			handleEvent(evt);
-		};
-
-		socket.onclose = (ev) => {
-			// eslint-disable-next-line no-console
-			console.log(`disconnected, reason: ${ev.reason}`);
-			// automatically try to reconnect on connection loss
-		};
-
-		socket.onerror = (err) => {
-			// eslint-disable-next-line no-console
-			console.error('Socket encountered error: ', err, 'Closing socket');
-
-			socket.close();
-		};
-
-		if (valgtOppgavekoId !== undefined) {
+		if (valgtOppgavekoId) {
 			hentOppgaverTilBehandling({ id: valgtOppgavekoId });
 		}
-		hentReserverteOppgaver();
 	}, [valgtOppgavekoId]);
 
 	const openFagsak = (oppgave: Oppgave) => {
@@ -142,16 +108,23 @@ const BehandlingskoerIndex: FunctionComponent<OwnProps & WrappedComponentProps> 
 	}
 
 	return (
-		<OppgavekoPanel
-			valgtOppgavekoId={valgtOppgavekoId}
-			setValgtOppgavekoId={setValgtOppgavekoId}
-			apneOppgave={apneOppgave}
-			oppgavekoer={oppgavekoer}
-			requestFinished={state === RestApiState.SUCCESS}
-			oppgaverTilBehandling={oppgaverTilBehandling}
-			reserverteOppgaver={reserverteOppgaver}
-			hentReserverteOppgaver={hentReserverteOppgaver}
-		/>
+		<>
+			<OppgaveSocket
+				hentReserverteOppgaver={hentReserverteOppgaver}
+				hentOppgaverTilBehandling={hentOppgaverTilBehandling}
+				valgtOppgavekoId={valgtOppgavekoId}
+			/>
+			<OppgavekoPanel
+				valgtOppgavekoId={valgtOppgavekoId}
+				setValgtOppgavekoId={setValgtOppgavekoId}
+				apneOppgave={apneOppgave}
+				oppgavekoer={oppgavekoer}
+				requestFinished={state === RestApiState.SUCCESS}
+				oppgaverTilBehandling={oppgaverTilBehandling}
+				reserverteOppgaver={reserverteOppgaver}
+				hentReserverteOppgaver={hentReserverteOppgaver}
+			/>
+		</>
 	);
 };
 
