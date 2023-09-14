@@ -1,11 +1,16 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Select } from '@navikt/ds-react';
+import { FilterContext } from 'filter/FilterContext';
+import { updateFilter } from 'filter/queryUtils';
 
-function OperatorSelect({ oppgavefilter, onOppdaterFilter }) {
+function OperatorSelect({ oppgavefilter }) {
+	const { updateQuery } = useContext(FilterContext);
 	const handleChangeOperator = (event) => {
-		onOppdaterFilter(oppgavefilter.id, {
-			operator: event.target.value,
-		});
+		updateQuery([
+			updateFilter(oppgavefilter.id, {
+				operator: event.target.value,
+			}),
+		]);
 	};
 
 	return (

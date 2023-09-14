@@ -1,22 +1,10 @@
 import React from 'react';
 import { OppgaveQuery } from './filterTsTypes';
+import { QueryFunction } from './queryUtils';
 
 export type FilterContextType = {
 	oppgaveQuery: OppgaveQuery;
-	oppdaterFilter: (id: string, newData: any) => void;
-	fjernFilter: (id: string) => void;
-	leggTilFilter: (id: string) => void;
-	leggTilGruppe: (id: string) => void;
-};
-
-export type OrderContextType = {
-	oppgaveQuery: OppgaveQuery;
-	oppdaterSortering: (id: string, newData: any) => void;
-	fjernSortering: (id: string) => void;
-	leggTilSortering: (data?: any) => void;
-	nullstillOgLeggTilSortering: (data?: any) => void;
-	nullstillSortering: () => void;
+	updateQuery: (operations: Array<QueryFunction>) => void;
 };
 
 export const FilterContext = React.createContext<FilterContextType>(null);
-export const OrderContext = React.createContext<OrderContextType>(null);

@@ -3,13 +3,14 @@ import { useMutation } from 'react-query';
 import { ArrowsCirclepathIcon } from '@navikt/aksel-icons';
 import { Button, Select, Skeleton } from '@navikt/ds-react';
 import apiPaths from 'api/apiPaths';
-import { OrderContext } from 'filter/FilterContext';
+import { FilterContext } from 'filter/FilterContext';
 import { OppgaveQuery, Oppgaverad } from 'filter/filterTsTypes';
+import { addSortering, resetSortering } from 'filter/queryUtils';
 import { antallTreffOppgaver } from 'filter/utils';
 import { mapKodeTilSorteringParams, mapSorteringParamsTilKode } from './sorteringUtils';
 
 const EnkelSortering = () => {
-	const { oppgaveQuery, nullstillOgLeggTilSortering } = useContext(OrderContext);
+	const { oppgaveQuery, updateQuery } = useContext(FilterContext);
 	const [antallOppgaver, setAntallOppgaver] = useState('0');
 	const { mutate, isLoading } = useMutation<unknown, unknown, { url: string; body: OppgaveQuery }>({
 		onSuccess: (data) => {
@@ -37,7 +38,7 @@ const EnkelSortering = () => {
 	const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
 		const payload = mapKodeTilSorteringParams(e.target.value);
 		if (payload) {
-			nullstillOgLeggTilSortering(payload);
+			updateQuery([resetSortering(), addSortering(payload)]);
 		}
 	};
 

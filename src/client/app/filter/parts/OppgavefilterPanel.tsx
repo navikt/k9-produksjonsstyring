@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { Delete } from '@navikt/ds-icons';
 import { Button, Heading, Panel } from '@navikt/ds-react';
 import { FilterContext } from 'filter/FilterContext';
+import { removeFilter } from 'filter/queryUtils';
 import styles from '../filterIndex.css';
 import { CombineOppgavefilter, FeltverdiOppgavefilter } from '../filterTsTypes';
 import FeltverdiOppgavefilterPanel from './FeltverdiOppgavefilterPanel/FeltverdiOppgavefilterPanel';
@@ -23,9 +24,13 @@ const OppgavefilterPanel = ({ oppgavefilter, visningV2 }: OppgavefilterPanelProp
 		if (!visningV2) return <FeltverdiOppgavefilterPanel oppgavefilter={oppgavefilter} />;
 		return <Kriterie oppgavefilter={oppgavefilter} />;
 	}
+	if (oppgavefilter.type === 'combine' && 'combineOperator' in oppgavefilter && visningV2) {
+		return <>gruppe v2</>;
+	}
 	if (oppgavefilter.type === 'combine' && 'combineOperator' in oppgavefilter) {
 		return <CombineOppgavefilterPanel oppgavefilter={oppgavefilter} />;
 	}
+
 	throw new Error(`Unhandled type: ${oppgavefilter.type}`);
 };
 
@@ -34,7 +39,7 @@ interface CombineOppgavefilterPanelProps {
 }
 
 const CombineOppgavefilterPanel = ({ oppgavefilter }: CombineOppgavefilterPanelProps) => {
-	const { fjernFilter } = useContext(FilterContext);
+	const { updateQuery } = useContext(FilterContext);
 	return (
 		<Panel className={`${styles.filter} ${styles.filterGruppe}`} key={oppgavefilter.id} border>
 			<Heading level="5" size="xsmall">
@@ -49,7 +54,7 @@ const CombineOppgavefilterPanel = ({ oppgavefilter }: CombineOppgavefilterPanelP
 				icon={<Delete aria-hidden />}
 				size="small"
 				variant="tertiary"
-				onClick={() => fjernFilter(oppgavefilter.id)}
+				onClick={() => updateQuery([removeFilter(oppgavefilter.id)])}
 			/>
 		</Panel>
 	);

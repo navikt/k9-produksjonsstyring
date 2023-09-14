@@ -4,6 +4,7 @@ import { Delete } from '@navikt/ds-icons';
 import { Button, Panel, Select } from '@navikt/ds-react';
 import AppContext from 'app/AppContext';
 import { FilterContext } from 'filter/FilterContext';
+import { removeFilter, updateFilter } from 'filter/queryUtils';
 import styles from '../../filterIndex.css';
 import { FeltverdiOppgavefilter, Oppgavefelt } from '../../filterTsTypes';
 import { feltverdiKey, kodeFraKey, områdeFraKey } from '../../utils';
@@ -18,7 +19,7 @@ interface Props {
 const FeltverdiOppgavefilterPanel: React.FC<Props> = ({ oppgavefilter }) => {
 	const testID = useMemo(() => generateId(), []);
 
-	const { oppdaterFilter, fjernFilter } = useContext(FilterContext);
+	const { updateQuery } = useContext(FilterContext);
 	const { felter: kriterierSomKanVelges } = useContext(AppContext);
 	const [feltdefinisjon, setFeltdefinisjon] = useState<Oppgavefelt | undefined>();
 	const [isUsingPredefinedValues, setIsUsingPredefinedValues] = useState<boolean>(false);
@@ -36,7 +37,7 @@ const FeltverdiOppgavefilterPanel: React.FC<Props> = ({ oppgavefilter }) => {
 		const kode = kodeFraKey(event.target.value);
 
 		const updateData = { område, kode, operator: 'EQUALS', verdi: feltdefinisjon?.tolkes_som === 'boolean' ? [] : '' };
-		oppdaterFilter(oppgavefilter.id, updateData);
+		updateQuery([updateFilter(oppgavefilter.id, updateData)]);
 	};
 
 	const options = useMemo(
@@ -64,12 +65,8 @@ const FeltverdiOppgavefilterPanel: React.FC<Props> = ({ oppgavefilter }) => {
 				</Select>
 				{oppgavefilter.kode && (
 					<>
-						<OperatorSelect oppgavefilter={oppgavefilter} onOppdaterFilter={oppdaterFilter} />
-						<FilterOperatorOgVerdi
-							feltdefinisjon={feltdefinisjon}
-							oppgavefilter={oppgavefilter}
-							onOppdaterFilter={oppdaterFilter}
-						/>
+						<OperatorSelect oppgavefilter={oppgavefilter} />
+						<FilterOperatorOgVerdi feltdefinisjon={feltdefinisjon} oppgavefilter={oppgavefilter} />
 					</>
 				)}
 			</div>
@@ -77,7 +74,7 @@ const FeltverdiOppgavefilterPanel: React.FC<Props> = ({ oppgavefilter }) => {
 				icon={<Delete aria-hidden />}
 				size="small"
 				variant="tertiary"
-				onClick={() => fjernFilter(oppgavefilter.id)}
+				onClick={() => updateQuery([removeFilter(oppgavefilter.id)])}
 			/>
 		</Panel>
 	);

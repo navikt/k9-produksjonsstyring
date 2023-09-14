@@ -1,8 +1,8 @@
-import { useMemo } from 'react';
 import OppgaveQueryModel from 'filter/OppgaveQueryModel';
 import { OppgaveQuery, Oppgavefelt, OppgavefilterKode } from 'filter/filterTsTypes';
 import { OPERATORS } from 'filter/utils';
 
+// OBS OBS Backend skal være ansvarlig for å lage initialQuery. Så når backend har det på plass kan denne koden fjernes.
 export const initialKøQuery = (felter: Oppgavefelt[]) => {
 	const query = new OppgaveQueryModel();
 	const { id } = query.toOppgaveQuery();

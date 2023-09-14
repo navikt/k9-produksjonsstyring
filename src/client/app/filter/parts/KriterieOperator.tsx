@@ -2,10 +2,11 @@ import React, { useContext, useEffect, useMemo } from 'react';
 import { Select } from '@navikt/ds-react';
 import AppContext from 'app/AppContext';
 import { FilterContext } from 'filter/FilterContext';
+import { updateFilter } from 'filter/queryUtils';
 import { OPERATORS, operatorsFraTolkesSom } from 'filter/utils';
 
 function KriterieOperator({ oppgavefilter }) {
-	const { oppdaterFilter } = useContext(FilterContext);
+	const { updateQuery } = useContext(FilterContext);
 	const { felter: kriterierSomKanVelges } = useContext(AppContext);
 	const kriterieDefinisjon = kriterierSomKanVelges.find(
 		(kriterie) => kriterie.område === oppgavefilter.område && kriterie.kode === oppgavefilter.kode,
@@ -15,9 +16,11 @@ function KriterieOperator({ oppgavefilter }) {
 		throw Error('KriterieDefinisjon ikke funnet');
 	}
 	const handleChangeOperator = (event) => {
-		oppdaterFilter(oppgavefilter.id, {
-			operator: event.target.value,
-		});
+		updateQuery([
+			updateFilter(oppgavefilter.id, {
+				operator: event.target.value,
+			}),
+		]);
 	};
 
 	const operators = useMemo(
@@ -27,9 +30,11 @@ function KriterieOperator({ oppgavefilter }) {
 
 	useEffect(() => {
 		if (operators.length && !operators.includes(oppgavefilter.operator)) {
-			oppdaterFilter(oppgavefilter.id, {
-				operator: operators[0],
-			});
+			updateQuery([
+				updateFilter(oppgavefilter.id, {
+					operator: operators[0],
+				}),
+			]);
 		}
 	}, [JSON.stringify(operators)]);
 

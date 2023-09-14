@@ -5,15 +5,18 @@ import AksjonspunktVelger from 'avdelingsleder/behandlingskoerV2/components/Aksj
 import { FilterContext } from 'filter/FilterContext';
 import { FeltverdiOppgavefilter, Oppgavefelt, TolkesSom } from 'filter/filterTsTypes';
 import { aksjonspunktKoder } from 'filter/konstanter';
+import { updateFilter } from 'filter/queryUtils';
 import { calculateDays, mapBooleanToStringArray, mapStringToBooleanArray } from 'filter/utils';
 import styles from '../filterIndex.css';
 import MultiSelectKriterie from './MultiSelectKriterie';
 
-const useChangeValue = (oppgavefilter, onOppdaterFilter) => (value) => {
+const useChangeValue = (oppgavefilter, updateQuery) => (value) => {
 	const trimmedValue = typeof value === 'string' ? value.trim() : value;
-	onOppdaterFilter(oppgavefilter.id, {
-		verdi: trimmedValue,
-	});
+	updateQuery([
+		updateFilter(oppgavefilter.id, {
+			verdi: trimmedValue,
+		}),
+	]);
 };
 
 const KriterieVerdi = ({
@@ -23,16 +26,18 @@ const KriterieVerdi = ({
 	feltdefinisjon?: Oppgavefelt;
 	oppgavefilter: FeltverdiOppgavefilter;
 }) => {
-	const { oppdaterFilter } = useContext(FilterContext);
+	const { updateQuery } = useContext(FilterContext);
 
-	const handleChangeValue = useChangeValue(oppgavefilter, oppdaterFilter);
+	const handleChangeValue = useChangeValue(oppgavefilter, updateQuery);
 
 	const handleChangeBoolean = (values: string[]) => {
 		const mappedValues: (string | null)[] = mapStringToBooleanArray(values);
 
-		oppdaterFilter(oppgavefilter.id, {
-			verdi: mappedValues,
-		});
+		updateQuery([
+			updateFilter(oppgavefilter.id, {
+				verdi: mappedValues,
+			}),
+		]);
 	};
 	const onDateChange = (date) => {
 		if (!date) {

@@ -1,37 +1,42 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import dayjs from 'dayjs';
 import { BodyShort, Checkbox, CheckboxGroup, DatePicker, TextField, useDatepicker } from '@navikt/ds-react';
 import AksjonspunktVelger from 'avdelingsleder/behandlingskoerV2/components/AksjonspunktVelger';
+import { FilterContext } from 'filter/FilterContext';
 import { FeltverdiOppgavefilter, Oppgavefelt, TolkesSom } from 'filter/filterTsTypes';
 import { aksjonspunktKoder } from 'filter/konstanter';
+import { updateFilter } from 'filter/queryUtils';
 import { calculateDays, mapBooleanToStringArray, mapStringToBooleanArray } from 'filter/utils';
 import styles from '../filterIndex.css';
 import SearchDropdownMedPredefinerteVerdier from './SearchDropdownMedPredefinerteVerdier';
 
-const useChangeValue = (oppgavefilter, onOppdaterFilter) => (value) => {
+const useChangeValue = (oppgavefilter, updateQuery) => (value) => {
 	const trimmedValue = typeof value === 'string' ? value.trim() : value;
-	onOppdaterFilter(oppgavefilter.id, {
-		verdi: trimmedValue,
-	});
+	updateQuery([
+		updateFilter(oppgavefilter.id, {
+			verdi: trimmedValue,
+		}),
+	]);
 };
 
 const FilterOperatorOgVerdi = ({
 	feltdefinisjon,
 	oppgavefilter,
-	onOppdaterFilter,
 }: {
 	feltdefinisjon?: Oppgavefelt;
 	oppgavefilter: FeltverdiOppgavefilter;
-	onOppdaterFilter: (id: string, data: object) => void;
 }) => {
-	const handleChangeValue = useChangeValue(oppgavefilter, onOppdaterFilter);
+	const { updateQuery } = useContext(FilterContext);
+	const handleChangeValue = useChangeValue(oppgavefilter, updateQuery);
 
 	const handleChangeBoolean = (values: string[]) => {
 		const mappedValues: (string | null)[] = mapStringToBooleanArray(values);
 
-		onOppdaterFilter(oppgavefilter.id, {
-			verdi: mappedValues,
-		});
+		updateQuery([
+			updateFilter(oppgavefilter.id, {
+				verdi: mappedValues,
+			}),
+		]);
 	};
 	const onDateChange = (date) => {
 		if (!date) {

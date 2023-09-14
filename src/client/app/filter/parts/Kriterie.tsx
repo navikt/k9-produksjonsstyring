@@ -3,6 +3,7 @@ import { Delete } from '@navikt/ds-icons';
 import { Button, Label } from '@navikt/ds-react';
 import AppContext from 'app/AppContext';
 import { FilterContext } from 'filter/FilterContext';
+import { removeFilter } from 'filter/queryUtils';
 import { FeltverdiOppgavefilter, Oppgavefelt } from '../filterTsTypes';
 import { generateId } from './FeltverdiOppgavefilterPanel/idGenerator';
 import KriterieOperator from './KriterieOperator';
@@ -15,7 +16,7 @@ interface Props {
 const Kriterie: React.FC<Props> = ({ oppgavefilter }) => {
 	const testID = useMemo(() => generateId(), []);
 
-	const { fjernFilter } = useContext(FilterContext);
+	const { updateQuery } = useContext(FilterContext);
 	const { felter: kriterierSomKanVelges } = useContext(AppContext);
 	const [feltdefinisjon, setFeltdefinisjon] = useState<Oppgavefelt | undefined>();
 
@@ -49,7 +50,7 @@ const Kriterie: React.FC<Props> = ({ oppgavefilter }) => {
 					icon={<Delete aria-hidden />}
 					size="small"
 					variant="tertiary"
-					onClick={() => fjernFilter(oppgavefilter.id)}
+					onClick={() => updateQuery([removeFilter(oppgavefilter.id)])}
 				/>
 			)}
 		</div>

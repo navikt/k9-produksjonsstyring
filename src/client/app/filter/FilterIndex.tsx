@@ -7,15 +7,15 @@ import AppContext from 'app/AppContext';
 import { K9LosApiKeys, k9LosApi } from 'api/k9LosApi';
 import { useAlleKoer, useKo } from 'api/queries/avdelingslederQueries';
 import { REQUEST_POLLING_CANCELLED } from 'api/rest-api';
-import { FilterContext, OrderContext } from './FilterContext';
+import { FilterContext } from './FilterContext';
 import OppgaveQueryModel from './OppgaveQueryModel';
 import styles from './filterIndex.css';
-import { EnkelSelectFelt, OppgaveQuery, Oppgaverad } from './filterTsTypes';
+import { OppgaveQuery, Oppgaverad } from './filterTsTypes';
 import OppgaveQueryResultat from './parts/OppgaveQueryResultat';
 import OppgaveSelectFelter from './parts/OppgaveSelectFelter';
 import OppgavefilterPanel from './parts/OppgavefilterPanel';
+import { QueryFunction, addFilter, applyFunctions } from './queryUtils';
 import SorteringContainer from './sortering/SorteringContainer';
-import { kodeFraKey, områdeFraKey } from './utils';
 
 interface OwnProps {
 	lagre?: (oppgaveQuery: OppgaveQuery) => void;
@@ -54,6 +54,11 @@ const FilterIndex = ({ initialQuery, lagre, avbryt, tittel, visningV2, køvisnin
 	const [oppgaveQuery, setOppgaveQuery] = useState(
 		initialQuery ? new OppgaveQueryModel(initialQuery).toOppgaveQuery() : new OppgaveQueryModel().toOppgaveQuery(),
 	);
+
+	const updateQuery = (operations: Array<QueryFunction>) => {
+		const newQuery = applyFunctions(oppgaveQuery, operations);
+		setOppgaveQuery(newQuery);
+	};
 
 	const { felter } = React.useContext(AppContext);
 
@@ -153,76 +158,6 @@ const FilterIndex = ({ initialQuery, lagre, avbryt, tittel, visningV2, køvisnin
 		}
 	};
 
-	const fjernFilter = (id: string) => {
-		setOppgaveQuery(() => new OppgaveQueryModel(oppgaveQuery).removeFilter(id).toOppgaveQuery());
-	};
-
-	const leggTilFilter = (id: string) => {
-		setOppgaveQuery(() => new OppgaveQueryModel(oppgaveQuery).addFilter(id).toOppgaveQuery());
-	};
-
-	const leggTilGruppe = (id: string) => {
-		setOppgaveQuery(() => new OppgaveQueryModel(oppgaveQuery).addGruppe(id).toOppgaveQuery());
-	};
-
-	const fjernSelectFelt = (felt: EnkelSelectFelt) => {
-		setOppgaveQuery(() => new OppgaveQueryModel(oppgaveQuery).removeSelectFelt(felt.id).toOppgaveQuery());
-	};
-
-	const leggTilEnkelSelectFelt = () => {
-		setOppgaveQuery(() => new OppgaveQueryModel(oppgaveQuery).addEnkelSelectFelt().toOppgaveQuery());
-	};
-
-	const oppdaterFilter = (id: string, newData) => {
-		const oppgaveQueryModel = new OppgaveQueryModel(oppgaveQuery);
-		const oppgavefilterToUpdate = oppgaveQueryModel.getById(id);
-		const data = {
-			...oppgavefilterToUpdate,
-			...newData,
-		};
-		oppgaveQueryModel.updateFilter(id, data);
-		setOppgaveQuery(oppgaveQueryModel.toOppgaveQuery());
-	};
-
-	const oppdaterEnkelSelectFelt = (selectFelt: EnkelSelectFelt, verdi: string) => {
-		const newOppgaveQueryModel = new OppgaveQueryModel(oppgaveQuery);
-		const selectToUpdate = newOppgaveQueryModel.getById(selectFelt.id);
-		const data = {
-			...selectToUpdate,
-			område: områdeFraKey(verdi),
-			kode: kodeFraKey(verdi),
-		};
-
-		newOppgaveQueryModel.updateEnkelSelectFelt(selectFelt.id, data);
-		setOppgaveQuery(newOppgaveQueryModel.toOppgaveQuery());
-	};
-
-	const fjernSortering = (id) => {
-		setOppgaveQuery(() => new OppgaveQueryModel(oppgaveQuery).removeOrderFelt(id).toOppgaveQuery());
-	};
-
-	const nullstillSortering = () => {
-		setOppgaveQuery(() => new OppgaveQueryModel({ ...oppgaveQuery, order: [] }).toOppgaveQuery());
-	};
-
-	const nullstillOgLeggTilSortering = (data?: any) => {
-		const newQuery = new OppgaveQueryModel({ ...oppgaveQuery, order: [] }).addEnkelOrderFelt(data).toOppgaveQuery();
-		setOppgaveQuery(newQuery);
-	};
-
-	const leggTilSortering = (data?: any) => {
-		const newQuery = new OppgaveQueryModel(oppgaveQuery).addEnkelOrderFelt(data).toOppgaveQuery();
-		setOppgaveQuery(newQuery);
-	};
-
-	const oppdaterSortering = (id, newData) => {
-		const newOppgaveQueryModel = new OppgaveQueryModel(oppgaveQuery);
-		const orderToUpdate = newOppgaveQueryModel.getById(id);
-		const data = { ...orderToUpdate, ...newData };
-		newOppgaveQueryModel.updateEnkelOrderFelt(id, data);
-		setOppgaveQuery(newOppgaveQueryModel.toOppgaveQuery());
-	};
-
 	const oppdaterLimit = (limit) => {
 		if (!Number.isNaN(limit) && limit >= 0) {
 			setOppgaveQuery(() => new OppgaveQueryModel(oppgaveQuery).updateLimit(limit).toOppgaveQuery());
@@ -232,24 +167,9 @@ const FilterIndex = ({ initialQuery, lagre, avbryt, tittel, visningV2, køvisnin
 	const filterContextValues = useMemo(
 		() => ({
 			oppgaveQuery,
-			oppdaterFilter,
-			leggTilFilter,
-			leggTilGruppe,
-			fjernFilter,
+			updateQuery,
 		}),
-		[felter, oppgaveQuery],
-	);
-
-	const orderContextValues = useMemo(
-		() => ({
-			oppgaveQuery,
-			leggTilSortering,
-			oppdaterSortering,
-			fjernSortering,
-			nullstillSortering,
-			nullstillOgLeggTilSortering,
-		}),
-		[felter, oppgaveQuery, oppdaterSortering],
+		[oppgaveQuery],
 	);
 
 	if (felter.length === 0) {
@@ -257,7 +177,7 @@ const FilterIndex = ({ initialQuery, lagre, avbryt, tittel, visningV2, køvisnin
 	}
 
 	return (
-		<>
+		<FilterContext.Provider value={filterContextValues}>
 			<div className="mt-3 p-4 rounded-lg flex flex-col flex-grow">
 				<Heading size="small" spacing className="mt-3">
 					{tittel}
@@ -282,37 +202,25 @@ const FilterIndex = ({ initialQuery, lagre, avbryt, tittel, visningV2, køvisnin
 						)}
 					</ReadMore>
 				)}
-				<FilterContext.Provider value={filterContextValues}>
-					<div className="flex flex-col gap-4">
-						{oppgaveQuery.filtere.map((item) => (
-							<OppgavefilterPanel key={item.id} oppgavefilter={item} visningV2={visningV2} />
-						))}
-					</div>
-				</FilterContext.Provider>
+				<div className="flex flex-col gap-4">
+					{oppgaveQuery.filtere.map((item) => (
+						<OppgavefilterPanel key={item.id} oppgavefilter={item} visningV2={visningV2} />
+					))}
+				</div>
 				<div>
 					<Button
 						className="mt-4 mb-13"
 						icon={<PlusCircleIcon aria-hidden />}
 						variant="tertiary"
 						size="small"
-						onClick={() => leggTilFilter(oppgaveQuery.id)}
+						onClick={() => updateQuery([addFilter(oppgaveQuery.id)])}
 					>
 						Legg til nytt kriterie
 					</Button>
 				</div>
-				{!køvisning && (
-					<OppgaveSelectFelter
-						felter={felter}
-						oppgaveQuery={oppgaveQuery}
-						onLeggTil={leggTilEnkelSelectFelt}
-						onOppdater={oppdaterEnkelSelectFelt}
-						onFjern={fjernSelectFelt}
-					/>
-				)}
+				{!køvisning && <OppgaveSelectFelter />}
 				<div className="mt-auto">
-					<OrderContext.Provider value={orderContextValues}>
-						<SorteringContainer køvisning={køvisning} />
-					</OrderContext.Provider>
+					<SorteringContainer køvisning={køvisning} />
 
 					<div className={styles.filterButtonGroup}>
 						{lagre && (
@@ -391,7 +299,7 @@ const FilterIndex = ({ initialQuery, lagre, avbryt, tittel, visningV2, køvisnin
 					)}
 				</div>
 			)}
-		</>
+		</FilterContext.Provider>
 	);
 };
 

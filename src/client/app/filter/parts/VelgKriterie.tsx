@@ -3,6 +3,7 @@ import { BodyLong, Button, Label, Select } from '@navikt/ds-react';
 import AppContext from 'app/AppContext';
 import { FilterContext } from 'filter/FilterContext';
 import { FeltverdiOppgavefilter, Oppgavefelt } from 'filter/filterTsTypes';
+import { addGruppe, removeFilter, updateFilter } from 'filter/queryUtils';
 import { feltverdiKey, kodeFraKey } from 'filter/utils';
 
 interface Props {
@@ -10,7 +11,7 @@ interface Props {
 }
 
 const VelgKriterie = ({ oppgavefilter }: Props) => {
-	const { oppdaterFilter, fjernFilter, leggTilGruppe, oppgaveQuery } = useContext(FilterContext);
+	const { updateQuery, oppgaveQuery } = useContext(FilterContext);
 	const { felter: kriterierSomKanVelges } = useContext(AppContext);
 	const [valgtKriterie, setValgtKriterie] = useState<Oppgavefelt | string>();
 	const handleSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -30,7 +31,8 @@ const VelgKriterie = ({ oppgavefilter }: Props) => {
 
 		if (typeof kriterie === 'string') {
 			if (kriterie === '__gruppe') {
-				leggTilGruppe(oppgaveQuery.id);
+				const operations = [removeFilter(oppgavefilter.id), addGruppe(oppgaveQuery.id)];
+				updateQuery(operations);
 				return;
 			}
 			return;
@@ -39,7 +41,7 @@ const VelgKriterie = ({ oppgavefilter }: Props) => {
 		const { område, kode } = kriterie;
 
 		const updateData = { område, kode, verdi: undefined };
-		oppdaterFilter(oppgavefilter.id, updateData);
+		updateQuery([updateFilter(oppgavefilter.id, updateData)]);
 	};
 
 	const options = useMemo(
@@ -70,7 +72,7 @@ const VelgKriterie = ({ oppgavefilter }: Props) => {
 					<Button variant="primary" size="small" onClick={() => leggTil(valgtKriterie)}>
 						Legg til
 					</Button>
-					<Button variant="secondary" size="small" onClick={() => fjernFilter(oppgavefilter.id)}>
+					<Button variant="secondary" size="small" onClick={() => updateQuery([removeFilter(oppgavefilter.id)])}>
 						Avbryt
 					</Button>
 				</div>
