@@ -25,8 +25,7 @@ const updateFilter =
 		const filterToUpdate = oppgaveQueryModel.getById(id);
 		const updatedData = { ...filterToUpdate, ...newData };
 		const newModel = new OppgaveQueryModel(model);
-		newModel.updateFilter(id, updatedData);
-		return newModel.toOppgaveQuery();
+		return newModel.updateFilter(id, updatedData).toOppgaveQuery();
 	};
 
 // -------------------- Group Manipulations --------------------
@@ -41,10 +40,10 @@ const addGruppe =
 // -------------------- Select Felt Manipulations --------------------
 
 const removeSelectFelt =
-	(felt: EnkelSelectFelt) =>
+	(id: string) =>
 	(model: OppgaveQuery): OppgaveQuery => {
 		const newModel = new OppgaveQueryModel(model);
-		return newModel.removeSelectFelt(felt.id).toOppgaveQuery();
+		return newModel.removeSelectFelt(id).toOppgaveQuery();
 	};
 
 const addSelectFelt =
@@ -55,17 +54,16 @@ const addSelectFelt =
 	};
 
 const updateSelectFelt =
-	(selectFelt: EnkelSelectFelt, verdi: string) =>
+	(id: string, verdi) =>
 	(model: OppgaveQuery): OppgaveQuery => {
 		const oppgaveQueryModel = new OppgaveQueryModel(model);
-		const selectToUpdate = oppgaveQueryModel.getById(selectFelt.id);
+		const selectToUpdate = oppgaveQueryModel.getById(id);
 		const data = {
 			...selectToUpdate,
 			område: områdeFraKey(verdi),
 			kode: kodeFraKey(verdi),
 		};
-		const newModel = new OppgaveQueryModel(model);
-		newModel.updateEnkelSelectFelt(selectFelt.id, data);
+		const newModel = new OppgaveQueryModel(model).updateEnkelSelectFelt(id, data);
 		return newModel.toOppgaveQuery();
 	};
 
@@ -99,8 +97,7 @@ const updateSortering =
 		const orderToUpdate = newOppgaveQueryModel.getById(id);
 		const updatedData = { ...orderToUpdate, ...newData };
 		const newModel = new OppgaveQueryModel(model);
-		newModel.updateEnkelOrderFelt(id, updatedData);
-		return newModel.toOppgaveQuery();
+		return newModel.updateEnkelOrderFelt(id, updatedData).toOppgaveQuery();
 	};
 
 // -------------------- Helpers --------------------

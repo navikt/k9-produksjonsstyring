@@ -3,8 +3,9 @@
 /* eslint-disable camelcase */
 import React, { useContext, useState } from 'react';
 import { UNSAFE_Combobox } from '@navikt/ds-react';
-import {FilterContext} from 'filter/FilterContext';
+import { FilterContext } from 'filter/FilterContext';
 import { FeltverdiOppgavefilter, Oppgavefelt } from 'filter/filterTsTypes';
+import { updateFilter } from 'filter/queryUtils';
 
 interface Props {
 	feltdefinisjon?: Oppgavefelt;
@@ -13,7 +14,7 @@ interface Props {
 
 const MultiSelectKriterie = ({ feltdefinisjon, oppgavefilter }: Props) => {
 	const [value, setValue] = useState('');
-	const { oppdaterFilter } = useContext(FilterContext);
+	const { updateQuery } = useContext(FilterContext);
 	const selectedOptions = oppgavefilter.verdi?.map(
 		(v) => feltdefinisjon.verdiforklaringer.find((verdiforklaring) => verdiforklaring.verdi === v).visningsnavn,
 	);
@@ -21,9 +22,9 @@ const MultiSelectKriterie = ({ feltdefinisjon, oppgavefilter }: Props) => {
 	const onToggleSelected = (option: string, isSelected: boolean) => {
 		const verdi = feltdefinisjon?.verdiforklaringer.find((v) => v.visningsnavn === option)?.verdi;
 		if (isSelected) {
-			oppdaterFilter(oppgavefilter.id, { verdi: [...(oppgavefilter?.verdi || []), verdi] });
+			updateQuery([updateFilter(oppgavefilter.id, { verdi: [...(oppgavefilter?.verdi || []), verdi] })]);
 		} else {
-			oppdaterFilter(oppgavefilter.id, { verdi: oppgavefilter.verdi?.filter((o) => o !== verdi) });
+			updateQuery([updateFilter(oppgavefilter.id, { verdi: oppgavefilter.verdi?.filter((o) => o !== verdi) })]);
 		}
 	};
 	return (
