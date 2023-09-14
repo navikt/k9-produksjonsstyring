@@ -2,16 +2,17 @@ import React, { useContext, useMemo, useState } from 'react';
 import { BodyLong, Button, Label, Select } from '@navikt/ds-react';
 import AppContext from 'app/AppContext';
 import { FilterContext } from 'filter/FilterContext';
-import { FeltverdiOppgavefilter, Oppgavefelt } from 'filter/filterTsTypes';
-import { addGruppe, removeFilter, updateFilter } from 'filter/queryUtils';
+import { FeltverdiOppgavefilter, OppgaveQuery, Oppgavefelt } from 'filter/filterTsTypes';
+import { removeFilter, updateFilter } from 'filter/queryUtils';
 import { feltverdiKey, kodeFraKey } from 'filter/utils';
 
 interface Props {
 	oppgavefilter: FeltverdiOppgavefilter;
+	addGruppeOperation: (model: OppgaveQuery) => OppgaveQuery;
 }
 
-const VelgKriterie = ({ oppgavefilter }: Props) => {
-	const { updateQuery, oppgaveQuery } = useContext(FilterContext);
+const VelgKriterie = ({ oppgavefilter, addGruppeOperation }: Props) => {
+	const { updateQuery } = useContext(FilterContext);
 	const { felter: kriterierSomKanVelges } = useContext(AppContext);
 	const [valgtKriterie, setValgtKriterie] = useState<Oppgavefelt | string>();
 	const handleSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -31,7 +32,7 @@ const VelgKriterie = ({ oppgavefilter }: Props) => {
 
 		if (typeof kriterie === 'string') {
 			if (kriterie === '__gruppe') {
-				const operations = [removeFilter(oppgavefilter.id), addGruppe(oppgaveQuery.id)];
+				const operations = [removeFilter(oppgavefilter.id), addGruppeOperation];
 				updateQuery(operations);
 				return;
 			}

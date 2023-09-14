@@ -14,7 +14,7 @@ import { OppgaveQuery, Oppgaverad } from './filterTsTypes';
 import OppgaveQueryResultat from './parts/OppgaveQueryResultat';
 import OppgaveSelectFelter from './parts/OppgaveSelectFelter';
 import OppgavefilterPanel from './parts/OppgavefilterPanel';
-import { QueryFunction, addFilter, applyFunctions } from './queryUtils';
+import { QueryFunction, addFilter, addGruppe, applyFunctions } from './queryUtils';
 import SorteringContainer from './sortering/SorteringContainer';
 
 interface OwnProps {
@@ -54,7 +54,6 @@ const FilterIndex = ({ initialQuery, lagre, avbryt, tittel, visningV2, køvisnin
 	const [oppgaveQuery, setOppgaveQuery] = useState(
 		initialQuery ? new OppgaveQueryModel(initialQuery).toOppgaveQuery() : new OppgaveQueryModel().toOppgaveQuery(),
 	);
-
 	const updateQuery = (operations: Array<QueryFunction>) => {
 		const newQuery = applyFunctions(oppgaveQuery, operations);
 		setOppgaveQuery(newQuery);
@@ -204,7 +203,12 @@ const FilterIndex = ({ initialQuery, lagre, avbryt, tittel, visningV2, køvisnin
 				)}
 				<div className="flex flex-col gap-4">
 					{oppgaveQuery.filtere.map((item) => (
-						<OppgavefilterPanel key={item.id} oppgavefilter={item} visningV2={visningV2} />
+						<OppgavefilterPanel
+							key={item.id}
+							oppgavefilter={item}
+							visningV2={visningV2}
+							addGruppeOperation={addGruppe(oppgaveQuery.id)}
+						/>
 					))}
 				</div>
 				<div>
