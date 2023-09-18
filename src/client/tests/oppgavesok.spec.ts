@@ -4,8 +4,6 @@ test.beforeEach(async ({ page }) => {
 	await page.goto('http://localhost:8030/filter');
 });
 
-// TODO: Felt, #textField-rm er antageligvis ikke stabile nok til å bruke for å lokalisere elementer i testene over tid
-
 test('kan legge til aksjonspunkt', async ({ page }) => {
 	await page.getByRole('button', { name: 'Legg til nytt kriterie' }).click();
 	await page.getByLabel('Velg kriterie:').selectOption('K9__aksjonspunkt');
