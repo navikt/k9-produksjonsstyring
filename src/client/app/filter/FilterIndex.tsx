@@ -239,7 +239,7 @@ const FilterIndex = ({ initialQuery, lagre, avbryt, tittel, visningV2, køvisnin
 						)}
 					</div>
 					{!køvisning && (
-						<>
+						<div className="flex gap-4">
 							<Button
 								variant={lagre ? 'tertiary' : 'primary'}
 								icon={<Search aria-hidden />}
@@ -249,14 +249,14 @@ const FilterIndex = ({ initialQuery, lagre, avbryt, tittel, visningV2, køvisnin
 								Søk
 							</Button>
 							<Button
-								variant={lagre ? 'tertiary' : 'primary'}
+								variant="secondary"
 								icon={<Download aria-hidden />}
 								onClick={executeOppgavesøkToFile}
 								loading={loadingDownload}
 							>
 								Last ned CSV
 							</Button>
-						</>
+						</div>
 					)}
 				</div>
 			</div>

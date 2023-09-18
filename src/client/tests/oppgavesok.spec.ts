@@ -7,8 +7,9 @@ test.beforeEach(async ({ page }) => {
 // TODO: Felt, #textField-rm er antageligvis ikke stabile nok til å bruke for å lokalisere elementer i testene over tid
 
 test('kan legge til aksjonspunkt', async ({ page }) => {
-	await page.getByRole('button', { name: 'Legg til filter' }).click();
-	await page.getByLabel('Felt').selectOption('K9__aksjonspunkt');
+	await page.getByRole('button', { name: 'Legg til nytt kriterie' }).click();
+	await page.getByLabel('Velg kriterie:').selectOption('K9__aksjonspunkt');
+	await page.getByRole('button', { name: 'Legg til', exact: true }).click();
 	await page.getByText('Velg aksjonspunkt').click();
 	await page.getByLabel('Beregning').check();
 	await page.getByRole('button', { name: 'Legg til aksjonspunkt' }).click();
@@ -16,68 +17,65 @@ test('kan legge til aksjonspunkt', async ({ page }) => {
 });
 
 test('kan legge til verdier som er predefinerte', async ({ page }) => {
-	await page.getByRole('button', { name: 'Legg til filter' }).click();
-	await page.getByLabel('Felt').selectOption('K9__fagsystem');
-	await page.getByLabel('Velg fagsystem').click();
-	await page.locator('label').filter({ hasText: 'K9-punsj' }).click();
-	await page.getByRole('button', { name: 'Legg til fagsystem' }).click();
+	await page.getByRole('button', { name: 'Legg til nytt kriterie' }).click();
+	await page.getByLabel('Velg kriterie:').selectOption('K9__fagsystem');
+	await page.getByRole('button', { name: 'Legg til', exact: true }).click();
+	await page.getByLabel('Fagsystem').click();
+	await page.getByRole('option', { name: 'K9-punsj' }).click();
+	await page.getByLabel('K9-punsj slett').isVisible();
 });
 test('kan legge til verdier fra fritekst', async ({ page }) => {
-	await page.getByRole('button', { name: 'Legg til filter' }).click();
-	await page.getByLabel('Felt').selectOption('K9__saksnummer');
+	await page.getByRole('button', { name: 'Legg til nytt kriterie' }).click();
+	await page.getByLabel('Velg kriterie:').selectOption('K9__saksnummer');
+	await page.getByRole('button', { name: 'Legg til', exact: true }).click();
 	await page.getByLabel('Skriv fritekst').click();
 	await page.getByLabel('Skriv fritekst').fill('D4AILY');
 });
 
 test('kan legge til verdier med boolean', async ({ page }) => {
-	await page.getByRole('button', { name: 'Legg til filter' }).click();
-	await page.getByLabel('Felt').selectOption('K9__avventerTekniskFeil');
+	await page.getByRole('button', { name: 'Legg til nytt kriterie' }).click();
+	await page.getByLabel('Velg kriterie:').selectOption('K9__avventerTekniskFeil');
+	await page.getByRole('button', { name: 'Legg til', exact: true }).click();
 	await page.getByLabel('Ja').check();
 });
 
 test('can add date values', async ({ page }) => {
-	await page.getByRole('button', { name: 'Legg til filter' }).click();
-	await page.getByLabel('Felt').selectOption('K9__mottattDato');
+	await page.getByRole('button', { name: 'Legg til nytt kriterie' }).click();
+	await page.getByLabel('Velg kriterie:').selectOption('K9__mottattDato');
+	await page.getByRole('button', { name: 'Legg til', exact: true }).click();
 	await page.getByLabel('Velg dato', { exact: true }).click();
 	await page.getByLabel('Velg dato', { exact: true }).fill('01.01.2023');
 });
 
 test('kan legge til verdier med tall', async ({ page }) => {
-	await page.getByRole('button', { name: 'Legg til filter' }).click();
-	await page.getByLabel('Felt').selectOption('K9__akkumulertVentetidSaksbehandlerForTidligereVersjoner');
+	await page.getByRole('button', { name: 'Legg til nytt kriterie' }).click();
+	await page.getByLabel('Velg kriterie:').selectOption('K9__akkumulertVentetidSaksbehandlerForTidligereVersjoner');
+	await page.getByRole('button', { name: 'Legg til', exact: true }).click();
 	await page.getByPlaceholder('Antall dager').click();
 	await page.getByPlaceholder('Antall dager').fill('10');
 });
 
-// skippet pga ustabil selector
-test.skip('kan legge til grupper hvor minimum en av filterene må være oppfylt', async ({ page }) => {
-	await page.getByRole('button', { name: 'Legg til gruppe av filtere' }).click();
-	await page
-		.locator('div')
-		.filter({ hasText: /^Minimum en av disse må gjelde for oppgavenLegg til filterLegg til gruppe av filtere$/ })
-		.getByRole('button', { name: 'Legg til gruppe av filtere' })
-		.click();
-	await page
-		.locator('div')
-		.filter({ hasText: /^Alle disse må gjelde for oppgavenLegg til filterLegg til gruppe av filtere$/ })
-		.getByRole('button', { name: 'Legg til filter' })
-		.click();
-	await page.locator('#textField-ro').selectOption('K9__ansvarligBeslutter');
-	await page.locator('#textField-rs').click();
-	await page.locator('#textField-rs').fill('M166412');
-	await page.getByRole('button', { name: 'Legg til filter' }).first().click();
-	await page.locator('#textField-ru').selectOption('K9__ansvarligSaksbehandler');
-	await page.locator('#textField-r12').click();
-	await page.locator('#textField-r12').fill('M634021');
-	await page.getByRole('button', { name: 'Legg til filter' }).nth(1).click();
-	await page.locator('#textField-r14').selectOption('K9__avventerAnnet');
+test('kan legge til grupper hvor minimum en av filterene må være oppfylt', async ({ page }) => {
+	await page.getByRole('button', { name: 'Legg til nytt kriterie' }).click();
+	await page.getByLabel('Velg kriterie:').selectOption('__gruppe');
+	await page.getByRole('button', { name: 'Legg til', exact: true }).click();
+	await page.getByRole('radio', { name: 'Eller' }).click();
+	await page.getByRole('button', { name: 'Legg til nytt kriterie' }).first().click();
+	await page.getByLabel('Velg kriterie:').selectOption('K9__hastesak');
+	await page.getByRole('button', { name: 'Legg til', exact: true }).click();
 	await page.getByLabel('Ja').check();
+	await page.getByRole('button', { name: 'Legg til nytt kriterie' }).first().click();
+	await page.getByLabel('Velg kriterie:').selectOption('K9__mottattDato');
+	await page.getByRole('button', { name: 'Legg til', exact: true }).click();
+	await page.getByRole('button', { name: 'Åpne datovelger' }).click();
+	await page.getByLabel('Velg dato').click();
+	await page.getByLabel('Velg dato').fill('13.07.2019');
 });
 
 // skippet pga ustabil selector
 test.skip('kan legge til filter, hvilke felter som skal vises og sortering', async ({ page }) => {
-	await page.getByRole('button', { name: 'Legg til filter' }).click();
-	await page.getByLabel('Felt').selectOption('K9__akkumulertVentetidAnnetForTidligereVersjoner');
+	await page.getByRole('button', { name: 'Legg til nytt kriterie' }).click();
+	await page.getByLabel('Velg kriterie:').selectOption('K9__akkumulertVentetidAnnetForTidligereVersjoner');
 	await page.getByPlaceholder('Antall dager').click();
 	await page.getByPlaceholder('Antall dager').fill('1');
 	await page.getByRole('button', { name: 'Velg felter som skal vises' }).click();

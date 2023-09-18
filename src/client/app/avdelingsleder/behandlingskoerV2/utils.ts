@@ -35,6 +35,9 @@ export const initialKøQuery = (felter: Oppgavefelt[]) => {
 };
 
 export const oppgaveQueryErTomt = (query: OppgaveQuery) => {
+	if (!query) {
+		return true;
+	}
 	if (query.filtere.length === 0) {
 		if (query.order.length === 0) {
 			if (query.select.length === 0) {

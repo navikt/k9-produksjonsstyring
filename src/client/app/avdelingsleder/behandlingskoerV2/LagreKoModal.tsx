@@ -28,7 +28,7 @@ const LagreKoModal: React.FC<LagreKoModalProps> = ({ visLagreModal, setVisLagreM
 						<ErrorMessage>Noe gikk galt ved lagring av kø</ErrorMessage>
 					</div>
 				)}
-				<Button className="mt-2" onClick={onSubmit}>
+				<Button className="mt-2" data-testid="lagre-button-modal" onClick={onSubmit}>
 					Lagre behandlingskø
 				</Button>
 				<Button className="ml-2" variant="secondary" onClick={onClose}>

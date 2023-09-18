@@ -138,15 +138,6 @@ export const developmentHandlers = {
 			]),
 		),
 	),
-	oppgavemodellV2OpprettKø: rest.post(relativeTestApiPaths.opprettOppgaveko, async (req, res, ctx) => {
-		const data = await req.json();
-		return res(
-			ctx.json({
-				id: '1',
-				tittel: data.tittel,
-			}),
-		);
-	}),
 	oppgavemodellV2OppdaterKø: rest.post(relativeTestApiPaths.oppdaterOppgaveko, async (req, res, ctx) => {
 		const data = await req.json();
 		return res(
@@ -230,7 +221,7 @@ export const developmentHandlers = {
 				id: '1',
 				tittel: 'Beskrivende tittel',
 				beskrivelse: 'godt forklart tekst om hva formålet med køen er',
-				oppgaveQuery: [],
+				oppgaveQuery: { filtere: [], select: [], order: [], limit: 10 },
 				saksbehandlere: [],
 				antallOppgaver: 5,
 				sistEndret: 'dato',
@@ -294,6 +285,21 @@ export const developmentHandlers = {
 			}),
 		),
 	),
+	opprettKo: rest.post(relativeTestApiPaths.opprettOppgaveko, async (req, res, ctx) => {
+		const data = await req.json();
+		return res(
+			ctx.json({
+				id: 43,
+				versjon: 0,
+				tittel: data.tittel,
+				beskrivelse: '',
+				oppgaveQuery: { filtere: [], select: [], order: [], limit: 10 },
+				frittValgAvOppgave: false,
+				saksbehandlere: [],
+				endretTidspunkt: '2023-09-18T10:15:56.468',
+			}),
+		);
+	}),
 };
 
 if (process.env.MSW_MODE === 'test') {

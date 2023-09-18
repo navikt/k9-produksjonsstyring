@@ -8,7 +8,7 @@ test('Kan vise køer', async ({ page }) => {
 	await page.getByRole('button', { name: 'Avdelingslederpanel' }).click();
 	await page.getByRole('link', { name: 'Nye behandlingskøer' }).click();
 	await page.waitForURL('http://localhost:8030/avdelingsleder?fane=behandlingskoerV2');
-	await expect(page.url()).toBe('http://localhost:8030/avdelingsleder?fane=behandlingskoerV2');
+	expect(page.url()).toBe('http://localhost:8030/avdelingsleder?fane=behandlingskoerV2');
 
 	await page.getByRole('cell', { name: 'Beskrivende tittel' }).isVisible();
 	await page.getByRole('cell', { name: 'Kø 1' }).isVisible();
@@ -22,7 +22,10 @@ test('kan opprette ny kø', async ({ page }) => {
 	await page.getByRole('textbox', { name: 'Navn' }).fill('te');
 	await page.getByText(/Du må skrive minst 3 tegn/).isVisible();
 	await page.getByRole('textbox', { name: 'Navn' }).fill('testkø');
+	await page.getByRole('textbox', { name: 'Beskrivelse' }).fill('testbeskrivelse');
 	await page.getByRole('button', { name: 'Opprett kø' }).click();
+
+	await page.waitForResponse('http://localhost:8030/api/ny-oppgavestyring/ko/opprett');
 });
 
 test('kan redigere kø', async ({ page }) => {
@@ -37,11 +40,11 @@ test('kan redigere kø', async ({ page }) => {
 		.getByRole('button', { name: 'Vis mer' })
 		.click();
 
-	await page.getByText('godt forklart tekst om hva formålet med køen er');
+	page.getByText('godt forklart tekst om hva formålet med køen er');
 	await page.getByLabel('Beskrivelse').fill('');
 	// trykk lagre og se at det kommer opp feilmelding
 	await page.getByRole('button', { name: 'Lagre behandlingskø' }).click();
-	await page.getByText('Feltet er påkrevd');
+	page.getByText('Feltet er påkrevd');
 
 	await page
 		.getByLabel('Beskrivelse')
@@ -60,9 +63,8 @@ test('kan redigere kø', async ({ page }) => {
 	await page.getByRole('button', { name: 'Lagre behandlingskø' }).isEnabled();
 	await page.getByRole('button', { name: 'Lagre behandlingskø' }).click();
 	await expect(page.getByText('Er du sikker på at du ønsker å lagre behandlingskøen?')).toBeVisible();
-	await page.getByRole('button', { name: 'Lagre behandlingskø' }).click();
-
-	await page.getByText('Køen er nå lagret!');
+	await page.getByTestId('lagre-button-modal').click();
+	page.getByText('Køen er nå lagret!');
 	await page.getByRole('button', { name: 'Lukk' }).click();
 });
 
@@ -74,7 +76,7 @@ test('tidligere lagret kø vises korrekt', async ({ page }) => {
 	await page.getByRole('button', { name: 'Endre kriterier' }).click();
 
 	// Timestamp
-	await expect(page.getByText('01.06.2023')).toBeDefined();
+	expect(page.getByText('01.06.2023')).toBeDefined();
 
 	// Duration settes
 	await expect(page.getByLabel('Antall dager')).toHaveValue('3');
