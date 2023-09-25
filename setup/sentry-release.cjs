@@ -1,4 +1,4 @@
-const SentryCli = require('@sentry/cli');
+const SentryCli = require("@sentry/cli");
 
 async function opprettReleaseTilSentry() {
   const release = process.env.SENTRY_RELEASE;
@@ -18,17 +18,17 @@ async function opprettReleaseTilSentry() {
     console.log(`Oppretter Sentry-release ${release}`);
     await cli.releases.new(release);
 
-    console.log('Laster opp source maps');
+    console.log("Laster opp source maps");
     await cli.releases.uploadSourceMaps(release, {
-      include: ['dist/public'],
-      urlPrefix: '~/public',
+      include: ["dist/public"],
+      urlPrefix: "~/public",
       rewrite: false,
     });
 
-    console.log('Releaser');
+    console.log("Releaser");
     await cli.releases.finalize(release);
   } catch (e) {
-    console.error('Noe gikk galt under source map-opplasting:', e);
+    console.error("Noe gikk galt under source map-opplasting:", e);
   }
 }
 
