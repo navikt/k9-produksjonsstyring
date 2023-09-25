@@ -1,7 +1,9 @@
 /** @type {import('tailwindcss').Config} */
-module.exports = {
-  presets: [require('@navikt/ds-tailwind')],
-  content: ['./src/**/*.{js,jsx,ts,tsx}', '/dist/index.html'],
+import dsTailwind from "@navikt/ds-tailwind";
+
+export default {
+  presets: [dsTailwind],
+  content: ["./src/**/*.{js,jsx,ts,tsx}", "/dist/index.html"],
   corePlugins: {
     // https://tailwindcss.com/docs/preflight
     // denne er disablet fordi:
