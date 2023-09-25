@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { TrashIcon } from '@navikt/aksel-icons';
-import { Button, ErrorMessage, Heading } from '@navikt/ds-react';
+import { Button, ErrorMessage, Label } from '@navikt/ds-react';
 import Merkelapp from '../merkelapp/Merkelapp';
 import Merkelapper from '../merkelapp/Merkelapper';
 import SearchForm from './SearchForm';
@@ -183,14 +183,14 @@ const SearchWithDropdown: React.FC<SearchWithDropdownProps> = (props) => {
 			</SearchForm>
 			{selectedValues.length > 0 && (
 				<div className="flex">
-					<Heading className={styles.merkelapperHeading} level="4" size="xsmall">
+					<Label className="self-center" size="small">
 						Valgte filter:
-					</Heading>
+					</Label>
 					<Button
 						icon={<TrashIcon />}
 						variant="tertiary"
 						size="small"
-						className="border-border-danger text-border-danger float-right mt-4"
+						className="border-border-danger text-border-danger float-right"
 						onClick={removeAllSuggestions}
 					>
 						Fjern alle

@@ -31,7 +31,7 @@ const Kriterie: React.FC<Props> = ({ oppgavefilter }) => {
 
 	return (
 		<div id={`feltpanel-${testID}`} className="flex items-center gap-4 rounded bg-surface-selected py-4 pl-3 pr-1">
-			<Label size="small" className="max-w-[7rem]">
+			<Label size="small" className="w-[6rem]">
 				{feltdefinisjon?.visningsnavn}:
 			</Label>
 			{oppgavefilter.kode && (

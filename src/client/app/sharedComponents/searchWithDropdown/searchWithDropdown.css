@@ -1,6 +1,5 @@
 .searchContainer {
 	border-radius: 4px;
-	padding: 30px 30px 22px;
 	max-width: 800px;
 }
 .form:global(.navds-form-field) {

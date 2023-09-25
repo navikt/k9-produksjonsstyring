@@ -41,7 +41,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
 
 	return (
 		<div className={styles.form}>
-			<Label htmlFor={inputId} className="navds-form-field__label block">
+			<Label htmlFor={inputId} size="small" className="navds-form-field__label block">
 				{label}
 			</Label>
 			{description && (
