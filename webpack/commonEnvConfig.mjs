@@ -3,4 +3,4 @@ const commonEnvConfig = {
 	AVDELINGSLEDER_TILGANG_TIL_NYE_KOER: 'disabled',
 };
 
-module.exports = commonEnvConfig;
+export default commonEnvConfig;

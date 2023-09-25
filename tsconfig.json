@@ -1,7 +1,6 @@
 {
 	"compilerOptions": {
-		"target": "esnext",
-		"module": "es2020",
+		"module": "ESNext",
 		"moduleResolution": "node",
 		"allowJs": true,
 		"noEmit": true,
@@ -27,5 +26,5 @@
 			"utils/*": ["app/utils/*"]
 		}
 	},
-	"include": ["src", "setup/testHelpers/testUtils.js"]
+	"include": ["src", "setup/testHelpers/testUtils.js, webpack"]
 }

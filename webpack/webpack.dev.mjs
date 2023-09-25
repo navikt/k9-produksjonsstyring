@@ -1,18 +1,19 @@
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const webpack = require('webpack');
-const path = require('path');
-const { merge } = require('webpack-merge');
-const commonDevAndProd = require('./webpack.common.js');
-const commonEnvConfig = require('./commonEnvConfig');
+import HtmlWebpackPlugin from 'html-webpack-plugin';
+import path from 'path';
+import webpack from 'webpack';
+import { merge } from 'webpack-merge';
+import commonEnvConfig from './commonEnvConfig.mjs';
+import commonDevAndProd from './webpack.common.mjs';
 
-const ROOT_DIR = path.resolve(__dirname, '../src/client');
+const dirname = path.dirname(new URL(import.meta.url).pathname);
+const ROOT_DIR = path.resolve(dirname, '../src/client');
 const APP_DIR = path.resolve(ROOT_DIR, 'app');
 
 const config = {
 	mode: 'development',
 	devtool: 'eval-cheap-module-source-map',
 
-	entry: ['webpack-dev-server/client?http://localhost:8030', 'webpack/hot/only-dev-server', `${APP_DIR}/index.tsx`],
+	entry: ['webpack-dev-server/client?http://localhost:8000', 'webpack/hot/only-dev-server', `${APP_DIR}/index.tsx`],
 
 	output: {
 		globalObject: 'this',
@@ -48,4 +49,4 @@ const config = {
 	},
 };
 
-module.exports = merge(commonDevAndProd, config);
+export default merge(commonDevAndProd, config);
