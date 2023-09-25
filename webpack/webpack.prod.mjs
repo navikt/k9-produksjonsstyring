@@ -7,7 +7,8 @@ import { merge } from "webpack-merge";
 import commonEnvConfig from "./commonEnvConfig.mjs";
 import commonDevAndProd from "./webpack.common.mjs";
 
-const ROOT_DIR = path.resolve(__dirname, "../src/client");
+const dirname = path.dirname(new URL(import.meta.url).pathname);
+const ROOT_DIR = path.resolve(dirname, "../src/client");
 const APP_DIR = path.resolve(ROOT_DIR, "app");
 
 const config = {
@@ -21,7 +22,7 @@ const config = {
     globalObject: "this",
     filename: "[name].[contenthash].js",
     chunkFilename: "[id].[chunkhash].chunk.js",
-    path: path.resolve(__dirname, "../dist/public"),
+    path: path.resolve(dirname, "../dist/public"),
     publicPath: "/public/",
   },
 
