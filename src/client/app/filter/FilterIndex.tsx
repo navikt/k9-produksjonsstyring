@@ -86,7 +86,9 @@ const FilterIndex = ({ initialQuery, lagre, avbryt, tittel, visningV2, køvisnin
 	const [loadingDownload, setLoadingDownload] = useState(false);
 	const [koId, setKoId] = useState(null);
 
-	const { data: koer, isLoading: koerIsLoading } = useAlleKoer({ enabled: !køvisning });
+	const { data: koer, isLoading: koerIsLoading } = useAlleKoer({
+		enabled: !køvisning,
+	});
 
 	useKo(koId, {
 		enabled: !!koId,
@@ -205,6 +207,7 @@ const FilterIndex = ({ initialQuery, lagre, avbryt, tittel, visningV2, køvisnin
 					{oppgaveQuery.filtere.map((item) => (
 						<OppgavefilterPanel
 							key={item.id}
+							køvisning={køvisning}
 							oppgavefilter={item}
 							visningV2={visningV2}
 							addGruppeOperation={addGruppe(oppgaveQuery.id)}

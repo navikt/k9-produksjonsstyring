@@ -15,17 +15,18 @@ interface OppgavefilterPanelProps {
 	oppgavefilter: FeltverdiOppgavefilter | CombineOppgavefilter;
 	visningV2?: boolean;
 	addGruppeOperation?: (model: OppgaveQuery) => OppgaveQuery;
+	køvisning: boolean;
 }
 
 /* eslint-disable @typescript-eslint/no-use-before-define */
-const OppgavefilterPanel = ({ oppgavefilter, visningV2, addGruppeOperation }: OppgavefilterPanelProps) => {
+const OppgavefilterPanel = ({ oppgavefilter, visningV2, addGruppeOperation, køvisning }: OppgavefilterPanelProps) => {
 	if (oppgavefilter.type === 'feltverdi' && 'kode' in oppgavefilter && oppgavefilter.kode === null) {
 		return <VelgKriterie oppgavefilter={oppgavefilter} addGruppeOperation={addGruppeOperation} />;
 	}
 
 	if (oppgavefilter.type === 'feltverdi' && 'operator' in oppgavefilter) {
 		if (!visningV2) return <FeltverdiOppgavefilterPanel oppgavefilter={oppgavefilter} />;
-		return <Kriterie oppgavefilter={oppgavefilter} />;
+		return <Kriterie oppgavefilter={oppgavefilter} køvisning={køvisning} />;
 	}
 	if (oppgavefilter.type === 'combine' && 'combineOperator' in oppgavefilter) {
 		if (!visningV2) return <CombineOppgavefilterPanel oppgavefilter={oppgavefilter} />;
