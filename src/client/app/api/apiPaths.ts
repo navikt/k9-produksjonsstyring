@@ -31,6 +31,9 @@ const apiPaths = {
 	oppdaterOppgaveko: '/ny-oppgavestyring/ko',
 	hentSaksbehandlere: '/avdelingsleder/saksbehandlere',
 	hentFelter: '/ny-oppgavestyring/oppgave/felter',
+	hentOppgaver: '/ny-oppgavestyring/oppgave/query',
+	hentOppgaveFelter: '/ny-oppgavestyring/oppgave/felter',
+	hentOppgaverSomFil: '/ny-oppgavestyring/oppgave/queryToFile',
 };
 
 export default apiPaths;

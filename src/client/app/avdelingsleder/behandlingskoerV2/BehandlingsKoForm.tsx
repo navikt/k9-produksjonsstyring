@@ -5,12 +5,14 @@ import { OppgavekøV2 } from 'types/OppgavekøV2Type';
 import { Edit } from '@navikt/ds-icons';
 import { Alert, Button, ErrorMessage, Heading, Label, Modal } from '@navikt/ds-react';
 import { Form, InputField, TextAreaField } from '@navikt/ft-form-hooks';
-import { arrayMinLength, minLength, required } from '@navikt/ft-form-validators';
+import { minLength, required } from '@navikt/ft-form-validators';
+import AppContext from 'app/AppContext';
 import { useKo, useOppdaterKøMutation } from 'api/queries/avdelingslederQueries';
 import { AvdelingslederContext } from 'avdelingsleder/context';
 import FilterIndex from 'filter/FilterIndex';
 import SearchWithDropdown from 'sharedComponents/searchWithDropdown/SearchWithDropdown';
 import LagreKoModal from './LagreKoModal';
+import { initialKøQuery, oppgaveQueryErTomt } from './utils';
 
 enum fieldnames {
 	TITTEL = 'tittel',
@@ -32,18 +34,20 @@ interface BehandlingsKoFormProps extends BaseProps {
 
 const BehandlingsKoForm = ({ kø, lukk, ekspandert, id }: BehandlingsKoFormProps) => {
 	const { versjon } = kø;
+	const { felter } = useContext(AppContext);
 	const [visFilterModal, setVisFilterModal] = useState(false);
 	const [visLagreModal, setVisLagreModal] = useState(false);
 	const [visSuksess, setVisSuksess] = useState(false);
 	const { saksbehandlere: alleSaksbehandlere } = useContext(AvdelingslederContext);
+	const defaultValues = {
+		[fieldnames.TITTEL]: kø?.tittel || '',
+		[fieldnames.SAKSBEHANDLERE]: kø?.saksbehandlere || [],
+		[fieldnames.OPPGAVE_QUERY]: oppgaveQueryErTomt(kø?.oppgaveQuery) ? initialKøQuery(felter) : kø?.oppgaveQuery,
+		[fieldnames.BESKRIVELSE]: kø?.beskrivelse || '',
+		[fieldnames.FRITT_VALG_AV_OPPGAVE]: kø?.frittValgAvOppgave || false,
+	};
 	const formMethods = useForm({
-		defaultValues: {
-			[fieldnames.TITTEL]: kø?.tittel || '',
-			[fieldnames.SAKSBEHANDLERE]: kø?.saksbehandlere || [],
-			[fieldnames.OPPGAVE_QUERY]: kø?.oppgaveQuery ? kø?.oppgaveQuery : undefined,
-			[fieldnames.BESKRIVELSE]: kø?.beskrivelse || '',
-			[fieldnames.FRITT_VALG_AV_OPPGAVE]: kø?.frittValgAvOppgave || false,
-		},
+		defaultValues,
 		mode: 'all',
 	});
 
@@ -52,7 +56,7 @@ const BehandlingsKoForm = ({ kø, lukk, ekspandert, id }: BehandlingsKoFormProps
 		setVisSuksess(true);
 	});
 	useEffect(() => {
-		formMethods.reset(kø);
+		formMethods.reset(defaultValues);
 	}, [ekspandert, versjon]);
 
 	useEffect(() => {
@@ -76,9 +80,6 @@ const BehandlingsKoForm = ({ kø, lukk, ekspandert, id }: BehandlingsKoFormProps
 	};
 	const grupper = [...new Set(formaterteSaksbehandlere.map((oppgavekode) => oppgavekode.group))].sort();
 	const saksbehandlere = formMethods.watch(fieldnames.SAKSBEHANDLERE);
-	formMethods.register(fieldnames.SAKSBEHANDLERE, {
-		validate: (sb) => arrayMinLength(1)(sb),
-	});
 
 	return (
 		<Form formMethods={formMethods}>
@@ -170,7 +171,7 @@ const BehandlingsKoForm = ({ kø, lukk, ekspandert, id }: BehandlingsKoFormProps
 					Lagre behandlingskø
 				</Button>
 				<Button variant="secondary" type="button" onClick={lukk}>
-					Lukk uten å lagre
+					{formMethods.formState.isDirty ? 'Lukk uten å lagre' : 'Lukk'}
 				</Button>
 			</div>
 			<LagreKoModal
@@ -179,16 +180,20 @@ const BehandlingsKoForm = ({ kø, lukk, ekspandert, id }: BehandlingsKoFormProps
 				onSubmit={formMethods.handleSubmit((values) => onSubmit({ ...kø, ...values }))}
 				lagreMutation={lagreMutation}
 			/>
-			<Modal className="w-10/12 py-10" open={visFilterModal} onClose={() => setVisFilterModal(false)}>
-				<Modal.Content className="ml-[-75px]">
-					<FilterIndex
-						initialQuery={formMethods.watch(fieldnames.OPPGAVE_QUERY)}
-						lagre={lagreOppgaveQuery}
-						avbryt={() => setVisFilterModal(false)}
-						tittel="Endre filter for behandlingskø"
-					/>
-				</Modal.Content>
-			</Modal>
+			{visFilterModal && (
+				<Modal open={visFilterModal} onClose={() => setVisFilterModal(false)} portal>
+					<Modal.Body className="flex flex-col w-[43rem] min-h-[45rem]">
+						<FilterIndex
+							initialQuery={formMethods.watch(fieldnames.OPPGAVE_QUERY)}
+							lagre={lagreOppgaveQuery}
+							avbryt={() => setVisFilterModal(false)}
+							tittel="Kriterier for kø"
+							visningV2
+							køvisning
+						/>
+					</Modal.Body>
+				</Modal>
+			)}
 		</Form>
 	);
 };

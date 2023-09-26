@@ -20,10 +20,7 @@ import Home from './components/Home';
  * Komponenten er også ansvarlig for å hente innlogget NAV-ansatt, rettskilde-url, systemrutine-url
  * og kodeverk fra server og lagre desse i klientens state.
  */
-const AppIndex: FunctionComponent = ({ rootElement }: { rootElement: JSX.Element }) => {
-	useEffect(() => {
-		Modal.setAppElement(rootElement);
-	}, []);
+const AppIndex: FunctionComponent = () => {
 	const [headerHeight, setHeaderHeight] = useState(0);
 	const [crashMessage, setCrashMessage] = useState<string>();
 	const [sessionHarUtlopt, setSessionHarUtlopt] = useState<boolean>(false);

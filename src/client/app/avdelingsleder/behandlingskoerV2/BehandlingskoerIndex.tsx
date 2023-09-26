@@ -36,6 +36,7 @@ const BehandlingskoerIndex = () => {
 		if (køSomNettoppBleLaget) {
 			setEkspanderteKøer([køSomNettoppBleLaget]);
 			scrollToId(køSomNettoppBleLaget);
+			setKøSomNettoppBleLaget('');
 		}
 	}, [køSomNettoppBleLaget]);
 

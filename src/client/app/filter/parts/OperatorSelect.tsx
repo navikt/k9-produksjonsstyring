@@ -1,22 +1,20 @@
-import React from 'react';
-import classNames from 'classnames';
+import React, { useContext } from 'react';
 import { Select } from '@navikt/ds-react';
+import { FilterContext } from 'filter/FilterContext';
+import { updateFilter } from 'filter/queryUtils';
 
-function OperatorSelect({ oppgavefilter, onOppdaterFilter, isUsingPredefinedValues }) {
+function OperatorSelect({ oppgavefilter }) {
+	const { updateQuery } = useContext(FilterContext);
 	const handleChangeOperator = (event) => {
-		onOppdaterFilter(oppgavefilter.id, {
-			operator: event.target.value,
-		});
+		updateQuery([
+			updateFilter(oppgavefilter.id, {
+				operator: event.target.value,
+			}),
+		]);
 	};
 
 	return (
-		<Select
-			label="Operator"
-			hideLabel
-			value={oppgavefilter.operator}
-			onChange={handleChangeOperator}
-			className={classNames({ 'mt-[55px]': isUsingPredefinedValues })}
-		>
+		<Select label="Operator" size="small" hideLabel value={oppgavefilter.operator} onChange={handleChangeOperator}>
 			<option value="EQUALS">er lik</option>
 			<option value="NOT_EQUALS">er IKKE lik</option>
 			<option value="IN">inneholder</option>

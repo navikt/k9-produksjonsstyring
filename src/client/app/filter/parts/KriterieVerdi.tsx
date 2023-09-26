@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import dayjs from 'dayjs';
-import { BodyShort, Checkbox, CheckboxGroup, DatePicker, TextField, useDatepicker } from '@navikt/ds-react';
+import { Checkbox, CheckboxGroup, DatePicker, TextField, useDatepicker } from '@navikt/ds-react';
 import AksjonspunktVelger from 'avdelingsleder/behandlingskoerV2/components/AksjonspunktVelger';
 import { FilterContext } from 'filter/FilterContext';
 import { FeltverdiOppgavefilter, Oppgavefelt, TolkesSom } from 'filter/filterTsTypes';
@@ -8,7 +8,7 @@ import { aksjonspunktKoder } from 'filter/konstanter';
 import { updateFilter } from 'filter/queryUtils';
 import { calculateDays, mapBooleanToStringArray, mapStringToBooleanArray } from 'filter/utils';
 import styles from '../filterIndex.css';
-import SearchDropdownMedPredefinerteVerdier from './SearchDropdownMedPredefinerteVerdier';
+import MultiSelectKriterie from './MultiSelectKriterie';
 
 const useChangeValue = (oppgavefilter, updateQuery) => (value) => {
 	const trimmedValue = typeof value === 'string' ? value.trim() : value;
@@ -19,7 +19,7 @@ const useChangeValue = (oppgavefilter, updateQuery) => (value) => {
 	]);
 };
 
-const FilterOperatorOgVerdi = ({
+const KriterieVerdi = ({
 	feltdefinisjon,
 	oppgavefilter,
 }: {
@@ -27,6 +27,7 @@ const FilterOperatorOgVerdi = ({
 	oppgavefilter: FeltverdiOppgavefilter;
 }) => {
 	const { updateQuery } = useContext(FilterContext);
+
 	const handleChangeValue = useChangeValue(oppgavefilter, updateQuery);
 
 	const handleChangeBoolean = (values: string[]) => {
@@ -46,11 +47,12 @@ const FilterOperatorOgVerdi = ({
 		const newDate = new Date(date.getTime() - timezoneOffset).toISOString().split('T')[0];
 		handleChangeValue(newDate);
 	};
-
+	const initialDate =
+		oppgavefilter.verdi && dayjs(new Date(oppgavefilter.verdi)).isValid() ? new Date(oppgavefilter.verdi) : undefined;
 	const { datepickerProps, inputProps } = useDatepicker({
-		fromDate: new Date('Aug 23 2017'),
+		fromDate: new Date('23 2017'),
 		onDateChange,
-		defaultSelected: dayjs(new Date(oppgavefilter.verdi)).isValid() ? new Date(oppgavefilter.verdi) : undefined,
+		defaultSelected: initialDate,
 	});
 
 	const handleDaysChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -61,41 +63,31 @@ const FilterOperatorOgVerdi = ({
 
 	if (aksjonspunktKoder.includes(feltdefinisjon?.kode)) {
 		return (
-			<div className="w-[500px]">
-				<AksjonspunktVelger
-					onChange={handleChangeValue}
-					feltdefinisjon={feltdefinisjon}
-					oppgavefilter={oppgavefilter}
-				/>
-			</div>
+			<AksjonspunktVelger onChange={handleChangeValue} feltdefinisjon={feltdefinisjon} oppgavefilter={oppgavefilter} />
 		);
 	}
 
 	if (feltdefinisjon?.tolkes_som === TolkesSom.Duration) {
 		return (
-			<>
-				<TextField
-					label="Antall dager"
-					hideLabel
-					value={
-						Array.isArray(oppgavefilter.verdi) && oppgavefilter.verdi[0]
-							? calculateDays(oppgavefilter.verdi)
-							: undefined
-					}
-					onChange={handleDaysChange}
-					type="number"
-					placeholder="Antall dager"
-					min="0"
-				/>
-				<BodyShort className="self-center">dager</BodyShort>
-			</>
+			<TextField
+				label="Antall dager"
+				size="small"
+				hideLabel
+				value={
+					Array.isArray(oppgavefilter.verdi) && oppgavefilter.verdi[0] ? calculateDays(oppgavefilter.verdi) : undefined
+				}
+				onChange={handleDaysChange}
+				type="number"
+				placeholder="Antall dager"
+				min="0"
+			/>
 		);
 	}
 
 	if (feltdefinisjon?.tolkes_som === TolkesSom.Timestamp) {
 		return (
 			<DatePicker {...datepickerProps}>
-				<DatePicker.Input {...inputProps} label="Velg dato" hideLabel />
+				<DatePicker.Input {...inputProps} size="small" label="Velg dato" hideLabel />
 			</DatePicker>
 		);
 	}
@@ -103,7 +95,8 @@ const FilterOperatorOgVerdi = ({
 	if (feltdefinisjon?.tolkes_som === TolkesSom.Boolean) {
 		return (
 			<CheckboxGroup
-				className={styles.feltvalgCheckboxes}
+				size="small"
+				className={`${styles.feltvalgCheckboxes}`}
 				hideLegend
 				legend={feltdefinisjon.visningsnavn}
 				onChange={handleChangeBoolean}
@@ -111,7 +104,6 @@ const FilterOperatorOgVerdi = ({
 			>
 				<Checkbox value="ja">Ja</Checkbox>
 				<Checkbox value="nei">Nei</Checkbox>
-				<Checkbox value="ikkeSatt">Ikke satt</Checkbox>
 			</CheckboxGroup>
 		);
 	}
@@ -119,22 +111,43 @@ const FilterOperatorOgVerdi = ({
 	if (
 		feltdefinisjon?.tolkes_som === TolkesSom.String &&
 		Array.isArray(feltdefinisjon.verdiforklaringer) &&
-		feltdefinisjon.verdiforklaringer.length > 0
+		feltdefinisjon.verdiforklaringer.length &&
+		feltdefinisjon.verdiforklaringer.length < 4
 	) {
 		return (
-			<div className="w-[500px]">
-				<SearchDropdownMedPredefinerteVerdier
-					feltdefinisjon={feltdefinisjon}
-					onChange={handleChangeValue}
-					oppgavefilter={oppgavefilter}
-				/>
-			</div>
+			<CheckboxGroup
+				className={`${styles.feltvalgCheckboxes}`}
+				size="small"
+				hideLegend
+				legend={feltdefinisjon.visningsnavn}
+				onChange={handleChangeValue}
+				value={oppgavefilter.verdi}
+			>
+				{feltdefinisjon.verdiforklaringer.map((verdiforklaring) => (
+					<Checkbox key={verdiforklaring.visningsnavn} value={verdiforklaring.verdi}>
+						{verdiforklaring.visningsnavn}
+					</Checkbox>
+				))}
+			</CheckboxGroup>
+		);
+	}
+
+	if (
+		feltdefinisjon?.tolkes_som === TolkesSom.String &&
+		Array.isArray(feltdefinisjon.verdiforklaringer) &&
+		feltdefinisjon.verdiforklaringer.length &&
+		feltdefinisjon.verdiforklaringer.length > 3
+	) {
+		return (
+			// eslint-disable-next-line react/jsx-pascal-case, camelcase
+			<MultiSelectKriterie feltdefinisjon={feltdefinisjon} oppgavefilter={oppgavefilter} />
 		);
 	}
 
 	return (
 		<TextField
 			label="Skriv fritekst"
+			size="small"
 			hideLabel
 			value={oppgavefilter.verdi}
 			onChange={(e) => handleChangeValue(e.target.value)}
@@ -142,4 +155,4 @@ const FilterOperatorOgVerdi = ({
 	);
 };
 
-export default FilterOperatorOgVerdi;
+export default KriterieVerdi;

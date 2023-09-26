@@ -31,9 +31,11 @@ const NyKøModal = ({ vis, lukk, onSuccessCallback }: OwnProps) => {
 		},
 	});
 
+	if (!vis) return null;
+
 	return (
-		<Modal className="w-[44rem]" open={vis} onClose={lukk}>
-			<Modal.Content>
+		<Modal className="w-[44rem]" open={vis} onClose={lukk} portal>
+			<Modal.Body>
 				<Heading size="medium">Ny behandlingskø</Heading>
 				<Form
 					formMethods={formMethods}
@@ -61,7 +63,7 @@ const NyKøModal = ({ vis, lukk, onSuccessCallback }: OwnProps) => {
 						<Button loading={mutation.isLoading}>Opprett kø</Button>
 					</div>
 				</Form>
-			</Modal.Content>
+			</Modal.Body>
 		</Modal>
 	);
 };

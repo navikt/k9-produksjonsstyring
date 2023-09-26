@@ -1,11 +1,12 @@
-const path = require('path');
-const CircularDependencyPlugin = require('circular-dependency-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+import CircularDependencyPlugin from 'circular-dependency-plugin';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import path from 'path';
 
 const isDevelopment = JSON.stringify(process.env.NODE_ENV) === '"development"';
 
-const CORE_DIR = path.resolve(__dirname, '../node_modules');
-const ROOT_DIR = path.resolve(__dirname, '../src/client');
+const dirname = path.dirname(new URL(import.meta.url).pathname);
+const CORE_DIR = path.resolve(dirname, '../node_modules');
+const ROOT_DIR = path.resolve(dirname, '../src/client');
 const APP_DIR = path.join(ROOT_DIR, 'app');
 const STYLE_DIR = path.join(ROOT_DIR, 'styles');
 const config = {
@@ -17,7 +18,13 @@ const config = {
 				options: {
 					cacheDirectory: true,
 				},
-				include: APP_DIR,
+				include: [APP_DIR],
+			},
+			{
+				test: /\.m?js/,
+				resolve: {
+					fullySpecified: false,
+				},
 			},
 			{
 				test: /\.css?$/,
@@ -117,7 +124,8 @@ const config = {
 			utils: path.join(APP_DIR, 'utils'),
 			filter: path.join(APP_DIR, 'filter'),
 		},
-		extensions: ['.js', '.jsx', '.tsx', '.ts', '.less', '.css'],
+		fullySpecified: false,
+		extensions: ['.js', '.ts', '.tsx', '.mjs', '.cjs', '.jsx', '.less', '.css'],
 	},
 
 	externals: {
@@ -128,4 +136,4 @@ const config = {
 	},
 };
 
-module.exports = config;
+export default config;

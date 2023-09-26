@@ -4,14 +4,14 @@ module.exports = function (api) {
 
   return {
     presets: [
-      '@babel/react',
+      "@babel/react",
       [
-        '@babel/preset-env',
+        "@babel/preset-env",
         {
-          targets: { node: 'current', esmodules: true },
+          targets: { node: "current", esmodules: true },
         },
       ],
-      '@babel/typescript',
+      "@babel/typescript",
     ],
   };
 };
