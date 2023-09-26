@@ -211,6 +211,7 @@ const FilterIndex = ({ initialQuery, lagre, avbryt, tittel, visningV2, køvisnin
 							oppgavefilter={item}
 							visningV2={visningV2}
 							addGruppeOperation={addGruppe(oppgaveQuery.id)}
+							toppnivaaIQuery
 						/>
 					))}
 				</div>

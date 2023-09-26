@@ -12,9 +12,10 @@ import KriterieVerdi from './KriterieVerdi';
 interface Props {
 	køvisning: boolean;
 	oppgavefilter: FeltverdiOppgavefilter;
+	toppnivaaIQuery: boolean;
 }
 
-const Kriterie: React.FC<Props> = ({ oppgavefilter, køvisning }) => {
+const Kriterie: React.FC<Props> = ({ oppgavefilter, køvisning, toppnivaaIQuery }) => {
 	const testID = useMemo(() => generateId(), []);
 
 	const { updateQuery } = useContext(FilterContext);
@@ -28,7 +29,7 @@ const Kriterie: React.FC<Props> = ({ oppgavefilter, køvisning }) => {
 		setFeltdefinisjon(feltdef);
 	}, [kriterierSomKanVelges, oppgavefilter.område, oppgavefilter.kode]);
 
-	const kriterieErPåkrevd = feltdefinisjon?.kode === 'oppgavestatus' && køvisning;
+	const kriterieErPåkrevd = feltdefinisjon?.kode === 'oppgavestatus' && køvisning && toppnivaaIQuery;
 
 	return (
 		<div id={`feltpanel-${testID}`} className="flex items-center gap-4 rounded bg-surface-selected py-4 pl-3 pr-1">
