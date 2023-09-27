@@ -23,6 +23,37 @@ export const useNyKøMutation = (callback) => {
 	});
 };
 
+interface KopierKøPayload {
+	kopierFraOppgaveId: string;
+	tittel: string;
+	taMedQuery: boolean;
+	taMedSaksbehandlere: boolean;
+}
+
+export const useKopierKøMutation = (callback?: () => void) => {
+	const queryClient = useQueryClient();
+
+	return useMutation({
+		mutationFn: (data: KopierKøPayload) => axiosInstance.post(`${baseURL()}${apiPaths.kopierOppgaveko}`, data),
+		onSuccess: () =>
+			Promise.all([queryClient.invalidateQueries(apiPaths.hentOppgavekoer)]).then(() => {
+				if (callback) callback();
+			}),
+	});
+};
+
+export const useSlettKøMutation = (callback?: () => void) => {
+	const queryClient = useQueryClient();
+
+	return useMutation({
+		mutationFn: (id: string) => axiosInstance.delete(`${baseURL()}${apiPaths.slettOppgaveko}${id}`),
+		onSuccess: () =>
+			Promise.all([queryClient.invalidateQueries(apiPaths.hentOppgavekoer)]).then(() => {
+				if (callback) callback();
+			}),
+	});
+};
+
 export const useOppdaterKøMutation = (callback) => {
 	const queryClient = useQueryClient();
 	return useMutation<OppgavekøV2, unknown, OppgavekøV2>(
