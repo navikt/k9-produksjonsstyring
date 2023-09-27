@@ -87,7 +87,6 @@ const BehandlingskoerIndex = () => {
 						<Table.ColumnHeader sortKey="tittel" sortable scope="col">
 							Kønavn
 						</Table.ColumnHeader>
-						<Table.ColumnHeader>Stønad</Table.ColumnHeader>
 						<Table.ColumnHeader sortKey="antallSaksbehandlere" sortable scope="col">
 							Saksbehandlere
 						</Table.ColumnHeader>
@@ -116,7 +115,6 @@ const BehandlingskoerIndex = () => {
 							}
 						>
 							<Table.DataCell scope="row">{kø.tittel}</Table.DataCell>
-							<Table.DataCell>-</Table.DataCell>
 							<Table.DataCell>{kø.antallSaksbehandlere || '0'}</Table.DataCell>
 							<Table.DataCell>-</Table.DataCell>
 							<Table.DataCell>{kø.sistEndret ? dayjs(kø.sistEndret).format('DD.MM.YYYY HH:mm') : '-'}</Table.DataCell>
