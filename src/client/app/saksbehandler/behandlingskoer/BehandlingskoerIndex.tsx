@@ -2,7 +2,7 @@ import React, { FunctionComponent, useCallback, useEffect } from 'react';
 import { WrappedComponentProps, injectIntl } from 'react-intl';
 import { useQuery } from 'react-query';
 import { OppgavekøV2, OppgavekøV2MedNavn, OppgavekøerV2 as OppgavekøerV2Type } from 'types/OppgavekøV2Type';
-import { getK9punsjRef, getK9sakHref, getOmsorgspengerRef } from 'app/paths';
+import { getK9punsjRef, getK9sakHref } from 'app/paths';
 import apiPaths from 'api/apiPaths';
 import { K9LosApiKeys } from 'api/k9LosApi';
 import { useRestApi } from 'api/rest-api-hooks';
@@ -19,7 +19,6 @@ import OppgavekoPanel from './components/OppgavekoPanel';
 interface OwnProps {
 	k9sakUrl: string;
 	k9punsjUrl: string;
-	omsorgspengerUrl: string;
 	valgtOppgavekoId?: string;
 	setValgtOppgavekoId: (id: string) => void;
 }
@@ -32,7 +31,6 @@ const BehandlingskoerIndex: FunctionComponent<OwnProps & WrappedComponentProps> 
 	k9punsjUrl,
 	setValgtOppgavekoId,
 	valgtOppgavekoId,
-	omsorgspengerUrl,
 }) => {
 	const { data: oppgavekoerV1 = [] } = useRestApi<OppgavekøV1[]>(K9LosApiKeys.OPPGAVEKO);
 	const { data: oppgavekoerV2 } = useQuery<OppgavekøerV2Type>({
@@ -76,9 +74,6 @@ const BehandlingskoerIndex: FunctionComponent<OwnProps & WrappedComponentProps> 
 				break;
 			case OppgaveSystem.K9TILBAKE:
 				window.location.assign(getK9sakHref(k9sakUrl, oppgave.saksnummer, oppgave.behandlingId));
-				break;
-			case OppgaveSystem.OMSORGSPENGER:
-				window.location.assign(getOmsorgspengerRef(omsorgspengerUrl, oppgave.saksnummer));
 				break;
 			default:
 				window.location.assign(getK9sakHref(k9sakUrl, oppgave.saksnummer, oppgave.behandlingId));

@@ -12,7 +12,6 @@ const apiPaths = {
 	saksbehandler: '/saksbehandler',
 	k9SakUrl: '/konfig/k9-sak-url',
 	k9PunsjUrl: '/konfig/k9-punsj-url',
-	omsorgspengerUrl: '/konfig/omsorgspenger-url',
 	refreshUrl: '/konfig/refresh-url',
 	driftsmeldinger: '/driftsmeldinger',
 	behandlede: '/saksbehandler/oppgaver/behandlede',

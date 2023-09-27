@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useState } from 'react';
 import { WrappedComponentProps, injectIntl } from 'react-intl';
 import NavAnsatt from 'app/navAnsattTsType';
-import { getK9punsjRef, getK9sakHref, getOmsorgspengerRef } from 'app/paths';
+import { getK9punsjRef, getK9sakHref } from 'app/paths';
 import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
 import { ErrorTypes, errorOfType, getErrorResponseData } from 'api/rest-api';
 import useGlobalStateRestApiData from 'api/rest-api-hooks/src/global-data/useGlobalStateRestApiData';
@@ -17,7 +17,6 @@ import FagsakSearch from './components/FagsakSearch';
 interface OwnProps {
 	k9sakUrl: string;
 	k9punsjUrl: string;
-	omsorgspengerUrl: string;
 }
 
 /**
@@ -27,12 +26,7 @@ interface OwnProps {
  * mot server og lagringen av resultatet i klientens state.
  */
 
-const FagsakSearchIndex: FunctionComponent<OwnProps & WrappedComponentProps> = ({
-	intl,
-	k9sakUrl,
-	k9punsjUrl,
-	omsorgspengerUrl,
-}) => {
+const FagsakSearchIndex: FunctionComponent<OwnProps & WrappedComponentProps> = ({ intl, k9sakUrl, k9punsjUrl }) => {
 	const [reservertAvAnnenSaksbehandler, setReservertAvAnnenSaksbehandler] = useState(false);
 	const [visModalForFlyttReservasjon, setVisModalForFlyttReservasjon] = useState<boolean>(false);
 	const [valgtOppgave, setValgtOppgave] = useState<Oppgave>();
@@ -53,9 +47,6 @@ const FagsakSearchIndex: FunctionComponent<OwnProps & WrappedComponentProps> = (
 				break;
 			case OppgaveSystem.PUNSJ:
 				window.location.assign(getK9punsjRef(k9punsjUrl, oppgave.journalpostId));
-				break;
-			case OppgaveSystem.OMSORGSPENGER:
-				window.location.assign(getOmsorgspengerRef(omsorgspengerUrl, oppgave.saksnummer));
 				break;
 			default:
 				window.location.assign(getK9sakHref(k9sakUrl, oppgave.saksnummer, oppgave.behandlingId));
@@ -120,7 +111,7 @@ const FagsakSearchIndex: FunctionComponent<OwnProps & WrappedComponentProps> = (
 		setSokStartet(true);
 		setSokFerdig(false);
 
-		return sokFagsak(values).then((resultat) => {
+		return sokFagsak(values).then(() => {
 			setSokStartet(false);
 			setSokFerdig(true);
 		});

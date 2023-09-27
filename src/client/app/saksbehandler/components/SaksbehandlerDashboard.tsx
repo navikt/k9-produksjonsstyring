@@ -18,7 +18,6 @@ interface OwnProps {
 export const SaksbehandlerDashboard: FunctionComponent<OwnProps> = ({ valgtOppgavekoId, setValgtOppgavekoId }) => {
 	const k9sakUrl = useGlobalStateRestApiData<{ verdi?: string }>(RestApiGlobalStatePathsKeys.K9SAK_URL);
 	const k9punsjUrl = useGlobalStateRestApiData<{ verdi?: string }>(RestApiGlobalStatePathsKeys.PUNSJ_URL);
-	const omsorgspengerUrl = useGlobalStateRestApiData<{ verdi?: string }>(RestApiGlobalStatePathsKeys.OMSORGSPENGER_URL);
 
 	return (
 		<div>
@@ -26,18 +25,13 @@ export const SaksbehandlerDashboard: FunctionComponent<OwnProps> = ({ valgtOppga
 				<div className={styles.gridContainer}>
 					<div className={styles.leftColumn}>
 						<Panel className={styles.sakslistePanel}>
-							<FagsakSearchIndex
-								k9punsjUrl={k9punsjUrl.verdi}
-								k9sakUrl={k9sakUrl.verdi}
-								omsorgspengerUrl={omsorgspengerUrl.verdi}
-							/>
+							<FagsakSearchIndex k9punsjUrl={k9punsjUrl.verdi} k9sakUrl={k9sakUrl.verdi} />
 						</Panel>
 						<div>
 							<Panel className={styles.sakslistePanel}>
 								<BehandlingskoerIndex
 									k9sakUrl={k9sakUrl.verdi}
 									k9punsjUrl={k9punsjUrl.verdi}
-									omsorgspengerUrl={omsorgspengerUrl.verdi}
 									setValgtOppgavekoId={setValgtOppgavekoId}
 									valgtOppgavekoId={valgtOppgavekoId}
 								/>

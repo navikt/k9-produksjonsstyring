@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl';
 import { captureMessage } from '@sentry/browser';
 import Lenke from 'nav-frontend-lenker';
 import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
-import { getK9punsjRef, getK9sakHref, getOmsorgspengerRef } from 'app/paths';
+import { getK9punsjRef, getK9sakHref } from 'app/paths';
 import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
 import useGlobalStateRestApiData from 'api/rest-api-hooks/src/global-data/useGlobalStateRestApiData';
 import useRestApi from 'api/rest-api-hooks/src/local-data/useRestApi';
@@ -21,7 +21,6 @@ const SistBehandledeSaker: FunctionComponent = () => {
 	const { data: sistBehandledeSaker = EMPTY_ARRAY } = useRestApi<BehandletOppgave[]>(K9LosApiKeys.BEHANDLEDE_OPPGAVER);
 	const k9sakUrl = useGlobalStateRestApiData<{ verdi?: string }>(RestApiGlobalStatePathsKeys.K9SAK_URL);
 	const k9punsjUrl = useGlobalStateRestApiData<{ verdi?: string }>(RestApiGlobalStatePathsKeys.PUNSJ_URL);
-	const omsorgspengerUrl = useGlobalStateRestApiData<{ verdi?: string }>(RestApiGlobalStatePathsKeys.OMSORGSPENGER_URL);
 
 	const getUrl = (oppgave: BehandletOppgave) => {
 		switch (oppgave.system) {
@@ -29,8 +28,6 @@ const SistBehandledeSaker: FunctionComponent = () => {
 				return getK9sakHref(k9sakUrl.verdi, oppgave.saksnummer, oppgave.behandlingId);
 			case 'PUNSJ':
 				return getK9punsjRef(k9punsjUrl.verdi, oppgave.journalpostId);
-			case 'OMSORGSPENGER':
-				return getOmsorgspengerRef(omsorgspengerUrl.verdi, oppgave.saksnummer);
 			default:
 				return getK9sakHref(k9sakUrl.verdi, oppgave.saksnummer, oppgave.behandlingId);
 		}
