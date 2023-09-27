@@ -10,7 +10,6 @@ interface OwnProps {
 
 const SlettKøModal = ({ lukk, id, køTittel }: OwnProps) => {
 	const { mutate, isLoading, isError } = useSlettKøMutation(lukk);
-	console.log(id);
 	return (
 		<Modal open onClose={lukk} portal>
 			<Modal.Body>
