@@ -37,20 +37,13 @@ const AppConfigResolver: FunctionComponent<OwnProps> = ({ children }) => {
 		suspendRequest: stateNavAnsatt !== RestApiState.SUCCESS,
 		updateTriggers: [stateNavAnsatt],
 	});
-	const { state: stateOmsorgspengerUrl } = useGlobalStateRestApi(
-		RestApiGlobalStatePathsKeys.OMSORGSPENGER_URL,
-		undefined,
-		{ suspendRequest: stateNavAnsatt !== RestApiState.SUCCESS, updateTriggers: [stateNavAnsatt] },
-	);
 
 	if (stateNavAnsatt === RestApiState.ERROR) {
 		window.location.assign(PROXY_REDIRECT_URL);
 	}
 
 	if (
-		[stateK9sakUrl, stateNavAnsatt, stateKodeverk, stateSseUrl, stateK9punsjUrl, stateOmsorgspengerUrl].some(
-			(v) => v === RestApiState.LOADING,
-		)
+		[stateK9sakUrl, stateNavAnsatt, stateKodeverk, stateSseUrl, stateK9punsjUrl].some((v) => v === RestApiState.LOADING)
 	) {
 		return <LoadingPanel />;
 	}

@@ -7,12 +7,9 @@ import AvdelingslederIndex from 'avdelingsleder/AvdelingslederIndex';
 import { Oppgavefelt } from 'filter/filterTsTypes';
 import SaksbehandlerIndex from 'saksbehandler/SaksbehandlerIndex';
 import AdminIndex from '../../admin/AdminIndex';
-import AktoerIndex from '../../aktoer/AktoerIndex';
 import FilterIndex from '../../filter/FilterIndex';
 import MissingPage from './MissingPage';
 import styles from './home.css';
-
-export const aktoerPath = '/aktoer/:aktoerId(\\d+)';
 
 interface OwnProps {
 	headerHeight: number;
@@ -35,7 +32,6 @@ const Home: FunctionComponent<OwnProps> = ({ headerHeight }) => {
 					<Route path="/" element={<SaksbehandlerIndex />} />
 					<Route path="/avdelingsleder" element={<AvdelingslederIndex />} />
 					<Route path="/admin" element={<AdminIndex />} />
-					<Route path={aktoerPath} element={<AktoerIndex />} />
 					<Route element={<MissingPage />} />
 				</Routes>
 			</AppContext.Provider>

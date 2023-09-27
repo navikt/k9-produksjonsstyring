@@ -80,9 +80,6 @@ export const developmentHandlers = {
 	k9PunsjUrl: rest.get(relativeTestApiPaths.k9PunsjUrl, (req, res, ctx) =>
 		res(ctx.json({ verdi: 'http://localhost:8050' })),
 	),
-	omsorgspengerUrl: rest.get(relativeTestApiPaths.omsorgspengerUrl, (req, res, ctx) =>
-		res(ctx.json({ verdi: 'http://localhost:8090' })),
-	),
 	refreshUrl: rest.get(relativeTestApiPaths.refreshUrl, (req, res, ctx) =>
 		res(
 			ctx.json({

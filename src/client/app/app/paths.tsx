@@ -47,6 +47,3 @@ export const getK9tilbakeHref = (k9tilbakeUrl: string, saksnummer: string, ekste
 		: `${k9tilbakeUrl}/tilbake/${saksnummer}`;
 
 export const getK9punsjRef = (k9punsjUrl: string, journalpostId: string) => `${k9punsjUrl}/${journalpostId}`;
-
-export const getOmsorgspengerRef = (omsorgspengerUrl: string, saksnummer: string) =>
-	`${omsorgspengerUrl}/sak/${saksnummer}`;
