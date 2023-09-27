@@ -5,7 +5,6 @@ import { Button, Loader, Table } from '@navikt/ds-react';
 import { useAlleKoer } from 'api/queries/avdelingslederQueries';
 import BehandlingsKoForm from './BehandlingsKoForm';
 import KopierKø from './KopierKø';
-import ModalContainer from './ModalContainer';
 import NyKøModal from './NyKøModal';
 import SlettKø from './SlettKø';
 
@@ -125,7 +124,6 @@ const BehandlingskoerIndex = () => {
 								<KopierKø kø={kø} />
 								<SlettKø kø={kø} />
 							</Table.DataCell>
-							<ModalContainer kø={kø} />
 						</Table.ExpandableRow>
 					))}
 				</Table.Body>
