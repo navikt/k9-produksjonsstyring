@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import dayjs from 'dayjs';
-import { FilesIcon, PlusCircleIcon, TrashIcon } from '@navikt/aksel-icons';
+import { PlusCircleIcon } from '@navikt/aksel-icons';
 import { Button, Loader, Table } from '@navikt/ds-react';
 import { useAlleKoer } from 'api/queries/avdelingslederQueries';
 import BehandlingsKoForm from './BehandlingsKoForm';
-import KopierKøModal from './KopierKøModal';
+import KopierKø from './KopierKø';
+import ModalContainer from './ModalContainer';
 import NyKøModal from './NyKøModal';
-import SlettKøModal from './SlettKøModal';
+import SlettKø from './SlettKø';
 
 function scrollToId(id: string) {
 	let intervalId: NodeJS.Timeout | undefined;
@@ -25,8 +26,6 @@ function scrollToId(id: string) {
 const BehandlingskoerIndex = () => {
 	const { data, isLoading, error } = useAlleKoer();
 	const [visNyKøModal, setVisNyKøModal] = useState(false);
-	const [visSlettKøModal, setVisSlettKøModal] = useState(false);
-	const [visKopierKøModal, setVisKopierKøModal] = useState(false);
 	const [sort, setSort] = useState(null);
 	const [ekspanderteKøer, setEkspanderteKøer] = useState([]);
 	const [køSomNettoppBleLaget, setKøSomNettoppBleLaget] = useState('');
@@ -123,17 +122,10 @@ const BehandlingskoerIndex = () => {
 							<Table.DataCell>-</Table.DataCell>
 							<Table.DataCell>{kø.sistEndret ? dayjs(kø.sistEndret).format('DD.MM.YYYY HH:mm') : '-'}</Table.DataCell>
 							<Table.DataCell align="right">
-								<Button variant="tertiary" size="small" icon={<FilesIcon />} onClick={() => setVisKopierKøModal(true)}>
-									Kopier
-								</Button>
-								<Button variant="tertiary" size="small" icon={<TrashIcon />} onClick={() => setVisSlettKøModal(true)}>
-									Slett
-								</Button>
+								<KopierKø kø={kø} />
+								<SlettKø kø={kø} />
 							</Table.DataCell>
-							{visSlettKøModal && (
-								<SlettKøModal lukk={() => setVisSlettKøModal(false)} id={kø.id} køTittel={kø.tittel} />
-							)}
-							{visKopierKøModal && <KopierKøModal lukk={() => setVisKopierKøModal(false)} eksisterendeKø={kø} />}
+							<ModalContainer kø={kø} />
 						</Table.ExpandableRow>
 					))}
 				</Table.Body>
