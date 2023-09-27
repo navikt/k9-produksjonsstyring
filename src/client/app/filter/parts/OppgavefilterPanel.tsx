@@ -28,7 +28,7 @@ const OppgavefilterPanel = ({
 	toppnivaaIQuery,
 }: OppgavefilterPanelProps) => {
 	if (oppgavefilter.type === 'feltverdi' && 'kode' in oppgavefilter && oppgavefilter.kode === null) {
-		return <VelgKriterie oppgavefilter={oppgavefilter} addGruppeOperation={addGruppeOperation} />;
+		return <VelgKriterie oppgavefilter={oppgavefilter} addGruppeOperation={addGruppeOperation} køvisning={køvisning} />;
 	}
 
 	if (oppgavefilter.type === 'feltverdi' && 'operator' in oppgavefilter) {
