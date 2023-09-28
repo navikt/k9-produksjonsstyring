@@ -24,8 +24,9 @@ const SuggestionList = ({
 		selectedSuggestionValues.some((suggestionValue) => getSuggestion(suggestionValue).group === group);
 
 	const groupIsOpen = (group) => openSuggestionGroups.includes(group);
+
 	return (
-		<ComboboxPopover className={styles.suggestionPopover} portal={false}>
+		<ComboboxPopover className={`${styles.suggestionPopover}`} portal={false}>
 			{groups?.length > 0 && (
 				<>
 					<Heading className={styles.listHeading} level="3" size="xsmall">

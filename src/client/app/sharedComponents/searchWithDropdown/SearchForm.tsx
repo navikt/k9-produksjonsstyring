@@ -9,8 +9,6 @@ interface SearchFormProps {
 	description?: string;
 	inputId: string;
 	descriptionId: string;
-	inputClassName: string;
-	buttonClassName: string;
 	currentInput: string;
 	onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 	setIsPopoverOpen: (open: boolean) => void;
@@ -29,8 +27,6 @@ const SearchForm: React.FC<SearchFormProps> = ({
 	setIsPopoverOpen,
 	onSelect,
 	children,
-	inputClassName,
-	buttonClassName,
 	onSubmit,
 }) => {
 	const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -56,7 +52,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
 							id={inputId}
 							autoComplete="off"
 							aria-describedby={descriptionId}
-							className={inputClassName}
+							className="navds-search__input navds-search__input--secondary navds-text-field__input navds-body-short navds-body--small min-h-[2rem] py-0"
 							onChange={onChange}
 							value={currentInput}
 							onFocus={() => setIsPopoverOpen(true)}
@@ -65,7 +61,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
 					</div>
 					<button
 						type="button"
-						className={`${buttonClassName} ${styles.searchButton}`}
+						className={`${styles.searchButton} navds-button navds-button--primary navds-button--medium navds-button--icon-only min-h-[2rem] p-1`}
 						onClick={onSubmit}
 						aria-label="search button"
 					>
