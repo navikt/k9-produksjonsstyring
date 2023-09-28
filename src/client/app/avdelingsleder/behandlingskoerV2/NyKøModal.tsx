@@ -1,14 +1,13 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { Button, ErrorMessage, Heading, Modal } from '@navikt/ds-react';
-import { Form, InputField, TextAreaField } from '@navikt/ft-form-hooks';
+import { Form, InputField } from '@navikt/ft-form-hooks';
 import { minLength, required } from '@navikt/ft-form-validators';
 import apiPaths from 'api/apiPaths';
 import { useNyKøMutation } from 'api/queries/avdelingslederQueries';
 
 enum fieldnames {
 	TITTEL = 'tittel',
-	BESKRIVELSE = 'beskrivelse',
 }
 
 interface OwnProps {
@@ -27,7 +26,6 @@ const NyKøModal = ({ vis, lukk, onSuccessCallback }: OwnProps) => {
 	const formMethods = useForm({
 		defaultValues: {
 			[fieldnames.TITTEL]: '',
-			[fieldnames.BESKRIVELSE]: '',
 		},
 	});
 
@@ -46,13 +44,6 @@ const NyKøModal = ({ vis, lukk, onSuccessCallback }: OwnProps) => {
 						label="Kønavn"
 						name={fieldnames.TITTEL}
 						size="small"
-						validate={[required, minLength(3)]}
-					/>
-					<TextAreaField
-						name={fieldnames.BESKRIVELSE}
-						label="Beskrivelse"
-						description="Kort beskrivelse av hva denne køen inneholder"
-						maxLength={4000}
 						validate={[required, minLength(3)]}
 					/>
 					{mutation.isError && <ErrorMessage>Noe gikk galt ved oppretting av kø.</ErrorMessage>}
