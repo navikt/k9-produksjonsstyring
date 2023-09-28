@@ -176,18 +176,16 @@ const SearchWithDropdown: React.FC<SearchWithDropdownProps> = (props) => {
 				)}
 			</SearchForm>
 			{selectedValues.length > 0 && (
-				<div className="flex">
-					<Label className="self-center" size="small">
-						Valgte filter:
-					</Label>
+				<div>
+					<Label className="self-center text-sm">Valgte filter:</Label>
 					<Button
 						icon={<TrashIcon />}
 						variant="tertiary"
-						size="small"
+						size="xsmall"
 						className="border-border-danger text-border-danger float-right"
 						onClick={removeAllSuggestions}
 					>
-						Fjern alle
+						<span className="text-sm">Fjern alle</span>
 					</Button>
 				</div>
 			)}

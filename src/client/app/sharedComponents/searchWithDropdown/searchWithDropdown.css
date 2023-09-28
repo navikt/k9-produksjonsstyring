@@ -61,7 +61,10 @@
 }
 .suggestionCheckbox {
 	border-bottom: 1px solid #cfcfcf;
-	padding: 0 1.25rem;
+	padding: 0 1rem;
+}
+.suggestionCheckbox :global(.navds-checkbox__label) {
+	padding: 0.5rem 0 !important;
 }
 .suggestionCheckbox:global(.navds-checkbox) {
 	width: 100%;
@@ -69,6 +72,7 @@
 .listHeading {
 	border-bottom: 1px solid #cfcfcf;
 	padding: 0 1.25rem 0.6875rem;
+	font-size: var(--a-font-size-medium);
 }
 .fieldset {
 	border: none;
