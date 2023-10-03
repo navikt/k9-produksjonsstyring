@@ -25,6 +25,7 @@ const SearchDropdownMedPredefinerteVerdier = ({
 		updateSelection={onChange}
 		selectedValues={oppgavefilter.verdi || []}
 		className="grow"
+		label={feltdefinisjon.visningsnavn}
 		{...rest}
 	/>
 );

@@ -16,16 +16,17 @@ test('Kan vise køer', async ({ page }) => {
 });
 
 test('kan opprette ny kø', async ({ page }) => {
+	// må starte lytting før opprett kø klikkes på for å få med responsen
+	const responsePromise = page.waitForResponse('http://localhost:8030/api/ny-oppgavestyring/ko/opprett');
 	await page.getByRole('button', { name: 'Avdelingslederpanel' }).click();
 	await page.getByRole('link', { name: 'Nye behandlingskøer' }).click();
 	await page.getByRole('button', { name: 'Legg til ny behandlingskø' }).click();
 	await page.getByRole('textbox', { name: 'Navn' }).fill('te');
 	await page.getByText(/Du må skrive minst 3 tegn/).isVisible();
 	await page.getByRole('textbox', { name: 'Navn' }).fill('testkø');
-	await page.getByRole('textbox', { name: 'Beskrivelse' }).fill('testbeskrivelse');
 	await page.getByRole('button', { name: 'Opprett kø' }).click();
-
-	await page.waitForResponse('http://localhost:8030/api/ny-oppgavestyring/ko/opprett');
+	const response = await responsePromise;
+	expect(response.status()).toBe(200);
 });
 
 test('kan redigere kø', async ({ page }) => {

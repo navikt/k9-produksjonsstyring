@@ -6,11 +6,11 @@ test.beforeEach(async ({ page }) => {
 
 test('kan legge til aksjonspunkt', async ({ page }) => {
 	await page.getByRole('button', { name: 'Legg til nytt kriterie' }).click();
-	await page.getByLabel('Velg kriterie:').selectOption('K9__aksjonspunkt');
+	await page.getByLabel('Velg kriterie:').selectOption('K9__aktivtAksjonspunkt');
 	await page.getByRole('button', { name: 'Legg til', exact: true }).click();
-	await page.getByText('Velg aksjonspunkt').click();
+	await page.getByLabel('Aktivt aksjonspunkt').click();
 	await page.getByLabel('Beregning').check();
-	await page.getByRole('button', { name: 'Legg til aksjonspunkt' }).click();
+	await page.getByRole('button', { name: 'Legg til aktivt aksjonspunkt' }).click();
 	await page.getByRole('button', { name: 'Fjern alle' }).click();
 });
 
