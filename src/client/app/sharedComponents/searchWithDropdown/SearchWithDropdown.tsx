@@ -8,10 +8,6 @@ import SearchForm from './SearchForm';
 import SuggestionList from './SuggestionList';
 import styles from './searchWithDropdown.css';
 
-const inputClassName = `${styles.input} navds-search__input navds-search__input--secondary navds-text-field__input navds-body-short navds-body-medium`;
-const buttonClassName =
-	'navds-search__button-search navds-button navds-button--primary navds-button--medium navds-button--icon-only';
-
 interface SuggestionsType {
 	label: string;
 	value: string;
@@ -19,7 +15,7 @@ interface SuggestionsType {
 }
 
 export type SearchWithDropdownProps = {
-	label: string;
+	label?: string;
 	description?: string;
 	suggestions: SuggestionsType[];
 	groups?: string[];
@@ -155,8 +151,6 @@ const SearchWithDropdown: React.FC<SearchWithDropdownProps> = (props) => {
 				inputId={inputId}
 				descriptionId={descriptionId}
 				onSubmit={onSubmit}
-				inputClassName={inputClassName}
-				buttonClassName={buttonClassName}
 				currentInput={currentInput}
 				onChange={onChange}
 				setIsPopoverOpen={setIsPopoverOpen}
@@ -182,18 +176,16 @@ const SearchWithDropdown: React.FC<SearchWithDropdownProps> = (props) => {
 				)}
 			</SearchForm>
 			{selectedValues.length > 0 && (
-				<div className="flex">
-					<Label className="self-center" size="small">
-						Valgte filter:
-					</Label>
+				<div>
+					<Label className="self-center text-sm">Valgte filter:</Label>
 					<Button
 						icon={<TrashIcon />}
 						variant="tertiary"
-						size="small"
+						size="xsmall"
 						className="border-border-danger text-border-danger float-right"
 						onClick={removeAllSuggestions}
 					>
-						Fjern alle
+						<span className="text-sm">Fjern alle</span>
 					</Button>
 				</div>
 			)}

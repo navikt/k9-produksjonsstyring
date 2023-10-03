@@ -12,7 +12,7 @@
 	cursor: pointer;
 	display: inline-flex;
 	gap: 0.5rem;
-	padding: 3px 6px;
+	padding: 1.5px 3px;
 	text-align: left;
 }
 .merkelapp:hover {
@@ -27,4 +27,5 @@
 	display: -webkit-box;
 	-webkit-line-clamp: 1;
 	overflow: hidden;
+	font-size: 0.825rem;
 }

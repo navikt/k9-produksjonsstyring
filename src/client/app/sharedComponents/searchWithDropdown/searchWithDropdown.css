@@ -1,22 +1,22 @@
 .searchContainer {
-	border-radius: 4px;
-	max-width: 800px;
+	border-radius: 0.25rem;
+	max-width: 50rem;
 }
 .form:global(.navds-form-field) {
 	justify-items: stretch;
 }
 .input:global(.navds-search__input) {
-	padding-right: 64px;
+	padding-right: 3rem;
 }
 .suggestionPopover[data-reach-combobox-popover] {
-	min-width: 270px;
+	min-width: 16.875rem;
 	background-color: white;
 	border-radius: var(--a-border-radius-medium);
 	box-shadow: var(--a-shadow-medium);
-	padding: 18px 0;
+	padding: 1.125rem 0;
 	transform: translateY(4px);
 	z-index: var(--a-z-index-tooltip);
-
+	position: absolute;
 	:global .navds-checkbox__label {
 		padding: 12px 0;
 	}
@@ -24,7 +24,7 @@
 
 .list[data-reach-combobox-list] {
 	list-style-type: none;
-	margin: 0 0 18px;
+	margin: 0 0 1.125rem;
 	padding: 0;
 }
 .list[data-reach-combobox-list] ul {
@@ -61,7 +61,10 @@
 }
 .suggestionCheckbox {
 	border-bottom: 1px solid #cfcfcf;
-	padding: 0 1.25rem;
+	padding: 0 1rem;
+}
+.suggestionCheckbox :global(.navds-checkbox__label) {
+	padding: 0.5rem 0 !important;
 }
 .suggestionCheckbox:global(.navds-checkbox) {
 	width: 100%;
@@ -69,6 +72,7 @@
 .listHeading {
 	border-bottom: 1px solid #cfcfcf;
 	padding: 0 1.25rem 0.6875rem;
+	font-size: var(--a-font-size-medium);
 }
 .fieldset {
 	border: none;
@@ -80,13 +84,13 @@
 	text-align: center;
 }
 .merkelapperHeading:global(.navds-heading) {
-	margin: 20px 0 4px;
+	margin: 1rem 0 0.25rem;
 	display: inline-block;
 }
 .searchWrapper {
 	position: relative;
 	display: block;
-	max-width: 600px;
+	max-width: 37.5rem;
 }
 .searchButton {
 	position: absolute;

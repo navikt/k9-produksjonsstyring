@@ -7,6 +7,9 @@
 	display: flex;
 	justify-content: space-between;
 }
+.wrapper :global(.navds-checkbox__label) {
+	padding: 0.5rem 0 !important;
+}
 
 .chevronIconChecked {
 	transform: rotate(90deg);
@@ -17,10 +20,10 @@
 	border-radius: 50%;
 	color: white;
 	display: flex;
-	height: 1.75rem;
+	height: 1.15rem;
 	justify-content: center;
 	margin-right: 0.8125rem;
-	width: 1.75rem;
+	width: 1.15rem;
 }
 .wrapperRight {
 	align-items: center;

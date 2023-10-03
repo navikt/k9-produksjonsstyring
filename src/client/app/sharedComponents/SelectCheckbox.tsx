@@ -24,15 +24,19 @@ const SelectCheckbox: React.FC<Props> = ({
 }) => (
 	<div className={styles.wrapper}>
 		<div className="flex flex-row">
-			<Checkbox className="flex-shrink-0" onClick={() => onClick(value)} value={value} checked={isChecked}>
+			<Checkbox className="flex-shrink-0" size="small" onClick={() => onClick(value)} value={value} checked={isChecked}>
 				{label}
 			</Checkbox>
 			<div className="flex-grow">
-				<div className="flex mt-3 float-right">
-					{numberOfItems ? <div className={styles.numberBubble}>{numberOfItems}</div> : null}
+				<div className="flex mt-2 float-right">
+					{numberOfItems ? (
+						<div className={styles.numberBubble}>
+							<span className="text-sm">{numberOfItems}</span>
+						</div>
+					) : null}
 					<Next
-						width="1.5em"
-						height="1.5em"
+						width="1rem"
+						height="1rem"
 						onClick={() => toggleGroupOpen(value)}
 						className={`${isOpen ? styles.chevronIconChecked : ''} cursor-pointer`}
 					/>
