@@ -1,4 +1,4 @@
-FROM nginxinc/nginx-unprivileged:1.25
+FROM nginxinc/nginx-unprivileged:stable-alpine-slim
 
 COPY dist /usr/share/nginx/html
 COPY server.nginx /etc/nginx/conf.d/app.conf.template
