@@ -3469,6 +3469,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@navikt/ds-css@npm:5.6.4":
+  version: 5.6.4
+  resolution: "@navikt/ds-css@npm:5.6.4::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40navikt%2Fds-css%2F5.6.4%2F1a6fdb2ff4d0ea17a5775a0b532f06f83acd2fc4"
+  checksum: 2d843162cb32c0adcfbfa63722dec490a7cd25d455e764b0d52994671350fcea30618d9df3eb3cf8c1d96248cc4475b647d8004417a29c408c1286c88cc5e318
+  languageName: node
+  linkType: hard
+
 "@navikt/ds-icons@npm:3.4.3":
   version: 3.4.3
   resolution: "@navikt/ds-icons@npm:3.4.3::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40navikt%2Fds-icons%2F3.4.3%2Feaa8fc38f6d184806d3405a5efbc9d137c2b8d27"
@@ -15892,7 +15899,7 @@ __metadata:
     "@formatjs/intl-numberformat": 8.7.2
     "@navikt/aksel-icons": 5.5.0
     "@navikt/aksel-stylelint": 5.5.0
-    "@navikt/ds-css": 5.5.0
+    "@navikt/ds-css": 5.6.4
     "@navikt/ds-icons": 3.4.3
     "@navikt/ds-react": 5.5.0
     "@navikt/ds-tailwind": 5.5.0
