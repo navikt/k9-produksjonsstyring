@@ -3455,6 +3455,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@navikt/aksel-icons@npm:5.6.4":
+  version: 5.6.4
+  resolution: "@navikt/aksel-icons@npm:5.6.4::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40navikt%2Faksel-icons%2F5.6.4%2Fe19deb88ecdc0324aaaba732fd7c2c1b448ab514"
+  checksum: 2b96ae12902f5d0086a8a8e792dcd8ccfab1b03e83e4aae703e5d792f9854c5f342c88808404e214cfff57aacf2f53366c735faed23b29dc8426f9d1e18c45fb
+  languageName: node
+  linkType: hard
+
 "@navikt/aksel-stylelint@npm:5.5.0":
   version: 5.5.0
   resolution: "@navikt/aksel-stylelint@npm:5.5.0::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40navikt%2Faksel-stylelint%2F5.5.0%2F4320c20db002d380a13f7e77aea519ca02249b56"
@@ -15890,7 +15897,7 @@ __metadata:
     "@commercetools/enzyme-extensions": 5.0.0
     "@formatjs/intl-datetimeformat": 6.10.3
     "@formatjs/intl-numberformat": 8.7.2
-    "@navikt/aksel-icons": 5.5.0
+    "@navikt/aksel-icons": 5.6.4
     "@navikt/aksel-stylelint": 5.5.0
     "@navikt/ds-css": 5.5.0
     "@navikt/ds-icons": 3.4.3
