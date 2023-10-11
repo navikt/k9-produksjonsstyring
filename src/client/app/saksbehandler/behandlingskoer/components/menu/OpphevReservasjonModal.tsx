@@ -1,9 +1,11 @@
 import React, { FunctionComponent, useCallback } from 'react';
 import { Form } from 'react-final-form';
-import { FormattedMessage, WrappedComponentProps, injectIntl } from 'react-intl';
+import { FormattedMessage, WrappedComponentProps, injectIntl, useIntl } from 'react-intl';
+import { useQueryClient } from 'react-query';
 import { captureMessage } from '@sentry/browser';
 import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
 import { Undertittel } from 'nav-frontend-typografi';
+import apiPaths from 'api/apiPaths';
 import { K9LosApiKeys } from 'api/k9LosApi';
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
 import { TextAreaField } from 'form/FinalFields';
@@ -15,12 +17,10 @@ const minLength3 = minLength(3);
 const maxLength1500 = maxLength(1500);
 
 type OwnProps = Readonly<{
-	intl: any;
 	showModal: boolean;
 	oppgaveId: string;
 	oppgaveSaksnummer: string;
 	cancel: () => void;
-	hentReserverteOppgaver: () => void;
 }>;
 
 /**
@@ -29,14 +29,14 @@ type OwnProps = Readonly<{
  * Presentasjonskomponent. Modal som lar en begrunne hvorfor en sak skal frigjøres.
  */
 export const OpphevReservasjonModal: FunctionComponent<OwnProps & WrappedComponentProps> = ({
-	intl,
 	showModal,
 	cancel,
-	hentReserverteOppgaver,
 	oppgaveId,
 	oppgaveSaksnummer,
 }) => {
 	const { startRequest: opphevOppgavereservasjon } = useRestApiRunner(K9LosApiKeys.OPPHEV_OPPGAVERESERVASJON);
+	const intl = useIntl();
+	const queryClient = useQueryClient();
 
 	const opphevReservasjonFn = useCallback(
 		(begrunnelse: string) =>
@@ -48,7 +48,7 @@ export const OpphevReservasjonModal: FunctionComponent<OwnProps & WrappedCompone
 				);
 				// eslint-disable-next-line @typescript-eslint/no-empty-function
 				setTimeout(() => {}, 1000);
-				hentReserverteOppgaver();
+				queryClient.invalidateQueries([apiPaths.saksbehandlerReservasjoner]);
 				cancel();
 			}),
 		[oppgaveId],

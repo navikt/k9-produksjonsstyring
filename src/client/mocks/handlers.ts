@@ -97,7 +97,7 @@ export const developmentHandlers = {
 		res(ctx.json(avdelningsledareReservasjoner)),
 	),
 	saksbehandlerReservasjoner: rest.get(relativeTestApiPaths.saksbehandlerReservasjoner, (req, res, ctx) =>
-		res(ctx.json(saksbehandlerReservasjoner)),
+		res(ctx.delay(2000), ctx.json(saksbehandlerReservasjoner)),
 	),
 	saksbehandlerOppgaver: rest.get(relativeTestApiPaths.saksbehandlerOppgaver, (req, res, ctx) =>
 		res(ctx.json(saksbehandlerOppgaver)),
@@ -226,6 +226,22 @@ export const developmentHandlers = {
 			}),
 		),
 	),
+	hentAlleKoerSaksbehandler: rest.get(relativeTestApiPaths.hentAlleKoerSaksbehandler, async (req, res, ctx) =>
+		res(
+			ctx.json([
+				{
+					id: '1',
+					tittel: 'Beskrivende tittel',
+					beskrivelse: 'godt forklart tekst om hva formålet med køen er',
+					oppgaveQuery: { filtere: [], select: [], order: [], limit: 10 },
+					saksbehandlere: [],
+					antallOppgaver: 5,
+					sistEndret: 'dato',
+					versjon: 1,
+				},
+			]),
+		),
+	),
 	oppgavemodellV2HentAlleKø: rest.get(relativeTestApiPaths.hentOppgavekoer, async (req, res, ctx) =>
 		res(
 			ctx.json({
@@ -301,6 +317,10 @@ export const developmentHandlers = {
 
 if (process.env.MSW_MODE === 'test') {
 	handlers = handlers.concat(Object.values(developmentHandlers));
+}
+
+if (process.env.MSW_MODE === 'development') {
+	handlers = [developmentHandlers.hentAlleKoerSaksbehandler, developmentHandlers.saksbehandlerReservasjoner];
 }
 
 export default handlers;

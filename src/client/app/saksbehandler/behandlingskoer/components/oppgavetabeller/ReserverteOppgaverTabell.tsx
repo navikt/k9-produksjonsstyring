@@ -1,18 +1,23 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { FunctionComponent, useCallback, useEffect, useRef, useState } from 'react';
 import { FormattedMessage, WrappedComponentProps, injectIntl, useIntl } from 'react-intl';
+import { useQueryClient } from 'react-query';
 import classNames from 'classnames';
 import menuIconBlackUrl from 'images/ic-menu-18px_black.svg';
 import menuIconBlueUrl from 'images/ic-menu-18px_blue.svg';
+import NavFrontendChevron from 'nav-frontend-chevron';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { WarningColored } from '@navikt/ds-icons';
-import { Loader, Table } from '@navikt/ds-react';
+import { ErrorMessage, Loader, Table } from '@navikt/ds-react';
+import apiPaths from 'api/apiPaths';
 import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
+import { useSaksbehandlerReservasjoner } from 'api/queries/saksbehandlerQueries';
 import { useGlobalStateRestApiData } from 'api/rest-api-hooks';
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
 import Reservasjon from 'avdelingsleder/reservasjoner/reservasjonTsType';
 import AlleKodeverk from 'kodeverk/alleKodeverkTsType';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
+import merknadType from 'kodeverk/merknadType';
 import {
 	getHeaderCodes,
 	hentIDFraSak,
@@ -25,26 +30,37 @@ import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import { getDateAndTime } from 'utils/dateUtils';
 import { getKodeverknavnFraKode } from 'utils/kodeverkUtils';
 import OppgaveHandlingerMenu from '../menu/OppgaveHandlingerMenu';
+import kopanelStyles from '../oppgavekoPanel.css';
+import OppgaveTabellMenyAntallOppgaver from './OppgaveTabellMenyAntallOppgaver';
 import styles from './oppgaverTabell.css';
 
 interface OwnProps {
 	apneOppgave: (oppgave: Oppgave) => void;
-	reserverteOppgaver: Oppgave[];
-	hentReserverteOppgaver: () => void;
-	requestFinished: boolean;
-	hastesaker?: boolean;
+	gjelderHastesaker?: boolean;
 }
 
 const ReserverteOppgaverTabell: FunctionComponent<OwnProps & WrappedComponentProps> = ({
 	apneOppgave,
-	reserverteOppgaver,
-	hentReserverteOppgaver,
-	requestFinished,
-	hastesaker,
+	gjelderHastesaker,
 }) => {
 	const intl = useIntl();
 
 	const [valgtOppgaveId, setValgtOppgaveId] = useState<string>();
+	const [visReservasjoner, setVisReservasjoner] = useState(true);
+	const {
+		data: reserverteOppgaver,
+		isLoading,
+		isSuccess,
+		isError,
+	} = useSaksbehandlerReservasjoner({
+		select: (reserverteOppgaverData: Oppgave[]) =>
+			reserverteOppgaverData.filter((oppgave) =>
+				gjelderHastesaker
+					? oppgave.merknad?.merknadKoder?.includes(merknadType.HASTESAK)
+					: !oppgave.merknad?.merknadKoder?.includes(merknadType.HASTESAK),
+			),
+	});
+	const queryClient = useQueryClient();
 
 	const alleKodeverk: AlleKodeverk = useGlobalStateRestApiData(RestApiGlobalStatePathsKeys.KODEVERK);
 
@@ -62,7 +78,10 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps & WrappedComponentPro
 	});
 
 	const forlengOppgaveReservasjonFn = useCallback(
-		(oppgaveId: string): Promise<any> => forlengOppgavereservasjon({ oppgaveId }).then(() => hentReserverteOppgaver()),
+		(oppgaveId: string): Promise<any> =>
+			forlengOppgavereservasjon({ oppgaveId }).then(() => {
+				queryClient.invalidateQueries([apiPaths.saksbehandlerReservasjoner]);
+			}),
 		[],
 	);
 
@@ -80,16 +99,37 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps & WrappedComponentPro
 			setValgtOppgaveId(undefined);
 		}
 	};
-	const valgtOppgave = reserverteOppgaver.find((o) => o.eksternId === valgtOppgaveId);
+	const valgtOppgave = reserverteOppgaver?.find((o) => o.eksternId === valgtOppgaveId);
 	return (
 		<div>
-			{reserverteOppgaver.length === 0 && !requestFinished && <Loader size="2xlarge" className={styles.spinner} />}
-
-			{reserverteOppgaver.length === 0 && requestFinished && (
+			<button
+				type="button"
+				className={kopanelStyles.behandlingskoerKnapp}
+				onClick={() => setVisReservasjoner(!visReservasjoner)}
+			>
+				<NavFrontendChevron type={visReservasjoner ? 'ned' : 'høyre'} className={kopanelStyles.chevron} />
+				<FormattedMessage
+					id={gjelderHastesaker ? 'OppgaverTabell.ReserverteHastesaker' : 'OppgaverTabell.ReserverteOppgaver'}
+				/>
+				{isSuccess && (
+					<OppgaveTabellMenyAntallOppgaver
+						antallOppgaver={reserverteOppgaver?.length}
+						tekstId={
+							gjelderHastesaker
+								? 'OppgaverTabell.ReserverteHastesakerAntall'
+								: 'OppgaverTabell.ReserverteOppgaverAntall'
+						}
+						hastesak={gjelderHastesaker}
+					/>
+				)}
+			</button>
+			{isLoading && visReservasjoner && <Loader size="large" className={styles.spinner} />}
+			{isError && visReservasjoner && <ErrorMessage>Noe gikk galt ved lasting av reservasjoner</ErrorMessage>}
+			{reserverteOppgaver?.length === 0 && isSuccess && visReservasjoner && (
 				<>
 					<VerticalSpacer eightPx />
 					<Normaltekst>
-						{!hastesaker ? (
+						{!gjelderHastesaker ? (
 							<FormattedMessage id="OppgaverTabell.IngenReserverteOppgaver" />
 						) : (
 							<FormattedMessage id="OppgaverTabell.IngenReserverteHastesaker" />
@@ -98,11 +138,11 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps & WrappedComponentPro
 				</>
 			)}
 
-			{reserverteOppgaver.length > 0 && requestFinished && (
+			{reserverteOppgaver?.length > 0 && isSuccess && visReservasjoner && (
 				<Table>
 					<Table.Header>
 						<Table.Row>
-							{getHeaderCodes(true, hastesaker)
+							{getHeaderCodes(true, gjelderHastesaker)
 								.filter(Boolean)
 								.map((header) => (
 									<Table.HeaderCell key={header}>
@@ -115,10 +155,10 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps & WrappedComponentPro
 						{reserverteOppgaver.map((oppgave) => (
 							<Table.Row
 								key={oppgave.eksternId}
-								className={classNames(styles.isUnderBehandling, { [styles.hastesak]: hastesaker })}
+								className={classNames(styles.isUnderBehandling, { [styles.hastesak]: gjelderHastesaker })}
 								onKeyDown={() => goToFagsak(oppgave)}
 							>
-								{hastesaker && (
+								{gjelderHastesaker && (
 									<Table.DataCell
 										onClick={() => goToFagsak(oppgave)}
 										className={`${styles.hastesakTd} hover:cursor-pointer`}
@@ -128,7 +168,7 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps & WrappedComponentPro
 								)}
 								<Table.DataCell
 									onClick={() => goToFagsak(oppgave)}
-									className={`${hastesaker ? '' : styles.soekerPadding} hover:cursor-pointer`}
+									className={`${gjelderHastesaker ? '' : styles.soekerPadding} hover:cursor-pointer`}
 								>
 									{oppgave.navn ? `${oppgave.navn} ${oppgave.personnummer}` : '<navn>'}
 								</Table.DataCell>
@@ -170,7 +210,6 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps & WrappedComponentPro
 												toggleMenu={toggleMenu}
 												oppgave={valgtOppgave}
 												forlengOppgaveReservasjon={forlengOppgaveReservasjonFn}
-												hentReserverteOppgaver={hentReserverteOppgaver}
 											/>
 										)}
 										<Image

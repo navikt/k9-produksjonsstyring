@@ -24,6 +24,7 @@ const apiPaths = {
 	oppgaver: '/saksbehandler/oppgaver/antall',
 	oppgavekoer: '/saksbehandler/oppgaveko',
 	sok: '/fagsak/sok',
+	hentAlleKoerSaksbehandler: '/saksbehandler/koer-for-saksbehandler',
 	hentOppgaveko: '/ny-oppgavestyring/ko/',
 	kopierOppgaveko: '/ny-oppgavestyring/ko/kopier',
 	hentOppgavekoer: '/ny-oppgavestyring/ko/',

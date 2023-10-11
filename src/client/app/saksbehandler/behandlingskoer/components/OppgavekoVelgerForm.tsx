@@ -1,6 +1,6 @@
 import React, { FunctionComponent, ReactNode, useEffect } from 'react';
 import { Form, FormSpy } from 'react-final-form';
-import { FormattedMessage, WrappedComponentProps, injectIntl } from 'react-intl';
+import { FormattedMessage, WrappedComponentProps, injectIntl, useIntl } from 'react-intl';
 import { Element, Undertekst } from 'nav-frontend-typografi';
 import { OppgavekøV2MedNavn } from 'types/OppgavekøV2Type';
 import { Button, ReadMore } from '@navikt/ds-react';
@@ -16,7 +16,6 @@ import OppsummeringAvKø from './OppusmmeringAvKø';
 import styles from './oppgavekoVelgerForm.css';
 
 interface OwnProps {
-	oppgavekoer: Array<OppgavekøV1 | OppgavekøV2MedNavn>;
 	setValgtOppgavekoId: (id: string) => void;
 	getValueFromLocalStorage: (key: string) => string;
 	setValueInLocalStorage: (key: string, value: string) => void;
@@ -79,8 +78,6 @@ const getInitialValues = (oppgavekoer, getValueFromLocalStorage, removeValueFrom
  *
  */
 export const OppgavekoVelgerForm: FunctionComponent<OwnProps & WrappedComponentProps> = ({
-	intl,
-	oppgavekoer,
 	setValgtOppgavekoId,
 	getValueFromLocalStorage,
 	setValueInLocalStorage,
@@ -91,6 +88,8 @@ export const OppgavekoVelgerForm: FunctionComponent<OwnProps & WrappedComponentP
 	const { startRequest: fetchAntallOppgaver, data: antallOppgaver } = useRestApiRunner<number>(
 		K9LosApiKeys.BEHANDLINGSKO_OPPGAVE_ANTALL,
 	);
+	const intl = useIntl();
+	const oppgavekoer = [];
 	const oppgavekoerSortertAlfabetisk = oppgavekoer.sort((a, b) => a.navn.localeCompare(b.navn));
 
 	const { data: saksbehandlere, startRequest: hentSaksbehandlere } = useRestApiRunner<Saksbehandler[]>(
@@ -159,7 +158,6 @@ export const OppgavekoVelgerForm: FunctionComponent<OwnProps & WrappedComponentP
 									</Undertekst>
 									<VerticalSpacer sixteenPx />
 								</FlexColumn>
-
 								{values.id && <OppsummeringAvKø oppgavekø={getValgtOppgaveko(oppgavekoer, values.id)} />}
 								{values.id && <OldOppsummeringAvKø oppgaveko={getValgtOppgaveko(oppgavekoer, values.id)} />}
 							</FlexRow>

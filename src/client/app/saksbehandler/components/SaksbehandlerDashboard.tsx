@@ -7,15 +7,10 @@ import FagsakSearchIndex from '../fagsakSearch/FagsakSearchIndex';
 import SaksstotteIndex from '../saksstotte/SaksstotteIndex';
 import styles from './saksbehandlerDashboard.css';
 
-interface OwnProps {
-	valgtOppgavekoId?: string;
-	setValgtOppgavekoId: (id: string) => void;
-}
-
 /**
  * SaksbehandlerDashboard
  */
-export const SaksbehandlerDashboard: FunctionComponent<OwnProps> = ({ valgtOppgavekoId, setValgtOppgavekoId }) => {
+export const SaksbehandlerDashboard: FunctionComponent = () => {
 	const k9sakUrl = useGlobalStateRestApiData<{ verdi?: string }>(RestApiGlobalStatePathsKeys.K9SAK_URL);
 	const k9punsjUrl = useGlobalStateRestApiData<{ verdi?: string }>(RestApiGlobalStatePathsKeys.PUNSJ_URL);
 
@@ -29,12 +24,7 @@ export const SaksbehandlerDashboard: FunctionComponent<OwnProps> = ({ valgtOppga
 						</Panel>
 						<div>
 							<Panel className={styles.sakslistePanel}>
-								<BehandlingskoerIndex
-									k9sakUrl={k9sakUrl.verdi}
-									k9punsjUrl={k9punsjUrl.verdi}
-									setValgtOppgavekoId={setValgtOppgavekoId}
-									valgtOppgavekoId={valgtOppgavekoId}
-								/>
+								<BehandlingskoerIndex k9sakUrl={k9sakUrl.verdi} k9punsjUrl={k9punsjUrl.verdi} />
 							</Panel>
 						</div>
 					</div>

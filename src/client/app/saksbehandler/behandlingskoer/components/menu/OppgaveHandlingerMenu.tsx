@@ -24,16 +24,9 @@ interface OwnProps {
 	oppgave: Oppgave;
 	imageNode: any;
 	forlengOppgaveReservasjon: (oppgaveId: string) => Promise<Oppgave[]>;
-	hentReserverteOppgaver: (params: any, keepData: boolean) => void;
 }
 
-const OppgaveHandlingerMenu: React.FC<OwnProps> = ({
-	toggleMenu,
-	oppgave,
-	imageNode,
-	forlengOppgaveReservasjon,
-	hentReserverteOppgaver,
-}) => {
+const OppgaveHandlingerMenu: React.FC<OwnProps> = ({ toggleMenu, oppgave, imageNode, forlengOppgaveReservasjon }) => {
 	const node = useRef(null);
 	const menuButtonRef = useRef(null);
 
@@ -106,8 +99,6 @@ const OppgaveHandlingerMenu: React.FC<OwnProps> = ({
 					oppgaveSaksnummer={oppgave.saksnummer}
 					showModal={showOpphevReservasjonModal}
 					cancel={closeBegrunnelseModal}
-					toggleMenu={() => toggleMenu(oppgave)}
-					hentReserverteOppgaver={hentReserverteOppgaver}
 				/>
 			)}
 
