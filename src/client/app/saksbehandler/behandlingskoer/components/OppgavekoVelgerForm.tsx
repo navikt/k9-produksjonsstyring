@@ -1,25 +1,22 @@
-import React, { FunctionComponent, ReactNode, useEffect } from 'react';
-import { Form, FormSpy } from 'react-final-form';
+import React, { FunctionComponent, ReactNode, useContext, useEffect } from 'react';
 import { FormattedMessage, WrappedComponentProps, injectIntl, useIntl } from 'react-intl';
 import { Element, Undertekst } from 'nav-frontend-typografi';
 import { OppgavekøV2MedNavn } from 'types/OppgavekøV2Type';
-import { Button, ReadMore } from '@navikt/ds-react';
+import { Button, ReadMore, Select } from '@navikt/ds-react';
 import { K9LosApiKeys } from 'api/k9LosApi';
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
-import { SelectField } from 'form/FinalFields';
+import BehandlingskoerContext from 'saksbehandler/BehandlingskoerContext';
 import { OppgavekøV1 } from 'saksbehandler/behandlingskoer/oppgavekoTsType';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import { FlexColumn, FlexContainer, FlexRow } from 'sharedComponents/flexGrid';
+import { getValueFromLocalStorage, removeValueFromLocalStorage } from 'utils/localStorageHelper';
 import { Saksbehandler } from '../saksbehandlerTsType';
+import { erKoV2, getKoId } from '../utils';
 import OldOppsummeringAvKø from './OldOppsummeringAvKø';
 import OppsummeringAvKø from './OppusmmeringAvKø';
 import styles from './oppgavekoVelgerForm.css';
 
 interface OwnProps {
-	setValgtOppgavekoId: (id: string) => void;
-	getValueFromLocalStorage: (key: string) => string;
-	setValueInLocalStorage: (key: string, value: string) => void;
-	removeValueFromLocalStorage: (key: string) => void;
 	plukkNyOppgave: () => void;
 	erRestApiKallLoading: boolean;
 }
@@ -46,7 +43,7 @@ const createTooltip = (saksbehandlere: Saksbehandler[]): ReactNode | undefined =
 const getValgtOppgaveko = (oppgavekoer: Array<OppgavekøV1 | OppgavekøV2MedNavn>, oppgavekoId: string) =>
 	oppgavekoer.find((s) => oppgavekoId === `${s.id}`);
 
-const getDefaultOppgaveko = (oppgavekoer, getValueFromLocalStorage, removeValueFromLocalStorage) => {
+const getDefaultOppgaveko = (oppgavekoer) => {
 	const lagretOppgavekoId = getValueFromLocalStorage('id');
 	if (lagretOppgavekoId) {
 		if (oppgavekoer.some((s) => `${s.id}` === lagretOppgavekoId)) {
@@ -61,27 +58,11 @@ const getDefaultOppgaveko = (oppgavekoer, getValueFromLocalStorage, removeValueF
 	return sortertOppgavekoer.length > 0 ? sortertOppgavekoer[0].id : undefined;
 };
 
-const getInitialValues = (oppgavekoer, getValueFromLocalStorage, removeValueFromLocalStorage) => {
-	if (oppgavekoer.length === 0) {
-		return {
-			id: undefined,
-		};
-	}
-	const defaultOppgaveko = getDefaultOppgaveko(oppgavekoer, getValueFromLocalStorage, removeValueFromLocalStorage);
-	return {
-		id: defaultOppgaveko ? `${defaultOppgaveko}` : undefined,
-	};
-};
-
 /**
  * OppgavekoVelgerForm
  *
  */
 export const OppgavekoVelgerForm: FunctionComponent<OwnProps & WrappedComponentProps> = ({
-	setValgtOppgavekoId,
-	getValueFromLocalStorage,
-	setValueInLocalStorage,
-	removeValueFromLocalStorage,
 	plukkNyOppgave,
 	erRestApiKallLoading,
 }) => {
@@ -89,7 +70,7 @@ export const OppgavekoVelgerForm: FunctionComponent<OwnProps & WrappedComponentP
 		K9LosApiKeys.BEHANDLINGSKO_OPPGAVE_ANTALL,
 	);
 	const intl = useIntl();
-	const oppgavekoer = [];
+	const { oppgavekoer, valgtOppgavekoId, setValgtOppgavekoId } = useContext(BehandlingskoerContext);
 	const oppgavekoerSortertAlfabetisk = oppgavekoer.sort((a, b) => a.navn.localeCompare(b.navn));
 
 	const { data: saksbehandlere, startRequest: hentSaksbehandlere } = useRestApiRunner<Saksbehandler[]>(
@@ -98,73 +79,54 @@ export const OppgavekoVelgerForm: FunctionComponent<OwnProps & WrappedComponentP
 
 	useEffect(() => {
 		if (oppgavekoerSortertAlfabetisk.length > 0) {
-			const defaultOppgavekoId = getDefaultOppgaveko(
-				oppgavekoerSortertAlfabetisk,
-				getValueFromLocalStorage,
-				removeValueFromLocalStorage,
-			);
+			const defaultOppgavekoId = getDefaultOppgaveko(oppgavekoerSortertAlfabetisk);
 			if (defaultOppgavekoId) {
 				setValgtOppgavekoId(defaultOppgavekoId);
-				hentSaksbehandlere({ id: defaultOppgavekoId });
-				fetchAntallOppgaver({ id: defaultOppgavekoId });
+				if (!erKoV2(defaultOppgavekoId)) {
+					hentSaksbehandlere({ id: getKoId(defaultOppgavekoId) });
+					fetchAntallOppgaver({ id: getKoId(defaultOppgavekoId) });
+				}
 			}
 		}
 	}, []);
 
+	const handleSelectKo = (event) => {
+		const koId = event.target.value;
+		setValgtOppgavekoId(koId);
+
+		if (!erKoV2(koId)) {
+			hentSaksbehandlere({ id: getKoId(koId) });
+			fetchAntallOppgaver({ id: getKoId(koId) });
+		}
+	};
+
 	return (
 		<div className={styles.oppgavevelgerform_container}>
-			<Form
-				onSubmit={() => undefined}
-				initialValues={getInitialValues(
-					oppgavekoerSortertAlfabetisk,
-					getValueFromLocalStorage,
-					removeValueFromLocalStorage,
-				)}
-				render={({ values = {} }) => (
-					<form>
-						<FormSpy
-							onChange={(val) => {
-								if (val && val.values.id && val.dirtyFields.id) {
-									setValueInLocalStorage('id', val.values.id);
-									const { id } = val.values;
-									setValgtOppgavekoId(id);
-									fetchAntallOppgaver({ id });
-								}
-							}}
-							subscription={{ values: true, dirtyFields: true }}
-						/>
-						<FlexContainer>
-							<FlexRow>
-								<FlexColumn className={styles.navnInput}>
-									<SelectField
-										name="id"
-										label={intl.formatMessage({ id: 'OppgavekoVelgerForm.Oppgaveko' })}
-										selectValues={oppgavekoerSortertAlfabetisk.map((oppgaveko) => (
-											<option key={oppgaveko.id} value={`${oppgaveko.id}`}>
-												{oppgaveko.navn}
-											</option>
-										))}
-										bredde="l"
-									/>
-									<VerticalSpacer eightPx />
-									<Undertekst>
-										<FormattedMessage
-											id="OppgavekoVelgerForm.AntallOppgaver"
-											values={{ antall: antallOppgaver || 0 }}
-										/>
-										<ReadMore size="small" header="Andre saksbehandlere i køen">
-											{createTooltip(saksbehandlere)}
-										</ReadMore>
-									</Undertekst>
-									<VerticalSpacer sixteenPx />
-								</FlexColumn>
-								{values.id && <OppsummeringAvKø oppgavekø={getValgtOppgaveko(oppgavekoer, values.id)} />}
-								{values.id && <OldOppsummeringAvKø oppgaveko={getValgtOppgaveko(oppgavekoer, values.id)} />}
-							</FlexRow>
-						</FlexContainer>
-					</form>
-				)}
-			/>
+			<FlexContainer>
+				<FlexRow>
+					<FlexColumn className={styles.navnInput}>
+						<Select
+							label={intl.formatMessage({ id: 'OppgavekoVelgerForm.Oppgaveko' })}
+							value={valgtOppgavekoId}
+							onChange={handleSelectKo}
+						>
+							{oppgavekoerSortertAlfabetisk.map((oppgaveko) => (
+								<option key={oppgaveko.id} value={`${oppgaveko.id}`}>
+									{oppgaveko.navn}
+								</option>
+							))}
+						</Select>
+						<VerticalSpacer eightPx />
+						<FormattedMessage id="OppgavekoVelgerForm.AntallOppgaver" values={{ antall: antallOppgaver || 0 }} />
+						<ReadMore size="small" header="Andre saksbehandlere i køen">
+							{createTooltip(saksbehandlere)}
+						</ReadMore>
+						<VerticalSpacer sixteenPx />
+					</FlexColumn>
+					{valgtOppgavekoId && <OppsummeringAvKø oppgavekø={getValgtOppgaveko(oppgavekoer, valgtOppgavekoId)} />}
+					{valgtOppgavekoId && <OldOppsummeringAvKø oppgaveko={getValgtOppgaveko(oppgavekoer, valgtOppgavekoId)} />}
+				</FlexRow>
+			</FlexContainer>
 			<Button
 				id="frode sin knapp"
 				className="mt-4 max-w-sm"

@@ -1,23 +1,17 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import React, { FunctionComponent, useContext, useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import NavFrontendChevron from 'nav-frontend-chevron';
 import { Element, Undertittel } from 'nav-frontend-typografi';
 import { K9LosApiKeys } from 'api/k9LosApi';
-import { useSaksbehandlerReservasjoner } from 'api/queries/saksbehandlerQueries';
 import { useRestApiRunner } from 'api/rest-api-hooks';
-import merknadType from 'kodeverk/merknadType';
-import OppgaveTabellMenyAntallOppgaver from 'saksbehandler/behandlingskoer/components/oppgavetabeller/OppgaveTabellMenyAntallOppgaver';
+import BehandlingskoerContext from 'saksbehandler/BehandlingskoerContext';
 import ReserverteOppgaverTabell from 'saksbehandler/behandlingskoer/components/oppgavetabeller/ReserverteOppgaverTabell';
 import Oppgave from 'saksbehandler/oppgaveTsType';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import ModalMedIkon from 'sharedComponents/modal/ModalMedIkon';
-import {
-	getValueFromLocalStorage,
-	removeValueFromLocalStorage,
-	setValueInLocalStorage,
-} from 'utils/localStorageHelper';
 import advarselImageUrl from '../../../../images/advarsel.svg';
 import RestApiState from '../../../api/rest-api-hooks/src/RestApiState';
+import { getKoId } from '../utils';
 import OppgavekoVelgerForm from './OppgavekoVelgerForm';
 import styles from './oppgavekoPanel.css';
 import OppgaverTabell from './oppgavetabeller/OppgaverTabell';
@@ -31,13 +25,14 @@ interface OwnProps {
  */
 const OppgavekoPanel: FunctionComponent<OwnProps> = ({ apneOppgave }) => {
 	const [visBehandlingerIKo, setVisBehandlingerIKo] = useState<boolean>(false);
+	const { valgtOppgavekoId } = useContext(BehandlingskoerContext);
 	const [visFinnesIngenBehandlingerIKoModal, setVisFinnesIngenBehandlingerIKoModal] = useState<boolean>(false);
 	const {
 		startRequest: fåOppgaveFraKo,
 		state: restApiState,
 		error: restApiError,
 		resetRequestData,
-	} = useRestApiRunner<Oppgave>(K9LosApiKeys.FÅ_OPPGAVE_FRA_KO);
+	} = useRestApiRunner<Oppgave>(K9LosApiKeys.FÅ_OPPGAVE_FRA_NY_KO);
 
 	useEffect(() => {
 		if (
@@ -51,9 +46,8 @@ const OppgavekoPanel: FunctionComponent<OwnProps> = ({ apneOppgave }) => {
 		}
 	}, [restApiState, restApiError]);
 
-	// TODOKOER
 	const plukkNyOppgave = () => {
-		fåOppgaveFraKo({ oppgaveKøId: valgtOppgavekoId }).then((reservertOppgave) => {
+		fåOppgaveFraKo({ oppgaveKøId: getKoId(valgtOppgavekoId) }).then((reservertOppgave) => {
 			resetRequestData();
 			apneOppgave(reservertOppgave);
 		});
@@ -67,18 +61,15 @@ const OppgavekoPanel: FunctionComponent<OwnProps> = ({ apneOppgave }) => {
 			</Undertittel>
 			<VerticalSpacer sixteenPx />
 			<OppgavekoVelgerForm
-				getValueFromLocalStorage={getValueFromLocalStorage}
-				setValueInLocalStorage={setValueInLocalStorage}
-				removeValueFromLocalStorage={removeValueFromLocalStorage}
 				plukkNyOppgave={plukkNyOppgave}
 				erRestApiKallLoading={restApiState === RestApiState.LOADING}
 			/>
 			<VerticalSpacer twentyPx />
 
-			<div className={styles.behandlingskoerContainer}>
+			{/* <div className={styles.behandlingskoerContainer}>
 				<ReserverteOppgaverTabell gjelderHastesaker apneOppgave={apneOppgave} />
 				<ReserverteOppgaverTabell apneOppgave={apneOppgave} />
-			</div>
+			</div> */}
 			<VerticalSpacer eightPx />
 
 			{visFinnesIngenBehandlingerIKoModal && (

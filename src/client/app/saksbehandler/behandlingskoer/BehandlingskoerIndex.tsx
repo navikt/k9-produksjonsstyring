@@ -1,11 +1,10 @@
-import React, { FunctionComponent, useCallback, useEffect, useMemo, useState } from 'react';
+import React, { FunctionComponent, useCallback, useMemo, useState } from 'react';
 import { WrappedComponentProps, injectIntl } from 'react-intl';
 import { OppgavekøV2, OppgavekøV2MedNavn } from 'types/OppgavekøV2Type';
 import { getK9punsjRef, getK9sakHref } from 'app/paths';
 import { K9LosApiKeys } from 'api/k9LosApi';
 import { useAlleSaksbehandlerKoer } from 'api/queries/saksbehandlerQueries';
 import { useRestApi } from 'api/rest-api-hooks';
-import RestApiState from 'api/rest-api-hooks/src/RestApiState';
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
 import BehandlingskoerContext from 'saksbehandler/BehandlingskoerContext';
 import { OppgavekøV1 } from 'saksbehandler/behandlingskoer/oppgavekoTsType';
@@ -23,13 +22,14 @@ interface OwnProps {
  * BehandlingskoerIndex
  */
 const BehandlingskoerIndex: FunctionComponent<OwnProps & WrappedComponentProps> = ({ k9sakUrl, k9punsjUrl }) => {
-	const [valgtOppgaveKo, setValgtOppgaveKo] = useState<OppgavekøV1 | OppgavekøV2MedNavn>();
+	const [valgtOppgavekoId, setValgtOppgavekoId] = useState('');
 	const { data: oppgavekoerV1 = [] } = useRestApi<OppgavekøV1[]>(K9LosApiKeys.OPPGAVEKO);
 	const { data: oppgavekoerV2 } = useAlleSaksbehandlerKoer({
 		enabled: saksbehandlerKanVelgeNyeKoer(),
 	});
-	const mapKøV2 = (kø: OppgavekøV2): OppgavekøV2MedNavn => ({ ...kø, navn: kø.tittel });
-	const oppgavekoer = [...oppgavekoerV1, ...(oppgavekoerV2 || []).map(mapKøV2)];
+	const mapKøV1 = (kø: OppgavekøV1): OppgavekøV1 => ({ ...kø, id: `${kø.id}__v1` });
+	const mapKøV2 = (kø: OppgavekøV2): OppgavekøV2MedNavn => ({ ...kø, navn: kø.tittel, id: `${kø.id}__v2` });
+	const oppgavekoer = [...(oppgavekoerV1 || []).map(mapKøV1), ...(oppgavekoerV2 || []).map(mapKøV2)];
 
 	const { startRequest: leggTilBehandletOppgave } = useRestApiRunner(K9LosApiKeys.LEGG_TIL_BEHANDLET_OPPGAVE);
 
@@ -54,8 +54,7 @@ const BehandlingskoerIndex: FunctionComponent<OwnProps & WrappedComponentProps> 
 		if (
 			oppgave.system === OppgaveSystem.K9SAK ||
 			oppgave.system === OppgaveSystem.K9TILBAKE ||
-			oppgave.system === OppgaveSystem.PUNSJ ||
-			oppgave.system === OppgaveSystem.OMSORGSPENGER
+			oppgave.system === OppgaveSystem.PUNSJ
 		) {
 			openFagsak(oppgave);
 		} else throw new Error('Fagsystemet for oppgaven er ukjent');
@@ -67,13 +66,14 @@ const BehandlingskoerIndex: FunctionComponent<OwnProps & WrappedComponentProps> 
 		},
 		[k9sakUrl],
 	);
-	console.log(oppgavekoer);
 
 	const behandlingskoerContextValue = useMemo(
 		() => ({
 			oppgavekoer,
+			setValgtOppgavekoId,
+			valgtOppgavekoId,
 		}),
-		[oppgavekoer],
+		[oppgavekoer, valgtOppgavekoId, setValgtOppgavekoId],
 	);
 
 	if (oppgavekoer.length === 0) {

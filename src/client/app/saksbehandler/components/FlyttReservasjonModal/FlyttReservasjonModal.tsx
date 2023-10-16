@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useState } from 'react';
-import { FormattedMessage, WrappedComponentProps } from 'react-intl';
+import { FormattedMessage, WrappedComponentProps, useIntl } from 'react-intl';
 import advarselImageUrl from 'images/advarsel.svg';
 import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
@@ -22,7 +22,6 @@ interface OwnProps {
 }
 
 export const FlyttReservasjonsmodal: FunctionComponent<OwnProps & WrappedComponentProps> = ({
-	intl,
 	oppgave,
 	oppgaveStatus,
 	lukkFlyttReservasjonsmodal,
@@ -31,6 +30,8 @@ export const FlyttReservasjonsmodal: FunctionComponent<OwnProps & WrappedCompone
 }) => {
 	const { startRequest: reserverOppgave } = useRestApiRunner<OppgaveStatus>(K9LosApiKeys.RESERVER_OPPGAVE);
 	const { kanReservere } = useGlobalStateRestApiData<NavAnsatt>(RestApiGlobalStatePathsKeys.NAV_ANSATT);
+
+	const intl = useIntl();
 
 	const [visManglerReservasjonsrettigheterFeilmelding, setVisManglerReservasjonsrettigheterFeilmelding] =
 		useState<boolean>(false);
