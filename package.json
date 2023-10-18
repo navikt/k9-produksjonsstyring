@@ -173,7 +173,7 @@
 		"postcss-less": "6.0.0",
 		"postcss-loader": "7.3.3",
 		"react-test-renderer": "18.2.0",
-		"sinon": "15.1.0",
+		"sinon": "16.1.1",
 		"sinon-chai": "3.7.0",
 		"stylelint": "15.10.3",
 		"stylelint-config-prettier": "9.0.5",
