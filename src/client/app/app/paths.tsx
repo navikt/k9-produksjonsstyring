@@ -41,9 +41,4 @@ export const getK9sakHref = (k9sakUrl: string, saksnummer: string, behandlingId?
 	return `${k9sakUrl}/fagsak/${saksnummer}/`;
 };
 
-export const getK9tilbakeHref = (k9tilbakeUrl: string, saksnummer: string, eksternId?: string) =>
-	eksternId
-		? `${k9tilbakeUrl}/tilbake/${saksnummer}/behandling/${eksternId}/?punkt=default&fakta=default`
-		: `${k9tilbakeUrl}/tilbake/${saksnummer}`;
-
 export const getK9punsjRef = (k9punsjUrl: string, journalpostId: string) => `${k9punsjUrl}/${journalpostId}`;

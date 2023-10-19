@@ -20,6 +20,7 @@ import {
 	soek,
 } from './index';
 import { giRandomDato } from './mockUtils';
+import nyeOgGamleReservasjoner from './nyeOgGamleReservasjoner';
 
 // Alle handlers som ligger direkte i dette arrayet vil gjelde
 // Requesten treffer handlerne i stedet for eventuelle eksisterende APIer
@@ -97,7 +98,7 @@ export const developmentHandlers = {
 		res(ctx.json(avdelningsledareReservasjoner)),
 	),
 	saksbehandlerReservasjoner: rest.get(relativeTestApiPaths.saksbehandlerReservasjoner, (req, res, ctx) =>
-		res(ctx.delay(2000), ctx.json(saksbehandlerReservasjoner)),
+		res(ctx.delay(2000), ctx.json(nyeOgGamleReservasjoner)),
 	),
 	saksbehandlerOppgaver: rest.get(relativeTestApiPaths.saksbehandlerOppgaver, (req, res, ctx) =>
 		res(ctx.json(saksbehandlerOppgaver)),
@@ -230,14 +231,34 @@ export const developmentHandlers = {
 		res(
 			ctx.json([
 				{
-					id: '1',
-					tittel: 'Beskrivende tittel',
-					beskrivelse: 'godt forklart tekst om hva formålet med køen er',
-					oppgaveQuery: { filtere: [], select: [], order: [], limit: 10 },
-					saksbehandlere: [],
-					antallOppgaver: 5,
-					sistEndret: 'dato',
-					versjon: 1,
+					id: 1,
+					versjon: 2,
+					tittel: 'asdfsadffsdasdfasdfa',
+					beskrivelse: 'asdfasdfsfdsdfasadfsadfdsfasdfasdfsadf',
+					oppgaveQuery: {
+						filtere: [
+							{
+								type: 'feltverdi',
+								område: null,
+								kode: 'oppgavestatus',
+								operator: 'IN',
+								verdi: ['AAPEN'],
+							},
+						],
+						select: [],
+						order: [
+							{
+								type: 'enkel',
+								område: 'K9',
+								kode: 'mottattDato',
+								økende: true,
+							},
+						],
+						limit: -1,
+					},
+					frittValgAvOppgave: false,
+					saksbehandlere: ['saksbehandler@nav.no'],
+					endretTidspunkt: '2023-10-18T11:34:44.729',
 				},
 			]),
 		),

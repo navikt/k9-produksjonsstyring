@@ -1,5 +1,4 @@
 import React, { FunctionComponent, useState } from 'react';
-import { WrappedComponentProps, injectIntl } from 'react-intl';
 import NavAnsatt from 'app/navAnsattTsType';
 import { getK9punsjRef, getK9sakHref } from 'app/paths';
 import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
@@ -26,7 +25,7 @@ interface OwnProps {
  * mot server og lagringen av resultatet i klientens state.
  */
 
-const FagsakSearchIndex: FunctionComponent<OwnProps & WrappedComponentProps> = ({ k9sakUrl, k9punsjUrl }) => {
+const FagsakSearchIndex: FunctionComponent<OwnProps> = ({ k9sakUrl, k9punsjUrl }) => {
 	const [reservertAvAnnenSaksbehandler, setReservertAvAnnenSaksbehandler] = useState(false);
 	const [visModalForFlyttReservasjon, setVisModalForFlyttReservasjon] = useState<boolean>(false);
 	const [valgtOppgave, setValgtOppgave] = useState<Oppgave>();

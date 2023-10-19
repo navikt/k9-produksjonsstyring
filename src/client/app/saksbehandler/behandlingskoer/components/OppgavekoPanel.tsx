@@ -66,10 +66,10 @@ const OppgavekoPanel: FunctionComponent<OwnProps> = ({ apneOppgave }) => {
 			/>
 			<VerticalSpacer twentyPx />
 
-			{/* <div className={styles.behandlingskoerContainer}>
+			<div className={styles.behandlingskoerContainer}>
 				<ReserverteOppgaverTabell gjelderHastesaker apneOppgave={apneOppgave} />
 				<ReserverteOppgaverTabell apneOppgave={apneOppgave} />
-			</div> */}
+			</div>
 			<VerticalSpacer eightPx />
 
 			{visFinnesIngenBehandlingerIKoModal && (

@@ -1,6 +1,7 @@
 import React, { FunctionComponent, ReactNode, useContext, useEffect } from 'react';
-import { FormattedMessage, WrappedComponentProps, injectIntl, useIntl } from 'react-intl';
-import { Element, Undertekst } from 'nav-frontend-typografi';
+import { FormattedMessage, useIntl } from 'react-intl';
+import { useQuery } from 'react-query';
+import { Element } from 'nav-frontend-typografi';
 import { OppgavekøV2MedNavn } from 'types/OppgavekøV2Type';
 import { Button, ReadMore, Select } from '@navikt/ds-react';
 import { K9LosApiKeys } from 'api/k9LosApi';
@@ -62,12 +63,12 @@ const getDefaultOppgaveko = (oppgavekoer) => {
  * OppgavekoVelgerForm
  *
  */
-export const OppgavekoVelgerForm: FunctionComponent<OwnProps & WrappedComponentProps> = ({
-	plukkNyOppgave,
-	erRestApiKallLoading,
-}) => {
+export const OppgavekoVelgerForm: FunctionComponent<OwnProps> = ({ plukkNyOppgave, erRestApiKallLoading }) => {
 	const { startRequest: fetchAntallOppgaver, data: antallOppgaver } = useRestApiRunner<number>(
 		K9LosApiKeys.BEHANDLINGSKO_OPPGAVE_ANTALL,
+	);
+	const { startRequest: fetchAntallOppgaverV2, data: antallOppgaverV2 } = useRestApiRunner<number>(
+		K9LosApiKeys.BEHANDLINGSKO_OPPGAVE_ANTALL_V2,
 	);
 	const intl = useIntl();
 	const { oppgavekoer, valgtOppgavekoId, setValgtOppgavekoId } = useContext(BehandlingskoerContext);
@@ -75,6 +76,13 @@ export const OppgavekoVelgerForm: FunctionComponent<OwnProps & WrappedComponentP
 
 	const { data: saksbehandlere, startRequest: hentSaksbehandlere } = useRestApiRunner<Saksbehandler[]>(
 		K9LosApiKeys.OPPGAVEKO_SAKSBEHANDLERE,
+	);
+	const valgtKoId = getDefaultOppgaveko(oppgavekoerSortertAlfabetisk);
+	const { data: saksbehandlereV2 } = useQuery<Saksbehandler[]>(
+		`/ny-oppgavestyring/ko/${getKoId(valgtKoId)}/saksbehandlere`,
+		{
+			enabled: erKoV2(valgtKoId),
+		},
 	);
 
 	useEffect(() => {
@@ -85,7 +93,9 @@ export const OppgavekoVelgerForm: FunctionComponent<OwnProps & WrappedComponentP
 				if (!erKoV2(defaultOppgavekoId)) {
 					hentSaksbehandlere({ id: getKoId(defaultOppgavekoId) });
 					fetchAntallOppgaver({ id: getKoId(defaultOppgavekoId) });
+					return;
 				}
+				fetchAntallOppgaverV2({ id: getKoId(defaultOppgavekoId) });
 			}
 		}
 	}, []);
@@ -99,6 +109,7 @@ export const OppgavekoVelgerForm: FunctionComponent<OwnProps & WrappedComponentP
 			fetchAntallOppgaver({ id: getKoId(koId) });
 		}
 	};
+	console.log(saksbehandlereV2);
 
 	return (
 		<div className={styles.oppgavevelgerform_container}>
@@ -117,9 +128,12 @@ export const OppgavekoVelgerForm: FunctionComponent<OwnProps & WrappedComponentP
 							))}
 						</Select>
 						<VerticalSpacer eightPx />
-						<FormattedMessage id="OppgavekoVelgerForm.AntallOppgaver" values={{ antall: antallOppgaver || 0 }} />
+						<FormattedMessage
+							id="OppgavekoVelgerForm.AntallOppgaver"
+							values={{ antall: antallOppgaver || antallOppgaverV2 || 0 }}
+						/>
 						<ReadMore size="small" header="Andre saksbehandlere i køen">
-							{createTooltip(saksbehandlere)}
+							{createTooltip(saksbehandlere || saksbehandlereV2)}
 						</ReadMore>
 						<VerticalSpacer sixteenPx />
 					</FlexColumn>
@@ -140,4 +154,4 @@ export const OppgavekoVelgerForm: FunctionComponent<OwnProps & WrappedComponentP
 	);
 };
 
-export default injectIntl(OppgavekoVelgerForm);
+export default OppgavekoVelgerForm;

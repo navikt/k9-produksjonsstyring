@@ -18,6 +18,7 @@ import Reservasjon from 'avdelingsleder/reservasjoner/reservasjonTsType';
 import AlleKodeverk from 'kodeverk/alleKodeverkTsType';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
 import merknadType from 'kodeverk/merknadType';
+import ReservasjonV3Dto from 'saksbehandler/behandlingskoer/ReservasjonV3Dto';
 import {
 	getHeaderCodes,
 	hentIDFraSak,
@@ -53,12 +54,14 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps & WrappedComponentPro
 		isSuccess,
 		isError,
 	} = useSaksbehandlerReservasjoner({
-		select: (reserverteOppgaverData: Oppgave[]) =>
-			reserverteOppgaverData.filter((oppgave) =>
-				gjelderHastesaker
-					? oppgave.merknad?.merknadKoder?.includes(merknadType.HASTESAK)
-					: !oppgave.merknad?.merknadKoder?.includes(merknadType.HASTESAK),
-			),
+		select: (reserverteOppgaverData: ReservasjonV3Dto[]) => {
+			if (gjelderHastesaker) {
+				return reserverteOppgaverData.filter((oppgave) =>
+					oppgave.merknad?.merknadKoder?.includes(merknadType.HASTESAK),
+				);
+			}
+			return reserverteOppgaverData.filter((oppgave) => !oppgave.merknad?.merknadKoder?.includes(merknadType.HASTESAK));
+		},
 	});
 	const queryClient = useQueryClient();
 
