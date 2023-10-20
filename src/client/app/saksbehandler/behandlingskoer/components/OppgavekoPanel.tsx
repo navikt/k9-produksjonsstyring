@@ -3,6 +3,7 @@ import { FormattedMessage } from 'react-intl';
 import NavFrontendChevron from 'nav-frontend-chevron';
 import { Element, Undertittel } from 'nav-frontend-typografi';
 import { K9LosApiKeys } from 'api/k9LosApi';
+import { usePlukkOppgaveMutation, useSaksbehandlerReservasjoner } from 'api/queries/saksbehandlerQueries';
 import { useRestApiRunner } from 'api/rest-api-hooks';
 import BehandlingskoerContext from 'saksbehandler/BehandlingskoerContext';
 import ReserverteOppgaverTabell from 'saksbehandler/behandlingskoer/components/oppgavetabeller/ReserverteOppgaverTabell';
@@ -11,7 +12,7 @@ import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import ModalMedIkon from 'sharedComponents/modal/ModalMedIkon';
 import advarselImageUrl from '../../../../images/advarsel.svg';
 import RestApiState from '../../../api/rest-api-hooks/src/RestApiState';
-import { getKoId } from '../utils';
+import { erKoV2, getKoId } from '../utils';
 import OppgavekoVelgerForm from './OppgavekoVelgerForm';
 import styles from './oppgavekoPanel.css';
 import OppgaverTabell from './oppgavetabeller/OppgaverTabell';
@@ -32,7 +33,9 @@ const OppgavekoPanel: FunctionComponent<OwnProps> = ({ apneOppgave }) => {
 		state: restApiState,
 		error: restApiError,
 		resetRequestData,
-	} = useRestApiRunner<Oppgave>(K9LosApiKeys.FÅ_OPPGAVE_FRA_NY_KO);
+	} = useRestApiRunner<Oppgave>(K9LosApiKeys.FÅ_OPPGAVE_FRA_KO);
+
+	const { mutate } = usePlukkOppgaveMutation();
 
 	useEffect(() => {
 		if (
@@ -47,12 +50,17 @@ const OppgavekoPanel: FunctionComponent<OwnProps> = ({ apneOppgave }) => {
 	}, [restApiState, restApiError]);
 
 	const plukkNyOppgave = () => {
-		fåOppgaveFraKo({ oppgaveKøId: getKoId(valgtOppgavekoId) }).then((reservertOppgave) => {
-			resetRequestData();
-			apneOppgave(reservertOppgave);
-		});
-	};
+		if (!erKoV2(valgtOppgavekoId)) {
+			fåOppgaveFraKo({ oppgaveKøId: getKoId(valgtOppgavekoId) }).then((reservertOppgave) => {
+				resetRequestData();
+				apneOppgave(reservertOppgave);
+			});
+			return;
+		}
 
+		mutate({ oppgaveKøId: getKoId(valgtOppgavekoId) });
+	};
+	useSaksbehandlerReservasjoner();
 	// TODO: legge inn visning for oppgaver fra ny oppgavemodell
 	return (
 		<div className={styles.container}>
@@ -65,13 +73,11 @@ const OppgavekoPanel: FunctionComponent<OwnProps> = ({ apneOppgave }) => {
 				erRestApiKallLoading={restApiState === RestApiState.LOADING}
 			/>
 			<VerticalSpacer twentyPx />
-
 			<div className={styles.behandlingskoerContainer}>
 				<ReserverteOppgaverTabell gjelderHastesaker apneOppgave={apneOppgave} />
 				<ReserverteOppgaverTabell apneOppgave={apneOppgave} />
 			</div>
 			<VerticalSpacer eightPx />
-
 			{visFinnesIngenBehandlingerIKoModal && (
 				<ModalMedIkon
 					cancel={() => setVisFinnesIngenBehandlingerIKoModal(false)}
@@ -83,7 +89,6 @@ const OppgavekoPanel: FunctionComponent<OwnProps> = ({ apneOppgave }) => {
 					ikonAlt="Varseltrekant"
 				/>
 			)}
-
 			<div className={styles.behandlingskoerContainer}>
 				<button
 					type="button"
