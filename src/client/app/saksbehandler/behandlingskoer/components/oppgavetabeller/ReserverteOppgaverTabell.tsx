@@ -50,7 +50,7 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps & WrappedComponentPro
 	const [valgtOppgaveId, setValgtOppgaveId] = useState<string>();
 	const [visReservasjoner, setVisReservasjoner] = useState(true);
 	const {
-		data: reserverteOppgaver,
+		data: reservasjoner,
 		isLoading,
 		isSuccess,
 		isError,
@@ -66,7 +66,6 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps & WrappedComponentPro
 			);
 		},
 	});
-	console.log(reserverteOppgaver);
 	const queryClient = useQueryClient();
 
 	const alleKodeverk: AlleKodeverk = useGlobalStateRestApiData(RestApiGlobalStatePathsKeys.KODEVERK);
@@ -84,14 +83,12 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps & WrappedComponentPro
 		}
 	});
 
-	const forlengOppgaveReservasjonFn = useCallback(
-		(oppgaveId: string): Promise<any> =>
-			forlengOppgavereservasjon({ oppgaveId }).then(() => {
-				queryClient.invalidateQueries([apiPaths.saksbehandlerReservasjoner]);
-			}),
-		[],
-	);
-
+	const forlengOppgaveReservasjonFn = (oppgaveId: string): Promise<any> => {
+		console.log(oppgaveId);
+		forlengOppgavereservasjon({ oppgaveId }).then(() => {
+			queryClient.invalidateQueries([apiPaths.saksbehandlerReservasjoner]);
+		});
+	};
 	const ref = useRef({});
 
 	const goToFagsak = (oppgave: Oppgave) => {
@@ -99,7 +96,7 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps & WrappedComponentPro
 		apneOppgave(oppgave);
 	};
 
-	const valgtOppgave = reserverteOppgaver?.find((o) => {
+	const valgtReservasjon = reservasjoner?.find((o) => {
 		if (o.reservertOppgaveV1Dto) {
 			return o.reservertOppgaveV1Dto.eksternId === valgtOppgaveId;
 		}
@@ -121,7 +118,7 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps & WrappedComponentPro
 				/>
 				{isSuccess && (
 					<OppgaveTabellMenyAntallOppgaver
-						antallOppgaver={reserverteOppgaver?.length}
+						antallOppgaver={reservasjoner?.length}
 						tekstId={
 							gjelderHastesaker
 								? 'OppgaverTabell.ReserverteHastesakerAntall'
@@ -133,7 +130,7 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps & WrappedComponentPro
 			</button>
 			{isLoading && visReservasjoner && <Loader size="large" className={styles.spinner} />}
 			{isError && visReservasjoner && <ErrorMessage>Noe gikk galt ved lasting av reservasjoner</ErrorMessage>}
-			{reserverteOppgaver?.length === 0 && isSuccess && visReservasjoner && (
+			{reservasjoner?.length === 0 && isSuccess && visReservasjoner && (
 				<>
 					<VerticalSpacer eightPx />
 					<Normaltekst>
@@ -145,8 +142,7 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps & WrappedComponentPro
 					</Normaltekst>
 				</>
 			)}
-
-			{reserverteOppgaver?.length > 0 && isSuccess && visReservasjoner && (
+			{reservasjoner?.length > 0 && isSuccess && visReservasjoner && (
 				<Table>
 					<Table.Header>
 						<Table.Row>
@@ -160,30 +156,32 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps & WrappedComponentPro
 						</Table.Row>
 					</Table.Header>
 					<Table.Body>
-						{reserverteOppgaver.map((oppgave) =>
-							oppgave.reservertOppgaveV1Dto ? (
+						{reservasjoner.map((reservasjon) =>
+							reservasjon.reservertOppgaveV1Dto ? (
 								<ReservertOppgaveRadV1
-									key={oppgave.reservertOppgaveV1Dto.eksternId}
-									oppgave={oppgave.reservertOppgaveV1Dto}
+									key={reservasjon.reservertOppgaveV1Dto.eksternId}
+									oppgave={reservasjon.reservertOppgaveV1Dto}
 									alleKodeverk={alleKodeverk}
 									goToFagsak={goToFagsak}
 									forlengOppgaveReservasjonFn={forlengOppgaveReservasjonFn}
 									valgtOppgaveId={valgtOppgaveId}
 									setValgtOppgaveId={setValgtOppgaveId}
-									valgtOppgave={valgtOppgave}
+									valgtOppgave={valgtReservasjon}
 									gjelderHastesaker={gjelderHastesaker}
 									ref={ref}
 								/>
 							) : (
-								oppgave.reserverteV3Oppgaver.map((v) => (
+								reservasjon.reserverteV3Oppgaver.map((v) => (
 									<ReservertOppgaveRadV3
+										key={v.oppgaveEksternId}
 										oppgave={v}
+										reservasjon={reservasjon}
 										alleKodeverk={alleKodeverk}
 										goToFagsak={goToFagsak}
 										forlengOppgaveReservasjonFn={forlengOppgaveReservasjonFn}
 										valgtOppgaveId={valgtOppgaveId}
 										setValgtOppgaveId={setValgtOppgaveId}
-										valgtOppgave={valgtOppgave}
+										valgtOppgave={valgtReservasjon}
 										gjelderHastesaker={gjelderHastesaker}
 										ref={ref}
 									/>
@@ -197,4 +195,4 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps & WrappedComponentPro
 	);
 };
 
-export default injectIntl(ReserverteOppgaverTabell);
+export default ReserverteOppgaverTabell;

@@ -78,7 +78,7 @@ const ReservertOppgaveRadV1: React.ForwardRefExoticComponent<OwnProps> = React.f
 					{oppgave.navn ? `${oppgave.navn} ${oppgave.personnummer}` : '<navn>'}
 				</Table.DataCell>
 				<Table.DataCell onClick={() => goToFagsak(oppgave)} className="hover:cursor-pointer">
-					{hentIDFraSak(oppgave, alleKodeverk)}
+					{oppgave.saksnummer || oppgave.journalpostId || ''}
 				</Table.DataCell>
 				<Table.DataCell onClick={() => goToFagsak(oppgave)} className="hover:cursor-pointer">
 					{getKodeverknavnFraKode(oppgave.behandlingstype, kodeverkTyper.BEHANDLING_TYPE, alleKodeverk)}
@@ -112,7 +112,7 @@ const ReservertOppgaveRadV1: React.ForwardRefExoticComponent<OwnProps> = React.f
 							<OppgaveHandlingerMenu
 								imageNode={ref?.current[valgtOppgaveId]}
 								toggleMenu={toggleMenu}
-								oppgave={valgtOppgave}
+								oppgave={oppgave}
 								forlengOppgaveReservasjon={forlengOppgaveReservasjonFn}
 							/>
 						)}

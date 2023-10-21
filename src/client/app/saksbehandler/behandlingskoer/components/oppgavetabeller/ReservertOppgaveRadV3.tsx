@@ -8,24 +8,19 @@ import menuIconBlackUrl from 'images/ic-menu-18px_black.svg';
 import menuIconBlueUrl from 'images/ic-menu-18px_blue.svg';
 import { WarningColored } from '@navikt/ds-icons';
 import { Table } from '@navikt/ds-react';
-import AlleKodeverk from 'kodeverk/alleKodeverkTsType';
-import kodeverkTyper from 'kodeverk/kodeverkTyper';
 import OppgaveV3 from 'saksbehandler/OppgaveV3';
-import { hentIDFraSak } from 'saksbehandler/behandlingskoer/components/oppgavetabeller/oppgavetabellerfelles';
-import KommentarMedMerknad from 'saksbehandler/components/KommentarMedMerknad';
+import ReservasjonV3Dto from 'saksbehandler/behandlingskoer/ReservasjonV3Dto';
 import Oppgave from 'saksbehandler/oppgaveTsType';
-import DateLabel from 'sharedComponents/DateLabel';
 import Image from 'sharedComponents/Image';
 import { getDateAndTime } from 'utils/dateUtils';
-import { getKodeverknavnFraKode } from 'utils/kodeverkUtils';
-import OppgaveHandlingerMenu from '../menu/OppgaveHandlingerMenu';
+import ReservasjonMeny from '../menu/ReservasjonMeny';
 import styles from './oppgaverTabell.css';
 
 // Update the path as necessary
 
 interface ReserverteOppgaverTableRowProps {
 	oppgave: OppgaveV3;
-	alleKodeverk: AlleKodeverk;
+	reservasjon: ReservasjonV3Dto;
 	goToFagsak: (oppgave: Oppgave) => void;
 	forlengOppgaveReservasjonFn: (oppgaveId: string) => Promise<any>;
 	valgtOppgaveId: string;
@@ -41,7 +36,7 @@ const ReservertOppgaveRadV3: React.ForwardRefExoticComponent<Props> = React.forw
 	(
 		{
 			oppgave,
-			alleKodeverk,
+			reservasjon,
 			goToFagsak,
 			forlengOppgaveReservasjonFn,
 			valgtOppgaveId,
@@ -51,68 +46,68 @@ const ReservertOppgaveRadV3: React.ForwardRefExoticComponent<Props> = React.forw
 		}: ReserverteOppgaverTableRowProps,
 		ref: React.RefObject<{ [key: string]: HTMLDivElement }>,
 	) => {
-		const toggleMenu = (oppgaveValgt: Oppgave) => {
+		const toggleMenu = (oppgaveValgt: OppgaveV3) => {
 			if (oppgaveValgt) {
-				setValgtOppgaveId(oppgaveValgt.eksternId);
+				setValgtOppgaveId(oppgaveValgt.oppgaveEksternId);
 			} else {
 				setValgtOppgaveId(undefined);
 			}
 		};
 		const intl = useIntl();
 
-		return <Table.Row>v3</Table.Row>;
-
+		const tilOppgave = () => {
+			// goToFagsak(oppgave);
+		};
 		return (
 			<Table.Row
-				key={oppgave.eksternId}
+				key={oppgave.oppgaveEksternId}
 				className={classNames(styles.isUnderBehandling, { [styles.hastesak]: gjelderHastesaker })}
-				onKeyDown={() => goToFagsak(oppgave)}
+				onKeyDown={tilOppgave}
 			>
 				{gjelderHastesaker && (
-					<Table.DataCell onClick={() => goToFagsak(oppgave)} className={`${styles.hastesakTd} hover:cursor-pointer`}>
+					<Table.DataCell onClick={tilOppgave} className={`${styles.hastesakTd} hover:cursor-pointer`}>
 						<WarningColored className={styles.hastesakIkon} />
 					</Table.DataCell>
 				)}
 				<Table.DataCell
-					onClick={() => goToFagsak(oppgave)}
+					onClick={tilOppgave}
 					className={`${gjelderHastesaker ? '' : styles.soekerPadding} hover:cursor-pointer`}
 				>
-					{oppgave.navn ? `${oppgave.navn} ${oppgave.personnummer}` : '<navn>'}
+					{oppgave.søkersNavn ? `${oppgave.søkersNavn} ${oppgave.søkersPersonnr}` : '<navn>'}
 				</Table.DataCell>
-				<Table.DataCell onClick={() => goToFagsak(oppgave)} className="hover:cursor-pointer">
-					{hentIDFraSak(oppgave, alleKodeverk)}
+				<Table.DataCell onClick={tilOppgave} className="hover:cursor-pointer">
+					{oppgave.saksnummer || oppgave.journalpostId}
 				</Table.DataCell>
-				<Table.DataCell onClick={() => goToFagsak(oppgave)} className="hover:cursor-pointer">
-					{getKodeverknavnFraKode(oppgave.behandlingstype, kodeverkTyper.BEHANDLING_TYPE, alleKodeverk)}
+				<Table.DataCell onClick={tilOppgave} className="hover:cursor-pointer">
+					{oppgave.behandlingstype.navn}
 				</Table.DataCell>
-				<Table.DataCell onClick={() => goToFagsak(oppgave)} className="hover:cursor-pointer">
-					{oppgave.opprettetTidspunkt && <DateLabel dateString={oppgave.opprettetTidspunkt} />}
+				<Table.DataCell onClick={tilOppgave} className="hover:cursor-pointer">
+					-
 				</Table.DataCell>
-				<Table.DataCell onClick={() => goToFagsak(oppgave)} className={`${styles.reservertTil} hover:cursor-pointer`}>
+				<Table.DataCell onClick={tilOppgave} className={`${styles.reservertTil} hover:cursor-pointer`}>
 					<FormattedMessage
 						id="OppgaveHandlingerMenu.ReservertTil"
 						values={{
-							...getDateAndTime(oppgave.status.reservertTilTidspunkt),
+							...getDateAndTime(reservasjon.reservertTil),
 							// eslint-disable-next-line react/no-unstable-nested-components
 							b: (...chunks) => <b>{chunks}</b>,
 						}}
 					/>
 				</Table.DataCell>
-				<Table.DataCell>
-					<KommentarMedMerknad oppgave={oppgave} />
-				</Table.DataCell>
+				<Table.DataCell>{/* <KommentarMedMerknad oppgave={oppgave} /> */}</Table.DataCell>
 				<Table.DataCell className={styles.menuElement}>
 					<div
 						ref={(el) => {
-							ref.current = { ...ref.current, [oppgave.eksternId]: el };
+							ref.current = { ...ref.current, [oppgave.oppgaveEksternId]: el };
 						}}
 						onKeyDown={(event) => event.stopPropagation()}
 					>
-						{valgtOppgaveId === oppgave.eksternId && (
-							<OppgaveHandlingerMenu
+						{valgtOppgaveId === oppgave.oppgaveEksternId && (
+							<ReservasjonMeny
 								imageNode={ref.current[valgtOppgaveId]}
 								toggleMenu={toggleMenu}
-								oppgave={valgtOppgave}
+								oppgave={oppgave}
+								reservasjon={reservasjon}
 								forlengOppgaveReservasjon={forlengOppgaveReservasjonFn}
 							/>
 						)}

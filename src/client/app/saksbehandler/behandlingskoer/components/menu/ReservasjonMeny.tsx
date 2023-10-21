@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
+import OppgaveV3 from 'saksbehandler/OppgaveV3';
+import ReservasjonV3Dto from 'saksbehandler/behandlingskoer/ReservasjonV3Dto';
 import Oppgave from 'saksbehandler/oppgaveTsType';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import FlyttReservasjonModal from './FlyttReservasjonModal';
@@ -20,13 +22,20 @@ const toggleEventListeners = (turnOnEventListeners, handleOutsideClick) => {
 };
 
 interface OwnProps {
-	toggleMenu: (valgtOppgave: Oppgave) => void;
-	oppgave: Oppgave;
+	toggleMenu: (valgtOppgave: OppgaveV3) => void;
+	reservasjon: ReservasjonV3Dto;
+	oppgave: OppgaveV3;
 	imageNode: any;
-	forlengOppgaveReservasjon: (oppgaveId: string) => Promise<Oppgave[]>;
+	forlengOppgaveReservasjon: (oppgaveId: string) => void;
 }
 
-const OppgaveHandlingerMenu: React.FC<OwnProps> = ({ toggleMenu, oppgave, imageNode, forlengOppgaveReservasjon }) => {
+const ReservasjonMeny: React.FC<OwnProps> = ({
+	toggleMenu,
+	oppgave,
+	imageNode,
+	forlengOppgaveReservasjon,
+	reservasjon,
+}) => {
 	const node = useRef(null);
 	const menuButtonRef = useRef(null);
 
@@ -76,9 +85,8 @@ const OppgaveHandlingerMenu: React.FC<OwnProps> = ({ toggleMenu, oppgave, imageN
 	};
 
 	const forlengReserverasjon = () => {
-		forlengOppgaveReservasjon(oppgave.eksternId).then(() => {
-			toggleMenu(null);
-		});
+		forlengOppgaveReservasjon(oppgave.oppgaveEksternId);
+		toggleMenu(null);
 	};
 
 	return (
@@ -117,4 +125,4 @@ const OppgaveHandlingerMenu: React.FC<OwnProps> = ({ toggleMenu, oppgave, imageN
 	);
 };
 
-export default OppgaveHandlingerMenu;
+export default ReservasjonMeny;

@@ -1,3 +1,4 @@
+import KodeverkMedNavn from 'kodeverk/kodeverkMedNavnTsType';
 import { OppgaveStatus } from './oppgaveStatusTsType';
 
 type OppgaveV3 = {
@@ -7,6 +8,7 @@ type OppgaveV3 = {
 	oppgaveEksternId: string;
 	journalpostId: string;
 	oppgavestatus: OppgaveStatus;
+	behandlingstype: KodeverkMedNavn;
 };
 
 export default OppgaveV3;

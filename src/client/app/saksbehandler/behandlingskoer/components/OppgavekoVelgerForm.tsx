@@ -95,7 +95,7 @@ export const OppgavekoVelgerForm: FunctionComponent<OwnProps> = ({ plukkNyOppgav
 					fetchAntallOppgaver({ id: getKoId(defaultOppgavekoId) });
 					return;
 				}
-				fetchAntallOppgaverV2({ id: getKoId(defaultOppgavekoId) });
+				fetchAntallOppgaverV2({ oppgaveKoId: getKoId(defaultOppgavekoId) });
 			}
 		}
 	}, []);
@@ -109,7 +109,6 @@ export const OppgavekoVelgerForm: FunctionComponent<OwnProps> = ({ plukkNyOppgav
 			fetchAntallOppgaver({ id: getKoId(koId) });
 		}
 	};
-	console.log(saksbehandlereV2);
 
 	return (
 		<div className={styles.oppgavevelgerform_container}>
