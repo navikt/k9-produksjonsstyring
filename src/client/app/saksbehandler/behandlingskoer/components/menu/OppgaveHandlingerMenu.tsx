@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
+import OppgaveV3 from 'saksbehandler/OppgaveV3';
 import Oppgave from 'saksbehandler/oppgaveTsType';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import FlyttReservasjonModal from './FlyttReservasjonModal';
@@ -21,9 +22,9 @@ const toggleEventListeners = (turnOnEventListeners, handleOutsideClick) => {
 
 interface OwnProps {
 	toggleMenu: (valgtOppgave: Oppgave) => void;
-	oppgave: Oppgave;
+	oppgave: Oppgave | OppgaveV3;
 	imageNode: any;
-	forlengOppgaveReservasjon: (oppgaveId: string) => Promise<Oppgave[]>;
+	forlengOppgaveReservasjon: (oppgaveId: string) => void;
 }
 
 const OppgaveHandlingerMenu: React.FC<OwnProps> = ({ toggleMenu, oppgave, imageNode, forlengOppgaveReservasjon }) => {
@@ -32,6 +33,14 @@ const OppgaveHandlingerMenu: React.FC<OwnProps> = ({ toggleMenu, oppgave, imageN
 
 	const [showOpphevReservasjonModal, setShowOpphevReservasjonModal] = useState(false);
 	const [showFlyttReservasjonModal, setShowFlyttReservasjonModal] = useState(false);
+
+	console.log(oppgave);
+	let id: string;
+	if ('eksternId' in oppgave) {
+		id = oppgave.eksternId;
+	} else if ('oppgaveEksternId' in oppgave) {
+		id = oppgave.oppgaveEksternId;
+	}
 
 	const handleOutsideClick = (event: React.MouseEvent<HTMLButtonElement>) => {
 		if (event && event.target) {
@@ -76,9 +85,8 @@ const OppgaveHandlingerMenu: React.FC<OwnProps> = ({ toggleMenu, oppgave, imageN
 	};
 
 	const forlengReserverasjon = () => {
-		forlengOppgaveReservasjon(oppgave.eksternId).then(() => {
-			toggleMenu(null);
-		});
+		forlengOppgaveReservasjon(id);
+		toggleMenu(null);
 	};
 
 	return (
@@ -97,7 +105,7 @@ const OppgaveHandlingerMenu: React.FC<OwnProps> = ({ toggleMenu, oppgave, imageN
 			</div>
 			{showOpphevReservasjonModal && (
 				<OpphevReservasjonModal
-					oppgaveId={oppgave.eksternId}
+					oppgaveId={id}
 					oppgaveSaksnummer={oppgave.saksnummer}
 					showModal={showOpphevReservasjonModal}
 					cancel={closeBegrunnelseModal}
@@ -106,7 +114,7 @@ const OppgaveHandlingerMenu: React.FC<OwnProps> = ({ toggleMenu, oppgave, imageN
 
 			{showFlyttReservasjonModal && (
 				<FlyttReservasjonModal
-					oppgaveId={oppgave.eksternId}
+					oppgaveId={id}
 					oppgaveReservertTil={oppgave.status.reservertTilTidspunkt.substring(0, 10)}
 					showModal={showFlyttReservasjonModal}
 					closeModal={closeFlytteModal}

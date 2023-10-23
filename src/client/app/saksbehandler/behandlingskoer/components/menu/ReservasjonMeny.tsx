@@ -24,7 +24,7 @@ const toggleEventListeners = (turnOnEventListeners, handleOutsideClick) => {
 interface OwnProps {
 	toggleMenu: (valgtOppgave: OppgaveV3) => void;
 	reservasjon: ReservasjonV3Dto;
-	oppgave: OppgaveV3;
+	oppgave: Oppgave | OppgaveV3;
 	imageNode: any;
 	forlengOppgaveReservasjon: (oppgaveId: string) => void;
 }
@@ -41,6 +41,13 @@ const ReservasjonMeny: React.FC<OwnProps> = ({
 
 	const [showOpphevReservasjonModal, setShowOpphevReservasjonModal] = useState(false);
 	const [showFlyttReservasjonModal, setShowFlyttReservasjonModal] = useState(false);
+
+	let id: string;
+	if ('eksternId' in oppgave) {
+		id = oppgave.eksternId;
+	} else if ('oppgaveEksternId' in oppgave) {
+		id = oppgave.oppgaveEksternId;
+	}
 
 	const handleOutsideClick = (event: React.MouseEvent<HTMLButtonElement>) => {
 		if (event && event.target) {
@@ -85,7 +92,7 @@ const ReservasjonMeny: React.FC<OwnProps> = ({
 	};
 
 	const forlengReserverasjon = () => {
-		forlengOppgaveReservasjon(oppgave.oppgaveEksternId);
+		forlengOppgaveReservasjon(id);
 		toggleMenu(null);
 	};
 
@@ -104,21 +111,16 @@ const ReservasjonMeny: React.FC<OwnProps> = ({
 				</MenuButton>
 			</div>
 			{showOpphevReservasjonModal && (
-				<OpphevReservasjonModal
-					oppgaveId={oppgave.eksternId}
-					oppgaveSaksnummer={oppgave.saksnummer}
-					showModal={showOpphevReservasjonModal}
-					cancel={closeBegrunnelseModal}
-				/>
+				<OpphevReservasjonModal oppgaveId={id} showModal={showOpphevReservasjonModal} cancel={closeBegrunnelseModal} />
 			)}
 
 			{showFlyttReservasjonModal && (
 				<FlyttReservasjonModal
-					oppgaveId={oppgave.eksternId}
-					oppgaveReservertTil={oppgave.status.reservertTilTidspunkt.substring(0, 10)}
+					oppgaveId={id}
+					oppgaveReservertTil={reservasjon.reservertTil}
 					showModal={showFlyttReservasjonModal}
 					closeModal={closeFlytteModal}
-					eksisterendeBegrunnelse={oppgave.status.flyttetReservasjon?.begrunnelse}
+					eksisterendeBegrunnelse={reservasjon.kommentar}
 				/>
 			)}
 		</>

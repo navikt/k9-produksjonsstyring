@@ -1,6 +1,7 @@
 import React, { FunctionComponent, useCallback, useEffect } from 'react';
 import { Form } from 'react-final-form';
 import { FormattedMessage, WrappedComponentProps, injectIntl } from 'react-intl';
+import dayjs from 'dayjs';
 import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import NavAnsatt from 'app/navAnsattTsType';
@@ -29,7 +30,7 @@ const maxLength1500 = maxLength(1500);
 interface OwnProps {
 	showModal: boolean;
 	oppgaveId: string;
-	oppgaveReservertTil?: string;
+	oppgaveReservertTil?: Date;
 	closeModal: () => void;
 	eksisterendeBegrunnelse?: string;
 }
@@ -156,7 +157,10 @@ export const FlyttReservasjonModal: FunctionComponent<OwnProps & WrappedComponen
 				onSubmit={(values) =>
 					onSubmit(saksbehandler ? saksbehandler.brukerIdent : '', values.begrunnelse, values.reserverTil)
 				}
-				initialValues={{ reserverTil: oppgaveReservertTil || '', begrunnelse: eksisterendeBegrunnelse || '' }}
+				initialValues={{
+					reserverTil: oppgaveReservertTil ? dayjs(oppgaveReservertTil).format('DDMMYYYY') : '',
+					begrunnelse: eksisterendeBegrunnelse || '',
+				}}
 				render={({ handleSubmit, values }) => (
 					<form onSubmit={handleSubmit}>
 						<VerticalSpacer sixteenPx />

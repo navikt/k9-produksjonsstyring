@@ -83,8 +83,7 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps & WrappedComponentPro
 		}
 	});
 
-	const forlengOppgaveReservasjonFn = (oppgaveId: string): Promise<any> => {
-		console.log(oppgaveId);
+	const forlengOppgaveReservasjonFn = (oppgaveId: string) => {
 		forlengOppgavereservasjon({ oppgaveId }).then(() => {
 			queryClient.invalidateQueries([apiPaths.saksbehandlerReservasjoner]);
 		});

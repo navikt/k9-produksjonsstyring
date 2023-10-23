@@ -34,13 +34,11 @@ const headerTextCodes = [
 
 interface OwnProps {
 	reservasjoner: Reservasjon[];
-	hentAlleReservasjoner: () => void;
 	requestFinished: boolean;
 }
 
 const ReservasjonerTabell: FunctionComponent<OwnProps & WrappedComponentProps> = ({
 	reservasjoner,
-	hentAlleReservasjoner,
 	requestFinished,
 }) => {
 	const sorterteReservasjoner = reservasjoner.sort((reservasjon1, reservasjon2) =>
@@ -192,7 +190,6 @@ const ReservasjonerTabell: FunctionComponent<OwnProps & WrappedComponentProps> =
 					oppgaveId={valgtReservasjon.oppgaveId}
 					showModal={showOpphevReservasjonModal}
 					cancel={() => setShowOpphevReservasjonModal(false)}
-					hentReserverteOppgaver={hentAlleReservasjoner}
 				/>
 			)}
 			{showFlyttReservasjonModal && (

@@ -10,8 +10,6 @@ import { WarningColored } from '@navikt/ds-icons';
 import { Table } from '@navikt/ds-react';
 import AlleKodeverk from 'kodeverk/alleKodeverkTsType';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
-import OppgaveV3 from 'saksbehandler/OppgaveV3';
-import { hentIDFraSak } from 'saksbehandler/behandlingskoer/components/oppgavetabeller/oppgavetabellerfelles';
 import KommentarMedMerknad from 'saksbehandler/components/KommentarMedMerknad';
 import Oppgave from 'saksbehandler/oppgaveTsType';
 import DateLabel from 'sharedComponents/DateLabel';
@@ -27,10 +25,9 @@ interface Props {
 	oppgave: Oppgave;
 	alleKodeverk: AlleKodeverk;
 	goToFagsak: (oppgave: Oppgave) => void;
-	forlengOppgaveReservasjonFn: (oppgaveId: string) => Promise<any>;
+	forlengOppgaveReservasjonFn: (oppgaveId: string) => void;
 	valgtOppgaveId: string;
 	setValgtOppgaveId: React.Dispatch<React.SetStateAction<string>>;
-	valgtOppgave: Oppgave | OppgaveV3;
 	gjelderHastesaker: boolean;
 }
 
@@ -46,7 +43,6 @@ const ReservertOppgaveRadV1: React.ForwardRefExoticComponent<OwnProps> = React.f
 			forlengOppgaveReservasjonFn,
 			valgtOppgaveId,
 			setValgtOppgaveId,
-			valgtOppgave,
 			gjelderHastesaker,
 		}: Props,
 		ref: React.RefObject<{ [key: string]: HTMLDivElement }>,

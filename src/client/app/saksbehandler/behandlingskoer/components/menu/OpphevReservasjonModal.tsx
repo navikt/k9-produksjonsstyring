@@ -19,7 +19,6 @@ const maxLength1500 = maxLength(1500);
 type OwnProps = Readonly<{
 	showModal: boolean;
 	oppgaveId: string;
-	oppgaveSaksnummer: string;
 	cancel: () => void;
 }>;
 
@@ -28,21 +27,17 @@ type OwnProps = Readonly<{
  *
  * Presentasjonskomponent. Modal som lar en begrunne hvorfor en sak skal frigjøres.
  */
-export const OpphevReservasjonModal: FunctionComponent<OwnProps & WrappedComponentProps> = ({
-	showModal,
-	cancel,
-	oppgaveId,
-	oppgaveSaksnummer,
-}) => {
+export const OpphevReservasjonModal: FunctionComponent<OwnProps> = ({ showModal, cancel, oppgaveId }) => {
 	const { startRequest: opphevOppgavereservasjon } = useRestApiRunner(K9LosApiKeys.OPPHEV_OPPGAVERESERVASJON);
 	const intl = useIntl();
 	const queryClient = useQueryClient();
 
+	console.log(oppgaveId);
 	const opphevReservasjonFn = useCallback(
 		(begrunnelse: string) =>
-			opphevOppgavereservasjon({ oppgaveId, oppgaveSaksnummer, begrunnelse }).then(() => {
+			opphevOppgavereservasjon({ oppgaveId, begrunnelse }).then(() => {
 				captureMessage(
-					`Legg tilbake: ${oppgaveSaksnummer} - Tidspunkt: ${new Date().toLocaleString('no-NO', {
+					`Legg tilbake: ${oppgaveId} - Tidspunkt: ${new Date().toLocaleString('no-NO', {
 						timeZone: 'Europe/Oslo',
 					})}`,
 				);
@@ -88,4 +83,4 @@ export const OpphevReservasjonModal: FunctionComponent<OwnProps & WrappedCompone
 	);
 };
 
-export default injectIntl(OpphevReservasjonModal);
+export default OpphevReservasjonModal;
