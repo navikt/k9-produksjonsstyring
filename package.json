@@ -187,6 +187,9 @@
 		"webpack-dev-server": "4.15.1",
 		"webpack-merge": "5.9.0"
 	},
+	"resolutions": {
+		"@babel/traverse": "7.23.2"
+	},
 	"scripts": {
 		"test": "jest --colors",
 		"dev-env-variables": "cross-env SAKSBEHANDLER_KAN_VELGE_NYE_KOER=disabled AVDELINGSLEDER_TILGANG_TIL_NYE_KOER=enabled NODE_ENV=development",
