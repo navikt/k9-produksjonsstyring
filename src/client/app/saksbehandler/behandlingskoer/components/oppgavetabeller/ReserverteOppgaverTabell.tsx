@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import React, { FunctionComponent, useCallback, useEffect, useRef, useState } from 'react';
-import { FormattedMessage, WrappedComponentProps, injectIntl } from 'react-intl';
+import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
+import { FormattedMessage } from 'react-intl';
 import { useQueryClient } from 'react-query';
 import NavFrontendChevron from 'nav-frontend-chevron';
 import { Normaltekst } from 'nav-frontend-typografi';
@@ -13,8 +13,7 @@ import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner
 import Reservasjon from 'avdelingsleder/reservasjoner/reservasjonTsType';
 import AlleKodeverk from 'kodeverk/alleKodeverkTsType';
 import merknadType from 'kodeverk/merknadType';
-import OppgaveV3 from 'saksbehandler/OppgaveV3';
-import ReservasjonV3Dto from 'saksbehandler/behandlingskoer/ReservasjonV3Dto';
+import ReservasjonV3 from 'saksbehandler/behandlingskoer/ReservasjonV3Dto';
 import { getHeaderCodes } from 'saksbehandler/behandlingskoer/components/oppgavetabeller/oppgavetabellerfelles';
 import Oppgave from 'saksbehandler/oppgaveTsType';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
@@ -29,24 +28,7 @@ interface OwnProps {
 	gjelderHastesaker?: boolean;
 }
 
-const reduceTilOppgaver = (data: ReservasjonV3Dto[]): Array<Oppgave | OppgaveV3> =>
-	data.reduce((acc, item) => {
-		if (item.reserverteV3Oppgaver && item.reserverteV3Oppgaver.length > 0) {
-			const { reserverteV3Oppgaver, ...rest } = item;
-			const items = reserverteV3Oppgaver.map((oppgave) => ({ reservertV3Oppgave: oppgave, ...rest }));
-			acc.push(...items);
-		}
-		if (item.reservertOppgaveV1Dto) {
-			const { reservertOppgaveV1Dto, ...rest } = item;
-			acc.push({ reservertOppgaveV1Dto, ...rest });
-		}
-		return acc;
-	}, []);
-
-const ReserverteOppgaverTabell: FunctionComponent<OwnProps & WrappedComponentProps> = ({
-	apneOppgave,
-	gjelderHastesaker,
-}) => {
+const ReserverteOppgaverTabell: FunctionComponent<OwnProps> = ({ apneOppgave, gjelderHastesaker }) => {
 	const [valgtOppgaveId, setValgtOppgaveId] = useState<string>();
 	const [visReservasjoner, setVisReservasjoner] = useState(true);
 	const {
@@ -55,14 +37,14 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps & WrappedComponentPro
 		isSuccess,
 		isError,
 	} = useSaksbehandlerReservasjoner({
-		select: (reserverteOppgaverData: ReservasjonV3Dto[]): ReservasjonV3Dto[] => {
+		select: (reserverteOppgaverData: ReservasjonV3[]): ReservasjonV3[] => {
 			if (gjelderHastesaker) {
 				return reserverteOppgaverData.filter(
-					(oppgave) => !!oppgave.merknad?.merknadKoder?.includes(merknadType.HASTESAK),
+					(reservasjon) => !!reservasjon?.reservertOppgaveV1Dto?.merknad?.merknadKoder?.includes(merknadType.HASTESAK),
 				);
 			}
 			return reserverteOppgaverData.filter(
-				(oppgave) => !oppgave?.merknad?.merknadKoder?.includes(merknadType.HASTESAK),
+				(reservasjon) => !reservasjon?.reservertOppgaveV1Dto?.merknad?.merknadKoder?.includes(merknadType.HASTESAK),
 			);
 		},
 	});
@@ -165,22 +147,18 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps & WrappedComponentPro
 									forlengOppgaveReservasjonFn={forlengOppgaveReservasjonFn}
 									valgtOppgaveId={valgtOppgaveId}
 									setValgtOppgaveId={setValgtOppgaveId}
-									valgtOppgave={valgtReservasjon}
 									gjelderHastesaker={gjelderHastesaker}
 									ref={ref}
 								/>
 							) : (
-								reservasjon.reserverteV3Oppgaver.map((v) => (
+								reservasjon.reserverteV3Oppgaver.map((oppgave) => (
 									<ReservertOppgaveRadV3
-										key={v.oppgaveEksternId}
-										oppgave={v}
+										key={oppgave.oppgaveEksternId}
+										oppgave={oppgave}
 										reservasjon={reservasjon}
-										alleKodeverk={alleKodeverk}
-										goToFagsak={goToFagsak}
 										forlengOppgaveReservasjonFn={forlengOppgaveReservasjonFn}
 										valgtOppgaveId={valgtOppgaveId}
 										setValgtOppgaveId={setValgtOppgaveId}
-										valgtOppgave={valgtReservasjon}
 										gjelderHastesaker={gjelderHastesaker}
 										ref={ref}
 									/>

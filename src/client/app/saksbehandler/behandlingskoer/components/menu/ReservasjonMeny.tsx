@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import OppgaveV3 from 'saksbehandler/OppgaveV3';
-import ReservasjonV3Dto from 'saksbehandler/behandlingskoer/ReservasjonV3Dto';
+import ReservasjonV3 from 'saksbehandler/behandlingskoer/ReservasjonV3Dto';
 import Oppgave from 'saksbehandler/oppgaveTsType';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import FlyttReservasjonModal from './FlyttReservasjonModal';
@@ -23,7 +23,7 @@ const toggleEventListeners = (turnOnEventListeners, handleOutsideClick) => {
 
 interface OwnProps {
 	toggleMenu: (valgtOppgave: OppgaveV3) => void;
-	reservasjon: ReservasjonV3Dto;
+	reservasjon: ReservasjonV3;
 	oppgave: Oppgave | OppgaveV3;
 	imageNode: any;
 	forlengOppgaveReservasjon: (oppgaveId: string) => void;

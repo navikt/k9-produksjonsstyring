@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useCallback, useEffect, useState } from 'react';
-import { FormattedMessage, WrappedComponentProps, injectIntl } from 'react-intl';
+import { FormattedMessage, WrappedComponentProps, injectIntl, useIntl } from 'react-intl';
 import _ from 'lodash';
 import Chevron from 'nav-frontend-chevron';
 import { Row } from 'nav-frontend-grid';
@@ -37,10 +37,7 @@ interface OwnProps {
 	requestFinished: boolean;
 }
 
-const ReservasjonerTabell: FunctionComponent<OwnProps & WrappedComponentProps> = ({
-	reservasjoner,
-	requestFinished,
-}) => {
+const ReservasjonerTabell: FunctionComponent<OwnProps> = ({ reservasjoner, requestFinished }) => {
 	const sorterteReservasjoner = reservasjoner.sort((reservasjon1, reservasjon2) =>
 		reservasjon1.reservertAvNavn.localeCompare(reservasjon2.reservertAvNavn),
 	);
@@ -203,4 +200,4 @@ const ReservasjonerTabell: FunctionComponent<OwnProps & WrappedComponentProps> =
 	);
 };
 
-export default injectIntl(ReservasjonerTabell);
+export default ReservasjonerTabell;

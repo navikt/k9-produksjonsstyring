@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import OppgaveV3 from 'saksbehandler/OppgaveV3';
+import ReservasjonV3Dto from 'saksbehandler/behandlingskoer/ReservasjonV3Dto';
 import Oppgave from 'saksbehandler/oppgaveTsType';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import FlyttReservasjonModal from './FlyttReservasjonModal';
@@ -23,18 +24,24 @@ const toggleEventListeners = (turnOnEventListeners, handleOutsideClick) => {
 interface OwnProps {
 	toggleMenu: (valgtOppgave: Oppgave) => void;
 	oppgave: Oppgave | OppgaveV3;
+	reservasjon: ReservasjonV3Dto;
 	imageNode: any;
 	forlengOppgaveReservasjon: (oppgaveId: string) => void;
 }
 
-const OppgaveHandlingerMenu: React.FC<OwnProps> = ({ toggleMenu, oppgave, imageNode, forlengOppgaveReservasjon }) => {
+const OppgaveHandlingerMenu: React.FC<OwnProps> = ({
+	toggleMenu,
+	oppgave,
+	imageNode,
+	forlengOppgaveReservasjon,
+	reservasjon,
+}) => {
 	const node = useRef(null);
 	const menuButtonRef = useRef(null);
 
 	const [showOpphevReservasjonModal, setShowOpphevReservasjonModal] = useState(false);
 	const [showFlyttReservasjonModal, setShowFlyttReservasjonModal] = useState(false);
 
-	console.log(oppgave);
 	let id: string;
 	if ('eksternId' in oppgave) {
 		id = oppgave.eksternId;
@@ -104,21 +111,16 @@ const OppgaveHandlingerMenu: React.FC<OwnProps> = ({ toggleMenu, oppgave, imageN
 				</MenuButton>
 			</div>
 			{showOpphevReservasjonModal && (
-				<OpphevReservasjonModal
-					oppgaveId={id}
-					oppgaveSaksnummer={oppgave.saksnummer}
-					showModal={showOpphevReservasjonModal}
-					cancel={closeBegrunnelseModal}
-				/>
+				<OpphevReservasjonModal oppgaveId={id} showModal={showOpphevReservasjonModal} cancel={closeBegrunnelseModal} />
 			)}
 
 			{showFlyttReservasjonModal && (
 				<FlyttReservasjonModal
 					oppgaveId={id}
-					oppgaveReservertTil={oppgave.status.reservertTilTidspunkt.substring(0, 10)}
+					oppgaveReservertTil={reservasjon.reservertTil}
 					showModal={showFlyttReservasjonModal}
 					closeModal={closeFlytteModal}
-					eksisterendeBegrunnelse={oppgave.status.flyttetReservasjon?.begrunnelse}
+					eksisterendeBegrunnelse={reservasjon.kommentar}
 				/>
 			)}
 		</>

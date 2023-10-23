@@ -1,10 +1,12 @@
 import React, { FunctionComponent, useCallback, useEffect } from 'react';
 import { Form } from 'react-final-form';
-import { FormattedMessage, WrappedComponentProps, injectIntl } from 'react-intl';
+import { FormattedMessage, WrappedComponentProps, injectIntl, useIntl } from 'react-intl';
+import { useQueryClient } from 'react-query';
 import dayjs from 'dayjs';
 import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import NavAnsatt from 'app/navAnsattTsType';
+import apiPaths from 'api/apiPaths';
 import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
 import RestApiState from 'api/rest-api-hooks/src/RestApiState';
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
@@ -40,8 +42,7 @@ interface OwnProps {
  *
  * Presentasjonskomponent. Modal som lar en søke opp en saksbehandler som saken skal flyttes til. En kan også begrunne hvorfor saken skal flyttes.
  */
-export const FlyttReservasjonModal: FunctionComponent<OwnProps & WrappedComponentProps> = ({
-	intl,
+export const FlyttReservasjonModal: FunctionComponent<OwnProps> = ({
 	showModal,
 	closeModal,
 	oppgaveId,
@@ -58,7 +59,9 @@ export const FlyttReservasjonModal: FunctionComponent<OwnProps & WrappedComponen
 
 	const finnSaksbehandler = useCallback((brukerIdent) => startRequest({ brukerIdent }), []);
 
+	const intl = useIntl();
 	const { navn } = useGlobalStateRestApiData<NavAnsatt>(RestApiGlobalStatePathsKeys.NAV_ANSATT);
+	const queryClient = useQueryClient();
 
 	const endreReservasjonFn = useCallback(
 		(brukerIdent: string, begrunnelse: string, reservertTilDato: string): Promise<any> => {
@@ -79,11 +82,11 @@ export const FlyttReservasjonModal: FunctionComponent<OwnProps & WrappedComponen
 
 			return endreOppgaveReservasjon(params).then(() => {
 				closeModal();
+				queryClient.invalidateQueries(apiPaths.saksbehandlerReservasjoner);
 			});
 		},
-		[],
+		[queryClient],
 	);
-
 	const onSubmit = (brukerIdent: string, begrunnelse: string, reservertTilDato: string) => {
 		endreReservasjonFn(brukerIdent, begrunnelse, reservertTilDato);
 	};
@@ -158,7 +161,7 @@ export const FlyttReservasjonModal: FunctionComponent<OwnProps & WrappedComponen
 					onSubmit(saksbehandler ? saksbehandler.brukerIdent : '', values.begrunnelse, values.reserverTil)
 				}
 				initialValues={{
-					reserverTil: oppgaveReservertTil ? dayjs(oppgaveReservertTil).format('DDMMYYYY') : '',
+					reserverTil: oppgaveReservertTil ? dayjs(oppgaveReservertTil).format('YYYY-MM-DD') : '',
 					begrunnelse: eksisterendeBegrunnelse || '',
 				}}
 				render={({ handleSubmit, values }) => (
@@ -199,4 +202,4 @@ export const FlyttReservasjonModal: FunctionComponent<OwnProps & WrappedComponen
 	);
 };
 
-export default injectIntl(FlyttReservasjonModal);
+export default FlyttReservasjonModal;

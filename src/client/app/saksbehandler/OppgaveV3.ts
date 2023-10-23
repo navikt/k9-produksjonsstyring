@@ -7,6 +7,7 @@ type OppgaveV3 = {
 	saksnummer: string;
 	oppgaveEksternId: string;
 	journalpostId: string;
+	oppgavebehandlingsUrl: string;
 	oppgavestatus: OppgaveStatus;
 	behandlingstype: KodeverkMedNavn;
 };

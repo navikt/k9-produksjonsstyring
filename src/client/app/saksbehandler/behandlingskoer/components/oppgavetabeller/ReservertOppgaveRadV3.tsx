@@ -9,8 +9,7 @@ import menuIconBlueUrl from 'images/ic-menu-18px_blue.svg';
 import { WarningColored } from '@navikt/ds-icons';
 import { Table } from '@navikt/ds-react';
 import OppgaveV3 from 'saksbehandler/OppgaveV3';
-import ReservasjonV3Dto from 'saksbehandler/behandlingskoer/ReservasjonV3Dto';
-import Oppgave from 'saksbehandler/oppgaveTsType';
+import ReservasjonV3 from 'saksbehandler/behandlingskoer/ReservasjonV3Dto';
 import Image from 'sharedComponents/Image';
 import { getDateAndTime } from 'utils/dateUtils';
 import ReservasjonMeny from '../menu/ReservasjonMeny';
@@ -18,32 +17,28 @@ import styles from './oppgaverTabell.css';
 
 // Update the path as necessary
 
-interface ReserverteOppgaverTableRowProps {
+interface OwnProps {
 	oppgave: OppgaveV3;
-	reservasjon: ReservasjonV3Dto;
-	goToFagsak: (oppgave: Oppgave) => void;
-	forlengOppgaveReservasjonFn: (oppgaveId: string) => Promise<any>;
+	reservasjon: ReservasjonV3;
+	forlengOppgaveReservasjonFn: (oppgaveId: string) => void;
 	valgtOppgaveId: string;
 	setValgtOppgaveId: React.Dispatch<React.SetStateAction<string>>;
-	valgtOppgave: OppgaveV3;
 	gjelderHastesaker: boolean;
 }
 
 type Ref = { [key: string]: HTMLDivElement };
-type Props = ReserverteOppgaverTableRowProps & RefAttributes<Ref>;
+type Props = OwnProps & RefAttributes<Ref>;
 
 const ReservertOppgaveRadV3: React.ForwardRefExoticComponent<Props> = React.forwardRef(
 	(
 		{
 			oppgave,
 			reservasjon,
-			goToFagsak,
 			forlengOppgaveReservasjonFn,
 			valgtOppgaveId,
 			setValgtOppgaveId,
-			valgtOppgave,
 			gjelderHastesaker,
-		}: ReserverteOppgaverTableRowProps,
+		}: OwnProps,
 		ref: React.RefObject<{ [key: string]: HTMLDivElement }>,
 	) => {
 		const toggleMenu = (oppgaveValgt: OppgaveV3) => {
@@ -56,7 +51,7 @@ const ReservertOppgaveRadV3: React.ForwardRefExoticComponent<Props> = React.forw
 		const intl = useIntl();
 
 		const tilOppgave = () => {
-			// goToFagsak(oppgave);
+			window.location.assign(oppgave.oppgavebehandlingsUrl);
 		};
 		return (
 			<Table.Row

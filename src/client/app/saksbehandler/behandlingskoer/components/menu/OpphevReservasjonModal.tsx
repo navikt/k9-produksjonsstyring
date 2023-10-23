@@ -32,7 +32,6 @@ export const OpphevReservasjonModal: FunctionComponent<OwnProps> = ({ showModal,
 	const intl = useIntl();
 	const queryClient = useQueryClient();
 
-	console.log(oppgaveId);
 	const opphevReservasjonFn = useCallback(
 		(begrunnelse: string) =>
 			opphevOppgavereservasjon({ oppgaveId, begrunnelse }).then(() => {

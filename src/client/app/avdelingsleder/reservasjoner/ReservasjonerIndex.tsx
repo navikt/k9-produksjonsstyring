@@ -19,13 +19,7 @@ export const ReservasjonerIndex: FunctionComponent = () => {
 		hentAlleReservasjoner();
 	}, []);
 
-	return (
-		<ReservasjonerTabell
-			reservasjoner={reservasjoner}
-			hentAlleReservasjoner={hentAlleReservasjoner}
-			requestFinished={requestFinished}
-		/>
-	);
+	return <ReservasjonerTabell reservasjoner={reservasjoner} requestFinished={requestFinished} />;
 };
 
 export default ReservasjonerIndex;

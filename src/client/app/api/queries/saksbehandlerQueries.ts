@@ -2,7 +2,7 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { OppgavekøV2Enkel, OppgavekøerV2 } from 'types/OppgavekøV2Type';
 import apiPaths from 'api/apiPaths';
 import { baseURL } from 'api/rest-api/src/axios/initRestMethods';
-import ReservasjonV3Dto from 'saksbehandler/behandlingskoer/ReservasjonV3Dto';
+import ReservasjonV3 from 'saksbehandler/behandlingskoer/ReservasjonV3Dto';
 import { axiosInstance } from 'utils/reactQueryConfig';
 
 export const useAlleSaksbehandlerKoer = (options = {}) =>
@@ -12,7 +12,7 @@ export const useAlleSaksbehandlerKoer = (options = {}) =>
 	});
 
 export const useSaksbehandlerReservasjoner = (options = {}) =>
-	useQuery<ReservasjonV3Dto[], unknown, ReservasjonV3Dto[]>({
+	useQuery<ReservasjonV3[], unknown, ReservasjonV3[]>({
 		queryKey: [apiPaths.saksbehandlerReservasjoner],
 		...options,
 	});

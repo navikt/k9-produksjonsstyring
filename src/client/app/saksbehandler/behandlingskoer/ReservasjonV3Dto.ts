@@ -1,7 +1,7 @@
 import OppgaveV3 from 'saksbehandler/OppgaveV3';
 import Oppgave from 'saksbehandler/oppgaveTsType';
 
-interface ReservasjonV3Dto {
+interface ReservasjonV3 {
 	reserverteV3Oppgaver: OppgaveV3[];
 	reservertOppgaveV1Dto?: Oppgave;
 	reservasjonsnøkkel: string;
@@ -10,4 +10,4 @@ interface ReservasjonV3Dto {
 	reservertFra: Date;
 	reservertTil?: Date;
 }
-export default ReservasjonV3Dto;
+export default ReservasjonV3;
