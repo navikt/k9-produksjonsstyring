@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useCallback, useEffect, useState } from 'react';
-import { FormattedMessage, WrappedComponentProps, injectIntl, useIntl } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import _ from 'lodash';
 import Chevron from 'nav-frontend-chevron';
 import { Row } from 'nav-frontend-grid';
