@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { OppgavekøV2Enkel } from 'types/OppgavekøV2Type';
+import { OppgavekøV3Enkel } from 'types/OppgavekøV2Type';
 import { TrashIcon } from '@navikt/aksel-icons';
 import { Button } from '@navikt/ds-react';
 import KopierKøModal from './KopierKøModal';
 
 interface Props {
-	kø: OppgavekøV2Enkel;
+	kø: OppgavekøV3Enkel;
 }
 
 const SlettKø = ({ kø }: Props) => {

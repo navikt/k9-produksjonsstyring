@@ -1,10 +1,10 @@
 import React from 'react';
-import { OppgavekøV2 } from 'types/OppgavekøV2Type';
+import { OppgavekøV3 } from 'types/OppgavekøV2Type';
 import { BodyShort, Detail } from '@navikt/ds-react';
 import { OppgavekøV1 } from '../oppgavekoTsType';
 
 interface OwnProps {
-	oppgavekø: OppgavekøV1 | OppgavekøV2;
+	oppgavekø: OppgavekøV1 | OppgavekøV3;
 }
 const OppsummeringAvKø = ({ oppgavekø }: OwnProps) => {
 	if (!oppgavekø || !('tittel' in oppgavekø)) {

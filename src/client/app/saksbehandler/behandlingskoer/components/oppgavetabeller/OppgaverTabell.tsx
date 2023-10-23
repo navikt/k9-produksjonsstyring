@@ -92,10 +92,8 @@ export const OppgaverTabell: FunctionComponent<OwnProps> = ({ valgtKo }) => {
 				{oppgaverTilBehandling?.map((oppgave) => (
 					<TableRow key={oppgave.eksternId} model={oppgave} className={styles.oppgavetabell_row}>
 						<TableColumn>{oppgave.navn ? `${oppgave.navn} ${oppgave.personnummer}` : '<navn>'}</TableColumn>
-						<TableColumn>{hentIDFraSak(oppgave, alleKodeverk)}</TableColumn>
-						<TableColumn>
-							{getKodeverknavnFraKode(oppgave.behandlingstype, kodeverkTyper.BEHANDLING_TYPE, alleKodeverk)}
-						</TableColumn>
+						<TableColumn>{oppgave.journalpostId || oppgave.saksnummer}</TableColumn>
+						<TableColumn>{oppgave.behandlingstype.navn}</TableColumn>
 						<TableColumn>
 							{oppgave.opprettetTidspunkt && <DateLabel dateString={oppgave.opprettetTidspunkt} />}
 						</TableColumn>

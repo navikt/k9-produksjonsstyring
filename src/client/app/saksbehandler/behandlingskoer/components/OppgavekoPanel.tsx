@@ -6,6 +6,7 @@ import { K9LosApiKeys } from 'api/k9LosApi';
 import { usePlukkOppgaveMutation, useSaksbehandlerReservasjoner } from 'api/queries/saksbehandlerQueries';
 import { useRestApiRunner } from 'api/rest-api-hooks';
 import BehandlingskoerContext from 'saksbehandler/BehandlingskoerContext';
+import OppgaveV3 from 'saksbehandler/OppgaveV3';
 import ReserverteOppgaverTabell from 'saksbehandler/behandlingskoer/components/oppgavetabeller/ReserverteOppgaverTabell';
 import Oppgave from 'saksbehandler/oppgaveTsType';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
@@ -35,7 +36,9 @@ const OppgavekoPanel: FunctionComponent<OwnProps> = ({ apneOppgave }) => {
 		resetRequestData,
 	} = useRestApiRunner<Oppgave>(K9LosApiKeys.FÅ_OPPGAVE_FRA_KO);
 
-	const { mutate } = usePlukkOppgaveMutation();
+	const { mutate } = usePlukkOppgaveMutation((oppgave) => {
+		window.location.assign(oppgave.oppgaveBehandlingsUrl);
+	});
 
 	useEffect(() => {
 		if (

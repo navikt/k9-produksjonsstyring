@@ -1,7 +1,7 @@
 import React from 'react';
 import { IntlShape, useIntl } from 'react-intl';
 import moment from 'moment';
-import { OppgavekøV2, OppgavekøV2MedNavn } from 'types/OppgavekøV2Type';
+import { OppgavekøV2MedNavn, OppgavekøV3 } from 'types/OppgavekøV2Type';
 import { RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
 import { useGlobalStateRestApiData } from 'api/rest-api-hooks';
 import AlleKodeverk from 'kodeverk/alleKodeverkTsType';

@@ -106,7 +106,9 @@ export const developmentHandlers = {
 		res(ctx.json(saksbehandlereIOppgaveko)),
 	),
 	oppgaver: rest.get(relativeTestApiPaths.oppgaver, (req, res, ctx) => res(ctx.json(10))),
-	oppgavekoer: rest.get(relativeTestApiPaths.oppgaveko, (req, res, ctx) => res(ctx.json(saksbehandlerOppgaveko))),
+	oppgavekoer: rest.get(relativeTestApiPaths.hentAlleKoerSaksbehandlerV1, (req, res, ctx) =>
+		res(ctx.json(saksbehandlerOppgaveko)),
+	),
 	sok: rest.post(relativeTestApiPaths.sok, (req, res, ctx) => res(ctx.json(soek))),
 	saksbehandlere: rest.get(relativeTestApiPaths.hentSaksbehandlere, (req, res, ctx) =>
 		res(
@@ -226,7 +228,7 @@ export const developmentHandlers = {
 			}),
 		),
 	),
-	hentAlleKoerSaksbehandler: rest.get(relativeTestApiPaths.hentAlleKoerSaksbehandler, async (req, res, ctx) =>
+	hentAlleKoerSaksbehandler: rest.get(relativeTestApiPaths.hentAlleKoerSaksbehandlerV3, async (req, res, ctx) =>
 		res(
 			ctx.json([
 				{

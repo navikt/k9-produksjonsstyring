@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FormattedMessage } from 'react-intl';
-import { OppgavekøV2 } from 'types/OppgavekøV2Type';
+import { OppgavekøV3 } from 'types/OppgavekøV2Type';
 import { Edit } from '@navikt/ds-icons';
 import { Alert, Button, ErrorMessage, Heading, Label, Modal } from '@navikt/ds-react';
 import { Form, InputField, TextAreaField } from '@navikt/ft-form-hooks';
@@ -29,7 +29,7 @@ interface BaseProps {
 }
 
 interface BehandlingsKoFormProps extends BaseProps {
-	kø: OppgavekøV2;
+	kø: OppgavekøV3;
 }
 
 const BehandlingsKoForm = ({ kø, lukk, ekspandert, id }: BehandlingsKoFormProps) => {

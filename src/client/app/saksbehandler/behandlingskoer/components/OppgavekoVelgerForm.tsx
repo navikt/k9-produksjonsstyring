@@ -72,7 +72,6 @@ export const OppgavekoVelgerForm: FunctionComponent<OwnProps> = ({ plukkNyOppgav
 	const { startRequest: fetchAntallOppgaver, data: antallOppgaver } = useRestApiRunner<number>(
 		K9LosApiKeys.BEHANDLINGSKO_OPPGAVE_ANTALL,
 	);
-	console.log(antallOppgaver);
 	const { startRequest: fetchAntallOppgaverV2, data: antallOppgaverV2 } = useRestApiRunner<number>(
 		K9LosApiKeys.BEHANDLINGSKO_OPPGAVE_ANTALL_V2,
 	);

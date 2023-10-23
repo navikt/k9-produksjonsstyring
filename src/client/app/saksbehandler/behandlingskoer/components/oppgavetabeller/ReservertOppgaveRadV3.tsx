@@ -8,6 +8,8 @@ import menuIconBlackUrl from 'images/ic-menu-18px_black.svg';
 import menuIconBlueUrl from 'images/ic-menu-18px_blue.svg';
 import { WarningColored } from '@navikt/ds-icons';
 import { Table } from '@navikt/ds-react';
+import { K9LosApiKeys } from 'api/k9LosApi';
+import { useRestApiRunner } from 'api/rest-api-hooks';
 import OppgaveV3 from 'saksbehandler/OppgaveV3';
 import ReservasjonV3 from 'saksbehandler/behandlingskoer/ReservasjonV3Dto';
 import Image from 'sharedComponents/Image';
@@ -41,6 +43,8 @@ const ReservertOppgaveRadV3: React.ForwardRefExoticComponent<Props> = React.forw
 		}: OwnProps,
 		ref: React.RefObject<{ [key: string]: HTMLDivElement }>,
 	) => {
+		const { startRequest: leggTilBehandletOppgave } = useRestApiRunner(K9LosApiKeys.LEGG_TIL_BEHANDLET_OPPGAVE);
+
 		const toggleMenu = (oppgaveValgt: OppgaveV3) => {
 			if (oppgaveValgt) {
 				setValgtOppgaveId(oppgaveValgt.oppgaveEksternId);
@@ -51,7 +55,8 @@ const ReservertOppgaveRadV3: React.ForwardRefExoticComponent<Props> = React.forw
 		const intl = useIntl();
 
 		const tilOppgave = () => {
-			window.location.assign(oppgave.oppgavebehandlingsUrl);
+			window.location.assign(oppgave.oppgaveBehandlingsUrl);
+			leggTilBehandletOppgave(oppgave);
 		};
 		return (
 			<Table.Row

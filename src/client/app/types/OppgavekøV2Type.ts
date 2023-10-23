@@ -1,9 +1,9 @@
 import { OppgaveQuery } from 'filter/filterTsTypes';
 
-export interface OppgavekøerV2 {
-	koer: OppgavekøV2[];
+export interface OppgavekøerV3 {
+	koer: OppgavekøV3[];
 }
-export interface OppgavekøV2 extends OppgavekøV2Enkel {
+export interface OppgavekøV3 extends OppgavekøV3Enkel {
 	beskrivelse: string;
 	oppgaveQuery: OppgaveQuery;
 	saksbehandlere: string[];
@@ -13,13 +13,13 @@ export interface OppgavekøV2 extends OppgavekøV2Enkel {
 	versjon: number;
 }
 
-export interface OppgavekøV2Enkel {
+export interface OppgavekøV3Enkel {
 	id: string;
 	tittel: string;
 	antallSaksbehandlere: number;
 	sistEndret: string | null;
 }
 
-export interface OppgavekøV2MedNavn extends OppgavekøV2 {
+export interface OppgavekøV2MedNavn extends OppgavekøV3 {
 	navn: string;
 }

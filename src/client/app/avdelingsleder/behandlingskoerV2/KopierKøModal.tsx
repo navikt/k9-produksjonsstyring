@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { OppgavekøV2Enkel } from 'types/OppgavekøV2Type';
+import { OppgavekøV3Enkel } from 'types/OppgavekøV2Type';
 import { Button, ErrorMessage, Heading, Modal } from '@navikt/ds-react';
 import { CheckboxField, Form, InputField } from '@navikt/ft-form-hooks';
 import { minLength, required } from '@navikt/ft-form-validators';
@@ -8,7 +8,7 @@ import { useKopierKøMutation } from 'api/queries/avdelingslederQueries';
 
 interface Props {
 	lukk: () => void;
-	eksisterendeKø: OppgavekøV2Enkel;
+	eksisterendeKø: OppgavekøV3Enkel;
 }
 
 const fieldnames = {
