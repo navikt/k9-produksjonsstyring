@@ -200,6 +200,7 @@
 	"OppgaverTabell.ReserverteHastesakerAntall": "{antall} hastesaker",
 
 	"OppgaverTabell.IngenOppgaver": "Det er ingen behandlinger i denne køen",
+	"OppgaverTabell.KunneIkkeHenteOppgaver": "Noe gikk galt og vi kunne ikke hente de neste oppgavene i køen",
 	"OppgaverTabell.IngenTilgang": "Du har ikke tilgang til behandlingene i denne køen",
 	"OppgaverTabell.Soker": "Søker",
 	"OppgaverTabell.Behandlingstype": "Behandlingstype",

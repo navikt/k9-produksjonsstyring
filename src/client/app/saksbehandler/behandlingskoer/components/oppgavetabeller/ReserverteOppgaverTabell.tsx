@@ -77,15 +77,6 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps> = ({ apneOppgave, gj
 		apneOppgave(oppgave);
 	};
 
-	const valgtReservasjon = reservasjoner?.find((o) => {
-		if (o.reservertOppgaveV1Dto) {
-			return o.reservertOppgaveV1Dto.eksternId === valgtOppgaveId;
-		}
-		if (o.reserverteV3Oppgaver) {
-			return o.reserverteV3Oppgaver.some((v) => v.oppgaveEksternId === valgtOppgaveId);
-		}
-		return false;
-	});
 	return (
 		<div>
 			<button

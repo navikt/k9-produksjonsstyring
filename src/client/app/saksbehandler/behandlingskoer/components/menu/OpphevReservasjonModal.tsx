@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useCallback } from 'react';
 import { Form } from 'react-final-form';
-import { FormattedMessage, WrappedComponentProps, injectIntl, useIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { useQueryClient } from 'react-query';
 import { captureMessage } from '@sentry/browser';
 import { Hovedknapp, Knapp } from 'nav-frontend-knapper';

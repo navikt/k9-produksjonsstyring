@@ -1,12 +1,13 @@
-import React, { FunctionComponent, ReactNode, useCallback, useEffect } from 'react';
-import { FormattedMessage, WrappedComponentProps, injectIntl } from 'react-intl';
+import React, { FunctionComponent, ReactNode, useCallback } from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
 import bubbletextUrl from 'images/bubbletext.svg';
 import bubbletextFilledUrl from 'images/bubbletext_filled.svg';
 import { Normaltekst } from 'nav-frontend-typografi';
-import { Loader } from '@navikt/ds-react';
-import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
+import { OppgavekøV2MedNavn } from 'types/OppgavekøV2Type';
+import { ErrorMessage, Loader } from '@navikt/ds-react';
+import { RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
+import { useSaksbehandlerNesteTiV1 } from 'api/queries/saksbehandlerQueries';
 import { useGlobalStateRestApiData } from 'api/rest-api-hooks';
-import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
 import AlleKodeverk from 'kodeverk/alleKodeverkTsType';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
 import {
@@ -14,8 +15,8 @@ import {
 	hentIDFraSak,
 } from 'saksbehandler/behandlingskoer/components/oppgavetabeller/oppgavetabellerfelles';
 import { OppgavekøV1 } from 'saksbehandler/behandlingskoer/oppgavekoTsType';
+import { getKoId } from 'saksbehandler/behandlingskoer/utils';
 import { OppgaveStatus } from 'saksbehandler/oppgaveStatusTsType';
-import Oppgave from 'saksbehandler/oppgaveTsType';
 import DateLabel from 'sharedComponents/DateLabel';
 import Image from 'sharedComponents/Image';
 import Table from 'sharedComponents/Table';
@@ -27,28 +28,16 @@ import { getKodeverknavnFraKode } from 'utils/kodeverkUtils';
 import styles from './oppgaverTabell.css';
 
 interface OwnProps {
-	valgtOppgavekoId: string;
-	oppgaverTilBehandling: Oppgave[];
-	requestFinished: boolean;
-	valgtKo: OppgavekøV1;
+	valgtKo: OppgavekøV1 | OppgavekøV2MedNavn;
 }
 
 /**
  * OppgaverTabell
  */
-export const OppgaverTabell: FunctionComponent<OwnProps & WrappedComponentProps> = ({
-	intl,
-	valgtOppgavekoId,
-	oppgaverTilBehandling,
-	requestFinished,
-	valgtKo,
-}) => {
-	const { startRequest: hentOppgaveKo } = useRestApiRunner<OppgavekøV1[]>(K9LosApiKeys.OPPGAVEKO);
+export const OppgaverTabell: FunctionComponent<OwnProps> = ({ valgtKo }) => {
+	const { data: oppgaverTilBehandling, error, isLoading, isSuccess } = useSaksbehandlerNesteTiV1(getKoId(valgtKo.id));
 	const alleKodeverk: AlleKodeverk = useGlobalStateRestApiData(RestApiGlobalStatePathsKeys.KODEVERK);
-
-	useEffect(() => {
-		hentOppgaveKo();
-	}, [valgtOppgavekoId]);
+	const intl = useIntl();
 
 	const createTooltip = useCallback((oppgaveStatus: OppgaveStatus): ReactNode | undefined => {
 		const { flyttetReservasjon } = oppgaveStatus;
@@ -71,55 +60,60 @@ export const OppgaverTabell: FunctionComponent<OwnProps & WrappedComponentProps>
 		);
 	}, []);
 
+	if (isLoading) {
+		<Loader size="2xlarge" className={styles.spinner} />;
+	}
+	if (error) {
+		return (
+			<ErrorMessage>
+				<FormattedMessage id="OppgaverTabell.KunneIkkeHenteOppgaver" />
+			</ErrorMessage>
+		);
+	}
+
+	if (isSuccess && oppgaverTilBehandling.length === 0) {
+		return (
+			<>
+				<VerticalSpacer eightPx />
+				<Normaltekst>
+					<FormattedMessage id="OppgaverTabell.IngenOppgaver" />
+				</Normaltekst>
+			</>
+		);
+	}
+
+	if (!oppgaverTilBehandling) {
+		return null;
+	}
+
 	return (
 		<div>
-			{oppgaverTilBehandling.length === 0 && !requestFinished && <Loader size="2xlarge" className={styles.spinner} />}
-			{oppgaverTilBehandling.length === 0 && requestFinished && !valgtKo.skjermet && (
-				<>
-					<VerticalSpacer eightPx />
-					<Normaltekst>
-						<FormattedMessage id="OppgaverTabell.IngenOppgaver" />
-					</Normaltekst>
-				</>
-			)}
-
-			{oppgaverTilBehandling.length === 0 && requestFinished && valgtKo.skjermet && (
-				<>
-					<VerticalSpacer eightPx />
-					<Normaltekst>
-						<FormattedMessage id="OppgaverTabell.IngenTilgang" />
-					</Normaltekst>
-				</>
-			)}
-
-			{oppgaverTilBehandling.length > 0 && requestFinished && (
-				<Table headerTextCodes={getHeaderCodes().filter(Boolean)}>
-					{oppgaverTilBehandling.map((oppgave) => (
-						<TableRow key={oppgave.eksternId} model={oppgave} className={styles.oppgavetabell_row}>
-							<TableColumn>{oppgave.navn ? `${oppgave.navn} ${oppgave.personnummer}` : '<navn>'}</TableColumn>
-							<TableColumn>{hentIDFraSak(oppgave, alleKodeverk)}</TableColumn>
-							<TableColumn>
-								{getKodeverknavnFraKode(oppgave.behandlingstype, kodeverkTyper.BEHANDLING_TYPE, alleKodeverk)}
-							</TableColumn>
-							<TableColumn>
-								{oppgave.opprettetTidspunkt && <DateLabel dateString={oppgave.opprettetTidspunkt} />}
-							</TableColumn>
-							<TableColumn>
-								{oppgave.status.flyttetReservasjon && (
-									<Image
-										src={bubbletextUrl}
-										srcHover={bubbletextFilledUrl}
-										alt={intl.formatMessage({ id: 'OppgaverTabell.OverfortReservasjon' })}
-										tooltip={createTooltip(oppgave.status)}
-									/>
-								)}
-							</TableColumn>
-						</TableRow>
-					))}
-				</Table>
-			)}
+			<Table headerTextCodes={getHeaderCodes().filter(Boolean)}>
+				{oppgaverTilBehandling?.map((oppgave) => (
+					<TableRow key={oppgave.eksternId} model={oppgave} className={styles.oppgavetabell_row}>
+						<TableColumn>{oppgave.navn ? `${oppgave.navn} ${oppgave.personnummer}` : '<navn>'}</TableColumn>
+						<TableColumn>{hentIDFraSak(oppgave, alleKodeverk)}</TableColumn>
+						<TableColumn>
+							{getKodeverknavnFraKode(oppgave.behandlingstype, kodeverkTyper.BEHANDLING_TYPE, alleKodeverk)}
+						</TableColumn>
+						<TableColumn>
+							{oppgave.opprettetTidspunkt && <DateLabel dateString={oppgave.opprettetTidspunkt} />}
+						</TableColumn>
+						<TableColumn>
+							{oppgave.status.flyttetReservasjon && (
+								<Image
+									src={bubbletextUrl}
+									srcHover={bubbletextFilledUrl}
+									alt={intl.formatMessage({ id: 'OppgaverTabell.OverfortReservasjon' })}
+									tooltip={createTooltip(oppgave.status)}
+								/>
+							)}
+						</TableColumn>
+					</TableRow>
+				))}
+			</Table>
 		</div>
 	);
 };
 
-export default injectIntl(OppgaverTabell);
+export default OppgaverTabell;

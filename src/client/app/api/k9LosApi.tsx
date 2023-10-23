@@ -101,7 +101,6 @@ export const endpoints = new RestApiConfigBuilder(CONTEXT_PATH)
 	.withGet('/saksbehandler/oppgaveko', K9LosApiKeys.OPPGAVEKO)
 	.withGet('/saksbehandler/oppgaveko/v2', K9LosApiKeys.OPPGAVEKO_V2)
 	.withGet('/saksbehandler/oppgaveko/saksbehandlere', K9LosApiKeys.OPPGAVEKO_SAKSBEHANDLERE)
-	.withGet('/saksbehandler/oppgaveko/saksbehandlere', K9LosApiKeys.OPPGAVEKO_SAKSBEHANDLERE_V2)
 
 	/* /api/saksbehandler/oppgave */
 	.withGet('/saksbehandler/oppgaver', K9LosApiKeys.OPPGAVER_TIL_BEHANDLING)

@@ -12,7 +12,7 @@ import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import ModalMedIkon from 'sharedComponents/modal/ModalMedIkon';
 import advarselImageUrl from '../../../../images/advarsel.svg';
 import RestApiState from '../../../api/rest-api-hooks/src/RestApiState';
-import { erKoV2, getKoId } from '../utils';
+import { erKoV3, getKoId } from '../utils';
 import OppgavekoVelgerForm from './OppgavekoVelgerForm';
 import styles from './oppgavekoPanel.css';
 import OppgaverTabell from './oppgavetabeller/OppgaverTabell';
@@ -26,7 +26,7 @@ interface OwnProps {
  */
 const OppgavekoPanel: FunctionComponent<OwnProps> = ({ apneOppgave }) => {
 	const [visBehandlingerIKo, setVisBehandlingerIKo] = useState<boolean>(false);
-	const { valgtOppgavekoId } = useContext(BehandlingskoerContext);
+	const { valgtOppgavekoId, oppgavekoer } = useContext(BehandlingskoerContext);
 	const [visFinnesIngenBehandlingerIKoModal, setVisFinnesIngenBehandlingerIKoModal] = useState<boolean>(false);
 	const {
 		startRequest: fåOppgaveFraKo,
@@ -50,7 +50,7 @@ const OppgavekoPanel: FunctionComponent<OwnProps> = ({ apneOppgave }) => {
 	}, [restApiState, restApiError]);
 
 	const plukkNyOppgave = () => {
-		if (!erKoV2(valgtOppgavekoId)) {
+		if (!erKoV3(valgtOppgavekoId)) {
 			fåOppgaveFraKo({ oppgaveKøId: getKoId(valgtOppgavekoId) }).then((reservertOppgave) => {
 				resetRequestData();
 				apneOppgave(reservertOppgave);
@@ -60,7 +60,8 @@ const OppgavekoPanel: FunctionComponent<OwnProps> = ({ apneOppgave }) => {
 
 		mutate({ oppgaveKøId: getKoId(valgtOppgavekoId) });
 	};
-	useSaksbehandlerReservasjoner();
+
+	const valgtOppgaveko = oppgavekoer.find((s) => valgtOppgavekoId === `${s.id}`);
 	// TODO: legge inn visning for oppgaver fra ny oppgavemodell
 	return (
 		<div className={styles.container}>
@@ -102,15 +103,11 @@ const OppgavekoPanel: FunctionComponent<OwnProps> = ({ apneOppgave }) => {
 				</button>
 
 				{visBehandlingerIKo &&
-					('tittel' in valgtKo ? (
-						<div>{valgtKo.tittel}</div>
+					valgtOppgaveko &&
+					(erKoV3(valgtOppgaveko.id) ? (
+						<div>{valgtOppgaveko.tittel}</div>
 					) : (
-						<OppgaverTabell
-							valgtKo={valgtKo}
-							valgtOppgavekoId={valgtOppgavekoId}
-							oppgaverTilBehandling={oppgaverTilBehandling}
-							requestFinished={requestFinished}
-						/>
+						<OppgaverTabell valgtKo={valgtOppgaveko} />
 					))}
 			</div>
 		</div>

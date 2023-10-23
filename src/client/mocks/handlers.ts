@@ -15,7 +15,6 @@ import {
 	nyeOgFerdigstilteOppgaverMedStonadstype,
 	saksbehandlerOppgaveko,
 	saksbehandlerOppgaver,
-	saksbehandlerReservasjoner,
 	saksbehandlereIOppgaveko,
 	soek,
 } from './index';
@@ -100,14 +99,14 @@ export const developmentHandlers = {
 	saksbehandlerReservasjoner: rest.get(relativeTestApiPaths.saksbehandlerReservasjoner, (req, res, ctx) =>
 		res(ctx.delay(2000), ctx.json(nyeOgGamleReservasjoner)),
 	),
-	saksbehandlerOppgaver: rest.get(relativeTestApiPaths.saksbehandlerOppgaver, (req, res, ctx) =>
+	saksbehandlerOppgaver: rest.get(relativeTestApiPaths.saksbehandlerNesteOppgaver, (req, res, ctx) =>
 		res(ctx.json(saksbehandlerOppgaver)),
 	),
 	saksbehandlereIOppgaveko: rest.get(relativeTestApiPaths.saksbehandlereIOppgaveko, (req, res, ctx) =>
 		res(ctx.json(saksbehandlereIOppgaveko)),
 	),
 	oppgaver: rest.get(relativeTestApiPaths.oppgaver, (req, res, ctx) => res(ctx.json(10))),
-	oppgavekoer: rest.get(relativeTestApiPaths.oppgavekoer, (req, res, ctx) => res(ctx.json(saksbehandlerOppgaveko))),
+	oppgavekoer: rest.get(relativeTestApiPaths.oppgaveko, (req, res, ctx) => res(ctx.json(saksbehandlerOppgaveko))),
 	sok: rest.post(relativeTestApiPaths.sok, (req, res, ctx) => res(ctx.json(soek))),
 	saksbehandlere: rest.get(relativeTestApiPaths.hentSaksbehandlere, (req, res, ctx) =>
 		res(

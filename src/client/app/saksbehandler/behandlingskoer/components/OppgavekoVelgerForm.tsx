@@ -4,15 +4,20 @@ import { useQuery } from 'react-query';
 import { Element } from 'nav-frontend-typografi';
 import { OppgavekøV2MedNavn } from 'types/OppgavekøV2Type';
 import { Button, ReadMore, Select } from '@navikt/ds-react';
+import apiPaths from 'api/apiPaths';
 import { K9LosApiKeys } from 'api/k9LosApi';
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
 import BehandlingskoerContext from 'saksbehandler/BehandlingskoerContext';
 import { OppgavekøV1 } from 'saksbehandler/behandlingskoer/oppgavekoTsType';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import { FlexColumn, FlexContainer, FlexRow } from 'sharedComponents/flexGrid';
-import { getValueFromLocalStorage, removeValueFromLocalStorage } from 'utils/localStorageHelper';
+import {
+	getValueFromLocalStorage,
+	removeValueFromLocalStorage,
+	setValueInLocalStorage,
+} from 'utils/localStorageHelper';
 import { Saksbehandler } from '../saksbehandlerTsType';
-import { erKoV2, getKoId } from '../utils';
+import { erKoV3, getKoId } from '../utils';
 import OldOppsummeringAvKø from './OldOppsummeringAvKø';
 import OppsummeringAvKø from './OppusmmeringAvKø';
 import styles from './oppgavekoVelgerForm.css';
@@ -42,12 +47,12 @@ const createTooltip = (saksbehandlere: Saksbehandler[]): ReactNode | undefined =
 };
 
 const getValgtOppgaveko = (oppgavekoer: Array<OppgavekøV1 | OppgavekøV2MedNavn>, oppgavekoId: string) =>
-	oppgavekoer.find((s) => oppgavekoId === `${s.id}`);
+	oppgavekoer.find((s) => oppgavekoId === s.id);
 
 const getDefaultOppgaveko = (oppgavekoer) => {
 	const lagretOppgavekoId = getValueFromLocalStorage('id');
 	if (lagretOppgavekoId) {
-		if (oppgavekoer.some((s) => `${s.id}` === lagretOppgavekoId)) {
+		if (oppgavekoer.some((s) => s.id === lagretOppgavekoId)) {
 			return lagretOppgavekoId;
 		}
 		removeValueFromLocalStorage('id');
@@ -67,6 +72,7 @@ export const OppgavekoVelgerForm: FunctionComponent<OwnProps> = ({ plukkNyOppgav
 	const { startRequest: fetchAntallOppgaver, data: antallOppgaver } = useRestApiRunner<number>(
 		K9LosApiKeys.BEHANDLINGSKO_OPPGAVE_ANTALL,
 	);
+	console.log(antallOppgaver);
 	const { startRequest: fetchAntallOppgaverV2, data: antallOppgaverV2 } = useRestApiRunner<number>(
 		K9LosApiKeys.BEHANDLINGSKO_OPPGAVE_ANTALL_V2,
 	);
@@ -78,19 +84,16 @@ export const OppgavekoVelgerForm: FunctionComponent<OwnProps> = ({ plukkNyOppgav
 		K9LosApiKeys.OPPGAVEKO_SAKSBEHANDLERE,
 	);
 	const valgtKoId = getDefaultOppgaveko(oppgavekoerSortertAlfabetisk);
-	const { data: saksbehandlereV2 } = useQuery<Saksbehandler[]>(
-		`/ny-oppgavestyring/ko/${getKoId(valgtKoId)}/saksbehandlere`,
-		{
-			enabled: erKoV2(valgtKoId),
-		},
-	);
+	const { data: saksbehandlereV2 } = useQuery<Saksbehandler[]>(apiPaths.hentSaksbehandlereIKoV3(getKoId(valgtKoId)), {
+		enabled: erKoV3(valgtKoId),
+	});
 
 	useEffect(() => {
 		if (oppgavekoerSortertAlfabetisk.length > 0) {
 			const defaultOppgavekoId = getDefaultOppgaveko(oppgavekoerSortertAlfabetisk);
 			if (defaultOppgavekoId) {
 				setValgtOppgavekoId(defaultOppgavekoId);
-				if (!erKoV2(defaultOppgavekoId)) {
+				if (!erKoV3(defaultOppgavekoId)) {
 					hentSaksbehandlere({ id: getKoId(defaultOppgavekoId) });
 					fetchAntallOppgaver({ id: getKoId(defaultOppgavekoId) });
 					return;
@@ -103,8 +106,8 @@ export const OppgavekoVelgerForm: FunctionComponent<OwnProps> = ({ plukkNyOppgav
 	const handleSelectKo = (event) => {
 		const koId = event.target.value;
 		setValgtOppgavekoId(koId);
-
-		if (!erKoV2(koId)) {
+		setValueInLocalStorage('id', koId);
+		if (!erKoV3(koId)) {
 			hentSaksbehandlere({ id: getKoId(koId) });
 			fetchAntallOppgaver({ id: getKoId(koId) });
 		}
@@ -129,10 +132,10 @@ export const OppgavekoVelgerForm: FunctionComponent<OwnProps> = ({ plukkNyOppgav
 						<VerticalSpacer eightPx />
 						<FormattedMessage
 							id="OppgavekoVelgerForm.AntallOppgaver"
-							values={{ antall: antallOppgaver || antallOppgaverV2 || 0 }}
+							values={{ antall: (erKoV3(valgtKoId) ? antallOppgaverV2 : antallOppgaver) || 0 }}
 						/>
 						<ReadMore size="small" header="Andre saksbehandlere i køen">
-							{createTooltip(saksbehandlere || saksbehandlereV2)}
+							{createTooltip(erKoV3(valgtKoId) ? saksbehandlereV2 : saksbehandlere)}
 						</ReadMore>
 						<VerticalSpacer sixteenPx />
 					</FlexColumn>

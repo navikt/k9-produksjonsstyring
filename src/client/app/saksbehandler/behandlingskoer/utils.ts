@@ -9,7 +9,7 @@ export const getKoId = (idMedVersjon: string) => {
 	return id;
 };
 
-export const erKoV2 = (idMedVersjon: string) => {
+export const erKoV3 = (idMedVersjon: string) => {
 	const versjon = idMedVersjon.split('__')[1];
 	return versjon === BehandlingKoVersjon.V2;
 };
