@@ -55,8 +55,8 @@ const ReservertOppgaveRadV3: React.ForwardRefExoticComponent<Props> = React.forw
 		const intl = useIntl();
 
 		const tilOppgave = () => {
-			window.location.assign(oppgave.oppgaveBehandlingsUrl);
 			leggTilBehandletOppgave(oppgave);
+			window.location.assign(oppgave.oppgavebehandlingsUrl);
 		};
 		return (
 			<Table.Row

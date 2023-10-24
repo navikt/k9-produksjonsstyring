@@ -54,7 +54,6 @@ const FagsakSearchIndex: FunctionComponent<OwnProps> = ({ k9sakUrl, k9punsjUrl }
 
 	const {
 		startRequest: sokFagsak,
-		resetRequestData: resetFagsakSok,
 		data: fagsakerResultat = [],
 		error: fagsakError,
 	} = useRestApiRunner<SokeResultat>(K9LosApiKeys.SEARCH_FAGSAK);
@@ -128,12 +127,6 @@ const FagsakSearchIndex: FunctionComponent<OwnProps> = ({ k9sakUrl, k9punsjUrl }
 		setReservertAvAnnenSaksbehandler(false);
 	};
 
-	const resetSearchFn = () => {
-		resetFagsakSok();
-		setSokStartet(false);
-		setSokFerdig(false);
-	};
-
 	return (
 		<>
 			<FagsakSearch
@@ -143,7 +136,6 @@ const FagsakSearchIndex: FunctionComponent<OwnProps> = ({ k9sakUrl, k9punsjUrl }
 				selectOppgaveCallback={velgFagsakOperasjoner}
 				searchStarted={sokStartet}
 				searchResultAccessDenied={searchResultAccessDenied}
-				resetSearch={resetSearchFn}
 				goToFagsak={goToFagsak}
 			/>
 			{reservertAvAnnenSaksbehandler && reservertOppgave && (

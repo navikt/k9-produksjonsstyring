@@ -28,6 +28,8 @@ const OppgavekoPanel: FunctionComponent<OwnProps> = ({ apneOppgave }) => {
 	const [visBehandlingerIKo, setVisBehandlingerIKo] = useState<boolean>(false);
 	const { valgtOppgavekoId, oppgavekoer } = useContext(BehandlingskoerContext);
 	const [visFinnesIngenBehandlingerIKoModal, setVisFinnesIngenBehandlingerIKoModal] = useState<boolean>(false);
+	const { startRequest: leggTilBehandletOppgave } = useRestApiRunner(K9LosApiKeys.LEGG_TIL_BEHANDLET_OPPGAVE);
+
 	const {
 		startRequest: fåOppgaveFraKo,
 		state: restApiState,
@@ -36,7 +38,8 @@ const OppgavekoPanel: FunctionComponent<OwnProps> = ({ apneOppgave }) => {
 	} = useRestApiRunner<Oppgave>(K9LosApiKeys.FÅ_OPPGAVE_FRA_KO);
 
 	const { mutate } = usePlukkOppgaveMutation((oppgave) => {
-		window.location.assign(oppgave.oppgaveBehandlingsUrl);
+		leggTilBehandletOppgave(oppgave);
+		window.location.assign(oppgave.oppgavebehandlingsUrl);
 	});
 
 	useEffect(() => {

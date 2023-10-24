@@ -8,7 +8,7 @@ const apiPaths = {
 	nyePerDato: '/avdelingsleder/nokkeltall/nye-historikk',
 	nyeFerdigstilteOppsummering: '/avdelingsleder/nokkeltall/nye-ferdigstilte-oppsummering',
 	oppgaverAntallTotalt: '/avdelingsleder/oppgaver/antall-totalt',
-	antallOppgaverIKoV3: (id: string) => `/ny-oppgavestyring/ko/${id}/oppgaver`,
+	antallOppgaverIKoV3: (id: string) => `/ny-oppgavestyring/ko/${id}/antall-oppgaver`,
 	legacyOppgaveKoer: '/avdelingsleder/oppgavekoer',
 	saksbehandler: '/saksbehandler',
 	k9SakUrl: '/konfig/k9-sak-url',
