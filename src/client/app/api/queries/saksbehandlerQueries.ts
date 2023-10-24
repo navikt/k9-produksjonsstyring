@@ -8,6 +8,11 @@ import { OppgavekøV1 } from 'saksbehandler/behandlingskoer/oppgavekoTsType';
 import Oppgave from 'saksbehandler/oppgaveTsType';
 import { axiosInstance } from 'utils/reactQueryConfig';
 
+export const useAntallOppgaverIKoV3 = (koId: string, options = {}) =>
+	useQuery<string, unknown, string>({
+		queryKey: [apiPaths.antallOppgaverIKoV3(koId)],
+		...options,
+	});
 export const useAlleSaksbehandlerKoerV1 = (options = {}) =>
 	useQuery<OppgavekøV1[], unknown, OppgavekøV1[]>({
 		queryKey: [apiPaths.hentAlleKoerSaksbehandlerV1],
@@ -35,7 +40,9 @@ export const usePlukkOppgaveMutation = (callback?: (oppgave: OppgaveV3) => void)
 
 	return useMutation({
 		mutationFn: (data: { oppgaveKøId: string }): Promise<OppgaveV3> =>
-			axiosInstance.post(`${baseURL()}${apiPaths.hentOppgaveFraNyKo}`, data).then((response) => response.data),
+			axiosInstance
+				.post(`${baseURL()}${apiPaths.hentOppgaveFraKoV3(data.oppgaveKøId)}`, data)
+				.then((response) => response.data),
 		onSuccess: (data: OppgaveV3) => {
 			Promise.all([queryClient.invalidateQueries(apiPaths.saksbehandlerReservasjoner)]).then(() => {
 				if (callback) callback(data);

@@ -3,10 +3,9 @@ import { FormattedMessage } from 'react-intl';
 import NavFrontendChevron from 'nav-frontend-chevron';
 import { Element, Undertittel } from 'nav-frontend-typografi';
 import { K9LosApiKeys } from 'api/k9LosApi';
-import { usePlukkOppgaveMutation, useSaksbehandlerReservasjoner } from 'api/queries/saksbehandlerQueries';
+import { usePlukkOppgaveMutation } from 'api/queries/saksbehandlerQueries';
 import { useRestApiRunner } from 'api/rest-api-hooks';
 import BehandlingskoerContext from 'saksbehandler/BehandlingskoerContext';
-import OppgaveV3 from 'saksbehandler/OppgaveV3';
 import ReserverteOppgaverTabell from 'saksbehandler/behandlingskoer/components/oppgavetabeller/ReserverteOppgaverTabell';
 import Oppgave from 'saksbehandler/oppgaveTsType';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
@@ -61,11 +60,11 @@ const OppgavekoPanel: FunctionComponent<OwnProps> = ({ apneOppgave }) => {
 			return;
 		}
 
+		// TODO: legg til i sist behandlet
 		mutate({ oppgaveKøId: getKoId(valgtOppgavekoId) });
 	};
 
 	const valgtOppgaveko = oppgavekoer.find((s) => valgtOppgavekoId === `${s.id}`);
-	// TODO: legge inn visning for oppgaver fra ny oppgavemodell
 	return (
 		<div className={styles.container}>
 			<Undertittel>

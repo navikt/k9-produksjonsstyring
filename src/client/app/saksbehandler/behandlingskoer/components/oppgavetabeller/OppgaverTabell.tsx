@@ -5,15 +5,8 @@ import bubbletextFilledUrl from 'images/bubbletext_filled.svg';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { OppgavekøV2MedNavn } from 'types/OppgavekøV2Type';
 import { ErrorMessage, Loader } from '@navikt/ds-react';
-import { RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
 import { useSaksbehandlerNesteTiV1 } from 'api/queries/saksbehandlerQueries';
-import { useGlobalStateRestApiData } from 'api/rest-api-hooks';
-import AlleKodeverk from 'kodeverk/alleKodeverkTsType';
-import kodeverkTyper from 'kodeverk/kodeverkTyper';
-import {
-	getHeaderCodes,
-	hentIDFraSak,
-} from 'saksbehandler/behandlingskoer/components/oppgavetabeller/oppgavetabellerfelles';
+import { getHeaderCodes } from 'saksbehandler/behandlingskoer/components/oppgavetabeller/oppgavetabellerfelles';
 import { OppgavekøV1 } from 'saksbehandler/behandlingskoer/oppgavekoTsType';
 import { getKoId } from 'saksbehandler/behandlingskoer/utils';
 import { OppgaveStatus } from 'saksbehandler/oppgaveStatusTsType';
@@ -24,7 +17,6 @@ import TableColumn from 'sharedComponents/TableColumn';
 import TableRow from 'sharedComponents/TableRow';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import { getDateAndTime } from 'utils/dateUtils';
-import { getKodeverknavnFraKode } from 'utils/kodeverkUtils';
 import styles from './oppgaverTabell.css';
 
 interface OwnProps {
@@ -36,7 +28,6 @@ interface OwnProps {
  */
 export const OppgaverTabell: FunctionComponent<OwnProps> = ({ valgtKo }) => {
 	const { data: oppgaverTilBehandling, error, isLoading, isSuccess } = useSaksbehandlerNesteTiV1(getKoId(valgtKo.id));
-	const alleKodeverk: AlleKodeverk = useGlobalStateRestApiData(RestApiGlobalStatePathsKeys.KODEVERK);
 	const intl = useIntl();
 
 	const createTooltip = useCallback((oppgaveStatus: OppgaveStatus): ReactNode | undefined => {

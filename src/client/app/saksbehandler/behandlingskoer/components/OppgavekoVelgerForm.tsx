@@ -1,11 +1,12 @@
 import React, { FunctionComponent, ReactNode, useContext, useEffect } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { useQuery } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 import { Element } from 'nav-frontend-typografi';
 import { OppgavekøV2MedNavn } from 'types/OppgavekøV2Type';
 import { Button, ReadMore, Select } from '@navikt/ds-react';
 import apiPaths from 'api/apiPaths';
 import { K9LosApiKeys } from 'api/k9LosApi';
+import { useAntallOppgaverIKoV3 } from 'api/queries/saksbehandlerQueries';
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
 import BehandlingskoerContext from 'saksbehandler/BehandlingskoerContext';
 import { OppgavekøV1 } from 'saksbehandler/behandlingskoer/oppgavekoTsType';
@@ -49,7 +50,7 @@ const createTooltip = (saksbehandlere: Saksbehandler[]): ReactNode | undefined =
 const getValgtOppgaveko = (oppgavekoer: Array<OppgavekøV1 | OppgavekøV2MedNavn>, oppgavekoId: string) =>
 	oppgavekoer.find((s) => oppgavekoId === s.id);
 
-const getDefaultOppgaveko = (oppgavekoer) => {
+const getDefaultOppgaveko = (oppgavekoer: Array<OppgavekøV1 | OppgavekøV2MedNavn>) => {
 	const lagretOppgavekoId = getValueFromLocalStorage('id');
 	if (lagretOppgavekoId) {
 		if (oppgavekoer.some((s) => s.id === lagretOppgavekoId)) {
@@ -69,20 +70,19 @@ const getDefaultOppgaveko = (oppgavekoer) => {
  *
  */
 export const OppgavekoVelgerForm: FunctionComponent<OwnProps> = ({ plukkNyOppgave, erRestApiKallLoading }) => {
+	const { oppgavekoer, valgtOppgavekoId, setValgtOppgavekoId } = useContext(BehandlingskoerContext);
+	const queryClient = useQueryClient();
+	const intl = useIntl();
 	const { startRequest: fetchAntallOppgaver, data: antallOppgaver } = useRestApiRunner<number>(
 		K9LosApiKeys.BEHANDLINGSKO_OPPGAVE_ANTALL,
 	);
-	const { startRequest: fetchAntallOppgaverV2, data: antallOppgaverV2 } = useRestApiRunner<number>(
-		K9LosApiKeys.BEHANDLINGSKO_OPPGAVE_ANTALL_V2,
-	);
-	const intl = useIntl();
-	const { oppgavekoer, valgtOppgavekoId, setValgtOppgavekoId } = useContext(BehandlingskoerContext);
 	const oppgavekoerSortertAlfabetisk = oppgavekoer.sort((a, b) => a.navn.localeCompare(b.navn));
+	const valgtKoId = getDefaultOppgaveko(oppgavekoerSortertAlfabetisk);
+	const { data: antallOppgaverV2 } = useAntallOppgaverIKoV3(getKoId(valgtKoId));
 
 	const { data: saksbehandlere, startRequest: hentSaksbehandlere } = useRestApiRunner<Saksbehandler[]>(
 		K9LosApiKeys.OPPGAVEKO_SAKSBEHANDLERE,
 	);
-	const valgtKoId = getDefaultOppgaveko(oppgavekoerSortertAlfabetisk);
 	const { data: saksbehandlereV2 } = useQuery<Saksbehandler[]>(apiPaths.hentSaksbehandlereIKoV3(getKoId(valgtKoId)), {
 		enabled: erKoV3(valgtKoId),
 	});
@@ -97,7 +97,7 @@ export const OppgavekoVelgerForm: FunctionComponent<OwnProps> = ({ plukkNyOppgav
 					fetchAntallOppgaver({ id: getKoId(defaultOppgavekoId) });
 					return;
 				}
-				fetchAntallOppgaverV2({ oppgaveKoId: getKoId(defaultOppgavekoId) });
+				queryClient.invalidateQueries(apiPaths.hentSaksbehandlereIKoV3(getKoId(defaultOppgavekoId)));
 			}
 		}
 	}, []);

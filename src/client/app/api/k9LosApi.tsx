@@ -76,7 +76,6 @@ export enum K9LosApiKeys {
 	SEARCH_AKTOERID = 'SEARCH_AKTOERID',
 	HENT_BEHANDLINGER_SOM_GÅR_AV_VENT = 'HENT_BEHANDLINGER_SOM_GÅR_AV_VENT',
 	FÅ_OPPGAVE_FRA_KO = 'FÅ_OPPGAVE_FRA_KO',
-	FÅ_OPPGAVE_FRA_NY_KO = 'FÅ_OPPGAVE_FRA_NY_KO',
 	OPPGAVE_QUERY = 'OPPGAVE_QUERY',
 	OPPGAVE_QUERY_TO_FILE = 'OPPGAVE_QUERY_TO_FILE',
 	OPPGAVE_QUERY_FELTER = 'OPPGAVE_QUERY_FELTER',
@@ -106,7 +105,6 @@ export const endpoints = new RestApiConfigBuilder(CONTEXT_PATH)
 	.withGet('/saksbehandler/oppgaver', K9LosApiKeys.OPPGAVER_TIL_BEHANDLING)
 	.withGet('/saksbehandler/oppgaver/reserverte', K9LosApiKeys.RESERVERTE_OPPGAVER)
 	.withPost('/saksbehandler/oppgaver/fa-oppgave-fra-ko', K9LosApiKeys.FÅ_OPPGAVE_FRA_KO)
-	.withPost('/saksbehandler/oppgaver/fa-oppgave-fra-ny-ko', K9LosApiKeys.FÅ_OPPGAVE_FRA_NY_KO)
 	.withPost('/saksbehandler/oppgaver/reserver', K9LosApiKeys.RESERVER_OPPGAVE)
 	.withGet('/saksbehandler/oppgaver/reservasjon-status', K9LosApiKeys.HENT_RESERVASJONSSTATUS)
 	.withPost('/saksbehandler/oppgaver/opphev', K9LosApiKeys.OPPHEV_OPPGAVERESERVASJON)
