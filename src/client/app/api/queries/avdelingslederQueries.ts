@@ -1,5 +1,5 @@
 import { UseQueryOptions, useMutation, useQuery, useQueryClient } from 'react-query';
-import { OppgavekøV3, OppgavekøV3Enkel, OppgavekøerV3 } from 'types/OppgavekøV2Type';
+import { OppgavekøV3, OppgavekøV3Enkel, OppgavekøerV3 } from 'types/OppgavekøV3Type';
 import apiPaths from 'api/apiPaths';
 import { baseURL } from 'api/rest-api/src/axios/initRestMethods';
 import { axiosInstance } from 'utils/reactQueryConfig';

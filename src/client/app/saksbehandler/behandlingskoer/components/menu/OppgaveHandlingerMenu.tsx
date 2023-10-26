@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
-import OppgaveV3 from 'saksbehandler/OppgaveV3';
+import { OppgaveNøkkel } from 'types/OppgaveNøkkel';
+import OppgaveV3 from 'types/OppgaveV3';
 import ReservasjonV3Dto from 'saksbehandler/behandlingskoer/ReservasjonV3Dto';
 import Oppgave from 'saksbehandler/oppgaveTsType';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
@@ -22,13 +23,16 @@ const toggleEventListeners = (turnOnEventListeners, handleOutsideClick) => {
 };
 
 interface OwnProps {
-	toggleMenu: (valgtOppgave: Oppgave) => void;
+	toggleMenu: (valgtOppgave: Oppgave | OppgaveV3) => void;
 	oppgave: Oppgave | OppgaveV3;
 	reservasjon: ReservasjonV3Dto;
 	imageNode: any;
-	forlengOppgaveReservasjon: (oppgaveId: string) => void;
+	forlengOppgaveReservasjon: (oppgaveNøkkel: OppgaveNøkkel) => void;
 }
 
+/**
+ * @deprecated
+ */
 const OppgaveHandlingerMenu: React.FC<OwnProps> = ({
 	toggleMenu,
 	oppgave,
@@ -41,13 +45,6 @@ const OppgaveHandlingerMenu: React.FC<OwnProps> = ({
 
 	const [showOpphevReservasjonModal, setShowOpphevReservasjonModal] = useState(false);
 	const [showFlyttReservasjonModal, setShowFlyttReservasjonModal] = useState(false);
-
-	let id: string;
-	if ('eksternId' in oppgave) {
-		id = oppgave.eksternId;
-	} else if ('oppgaveEksternId' in oppgave) {
-		id = oppgave.oppgaveNøkkel.oppgaveEksternId;
-	}
 
 	const handleOutsideClick = (event: React.MouseEvent<HTMLButtonElement>) => {
 		if (event && event.target) {
@@ -92,7 +89,7 @@ const OppgaveHandlingerMenu: React.FC<OwnProps> = ({
 	};
 
 	const forlengReserverasjon = () => {
-		forlengOppgaveReservasjon(id);
+		forlengOppgaveReservasjon(oppgave.oppgaveNøkkel);
 		toggleMenu(null);
 	};
 
@@ -111,12 +108,16 @@ const OppgaveHandlingerMenu: React.FC<OwnProps> = ({
 				</MenuButton>
 			</div>
 			{showOpphevReservasjonModal && (
-				<OpphevReservasjonModal oppgaveId={id} showModal={showOpphevReservasjonModal} cancel={closeBegrunnelseModal} />
+				<OpphevReservasjonModal
+					oppgaveNøkkel={oppgave.oppgaveNøkkel}
+					showModal={showOpphevReservasjonModal}
+					cancel={closeBegrunnelseModal}
+				/>
 			)}
 
 			{showFlyttReservasjonModal && (
 				<FlyttReservasjonModal
-					oppgaveId={id}
+					oppgaveNøkkel={oppgave.oppgaveNøkkel}
 					oppgaveReservertTil={reservasjon.reservertTil}
 					showModal={showFlyttReservasjonModal}
 					closeModal={closeFlytteModal}

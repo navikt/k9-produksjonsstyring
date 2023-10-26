@@ -184,7 +184,7 @@ const ReservasjonerTabell: FunctionComponent<OwnProps> = ({ reservasjoner, reque
 			)}
 			{showOpphevReservasjonModal && (
 				<OpphevReservasjonModal
-					oppgaveId={valgtReservasjon.oppgaveId}
+					oppgaveNøkkel={valgtReservasjon.oppgaveId}
 					showModal={showOpphevReservasjonModal}
 					cancel={() => setShowOpphevReservasjonModal(false)}
 				/>

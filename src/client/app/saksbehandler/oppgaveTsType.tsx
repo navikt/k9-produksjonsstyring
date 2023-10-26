@@ -1,3 +1,4 @@
+import { OppgaveNøkkel } from 'types/OppgaveNøkkel';
 import KodeverkMedNavn from 'kodeverk/kodeverkMedNavnTsType';
 import { OppgaveStatus } from './oppgaveStatusTsType';
 
@@ -7,6 +8,7 @@ type Oppgave = {
 	behandlingId: number;
 	journalpostId: string;
 	personnummer: string;
+	oppgaveNøkkel: OppgaveNøkkel;
 	merknad: {
 		merknadKoder: string[];
 		fritekst: string;

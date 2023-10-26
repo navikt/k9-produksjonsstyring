@@ -4,14 +4,13 @@ import { FormattedMessage } from 'react-intl';
 import { useQueryClient } from 'react-query';
 import NavFrontendChevron from 'nav-frontend-chevron';
 import { Normaltekst } from 'nav-frontend-typografi';
+import { OppgaveNøkkel } from 'types/OppgaveNøkkel';
 import { ErrorMessage, Loader, Table } from '@navikt/ds-react';
 import apiPaths from 'api/apiPaths';
-import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
+import { K9LosApiKeys } from 'api/k9LosApi';
 import { useSaksbehandlerReservasjoner } from 'api/queries/saksbehandlerQueries';
-import { useGlobalStateRestApiData } from 'api/rest-api-hooks';
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
 import Reservasjon from 'avdelingsleder/reservasjoner/reservasjonTsType';
-import AlleKodeverk from 'kodeverk/alleKodeverkTsType';
 import merknadType from 'kodeverk/merknadType';
 import ReservasjonV3 from 'saksbehandler/behandlingskoer/ReservasjonV3Dto';
 import { getHeaderCodes } from 'saksbehandler/behandlingskoer/components/oppgavetabeller/oppgavetabellerfelles';
@@ -50,8 +49,6 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps> = ({ apneOppgave, gj
 	});
 	const queryClient = useQueryClient();
 
-	const alleKodeverk: AlleKodeverk = useGlobalStateRestApiData(RestApiGlobalStatePathsKeys.KODEVERK);
-
 	const { startRequest: leggTilBehandletOppgave } = useRestApiRunner(K9LosApiKeys.LEGG_TIL_BEHANDLET_OPPGAVE);
 	const { startRequest: forlengOppgavereservasjon } = useRestApiRunner<Reservasjon[]>(
 		K9LosApiKeys.FORLENG_OPPGAVERESERVASJON,
@@ -65,8 +62,8 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps> = ({ apneOppgave, gj
 		}
 	});
 
-	const forlengOppgaveReservasjonFn = (oppgaveId: string) => {
-		forlengOppgavereservasjon({ oppgaveId }).then(() => {
+	const forlengOppgaveReservasjonFn = (oppgaveNøkkel: OppgaveNøkkel) => {
+		forlengOppgavereservasjon({ oppgaveNøkkel }).then(() => {
 			queryClient.invalidateQueries([apiPaths.saksbehandlerReservasjoner]);
 		});
 	};
@@ -133,7 +130,6 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps> = ({ apneOppgave, gj
 								<ReservertOppgaveRadV1
 									key={reservasjon.reservertOppgaveV1Dto.eksternId}
 									oppgave={reservasjon.reservertOppgaveV1Dto}
-									alleKodeverk={alleKodeverk}
 									goToFagsak={goToFagsak}
 									forlengOppgaveReservasjonFn={forlengOppgaveReservasjonFn}
 									valgtOppgaveId={valgtOppgaveId}

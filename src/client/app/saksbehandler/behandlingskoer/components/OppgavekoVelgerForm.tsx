@@ -2,7 +2,7 @@ import React, { FunctionComponent, ReactNode, useContext, useEffect } from 'reac
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useQuery, useQueryClient } from 'react-query';
 import { Element } from 'nav-frontend-typografi';
-import { OppgavekøV2MedNavn } from 'types/OppgavekøV2Type';
+import { OppgavekøV3MedNavn } from 'types/OppgavekøV3Type';
 import { Button, ReadMore, Select } from '@navikt/ds-react';
 import apiPaths from 'api/apiPaths';
 import { K9LosApiKeys } from 'api/k9LosApi';
@@ -47,10 +47,10 @@ const createTooltip = (saksbehandlere: Saksbehandler[]): ReactNode | undefined =
 	);
 };
 
-const getValgtOppgaveko = (oppgavekoer: Array<OppgavekøV1 | OppgavekøV2MedNavn>, oppgavekoId: string) =>
+const getValgtOppgaveko = (oppgavekoer: Array<OppgavekøV1 | OppgavekøV3MedNavn>, oppgavekoId: string) =>
 	oppgavekoer.find((s) => oppgavekoId === s.id);
 
-const getDefaultOppgaveko = (oppgavekoer: Array<OppgavekøV1 | OppgavekøV2MedNavn>) => {
+const getDefaultOppgaveko = (oppgavekoer: Array<OppgavekøV1 | OppgavekøV3MedNavn>) => {
 	const lagretOppgavekoId = getValueFromLocalStorage('id');
 	if (lagretOppgavekoId) {
 		if (oppgavekoer.some((s) => s.id === lagretOppgavekoId)) {
@@ -78,12 +78,14 @@ export const OppgavekoVelgerForm: FunctionComponent<OwnProps> = ({ plukkNyOppgav
 	);
 	const oppgavekoerSortertAlfabetisk = oppgavekoer.sort((a, b) => a.navn.localeCompare(b.navn));
 	const valgtKoId = getDefaultOppgaveko(oppgavekoerSortertAlfabetisk);
-	const { data: antallOppgaverV2 } = useAntallOppgaverIKoV3(getKoId(valgtKoId));
+	const { data: antallOppgaverV3 } = useAntallOppgaverIKoV3(getKoId(valgtKoId), {
+		enabled: erKoV3(valgtKoId),
+	});
 
 	const { data: saksbehandlere, startRequest: hentSaksbehandlere } = useRestApiRunner<Saksbehandler[]>(
 		K9LosApiKeys.OPPGAVEKO_SAKSBEHANDLERE,
 	);
-	const { data: saksbehandlereV2 } = useQuery<Saksbehandler[]>(apiPaths.hentSaksbehandlereIKoV3(getKoId(valgtKoId)), {
+	const { data: saksbehandlereV3 } = useQuery<Saksbehandler[]>(apiPaths.hentSaksbehandlereIKoV3(getKoId(valgtKoId)), {
 		enabled: erKoV3(valgtKoId),
 	});
 
@@ -131,10 +133,10 @@ export const OppgavekoVelgerForm: FunctionComponent<OwnProps> = ({ plukkNyOppgav
 						<VerticalSpacer eightPx />
 						<FormattedMessage
 							id="OppgavekoVelgerForm.AntallOppgaver"
-							values={{ antall: (erKoV3(valgtKoId) ? antallOppgaverV2 : antallOppgaver) || 0 }}
+							values={{ antall: (erKoV3(valgtKoId) ? antallOppgaverV3 : antallOppgaver) || 0 }}
 						/>
 						<ReadMore size="small" header="Andre saksbehandlere i køen">
-							{createTooltip(erKoV3(valgtKoId) ? saksbehandlereV2 : saksbehandlere)}
+							{createTooltip(erKoV3(valgtKoId) ? saksbehandlereV3 : saksbehandlere)}
 						</ReadMore>
 						<VerticalSpacer sixteenPx />
 					</FlexColumn>

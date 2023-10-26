@@ -1,4 +1,4 @@
-import OppgaveV3 from 'saksbehandler/OppgaveV3';
+import OppgaveV3 from 'types/OppgaveV3';
 import Oppgave from 'saksbehandler/oppgaveTsType';
 
 interface ReservasjonV3 {

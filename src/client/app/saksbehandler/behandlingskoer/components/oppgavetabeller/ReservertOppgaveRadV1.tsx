@@ -6,16 +6,14 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import classNames from 'classnames';
 import menuIconBlackUrl from 'images/ic-menu-18px_black.svg';
 import menuIconBlueUrl from 'images/ic-menu-18px_blue.svg';
+import { OppgaveNøkkel } from 'types/OppgaveNøkkel';
 import { WarningColored } from '@navikt/ds-icons';
 import { Table } from '@navikt/ds-react';
-import AlleKodeverk from 'kodeverk/alleKodeverkTsType';
-import kodeverkTyper from 'kodeverk/kodeverkTyper';
 import KommentarMedMerknad from 'saksbehandler/components/KommentarMedMerknad';
 import Oppgave from 'saksbehandler/oppgaveTsType';
 import DateLabel from 'sharedComponents/DateLabel';
 import Image from 'sharedComponents/Image';
 import { getDateAndTime } from 'utils/dateUtils';
-import { getKodeverknavnFraKode } from 'utils/kodeverkUtils';
 import OppgaveHandlingerMenu from '../menu/OppgaveHandlingerMenu';
 import styles from './oppgaverTabell.css';
 
@@ -23,9 +21,8 @@ import styles from './oppgaverTabell.css';
 
 interface Props {
 	oppgave: Oppgave;
-	alleKodeverk: AlleKodeverk;
 	goToFagsak: (oppgave: Oppgave) => void;
-	forlengOppgaveReservasjonFn: (oppgaveId: string) => void;
+	forlengOppgaveReservasjonFn: (oppgaveNøkkel: OppgaveNøkkel) => void;
 	valgtOppgaveId: string;
 	setValgtOppgaveId: React.Dispatch<React.SetStateAction<string>>;
 	gjelderHastesaker: boolean;
@@ -34,17 +31,12 @@ interface Props {
 type Ref = { [key: string]: HTMLDivElement };
 type OwnProps = Props & RefAttributes<Ref>;
 
+/**
+ * @deprecated
+ */
 const ReservertOppgaveRadV1: React.ForwardRefExoticComponent<OwnProps> = React.forwardRef(
 	(
-		{
-			oppgave,
-			alleKodeverk,
-			goToFagsak,
-			forlengOppgaveReservasjonFn,
-			valgtOppgaveId,
-			setValgtOppgaveId,
-			gjelderHastesaker,
-		}: Props,
+		{ oppgave, goToFagsak, forlengOppgaveReservasjonFn, valgtOppgaveId, setValgtOppgaveId, gjelderHastesaker }: Props,
 		ref: React.RefObject<{ [key: string]: HTMLDivElement }>,
 	) => {
 		const toggleMenu = (oppgaveValgt: Oppgave) => {
@@ -77,7 +69,7 @@ const ReservertOppgaveRadV1: React.ForwardRefExoticComponent<OwnProps> = React.f
 					{oppgave.saksnummer || oppgave.journalpostId || ''}
 				</Table.DataCell>
 				<Table.DataCell onClick={() => goToFagsak(oppgave)} className="hover:cursor-pointer">
-					{getKodeverknavnFraKode(oppgave.behandlingstype, kodeverkTyper.BEHANDLING_TYPE, alleKodeverk)}
+					{oppgave.behandlingstype.navn}
 				</Table.DataCell>
 				<Table.DataCell onClick={() => goToFagsak(oppgave)} className="hover:cursor-pointer">
 					{oppgave.opprettetTidspunkt && <DateLabel dateString={oppgave.opprettetTidspunkt} />}

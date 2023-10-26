@@ -1,7 +1,7 @@
 import React from 'react';
 import { IntlShape, useIntl } from 'react-intl';
 import moment from 'moment';
-import { OppgavekøV2MedNavn, OppgavekøV3 } from 'types/OppgavekøV2Type';
+import { OppgavekøV3, OppgavekøV3MedNavn } from 'types/OppgavekøV3Type';
 import { RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
 import { useGlobalStateRestApiData } from 'api/rest-api-hooks';
 import AlleKodeverk from 'kodeverk/alleKodeverkTsType';
@@ -68,7 +68,7 @@ const getSorteringsnavn = (intl: IntlShape, oppgaveko?: OppgavekøV1) => {
 };
 
 interface OwnProps {
-	oppgaveko: OppgavekøV1 | OppgavekøV2MedNavn;
+	oppgaveko: OppgavekøV1 | OppgavekøV3MedNavn;
 }
 
 const OldOppsummeringAvKø = ({ oppgaveko }: OwnProps) => {

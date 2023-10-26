@@ -20,6 +20,6 @@ export interface OppgavekøV3Enkel {
 	sistEndret: string | null;
 }
 
-export interface OppgavekøV2MedNavn extends OppgavekøV3 {
+export interface OppgavekøV3MedNavn extends OppgavekøV3 {
 	navn: string;
 }

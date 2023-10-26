@@ -5,6 +5,7 @@ import { useQueryClient } from 'react-query';
 import { captureMessage } from '@sentry/browser';
 import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
 import { Undertittel } from 'nav-frontend-typografi';
+import { OppgaveNøkkel } from 'types/OppgaveNøkkel';
 import apiPaths from 'api/apiPaths';
 import { K9LosApiKeys } from 'api/k9LosApi';
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
@@ -18,7 +19,7 @@ const maxLength1500 = maxLength(1500);
 
 type OwnProps = Readonly<{
 	showModal: boolean;
-	oppgaveId: string;
+	oppgaveNøkkel: OppgaveNøkkel;
 	cancel: () => void;
 }>;
 
@@ -27,16 +28,16 @@ type OwnProps = Readonly<{
  *
  * Presentasjonskomponent. Modal som lar en begrunne hvorfor en sak skal frigjøres.
  */
-export const OpphevReservasjonModal: FunctionComponent<OwnProps> = ({ showModal, cancel, oppgaveId }) => {
+export const OpphevReservasjonModal: FunctionComponent<OwnProps> = ({ showModal, cancel, oppgaveNøkkel }) => {
 	const { startRequest: opphevOppgavereservasjon } = useRestApiRunner(K9LosApiKeys.OPPHEV_OPPGAVERESERVASJON);
 	const intl = useIntl();
 	const queryClient = useQueryClient();
 
 	const opphevReservasjonFn = useCallback(
 		(begrunnelse: string) =>
-			opphevOppgavereservasjon({ oppgaveId, begrunnelse }).then(() => {
+			opphevOppgavereservasjon({ oppgaveNøkkel, begrunnelse }).then(() => {
 				captureMessage(
-					`Legg tilbake: ${oppgaveId} - Tidspunkt: ${new Date().toLocaleString('no-NO', {
+					`Legg tilbake: ${oppgaveNøkkel.oppgaveEksternId} - Tidspunkt: ${new Date().toLocaleString('no-NO', {
 						timeZone: 'Europe/Oslo',
 					})}`,
 				);
@@ -45,7 +46,7 @@ export const OpphevReservasjonModal: FunctionComponent<OwnProps> = ({ showModal,
 				queryClient.invalidateQueries([apiPaths.saksbehandlerReservasjoner]);
 				cancel();
 			}),
-		[oppgaveId],
+		[JSON.stringify(oppgaveNøkkel)],
 	);
 
 	return (

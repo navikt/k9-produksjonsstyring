@@ -1,5 +1,6 @@
 import KodeverkMedNavn from 'kodeverk/kodeverkMedNavnTsType';
-import { OppgaveStatus } from './oppgaveStatusTsType';
+import { OppgaveStatus } from '../saksbehandler/oppgaveStatusTsType';
+import { OppgaveNøkkel } from './OppgaveNøkkel';
 
 type OppgaveV3 = {
 	søkersNavn: string;
@@ -9,11 +10,7 @@ type OppgaveV3 = {
 	oppgavebehandlingsUrl: string;
 	oppgavestatus: OppgaveStatus;
 	behandlingstype: KodeverkMedNavn;
-	oppgaveNøkkel: {
-		områdeEksternId: string;
-		oppgaveEksternId: string;
-		oppgaveTypeEksternId: string;
-	};
+	oppgaveNøkkel: OppgaveNøkkel;
 };
 
 export default OppgaveV3;

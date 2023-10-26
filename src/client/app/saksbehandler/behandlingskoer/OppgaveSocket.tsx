@@ -8,6 +8,9 @@ interface Props {
 	valgtOppgavekoId?: string;
 }
 
+/**
+ * @deprecated
+ */
 const OppgaveSocket = ({ hentOppgaverTilBehandling, hentReserverteOppgaver, valgtOppgavekoId }: Props) => {
 	const socketRef = useRef<WebSocket | null>(null);
 	const refreshUrl = useGlobalStateRestApiData<{ verdi?: string }>(RestApiGlobalStatePathsKeys.REFRESH_URL);

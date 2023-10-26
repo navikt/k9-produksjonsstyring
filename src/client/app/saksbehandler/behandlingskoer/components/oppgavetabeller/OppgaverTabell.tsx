@@ -3,7 +3,7 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import bubbletextUrl from 'images/bubbletext.svg';
 import bubbletextFilledUrl from 'images/bubbletext_filled.svg';
 import { Normaltekst } from 'nav-frontend-typografi';
-import { OppgavekøV2MedNavn } from 'types/OppgavekøV2Type';
+import { OppgavekøV3MedNavn } from 'types/OppgavekøV3Type';
 import { ErrorMessage, Loader } from '@navikt/ds-react';
 import { useSaksbehandlerNesteTiV1 } from 'api/queries/saksbehandlerQueries';
 import { getHeaderCodes } from 'saksbehandler/behandlingskoer/components/oppgavetabeller/oppgavetabellerfelles';
@@ -20,7 +20,7 @@ import { getDateAndTime } from 'utils/dateUtils';
 import styles from './oppgaverTabell.css';
 
 interface OwnProps {
-	valgtKo: OppgavekøV1 | OppgavekøV2MedNavn;
+	valgtKo: OppgavekøV1 | OppgavekøV3MedNavn;
 }
 
 /**

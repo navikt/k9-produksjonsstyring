@@ -5,6 +5,7 @@ import { useQueryClient } from 'react-query';
 import dayjs from 'dayjs';
 import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
+import { OppgaveNøkkel } from 'types/OppgaveNøkkel';
 import NavAnsatt from 'app/navAnsattTsType';
 import apiPaths from 'api/apiPaths';
 import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
@@ -31,7 +32,7 @@ const maxLength1500 = maxLength(1500);
 
 interface OwnProps {
 	showModal: boolean;
-	oppgaveId: string;
+	oppgaveNøkkel: OppgaveNøkkel;
 	oppgaveReservertTil?: Date;
 	closeModal: () => void;
 	eksisterendeBegrunnelse?: string;
@@ -45,7 +46,7 @@ interface OwnProps {
 export const FlyttReservasjonModal: FunctionComponent<OwnProps> = ({
 	showModal,
 	closeModal,
-	oppgaveId,
+	oppgaveNøkkel,
 	oppgaveReservertTil,
 	eksisterendeBegrunnelse,
 }) => {
@@ -66,12 +67,12 @@ export const FlyttReservasjonModal: FunctionComponent<OwnProps> = ({
 	const endreReservasjonFn = useCallback(
 		(brukerIdent: string, begrunnelse: string, reservertTilDato: string): Promise<any> => {
 			const params: {
-				oppgaveId: string;
+				oppgaveNøkkel: OppgaveNøkkel;
 				brukerIdent: string;
 				begrunnelse: string;
 				reserverTil?: string;
 			} = {
-				oppgaveId,
+				oppgaveNøkkel,
 				brukerIdent,
 				begrunnelse,
 			};

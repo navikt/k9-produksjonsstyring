@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { OppgavekøV3Enkel } from 'types/OppgavekøV2Type';
+import { OppgavekøV3Enkel } from 'types/OppgavekøV3Type';
 import { FilesIcon } from '@navikt/aksel-icons';
 import { Button } from '@navikt/ds-react';
 import KopierKøModal from './KopierKøModal';

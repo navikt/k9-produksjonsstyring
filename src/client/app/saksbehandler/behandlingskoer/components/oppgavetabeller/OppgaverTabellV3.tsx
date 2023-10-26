@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import OppgaveV3 from 'saksbehandler/OppgaveV3';
+import OppgaveV3 from 'types/OppgaveV3';
 import { getHeaderCodes } from 'saksbehandler/behandlingskoer/components/oppgavetabeller/oppgavetabellerfelles';
 import Table from 'sharedComponents/Table';
 import TableColumn from 'sharedComponents/TableColumn';

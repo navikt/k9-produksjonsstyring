@@ -1,5 +1,5 @@
 import React from 'react';
-import { OppgavekøV3 } from 'types/OppgavekøV2Type';
+import { OppgavekøV3 } from 'types/OppgavekøV3Type';
 import { BodyShort, Detail } from '@navikt/ds-react';
 import { OppgavekøV1 } from '../oppgavekoTsType';
 

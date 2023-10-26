@@ -1,8 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { OppgavekøV3Enkel, OppgavekøerV3 } from 'types/OppgavekøV2Type';
+import OppgaveV3 from 'types/OppgaveV3';
+import { OppgavekøV3Enkel, OppgavekøerV3 } from 'types/OppgavekøV3Type';
 import apiPaths from 'api/apiPaths';
 import { baseURL } from 'api/rest-api/src/axios/initRestMethods';
-import OppgaveV3 from 'saksbehandler/OppgaveV3';
 import ReservasjonV3 from 'saksbehandler/behandlingskoer/ReservasjonV3Dto';
 import { OppgavekøV1 } from 'saksbehandler/behandlingskoer/oppgavekoTsType';
 import Oppgave from 'saksbehandler/oppgaveTsType';
