@@ -45,8 +45,8 @@ const ReservasjonMeny: React.FC<OwnProps> = ({
 	let id: string;
 	if ('eksternId' in oppgave) {
 		id = oppgave.eksternId;
-	} else if ('oppgaveEksternId' in oppgave) {
-		id = oppgave.oppgaveEksternId;
+	} else if ('oppgaveEksternId' in oppgave.oppgaveNøkkel) {
+		id = oppgave.oppgaveNøkkel.oppgaveEksternId;
 	}
 
 	const handleOutsideClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -92,6 +92,7 @@ const ReservasjonMeny: React.FC<OwnProps> = ({
 	};
 
 	const forlengReserverasjon = () => {
+		console.log(id);
 		forlengOppgaveReservasjon(id);
 		toggleMenu(null);
 	};

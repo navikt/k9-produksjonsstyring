@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl';
 import NavFrontendChevron from 'nav-frontend-chevron';
 import { Element, Undertittel } from 'nav-frontend-typografi';
 import { K9LosApiKeys } from 'api/k9LosApi';
-import { usePlukkOppgaveMutation } from 'api/queries/saksbehandlerQueries';
+import { usePlukkOppgaveMutation, useSaksbehandlerNesteTiV3 } from 'api/queries/saksbehandlerQueries';
 import { useRestApiRunner } from 'api/rest-api-hooks';
 import BehandlingskoerContext from 'saksbehandler/BehandlingskoerContext';
 import ReserverteOppgaverTabell from 'saksbehandler/behandlingskoer/components/oppgavetabeller/ReserverteOppgaverTabell';
@@ -16,6 +16,7 @@ import { erKoV3, getKoId } from '../utils';
 import OppgavekoVelgerForm from './OppgavekoVelgerForm';
 import styles from './oppgavekoPanel.css';
 import OppgaverTabell from './oppgavetabeller/OppgaverTabell';
+import { OppgavetabellV3Container } from './oppgavetabeller/OppgavetabellV3Container';
 
 interface OwnProps {
 	apneOppgave: (oppgave: Oppgave) => void;
@@ -29,7 +30,6 @@ const OppgavekoPanel: FunctionComponent<OwnProps> = ({ apneOppgave }) => {
 	const { valgtOppgavekoId, oppgavekoer } = useContext(BehandlingskoerContext);
 	const [visFinnesIngenBehandlingerIKoModal, setVisFinnesIngenBehandlingerIKoModal] = useState<boolean>(false);
 	const { startRequest: leggTilBehandletOppgave } = useRestApiRunner(K9LosApiKeys.LEGG_TIL_BEHANDLET_OPPGAVE);
-
 	const {
 		startRequest: fåOppgaveFraKo,
 		state: restApiState,
@@ -109,11 +109,7 @@ const OppgavekoPanel: FunctionComponent<OwnProps> = ({ apneOppgave }) => {
 
 				{visBehandlingerIKo &&
 					valgtOppgaveko &&
-					(erKoV3(valgtOppgaveko.id) ? (
-						<div>{valgtOppgaveko.tittel}</div>
-					) : (
-						<OppgaverTabell valgtKo={valgtOppgaveko} />
-					))}
+					(erKoV3(valgtOppgaveko.id) ? <OppgavetabellV3Container /> : <OppgaverTabell valgtKo={valgtOppgaveko} />)}
 			</div>
 		</div>
 	);

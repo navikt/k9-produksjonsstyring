@@ -144,7 +144,7 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps> = ({ apneOppgave, gj
 							) : (
 								reservasjon.reserverteV3Oppgaver.map((oppgave) => (
 									<ReservertOppgaveRadV3
-										key={oppgave.oppgaveEksternId}
+										key={oppgave.oppgaveNøkkel.oppgaveEksternId}
 										oppgave={oppgave}
 										reservasjon={reservasjon}
 										forlengOppgaveReservasjonFn={forlengOppgaveReservasjonFn}

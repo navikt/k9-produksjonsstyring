@@ -46,7 +46,7 @@ const OppgaveHandlingerMenu: React.FC<OwnProps> = ({
 	if ('eksternId' in oppgave) {
 		id = oppgave.eksternId;
 	} else if ('oppgaveEksternId' in oppgave) {
-		id = oppgave.oppgaveEksternId;
+		id = oppgave.oppgaveNøkkel.oppgaveEksternId;
 	}
 
 	const handleOutsideClick = (event: React.MouseEvent<HTMLButtonElement>) => {

@@ -47,7 +47,7 @@ const ReservertOppgaveRadV3: React.ForwardRefExoticComponent<Props> = React.forw
 
 		const toggleMenu = (oppgaveValgt: OppgaveV3) => {
 			if (oppgaveValgt) {
-				setValgtOppgaveId(oppgaveValgt.oppgaveEksternId);
+				setValgtOppgaveId(oppgaveValgt.oppgaveNøkkel.oppgaveEksternId);
 			} else {
 				setValgtOppgaveId(undefined);
 			}
@@ -60,7 +60,7 @@ const ReservertOppgaveRadV3: React.ForwardRefExoticComponent<Props> = React.forw
 		};
 		return (
 			<Table.Row
-				key={oppgave.oppgaveEksternId}
+				key={oppgave.oppgaveNøkkel.oppgaveEksternId}
 				className={classNames(styles.isUnderBehandling, { [styles.hastesak]: gjelderHastesaker })}
 				onKeyDown={tilOppgave}
 			>
@@ -98,11 +98,11 @@ const ReservertOppgaveRadV3: React.ForwardRefExoticComponent<Props> = React.forw
 				<Table.DataCell className={styles.menuElement}>
 					<div
 						ref={(el) => {
-							ref.current = { ...ref.current, [oppgave.oppgaveEksternId]: el };
+							ref.current = { ...ref.current, [oppgave.oppgaveNøkkel.oppgaveEksternId]: el };
 						}}
 						onKeyDown={(event) => event.stopPropagation()}
 					>
-						{valgtOppgaveId === oppgave.oppgaveEksternId && (
+						{valgtOppgaveId === oppgave.oppgaveNøkkel.oppgaveEksternId && (
 							<ReservasjonMeny
 								imageNode={ref.current[valgtOppgaveId]}
 								toggleMenu={toggleMenu}

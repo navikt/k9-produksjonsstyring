@@ -24,6 +24,11 @@ export const useAlleSaksbehandlerKoerV3 = (options = {}) =>
 		...options,
 	});
 
+export const useSaksbehandlerNesteTiV3 = (id: string, options = {}) =>
+	useQuery<OppgaveV3[], unknown, OppgaveV3[]>({
+		queryKey: [apiPaths.hentTiNesteIKoV3(id)],
+		...options,
+	});
 export const useSaksbehandlerNesteTiV1 = (id: string, options = {}) =>
 	useQuery<Oppgave[], unknown, Oppgave[]>({
 		queryKey: [apiPaths.saksbehandlerNesteOppgaver(id)],
