@@ -177,7 +177,8 @@
 		"webpack-merge": "5.10.0"
 	},
 	"resolutions": {
-		"@babel/traverse": "7.23.2"
+		"@babel/traverse": "7.23.2",
+		"postcss": "8.4.31"
 	},
 	"scripts": {
 		"test": "jest --colors",
