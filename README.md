@@ -51,7 +51,8 @@ Før du kjører `yarn install`, sett opp lokal NPM for autentisering mot GitHub 
 5. Opprett ønsket kø i avdelingslederpanelet og legg til saksbehandler i køen
 6. Kjør tester i verdikjede for å opprette saker. Man kan slette deler av testene for å få behandlinger som ikke er ferdigstilt.
    Les dokumentasjon i https://github.com/navikt/k9-verdikjede for å kjøre tester.
-7. Det KAN hende localhost:8020/mock kan brukes for å opprette oppgaver i LOS. Vedlikehold av denne mocken er ikke prioritert og den kan derfor være utdatert og ustabil.
+7. Det KAN hende localhost:8020/mock kan brukes for å opprette oppgaver i LOS.
+   Vedlikehold av denne mocken er ikke prioritert og den kan derfor være utdatert og ustabil.
 
 Nå kan du søke opp saksnummeret eller søkeren i k9-los-web. Dersom oppgaven matcher kriteriene i en av dine køer vil den også dukke opp i listen over oppgaver.
 
