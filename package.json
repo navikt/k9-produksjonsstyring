@@ -110,7 +110,7 @@
 		"@babel/preset-typescript": "7.23.2",
 		"@babel/register": "7.22.15",
 		"@commercetools/enzyme-extensions": "5.0.0",
-		"@navikt/aksel-stylelint": "5.8.0",
+		"@navikt/aksel-stylelint": "5.9.0",
 		"@playwright/test": "1.39.0",
 		"@testing-library/react": "14.0.0",
 		"@trivago/prettier-plugin-sort-imports": "4.2.1",
