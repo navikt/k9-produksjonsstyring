@@ -14,12 +14,20 @@ interface Props {
 
 const MultiSelectKriterie = ({ feltdefinisjon, oppgavefilter }: Props) => {
 	const [value, setValue] = useState('');
+	const [visAlle, setVisAlle] = useState(false);
 	const { updateQuery } = useContext(FilterContext);
 	const selectedOptions = oppgavefilter.verdi?.map(
 		(v) => feltdefinisjon.verdiforklaringer.find((verdiforklaring) => verdiforklaring.verdi === v).visningsnavn,
 	);
 
 	const onToggleSelected = (option: string, isSelected: boolean) => {
+		console.log(option, isSelected);
+		if (option === '--- Vis alle ---') {
+			setVisAlle(true);
+			setValue('');
+			return;
+		}
+
 		const verdi = feltdefinisjon?.verdiforklaringer.find((v) => v.visningsnavn === option)?.verdi;
 		if (isSelected) {
 			updateQuery([updateFilter(oppgavefilter.id, { verdi: [...(oppgavefilter?.verdi || []), verdi] })]);
@@ -27,6 +35,9 @@ const MultiSelectKriterie = ({ feltdefinisjon, oppgavefilter }: Props) => {
 			updateQuery([updateFilter(oppgavefilter.id, { verdi: oppgavefilter.verdi?.filter((o) => o !== verdi) })]);
 		}
 	};
+	const options = visAlle
+		? [...feltdefinisjon.verdiforklaringer?.map((v) => v.visningsnavn), 'Her', 'Er', 'Alle']
+		: [...feltdefinisjon.verdiforklaringer?.map((v) => v.visningsnavn), '--- Vis alle ---'];
 	return (
 		<div>
 			<UNSAFE_Combobox
@@ -38,10 +49,12 @@ const MultiSelectKriterie = ({ feltdefinisjon, oppgavefilter }: Props) => {
 					setValue('');
 				}}
 				hideLabel
-				options={feltdefinisjon.verdiforklaringer?.map((v) => v.visningsnavn)}
+				options={options}
 				isMultiSelect
 				onChange={(event) => {
-					if (event) setValue(event.target.value);
+					if (event) {
+						setValue(event.target.value);
+					}
 				}}
 				onToggleSelected={onToggleSelected}
 				selectedOptions={selectedOptions || []}

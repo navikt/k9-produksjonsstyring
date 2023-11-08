@@ -4,18 +4,17 @@ import { Button, Label } from '@navikt/ds-react';
 import AppContext from 'app/AppContext';
 import { FilterContext } from 'filter/FilterContext';
 import { removeFilter } from 'filter/queryUtils';
-import { FeltverdiOppgavefilter, Oppgavefelt } from '../filterTsTypes';
+import { FeltverdiOppgavefilter, Oppgavefelt, OppgavefilterKode } from '../filterTsTypes';
 import { generateId } from './FeltverdiOppgavefilterPanel/idGenerator';
 import KriterieOperator from './KriterieOperator';
 import KriterieVerdi from './KriterieVerdi';
 
 interface Props {
-	køvisning: boolean;
 	oppgavefilter: FeltverdiOppgavefilter;
-	toppnivaaIQuery: boolean;
+	paakrevdeKoder: OppgavefilterKode[];
 }
 
-const Kriterie: React.FC<Props> = ({ oppgavefilter, køvisning, toppnivaaIQuery }) => {
+const Kriterie: React.FC<Props> = ({ oppgavefilter, paakrevdeKoder = [] }) => {
 	const testID = useMemo(() => generateId(), []);
 
 	const { updateQuery } = useContext(FilterContext);
@@ -29,7 +28,7 @@ const Kriterie: React.FC<Props> = ({ oppgavefilter, køvisning, toppnivaaIQuery 
 		setFeltdefinisjon(feltdef);
 	}, [kriterierSomKanVelges, oppgavefilter.område, oppgavefilter.kode]);
 
-	const kriterieErPåkrevd = feltdefinisjon?.kode === 'oppgavestatus' && køvisning && toppnivaaIQuery;
+	const kriterieErPåkrevd = paakrevdeKoder.some((v) => v === feltdefinisjon?.kode);
 
 	return (
 		<div id={`feltpanel-${testID}`} className="flex items-center gap-4 rounded bg-surface-selected py-4 pl-3 pr-1">
