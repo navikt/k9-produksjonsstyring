@@ -1,3 +1,4 @@
+import { fileURLToPath } from 'url';
 import commonEnvConfig from "./commonEnvConfig.mjs";
 import commonDevAndProd from "./webpack.common.mjs";
 import HtmlWebpackPlugin from "html-webpack-plugin";
@@ -5,9 +6,11 @@ import path from "path";
 import webpack from "webpack";
 import { merge } from "webpack-merge";
 
-const dirname = path.dirname(new URL(import.meta.url).pathname);
+const filename = fileURLToPath(import.meta.url);
+const dirname = path.dirname(filename);
 const ROOT_DIR = path.resolve(dirname, "../src/client");
 const APP_DIR = path.resolve(ROOT_DIR, "app");
+
 
 const config = {
   mode: "development",
