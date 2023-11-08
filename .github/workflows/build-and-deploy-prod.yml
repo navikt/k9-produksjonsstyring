@@ -76,13 +76,3 @@ jobs:
       - name: Set image output
         id: docker-push
         run: echo "IMAGE=${IMAGE_BASE_CR}:${TAG}" >> $GITHUB_OUTPUT
-  trivy:
-    needs: [build-og-deploy]
-    uses: navikt/sif-gha-workflows/.github/workflows/trivy-ghcr.yml@main
-    permissions:
-      contents: write
-      security-events: write
-      actions: read
-    secrets: inherit
-    with:
-      image: ${{ needs.build-og-deploy.outputs.image }}

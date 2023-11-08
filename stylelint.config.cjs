@@ -19,5 +19,6 @@ module.exports = {
 		'color-function-notation': null,
 		'aksel/no-class-override': null,
 		'media-feature-range-notation': null,
+		'declaration-block-no-redundant-longhand-properties': null,
 	},
 };
