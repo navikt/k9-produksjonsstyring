@@ -1,10 +1,13 @@
+import { fileURLToPath } from 'url';
+
 import CircularDependencyPlugin from 'circular-dependency-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import path from 'path';
 
 const isDevelopment = JSON.stringify(process.env.NODE_ENV) === '"development"';
 
-const dirname = path.dirname(new URL(import.meta.url).pathname);
+const filename = fileURLToPath(import.meta.url);
+const dirname = path.dirname(filename);
 const CORE_DIR = path.resolve(dirname, '../node_modules');
 const ROOT_DIR = path.resolve(dirname, '../src/client');
 const APP_DIR = path.join(ROOT_DIR, 'app');
