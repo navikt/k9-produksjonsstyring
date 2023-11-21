@@ -21,7 +21,6 @@ const MultiSelectKriterie = ({ feltdefinisjon, oppgavefilter }: Props) => {
 	);
 
 	const onToggleSelected = (option: string, isSelected: boolean) => {
-		console.log(option, isSelected);
 		if (option === '--- Vis alle ---') {
 			setVisAlle(true);
 			setValue('');
