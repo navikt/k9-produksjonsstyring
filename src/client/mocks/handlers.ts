@@ -99,7 +99,7 @@ export const developmentHandlers = {
 	saksbehandlerReservasjoner: rest.get(relativeTestApiPaths.saksbehandlerReservasjoner, (req, res, ctx) =>
 		res(ctx.delay(2000), ctx.json(nyeOgGamleReservasjoner)),
 	),
-	saksbehandlerOppgaver: rest.get(relativeTestApiPaths.saksbehandlerNesteOppgaver, (req, res, ctx) =>
+	saksbehandlerOppgaver: rest.get(relativeTestApiPaths.saksbehandlerNesteOppgaver(''), (req, res, ctx) =>
 		res(ctx.json(saksbehandlerOppgaver)),
 	),
 	saksbehandlereIOppgaveko: rest.get(relativeTestApiPaths.saksbehandlereIOppgaveko, (req, res, ctx) =>
