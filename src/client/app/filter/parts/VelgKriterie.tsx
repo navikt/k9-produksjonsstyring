@@ -19,7 +19,6 @@ const VelgKriterie = ({ oppgavefilter, addGruppeOperation, køvisning, paakrevde
 	const [valgtKriterie, setValgtKriterie] = useState<Oppgavefelt | string>();
 	const [visAvanserteValg, setVisAvanserteValg] = useState('nei');
 
-	//  
 	const kriterierSomKanVelges = paakrevdeKoder.length
 		? felter.filter((kriterie) => paakrevdeKoder.some((v) => v !== kriterie.kode))
 		: felter;
