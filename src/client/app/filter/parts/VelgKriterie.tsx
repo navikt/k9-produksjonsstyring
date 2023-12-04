@@ -51,7 +51,7 @@ const VelgKriterie = ({ oppgavefilter, addGruppeOperation, køvisning }: Props) 
 	};
 
 	useEffect(() => {
-		setValgtKriterie(undefined);
+		setValgtKriterie('');
 	}, [visAvanserteValg]);
 
 	const options = useMemo(
@@ -85,7 +85,7 @@ const VelgKriterie = ({ oppgavefilter, addGruppeOperation, køvisning }: Props) 
 					}
 					onChange={handleSelect}
 				>
-					<option>Velg kriterie</option>
+					<option value="">Velg kriterie</option>
 					<option value="__gruppe">Gruppe</option>
 					{options}
 				</Select>
