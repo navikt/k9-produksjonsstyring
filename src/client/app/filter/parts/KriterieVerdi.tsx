@@ -83,8 +83,7 @@ const KriterieVerdi = ({
 		toInputProps,
 		fromInputProps,
 	} = useRangeDatepicker({
-		fromDate: initialFromDate,
-		toDate: initialToDate,
+		defaultSelected: { to: initialToDate, from: initialFromDate },
 		onRangeChange,
 	});
 
