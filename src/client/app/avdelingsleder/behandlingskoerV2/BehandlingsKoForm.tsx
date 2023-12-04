@@ -71,7 +71,7 @@ const BehandlingsKoForm = ({ kø, lukk, ekspandert, id }: BehandlingsKoFormProps
 		label: saksbehandler.navn || saksbehandler.epost,
 		group: saksbehandler.enhet || manglerGruppering,
 	}));
-	const lagreOppgaveQuery = (oppgaveQuery) => {
+	const lagreOppgaveQuery = async (oppgaveQuery) => {
 		formMethods.setValue(fieldnames.OPPGAVE_QUERY, oppgaveQuery, { shouldDirty: true });
 		setVisFilterModal(false);
 	};

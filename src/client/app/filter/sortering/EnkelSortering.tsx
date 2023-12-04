@@ -11,6 +11,8 @@ import { mapKodeTilSorteringParams, mapSorteringParamsTilKode } from './sorterin
 
 const EnkelSortering = () => {
 	const { oppgaveQuery, updateQuery } = useContext(FilterContext);
+
+	// antall oppgaver hører egentlig ikke hjemme i denne komponenten
 	const [antallOppgaver, setAntallOppgaver] = useState('0');
 	const { mutate, isLoading } = useMutation<unknown, unknown, { url: string; body: OppgaveQuery }>({
 		onSuccess: (data) => {

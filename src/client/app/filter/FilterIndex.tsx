@@ -7,6 +7,9 @@ import AppContext from 'app/AppContext';
 import { K9LosApiKeys, k9LosApi } from 'api/k9LosApi';
 import { useAlleKoer, useKo } from 'api/queries/avdelingslederQueries';
 import { REQUEST_POLLING_CANCELLED } from 'api/rest-api';
+import apiPaths from 'api/apiPaths';
+import { baseURL } from 'api/rest-api/src/axios/initRestMethods';
+import { post } from 'utils/axios';
 import { FilterContext } from './FilterContext';
 import OppgaveQueryModel from './OppgaveQueryModel';
 import styles from './filterIndex.css';
@@ -45,7 +48,9 @@ const antallTreffOppgaver = (oppgaver: Oppgaverad[]) => {
 
 // Custom deep comparison excluding the limit field
 const hasQueryChangedExcludingLimit = (prev, current) => {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const { limit, ...prevRest } = prev;
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const { limit: currLimit, ...currRest } = current;
 
 	return JSON.stringify(prevRest) !== JSON.stringify(currRest);
@@ -97,6 +102,24 @@ const FilterIndex = ({ initialQuery, lagre, avbryt, tittel, visningV2, køvisnin
 			setOppgaveQuery(newQuery);
 		},
 	});
+
+	const validateOppgaveQuery = () =>
+		post(`${baseURL()}${apiPaths.valider}`, oppgaveQuery)
+			.then((data) => data)
+			.catch((error) => {
+				console.log(error);
+				return false;
+			});
+
+	const validerOgLagre = async () => {
+		const valideringOK = await validateOppgaveQuery();
+		if (valideringOK) {
+			setQueryError(null);
+			lagre(oppgaveQuery);
+			return;
+		}
+		setQueryError('Kriteriene er ikke gyldige. Kriterier for kø kan ikke lagres.');
+	};
 
 	const executeOppgavesøk = () => {
 		nullstillTreff();
@@ -229,14 +252,18 @@ const FilterIndex = ({ initialQuery, lagre, avbryt, tittel, visningV2, køvisnin
 				{!køvisning && <OppgaveSelectFelter />}
 				<div className="mt-auto">
 					<SorteringContainer køvisning={køvisning} />
-
+					{queryError && (
+						<Alert variant="error" className="my-4">
+							{queryError}
+						</Alert>
+					)}
 					<div className={styles.filterButtonGroup}>
 						{lagre && (
 							<div className="ml-auto">
 								<Button className="mr-2" variant="secondary" onClick={avbryt}>
 									Avbryt
 								</Button>
-								<Button onClick={() => lagre(oppgaveQuery)} loading={loading}>
+								<Button onClick={validerOgLagre} loading={loading}>
 									Lagre
 								</Button>
 							</div>
@@ -267,7 +294,6 @@ const FilterIndex = ({ initialQuery, lagre, avbryt, tittel, visningV2, køvisnin
 			{!køvisning && (
 				<div className="mt-10">
 					{queryError && <Alert variant="error">{queryError}</Alert>}
-
 					{oppgaver && (
 						<>
 							<Heading size="small" spacing className="mt-6">
