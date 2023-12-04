@@ -21,7 +21,7 @@ const SuggestionList = ({
 	getSuggestion,
 }) => {
 	const groupHasSelectedSuggestions = (group) =>
-		selectedSuggestionValues.some((suggestionValue) => getSuggestion(suggestionValue).group === group);
+		selectedSuggestionValues.some((suggestionValue) => getSuggestion(suggestionValue)?.group === group);
 
 	const groupIsOpen = (group) => openSuggestionGroups.includes(group);
 

@@ -1,12 +1,12 @@
 import React, { useContext } from 'react';
 import dayjs from 'dayjs';
-import { Checkbox, CheckboxGroup, DatePicker, TextField, useDatepicker } from '@navikt/ds-react';
+import { Checkbox, CheckboxGroup, DatePicker, TextField, useDatepicker, useRangeDatepicker } from '@navikt/ds-react';
 import AksjonspunktVelger from 'avdelingsleder/behandlingskoerV2/components/AksjonspunktVelger';
 import { FilterContext } from 'filter/FilterContext';
 import { FeltverdiOppgavefilter, Oppgavefelt, TolkesSom } from 'filter/filterTsTypes';
 import { aksjonspunktKoder } from 'filter/konstanter';
 import { updateFilter } from 'filter/queryUtils';
-import { calculateDays, mapBooleanToStringArray, mapStringToBooleanArray } from 'filter/utils';
+import { OPERATORS, calculateDays, mapBooleanToStringArray, mapStringToBooleanArray } from 'filter/utils';
 import styles from '../filterIndex.css';
 import MultiSelectKriterie from './MultiSelectKriterie';
 
@@ -61,9 +61,42 @@ const KriterieVerdi = ({
 		handleChangeValue(newDuration);
 	};
 
+	const onRangeChange = (range) => {
+		if (!range.from || !range.to) {
+			return;
+		}
+		const timezoneOffset = range.from.getTimezoneOffset() * 60000;
+		const newFrom = new Date(range.from.getTime() - timezoneOffset).toISOString().split('T')[0];
+		const newTo = new Date(range.to.getTime() - timezoneOffset).toISOString().split('T')[0];
+		handleChangeValue([newFrom, newTo]);
+	};
+	const initialFromDate =
+		oppgavefilter.verdi && dayjs(new Date(oppgavefilter.verdi[0])).isValid()
+			? new Date(oppgavefilter.verdi[0])
+			: undefined;
+	const initialToDate =
+		oppgavefilter.verdi && dayjs(new Date(oppgavefilter.verdi[1])).isValid()
+			? new Date(oppgavefilter.verdi[1])
+			: undefined;
+	const {
+		datepickerProps: rangeDatepickerProps,
+		toInputProps,
+		fromInputProps,
+	} = useRangeDatepicker({
+		fromDate: initialFromDate,
+		toDate: initialToDate,
+		onRangeChange,
+	});
+
 	if (aksjonspunktKoder.includes(feltdefinisjon?.kode)) {
 		return (
-			<AksjonspunktVelger onChange={handleChangeValue} feltdefinisjon={feltdefinisjon} oppgavefilter={oppgavefilter} />
+			<div className="flex grow">
+				<AksjonspunktVelger
+					onChange={handleChangeValue}
+					feltdefinisjon={feltdefinisjon}
+					oppgavefilter={oppgavefilter}
+				/>
+			</div>
 		);
 	}
 
@@ -81,6 +114,17 @@ const KriterieVerdi = ({
 				placeholder="Antall dager"
 				min="0"
 			/>
+		);
+	}
+	if (feltdefinisjon?.tolkes_som === TolkesSom.Timestamp && oppgavefilter.operator === OPERATORS.INTERVAL) {
+		return (
+			<DatePicker {...rangeDatepickerProps}>
+				<div className="flex">
+					<DatePicker.Input {...fromInputProps} size="small" label="Fra" hideLabel />
+					<div className="mx-1">-</div>
+					<DatePicker.Input {...toInputProps} size="small" label="Til" hideLabel />
+				</div>
+			</DatePicker>
 		);
 	}
 

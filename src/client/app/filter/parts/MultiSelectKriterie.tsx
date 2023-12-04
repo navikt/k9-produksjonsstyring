@@ -49,6 +49,7 @@ const MultiSelectKriterie = ({ feltdefinisjon, oppgavefilter }: Props) => {
 	return (
 		<div>
 			<UNSAFE_Combobox
+				className="min-h-[1.5rem]"
 				size="small"
 				label={feltdefinisjon.visningsnavn}
 				shouldAutocomplete

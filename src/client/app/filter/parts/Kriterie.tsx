@@ -29,18 +29,17 @@ const Kriterie: React.FC<Props> = ({ oppgavefilter, paakrevdeKoder = [] }) => {
 	}, [kriterierSomKanVelges, oppgavefilter.område, oppgavefilter.kode]);
 
 	const kriterieErPåkrevd = paakrevdeKoder.some((v) => v === feltdefinisjon?.kode);
-
 	return (
 		<div id={`feltpanel-${testID}`} className="flex items-center gap-4 rounded bg-surface-selected py-4 pl-3 pr-1">
-			<Label size="small" className="w-[8rem]">
+			<Label size="small" className="min-w-[10rem] w-[10rem]">
 				{feltdefinisjon?.visningsnavn}:
 			</Label>
 			{oppgavefilter.kode && (
 				<div className="flex gap-4">
-					<div className="self-center">
+					<div>
 						<KriterieOperator oppgavefilter={oppgavefilter} />
 					</div>
-					<div className="self-center">
+					<div className="flex">
 						<KriterieVerdi feltdefinisjon={feltdefinisjon} oppgavefilter={oppgavefilter} />
 					</div>
 				</div>
