@@ -11,7 +11,7 @@ export type FeltverdiOppgavefilter = Oppgavefilter & {
 	område: string;
 	kode: OppgavefilterKode;
 	operator: string;
-	verdi: any;
+	verdi: unknown;
 };
 
 export type CombineOppgavefilter = Oppgavefilter &
@@ -67,6 +67,7 @@ export type Oppgaverad = {
 export type Verdiforklaring = {
 	verdi: string;
 	visningsnavn: string;
+	sekundærvalg: boolean;
 };
 
 export enum TolkesSom {

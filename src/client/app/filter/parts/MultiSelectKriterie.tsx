@@ -14,7 +14,7 @@ interface Props {
 
 const MultiSelectKriterie = ({ feltdefinisjon, oppgavefilter }: Props) => {
 	const [value, setValue] = useState('');
-	const [visAlle, setVisAlle] = useState(false);
+	const [visSekundærvalg, setVisSekundærvalg] = useState(false);
 	const { updateQuery } = useContext(FilterContext);
 	const selectedOptions = oppgavefilter.verdi?.map(
 		(v) => feltdefinisjon.verdiforklaringer.find((verdiforklaring) => verdiforklaring.verdi === v).visningsnavn,
@@ -22,7 +22,7 @@ const MultiSelectKriterie = ({ feltdefinisjon, oppgavefilter }: Props) => {
 
 	const onToggleSelected = (option: string, isSelected: boolean) => {
 		if (option === '--- Vis alle ---') {
-			setVisAlle(true);
+			setVisSekundærvalg(true);
 			setValue('');
 			return;
 		}
@@ -34,9 +34,18 @@ const MultiSelectKriterie = ({ feltdefinisjon, oppgavefilter }: Props) => {
 			updateQuery([updateFilter(oppgavefilter.id, { verdi: oppgavefilter.verdi?.filter((o) => o !== verdi) })]);
 		}
 	};
-	const options = visAlle
-		? [...feltdefinisjon.verdiforklaringer?.map((v) => v.visningsnavn), 'Her', 'Er', 'Alle']
-		: [...feltdefinisjon.verdiforklaringer?.map((v) => v.visningsnavn), '--- Vis alle ---'];
+	const getOptions = () => {
+		const harSekundærvalg = feltdefinisjon.verdiforklaringer?.some((v) => v.sekundærvalg);
+		if (visSekundærvalg || !harSekundærvalg) {
+			return feltdefinisjon.verdiforklaringer?.map((v) => v.visningsnavn);
+		}
+
+		const filteredOptions = feltdefinisjon.verdiforklaringer
+			?.filter((v) => !v.sekundærvalg)
+			?.map((v) => v.visningsnavn);
+		return [...filteredOptions, '--- Vis alle ---'];
+	};
+	const options = getOptions();
 	return (
 		<div>
 			<UNSAFE_Combobox
