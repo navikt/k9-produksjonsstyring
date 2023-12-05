@@ -33,12 +33,9 @@ const EnkelSortering = () => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
-	useEffect(
-		() => () => {
-			queryClient.cancelQueries(hentOppgaverQueryKey);
-		},
-		[oppgaveQuery, queryClient],
-	);
+	useEffect(() => {
+		queryClient.cancelQueries(hentOppgaverQueryKey);
+	}, [oppgaveQuery, queryClient]);
 
 	const selectValue = useMemo(() => {
 		if (!oppgaveQuery.order.length) return undefined;
