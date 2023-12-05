@@ -82,7 +82,7 @@ export type Oppgavefelt = {
 	kode: OppgavefilterKode;
 	visningsnavn: string;
 	kokriterie: boolean;
-	tolkes_som: string;
+	tolkes_som: TolkesSom;
 	verdiforklaringerErUttømmende: boolean;
 	verdiforklaringer: Verdiforklaring[] | null;
 };

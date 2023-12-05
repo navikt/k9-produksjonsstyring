@@ -4,6 +4,7 @@ import AppContext from 'app/AppContext';
 import { FilterContext } from 'filter/FilterContext';
 import { updateFilter } from 'filter/queryUtils';
 import { OPERATORS, operatorsFraTolkesSom } from 'filter/utils';
+import { TolkesSom } from 'filter/filterTsTypes';
 
 function KriterieOperator({ oppgavefilter }) {
 	const { updateQuery } = useContext(FilterContext);
@@ -24,8 +25,10 @@ function KriterieOperator({ oppgavefilter }) {
 		[OPERATORS.NOT_IN]: 'Ekskluder',
 		[OPERATORS.LESS_THAN]: 'mindre enn (<)',
 		[OPERATORS.GREATER_THAN]: 'større enn (>)',
-		[OPERATORS.LESS_THAN_OR_EQUALS]: 'mindre enn eller lik (<=)',
-		[OPERATORS.GREATER_THAN_OR_EQUALS]: 'større enn eller lik (>=)',
+		[OPERATORS.LESS_THAN_OR_EQUALS]:
+			kriterieDefinisjon.tolkes_som === TolkesSom.Timestamp ? 'til og med' : 'mindre enn eller lik (<=)',
+		[OPERATORS.GREATER_THAN_OR_EQUALS]:
+			kriterieDefinisjon.tolkes_som === TolkesSom.Timestamp ? 'fra og med' : 'større enn eller lik (>=)',
 		[OPERATORS.INTERVAL]: 'mellom',
 	};
 
