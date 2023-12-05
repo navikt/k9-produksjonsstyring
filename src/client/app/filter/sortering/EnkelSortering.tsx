@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react';
-import { useMutation, useQueryClient } from 'react-query';
+import { useMutation } from 'react-query';
 import { ArrowsCirclepathIcon } from '@navikt/aksel-icons';
 import { Button, Select, Skeleton } from '@navikt/ds-react';
 import apiPaths from 'api/apiPaths';
@@ -11,31 +11,19 @@ import { mapKodeTilSorteringParams, mapSorteringParamsTilKode } from './sorterin
 
 const EnkelSortering = () => {
 	const { oppgaveQuery, updateQuery } = useContext(FilterContext);
-	const [antallOppgaver, setAntallOppgaver] = useState('');
-	const queryClient = useQueryClient();
-	// Assign a unique query key for your mutation
-	const hentOppgaverQueryKey = ['hentOppgaver', oppgaveQuery];
-	const { mutate, isLoading } = useMutation<unknown, unknown, { url: string; body: OppgaveQuery }>(
-		hentOppgaverQueryKey,
-		{
-			onSuccess: (data) => {
-				if (data) {
-					setAntallOppgaver(antallTreffOppgaver(data as Oppgaverad[]));
-				}
-			},
+	const [antallOppgaver, setAntallOppgaver] = useState('0');
+	const { mutate, isLoading } = useMutation<unknown, unknown, { url: string; body: OppgaveQuery }>({
+		onSuccess: (data) => {
+			if (data) {
+				setAntallOppgaver(antallTreffOppgaver(data as Oppgaverad[]));
+			}
 		},
-	);
+	});
 
 	const hentOppgaver = () => mutate({ url: apiPaths.hentOppgaver, body: oppgaveQuery });
-
 	useEffect(() => {
 		hentOppgaver();
-		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
-
-	useEffect(() => {
-		queryClient.cancelQueries(hentOppgaverQueryKey);
-	}, [oppgaveQuery, queryClient]);
 
 	const selectValue = useMemo(() => {
 		if (!oppgaveQuery.order.length) return undefined;
