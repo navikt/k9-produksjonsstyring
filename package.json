@@ -152,7 +152,6 @@
 		"mini-css-extract-plugin": "2.7.6",
 		"postcss-less": "6.0.0",
 		"postcss-loader": "7.3.3",
-		"react-test-renderer": "18.2.0",
 		"stylelint": "15.11.0",
 		"stylelint-config-prettier": "9.0.5",
 		"stylelint-config-standard": "34.0.0",
