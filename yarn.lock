@@ -1811,19 +1811,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@commercetools/enzyme-extensions@npm:5.0.0":
-  version: 5.0.0
-  resolution: "@commercetools/enzyme-extensions@npm:5.0.0"
-  dependencies:
-    common-tags: 1.8.0
-    lodash.omit: ^4.5.0
-    react-display-name: 0.2.4
-  peerDependencies:
-    enzyme: 3.x
-  checksum: 17ce9429a1ad12f74c86868e11f72a89025427862df3ef09582e7b27213bdd12729eadbed715d5b2140b3fa1ac3b6b32b4ccb4b0c773fc8ce1ba23c3918bd546
-  languageName: node
-  linkType: hard
-
 "@csstools/css-parser-algorithms@npm:^2.3.1":
   version: 2.3.1
   resolution: "@csstools/css-parser-algorithms@npm:2.3.1"
@@ -5803,13 +5790,6 @@ __metadata:
   version: 3.0.0
   resolution: "common-path-prefix@npm:3.0.0"
   checksum: fdb3c4f54e51e70d417ccd950c07f757582de800c0678ca388aedefefc84982039f346f9fd9a1252d08d2da9e9ef4019f580a1d1d3a10da031e4bb3c924c5818
-  languageName: node
-  linkType: hard
-
-"common-tags@npm:1.8.0":
-  version: 1.8.0
-  resolution: "common-tags@npm:1.8.0"
-  checksum: fb0cc9420d149176f2bd2b1fc9e6df622cd34eccaca60b276aa3253a7c9241e8a8ed1ec0702b2679eba7e47aeef721869c686bbd7257b75b5c44993c8462cd7f
   languageName: node
   linkType: hard
 
@@ -10144,7 +10124,6 @@ __metadata:
     "@babel/preset-react": 7.22.15
     "@babel/preset-typescript": 7.23.2
     "@babel/register": 7.22.15
-    "@commercetools/enzyme-extensions": 5.0.0
     "@formatjs/intl-datetimeformat": 6.11.1
     "@formatjs/intl-numberformat": 8.8.0
     "@navikt/aksel-icons": 5.8.0
@@ -10528,13 +10507,6 @@ __metadata:
   version: 4.6.2
   resolution: "lodash.merge@npm:4.6.2"
   checksum: ad580b4bdbb7ca1f7abf7e1bce63a9a0b98e370cf40194b03380a46b4ed799c9573029599caebc1b14e3f24b111aef72b96674a56cfa105e0f5ac70546cdc005
-  languageName: node
-  linkType: hard
-
-"lodash.omit@npm:^4.5.0":
-  version: 4.5.0
-  resolution: "lodash.omit@npm:4.5.0"
-  checksum: 434645e49fe84ab315719bd5a9a3a585a0f624aa4160bc09157dd041a414bcc287c15840365c1379476a3f3eda41fbe838976c3f7bdecbbf4c5478e86c471a30
   languageName: node
   linkType: hard
 
@@ -13026,13 +12998,6 @@ __metadata:
     date-fns: ^2.28.0
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
   checksum: 789e124e831383fc8219711f0b0610c1541ad283c37c71765ad1012288e4648bca504b1c21646363a9659ccc825d33f8600013fd0d119f9d13b1ff73196a7eaa
-  languageName: node
-  linkType: hard
-
-"react-display-name@npm:0.2.4":
-  version: 0.2.4
-  resolution: "react-display-name@npm:0.2.4"
-  checksum: c628b9df1029f1d74b4c43615bec775ad1aa15d97d0ffd9af1dab0b4fb3cd0347b32e14047591bc673ca22ec713f807370ddbf09493c416d2d29c1dffcc9821a
   languageName: node
   linkType: hard
 
