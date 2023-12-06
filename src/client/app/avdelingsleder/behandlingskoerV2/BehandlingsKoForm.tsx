@@ -7,6 +7,7 @@ import { Alert, Button, ErrorMessage, Heading, Label, Modal } from '@navikt/ds-r
 import { Form, InputField, TextAreaField } from '@navikt/ft-form-hooks';
 import { minLength, required } from '@navikt/ft-form-validators';
 import AppContext from 'app/AppContext';
+import { OppgaveQuery } from 'filter/filterTsTypes';
 import { useKo, useOppdaterKøMutation } from 'api/queries/avdelingslederQueries';
 import { AvdelingslederContext } from 'avdelingsleder/context';
 import FilterIndex from 'filter/FilterIndex';
@@ -71,7 +72,7 @@ const BehandlingsKoForm = ({ kø, lukk, ekspandert, id }: BehandlingsKoFormProps
 		label: saksbehandler.navn || saksbehandler.epost,
 		group: saksbehandler.enhet || manglerGruppering,
 	}));
-	const lagreOppgaveQuery = async (oppgaveQuery) => {
+	const lagreOppgaveQuery = (oppgaveQuery: OppgaveQuery) => {
 		formMethods.setValue(fieldnames.OPPGAVE_QUERY, oppgaveQuery, { shouldDirty: true });
 		setVisFilterModal(false);
 	};
