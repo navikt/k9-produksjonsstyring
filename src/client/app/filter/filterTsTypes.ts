@@ -11,8 +11,7 @@ export type FeltverdiOppgavefilter = Oppgavefilter & {
 	område: string;
 	kode: OppgavefilterKode;
 	operator: string;
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	verdi: any;
+	verdi: string | string[];
 };
 
 export type CombineOppgavefilter = Oppgavefilter &

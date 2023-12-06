@@ -91,8 +91,7 @@ export const mapStringToBooleanArray = (values: string[]): (string | null)[] =>
 		return null;
 	});
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const calculateDays = (verdi: any[]): number | undefined => {
+export const calculateDays = (verdi: string[]): number | undefined => {
 	if (!verdi || verdi.length === 0) return undefined;
 	const totalDays = verdi.reduce((acc, curr) => {
 		if (typeof curr === 'string' && dayjs(curr).isValid()) {

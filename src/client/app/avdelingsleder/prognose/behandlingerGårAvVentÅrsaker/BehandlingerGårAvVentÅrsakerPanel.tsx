@@ -6,40 +6,39 @@ import { getValueFromLocalStorage } from 'utils/localStorageHelper';
 import { IBehandlingerSomGarAvVentType } from '../behandlingerGårAvVent/behandlingerSomGårAvVentType';
 import BehandlingerGårAvVentÅrsakerDiagram from './BehandlingerGårAvVentÅrsakerDiagram';
 
-const BehandlingerGårAvVentÅrsakerPanel: FunctionComponent<{ påVentMedVenteårsak: IBehandlingerSomGarAvVentType[] }> =
-	({ påVentMedVenteårsak }) => {
-		const id = 'behandlingerSomGaarAvVentAarsaker';
-		const [valgtYtelseType, setValgtYtelseType] = useState<string>(
-			getValueFromLocalStorage(`${id}-ytelsestype`) || ALLE_YTELSETYPER_VALGT,
-		);
+const BehandlingerGårAvVentÅrsakerPanel: FunctionComponent<{
+	påVentMedVenteårsak: IBehandlingerSomGarAvVentType[];
+}> = ({ påVentMedVenteårsak }) => {
+	const id = 'behandlingerSomGaarAvVentAarsaker';
+	const [valgtYtelseType, setValgtYtelseType] = useState<string>(
+		getValueFromLocalStorage(`${id}-ytelsestype`) || ALLE_YTELSETYPER_VALGT,
+	);
 
-		const [antallUkerSomSkalVises, setAntallUkerSomSkalVises] = useState<string>(
-			getValueFromLocalStorage(`${id}-uker`) || UKE_2,
-		);
+	const [antallUkerSomSkalVises, setAntallUkerSomSkalVises] = useState<string>(
+		getValueFromLocalStorage(`${id}-uker`) || UKE_2,
+	);
 
-		const intl = useIntl();
+	const intl = useIntl();
 
-		const behandlingerSomGaarAvVentAarsakerVisning = () => {
-			return (
-				<BehandlingerGårAvVentÅrsakerDiagram
-					behandlingerGaarAvVentAarsaker={påVentMedVenteårsak}
-					valgtYtelseType={valgtYtelseType}
-					antallUkerSomSkalVises={antallUkerSomSkalVises}
-				/>
-			);
-		};
-		return (
-			<GrafContainer
-				id={id}
-				valgtYtelseType={valgtYtelseType}
-				antallUkerSomSkalVises={antallUkerSomSkalVises}
-				setValgtYtelseType={setValgtYtelseType}
-				setAntallUkerSomSkalVises={setAntallUkerSomSkalVises}
-				tittel={intl.formatMessage({ id: 'BehandlingerGårAvVentÅrsaker.Tittel' })}
-				fremITid
-			>
-				{behandlingerSomGaarAvVentAarsakerVisning()}
-			</GrafContainer>
-		);
-	};
+	const behandlingerSomGaarAvVentAarsakerVisning = () => (
+		<BehandlingerGårAvVentÅrsakerDiagram
+			behandlingerGaarAvVentAarsaker={påVentMedVenteårsak}
+			valgtYtelseType={valgtYtelseType}
+			antallUkerSomSkalVises={antallUkerSomSkalVises}
+		/>
+	);
+	return (
+		<GrafContainer
+			id={id}
+			valgtYtelseType={valgtYtelseType}
+			antallUkerSomSkalVises={antallUkerSomSkalVises}
+			setValgtYtelseType={setValgtYtelseType}
+			setAntallUkerSomSkalVises={setAntallUkerSomSkalVises}
+			tittel={intl.formatMessage({ id: 'BehandlingerGårAvVentÅrsaker.Tittel' })}
+			fremITid
+		>
+			{behandlingerSomGaarAvVentAarsakerVisning()}
+		</GrafContainer>
+	);
+};
 export default BehandlingerGårAvVentÅrsakerPanel;

@@ -48,7 +48,9 @@ const KriterieVerdi = ({
 		handleChangeValue(newDate);
 	};
 	const initialDate =
-		oppgavefilter.verdi && dayjs(new Date(oppgavefilter.verdi)).isValid() ? new Date(oppgavefilter.verdi) : undefined;
+		oppgavefilter.verdi && dayjs(new Date(oppgavefilter.verdi as string)).isValid()
+			? new Date(oppgavefilter.verdi as string)
+			: undefined;
 	const { datepickerProps, inputProps } = useDatepicker({
 		fromDate: new Date('23 2017'),
 		onDateChange,
@@ -143,7 +145,7 @@ const KriterieVerdi = ({
 				hideLegend
 				legend={feltdefinisjon.visningsnavn}
 				onChange={handleChangeBoolean}
-				value={mapBooleanToStringArray(oppgavefilter.verdi || [])}
+				value={mapBooleanToStringArray((oppgavefilter.verdi as string[]) || [])}
 			>
 				<Checkbox value="ja">Ja</Checkbox>
 				<Checkbox value="nei">Nei</Checkbox>
@@ -164,7 +166,7 @@ const KriterieVerdi = ({
 				hideLegend
 				legend={feltdefinisjon.visningsnavn}
 				onChange={handleChangeValue}
-				value={oppgavefilter.verdi}
+				value={oppgavefilter.verdi as string[]}
 			>
 				{feltdefinisjon.verdiforklaringer.map((verdiforklaring) => (
 					<Checkbox key={verdiforklaring.visningsnavn} value={verdiforklaring.verdi}>
@@ -192,7 +194,7 @@ const KriterieVerdi = ({
 			label="Skriv fritekst"
 			size="small"
 			hideLabel
-			value={oppgavefilter.verdi}
+			value={oppgavefilter.verdi as string}
 			onChange={(e) => handleChangeValue(e.target.value)}
 		/>
 	);
