@@ -120,7 +120,7 @@ const BehandlingskoerIndex = () => {
 							<Table.DataCell>{kø.antallSaksbehandlere || '0'}</Table.DataCell>
 							<Table.DataCell>-</Table.DataCell>
 							<Table.DataCell>{kø.sistEndret ? dayjs(kø.sistEndret).format('DD.MM.YYYY HH:mm') : '-'}</Table.DataCell>
-							<Table.DataCell align="right">
+							<Table.DataCell>
 								<KopierKø kø={kø} />
 								<SlettKø kø={kø} />
 							</Table.DataCell>
