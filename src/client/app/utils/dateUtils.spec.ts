@@ -91,7 +91,7 @@ describe('dateutils', () => {
 		it('skal returnere undefined når periode ikke er gyldig fordi fomDato er etter tomDato', () => {
 			const fomDate = '2018-04-30';
 			const tomDate = '2018-04-10';
-			expect(findDifferenceInMonthsAndDays(fomDate, tomDate)).is.undefined;
+			expect(findDifferenceInMonthsAndDays(fomDate, tomDate)).is.eql(undefined);
 		});
 	});
 });
