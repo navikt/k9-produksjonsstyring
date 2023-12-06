@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useMemo, useState } from 'react';
+import React, { useContext, useMemo, useState } from 'react';
 import { useMutation } from 'react-query';
 import { ArrowsCirclepathIcon } from '@navikt/aksel-icons';
 import { Button, Select, Skeleton } from '@navikt/ds-react';
@@ -11,9 +11,7 @@ import { mapKodeTilSorteringParams, mapSorteringParamsTilKode } from './sorterin
 
 const EnkelSortering = () => {
 	const { oppgaveQuery, updateQuery } = useContext(FilterContext);
-
-	// antall oppgaver hører egentlig ikke hjemme i denne komponenten
-	const [antallOppgaver, setAntallOppgaver] = useState('0');
+	const [antallOppgaver, setAntallOppgaver] = useState('');
 	const { mutate, isLoading } = useMutation<unknown, unknown, { url: string; body: OppgaveQuery }>({
 		onSuccess: (data) => {
 			if (data) {
@@ -23,10 +21,6 @@ const EnkelSortering = () => {
 	});
 
 	const hentOppgaver = () => mutate({ url: apiPaths.hentOppgaver, body: oppgaveQuery });
-	useEffect(() => {
-		hentOppgaver();
-	}, []);
-
 	const selectValue = useMemo(() => {
 		if (!oppgaveQuery.order.length) return undefined;
 

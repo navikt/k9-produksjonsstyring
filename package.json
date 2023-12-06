@@ -186,6 +186,7 @@
 		"dev": "yarn dev-env-variables cross-env node webpack/webpack.dev.server.mjs --config webpack/webpack.dev.mjs",
 		"build": "cross-env NODE_ENV=production SENTRY_RELEASE=$(git rev-parse --short HEAD) webpack --config webpack/webpack.prod.mjs",
 		"ts-check": "tsc --pretty",
+		"lint": "eslint --cache --fix \"src/**/*.ts?(x)\"",
 		"css:lint": "stylelint \"src/**/*.css\"",
 		"up": "docker-compose up -d --remove-orphans --build",
 		"down": "docker-compose down",

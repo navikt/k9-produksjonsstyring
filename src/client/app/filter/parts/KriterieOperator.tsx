@@ -4,10 +4,12 @@ import AppContext from 'app/AppContext';
 import { FilterContext } from 'filter/FilterContext';
 import { updateFilter } from 'filter/queryUtils';
 import { OPERATORS, operatorsFraTolkesSom } from 'filter/utils';
+import { TolkesSom } from 'filter/filterTsTypes';
 
 function KriterieOperator({ oppgavefilter }) {
 	const { updateQuery } = useContext(FilterContext);
 	const { felter: kriterierSomKanVelges } = useContext(AppContext);
+
 	const kriterieDefinisjon = kriterierSomKanVelges.find(
 		(kriterie) => kriterie.område === oppgavefilter.område && kriterie.kode === oppgavefilter.kode,
 	);
@@ -15,12 +17,19 @@ function KriterieOperator({ oppgavefilter }) {
 	if (!kriterieDefinisjon) {
 		throw Error('KriterieDefinisjon ikke funnet');
 	}
-	const handleChangeOperator = (event) => {
-		updateQuery([
-			updateFilter(oppgavefilter.id, {
-				operator: event.target.value,
-			}),
-		]);
+
+	const operatorDisplayMap = {
+		[OPERATORS.EQUALS]: 'er lik',
+		[OPERATORS.NOT_EQUALS]: 'er IKKE lik',
+		[OPERATORS.IN]: 'Inkluder',
+		[OPERATORS.NOT_IN]: 'Ekskluder',
+		[OPERATORS.LESS_THAN]: 'mindre enn (<)',
+		[OPERATORS.GREATER_THAN]: 'større enn (>)',
+		[OPERATORS.LESS_THAN_OR_EQUALS]:
+			kriterieDefinisjon.tolkes_som === TolkesSom.Timestamp ? 'til og med' : 'mindre enn eller lik (<=)',
+		[OPERATORS.GREATER_THAN_OR_EQUALS]:
+			kriterieDefinisjon.tolkes_som === TolkesSom.Timestamp ? 'fra og med' : 'større enn eller lik (>=)',
+		[OPERATORS.INTERVAL]: 'mellom',
 	};
 
 	const operators = useMemo(
@@ -36,68 +45,33 @@ function KriterieOperator({ oppgavefilter }) {
 				}),
 			]);
 		}
-	}, [JSON.stringify(operators)]);
-
-	if (operators.length === 1 && operators.includes(OPERATORS.EQUALS)) {
+	}, [JSON.stringify(operators), JSON.stringify(kriterieDefinisjon)]);
+	if (operators.length <= 1) {
 		return null;
 	}
 
-	if (operators.length === 1 && operators.includes(OPERATORS.IN)) {
-		return null;
-	}
+	const handleChangeOperator = (event) => {
+		updateQuery([
+			updateFilter(oppgavefilter.id, {
+				operator: event.target.value,
+			}),
+		]);
+	};
 
-	if (operators.length === 2 && operators.includes(OPERATORS.IN) && operators.includes(OPERATORS.NOT_IN)) {
-		return (
-			<Select
-				className="min-w-[8rem]"
-				label="Operator"
-				size="small"
-				hideLabel
-				value={oppgavefilter.operator}
-				onChange={handleChangeOperator}
-			>
-				<option value="IN">Inkluder</option>
-				<option value="NOT_IN">Ekskluder</option>
-			</Select>
-		);
-	}
-
-	if (
-		operators.length === 2 &&
-		operators.includes(OPERATORS.GREATER_THAN_OR_EQUALS) &&
-		operators.includes(OPERATORS.LESS_THAN_OR_EQUALS)
-	) {
-		return (
-			<Select
-				className="min-w-[8rem]"
-				label="Operator"
-				size="small"
-				hideLabel
-				value={oppgavefilter.operator}
-				onChange={handleChangeOperator}
-			>
-				<option value="LESS_THAN_OR_EQUALS">mindre enn eller lik (&#60;=)</option>
-				<option value="GREATER_THAN_OR_EQUALS">større enn eller lik (&#62;=)</option>
-			</Select>
-		);
-	}
 	return (
 		<Select
-			className="min-w-[8rem]"
 			label="Operator"
 			size="small"
 			hideLabel
+			className="w-[12rem]"
 			value={oppgavefilter.operator}
 			onChange={handleChangeOperator}
 		>
-			<option value={OPERATORS.EQUALS}>er lik</option>
-			<option value={OPERATORS.NOT_EQUALS}>er IKKE lik</option>
-			<option value={OPERATORS.IN}>Inkluder</option>
-			<option value={OPERATORS.NOT_IN}>Ekskluder</option>
-			<option value={OPERATORS.LESS_THAN}>mindre enn (&#60;)</option>
-			<option value={OPERATORS.GREATER_THAN}>større enn (&#62;)</option>
-			<option value={OPERATORS.LESS_THAN_OR_EQUALS}>mindre enn eller lik (&#60;=)</option>
-			<option value={OPERATORS.GREATER_THAN_OR_EQUALS}>større enn eller lik (&#62;=)</option>
+			{operators.map((operator) => (
+				<option key={operator} value={operator}>
+					{operatorDisplayMap[operator]}
+				</option>
+			))}
 		</Select>
 	);
 }
