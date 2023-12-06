@@ -4,15 +4,11 @@
 	width: 100%;
 }
 .leftColumn {
-	float: left;
 	margin-right: 40px;
-	width: 65%;
 }
 .rightColumn {
-	float: left;
 	margin-top: -155px;
 	padding-left: 20px;
-	width: 25%;
 }
 .rightColumn > div {
 	margin-bottom: 16px;
@@ -37,9 +33,6 @@
 	}
 	.sakslisteContent {
 		order: 3;
-	}
-	.avdelingslederContent {
-		max-width: 1000px;
 	}
 }
 @media all and (max-width: 800px) {

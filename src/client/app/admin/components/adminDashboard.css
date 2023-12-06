@@ -4,21 +4,15 @@
 	width: 90%;
 }
 .leftColumn {
-	float: left;
-	width: 79%;
+	width: 100%;
 }
 .rightColumn {
-	float: left;
 	margin-left: 24px;
-	width: 29%;
 }
 .rightColumn > div {
 	margin-bottom: 16px;
 }
 @media all and (max-width: 1450px) {
-	.leftColumn {
-		width: 100%;
-	}
 	.rightColumn {
 		margin-left: 0;
 		width: 100%;
