@@ -106,10 +106,7 @@ const FilterIndex = ({ initialQuery, lagre, avbryt, tittel, visningV2, køvisnin
 	const validateOppgaveQuery = () =>
 		post(`${baseURL()}${apiPaths.valider}`, oppgaveQuery)
 			.then((data) => data)
-			.catch((error) => {
-				console.log(error);
-				return false;
-			});
+			.catch(() => false);
 
 	const validerOgLagre = async () => {
 		const valideringOK = await validateOppgaveQuery();
