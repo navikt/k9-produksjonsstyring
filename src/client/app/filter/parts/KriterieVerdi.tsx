@@ -60,7 +60,7 @@ const KriterieVerdi = ({
 	const handleDaysChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const newDays = parseFloat(e.target.value);
 		const newDuration = dayjs.duration(newDays, 'days').toISOString();
-		handleChangeValue(newDuration);
+		handleChangeValue([newDuration]);
 	};
 
 	const onRangeChange = (range) => {
@@ -101,9 +101,7 @@ const KriterieVerdi = ({
 				label="Antall dager"
 				size="small"
 				hideLabel
-				value={
-					Array.isArray(oppgavefilter.verdi) && oppgavefilter.verdi[0] ? calculateDays(oppgavefilter.verdi) : undefined
-				}
+				value={calculateDays(oppgavefilter.verdi)}
 				onChange={handleDaysChange}
 				type="number"
 				placeholder="Antall dager"
