@@ -60,9 +60,9 @@ const MultiSelectKriterie = ({ feltdefinisjon, oppgavefilter }: Props) => {
 		}
 	};
 	return (
-		<div>
+		<div className="multiSelectKriterie">
 			<style>
-				{`ul > li:nth-child(${selectedChildIndex}) {
+				{`.multiSelectKriterie ul > li:nth-child(${selectedChildIndex}) {
            border-top: 2px solid black; 
         }`}
 			</style>
