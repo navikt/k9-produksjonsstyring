@@ -21,7 +21,7 @@ const SuggestionList = ({
 	getSuggestion,
 }) => {
 	const groupHasSelectedSuggestions = (group) =>
-		selectedSuggestionValues.some((suggestionValue) => getSuggestion(suggestionValue)?.group === group);
+		selectedSuggestionValues.some((suggestionValue) => getSuggestion(suggestionValue).group === group);
 
 	const groupIsOpen = (group) => openSuggestionGroups.includes(group);
 
@@ -35,7 +35,7 @@ const SuggestionList = ({
 							groups
 								.filter((group) => filteredSuggestions.some((suggestion) => suggestion.group === group))
 								.map((group) => {
-									const suggestionsInThisGroup = suggestions.filter((suggestion) => suggestion?.group === group);
+									const suggestionsInThisGroup = suggestions.filter((suggestion) => suggestion.group === group);
 									const numberOfSelectedItemsInGroup = selectedSuggestionValues.filter(
 										(suggestionValue) => getSuggestion(suggestionValue).group === group,
 									).length;

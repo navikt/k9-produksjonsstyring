@@ -5,7 +5,7 @@ import { Button, Heading, Label, Panel, ToggleGroup } from '@navikt/ds-react';
 import { FilterContext } from 'filter/FilterContext';
 import { addFilter, addGruppe, removeFilter, updateFilter } from 'filter/queryUtils';
 import styles from '../filterIndex.css';
-import { CombineOppgavefilter, FeltverdiOppgavefilter, OppgaveQuery, OppgavefilterKode } from '../filterTsTypes';
+import { CombineOppgavefilter, FeltverdiOppgavefilter, OppgaveQuery } from '../filterTsTypes';
 import FeltverdiOppgavefilterPanel from './FeltverdiOppgavefilterPanel/FeltverdiOppgavefilterPanel';
 import Kriterie from './Kriterie';
 import VelgKriterie from './VelgKriterie';
@@ -16,7 +16,7 @@ interface OppgavefilterPanelProps {
 	visningV2?: boolean;
 	addGruppeOperation?: (model: OppgaveQuery) => OppgaveQuery;
 	køvisning?: boolean;
-	paakrevdeKoder?: OppgavefilterKode[];
+	toppnivaaIQuery?: boolean;
 }
 
 /* eslint-disable @typescript-eslint/no-use-before-define */
@@ -25,26 +25,19 @@ const OppgavefilterPanel = ({
 	visningV2,
 	addGruppeOperation,
 	køvisning,
-	paakrevdeKoder,
+	toppnivaaIQuery,
 }: OppgavefilterPanelProps) => {
 	if (oppgavefilter.type === 'feltverdi' && 'kode' in oppgavefilter && oppgavefilter.kode === null) {
-		return (
-			<VelgKriterie
-				oppgavefilter={oppgavefilter}
-				addGruppeOperation={addGruppeOperation}
-				køvisning={køvisning}
-				paakrevdeKoder={paakrevdeKoder}
-			/>
-		);
+		return <VelgKriterie oppgavefilter={oppgavefilter} addGruppeOperation={addGruppeOperation} køvisning={køvisning} />;
 	}
 
 	if (oppgavefilter.type === 'feltverdi' && 'operator' in oppgavefilter) {
 		if (!visningV2) return <FeltverdiOppgavefilterPanel oppgavefilter={oppgavefilter} />;
-		return <Kriterie oppgavefilter={oppgavefilter} paakrevdeKoder={paakrevdeKoder} />;
+		return <Kriterie oppgavefilter={oppgavefilter} køvisning={køvisning} toppnivaaIQuery={toppnivaaIQuery} />;
 	}
 	if (oppgavefilter.type === 'combine' && 'combineOperator' in oppgavefilter) {
 		if (!visningV2) return <CombineOppgavefilterPanel oppgavefilter={oppgavefilter} />;
-		return <FilterGruppe oppgavefilter={oppgavefilter} køvisning={køvisning} />;
+		return <FilterGruppe oppgavefilter={oppgavefilter} />;
 	}
 
 	throw new Error(`Unhandled type: ${oppgavefilter.type}`);
@@ -55,9 +48,8 @@ interface CombineOppgavefilterPanelProps {
 }
 interface FilterGruppeProps {
 	oppgavefilter: CombineOppgavefilter;
-	køvisning: boolean;
 }
-const FilterGruppe = ({ oppgavefilter, køvisning }: FilterGruppeProps) => {
+const FilterGruppe = ({ oppgavefilter }: FilterGruppeProps) => {
 	const { updateQuery } = useContext(FilterContext);
 	const handleToggle = (value: string) => {
 		updateQuery([updateFilter(oppgavefilter.id, { combineOperator: value })]);
@@ -89,7 +81,6 @@ const FilterGruppe = ({ oppgavefilter, køvisning }: FilterGruppeProps) => {
 						oppgavefilter={item}
 						addGruppeOperation={addGruppe(oppgavefilter.id)}
 						visningV2
-						køvisning={køvisning}
 					/>
 				))}
 			</div>

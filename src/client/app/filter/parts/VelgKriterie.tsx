@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { BodyLong, Button, Checkbox, Label, Select } from '@navikt/ds-react';
 import AppContext from 'app/AppContext';
 import { FilterContext } from 'filter/FilterContext';
-import { FeltverdiOppgavefilter, OppgaveQuery, Oppgavefelt, OppgavefilterKode } from 'filter/filterTsTypes';
+import { FeltverdiOppgavefilter, OppgaveQuery, Oppgavefelt } from 'filter/filterTsTypes';
 import { removeFilter, updateFilter } from 'filter/queryUtils';
 import { feltverdiKey, kodeFraKey } from 'filter/utils';
 
@@ -10,18 +10,13 @@ interface Props {
 	oppgavefilter: FeltverdiOppgavefilter;
 	addGruppeOperation: (model: OppgaveQuery) => OppgaveQuery;
 	køvisning: boolean;
-	paakrevdeKoder: OppgavefilterKode[];
 }
 
-const VelgKriterie = ({ oppgavefilter, addGruppeOperation, køvisning, paakrevdeKoder = [] }: Props) => {
+const VelgKriterie = ({ oppgavefilter, addGruppeOperation, køvisning }: Props) => {
 	const { updateQuery } = useContext(FilterContext);
-	const { felter } = useContext(AppContext);
+	const { felter: kriterierSomKanVelges } = useContext(AppContext);
 	const [valgtKriterie, setValgtKriterie] = useState<Oppgavefelt | string>();
 	const [visAvanserteValg, setVisAvanserteValg] = useState('nei');
-
-	const kriterierSomKanVelges = paakrevdeKoder.length
-		? felter.filter((kriterie) => paakrevdeKoder.some((v) => v !== kriterie.kode))
-		: felter;
 	const toggleAvanserteValg = () => {
 		setVisAvanserteValg((prevState) => (prevState === 'nei' ? 'ja' : 'nei'));
 	};

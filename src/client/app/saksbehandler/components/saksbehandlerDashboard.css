@@ -3,8 +3,14 @@
 	margin-right: auto;
 	width: 90%;
 }
+.leftColumn {
+	float: left;
+	width: 69%;
+}
 .rightColumn {
+	float: left;
 	margin-left: 24px;
+	width: 29%;
 }
 .rightColumn > div {
 	margin-bottom: 16px;

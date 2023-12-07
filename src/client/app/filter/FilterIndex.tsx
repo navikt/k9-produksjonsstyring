@@ -10,7 +10,7 @@ import { REQUEST_POLLING_CANCELLED } from 'api/rest-api';
 import { FilterContext } from './FilterContext';
 import OppgaveQueryModel from './OppgaveQueryModel';
 import styles from './filterIndex.css';
-import { OppgaveQuery, OppgavefilterKode, Oppgaverad } from './filterTsTypes';
+import { OppgaveQuery, Oppgaverad } from './filterTsTypes';
 import OppgaveQueryResultat from './parts/OppgaveQueryResultat';
 import OppgaveSelectFelter from './parts/OppgaveSelectFelter';
 import OppgavefilterPanel from './parts/OppgavefilterPanel';
@@ -211,7 +211,7 @@ const FilterIndex = ({ initialQuery, lagre, avbryt, tittel, visningV2, køvisnin
 							oppgavefilter={item}
 							visningV2={visningV2}
 							addGruppeOperation={addGruppe(oppgaveQuery.id)}
-							paakrevdeKoder={[OppgavefilterKode.Oppgavestatus]}
+							toppnivaaIQuery
 						/>
 					))}
 				</div>
