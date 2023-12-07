@@ -1,12 +1,12 @@
 import React, { useContext } from 'react';
 import dayjs from 'dayjs';
-import { Checkbox, CheckboxGroup, DatePicker, TextField, useDatepicker, useRangeDatepicker } from '@navikt/ds-react';
+import { Checkbox, CheckboxGroup, DatePicker, TextField, useDatepicker } from '@navikt/ds-react';
 import AksjonspunktVelger from 'avdelingsleder/behandlingskoerV2/components/AksjonspunktVelger';
 import { FilterContext } from 'filter/FilterContext';
 import { FeltverdiOppgavefilter, Oppgavefelt, TolkesSom } from 'filter/filterTsTypes';
 import { aksjonspunktKoder } from 'filter/konstanter';
 import { updateFilter } from 'filter/queryUtils';
-import { OPERATORS, calculateDays, mapBooleanToStringArray, mapStringToBooleanArray } from 'filter/utils';
+import { calculateDays, mapBooleanToStringArray, mapStringToBooleanArray } from 'filter/utils';
 import styles from '../filterIndex.css';
 import MultiSelectKriterie from './MultiSelectKriterie';
 
@@ -48,9 +48,7 @@ const KriterieVerdi = ({
 		handleChangeValue(newDate);
 	};
 	const initialDate =
-		oppgavefilter.verdi && dayjs(new Date(oppgavefilter.verdi as string)).isValid()
-			? new Date(oppgavefilter.verdi as string)
-			: undefined;
+		oppgavefilter.verdi && dayjs(new Date(oppgavefilter.verdi)).isValid() ? new Date(oppgavefilter.verdi) : undefined;
 	const { datepickerProps, inputProps } = useDatepicker({
 		fromDate: new Date('23 2017'),
 		onDateChange,
@@ -63,41 +61,9 @@ const KriterieVerdi = ({
 		handleChangeValue(newDuration);
 	};
 
-	const onRangeChange = (range) => {
-		if (!range.from || !range.to) {
-			return;
-		}
-		const timezoneOffset = range.from.getTimezoneOffset() * 60000;
-		const newFrom = new Date(range.from.getTime() - timezoneOffset).toISOString().split('T')[0];
-		const newTo = new Date(range.to.getTime() - timezoneOffset).toISOString().split('T')[0];
-		handleChangeValue([newFrom, newTo]);
-	};
-	const initialFromDate =
-		oppgavefilter.verdi && dayjs(new Date(oppgavefilter.verdi[0])).isValid()
-			? new Date(oppgavefilter.verdi[0])
-			: undefined;
-	const initialToDate =
-		oppgavefilter.verdi && dayjs(new Date(oppgavefilter.verdi[1])).isValid()
-			? new Date(oppgavefilter.verdi[1])
-			: undefined;
-	const {
-		datepickerProps: rangeDatepickerProps,
-		toInputProps,
-		fromInputProps,
-	} = useRangeDatepicker({
-		defaultSelected: { to: initialToDate, from: initialFromDate },
-		onRangeChange,
-	});
-
 	if (aksjonspunktKoder.includes(feltdefinisjon?.kode)) {
 		return (
-			<div className="flex grow">
-				<AksjonspunktVelger
-					onChange={handleChangeValue}
-					feltdefinisjon={feltdefinisjon}
-					oppgavefilter={oppgavefilter}
-				/>
-			</div>
+			<AksjonspunktVelger onChange={handleChangeValue} feltdefinisjon={feltdefinisjon} oppgavefilter={oppgavefilter} />
 		);
 	}
 
@@ -117,17 +83,6 @@ const KriterieVerdi = ({
 			/>
 		);
 	}
-	if (feltdefinisjon?.tolkes_som === TolkesSom.Timestamp && oppgavefilter.operator === OPERATORS.INTERVAL) {
-		return (
-			<DatePicker {...rangeDatepickerProps}>
-				<div className="flex">
-					<DatePicker.Input {...fromInputProps} size="small" label="Fra" hideLabel />
-					<div className="mx-1">-</div>
-					<DatePicker.Input {...toInputProps} size="small" label="Til" hideLabel />
-				</div>
-			</DatePicker>
-		);
-	}
 
 	if (feltdefinisjon?.tolkes_som === TolkesSom.Timestamp) {
 		return (
@@ -145,7 +100,7 @@ const KriterieVerdi = ({
 				hideLegend
 				legend={feltdefinisjon.visningsnavn}
 				onChange={handleChangeBoolean}
-				value={mapBooleanToStringArray((oppgavefilter.verdi as string[]) || [])}
+				value={mapBooleanToStringArray(oppgavefilter.verdi || [])}
 			>
 				<Checkbox value="ja">Ja</Checkbox>
 				<Checkbox value="nei">Nei</Checkbox>
@@ -166,7 +121,7 @@ const KriterieVerdi = ({
 				hideLegend
 				legend={feltdefinisjon.visningsnavn}
 				onChange={handleChangeValue}
-				value={oppgavefilter.verdi as string[]}
+				value={oppgavefilter.verdi}
 			>
 				{feltdefinisjon.verdiforklaringer.map((verdiforklaring) => (
 					<Checkbox key={verdiforklaring.visningsnavn} value={verdiforklaring.verdi}>
@@ -194,7 +149,7 @@ const KriterieVerdi = ({
 			label="Skriv fritekst"
 			size="small"
 			hideLabel
-			value={oppgavefilter.verdi as string}
+			value={oppgavefilter.verdi}
 			onChange={(e) => handleChangeValue(e.target.value)}
 		/>
 	);

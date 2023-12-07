@@ -18,8 +18,6 @@ export const OPERATORS = {
 	GREATER_THAN: 'GREATER_THAN',
 	// Større enn eller lik
 	GREATER_THAN_OR_EQUALS: 'GREATER_THAN_OR_EQUALS',
-	// To verdier og alle som er mellom disse
-	INTERVAL: 'INTERVAL',
 };
 
 export function feltverdiKey(item) {
@@ -46,7 +44,7 @@ export const operatorsFraTolkesSom = (tolkesSom: string, antallVerdiforklaringer
 			return [OPERATORS.IN];
 		case TolkesSom.Duration:
 		case TolkesSom.Timestamp:
-			return [OPERATORS.LESS_THAN_OR_EQUALS, OPERATORS.GREATER_THAN_OR_EQUALS, OPERATORS.INTERVAL];
+			return [OPERATORS.LESS_THAN_OR_EQUALS, OPERATORS.GREATER_THAN_OR_EQUALS];
 		default:
 			return Object.values(OPERATORS);
 	}
@@ -91,7 +89,7 @@ export const mapStringToBooleanArray = (values: string[]): (string | null)[] =>
 		return null;
 	});
 
-export const calculateDays = (verdi: string[]): number | undefined => {
+export const calculateDays = (verdi: any[]): number | undefined => {
 	if (!verdi || verdi.length === 0) return undefined;
 	const totalDays = verdi.reduce((acc, curr) => {
 		if (typeof curr === 'string' && dayjs(curr).isValid()) {

@@ -1,6 +1,7 @@
-import React, { FunctionComponent, useCallback, useState } from 'react';
+import React, { FunctionComponent, useCallback, useEffect, useState } from 'react';
 import { useIdleTimer } from 'react-idle-timer';
 import { useLocation } from 'react-router';
+import { Modal } from '@navikt/ds-react';
 import ModalMedIkon from 'sharedComponents/modal/ModalMedIkon';
 import { parseQueryString } from 'utils/urlUtils';
 import advarselImageUrl from '../../images/advarsel.svg';
