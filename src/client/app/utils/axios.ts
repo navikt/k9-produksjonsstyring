@@ -16,3 +16,12 @@ export const get = async (url: string) => {
 		throw new Error(error);
 	}
 };
+
+export const post = async (url: string, body: unknown) => {
+	try {
+		const response = await axios.post(url, body, axiosConfig);
+		return response.data;
+	} catch (error) {
+		throw new Error(error);
+	}
+};
