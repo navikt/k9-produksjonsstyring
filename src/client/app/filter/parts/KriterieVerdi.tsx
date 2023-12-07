@@ -91,13 +91,7 @@ const KriterieVerdi = ({
 
 	if (aksjonspunktKoder.includes(feltdefinisjon?.kode)) {
 		return (
-			<div className="flex grow">
-				<AksjonspunktVelger
-					onChange={handleChangeValue}
-					feltdefinisjon={feltdefinisjon}
-					oppgavefilter={oppgavefilter}
-				/>
-			</div>
+			<AksjonspunktVelger onChange={handleChangeValue} feltdefinisjon={feltdefinisjon} oppgavefilter={oppgavefilter} />
 		);
 	}
 
