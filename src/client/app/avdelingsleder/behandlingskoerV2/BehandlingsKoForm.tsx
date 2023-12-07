@@ -182,8 +182,8 @@ const BehandlingsKoForm = ({ kø, lukk, ekspandert, id }: BehandlingsKoFormProps
 				lagreMutation={lagreMutation}
 			/>
 			{visFilterModal && (
-				<Modal open={visFilterModal} onClose={() => setVisFilterModal(false)} portal>
-					<Modal.Body className="flex flex-col w-[43rem] min-h-[45rem]">
+				<Modal open={visFilterModal} onClose={() => setVisFilterModal(false)} portal width={900}>
+					<Modal.Body className="flex flex-col min-h-[45rem]">
 						<FilterIndex
 							initialQuery={formMethods.watch(fieldnames.OPPGAVE_QUERY)}
 							lagre={lagreOppgaveQuery}
