@@ -14,12 +14,19 @@ interface Props {
 
 const MultiSelectKriterie = ({ feltdefinisjon, oppgavefilter }: Props) => {
 	const [value, setValue] = useState('');
+	const [visSekundærvalg, setVisSekundærvalg] = useState(false);
 	const { updateQuery } = useContext(FilterContext);
 	const selectedOptions = oppgavefilter.verdi?.map(
 		(v) => feltdefinisjon.verdiforklaringer.find((verdiforklaring) => verdiforklaring.verdi === v).visningsnavn,
 	);
 
 	const onToggleSelected = (option: string, isSelected: boolean) => {
+		if (option === '--- Vis alle ---') {
+			setVisSekundærvalg(true);
+			setValue('');
+			return;
+		}
+
 		const verdi = feltdefinisjon?.verdiforklaringer.find((v) => v.visningsnavn === option)?.verdi;
 		if (isSelected) {
 			updateQuery([updateFilter(oppgavefilter.id, { verdi: [...(oppgavefilter?.verdi || []), verdi] })]);
@@ -27,9 +34,22 @@ const MultiSelectKriterie = ({ feltdefinisjon, oppgavefilter }: Props) => {
 			updateQuery([updateFilter(oppgavefilter.id, { verdi: oppgavefilter.verdi?.filter((o) => o !== verdi) })]);
 		}
 	};
+	const getOptions = () => {
+		const harSekundærvalg = feltdefinisjon.verdiforklaringer?.some((v) => v.sekundærvalg);
+		if (visSekundærvalg || !harSekundærvalg) {
+			return feltdefinisjon.verdiforklaringer?.map((v) => v.visningsnavn);
+		}
+
+		const filteredOptions = feltdefinisjon.verdiforklaringer
+			?.filter((v) => !v.sekundærvalg)
+			?.map((v) => v.visningsnavn);
+		return [...filteredOptions, '--- Vis alle ---'];
+	};
+	const options = getOptions();
 	return (
 		<div>
 			<UNSAFE_Combobox
+				className="min-h-[1.5rem]"
 				size="small"
 				label={feltdefinisjon.visningsnavn}
 				shouldAutocomplete
@@ -38,10 +58,12 @@ const MultiSelectKriterie = ({ feltdefinisjon, oppgavefilter }: Props) => {
 					setValue('');
 				}}
 				hideLabel
-				options={feltdefinisjon.verdiforklaringer?.map((v) => v.visningsnavn)}
+				options={options}
 				isMultiSelect
 				onChange={(event) => {
-					if (event) setValue(event.target.value);
+					if (event) {
+						setValue(event.target.value);
+					}
 				}}
 				onToggleSelected={onToggleSelected}
 				selectedOptions={selectedOptions || []}
