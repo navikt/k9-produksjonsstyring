@@ -35,11 +35,11 @@ const Kriterie: React.FC<Props> = ({ oppgavefilter, paakrevdeKoder = [] }) => {
 				{feltdefinisjon?.visningsnavn}:
 			</Label>
 			{oppgavefilter.kode && (
-				<div className="flex gap-4">
+				<div className="flex grow gap-4">
 					<div>
 						<KriterieOperator oppgavefilter={oppgavefilter} />
 					</div>
-					<div className="flex">
+					<div className="grow">
 						<KriterieVerdi feltdefinisjon={feltdefinisjon} oppgavefilter={oppgavefilter} />
 					</div>
 				</div>

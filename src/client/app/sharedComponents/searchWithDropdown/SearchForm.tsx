@@ -70,7 +70,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
 						</span>
 					</button>
 				</div>
-				{children}
+				<div className="relative w-full">{children}</div>
 			</Combobox>
 		</div>
 	);
