@@ -3,7 +3,7 @@ import { setValueInLocalStorage } from 'utils/localStorageHelper';
 
 interface OwnProps {
 	stateKey: string;
-	values: any;
+	values: string;
 }
 
 /**

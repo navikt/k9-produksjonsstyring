@@ -64,6 +64,7 @@
 		"implicit-arrow-linebreak": "off",
 		"function-paren-newline": "off",
 		"arrow-parens": "off",
-		"object-curly-newline": "off"
+		"object-curly-newline": "off",
+		"react/require-default-props": "off"
 	}
 }

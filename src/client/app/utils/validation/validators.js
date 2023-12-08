@@ -59,8 +59,8 @@ export const minLength = (length) => (text) =>
 export const maxLength = (length) => (text) =>
 	isEmpty(text) || text.toString().trim().length <= length ? null : maxLengthMessage(length);
 
-export const minValue = (length) => (number) => number >= length ? null : minValueMessage(length);
-export const maxValue = (length) => (number) => number <= length ? null : maxValueMessage(length);
+export const minValue = (length) => (number) => (number >= length ? null : minValueMessage(length));
+export const maxValue = (length) => (number) => (number <= length ? null : maxValueMessage(length));
 
 const hasValidNumber = (text) => (isEmpty(text) || numberRegex.test(text) ? null : invalidNumberMessage(text));
 const hasValidPosOrNegNumber = (text) =>
@@ -107,7 +107,6 @@ export const dateRangesNotOverlapping = (ranges) =>
 export const dateBeforeToday = (text) => dateBeforeOrEqual(yesterday())(text);
 export const dateBeforeOrEqualToToday = (text) => dateBeforeOrEqual(moment().startOf('day'))(text);
 export const dateAfterToday = (text) => dateAfterOrEqual(tomorrow())(text);
-// @ts-ignore Fiks
 export const dateAfterOrEqualToToday = (text) => dateAfterOrEqual(moment().startOf('day'))(text);
 
 export const hasValidFodselsnummerFormat = (text) =>
@@ -130,7 +129,7 @@ export const hasValidName = (text) => {
 	return null;
 };
 
-export const hasValidValue = (value) => (invalidValue) => value === invalidValue ? invalidValueMessage(value) : null;
+export const hasValidValue = (value) => (invalidValue) => (value === invalidValue ? invalidValueMessage(value) : null);
 export const arrayMinLength = (length) => (value) => {
 	const a = true;
 	return value && a && value.length >= length ? null : arrayMinLengthMessage(length);
@@ -146,7 +145,6 @@ const validateDate = (dateAsText, date, earliestDate, latestDate) => {
 		error = dateAfterOrEqual(earliestDate)(date);
 	}
 	if (!error && latestDate) {
-		// @ts-ignore Fiks
 		error = dateBeforeOrEqual(latestDate)(date);
 	}
 	return error;
@@ -154,9 +152,7 @@ const validateDate = (dateAsText, date, earliestDate, latestDate) => {
 
 export const hasValidPeriodIncludingOtherErrors = (values, otherErrors = [{}], options = {}) => {
 	const today = moment().format(ISO_DATE_FORMAT);
-	// @ts-ignore Fiks
 	const earliestDate = options.todayOrAfter ? today : null;
-	// @ts-ignore Fiks
 	const latestDate = options.todayOrBefore ? today : null;
 	if (!values || !values.length) {
 		return { _error: isRequiredMessage() };
@@ -211,10 +207,8 @@ export const ariaCheck = () => {
 	let errors = [];
 	setTimeout(() => {
 		if (document.getElementsByClassName('skjemaelement__feilmelding').length > 0) {
-			// @ts-ignore Fiks
 			errors = document.getElementsByClassName('skjemaelement__feilmelding');
 		} else if (document.getElementsByClassName('alertstripe--advarsel')) {
-			// @ts-ignore Fiks
 			errors = document.getElementsByClassName('alertstripe--advarsel');
 		}
 		if (errors.length > 0) {
@@ -222,7 +216,6 @@ export const ariaCheck = () => {
 			ariaNavTab.value = '-1';
 			const firstError = errors[0];
 			firstError.setAttributeNode(ariaNavTab);
-			// @ts-ignore Fiks
 			document.activeElement.blur();
 			firstError.focus();
 		}

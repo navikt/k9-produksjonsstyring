@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 import { expect } from 'chai';
 import dayjs from 'dayjs';
 import { DDMMYYYY_DATE_FORMAT, ISO_DATE_FORMAT } from 'utils/formats';
@@ -233,7 +234,6 @@ describe('Validators', () => {
 		});
 
 		it('skal ikke feile når dato er tom', () => {
-			// @ts-ignore Fiks
 			const result = hasValidDate();
 			expect(result).is.null;
 		});
@@ -264,7 +264,6 @@ describe('Validators', () => {
 		});
 
 		it('skal ikke feile når dato er tom', () => {
-			// @ts-ignore Fiks
 			const result = dateBeforeOrEqual(today)();
 			expect(result).is.null;
 		});
@@ -289,7 +288,6 @@ describe('Validators', () => {
 		});
 
 		it('skal ikke feile når dato er tom', () => {
-			// @ts-ignore Fiks
 			const result = dateAfterOrEqual(today.add(1, 'days'))();
 			expect(result).is.null;
 		});
@@ -329,7 +327,6 @@ describe('Validators', () => {
 		});
 
 		it('skal ikke feile når dato er tom', () => {
-			// @ts-ignore Fiks
 			const result = dateBeforeToday();
 			expect(result).is.null;
 		});
@@ -353,7 +350,6 @@ describe('Validators', () => {
 		});
 
 		it('skal ikke feile når dato er tom', () => {
-			// @ts-ignore Fiks
 			const result = dateBeforeOrEqualToToday();
 			expect(result).is.null;
 		});
@@ -372,7 +368,6 @@ describe('Validators', () => {
 		});
 
 		it('skal ikke feile når dato er tom', () => {
-			// @ts-ignore Fiks
 			const result = dateAfterToday();
 			expect(result).is.null;
 		});
@@ -391,7 +386,6 @@ describe('Validators', () => {
 		});
 
 		it('skal ikke feile når dato er tom', () => {
-			// @ts-ignore Fiks
 			const result = dateAfterOrEqualToToday();
 			expect(result).is.null;
 		});
@@ -426,7 +420,7 @@ describe('Validators', () => {
 	describe('hasValidText', () => {
 		it('skal ikke feile når tekst ikke har ugyldig tegn', () => {
 			const result = hasValidText(
-				'Hei hei\n' + 'Áá Čč Đđ Ŋŋ Šš Ŧŧ Žž Ää Ææ Øø Åå\n' + 'Lorem + ipsum_dolor, - (sit) amet?! 100%: §2&3="I\'m";',
+				'Hei hei\nÁá Čč Đđ Ŋŋ Šš Ŧŧ Žž Ää Ææ Øø Åå\nLorem + ipsum_dolor, - (sit) amet?! 100%: §2&3="I\'m";',
 			);
 			expect(result).is.null;
 		});
@@ -441,6 +435,7 @@ describe('Validators', () => {
 
 	describe('hasValidName', () => {
 		it('skal ikke feile når navn ikke har ugyldig tegn', () => {
+			// eslint-disable-next-line no-useless-concat
 			const result = hasValidName('Navn navn' + 'Áá Čč Đđ Ŋŋ Šš Ŧŧ Žž Ää Ææ Øø Åå' + " - . ' ");
 			expect(result).is.null;
 		});

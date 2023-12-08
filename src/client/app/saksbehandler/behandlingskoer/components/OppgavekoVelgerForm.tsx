@@ -6,6 +6,11 @@ import { OppgavekøV2MedNavn } from 'types/OppgavekøV2Type';
 import { Button, ReadMore } from '@navikt/ds-react';
 import { K9LosApiKeys } from 'api/k9LosApi';
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
+import {
+	getValueFromLocalStorage,
+	removeValueFromLocalStorage,
+	setValueInLocalStorage,
+} from 'utils/localStorageHelper';
 import { SelectField } from 'form/FinalFields';
 import { OppgavekøV1 } from 'saksbehandler/behandlingskoer/oppgavekoTsType';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
@@ -18,9 +23,6 @@ import styles from './oppgavekoVelgerForm.css';
 interface OwnProps {
 	oppgavekoer: Array<OppgavekøV1 | OppgavekøV2MedNavn>;
 	setValgtOppgavekoId: (id: string) => void;
-	getValueFromLocalStorage: (key: string) => string;
-	setValueInLocalStorage: (key: string, value: string) => void;
-	removeValueFromLocalStorage: (key: string) => void;
 	plukkNyOppgave: () => void;
 	erRestApiKallLoading: boolean;
 }
@@ -47,7 +49,7 @@ const createTooltip = (saksbehandlere: Saksbehandler[]): ReactNode | undefined =
 const getValgtOppgaveko = (oppgavekoer: Array<OppgavekøV1 | OppgavekøV2MedNavn>, oppgavekoId: string) =>
 	oppgavekoer.find((s) => oppgavekoId === `${s.id}`);
 
-const getDefaultOppgaveko = (oppgavekoer, getValueFromLocalStorage, removeValueFromLocalStorage) => {
+const getDefaultOppgaveko = (oppgavekoer) => {
 	const lagretOppgavekoId = getValueFromLocalStorage('id');
 	if (lagretOppgavekoId) {
 		if (oppgavekoer.some((s) => `${s.id}` === lagretOppgavekoId)) {
@@ -62,13 +64,13 @@ const getDefaultOppgaveko = (oppgavekoer, getValueFromLocalStorage, removeValueF
 	return sortertOppgavekoer.length > 0 ? sortertOppgavekoer[0].id : undefined;
 };
 
-const getInitialValues = (oppgavekoer, getValueFromLocalStorage, removeValueFromLocalStorage) => {
+const getInitialValues = (oppgavekoer) => {
 	if (oppgavekoer.length === 0) {
 		return {
 			id: undefined,
 		};
 	}
-	const defaultOppgaveko = getDefaultOppgaveko(oppgavekoer, getValueFromLocalStorage, removeValueFromLocalStorage);
+	const defaultOppgaveko = getDefaultOppgaveko(oppgavekoer);
 	return {
 		id: defaultOppgaveko ? `${defaultOppgaveko}` : undefined,
 	};
@@ -82,9 +84,6 @@ export const OppgavekoVelgerForm: FunctionComponent<OwnProps & WrappedComponentP
 	intl,
 	oppgavekoer,
 	setValgtOppgavekoId,
-	getValueFromLocalStorage,
-	setValueInLocalStorage,
-	removeValueFromLocalStorage,
 	plukkNyOppgave,
 	erRestApiKallLoading,
 }) => {
@@ -99,11 +98,7 @@ export const OppgavekoVelgerForm: FunctionComponent<OwnProps & WrappedComponentP
 
 	useEffect(() => {
 		if (oppgavekoerSortertAlfabetisk.length > 0) {
-			const defaultOppgavekoId = getDefaultOppgaveko(
-				oppgavekoerSortertAlfabetisk,
-				getValueFromLocalStorage,
-				removeValueFromLocalStorage,
-			);
+			const defaultOppgavekoId = getDefaultOppgaveko(oppgavekoerSortertAlfabetisk);
 			if (defaultOppgavekoId) {
 				setValgtOppgavekoId(defaultOppgavekoId);
 				hentSaksbehandlere({ id: defaultOppgavekoId });
@@ -116,11 +111,7 @@ export const OppgavekoVelgerForm: FunctionComponent<OwnProps & WrappedComponentP
 		<div className={styles.oppgavevelgerform_container}>
 			<Form
 				onSubmit={() => undefined}
-				initialValues={getInitialValues(
-					oppgavekoerSortertAlfabetisk,
-					getValueFromLocalStorage,
-					removeValueFromLocalStorage,
-				)}
+				initialValues={getInitialValues(oppgavekoerSortertAlfabetisk)}
 				render={({ values = {} }) => (
 					<form>
 						<FormSpy
