@@ -13,7 +13,7 @@ describe('<NyeHistorikkPanel>', () => {
 		expect(ukeSelect).toBeVisible();
 		expect(ytelseSelect).toBeVisible();
 
-		userEvent.click(screen.getByText('Historikk.FireSisteUker'));
+		userEvent.click(screen.getByText('4 siste uker'));
 		userEvent.click(screen.getByText(/Pleiepenger sykt barn/i));
 	});
 });

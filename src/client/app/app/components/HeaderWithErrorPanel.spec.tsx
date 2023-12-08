@@ -4,7 +4,7 @@ import { renderWithAllProviders } from '../../../../../setup/testHelpers/testUti
 import { server } from '../../../mocks/server';
 import HeaderWithErrorPanel from './HeaderWithErrorPanel';
 
-const setSiteHeight = (headerHeight: number): void => null;
+const setSiteHeight = (): void => null;
 const crashMessage = 'CrashMessage';
 
 describe('<HeaderWithErrorPanel>', () => {
