@@ -10,7 +10,7 @@ const classNames = classnames.bind(styles);
 const EMPTY_STRING = 'EMPTY';
 
 interface OwnProps {
-	headerTextCodes?: any;
+	headerTextCodes?: string[];
 	headerColumnContent?: ReactElement[];
 	children: ReactElement | ReactElement[];
 	classNameTable?: string;
@@ -36,7 +36,7 @@ const Table: FunctionComponent<OwnProps> = ({
 					typeof headerElement === 'string' && headerElement.startsWith(EMPTY_STRING) ? (
 						<TableColumn key={headerElement}>&nbsp;</TableColumn>
 					) : (
-						<TableColumn key={headerElement.key ? headerElement.key : headerElement}>
+						<TableColumn key={headerElement}>
 							<FormattedMessage id={headerElement} />
 						</TableColumn>
 					),

@@ -1,7 +1,3 @@
-interface IPaaVentResponse {
-	påVent: IBehandlingerSomGarAvVentType[];
-	påVentMedVenteårsak: IBehandlingerSomGarAvVentType[];
-}
 interface IBehandlingerSomGarAvVentType {
 	fagsakYtelseType: string;
 	behandlingType: string;
@@ -9,6 +5,10 @@ interface IBehandlingerSomGarAvVentType {
 	antall: number;
 	venteårsak?: string;
 	frist?: string;
+}
+interface IPaaVentResponse {
+	påVent: IBehandlingerSomGarAvVentType[];
+	påVentMedVenteårsak: IBehandlingerSomGarAvVentType[];
 }
 
 export { IPaaVentResponse, IBehandlingerSomGarAvVentType };

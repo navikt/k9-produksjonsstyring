@@ -157,6 +157,7 @@ export const developmentHandlers = {
 				versjon: 2,
 				tittel: 'Stians morokø',
 				beskrivelse:
+					// eslint-disable-next-line max-len
 					'Hvorfor var backend-utvikleren alltid den siste til å forlate kontoret? Fordi han var alltid opptatt med å håndtere køer.\n\nHvordan feirer en backend-utvikler sin bursdag? Han lager en kake og legger den i køen, men får aldri spise den fordi det er alltid en bug som må fikses først.\n\nHvorfor var backend-utvikleren alltid trøtt? Fordi han jobbet i skift - morgen, ettermiddag, kveld og nattskift. Velkommen til livet med køhåndtering!\n\nHva er en backend-utviklers favorittspill? Tetris. Han elsker å sortere blokkene akkurat som han sorterer oppgavene i køen.\n\nHvorfor liker backend-utviklere å se på folk som venter på bussen? Fordi det minner dem om jobben deres - å håndtere køer.\n\nHvorfor ble backend-utvikleren standup-komiker? Fordi han alltid jobber med køer, så han er god på å få ting til å bevege seg raskt.\n',
 				oppgaveQuery: {
 					filtere: [
@@ -246,7 +247,7 @@ export const developmentHandlers = {
 						beskrivelse:
 							'godt forklart tekst om hva formålet med køen er. og den skal være lang lang lang lang lang lang lang lang ' +
 							'lang lang lang lang lang lang lang lang lang lang lang lang lang lang lang lang lang lang lang lang lang lang' +
-							'lang lang lang lang lang lang lang |lang lang lang lang lang lang lang lang lang lang lang lang lang lang lang lang lang lang lang ' +
+							'lang lang lang lang lang lang lang |lang lang lang lang lang lang lang lang lang lang lang lang lang lang lang lang lang lang ' +
 							'slang lang lang lang lang lang lang lang lang lang lang lang lang lang lang lang lang lang lang lang lang lang lang lang',
 						antallOppgaver: 1002,
 						antallSaksbehandlere: 6,
@@ -268,6 +269,7 @@ export const developmentHandlers = {
 						antallSaksbehandlere: 6,
 						sistEndret: '2023-05-28T08:57:22.4',
 						beskrivelse:
+							// eslint-disable-next-line max-len
 							'Hvorfor var backend-utvikleren alltid den siste til å forlate kontoret? Fordi han var alltid opptatt med å håndtere køer.\n\nHvordan feirer en backend-utvikler sin bursdag? Han lager en kake og legger den i køen, men får aldri spise den fordi det er alltid en bug som må fikses først.\n\nHvorfor var backend-utvikleren alltid trøtt? Fordi han jobbet i skift - morgen, ettermiddag, kveld og nattskift. Velkommen til livet med køhåndtering!\n\nHva er en backend-utviklers favorittspill? Tetris. Han elsker å sortere blokkene akkurat som han sorterer oppgavene i køen.\n\nHvorfor liker backend-utviklere å se på folk som venter på bussen? Fordi det minner dem om jobben deres - å håndtere køer.\n\nHvorfor ble backend-utvikleren standup-komiker? Fordi han alltid jobber med køer, så han er god på å få ting til å bevege seg raskt.\n',
 						saksbehandlere: ['saksbehandler11@nav.no'],
 					},

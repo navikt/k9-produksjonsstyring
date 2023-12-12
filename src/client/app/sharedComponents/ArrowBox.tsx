@@ -94,8 +94,8 @@ const ArrowBox = ({ children, alignOffset, alignLeft, hideBorder }) => {
 	return (
 		<>
 			<style
+				// eslint-disable-next-line react/no-danger
 				dangerouslySetInnerHTML={{
-					// eslint-disable-line react/no-danger
 					__html: getArrowBox(offset, alignLeft).join('\n'),
 				}}
 			/>

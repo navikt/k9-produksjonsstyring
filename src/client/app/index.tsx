@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unused-modules */
 /* eslint-disable global-require */
 
 /* eslint-disable @typescript-eslint/no-var-requires */

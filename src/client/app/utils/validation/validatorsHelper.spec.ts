@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 import { expect } from 'chai';
 import moment from 'moment';
 import {
@@ -25,10 +26,8 @@ describe('validatorsHelper', () => {
 
 	describe('integerRegex', () => {
 		it('Skal sjekke om input er int', () => {
-			// @ts-ignore Fiks
-			expect(integerRegex.test(34)).is.true;
-			// @ts-ignore Fiks
-			expect(integerRegex.test(34.5)).is.false;
+			expect(integerRegex.test('34')).is.true;
+			expect(integerRegex.test('34.5')).is.false;
 			expect(integerRegex.test('XXX')).is.false;
 		});
 	});
@@ -50,7 +49,6 @@ describe('validatorsHelper', () => {
 	describe('textRegex', () => {
 		it('Skal sjekke om input er tekst', () => {
 			expect(textRegex.test('text')).is.true;
-			// @ts-ignore Fiks
 			expect(textRegex.test(3434)).is.true;
 		});
 	});
