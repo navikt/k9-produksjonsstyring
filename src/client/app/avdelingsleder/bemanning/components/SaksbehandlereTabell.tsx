@@ -1,9 +1,8 @@
-import React, { FunctionComponent, useCallback, useContext, useState } from 'react';
+import React, { FunctionComponent, useCallback, useContext } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useQueryClient } from 'react-query';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
-import { PlusIcon } from '@navikt/aksel-icons';
-import { Button, Table } from '@navikt/ds-react';
+import { Table } from '@navikt/ds-react';
 import { K9LosApiKeys } from 'api/k9LosApi';
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
 import LeggTilSaksbehandlerForm from 'avdelingsleder/bemanning/components/LeggTilSaksbehandlerForm';
@@ -20,7 +19,6 @@ import styles from './saksbehandlereTabell.css';
  */
 
 const SaksbehandlereTabell: FunctionComponent = () => {
-	const [valgtSaksbehandler, setValgtSaksbehandler] = useState<Saksbehandler>();
 	const { saksbehandlere } = useContext(AvdelingslederContext);
 
 	const queryClient = useQueryClient();
@@ -30,7 +28,6 @@ const SaksbehandlereTabell: FunctionComponent = () => {
 		fjernSaksbehandler({ epost }).then(() =>
 			queryClient.invalidateQueries({ queryKey: '/avdelingsleder/saksbehandlere' }),
 		);
-		setValgtSaksbehandler(undefined);
 	}, []);
 
 	return (

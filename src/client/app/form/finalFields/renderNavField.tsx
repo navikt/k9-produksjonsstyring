@@ -19,6 +19,7 @@ interface OwnProps {
 
 const renderNavField = (WrappedNavFieldComponent) => {
 	class FieldComponent extends Component<OwnProps & WrappedComponentProps> {
+		// eslint-disable-next-line react/static-property-placement
 		static defaultProps = {
 			readOnly: false,
 			readOnlyHideEmpty: false,

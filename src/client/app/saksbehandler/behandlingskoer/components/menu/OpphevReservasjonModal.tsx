@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useCallback } from 'react';
 import { Form } from 'react-final-form';
-import { FormattedMessage, WrappedComponentProps, injectIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { captureMessage } from '@sentry/browser';
 import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
 import { Undertittel } from 'nav-frontend-typografi';
@@ -15,7 +15,6 @@ const minLength3 = minLength(3);
 const maxLength1500 = maxLength(1500);
 
 type OwnProps = Readonly<{
-	intl: any;
 	showModal: boolean;
 	oppgaveId: string;
 	oppgaveSaksnummer: string;
@@ -28,8 +27,7 @@ type OwnProps = Readonly<{
  *
  * Presentasjonskomponent. Modal som lar en begrunne hvorfor en sak skal frigjøres.
  */
-export const OpphevReservasjonModal: FunctionComponent<OwnProps & WrappedComponentProps> = ({
-	intl,
+export const OpphevReservasjonModal: FunctionComponent<OwnProps> = ({
 	showModal,
 	cancel,
 	hentReserverteOppgaver,
@@ -37,7 +35,7 @@ export const OpphevReservasjonModal: FunctionComponent<OwnProps & WrappedCompone
 	oppgaveSaksnummer,
 }) => {
 	const { startRequest: opphevOppgavereservasjon } = useRestApiRunner(K9LosApiKeys.OPPHEV_OPPGAVERESERVASJON);
-
+	const intl = useIntl();
 	const opphevReservasjonFn = useCallback(
 		(begrunnelse: string) =>
 			opphevOppgavereservasjon({ oppgaveId, oppgaveSaksnummer, begrunnelse }).then(() => {
@@ -88,4 +86,4 @@ export const OpphevReservasjonModal: FunctionComponent<OwnProps & WrappedCompone
 	);
 };
 
-export default injectIntl(OpphevReservasjonModal);
+export default OpphevReservasjonModal;

@@ -13,6 +13,7 @@ import {
 } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
 import AlleKodeverk from 'kodeverk/alleKodeverkTsType';
 import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
+// eslint-disable-next-line max-len
 import NyeOgFerdigstilteOppgaverForSisteSyvGraf from 'saksbehandler/saksstotte/nokkeltall/components/nyeOgFerdigstilteOppgaverForSisteSyv/NyeOgFerdigstilteOppgaverForSisteSyvGraf';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import { ISO_DATE_FORMAT } from 'utils/formats';

@@ -54,7 +54,6 @@
 				"tsx": "never"
 			}
 		],
-		"no-use-before-define": "warn",
 		"no-shadow": "off",
 		"max-len": [1, 160],
 		"react/jsx-props-no-spreading": "off",
@@ -66,6 +65,8 @@
 		"arrow-parens": "off",
 		"object-curly-newline": "off",
 		"react/require-default-props": "off",
-		"react/prop-types": "off"
+		"react/prop-types": "off",
+		"import/prefer-default-export": "off",
+		"no-use-before-define": "off"
 	}
 }
