@@ -2,15 +2,9 @@ import React, { Component } from 'react';
 import DayPicker from 'react-day-picker';
 import { WrappedComponentProps, injectIntl } from 'react-intl';
 import moment from 'moment';
-import { getRelatedTargetIE11, isIE11 } from 'utils/browserUtils';
 import { DDMMYYYY_DATE_FORMAT } from 'utils/formats';
 
-const getRelatedTarget = (e) => {
-	if (isIE11()) {
-		return getRelatedTargetIE11();
-	}
-	return Promise.resolve(e.relatedTarget);
-};
+const getRelatedTarget = (e) => Promise.resolve(e.relatedTarget);
 
 interface OwnProps {
 	onDayChange: () => void;
@@ -28,6 +22,7 @@ interface OwnProps {
 class CalendarOverlay extends Component<OwnProps & WrappedComponentProps> {
 	calendarRootRef: HTMLDivElement;
 
+	// eslint-disable-next-line react/static-property-placement
 	static defaultProps = {
 		value: '',
 		disabled: false,
@@ -125,8 +120,6 @@ class CalendarOverlay extends Component<OwnProps & WrappedComponentProps> {
 				onKeyDown={this.onKeyDown}
 				role="link"
 			>
-				{/*
-          // @ts-ignore https://github.com/gpbl/react-day-picker/issues/1009 */}
 				<DayPicker
 					{...this.getDayPickerLocalization()}
 					className={dayPickerClassName}

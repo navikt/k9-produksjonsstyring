@@ -55,7 +55,7 @@
 			}
 		],
 		"no-use-before-define": "warn",
-		"no-shadow": "warn",
+		"no-shadow": "off",
 		"max-len": [1, 160],
 		"react/jsx-props-no-spreading": "off",
 		"react/destructuring-assignment": "off",
@@ -65,6 +65,7 @@
 		"function-paren-newline": "off",
 		"arrow-parens": "off",
 		"object-curly-newline": "off",
-		"react/require-default-props": "off"
+		"react/require-default-props": "off",
+		"react/prop-types": "off"
 	}
 }

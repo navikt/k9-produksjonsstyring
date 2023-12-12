@@ -1,4 +1,4 @@
-import React, { ReactNode, useCallback } from 'react';
+import React, { ReactNode } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import bubbletextBlack from 'images/bubbletext_black.svg';
 import bubbletextFilledUrl from 'images/bubbletext_filled.svg';
