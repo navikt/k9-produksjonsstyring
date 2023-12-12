@@ -116,7 +116,7 @@ class CalendarOverlay extends Component<OwnProps & WrappedComponentProps> {
 				className={className}
 				ref={this.setCalendarRootRef}
 				onBlur={this.onBlur}
-				tabIndex={0} // eslint-disable-line jsx-a11y/no-noninteractive-tabindex
+				tabIndex={0}
 				onKeyDown={this.onKeyDown}
 				role="link"
 			>
