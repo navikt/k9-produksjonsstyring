@@ -14,6 +14,8 @@ const openPreview = (data, filename) => {
 	}
 };
 const isLocal = process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test';
+const isVerdikjede = true;
+console.log(isVerdikjede);
 const isDev = window.location.hostname.includes('dev.adeo.no');
 const proxyUrl = isDev
 	? 'https://k9-los-oidc-auth-proxy.dev.intern.nav.no/api/k9-los-api'
@@ -21,7 +23,10 @@ const proxyUrl = isDev
 
 export const baseURL = () => {
 	if (isLocal) {
-		return 'http://localhost:8030/api';
+		return 'http://localhost:8020/api';
+	}
+	if (isVerdikjede) {
+		return 'http://localhost:8020/api';
 	}
 	return proxyUrl;
 };
@@ -53,7 +58,7 @@ const get =
 	(axiosInstance) =>
 	(url: string, params: any, responseType = 'json') => {
 		let urlRedir = url ? `${proxyUrl}${url}` : null;
-		if (isLocal) urlRedir = `http://localhost:8030${url}`;
+		if (isLocal || isVerdikjede) urlRedir = `http://localhost:8020${url}`;
 		return cancellable(axiosInstance, {
 			url: urlRedir,
 			params,
@@ -69,7 +74,7 @@ const post =
 	(axiosInstance) =>
 	(url: string, data: any, responseType = 'json') => {
 		let urlRedir = url ? `${proxyUrl}${url}` : null;
-		if (isLocal) urlRedir = `http://localhost:8030${url}`;
+		if (isLocal || isVerdikjede) urlRedir = `http://localhost:8020${url}`;
 		return cancellable(axiosInstance, {
 			url: urlRedir,
 			responseType,
@@ -87,7 +92,7 @@ const put =
 	(axiosInstance) =>
 	(url: string, data: any, responseType = 'json') => {
 		let urlRedir = url ? `${proxyUrl}${url}` : null;
-		if (isLocal) urlRedir = `http://localhost:8030${url}`;
+		if (isLocal || isVerdikjede) urlRedir = `http://localhost:8020${url}`;
 		return cancellable(axiosInstance, {
 			url: urlRedir,
 			responseType,
