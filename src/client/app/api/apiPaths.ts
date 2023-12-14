@@ -26,7 +26,7 @@ const apiPaths = {
 	hentAlleKoerSaksbehandlerV1: '/saksbehandler/oppgaveko',
 	hentOppgaveFraKoV3: (id: string) => `/ny-oppgavestyring/ko/${id}/fa-oppgave`,
 	sok: '/fagsak/sok',
-	hentAlleKoerSaksbehandlerV3: '/saksbehandler/koer-for-saksbehandler',
+	hentAlleKoerSaksbehandlerV3: '/ny-oppgavestyring/ko/saksbehandlerskoer',
 	hentTiNesteIKoV3: (id: string) => `/ny-oppgavestyring/ko/${id}/oppgaver`,
 	hentSaksbehandlereIKoV3: (id: string) => `/ny-oppgavestyring/ko/${id}/saksbehandlere`,
 	hentOppgaveko: '/ny-oppgavestyring/ko/',
