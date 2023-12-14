@@ -89,14 +89,14 @@ const BehandlingsKoForm = ({ kø, lukk, ekspandert, id }: BehandlingsKoFormProps
 					<Heading className="mb-2" size="small">
 						Om køen
 					</Heading>
-					<div className="bg-[#e6f0ff] rounded p-7">
+					<div className="bg-[#e6f0ff] rounded p-5">
 						<InputField label="Navn" name={fieldnames.TITTEL} size="medium" validate={[required, minLength(3)]} />
 						<TextAreaField
 							size="medium"
 							name="beskrivelse"
 							label="Beskrivelse"
 							description="Her kan du legge inn en valgfri beskrivelse av hva denne køen inneholder."
-							className="my-8"
+							className="mt-8"
 							maxLength={4000}
 							validate={[required, minLength(3)]}
 						/>
@@ -118,7 +118,7 @@ const BehandlingsKoForm = ({ kø, lukk, ekspandert, id }: BehandlingsKoFormProps
 					{alleSaksbehandlere.length > 0 && (
 						<SearchWithDropdown
 							label="Velg saksbehandlere"
-							className="bg-[#e6f0ff] rounded p-7"
+							className="bg-[#e6f0ff] rounded p-5"
 							suggestions={formaterteSaksbehandlere}
 							groups={grupper}
 							addButtonText="Legg til saksbehandlere"

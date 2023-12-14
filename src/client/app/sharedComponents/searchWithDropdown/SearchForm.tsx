@@ -43,14 +43,14 @@ const SearchForm: React.FC<SearchFormProps> = ({
 		<div className={styles.form}>
 			<Label
 				htmlFor={inputId}
-				size="small"
+				size={size}
 				className={`navds-form-field__label ${showLabel ? '' : 'navds-sr-only'}`}
 				block
 			>
 				{label}
 			</Label>
 			{description && (
-				<BodyShort size="small" as="div" id={descriptionId} className="navds-form-field__description">
+				<BodyShort size={size} as="div" id={descriptionId} className="navds-form-field__description">
 					{description}
 				</BodyShort>
 			)}
