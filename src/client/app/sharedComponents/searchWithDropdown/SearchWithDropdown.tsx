@@ -16,6 +16,7 @@ interface SuggestionsType {
 
 export type SearchWithDropdownProps = {
 	label?: string;
+	size?: 'small' | 'medium';
 	description?: string;
 	suggestions: SuggestionsType[];
 	groups?: string[];
@@ -41,6 +42,7 @@ const SearchWithDropdown: React.FC<SearchWithDropdownProps> = (props) => {
 		error,
 		className,
 		id,
+		size = 'small',
 	} = props;
 
 	const [selectedSuggestionValues, setSelectedSuggestionValues] = useState(selectedValues);
@@ -147,6 +149,7 @@ const SearchWithDropdown: React.FC<SearchWithDropdownProps> = (props) => {
 		<div className={`${styles.searchContainer} ${className || ''}`}>
 			<SearchForm
 				label={label}
+				showLabel={!!label}
 				description={description}
 				inputId={inputId}
 				descriptionId={descriptionId}
@@ -155,6 +158,7 @@ const SearchWithDropdown: React.FC<SearchWithDropdownProps> = (props) => {
 				onChange={onChange}
 				setIsPopoverOpen={setIsPopoverOpen}
 				onSelect={onSelect}
+				size={size}
 			>
 				{isPopoverOpen && (
 					<SuggestionList

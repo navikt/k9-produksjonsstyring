@@ -6,6 +6,7 @@ import styles from './searchWithDropdown.css';
 
 interface SearchFormProps {
 	label: string;
+	showLabel?: boolean;
 	description?: string;
 	inputId: string;
 	descriptionId: string;
@@ -15,10 +16,12 @@ interface SearchFormProps {
 	children?: React.ReactNode;
 	onSelect: (value: string) => void;
 	onSubmit: () => void;
+	size?: 'small' | 'medium';
 }
 
 const SearchForm: React.FC<SearchFormProps> = ({
 	label,
+	showLabel,
 	description,
 	inputId,
 	descriptionId,
@@ -28,6 +31,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
 	onSelect,
 	children,
 	onSubmit,
+	size = 'small',
 }) => {
 	const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
 		if (event.key === 'Enter') {
@@ -37,7 +41,12 @@ const SearchForm: React.FC<SearchFormProps> = ({
 
 	return (
 		<div className={styles.form}>
-			<Label htmlFor={inputId} size="small" className="navds-form-field__label navds-sr-only block">
+			<Label
+				htmlFor={inputId}
+				size="small"
+				className={`navds-form-field__label ${showLabel ? '' : 'navds-sr-only'}`}
+				block
+			>
 				{label}
 			</Label>
 			{description && (
@@ -53,7 +62,9 @@ const SearchForm: React.FC<SearchFormProps> = ({
 							autoComplete="off"
 							aria-describedby={descriptionId}
 							// eslint-disable-next-line max-len
-							className="navds-search__input navds-search__input--secondary navds-text-field__input navds-body-short navds-body--small min-h-[2rem] py-0"
+							className={`navds-search__input navds-search__input--secondary navds-text-field__input navds-body-short navds-body--small min-h-[${
+								size === 'medium' ? 3 : 2
+							}rem] py-0`}
 							onChange={onChange}
 							value={currentInput}
 							onFocus={() => setIsPopoverOpen(true)}
@@ -62,7 +73,11 @@ const SearchForm: React.FC<SearchFormProps> = ({
 					</div>
 					<button
 						type="button"
-						className={`${styles.searchButton} navds-button navds-button--primary navds-button--medium navds-button--icon-only min-h-[2rem] p-1`}
+						className={`${
+							styles.searchButton
+						} navds-button navds-button--primary navds-button--medium navds-button--icon-only min-h-[${
+							size === 'medium' ? 3 : 2
+						}rem] p-1`}
 						onClick={onSubmit}
 						aria-label="search button"
 					>
