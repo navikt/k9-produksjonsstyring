@@ -2681,10 +2681,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@navikt/aksel-icons@npm:5.11.4, @navikt/aksel-icons@npm:^5.11.2, @navikt/aksel-icons@npm:^5.11.4":
+"@navikt/aksel-icons@npm:5.11.4, @navikt/aksel-icons@npm:^5.11.2":
   version: 5.11.4
   resolution: "@navikt/aksel-icons@npm:5.11.4::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40navikt%2Faksel-icons%2F5.11.4%2F9eab45d1624b61d38e54ea293d346d49da5d8502"
   checksum: f05472d358451226784ca41178d0d35fe7fe282aa012a5cd38d308d7cc96b5188cf0e2c234d0fbccce762ec178c6980fb2c9651339bf973a89b8640704815efd
+  languageName: node
+  linkType: hard
+
+"@navikt/aksel-icons@npm:^5.12.1":
+  version: 5.12.1
+  resolution: "@navikt/aksel-icons@npm:5.12.1::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40navikt%2Faksel-icons%2F5.12.1%2Fbf1bb720875f7f1cb929c67fc052ae039f63b6dd"
+  checksum: f4d3098ea3011fbd902ffc2ccce66edd2aed876d8713f9b95dcf7c51d5e97c6990451e64321cb13e23831bcf026942abac537eed2e6e481bf967ea6dbe4b76dc
   languageName: node
   linkType: hard
 
@@ -2738,13 +2745,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@navikt/ds-react@npm:5.11.4":
-  version: 5.11.4
-  resolution: "@navikt/ds-react@npm:5.11.4::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40navikt%2Fds-react%2F5.11.4%2F9b45f3797cd369133213e642d00152dee4652857"
+"@navikt/ds-react@npm:5.12.1":
+  version: 5.12.1
+  resolution: "@navikt/ds-react@npm:5.12.1::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40navikt%2Fds-react%2F5.12.1%2Fffd68467c74f804a9f457fa0f56badb229dc3975"
   dependencies:
     "@floating-ui/react": 0.25.4
-    "@navikt/aksel-icons": ^5.11.4
-    "@navikt/ds-tokens": ^5.11.4
+    "@navikt/aksel-icons": ^5.12.1
+    "@navikt/ds-tokens": ^5.12.1
     "@radix-ui/react-tabs": 1.0.0
     "@radix-ui/react-toggle-group": 1.0.0
     clsx: ^1.2.1
@@ -2753,7 +2760,7 @@ __metadata:
   peerDependencies:
     "@types/react": ^17.0.30 || ^18.0.0
     react: ^17.0.0 || ^18.0.0
-  checksum: a42e50764abe5182d241750c4d737711d31b9cd81b349098317afc990c32b51f8c06f1f0524386882fbdb5b0eaf0b01f35125c08b54c030de72885d3bbe922ff
+  checksum: a32edb36526426ab6208754ce7b5f2d04ed71824ccb4b3c7d6e46fe9d6cc44f2e805ab3e54f6a26dba97d954f45a139dfbaa449872ec967f5e205c9c5b740541
   languageName: node
   linkType: hard
 
@@ -2764,10 +2771,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@navikt/ds-tokens@npm:5.11.4, @navikt/ds-tokens@npm:^5.11.2, @navikt/ds-tokens@npm:^5.11.4":
+"@navikt/ds-tokens@npm:5.11.4, @navikt/ds-tokens@npm:^5.11.2":
   version: 5.11.4
   resolution: "@navikt/ds-tokens@npm:5.11.4::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40navikt%2Fds-tokens%2F5.11.4%2F3394f559aa4ca0676b7e902aab971863d06cff73"
   checksum: 105153d9a242c0109b78532bb1b4833869b662c5fb18242245a9dd7bac02519616c0f36c9aac51e29a137175b3b063e3c55d2ba86b4dd0983907a74aecf2f609
+  languageName: node
+  linkType: hard
+
+"@navikt/ds-tokens@npm:^5.12.1":
+  version: 5.12.1
+  resolution: "@navikt/ds-tokens@npm:5.12.1::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40navikt%2Fds-tokens%2F5.12.1%2F5fb81244c46f2a29269b50b344195ce3ba9ae00e"
+  checksum: c0047ff60fd6206239c6ab3644260d4c652b371f5a588153ea4661b8ae11c5f9c3b814f49a2aa96cb04aa7a81132009cf4e688dec7a6308c624ddcd8f885c54b
   languageName: node
   linkType: hard
 
@@ -10393,7 +10407,7 @@ __metadata:
     "@navikt/aksel-stylelint": 5.11.4
     "@navikt/ds-css": 5.11.4
     "@navikt/ds-icons": 3.4.3
-    "@navikt/ds-react": 5.11.4
+    "@navikt/ds-react": 5.12.1
     "@navikt/ds-tailwind": 5.11.4
     "@navikt/ds-tokens": 5.11.4
     "@navikt/familie-endringslogg": 10.0.0
