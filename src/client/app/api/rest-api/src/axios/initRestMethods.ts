@@ -1,3 +1,5 @@
+import { erVerdikjede, proxyUrl } from 'app/envVariablesUtils';
+
 const openPreview = (data, filename) => {
 	if (window.navigator.msSaveOrOpenBlob) {
 		window.navigator.msSaveOrOpenBlob(data, filename);
@@ -14,21 +16,15 @@ const openPreview = (data, filename) => {
 	}
 };
 const isLocal = process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test';
-const isVerdikjede = true;
-console.log(isVerdikjede);
-const isDev = window.location.hostname.includes('dev.adeo.no');
-const proxyUrl = isDev
-	? 'https://k9-los-oidc-auth-proxy.dev.intern.nav.no/api/k9-los-api'
-	: 'https://k9-los-oidc-auth-proxy.intern.nav.no/api/k9-los-api';
 
 export const baseURL = () => {
 	if (isLocal) {
+		return 'http://localhost:8030/api';
+	}
+	if (erVerdikjede()) {
 		return 'http://localhost:8020/api';
 	}
-	if (isVerdikjede) {
-		return 'http://localhost:8020/api';
-	}
-	return proxyUrl;
+	return proxyUrl();
 };
 const cancellable = (axiosInstance, config) => {
 	let cancel;
@@ -57,8 +53,9 @@ const defaultPostHeaders = {
 const get =
 	(axiosInstance) =>
 	(url: string, params: any, responseType = 'json') => {
-		let urlRedir = url ? `${proxyUrl}${url}` : null;
-		if (isLocal || isVerdikjede) urlRedir = `http://localhost:8020${url}`;
+		let urlRedir = url ? `${proxyUrl()}${url}` : null;
+		if (isLocal) urlRedir = `http://localhost:8030${url}`;
+		if (erVerdikjede()) urlRedir = `http://localhost:8020${url}`;
 		return cancellable(axiosInstance, {
 			url: urlRedir,
 			params,
@@ -73,8 +70,9 @@ const get =
 const post =
 	(axiosInstance) =>
 	(url: string, data: any, responseType = 'json') => {
-		let urlRedir = url ? `${proxyUrl}${url}` : null;
-		if (isLocal || isVerdikjede) urlRedir = `http://localhost:8020${url}`;
+		let urlRedir = url ? `${proxyUrl()}${url}` : null;
+		if (isLocal) urlRedir = `http://localhost:8030${url}`;
+		if (erVerdikjede()) urlRedir = `http://localhost:8020${url}`;
 		return cancellable(axiosInstance, {
 			url: urlRedir,
 			responseType,
@@ -91,8 +89,10 @@ const post =
 const put =
 	(axiosInstance) =>
 	(url: string, data: any, responseType = 'json') => {
-		let urlRedir = url ? `${proxyUrl}${url}` : null;
-		if (isLocal || isVerdikjede) urlRedir = `http://localhost:8020${url}`;
+		let urlRedir = url ? `${proxyUrl()}${url}` : null;
+		if (isLocal) urlRedir = `http://localhost:8030${url}`;
+		if (erVerdikjede()) urlRedir = `http://localhost:8020${url}`;
+
 		return cancellable(axiosInstance, {
 			url: urlRedir,
 			responseType,

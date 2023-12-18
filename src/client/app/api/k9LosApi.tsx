@@ -1,6 +1,5 @@
+import { erVerdikjede } from 'app/envVariablesUtils';
 import { RestApiConfigBuilder, createRequestApi } from './rest-api';
-
-const isDevelopment = process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test';
 
 export enum RestApiGlobalStatePathsKeys {
 	KODEVERK = 'KODEVERK',
@@ -79,110 +78,119 @@ export enum K9LosApiKeys {
 	OPPGAVE_QUERY_FELTER = 'OPPGAVE_QUERY_FELTER',
 }
 
-const CONTEXT_PATH = isDevelopment ? 'api' : '';
+const contextPath = () => {
+	const isDevelopment = process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test';
+	const isVerdikjede = erVerdikjede();
 
-export const endpoints = new RestApiConfigBuilder(CONTEXT_PATH)
-	/* /api/fagsak */
-	.withPost('/fagsak/sok', K9LosApiKeys.SEARCH_FAGSAK)
-	.withPost('/fagsak/aktoerid-sok', K9LosApiKeys.SEARCH_AKTOERID)
+	return isDevelopment || isVerdikjede ? 'api' : '';
+};
 
-	/* /api/saksbehandler */
-	.withGet('/saksbehandler', K9LosApiKeys.NAV_ANSATT)
+export const endpoints = () =>
+	new RestApiConfigBuilder(contextPath())
+		/* /api/fagsak */
+		.withPost('/fagsak/sok', K9LosApiKeys.SEARCH_FAGSAK)
+		.withPost('/fagsak/aktoerid-sok', K9LosApiKeys.SEARCH_AKTOERID)
 
-	/* /api/driftsmeldinger */
-	.withGet('/driftsmeldinger', K9LosApiKeys.DRIFTSMELDINGER)
-	.withPost('/driftsmeldinger/slett', K9LosApiKeys.SLETT_DRIFTSMELDING)
-	.withPost('/driftsmeldinger', K9LosApiKeys.LAGRE_DRIFTSMELDING)
-	.withPost('/driftsmeldinger/toggle', K9LosApiKeys.TOGGLE_DRIFTSMELDING)
+		/* /api/saksbehandler */
+		.withGet('/saksbehandler', K9LosApiKeys.NAV_ANSATT)
 
-	/* /api/saksbehandler/saksliste */
-	.withGet('/saksbehandler/oppgaveko', K9LosApiKeys.OPPGAVEKO)
-	.withGet('/saksbehandler/oppgaveko/v2', K9LosApiKeys.OPPGAVEKO_V2)
-	.withGet('/saksbehandler/oppgaveko/saksbehandlere', K9LosApiKeys.OPPGAVEKO_SAKSBEHANDLERE)
+		/* /api/driftsmeldinger */
+		.withGet('/driftsmeldinger', K9LosApiKeys.DRIFTSMELDINGER)
+		.withPost('/driftsmeldinger/slett', K9LosApiKeys.SLETT_DRIFTSMELDING)
+		.withPost('/driftsmeldinger', K9LosApiKeys.LAGRE_DRIFTSMELDING)
+		.withPost('/driftsmeldinger/toggle', K9LosApiKeys.TOGGLE_DRIFTSMELDING)
 
-	/* /api/saksbehandler/oppgave */
-	.withGet('/saksbehandler/oppgaver', K9LosApiKeys.OPPGAVER_TIL_BEHANDLING)
-	.withGet('/saksbehandler/oppgaver/reserverte', K9LosApiKeys.RESERVERTE_OPPGAVER)
-	.withPost('/saksbehandler/oppgaver/fa-oppgave-fra-ko', K9LosApiKeys.FÅ_OPPGAVE_FRA_KO)
-	.withPost('/saksbehandler/oppgaver/reserver', K9LosApiKeys.RESERVER_OPPGAVE)
-	.withGet('/saksbehandler/oppgaver/reservasjon-status', K9LosApiKeys.HENT_RESERVASJONSSTATUS)
-	.withPost('/saksbehandler/oppgaver/opphev', K9LosApiKeys.OPPHEV_OPPGAVERESERVASJON)
-	.withPost('/saksbehandler/oppgaver/forleng', K9LosApiKeys.FORLENG_OPPGAVERESERVASJON)
-	.withGet('/saksbehandler/oppgaver/behandlede', K9LosApiKeys.BEHANDLEDE_OPPGAVER)
-	.withPost('/saksbehandler/oppgaver/flytt/sok', K9LosApiKeys.FLYTT_RESERVASJON_SAKSBEHANDLER_SOK)
-	.withPost('/saksbehandler/oppgaver/flytt', K9LosApiKeys.FLYTT_RESERVASJON)
-	.withGet('/saksbehandler/oppgaver/antall', K9LosApiKeys.BEHANDLINGSKO_OPPGAVE_ANTALL)
-	.withGet('/saksbehandler/oppgaver/oppgaver-for-fagsaker', K9LosApiKeys.OPPGAVER_FOR_FAGSAKER)
-	.withPost('/saksbehandler/oppgaver/reservasjon/endre', K9LosApiKeys.ENDRE_OPPGAVERESERVASJON)
-	.withPost('/saksbehandler/oppgaver/legg-til-behandlet-sak', K9LosApiKeys.LEGG_TIL_BEHANDLET_OPPGAVE)
+		/* /api/saksbehandler/saksliste */
+		.withGet('/saksbehandler/oppgaveko', K9LosApiKeys.OPPGAVEKO)
+		.withGet('/saksbehandler/oppgaveko/v2', K9LosApiKeys.OPPGAVEKO_V2)
+		.withGet('/saksbehandler/oppgaveko/saksbehandlere', K9LosApiKeys.OPPGAVEKO_SAKSBEHANDLERE)
 
-	/* /api/saksbehandler/nokkeltall */
-	.withGet('/saksbehandler/nokkeltall/nye-og-ferdigstilte-oppgaver', K9LosApiKeys.HENT_NYE_OG_FERDIGSTILTE_OPPGAVER)
+		/* /api/saksbehandler/oppgave */
+		.withGet('/saksbehandler/oppgaver', K9LosApiKeys.OPPGAVER_TIL_BEHANDLING)
+		.withGet('/saksbehandler/oppgaver/reserverte', K9LosApiKeys.RESERVERTE_OPPGAVER)
+		.withPost('/saksbehandler/oppgaver/fa-oppgave-fra-ko', K9LosApiKeys.FÅ_OPPGAVE_FRA_KO)
+		.withPost('/saksbehandler/oppgaver/reserver', K9LosApiKeys.RESERVER_OPPGAVE)
+		.withGet('/saksbehandler/oppgaver/reservasjon-status', K9LosApiKeys.HENT_RESERVASJONSSTATUS)
+		.withPost('/saksbehandler/oppgaver/opphev', K9LosApiKeys.OPPHEV_OPPGAVERESERVASJON)
+		.withPost('/saksbehandler/oppgaver/forleng', K9LosApiKeys.FORLENG_OPPGAVERESERVASJON)
+		.withGet('/saksbehandler/oppgaver/behandlede', K9LosApiKeys.BEHANDLEDE_OPPGAVER)
+		.withPost('/saksbehandler/oppgaver/flytt/sok', K9LosApiKeys.FLYTT_RESERVASJON_SAKSBEHANDLER_SOK)
+		.withPost('/saksbehandler/oppgaver/flytt', K9LosApiKeys.FLYTT_RESERVASJON)
+		.withGet('/saksbehandler/oppgaver/antall', K9LosApiKeys.BEHANDLINGSKO_OPPGAVE_ANTALL)
+		.withGet('/saksbehandler/oppgaver/oppgaver-for-fagsaker', K9LosApiKeys.OPPGAVER_FOR_FAGSAKER)
+		.withPost('/saksbehandler/oppgaver/reservasjon/endre', K9LosApiKeys.ENDRE_OPPGAVERESERVASJON)
+		.withPost('/saksbehandler/oppgaver/legg-til-behandlet-sak', K9LosApiKeys.LEGG_TIL_BEHANDLET_OPPGAVE)
 
-	/* /api/avdelingsleder/sakslister */
-	.withGet('/avdelingsleder/oppgavekoer', K9LosApiKeys.OPPGAVEKOER)
-	.withPost('/avdelingsleder/oppgavekoer', K9LosApiKeys.OPPRETT_NY_OPPGAVEKO)
-	.withGet('/avdelingsleder/oppgavekoer/hent', K9LosApiKeys.HENT_OPPGAVEKO)
-	.withPost('/avdelingsleder/oppgavekoer/slett', K9LosApiKeys.SLETT_OPPGAVEKO)
-	.withPost('/avdelingsleder/oppgavekoer/navn', K9LosApiKeys.LAGRE_OPPGAVEKO_NAVN)
-	.withPost('/avdelingsleder/oppgavekoer/behandlingstype', K9LosApiKeys.LAGRE_OPPGAVEKO_BEHANDLINGSTYPE)
-	.withPost('/avdelingsleder/oppgavekoer/ytelsetype', K9LosApiKeys.LAGRE_OPPGAVEKO_FAGSAK_YTELSE_TYPE)
-	.withPost('/avdelingsleder/oppgavekoer/andre-kriterier', K9LosApiKeys.LAGRE_OPPGAVEKO_ANDRE_KRITERIER)
-	.withPost('/avdelingsleder/oppgavekoer/sortering', K9LosApiKeys.LAGRE_OPPGAVEKO_SORTERING)
-	.withPost('/avdelingsleder/oppgavekoer/kriterier', K9LosApiKeys.LAGRE_OPPGAVEKO_KRITERIER)
-	.withPost('/avdelingsleder/oppgavekoer/skjermet', K9LosApiKeys.LAGRE_OPPGAVEKO_SKJERMET)
-	.withPost(
-		'/avdelingsleder/oppgavekoer/sortering-tidsintervall-type',
-		K9LosApiKeys.LAGRE_OPPGAVEKO_SORTERING_DYNAMISK_PERIDE,
-	)
-	.withPost(
-		'/avdelingsleder/oppgavekoer/sortering-tidsintervall-dager',
-		K9LosApiKeys.LAGRE_OPPGAVEKO_SORTERING_TIDSINTERVALL_DAGER,
-	)
-	.withPost(
-		'/avdelingsleder/oppgavekoer/sortering-tidsintervall-dato',
-		K9LosApiKeys.LAGRE_OPPGAVEKO_SORTERING_TIDSINTERVALL_DATO,
-	)
-	.withPost('/avdelingsleder/oppgavekoer/saksbehandler', K9LosApiKeys.LAGRE_OPPGAVEKO_SAKSBEHANDLER)
-	.withPost('/avdelingsleder/reservasjoner/opphev', K9LosApiKeys.AVDELINGSLEDER_OPPHEVER_RESERVASJON)
+		/* /api/saksbehandler/nokkeltall */
+		.withGet('/saksbehandler/nokkeltall/nye-og-ferdigstilte-oppgaver', K9LosApiKeys.HENT_NYE_OG_FERDIGSTILTE_OPPGAVER)
 
-	/* /api/avdelingsleder/saksbehandlere */
-	.withPost('/avdelingsleder/saksbehandlere/sok', K9LosApiKeys.SAKSBEHANDLER_SOK)
-	.withGet('/avdelingsleder/saksbehandlere', K9LosApiKeys.SAKSBEHANDLERE)
-	.withPost('/avdelingsleder/saksbehandlere', K9LosApiKeys.OPPRETT_NY_SAKSBEHANDLER)
-	.withPost('/avdelingsleder/saksbehandlere/slett', K9LosApiKeys.SLETT_SAKSBEHANDLER)
+		/* /api/avdelingsleder/sakslister */
+		.withGet('/avdelingsleder/oppgavekoer', K9LosApiKeys.OPPGAVEKOER)
+		.withPost('/avdelingsleder/oppgavekoer', K9LosApiKeys.OPPRETT_NY_OPPGAVEKO)
+		.withGet('/avdelingsleder/oppgavekoer/hent', K9LosApiKeys.HENT_OPPGAVEKO)
+		.withPost('/avdelingsleder/oppgavekoer/slett', K9LosApiKeys.SLETT_OPPGAVEKO)
+		.withPost('/avdelingsleder/oppgavekoer/navn', K9LosApiKeys.LAGRE_OPPGAVEKO_NAVN)
+		.withPost('/avdelingsleder/oppgavekoer/behandlingstype', K9LosApiKeys.LAGRE_OPPGAVEKO_BEHANDLINGSTYPE)
+		.withPost('/avdelingsleder/oppgavekoer/ytelsetype', K9LosApiKeys.LAGRE_OPPGAVEKO_FAGSAK_YTELSE_TYPE)
+		.withPost('/avdelingsleder/oppgavekoer/andre-kriterier', K9LosApiKeys.LAGRE_OPPGAVEKO_ANDRE_KRITERIER)
+		.withPost('/avdelingsleder/oppgavekoer/sortering', K9LosApiKeys.LAGRE_OPPGAVEKO_SORTERING)
+		.withPost('/avdelingsleder/oppgavekoer/kriterier', K9LosApiKeys.LAGRE_OPPGAVEKO_KRITERIER)
+		.withPost('/avdelingsleder/oppgavekoer/skjermet', K9LosApiKeys.LAGRE_OPPGAVEKO_SKJERMET)
+		.withPost(
+			'/avdelingsleder/oppgavekoer/sortering-tidsintervall-type',
+			K9LosApiKeys.LAGRE_OPPGAVEKO_SORTERING_DYNAMISK_PERIDE,
+		)
+		.withPost(
+			'/avdelingsleder/oppgavekoer/sortering-tidsintervall-dager',
+			K9LosApiKeys.LAGRE_OPPGAVEKO_SORTERING_TIDSINTERVALL_DAGER,
+		)
+		.withPost(
+			'/avdelingsleder/oppgavekoer/sortering-tidsintervall-dato',
+			K9LosApiKeys.LAGRE_OPPGAVEKO_SORTERING_TIDSINTERVALL_DATO,
+		)
+		.withPost('/avdelingsleder/oppgavekoer/saksbehandler', K9LosApiKeys.LAGRE_OPPGAVEKO_SAKSBEHANDLER)
+		.withPost('/avdelingsleder/reservasjoner/opphev', K9LosApiKeys.AVDELINGSLEDER_OPPHEVER_RESERVASJON)
 
-	/* /api/avdelingsleder/oppgaver */
-	.withGet('/avdelingsleder/oppgaver/antall', K9LosApiKeys.OPPGAVE_ANTALL)
-	.withGet('/avdelingsleder/oppgaver/antall-totalt', K9LosApiKeys.OPPGAVE_ANTALL_TOTALT)
-	/* /api/avdelingsleder/nokkeltall */
-	.withGet('/avdelingsleder/nokkeltall/behandlinger-under-arbeid', K9LosApiKeys.HENT_OPPGAVER)
-	.withGet('/avdelingsleder/nokkeltall/beholdning-historikk', K9LosApiKeys.HENT_OPPGAVER_PER_DATO)
-	.withGet('/avdelingsleder/nokkeltall/nye-ferdigstilte-oppsummering', K9LosApiKeys.HENT_OPPSUMMERING)
-	.withGet('/avdelingsleder/nokkeltall/ferdigstilte-historikk', K9LosApiKeys.HENT_FERDIGSTILTE_HISTORIKK)
-	.withGet('/avdelingsleder/nokkeltall/nye-historikk', K9LosApiKeys.HENT_NYE_HISTORIKK)
-	.withGet('/avdelingsleder/nokkeltall/behandlinger-manuelt-vent-historikk', K9LosApiKeys.HENT_OPPGAVER_MANUELT_PA_VENT)
-	.withGet(
-		'/avdelingsleder/nokkeltall/behandlinger-forste-stonadsdag',
-		K9LosApiKeys.HENT_OPPGAVER_PER_FORSTE_STONADSDAG,
-	)
-	.withGet('/avdelingsleder/nokkeltall/dagens-tall', K9LosApiKeys.HENT_DAGENS_TALL)
-	.withGet('/avdelingsleder/nokkeltall/alle-paa-vent_v2', K9LosApiKeys.HENT_BEHANDLINGER_SOM_GÅR_AV_VENT)
+		/* /api/avdelingsleder/saksbehandlere */
+		.withPost('/avdelingsleder/saksbehandlere/sok', K9LosApiKeys.SAKSBEHANDLER_SOK)
+		.withGet('/avdelingsleder/saksbehandlere', K9LosApiKeys.SAKSBEHANDLERE)
+		.withPost('/avdelingsleder/saksbehandlere', K9LosApiKeys.OPPRETT_NY_SAKSBEHANDLER)
+		.withPost('/avdelingsleder/saksbehandlere/slett', K9LosApiKeys.SLETT_SAKSBEHANDLER)
 
-	.withGet('/avdelingsleder/reservasjoner', K9LosApiKeys.HENT_ALLE_RESERVASJONER)
+		/* /api/avdelingsleder/oppgaver */
+		.withGet('/avdelingsleder/oppgaver/antall', K9LosApiKeys.OPPGAVE_ANTALL)
+		.withGet('/avdelingsleder/oppgaver/antall-totalt', K9LosApiKeys.OPPGAVE_ANTALL_TOTALT)
+		/* /api/avdelingsleder/nokkeltall */
+		.withGet('/avdelingsleder/nokkeltall/behandlinger-under-arbeid', K9LosApiKeys.HENT_OPPGAVER)
+		.withGet('/avdelingsleder/nokkeltall/beholdning-historikk', K9LosApiKeys.HENT_OPPGAVER_PER_DATO)
+		.withGet('/avdelingsleder/nokkeltall/nye-ferdigstilte-oppsummering', K9LosApiKeys.HENT_OPPSUMMERING)
+		.withGet('/avdelingsleder/nokkeltall/ferdigstilte-historikk', K9LosApiKeys.HENT_FERDIGSTILTE_HISTORIKK)
+		.withGet('/avdelingsleder/nokkeltall/nye-historikk', K9LosApiKeys.HENT_NYE_HISTORIKK)
+		.withGet(
+			'/avdelingsleder/nokkeltall/behandlinger-manuelt-vent-historikk',
+			K9LosApiKeys.HENT_OPPGAVER_MANUELT_PA_VENT,
+		)
+		.withGet(
+			'/avdelingsleder/nokkeltall/behandlinger-forste-stonadsdag',
+			K9LosApiKeys.HENT_OPPGAVER_PER_FORSTE_STONADSDAG,
+		)
+		.withGet('/avdelingsleder/nokkeltall/dagens-tall', K9LosApiKeys.HENT_DAGENS_TALL)
+		.withGet('/avdelingsleder/nokkeltall/alle-paa-vent_v2', K9LosApiKeys.HENT_BEHANDLINGER_SOM_GÅR_AV_VENT)
 
-	/* /api/konfig */
-	.withGet('/konfig/k9-sak-url', K9LosApiKeys.K9SAK_URL)
-	.withGet('/konfig/refresh-url', K9LosApiKeys.REFRESH_URL)
-	.withGet('/konfig/k9-punsj-url', K9LosApiKeys.PUNSJ_URL)
+		.withGet('/avdelingsleder/reservasjoner', K9LosApiKeys.HENT_ALLE_RESERVASJONER)
 
-	/* /api/kodeverk */
-	.withGet('/kodeverk', K9LosApiKeys.KODEVERK)
+		/* /api/konfig */
+		.withGet('/konfig/k9-sak-url', K9LosApiKeys.K9SAK_URL)
+		.withGet('/konfig/refresh-url', K9LosApiKeys.REFRESH_URL)
+		.withGet('/konfig/k9-punsj-url', K9LosApiKeys.PUNSJ_URL)
 
-	.withPost('/ny-oppgavestyring/oppgave/query', K9LosApiKeys.OPPGAVE_QUERY)
-	.withPostAndOpenBlob('/ny-oppgavestyring/oppgave/queryToFile', K9LosApiKeys.OPPGAVE_QUERY_TO_FILE)
-	.withGet('/ny-oppgavestyring/oppgave/felter', K9LosApiKeys.OPPGAVE_QUERY_FELTER)
+		/* /api/kodeverk */
+		.withGet('/kodeverk', K9LosApiKeys.KODEVERK)
 
-	.build();
+		.withPost('/ny-oppgavestyring/oppgave/query', K9LosApiKeys.OPPGAVE_QUERY)
+		.withPostAndOpenBlob('/ny-oppgavestyring/oppgave/queryToFile', K9LosApiKeys.OPPGAVE_QUERY_TO_FILE)
+		.withGet('/ny-oppgavestyring/oppgave/felter', K9LosApiKeys.OPPGAVE_QUERY_FELTER)
 
-export const k9LosApi = createRequestApi(endpoints);
+		.build();
+
+export const k9LosApi = () => createRequestApi(endpoints());

@@ -33,7 +33,6 @@ import Image from 'sharedComponents/Image';
 import LoadingPanel from 'sharedComponents/LoadingPanel';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import { parseQueryString } from 'utils/urlUtils';
-import { avdelingslederTilgangTilNyeKoer } from '../featureToggles';
 import styles from './avdelingslederIndex.css';
 import AvdelingslederPanels from './avdelingslederPanels';
 import EndreBehandlingskoerIndex from './behandlingskoer/EndreBehandlingskoerIndex';
@@ -42,6 +41,7 @@ import SaksbehandlereTabell from './bemanning/components/SaksbehandlereTabell';
 import AvdelingslederDashboard from './components/AvdelingslederDashboard';
 import IkkeTilgangTilAvdelingslederPanel from './components/IkkeTilgangTilAvdelingslederPanel';
 import { AvdelingslederContext, AvdelingslederContextState } from './context';
+import { avdelingslederTilgangTilNyeKoer } from 'app/envVariablesUtils';
 
 const classNames = classnames.bind(styles);
 

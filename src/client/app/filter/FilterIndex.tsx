@@ -59,6 +59,7 @@ const FilterIndex = ({ initialQuery, lagre, avbryt, tittel, visningV2, køvisnin
 	const [oppgaveQuery, setOppgaveQuery] = useState(
 		initialQuery ? new OppgaveQueryModel(initialQuery).toOppgaveQuery() : new OppgaveQueryModel().toOppgaveQuery(),
 	);
+
 	const updateQuery = (operations: Array<QueryFunction>) => {
 		const newQuery = applyFunctions(oppgaveQuery, operations);
 		setOppgaveQuery(newQuery);
@@ -134,7 +135,7 @@ const FilterIndex = ({ initialQuery, lagre, avbryt, tittel, visningV2, køvisnin
 
 		setLoading(true);
 
-		k9LosApi
+		k9LosApi()
 			.startRequest(K9LosApiKeys.OPPGAVE_QUERY, oppgaveQuery)
 			.then((dataRes) => {
 				if (dataRes.payload !== REQUEST_POLLING_CANCELLED) {
@@ -162,7 +163,7 @@ const FilterIndex = ({ initialQuery, lagre, avbryt, tittel, visningV2, køvisnin
 		setLoadingDownload(true);
 
 		try {
-			const dataRes = await k9LosApi.startRequest(
+			const dataRes = await k9LosApi().startRequest(
 				K9LosApiKeys.OPPGAVE_QUERY_TO_FILE,
 				new OppgaveQueryModel(oppgaveQuery).updateLimit(-1).toOppgaveQuery(),
 			);

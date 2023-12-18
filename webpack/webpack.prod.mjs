@@ -4,7 +4,7 @@ import path from 'path';
 import TerserPlugin from 'terser-webpack-plugin';
 import webpack from 'webpack';
 import { merge } from 'webpack-merge';
-import commonEnvConfig from './commonEnvConfig.mjs';
+import CopyPlugin from 'copy-webpack-plugin';
 import commonDevAndProd from './webpack.common.mjs';
 
 const dirname = path.dirname(new URL(import.meta.url).pathname);
@@ -32,7 +32,10 @@ const config = {
 			favicon: path.join(ROOT_DIR, 'favicon.ico'),
 			template: path.join(ROOT_DIR, 'index.html'),
 		}),
-		new webpack.EnvironmentPlugin({ ...commonEnvConfig, SENTRY_RELEASE: null }),
+		new webpack.EnvironmentPlugin({ SENTRY_RELEASE: null }),
+		new CopyPlugin({
+			patterns: [{ from: 'webpack/envVariablesForEnvSubst.json', to: 'envVariablesForEnvSubst.json' }],
+		}),
 	],
 
 	optimization: {

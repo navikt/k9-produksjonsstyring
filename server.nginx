@@ -24,12 +24,8 @@ server {
 
   location / {
     add_header              X-Application-Id "${APP_NAME}, pod=${APP_HOSTNAME}"; 
-    add_header              Content-Security-Policy "default-src 'self'; connect-src 'self' ${AUTH_PROXY_BASE_URL} ${AUTH_PROXY_BASE_URL_WSS} http://localhost:8020/ https://sentry.gc.nav.no https://familie-endringslogg.intern.dev.nav.no https://familie-endringslogg.intern.nav.no/; frame-src 'self' ${AUTH_PROXY_BASE_URL}; font-src 'self' data: https://cdn.nav.no; img-src 'self' data:; style-src 'self' 'unsafe-inline';";
-    add_header              X-Content-Type-Options "nosniff";
-    add_header              X-XSS-Protection "1;mode=block";
+    add_header              Content-Security-Policy "default-src 'self'; connect-src 'self' ${AUTH_PROXY_BASE_URL} ${AUTH_PROXY_BASE_URL_WSS} http://localhost:8020 http://127.0.0.1:8020 https://sentry.gc.nav.no https://familie-endringslogg.intern.dev.nav.no https://familie-endringslogg.intern.nav.no/; frame-src 'self' ${AUTH_PROXY_BASE_URL}; font-src 'self' data: https://cdn.nav.no; img-src 'self' data:; style-src 'self' 'unsafe-inline';";
     add_header              Strict-Transport-Security "max-age=31536000";
-    add_header 'Access-Control-Allow-Origin' '*';
-    add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS';
 
     root   /usr/share/nginx/html;
     index  index.html index.htm;
@@ -42,6 +38,12 @@ server {
 }
 
 
+  location = /envVariables {
+      alias /tmp/k9-los/env.json;
+      default_type application/json;
+    }
+
+
   location = /isAlive {
     return 200 "Application:UP";
     add_header Content-Type text/plain;
@@ -51,7 +53,6 @@ server {
     return 200 "Application:READY";
     add_header Content-Type text/plain;
   }
-
 
   error_log /dev/stdout info;
   charset utf-8;

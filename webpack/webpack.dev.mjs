@@ -3,7 +3,6 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 import path from 'path';
 import webpack from 'webpack';
 import { merge } from 'webpack-merge';
-import commonEnvConfig from './commonEnvConfig.mjs';
 import commonDevAndProd from './webpack.common.mjs';
 
 const filename = fileURLToPath(import.meta.url);
@@ -32,10 +31,8 @@ const config = {
 		}),
 		new webpack.HotModuleReplacementPlugin(),
 		new webpack.EnvironmentPlugin({
-			...commonEnvConfig,
 			MSW_MODE: process.env.MSW_MODE || 'disabled',
 			SENTRY_RELEASE: '',
-			VERDIKJEDE: 'false',
 		}),
 	],
 

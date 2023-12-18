@@ -48,9 +48,6 @@ jobs:
         run: yarn playwright test
       - name: Bygge kode
         run: yarn build
-        env:
-          SAKSBEHANDLER_KAN_VELGE_NYE_KOER: 'disabled'
-          AVDELINGSLEDER_TILGANG_TIL_NYE_KOER: 'disabled'
       - name: Sette Docker-navn og -tag
         run: |
           echo "TAG=$(date +"%Y%m%d%H%M%S")-$(git rev-parse --short HEAD)" >> $GITHUB_ENV

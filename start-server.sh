@@ -9,6 +9,9 @@ _shutdown_() {
   wait "$pid"
 }
 
+[ -d /tmp/k9-los/] && echo "Feature toggle-directory finnes fra før, tilbakestiller" && rm -r /tmp/k9-los/* || mkdir -p  /tmp/k9-los/
+envsubst < /usr/share/nginx/html/public/envVariablesForEnvSubst.json > /tmp/k9-los/env.json
+
 export APP_HOSTNAME="${HOSTNAME:-localhost}"
 export APP_PORT="${APP_PORT:-443}"
 export APP_NAME="${APP_NAME:-devimg}"

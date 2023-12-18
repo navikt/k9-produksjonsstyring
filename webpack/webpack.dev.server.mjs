@@ -1,5 +1,6 @@
 import webpack from 'webpack';
 import WebpackDevServer from 'webpack-dev-server';
+import envVariables from './envVariables.mjs';
 import config from './webpack.dev.mjs';
 
 if (process.argv.includes('--no-fix')) {
@@ -17,12 +18,6 @@ const options = {
 			target: 'http://localhost:8020',
 			secure: false,
 			changeOrigin: !!'http://localhost:8020',
-			onProxyRes: function onProxyRes(proxyRes, req, res) {
-				// For å håndtere redirects på 202 Accepted responser med location headers...
-				if (proxyRes.headers.location && proxyRes.headers.location.startsWith(process.env.AUTH_PROXY_URL)) {
-					proxyRes.headers.location = proxyRes.headers.location.split(process.env.AUTH_PROXY_URL)[1];
-				}
-			},
 		},
 	},
 	historyApiFallback: true,
@@ -34,6 +29,15 @@ const options = {
 		},
 	},
 	port: 8030,
+	onBeforeSetupMiddleware(devServer) {
+		if (!devServer) {
+			throw new Error('Webpack Dev Server is not yet available');
+		}
+
+		devServer.app.get('/envVariables', (req, res) => {
+			res.json(envVariables());
+		});
+	},
 };
 
 const wds = new WebpackDevServer(webpack(config), options);
@@ -42,7 +46,7 @@ const wds = new WebpackDevServer(webpack(config), options);
 	try {
 		await wds.start();
 	} catch (error) {
-		return console.log(err); // NOSONAR
+		return console.log(error); // NOSONAR
 	}
 
 	console.log('Listening at http://localhost:8030/');

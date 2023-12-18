@@ -1,0 +1,22 @@
+[
+	{
+		"key": "OIDC_PROXY_URL",
+		"value": "${OIDC_PROXY_URL}"
+	},
+	{
+		"key": "LOGIN_REDIRECT_URL",
+		"value": "${LOGIN_REDIRECT_URL}"
+	},
+	{
+		"key": "SAKSBEHANDLER_KAN_VELGE_NYE_KOER",
+		"value": "${SAKSBEHANDLER_KAN_VELGE_NYE_KOER}"
+	},
+	{
+		"key": "AVDELINGSLEDER_TILGANG_TIL_NYE_KOER",
+		"value": "${AVDELINGSLEDER_TILGANG_TIL_NYE_KOER}"
+	},
+	{
+		"key": "VERDIKJEDE",
+		"value": "${VERDIKJEDE}"
+	}
+]
