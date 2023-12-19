@@ -1,23 +1,7 @@
 server {
   listen       8030;
   server_name  "${APP_HOSTNAME}";
-
-
-  proxy_buffers 16 32k;
-  proxy_buffer_size 32k;
-  proxy_pass_header       Nav-Callid;
-  proxy_set_header        Referer $http_referer;
-  proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;
-  proxy_set_header        X-Real-IP $remote_addr;
-
-  # complete disable cache and send some debug headers
-  add_header              X-Cache-Status $upstream_cache_status;
-  add_header              X-Application-Id "${APP_NAME}:${APP_VERSION}, pod=${APP_HOSTNAME}";
-  add_header              X-Content-Type-Options "nosniff";
-  add_header              X-XSS-Protection "1;mode=block";
-  add_header              Strict-Transport-Security "max-age=31536000";
-
-  add_header              Cache-Control $custom_cache_control;
+  
 
   location @401_json {
     default_type application/json;
@@ -45,7 +29,7 @@ server {
     proxy_set_header X-Real-IP $remote_addr;
     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     proxy_set_header Cookie $http_cookie;
-    proxy_pass_header Set-Cookie;  
+    proxy_pass_header Set-Cookie; 
     proxy_intercept_errors on;
     error_page 401 = @401_json;
     error_page 403 = @403_json;
