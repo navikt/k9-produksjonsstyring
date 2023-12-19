@@ -22,6 +22,15 @@ server {
     return 504 '{"feilmelding":"Timet ut","type":"GENERELL_FEIL"}';
   }
 
+   location  "/api/" {
+    proxy_set_header Host $http_host;
+    proxy_pass "${K9_LOS_API_URL}/";
+    proxy_intercept_errors on;
+    error_page 401 = @401_json;
+    error_page 403 = @403_json;
+    error_page 404 = @404_json;
+    error_page 504 = @504_json;
+  }
 
   location / {
     add_header              X-Application-Id "${APP_NAME}, pod=${APP_HOSTNAME}"; 
