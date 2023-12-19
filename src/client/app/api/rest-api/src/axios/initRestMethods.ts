@@ -40,9 +40,13 @@ const defaultPostHeaders = {
 
 const get =
 	(axiosInstance) =>
-	(url: string, params: any, responseType = 'json') =>
-		cancellable(axiosInstance, {
-			url: url ? `${url}` : null,
+	(url: string, params: any, responseType = 'json') => {
+		let urlRedir = url ? `https://k9-los-oidc-auth-proxy.dev.intern.nav.no/api/k9-los-api${url}` : null;
+		if (process.env.NODE_ENV === 'development') {
+			urlRedir = url ? `http://localhost:8030${url}` : null;
+		}
+		return cancellable(axiosInstance, {
+			url: urlRedir,
 			params,
 			responseType,
 			method: 'get',
@@ -50,7 +54,7 @@ const get =
 				...defaultHeaders,
 			},
 		});
-
+	};
 const post =
 	(axiosInstance) =>
 	(url: string, data: any, responseType = 'json') =>
