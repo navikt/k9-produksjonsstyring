@@ -23,19 +23,19 @@ const AppConfigResolver: FunctionComponent<OwnProps> = ({ children }) => {
 	const { state: stateNavAnsatt } = useGlobalStateRestApi(RestApiGlobalStatePathsKeys.NAV_ANSATT);
 	const { state: stateK9sakUrl } = useGlobalStateRestApi(RestApiGlobalStatePathsKeys.K9SAK_URL, undefined, {
 		suspendRequest: stateNavAnsatt !== RestApiState.SUCCESS,
-		updateTriggers: [stateNavAnsatt],
+		updateTriggers: [],
 	});
 	const { state: stateKodeverk } = useGlobalStateRestApi(RestApiGlobalStatePathsKeys.KODEVERK, undefined, {
 		suspendRequest: stateNavAnsatt !== RestApiState.SUCCESS,
-		updateTriggers: [stateNavAnsatt],
+		updateTriggers: [],
 	});
 	const { state: stateSseUrl } = useGlobalStateRestApi(RestApiGlobalStatePathsKeys.REFRESH_URL, undefined, {
 		suspendRequest: stateNavAnsatt !== RestApiState.SUCCESS,
-		updateTriggers: [stateNavAnsatt],
+		updateTriggers: [],
 	});
 	const { state: stateK9punsjUrl } = useGlobalStateRestApi(RestApiGlobalStatePathsKeys.PUNSJ_URL, undefined, {
 		suspendRequest: stateNavAnsatt !== RestApiState.SUCCESS,
-		updateTriggers: [stateNavAnsatt],
+		updateTriggers: [],
 	});
 
 	if (stateNavAnsatt === RestApiState.ERROR) {
