@@ -38,10 +38,6 @@ const AppConfigResolver: FunctionComponent<OwnProps> = ({ children }) => {
 		updateTriggers: [],
 	});
 
-	if (stateNavAnsatt === RestApiState.ERROR) {
-		window.location.assign(PROXY_REDIRECT_URL);
-	}
-
 	if (
 		[stateK9sakUrl, stateNavAnsatt, stateKodeverk, stateSseUrl, stateK9punsjUrl].some((v) => v === RestApiState.LOADING)
 	) {
