@@ -17,7 +17,7 @@ test('Kan vise køer', async ({ page }) => {
 
 test('kan opprette ny kø', async ({ page }) => {
 	// må starte lytting før opprett kø klikkes på for å få med responsen
-	const responsePromise = page.waitForResponse('http://localhost:8030/api/ny-oppgavestyring/ko/opprett');
+	const responsePromise = page.waitForResponse(`http://localhost:8030/api/ny-oppgavestyring/ko/opprett`);
 	await page.getByRole('button', { name: 'Avdelingslederpanel' }).click();
 	await page.getByRole('link', { name: 'Nye behandlingskøer' }).click();
 	await page.getByRole('button', { name: 'Legg til ny behandlingskø' }).click();

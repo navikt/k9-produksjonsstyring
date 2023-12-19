@@ -4,7 +4,6 @@ import { RestApiGlobalStatePathsKeys, k9LosApi } from 'api/k9LosApi';
 import { useGlobalStateRestApi } from 'api/rest-api-hooks';
 import RestApiState from 'api/rest-api-hooks/src/RestApiState';
 import LoadingPanel from 'sharedComponents/LoadingPanel';
-import { loginRedirectUrl } from './envVariablesUtils';
 
 interface OwnProps {
 	children: ReactElement;
@@ -35,7 +34,7 @@ const AppConfigResolver: FunctionComponent<OwnProps> = ({ children }) => {
 	});
 
 	if (stateNavAnsatt === RestApiState.ERROR) {
-		window.location.assign(loginRedirectUrl());
+		window.location.assign('/login');
 	}
 
 	if (

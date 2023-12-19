@@ -8,7 +8,6 @@ import { K9LosApiKeys, k9LosApi } from 'api/k9LosApi';
 import { useAlleKoer, useKo } from 'api/queries/avdelingslederQueries';
 import { REQUEST_POLLING_CANCELLED } from 'api/rest-api';
 import apiPaths from 'api/apiPaths';
-import { baseURL } from 'api/rest-api/src/axios/initRestMethods';
 import { post } from 'utils/axios';
 import { FilterContext } from './FilterContext';
 import OppgaveQueryModel from './OppgaveQueryModel';
@@ -105,7 +104,7 @@ const FilterIndex = ({ initialQuery, lagre, avbryt, tittel, visningV2, køvisnin
 	});
 
 	const validateOppgaveQuery = () =>
-		post(`${baseURL()}${apiPaths.valider}`, oppgaveQuery)
+		post(apiPaths.valider, oppgaveQuery)
 			.then((data) => data)
 			.catch(() => false);
 

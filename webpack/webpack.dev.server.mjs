@@ -13,13 +13,6 @@ const options = {
 		directory: 'src/client',
 		watch: true,
 	},
-	proxy: {
-		'/api/**': {
-			target: 'http://localhost:8020',
-			secure: false,
-			changeOrigin: !!'http://localhost:8020',
-		},
-	},
 	historyApiFallback: true,
 	devMiddleware: {
 		publicPath: config.output.publicPath,

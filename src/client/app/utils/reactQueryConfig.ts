@@ -1,7 +1,6 @@
 import { QueryClientConfig } from 'react-query';
 import axios from 'axios';
 import { callId } from 'api/rest-api/src/axios/axiosHttpClientApi';
-import { baseURL } from 'api/rest-api/src/axios/initRestMethods';
 
 const axiosConfig = {
 	headers: {
@@ -17,12 +16,12 @@ export const axiosInstance = axios.create({
 });
 
 export const defaultQuery = async ({ queryKey }) => {
-	const { data } = await axiosInstance.get(`${baseURL()}${queryKey[0]}`, axiosConfig);
+	const { data } = await axiosInstance.get(queryKey[0], axiosConfig);
 	return data;
 };
 
 export const defaultMutation = async ({ url, body }) => {
-	const { data } = await axiosInstance.post(`${baseURL()}${url}`, body, axiosConfig);
+	const { data } = await axiosInstance.post(url, body, axiosConfig);
 	return data;
 };
 

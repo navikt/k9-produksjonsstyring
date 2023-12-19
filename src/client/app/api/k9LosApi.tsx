@@ -1,4 +1,3 @@
-import { erVerdikjede } from 'app/envVariablesUtils';
 import { RestApiConfigBuilder, createRequestApi } from './rest-api';
 
 export enum RestApiGlobalStatePathsKeys {
@@ -78,15 +77,8 @@ export enum K9LosApiKeys {
 	OPPGAVE_QUERY_FELTER = 'OPPGAVE_QUERY_FELTER',
 }
 
-const contextPath = () => {
-	const isDevelopment = process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test';
-	const isVerdikjede = erVerdikjede();
-
-	return isDevelopment || isVerdikjede ? 'api' : '';
-};
-
 export const endpoints = () =>
-	new RestApiConfigBuilder(contextPath())
+	new RestApiConfigBuilder('api')
 		/* /api/fagsak */
 		.withPost('/fagsak/sok', K9LosApiKeys.SEARCH_FAGSAK)
 		.withPost('/fagsak/aktoerid-sok', K9LosApiKeys.SEARCH_AKTOERID)

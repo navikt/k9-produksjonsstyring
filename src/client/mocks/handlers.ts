@@ -1,7 +1,7 @@
 /* eslint-disable import/no-mutable-exports */
 import { rest } from 'msw';
 import { felter } from 'filter/parts/testdata';
-import { relativeTestApiPaths } from '../app/testUtils';
+import apiPaths from 'api/apiPaths';
 import {
 	avdelningsledareReservasjoner,
 	behandlingerSomGårAvVent,
@@ -28,35 +28,29 @@ import { giRandomDato } from './mockUtils';
 let handlers = [];
 
 export const developmentHandlers = {
-	ferdigstilteHistorikk: rest.get(relativeTestApiPaths.ferdigstilteHistorikk, (req, res, ctx) =>
+	ferdigstilteHistorikk: rest.get(apiPaths.ferdigstilteHistorikk, (req, res, ctx) =>
 		res(ctx.json(giRandomDato(ferdigstilteHistorikk, 14))),
 	),
-	dagensTall: rest.get(relativeTestApiPaths.dagensTall, (req, res, ctx) => res(ctx.json(dagensTall))),
-	allePaaVent: rest.get(relativeTestApiPaths.allePaaVent, (req, res, ctx) =>
+	dagensTall: rest.get(apiPaths.dagensTall, (req, res, ctx) => res(ctx.json(dagensTall))),
+	allePaaVent: rest.get(apiPaths.allePaaVent, (req, res, ctx) =>
 		res(ctx.json({ påVent: behandlingerSomGårAvVent, påVentMedVenteårsak: behandlingerSomGårAvVentÅrsaker })),
 	),
-	nyeOgFerdigstilteOppgaver: rest.get(relativeTestApiPaths.nyeOgFerdigstilteOppgaver, (req, res, ctx) =>
+	nyeOgFerdigstilteOppgaver: rest.get(apiPaths.nyeOgFerdigstilteOppgaver, (req, res, ctx) =>
 		res(ctx.json(giRandomDato(nyeOgFerdigstilteOppgaver, 7))),
 	),
-	behandlingerUnderArbeid: rest.get(relativeTestApiPaths.behandlingerUnderArbeid, (req, res, ctx) =>
+	behandlingerUnderArbeid: rest.get(apiPaths.behandlingerUnderArbeid, (req, res, ctx) =>
 		res(ctx.json(behandlingerUnderArbeid)),
 	),
-	beholdningPerDato: rest.get(relativeTestApiPaths.beholdningPerDato, (req, res, ctx) =>
+	beholdningPerDato: rest.get(apiPaths.beholdningPerDato, (req, res, ctx) =>
 		res(ctx.json(giRandomDato(ferdigstilteHistorikk, 14))),
 	),
-	nyePerDato: rest.get(relativeTestApiPaths.nyePerDato, (req, res, ctx) =>
-		res(ctx.json(giRandomDato(ferdigstilteHistorikk, 14))),
-	),
-	nyeFerdigstilteOppsummering: rest.get(relativeTestApiPaths.nyeFerdigstilteOppsummering, (req, res, ctx) =>
+	nyePerDato: rest.get(apiPaths.nyePerDato, (req, res, ctx) => res(ctx.json(giRandomDato(ferdigstilteHistorikk, 14)))),
+	nyeFerdigstilteOppsummering: rest.get(apiPaths.nyeFerdigstilteOppsummering, (req, res, ctx) =>
 		res(ctx.json(giRandomDato(nyeOgFerdigstilteOppgaverMedStonadstype, 7))),
 	),
-	oppgaverAntallTotalt: rest.get(relativeTestApiPaths.oppgaverAntallTotalt, (req, res, ctx) =>
-		res(ctx.status(200), ctx.json(0)),
-	),
-	legacyOppgaveKoer: rest.get(relativeTestApiPaths.legacyOppgaveKoer, (req, res, ctx) =>
-		res(ctx.status(200), ctx.json([])),
-	),
-	saksbehandler: rest.get(relativeTestApiPaths.saksbehandler, (req, res, ctx) =>
+	oppgaverAntallTotalt: rest.get(apiPaths.oppgaverAntallTotalt, (req, res, ctx) => res(ctx.status(200), ctx.json(0))),
+	legacyOppgaveKoer: rest.get(apiPaths.legacyOppgaveKoer, (req, res, ctx) => res(ctx.status(200), ctx.json([]))),
+	saksbehandler: rest.get(apiPaths.saksbehandler, (req, res, ctx) =>
 		res(
 			ctx.json({
 				brukernavn: 'saksbehandler@nav.no',
@@ -74,41 +68,37 @@ export const developmentHandlers = {
 			}),
 		),
 	),
-	k9SakUrl: rest.get(relativeTestApiPaths.k9SakUrl, (req, res, ctx) =>
-		res(ctx.json({ verdi: 'http://localhost:8040' })),
-	),
-	k9PunsjUrl: rest.get(relativeTestApiPaths.k9PunsjUrl, (req, res, ctx) =>
-		res(ctx.json({ verdi: 'http://localhost:8050' })),
-	),
-	refreshUrl: rest.get(relativeTestApiPaths.refreshUrl, (req, res, ctx) =>
+	k9SakUrl: rest.get(apiPaths.k9SakUrl, (req, res, ctx) => res(ctx.json({ verdi: 'http://localhost:8040' }))),
+	k9PunsjUrl: rest.get(apiPaths.k9PunsjUrl, (req, res, ctx) => res(ctx.json({ verdi: 'http://localhost:8050' }))),
+	refreshUrl: rest.get(apiPaths.refreshUrl, (req, res, ctx) =>
 		res(
 			ctx.json({
 				verdi: 'ws://localhost:8020/ws',
 			}),
 		),
 	),
-	driftsmeldinger: rest.get(relativeTestApiPaths.driftsmeldinger, (req, res, ctx) => res(ctx.json([]))),
-	behandlede: rest.get(relativeTestApiPaths.behandlede, (req, res, ctx) => res(ctx.json([]))),
-	kodeverk: rest.get(relativeTestApiPaths.kodeverk, (req, res, ctx) => res(ctx.json(kodeverk))),
-	aksjonspunkterPerEnhet: rest.get(relativeTestApiPaths.aksjonspunkterPerEnhet, (req, res, ctx) =>
+	driftsmeldinger: rest.get(apiPaths.driftsmeldinger, (req, res, ctx) => res(ctx.json([]))),
+	behandlede: rest.get(apiPaths.behandlede, (req, res, ctx) => res(ctx.json([]))),
+	kodeverk: rest.get(apiPaths.kodeverk, (req, res, ctx) => res(ctx.json(kodeverk))),
+	aksjonspunkterPerEnhet: rest.get(apiPaths.aksjonspunkterPerEnhet, (req, res, ctx) =>
 		res(ctx.json(giRandomDato(løsteAksjonspunkterPerEnhet, 7))),
 	),
-	avdelinglederReservasjoner: rest.get(relativeTestApiPaths.avdelinglederReservasjoner, (req, res, ctx) =>
+	avdelinglederReservasjoner: rest.get(apiPaths.avdelinglederReservasjoner, (req, res, ctx) =>
 		res(ctx.json(avdelningsledareReservasjoner)),
 	),
-	saksbehandlerReservasjoner: rest.get(relativeTestApiPaths.saksbehandlerReservasjoner, (req, res, ctx) =>
+	saksbehandlerReservasjoner: rest.get(apiPaths.saksbehandlerReservasjoner, (req, res, ctx) =>
 		res(ctx.json(saksbehandlerReservasjoner)),
 	),
-	saksbehandlerOppgaver: rest.get(relativeTestApiPaths.saksbehandlerOppgaver, (req, res, ctx) =>
+	saksbehandlerOppgaver: rest.get(apiPaths.saksbehandlerOppgaver, (req, res, ctx) =>
 		res(ctx.json(saksbehandlerOppgaver)),
 	),
-	saksbehandlereIOppgaveko: rest.get(relativeTestApiPaths.saksbehandlereIOppgaveko, (req, res, ctx) =>
+	saksbehandlereIOppgaveko: rest.get(apiPaths.saksbehandlereIOppgaveko, (req, res, ctx) =>
 		res(ctx.json(saksbehandlereIOppgaveko)),
 	),
-	oppgaver: rest.get(relativeTestApiPaths.oppgaver, (req, res, ctx) => res(ctx.json(10))),
-	oppgavekoer: rest.get(relativeTestApiPaths.oppgavekoer, (req, res, ctx) => res(ctx.json(saksbehandlerOppgaveko))),
-	sok: rest.post(relativeTestApiPaths.sok, (req, res, ctx) => res(ctx.json(soek))),
-	saksbehandlere: rest.get(relativeTestApiPaths.hentSaksbehandlere, (req, res, ctx) =>
+	oppgaver: rest.get(apiPaths.oppgaver, (req, res, ctx) => res(ctx.json(10))),
+	oppgavekoer: rest.get(apiPaths.oppgavekoer, (req, res, ctx) => res(ctx.json(saksbehandlerOppgaveko))),
+	sok: rest.post(apiPaths.sok, (req, res, ctx) => res(ctx.json(soek))),
+	saksbehandlere: rest.get(apiPaths.hentSaksbehandlere, (req, res, ctx) =>
 		res(
 			ctx.json([
 				{ navn: 'Ping Pong Paul', brukerIdent: 'M088876', epost: 'pingpongpaul@nav.no' },
@@ -135,7 +125,7 @@ export const developmentHandlers = {
 			]),
 		),
 	),
-	oppgavemodellV2OppdaterKø: rest.post(relativeTestApiPaths.oppdaterOppgaveko, async (req, res, ctx) => {
+	oppgavemodellV2OppdaterKø: rest.post(apiPaths.oppdaterOppgaveko, async (req, res, ctx) => {
 		const data = await req.json();
 		return res(
 			ctx.json({
@@ -150,7 +140,7 @@ export const developmentHandlers = {
 			}),
 		);
 	}),
-	oppgavemodellV2HentKø4: rest.get(`${relativeTestApiPaths.hentOppgaveko}4`, async (req, res, ctx) =>
+	oppgavemodellV2HentKø4: rest.get(`${apiPaths.hentOppgaveko}4`, async (req, res, ctx) =>
 		res(
 			ctx.json({
 				id: 3,
@@ -212,7 +202,7 @@ export const developmentHandlers = {
 			}),
 		),
 	),
-	oppgavemodellV2HentKø: rest.get(`${relativeTestApiPaths.hentOppgaveko}:id`, async (req, res, ctx) =>
+	oppgavemodellV2HentKø: rest.get(`${apiPaths.hentOppgaveko}:id`, async (req, res, ctx) =>
 		res(
 			ctx.json({
 				id: '1',
@@ -226,7 +216,7 @@ export const developmentHandlers = {
 			}),
 		),
 	),
-	oppgavemodellV2HentAlleKø: rest.get(relativeTestApiPaths.hentOppgavekoer, async (req, res, ctx) =>
+	oppgavemodellV2HentAlleKø: rest.get(apiPaths.hentOppgavekoer, async (req, res, ctx) =>
 		res(
 			ctx.json({
 				koer: [
@@ -275,14 +265,14 @@ export const developmentHandlers = {
 			}),
 		),
 	),
-	hentFelter: rest.get(relativeTestApiPaths.hentFelter, async (req, res, ctx) =>
+	hentFelter: rest.get(apiPaths.hentFelter, async (req, res, ctx) =>
 		res(
 			ctx.json({
 				felter,
 			}),
 		),
 	),
-	opprettKo: rest.post(relativeTestApiPaths.opprettOppgaveko, async (req, res, ctx) => {
+	opprettKo: rest.post(apiPaths.opprettOppgaveko, async (req, res, ctx) => {
 		const data = await req.json();
 		return res(
 			ctx.json({
