@@ -22,8 +22,11 @@ server {
     return 504 '{"feilmelding":"Timet ut","type":"GENERELL_FEIL"}';
   }
 
-  location ~ ^/api/(.*)$ {
-    proxy_pass "${K9_LOS_API_URL}/$1";
+   location  "/api/" {
+    proxy_pass "${K9_LOS_API_URL}";
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     proxy_intercept_errors on;
     error_page 401 = @401_json;
     error_page 403 = @403_json;
