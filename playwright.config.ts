@@ -39,7 +39,7 @@ export default defineConfig({
 
 	webServer: {
 		command: 'MSW_MODE=test yarn dev',
-		url: 'http://k9-los-web:8030',
+		url: 'http://127.0.0.1:8030',
 		reuseExistingServer: !process.env.CI,
 	},
 });
