@@ -4,15 +4,11 @@ import { RestApiGlobalStatePathsKeys, k9LosApi } from 'api/k9LosApi';
 import { useGlobalStateRestApi } from 'api/rest-api-hooks';
 import RestApiState from 'api/rest-api-hooks/src/RestApiState';
 import LoadingPanel from 'sharedComponents/LoadingPanel';
+import { getLoginRedirectUrl } from './envVariablesUtils';
 
 interface OwnProps {
 	children: ReactElement;
 }
-
-const isDev = window.location.hostname.includes('dev.adeo.no');
-const PROXY_REDIRECT_URL = isDev
-	? 'https://k9-los-oidc-auth-proxy.dev.intern.nav.no/login?redirect_uri=https://k9-los-web.dev.adeo.no/'
-	: 'https://k9-los-oidc-auth-proxy.intern.nav.no/login?redirect_uri=https://k9-los-web.nais.adeo.no/';
 
 const AppConfigResolver: FunctionComponent<OwnProps> = ({ children }) => {
 	const { addErrorMessage } = useRestApiErrorDispatcher();
@@ -37,6 +33,10 @@ const AppConfigResolver: FunctionComponent<OwnProps> = ({ children }) => {
 		suspendRequest: stateNavAnsatt !== RestApiState.SUCCESS,
 		updateTriggers: [],
 	});
+
+	if (stateNavAnsatt === RestApiState.ERROR) {
+		window.location.assign(getLoginRedirectUrl());
+	}
 
 	if (
 		[stateK9sakUrl, stateNavAnsatt, stateKodeverk, stateSseUrl, stateK9punsjUrl].some((v) => v === RestApiState.LOADING)

@@ -46,3 +46,4 @@ export const setEnvVariables = async () => {
 export const saksbehandlerKanVelgeNyeKoer = () => window?.env?.SAKSBEHANDLER_KAN_VELGE_NYE_KOER === 'enabled';
 export const avdelingslederTilgangTilNyeKoer = () => window?.env?.AVDELINGSLEDER_TILGANG_TIL_NYE_KOER === 'enabled';
 export const erVerdikjede = () => window?.env?.VERDIKJEDE === 'true';
+export const getLoginRedirectUrl = () => window?.env?.LOGIN_REDIRECT_URL;
