@@ -46,8 +46,8 @@ server {
     proxy_cookie_domain k9-los-oidc-auth-proxy.dev.intern.nav.no https://k9-los-web.dev.adeo.no;
   }
 
-  location = /oidc/callback/ {
-    proxy_pass "http://k9-los-oidc-auth-proxy/oidc/callback/";
+  location = /oidc/callback {
+    proxy_pass "http://k9-los-oidc-auth-proxy/oidc/callback";
     proxy_cookie_domain k9-los-oidc-auth-proxy.dev.intern.nav.no https://k9-los-web.dev.adeo.no;
   }
 
