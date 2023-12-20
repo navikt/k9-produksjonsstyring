@@ -28,8 +28,8 @@ server {
     proxy_set_header Host $host;
     proxy_set_header X-Real-IP $remote_addr;
     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-    proxy_set_header Cookie $http_cookie;
-    proxy_pass_header Set-Cookie; 
+    proxy_set_header X-Forwarded-Proto $scheme;
+    proxy_cookie_domain k9-los-oidc-auth-proxy.dev.intern.nav.no https://k9-los-web.dev.adeo.no;
     proxy_intercept_errors on;
     error_page 401 = @401_json;
     error_page 403 = @403_json;
