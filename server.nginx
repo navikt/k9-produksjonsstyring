@@ -37,7 +37,7 @@ server {
     error_page 504 = @504_json;
   }
 
-  location = "/login" {
+  location = /login {
     proxy_pass "http://k9-los-oidc-auth-proxy.dev.intern.nav.no/login"
     proxy_set_header Host $host;
     proxy_set_header X-Real-IP $remote_addr;
