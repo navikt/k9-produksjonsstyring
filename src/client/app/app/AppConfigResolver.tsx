@@ -34,7 +34,7 @@ const AppConfigResolver: FunctionComponent<OwnProps> = ({ children }) => {
 	});
 
 	if (stateNavAnsatt === RestApiState.ERROR) {
-		window.location.assign('/login');
+		window.location.assign('/login?redirect_uri=https://k9-los-web.dev.adeo.no/');
 	}
 
 	if (
