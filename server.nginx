@@ -45,22 +45,6 @@ server {
     proxy_pass_header Set-Cookie;
   }
 
-  location = /login {
-    proxy_pass "http://k9-los-oidc-auth-proxy/login";
-    proxy_set_header Host $host;
-    proxy_set_header X-Real-IP $remote_addr;
-    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-    proxy_set_header X-Forwarded-Proto $scheme;
-  }
-
-  location = /oidc/callback {
-    proxy_pass "http://k9-los-oidc-auth-proxy/oidc/callback";
-    proxy_set_header Host $host;
-    proxy_set_header X-Real-IP $remote_addr;
-    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-    proxy_set_header X-Forwarded-Proto $scheme;
-  }
-
   location / {
     add_header              X-Application-Id "${APP_NAME}, pod=${APP_HOSTNAME}"; 
     add_header              Content-Security-Policy "default-src 'self'; connect-src 'self' ${AUTH_PROXY_BASE_URL} ${AUTH_PROXY_BASE_URL_WSS} https://sentry.gc.nav.no https://familie-endringslogg.intern.dev.nav.no https://familie-endringslogg.intern.nav.no/; frame-src 'self' ${AUTH_PROXY_BASE_URL}; font-src 'self' data: https://cdn.nav.no; img-src 'self' data:; style-src 'self' 'unsafe-inline';";
