@@ -33,10 +33,6 @@ const AppConfigResolver: FunctionComponent<OwnProps> = ({ children }) => {
 		updateTriggers: [],
 	});
 
-	if (stateNavAnsatt === RestApiState.ERROR) {
-		window.location.assign('/login?redirect_uri=https://k9-los-web.dev.adeo.no/');
-	}
-
 	if (
 		[stateK9sakUrl, stateNavAnsatt, stateKodeverk, stateSseUrl, stateK9punsjUrl].some((v) => v === RestApiState.LOADING)
 	) {
