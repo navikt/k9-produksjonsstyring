@@ -152,7 +152,7 @@ export const developmentHandlers = {
 			}),
 		);
 	}),
-	oppgavemodellV2HentKø4: rest.get(`${relativeTestApiPaths.hentOppgaveko}4`, async (req, res, ctx) =>
+	oppgavemodellV2HentKø4: rest.get(`${relativeTestApiPaths.hentOppgaveko('4')}`, async (req, res, ctx) =>
 		res(
 			ctx.json({
 				id: 3,
@@ -214,7 +214,7 @@ export const developmentHandlers = {
 			}),
 		),
 	),
-	oppgavemodellV2HentKø: rest.get(`${relativeTestApiPaths.hentOppgaveko}:id`, async (req, res, ctx) =>
+	oppgavemodellV2HentKø: rest.get(`${relativeTestApiPaths.hentOppgaveko('1')}`, async (req, res, ctx) =>
 		res(
 			ctx.json({
 				id: '1',

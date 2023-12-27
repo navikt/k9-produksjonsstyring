@@ -89,16 +89,18 @@ const FagsakSearchIndex: FunctionComponent<OwnProps> = ({ k9sakUrl, k9punsjUrl }
 			leggTilBehandletOppgave(oppgave);
 			goToFagsakEllerApneModal(oppgave);
 		} else if (reserver && kanReservere) {
-			reserverOppgave({ oppgaveId: oppgave.eksternId }).then((nyOppgaveStatus) => {
-				if (nyOppgaveStatus.kanOverstyres) {
-					setValgtOppgave(oppgave);
-					setValgtOppgaveStatus(nyOppgaveStatus);
-					setVisModalForFlyttReservasjon(true);
-				} else {
-					leggTilBehandletOppgave(oppgave);
-					goToFagsak(oppgave);
-				}
-			});
+			reserverOppgave({ oppgaveId: oppgave.eksternId, oppgaveNøkkel: oppgave.oppgaveNøkkel }).then(
+				(nyOppgaveStatus) => {
+					if (nyOppgaveStatus.kanOverstyres) {
+						setValgtOppgave(oppgave);
+						setValgtOppgaveStatus(nyOppgaveStatus);
+						setVisModalForFlyttReservasjon(true);
+					} else {
+						leggTilBehandletOppgave(oppgave);
+						goToFagsak(oppgave);
+					}
+				},
+			);
 		} else if (!kanReservere) {
 			leggTilBehandletOppgave(oppgave);
 			goToFagsak(oppgave);

@@ -29,7 +29,7 @@ const apiPaths = {
 	hentAlleKoerSaksbehandlerV3: '/ny-oppgavestyring/ko/saksbehandlerskoer',
 	hentTiNesteIKoV3: (id: string) => `/ny-oppgavestyring/ko/${id}/oppgaver`,
 	hentSaksbehandlereIKoV3: (id: string) => `/ny-oppgavestyring/ko/${id}/saksbehandlere`,
-	hentOppgaveko: '/ny-oppgavestyring/ko/',
+	hentOppgaveko: (id: string) => `/ny-oppgavestyring/ko/${id}`,
 	kopierOppgaveko: '/ny-oppgavestyring/ko/kopier',
 	hentOppgavekoer: '/ny-oppgavestyring/ko/',
 	opprettOppgaveko: '/ny-oppgavestyring/ko/opprett',

@@ -76,5 +76,5 @@ export const useOppdaterKøMutation = (callback) => {
 export const useKo = (id: string, options: UseQueryOptions<OppgavekøV3>) =>
 	useQuery<OppgavekøV3>({
 		...options,
-		queryKey: [`${apiPaths.hentOppgaveko}${id}`],
+		queryKey: [apiPaths.hentOppgaveko(id)],
 	});
