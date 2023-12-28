@@ -5,7 +5,6 @@ import { Loader } from '@navikt/ds-react';
 import { getK9punsjRef, getK9sakHref } from 'app/paths';
 import { K9LosApiKeys } from 'api/k9LosApi';
 import { useAlleSaksbehandlerKoerV1, useAlleSaksbehandlerKoerV3 } from 'api/queries/saksbehandlerQueries';
-import { useRestApi } from 'api/rest-api-hooks';
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
 import BehandlingskoerContext from 'saksbehandler/BehandlingskoerContext';
 import { OppgavekøV1 } from 'saksbehandler/behandlingskoer/oppgavekoTsType';

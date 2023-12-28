@@ -1,14 +1,13 @@
 import React, { FunctionComponent, useCallback, useEffect } from 'react';
 import { Form } from 'react-final-form';
-import { FormattedMessage, WrappedComponentProps, injectIntl, useIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { useQueryClient } from 'react-query';
 import dayjs from 'dayjs';
 import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import { OppgaveNøkkel } from 'types/OppgaveNøkkel';
-import NavAnsatt from 'app/navAnsattTsType';
 import apiPaths from 'api/apiPaths';
-import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
+import { K9LosApiKeys } from 'api/k9LosApi';
 import RestApiState from 'api/rest-api-hooks/src/RestApiState';
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
 import { DatepickerField, InputField, TextAreaField } from 'form/FinalFields';
@@ -23,7 +22,6 @@ import {
 	minLength,
 	required,
 } from 'utils/validation/validators';
-import useGlobalStateRestApiData from '../../../../api/rest-api-hooks/src/global-data/useGlobalStateRestApiData';
 import { Saksbehandler } from '../../saksbehandlerTsType';
 import styles from './flyttReservasjonModal.css';
 
@@ -61,7 +59,6 @@ export const FlyttReservasjonModal: FunctionComponent<OwnProps> = ({
 	const finnSaksbehandler = useCallback((brukerIdent) => startRequest({ brukerIdent }), []);
 
 	const intl = useIntl();
-	const { navn } = useGlobalStateRestApiData<NavAnsatt>(RestApiGlobalStatePathsKeys.NAV_ANSATT);
 	const queryClient = useQueryClient();
 
 	const endreReservasjonFn = useCallback(
@@ -96,8 +93,7 @@ export const FlyttReservasjonModal: FunctionComponent<OwnProps> = ({
 		if (state === RestApiState.SUCCESS && !saksbehandler) {
 			return intl.formatMessage({ id: 'LeggTilSaksbehandlerForm.FinnesIkke' });
 		}
-
-		return saksbehandler ? `${saksbehandler.navn}` : '';
+		return saksbehandler.navn || saksbehandler.brukerIdent || '';
 	};
 
 	useEffect(
@@ -117,7 +113,7 @@ export const FlyttReservasjonModal: FunctionComponent<OwnProps> = ({
 		>
 			<Form
 				onSubmit={(values) => finnSaksbehandler(values.brukerIdent)}
-				initialValues={{ brukerIdent: navn || '' }}
+				initialValues={{ brukerIdent: saksbehandler?.brukerIdent || '' }}
 				render={({ handleSubmit, values }) => (
 					<form onSubmit={handleSubmit}>
 						<Element>

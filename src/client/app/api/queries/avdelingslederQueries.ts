@@ -3,6 +3,7 @@ import { OppgavekøV3, OppgavekøV3Enkel, OppgavekøerV3 } from 'types/Oppgavek�
 import apiPaths from 'api/apiPaths';
 import { baseURL } from 'api/rest-api/src/axios/initRestMethods';
 import { axiosInstance } from 'utils/reactQueryConfig';
+import ReservasjonV3, { MappedReservasjon } from 'saksbehandler/behandlingskoer/ReservasjonV3Dto';
 
 // eslint-disable-next-line import/prefer-default-export
 export const useAlleKoer = (options = {}) =>
@@ -29,6 +30,14 @@ interface KopierKøPayload {
 	taMedQuery: boolean;
 	taMedSaksbehandlere: boolean;
 }
+
+export const useAvdelingslederReservasjoner = (
+	options: UseQueryOptions<ReservasjonV3[], unknown, MappedReservasjon[]> = {},
+) =>
+	useQuery<ReservasjonV3[], unknown, MappedReservasjon[]>({
+		queryKey: [apiPaths.avdelinglederReservasjoner],
+		...options,
+	});
 
 export const useKopierKøMutation = (callback?: () => void) => {
 	const queryClient = useQueryClient();

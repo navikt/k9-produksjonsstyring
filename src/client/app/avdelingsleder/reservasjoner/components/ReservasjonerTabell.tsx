@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import _ from 'lodash';
 import Chevron from 'nav-frontend-chevron';
@@ -6,7 +6,6 @@ import { Row } from 'nav-frontend-grid';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { Loader, TextField } from '@navikt/ds-react';
 import { RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
-import Reservasjon from 'avdelingsleder/reservasjoner/reservasjonTsType';
 import AlleKodeverk from 'kodeverk/alleKodeverkTsType';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
 import FlyttReservasjonModal from 'saksbehandler/behandlingskoer/components/menu/FlyttReservasjonModal';
@@ -17,6 +16,11 @@ import TableColumn from 'sharedComponents/TableColumn';
 import TableRow from 'sharedComponents/TableRow';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import { getDateAndTime } from 'utils/dateUtils';
+import { useAvdelingslederReservasjoner } from 'api/queries/avdelingslederQueries';
+import ReservasjonV3, {
+	MappedReservasjon,
+	mapReservasjonV3Array,
+} from 'saksbehandler/behandlingskoer/ReservasjonV3Dto';
 import { getKodeverknavnFraKode } from 'utils/kodeverkUtils';
 import arrowIcon from '../../../../images/arrow-left-3.svg';
 import arrowIconRight from '../../../../images/arrow-right-3.svg';
@@ -24,7 +28,6 @@ import useGlobalStateRestApiData from '../../../api/rest-api-hooks/src/global-da
 import styles from './reservasjonerTabell.css';
 
 const headerTextCodes = [
-	'EMPTY_1',
 	'ReservasjonerTabell.Navn',
 	'ReservasjonerTabell.Saksnr',
 	'ReservasjonerTabell.BehandlingType',
@@ -32,31 +35,38 @@ const headerTextCodes = [
 	'EMPTY_2',
 ];
 
-interface OwnProps {
-	reservasjoner: Reservasjon[];
-	requestFinished: boolean;
-}
-
-const ReservasjonerTabell: FunctionComponent<OwnProps> = ({ reservasjoner, requestFinished }) => {
-	const sorterteReservasjoner = reservasjoner.sort((reservasjon1, reservasjon2) =>
-		reservasjon1.reservertAvNavn.localeCompare(reservasjon2.reservertAvNavn),
+const sorterMedReservertAv = (reservasjonerListe: MappedReservasjon[]) =>
+	reservasjonerListe?.sort((reservasjon1, reservasjon2) =>
+		reservasjon1.reservertAv.localeCompare(reservasjon2.reservertAv),
 	);
-	const alleKodeverk: AlleKodeverk = useGlobalStateRestApiData(RestApiGlobalStatePathsKeys.KODEVERK);
 
-	const [valgtReservasjon, setValgtReservasjon] = useState<Reservasjon>();
+const ReservasjonerTabell = () => {
+	const [valgtReservasjon, setValgtReservasjon] = useState<MappedReservasjon>();
 	const [showFlyttReservasjonModal, setShowFlyttReservasjonModal] = useState(false);
 	const [showOpphevReservasjonModal, setShowOpphevReservasjonModal] = useState(false);
-	const [reservasjonerSomSkalVises, setReservasjonerSomSkalVises] = useState([]);
+	const [reservasjonerSomSkalVises, setReservasjonerSomSkalVises] = useState<MappedReservasjon[]>([]);
 	const [finnesSokResultat, setFinnesSokResultat] = useState(true);
 
-	useEffect(() => {
-		if (sorterteReservasjoner.length > 0 && requestFinished) {
-			setReservasjonerSomSkalVises(sorterteReservasjoner);
-		}
-	}, [sorterteReservasjoner, requestFinished]);
+	const {
+		data: reservasjoner,
+		isLoading,
+		isSuccess,
+	} = useAvdelingslederReservasjoner({
+		select: (reservasjonerData: ReservasjonV3[]): MappedReservasjon[] =>
+			sorterMedReservertAv(mapReservasjonV3Array(reservasjonerData)),
+		onSuccess: (data: MappedReservasjon[]) => {
+			setValgtReservasjon(undefined);
+			setReservasjonerSomSkalVises(data);
+		},
+	});
 
-	const velgReservasjon = (res: Reservasjon) => {
-		if (valgtReservasjon === undefined || valgtReservasjon.oppgaveId !== res.oppgaveId) {
+	const alleKodeverk: AlleKodeverk = useGlobalStateRestApiData(RestApiGlobalStatePathsKeys.KODEVERK);
+
+	const velgReservasjon = (res: MappedReservasjon) => {
+		if (
+			valgtReservasjon === undefined ||
+			valgtReservasjon.oppgaveNøkkel.oppgaveEksternId !== res.oppgaveNøkkel.oppgaveEksternId
+		) {
 			setValgtReservasjon(res);
 		} else {
 			setValgtReservasjon(undefined);
@@ -65,8 +75,11 @@ const ReservasjonerTabell: FunctionComponent<OwnProps> = ({ reservasjoner, reque
 
 	const sokEtterReservasjon = (e) => {
 		const sokVerdi = e.target.value.toLowerCase();
-		const reservasjonerMedMatch = sorterteReservasjoner.filter(
-			(res) => res.reservertAvNavn.toLowerCase().includes(sokVerdi) || res.saksnummer.toLowerCase().includes(sokVerdi),
+		const reservasjonerMedMatch = reservasjoner.filter(
+			(res) =>
+				res.reservertAv.toLowerCase().includes(sokVerdi) ||
+				res.saksnummer?.toLowerCase()?.includes(sokVerdi) ||
+				res.journalpostId?.toLowerCase()?.includes(sokVerdi),
 		);
 		if (reservasjonerMedMatch.length > 0) {
 			setFinnesSokResultat(true);
@@ -75,23 +88,22 @@ const ReservasjonerTabell: FunctionComponent<OwnProps> = ({ reservasjoner, reque
 			setFinnesSokResultat(false);
 		}
 	};
-
-	const debounceFn = useCallback(_.debounce(sokEtterReservasjon, 300), [sorterteReservasjoner]);
+	const debounceFn = useCallback(_.debounce(sokEtterReservasjon, 300), [reservasjoner]);
 
 	return (
 		<>
 			<div className={styles.titelContainer}>
 				<b>
 					<FormattedMessage id="ReservasjonerTabell.Reservasjoner" />
-					{sorterteReservasjoner.length > 0 && requestFinished && ` (${sorterteReservasjoner.length} stk)`}
+					{reservasjoner?.length > 0 && isSuccess && ` (${reservasjoner.length} stk)`}
 				</b>
 				<div className={styles.sokfelt}>
 					<TextField onChange={debounceFn} label="Søk på reservasjon" />
 				</div>
 			</div>
 			<VerticalSpacer sixteenPx />
-			{sorterteReservasjoner.length === 0 && !requestFinished && <Loader size="2xlarge" className={styles.spinner} />}
-			{sorterteReservasjoner.length > 0 && requestFinished && !finnesSokResultat && (
+			{isLoading && <Loader size="2xlarge" className={styles.spinner} />}
+			{reservasjoner?.length > 0 && isSuccess && !finnesSokResultat && (
 				<>
 					<VerticalSpacer eightPx />
 					<Normaltekst>
@@ -100,7 +112,7 @@ const ReservasjonerTabell: FunctionComponent<OwnProps> = ({ reservasjoner, reque
 					<VerticalSpacer eightPx />
 				</>
 			)}
-			{sorterteReservasjoner.length === 0 && requestFinished && (
+			{reservasjoner?.length === 0 && isSuccess && (
 				<>
 					<VerticalSpacer eightPx />
 					<Normaltekst>
@@ -109,89 +121,97 @@ const ReservasjonerTabell: FunctionComponent<OwnProps> = ({ reservasjoner, reque
 					<VerticalSpacer eightPx />
 				</>
 			)}
-			{reservasjonerSomSkalVises.length > 0 && finnesSokResultat && (
+			{reservasjonerSomSkalVises?.length > 0 && finnesSokResultat && (
 				<Table headerTextCodes={headerTextCodes} noHover>
 					{reservasjonerSomSkalVises.map((reservasjon) => (
-						<>
-							<TableRow
-								key={reservasjon.oppgaveId}
-								onMouseDown={() => velgReservasjon(reservasjon)}
-								onKeyDown={() => velgReservasjon(reservasjon)}
-							>
-								<TableColumn>{reservasjon.reservertAvNavn}</TableColumn>
+						<React.Fragment
+							key={`${reservasjon.oppgaveNøkkel.oppgaveEksternId} ${reservasjon.saksnummer} ${reservasjon.journalpostId}`}
+						>
+							<TableRow onMouseDown={() => velgReservasjon(reservasjon)} onKeyDown={() => velgReservasjon(reservasjon)}>
+								<TableColumn>{reservasjon.reservertAv}</TableColumn>
 								<TableColumn>{reservasjon.saksnummer}</TableColumn>
 								<TableColumn>
-									{getKodeverknavnFraKode(reservasjon.behandlingType, kodeverkTyper.BEHANDLING_TYPE, alleKodeverk) +
-										(reservasjon.tilBeslutter ? ' - [B] ' : '')}
+									{getKodeverknavnFraKode(
+										reservasjon.behandlingstype.kode,
+										kodeverkTyper.BEHANDLING_TYPE,
+										alleKodeverk,
+									) + (reservasjon ? ' - [B] ' : '')}
 								</TableColumn>
 								<TableColumn>
 									<FormattedMessage
 										id="ReservasjonerTabell.ReservertTilFormat"
-										values={getDateAndTime(reservasjon.reservertTilTidspunkt)}
+										values={getDateAndTime(reservasjon.reservertTil)}
 									/>
 								</TableColumn>
 								<TableColumn>
 									<Chevron
-										key={reservasjon.oppgaveId}
-										type={valgtReservasjon && valgtReservasjon.oppgaveId === reservasjon.oppgaveId ? 'opp' : 'ned'}
+										type={
+											valgtReservasjon &&
+											valgtReservasjon.oppgaveNøkkel.oppgaveEksternId === reservasjon.oppgaveNøkkel.oppgaveEksternId
+												? 'opp'
+												: 'ned'
+										}
 										className={styles.chevron}
 									/>
 								</TableColumn>
 							</TableRow>
-							{valgtReservasjon && valgtReservasjon.oppgaveId === reservasjon.oppgaveId && (
-								<Row className={styles.actionMenu}>
-									<Row>
-										<div className={styles.menuLine}>
-											<Image src={arrowIcon} className={styles.icon} />
-											<div
-												id="leggTilbake"
-												tabIndex={0}
-												className={styles.action}
-												role="button"
-												onClick={() => setShowOpphevReservasjonModal(true)}
-												onKeyDown={() => {
-													setShowOpphevReservasjonModal(true);
-												}}
-											>
-												<FormattedMessage id="ReservasjonerTabell.LeggTilbake" />
+							{valgtReservasjon &&
+								valgtReservasjon.oppgaveNøkkel.oppgaveEksternId === reservasjon.oppgaveNøkkel.oppgaveEksternId && (
+									<Row className={styles.actionMenu}>
+										<Row>
+											<div className={styles.menuLine}>
+												<Image src={arrowIcon} className={styles.icon} />
+												<div
+													id="leggTilbake"
+													tabIndex={0}
+													className={styles.action}
+													role="button"
+													onClick={() => setShowOpphevReservasjonModal(true)}
+													onKeyDown={() => {
+														setShowOpphevReservasjonModal(true);
+													}}
+												>
+													<FormattedMessage id="ReservasjonerTabell.LeggTilbake" />
+												</div>
 											</div>
-										</div>
-									</Row>
-									<Row>
-										<div className={styles.menuLine}>
-											<Image src={arrowIconRight} className={styles.icon} />
-											<div
-												id="flytt"
-												tabIndex={0}
-												className={styles.action}
-												role="button"
-												onClick={() => {
-													setShowFlyttReservasjonModal(true);
-												}}
-												onKeyDown={() => {
-													setShowFlyttReservasjonModal(true);
-												}}
-											>
-												<FormattedMessage id="ReservasjonerTabell.FlyttReservasjon" />
+										</Row>
+										<Row>
+											<div className={styles.menuLine}>
+												<Image src={arrowIconRight} className={styles.icon} />
+												<div
+													id="flytt"
+													tabIndex={0}
+													className={styles.action}
+													role="button"
+													onClick={() => {
+														setShowFlyttReservasjonModal(true);
+													}}
+													onKeyDown={() => {
+														setShowFlyttReservasjonModal(true);
+													}}
+												>
+													<FormattedMessage id="ReservasjonerTabell.FlyttReservasjon" />
+												</div>
 											</div>
-										</div>
+										</Row>
 									</Row>
-								</Row>
-							)}
-						</>
+								)}
+						</React.Fragment>
 					))}
 				</Table>
 			)}
 			{showOpphevReservasjonModal && (
 				<OpphevReservasjonModal
-					oppgaveNøkkel={valgtReservasjon.oppgaveId}
+					oppgaveNøkkel={valgtReservasjon.oppgaveNøkkel}
 					showModal={showOpphevReservasjonModal}
 					cancel={() => setShowOpphevReservasjonModal(false)}
 				/>
 			)}
 			{showFlyttReservasjonModal && (
 				<FlyttReservasjonModal
-					oppgaveId={valgtReservasjon.oppgaveId}
+					oppgaveNøkkel={valgtReservasjon.oppgaveNøkkel}
+					oppgaveReservertTil={valgtReservasjon.reservertTil}
+					eksisterendeBegrunnelse={valgtReservasjon.kommentar}
 					showModal={showFlyttReservasjonModal}
 					closeModal={() => setShowFlyttReservasjonModal(false)}
 				/>

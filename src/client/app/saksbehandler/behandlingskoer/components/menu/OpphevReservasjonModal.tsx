@@ -44,6 +44,7 @@ export const OpphevReservasjonModal: FunctionComponent<OwnProps> = ({ showModal,
 				// eslint-disable-next-line @typescript-eslint/no-empty-function
 				setTimeout(() => {}, 1000);
 				queryClient.invalidateQueries([apiPaths.saksbehandlerReservasjoner]);
+				queryClient.invalidateQueries([apiPaths.avdelinglederReservasjoner]);
 				cancel();
 			}),
 		[JSON.stringify(oppgaveNøkkel)],

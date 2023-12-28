@@ -28,7 +28,6 @@ import DagensTallPanel from 'avdelingsleder/dagensTall/DagensTallPanel';
 import ApneBehandlinger from 'avdelingsleder/dagensTall/apneBehandlingerTsType';
 import NokkeltallIndex from 'avdelingsleder/nokkeltall/NokkeltallIndex';
 import PrognoseIndex from 'avdelingsleder/prognose/PrognoseIndex';
-import ReservasjonerIndex from 'avdelingsleder/reservasjoner/ReservasjonerIndex';
 import Image from 'sharedComponents/Image';
 import LoadingPanel from 'sharedComponents/LoadingPanel';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
@@ -42,6 +41,7 @@ import SaksbehandlereTabell from './bemanning/components/SaksbehandlereTabell';
 import AvdelingslederDashboard from './components/AvdelingslederDashboard';
 import IkkeTilgangTilAvdelingslederPanel from './components/IkkeTilgangTilAvdelingslederPanel';
 import { AvdelingslederContext, AvdelingslederContextState } from './context';
+import ReservasjonerTabell from './reservasjoner/components/ReservasjonerTabell';
 
 const classNames = classnames.bind(styles);
 
@@ -56,7 +56,7 @@ const renderAvdelingslederPanel = (avdelingslederPanel) => {
 		case AvdelingslederPanels.PROGNOSE:
 			return <PrognoseIndex />;
 		case AvdelingslederPanels.RESERVASJONER:
-			return <ReservasjonerIndex />;
+			return <ReservasjonerTabell />;
 		case AvdelingslederPanels.SAKSBEHANDLERE:
 			return <SaksbehandlereTabell />;
 		default:
