@@ -81,6 +81,7 @@ export const FlyttReservasjonModal: FunctionComponent<OwnProps> = ({
 			return endreOppgaveReservasjon(params).then(() => {
 				closeModal();
 				queryClient.invalidateQueries(apiPaths.saksbehandlerReservasjoner);
+				queryClient.invalidateQueries(apiPaths.avdelinglederReservasjoner);
 			});
 		},
 		[queryClient],
