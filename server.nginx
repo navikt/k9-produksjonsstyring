@@ -40,6 +40,10 @@ server {
     location = /login {
       proxy_pass "http://k9-los-oidc-auth-proxy/login";
     }
+    
+    location = /logout {
+      proxy_pass "http://k9-los-oidc-auth-proxy/logout";
+    }
 
     location = /oidc/callback {
       proxy_pass "http://k9-los-oidc-auth-proxy/oidc/callback";

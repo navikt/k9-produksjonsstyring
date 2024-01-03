@@ -107,7 +107,7 @@ const HeaderWithErrorPanel: FunctionComponent<OwnProps> = ({ queryStrings, crash
 	};
 
 	const loggUt = () => {
-		window.location.assign('https://k9-los-oidc-auth-proxy.dev.intern.nav.no/logout');
+		window.location.assign('/logout');
 		setTimeout(() => {
 			goToHomepage();
 		}, 1000);
