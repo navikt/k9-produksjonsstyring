@@ -34,9 +34,7 @@ const AppConfigResolver: FunctionComponent<OwnProps> = ({ children }) => {
 	});
 
 	if (stateNavAnsatt === RestApiState.ERROR) {
-		window.location.assign(
-			'https://k9-los-oidc-auth-proxy.dev.intern.nav.no/login?redirect_uri=https://k9-los-web.dev.adeo.no/',
-		);
+		window.location.assign('/login');
 	}
 
 	if (

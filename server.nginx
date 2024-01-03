@@ -37,6 +37,11 @@ server {
   }
 
 
+    location = /login {
+      proxy_pass "http://k9-los-oidc-auth-proxy/login";
+    }
+
+
     location /api/ {
       proxy_pass "${K9_LOS_API_URL}/";
     }
