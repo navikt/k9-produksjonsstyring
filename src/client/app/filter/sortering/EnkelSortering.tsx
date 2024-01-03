@@ -1,7 +1,7 @@
 import React, { useContext, useMemo, useState } from 'react';
 import { useMutation } from 'react-query';
 import { ArrowsCirclepathIcon } from '@navikt/aksel-icons';
-import { Button, Select, Skeleton } from '@navikt/ds-react';
+import { Button, Label, Select, Skeleton } from '@navikt/ds-react';
 import apiPaths from 'api/apiPaths';
 import { FilterContext } from 'filter/FilterContext';
 import { OppgaveQuery, Oppgaverad } from 'filter/filterTsTypes';
@@ -47,7 +47,9 @@ const EnkelSortering = () => {
 				</Select>
 			</div>
 			<div className="flex flex-col m-auto">
-				<span>Antall oppgaver: {isLoading ? <Skeleton className="inline-block w-12" /> : antallOppgaver}</span>
+				<Label size="small">
+					Antall oppgaver: {isLoading ? <Skeleton className="inline-block w-12" /> : antallOppgaver}
+				</Label>
 				<Button
 					variant="tertiary"
 					icon={<ArrowsCirclepathIcon aria-hidden className={`${isLoading ? 'animate-spin' : ' '}`} />}
