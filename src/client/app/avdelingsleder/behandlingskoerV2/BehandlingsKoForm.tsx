@@ -159,7 +159,7 @@ const BehandlingsKoForm = ({ kø, lukk, ekspandert, id }: BehandlingsKoFormProps
 					Køen er nå lagret!
 				</Alert>
 			)}
-			<div id={id} className="mt-8 flex gap-4">
+			<div id={id} className="my-8 flex gap-4">
 				<Button
 					type="button"
 					onClick={async () => {
