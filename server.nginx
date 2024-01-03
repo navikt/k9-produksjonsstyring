@@ -2,13 +2,14 @@ log_format detailed '$remote_addr - $remote_user [$time_local] '
                     '"$request" $status $body_bytes_sent '
                     '"$http_referer" "$http_user_agent" '
                     'Cookie: "$http_cookie" '
-                    'Set-Cookie: "$sent_http_set_cookie"'
-                    'Www-Authenticate: "$sent_http_www_authenticate"';
+                    'Set-Cookie: "$sent_http_set_cookie" '
+                    'Www-Authenticate: "$sent_http_www_authenticate" '
+                    'Proxy-Pass: "${K9_LOS_API_URL}$request_uri"';
 
 map $status $loggable {
-    ~^401 1;
-    default 0;
+    default 1;
 }
+  error_log /dev/stderr debug;
 
 server {
   listen       8030;
@@ -35,15 +36,10 @@ server {
     return 504 '{"feilmelding":"Timet ut","type":"GENERELL_FEIL"}';
   }
 
-   location  "/api/" {
-    proxy_pass "${K9_LOS_API_URL}/";
-    proxy_set_header Host $host;
-    proxy_set_header X-Real-IP $remote_addr;
-    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-    proxy_set_header X-Forwarded-Proto $scheme;
-    proxy_set_header Nav-Callid $http_nav_callid;
-    proxy_pass_header Set-Cookie;
-  }
+
+    location /api/ {
+      proxy_pass "${K9_LOS_API_URL}/";
+    }
 
   location / {
     add_header              X-Application-Id "${APP_NAME}, pod=${APP_HOSTNAME}"; 
@@ -77,7 +73,6 @@ server {
     add_header Content-Type text/plain;
   }
 
-  error_log /dev/stdout info;
   charset utf-8;
 
   client_body_buffer_size 20M; # Default er satt veldig lavt. Får problemer med enkelte dokument queries.
