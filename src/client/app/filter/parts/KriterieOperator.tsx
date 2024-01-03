@@ -21,8 +21,8 @@ function KriterieOperator({ oppgavefilter }) {
 	const operatorDisplayMap = {
 		[OPERATORS.EQUALS]: 'er lik',
 		[OPERATORS.NOT_EQUALS]: 'er IKKE lik',
-		[OPERATORS.IN]: 'Inkluder',
-		[OPERATORS.NOT_IN]: 'Ekskluder',
+		[OPERATORS.IN]: 'inkluder',
+		[OPERATORS.NOT_IN]: 'ekskluder',
 		[OPERATORS.LESS_THAN]: 'mindre enn (<)',
 		[OPERATORS.GREATER_THAN]: 'større enn (>)',
 		[OPERATORS.LESS_THAN_OR_EQUALS]:
