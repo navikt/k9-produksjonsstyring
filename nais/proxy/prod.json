@@ -1,13 +1,12 @@
 {
-    "azureTenant": "nav.no",
-    "oidcAuthProxyImage": "ghcr.io/navikt/oidc-auth-proxy:3.2023.09.04-624826e",
-    "ingresses": [
-        "https://k9-los-oidc-auth-proxy.intern.nav.no"
-    ],
-    "k9LosApiScopes": "api://prod-fss.k9saksbehandling.k9-los-api/.default",
-    "env": {
-        "LOGIN_SCOPES": "value:openid profile api://prod-fss.k9saksbehandling.k9-los-oidc-auth-proxy/.default",
-        "OIDC_AUTH_PROXY_BASE_URL": "value:https://k9-los-oidc-auth-proxy.intern.nav.no",
-        "APPLICATION_BASE_URL": "value:https://k9-los-web.nais.adeo.no"
-    }
+	"azureTenant": "nav.no",
+	"oidcAuthProxyImage": "ghcr.io/navikt/oidc-auth-proxy:3.2023.09.04-624826e",
+	"ingresses": ["https://k9-los-oidc-auth-proxy.intern.nav.no"],
+	"k9LosApiScopes": "api://prod-fss.k9saksbehandling.k9-los-api/.default",
+	"replyUrl": "https://k9-los-web.adeo.no/oidc/callback",
+	"env": {
+		"LOGIN_SCOPES": "value:openid profile api://prod-fss.k9saksbehandling.k9-los-oidc-auth-proxy/.default",
+		"OIDC_AUTH_PROXY_BASE_URL": "value:https://k9-los-web.nais.adeo.no",
+		"APPLICATION_BASE_URL": "value:https://k9-los-web.nais.adeo.no"
+	}
 }

@@ -14,10 +14,7 @@ spec:
       enabled: true
       tenant: {{azureTenant}}
       replyURLs:
-        - https://k9-los-web.dev.adeo.no/oidc/callback
-      {{#each ingresses as |url|}}
-        - {{url}}/oidc/callback
-      {{/each}}
+        - {{replyURL}}
   liveness:
     path: isalive
     initialDelay: 20
