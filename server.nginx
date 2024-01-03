@@ -1,16 +1,3 @@
-log_format detailed '$remote_addr - $remote_user [$time_local] '
-                    '"$request" $status $body_bytes_sent '
-                    '"$http_referer" "$http_user_agent" '
-                    'Cookie: "$http_cookie" '
-                    'Set-Cookie: "$sent_http_set_cookie" '
-                    'Www-Authenticate: "$sent_http_www_authenticate" '
-                    'Proxy-Pass: "${K9_LOS_API_URL}$request_uri"';
-
-map $status $loggable {
-    default 1;
-}
-  error_log /dev/stderr debug;
-
 server {
   listen       8030;
   server_name  "${APP_HOSTNAME}";
@@ -40,7 +27,7 @@ server {
     location = /login {
       proxy_pass "http://k9-los-oidc-auth-proxy/login";
     }
-    
+
     location = /logout {
       proxy_pass "http://k9-los-oidc-auth-proxy/logout";
     }
@@ -85,6 +72,7 @@ server {
     add_header Content-Type text/plain;
   }
 
+  error_log /dev/stdout info;
   charset utf-8;
 
   client_body_buffer_size 20M; # Default er satt veldig lavt. Får problemer med enkelte dokument queries.
