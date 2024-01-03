@@ -30,7 +30,7 @@ const Kriterie: React.FC<Props> = ({ oppgavefilter, paakrevdeKoder = [] }) => {
 
 	const kriterieErPåkrevd = paakrevdeKoder.some((v) => v === feltdefinisjon?.kode);
 	return (
-		<div id={`feltpanel-${testID}`} className="flex items-center gap-4 rounded bg-surface-selected py-4 pl-3 pr-1">
+		<div id={`feltpanel-${testID}`} className="flex items-center gap-4 rounded bg-surface-selected p-4">
 			<Label size="small" className="min-w-[10rem] w-[10rem]">
 				{feltdefinisjon?.visningsnavn}:
 			</Label>
@@ -46,7 +46,7 @@ const Kriterie: React.FC<Props> = ({ oppgavefilter, paakrevdeKoder = [] }) => {
 			)}
 			{!kriterieErPåkrevd && (
 				<Button
-					className="ml-auto"
+					className="ml-auto "
 					icon={<Delete aria-hidden />}
 					size="small"
 					variant="tertiary"
