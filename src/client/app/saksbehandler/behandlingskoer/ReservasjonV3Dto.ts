@@ -10,6 +10,15 @@ interface ReservasjonV3 {
 	reservertTil?: Date;
 }
 
+export interface ReservasjonV3FraKøDto {
+	reservertOppgaveEksternId: string;
+	reservasjonsnøkkel: string;
+	oppgavebehandlingsUrl: string;
+	reservertAv: string;
+	reservertFra: Date;
+	reservertTil: Date;
+}
+
 export type MappedReservasjon = (Oppgave | OppgaveV3) &
 	Pick<ReservasjonV3, 'reservertAv' | 'kommentar' | 'reservertFra' | 'reservertTil'>;
 

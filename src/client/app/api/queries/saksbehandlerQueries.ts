@@ -3,7 +3,7 @@ import OppgaveV3 from 'types/OppgaveV3';
 import { OppgavekøV3Enkel, OppgavekøerV3 } from 'types/OppgavekøV3Type';
 import apiPaths from 'api/apiPaths';
 import { baseURL } from 'api/rest-api/src/axios/initRestMethods';
-import ReservasjonV3 from 'saksbehandler/behandlingskoer/ReservasjonV3Dto';
+import ReservasjonV3, { ReservasjonV3FraKøDto } from 'saksbehandler/behandlingskoer/ReservasjonV3Dto';
 import { OppgavekøV1 } from 'saksbehandler/behandlingskoer/oppgavekoTsType';
 import Oppgave from 'saksbehandler/oppgaveTsType';
 import { axiosInstance } from 'utils/reactQueryConfig';
@@ -40,15 +40,15 @@ export const useSaksbehandlerReservasjoner = (options = {}) =>
 		...options,
 	});
 
-export const usePlukkOppgaveMutation = (callback?: (oppgave: OppgaveV3) => void) => {
+export const usePlukkOppgaveMutation = (callback?: (oppgave: ReservasjonV3FraKøDto) => void) => {
 	const queryClient = useQueryClient();
 
 	return useMutation({
-		mutationFn: (data: { oppgaveKøId: string }): Promise<OppgaveV3> =>
+		mutationFn: (data: { oppgaveKøId: string }): Promise<ReservasjonV3FraKøDto> =>
 			axiosInstance
 				.post(`${baseURL()}${apiPaths.hentOppgaveFraKoV3(data.oppgaveKøId)}`, data)
 				.then((response) => response.data),
-		onSuccess: (data: OppgaveV3) => {
+		onSuccess: (data: ReservasjonV3FraKøDto) => {
 			Promise.all([queryClient.invalidateQueries(apiPaths.saksbehandlerReservasjoner)]).then(() => {
 				if (callback) callback(data);
 			});

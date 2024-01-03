@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl';
 import NavFrontendChevron from 'nav-frontend-chevron';
 import { Element, Undertittel } from 'nav-frontend-typografi';
 import { K9LosApiKeys } from 'api/k9LosApi';
-import { usePlukkOppgaveMutation, useSaksbehandlerNesteTiV3 } from 'api/queries/saksbehandlerQueries';
+import { usePlukkOppgaveMutation } from 'api/queries/saksbehandlerQueries';
 import { useRestApiRunner } from 'api/rest-api-hooks';
 import BehandlingskoerContext from 'saksbehandler/BehandlingskoerContext';
 import ReserverteOppgaverTabell from 'saksbehandler/behandlingskoer/components/oppgavetabeller/ReserverteOppgaverTabell';
@@ -38,7 +38,7 @@ const OppgavekoPanel: FunctionComponent<OwnProps> = ({ apneOppgave }) => {
 	} = useRestApiRunner<Oppgave>(K9LosApiKeys.FÅ_OPPGAVE_FRA_KO);
 
 	const { mutate } = usePlukkOppgaveMutation((oppgave) => {
-		leggTilBehandletOppgave(oppgave);
+		leggTilBehandletOppgave({ eksternId: oppgave.reservertOppgaveEksternId });
 		window.location.assign(oppgave.oppgavebehandlingsUrl);
 	});
 

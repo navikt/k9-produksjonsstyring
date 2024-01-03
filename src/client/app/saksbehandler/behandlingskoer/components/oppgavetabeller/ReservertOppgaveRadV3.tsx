@@ -56,7 +56,7 @@ const ReservertOppgaveRadV3: React.ForwardRefExoticComponent<Props> = React.forw
 		const intl = useIntl();
 
 		const tilOppgave = () => {
-			leggTilBehandletOppgave(oppgave);
+			leggTilBehandletOppgave({ eksternId: oppgave.oppgaveNøkkel.oppgaveEksternId });
 			window.location.assign(oppgave.oppgavebehandlingsUrl);
 		};
 		return (

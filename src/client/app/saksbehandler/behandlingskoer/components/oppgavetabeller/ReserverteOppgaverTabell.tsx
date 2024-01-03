@@ -70,7 +70,7 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps> = ({ apneOppgave, gj
 	const ref = useRef({});
 
 	const goToFagsak = (oppgave: Oppgave) => {
-		leggTilBehandletOppgave(oppgave);
+		leggTilBehandletOppgave(oppgave.eksternId);
 		apneOppgave(oppgave);
 	};
 
