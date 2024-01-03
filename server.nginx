@@ -41,6 +41,9 @@ server {
       proxy_pass "http://k9-los-oidc-auth-proxy/login";
     }
 
+    location = /oidc/callback {
+      proxy_pass "http://k9-los-oidc-auth-proxy/oidc/callback";
+    }
 
     location /api/ {
       proxy_pass "${K9_LOS_API_URL}/";
