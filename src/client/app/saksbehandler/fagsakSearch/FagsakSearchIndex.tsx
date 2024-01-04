@@ -82,11 +82,11 @@ const FagsakSearchIndex: FunctionComponent<OwnProps> = ({ k9sakUrl, k9punsjUrl }
 		}
 
 		if (reserver && !kanReservere) {
-			leggTilBehandletOppgave(oppgave.eksternId);
+			leggTilBehandletOppgave(oppgave.oppgaveNøkkel);
 			goToFagsak(oppgave);
 		}
 		if (!reserver) {
-			leggTilBehandletOppgave(oppgave.eksternId);
+			leggTilBehandletOppgave(oppgave.oppgaveNøkkel);
 			goToFagsakEllerApneModal(oppgave);
 		} else if (reserver && kanReservere) {
 			reserverOppgave({ oppgaveId: oppgave.eksternId, oppgaveNøkkel: oppgave.oppgaveNøkkel }).then(
@@ -96,13 +96,13 @@ const FagsakSearchIndex: FunctionComponent<OwnProps> = ({ k9sakUrl, k9punsjUrl }
 						setValgtOppgaveStatus(nyOppgaveStatus);
 						setVisModalForFlyttReservasjon(true);
 					} else {
-						leggTilBehandletOppgave(oppgave.eksternId);
+						leggTilBehandletOppgave(oppgave.oppgaveNøkkel);
 						goToFagsak(oppgave);
 					}
 				},
 			);
 		} else if (!kanReservere) {
-			leggTilBehandletOppgave(oppgave.eksternId);
+			leggTilBehandletOppgave(oppgave.oppgaveNøkkel);
 			goToFagsak(oppgave);
 		}
 	};
@@ -120,7 +120,7 @@ const FagsakSearchIndex: FunctionComponent<OwnProps> = ({ k9sakUrl, k9punsjUrl }
 	const lukkErReservertModalOgApneOppgave = (oppgave: Oppgave) => {
 		setReservertOppgave(undefined);
 		setReservertAvAnnenSaksbehandler(false);
-		leggTilBehandletOppgave(oppgave.eksternId);
+		leggTilBehandletOppgave(oppgave.oppgaveNøkkel);
 		goToFagsak(oppgave);
 	};
 

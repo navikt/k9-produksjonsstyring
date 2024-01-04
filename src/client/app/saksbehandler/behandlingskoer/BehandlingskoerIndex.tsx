@@ -36,7 +36,7 @@ const BehandlingskoerIndex: FunctionComponent<OwnProps & WrappedComponentProps> 
 	const { startRequest: leggTilBehandletOppgave } = useRestApiRunner(K9LosApiKeys.LEGG_TIL_BEHANDLET_OPPGAVE);
 
 	const openFagsak = (oppgave: Oppgave) => {
-		leggTilBehandletOppgave(oppgave.eksternId);
+		leggTilBehandletOppgave(oppgave.oppgaveNøkkel);
 		switch (oppgave.system) {
 			case OppgaveSystem.PUNSJ:
 				window.location.assign(getK9punsjRef(k9punsjUrl, oppgave.journalpostId));
