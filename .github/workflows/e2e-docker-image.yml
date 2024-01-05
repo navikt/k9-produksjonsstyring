@@ -22,13 +22,13 @@ jobs:
       issues: write
       packages: write
     steps:
-      - name: Hente kode
-        uses: actions/checkout@v4
-      - uses: navikt/github-app-token-generator@v1
-        id: get-token
-        with:
-          private-key: ${{ secrets.K9SAKSBEHANDLING_PRIVATE_KEY }}
-          app-id: ${{ secrets.K9SAKSBEHANDLING_APP_ID }}
+      #- name: Hente kode
+      #  uses: actions/checkout@v4
+      #- uses: navikt/github-app-token-generator@v1
+      #  id: get-token
+      #  with:
+      #    private-key: ${{ secrets.K9SAKSBEHANDLING_PRIVATE_KEY }}
+      #    app-id: ${{ secrets.K9SAKSBEHANDLING_APP_ID }}
       - name: Sette Docker-navn og -tag
         run: |
           echo "TAG=$(date +"%Y%m%d%H%M%S")-$(echo $GITHUB_SHA | cut -c1-7)" >> $GITHUB_ENV
@@ -45,16 +45,16 @@ jobs:
           docker push ${IMAGE}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Trigger verdikjede test
-        if: success()
-        shell: bash
-        run: |
-          curl -XPOST -u "x-access-token:${{ steps.get-token.outputs.token }}" \
-          -H "Accept: application/vnd.github.v3+json" \
-          https://api.github.com/repos/navikt/k9-verdikjede/actions/workflows/build.yml/dispatches \
-          -d '{"ref":"master",
-                  "inputs":{
-                      "trigger": "${{ github.repository }}",
-                      "version": "${{ env.TAG }}",
-                      "issue_number": "${{ steps.createdeployissue.outputs.number }}"
-                  }}'
+     # - name: Trigger verdikjede test
+     #   if: success()
+     #   shell: bash
+     #   run: |
+     #     curl -XPOST -u "x-access-token:${{ steps.get-token.outputs.token }}" \
+     #     -H "Accept: application/vnd.github.v3+json" \
+     #     https://api.github.com/repos/navikt/k9-verdikjede/actions/workflows/build.yml/dispatches \
+     #     -d '{"ref":"master",
+     #             "inputs":{
+     #                 "trigger": "${{ github.repository }}",
+     #                 "version": "${{ env.TAG }}",
+     #                 "issue_number": "${{ steps.createdeployissue.outputs.number }}"
+     #             }}'
