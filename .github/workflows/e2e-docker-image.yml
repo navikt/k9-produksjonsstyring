@@ -14,8 +14,8 @@ jobs:
       issues: write
       packages: write
     steps:
-      #- name: Hente kode
-      #  uses: actions/checkout@v4
+      - name: Hente kode
+        uses: actions/checkout@v4
       #- uses: navikt/github-app-token-generator@v1
       #  id: get-token
       #  with:
