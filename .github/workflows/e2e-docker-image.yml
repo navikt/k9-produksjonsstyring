@@ -29,26 +29,21 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - name: ls repo
+      #- name: Bygg og laste opp docker-image
+      #  run: |
+      #    docker build --pull --tag ${IMAGE} --tag ${IMAGE_BASE}:latest ./e2e
+      #    docker push ${IMAGE_BASE}:latest
+      #    docker push ${IMAGE}
+      #  env:
+      #    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Trigger verdikjede test
+        if: success()
+        shell: bash
         run: |
-          ls
-      - name: Bygg og laste opp docker-image
-        run: |
-          docker build --pull --tag ${IMAGE} --tag ${IMAGE_BASE}:latest ./e2e
-          docker push ${IMAGE_BASE}:latest
-          docker push ${IMAGE}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-     # - name: Trigger verdikjede test
-     #   if: success()
-     #   shell: bash
-     #   run: |
-     #     curl -XPOST -u "x-access-token:${{ steps.get-token.outputs.token }}" \
-     #     -H "Accept: application/vnd.github.v3+json" \
-     #     https://api.github.com/repos/navikt/k9-verdikjede/actions/workflows/build.yml/dispatches \
-     #     -d '{"ref":"master",
-     #             "inputs":{
-     #                 "trigger": "${{ github.repository }}",
-     #                 "version": "${{ env.TAG }}",
-     #                 "issue_number": "${{ steps.createdeployissue.outputs.number }}"
-     #             }}'
+          curl -XPOST -u "x-access-token:${{ secrets.READER_TOKEN }}" \
+          -H "Accept: application/vnd.github.v3+json" \
+          https://api.github.com/repos/navikt/k9-verdikjede/actions/workflows/build.yml/dispatches \
+          -d '{"ref":"master",
+                  "inputs":{
+                      "trigger": "${{ github.repository }}",
+                  }}'
