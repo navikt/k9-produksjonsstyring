@@ -1,8 +1,6 @@
 name: Deploy k9-los-web-e2e docker image
 on:
   push:
-    paths:
-      - 'e2e/**'
     branches:
       - k9-los-web-inn-i-verdikjede
 env:
@@ -32,10 +30,12 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+      - name: ls repo
+        run: |
+          ls
       - name: Bygg og laste opp docker-image
         run: |
           docker build --pull --tag ${IMAGE} --tag ${IMAGE_BASE}:latest ./e2e
-          echo "ls"
           docker push ${IMAGE_BASE}:latest
           docker push ${IMAGE}
         env:
