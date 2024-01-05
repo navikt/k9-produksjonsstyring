@@ -37,6 +37,8 @@ jobs:
           docker build --pull --tag ${IMAGE} --tag ${IMAGE_BASE}:latest ./e2e
           docker push ${IMAGE_BASE}:latest
           docker push ${IMAGE}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
      # - name: Trigger verdikjede test
      #   if: success()
      #   shell: bash
