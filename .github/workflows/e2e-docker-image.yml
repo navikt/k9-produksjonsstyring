@@ -1,0 +1,60 @@
+name: Deploy k9-los-web-e2e docker image
+on:
+  push:
+    paths:
+      - 'e2e/**'
+    branches:
+      - k9-los-web-inn-i-verdikjede
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Branch to run the workflow on'
+        required: true
+        default: 'k9-los-web-inn-i-verdikjede'
+env:
+  IMAGE_BASE: ghcr.io/navikt/k9-los-web-e2e
+jobs:
+  deploy-docker-image:
+    name: Deploy Docker image
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+      packages: write
+    steps:
+      - name: Hente kode
+        uses: actions/checkout@v4
+      - uses: navikt/github-app-token-generator@v1
+        id: get-token
+        with:
+          private-key: ${{ secrets.K9SAKSBEHANDLING_PRIVATE_KEY }}
+          app-id: ${{ secrets.K9SAKSBEHANDLING_APP_ID }}
+      - name: Sette Docker-navn og -tag
+        run: |
+          echo "TAG=$(date +"%Y%m%d%H%M%S")-$(echo $GITHUB_SHA | cut -c1-7)" >> $GITHUB_ENV
+          echo "IMAGE=$IMAGE_BASE:$(date +"%Y%m%d%H%M%S")-$(echo $GITHUB_SHA | cut -c1-7)">> $GITHUB_ENV
+      - uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Bygg og laste opp docker-image
+        run: |
+          docker build --pull --tag ${IMAGE} --tag ${IMAGE_BASE}:latest ./e2e
+          docker push ${IMAGE_BASE}:latest
+          docker push ${IMAGE}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Trigger verdikjede test
+        if: success()
+        shell: bash
+        run: |
+          curl -XPOST -u "x-access-token:${{ steps.get-token.outputs.token }}" \
+          -H "Accept: application/vnd.github.v3+json" \
+          https://api.github.com/repos/navikt/k9-verdikjede/actions/workflows/build.yml/dispatches \
+          -d '{"ref":"master",
+                  "inputs":{
+                      "trigger": "${{ github.repository }}",
+                      "version": "${{ env.TAG }}",
+                      "issue_number": "${{ steps.createdeployissue.outputs.number }}"
+                  }}'
