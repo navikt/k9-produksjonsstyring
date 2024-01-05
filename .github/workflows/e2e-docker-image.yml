@@ -5,11 +5,6 @@ on:
       - 'e2e/**'
     branches:
       - k9-los-web-inn-i-verdikjede
-  workflow_dispatch:
-    inputs:
-      branch:
-        description: 'Branch to run the workflow on'
-        required: true
 env:
   IMAGE_BASE: ghcr.io/navikt/k9-los-web-e2e
 jobs:
@@ -39,7 +34,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Bygg og laste opp docker-image
         run: |
-          docker build --pull --tag ${IMAGE} --tag ${IMAGE_BASE}:latest e2e
+          docker build --pull --tag ${IMAGE} --tag ${IMAGE_BASE}:latest ./e2e
           docker push ${IMAGE_BASE}:latest
           docker push ${IMAGE}
         env:
