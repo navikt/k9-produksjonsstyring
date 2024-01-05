@@ -28,14 +28,12 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-      #- name: Bygg og laste opp docker-image
-      #  run: |
-      #    docker build --pull --tag ${IMAGE} --tag ${IMAGE_BASE}:latest ./e2e
-      #    docker push ${IMAGE_BASE}:latest
-      #    docker push ${IMAGE}
-      #  env:
-      #    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          password: ${{ secrets.READER_TOKEN }}
+      - name: Bygg og laste opp docker-image
+        run: |
+          docker build --pull --tag ${IMAGE} --tag ${IMAGE_BASE}:latest ./e2e
+          docker push ${IMAGE_BASE}:latest
+          docker push ${IMAGE}
       - name: Trigger verdikjede test
         if: success()
         shell: bash
