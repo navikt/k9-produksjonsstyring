@@ -11,10 +11,6 @@ const envVariables = () => [
 		key: 'AVDELINGSLEDER_TILGANG_TIL_NYE_KOER',
 		value: process.env.AVDELINGSLEDER_TILGANG_TIL_NYE_KOER,
 	},
-	{
-		key: 'VERDIKJEDE',
-		value: process.env.VERDIKJEDE,
-	},
 ];
 
 export default envVariables;

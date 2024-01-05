@@ -28,7 +28,7 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
-          password: ${{ secrets.READER_TOKEN }}
+          password: ${{ secrets.GITHUB_TOKEN }}
       - name: Bygg og laste opp docker-image
         run: |
           docker build --pull --tag ${IMAGE} --tag ${IMAGE_BASE}:latest ./e2e

@@ -23,22 +23,21 @@ server {
     return 504 '{"feilmelding":"Timet ut","type":"GENERELL_FEIL"}';
   }
 
+  location = /login {
+    proxy_pass "http://k9-los-oidc-auth-proxy/login";
+  }
 
-    location = /login {
-      proxy_pass "http://k9-los-oidc-auth-proxy/login";
-    }
+  location = /logout {
+    proxy_pass "http://k9-los-oidc-auth-proxy/logout";
+  }
 
-    location = /logout {
-      proxy_pass "http://k9-los-oidc-auth-proxy/logout";
-    }
+  location = /oidc/callback {
+    proxy_pass "http://k9-los-oidc-auth-proxy/oidc/callback";
+  }
 
-    location = /oidc/callback {
-      proxy_pass "http://k9-los-oidc-auth-proxy/oidc/callback";
-    }
-
-    location /api/ {
-      proxy_pass "${K9_LOS_API_URL}/";
-    }
+  location /api/ {
+    proxy_pass "${K9_LOS_API_URL}/";
+  }
 
   location / {
     add_header              X-Application-Id "${APP_NAME}, pod=${APP_HOSTNAME}"; 
