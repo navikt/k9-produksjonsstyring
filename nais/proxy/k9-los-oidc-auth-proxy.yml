@@ -14,7 +14,7 @@ spec:
       enabled: true
       tenant: {{azureTenant}}
       replyURLs:
-        - {{replyURL}}
+        {{replyURL}}
   liveness:
     path: isalive
     initialDelay: 20
