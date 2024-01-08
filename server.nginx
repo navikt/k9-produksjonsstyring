@@ -24,15 +24,15 @@ server {
   }
 
   location = /login {
-    proxy_pass "http://k9-los-oidc-auth-proxy/login";
+    proxy_pass "${AUTH_PROXY_BASE_URL}/login";
   }
 
   location = /logout {
-    proxy_pass "http://k9-los-oidc-auth-proxy/logout";
+    proxy_pass "${AUTH_PROXY_BASE_URL}/logout";
   }
 
   location = /oidc/callback {
-    proxy_pass "http://k9-los-oidc-auth-proxy/oidc/callback";
+    proxy_pass "${AUTH_PROXY_BASE_URL}/oidc/callback";
   }
 
   location /api/ {
