@@ -31,7 +31,7 @@ jobs:
             team: k9saksbehandling
             pull: true
             dockerfile: Dockerfile 
-            docker_context: "/e2e"
+            docker_context: "./e2e"
             image_suffix: "-e2e"
             project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
             identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }} 
