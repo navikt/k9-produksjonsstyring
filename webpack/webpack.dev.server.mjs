@@ -13,6 +13,12 @@ const options = {
 		directory: 'src/client',
 		watch: true,
 	},
+	proxy: {
+		'/api': {
+			target: 'http://localhost:8020',
+			secure: false,
+		},
+	},
 	historyApiFallback: true,
 	devMiddleware: {
 		publicPath: config.output.publicPath,

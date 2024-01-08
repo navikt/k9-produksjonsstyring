@@ -30,9 +30,9 @@ jobs:
             tag: ${{ env.IMAGE }}
             team: k9saksbehandling
             pull: true
-            dockerfile: Dockerfile 
+            dockerfile: ./e2e/Dockerfile 
             docker_context: "./e2e"
-            image_suffix: "-e2e"
+            image_suffix: "e2e"
             project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
             identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }} 
       - name: Trigger verdikjede test
