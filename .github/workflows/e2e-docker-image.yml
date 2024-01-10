@@ -1,4 +1,4 @@
-name: Deploy k9-los-web-e2e docker image
+name: Last opp Docker image
 on:
   push:
     branches:
@@ -6,7 +6,7 @@ on:
 env:
   IMAGE_BASE: ghcr.io/navikt/k9-los-web-e2e
 jobs:
-  deploy-docker-image:
+  push-docker-image:
     name: Deploy Docker image
     runs-on: ubuntu-latest
     permissions:
@@ -35,14 +35,17 @@ jobs:
           image_suffix: 'e2e'
           project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
           identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
-      - name: Trigger verdikjede test
-        if: success()
-        shell: bash
+  trigger-test:
+    name: Trigger verdikjede test
+    needs: [push-docker-image]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger test
         run: |
           curl -L \
           -X POST \
+          -u "x-access-token:${{secrets.GH_ACCESS_TOKEN}}" \
           -H "Accept: application/vnd.github+json" \
-          -H "Authorization: Bearer ${{secrets.READER_TOKEN}}" \
             https://api.github.com/repos/navikt/k9-verdikjede/actions/workflows/build.yml/dispatches \
             -d '{"ref":"master",
                     "inputs":{
