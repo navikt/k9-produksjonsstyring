@@ -3,6 +3,7 @@ import { useIntl } from 'react-intl';
 import { useQuery } from 'react-query';
 import { Loader } from '@navikt/ds-react';
 import { Error } from 'app/errorTsType';
+import apiPaths from 'api/apiPaths';
 import GrafContainer from 'avdelingsleder/GrafContainer';
 import AksjonspunkterPerEnhetType from 'avdelingsleder/nokkeltall/AksjonspunkterPerEnhetType';
 import { ALLE_YTELSETYPER_VALGT, UKE_2 } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
@@ -16,7 +17,7 @@ const AksjonspunkterPerEnhetPanel: FunctionComponent = () => {
 		isLoading,
 		error,
 	}: { data: AksjonspunkterPerEnhetType[]; isLoading: boolean; error: Error } = useQuery(
-		'/avdelingsleder/nokkeltall/aksjonspunkter-per-enhet-historikk',
+		apiPaths.aksjonspunkterPerEnhet,
 	);
 
 	const [valgtYtelseType, setValgtYtelseType] = useState<string>(
