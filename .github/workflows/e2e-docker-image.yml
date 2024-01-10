@@ -27,22 +27,24 @@ jobs:
       - uses: nais/docker-build-push@v0
         id: docker-push
         with:
-            tag: "latest"
-            team: k9saksbehandling
-            pull: true
-            dockerfile: ./e2e/Dockerfile 
-            docker_context: "./e2e"
-            image_suffix: "e2e"
-            project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
-            identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }} 
+          tag: 'latest'
+          team: k9saksbehandling
+          pull: true
+          dockerfile: ./e2e/Dockerfile
+          docker_context: './e2e'
+          image_suffix: 'e2e'
+          project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
+          identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
       - name: Trigger verdikjede test
         if: success()
         shell: bash
         run: |
-          curl -XPOST -u "x-access-token:${{ secrets.READER_TOKEN }}" \
-          -H "Accept: application/vnd.github.v3+json" \
-          https://api.github.com/repos/navikt/k9-verdikjede/actions/workflows/build.yml/dispatches \
-          -d '{"ref":"master",
-                  "inputs":{
-                      "trigger": "${{ github.repository }}",
-                  }}'
+          curl -L \
+          -X POST \
+          -H "Accept: application/vnd.github+json" \
+          -H "Authorization: Bearer ${{secrets.READER_TOKEN}}" \
+            https://api.github.com/repos/navikt/k9-verdikjede/actions/workflows/build.yml/dispatches \
+            -d '{"ref":"master",
+                    "inputs":{
+                        "trigger": "${{ github.repository }}",
+                    }}'
