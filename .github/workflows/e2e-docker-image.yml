@@ -42,7 +42,7 @@ jobs:
     steps:
       - name: Trigger test
         run: |
-          -L \
+          curl -L \
           -X POST \
           -H "Accept: application/vnd.github+json" \
           -H "Authorization: Bearer ${{secrets.GH_SSO_REPO_TOKEN}}" \
