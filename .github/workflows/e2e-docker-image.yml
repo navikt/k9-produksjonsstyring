@@ -1,4 +1,4 @@
-name: Last opp Docker image
+name: Last opp Docker image e2e
 on:
   push:
     branches:
