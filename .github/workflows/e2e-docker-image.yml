@@ -16,11 +16,6 @@ jobs:
     steps:
       - name: Hente kode
         uses: actions/checkout@v4
-      #- uses: navikt/github-app-token-generator@v1
-      #  id: get-token
-      #  with:
-      #    private-key: ${{ secrets.K9SAKSBEHANDLING_PRIVATE_KEY }}
-      #    app-id: ${{ secrets.K9SAKSBEHANDLING_APP_ID }}
       - name: Sette Docker-navn og -tag
         run: |
           echo "IMAGE=$IMAGE_BASE:$(date +"%Y%m%d%H%M%S")-$(echo $GITHUB_SHA | cut -c1-7)">> $GITHUB_ENV
