@@ -42,7 +42,7 @@ jobs:
     steps:
       - name: Trigger test
         run: |
-          curl -XPOST -u "x-access-token:${{secrets.GH_ACCESS_TOKEN}}" \
+          curl -XPOST -u "x-access-token:${{secrets.GH_TOKEN}}" \
           -H "Accept: application/vnd.github.v3+json" \
           https://api.github.com/repos/navikt/k9-verdikjede/actions/workflows/build.yml/dispatches \
           -d '{"ref":"master",
