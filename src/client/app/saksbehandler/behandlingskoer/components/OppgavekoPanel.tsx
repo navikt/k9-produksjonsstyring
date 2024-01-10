@@ -38,7 +38,7 @@ const OppgavekoPanel: FunctionComponent<OwnProps> = ({ apneOppgave }) => {
 	} = useRestApiRunner<Oppgave>(K9LosApiKeys.FÅ_OPPGAVE_FRA_KO);
 
 	const { mutate } = usePlukkOppgaveMutation((oppgave) => {
-		leggTilBehandletOppgave({ eksternId: oppgave.reservertOppgaveEksternId });
+		leggTilBehandletOppgave({ eksternId: oppgave.oppgaveNøkkelDto });
 		window.location.assign(oppgave.oppgavebehandlingsUrl);
 	});
 

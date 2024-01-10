@@ -1,5 +1,6 @@
 import OppgaveV3 from 'types/OppgaveV3';
 import Oppgave from 'saksbehandler/oppgaveTsType';
+import { OppgaveNøkkel } from 'types/OppgaveNøkkel';
 
 interface ReservasjonV3 {
 	reserverteV3Oppgaver: OppgaveV3[];
@@ -11,7 +12,7 @@ interface ReservasjonV3 {
 }
 
 export interface ReservasjonV3FraKøDto {
-	reservertOppgaveEksternId: string;
+	oppgaveNøkkelDto: OppgaveNøkkel;
 	reservasjonsnøkkel: string;
 	oppgavebehandlingsUrl: string;
 	reservertAv: string;
