@@ -2,7 +2,7 @@ name: Last opp Docker image e2e
 on:
   push:
     branches:
-      - master
+      - k9-los-web-inn-i-verdikjede
     paths:
       - 'e2e/**'
       - '.github/workflows/e2e-docker-image.yml'
