@@ -47,5 +47,5 @@ jobs:
           https://api.github.com/repos/navikt/k9-verdikjede/actions/workflows/build.yml/dispatches \
           -d '{"ref":"master",
                   "inputs":{
-                      "trigger": "navikt/k9-los-web",
+                      "trigger": "${{ github.repository }}"
                   }}'
