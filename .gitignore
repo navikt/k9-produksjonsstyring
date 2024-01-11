@@ -13,7 +13,7 @@
 # testing
 /coverage
 /target/
-/playwright-report
+**/playwright-report
 /test-results
 # production
 

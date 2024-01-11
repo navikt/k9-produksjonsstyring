@@ -3,10 +3,10 @@ FROM mcr.microsoft.com/playwright:v1.40.0-jammy
 WORKDIR /app
 COPY package*.json ./
 
-RUN npm ci
+RUN yarn install
 RUN npx playwright install --with-deps
 
 
 COPY . .
 
-ENTRYPOINT ["npm", "run", "test:e2e"]
+ENTRYPOINT ["yarn", "test:e2e"]
