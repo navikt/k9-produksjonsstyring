@@ -2,7 +2,6 @@ import { test } from '@playwright/test';
 
 test('kan nå google', async ({ page }) => {
 	await page.goto('https://google.com');
-	page.getByText('Google').isVisible();
 });
 
 test('has title', async ({ page }) => {
