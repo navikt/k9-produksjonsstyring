@@ -46,7 +46,7 @@ jobs:
           -H "Authorization: Bearer ${{secrets.GH_SSO_REPO_TOKEN}}" \
           -H "X-GitHub-Api-Version: 2022-11-28" \
           https://api.github.com/repos/navikt/k9-verdikjede/actions/workflows/build-los-test.yml/dispatches \
-          -d '{"ref":"master",
+          -d '{"ref":"LOS-e2e",
                   "inputs":{
                       "trigger": "${{ github.repository }}"
                   }}'
