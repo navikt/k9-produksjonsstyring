@@ -1,7 +1,7 @@
 import { test,  } from '@playwright/test';
 
 test('has title', async ({ page }) => {
-  await page.goto('http://localhost:8030/');
+  await page.goto('/');
   await page.getByRole('button', { name: 'Avdelingslederpanel' }).click();
   await page.getByRole('link', { name: 'Nye behandlingskøer' }).click();
   await page.getByRole('button', { name: 'Legg til ny behandlingskø' }).click();
