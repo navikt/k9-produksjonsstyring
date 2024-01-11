@@ -31,6 +31,7 @@ export default defineConfig({
 		trace: 'on-first-retry',
 	},
 
+	// serveren skal startes i k9-verdikjede
 	webServer: {
 		command: '',
 		reuseExistingServer: !!process.env.CI,
