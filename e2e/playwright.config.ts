@@ -31,7 +31,10 @@ export default defineConfig({
 		trace: 'on-first-retry',
 	},
 
-	/* Configure projects for major browsers */
+	webServer: {
+		command: '',
+		reuseExistingServer: !!process.env.CI,
+	},
 	projects: [
 		{
 			name: 'chromium',
