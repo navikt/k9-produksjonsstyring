@@ -52,6 +52,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
 							id={inputId}
 							autoComplete="off"
 							aria-describedby={descriptionId}
+							// eslint-disable-next-line max-len
 							className="navds-search__input navds-search__input--secondary navds-text-field__input navds-body-short navds-body--small min-h-[2rem] py-0"
 							onChange={onChange}
 							value={currentInput}

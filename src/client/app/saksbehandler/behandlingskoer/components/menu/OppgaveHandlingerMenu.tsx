@@ -22,9 +22,9 @@ const toggleEventListeners = (turnOnEventListeners, handleOutsideClick) => {
 interface OwnProps {
 	toggleMenu: (valgtOppgave: Oppgave) => void;
 	oppgave: Oppgave;
-	imageNode: any;
-	forlengOppgaveReservasjon: (oppgaveId: string) => Promise<Oppgave[]>;
-	hentReserverteOppgaver: (params: any, keepData: boolean) => void;
+	imageNode: HTMLElement | undefined;
+	forlengOppgaveReservasjon: (oppgaveId: string) => Promise<void>;
+	hentReserverteOppgaver: () => void;
 }
 
 const OppgaveHandlingerMenu: React.FC<OwnProps> = ({
@@ -42,8 +42,8 @@ const OppgaveHandlingerMenu: React.FC<OwnProps> = ({
 
 	const handleOutsideClick = (event: React.MouseEvent<HTMLButtonElement>) => {
 		if (event && event.target) {
-			const harKlikketMeny = node.current && node.current.contains(event.target);
-			const harKlikketIkon = imageNode && imageNode.contains(event.target);
+			const harKlikketMeny = node.current && node.current.contains(event.target as Node);
+			const harKlikketIkon = imageNode && imageNode.contains(event.target as Node);
 			if (harKlikketMeny || harKlikketIkon || showOpphevReservasjonModal || showFlyttReservasjonModal) {
 				return;
 			}
@@ -106,7 +106,6 @@ const OppgaveHandlingerMenu: React.FC<OwnProps> = ({
 					oppgaveSaksnummer={oppgave.saksnummer}
 					showModal={showOpphevReservasjonModal}
 					cancel={closeBegrunnelseModal}
-					toggleMenu={() => toggleMenu(oppgave)}
 					hentReserverteOppgaver={hentReserverteOppgaver}
 				/>
 			)}

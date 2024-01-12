@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useState } from 'react';
 import { Form } from 'react-final-form';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import { Knapp } from 'nav-frontend-knapper';
 import { Element } from 'nav-frontend-typografi';
 import { K9LosApiKeys } from 'api/k9LosApi';
@@ -35,7 +35,7 @@ export const LeggTilDriftsmeldingForm: FunctionComponent<OwnProps> = ({ hentAlle
 	return (
 		<Form
 			onSubmit={() => undefined}
-			render={({ submitting, handleSubmit, form, values }) => (
+			render={({ submitting, form, values }) => (
 				<div>
 					<Element>
 						<FormattedMessage id="LeggTilDriftsmeldingForm.LeggTil" />
@@ -73,4 +73,4 @@ export const LeggTilDriftsmeldingForm: FunctionComponent<OwnProps> = ({ hentAlle
 	);
 };
 
-export default injectIntl(LeggTilDriftsmeldingForm);
+export default LeggTilDriftsmeldingForm;

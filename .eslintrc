@@ -11,7 +11,7 @@
 			"impliedStrict": true
 		}
 	},
-	"plugins": ["@typescript-eslint", "react-hooks"],
+	"plugins": ["@typescript-eslint", "react-hooks", "import"],
 	"extends": ["airbnb", "plugin:@typescript-eslint/recommended", "prettier"],
 	"settings": {
 		"import/resolver": {
@@ -26,12 +26,21 @@
 		{
 			"files": ["*.spec.ts", "*.spec.tsx"],
 			"rules": {
-				"@typescript-eslint/no-explicit-any": 0
+				"@typescript-eslint/no-explicit-any": 0,
+				"import/no-unused-modules": 0
 			}
 		}
 	],
 	"rules": {
 		"import/no-extraneous-dependencies": 0,
+		"import/no-unused-modules": [
+			1,
+			{
+				"unusedExports": true,
+				"missingExports": true,
+				"ignoreExports": []
+			}
+		],
 		"@typescript-eslint/no-use-before-define": ["error"],
 		"@typescript-eslint/no-shadow": "error",
 		"react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx", ".ts", ".tsx"] }],
@@ -45,24 +54,19 @@
 				"tsx": "never"
 			}
 		],
-		"react/require-default-props": "off",
-		"react/prop-types": "off",
-		"no-use-before-define": "off",
 		"no-shadow": "off",
-		"import/prefer-default-export": "off",
-		"linebreak-style": "off",
 		"max-len": [1, 160],
-		"@typescript-eslint/explicit-module-boundary-types": "off",
-		"import/no-named-as-default": "off",
 		"react/jsx-props-no-spreading": "off",
 		"react/destructuring-assignment": "off",
-		"react/static-property-placement": "off",
-		"react/display-name": "off",
 		"jsx-a11y/control-has-associated-label": "off",
 		"react/function-component-definition": "off",
 		"implicit-arrow-linebreak": "off",
 		"function-paren-newline": "off",
 		"arrow-parens": "off",
-		"object-curly-newline": "off"
+		"object-curly-newline": "off",
+		"react/require-default-props": "off",
+		"react/prop-types": "off",
+		"import/prefer-default-export": "off",
+		"no-use-before-define": "off"
 	}
 }
