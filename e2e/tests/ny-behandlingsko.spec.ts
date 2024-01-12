@@ -1,9 +1,5 @@
 import { test } from '@playwright/test';
 
-test('kan nå google', async ({ page }) => {
-	await page.goto('https://google.com');
-});
-
 test('has title', async ({ page }) => {
 	await page.goto('/');
 	await page.getByRole('button', { name: 'Avdelingslederpanel' }).click();
