@@ -19,6 +19,7 @@ interface StateProps {
 }
 
 class CalendarToggleButton extends Component<OwnProps, StateProps> {
+	// eslint-disable-next-line react/static-property-placement
 	static defaultProps = {
 		inputOffsetTop: 0,
 		inputOffsetWidth: 0,

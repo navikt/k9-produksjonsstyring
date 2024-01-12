@@ -26,7 +26,7 @@ interface OwnProps {
 	toggleMenu: (valgtOppgave: Oppgave | OppgaveV3) => void;
 	oppgave: Oppgave | OppgaveV3;
 	reservasjon: ReservasjonV3Dto;
-	imageNode: any;
+	imageNode: HTMLElement | undefined;
 	forlengOppgaveReservasjon: (oppgaveNøkkel: OppgaveNøkkel) => void;
 }
 
@@ -48,8 +48,8 @@ const OppgaveHandlingerMenu: React.FC<OwnProps> = ({
 
 	const handleOutsideClick = (event: React.MouseEvent<HTMLButtonElement>) => {
 		if (event && event.target) {
-			const harKlikketMeny = node.current && node.current.contains(event.target);
-			const harKlikketIkon = imageNode && imageNode.contains(event.target);
+			const harKlikketMeny = node.current && node.current.contains(event.target as Node);
+			const harKlikketIkon = imageNode && imageNode.contains(event.target as Node);
 			if (harKlikketMeny || harKlikketIkon || showOpphevReservasjonModal || showFlyttReservasjonModal) {
 				return;
 			}

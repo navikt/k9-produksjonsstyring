@@ -55,10 +55,10 @@ export const FlyttReservasjonModal: FunctionComponent<OwnProps> = ({
 		resetRequestData,
 	} = useRestApiRunner<Saksbehandler>(K9LosApiKeys.FLYTT_RESERVASJON_SAKSBEHANDLER_SOK);
 	const { startRequest: endreOppgaveReservasjon } = useRestApiRunner(K9LosApiKeys.ENDRE_OPPGAVERESERVASJON);
+	const intl = useIntl();
 
 	const finnSaksbehandler = useCallback((brukerIdent) => startRequest({ brukerIdent }), []);
 
-	const intl = useIntl();
 	const queryClient = useQueryClient();
 
 	const endreReservasjonFn = useCallback(

@@ -1,6 +1,5 @@
 import React, { FunctionComponent, useState } from 'react';
 import { Normaltekst } from 'nav-frontend-typografi';
-import { v4 as uuid4 } from 'uuid';
 import { TrashIcon } from '@navikt/aksel-icons';
 import { Button } from '@navikt/ds-react';
 import SletteSaksbehandlerModal from 'avdelingsleder/bemanning/components/SletteSaksbehandlerModal';

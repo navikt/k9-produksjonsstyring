@@ -1,5 +1,5 @@
 import OppgaveQueryModel from './OppgaveQueryModel';
-import { EnkelSelectFelt, OppgaveQuery } from './filterTsTypes';
+import { OppgaveQuery } from './filterTsTypes';
 import { kodeFraKey, områdeFraKey } from './utils';
 
 // -------------------- Filter Manipulations --------------------
