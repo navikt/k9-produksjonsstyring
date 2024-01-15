@@ -12,11 +12,6 @@ import { OppgavekøV1 } from 'saksbehandler/behandlingskoer/oppgavekoTsType';
 import Oppgave from 'saksbehandler/oppgaveTsType';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import ModalMedIkon from 'sharedComponents/modal/ModalMedIkon';
-import {
-	getValueFromLocalStorage,
-	removeValueFromLocalStorage,
-	setValueInLocalStorage,
-} from 'utils/localStorageHelper';
 import advarselImageUrl from '../../../../images/advarsel.svg';
 import RestApiState from '../../../api/rest-api-hooks/src/RestApiState';
 import OppgavekoVelgerForm from './OppgavekoVelgerForm';
@@ -79,8 +74,8 @@ const OppgavekoPanel: FunctionComponent<OwnProps> = ({
 		});
 	};
 
-	const hastesaker = reserverteOppgaver.filter((oppgave) =>
-		oppgave.merknad?.merknadKoder?.includes(merknadType.HASTESAK),
+	const hastesaker = reserverteOppgaver.filter(
+		(oppgave) => oppgave.merknad?.merknadKoder?.includes(merknadType.HASTESAK),
 	);
 	const reserverteOppgaverUtenHastesaker = reserverteOppgaver.filter(
 		(oppgave) => !oppgave.merknad?.merknadKoder?.includes(merknadType.HASTESAK),
@@ -96,9 +91,6 @@ const OppgavekoPanel: FunctionComponent<OwnProps> = ({
 			<OppgavekoVelgerForm
 				oppgavekoer={oppgavekoer}
 				setValgtOppgavekoId={setValgtOppgavekoId}
-				getValueFromLocalStorage={getValueFromLocalStorage}
-				setValueInLocalStorage={setValueInLocalStorage}
-				removeValueFromLocalStorage={removeValueFromLocalStorage}
 				plukkNyOppgave={plukkNyOppgave}
 				erRestApiKallLoading={restApiState === RestApiState.LOADING}
 			/>

@@ -15,6 +15,7 @@ import {
 import AlleKodeverk from 'kodeverk/alleKodeverkTsType';
 import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
+// eslint-disable-next-line max-len
 import NyeOgFerdigstilteOppgaverForIdagGraf from 'saksbehandler/saksstotte/nokkeltall/components/nyeOgFerdigstilteOppgaverForIdag/NyeOgFerdigstilteOppgaverForIdagGraf';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import { ISO_DATE_FORMAT } from 'utils/formats';

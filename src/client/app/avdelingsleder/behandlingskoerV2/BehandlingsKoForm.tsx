@@ -7,6 +7,7 @@ import { Alert, Button, ErrorMessage, Heading, Label, Modal } from '@navikt/ds-r
 import { Form, InputField, TextAreaField } from '@navikt/ft-form-hooks';
 import { minLength, required } from '@navikt/ft-form-validators';
 import AppContext from 'app/AppContext';
+import { OppgaveQuery } from 'filter/filterTsTypes';
 import { useKo, useOppdaterKøMutation } from 'api/queries/avdelingslederQueries';
 import { AvdelingslederContext } from 'avdelingsleder/context';
 import FilterIndex from 'filter/FilterIndex';
@@ -71,7 +72,7 @@ const BehandlingsKoForm = ({ kø, lukk, ekspandert, id }: BehandlingsKoFormProps
 		label: saksbehandler.navn || saksbehandler.epost,
 		group: saksbehandler.enhet || manglerGruppering,
 	}));
-	const lagreOppgaveQuery = (oppgaveQuery) => {
+	const lagreOppgaveQuery = (oppgaveQuery: OppgaveQuery) => {
 		formMethods.setValue(fieldnames.OPPGAVE_QUERY, oppgaveQuery, { shouldDirty: true });
 		setVisFilterModal(false);
 	};
@@ -181,8 +182,8 @@ const BehandlingsKoForm = ({ kø, lukk, ekspandert, id }: BehandlingsKoFormProps
 				lagreMutation={lagreMutation}
 			/>
 			{visFilterModal && (
-				<Modal open={visFilterModal} onClose={() => setVisFilterModal(false)} portal>
-					<Modal.Body className="flex flex-col w-[43rem] min-h-[45rem]">
+				<Modal open={visFilterModal} onClose={() => setVisFilterModal(false)} portal width={900}>
+					<Modal.Body className="flex flex-col min-h-[45rem]">
 						<FilterIndex
 							initialQuery={formMethods.watch(fieldnames.OPPGAVE_QUERY)}
 							lagre={lagreOppgaveQuery}

@@ -17,6 +17,7 @@
 	transform: translateY(4px);
 	z-index: var(--a-z-index-tooltip);
 	position: absolute;
+	width: 100%;
 	:global .navds-checkbox__label {
 		padding: 12px 0;
 	}

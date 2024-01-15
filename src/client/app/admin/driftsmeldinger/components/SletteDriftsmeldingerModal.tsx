@@ -10,7 +10,6 @@ import { Driftsmelding } from '../driftsmeldingTsType';
 import styles from './sletteDriftsmeldingerModal.css';
 
 type TsProps = Readonly<{
-	intl: any;
 	valgtDriftsmelding: Driftsmelding;
 	closeSletteModal: () => void;
 	fjernDriftsmelding: (driftsmelding: Driftsmelding) => void;

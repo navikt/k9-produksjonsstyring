@@ -19,6 +19,7 @@ const OppgaveSocket = ({ hentOppgaverTilBehandling, hentReserverteOppgaver, valg
 	const RECONNECT_DELAY = Math.min(baseDelay, 30000);
 	const THROTTLE_TIME = 10000;
 
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	const processMessageData = (data: any) => {
 		const currentTime = new Date().getTime();
 		if (currentTime - lastHandledTimeRef.current < THROTTLE_TIME) return;
@@ -37,6 +38,7 @@ const OppgaveSocket = ({ hentOppgaverTilBehandling, hentReserverteOppgaver, valg
 		const ws = new WebSocket(refreshUrl.verdi);
 
 		ws.onopen = () => {
+			// eslint-disable-next-line no-console
 			console.log('connected');
 			setRetryCount(0);
 		};
@@ -50,12 +52,14 @@ const OppgaveSocket = ({ hentOppgaverTilBehandling, hentReserverteOppgaver, valg
 
 		ws.onclose = (event) => {
 			if (!event.wasClean) {
+				// eslint-disable-next-line no-console
 				console.log('Connection interrupted');
 				setRetryCount((prev) => prev + 1);
 			}
 		};
 
 		ws.onerror = (err) => {
+			// eslint-disable-next-line no-console
 			console.error('Socket encountered an error:', err, 'Closing socket.');
 			ws.close();
 			setRetryCount((prev) => prev + 1);
