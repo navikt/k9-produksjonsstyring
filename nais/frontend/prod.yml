@@ -9,4 +9,4 @@ env:
   - name: AUTH_PROXY_BASE_URL_WSS
     value: "wss://k9-los-oidc-auth-proxy.intern.nav.no"
   - name: REDIRECT_URL
-    value: "https://k9-los-oidc-auth-proxy.intern.nav.no/login?redirect_uri=https://k9-los-web.intern.nav.no"
+    value: "https://k9-los-oidc-auth-proxy.intern.nav.no/login?redirect_uri=https://k9-los-web.nais.adeo.no/"
