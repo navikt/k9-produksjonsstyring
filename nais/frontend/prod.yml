@@ -4,6 +4,8 @@ ingresses:
 env:
   - name: AUTH_PROXY_URL
     value: "https://k9-los-oidc-auth-proxy.intern.nav.no/api/k9-los-api"
+  - name: APPLICATION_BASE_URL
+    value: "https://k9-los-web.nais.adeo.no"
   - name: AUTH_PROXY_BASE_URL
     value: "https://k9-los-oidc-auth-proxy.intern.nav.no"
   - name: AUTH_PROXY_BASE_URL_WSS
