@@ -125,7 +125,6 @@ const NyeOgFerdigstilteOppgaverForSisteSyvGraf: FunctionComponent<OwnProps & Wra
 						},
 					},
 				],
-				// @ts-ignore
 				yAxis: yAxisDef,
 				series: [
 					{

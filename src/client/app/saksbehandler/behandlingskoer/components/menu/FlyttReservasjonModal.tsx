@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useCallback, useEffect } from 'react';
 import { Form } from 'react-final-form';
-import { FormattedMessage, WrappedComponentProps, injectIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import NavAnsatt from 'app/navAnsattTsType';
@@ -39,8 +39,7 @@ interface OwnProps {
  *
  * Presentasjonskomponent. Modal som lar en søke opp en saksbehandler som saken skal flyttes til. En kan også begrunne hvorfor saken skal flyttes.
  */
-export const FlyttReservasjonModal: FunctionComponent<OwnProps & WrappedComponentProps> = ({
-	intl,
+export const FlyttReservasjonModal: FunctionComponent<OwnProps> = ({
 	showModal,
 	closeModal,
 	oppgaveId,
@@ -54,34 +53,35 @@ export const FlyttReservasjonModal: FunctionComponent<OwnProps & WrappedComponen
 		resetRequestData,
 	} = useRestApiRunner<Saksbehandler>(K9LosApiKeys.FLYTT_RESERVASJON_SAKSBEHANDLER_SOK);
 	const { startRequest: endreOppgaveReservasjon } = useRestApiRunner(K9LosApiKeys.ENDRE_OPPGAVERESERVASJON);
+	const intl = useIntl();
 
 	const finnSaksbehandler = useCallback((brukerIdent) => startRequest({ brukerIdent }), []);
 
 	const { navn } = useGlobalStateRestApiData<NavAnsatt>(RestApiGlobalStatePathsKeys.NAV_ANSATT);
 
-	const endreReservasjonFn = useCallback(
-		(brukerIdent: string, begrunnelse: string, reservertTilDato: string): Promise<any> => {
-			const params: {
-				oppgaveId: string;
-				brukerIdent: string;
-				begrunnelse: string;
-				reserverTil?: string;
-			} = {
-				oppgaveId,
-				brukerIdent,
-				begrunnelse,
-			};
+	const endreReservasjonFn = async (
+		brukerIdent: string,
+		begrunnelse: string,
+		reservertTilDato: string,
+	): Promise<void> => {
+		const params: {
+			oppgaveId: string;
+			brukerIdent: string;
+			begrunnelse: string;
+			reserverTil?: string;
+		} = {
+			oppgaveId,
+			brukerIdent,
+			begrunnelse,
+		};
 
-			if (reservertTilDato) {
-				params.reserverTil = reservertTilDato;
-			}
+		if (reservertTilDato) {
+			params.reserverTil = reservertTilDato;
+		}
 
-			return endreOppgaveReservasjon(params).then(() => {
-				closeModal();
-			});
-		},
-		[],
-	);
+		await endreOppgaveReservasjon(params);
+		closeModal();
+	};
 
 	const onSubmit = (brukerIdent: string, begrunnelse: string, reservertTilDato: string) => {
 		endreReservasjonFn(brukerIdent, begrunnelse, reservertTilDato);
@@ -195,4 +195,4 @@ export const FlyttReservasjonModal: FunctionComponent<OwnProps & WrappedComponen
 	);
 };
 
-export default injectIntl(FlyttReservasjonModal);
+export default FlyttReservasjonModal;

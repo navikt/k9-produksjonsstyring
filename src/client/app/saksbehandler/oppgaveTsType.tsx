@@ -7,8 +7,8 @@ type Oppgave = {
 	journalpostId: string;
 	personnummer: string;
 	merknad: {
-		merknadKoder: String[];
-		fritekst: String;
+		merknadKoder: string[];
+		fritekst: string;
 	};
 	navn: string;
 	system: string;

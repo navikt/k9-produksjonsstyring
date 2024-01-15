@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styles from './adminDashboard.css';
 
 type TsProps = Readonly<{
-	children: any;
+	children: React.ReactNode;
 }>;
 
 /**

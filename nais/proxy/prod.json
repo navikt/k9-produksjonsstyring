@@ -1,6 +1,6 @@
 {
     "azureTenant": "nav.no",
-    "oidcAuthProxyImage": "ghcr.io/navikt/oidc-auth-proxy:3.2023.09.04-624826e",
+    "oidcAuthProxyImage": "ghcr.io/navikt/oidc-auth-proxy:3.2023.11.03-1758b74",
     "ingresses": [
         "https://k9-los-oidc-auth-proxy.intern.nav.no"
     ],

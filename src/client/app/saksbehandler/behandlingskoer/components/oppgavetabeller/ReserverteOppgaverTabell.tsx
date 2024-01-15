@@ -62,7 +62,7 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps & WrappedComponentPro
 	});
 
 	const forlengOppgaveReservasjonFn = useCallback(
-		(oppgaveId: string): Promise<any> => forlengOppgavereservasjon({ oppgaveId }).then(() => hentReserverteOppgaver()),
+		(oppgaveId: string): Promise<void> => forlengOppgavereservasjon({ oppgaveId }).then(() => hentReserverteOppgaver()),
 		[],
 	);
 

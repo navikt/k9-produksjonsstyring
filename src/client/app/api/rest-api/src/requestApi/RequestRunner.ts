@@ -28,7 +28,6 @@ const getMethod = (httpClientApi: HttpClientApi, restMethod: string) => {
 };
 
 type Notify = (eventType: keyof typeof EventType, data?: any, isPolling?: boolean) => void;
-type NotificationEmitter = (eventType: keyof typeof EventType, data?: any) => void;
 
 /**
  * RequestRunner

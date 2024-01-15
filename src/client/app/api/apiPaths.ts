@@ -33,6 +33,7 @@ const apiPaths = {
 	hentSaksbehandlere: '/avdelingsleder/saksbehandlere',
 	hentFelter: '/ny-oppgavestyring/oppgave/felter',
 	hentOppgaver: '/ny-oppgavestyring/oppgave/query',
+	valider: '/ny-oppgavestyring/oppgave/validate',
 	hentOppgaveFelter: '/ny-oppgavestyring/oppgave/felter',
 	hentOppgaverSomFil: '/ny-oppgavestyring/oppgave/queryToFile',
 };
