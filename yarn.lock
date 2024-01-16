@@ -2765,7 +2765,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@navikt/ds-tokens@npm:5.13.0, @navikt/ds-tokens@npm:^5.13.0":
+"@navikt/ds-tokens@npm:5.15.0":
+  version: 5.15.0
+  resolution: "@navikt/ds-tokens@npm:5.15.0::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40navikt%2Fds-tokens%2F5.15.0%2Fee711e4517a1f580ef11307dfb7fd852f217d168"
+  checksum: 62584e9903ae72adaec19682b4eda862e36b2d958595ee887dd9300cbca395b1013448630301394f582a7eef7a79c8d217fc1de018adcd790550beaaafd71e07
+  languageName: node
+  linkType: hard
+
+"@navikt/ds-tokens@npm:^5.13.0":
   version: 5.13.0
   resolution: "@navikt/ds-tokens@npm:5.13.0::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40navikt%2Fds-tokens%2F5.13.0%2F6aa6b087d83012014cdba7c16af659cd7e778969"
   checksum: e9338a2e716e7af87dd028cb52837fdcda945f4ca003c8a7a187fdbf1300132cf5e0a5d48f00eede9d95703bac86c0ab68d9be5df86ad47cf4291fb92e15aab0
@@ -10509,7 +10516,7 @@ __metadata:
     "@navikt/ds-icons": 3.4.3
     "@navikt/ds-react": 5.13.0
     "@navikt/ds-tailwind": 5.13.0
-    "@navikt/ds-tokens": 5.13.0
+    "@navikt/ds-tokens": 5.15.0
     "@navikt/familie-endringslogg": 11.0.0
     "@navikt/fnrvalidator": 1.3.3
     "@navikt/ft-form-hooks": 4.2.21
