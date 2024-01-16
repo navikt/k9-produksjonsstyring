@@ -13,6 +13,8 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       packages: write
+      contents: read
+      id-token: write
     steps:
       - name: Hente kode
         uses: actions/checkout@v4
@@ -69,7 +71,6 @@ jobs:
       - name: Deploye til dev
         uses: nais/deploy/actions/deploy@v2
         env:
-          APIKEY: ${{ secrets.DEPLOY_KEY }}
           CLUSTER: dev-fss
           RESOURCE: nais/frontend/k9-los-web.yml
           VARS: nais/frontend/dev.yml
