@@ -11,8 +11,6 @@ metadata:
 spec:
   image: {{ image }}
   port: 8030
-  sessionAffinity: ClientIP
-  team: k9saksbehandling
   liveness:
     path: /isAlive
     initialDelay: 20
