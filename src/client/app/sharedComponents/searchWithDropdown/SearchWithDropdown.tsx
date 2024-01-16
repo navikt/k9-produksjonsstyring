@@ -24,6 +24,7 @@ export type SearchWithDropdownProps = {
 	addButtonText: string;
 	updateSelection: (values: string[]) => void;
 	selectedValues: string[];
+	showLabel?: boolean;
 	error?: string;
 	className?: string;
 	id?: string;
@@ -42,6 +43,7 @@ const SearchWithDropdown: React.FC<SearchWithDropdownProps> = (props) => {
 		error,
 		className,
 		id,
+		showLabel = true,
 		size = 'small',
 	} = props;
 
@@ -149,7 +151,7 @@ const SearchWithDropdown: React.FC<SearchWithDropdownProps> = (props) => {
 		<div className={`${styles.searchContainer} ${className || ''}`}>
 			<SearchForm
 				label={label}
-				showLabel={!!label}
+				showLabel={showLabel}
 				description={description}
 				inputId={inputId}
 				descriptionId={descriptionId}

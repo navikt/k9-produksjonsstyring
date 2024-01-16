@@ -24,6 +24,8 @@ const SearchDropdownMedPredefinerteVerdier = ({
 		addButtonText={`Legg til ${feltdefinisjon.visningsnavn.toLowerCase()}`}
 		updateSelection={onChange}
 		selectedValues={oppgavefilter.verdi || []}
+		showLabel
+		label={feltdefinisjon.visningsnavn}
 		className="grow"
 		{...rest}
 	/>
