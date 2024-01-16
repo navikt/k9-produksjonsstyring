@@ -19,17 +19,17 @@ function KriterieOperator({ oppgavefilter }) {
 	}
 
 	const operatorDisplayMap = {
-		[OPERATORS.EQUALS]: 'er lik',
-		[OPERATORS.NOT_EQUALS]: 'er IKKE lik',
+		[OPERATORS.EQUALS]: 'Er lik',
+		[OPERATORS.NOT_EQUALS]: 'Er IKKE lik',
 		[OPERATORS.IN]: 'Inkluder',
 		[OPERATORS.NOT_IN]: 'Ekskluder',
-		[OPERATORS.LESS_THAN]: 'mindre enn (<)',
-		[OPERATORS.GREATER_THAN]: 'større enn (>)',
+		[OPERATORS.LESS_THAN]: 'Mindre enn (<)',
+		[OPERATORS.GREATER_THAN]: 'Større enn (>)',
 		[OPERATORS.LESS_THAN_OR_EQUALS]:
-			kriterieDefinisjon.tolkes_som === TolkesSom.Timestamp ? 'til og med' : 'mindre enn eller lik (<=)',
+			kriterieDefinisjon.tolkes_som === TolkesSom.Timestamp ? 'Til og med' : 'Mindre enn eller lik (<=)',
 		[OPERATORS.GREATER_THAN_OR_EQUALS]:
-			kriterieDefinisjon.tolkes_som === TolkesSom.Timestamp ? 'fra og med' : 'større enn eller lik (>=)',
-		[OPERATORS.INTERVAL]: 'mellom',
+			kriterieDefinisjon.tolkes_som === TolkesSom.Timestamp ? 'Fra og med' : 'Større enn eller lik (>=)',
+		[OPERATORS.INTERVAL]: 'Mellom',
 	};
 
 	const operators = useMemo(
@@ -59,20 +59,22 @@ function KriterieOperator({ oppgavefilter }) {
 	};
 
 	return (
-		<Select
-			label="Operator"
-			size="small"
-			hideLabel
-			className="w-[12rem]"
-			value={oppgavefilter.operator}
-			onChange={handleChangeOperator}
-		>
-			{operators.map((operator) => (
-				<option key={operator} value={operator}>
-					{operatorDisplayMap[operator]}
-				</option>
-			))}
-		</Select>
+		<div>
+			<Select
+				label="Operator"
+				size="small"
+				hideLabel
+				className="w-[12rem]"
+				value={oppgavefilter.operator}
+				onChange={handleChangeOperator}
+			>
+				{operators.map((operator) => (
+					<option key={operator} value={operator}>
+						{operatorDisplayMap[operator]}
+					</option>
+				))}
+			</Select>
+		</div>
 	);
 }
 

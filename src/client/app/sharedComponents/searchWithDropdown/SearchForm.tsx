@@ -6,6 +6,7 @@ import styles from './searchWithDropdown.css';
 
 interface SearchFormProps {
 	label: string;
+	showLabel?: boolean;
 	description?: string;
 	inputId: string;
 	descriptionId: string;
@@ -15,6 +16,7 @@ interface SearchFormProps {
 	children?: React.ReactNode;
 	onSelect: (value: string) => void;
 	onSubmit: () => void;
+	size?: 'small' | 'medium';
 }
 
 const SearchForm: React.FC<SearchFormProps> = ({
@@ -28,6 +30,8 @@ const SearchForm: React.FC<SearchFormProps> = ({
 	onSelect,
 	children,
 	onSubmit,
+	showLabel = false,
+	size = 'small',
 }) => {
 	const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
 		if (event.key === 'Enter') {
@@ -35,17 +39,18 @@ const SearchForm: React.FC<SearchFormProps> = ({
 		}
 	};
 
+	const comboboxSize = size === 'medium' ? '3rem' : '2rem';
 	return (
 		<div className={styles.form}>
-			<Label htmlFor={inputId} size="small" className="navds-form-field__label navds-sr-only block">
+			<Label htmlFor={inputId} size={size} className={`${showLabel ? '' : 'navds-sr-only'}`}>
 				{label}
 			</Label>
 			{description && (
-				<BodyShort size="small" as="div" id={descriptionId} className="navds-form-field__description">
+				<BodyShort size={size} as="div" id={descriptionId} className="navds-form-field__description">
 					{description}
 				</BodyShort>
 			)}
-			<Combobox className={`navds-search__wrapper ${styles.searchWrapper}`} onSelect={onSelect} openOnFocus>
+			<Combobox className={`navds-search__wrapper ${styles.searchWrapper} mt-2`} onSelect={onSelect} openOnFocus>
 				<div className="flex">
 					<div className={`navds-search__wrapper-inner ${styles.searchWrapper__inner}`}>
 						<ComboboxInput
@@ -53,7 +58,8 @@ const SearchForm: React.FC<SearchFormProps> = ({
 							autoComplete="off"
 							aria-describedby={descriptionId}
 							// eslint-disable-next-line max-len
-							className="navds-search__input navds-search__input--secondary navds-text-field__input navds-body-short navds-body--small min-h-[2rem] py-0"
+							className="navds-search__input navds-search__input--secondary navds-text-field__input navds-body-short navds-body--small py-0"
+							style={{ minHeight: comboboxSize }}
 							onChange={onChange}
 							value={currentInput}
 							onFocus={() => setIsPopoverOpen(true)}
@@ -62,7 +68,9 @@ const SearchForm: React.FC<SearchFormProps> = ({
 					</div>
 					<button
 						type="button"
-						className={`${styles.searchButton} navds-button navds-button--primary navds-button--medium navds-button--icon-only min-h-[2rem] p-1`}
+						// eslint-disable-next-line max-len
+						className={`${styles.searchButton} navds-button navds-button--primary navds-button--medium navds-button--icon-only p-1`}
+						style={{ minWidth: comboboxSize, minHeight: comboboxSize }}
 						onClick={onSubmit}
 						aria-label="search button"
 					>
