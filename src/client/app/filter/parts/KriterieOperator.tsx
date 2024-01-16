@@ -59,20 +59,22 @@ function KriterieOperator({ oppgavefilter }) {
 	};
 
 	return (
-		<Select
-			label="Operator"
-			size="small"
-			hideLabel
-			className="w-[12rem]"
-			value={oppgavefilter.operator}
-			onChange={handleChangeOperator}
-		>
-			{operators.map((operator) => (
-				<option key={operator} value={operator}>
-					{operatorDisplayMap[operator]}
-				</option>
-			))}
-		</Select>
+		<div>
+			<Select
+				label="Operator"
+				size="small"
+				hideLabel
+				className="w-[12rem]"
+				value={oppgavefilter.operator}
+				onChange={handleChangeOperator}
+			>
+				{operators.map((operator) => (
+					<option key={operator} value={operator}>
+						{operatorDisplayMap[operator]}
+					</option>
+				))}
+			</Select>
+		</div>
 	);
 }
 

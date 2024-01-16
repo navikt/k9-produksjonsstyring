@@ -120,6 +120,7 @@ const BehandlingsKoForm = ({ kø, lukk, ekspandert, id }: BehandlingsKoFormProps
 							label="Velg saksbehandlere"
 							className="bg-[#e6f0ff] rounded p-5"
 							suggestions={formaterteSaksbehandlere}
+							showLabel
 							groups={grupper}
 							addButtonText="Legg til saksbehandlere"
 							heading="Velg saksbehandlere"

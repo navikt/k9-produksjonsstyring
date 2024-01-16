@@ -43,7 +43,7 @@ const SearchWithDropdown: React.FC<SearchWithDropdownProps> = (props) => {
 		error,
 		className,
 		id,
-		showLabel = true,
+		showLabel = false,
 		size = 'small',
 	} = props;
 
