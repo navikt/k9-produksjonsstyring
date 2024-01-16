@@ -1,6 +1,6 @@
 ingresses:
   - "https://k9-los-web.dev.adeo.no"
-  - "https://k9-los-web.dev-fss.nais.io"
+  - "https://k9-los-web.dev.intern.nav.no"
 env:
   - name: K9_LOS_API_URL
     value: "http://k9-los-oidc-auth-proxy/api/k9-los-api"
