@@ -1,15 +1,15 @@
 import React, { FunctionComponent, useCallback, useMemo, useState } from 'react';
 import { WrappedComponentProps, injectIntl } from 'react-intl';
+import { saksbehandlerKanVelgeNyeKoer } from 'app/envVariablesUtils';
 import { OppgavekøV3, OppgavekøV3MedNavn } from 'types/OppgavekøV3Type';
-import { Loader } from '@navikt/ds-react';
 import { getK9punsjRef, getK9sakHref } from 'app/paths';
+import { Loader } from '@navikt/ds-react';
 import { K9LosApiKeys } from 'api/k9LosApi';
 import { useAlleSaksbehandlerKoerV1, useAlleSaksbehandlerKoerV3 } from 'api/queries/saksbehandlerQueries';
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
 import BehandlingskoerContext from 'saksbehandler/BehandlingskoerContext';
 import { OppgavekøV1 } from 'saksbehandler/behandlingskoer/oppgavekoTsType';
 import Oppgave from 'saksbehandler/oppgaveTsType';
-import { saksbehandlerKanVelgeNyeKoer } from '../../featureToggles';
 import OppgaveSystem from '../../types/OppgaveSystem';
 import OppgavekoPanel from './components/OppgavekoPanel';
 
