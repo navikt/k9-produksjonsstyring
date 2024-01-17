@@ -15,9 +15,6 @@ spec:
       tenant: {{azureTenant}}
       replyURLs:
         - {{replyUrl}}
-      {{#each ingresses as |url|}}
-        - {{url}}/oidc/callback
-      {{/each}}
   liveness:
     path: isalive
     initialDelay: 20
