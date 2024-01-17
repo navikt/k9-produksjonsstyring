@@ -44,12 +44,24 @@ jobs:
         with:
           ref: ${{ env.SHA }}
 
-      - name: Promoter til cluster og namespace
+      - name: Deploy k9-los-web til cluster
         uses: nais/deploy/actions/deploy@v2
         env:
           PRINT_PAYLOAD: true
           CLUSTER: ${{ env.CLUSTER }}
-          RESOURCE: nais/frontend/${{ env.CLUSTER }}.yml
+          RESOURCE: nais/frontend/k9-los-web.yml
+          VARS: nais/frontend/${{ env.CLUSTER }}.yml
+
+      - name: Deploy k9-los-oidc-auth-proxy til cluster
+        uses: './.github/deploy-oidc-auth-proxy.yml'
+        with:
+          CLUSTER: ${{ env.CLUSTER }}
+          VARS: nais/proxy/${{ env.CLUSTER }}.json
+
+      - name: Deploy k9-los-oidc-auth-proxy-redis til cluster
+        uses: './.github/deploy-oidc-auth-proxy-redis.yml'
+        with:
+          CLUSTER: ${{ env.CLUSTER }}
 
       - name: Oppdater kommentar med deployment status ved feil
         if: failure()

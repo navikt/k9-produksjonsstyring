@@ -1,18 +1,16 @@
-
-name: k9-los-oidc-auth-proxy
+name: Reusable k9-los-oidc-auth-proxy deployment
 on:
-  push:
-    paths:
-      - 'nais/proxy/k9-los-oidc-auth-proxy.yml'
-      - 'nais/proxy/dev.json'
-      - 'nais/proxy/prod.json'
-      - '.github/workflows/deploy-oidc-auth-proxy.yml'
-  workflow_dispatch:
-  schedule:
-    - cron: '0 2 * * 6' # At 02:00 on Saturday.
+  workflow_call:
+    inputs:
+      cluster:
+        required: true
+        type: string
+      vars:
+        required: true
+        type: string
+
 jobs:
   deploy:
-    name: deploy k9-los-oidc-auth-proxy
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -20,16 +18,9 @@ jobs:
     steps:
       - name: Hente kode
         uses: actions/checkout@v4
-      - name: Deploy dev-fss
+      - name: Deploy to cluster
         uses: nais/deploy/actions/deploy@v2
         env:
-          CLUSTER: dev-fss
+          CLUSTER: ${{ inputs.cluster }}
           RESOURCE: nais/proxy/k9-los-oidc-auth-proxy.yml
-          VARS: nais/proxy/dev.json
-      - name: Deploy prod-fss
-        if: github.ref == 'refs/heads/master'
-        uses: nais/deploy/actions/deploy@v2
-        env:
-          CLUSTER: prod-fss
-          RESOURCE: nais/proxy/k9-los-oidc-auth-proxy.yml
-          VARS: nais/proxy/prod.json
+          VARS: ${{ inputs.vars }}
