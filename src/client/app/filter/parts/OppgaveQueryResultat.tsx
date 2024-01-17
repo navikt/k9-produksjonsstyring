@@ -33,7 +33,7 @@ const OppgaveQueryResultat = ({ felter, oppgaveQuery, oppgaver }: Props) => (
 			{oppgaver.map((oppgave) => (
 				<Table.Row key={oppgave.id}>
 					{oppgave.felter.map((felt) => (
-						<Table.DataCell key={felt.kode}>
+						<Table.DataCell key={oppgave.id}>
 							<OppgaveFeltVisning felt={felt} oppgaveFelter={felter} />
 						</Table.DataCell>
 					))}

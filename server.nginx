@@ -1,7 +1,6 @@
 server {
   listen       8030;
   server_name  "${APP_HOSTNAME}";
-  
 
   location @401_json {
     default_type application/json;
@@ -23,22 +22,6 @@ server {
     return 504 '{"feilmelding":"Timet ut","type":"GENERELL_FEIL"}';
   }
 
-  location = /login {
-    proxy_pass "${AUTH_PROXY_BASE_URL}/login";
-  }
-
-  location = /logout {
-    proxy_pass "${AUTH_PROXY_BASE_URL}/logout";
-  }
-
-  location = /oidc/callback {
-    proxy_pass "${AUTH_PROXY_BASE_URL}/oidc/callback";
-  }
-
-  location /api/ {
-    proxy_pass "${K9_LOS_API_URL}/";
-  }
-
   location / {
     add_header              X-Application-Id "${APP_NAME}, pod=${APP_HOSTNAME}"; 
     add_header              Content-Security-Policy "default-src 'self'; connect-src 'self' ${AUTH_PROXY_BASE_URL} ${AUTH_PROXY_BASE_URL_WSS} https://sentry.gc.nav.no https://familie-endringslogg.intern.dev.nav.no https://familie-endringslogg.intern.nav.no/; frame-src 'self' ${AUTH_PROXY_BASE_URL}; font-src 'self' data: https://cdn.nav.no; img-src 'self' data:; style-src 'self' 'unsafe-inline';";
@@ -55,12 +38,6 @@ server {
     root   /usr/share/nginx/html;
     try_files $uri $uri/ =404;
 }
-
-
-  location = /envVariables {
-      alias /tmp/k9-los/env.json;
-      default_type application/json;
-    }
 
 
   location = /isAlive {
