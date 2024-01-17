@@ -9,10 +9,16 @@ interface OwnProps {
 	children: ReactElement;
 }
 
+const isDev =
+	window.location.hostname.includes('dev.adeo.no') || window.location.hostname.includes('dev.intern.nav.no');
+const PROXY_REDIRECT_URL = isDev
+	? 'https://k9-los-oidc-auth-proxy.dev.intern.nav.no/login?redirect_uri=https://k9-los-web.dev.adeo.no/'
+	: 'https://k9-los-oidc-auth-proxy.intern.nav.no/login?redirect_uri=https://k9-los-web.nais.adeo.no/';
+
 const AppConfigResolver: FunctionComponent<OwnProps> = ({ children }) => {
 	const { addErrorMessage } = useRestApiErrorDispatcher();
 	useEffect(() => {
-		k9LosApi().setAddErrorMessageHandler(addErrorMessage);
+		k9LosApi.setAddErrorMessageHandler(addErrorMessage);
 	}, []);
 
 	const { state: stateNavAnsatt } = useGlobalStateRestApi(RestApiGlobalStatePathsKeys.NAV_ANSATT);
@@ -34,7 +40,7 @@ const AppConfigResolver: FunctionComponent<OwnProps> = ({ children }) => {
 	});
 
 	if (stateNavAnsatt === RestApiState.ERROR) {
-		window.location.assign('/login');
+		window.location.assign(PROXY_REDIRECT_URL);
 	}
 
 	if (
