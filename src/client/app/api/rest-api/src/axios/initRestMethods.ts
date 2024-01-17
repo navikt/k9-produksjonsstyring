@@ -13,7 +13,19 @@ const openPreview = (data, filename) => {
 		downloadLink.remove();
 	}
 };
+const isLocal = process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test';
+const isDev =
+	window.location.hostname.includes('dev.adeo.no') || window.location.hostname.includes('dev.intern.nav.no');
+const proxyUrl = isDev
+	? 'https://k9-los-oidc-auth-proxy.dev.intern.nav.no/api/k9-los-api'
+	: 'https://k9-los-oidc-auth-proxy.intern.nav.no/api/k9-los-api';
 
+export const baseURL = () => {
+	if (isLocal) {
+		return 'http://localhost:8030/api';
+	}
+	return proxyUrl;
+};
 const cancellable = (axiosInstance, config) => {
 	let cancel;
 	const request = axiosInstance({
@@ -40,9 +52,11 @@ const defaultPostHeaders = {
 
 const get =
 	(axiosInstance) =>
-	(url: string, params: any, responseType = 'json') =>
-		cancellable(axiosInstance, {
-			url: url ? `${url}` : null,
+	(url: string, params: any, responseType = 'json') => {
+		let urlRedir = url ? `${proxyUrl}${url}` : null;
+		if (isLocal) urlRedir = `http://localhost:8030${url}`;
+		return cancellable(axiosInstance, {
+			url: urlRedir,
 			params,
 			responseType,
 			method: 'get',
@@ -50,12 +64,15 @@ const get =
 				...defaultHeaders,
 			},
 		});
+	};
 
 const post =
 	(axiosInstance) =>
-	(url: string, data: any, responseType = 'json') =>
-		cancellable(axiosInstance, {
-			url: url ? `${url}` : null,
+	(url: string, data: any, responseType = 'json') => {
+		let urlRedir = url ? `${proxyUrl}${url}` : null;
+		if (isLocal) urlRedir = `http://localhost:8030${url}`;
+		return cancellable(axiosInstance, {
+			url: urlRedir,
 			responseType,
 			data: JSON.stringify(data),
 			method: 'post',
@@ -65,12 +82,15 @@ const post =
 			},
 			cache: false,
 		});
+	};
 
 const put =
 	(axiosInstance) =>
-	(url: string, data: any, responseType = 'json') =>
-		cancellable(axiosInstance, {
-			url: url ? `${url}` : null,
+	(url: string, data: any, responseType = 'json') => {
+		let urlRedir = url ? `${proxyUrl}${url}` : null;
+		if (isLocal) urlRedir = `http://localhost:8030${url}`;
+		return cancellable(axiosInstance, {
+			url: urlRedir,
 			responseType,
 			data: JSON.stringify(data),
 			method: 'put',
@@ -80,6 +100,7 @@ const put =
 			},
 			cache: false,
 		});
+	};
 
 const getBlob = (axiosInstance) => (url: string, params: any) => get(axiosInstance)(url, params, 'blob');
 

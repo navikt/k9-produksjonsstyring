@@ -4,13 +4,17 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
+import { BrowserRouter } from 'react-router-dom';
 import { init } from '@sentry/browser';
 import '@navikt/ds-css';
 import '@navikt/ft-plattform-komponenter/dist/style.css';
-
-import { setEnvVariables } from 'app/envVariablesUtils';
-import AppContainer from 'app/AppContainer';
+import AppIndex from 'app/AppIndex';
+import { RestApiErrorProvider } from 'api/error/RestApiErrorContext';
+import { k9LosApi } from 'api/k9LosApi';
+import { RestApiProvider } from 'api/rest-api-hooks/src/RestApiContext';
+import { config } from 'utils/reactQueryConfig';
 
 /* eslint no-undef: "error" */
 const environment = window.location.hostname;
@@ -21,24 +25,29 @@ init({
 	environment,
 });
 
-async function prepare() {
-	if (process.env.NODE_ENV !== 'production') {
-		return import('../mocks/browser').then(({ worker }) => worker.start({ onUnhandledRequest: 'bypass' }));
+const renderFunc = async (Component) => {
+	if (process.env.NODE_ENV === 'development') {
+		const { worker } = require('../mocks/browser');
+		await worker.start({ onUnhandledRequest: 'bypass' });
 	}
-	return Promise.resolve();
-}
+	const app = document.getElementById('app');
+	if (app === null) {
+		throw new Error('No app element');
+	}
+	const queryClient = new QueryClient(config);
+	const root = createRoot(app);
+	root.render(
+		<BrowserRouter>
+			<RestApiProvider requestApi={k9LosApi}>
+				<RestApiErrorProvider>
+					<QueryClientProvider client={queryClient}>
+						<ReactQueryDevtools initialIsOpen={false} />
+						<Component />
+					</QueryClientProvider>
+				</RestApiErrorProvider>
+			</RestApiProvider>
+		</BrowserRouter>,
+	);
+};
 
-const app = document.getElementById('app');
-if (app === null) {
-	throw new Error('No app element');
-}
-const root = createRoot(app);
-async function bootstrap() {
-	await setEnvVariables();
-
-	root.render(<AppContainer />);
-}
-
-prepare().then(() => {
-	bootstrap();
-});
+renderFunc(AppIndex);
