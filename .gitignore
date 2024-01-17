@@ -1,7 +1,7 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
-/node_modules
+**/node_modules
 .pnp.*
 .yarn/*
 !.yarn/patches
@@ -13,8 +13,8 @@
 # testing
 /coverage
 /target/
-/playwright-report
-/test-results
+**/playwright-report
+**/test-results
 # production
 
 /dist

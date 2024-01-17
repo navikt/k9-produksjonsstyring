@@ -1,6 +1,7 @@
 import React, { FunctionComponent, useCallback, useEffect } from 'react';
 import { WrappedComponentProps, injectIntl } from 'react-intl';
 import { useQuery } from 'react-query';
+import { saksbehandlerKanVelgeNyeKoer } from 'app/envVariablesUtils';
 import { OppgavekøV2, OppgavekøV2MedNavn, OppgavekøerV2 as OppgavekøerV2Type } from 'types/OppgavekøV2Type';
 import { getK9punsjRef, getK9sakHref } from 'app/paths';
 import apiPaths from 'api/apiPaths';
@@ -11,7 +12,6 @@ import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner
 import { OppgavekøV1 } from 'saksbehandler/behandlingskoer/oppgavekoTsType';
 import Oppgave from 'saksbehandler/oppgaveTsType';
 import { get } from 'utils/axios';
-import { saksbehandlerKanVelgeNyeKoer } from '../../featureToggles';
 import OppgaveSystem from '../../types/OppgaveSystem';
 import OppgaveSocket from './OppgaveSocket';
 import OppgavekoPanel from './components/OppgavekoPanel';

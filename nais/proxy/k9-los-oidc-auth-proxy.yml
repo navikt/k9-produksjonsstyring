@@ -14,6 +14,7 @@ spec:
       enabled: true
       tenant: {{azureTenant}}
       replyURLs:
+        - {{replyUrl}}
       {{#each ingresses as |url|}}
         - {{url}}/oidc/callback
       {{/each}}

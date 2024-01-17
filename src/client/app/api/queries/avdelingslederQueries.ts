@@ -1,7 +1,6 @@
 import { UseQueryOptions, useMutation, useQuery, useQueryClient } from 'react-query';
 import { OppgavekøV2, OppgavekøV2Enkel, OppgavekøerV2 } from 'types/OppgavekøV2Type';
 import apiPaths from 'api/apiPaths';
-import { baseURL } from 'api/rest-api/src/axios/initRestMethods';
 import { axiosInstance } from 'utils/reactQueryConfig';
 
 // eslint-disable-next-line import/prefer-default-export
@@ -34,7 +33,7 @@ export const useKopierKøMutation = (callback?: () => void) => {
 	const queryClient = useQueryClient();
 
 	return useMutation({
-		mutationFn: (data: KopierKøPayload) => axiosInstance.post(`${baseURL()}${apiPaths.kopierOppgaveko}`, data),
+		mutationFn: (data: KopierKøPayload) => axiosInstance.post(`${apiPaths.kopierOppgaveko}`, data),
 		onSuccess: () =>
 			Promise.all([queryClient.invalidateQueries(apiPaths.hentOppgavekoer)]).then(() => {
 				if (callback) callback();
@@ -46,7 +45,7 @@ export const useSlettKøMutation = (callback?: () => void) => {
 	const queryClient = useQueryClient();
 
 	return useMutation({
-		mutationFn: (id: string) => axiosInstance.delete(`${baseURL()}${apiPaths.slettOppgaveko}${id}`),
+		mutationFn: (id: string) => axiosInstance.delete(`${apiPaths.slettOppgaveko}${id}`),
 		onSuccess: () =>
 			Promise.all([queryClient.invalidateQueries(apiPaths.hentOppgavekoer)]).then(() => {
 				if (callback) callback();
@@ -57,8 +56,7 @@ export const useSlettKøMutation = (callback?: () => void) => {
 export const useOppdaterKøMutation = (callback) => {
 	const queryClient = useQueryClient();
 	return useMutation<OppgavekøV2, unknown, OppgavekøV2>(
-		(payload) =>
-			axiosInstance.post(`${baseURL()}${apiPaths.oppdaterOppgaveko}`, { ...payload }).then((res) => res.data),
+		(payload) => axiosInstance.post(`${apiPaths.oppdaterOppgaveko}`, { ...payload }).then((res) => res.data),
 		{
 			onSuccess: (props) => {
 				const { id } = props;
