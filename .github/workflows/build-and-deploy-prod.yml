@@ -19,6 +19,8 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       packages: write
+      contents: read
+      id-token: write
     outputs:
       image: ${{ steps.docker-push.outputs.IMAGE }}
     steps:
@@ -66,7 +68,6 @@ jobs:
       - name: Deploye til prod
         uses: nais/deploy/actions/deploy@v2
         env:
-          APIKEY: ${{ secrets.DEPLOY_KEY }}
           CLUSTER: prod-fss
           RESOURCE: nais/frontend/k9-los-web.yml
           VARS: nais/frontend/prod.yml
