@@ -24,7 +24,7 @@ export const renderWithAllProviders = (ui, { ...renderOptions } = {}) => {
 	const Wrapper = ({ children }) => (
 		<BrowserRouter>
 			<RestApiProvider
-				requestApi={k9LosApi}
+				requestApi={k9LosApi()}
 				initialState={{ KODEVERK: kodeverk, NAV_ANSATT: { navn: 'Paul', brukernavn: 'pingpongpaul@nav.no' } }}
 			>
 				<QueryClientProvider client={queryClient}>

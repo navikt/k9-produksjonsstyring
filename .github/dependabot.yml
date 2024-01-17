@@ -27,6 +27,13 @@ updates:
       typescript-eslint:
         patterns:
           - "@typescript-eslint*"
+  - package-ecosystem: npm
+    directory: "/e2e-tests"
+    schedule:
+      interval: daily
+    open-pull-requests-limit: 20
+    registries:
+      - npm-github
   - package-ecosystem: github-actions
     directory: "/"
     schedule:

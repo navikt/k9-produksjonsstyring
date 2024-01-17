@@ -29,7 +29,6 @@ Før du kjører `yarn install`, sett opp lokal NPM for autentisering mot GitHub 
 
 0. Legg inn azure-mock i /etc/hosts. Hvis ikke dette er utført får man følgende feilmelding: ErrorCaused by: java.net.UnknownHostException: azure-mock.
    Verdi som skal legges inn i hosts filen:
-
 ```
 
 127.0.0.1 azure-mock
