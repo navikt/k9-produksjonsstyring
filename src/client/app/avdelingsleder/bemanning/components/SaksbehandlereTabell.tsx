@@ -1,17 +1,13 @@
-import React, { FunctionComponent, useCallback, useContext } from 'react';
+import React, { FunctionComponent, useContext } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { useQueryClient } from 'react-query';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import { Table } from '@navikt/ds-react';
-import { K9LosApiKeys } from 'api/k9LosApi';
-import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
 import LeggTilSaksbehandlerForm from 'avdelingsleder/bemanning/components/LeggTilSaksbehandlerForm';
 import SaksbehandlerInfo from 'avdelingsleder/bemanning/components/SaksbehandlerInfo';
 import { AvdelingslederContext } from 'avdelingsleder/context';
 import Image from 'sharedComponents/Image';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import saksbehandlereGra from '../../../../images/saksbehandlereGra.svg';
-import { Saksbehandler } from '../saksbehandlerTsType';
 import styles from './saksbehandlereTabell.css';
 
 /**
@@ -20,15 +16,6 @@ import styles from './saksbehandlereTabell.css';
 
 const SaksbehandlereTabell: FunctionComponent = () => {
 	const { saksbehandlere } = useContext(AvdelingslederContext);
-
-	const queryClient = useQueryClient();
-
-	const { startRequest: fjernSaksbehandler } = useRestApiRunner<Saksbehandler>(K9LosApiKeys.SLETT_SAKSBEHANDLER);
-	const fjernSaksbehandlerFn = useCallback((epost: string) => {
-		fjernSaksbehandler({ epost }).then(() =>
-			queryClient.invalidateQueries({ queryKey: '/avdelingsleder/saksbehandlere' }),
-		);
-	}, []);
 
 	return (
 		<>
@@ -61,9 +48,7 @@ const SaksbehandlereTabell: FunctionComponent = () => {
 							{saksbehandlere.map((saksbehandler) => (
 								<Table.ExpandableRow
 									key={saksbehandler.epost}
-									content={
-										<SaksbehandlerInfo saksbehandler={saksbehandler} fjernSaksbehandler={fjernSaksbehandlerFn} />
-									}
+									content={<SaksbehandlerInfo saksbehandler={saksbehandler} />}
 								>
 									<Table.DataCell scope="row">{saksbehandler.navn || saksbehandler.epost}</Table.DataCell>
 									<Table.DataCell>{saksbehandler.brukerIdent}</Table.DataCell>

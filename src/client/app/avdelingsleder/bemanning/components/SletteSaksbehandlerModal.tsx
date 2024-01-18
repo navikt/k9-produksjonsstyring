@@ -8,7 +8,6 @@ import { Saksbehandler } from '../saksbehandlerTsType';
 import styles from './sletteSaksbehandlerModal.css';
 
 type OwnProps = Readonly<{
-	intl: any;
 	valgtSaksbehandler: Saksbehandler;
 	closeSletteModal: () => void;
 	fjernSaksbehandler: (epost: string) => void;
@@ -26,7 +25,6 @@ const SletteSaksbehandlerModal: FunctionComponent<OwnProps & WrappedComponentPro
 	fjernSaksbehandler,
 }) => (
 	<Modal
-		className={styles.modal}
 		closeButton={false}
 		isOpen
 		contentLabel={intl.formatMessage({ id: 'SletteSaksbehandlerModal.SletteModal' })}
@@ -36,7 +34,7 @@ const SletteSaksbehandlerModal: FunctionComponent<OwnProps & WrappedComponentPro
 			<Normaltekst>
 				<FormattedMessage
 					id="SletteSaksbehandlerModal.SletteSaksbehandler"
-					values={{ saksbehandlerNavn: valgtSaksbehandler.navn }}
+					values={{ saksbehandlerNavn: valgtSaksbehandler.navn || valgtSaksbehandler.epost }}
 				/>
 			</Normaltekst>
 		</div>
