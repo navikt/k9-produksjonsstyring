@@ -1,7 +1,7 @@
 /* NOTE: Rekkefølgen styrer visning */
 const AvdelingslederPanels = {
 	BEHANDLINGSKOER: 'behandlingskoer',
-	BEHANDLINGSKOER_V2: 'behandlingskoerV2',
+	BEHANDLINGSKOER_V3: 'behandlingskoerV3',
 	SAKSBEHANDLERE: 'saksbehandlere',
 	NOKKELTALL: 'nokkeltall',
 	PROGNOSE: 'prognose',

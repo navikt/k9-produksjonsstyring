@@ -1,6 +1,6 @@
 enum BehandlingKoVersjon {
 	V1 = 'v1',
-	V2 = 'v2',
+	V3 = 'V3',
 }
 
 export const getKoId = (idMedVersjon: string) => {
@@ -11,5 +11,5 @@ export const getKoId = (idMedVersjon: string) => {
 
 export const erKoV3 = (idMedVersjon: string) => {
 	const versjon = idMedVersjon.split('__')[1];
-	return versjon === BehandlingKoVersjon.V2;
+	return versjon === BehandlingKoVersjon.V3;
 };

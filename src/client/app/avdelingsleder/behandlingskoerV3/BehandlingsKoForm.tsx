@@ -191,7 +191,7 @@ const BehandlingsKoForm = ({ kø, lukk, ekspandert, id }: BehandlingsKoFormProps
 							lagre={lagreOppgaveQuery}
 							avbryt={() => setVisFilterModal(false)}
 							tittel="Kriterier for kø"
-							visningV2
+							visningV3
 							køvisning
 						/>
 					</Modal.Body>

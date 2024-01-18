@@ -125,7 +125,7 @@ export const developmentHandlers = {
 			]),
 		),
 	),
-	oppgavemodellV2OppdaterKø: rest.post(apiPaths.oppdaterOppgaveko, async (req, res, ctx) => {
+	oppgavemodellV3OppdaterKø: rest.post(apiPaths.oppdaterOppgaveko, async (req, res, ctx) => {
 		const data = await req.json();
 		return res(
 			ctx.json({
@@ -140,7 +140,7 @@ export const developmentHandlers = {
 			}),
 		);
 	}),
-	oppgavemodellV2HentKø4: rest.get(`${apiPaths.hentOppgaveko('4')}`, async (req, res, ctx) =>
+	oppgavemodellV3HentKø4: rest.get(`${apiPaths.hentOppgaveko('4')}`, async (req, res, ctx) =>
 		res(
 			ctx.json({
 				id: 3,
@@ -203,7 +203,7 @@ export const developmentHandlers = {
 			}),
 		),
 	),
-	oppgavemodellV2HentKø: rest.get(`${apiPaths.hentOppgaveko('1')}`, async (req, res, ctx) =>
+	oppgavemodellV3HentKø: rest.get(`${apiPaths.hentOppgaveko('1')}`, async (req, res, ctx) =>
 		res(
 			ctx.json({
 				id: '1',
@@ -253,7 +253,7 @@ export const developmentHandlers = {
 			]),
 		),
 	),
-	oppgavemodellV2HentAlleKø: rest.get(apiPaths.hentOppgavekoer, async (req, res, ctx) =>
+	oppgavemodellV3HentAlleKø: rest.get(apiPaths.hentOppgavekoer, async (req, res, ctx) =>
 		res(
 			ctx.json({
 				koer: [

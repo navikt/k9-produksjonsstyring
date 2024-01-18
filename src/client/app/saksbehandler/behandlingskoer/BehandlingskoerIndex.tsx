@@ -24,14 +24,14 @@ interface OwnProps {
 const BehandlingskoerIndex: FunctionComponent<OwnProps & WrappedComponentProps> = ({ k9sakUrl, k9punsjUrl }) => {
 	const [valgtOppgavekoId, setValgtOppgavekoId] = useState('');
 	const { data: oppgavekoerV1 = [], isLoading: oppgavekoerV1IsLoading } = useAlleSaksbehandlerKoerV1();
-	const { data: oppgavekoerV2, isLoading: oppgavekoerV3IsLoading } = useAlleSaksbehandlerKoerV3({
+	const { data: oppgavekoerV3, isLoading: oppgavekoerV3IsLoading } = useAlleSaksbehandlerKoerV3({
 		enabled: saksbehandlerKanVelgeNyeKoer(),
 	});
 
 	const isLoading = oppgavekoerV3IsLoading || oppgavekoerV1IsLoading;
 	const mapKøV1 = (kø: OppgavekøV1): OppgavekøV1 => ({ ...kø, id: `${kø.id}__v1` });
-	const mapKøV2 = (kø: OppgavekøV3): OppgavekøV3MedNavn => ({ ...kø, navn: kø.tittel, id: `${kø.id}__v2` });
-	const oppgavekoer = [...(oppgavekoerV1 || []).map(mapKøV1), ...(oppgavekoerV2 || []).map(mapKøV2)];
+	const mapKøV3 = (kø: OppgavekøV3): OppgavekøV3MedNavn => ({ ...kø, navn: kø.tittel, id: `${kø.id}__V3` });
+	const oppgavekoer = [...(oppgavekoerV1 || []).map(mapKøV1), ...(oppgavekoerV3 || []).map(mapKøV3)];
 
 	const { startRequest: leggTilBehandletOppgave } = useRestApiRunner(K9LosApiKeys.LEGG_TIL_BEHANDLET_OPPGAVE);
 

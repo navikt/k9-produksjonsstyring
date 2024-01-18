@@ -28,7 +28,7 @@ const Home: FunctionComponent<OwnProps> = ({ headerHeight }) => {
 		<div className={styles.content} style={{ margin: `${headerHeight + 10}px auto 0` }}>
 			<AppContext.Provider value={contextValues}>
 				<Routes>
-					<Route path="/filter" element={<FilterIndex tittel="Søk på oppgaver" visningV2 />} />
+					<Route path="/filter" element={<FilterIndex tittel="Søk på oppgaver" visningV3 />} />
 					<Route path="/" element={<SaksbehandlerIndex />} />
 					<Route path="/avdelingsleder" element={<AvdelingslederIndex />} />
 					<Route path="/admin" element={<AdminIndex />} />

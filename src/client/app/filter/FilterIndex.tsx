@@ -24,7 +24,7 @@ interface OwnProps {
 	avbryt?: () => void;
 	initialQuery?: OppgaveQuery;
 	tittel: string;
-	visningV2?: boolean;
+	visningV3?: boolean;
 	køvisning?: boolean;
 }
 
@@ -54,7 +54,7 @@ const hasQueryChangedExcludingLimit = (prev, current) => {
 
 	return JSON.stringify(prevRest) !== JSON.stringify(currRest);
 };
-const FilterIndex = ({ initialQuery, lagre, avbryt, tittel, visningV2, køvisning }: OwnProps) => {
+const FilterIndex = ({ initialQuery, lagre, avbryt, tittel, visningV3, køvisning }: OwnProps) => {
 	const [oppgaveQuery, setOppgaveQuery] = useState(
 		initialQuery ? new OppgaveQueryModel(initialQuery).toOppgaveQuery() : new OppgaveQueryModel().toOppgaveQuery(),
 	);
@@ -229,7 +229,7 @@ const FilterIndex = ({ initialQuery, lagre, avbryt, tittel, visningV2, køvisnin
 							key={item.id}
 							køvisning={køvisning}
 							oppgavefilter={item}
-							visningV2={visningV2}
+							visningV3={visningV3}
 							addGruppeOperation={addGruppe(oppgaveQuery.id)}
 							paakrevdeKoder={[OppgavefilterKode.Oppgavestatus]}
 						/>
