@@ -52,7 +52,7 @@ export const OppgaverTabell: FunctionComponent<OwnProps> = ({ valgtKo }) => {
 	}, []);
 
 	if (isLoading) {
-		<Loader size="2xlarge" className={styles.spinner} />;
+		return <Loader size="2xlarge" className={styles.spinner} />;
 	}
 	if (error) {
 		return (

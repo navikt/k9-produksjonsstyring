@@ -63,7 +63,6 @@ const OppgavekoPanel: FunctionComponent<OwnProps> = ({ apneOppgave }) => {
 			return;
 		}
 
-		// TODO: legg til i sist behandlet
 		mutate({ oppgaveKøId: getKoId(valgtOppgavekoId) });
 	};
 
