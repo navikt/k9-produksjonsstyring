@@ -71,7 +71,7 @@ export const useOppdaterKøMutation = (callback) => {
 				const { id } = props;
 				Promise.all([
 					queryClient.invalidateQueries(apiPaths.hentOppgavekoer),
-					queryClient.invalidateQueries(`${apiPaths.hentOppgaveko}${id}`),
+					queryClient.invalidateQueries(apiPaths.hentOppgaveko(id)),
 				]).then(() => {
 					if (callback) callback();
 				});
