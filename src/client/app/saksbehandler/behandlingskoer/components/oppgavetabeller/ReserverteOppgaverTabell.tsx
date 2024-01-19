@@ -3,7 +3,7 @@ import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useQueryClient } from 'react-query';
 import NavFrontendChevron from 'nav-frontend-chevron';
-import { Normaltekst } from 'nav-frontend-typografi';
+import { Normaltekst, Element } from 'nav-frontend-typografi';
 import { OppgaveNøkkel } from 'types/OppgaveNøkkel';
 import { ErrorMessage, Loader, Table } from '@navikt/ds-react';
 import apiPaths from 'api/apiPaths';
@@ -75,16 +75,18 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps> = ({ apneOppgave, gj
 	};
 
 	return (
-		<div>
+		<>
 			<button
 				type="button"
 				className={kopanelStyles.behandlingskoerKnapp}
 				onClick={() => setVisReservasjoner(!visReservasjoner)}
 			>
 				<NavFrontendChevron type={visReservasjoner ? 'ned' : 'høyre'} className={kopanelStyles.chevron} />
-				<FormattedMessage
-					id={gjelderHastesaker ? 'OppgaverTabell.ReserverteHastesaker' : 'OppgaverTabell.ReserverteOppgaver'}
-				/>
+				<Element>
+					<FormattedMessage
+						id={gjelderHastesaker ? 'OppgaverTabell.ReserverteHastesaker' : 'OppgaverTabell.ReserverteOppgaver'}
+					/>
+				</Element>
 				{isSuccess && (
 					<OppgaveTabellMenyAntallOppgaver
 						antallOppgaver={reservasjoner?.length}
@@ -155,7 +157,7 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps> = ({ apneOppgave, gj
 					</Table.Body>
 				</Table>
 			)}
-		</div>
+		</>
 	);
 };
 
