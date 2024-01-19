@@ -58,7 +58,7 @@ jobs:
           PRINT_PAYLOAD: true
           CLUSTER: ${{ inputs.cluster }}
           RESOURCE: nais/proxy/k9-los-oidc-auth-proxy.yml
-          VARS: ${{ inputs.vars }}
+          VARS: nais/proxy/${{ inputs.cluster }}.json
 
       - name: Deploy k9-los-oidc-auth-proxy-redis til cluster
         uses: nais/deploy/actions/deploy@v2
