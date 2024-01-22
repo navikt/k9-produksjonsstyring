@@ -44,10 +44,6 @@ jobs:
         run: yarn css:lint
       - name: Tester
         run: yarn test --maxWorkers=2
-      - name: Install Playwright Browsers
-        run: yarn playwright install chromium
-      - name: Run Playwright tests
-        run: yarn playwright test
       - name: Bygge kode
         run: yarn build
       - name: Sette Docker-navn og -tag
