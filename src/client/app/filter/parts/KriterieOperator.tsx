@@ -63,6 +63,7 @@ function KriterieOperator({ oppgavefilter }) {
 			<Select
 				label="Operator"
 				size="small"
+				id={`${kriterieDefinisjon.kode}-operator`}
 				hideLabel
 				className="w-[12rem]"
 				value={oppgavefilter.operator}

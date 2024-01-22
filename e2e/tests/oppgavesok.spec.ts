@@ -1,16 +1,16 @@
 import { test } from '@playwright/test';
 
 test.beforeEach(async ({ page }) => {
-	await page.goto('http://localhost:8030/filter');
+	await page.goto('/filter');
 });
 
 test('kan legge til aksjonspunkt', async ({ page }) => {
 	await page.getByRole('button', { name: 'Legg til nytt kriterie' }).click();
 	await page.getByLabel('Velg kriterie:').selectOption('K9__aktivtAksjonspunkt');
 	await page.getByRole('button', { name: 'Legg til', exact: true }).click();
-	await page.getByLabel('Aktivt aksjonspunkt').click();
+	await page.getByLabel('Løsbare og fremtidige aksjonspunkt').click();
 	await page.getByLabel('Beregning').check();
-	await page.getByRole('button', { name: 'Legg til aktivt aksjonspunkt' }).click();
+	await page.getByRole('button', { name: 'Legg til løsbare og fremtidige aksjonspunkt' }).click();
 	await page.getByRole('button', { name: 'Fjern alle' }).click();
 });
 
@@ -47,7 +47,7 @@ test('can add date values', async ({ page }) => {
 
 test('kan legge til verdier med tall', async ({ page }) => {
 	await page.getByRole('button', { name: 'Legg til nytt kriterie' }).click();
-	await page.getByLabel('Velg kriterie:').selectOption('K9__akkumulertVentetidSaksbehandlerForTidligereVersjoner');
+	await page.getByLabel('Velg kriterie:').selectOption('K9__akkumulertVentetidTekniskFeil');
 	await page.getByRole('button', { name: 'Legg til', exact: true }).click();
 	await page.getByPlaceholder('Antall dager').click();
 	await page.getByPlaceholder('Antall dager').fill('10');
