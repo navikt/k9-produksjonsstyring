@@ -2,11 +2,10 @@ import { test, expect } from '@playwright/test';
 
 test.beforeEach(async ({ page }) => {
 	await page.goto('/');
-});
-test('Kan lage ny behandlingskø', async ({ page }) => {
-	await page.goto('/');
 	await page.getByRole('button', { name: 'Avdelingslederpanel' }).click();
 	await page.getByRole('link', { name: 'Nye behandlingskøer' }).click();
+});
+test('Kan lage ny behandlingskø', async ({ page }) => {
 	await page.getByRole('button', { name: 'Legg til ny behandlingskø' }).click();
 	await page.getByLabel('Kønavn').fill('Beskrivende tittel');
 	await page.getByLabel('Kønavn').press('Enter');
@@ -22,9 +21,6 @@ test('Kan lage ny behandlingskø', async ({ page }) => {
 });
 
 test('kan redigere kø', async ({ page }) => {
-	await page.goto('/');
-	await page.getByRole('button', { name: 'Avdelingslederpanel' }).click();
-	await page.getByRole('link', { name: 'Nye behandlingskøer' }).click();
 	await page.getByRole('cell', { name: 'Beskrivende tittel' }).isVisible();
 
 	await page
@@ -49,18 +45,24 @@ test('kan redigere kø', async ({ page }) => {
 	await page.getByRole('button', { name: 'Lagre behandlingskø' }).isEnabled();
 	await page.getByRole('button', { name: 'Lagre behandlingskø' }).click();
 	await page.getByTestId('lagre-button-modal').click();
+
 	await page.getByRole('button', { name: 'Endre kriterier' }).click();
+
+	// Legg til Duration
 	await page.getByRole('button', { name: 'Legg til nytt kriterie' }).click();
 	await page.getByLabel('Velg kriterie:').selectOption('K9__akkumulertVentetidAnnet');
 	await page.getByRole('button', { name: 'Legg til', exact: true }).click();
 	await page.getByPlaceholder('Antall dager').fill('3');
-	await page.getByText('Kriterier for køOppgavestatus').click();
+
+	// Legg til duration
 	await page.getByRole('button', { name: 'Legg til nytt kriterie' }).click();
 	await page.getByLabel('Velg kriterie:').selectOption('K9__registrertDato');
 	await page.getByRole('button', { name: 'Legg til', exact: true }).click();
 	await page.locator('#registrertDato-operator').selectOption('INTERVAL');
 	await page.getByLabel('Fra').fill('01.01.2024');
 	await page.getByLabel('Til', { exact: true }).fill('06.01.2024');
+
+	// Legg til aksjonspunkt
 	await page.getByRole('button', { name: 'Legg til nytt kriterie' }).click();
 	await page.getByLabel('Velg kriterie:').selectOption('K9__løsbartAksjonspunkt');
 	await page.getByRole('button', { name: 'Legg til', exact: true }).click();
@@ -75,15 +77,21 @@ test('kan redigere kø', async ({ page }) => {
 	await page.getByRole('option', { name: 'Innsyn' }).click();
 	await page.getByText('Inntektsmeldinger uten søknad').click();
 	await page.getByRole('button', { name: 'Legg til nytt kriterie' }).click();
+
+	// Legg til boolean
 	await page.getByLabel('Velg kriterie:').selectOption('K9__nyeKrav');
 	await page.getByRole('button', { name: 'Legg til', exact: true }).click();
 	await page.getByLabel('Ja', { exact: true }).check();
+
+	// Legg til anvarlig saksbehandler
 	await page.getByRole('button', { name: 'Legg til nytt kriterie' }).click();
 	await page.getByText('Avanserte valg').click();
 	await page.getByLabel('Velg kriterie:').selectOption('K9__ansvarligSaksbehandler');
 	await page.getByRole('button', { name: 'Legg til', exact: true }).click();
 	await page.getByLabel('Skriv fritekst').click();
 	await page.getByLabel('Skriv fritekst').fill('M13337');
+
+	// Lagre
 	await page.getByRole('button', { name: 'Lagre', exact: true }).click();
 	await page.getByRole('button', { name: 'Lagre behandlingskø' }).click();
 	await page.getByText('Er du sikker på at du ønsker å lagre behandlingskøen?').isVisible();
@@ -93,8 +101,6 @@ test('kan redigere kø', async ({ page }) => {
 });
 
 test('tidligere lagret kø vises korrekt', async ({ page }) => {
-	await page.goto('/avdelingsleder');
-	await page.getByRole('link', { name: 'Nye behandlingskøer' }).click();
 	await page.getByRole('row', { name: 'Beskrivende tittel' }).getByRole('button', { name: 'Vis mer' }).click();
 	await page.getByRole('button', { name: 'Endre kriterier' }).click();
 
@@ -127,8 +133,6 @@ test('tidligere lagret kø vises korrekt', async ({ page }) => {
 });
 
 test('kan slette kø', async ({ page }) => {
-	await page.goto('/avdelingsleder');
-	await page.getByRole('link', { name: 'Nye behandlingskøer' }).click();
 	await page.getByRole('row', { name: 'Beskrivende tittel' }).getByRole('button', { name: 'Slett' }).click();
 	await page.getByText('Er du sikker på at du vil slette Beskrivende tittel?').isVisible();
 	await page.getByRole('dialog').getByRole('button', { name: 'Slett' }).click();
