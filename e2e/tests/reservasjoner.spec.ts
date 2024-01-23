@@ -25,13 +25,13 @@ function formatDate(date: Date): string {
 	)}.${date.getFullYear()}`;
 }
 
-const saksnummer = '5YC1S' as string;
+const saksnummer = process.env.SAKSNUMMER as string;
 
 test.beforeEach(async ({ page }) => {
 	await page.goto('/');
 });
 
-test.skip('Kan søke opp og reservere opppgave', async ({ page }) => {
+test('Kan søke opp og reservere opppgave', async ({ page }) => {
 	const searchInput = page.getByLabel('Saksnummer, fødselsnummer/D-nummer eller journalpostID');
 	await searchInput.click();
 	await searchInput.fill(saksnummer);
@@ -133,7 +133,7 @@ test.skip('kan endre reservasjon som avdelingsleder', async ({ page }) => {
 test.skip('kan fjerne reservasjon som avdelingsleder', async ({ page }) => {
 	await page.goto('/avdelingsleder');
 	await page.getByRole('link', { name: 'Reservasjoner' }).click();
-	await page.getByRole('row', { name: '5YC1S' }).getByRole('cell').nth(4).click();
+	await page.getByRole('row', { name: saksnummer }).getByRole('cell').nth(4).click();
 	await page.getByRole('button', { name: 'Legg behandling tilbake i felles kø' }).click();
 	await page.getByLabel('Når en reservert sak frigjøres er begrunnelse obligatorisk').fill('Dette er en god grunn');
 	await page.getByRole('button', { name: 'OK' }).click();
@@ -141,5 +141,5 @@ test.skip('kan fjerne reservasjon som avdelingsleder', async ({ page }) => {
 	await page.waitForResponse(
 		(response) => response.url().includes('/api/saksbehandler/oppgaver/opphev') && response.status() === 200,
 	);
-	expect(page.getByRole('row', { name: '5YC1S' })).not.toBeVisible();
+	expect(page.getByRole('row', { name: saksnummer })).not.toBeVisible();
 });
