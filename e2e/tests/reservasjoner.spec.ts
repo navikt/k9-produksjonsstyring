@@ -30,6 +30,11 @@ const saksnummer = '5YC1S' as string;
 test.beforeEach(async ({ page }) => {
 	await page.goto('/');
 });
+
+// cleanup
+test.afterAll(async ({ page }) => {
+	page.goto('/');
+});
 test('Kan søke opp og reservere opppgave', async ({ page }) => {
 	const searchInput = page.getByLabel('Saksnummer, fødselsnummer/D-nummer eller journalpostID');
 	await searchInput.click();
@@ -101,6 +106,9 @@ test('kan endre/og flytte reservasjon reservasjon', async ({ page }) => {
 	// fill with date one week in the future dd.mm.yyyy this format
 	await page.getByLabel(/^Velg dato som reservasjonen avsluttes \(Valgfritt å fylle ut\)$/).fill(oneWeekFromNow);
 	await page.getByLabel('Begrunn endring av reservasjon').click();
-	await page.getByLabel('Begrunn endring av reservasjon').fill('hehiehiehie');
+	await page
+		.getByLabel('Begrunn endring av reservasjon')
+		.fill('jeg ønsker å ha denne oppgaven liggende på min benk skikkelig lenge ');
 	await page.getByRole('button', { name: 'OK' }).click();
+	await page.getByRole('cell', { name: `Reservert til ${oneWeekFromNow}` }).isVisible();
 });
