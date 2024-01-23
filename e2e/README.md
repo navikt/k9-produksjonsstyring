@@ -17,4 +17,4 @@ Dersom du vil kjøre frontend lokalt selv kan du skrive. Se README.md i root for
     docker-compose up -d k9-los
 ```
 
-3.
+3. yarn test:e2e i /e2e for å kjøre testene
