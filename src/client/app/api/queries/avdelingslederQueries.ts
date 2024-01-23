@@ -17,7 +17,7 @@ export const useNyKøMutation = (callback) => {
 
 	return useMutation<OppgavekøV3, unknown, { url: string; body: { tittel: string } }>({
 		onSuccess: (data) =>
-			Promise.all([queryClient.invalidateQueries(apiPaths.hentOppgavekoer)]).then(() => {
+			queryClient.invalidateQueries(apiPaths.hentOppgavekoer).then(() => {
 				if (callback) callback(data.id);
 			}),
 	});
@@ -44,7 +44,7 @@ export const useKopierKøMutation = (callback?: () => void) => {
 	return useMutation({
 		mutationFn: (data: KopierKøPayload) => axiosInstance.post(`${apiPaths.kopierOppgaveko}`, data),
 		onSuccess: () =>
-			Promise.all([queryClient.invalidateQueries(apiPaths.hentOppgavekoer)]).then(() => {
+			queryClient.invalidateQueries(apiPaths.hentOppgavekoer).then(() => {
 				if (callback) callback();
 			}),
 	});
@@ -56,7 +56,7 @@ export const useSlettKøMutation = (callback?: () => void) => {
 	return useMutation({
 		mutationFn: (id: string) => axiosInstance.delete(`${apiPaths.slettOppgaveko}${id}`),
 		onSuccess: () =>
-			Promise.all([queryClient.invalidateQueries(apiPaths.hentOppgavekoer)]).then(() => {
+			queryClient.invalidateQueries(apiPaths.hentOppgavekoer).then(() => {
 				if (callback) callback();
 			}),
 	});

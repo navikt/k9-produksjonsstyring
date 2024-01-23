@@ -46,7 +46,7 @@ export const usePlukkOppgaveMutation = (callback?: (oppgave: ReservasjonV3FraKø
 		mutationFn: (data: { oppgaveKøId: string }): Promise<ReservasjonV3FraKøDto> =>
 			axiosInstance.post(`${apiPaths.hentOppgaveFraKoV3(data.oppgaveKøId)}`, data).then((response) => response.data),
 		onSuccess: (data: ReservasjonV3FraKøDto) => {
-			Promise.all([queryClient.invalidateQueries(apiPaths.saksbehandlerReservasjoner)]).then(() => {
+			queryClient.invalidateQueries(apiPaths.saksbehandlerReservasjoner).then(() => {
 				if (callback) callback(data);
 			});
 		},
