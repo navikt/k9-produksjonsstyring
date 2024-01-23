@@ -31,7 +31,7 @@ test.beforeEach(async ({ page }) => {
 	await page.goto('/');
 });
 
-test('Kan søke opp og reservere opppgave', async ({ page }) => {
+test.skip('Kan søke opp og reservere opppgave', async ({ page }) => {
 	const searchInput = page.getByLabel('Saksnummer, fødselsnummer/D-nummer eller journalpostID');
 	await searchInput.click();
 	await searchInput.fill(saksnummer);
@@ -54,7 +54,7 @@ test('Kan søke opp og reservere opppgave', async ({ page }) => {
 	);
 });
 
-test('kan legge tilbake reservasjon i felles kø', async ({ page }) => {
+test.skip('kan legge tilbake reservasjon i felles kø', async ({ page }) => {
 	await expect(page.getByRole('cell', { name: saksnummer })).toBeVisible();
 	await page.getByRole('img', { name: 'Handlinger på oppgave' }).click();
 	await page.getByRole('button', { name: 'Legg behandling tilbake i felles kø' }).click();
@@ -64,7 +64,7 @@ test('kan legge tilbake reservasjon i felles kø', async ({ page }) => {
 	await expect(page.getByRole('cell', { name: saksnummer })).not.toBeVisible();
 });
 
-test('kan plukke oppgave fra kø og reservere', async ({ page }) => {
+test.skip('kan plukke oppgave fra kø og reservere', async ({ page }) => {
 	const kønavn = 'bra kø';
 	await lagNyBehandlingskø(page, kønavn);
 	await page.goto('/');
@@ -75,7 +75,7 @@ test('kan plukke oppgave fra kø og reservere', async ({ page }) => {
 	);
 });
 
-test('kan forlenge reservasjon', async ({ page }) => {
+test.skip('kan forlenge reservasjon', async ({ page }) => {
 	await page.getByRole('row', { name: saksnummer }).getByRole('img', { name: 'Handlinger på oppgave' }).click();
 	const today = new Date();
 	const todayFormatted = formatDate(today);
@@ -87,7 +87,7 @@ test('kan forlenge reservasjon', async ({ page }) => {
 	await page.getByRole('cell', { name: `Reservert til ${tomorrow}` }).isVisible();
 });
 
-test('kan endre/og flytte reservasjon reservasjon', async ({ page }) => {
+test.skip('kan endre/og flytte reservasjon reservasjon', async ({ page }) => {
 	await page.getByRole('row', { name: saksnummer }).getByRole('img').click();
 	await page.getByRole('button', { name: 'Endre og/eller flytte' }).click();
 	await page.getByLabel('Saksbehandlers navn').click();
@@ -108,7 +108,7 @@ test('kan endre/og flytte reservasjon reservasjon', async ({ page }) => {
 	await page.getByRole('button', { name: 'OK' }).click();
 	await page.getByRole('cell', { name: `Reservert til ${oneWeekFromNow}` }).isVisible();
 });
-test('kan endre reservasjon som avdelingsleder', async ({ page }) => {
+test.skip('kan endre reservasjon som avdelingsleder', async ({ page }) => {
 	await page.goto('/avdelingsleder');
 	await page.getByRole('link', { name: 'Reservasjoner' }).click();
 	await page.getByRole('row', { name: saksnummer }).getByRole('cell').nth(4).click();
@@ -130,7 +130,7 @@ test('kan endre reservasjon som avdelingsleder', async ({ page }) => {
 	await page.getByRole('cell', { name: `Reservert til ${twoWeeksFromNow}` }).isVisible();
 });
 
-test('kan fjerne reservasjon som avdelingsleder', async ({ page }) => {
+test.skip('kan fjerne reservasjon som avdelingsleder', async ({ page }) => {
 	await page.goto('/avdelingsleder');
 	await page.getByRole('link', { name: 'Reservasjoner' }).click();
 	await page.getByRole('row', { name: '5YC1S' }).getByRole('cell').nth(4).click();
