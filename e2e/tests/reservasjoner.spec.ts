@@ -31,10 +31,6 @@ test.beforeEach(async ({ page }) => {
 	await page.goto('/');
 });
 
-// cleanup
-test.afterAll(async ({ page }) => {
-	page.goto('/');
-});
 test('Kan søke opp og reservere opppgave', async ({ page }) => {
 	const searchInput = page.getByLabel('Saksnummer, fødselsnummer/D-nummer eller journalpostID');
 	await searchInput.click();
@@ -111,4 +107,39 @@ test('kan endre/og flytte reservasjon reservasjon', async ({ page }) => {
 		.fill('jeg ønsker å ha denne oppgaven liggende på min benk skikkelig lenge ');
 	await page.getByRole('button', { name: 'OK' }).click();
 	await page.getByRole('cell', { name: `Reservert til ${oneWeekFromNow}` }).isVisible();
+});
+test('kan endre reservasjon som avdelingsleder', async ({ page }) => {
+	await page.goto('/avdelingsleder');
+	await page.getByRole('link', { name: 'Reservasjoner' }).click();
+	await page.getByRole('row', { name: saksnummer }).getByRole('cell').nth(4).click();
+	await page.getByRole('button', { name: 'Flytt reservasjonen til annen saksbehandler' }).click();
+	await page.getByLabel('Saksbehandlers navn').click();
+	await page.getByLabel('Saksbehandlers navn').fill('Sara');
+	await page.getByLabel('Endre og/eller flytte').getByRole('button', { name: 'Søk' }).click();
+	// Get a date two weeks from now
+	const date = new Date();
+	date.setDate(date.getDate() + 14);
+
+	const twoWeeksFromNow = formatDate(date);
+	await page.getByLabel(/^Velg dato som reservasjonen avsluttes \(Valgfritt å fylle ut\)$/).fill(twoWeeksFromNow);
+	await page.getByLabel('Begrunn endring av reservasjon').click();
+	await page
+		.getByLabel('Begrunn endring av reservasjon')
+		.fill('jeg ønsker å ha denne oppgaven liggende på min benk skikkelig lenge ');
+	await page.getByRole('button', { name: 'OK' }).click();
+	await page.getByRole('cell', { name: `Reservert til ${twoWeeksFromNow}` }).isVisible();
+});
+
+test('kan fjerne reservasjon som avdelingsleder', async ({ page }) => {
+	await page.goto('/avdelingsleder');
+	await page.getByRole('link', { name: 'Reservasjoner' }).click();
+	await page.getByRole('row', { name: '5YC1S' }).getByRole('cell').nth(4).click();
+	await page.getByRole('button', { name: 'Legg behandling tilbake i felles kø' }).click();
+	await page.getByLabel('Når en reservert sak frigjøres er begrunnelse obligatorisk').fill('Dette er en god grunn');
+	await page.getByRole('button', { name: 'OK' }).click();
+
+	await page.waitForResponse(
+		(response) => response.url().includes('/api/saksbehandler/oppgaver/opphev') && response.status() === 200,
+	);
+	expect(page.getByRole('row', { name: '5YC1S' })).not.toBeVisible();
 });
