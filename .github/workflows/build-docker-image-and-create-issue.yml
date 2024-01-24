@@ -124,7 +124,7 @@ jobs:
 
       - name: Set image output
         id: docker-push
-        run: echo "IMAGE=$IMAGE_BASE_CR:$TAG" >> $GITHUB_OUTPUT
+        run: echo "IMAGE=$IMAGE_BASE:$TAG" >> $GITHUB_OUTPUT
 
   trigger-verdikjede:
     name: Trigger verdikjede test
