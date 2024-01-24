@@ -1,0 +1,156 @@
+name: Build docker image and create issue
+on:
+  push:
+    paths-ignore:
+      - '**.md'
+      - '.gitignore'
+      - 'CODEOWNERS'
+      - 'LICENCE'
+    branches:
+      - master
+
+env:
+  IMAGE_BASE_CR: ghcr.io/${{ github.repository }}
+
+jobs:
+  build-and-deploy:
+    name: Build docker image and create issue
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
+      id-token: write
+      issues: write
+    outputs:
+      image: ${{ steps.docker-push.outputs.IMAGE }}
+    steps:
+      - name: Hente kode
+        uses: actions/checkout@v4
+      - name: Sette yarn-config
+        run: |
+          yarn config set npmScopes.navikt.npmRegistryServer "https://npm.pkg.github.com"
+          yarn config set npmScopes.navikt.npmAlwaysAuth true
+          yarn config set npmScopes.navikt.npmAuthToken $NPM_AUTH_TOKEN
+        env:
+          NPM_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
+      - name: Sette opp Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18.x
+          cache: yarn
+      - name: Installere dependencies
+        run: yarn install --immutable
+      - name: CSS lint
+        run: yarn css:lint
+      - name: Tester
+        run: yarn test --maxWorkers=2
+      - name: Bygge kode
+        run: yarn build
+      - name: Sette Docker-navn og -tag
+        run: |
+          echo "TAG=$(date +"%Y%m%d%H%M%S")-$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Bygg og laste opp docker-image
+        run: |
+          echo "IMAGE=$IMAGE_BASE_CR:$TAG" >> $GITHUB_ENV
+          docker build --pull --tag ${IMAGE_BASE_CR}:${TAG} --tag ${IMAGE_BASE_CR}:latest .
+          docker push ${IMAGE_BASE_CR} --all-tags
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Lukk gamle issues
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              labels: ['deployment']
+            }).then(response => {
+              response.data.forEach(issue => {
+                github.rest.issues.update({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: issue.number,
+                  state: 'closed'
+                });
+              });
+            });
+
+      - name: Opprett deployment issue
+        id: createdeployissue
+        if: success()
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            github.rest.issues.create( {
+              owner: context.issue.owner,
+              repo: context.issue.repo,
+              labels: ['deployment'],
+              body: '${{ github.sha }}',
+              title: 'Deploy av ${{ env.TAG }}'})
+            .then(response => {
+                    core.setOutput('number', response.data.number);
+            });
+
+      - name: Deploye til dev
+        uses: nais/deploy/actions/deploy@v2
+        env:
+          CLUSTER: dev-fss
+          RESOURCE: nais/frontend/k9-los-web.yml
+          VARS: nais/frontend/dev-fss.yml
+
+      - name: Deploy k9-los-oidc-auth-proxy til cluster
+        uses: nais/deploy/actions/deploy@v2
+        env:
+          PRINT_PAYLOAD: true
+          CLUSTER: dev-fss
+          RESOURCE: nais/proxy/k9-los-oidc-auth-proxy.yml
+          VARS: nais/proxy/dev-fss.json
+
+      - name: Deploy k9-los-oidc-auth-proxy-redis til cluster
+        uses: nais/deploy/actions/deploy@v2
+        env:
+          PRINT_PAYLOAD: true
+          CLUSTER: dev-fss
+          RESOURCE: nais/proxy/k9-los-oidc-auth-proxy-redis.yml
+
+      - name: Set image output
+        id: docker-push
+        run: echo "IMAGE=$IMAGE_BASE:$TAG" >> $GITHUB_OUTPUT
+
+  trigger-verdikjede:
+    name: Trigger verdikjede test
+    needs: [build-and-deploy]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger test
+        run: |
+          curl -L \
+          -X POST \
+          -H "Accept: application/vnd.github+json" \
+          -H "Authorization: Bearer ${{secrets.GH_SSO_REPO_TOKEN}}" \
+          -H "X-GitHub-Api-Version: 2022-11-28" \
+          https://api.github.com/repos/navikt/k9-verdikjede/actions/workflows/build-los.yml/dispatches \
+          -d '{"ref":"master",
+                  "inputs":{
+                      "trigger": "${{ github.repository }}"
+                  }}'
+
+  trivy:
+    needs: [build-and-deploy]
+    uses: navikt/sif-gha-workflows/.github/workflows/trivy-ghcr.yml@main
+    permissions:
+      contents: write
+      security-events: write
+      actions: read
+    secrets: inherit
+    with:
+      image: ${{ needs.build-and-deploy.outputs.image }}
