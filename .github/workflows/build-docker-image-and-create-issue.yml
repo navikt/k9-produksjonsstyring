@@ -154,4 +154,3 @@ jobs:
     secrets: inherit
     with:
       image: ${{ needs.build-and-deploy.outputs.image }}
-      team: k9saksbehandling
