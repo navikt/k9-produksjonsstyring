@@ -11,10 +11,12 @@ Kjør opp verdikjeden inkl k9-los-web.
    docker-compose up -d k9-los-web
 ```
 
-Dersom du vil kjøre frontend lokalt selv kan du skrive. Se README.md i root for mer info
+Dersom du vil kjøre frontend lokalt selv kan du skrive følgende.
 
 ```
     docker-compose up -d k9-los
 ```
+
+Se README.md i root for mer info angående kjøring av k9-sak-web utenfor docker
 
 3. yarn test:e2e i /e2e for å kjøre testene
