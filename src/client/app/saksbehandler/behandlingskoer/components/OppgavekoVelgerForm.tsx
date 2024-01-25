@@ -1,7 +1,6 @@
 import React, { FunctionComponent, ReactNode, useContext, useEffect } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useQuery, useQueryClient } from 'react-query';
-import { Element } from 'nav-frontend-typografi';
 import { OppgavekøV3MedNavn } from 'types/OppgavekøV3Type';
 import { Button, ReadMore, Select } from '@navikt/ds-react';
 import apiPaths from 'api/apiPaths';
@@ -35,9 +34,6 @@ const createTooltip = (saksbehandlere: Saksbehandler[]): ReactNode | undefined =
 
 	return (
 		<div>
-			<Element className={styles.tooltipHeader}>
-				<FormattedMessage id="OppgavekoVelgerForm.SaksbehandlerToolip" />
-			</Element>
 			{saksbehandlere
 				.sort((n1, n2) => n1.epost.localeCompare(n2.epost))
 				.map((s) => (
@@ -135,7 +131,7 @@ export const OppgavekoVelgerForm: FunctionComponent<OwnProps> = ({ plukkNyOppgav
 							id="OppgavekoVelgerForm.AntallOppgaver"
 							values={{ antall: (erKoV3(valgtKoId) ? antallOppgaverV3 : antallOppgaver) || 0 }}
 						/>
-						<ReadMore size="small" header="Andre saksbehandlere i køen">
+						<ReadMore size="small" header="Saksbehandlere i køen">
 							{createTooltip(erKoV3(valgtKoId) ? saksbehandlereV3 : saksbehandlere)}
 						</ReadMore>
 						<VerticalSpacer sixteenPx />
