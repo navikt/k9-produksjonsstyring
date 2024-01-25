@@ -93,9 +93,9 @@ export const OppgavekoVelgerForm: FunctionComponent<OwnProps> = ({ plukkNyOppgav
 				if (!erKoV3(defaultOppgavekoId)) {
 					hentSaksbehandlere({ id: getKoId(defaultOppgavekoId) });
 					fetchAntallOppgaver({ id: getKoId(defaultOppgavekoId) });
-					return;
+				} else {
+					queryClient.invalidateQueries(apiPaths.hentSaksbehandlereIKoV3(getKoId(defaultOppgavekoId)));
 				}
-				queryClient.invalidateQueries(apiPaths.hentSaksbehandlereIKoV3(getKoId(defaultOppgavekoId)));
 			}
 		}
 	}, []);
