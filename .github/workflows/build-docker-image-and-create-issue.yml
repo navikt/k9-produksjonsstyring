@@ -146,7 +146,7 @@ jobs:
 
   trivy:
     needs: [build-and-deploy]
-    uses: navikt/sif-gha-workflows/.github/workflows/trivy-ghcr.yml@main
+    uses: navikt/sif-gha-workflows/.github/workflows/trivy.yml@main
     permissions:
       contents: write
       security-events: write
