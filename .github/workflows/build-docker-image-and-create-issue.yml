@@ -107,7 +107,7 @@ jobs:
           RESOURCE: nais/frontend/k9-los-web.yml
           VARS: nais/frontend/dev-fss.yml
 
-      - name: Deploy k9-los-oidc-auth-proxy til cluster
+      - name: Deploy k9-los-oidc-auth-proxy til dev
         uses: nais/deploy/actions/deploy@v2
         env:
           PRINT_PAYLOAD: true
@@ -115,7 +115,7 @@ jobs:
           RESOURCE: nais/proxy/k9-los-oidc-auth-proxy.yml
           VARS: nais/proxy/dev-fss.json
 
-      - name: Deploy k9-los-oidc-auth-proxy-redis til cluster
+      - name: Deploy k9-los-oidc-auth-proxy-redis til dev
         uses: nais/deploy/actions/deploy@v2
         env:
           PRINT_PAYLOAD: true
