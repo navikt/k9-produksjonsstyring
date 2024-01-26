@@ -1,5 +1,4 @@
 import React, { FunctionComponent, useState } from 'react';
-import { WrappedComponentProps, injectIntl } from 'react-intl';
 import NavAnsatt from 'app/navAnsattTsType';
 import { getK9punsjRef, getK9sakHref } from 'app/paths';
 import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
@@ -26,7 +25,7 @@ interface OwnProps {
  * mot server og lagringen av resultatet i klientens state.
  */
 
-const FagsakSearchIndex: FunctionComponent<OwnProps & WrappedComponentProps> = ({ intl, k9sakUrl, k9punsjUrl }) => {
+const FagsakSearchIndex: FunctionComponent<OwnProps> = ({ k9sakUrl, k9punsjUrl }) => {
 	const [reservertAvAnnenSaksbehandler, setReservertAvAnnenSaksbehandler] = useState(false);
 	const [visModalForFlyttReservasjon, setVisModalForFlyttReservasjon] = useState<boolean>(false);
 	const [valgtOppgave, setValgtOppgave] = useState<Oppgave>();
@@ -55,7 +54,6 @@ const FagsakSearchIndex: FunctionComponent<OwnProps & WrappedComponentProps> = (
 
 	const {
 		startRequest: sokFagsak,
-		resetRequestData: resetFagsakSok,
 		data: fagsakerResultat = [],
 		error: fagsakError,
 	} = useRestApiRunner<SokeResultat>(K9LosApiKeys.SEARCH_FAGSAK);
@@ -84,25 +82,27 @@ const FagsakSearchIndex: FunctionComponent<OwnProps & WrappedComponentProps> = (
 		}
 
 		if (reserver && !kanReservere) {
-			leggTilBehandletOppgave(oppgave);
+			leggTilBehandletOppgave(oppgave.oppgaveNøkkel);
 			goToFagsak(oppgave);
 		}
 		if (!reserver) {
-			leggTilBehandletOppgave(oppgave);
+			leggTilBehandletOppgave(oppgave.oppgaveNøkkel);
 			goToFagsakEllerApneModal(oppgave);
 		} else if (reserver && kanReservere) {
-			reserverOppgave({ oppgaveId: oppgave.eksternId }).then((nyOppgaveStatus) => {
-				if (nyOppgaveStatus.kanOverstyres) {
-					setValgtOppgave(oppgave);
-					setValgtOppgaveStatus(nyOppgaveStatus);
-					setVisModalForFlyttReservasjon(true);
-				} else {
-					leggTilBehandletOppgave(oppgave);
-					goToFagsak(oppgave);
-				}
-			});
+			reserverOppgave({ oppgaveId: oppgave.eksternId, oppgaveNøkkel: oppgave.oppgaveNøkkel }).then(
+				(nyOppgaveStatus) => {
+					if (nyOppgaveStatus.kanOverstyres) {
+						setValgtOppgave(oppgave);
+						setValgtOppgaveStatus(nyOppgaveStatus);
+						setVisModalForFlyttReservasjon(true);
+					} else {
+						leggTilBehandletOppgave(oppgave.oppgaveNøkkel);
+						goToFagsak(oppgave);
+					}
+				},
+			);
 		} else if (!kanReservere) {
-			leggTilBehandletOppgave(oppgave);
+			leggTilBehandletOppgave(oppgave.oppgaveNøkkel);
 			goToFagsak(oppgave);
 		}
 	};
@@ -120,19 +120,13 @@ const FagsakSearchIndex: FunctionComponent<OwnProps & WrappedComponentProps> = (
 	const lukkErReservertModalOgApneOppgave = (oppgave: Oppgave) => {
 		setReservertOppgave(undefined);
 		setReservertAvAnnenSaksbehandler(false);
-		leggTilBehandletOppgave(oppgave);
+		leggTilBehandletOppgave(oppgave.oppgaveNøkkel);
 		goToFagsak(oppgave);
 	};
 
 	const lukkModal = () => {
 		setReservertOppgave(undefined);
 		setReservertAvAnnenSaksbehandler(false);
-	};
-
-	const resetSearchFn = () => {
-		resetFagsakSok();
-		setSokStartet(false);
-		setSokFerdig(false);
 	};
 
 	return (
@@ -144,7 +138,6 @@ const FagsakSearchIndex: FunctionComponent<OwnProps & WrappedComponentProps> = (
 				selectOppgaveCallback={velgFagsakOperasjoner}
 				searchStarted={sokStartet}
 				searchResultAccessDenied={searchResultAccessDenied}
-				resetSearch={resetSearchFn}
 				goToFagsak={goToFagsak}
 			/>
 			{reservertAvAnnenSaksbehandler && reservertOppgave && (
@@ -158,7 +151,6 @@ const FagsakSearchIndex: FunctionComponent<OwnProps & WrappedComponentProps> = (
 
 			{visModalForFlyttReservasjon && valgtOppgave && valgtOppgaveStatus && (
 				<FlyttReservasjonsmodal
-					intl={intl}
 					oppgave={valgtOppgave}
 					oppgaveStatus={valgtOppgaveStatus}
 					lukkFlyttReservasjonsmodal={() => {
@@ -172,4 +164,4 @@ const FagsakSearchIndex: FunctionComponent<OwnProps & WrappedComponentProps> = (
 	);
 };
 
-export default injectIntl(FagsakSearchIndex);
+export default FagsakSearchIndex;

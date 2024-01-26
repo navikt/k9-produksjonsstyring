@@ -1,10 +1,13 @@
 import React, { FunctionComponent, useCallback, useEffect } from 'react';
 import { Form } from 'react-final-form';
 import { FormattedMessage, useIntl } from 'react-intl';
+import { useQueryClient } from 'react-query';
+import dayjs from 'dayjs';
 import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
-import NavAnsatt from 'app/navAnsattTsType';
-import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
+import { OppgaveNøkkel } from 'types/OppgaveNøkkel';
+import apiPaths from 'api/apiPaths';
+import { K9LosApiKeys } from 'api/k9LosApi';
 import RestApiState from 'api/rest-api-hooks/src/RestApiState';
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
 import { DatepickerField, InputField, TextAreaField } from 'form/FinalFields';
@@ -19,7 +22,6 @@ import {
 	minLength,
 	required,
 } from 'utils/validation/validators';
-import useGlobalStateRestApiData from '../../../../api/rest-api-hooks/src/global-data/useGlobalStateRestApiData';
 import { Saksbehandler } from '../../saksbehandlerTsType';
 import styles from './flyttReservasjonModal.css';
 
@@ -28,8 +30,8 @@ const maxLength1500 = maxLength(1500);
 
 interface OwnProps {
 	showModal: boolean;
-	oppgaveId: string;
-	oppgaveReservertTil?: string;
+	oppgaveNøkkel: OppgaveNøkkel;
+	oppgaveReservertTil?: Date;
 	closeModal: () => void;
 	eksisterendeBegrunnelse?: string;
 }
@@ -42,7 +44,7 @@ interface OwnProps {
 export const FlyttReservasjonModal: FunctionComponent<OwnProps> = ({
 	showModal,
 	closeModal,
-	oppgaveId,
+	oppgaveNøkkel,
 	oppgaveReservertTil,
 	eksisterendeBegrunnelse,
 }) => {
@@ -57,32 +59,33 @@ export const FlyttReservasjonModal: FunctionComponent<OwnProps> = ({
 
 	const finnSaksbehandler = useCallback((brukerIdent) => startRequest({ brukerIdent }), []);
 
-	const { navn } = useGlobalStateRestApiData<NavAnsatt>(RestApiGlobalStatePathsKeys.NAV_ANSATT);
+	const queryClient = useQueryClient();
 
-	const endreReservasjonFn = async (
-		brukerIdent: string,
-		begrunnelse: string,
-		reservertTilDato: string,
-	): Promise<void> => {
-		const params: {
-			oppgaveId: string;
-			brukerIdent: string;
-			begrunnelse: string;
-			reserverTil?: string;
-		} = {
-			oppgaveId,
-			brukerIdent,
-			begrunnelse,
-		};
+	const endreReservasjonFn = useCallback(
+		(brukerIdent: string, begrunnelse: string, reservertTilDato: string): Promise<any> => {
+			const params: {
+				oppgaveNøkkel: OppgaveNøkkel;
+				brukerIdent: string;
+				begrunnelse: string;
+				reserverTil?: string;
+			} = {
+				oppgaveNøkkel,
+				brukerIdent,
+				begrunnelse,
+			};
 
-		if (reservertTilDato) {
-			params.reserverTil = reservertTilDato;
-		}
+			if (reservertTilDato) {
+				params.reserverTil = reservertTilDato;
+			}
 
-		await endreOppgaveReservasjon(params);
-		closeModal();
-	};
-
+			return endreOppgaveReservasjon(params).then(() => {
+				closeModal();
+				queryClient.invalidateQueries(apiPaths.saksbehandlerReservasjoner);
+				queryClient.invalidateQueries(apiPaths.avdelinglederReservasjoner);
+			});
+		},
+		[queryClient],
+	);
 	const onSubmit = (brukerIdent: string, begrunnelse: string, reservertTilDato: string) => {
 		endreReservasjonFn(brukerIdent, begrunnelse, reservertTilDato);
 	};
@@ -91,8 +94,7 @@ export const FlyttReservasjonModal: FunctionComponent<OwnProps> = ({
 		if (state === RestApiState.SUCCESS && !saksbehandler) {
 			return intl.formatMessage({ id: 'LeggTilSaksbehandlerForm.FinnesIkke' });
 		}
-
-		return saksbehandler ? `${saksbehandler.navn}` : '';
+		return saksbehandler.navn || saksbehandler.brukerIdent || '';
 	};
 
 	useEffect(
@@ -112,7 +114,7 @@ export const FlyttReservasjonModal: FunctionComponent<OwnProps> = ({
 		>
 			<Form
 				onSubmit={(values) => finnSaksbehandler(values.brukerIdent)}
-				initialValues={{ brukerIdent: navn || '' }}
+				initialValues={{ brukerIdent: saksbehandler?.brukerIdent || '' }}
 				render={({ handleSubmit, values }) => (
 					<form onSubmit={handleSubmit}>
 						<Element>
@@ -156,7 +158,10 @@ export const FlyttReservasjonModal: FunctionComponent<OwnProps> = ({
 				onSubmit={(values) =>
 					onSubmit(saksbehandler ? saksbehandler.brukerIdent : '', values.begrunnelse, values.reserverTil)
 				}
-				initialValues={{ reserverTil: oppgaveReservertTil || '', begrunnelse: eksisterendeBegrunnelse || '' }}
+				initialValues={{
+					reserverTil: oppgaveReservertTil ? dayjs(oppgaveReservertTil).format('YYYY-MM-DD') : '',
+					begrunnelse: eksisterendeBegrunnelse || '',
+				}}
 				render={({ handleSubmit, values }) => (
 					<form onSubmit={handleSubmit}>
 						<VerticalSpacer sixteenPx />

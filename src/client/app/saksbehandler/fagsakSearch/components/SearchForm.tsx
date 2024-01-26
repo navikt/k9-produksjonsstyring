@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import { Form } from 'react-final-form';
-import { FormattedMessage, WrappedComponentProps, injectIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import advarselIcon from 'images/advarsel.svg';
 import { Knapp } from 'nav-frontend-knapper';
 import { Undertittel } from 'nav-frontend-typografi';
@@ -14,11 +14,14 @@ import { FlexColumn, FlexContainer, FlexRow } from 'sharedComponents/flexGrid';
 import { hasValidSaksnummerOrFodselsnummerFormat } from 'utils/validation/validators';
 import styles from './searchForm.css';
 
-const isButtonDisabled = (searchString, searchStarted, searchResultAccessDenied) =>
-	(!searchResultAccessDenied.feilmelding && searchStarted) || !searchString;
+const isButtonDisabled = (
+	searchString: string,
+	searchStarted: boolean,
+	searchResultAccessDenied: { feilmelding?: string },
+) => (!searchResultAccessDenied.feilmelding && searchStarted) || !searchString;
 
 interface OwnProps {
-	onSubmit: ({ searchString: string, skalReservere: boolean }) => void;
+	onSubmit: ({ searchString, skalReservere }: { searchString: string; skalReservere: boolean }) => void;
 	searchStarted: boolean;
 	searchResultAccessDenied?: {
 		feilmelding?: string;
@@ -30,13 +33,9 @@ interface OwnProps {
  *
  * Presentasjonskomponent. Definerer søkefelt og tilhørende søkeknapp.
  */
-export const SearchForm: FunctionComponent<OwnProps & WrappedComponentProps> = ({
-	intl,
-	onSubmit,
-	searchStarted,
-	searchResultAccessDenied,
-}) => {
+export const SearchForm: FunctionComponent<OwnProps> = ({ onSubmit, searchStarted, searchResultAccessDenied }) => {
 	const { kanSaksbehandle } = useGlobalStateRestApiData<NavAnsatt>(RestApiGlobalStatePathsKeys.NAV_ANSATT);
+	const intl = useIntl();
 
 	return (
 		<Form
@@ -95,4 +94,4 @@ SearchForm.defaultProps = {
 	},
 };
 
-export default injectIntl(SearchForm);
+export default SearchForm;
