@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useState } from 'react';
-import { FormattedMessage, WrappedComponentProps, useIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import advarselImageUrl from 'images/advarsel.svg';
 import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
