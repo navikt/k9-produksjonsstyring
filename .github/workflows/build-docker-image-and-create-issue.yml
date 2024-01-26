@@ -151,6 +151,7 @@ jobs:
       contents: write
       security-events: write
       actions: read
+      id-token: write
     secrets: inherit
     with:
       image: ${{ needs.build-and-deploy.outputs.image }}
