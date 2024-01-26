@@ -15,11 +15,11 @@ import {
 	nyeOgFerdigstilteOppgaverMedStonadstype,
 	saksbehandlerOppgaveko,
 	saksbehandlerOppgaver,
-	saksbehandlerReservasjoner,
 	saksbehandlereIOppgaveko,
 	soek,
 } from './index';
 import { giRandomDato } from './mockUtils';
+import nyeOgGamleReservasjoner from './nyeOgGamleReservasjoner';
 
 // Alle handlers som ligger direkte i dette arrayet vil gjelde
 // Requesten treffer handlerne i stedet for eventuelle eksisterende APIer
@@ -87,16 +87,16 @@ export const developmentHandlers = {
 		res(ctx.json(avdelningsledareReservasjoner)),
 	),
 	saksbehandlerReservasjoner: rest.get(apiPaths.saksbehandlerReservasjoner, (req, res, ctx) =>
-		res(ctx.json(saksbehandlerReservasjoner)),
+		res(ctx.json(nyeOgGamleReservasjoner)),
 	),
-	saksbehandlerOppgaver: rest.get(apiPaths.saksbehandlerOppgaver, (req, res, ctx) =>
+	saksbehandlerOppgaver: rest.get(apiPaths.saksbehandlerNesteOppgaver(''), (req, res, ctx) =>
 		res(ctx.json(saksbehandlerOppgaver)),
 	),
 	saksbehandlereIOppgaveko: rest.get(apiPaths.saksbehandlereIOppgaveko, (req, res, ctx) =>
 		res(ctx.json(saksbehandlereIOppgaveko)),
 	),
 	oppgaver: rest.get(apiPaths.oppgaver, (req, res, ctx) => res(ctx.json(10))),
-	oppgavekoer: rest.get(apiPaths.oppgavekoer, (req, res, ctx) => res(ctx.json(saksbehandlerOppgaveko))),
+	oppgavekoer: rest.get(apiPaths.hentAlleKoerSaksbehandlerV1, (req, res, ctx) => res(ctx.json(saksbehandlerOppgaveko))),
 	sok: rest.post(apiPaths.sok, (req, res, ctx) => res(ctx.json(soek))),
 	saksbehandlere: rest.get(apiPaths.hentSaksbehandlere, (req, res, ctx) =>
 		res(
@@ -125,7 +125,7 @@ export const developmentHandlers = {
 			]),
 		),
 	),
-	oppgavemodellV2OppdaterKø: rest.post(apiPaths.oppdaterOppgaveko, async (req, res, ctx) => {
+	oppgavemodellV3OppdaterKø: rest.post(apiPaths.oppdaterOppgaveko, async (req, res, ctx) => {
 		const data = await req.json();
 		return res(
 			ctx.json({
@@ -140,7 +140,7 @@ export const developmentHandlers = {
 			}),
 		);
 	}),
-	oppgavemodellV2HentKø4: rest.get(`${apiPaths.hentOppgaveko}4`, async (req, res, ctx) =>
+	oppgavemodellV3HentKø4: rest.get(`${apiPaths.hentOppgaveko('4')}`, async (req, res, ctx) =>
 		res(
 			ctx.json({
 				id: 3,
@@ -203,7 +203,7 @@ export const developmentHandlers = {
 			}),
 		),
 	),
-	oppgavemodellV2HentKø: rest.get(`${apiPaths.hentOppgaveko}:id`, async (req, res, ctx) =>
+	oppgavemodellV3HentKø: rest.get(`${apiPaths.hentOppgaveko('1')}`, async (req, res, ctx) =>
 		res(
 			ctx.json({
 				id: '1',
@@ -217,7 +217,43 @@ export const developmentHandlers = {
 			}),
 		),
 	),
-	oppgavemodellV2HentAlleKø: rest.get(apiPaths.hentOppgavekoer, async (req, res, ctx) =>
+	hentAlleKoerSaksbehandler: rest.get(apiPaths.hentAlleKoerSaksbehandlerV3, async (req, res, ctx) =>
+		res(
+			ctx.json([
+				{
+					id: 1,
+					versjon: 2,
+					tittel: 'asdfsadffsdasdfasdfa',
+					beskrivelse: 'asdfasdfsfdsdfasadfsadfdsfasdfasdfsadf',
+					oppgaveQuery: {
+						filtere: [
+							{
+								type: 'feltverdi',
+								område: null,
+								kode: 'oppgavestatus',
+								operator: 'IN',
+								verdi: ['AAPEN'],
+							},
+						],
+						select: [],
+						order: [
+							{
+								type: 'enkel',
+								område: 'K9',
+								kode: 'mottattDato',
+								økende: true,
+							},
+						],
+						limit: -1,
+					},
+					frittValgAvOppgave: false,
+					saksbehandlere: ['saksbehandler@nav.no'],
+					endretTidspunkt: '2023-10-18T11:34:44.729',
+				},
+			]),
+		),
+	),
+	oppgavemodellV3HentAlleKø: rest.get(apiPaths.hentOppgavekoer, async (req, res, ctx) =>
 		res(
 			ctx.json({
 				koer: [
@@ -293,6 +329,10 @@ export const developmentHandlers = {
 
 if (process.env.MSW_MODE === 'test') {
 	handlers = handlers.concat(Object.values(developmentHandlers));
+}
+
+if (process.env.MSW_MODE === 'development') {
+	handlers = [developmentHandlers.hentAlleKoerSaksbehandler, developmentHandlers.saksbehandlerReservasjoner];
 }
 
 export default handlers;

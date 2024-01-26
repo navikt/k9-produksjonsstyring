@@ -28,20 +28,20 @@ import DagensTallPanel from 'avdelingsleder/dagensTall/DagensTallPanel';
 import ApneBehandlinger from 'avdelingsleder/dagensTall/apneBehandlingerTsType';
 import NokkeltallIndex from 'avdelingsleder/nokkeltall/NokkeltallIndex';
 import PrognoseIndex from 'avdelingsleder/prognose/PrognoseIndex';
-import ReservasjonerIndex from 'avdelingsleder/reservasjoner/ReservasjonerIndex';
 import Image from 'sharedComponents/Image';
 import LoadingPanel from 'sharedComponents/LoadingPanel';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
+import { avdelingslederTilgangTilNyeKoer } from 'app/envVariablesUtils';
 import { parseQueryString } from 'utils/urlUtils';
 import styles from './avdelingslederIndex.css';
 import AvdelingslederPanels from './avdelingslederPanels';
 import EndreBehandlingskoerIndex from './behandlingskoer/EndreBehandlingskoerIndex';
-import BehandlingskoerIndex from './behandlingskoerV2/BehandlingskoerIndex';
+import BehandlingskoerIndex from './behandlingskoerV3/BehandlingskoerIndex';
 import SaksbehandlereTabell from './bemanning/components/SaksbehandlereTabell';
 import AvdelingslederDashboard from './components/AvdelingslederDashboard';
 import IkkeTilgangTilAvdelingslederPanel from './components/IkkeTilgangTilAvdelingslederPanel';
 import { AvdelingslederContext, AvdelingslederContextState } from './context';
-import { avdelingslederTilgangTilNyeKoer } from 'app/envVariablesUtils';
+import ReservasjonerTabell from './reservasjoner/components/ReservasjonerTabell';
 
 const classNames = classnames.bind(styles);
 
@@ -49,14 +49,14 @@ const renderAvdelingslederPanel = (avdelingslederPanel) => {
 	switch (avdelingslederPanel) {
 		case AvdelingslederPanels.BEHANDLINGSKOER:
 			return <EndreBehandlingskoerIndex />;
-		case AvdelingslederPanels.BEHANDLINGSKOER_V2:
+		case AvdelingslederPanels.BEHANDLINGSKOER_V3:
 			return <BehandlingskoerIndex />;
 		case AvdelingslederPanels.NOKKELTALL:
 			return <NokkeltallIndex />;
 		case AvdelingslederPanels.PROGNOSE:
 			return <PrognoseIndex />;
 		case AvdelingslederPanels.RESERVASJONER:
-			return <ReservasjonerIndex />;
+			return <ReservasjonerTabell />;
 		case AvdelingslederPanels.SAKSBEHANDLERE:
 			return <SaksbehandlereTabell />;
 		default:
@@ -66,7 +66,7 @@ const renderAvdelingslederPanel = (avdelingslederPanel) => {
 
 const messageId = {
 	[AvdelingslederPanels.BEHANDLINGSKOER]: 'AvdelingslederIndex.Behandlingskoer',
-	[AvdelingslederPanels.BEHANDLINGSKOER_V2]: 'AvdelingslederIndex.Behandlingskoer.V2',
+	[AvdelingslederPanels.BEHANDLINGSKOER_V3]: 'AvdelingslederIndex.Behandlingskoer.V3',
 	[AvdelingslederPanels.NOKKELTALL]: 'AvdelingslederIndex.Nokkeltall',
 	[AvdelingslederPanels.PROGNOSE]: 'AvdelingslederIndex.Prognose',
 	[AvdelingslederPanels.RESERVASJONER]: 'AvdelingslederIndex.Reservasjoner',
@@ -75,7 +75,7 @@ const messageId = {
 
 const tabStyle = {
 	[AvdelingslederPanels.BEHANDLINGSKOER]: [koerSvart, koerBla],
-	[AvdelingslederPanels.BEHANDLINGSKOER_V2]: [koerSvart, koerBla],
+	[AvdelingslederPanels.BEHANDLINGSKOER_V3]: [koerSvart, koerBla],
 	[AvdelingslederPanels.NOKKELTALL]: [nokkelSvart, nokkelBla],
 	[AvdelingslederPanels.PROGNOSE]: [prognoseSort, prognoseBlå],
 	[AvdelingslederPanels.RESERVASJONER]: [reservasjonSvart, reservasjonBla],
@@ -186,7 +186,7 @@ export const AvdelingslederIndex: FunctionComponent = () => {
 									),
 									avdelingslederTilgangTilNyeKoer() &&
 										getTab(
-											AvdelingslederPanels.BEHANDLINGSKOER_V2,
+											AvdelingslederPanels.BEHANDLINGSKOER_V3,
 											activeAvdelingslederPanel,
 											getAvdelingslederPanelLocation,
 										),

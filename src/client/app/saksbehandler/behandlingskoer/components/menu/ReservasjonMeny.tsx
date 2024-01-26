@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { OppgaveNøkkel } from 'types/OppgaveNøkkel';
 import OppgaveV3 from 'types/OppgaveV3';
-import ReservasjonV3Dto from 'saksbehandler/behandlingskoer/ReservasjonV3Dto';
+import ReservasjonV3 from 'saksbehandler/behandlingskoer/ReservasjonV3Dto';
 import Oppgave from 'saksbehandler/oppgaveTsType';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import FlyttReservasjonModal from './FlyttReservasjonModal';
@@ -23,17 +23,14 @@ const toggleEventListeners = (turnOnEventListeners, handleOutsideClick) => {
 };
 
 interface OwnProps {
-	toggleMenu: (valgtOppgave: Oppgave | OppgaveV3) => void;
+	toggleMenu: (valgtOppgave: OppgaveV3) => void;
+	reservasjon: ReservasjonV3;
 	oppgave: Oppgave | OppgaveV3;
-	reservasjon: ReservasjonV3Dto;
-	imageNode: HTMLElement | undefined;
+	imageNode: any;
 	forlengOppgaveReservasjon: (oppgaveNøkkel: OppgaveNøkkel) => void;
 }
 
-/**
- * @deprecated
- */
-const OppgaveHandlingerMenu: React.FC<OwnProps> = ({
+const ReservasjonMeny: React.FC<OwnProps> = ({
 	toggleMenu,
 	oppgave,
 	imageNode,
@@ -48,8 +45,8 @@ const OppgaveHandlingerMenu: React.FC<OwnProps> = ({
 
 	const handleOutsideClick = (event: React.MouseEvent<HTMLButtonElement>) => {
 		if (event && event.target) {
-			const harKlikketMeny = node.current && node.current.contains(event.target as Node);
-			const harKlikketIkon = imageNode && imageNode.contains(event.target as Node);
+			const harKlikketMeny = node.current && node.current.contains(event.target);
+			const harKlikketIkon = imageNode && imageNode.contains(event.target);
 			if (harKlikketMeny || harKlikketIkon || showOpphevReservasjonModal || showFlyttReservasjonModal) {
 				return;
 			}
@@ -128,4 +125,4 @@ const OppgaveHandlingerMenu: React.FC<OwnProps> = ({
 	);
 };
 
-export default OppgaveHandlingerMenu;
+export default ReservasjonMeny;

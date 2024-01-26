@@ -1,70 +1,42 @@
-import React, { FunctionComponent, useCallback, useEffect } from 'react';
+import React, { FunctionComponent, useCallback, useMemo, useState } from 'react';
 import { WrappedComponentProps, injectIntl } from 'react-intl';
-import { useQuery } from 'react-query';
 import { saksbehandlerKanVelgeNyeKoer } from 'app/envVariablesUtils';
-import { OppgavekøV2, OppgavekøV2MedNavn, OppgavekøerV2 as OppgavekøerV2Type } from 'types/OppgavekøV2Type';
+import { OppgavekøV3, OppgavekøV3MedNavn } from 'types/OppgavekøV3Type';
 import { getK9punsjRef, getK9sakHref } from 'app/paths';
-import apiPaths from 'api/apiPaths';
+import { Loader } from '@navikt/ds-react';
 import { K9LosApiKeys } from 'api/k9LosApi';
-import { useRestApi } from 'api/rest-api-hooks';
-import RestApiState from 'api/rest-api-hooks/src/RestApiState';
+import { useAlleSaksbehandlerKoerV1, useAlleSaksbehandlerKoerV3 } from 'api/queries/saksbehandlerQueries';
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
+import BehandlingskoerContext from 'saksbehandler/BehandlingskoerContext';
 import { OppgavekøV1 } from 'saksbehandler/behandlingskoer/oppgavekoTsType';
 import Oppgave from 'saksbehandler/oppgaveTsType';
-import { get } from 'utils/axios';
 import OppgaveSystem from '../../types/OppgaveSystem';
-import OppgaveSocket from './OppgaveSocket';
 import OppgavekoPanel from './components/OppgavekoPanel';
 
 interface OwnProps {
 	k9sakUrl: string;
 	k9punsjUrl: string;
-	valgtOppgavekoId?: string;
-	setValgtOppgavekoId: (id: string) => void;
 }
 
 /**
  * BehandlingskoerIndex
  */
-const BehandlingskoerIndex: FunctionComponent<OwnProps & WrappedComponentProps> = ({
-	k9sakUrl,
-	k9punsjUrl,
-	setValgtOppgavekoId,
-	valgtOppgavekoId,
-}) => {
-	const { data: oppgavekoerV1 = [] } = useRestApi<OppgavekøV1[]>(K9LosApiKeys.OPPGAVEKO);
-	const { data: oppgavekoerV2 } = useQuery<OppgavekøerV2Type>({
-		queryKey: [apiPaths.hentOppgavekoer, 'saksbehandler'],
-		queryFn: () => get(apiPaths.hentOppgavekoer),
+const BehandlingskoerIndex: FunctionComponent<OwnProps & WrappedComponentProps> = ({ k9sakUrl, k9punsjUrl }) => {
+	const [valgtOppgavekoId, setValgtOppgavekoId] = useState('');
+	const { data: oppgavekoerV1 = [], isLoading: oppgavekoerV1IsLoading } = useAlleSaksbehandlerKoerV1();
+	const { data: oppgavekoerV3, isLoading: oppgavekoerV3IsLoading } = useAlleSaksbehandlerKoerV3({
 		enabled: saksbehandlerKanVelgeNyeKoer(),
 	});
 
-	const mapKøV2 = (kø: OppgavekøV2): OppgavekøV2MedNavn => ({ ...kø, navn: kø.tittel });
-	const oppgavekoer = [...oppgavekoerV1, ...(oppgavekoerV2?.koer || []).map(mapKøV2)];
-	const {
-		startRequest: hentOppgaverTilBehandling,
-		state,
-		data: oppgaverTilBehandling = [],
-	} = useRestApiRunner<Oppgave[]>(K9LosApiKeys.OPPGAVER_TIL_BEHANDLING);
-	const { startRequest: getReserverteOppgaver, data: reserverteOppgaver = [] } = useRestApiRunner<Oppgave[]>(
-		K9LosApiKeys.RESERVERTE_OPPGAVER,
-	);
+	const isLoading = oppgavekoerV3IsLoading || oppgavekoerV1IsLoading;
+	const mapKøV1 = (kø: OppgavekøV1): OppgavekøV1 => ({ ...kø, id: `${kø.id}__v1` });
+	const mapKøV3 = (kø: OppgavekøV3): OppgavekøV3MedNavn => ({ ...kø, navn: kø.tittel, id: `${kø.id}__V3` });
+	const oppgavekoer = [...(oppgavekoerV1 || []).map(mapKøV1), ...(oppgavekoerV3 || []).map(mapKøV3)];
 
-	const hentReserverteOppgaver = () => getReserverteOppgaver(undefined, true);
 	const { startRequest: leggTilBehandletOppgave } = useRestApiRunner(K9LosApiKeys.LEGG_TIL_BEHANDLET_OPPGAVE);
 
-	useEffect(() => {
-		hentReserverteOppgaver();
-	}, []);
-
-	useEffect(() => {
-		if (valgtOppgavekoId) {
-			hentOppgaverTilBehandling({ id: valgtOppgavekoId });
-		}
-	}, [valgtOppgavekoId]);
-
 	const openFagsak = (oppgave: Oppgave) => {
-		leggTilBehandletOppgave(oppgave);
+		leggTilBehandletOppgave(oppgave.oppgaveNøkkel);
 		switch (oppgave.system) {
 			case OppgaveSystem.PUNSJ:
 				window.location.assign(getK9punsjRef(k9punsjUrl, oppgave.journalpostId));
@@ -84,8 +56,7 @@ const BehandlingskoerIndex: FunctionComponent<OwnProps & WrappedComponentProps> 
 		if (
 			oppgave.system === OppgaveSystem.K9SAK ||
 			oppgave.system === OppgaveSystem.K9TILBAKE ||
-			oppgave.system === OppgaveSystem.PUNSJ ||
-			oppgave.system === OppgaveSystem.OMSORGSPENGER
+			oppgave.system === OppgaveSystem.PUNSJ
 		) {
 			openFagsak(oppgave);
 		} else throw new Error('Fagsystemet for oppgaven er ukjent');
@@ -98,28 +69,27 @@ const BehandlingskoerIndex: FunctionComponent<OwnProps & WrappedComponentProps> 
 		[k9sakUrl],
 	);
 
+	const behandlingskoerContextValue = useMemo(
+		() => ({
+			oppgavekoer,
+			setValgtOppgavekoId,
+			valgtOppgavekoId,
+		}),
+		[oppgavekoer, valgtOppgavekoId, setValgtOppgavekoId],
+	);
+
+	if (isLoading) {
+		return <Loader />;
+	}
+
 	if (oppgavekoer.length === 0) {
 		return null;
 	}
 
 	return (
-		<>
-			<OppgaveSocket
-				hentReserverteOppgaver={hentReserverteOppgaver}
-				hentOppgaverTilBehandling={hentOppgaverTilBehandling}
-				valgtOppgavekoId={valgtOppgavekoId}
-			/>
-			<OppgavekoPanel
-				valgtOppgavekoId={valgtOppgavekoId}
-				setValgtOppgavekoId={setValgtOppgavekoId}
-				apneOppgave={apneOppgave}
-				oppgavekoer={oppgavekoer}
-				requestFinished={state === RestApiState.SUCCESS}
-				oppgaverTilBehandling={oppgaverTilBehandling}
-				reserverteOppgaver={reserverteOppgaver}
-				hentReserverteOppgaver={hentReserverteOppgaver}
-			/>
-		</>
+		<BehandlingskoerContext.Provider value={behandlingskoerContextValue}>
+			<OppgavekoPanel apneOppgave={apneOppgave} />
+		</BehandlingskoerContext.Provider>
 	);
 };
 

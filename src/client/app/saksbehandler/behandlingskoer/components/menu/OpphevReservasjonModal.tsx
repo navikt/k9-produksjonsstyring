@@ -1,9 +1,12 @@
 import React, { FunctionComponent, useCallback } from 'react';
 import { Form } from 'react-final-form';
 import { FormattedMessage, useIntl } from 'react-intl';
+import { useQueryClient } from 'react-query';
 import { captureMessage } from '@sentry/browser';
 import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
 import { Undertittel } from 'nav-frontend-typografi';
+import { OppgaveNøkkel } from 'types/OppgaveNøkkel';
+import apiPaths from 'api/apiPaths';
 import { K9LosApiKeys } from 'api/k9LosApi';
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
 import { TextAreaField } from 'form/FinalFields';
@@ -16,10 +19,8 @@ const maxLength1500 = maxLength(1500);
 
 type OwnProps = Readonly<{
 	showModal: boolean;
-	oppgaveId: string;
-	oppgaveSaksnummer: string;
+	oppgaveNøkkel: OppgaveNøkkel;
 	cancel: () => void;
-	hentReserverteOppgaver: () => void;
 }>;
 
 /**
@@ -27,29 +28,26 @@ type OwnProps = Readonly<{
  *
  * Presentasjonskomponent. Modal som lar en begrunne hvorfor en sak skal frigjøres.
  */
-export const OpphevReservasjonModal: FunctionComponent<OwnProps> = ({
-	showModal,
-	cancel,
-	hentReserverteOppgaver,
-	oppgaveId,
-	oppgaveSaksnummer,
-}) => {
+export const OpphevReservasjonModal: FunctionComponent<OwnProps> = ({ showModal, cancel, oppgaveNøkkel }) => {
 	const { startRequest: opphevOppgavereservasjon } = useRestApiRunner(K9LosApiKeys.OPPHEV_OPPGAVERESERVASJON);
 	const intl = useIntl();
+	const queryClient = useQueryClient();
+
 	const opphevReservasjonFn = useCallback(
 		(begrunnelse: string) =>
-			opphevOppgavereservasjon({ oppgaveId, oppgaveSaksnummer, begrunnelse }).then(() => {
+			opphevOppgavereservasjon({ oppgaveNøkkel, begrunnelse }).then(() => {
 				captureMessage(
-					`Legg tilbake: ${oppgaveSaksnummer} - Tidspunkt: ${new Date().toLocaleString('no-NO', {
+					`Legg tilbake: ${oppgaveNøkkel.oppgaveEksternId} - Tidspunkt: ${new Date().toLocaleString('no-NO', {
 						timeZone: 'Europe/Oslo',
 					})}`,
 				);
 				// eslint-disable-next-line @typescript-eslint/no-empty-function
 				setTimeout(() => {}, 1000);
-				hentReserverteOppgaver();
+				queryClient.invalidateQueries(apiPaths.saksbehandlerReservasjoner);
+				queryClient.invalidateQueries(apiPaths.avdelinglederReservasjoner);
 				cancel();
 			}),
-		[oppgaveId],
+		[JSON.stringify(oppgaveNøkkel)],
 	);
 
 	return (

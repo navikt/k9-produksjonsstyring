@@ -19,7 +19,6 @@ export enum K9LosApiKeys {
 	K9TILBAKE_URL = 'K9TILBAKE_URL',
 	FEATURE_TOGGLES = 'FEATURE_TOGGLES',
 	OPPGAVEKO = 'OPPGAVEKO',
-	OPPGAVEKO_V2 = 'OPPGAVEKO_V2',
 	HENT_OPPGAVEKO = 'HENT_OPPGAVEKO',
 	RESERVER_OPPGAVE = 'RESERVER_OPPGAVE',
 	ENDRE_OPPGAVERESERVASJON = 'ENDRE_OPPGAVERESERVASJON',
@@ -64,7 +63,9 @@ export enum K9LosApiKeys {
 	FLYTT_RESERVASJON_SAKSBEHANDLER_SOK = 'FLYTT_RESERVASJON_SAKSBEHANDLER_SOK',
 	FLYTT_RESERVASJON = 'FLYTT_RESERVASJON',
 	OPPGAVEKO_SAKSBEHANDLERE = 'OPPGAVEKO_SAKSBEHANDLERE',
+	OPPGAVEKO_SAKSBEHANDLERE_V3 = 'OPPGAVEKO_SAKSBEHANDLERE_V3',
 	BEHANDLINGSKO_OPPGAVE_ANTALL = 'BEHANDLINGSKO_OPPGAVE_ANTALL',
+	BEHANDLINGSKO_OPPGAVE_ANTALL_V3 = 'BEHANDLINGSKO_OPPGAVE_ANTALL_V3',
 	HENT_NYE_OG_FERDIGSTILTE_OPPGAVER = 'HENT_NYE_OG_FERDIGSTILTE_OPPGAVER',
 	LEGG_TIL_BEHANDLET_OPPGAVE = 'LEGG_TIL_BEHANDLET_OPPGAVE',
 	HENT_ALLE_RESERVASJONER = 'HENT_ALLE_RESERVASJONER',
@@ -94,7 +95,6 @@ export const endpoints = () =>
 
 		/* /api/saksbehandler/saksliste */
 		.withGet('/saksbehandler/oppgaveko', K9LosApiKeys.OPPGAVEKO)
-		.withGet('/saksbehandler/oppgaveko/v2', K9LosApiKeys.OPPGAVEKO_V2)
 		.withGet('/saksbehandler/oppgaveko/saksbehandlere', K9LosApiKeys.OPPGAVEKO_SAKSBEHANDLERE)
 
 		/* /api/saksbehandler/oppgave */
@@ -113,6 +113,22 @@ export const endpoints = () =>
 		.withPost('/saksbehandler/oppgaver/reservasjon/endre', K9LosApiKeys.ENDRE_OPPGAVERESERVASJON)
 		.withPost('/saksbehandler/oppgaver/legg-til-behandlet-sak', K9LosApiKeys.LEGG_TIL_BEHANDLET_OPPGAVE)
 
+		/* /api/saksbehandler/oppgave */
+		.withGet('/saksbehandler/oppgaver', K9LosApiKeys.OPPGAVER_TIL_BEHANDLING)
+		.withGet('/saksbehandler/oppgaver/reserverte', K9LosApiKeys.RESERVERTE_OPPGAVER)
+		.withPost('/saksbehandler/oppgaver/fa-oppgave-fra-ko', K9LosApiKeys.FÅ_OPPGAVE_FRA_KO)
+		.withPost('/saksbehandler/oppgaver/reserver', K9LosApiKeys.RESERVER_OPPGAVE)
+		.withGet('/saksbehandler/oppgaver/reservasjon-status', K9LosApiKeys.HENT_RESERVASJONSSTATUS)
+		.withPost('/saksbehandler/oppgaver/opphev', K9LosApiKeys.OPPHEV_OPPGAVERESERVASJON)
+		.withPost('/saksbehandler/oppgaver/forleng', K9LosApiKeys.FORLENG_OPPGAVERESERVASJON)
+		.withGet('/saksbehandler/oppgaver/behandlede', K9LosApiKeys.BEHANDLEDE_OPPGAVER)
+		.withPost('/saksbehandler/oppgaver/flytt/sok', K9LosApiKeys.FLYTT_RESERVASJON_SAKSBEHANDLER_SOK)
+		.withPost('/saksbehandler/oppgaver/flytt', K9LosApiKeys.FLYTT_RESERVASJON)
+		.withGet('/saksbehandler/oppgaver/antall', K9LosApiKeys.BEHANDLINGSKO_OPPGAVE_ANTALL)
+		.withGet('/saksbehandler/oppgaver/antall-oppgaver-i-ko', K9LosApiKeys.BEHANDLINGSKO_OPPGAVE_ANTALL_V3)
+		.withGet('/saksbehandler/oppgaver/oppgaver-for-fagsaker', K9LosApiKeys.OPPGAVER_FOR_FAGSAKER)
+		.withPost('/saksbehandler/oppgaver/reservasjon/endre', K9LosApiKeys.ENDRE_OPPGAVERESERVASJON)
+		.withPost('/saksbehandler/oppgaver/legg-til-behandlet-sak', K9LosApiKeys.LEGG_TIL_BEHANDLET_OPPGAVE)
 		/* /api/saksbehandler/nokkeltall */
 		.withGet('/saksbehandler/nokkeltall/nye-og-ferdigstilte-oppgaver', K9LosApiKeys.HENT_NYE_OG_FERDIGSTILTE_OPPGAVER)
 

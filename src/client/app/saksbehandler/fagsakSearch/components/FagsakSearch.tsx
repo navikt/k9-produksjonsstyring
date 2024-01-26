@@ -13,14 +13,13 @@ import PersonInfo from './person/PersonInfo';
 
 interface OwnProps {
 	resultat: SokeResultat;
-	searchFagsakCallback: ({ searchString: string, skalReservere: boolean }) => void;
+	searchFagsakCallback: ({ searchString, skalReservere }: { searchString: string; skalReservere: boolean }) => void;
 	searchResultReceived: boolean;
 	selectOppgaveCallback: (oppgave: Oppgave, reserver: boolean) => void;
 	searchStarted: boolean;
 	searchResultAccessDenied?: {
 		feilmelding?: string;
 	};
-	resetSearch: () => void;
 	goToFagsak: (oppgave: Oppgave) => void;
 }
 
@@ -44,7 +43,6 @@ const FagsakSearch: FunctionComponent<OwnProps> = ({
 	searchResultReceived,
 	searchStarted,
 	searchResultAccessDenied,
-	resetSearch,
 	goToFagsak,
 }) => {
 	const [oppgaveSoktForViaQueryErAlleredeReservert, setOppgaveSoktForViaParamsErAlleredeReservert] =
@@ -87,7 +85,6 @@ const FagsakSearch: FunctionComponent<OwnProps> = ({
 				onSubmit={searchFagsakCallback}
 				searchStarted={searchStarted}
 				searchResultAccessDenied={searchResultAccessDenied}
-				resetSearch={resetSearch}
 			/>
 			{searchResultReceived && resultat && resultat.oppgaver.length === 0 && resultat.ikkeTilgang === false && (
 				<Normaltekst className={styles.label}>

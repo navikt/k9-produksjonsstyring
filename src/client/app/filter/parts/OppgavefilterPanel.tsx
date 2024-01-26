@@ -13,7 +13,7 @@ import filterGruppeStyles from './filterGruppe.css';
 
 interface OppgavefilterPanelProps {
 	oppgavefilter: FeltverdiOppgavefilter | CombineOppgavefilter;
-	visningV2?: boolean;
+	visningV3?: boolean;
 	addGruppeOperation?: (model: OppgaveQuery) => OppgaveQuery;
 	køvisning?: boolean;
 	paakrevdeKoder?: OppgavefilterKode[];
@@ -22,7 +22,7 @@ interface OppgavefilterPanelProps {
 /* eslint-disable @typescript-eslint/no-use-before-define */
 const OppgavefilterPanel = ({
 	oppgavefilter,
-	visningV2,
+	visningV3,
 	addGruppeOperation,
 	køvisning,
 	paakrevdeKoder,
@@ -39,11 +39,11 @@ const OppgavefilterPanel = ({
 	}
 
 	if (oppgavefilter.type === 'feltverdi' && 'operator' in oppgavefilter) {
-		if (!visningV2) return <FeltverdiOppgavefilterPanel oppgavefilter={oppgavefilter} />;
+		if (!visningV3) return <FeltverdiOppgavefilterPanel oppgavefilter={oppgavefilter} />;
 		return <Kriterie oppgavefilter={oppgavefilter} paakrevdeKoder={paakrevdeKoder} />;
 	}
 	if (oppgavefilter.type === 'combine' && 'combineOperator' in oppgavefilter) {
-		if (!visningV2) return <CombineOppgavefilterPanel oppgavefilter={oppgavefilter} />;
+		if (!visningV3) return <CombineOppgavefilterPanel oppgavefilter={oppgavefilter} />;
 		return <FilterGruppe oppgavefilter={oppgavefilter} køvisning={køvisning} />;
 	}
 
@@ -88,7 +88,7 @@ const FilterGruppe = ({ oppgavefilter, køvisning }: FilterGruppeProps) => {
 						key={item.id}
 						oppgavefilter={item}
 						addGruppeOperation={addGruppe(oppgavefilter.id)}
-						visningV2
+						visningV3
 						køvisning={køvisning}
 					/>
 				))}

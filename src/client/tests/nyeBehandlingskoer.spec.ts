@@ -7,8 +7,8 @@ test.beforeEach(async ({ page }) => {
 test('Kan vise køer', async ({ page }) => {
 	await page.getByRole('button', { name: 'Avdelingslederpanel' }).click();
 	await page.getByRole('link', { name: 'Nye behandlingskøer' }).click();
-	await page.waitForURL('http://localhost:8030/avdelingsleder?fane=behandlingskoerV2');
-	expect(page.url()).toBe('http://localhost:8030/avdelingsleder?fane=behandlingskoerV2');
+	await page.waitForURL('http://localhost:8030/avdelingsleder?fane=behandlingskoerV3');
+	expect(page.url()).toBe('http://localhost:8030/avdelingsleder?fane=behandlingskoerV3');
 
 	await page.getByRole('cell', { name: 'Beskrivende tittel' }).isVisible();
 	await page.getByRole('cell', { name: 'Kø 1' }).isVisible();

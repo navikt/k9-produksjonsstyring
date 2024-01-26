@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import NavAnsatt from 'app/navAnsattTsType';
 import { RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
 import useGlobalStateRestApiData from 'api/rest-api-hooks/src/global-data/useGlobalStateRestApiData';
@@ -10,12 +10,11 @@ import SaksbehandlerDashboard from './components/SaksbehandlerDashboard';
  */
 
 const SaksbehandlerIndex = () => {
-	const [valgtOppgavekoId, setValgtOppgavekoId] = useState<string>();
 	const { kanSaksbehandle } = useGlobalStateRestApiData<NavAnsatt>(RestApiGlobalStatePathsKeys.NAV_ANSATT);
 	if (!kanSaksbehandle) {
 		return <IkkeTilgangTilAvdelingslederPanel />;
 	}
-	return <SaksbehandlerDashboard valgtOppgavekoId={valgtOppgavekoId} setValgtOppgavekoId={setValgtOppgavekoId} />;
+	return <SaksbehandlerDashboard />;
 };
 
 export default SaksbehandlerIndex;
