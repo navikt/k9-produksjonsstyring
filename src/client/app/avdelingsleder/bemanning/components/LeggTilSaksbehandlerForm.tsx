@@ -10,6 +10,7 @@ import { PlusIcon } from '@navikt/ft-plattform-komponenter';
 import { K9LosApiKeys } from 'api/k9LosApi';
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
 import { AvdelingslederContext } from 'avdelingsleder/context';
+import apiPaths from 'api/apiPaths';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import { FlexColumn } from 'sharedComponents/flexGrid';
 import { hasValidEmailFormat } from 'utils/validation/validators';
@@ -45,7 +46,7 @@ export const LeggTilSaksbehandlerForm: FunctionComponent = () => {
 					resetSok(form.reset);
 					form.resetFieldState('epost');
 				})
-				.then(() => queryClient.invalidateQueries({ queryKey: '/avdelingsleder/saksbehandlere' }));
+				.then(() => queryClient.invalidateQueries({ queryKey: apiPaths.saksbehandler }));
 		}
 	};
 
