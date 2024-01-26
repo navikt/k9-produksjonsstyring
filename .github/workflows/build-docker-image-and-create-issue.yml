@@ -132,15 +132,3 @@ jobs:
                   "inputs":{
                       "trigger": "${{ github.repository }}"
                   }}'
-
-  trivy:
-    needs: [build-and-deploy]
-    uses: navikt/sif-gha-workflows/.github/workflows/trivy-ghcr.yml@main
-    permissions:
-      contents: write
-      security-events: write
-      actions: read
-      id-token: write
-    secrets: inherit
-    with:
-      image: ${{ needs.build-and-deploy.outputs.image }}
