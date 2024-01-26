@@ -22,7 +22,7 @@ jobs:
       id-token: write
       issues: write
     outputs:
-      image: ${{ steps.docker-push.outputs.IMAGE }}
+      image: ${{ steps.docker-push.outputs.image }}
     steps:
       - name: Hente kode
         uses: actions/checkout@v4
@@ -146,7 +146,7 @@ jobs:
 
   trivy:
     needs: [build-and-deploy]
-    uses: navikt/sif-gha-workflows/.github/workflows/trivy.yml@main
+    uses: navikt/sif-gha-workflows/.github/workflows/trivy-ghcr.yml@main
     permissions:
       contents: write
       security-events: write
@@ -155,4 +155,3 @@ jobs:
     secrets: inherit
     with:
       image: ${{ needs.build-and-deploy.outputs.image }}
-      team: k9saksbehandling
