@@ -3,10 +3,10 @@ import { test, expect } from '@playwright/test';
 test.beforeEach(async ({ page }) => {
 	await page.goto('/');
 	await page.getByRole('button', { name: 'Avdelingslederpanel' }).click();
-	await page.getByRole('link', { name: 'Nye behandlingskøer' }).click();
+	await page.getByRole('link', { name: 'Nye oppgavekøer' }).click();
 });
-test('Kan lage ny behandlingskø', async ({ page }) => {
-	await page.getByRole('button', { name: 'Legg til ny behandlingskø' }).click();
+test('Kan lage ny oppgavekø', async ({ page }) => {
+	await page.getByRole('button', { name: 'Legg til ny oppgavekø' }).click();
 	await page.getByLabel('Kønavn').fill('Beskrivende tittel');
 	await page.getByLabel('Kønavn').press('Enter');
 	await page.getByLabel('Velg saksbehandlere').click();
@@ -15,7 +15,7 @@ test('Kan lage ny behandlingskø', async ({ page }) => {
 	await page.getByRole('button', { name: 'Legg til saksbehandlere' }).click();
 	await page.getByLabel('Beskrivelse').click();
 	await page.getByLabel('Beskrivelse').fill('aisjdfiasjdfiasdfjasidfj');
-	await page.getByRole('button', { name: 'Lagre behandlingskø' }).click();
+	await page.getByRole('button', { name: 'Lagre oppgavekø' }).click();
 	await page.getByTestId('lagre-button-modal').click();
 	await page.getByRole('button', { name: 'Lukk' }).click();
 });
@@ -30,7 +30,7 @@ test('kan redigere kø', async ({ page }) => {
 
 	await page.getByLabel('Beskrivelse').fill('');
 	// trykk lagre og se at det kommer opp feilmelding
-	await page.getByRole('button', { name: 'Lagre behandlingskø' }).click();
+	await page.getByRole('button', { name: 'Lagre oppgavekø' }).click();
 	page.getByText('Feltet er påkrevd');
 
 	await page
@@ -42,8 +42,8 @@ test('kan redigere kø', async ({ page }) => {
 				'\nDette skjer i et dataprogram som hjelper folk å holde styr på alt.',
 		);
 
-	await page.getByRole('button', { name: 'Lagre behandlingskø' }).isEnabled();
-	await page.getByRole('button', { name: 'Lagre behandlingskø' }).click();
+	await page.getByRole('button', { name: 'Lagre oppgavekø' }).isEnabled();
+	await page.getByRole('button', { name: 'Lagre oppgavekø' }).click();
 	await page.getByTestId('lagre-button-modal').click();
 
 	await page.getByRole('button', { name: 'Endre kriterier' }).click();
@@ -93,8 +93,8 @@ test('kan redigere kø', async ({ page }) => {
 
 	// Lagre
 	await page.getByRole('button', { name: 'Lagre', exact: true }).click();
-	await page.getByRole('button', { name: 'Lagre behandlingskø' }).click();
-	await page.getByText('Er du sikker på at du ønsker å lagre behandlingskøen?').isVisible();
+	await page.getByRole('button', { name: 'Lagre oppgavekø' }).click();
+	await page.getByText('Er du sikker på at du ønsker å lagre oppgavekøen?').isVisible();
 	await page.getByTestId('lagre-button-modal').click();
 	page.getByText('Køen er nå lagret!');
 	await page.getByRole('button', { name: 'Lukk' }).click();

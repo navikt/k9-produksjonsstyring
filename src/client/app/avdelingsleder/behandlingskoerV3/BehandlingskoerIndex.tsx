@@ -80,7 +80,7 @@ const BehandlingskoerIndex = () => {
 	return (
 		<>
 			<Button className="my-7" variant="primary" onClick={() => setVisNyKøModal(true)} icon={<PlusCircleIcon />}>
-				Legg til ny behandlingskø
+				Legg til ny oppgavekø
 			</Button>
 			<Table sort={sort} onSortChange={handleSort} size="small">
 				<Table.Header>
@@ -93,7 +93,7 @@ const BehandlingskoerIndex = () => {
 							Saksbehandlere
 						</Table.ColumnHeader>
 						<Table.ColumnHeader sortKey="antallOppgaver" sortable scope="col">
-							Antall behandlinger
+							Antall oppgaver
 						</Table.ColumnHeader>
 						<Table.ColumnHeader sortKey="Sist endret" sortable scope="col">
 							Sist endret
