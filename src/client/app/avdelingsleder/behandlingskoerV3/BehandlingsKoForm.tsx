@@ -6,14 +6,12 @@ import { Edit } from '@navikt/ds-icons';
 import { Alert, Button, ErrorMessage, Heading, Label, Modal } from '@navikt/ds-react';
 import { Form, InputField, TextAreaField } from '@navikt/ft-form-hooks';
 import { minLength, required } from '@navikt/ft-form-validators';
-import AppContext from 'app/AppContext';
 import { OppgaveQuery } from 'filter/filterTsTypes';
 import { useKo, useOppdaterKøMutation } from 'api/queries/avdelingslederQueries';
 import { AvdelingslederContext } from 'avdelingsleder/context';
 import FilterIndex from 'filter/FilterIndex';
 import SearchWithDropdown from 'sharedComponents/searchWithDropdown/SearchWithDropdown';
 import LagreKoModal from './LagreKoModal';
-import { initialKøQuery, oppgaveQueryErTomt } from './utils';
 
 enum fieldnames {
 	TITTEL = 'tittel',
@@ -35,7 +33,6 @@ interface BehandlingsKoFormProps extends BaseProps {
 
 const BehandlingsKoForm = ({ kø, lukk, ekspandert, id }: BehandlingsKoFormProps) => {
 	const { versjon } = kø;
-	const { felter } = useContext(AppContext);
 	const [visFilterModal, setVisFilterModal] = useState(false);
 	const [visLagreModal, setVisLagreModal] = useState(false);
 	const [visSuksess, setVisSuksess] = useState(false);
@@ -43,7 +40,7 @@ const BehandlingsKoForm = ({ kø, lukk, ekspandert, id }: BehandlingsKoFormProps
 	const defaultValues = {
 		[fieldnames.TITTEL]: kø?.tittel || '',
 		[fieldnames.SAKSBEHANDLERE]: kø?.saksbehandlere || [],
-		[fieldnames.OPPGAVE_QUERY]: oppgaveQueryErTomt(kø?.oppgaveQuery) ? initialKøQuery(felter) : kø?.oppgaveQuery,
+		[fieldnames.OPPGAVE_QUERY]: kø?.oppgaveQuery,
 		[fieldnames.BESKRIVELSE]: kø?.beskrivelse || '',
 		[fieldnames.FRITT_VALG_AV_OPPGAVE]: kø?.frittValgAvOppgave || false,
 	};
