@@ -84,19 +84,26 @@ export type Oppgavefelt = {
 	verdiforklaringer: Verdiforklaring[] | null;
 };
 
+/*
+	TODO: finne en annen løsning på dette.
+	Backend anser denne listen som dynamisk og vi mottar alle disse kodene via API
+	og må derfor ha en liste som er lik backend sin liste.
+
+	Denne ligger lagret i frontend fordi:
+	- vi noen a kodene til å sette påkrevde felter på toppnivå i kriterier for oppgavekøer.
+	- vi bruker noen av kodene til å vite når vi skal vise aksjonspunktvelgeren når man lager query.
+*/
 export enum OppgavefilterKode {
-	Antall = 'Antall',
-	AkkumulertVentetidAnnetForTidligereVersjoner = 'akkumulertVentetidAnnetForTidligereVersjoner',
-	AkkumulertVentetidAnnetIkkeSaksbehandlingstidForTidligereVersjoner = 'akkumulertVentetidAnnetIkkeSaksbehandlingstidForTidligereVersjoner',
-	AkkumulertVentetidArbeidsgiverForTidligereVersjoner = 'akkumulertVentetidArbeidsgiverForTidligereVersjoner',
-	AkkumulertVentetidSaksbehandlerForTidligereVersjoner = 'akkumulertVentetidSaksbehandlerForTidligereVersjoner',
-	AkkumulertVentetidSøkerForTidligereVersjoner = 'akkumulertVentetidSøkerForTidligereVersjoner',
-	AkkumulertVentetidTekniskFeilForTidligereVersjoner = 'akkumulertVentetidTekniskFeilForTidligereVersjoner',
+	AkkumulertVentetidAnnet = 'akkumulertVentetidAnnet',
+	AkkumulertVentetidAnnetIkkeSaksbehandlingstid = 'akkumulertVentetidAnnetIkkeSaksbehandlingstid',
+	AkkumulertVentetidArbeidsgiver = 'akkumulertVentetidArbeidsgiver',
+	AkkumulertVentetidSaksbehandler = 'akkumulertVentetidSaksbehandler',
+	AkkumulertVentetidSøker = 'akkumulertVentetidSøker',
+	AkkumulertVentetidTekniskFeil = 'akkumulertVentetidTekniskFeil',
 	Aksjonspunkt = 'aksjonspunkt',
+	AktivtAksjonspunkt = 'aktivtAksjonspunkt',
 	AktivVentefrist = 'aktivVentefrist',
 	AktivVenteårsak = 'aktivVenteårsak',
-	AktivtAksjonspunkt = 'aktivtAksjonspunkt',
-	AktorId = 'aktorId',
 	AnsvarligBeslutter = 'ansvarligBeslutter',
 	AnsvarligSaksbehandler = 'ansvarligSaksbehandler',
 	AvventerAnnet = 'avventerAnnet',
@@ -106,27 +113,30 @@ export enum OppgavefilterKode {
 	AvventerSøker = 'avventerSøker',
 	AvventerTekniskFeil = 'avventerTekniskFeil',
 	BehandlendeEnhet = 'behandlendeEnhet',
-	BehandlingTypekode = 'behandlingTypekode',
-	BehandlingUuid = 'behandlingUuid',
 	Behandlingsstatus = 'behandlingsstatus',
 	Behandlingssteg = 'behandlingssteg',
+	BehandlingTypekode = 'behandlingTypekode',
+	BehandlingUuid = 'behandlingUuid',
+	Beskyttelse = 'beskyttelse',
+	EgenAnsatt = 'egenAnsatt',
 	Fagsystem = 'fagsystem',
 	FraEndringsdialog = 'fraEndringsdialog',
 	Hastesak = 'hastesak',
 	HelautomatiskBehandlet = 'helautomatiskBehandlet',
 	Kildeområde = 'kildeområde',
+	LiggerHosBeslutter = 'liggerHosBeslutter',
 	LøsbartAksjonspunkt = 'løsbartAksjonspunkt',
 	MottattDato = 'mottattDato',
 	NyeKrav = 'nyeKrav',
 	Oppgaveområde = 'oppgaveområde',
+	Oppgavesaksbehandlingstid = 'oppgavesaksbehandlingstid',
 	Oppgavestatus = 'oppgavestatus',
 	Oppgavetype = 'oppgavetype',
-	PleietrengendeAktorId = 'pleietrengendeAktorId',
 	PåklagdBehandlingUuid = 'påklagdBehandlingUuid',
 	RegistrertDato = 'registrertDato',
-	RelatertPartAktorid = 'relatertPartAktorid',
 	Resultattype = 'resultattype',
 	Saksnummer = 'saksnummer',
+	TidSidenMottattDato = 'tidSidenMottattDato',
 	Totrinnskontroll = 'totrinnskontroll',
 	Vedtaksdato = 'vedtaksdato',
 	Ytelsestype = 'ytelsestype',
