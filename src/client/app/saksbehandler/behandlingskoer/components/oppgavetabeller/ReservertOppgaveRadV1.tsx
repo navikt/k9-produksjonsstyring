@@ -1,18 +1,19 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 
 /* eslint-disable no-param-reassign */
-import React, { RefAttributes } from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
+import { WarningColored } from '@navikt/ds-icons';
+import { Table } from '@navikt/ds-react';
 import classNames from 'classnames';
 import menuIconBlackUrl from 'images/ic-menu-18px_black.svg';
 import menuIconBlueUrl from 'images/ic-menu-18px_blue.svg';
-import { OppgaveNøkkel } from 'types/OppgaveNøkkel';
-import { WarningColored } from '@navikt/ds-icons';
-import { Table } from '@navikt/ds-react';
+import React, { RefAttributes } from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
+import ReservasjonV3 from 'saksbehandler/behandlingskoer/ReservasjonV3Dto';
 import KommentarMedMerknad from 'saksbehandler/components/KommentarMedMerknad';
 import Oppgave from 'saksbehandler/oppgaveTsType';
 import DateLabel from 'sharedComponents/DateLabel';
 import Image from 'sharedComponents/Image';
+import { OppgaveNøkkel } from 'types/OppgaveNøkkel';
 import { getDateAndTime } from 'utils/dateUtils';
 import OppgaveHandlingerMenu from '../menu/OppgaveHandlingerMenu';
 import styles from './oppgaverTabell.css';
@@ -20,7 +21,7 @@ import styles from './oppgaverTabell.css';
 // Update the path as necessary
 
 interface Props {
-	oppgave: Oppgave;
+	reservasjon: ReservasjonV3;
 	goToFagsak: (oppgave: Oppgave) => void;
 	forlengOppgaveReservasjonFn: (oppgaveNøkkel: OppgaveNøkkel) => void;
 	valgtOppgaveId: string;
@@ -36,9 +37,17 @@ type OwnProps = Props & RefAttributes<Ref>;
  */
 const ReservertOppgaveRadV1: React.ForwardRefExoticComponent<OwnProps> = React.forwardRef(
 	(
-		{ oppgave, goToFagsak, forlengOppgaveReservasjonFn, valgtOppgaveId, setValgtOppgaveId, gjelderHastesaker }: Props,
+		{
+			reservasjon,
+			goToFagsak,
+			forlengOppgaveReservasjonFn,
+			valgtOppgaveId,
+			setValgtOppgaveId,
+			gjelderHastesaker,
+		}: Props,
 		ref: React.RefObject<{ [key: string]: HTMLDivElement }>,
 	) => {
+		const oppgave = reservasjon.reservertOppgaveV1Dto;
 		const toggleMenu = (oppgaveValgt: Oppgave) => {
 			if (oppgaveValgt) {
 				setValgtOppgaveId(oppgaveValgt.eksternId);
@@ -101,6 +110,7 @@ const ReservertOppgaveRadV1: React.ForwardRefExoticComponent<OwnProps> = React.f
 								imageNode={ref?.current[valgtOppgaveId]}
 								toggleMenu={toggleMenu}
 								oppgave={oppgave}
+								reservasjon={reservasjon}
 								forlengOppgaveReservasjon={forlengOppgaveReservasjonFn}
 							/>
 						)}
