@@ -1,10 +1,10 @@
 import { test, expect } from '@playwright/test';
 
-const lagNyBehandlingskø = async (page: any, kønavn: string) => {
+const lagNyoppgavekø = async (page: any, kønavn: string) => {
 	await page.goto('/');
 	await page.getByRole('button', { name: 'Avdelingslederpanel' }).click();
-	await page.getByRole('link', { name: 'Nye behandlingskøer' }).click();
-	await page.getByRole('button', { name: 'Legg til ny behandlingskø' }).click();
+	await page.getByRole('link', { name: 'Nye oppgavekøer' }).click();
+	await page.getByRole('button', { name: 'Legg til ny oppgavekø' }).click();
 	await page.getByLabel('Kønavn').fill(kønavn);
 	await page.getByLabel('Kønavn').press('Enter');
 	await page.getByLabel('Velg saksbehandlere').click();
@@ -13,7 +13,7 @@ const lagNyBehandlingskø = async (page: any, kønavn: string) => {
 	await page.getByRole('button', { name: 'Legg til saksbehandlere' }).click();
 	await page.getByLabel('Beskrivelse').click();
 	await page.getByLabel('Beskrivelse').fill('aisjdfiasjdfiasdfjasidfj');
-	await page.getByRole('button', { name: 'Lagre behandlingskø' }).click();
+	await page.getByRole('button', { name: 'Lagre oppgavekø' }).click();
 	await page.getByTestId('lagre-button-modal').click();
 	await page.getByRole('button', { name: 'Lukk' }).click();
 };
@@ -66,9 +66,9 @@ test.skip('kan legge tilbake reservasjon i felles kø', async ({ page }) => {
 
 test.skip('kan plukke oppgave fra kø og reservere', async ({ page }) => {
 	const kønavn = 'bra kø';
-	await lagNyBehandlingskø(page, kønavn);
+	await lagNyoppgavekø(page, kønavn);
 	await page.goto('/');
-	await page.getByLabel('Velg behandlingskø').selectOption(kønavn);
+	await page.getByLabel('Velg oppgavekø').selectOption(kønavn);
 	await page.getByRole('button', { name: 'Gi meg neste behandling' }).click();
 	await page.waitForResponse(
 		(response) => response.url().includes('/api/saksbehandler/oppgaver/reserver') && response.status() === 200,

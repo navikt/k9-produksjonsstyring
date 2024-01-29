@@ -18,10 +18,10 @@ const LagreKoModal: React.FC<LagreKoModalProps> = ({ visLagreModal, setVisLagreM
 		<Modal className="w-2/6" open={visLagreModal} onClose={onClose} portal>
 			<Modal.Body>
 				<Heading spacing level="1" size="medium">
-					Lagre behandlingskø
+					Lagre oppgavekø
 				</Heading>
 				<div className="h-[75px] flex items-center">
-					<BodyShort>Er du sikker på at du ønsker å lagre behandlingskøen?</BodyShort>
+					<BodyShort>Er du sikker på at du ønsker å lagre oppgavekøen?</BodyShort>
 				</div>
 				{lagreMutation.isError && (
 					<div>
@@ -29,7 +29,7 @@ const LagreKoModal: React.FC<LagreKoModalProps> = ({ visLagreModal, setVisLagreM
 					</div>
 				)}
 				<Button className="mt-2" data-testid="lagre-button-modal" onClick={onSubmit}>
-					Lagre behandlingskø
+					Lagre oppgavekø
 				</Button>
 				<Button className="ml-2" variant="secondary" onClick={onClose}>
 					Avbryt
