@@ -34,7 +34,7 @@ const NyKøModal = ({ vis, lukk, onSuccessCallback }: OwnProps) => {
 	return (
 		<Modal className="w-[44rem]" open={vis} onClose={lukk} portal>
 			<Modal.Body>
-				<Heading size="medium">Ny behandlingskø</Heading>
+				<Heading size="medium">Ny oppgavekø</Heading>
 				<Form
 					formMethods={formMethods}
 					onSubmit={(data) => mutation.mutate({ url: apiPaths.opprettOppgaveko, body: data })}

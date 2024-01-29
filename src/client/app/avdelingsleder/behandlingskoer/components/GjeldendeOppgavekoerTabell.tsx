@@ -76,8 +76,8 @@ export const GjeldendeOppgavekoerTabell: FunctionComponent<OwnProps> = ({
 	const fagsakYtelseTyper = useKodeverk(kodeverkTyper.FAGSAK_YTELSE_TYPE);
 
 	const setValgtOppgaveko = async (event: Event, id: string) => {
-		// Må vente 100 ms før en byttar behandlingskø i tabell. Dette fordi lagring av navn skjer som blur-event. Så i tilfellet
-		// der en endrer navn og så trykker direkte på en annen behandlingskø vil ikke lagringen skje før etter at ny kø er valgt.
+		// Må vente 100 ms før en byttar oppgavekø i tabell. Dette fordi lagring av navn skjer som blur-event. Så i tilfellet
+		// der en endrer navn og så trykker direkte på en annen oppgavekø vil ikke lagringen skje før etter at ny kø er valgt.
 		await wait(100);
 
 		if (valgtOppgavekoId !== id) {

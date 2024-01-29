@@ -168,7 +168,7 @@ const BehandlingsKoForm = ({ kø, lukk, ekspandert, id }: BehandlingsKoFormProps
 					}}
 					disabled={!formMethods.formState.isDirty}
 				>
-					Lagre behandlingskø
+					Lagre oppgavekø
 				</Button>
 				<Button variant="secondary" type="button" onClick={lukk}>
 					{formMethods.formState.isDirty ? 'Lukk uten å lagre' : 'Lukk'}

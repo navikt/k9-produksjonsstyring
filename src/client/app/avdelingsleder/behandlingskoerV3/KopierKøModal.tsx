@@ -49,7 +49,7 @@ const KopierKøModal: React.FC<Props> = ({ lukk, eksisterendeKø }) => {
 			<Modal.Body>
 				<Form formMethods={formMethods} onSubmit={onSubmit}>
 					<Heading spacing level="1" size="medium">
-						Kopier behandlingskø
+						Kopier oppgavekø
 					</Heading>
 
 					<InputField
@@ -71,7 +71,7 @@ const KopierKøModal: React.FC<Props> = ({ lukk, eksisterendeKø }) => {
 						</div>
 					)}
 					<div className="flex gap-2 mt-4">
-						<Button type="submit">Kopier behandlingskø</Button>
+						<Button type="submit">Kopier oppgavekø</Button>
 						<Button variant="secondary" onClick={onClose}>
 							Avbryt
 						</Button>
