@@ -1,26 +1,12 @@
-import React, { useContext, useMemo, useState } from 'react';
-import { useMutation } from 'react-query';
-import { ArrowsCirclepathIcon } from '@navikt/aksel-icons';
-import { Button, Label, Select, Skeleton } from '@navikt/ds-react';
-import apiPaths from 'api/apiPaths';
+import React, { useContext, useMemo } from 'react';
+import { Select } from '@navikt/ds-react';
 import { FilterContext } from 'filter/FilterContext';
-import { OppgaveQuery, Oppgaverad } from 'filter/filterTsTypes';
 import { addSortering, resetSortering } from 'filter/queryUtils';
-import { antallTreffOppgaver } from 'filter/utils';
 import { mapKodeTilSorteringParams, mapSorteringParamsTilKode } from './sorteringUtils';
 
 const EnkelSortering = () => {
 	const { oppgaveQuery, updateQuery } = useContext(FilterContext);
-	const [antallOppgaver, setAntallOppgaver] = useState('');
-	const { mutate, isLoading } = useMutation<unknown, unknown, { url: string; body: OppgaveQuery }>({
-		onSuccess: (data) => {
-			if (data) {
-				setAntallOppgaver(antallTreffOppgaver(data as Oppgaverad[]));
-			}
-		},
-	});
 
-	const hentOppgaver = () => mutate({ url: apiPaths.hentOppgaver, body: oppgaveQuery });
 	const selectValue = useMemo(() => {
 		if (!oppgaveQuery.order.length) return undefined;
 
@@ -39,28 +25,10 @@ const EnkelSortering = () => {
 	};
 
 	return (
-		<div className="bg-surface-subtle rounded flex p-5 mt-8">
-			<div className="w-6/12">
-				<Select label="Sortering:" size="small" onChange={handleChange} value={selectValue}>
-					<option value="mottattDatoEldstTilNyest">Mottatt dato: eldste til nyeste</option>
-					<option value="mottattDatoNyestTilEldst">Mottatt dato: nyeste til eldste</option>
-				</Select>
-			</div>
-			<div className="flex flex-col m-auto">
-				<Label size="small">
-					Antall oppgaver: {isLoading ? <Skeleton className="inline-block w-12" /> : antallOppgaver}
-				</Label>
-				<Button
-					variant="tertiary"
-					icon={<ArrowsCirclepathIcon aria-hidden className={`${isLoading ? 'animate-spin' : ' '}`} />}
-					size="small"
-					onClick={hentOppgaver}
-					disabled={isLoading}
-				>
-					{isLoading ? 'Oppdaterer antall...' : 'Oppdater antall'}
-				</Button>
-			</div>
-		</div>
+		<Select label="Sortering:" size="small" onChange={handleChange} value={selectValue}>
+			<option value="mottattDatoEldstTilNyest">Mottatt dato: eldste til nyeste</option>
+			<option value="mottattDatoNyestTilEldst">Mottatt dato: nyeste til eldste</option>
+		</Select>
 	);
 };
 

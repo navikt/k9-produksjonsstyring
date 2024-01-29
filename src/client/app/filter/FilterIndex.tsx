@@ -17,7 +17,9 @@ import OppgaveQueryResultat from './parts/OppgaveQueryResultat';
 import OppgaveSelectFelter from './parts/OppgaveSelectFelter';
 import OppgavefilterPanel from './parts/OppgavefilterPanel';
 import { QueryFunction, addFilter, addGruppe, applyFunctions } from './queryUtils';
-import SorteringContainer from './sortering/SorteringContainer';
+import OppgaveOrderFelter from './sortering/OppgaveOrderFelter';
+import EnkelSortering from './sortering/EnkelSortering';
+import { AntallOppgaver } from './AntallOppgaver';
 
 interface OwnProps {
 	lagre?: (oppgaveQuery: OppgaveQuery) => void;
@@ -55,6 +57,10 @@ const hasQueryChangedExcludingLimit = (prev, current) => {
 	return JSON.stringify(prevRest) !== JSON.stringify(currRest);
 };
 const FilterIndex = ({ initialQuery, lagre, avbryt, tittel, visningV3, køvisning }: OwnProps) => {
+	const [queryError, setQueryError] = useState(null);
+	const [loading, setLoading] = useState(false);
+	const [loadingDownload, setLoadingDownload] = useState(false);
+	const [koId, setKoId] = useState(null);
 	const [oppgaveQuery, setOppgaveQuery] = useState(
 		initialQuery ? new OppgaveQueryModel(initialQuery).toOppgaveQuery() : new OppgaveQueryModel().toOppgaveQuery(),
 	);
@@ -83,13 +89,9 @@ const FilterIndex = ({ initialQuery, lagre, avbryt, tittel, visningV3, køvisnin
 		if (hasQueryChangedExcludingLimit(prevOppgaveQuery, oppgaveQuery)) {
 			nullstillTreff();
 			setPrevOppgaveQuery(oppgaveQuery);
+			setQueryError(null);
 		}
 	}, [oppgaveQuery]);
-
-	const [queryError, setQueryError] = useState(null);
-	const [loading, setLoading] = useState(false);
-	const [loadingDownload, setLoadingDownload] = useState(false);
-	const [koId, setKoId] = useState(null);
 
 	const { data: koer, isLoading: koerIsLoading } = useAlleKoer({
 		enabled: !køvisning,
@@ -103,9 +105,9 @@ const FilterIndex = ({ initialQuery, lagre, avbryt, tittel, visningV3, køvisnin
 		},
 	});
 
-	const validateOppgaveQuery = () =>
+	const validateOppgaveQuery = (): Promise<boolean> =>
 		post(apiPaths.valider, oppgaveQuery)
-			.then((data) => data)
+			.then((data: boolean) => data)
 			.catch(() => false);
 
 	const validerOgLagre = async () => {
@@ -248,7 +250,15 @@ const FilterIndex = ({ initialQuery, lagre, avbryt, tittel, visningV3, køvisnin
 				</div>
 				{!køvisning && <OppgaveSelectFelter />}
 				<div className="mt-auto">
-					<SorteringContainer køvisning={køvisning} />
+					{!køvisning && <OppgaveOrderFelter />}
+					{køvisning && (
+						<div className="bg-surface-subtle rounded flex p-5 mt-8">
+							<div className="w-6/12">
+								<EnkelSortering />
+							</div>
+							<AntallOppgaver validateOppgaveQuery={validateOppgaveQuery} setQueryError={setQueryError} />
+						</div>
+					)}
 					{queryError && (
 						<Alert variant="error" className="my-4">
 							{queryError}
