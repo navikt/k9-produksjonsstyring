@@ -1,10 +1,4 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
-import { FormattedMessage } from 'react-intl';
-import { useQueryClient } from 'react-query';
-import NavFrontendChevron from 'nav-frontend-chevron';
-import { Normaltekst, Element } from 'nav-frontend-typografi';
-import { OppgaveNøkkel } from 'types/OppgaveNøkkel';
 import { ErrorMessage, Loader, Table } from '@navikt/ds-react';
 import apiPaths from 'api/apiPaths';
 import { K9LosApiKeys } from 'api/k9LosApi';
@@ -12,10 +6,16 @@ import { useSaksbehandlerReservasjoner } from 'api/queries/saksbehandlerQueries'
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
 import Reservasjon from 'avdelingsleder/reservasjoner/reservasjonTsType';
 import merknadType from 'kodeverk/merknadType';
+import NavFrontendChevron from 'nav-frontend-chevron';
+import { Element, Normaltekst } from 'nav-frontend-typografi';
+import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
+import { FormattedMessage } from 'react-intl';
+import { useQueryClient } from 'react-query';
 import ReservasjonV3 from 'saksbehandler/behandlingskoer/ReservasjonV3Dto';
 import { getHeaderCodes } from 'saksbehandler/behandlingskoer/components/oppgavetabeller/oppgavetabellerfelles';
 import Oppgave from 'saksbehandler/oppgaveTsType';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
+import { OppgaveNøkkel } from 'types/OppgaveNøkkel';
 import kopanelStyles from '../oppgavekoPanel.css';
 import OppgaveTabellMenyAntallOppgaver from './OppgaveTabellMenyAntallOppgaver';
 import ReservertOppgaveRadV1 from './ReservertOppgaveRadV1';
@@ -131,7 +131,7 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps> = ({ apneOppgave, gj
 							reservasjon.reservertOppgaveV1Dto ? (
 								<ReservertOppgaveRadV1
 									key={reservasjon.reservertOppgaveV1Dto.eksternId}
-									oppgave={reservasjon.reservertOppgaveV1Dto}
+									reservasjon={reservasjon}
 									goToFagsak={goToFagsak}
 									forlengOppgaveReservasjonFn={forlengOppgaveReservasjonFn}
 									valgtOppgaveId={valgtOppgaveId}

@@ -29,7 +29,7 @@ import styles from './reservasjonerTabell.css';
 
 const headerTextCodes = [
 	'ReservasjonerTabell.Navn',
-	'ReservasjonerTabell.Saksnr',
+	'OppgaverTabell.Id',
 	'ReservasjonerTabell.BehandlingType',
 	'ReservasjonerTabell.ReservertTil',
 	'EMPTY_2',
@@ -129,7 +129,7 @@ const ReservasjonerTabell = () => {
 						>
 							<TableRow onMouseDown={() => velgReservasjon(reservasjon)} onKeyDown={() => velgReservasjon(reservasjon)}>
 								<TableColumn>{reservasjon.reservertAv}</TableColumn>
-								<TableColumn>{reservasjon.saksnummer}</TableColumn>
+								<TableColumn>{reservasjon.saksnummer || reservasjon.journalpostId}</TableColumn>
 								<TableColumn>
 									{getKodeverknavnFraKode(
 										reservasjon.behandlingstype.kode,
