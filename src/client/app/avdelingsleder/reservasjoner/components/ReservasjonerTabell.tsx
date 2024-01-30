@@ -1,19 +1,13 @@
 import React, { useCallback, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import _ from 'lodash';
-import Chevron from 'nav-frontend-chevron';
-import { Row } from 'nav-frontend-grid';
 import { Normaltekst } from 'nav-frontend-typografi';
-import { Loader, TextField } from '@navikt/ds-react';
+import { Button, Loader, Table, TextField } from '@navikt/ds-react';
 import { RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
 import AlleKodeverk from 'kodeverk/alleKodeverkTsType';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
 import FlyttReservasjonModal from 'saksbehandler/behandlingskoer/components/menu/FlyttReservasjonModal';
 import OpphevReservasjonModal from 'saksbehandler/behandlingskoer/components/menu/OpphevReservasjonModal';
-import Image from 'sharedComponents/Image';
-import Table from 'sharedComponents/Table';
-import TableColumn from 'sharedComponents/TableColumn';
-import TableRow from 'sharedComponents/TableRow';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import { getDateAndTime } from 'utils/dateUtils';
 import { useAvdelingslederReservasjoner } from 'api/queries/avdelingslederQueries';
@@ -22,18 +16,8 @@ import ReservasjonV3, {
 	mapReservasjonV3Array,
 } from 'saksbehandler/behandlingskoer/ReservasjonV3Dto';
 import { getKodeverknavnFraKode } from 'utils/kodeverkUtils';
-import arrowIcon from '../../../../images/arrow-left-3.svg';
-import arrowIconRight from '../../../../images/arrow-right-3.svg';
 import useGlobalStateRestApiData from '../../../api/rest-api-hooks/src/global-data/useGlobalStateRestApiData';
 import styles from './reservasjonerTabell.css';
-
-const headerTextCodes = [
-	'ReservasjonerTabell.Navn',
-	'OppgaverTabell.Id',
-	'ReservasjonerTabell.BehandlingType',
-	'ReservasjonerTabell.ReservertTil',
-	'EMPTY_2',
-];
 
 const sorterMedReservertAv = (reservasjonerListe: MappedReservasjon[]) =>
 	reservasjonerListe?.sort((reservasjon1, reservasjon2) =>
@@ -41,7 +25,6 @@ const sorterMedReservertAv = (reservasjonerListe: MappedReservasjon[]) =>
 	);
 
 const ReservasjonerTabell = () => {
-	const [valgtReservasjon, setValgtReservasjon] = useState<MappedReservasjon>();
 	const [showFlyttReservasjonModal, setShowFlyttReservasjonModal] = useState(false);
 	const [showOpphevReservasjonModal, setShowOpphevReservasjonModal] = useState(false);
 	const [reservasjonerSomSkalVises, setReservasjonerSomSkalVises] = useState<MappedReservasjon[]>([]);
@@ -55,23 +38,11 @@ const ReservasjonerTabell = () => {
 		select: (reservasjonerData: ReservasjonV3[]): MappedReservasjon[] =>
 			sorterMedReservertAv(mapReservasjonV3Array(reservasjonerData)),
 		onSuccess: (data: MappedReservasjon[]) => {
-			setValgtReservasjon(undefined);
 			setReservasjonerSomSkalVises(data);
 		},
 	});
 
 	const alleKodeverk: AlleKodeverk = useGlobalStateRestApiData(RestApiGlobalStatePathsKeys.KODEVERK);
-
-	const velgReservasjon = (res: MappedReservasjon) => {
-		if (
-			valgtReservasjon === undefined ||
-			valgtReservasjon.oppgaveNøkkel.oppgaveEksternId !== res.oppgaveNøkkel.oppgaveEksternId
-		) {
-			setValgtReservasjon(res);
-		} else {
-			setValgtReservasjon(undefined);
-		}
-	};
 
 	const sokEtterReservasjon = (e) => {
 		const sokVerdi = e.target.value.toLowerCase();
@@ -122,99 +93,74 @@ const ReservasjonerTabell = () => {
 				</>
 			)}
 			{reservasjonerSomSkalVises?.length > 0 && finnesSokResultat && (
-				<Table headerTextCodes={headerTextCodes} noHover>
-					{reservasjonerSomSkalVises.map((reservasjon) => (
-						<React.Fragment
-							key={`${reservasjon.oppgaveNøkkel.oppgaveEksternId} ${reservasjon.saksnummer} ${reservasjon.journalpostId}`}
-						>
-							<TableRow onMouseDown={() => velgReservasjon(reservasjon)} onKeyDown={() => velgReservasjon(reservasjon)}>
-								<TableColumn>{reservasjon.reservertAv}</TableColumn>
-								<TableColumn>{reservasjon.saksnummer || reservasjon.journalpostId}</TableColumn>
-								<TableColumn>
+				<Table>
+					<Table.Header>
+						<Table.Row>
+							<Table.HeaderCell scope="col" />
+							<Table.HeaderCell scope="col">Navn</Table.HeaderCell>
+							<Table.HeaderCell scope="col">Id</Table.HeaderCell>
+							<Table.HeaderCell scope="col">Type</Table.HeaderCell>
+							<Table.HeaderCell scope="col">Reservert til</Table.HeaderCell>
+						</Table.Row>
+					</Table.Header>
+					<Table.Body>
+						{reservasjonerSomSkalVises.map((reservasjon) => (
+							<Table.ExpandableRow
+								key={`${reservasjon.oppgaveNøkkel.oppgaveEksternId} ${reservasjon.saksnummer} ${reservasjon.journalpostId}`}
+								content={
+									<>
+										<div className="flex gap-4">
+											<Button onClick={() => setShowOpphevReservasjonModal(true)} variant="secondary" size="small">
+												<FormattedMessage id="ReservasjonerTabell.LeggTilbake" />
+											</Button>
+											<Button
+												onClick={() => {
+													setShowFlyttReservasjonModal(true);
+												}}
+												variant="secondary"
+												size="small"
+											>
+												<FormattedMessage id="ReservasjonerTabell.FlyttReservasjon" />
+											</Button>
+										</div>
+										{showOpphevReservasjonModal && (
+											<OpphevReservasjonModal
+												oppgaveNøkkel={reservasjon.oppgaveNøkkel}
+												showModal={showOpphevReservasjonModal}
+												cancel={() => setShowOpphevReservasjonModal(false)}
+											/>
+										)}
+										{showFlyttReservasjonModal && (
+											<FlyttReservasjonModal
+												oppgaveNøkkel={reservasjon.oppgaveNøkkel}
+												oppgaveReservertTil={reservasjon.reservertTil}
+												eksisterendeBegrunnelse={reservasjon.kommentar}
+												showModal={showFlyttReservasjonModal}
+												closeModal={() => setShowFlyttReservasjonModal(false)}
+											/>
+										)}
+									</>
+								}
+							>
+								<Table.DataCell>{reservasjon.reservertAv}</Table.DataCell>
+								<Table.DataCell>{reservasjon.saksnummer || reservasjon.journalpostId}</Table.DataCell>
+								<Table.DataCell>
 									{getKodeverknavnFraKode(
 										reservasjon.behandlingstype.kode,
 										kodeverkTyper.BEHANDLING_TYPE,
 										alleKodeverk,
 									) + (reservasjon ? ' - [B] ' : '')}
-								</TableColumn>
-								<TableColumn>
+								</Table.DataCell>
+								<Table.DataCell>
 									<FormattedMessage
 										id="ReservasjonerTabell.ReservertTilFormat"
 										values={getDateAndTime(reservasjon.reservertTil)}
 									/>
-								</TableColumn>
-								<TableColumn>
-									<Chevron
-										type={
-											valgtReservasjon &&
-											valgtReservasjon.oppgaveNøkkel.oppgaveEksternId === reservasjon.oppgaveNøkkel.oppgaveEksternId
-												? 'opp'
-												: 'ned'
-										}
-										className={styles.chevron}
-									/>
-								</TableColumn>
-							</TableRow>
-							{valgtReservasjon &&
-								valgtReservasjon.oppgaveNøkkel.oppgaveEksternId === reservasjon.oppgaveNøkkel.oppgaveEksternId && (
-									<Row className={styles.actionMenu}>
-										<Row>
-											<div className={styles.menuLine}>
-												<Image src={arrowIcon} className={styles.icon} />
-												<div
-													id="leggTilbake"
-													tabIndex={0}
-													className={styles.action}
-													role="button"
-													onClick={() => setShowOpphevReservasjonModal(true)}
-													onKeyDown={() => {
-														setShowOpphevReservasjonModal(true);
-													}}
-												>
-													<FormattedMessage id="ReservasjonerTabell.LeggTilbake" />
-												</div>
-											</div>
-										</Row>
-										<Row>
-											<div className={styles.menuLine}>
-												<Image src={arrowIconRight} className={styles.icon} />
-												<div
-													id="flytt"
-													tabIndex={0}
-													className={styles.action}
-													role="button"
-													onClick={() => {
-														setShowFlyttReservasjonModal(true);
-													}}
-													onKeyDown={() => {
-														setShowFlyttReservasjonModal(true);
-													}}
-												>
-													<FormattedMessage id="ReservasjonerTabell.FlyttReservasjon" />
-												</div>
-											</div>
-										</Row>
-									</Row>
-								)}
-						</React.Fragment>
-					))}
+								</Table.DataCell>
+							</Table.ExpandableRow>
+						))}
+					</Table.Body>
 				</Table>
-			)}
-			{showOpphevReservasjonModal && (
-				<OpphevReservasjonModal
-					oppgaveNøkkel={valgtReservasjon.oppgaveNøkkel}
-					showModal={showOpphevReservasjonModal}
-					cancel={() => setShowOpphevReservasjonModal(false)}
-				/>
-			)}
-			{showFlyttReservasjonModal && (
-				<FlyttReservasjonModal
-					oppgaveNøkkel={valgtReservasjon.oppgaveNøkkel}
-					oppgaveReservertTil={valgtReservasjon.reservertTil}
-					eksisterendeBegrunnelse={valgtReservasjon.kommentar}
-					showModal={showFlyttReservasjonModal}
-					closeModal={() => setShowFlyttReservasjonModal(false)}
-				/>
 			)}
 		</>
 	);
