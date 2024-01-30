@@ -1,19 +1,20 @@
 /* eslint-disable no-param-reassign */
 
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import React, { RefAttributes } from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
-import classNames from 'classnames';
-import menuIconBlackUrl from 'images/ic-menu-18px_black.svg';
-import menuIconBlueUrl from 'images/ic-menu-18px_blue.svg';
-import { OppgaveNøkkel } from 'types/OppgaveNøkkel';
-import OppgaveV3 from 'types/OppgaveV3';
 import { WarningColored } from '@navikt/ds-icons';
 import { Table } from '@navikt/ds-react';
 import { K9LosApiKeys } from 'api/k9LosApi';
 import { useRestApiRunner } from 'api/rest-api-hooks';
+import classNames from 'classnames';
+import menuIconBlackUrl from 'images/ic-menu-18px_black.svg';
+import menuIconBlueUrl from 'images/ic-menu-18px_blue.svg';
+import React, { RefAttributes } from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
 import ReservasjonV3 from 'saksbehandler/behandlingskoer/ReservasjonV3Dto';
+import KommentarMedMerknad from 'saksbehandler/components/KommentarMedMerknad';
 import Image from 'sharedComponents/Image';
+import { OppgaveNøkkel } from 'types/OppgaveNøkkel';
+import OppgaveV3 from 'types/OppgaveV3';
 import { getDateAndTime } from 'utils/dateUtils';
 import ReservasjonMeny from '../menu/ReservasjonMeny';
 import styles from './oppgaverTabell.css';
@@ -95,7 +96,9 @@ const ReservertOppgaveRadV3: React.ForwardRefExoticComponent<Props> = React.forw
 						}}
 					/>
 				</Table.DataCell>
-				<Table.DataCell>{/* <KommentarMedMerknad oppgave={oppgave} /> */}</Table.DataCell>
+				<Table.DataCell>
+					<KommentarMedMerknad reservasjon={reservasjon} />
+				</Table.DataCell>
 				<Table.DataCell className={styles.menuElement}>
 					<div
 						ref={(el) => {

@@ -9,6 +9,7 @@ import Oppgave from 'saksbehandler/oppgaveTsType';
 import Image from 'sharedComponents/Image';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import { getDateAndTime } from 'utils/dateUtils';
+import ReservasjonV3 from 'saksbehandler/behandlingskoer/ReservasjonV3Dto';
 
 const createTooltip = (oppgaveStatus: OppgaveStatus): ReactNode | undefined => {
 	const { flyttetReservasjon } = oppgaveStatus;
@@ -31,11 +32,39 @@ const createTooltip = (oppgaveStatus: OppgaveStatus): ReactNode | undefined => {
 	);
 };
 
-const KommentarMedMerknad = ({ oppgave }: { oppgave: Oppgave }) => {
+const KommentarMedMerknad = ({ reservasjon }: { reservasjon: Oppgave | ReservasjonV3 }) => {
 	const intl = useIntl();
-	if (!(!!oppgave?.merknad?.fritekst || oppgave.status.flyttetReservasjon)) {
-		return null;
+	// V1 reservasjon - deprecated
+	if ('status' in reservasjon) {
+		if (!reservasjon?.merknad?.fritekst || !reservasjon.status.flyttetReservasjon) {
+			return null;
+		}
+		return (
+			<Image
+				src={bubbletextBlack}
+				srcHover={bubbletextFilledUrl}
+				alt={intl.formatMessage({ id: 'OppgaverTabell.OverfortReservasjon' })}
+				tooltip={
+					<>
+						{reservasjon.status.flyttetReservasjon && (
+							<>
+								{createTooltip(reservasjon.status)}
+								<VerticalSpacer sixteenPx />
+							</>
+						)}
+						{!!reservasjon?.merknad?.fritekst && (
+							<>
+								<Detail>{intl.formatMessage({ id: 'OppgaverTabell.BegrunnelseForMerknad' })}</Detail>
+								<VerticalSpacer eightPx />
+								<Normaltekst>{reservasjon?.merknad?.fritekst}</Normaltekst>
+							</>
+						)}
+					</>
+				}
+			/>
+		);
 	}
+
 	return (
 		<Image
 			src={bubbletextBlack}
@@ -43,19 +72,23 @@ const KommentarMedMerknad = ({ oppgave }: { oppgave: Oppgave }) => {
 			alt={intl.formatMessage({ id: 'OppgaverTabell.OverfortReservasjon' })}
 			tooltip={
 				<>
-					{oppgave.status.flyttetReservasjon && (
+					{reservasjon && (
 						<>
-							{createTooltip(oppgave.status)}
+							<Normaltekst>{`Reservert av ${reservasjon.reservertAv}`}</Normaltekst>
+							<Normaltekst>{`${reservasjon.reservertFra} - ${reservasjon.reservertTil}`}</Normaltekst>
 							<VerticalSpacer sixteenPx />
+							<Normaltekst>{reservasjon.kommentar}</Normaltekst>
 						</>
 					)}
-					{!!oppgave?.merknad?.fritekst && (
+
+					{/* TODO: Her må vi legge inn visning av merknad når det er støtte for det 				
+	{!!reservasjon?.kommentar && (
 						<>
 							<Detail>{intl.formatMessage({ id: 'OppgaverTabell.BegrunnelseForMerknad' })}</Detail>
 							<VerticalSpacer eightPx />
-							<Normaltekst>{oppgave?.merknad?.fritekst}</Normaltekst>
+							<Normaltekst>{reservasjon.kommentar}</Normaltekst>
 						</>
-					)}
+					)} */}
 				</>
 			}
 		/>

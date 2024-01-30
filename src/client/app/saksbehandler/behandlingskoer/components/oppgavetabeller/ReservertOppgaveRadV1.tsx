@@ -94,7 +94,7 @@ const ReservertOppgaveRadV1: React.ForwardRefExoticComponent<OwnProps> = React.f
 					/>
 				</Table.DataCell>
 				<Table.DataCell>
-					<KommentarMedMerknad oppgave={oppgave} />
+					<KommentarMedMerknad reservasjon={oppgave} />
 				</Table.DataCell>
 				<Table.DataCell className={styles.menuElement}>
 					<div
