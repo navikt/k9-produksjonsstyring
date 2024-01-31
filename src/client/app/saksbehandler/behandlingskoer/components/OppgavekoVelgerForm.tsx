@@ -2,7 +2,7 @@ import React, { FunctionComponent, ReactNode, useContext, useEffect } from 'reac
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useQuery, useQueryClient } from 'react-query';
 import { OppgavekøV3MedNavn } from 'types/OppgavekøV3Type';
-import { Button, ReadMore, Select } from '@navikt/ds-react';
+import { BodyShort, Button, Heading, ReadMore, Select } from '@navikt/ds-react';
 import apiPaths from 'api/apiPaths';
 import { K9LosApiKeys } from 'api/k9LosApi';
 import { useAntallOppgaverIKoV3 } from 'api/queries/saksbehandlerQueries';
@@ -75,14 +75,14 @@ export const OppgavekoVelgerForm: FunctionComponent<OwnProps> = ({ plukkNyOppgav
 	const oppgavekoerSortertAlfabetisk = oppgavekoer.sort((a, b) => a.navn.localeCompare(b.navn));
 	const valgtKoId = getDefaultOppgaveko(oppgavekoerSortertAlfabetisk);
 	const { data: antallOppgaverV3 } = useAntallOppgaverIKoV3(getKoId(valgtKoId), {
-		enabled: erKoV3(valgtKoId),
+		enabled: valgtKoId && erKoV3(valgtKoId),
 	});
 
 	const { data: saksbehandlere, startRequest: hentSaksbehandlere } = useRestApiRunner<Saksbehandler[]>(
 		K9LosApiKeys.OPPGAVEKO_SAKSBEHANDLERE,
 	);
 	const { data: saksbehandlereV3 } = useQuery<Saksbehandler[]>(apiPaths.hentSaksbehandlereIKoV3(getKoId(valgtKoId)), {
-		enabled: erKoV3(valgtKoId),
+		enabled: valgtKoId && erKoV3(valgtKoId),
 	});
 
 	useEffect(() => {
@@ -110,6 +110,13 @@ export const OppgavekoVelgerForm: FunctionComponent<OwnProps> = ({ plukkNyOppgav
 		}
 	};
 
+	if (!oppgavekoerSortertAlfabetisk.length) {
+		return (
+			<div>
+				<BodyShort size="small">Fant ingen oppgavekøer for saksbehandler.</BodyShort>
+			</div>
+		);
+	}
 	return (
 		<div className={styles.oppgavevelgerform_container}>
 			<FlexContainer>
