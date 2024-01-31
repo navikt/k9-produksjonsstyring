@@ -69,20 +69,22 @@ export const OppgavekoVelgerForm: FunctionComponent<OwnProps> = ({ plukkNyOppgav
 	const { oppgavekoer, valgtOppgavekoId, setValgtOppgavekoId } = useContext(BehandlingskoerContext);
 	const queryClient = useQueryClient();
 	const intl = useIntl();
+
 	const { startRequest: fetchAntallOppgaver, data: antallOppgaver } = useRestApiRunner<number>(
 		K9LosApiKeys.BEHANDLINGSKO_OPPGAVE_ANTALL,
 	);
 	const oppgavekoerSortertAlfabetisk = oppgavekoer.sort((a, b) => a.navn.localeCompare(b.navn));
+	const harKoer = !!oppgavekoerSortertAlfabetisk.length;
 	const valgtKoId = getDefaultOppgaveko(oppgavekoerSortertAlfabetisk);
 	const { data: antallOppgaverV3 } = useAntallOppgaverIKoV3(getKoId(valgtKoId), {
-		enabled: valgtKoId && erKoV3(valgtKoId),
+		enabled: harKoer && valgtKoId && erKoV3(valgtKoId),
 	});
 
 	const { data: saksbehandlere, startRequest: hentSaksbehandlere } = useRestApiRunner<Saksbehandler[]>(
 		K9LosApiKeys.OPPGAVEKO_SAKSBEHANDLERE,
 	);
 	const { data: saksbehandlereV3 } = useQuery<Saksbehandler[]>(apiPaths.hentSaksbehandlereIKoV3(getKoId(valgtKoId)), {
-		enabled: valgtKoId && erKoV3(valgtKoId),
+		enabled: harKoer && valgtKoId && erKoV3(valgtKoId),
 	});
 
 	useEffect(() => {
@@ -110,7 +112,7 @@ export const OppgavekoVelgerForm: FunctionComponent<OwnProps> = ({ plukkNyOppgav
 		}
 	};
 
-	if (!oppgavekoerSortertAlfabetisk.length) {
+	if (!harKoer) {
 		return (
 			<div>
 				<BodyShort size="small">Fant ingen oppgavekøer for saksbehandler.</BodyShort>

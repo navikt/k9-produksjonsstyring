@@ -36,20 +36,21 @@ const BehandlingskoerIndex: FunctionComponent<OwnProps & WrappedComponentProps> 
 	const { startRequest: leggTilBehandletOppgave } = useRestApiRunner(K9LosApiKeys.LEGG_TIL_BEHANDLET_OPPGAVE);
 
 	const openFagsak = (oppgave: Oppgave) => {
-		leggTilBehandletOppgave(oppgave.oppgaveNøkkel);
-		switch (oppgave.system) {
-			case OppgaveSystem.PUNSJ:
-				window.location.assign(getK9punsjRef(k9punsjUrl, oppgave.journalpostId));
-				break;
-			case OppgaveSystem.K9SAK:
-				window.location.assign(getK9sakHref(k9sakUrl, oppgave.saksnummer, oppgave.behandlingId));
-				break;
-			case OppgaveSystem.K9TILBAKE:
-				window.location.assign(getK9sakHref(k9sakUrl, oppgave.saksnummer, oppgave.behandlingId));
-				break;
-			default:
-				window.location.assign(getK9sakHref(k9sakUrl, oppgave.saksnummer, oppgave.behandlingId));
-		}
+		leggTilBehandletOppgave(oppgave.oppgaveNøkkel).then(() => {
+			switch (oppgave.system) {
+				case OppgaveSystem.PUNSJ:
+					window.location.assign(getK9punsjRef(k9punsjUrl, oppgave.journalpostId));
+					break;
+				case OppgaveSystem.K9SAK:
+					window.location.assign(getK9sakHref(k9sakUrl, oppgave.saksnummer, oppgave.behandlingId));
+					break;
+				case OppgaveSystem.K9TILBAKE:
+					window.location.assign(getK9sakHref(k9sakUrl, oppgave.saksnummer, oppgave.behandlingId));
+					break;
+				default:
+					window.location.assign(getK9sakHref(k9sakUrl, oppgave.saksnummer, oppgave.behandlingId));
+			}
+		});
 	};
 
 	const openSak = (oppgave: Oppgave) => {
