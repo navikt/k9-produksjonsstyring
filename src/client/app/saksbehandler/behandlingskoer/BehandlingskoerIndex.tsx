@@ -82,10 +82,6 @@ const BehandlingskoerIndex: FunctionComponent<OwnProps & WrappedComponentProps> 
 		return <Loader />;
 	}
 
-	if (oppgavekoer.length === 0) {
-		return null;
-	}
-
 	return (
 		<BehandlingskoerContext.Provider value={behandlingskoerContextValue}>
 			<OppgavekoPanel apneOppgave={apneOppgave} />

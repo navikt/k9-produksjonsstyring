@@ -111,7 +111,7 @@ test('kan endre/og flytte reservasjon reservasjon', async ({ page }) => {
 test('kan endre reservasjon som avdelingsleder', async ({ page }) => {
 	await page.goto('/avdelingsleder');
 	await page.getByRole('link', { name: 'Reservasjoner' }).click();
-	await page.getByRole('row', { name: saksnummer }).getByRole('cell').nth(4).click();
+	await page.getByRole('row', { name: saksnummer }).getByRole('cell').nth(0).click();
 	await page.getByRole('button', { name: 'Flytt reservasjonen til annen saksbehandler' }).click();
 	await page.getByLabel('Saksbehandlers navn').click();
 	await page.getByLabel('Saksbehandlers navn').fill('Sara');
@@ -133,7 +133,7 @@ test('kan endre reservasjon som avdelingsleder', async ({ page }) => {
 test('kan fjerne reservasjon som avdelingsleder', async ({ page }) => {
 	await page.goto('/avdelingsleder');
 	await page.getByRole('link', { name: 'Reservasjoner' }).click();
-	await page.getByRole('row', { name: saksnummer }).getByRole('cell').nth(4).click();
+	await page.getByRole('row', { name: saksnummer }).getByRole('cell').nth(0).click();
 	await page.getByRole('button', { name: 'Legg oppgave tilbake i felles kø' }).click();
 	await page.getByLabel('Når en reservert sak frigjøres er begrunnelse obligatorisk').fill('Dette er en god grunn');
 	await page.getByRole('button', { name: 'OK' }).click();
@@ -141,5 +141,9 @@ test('kan fjerne reservasjon som avdelingsleder', async ({ page }) => {
 	await page.waitForResponse(
 		(response) => response.url().includes('/api/saksbehandler/oppgaver/opphev') && response.status() === 200,
 	);
-	expect(page.getByRole('row', { name: saksnummer })).not.toBeVisible();
+	await page.waitForResponse(
+		(response) => response.url().includes('/api/avdelingsleder/reservasjoner') && response.status() === 200,
+	);
+
+	await expect(page.getByRole('row', { name: saksnummer })).not.toBeVisible();
 });
