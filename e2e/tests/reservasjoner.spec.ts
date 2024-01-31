@@ -141,5 +141,9 @@ test('kan fjerne reservasjon som avdelingsleder', async ({ page }) => {
 	await page.waitForResponse(
 		(response) => response.url().includes('/api/saksbehandler/oppgaver/opphev') && response.status() === 200,
 	);
-	expect(page.getByRole('row', { name: saksnummer })).not.toBeVisible();
+	await page.waitForResponse(
+		(response) => response.url().includes('/api/avdelingsleder/reservasjoner') && response.status() === 200,
+	);
+
+	await expect(page.getByRole('row', { name: saksnummer })).not.toBeVisible();
 });
