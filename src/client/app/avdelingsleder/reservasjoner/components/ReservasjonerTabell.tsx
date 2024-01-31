@@ -2,12 +2,10 @@ import React, { useCallback, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import _ from 'lodash';
 import { Normaltekst } from 'nav-frontend-typografi';
-import { Button, Loader, Table, TextField } from '@navikt/ds-react';
+import { Loader, Table, TextField } from '@navikt/ds-react';
 import { RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
 import AlleKodeverk from 'kodeverk/alleKodeverkTsType';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
-import FlyttReservasjonModal from 'saksbehandler/behandlingskoer/components/menu/FlyttReservasjonModal';
-import OpphevReservasjonModal from 'saksbehandler/behandlingskoer/components/menu/OpphevReservasjonModal';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import { getDateAndTime } from 'utils/dateUtils';
 import { useAvdelingslederReservasjoner } from 'api/queries/avdelingslederQueries';
@@ -18,6 +16,7 @@ import ReservasjonV3, {
 import { getKodeverknavnFraKode } from 'utils/kodeverkUtils';
 import useGlobalStateRestApiData from '../../../api/rest-api-hooks/src/global-data/useGlobalStateRestApiData';
 import styles from './reservasjonerTabell.css';
+import ReservasjonRowExpandableContent from './ReservasjonRowExpandableContent';
 
 const sorterMedReservertAv = (reservasjonerListe: MappedReservasjon[]) =>
 	reservasjonerListe?.sort((reservasjon1, reservasjon2) =>
@@ -25,8 +24,6 @@ const sorterMedReservertAv = (reservasjonerListe: MappedReservasjon[]) =>
 	);
 
 const ReservasjonerTabell = () => {
-	const [showFlyttReservasjonModal, setShowFlyttReservasjonModal] = useState(false);
-	const [showOpphevReservasjonModal, setShowOpphevReservasjonModal] = useState(false);
 	const [reservasjonerSomSkalVises, setReservasjonerSomSkalVises] = useState<MappedReservasjon[]>([]);
 	const [finnesSokResultat, setFinnesSokResultat] = useState(true);
 
@@ -107,40 +104,7 @@ const ReservasjonerTabell = () => {
 						{reservasjonerSomSkalVises.map((reservasjon) => (
 							<Table.ExpandableRow
 								key={`${reservasjon.oppgaveNøkkel.oppgaveEksternId} ${reservasjon.saksnummer} ${reservasjon.journalpostId}`}
-								content={
-									<>
-										<div className="flex gap-4">
-											<Button onClick={() => setShowOpphevReservasjonModal(true)} variant="secondary" size="small">
-												<FormattedMessage id="ReservasjonerTabell.LeggTilbake" />
-											</Button>
-											<Button
-												onClick={() => {
-													setShowFlyttReservasjonModal(true);
-												}}
-												variant="secondary"
-												size="small"
-											>
-												<FormattedMessage id="ReservasjonerTabell.FlyttReservasjon" />
-											</Button>
-										</div>
-										{showOpphevReservasjonModal && (
-											<OpphevReservasjonModal
-												oppgaveNøkkel={reservasjon.oppgaveNøkkel}
-												showModal={showOpphevReservasjonModal}
-												cancel={() => setShowOpphevReservasjonModal(false)}
-											/>
-										)}
-										{showFlyttReservasjonModal && (
-											<FlyttReservasjonModal
-												oppgaveNøkkel={reservasjon.oppgaveNøkkel}
-												oppgaveReservertTil={reservasjon.reservertTil}
-												eksisterendeBegrunnelse={reservasjon.kommentar}
-												showModal={showFlyttReservasjonModal}
-												closeModal={() => setShowFlyttReservasjonModal(false)}
-											/>
-										)}
-									</>
-								}
+								content={<ReservasjonRowExpandableContent reservasjon={reservasjon} />}
 							>
 								<Table.DataCell>{reservasjon.reservertAv}</Table.DataCell>
 								<Table.DataCell>{reservasjon.saksnummer || reservasjon.journalpostId}</Table.DataCell>
