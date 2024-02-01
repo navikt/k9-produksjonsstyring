@@ -119,7 +119,11 @@ const FagsakList: FunctionComponent<OwnProps> = ({
 							{getKodeverknavnFraKode(oppgave.behandlingStatus, kodeverkTyper.BEHANDLING_STATUS, alleKodeverk)}
 						</TableColumn>
 						<TableColumn>
-							<KommentarMedMerknad oppgave={oppgave} />
+							{/*
+							Har ikke lenger beskrivelse på selve oppgaven. 
+							Vi må finne ut om vi forstatt skal vise informasjon om reservasjon her
+							<KommentarMedMerknad reservasjon={oppgave} /> 
+							*/}
 						</TableColumn>
 						<TableColumn>
 							<NavFrontendChevron />
