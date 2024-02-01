@@ -119,7 +119,6 @@ const SorteringVelger: FunctionComponent<OwnProps & WrappedComponentProps> = ({
 						),
 				)}
 
-				{/* Måten er under er måten som vi skal gå videre med kriterier i framtiden. TODO er att få utvidet backend, legge in mer på måten under og byta ut react final form som bruker over med formik. */}
 
 				{koKriterier
 					.filter((kriterie) => kriterie.kode === KriterierType.Feilutbetaling)
