@@ -81,13 +81,13 @@ const OldOppsummeringAvKø = ({ oppgaveko }: OwnProps) => {
 
 	return (
 		<>
-			<FlexColumn className={styles.marginFilters}>
+			<FlexColumn className="mr-8">
 				<LabelWithHeader
 					header={intl.formatMessage({ id: 'OppgavekoVelgerForm.Stonadstype' })}
 					texts={getStonadstyper(intl, alleKodeverk, oppgaveko)}
 				/>
 			</FlexColumn>
-			<FlexColumn className={styles.marginFilters}>
+			<FlexColumn className="mr-8">
 				<LabelWithHeader
 					header={intl.formatMessage({
 						id: 'OppgavekoVelgerForm.Behandlingstype',
@@ -95,7 +95,7 @@ const OldOppsummeringAvKø = ({ oppgaveko }: OwnProps) => {
 					texts={getBehandlingstyper(intl, alleKodeverk, oppgaveko)}
 				/>
 			</FlexColumn>
-			<FlexColumn className={styles.marginFilters}>
+			<FlexColumn>
 				<LabelWithHeader
 					header={intl.formatMessage({
 						id: 'OppgavekoVelgerForm.AndreKriterier',

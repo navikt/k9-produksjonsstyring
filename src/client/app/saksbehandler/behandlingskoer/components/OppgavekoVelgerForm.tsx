@@ -121,43 +121,41 @@ export const OppgavekoVelgerForm: FunctionComponent<OwnProps> = ({ plukkNyOppgav
 	}
 	return (
 		<div className={styles.oppgavevelgerform_container}>
-			<FlexContainer>
-				<FlexRow>
-					<FlexColumn className={styles.navnInput}>
-						<Select
-							label={intl.formatMessage({ id: 'OppgavekoVelgerForm.Oppgaveko' })}
-							value={valgtOppgavekoId}
-							onChange={handleSelectKo}
-						>
-							{oppgavekoerSortertAlfabetisk.map((oppgaveko) => (
-								<option key={oppgaveko.id} value={`${oppgaveko.id}`}>
-									{oppgaveko.navn}
-								</option>
-							))}
-						</Select>
-						<VerticalSpacer eightPx />
-						<FormattedMessage
-							id="OppgavekoVelgerForm.AntallOppgaver"
-							values={{ antall: (erKoV3(valgtKoId) ? antallOppgaverV3 : antallOppgaver) || 0 }}
-						/>
-						<ReadMore size="small" header="Saksbehandlere i køen">
-							{createTooltip(erKoV3(valgtKoId) ? saksbehandlereV3 : saksbehandlere)}
-						</ReadMore>
-						<VerticalSpacer sixteenPx />
-					</FlexColumn>
-					{valgtOppgavekoId && <OppsummeringAvKø oppgavekø={getValgtOppgaveko(oppgavekoer, valgtOppgavekoId)} />}
-					{valgtOppgavekoId && <OldOppsummeringAvKø oppgaveko={getValgtOppgaveko(oppgavekoer, valgtOppgavekoId)} />}
-				</FlexRow>
-			</FlexContainer>
-			<Button
-				id="frode sin knapp"
-				className="mt-4 max-w-sm"
-				loading={erRestApiKallLoading}
-				disabled={erRestApiKallLoading}
-				onClick={() => plukkNyOppgave()}
-			>
-				{intl.formatMessage({ id: 'OppgavekoVelgerForm.PlukkNyOppgave' })}
-			</Button>
+			<div className="flex">
+				<div className="min-w-[260px] mr-8">
+					<Select
+						label={intl.formatMessage({ id: 'OppgavekoVelgerForm.Oppgaveko' })}
+						value={valgtOppgavekoId}
+						onChange={handleSelectKo}
+					>
+						{oppgavekoerSortertAlfabetisk.map((oppgaveko) => (
+							<option key={oppgaveko.id} value={`${oppgaveko.id}`}>
+								{oppgaveko.navn}
+							</option>
+						))}
+					</Select>
+					<VerticalSpacer eightPx />
+					<FormattedMessage
+						id="OppgavekoVelgerForm.AntallOppgaver"
+						values={{ antall: (erKoV3(valgtKoId) ? antallOppgaverV3 : antallOppgaver) || 0 }}
+					/>
+					<ReadMore size="small" header="Saksbehandlere i køen">
+						{createTooltip(erKoV3(valgtKoId) ? saksbehandlereV3 : saksbehandlere)}
+					</ReadMore>
+					<VerticalSpacer sixteenPx />
+					<Button
+						id="frode sin knapp"
+						className="mt-4 max-w-sm"
+						loading={erRestApiKallLoading}
+						disabled={erRestApiKallLoading}
+						onClick={() => plukkNyOppgave()}
+					>
+						{intl.formatMessage({ id: 'OppgavekoVelgerForm.PlukkNyOppgave' })}
+					</Button>
+				</div>
+				{valgtOppgavekoId && <OppsummeringAvKø oppgavekø={getValgtOppgaveko(oppgavekoer, valgtOppgavekoId)} />}
+				{valgtOppgavekoId && <OldOppsummeringAvKø oppgaveko={getValgtOppgaveko(oppgavekoer, valgtOppgavekoId)} />}
+			</div>
 		</div>
 	);
 };
