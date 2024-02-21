@@ -78,7 +78,7 @@ export enum K9LosApiKeys {
 }
 
 export const endpoints = () =>
-	new RestApiConfigBuilder('api')
+	new RestApiConfigBuilder('api/k9-los-api')
 		/* /api/fagsak */
 		.withPost('/fagsak/sok', K9LosApiKeys.SEARCH_FAGSAK)
 

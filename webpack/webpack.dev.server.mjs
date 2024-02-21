@@ -14,7 +14,7 @@ const options = {
 		watch: true,
 	},
 	proxy: {
-		'/api': {
+		'/api/k9-los-api': {
 			target: 'http://localhost:8020',
 			secure: false,
 		},
