@@ -8,6 +8,17 @@ metadata:
 spec:
   image: {{ image }}
   port: 8030
+  azure:
+    application:
+      enabled: true
+      allowAllUsers: true
+      tenant: {{ azureTenant }}
+    sidecar:
+      enabled: true
+      autoLogin: true
+      autoLoginIgnorePaths:
+      - /health/*
+      - /logout
   liveness:
     path: /isAlive
     initialDelay: 20
@@ -22,6 +33,12 @@ spec:
     min: 2
     max: 4
     cpuThresholdPercentage: 50
+  accessPolicy:
+    outbound:
+      external:
+      {{#each outboundExternalHosts as |host|}}
+       - host: {{host}}
+      {{/each}}
   resources:
     limits:
       cpu: 500m
@@ -38,7 +55,3 @@ spec:
     - name: {{this.name }}
       value: {{this.value}}
   {{/each}}
-    - name: APP_NAME
-      value: k9-los-web
-    - name: APP_PORT
-      value: "8030"
