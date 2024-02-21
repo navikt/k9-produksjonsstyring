@@ -9,13 +9,13 @@ export interface OppgavekøV3 extends OppgavekøV3Enkel {
 	saksbehandlere: string[];
 	frittValgAvOppgave: boolean;
 	sistEndret: string;
-	antallOppgaver: string;
 	versjon: number;
 }
 
 export interface OppgavekøV3Enkel {
 	id: string;
 	tittel: string;
+	antallOppgaver: number,
 	antallSaksbehandlere: number;
 	sistEndret: string | null;
 }
