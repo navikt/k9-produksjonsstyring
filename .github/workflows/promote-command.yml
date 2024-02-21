@@ -49,23 +49,8 @@ jobs:
         env:
           PRINT_PAYLOAD: true
           CLUSTER: ${{ env.CLUSTER }}
-          RESOURCE: nais/frontend/k9-los-web.yml
-          VARS: nais/frontend/${{ env.CLUSTER }}.yml
-
-      - name: Deploy k9-los-oidc-auth-proxy til cluster
-        uses: nais/deploy/actions/deploy@v2
-        env:
-          PRINT_PAYLOAD: true
-          CLUSTER: ${{ env.CLUSTER }}
-          RESOURCE: nais/proxy/k9-los-oidc-auth-proxy.yml
-          VARS: nais/proxy/${{ env.CLUSTER }}.json
-
-      - name: Deploy k9-los-oidc-auth-proxy-redis til cluster
-        uses: nais/deploy/actions/deploy@v2
-        env:
-          PRINT_PAYLOAD: true
-          CLUSTER: ${{ env.CLUSTER }}
-          RESOURCE: nais/proxy/k9-los-oidc-auth-proxy-redis.yml
+          RESOURCE: nais/k9-los-web.yml
+          VARS: nais/${{ env.CLUSTER }}.yml
 
       - name: Oppdater kommentar med deployment status ved feil
         if: failure()

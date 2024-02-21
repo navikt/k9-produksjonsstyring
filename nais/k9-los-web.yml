@@ -17,7 +17,8 @@ spec:
       enabled: true
       autoLogin: true
       autoLoginIgnorePaths:
-      - /health/*
+      - /isAlive
+      - /isReady
       - /logout
   liveness:
     path: /isAlive
@@ -51,6 +52,12 @@ spec:
     - {{url}}
   {{/each}}
   env:
+    - name: PROXY_CONFIG
+      value: '{"apis":[
+              {{#each proxyRedirects}}
+                {"path":"{{path}}", "url":"{{url}}", "scopes":"{{scope}}"}{{#unless @last}},{{/unless}}
+              {{/each}}
+              ]}'
   {{#each env}}
     - name: {{this.name }}
       value: {{this.value}}
