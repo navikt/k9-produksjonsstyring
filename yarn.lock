@@ -2836,10 +2836,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@navikt/aksel-stylelint@npm:5.15.1":
-  version: 5.15.1
-  resolution: "@navikt/aksel-stylelint@npm:5.15.1::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40navikt%2Faksel-stylelint%2F5.15.1%2F9ccb58f0327bf5ebf673f716f7ddde587e5d9245"
-  checksum: 67238de13284b5858c4f787b6bd6d29ce428f550af522c141d752cf5b074fd433af3ba7b40234e62d7ee4f30fb36a51af6c652a272220fcb5dad9cbbd6dd9ed1
+"@navikt/aksel-stylelint@npm:6.1.0":
+  version: 6.1.0
+  resolution: "@navikt/aksel-stylelint@npm:6.1.0::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40navikt%2Faksel-stylelint%2F6.1.0%2Fac54b5b56a6232446ea75e59bede828e9d7cb5a8"
+  checksum: 9a76d320816bd461da0a82c81422ef61263d71afe7c9b460dddbd9570cfc08f11b8809e593bf79dfebdcc58be8fb8df9eeb39e3bba48ebea5b773f07716e4ea1
   languageName: node
   linkType: hard
 
@@ -10728,7 +10728,7 @@ __metadata:
     "@formatjs/intl-datetimeformat": 6.12.2
     "@formatjs/intl-numberformat": 8.10.0
     "@navikt/aksel-icons": 5.15.1
-    "@navikt/aksel-stylelint": 5.15.1
+    "@navikt/aksel-stylelint": 6.1.0
     "@navikt/ds-css": 5.15.1
     "@navikt/ds-icons": 3.4.3
     "@navikt/ds-react": 5.15.1
