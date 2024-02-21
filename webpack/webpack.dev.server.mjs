@@ -1,6 +1,6 @@
 import webpack from 'webpack';
 import WebpackDevServer from 'webpack-dev-server';
-import envVariables from './envVariables.mjs';
+import { envVariables } from '../server/envVariables.js';
 import config from './webpack.dev.mjs';
 
 if (process.argv.includes('--no-fix')) {
