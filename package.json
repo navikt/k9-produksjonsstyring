@@ -2,7 +2,8 @@
 	"name": "k9-los-web",
 	"version": "0.0.1",
 	"workspaces": [
-		"e2e"
+		"e2e",
+		"server"
 	],
 	"description": "k9-los-web",
 	"type": "module",
