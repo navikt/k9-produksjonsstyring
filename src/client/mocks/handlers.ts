@@ -293,6 +293,7 @@ export const developmentHandlers = {
 						versjon: 2,
 						tittel: 'Stians morokø',
 						antallSaksbehandlere: 6,
+						antallOppgaver: 3,
 						sistEndret: '2023-05-28T08:57:22.4',
 						beskrivelse:
 							// eslint-disable-next-line max-len
