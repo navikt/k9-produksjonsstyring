@@ -1,5 +1,5 @@
 ingresses:
-  - "https://k9-los-web.dev.intern.nav.no"
+  - "https://k9-los-web.intern.dev.nav.no"
 azureTenant: trygdeetaten.no
 outboundExternalHosts:
   - k9-los-api.dev-fss-pub.nais.io
