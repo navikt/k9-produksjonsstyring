@@ -4,7 +4,8 @@ import express from 'express';
 import helmet from 'helmet';
 import timeout from 'connect-timeout';
 import rateLimit from 'express-rate-limit';
-import { decodeJwt, getSession } from '@navikt/oasis';
+import { validateToken } from '@navikt/oasis';
+import { decodeJwt } from 'jose';
 
 import logger from './src/log.js';
 
@@ -81,8 +82,10 @@ async function startApp() {
 
 		const ensureAuthenticated = async (req, res, next) => {
 			try {
-				const session = await getSession(req);
-				if (!session) {
+				const token = req.headers.authorization.replace('Bearer ', '');
+				const validation = await validateToken(token);
+
+				if (!validation) {
 					logger.debug('User token missing. Redirecting to login.');
 					res.redirect(`/oauth2/login?redirect=${req.originalUrl}`);
 				} else {
