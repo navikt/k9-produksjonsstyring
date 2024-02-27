@@ -20,13 +20,13 @@ spec:
       - /health/**
       - /logout
   liveness:
-    path: /health/isAlive
+    path: health/isAlive
     initialDelay: 20
     timeout: 1
     periodSeconds: 5
     failureThreshold: 10
   readiness:
-    path: /health/isReady
+    path: health/isReady
     initialDelay: 20
     timeout: 1
   replicas:
