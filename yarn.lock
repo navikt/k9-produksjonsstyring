@@ -2820,7 +2820,7 @@ __metadata:
     express-http-proxy: 2.0.0
     express-rate-limit: 7.1.5
     helmet: 7.1.0
-    jose: ^5.2.2
+    jose: 5.2.2
     morgan: 1.10.0
     node-cache: 5.1.2
     winston: 3.11.0
@@ -10723,17 +10723,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"jose@npm:5.2.2, jose@npm:^5.2.2":
+  version: 5.2.2
+  resolution: "jose@npm:5.2.2"
+  checksum: d23def3c1df8aae1ae59d1c027a073804034fe8b971dafe51f0452ca8f6eb7e5cd3e3c90b6e544776443e01e58c8f8eefbd1984dbcde378e693e0ebbd176584d
+  languageName: node
+  linkType: hard
+
 "jose@npm:^4.15.4":
   version: 4.15.4
   resolution: "jose@npm:4.15.4"
   checksum: dccad91cb3357f36423774a0b89ad830dd84b31090de65cd139b85488439f16a00f8c59c0773825e8a1adb0dd9d13ad725ad66e6ea33880ecb3959bb99e1ea5b
-  languageName: node
-  linkType: hard
-
-"jose@npm:^5.2.2":
-  version: 5.2.2
-  resolution: "jose@npm:5.2.2"
-  checksum: d23def3c1df8aae1ae59d1c027a073804034fe8b971dafe51f0452ca8f6eb7e5cd3e3c90b6e544776443e01e58c8f8eefbd1984dbcde378e693e0ebbd176584d
   languageName: node
   linkType: hard
 
