@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - gcp
+      - GCP-og-wonderwall
 jobs:
   deploy-dev-gcp:
     name: Deploye til DEV GCP
