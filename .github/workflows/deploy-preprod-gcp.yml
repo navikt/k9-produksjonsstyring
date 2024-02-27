@@ -1,0 +1,59 @@
+name: Deploy til preprod gcp
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - gcp
+jobs:
+  deploy-dev-gcp:
+    name: Deploye til DEV GCP
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
+      id-token: write
+    steps:
+      - name: Hente kode
+        uses: actions/checkout@v4
+      - name: Setup .yarnrc.yml
+        run: |
+          yarn config set npmScopes.navikt.npmRegistryServer "https://npm.pkg.github.com"
+          yarn config set npmScopes.navikt.npmAlwaysAuth true
+          yarn config set npmScopes.navikt.npmAuthToken $NPM_AUTH_TOKEN
+        env:
+          NPM_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
+      - name: Sette opp Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18.x
+          registry-url: https://npm.pkg.github.com/
+          scope: '@navikt'
+
+      - name: Installere moduler
+        run: |
+          cd server
+          yarn install --immutable
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
+
+      - name: Bygge
+        run: yarn build
+
+      - uses: nais/docker-build-push@v0
+        id: docker-push
+        with:
+          tag: 'latest'
+          team: k9saksbehandling
+          pull: true
+          project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
+          identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
+
+      - name: Set image
+        run: echo "IMAGE=${{steps.docker-push.outputs.image}}" >> $GITHUB_ENV
+
+      - name: Deploye til dev
+        uses: nais/deploy/actions/deploy@v2
+        env:
+          CLUSTER: dev-gcp
+          RESOURCE: nais/k9-los-web.yml
+          VARS: nais/dev-gcp.yml
