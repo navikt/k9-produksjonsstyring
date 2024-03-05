@@ -83,10 +83,15 @@ async function startApp() {
 		const ensureAuthenticated = async (req, res, next) => {
 			try {
 				const token = req.headers.authorization.replace('Bearer ', '');
+
+				if (!token) {
+					logger.debug('User token missing. Redirecting to login.');
+					res.redirect(`/oauth2/login?redirect=${req.originalUrl}`);
+				}
 				const validation = await validateToken(token);
 
-				if (!validation) {
-					logger.debug('User token missing. Redirecting to login.');
+				if (!validation.ok) {
+					logger.debug('User token not valid. Redirecting to login.');
 					res.redirect(`/oauth2/login?redirect=${req.originalUrl}`);
 				} else {
 					logger.debug('User token is valid. Continue.');
