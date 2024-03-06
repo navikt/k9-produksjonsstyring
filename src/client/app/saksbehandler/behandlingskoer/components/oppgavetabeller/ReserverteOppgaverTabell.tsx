@@ -106,7 +106,7 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps> = ({ apneOppgave, gj
 			</button>
 			{isLoading && visReservasjoner && <Loader size="large" className={styles.spinner} />}
 			{isError && visReservasjoner && <ErrorMessage>Noe gikk galt ved lasting av reservasjoner</ErrorMessage>}
-			{antallReservasjoner > 0 && isSuccess && visReservasjoner && (
+			{antallReservasjoner === 0 && isSuccess && visReservasjoner && (
 				<>
 					<VerticalSpacer eightPx />
 					<Normaltekst>
