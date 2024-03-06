@@ -1,13 +1,12 @@
 import webpack from 'webpack';
 import WebpackDevServer from 'webpack-dev-server';
 import envVariables from './envVariables.mjs';
-import config from './webpack.dev.mjs';
+import config, { PORT } from './webpack.dev.mjs';
 
 if (process.argv.includes('--no-fix')) {
 	console.warn("Setting eslint-loader option 'fix' to false");
 	config.module.rules.find((rules) => rules.loader === 'eslint-loader').options.fix = false;
 }
-
 const options = {
 	static: {
 		directory: 'src/client',
@@ -27,7 +26,7 @@ const options = {
 			colors: true,
 		},
 	},
-	port: 8030,
+	port: PORT,
 	onBeforeSetupMiddleware(devServer) {
 		if (!devServer) {
 			throw new Error('Webpack Dev Server is not yet available');
@@ -48,6 +47,6 @@ const wds = new WebpackDevServer(webpack(config), options);
 		return console.log(error); // NOSONAR
 	}
 
-	console.log('Listening at http://localhost:8030/');
+	console.log(`Listening at http://localhost:${PORT}/`);
 	return undefined;
 })();
