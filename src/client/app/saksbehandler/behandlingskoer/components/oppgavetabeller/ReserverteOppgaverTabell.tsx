@@ -76,10 +76,8 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps> = ({ apneOppgave, gj
 		return 0;
 	};
 
-	const antallReservasjoner = reservasjoner.reduce(
-		(previousValue, reservasjon) => previousValue + countReservations(reservasjon),
-		0,
-	);
+	const antallReservasjoner =
+		reservasjoner?.reduce((previousValue, reservasjon) => previousValue + countReservations(reservasjon), 0) || 0;
 
 	return (
 		<>
