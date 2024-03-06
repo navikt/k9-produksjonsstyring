@@ -3,7 +3,6 @@ import cors from 'cors';
 import express from 'express';
 import helmet from 'helmet';
 import timeout from 'connect-timeout';
-import rateLimit from 'express-rate-limit';
 import { validateToken } from '@navikt/oasis';
 import { decodeJwt } from 'jose';
 
@@ -15,11 +14,6 @@ import { envVariables } from './envVariables.js';
 
 const server = express();
 const { port } = config.server;
-
-const limiter = rateLimit({
-	windowMs: 15 * 60 * 1000,
-	max: 100,
-});
 
 async function startApp() {
 	try {
