@@ -27,6 +27,10 @@ function formatDate(date: Date): string {
 
 const saksnummer = process.env.SAKSNUMMER as string;
 
+if (!saksnummer) {
+	throw new Error('SAKSNUMMER må settes som environment variable');
+}
+
 test.beforeEach(async ({ page }) => {
 	await page.goto('/');
 });
