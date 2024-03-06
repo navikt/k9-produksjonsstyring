@@ -20,8 +20,6 @@ async function startApp() {
 		// log request
 		server.use(timeout('10m'));
 
-		server.use(limiter);
-
 		// Logging i json format
 		server.use(logger.morganMiddleware);
 
