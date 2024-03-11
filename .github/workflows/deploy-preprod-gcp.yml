@@ -51,9 +51,16 @@ jobs:
       - name: Set image
         run: echo "IMAGE=${{steps.docker-push.outputs.image}}" >> $GITHUB_ENV
 
-      - name: Deploye til dev
+      - name: Deploye til dev gcp
         uses: nais/deploy/actions/deploy@v2
         env:
           CLUSTER: dev-gcp
           RESOURCE: nais/k9-los-web.yml
           VARS: nais/dev-gcp.yml
+
+      - name: Deploye til prod gcp
+        uses: nais/deploy/actions/deploy@v2
+        env:
+          CLUSTER: prod-gcp
+          RESOURCE: nais/k9-los-web.yml
+          VARS: nais/prod-gcp.yml
