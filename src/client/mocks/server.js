@@ -7,7 +7,7 @@ import { setupServer } from 'msw/node';
 export const server = setupServer(
 	// ligger her fordi setupServer trenger absolute paths
 	// burde gjøre at handlers.js eksporterer to sett med funksjoner
-	rest.get('http://localhost:8030/api/driftsmeldinger', (req, res, ctx) =>
+	rest.get('http://localhost:8031/api/driftsmeldinger', (req, res, ctx) =>
 		res(
 			ctx.json([
 				{

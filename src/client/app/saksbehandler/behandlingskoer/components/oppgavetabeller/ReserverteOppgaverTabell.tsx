@@ -8,7 +8,7 @@ import Reservasjon from 'avdelingsleder/reservasjoner/reservasjonTsType';
 import merknadType from 'kodeverk/merknadType';
 import NavFrontendChevron from 'nav-frontend-chevron';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
-import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
+import React, { FunctionComponent, useRef, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useQueryClient } from 'react-query';
 import ReservasjonV3 from 'saksbehandler/behandlingskoer/ReservasjonV3Dto';
@@ -54,14 +54,6 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps> = ({ apneOppgave, gj
 		K9LosApiKeys.FORLENG_OPPGAVERESERVASJON,
 	);
 
-	const initialRender = useRef({});
-
-	useEffect(() => {
-		if (initialRender.current) {
-			initialRender.current = false;
-		}
-	});
-
 	const forlengOppgaveReservasjonFn = (oppgaveNøkkel: OppgaveNøkkel) => {
 		forlengOppgavereservasjon({ oppgaveNøkkel }).then(() => {
 			queryClient.invalidateQueries(apiPaths.saksbehandlerReservasjoner);
@@ -73,6 +65,19 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps> = ({ apneOppgave, gj
 		leggTilBehandletOppgave(oppgave.oppgaveNøkkel);
 		apneOppgave(oppgave);
 	};
+
+	const countReservations = (reservasjon: ReservasjonV3) => {
+		if (reservasjon.reservertOppgaveV1Dto) {
+			return 1;
+		}
+		if (reservasjon.reserverteV3Oppgaver.length > 0) {
+			return reservasjon.reserverteV3Oppgaver.length;
+		}
+		return 0;
+	};
+
+	const antallReservasjoner =
+		reservasjoner?.reduce((previousValue, reservasjon) => previousValue + countReservations(reservasjon), 0) || 0;
 
 	return (
 		<>
@@ -89,7 +94,7 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps> = ({ apneOppgave, gj
 				</Element>
 				{isSuccess && (
 					<OppgaveTabellMenyAntallOppgaver
-						antallOppgaver={reservasjoner?.length}
+						antallOppgaver={antallReservasjoner}
 						tekstId={
 							gjelderHastesaker
 								? 'OppgaverTabell.ReserverteHastesakerAntall'
@@ -101,7 +106,7 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps> = ({ apneOppgave, gj
 			</button>
 			{isLoading && visReservasjoner && <Loader size="large" className={styles.spinner} />}
 			{isError && visReservasjoner && <ErrorMessage>Noe gikk galt ved lasting av reservasjoner</ErrorMessage>}
-			{reservasjoner?.length === 0 && isSuccess && visReservasjoner && (
+			{antallReservasjoner === 0 && isSuccess && visReservasjoner && (
 				<>
 					<VerticalSpacer eightPx />
 					<Normaltekst>
@@ -113,7 +118,7 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps> = ({ apneOppgave, gj
 					</Normaltekst>
 				</>
 			)}
-			{reservasjoner?.length > 0 && isSuccess && visReservasjoner && (
+			{antallReservasjoner > 0 && isSuccess && visReservasjoner && (
 				<Table>
 					<Table.Header>
 						<Table.Row>
