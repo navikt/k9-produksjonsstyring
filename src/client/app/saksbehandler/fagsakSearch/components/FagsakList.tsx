@@ -140,6 +140,7 @@ const FagsakList: FunctionComponent<OwnProps> = ({
 						valgmulighetB: 'Nei',
 						formattedMessageId: 'ReserverOppgaveModal.ReserverOppgave',
 					}}
+					errorMessage={reservasjonErrorMessage}
 					ikonUrl={advarselImageUrl}
 					ikonAlt="Varseltrekant"
 				/>
