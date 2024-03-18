@@ -39,7 +39,11 @@ const ModalMedIkon = ({ cancel, submit, tekst, ikonUrl, ikonAlt, errorMessage }:
 					</Normaltekst>
 				</div>
 			</div>
-			{errorMessage && <ErrorMessage> {errorMessage} </ErrorMessage>}
+			{errorMessage && (
+				<div>
+					<ErrorMessage> {errorMessage} </ErrorMessage>
+				</div>
+			)}
 			<div className={classnames(styles.row, styles.buttons)}>
 				{tekst.valgmulighetA && typeof submit !== 'undefined' && (
 					<Hovedknapp className={styles.submitButton} mini htmlType="submit" onClick={() => submit()} autoFocus>
@@ -49,7 +53,6 @@ const ModalMedIkon = ({ cancel, submit, tekst, ikonUrl, ikonAlt, errorMessage }:
 				<Knapp className={styles.cancelButton} mini htmlType="reset" onClick={() => cancel()}>
 					{tekst.valgmulighetB}
 				</Knapp>
-				E
 			</div>
 		</div>
 	</Modal>
