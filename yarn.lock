@@ -2905,10 +2905,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@navikt/ds-tailwind@npm:5.15.1":
-  version: 5.15.1
-  resolution: "@navikt/ds-tailwind@npm:5.15.1::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40navikt%2Fds-tailwind%2F5.15.1%2Fdcb59fff7a1db005fbf71c83e01bf34164508dba"
-  checksum: 12f518a221fbb599f719b053afcb0927a66b66241ff439e7bb37ef05abe3ecf28ddd128f65b9b667fbc524a93e3a0fc8bb40cc1675b0446ba50253d940a1ac06
+"@navikt/ds-tailwind@npm:6.3.1":
+  version: 6.3.1
+  resolution: "@navikt/ds-tailwind@npm:6.3.1::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40navikt%2Fds-tailwind%2F6.3.1%2F386b9b71f4093e1ad37f532b176b759f036bdb0d"
+  checksum: f3026f4f6daadc4df3534de0a8f946e8fc6420eac2b2cdf699c4c81959c508abf794aa7521f04512069e07af688a8803dda90cdc931cffbef9803db53d5572b3
   languageName: node
   linkType: hard
 
@@ -10722,7 +10722,7 @@ __metadata:
     "@navikt/ds-css": 5.15.1
     "@navikt/ds-icons": 3.4.3
     "@navikt/ds-react": 5.15.1
-    "@navikt/ds-tailwind": 5.15.1
+    "@navikt/ds-tailwind": 6.3.1
     "@navikt/ds-tokens": 5.15.1
     "@navikt/familie-endringslogg": 11.0.0
     "@navikt/fnrvalidator": 1.3.3
