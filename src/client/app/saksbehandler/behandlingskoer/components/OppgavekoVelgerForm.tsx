@@ -122,7 +122,7 @@ export const OppgavekoVelgerForm: FunctionComponent<OwnProps> = ({ plukkNyOppgav
 	return (
 		<div className={styles.oppgavevelgerform_container}>
 			<div className="flex">
-				<div className="min-w-[260px] mr-8">
+				<div className="w-[260px] flex-shrink-0 flex-grow-0 mr-8">
 					<Select
 						label={intl.formatMessage({ id: 'OppgavekoVelgerForm.Oppgaveko' })}
 						value={valgtOppgavekoId}
