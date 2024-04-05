@@ -120,6 +120,7 @@ export const OppgavekoVelgerForm: FunctionComponent<OwnProps> = ({ plukkNyOppgav
 		);
 	}
 
+	
 	return (
 		<div className={styles.oppgavevelgerform_container}>
 			<div className="flex">
