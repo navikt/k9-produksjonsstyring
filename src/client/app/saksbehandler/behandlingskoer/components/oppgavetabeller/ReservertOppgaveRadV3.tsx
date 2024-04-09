@@ -47,6 +47,7 @@ const ReservertOppgaveRadV3: React.ForwardRefExoticComponent<Props> = React.forw
 		ref: React.RefObject<{ [key: string]: HTMLDivElement }>,
 	) => {
 		const { startRequest: leggTilBehandletOppgave } = useRestApiRunner(K9LosApiKeys.LEGG_TIL_BEHANDLET_OPPGAVE);
+		const k9sakUrl = useGlobalStateRestApiData<{ verdi?: string }>(RestApiGlobalStatePathsKeys.K9SAK_URL);
 
 		const toggleMenu = (oppgaveValgt: OppgaveV3) => {
 			if (oppgaveValgt) {
@@ -59,7 +60,7 @@ const ReservertOppgaveRadV3: React.ForwardRefExoticComponent<Props> = React.forw
 
 		const tilOppgave = () => {
 			leggTilBehandletOppgave(oppgave.oppgaveNøkkel);
-			const k9sakUrl = useGlobalStateRestApiData<{ verdi?: string }>(RestApiGlobalStatePathsKeys.K9SAK_URL);
+			
 			let fallbackUrl = '';
 
 			if (oppgave?.saksnummer) {
