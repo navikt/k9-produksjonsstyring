@@ -8,7 +8,6 @@ import { RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
 import useGlobalStateRestApiData from 'api/rest-api-hooks/src/global-data/useGlobalStateRestApiData';
 import AlleKodeverk from 'kodeverk/alleKodeverkTsType';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
-import KommentarMedMerknad from 'saksbehandler/components/KommentarMedMerknad';
 import Oppgave from 'saksbehandler/oppgaveTsType';
 import Table from 'sharedComponents/Table';
 import TableColumn from 'sharedComponents/TableColumn';
@@ -31,7 +30,7 @@ const headerTextCodes = [
 
 interface OwnProps {
 	fagsakOppgaver: Oppgave[];
-	selectOppgaveCallback: (oppgave: Oppgave, skalReservere: boolean) => void;
+	selectOppgaveCallback: (oppgave: Oppgave, skalReservere: boolean, onError?: (errorString: string) => void) => void;
 	oppgaveSoktForViaQueryErAlleredeReservert: Oppgave | null;
 }
 
@@ -48,6 +47,7 @@ const FagsakList: FunctionComponent<OwnProps> = ({
 	const [visReserverOppgaveModal, setVisReserverOppgaveModal] = useState(false);
 	const [visOppgavePåVentModel, setVisOppgavePåVentModel] = useState(false);
 	const [valgtOppgave, setValgtOppgave] = useState<Oppgave>(null);
+	const [reservasjonErrorMessage, setReservasjonErrorMessage] = useState<string>('');
 
 	const { kanReservere } = useGlobalStateRestApiData<NavAnsatt>(RestApiGlobalStatePathsKeys.NAV_ANSATT);
 	const alleKodeverk: AlleKodeverk = useGlobalStateRestApiData(RestApiGlobalStatePathsKeys.KODEVERK);
@@ -83,8 +83,7 @@ const FagsakList: FunctionComponent<OwnProps> = ({
 	}, [oppgaveSoktForViaQueryErAlleredeReservert]);
 
 	const onSubmit = () => {
-		setVisReserverOppgaveModal(false);
-		selectOppgaveCallback(valgtOppgave, true);
+		selectOppgaveCallback(valgtOppgave, true, setReservasjonErrorMessage);
 	};
 
 	const onCancel = () => {
@@ -141,6 +140,7 @@ const FagsakList: FunctionComponent<OwnProps> = ({
 						valgmulighetB: 'Nei',
 						formattedMessageId: 'ReserverOppgaveModal.ReserverOppgave',
 					}}
+					errorMessage={reservasjonErrorMessage}
 					ikonUrl={advarselImageUrl}
 					ikonAlt="Varseltrekant"
 				/>
@@ -156,7 +156,7 @@ const FagsakList: FunctionComponent<OwnProps> = ({
 						valgmulighetA: 'Åpne',
 						valgmulighetB: oppgavePåVentMulighetBTekst,
 						formattedMessageId: 'OppgavePåVentModal.OppgavePåVent',
-						values: { dato: valgtOppgave.behandlingsfrist.substring(0, 10).replaceAll('-', '.') },
+						values: { dato: valgtOppgave.behandlingsfrist.substring(0, 10).replace(/-/g, '.') },
 					}}
 					ikonUrl={timeglassUrl}
 					ikonAlt="Timeglass"

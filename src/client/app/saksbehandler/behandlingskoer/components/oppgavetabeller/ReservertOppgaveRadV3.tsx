@@ -3,11 +3,12 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import { WarningColored } from '@navikt/ds-icons';
 import { Table } from '@navikt/ds-react';
-import { K9LosApiKeys } from 'api/k9LosApi';
-import { useRestApiRunner } from 'api/rest-api-hooks';
+import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
+import { useGlobalStateRestApiData, useRestApiRunner } from 'api/rest-api-hooks';
 import classNames from 'classnames';
 import menuIconBlackUrl from 'images/ic-menu-18px_black.svg';
 import menuIconBlueUrl from 'images/ic-menu-18px_blue.svg';
+import { getK9sakHref } from 'app/paths';
 import React, { RefAttributes } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import ReservasjonV3 from 'saksbehandler/behandlingskoer/ReservasjonV3Dto';
@@ -46,6 +47,7 @@ const ReservertOppgaveRadV3: React.ForwardRefExoticComponent<Props> = React.forw
 		ref: React.RefObject<{ [key: string]: HTMLDivElement }>,
 	) => {
 		const { startRequest: leggTilBehandletOppgave } = useRestApiRunner(K9LosApiKeys.LEGG_TIL_BEHANDLET_OPPGAVE);
+		const k9sakUrl = useGlobalStateRestApiData<{ verdi?: string }>(RestApiGlobalStatePathsKeys.K9SAK_URL);
 
 		const toggleMenu = (oppgaveValgt: OppgaveV3) => {
 			if (oppgaveValgt) {
@@ -58,7 +60,13 @@ const ReservertOppgaveRadV3: React.ForwardRefExoticComponent<Props> = React.forw
 
 		const tilOppgave = () => {
 			leggTilBehandletOppgave(oppgave.oppgaveNøkkel);
-			window.location.assign(oppgave.oppgavebehandlingsUrl);
+			
+			let fallbackUrl = '';
+
+			if (oppgave?.saksnummer) {
+				fallbackUrl = getK9sakHref(k9sakUrl.verdi, oppgave?.saksnummer, oppgave?.oppgaveNøkkel?.oppgaveEksternId);
+			}
+			window.location.assign(oppgave.oppgavebehandlingsUrl || fallbackUrl);
 		};
 		return (
 			<Table.Row

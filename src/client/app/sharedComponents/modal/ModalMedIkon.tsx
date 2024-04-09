@@ -4,6 +4,7 @@ import classnames from 'classnames/bind';
 import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
 import { Normaltekst } from 'nav-frontend-typografi';
 import PropTypes from 'prop-types';
+import { ErrorMessage } from '@navikt/ds-react';
 import Image from 'sharedComponents/Image';
 import Modal from 'sharedComponents/Modal';
 import styles from './modalMedIkon.css';
@@ -19,9 +20,10 @@ type TsProps = Readonly<{
 	};
 	ikonUrl: string;
 	ikonAlt: string;
+	errorMessage?: string;
 }>;
 
-const ModalMedIkon = ({ cancel, submit, tekst, ikonUrl, ikonAlt }: TsProps) => (
+const ModalMedIkon = ({ cancel, submit, tekst, ikonUrl, ikonAlt, errorMessage }: TsProps) => (
 	<Modal className={styles.modal} closeButton={false} isOpen onRequestClose={cancel}>
 		<div className={classnames(styles.row, styles.container)}>
 			<div>
@@ -48,6 +50,11 @@ const ModalMedIkon = ({ cancel, submit, tekst, ikonUrl, ikonAlt }: TsProps) => (
 				</Knapp>
 			</div>
 		</div>
+		{errorMessage && (
+			<div>
+				<ErrorMessage> {errorMessage} </ErrorMessage>
+			</div>
+		)}
 	</Modal>
 );
 

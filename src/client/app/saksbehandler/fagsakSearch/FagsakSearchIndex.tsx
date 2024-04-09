@@ -75,7 +75,7 @@ const FagsakSearchIndex: FunctionComponent<OwnProps> = ({ k9sakUrl, k9punsjUrl }
 		}
 	};
 
-	const velgFagsakOperasjoner = (oppgave: Oppgave, reserver: boolean) => {
+	const velgFagsakOperasjoner = (oppgave: Oppgave, reserver: boolean, onError: (errorString: string) => void) => {
 		if (oppgave.status.erReservert && !oppgave.status.erReservertAvInnloggetBruker) {
 			setReservertOppgave(oppgave);
 			setReservertAvAnnenSaksbehandler(true);
@@ -89,8 +89,8 @@ const FagsakSearchIndex: FunctionComponent<OwnProps> = ({ k9sakUrl, k9punsjUrl }
 			leggTilBehandletOppgave(oppgave.oppgaveNøkkel);
 			goToFagsakEllerApneModal(oppgave);
 		} else if (reserver && kanReservere) {
-			reserverOppgave({ oppgaveId: oppgave.eksternId, oppgaveNøkkel: oppgave.oppgaveNøkkel }).then(
-				(nyOppgaveStatus) => {
+			reserverOppgave({ oppgaveId: oppgave.eksternId, oppgaveNøkkel: oppgave.oppgaveNøkkel })
+				.then((nyOppgaveStatus) => {
 					if (nyOppgaveStatus.kanOverstyres) {
 						setValgtOppgave(oppgave);
 						setValgtOppgaveStatus(nyOppgaveStatus);
@@ -99,8 +99,13 @@ const FagsakSearchIndex: FunctionComponent<OwnProps> = ({ k9sakUrl, k9punsjUrl }
 						leggTilBehandletOppgave(oppgave.oppgaveNøkkel);
 						goToFagsak(oppgave);
 					}
-				},
-			);
+				})
+				.catch((e) => {
+					if (typeof onError === 'function') {
+						if (e?.response?.data) onError(e.response.data);
+						else onError('Feil ved reservering av oppgave');
+					}
+				});
 		} else if (!kanReservere) {
 			leggTilBehandletOppgave(oppgave.oppgaveNøkkel);
 			goToFagsak(oppgave);

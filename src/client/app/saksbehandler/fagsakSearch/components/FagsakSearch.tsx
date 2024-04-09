@@ -15,7 +15,7 @@ interface OwnProps {
 	resultat: SokeResultat;
 	searchFagsakCallback: ({ searchString, skalReservere }: { searchString: string; skalReservere: boolean }) => void;
 	searchResultReceived: boolean;
-	selectOppgaveCallback: (oppgave: Oppgave, reserver: boolean) => void;
+	selectOppgaveCallback: (oppgave: Oppgave, reserver: boolean, onError?: (errorMessage: string) => void) => void;
 	searchStarted: boolean;
 	searchResultAccessDenied?: {
 		feilmelding?: string;
