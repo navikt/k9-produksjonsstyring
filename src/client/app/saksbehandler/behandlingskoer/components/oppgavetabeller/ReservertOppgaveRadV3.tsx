@@ -8,6 +8,7 @@ import { useGlobalStateRestApiData, useRestApiRunner } from 'api/rest-api-hooks'
 import classNames from 'classnames';
 import menuIconBlackUrl from 'images/ic-menu-18px_black.svg';
 import menuIconBlueUrl from 'images/ic-menu-18px_blue.svg';
+import { getK9sakHref } from 'app/paths';
 import React, { RefAttributes } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import ReservasjonV3 from 'saksbehandler/behandlingskoer/ReservasjonV3Dto';
@@ -18,7 +19,6 @@ import OppgaveV3 from 'types/OppgaveV3';
 import { getDateAndTime } from 'utils/dateUtils';
 import ReservasjonMeny from '../menu/ReservasjonMeny';
 import styles from './oppgaverTabell.css';
-import { getK9sakHref } from 'app/paths';
 
 // Update the path as necessary
 
