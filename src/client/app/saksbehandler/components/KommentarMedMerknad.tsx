@@ -11,6 +11,10 @@ import { getDateAndTime } from 'utils/dateUtils';
 const KommentarMedMerknad = ({ reservasjon }: { reservasjon: ReservasjonV3 }) => {
 	const intl = useIntl();
 	const { date, time } = getDateAndTime(reservasjon.reservertFra);
+
+	if (!reservasjon.kommentar) {
+		return null;
+	}
 	return (
 		<Image
 			src={bubbletextBlack}
