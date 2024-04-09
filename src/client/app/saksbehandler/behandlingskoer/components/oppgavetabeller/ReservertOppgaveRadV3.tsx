@@ -3,8 +3,8 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import { WarningColored } from '@navikt/ds-icons';
 import { Table } from '@navikt/ds-react';
-import { K9LosApiKeys } from 'api/k9LosApi';
-import { useRestApiRunner } from 'api/rest-api-hooks';
+import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
+import { useGlobalStateRestApiData, useRestApiRunner } from 'api/rest-api-hooks';
 import classNames from 'classnames';
 import menuIconBlackUrl from 'images/ic-menu-18px_black.svg';
 import menuIconBlueUrl from 'images/ic-menu-18px_blue.svg';
@@ -18,6 +18,7 @@ import OppgaveV3 from 'types/OppgaveV3';
 import { getDateAndTime } from 'utils/dateUtils';
 import ReservasjonMeny from '../menu/ReservasjonMeny';
 import styles from './oppgaverTabell.css';
+import { getK9sakHref } from 'app/paths';
 
 // Update the path as necessary
 
@@ -58,7 +59,13 @@ const ReservertOppgaveRadV3: React.ForwardRefExoticComponent<Props> = React.forw
 
 		const tilOppgave = () => {
 			leggTilBehandletOppgave(oppgave.oppgaveNøkkel);
-			window.location.assign(oppgave.oppgavebehandlingsUrl);
+			const k9sakUrl = useGlobalStateRestApiData<{ verdi?: string }>(RestApiGlobalStatePathsKeys.K9SAK_URL);
+			let fallbackUrl = '';
+
+			if (oppgave?.saksnummer) {
+				fallbackUrl = getK9sakHref(k9sakUrl.verdi, oppgave?.saksnummer, oppgave?.oppgaveNøkkel?.oppgaveEksternId);
+			}
+			window.location.assign(oppgave.oppgavebehandlingsUrl || fallbackUrl);
 		};
 		return (
 			<Table.Row
