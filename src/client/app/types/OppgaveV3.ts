@@ -5,6 +5,7 @@ type OppgaveV3 = {
 	søkersNavn: string;
 	søkersPersonnr: string;
 	behandlingstype: KodeverkMedNavn;
+	opprettetTidspunkt?: string;
 	saksnummer: string;
 	oppgaveNøkkel: OppgaveNøkkel;
 	journalpostId: string;
