@@ -10,6 +10,7 @@ type OppgaveV3 = {
 	oppgavebehandlingsUrl: string;
 	oppgavestatus: OppgaveStatus;
 	behandlingstype: KodeverkMedNavn;
+	opprettetTidspunkt?: string;
 	oppgaveNøkkel: OppgaveNøkkel;
 };
 
