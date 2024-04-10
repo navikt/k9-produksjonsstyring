@@ -1,4 +1,4 @@
-import OppgaveV3 from 'types/OppgaveV3';
+import OppgaveV3, { OppgavestatusV3 } from 'types/OppgaveV3';
 import Oppgave from 'saksbehandler/oppgaveTsType';
 import { OppgaveNøkkel } from 'types/OppgaveNøkkel';
 
@@ -38,12 +38,14 @@ export function mapReservasjonV3Array(reservasjonV3Array: ReservasjonV3[]): Mapp
 				},
 			];
 		}
-		return reservasjon.reserverteV3Oppgaver.map(
-			(oppgave): MappedReservasjon => ({
-				...(oppgave as MappedReservasjon),
-				...pickReservasjonProperties(reservasjon),
-			}),
-		);
+		return reservasjon.reserverteV3Oppgaver
+			.filter((v) => v.oppgavestatus === OppgavestatusV3.AAPEN)
+			.map(
+				(oppgave): MappedReservasjon => ({
+					...(oppgave as MappedReservasjon),
+					...pickReservasjonProperties(reservasjon),
+				}),
+			);
 	});
 }
 
