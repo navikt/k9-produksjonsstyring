@@ -7,8 +7,8 @@ interface ReservasjonV3 {
 	reservertOppgaveV1Dto?: Oppgave;
 	reservertAv: string;
 	kommentar: string;
-	reservertFra: Date;
-	reservertTil?: Date;
+	reservertFra: string;
+	reservertTil: string;
 }
 
 export interface ReservasjonV3FraKøDto {
@@ -16,8 +16,8 @@ export interface ReservasjonV3FraKøDto {
 	reservasjonsnøkkel: string;
 	oppgavebehandlingsUrl: string;
 	reservertAv: string;
-	reservertFra: Date;
-	reservertTil: Date;
+	reservertFra: string;
+	reservertTil: string;
 }
 
 export type MappedReservasjon = (Oppgave | OppgaveV3) &
