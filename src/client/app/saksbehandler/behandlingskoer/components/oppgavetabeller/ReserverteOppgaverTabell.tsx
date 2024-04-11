@@ -136,35 +136,37 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps> = ({ apneOppgave, gj
 						</Table.Row>
 					</Table.Header>
 					<Table.Body>
-						{reservasjoner.map((reservasjon) =>
-							reservasjon.reservertOppgaveV1Dto ? (
-								<ReservertOppgaveRadV1
-									key={reservasjon.reservertOppgaveV1Dto.eksternId}
-									reservasjon={reservasjon}
-									goToFagsak={goToFagsak}
-									forlengOppgaveReservasjonFn={forlengOppgaveReservasjonFn}
-									valgtOppgaveId={valgtOppgaveId}
-									setValgtOppgaveId={setValgtOppgaveId}
-									gjelderHastesaker={gjelderHastesaker}
-									ref={ref}
-								/>
-							) : (
-								reservasjon.reserverteV3Oppgaver
-									?.filter((v) => v.oppgavestatus === OppgavestatusV3.AAPEN)
-									.map((oppgave) => (
-										<ReservertOppgaveRadV3
-											key={oppgave.oppgaveNøkkel.oppgaveEksternId}
-											oppgave={oppgave}
-											reservasjon={reservasjon}
-											forlengOppgaveReservasjonFn={forlengOppgaveReservasjonFn}
-											valgtOppgaveId={valgtOppgaveId}
-											setValgtOppgaveId={setValgtOppgaveId}
-											gjelderHastesaker={gjelderHastesaker}
-											ref={ref}
-										/>
-									))
-							),
-						)}
+						{reservasjoner
+							.sort((a, b) => new Date(a.reservertTil).getTime() - new Date(b.reservertTil).getTime())
+							.map((reservasjon) =>
+								reservasjon.reservertOppgaveV1Dto ? (
+									<ReservertOppgaveRadV1
+										key={reservasjon.reservertOppgaveV1Dto.eksternId}
+										reservasjon={reservasjon}
+										goToFagsak={goToFagsak}
+										forlengOppgaveReservasjonFn={forlengOppgaveReservasjonFn}
+										valgtOppgaveId={valgtOppgaveId}
+										setValgtOppgaveId={setValgtOppgaveId}
+										gjelderHastesaker={gjelderHastesaker}
+										ref={ref}
+									/>
+								) : (
+									reservasjon.reserverteV3Oppgaver
+										?.filter((v) => v.oppgavestatus === OppgavestatusV3.AAPEN)
+										.map((oppgave) => (
+											<ReservertOppgaveRadV3
+												key={oppgave.oppgaveNøkkel.oppgaveEksternId}
+												oppgave={oppgave}
+												reservasjon={reservasjon}
+												forlengOppgaveReservasjonFn={forlengOppgaveReservasjonFn}
+												valgtOppgaveId={valgtOppgaveId}
+												setValgtOppgaveId={setValgtOppgaveId}
+												gjelderHastesaker={gjelderHastesaker}
+												ref={ref}
+											/>
+										))
+								),
+							)}
 					</Table.Body>
 				</Table>
 			)}
