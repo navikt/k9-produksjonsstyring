@@ -120,7 +120,7 @@ jobs:
                   "inputs":{
                       "trigger": "${{ github.repository }}",
                       "run_id": "${{ github.run_id }}",
-                      "version": "${{ needs.build-and-deploy.outputs.image_version}}",
+                      "version": "${{ needs.build-and-deploy.outputs.image_version}}"
                   }}'
 
   trivy:
