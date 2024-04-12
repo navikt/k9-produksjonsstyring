@@ -102,8 +102,7 @@ const FagsakSearchIndex: FunctionComponent<OwnProps> = ({ k9sakUrl, k9punsjUrl }
 				})
 				.catch((e) => {
 					if (typeof onError === 'function') {
-						if (e?.response?.data) onError(e.response.data);
-						else onError('Feil ved reservering av oppgave');
+						onError('Feil ved reservering av oppgave');
 					}
 				});
 		} else if (!kanReservere) {
