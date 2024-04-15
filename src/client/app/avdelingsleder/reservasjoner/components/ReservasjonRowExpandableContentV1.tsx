@@ -1,8 +1,8 @@
 import { Button } from '@navikt/ds-react';
 import React, { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
-import FlyttReservasjonModal from './FlyttReservasjonModalV1';
-import OpphevReservasjonModal from './OpphevReservasjonModalV1';
+import OpphevReservasjonModal from 'saksbehandler/behandlingskoer/components/menu/OpphevReservasjonModal';
+import FlyttReservasjonModal from 'saksbehandler/behandlingskoer/components/menu/FlyttReservasjonModal';
 import Reservasjon from '../reservasjonTsType';
 
 const ReservasjonRowExpandableContent = ({ reservasjon }: { reservasjon: Reservasjon }) => {
@@ -26,14 +26,14 @@ const ReservasjonRowExpandableContent = ({ reservasjon }: { reservasjon: Reserva
 			</div>
 			{showOpphevReservasjonModal && (
 				<OpphevReservasjonModal
-					reservasjonsnøkkel={reservasjon.reservasjonsnøkkel}
+					oppgaveNøkkel={reservasjon.oppgavenøkkel}
 					showModal={showOpphevReservasjonModal}
 					cancel={() => setShowOpphevReservasjonModal(false)}
 				/>
 			)}
 			{showFlyttReservasjonModal && (
 				<FlyttReservasjonModal
-					reservasjonsnøkkel={reservasjon.reservasjonsnøkkel}
+					oppgaveNøkkel={reservasjon.oppgavenøkkel}
 					oppgaveReservertTil={reservasjon.reservertTilTidspunkt}
 					eksisterendeBegrunnelse={reservasjon?.kommentar}
 					showModal={showFlyttReservasjonModal}

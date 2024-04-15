@@ -1,12 +1,19 @@
+import KodeverkMedNavn from 'kodeverk/kodeverkMedNavnTsType';
+import { OppgaveNøkkel } from 'types/OppgaveNøkkel';
+
 type Reservasjon = Readonly<{
-	reservasjonsnøkkel: string
-	reservertAvUid: string;
-	reservertAvNavn: string;
+	oppgavenøkkel: OppgaveNøkkel;
+	reservertAvEpost: string;
 	reservertTilTidspunkt: string;
-	oppgaveId: string;
 	saksnummer: string;
-	behandlingType: string;
-	tilBeslutter: boolean;
+	behandlingstype: KodeverkMedNavn;
+	kommentar?: string;
 }>;
 
 export default Reservasjon;
+
+// val reservertAvEpost: String,
+// val saksnummer: String,
+// val behandlingType: BehandlingType,
+// val reservertTilTidspunkt: LocalDateTime,
+// val oppgavenøkkel: OppgaveNøkkelDto,

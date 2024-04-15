@@ -13,11 +13,11 @@ import { getKodeverknavnFraKode } from 'utils/kodeverkUtils';
 import Reservasjon from '../reservasjonTsType';
 import useGlobalStateRestApiData from '../../../api/rest-api-hooks/src/global-data/useGlobalStateRestApiData';
 import styles from './reservasjonerTabell.css';
-import ReservasjonRowExpandableContent from './ReservasjonRowExpandableContent';
+import ReservasjonRowExpandableContent from './ReservasjonRowExpandableContentV1';
 
 const sorterMedReservertAv = (reservasjonerListe: Reservasjon[]) =>
 	reservasjonerListe?.sort((reservasjon1, reservasjon2) =>
-		reservasjon1.reservertAvNavn.localeCompare(reservasjon2.reservertAvNavn),
+		reservasjon1.reservertAvEpost.localeCompare(reservasjon2.reservertAvEpost),
 	);
 
 const ReservasjonerTabell = () => {
@@ -41,9 +41,7 @@ const ReservasjonerTabell = () => {
 		const sokVerdi = e.target.value.toLowerCase();
 		const reservasjonerMedMatch = reservasjoner.filter(
 			(res) =>
-				res.reservertAvNavn.toLowerCase().includes(sokVerdi) ||
-				res.saksnummer?.toLowerCase()?.includes(sokVerdi) ||
-				res.oppgaveId?.toLowerCase()?.includes(sokVerdi),
+				res.reservertAvEpost.toLowerCase().includes(sokVerdi) || res.saksnummer?.toLowerCase()?.includes(sokVerdi),
 		);
 		if (reservasjonerMedMatch.length > 0) {
 			setFinnesSokResultat(true);
@@ -99,11 +97,11 @@ const ReservasjonerTabell = () => {
 					<Table.Body>
 						{reservasjonerSomSkalVises.map((reservasjon) => (
 							<Table.ExpandableRow
-								key={`${reservasjon.reservasjonsnøkkel}`}
+								key={`${reservasjon.oppgavenøkkel}`}
 								content={<ReservasjonRowExpandableContent reservasjon={reservasjon} />}
 							>
-								<Table.DataCell>{reservasjon.reservertAv}</Table.DataCell>
-								<Table.DataCell>{reservasjon.saksnummer || reservasjon.journalpostId}</Table.DataCell>
+								<Table.DataCell>{reservasjon.reservertAvEpost}</Table.DataCell>
+								<Table.DataCell>{reservasjon.saksnummer}</Table.DataCell>
 								<Table.DataCell>
 									{getKodeverknavnFraKode(
 										reservasjon.behandlingstype.kode,
@@ -114,7 +112,7 @@ const ReservasjonerTabell = () => {
 								<Table.DataCell>
 									<FormattedMessage
 										id="ReservasjonerTabell.ReservertTilFormat"
-										values={getDateAndTime(reservasjon.reservertTil)}
+										values={getDateAndTime(reservasjon.reservertTilTidspunkt)}
 									/>
 								</Table.DataCell>
 							</Table.ExpandableRow>
