@@ -1,4 +1,5 @@
 type Reservasjon = Readonly<{
+	reservasjonsnøkkel: string
 	reservertAvUid: string;
 	reservertAvNavn: string;
 	reservertTilTidspunkt: string;
