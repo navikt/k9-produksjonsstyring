@@ -1,16 +1,22 @@
 import KodeverkMedNavn from 'kodeverk/kodeverkMedNavnTsType';
-import { OppgaveStatus } from '../saksbehandler/oppgaveStatusTsType';
 import { OppgaveNøkkel } from './OppgaveNøkkel';
 
 type OppgaveV3 = {
 	søkersNavn: string;
 	søkersPersonnr: string;
-	saksnummer: string;
-	journalpostId: string;
-	oppgavebehandlingsUrl: string;
-	oppgavestatus: OppgaveStatus;
 	behandlingstype: KodeverkMedNavn;
+	opprettetTidspunkt?: string;
+	saksnummer: string;
 	oppgaveNøkkel: OppgaveNøkkel;
+	journalpostId: string;
+	oppgavestatus: OppgavestatusV3;
+	oppgavebehandlingsUrl: string;
 };
+
+export enum OppgavestatusV3 {
+	AAPEN = 'AAPEN',
+	VENTER = 'VENTER',
+	LUKKET = 'LUKKET',
+}
 
 export default OppgaveV3;

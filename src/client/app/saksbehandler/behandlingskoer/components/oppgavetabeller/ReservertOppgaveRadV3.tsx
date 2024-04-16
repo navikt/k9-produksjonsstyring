@@ -17,6 +17,7 @@ import Image from 'sharedComponents/Image';
 import { OppgaveNøkkel } from 'types/OppgaveNøkkel';
 import OppgaveV3 from 'types/OppgaveV3';
 import { getDateAndTime } from 'utils/dateUtils';
+import DateLabel from 'sharedComponents/DateLabel';
 import ReservasjonMeny from '../menu/ReservasjonMeny';
 import styles from './oppgaverTabell.css';
 
@@ -92,7 +93,7 @@ const ReservertOppgaveRadV3: React.ForwardRefExoticComponent<Props> = React.forw
 					{oppgave.behandlingstype.navn}
 				</Table.DataCell>
 				<Table.DataCell onClick={tilOppgave} className="hover:cursor-pointer">
-					-
+					{oppgave.opprettetTidspunkt && <DateLabel dateString={oppgave.opprettetTidspunkt} />  || '-'}
 				</Table.DataCell>
 				<Table.DataCell onClick={tilOppgave} className={`${styles.reservertTil} hover:cursor-pointer`}>
 					<FormattedMessage

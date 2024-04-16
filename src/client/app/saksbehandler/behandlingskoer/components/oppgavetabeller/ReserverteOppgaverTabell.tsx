@@ -11,6 +11,7 @@ import { Element, Normaltekst } from 'nav-frontend-typografi';
 import React, { FunctionComponent, useRef, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useQueryClient } from 'react-query';
+import { OppgavestatusV3 } from 'types/OppgaveV3';
 import ReservasjonV3 from 'saksbehandler/behandlingskoer/ReservasjonV3Dto';
 import { getHeaderCodes } from 'saksbehandler/behandlingskoer/components/oppgavetabeller/oppgavetabellerfelles';
 import Oppgave from 'saksbehandler/oppgaveTsType';
@@ -70,8 +71,11 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps> = ({ apneOppgave, gj
 		if (reservasjon.reservertOppgaveV1Dto) {
 			return 1;
 		}
-		if (reservasjon.reserverteV3Oppgaver.length > 0) {
-			return reservasjon.reserverteV3Oppgaver.length;
+		const v3OppgaverSomSkalVises = reservasjon.reserverteV3Oppgaver.filter(
+			(v) => v.oppgavestatus === OppgavestatusV3.AAPEN,
+		);
+		if (v3OppgaverSomSkalVises.length > 0) {
+			return v3OppgaverSomSkalVises.length;
 		}
 		return 0;
 	};
@@ -132,33 +136,37 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps> = ({ apneOppgave, gj
 						</Table.Row>
 					</Table.Header>
 					<Table.Body>
-						{reservasjoner.map((reservasjon) =>
-							reservasjon.reservertOppgaveV1Dto ? (
-								<ReservertOppgaveRadV1
-									key={reservasjon.reservertOppgaveV1Dto.eksternId}
-									reservasjon={reservasjon}
-									goToFagsak={goToFagsak}
-									forlengOppgaveReservasjonFn={forlengOppgaveReservasjonFn}
-									valgtOppgaveId={valgtOppgaveId}
-									setValgtOppgaveId={setValgtOppgaveId}
-									gjelderHastesaker={gjelderHastesaker}
-									ref={ref}
-								/>
-							) : (
-								reservasjon.reserverteV3Oppgaver?.map((oppgave) => (
-									<ReservertOppgaveRadV3
-										key={oppgave.oppgaveNøkkel.oppgaveEksternId}
-										oppgave={oppgave}
+						{reservasjoner
+							.sort((a, b) => new Date(a.reservertTil).getTime() - new Date(b.reservertTil).getTime())
+							.map((reservasjon) =>
+								reservasjon.reservertOppgaveV1Dto ? (
+									<ReservertOppgaveRadV1
+										key={reservasjon.reservertOppgaveV1Dto.eksternId}
 										reservasjon={reservasjon}
+										goToFagsak={goToFagsak}
 										forlengOppgaveReservasjonFn={forlengOppgaveReservasjonFn}
 										valgtOppgaveId={valgtOppgaveId}
 										setValgtOppgaveId={setValgtOppgaveId}
 										gjelderHastesaker={gjelderHastesaker}
 										ref={ref}
 									/>
-								))
-							),
-						)}
+								) : (
+									reservasjon.reserverteV3Oppgaver
+										?.filter((v) => v.oppgavestatus === OppgavestatusV3.AAPEN)
+										.map((oppgave) => (
+											<ReservertOppgaveRadV3
+												key={oppgave.oppgaveNøkkel.oppgaveEksternId}
+												oppgave={oppgave}
+												reservasjon={reservasjon}
+												forlengOppgaveReservasjonFn={forlengOppgaveReservasjonFn}
+												valgtOppgaveId={valgtOppgaveId}
+												setValgtOppgaveId={setValgtOppgaveId}
+												gjelderHastesaker={gjelderHastesaker}
+												ref={ref}
+											/>
+										))
+								),
+							)}
 					</Table.Body>
 				</Table>
 			)}
