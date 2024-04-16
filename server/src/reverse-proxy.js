@@ -2,7 +2,7 @@ import proxy from 'express-http-proxy';
 import { requestOboToken, validateToken } from '@navikt/oasis';
 import url from 'url';
 
-import config from './config.js';
+import config, { configValueAsJson } from './config.js';
 import log from './log.js';
 
 const xTimestamp = 'x-Timestamp';
@@ -11,6 +11,9 @@ const stripTrailingSlash = (str) => (str.endsWith('/') ? str.slice(0, -1) : str)
 const proxyOptions = (api) => ({
 	timeout: 60000,
 	proxyReqOptDecorator: async (options, req) => {
+		if (process.env.IS_VERDIKJEDE === 'true') {
+			return options;
+		}
 		try {
 			const token = req.headers.authorization.replace('Bearer ', '');
 			await validateToken(token);
@@ -42,12 +45,17 @@ const proxyOptions = (api) => ({
 		const urlFromApi = url.parse(api.url);
 		const pathFromApi = urlFromApi.pathname === '/' ? '' : urlFromApi.pathname;
 		const urlFromRequest = url.parse(req.originalUrl);
-		let pathFromRequest = urlFromRequest.pathname;
+		let path = urlFromRequest.pathname;
 
-		// Remove /k9-punsj from the path
-		pathFromRequest = pathFromRequest.replace('/api/k9-los-api', '/api');
+		const PROXY_CONFIG = configValueAsJson({ name: 'PROXY_CONFIG' });
+		// go through proxy config and replace the path
+		PROXY_CONFIG.apis.forEach((proxyEntry) => {
+			if (proxyEntry.backendPath !== undefined) {
+				path = path.replace(proxyEntry.path, proxyEntry.backendPath);
+			}
+		});
 		const queryString = urlFromRequest.query;
-		const newPath = (pathFromApi || '') + (pathFromRequest || '') + (queryString ? `?${queryString}` : '');
+		const newPath = (pathFromApi || '') + (path || '') + (queryString ? `?${queryString}` : '');
 
 		log.info(`Proxying request from '${req.originalUrl}' to '${stripTrailingSlash(urlFromApi.href)}${newPath}'`);
 		return newPath;

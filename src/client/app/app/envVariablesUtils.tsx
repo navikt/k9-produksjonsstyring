@@ -4,7 +4,6 @@ declare global {
 			OIDC_PROXY_URL?: string;
 			SAKSBEHANDLER_KAN_VELGE_NYE_KOER?: string;
 			AVDELINGSLEDER_TILGANG_TIL_NYE_KOER?: string;
-			VERDIKJEDE?: string;
 		};
 	}
 }

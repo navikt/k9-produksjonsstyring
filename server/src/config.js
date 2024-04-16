@@ -44,7 +44,7 @@ const cors = {
 };
 
 // eslint-disable-next-line consistent-return
-const configValueAsJson = ({ name, required = true }) => {
+export const configValueAsJson = ({ name, required = true }) => {
 	const value = envVar({ name, required });
 	if (!value) {
 		return null;

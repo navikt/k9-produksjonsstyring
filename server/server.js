@@ -71,8 +71,11 @@ async function startApp() {
 				message: 'Wonderwall must handle /oauth2/login',
 			});
 		});
-
 		const ensureAuthenticated = async (req, res, next) => {
+			if (process.env.IS_VERDIKJEDE === 'true') {
+				next();
+				return;
+			}
 			try {
 				const token = req.headers.authorization.replace('Bearer ', '');
 
