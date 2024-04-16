@@ -44,16 +44,6 @@
 		"@typescript-eslint/no-use-before-define": ["error"],
 		"@typescript-eslint/no-shadow": "error",
 		"react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx", ".ts", ".tsx"] }],
-		"import/extensions": [
-			"error",
-			"ignorePackages",
-			{
-				"js": "never",
-				"jsx": "never",
-				"ts": "never",
-				"tsx": "never"
-			}
-		],
 		"no-shadow": "off",
 		"max-len": [1, 160],
 		"react/jsx-props-no-spreading": "off",
@@ -67,6 +57,7 @@
 		"react/require-default-props": "off",
 		"react/prop-types": "off",
 		"import/prefer-default-export": "off",
-		"no-use-before-define": "off"
+		"no-use-before-define": "off",
+		"import/extensions": "off"
 	}
 }

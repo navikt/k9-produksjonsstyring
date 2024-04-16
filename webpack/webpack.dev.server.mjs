@@ -15,6 +15,7 @@ const options = {
 	proxy: {
 		'/api/k9-los-api': {
 			target: 'http://localhost:8020',
+			pathRewrite: { '^/api/k9-los-api': '/api' },
 			secure: false,
 		},
 	},
