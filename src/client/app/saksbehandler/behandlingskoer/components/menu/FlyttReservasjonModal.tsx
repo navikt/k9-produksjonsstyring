@@ -31,7 +31,7 @@ const maxLength1500 = maxLength(1500);
 interface OwnProps {
 	showModal: boolean;
 	oppgaveNøkkel: OppgaveNøkkel;
-	oppgaveReservertTil?: Date | string;
+	oppgaveReservertTil?: Date;
 	closeModal: () => void;
 	eksisterendeBegrunnelse?: string;
 }
