@@ -6,11 +6,12 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 
 import { init } from '@sentry/browser';
+import { breadcrumbsIntegration, reactRouterV6BrowserTracingIntegration } from '@sentry/react';
+import { setEnvVariables } from 'app/envVariablesUtils';
+import { createRoutesFromChildren, matchRoutes, useLocation, useNavigationType } from 'react-router-dom';
+import AppContainer from 'app/AppContainer';
 import '@navikt/ds-css';
 import '@navikt/ft-plattform-komponenter/dist/style.css';
-
-import { setEnvVariables } from 'app/envVariablesUtils';
-import AppContainer from 'app/AppContainer';
 
 /* eslint no-undef: "error" */
 const environment = window.location.hostname;
@@ -18,6 +19,17 @@ const environment = window.location.hostname;
 init({
 	dsn: 'https://ee88a0763c614159ba73dbae305f737e@sentry.gc.nav.no/38',
 	release: process.env.SENTRY_RELEASE || 'unknown',
+	tracesSampleRate: 1.0,
+	integrations: [
+		breadcrumbsIntegration({ console: false }),
+		reactRouterV6BrowserTracingIntegration({
+			useEffect: React.useEffect,
+			useLocation,
+			useNavigationType,
+			createRoutesFromChildren,
+			matchRoutes,
+		}),
+	],
 	environment,
 });
 
