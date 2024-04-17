@@ -3614,6 +3614,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@sentry/react@npm:^7.110.1":
+  version: 7.110.1
+  resolution: "@sentry/react@npm:7.110.1"
+  dependencies:
+    "@sentry/browser": 7.110.1
+    "@sentry/core": 7.110.1
+    "@sentry/types": 7.110.1
+    "@sentry/utils": 7.110.1
+    hoist-non-react-statics: ^3.3.2
+  peerDependencies:
+    react: 15.x || 16.x || 17.x || 18.x
+  checksum: 3f6cce4105ecd36164e1f89ee1012f3dafacb39fb7d927a7cdc9ee551daf677749c5a815feedc91139743c0fb69851a1031adf0193e36d2a1e0cfaf3c511ef97
+  languageName: node
+  linkType: hard
+
 "@sentry/replay@npm:7.110.1":
   version: 7.110.1
   resolution: "@sentry/replay@npm:7.110.1"
@@ -11111,6 +11126,7 @@ __metadata:
     "@reach/combobox": 0.18.0
     "@sentry/browser": 7.110.1
     "@sentry/cli": 2.31.0
+    "@sentry/react": ^7.110.1
     "@testing-library/jest-dom": 6.4.2
     "@testing-library/react": 14.3.1
     "@testing-library/user-event": 14.5.2
