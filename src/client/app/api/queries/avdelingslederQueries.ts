@@ -2,7 +2,7 @@ import { UseQueryOptions, useMutation, useQuery, useQueryClient } from 'react-qu
 import { OppgavekøV3, OppgavekøV3Enkel, OppgavekøerV3 } from 'types/OppgavekøV3Type';
 import apiPaths from 'api/apiPaths';
 import { axiosInstance } from 'utils/reactQueryConfig';
-import ReservasjonV3, { MappedReservasjon } from 'saksbehandler/behandlingskoer/ReservasjonV3Dto';
+import Reservasjon from 'avdelingsleder/reservasjoner/reservasjonTsType';
 
 // eslint-disable-next-line import/prefer-default-export
 export const useAlleKoer = (options = {}) =>
@@ -30,10 +30,8 @@ interface KopierKøPayload {
 	taMedSaksbehandlere: boolean;
 }
 
-export const useAvdelingslederReservasjoner = (
-	options: UseQueryOptions<ReservasjonV3[], unknown, MappedReservasjon[]> = {},
-) =>
-	useQuery<ReservasjonV3[], unknown, MappedReservasjon[]>({
+export const useAvdelingslederReservasjoner = (options: UseQueryOptions<Reservasjon[], unknown, Reservasjon[]> = {}) =>
+	useQuery<Reservasjon[], unknown, Reservasjon[]>({
 		queryKey: [apiPaths.avdelinglederReservasjoner],
 		...options,
 	});
