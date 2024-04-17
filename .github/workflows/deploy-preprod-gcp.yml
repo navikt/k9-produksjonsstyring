@@ -1,9 +1,6 @@
 name: Deploy til preprod gcp
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - GCP-og-wonderwall
 jobs:
   deploy-dev-gcp:
     name: Deploye til DEV GCP
