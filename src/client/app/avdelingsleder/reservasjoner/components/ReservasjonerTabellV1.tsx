@@ -104,7 +104,7 @@ const ReservasjonerTabell = () => {
 								<Table.DataCell>{reservasjon.saksnummer}</Table.DataCell>
 								<Table.DataCell>
 									{getKodeverknavnFraKode(
-										reservasjon.behandlingType?.kode,
+										reservasjon.behandlingstype?.kode,
 										kodeverkTyper.BEHANDLING_TYPE,
 										alleKodeverk,
 									) + (reservasjon ? ' - [B] ' : '')}
