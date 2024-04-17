@@ -41,7 +41,7 @@ import SaksbehandlereTabell from './bemanning/components/SaksbehandlereTabell';
 import AvdelingslederDashboard from './components/AvdelingslederDashboard';
 import IkkeTilgangTilAvdelingslederPanel from './components/IkkeTilgangTilAvdelingslederPanel';
 import { AvdelingslederContext, AvdelingslederContextState } from './context';
-import ReservasjonerTabell from './reservasjoner/components/ReservasjonerTabell';
+import ReservasjonerTabell from './reservasjoner/components/ReservasjonerTabellV1';
 
 const classNames = classnames.bind(styles);
 
