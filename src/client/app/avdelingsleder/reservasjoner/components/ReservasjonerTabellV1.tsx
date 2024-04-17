@@ -41,7 +41,9 @@ const ReservasjonerTabell = () => {
 		const sokVerdi = e.target.value.toLowerCase();
 		const reservasjonerMedMatch = reservasjoner.filter(
 			(res) =>
-				res.reservertAvEpost.toLowerCase().includes(sokVerdi) || res.saksnummer?.toLowerCase()?.includes(sokVerdi),
+				res.reservertAvEpost.toLowerCase().includes(sokVerdi) ||
+				res.saksnummer?.toLowerCase()?.includes(sokVerdi) ||
+				res.journalpostId?.toLowerCase()?.includes(sokVerdi),
 		);
 		if (reservasjonerMedMatch.length > 0) {
 			setFinnesSokResultat(true);
@@ -101,7 +103,7 @@ const ReservasjonerTabell = () => {
 								content={<ReservasjonRowExpandableContent reservasjon={reservasjon} />}
 							>
 								<Table.DataCell>{reservasjon.reservertAvEpost}</Table.DataCell>
-								<Table.DataCell>{reservasjon.saksnummer}</Table.DataCell>
+								<Table.DataCell>{reservasjon.saksnummer || reservasjon.journalpostId}</Table.DataCell>
 								<Table.DataCell>
 									{getKodeverknavnFraKode(
 										reservasjon.behandlingType?.kode,

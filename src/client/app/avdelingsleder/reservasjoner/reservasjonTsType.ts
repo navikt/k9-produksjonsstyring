@@ -6,6 +6,7 @@ type Reservasjon = Readonly<{
 	reservertAvEpost: string;
 	reservertTilTidspunkt: string;
 	saksnummer: string;
+	journalpostId: string;
 	behandlingType: KodeverkMedNavn;
 	kommentar?: string;
 }>;
