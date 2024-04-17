@@ -2888,19 +2888,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@navikt/familie-endringslogg@npm:11.0.0":
-  version: 11.0.0
-  resolution: "@navikt/familie-endringslogg@npm:11.0.0::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40navikt%2Ffamilie-endringslogg%2F11.0.0%2Fd50201e34031ee99803728763ba5769cc31af07a"
+"@navikt/familie-endringslogg@npm:12.0.0":
+  version: 12.0.0
+  resolution: "@navikt/familie-endringslogg@npm:12.0.0::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40navikt%2Ffamilie-endringslogg%2F12.0.0%2Fd3a44bb8bc01c3274505023b094476a9c3659e6f"
   dependencies:
     "@portabletext/react": ^3.0.11
     classnames: ^2.5.1
     react-transition-group: ^4.4.5
   peerDependencies:
-    "@navikt/aksel-icons": 5.x
-    "@navikt/ds-react": 5.x
+    "@navikt/aksel-icons": 6.x
+    "@navikt/ds-react": 6.x
     "@types/react": 18.x
     react: 18.x
-  checksum: 2e69e386f07023ca66b8ba9f926b327cd8c5ea95d61c6cb5dfb74088990bfddb3d7d011ae187a91465f0d7ce7caee969adee01ec838f3ddbd3454c66b3129df8
+  checksum: 5d909e055a96b1e08aa2baa65a7086cebfaeb25a1bf10701b3eabcb7dc03ab5aff3c370599202d35defcad0a358c5d2e299969e5930c721289eafc23f1f4ee0e
   languageName: node
   linkType: hard
 
@@ -11116,7 +11116,7 @@ __metadata:
     "@navikt/ds-react": 5.18.3
     "@navikt/ds-tailwind": 5.18.3
     "@navikt/ds-tokens": 5.18.3
-    "@navikt/familie-endringslogg": 11.0.0
+    "@navikt/familie-endringslogg": 12.0.0
     "@navikt/fnrvalidator": 1.3.3
     "@navikt/ft-form-hooks": 4.4.3
     "@navikt/ft-form-validators": 2.3.3
