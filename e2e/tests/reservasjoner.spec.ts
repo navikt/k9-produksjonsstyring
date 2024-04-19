@@ -44,7 +44,7 @@ test('Kan søke opp og reservere opppgave', async ({ page }) => {
 	await expect(searchButton).toBeEnabled();
 	await searchButton.click();
 
-	await page.waitForResponse((response) => response.url().includes('/api/fagsak/sok') && response.status() === 200);
+	await page.waitForResponse((response) => response.url().includes('/api/k9-los-api/fagsak/sok') && response.status() === 200);
 
 	const searchResult = page.getByRole('cell', { name: saksnummer });
 	await expect(searchResult).toBeVisible();
@@ -54,7 +54,7 @@ test('Kan søke opp og reservere opppgave', async ({ page }) => {
 	await page.getByRole('button', { name: 'Ja' }).click();
 
 	await page.waitForResponse(
-		(response) => response.url().includes('/api/saksbehandler/oppgaver/reserver') && response.status() === 200,
+		(response) => response.url().includes('/api/k9-los-api/saksbehandler/oppgaver/reserver') && response.status() === 200,
 	);
 });
 
@@ -75,7 +75,7 @@ test('kan plukke oppgave fra kø og reservere', async ({ page }) => {
 	await page.getByLabel('Velg oppgavekø').selectOption(kønavn);
 	await page.getByRole('button', { name: 'Gi meg neste oppgave i køen' }).click();
 	await page.waitForResponse(
-		(response) => response.url().includes('/api/saksbehandler/oppgaver/reserver') && response.status() === 200,
+		(response) => response.url().includes('/api/k9-los-api/saksbehandler/oppgaver/reserver') && response.status() === 200,
 	);
 });
 
@@ -143,10 +143,10 @@ test('kan fjerne reservasjon som avdelingsleder', async ({ page }) => {
 	await page.getByRole('button', { name: 'OK' }).click();
 
 	await page.waitForResponse(
-		(response) => response.url().includes('/api/saksbehandler/oppgaver/opphev') && response.status() === 200,
+		(response) => response.url().includes('/api/k9-los-api/saksbehandler/oppgaver/opphev') && response.status() === 200,
 	);
 	await page.waitForResponse(
-		(response) => response.url().includes('/api/avdelingsleder/reservasjoner') && response.status() === 200,
+		(response) => response.url().includes('/api/k9-los-api/avdelingsleder/reservasjoner') && response.status() === 200,
 	);
 
 	await expect(page.getByRole('row', { name: saksnummer })).not.toBeVisible();
