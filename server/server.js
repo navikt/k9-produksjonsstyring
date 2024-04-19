@@ -128,8 +128,8 @@ async function startApp() {
 		// serve static files
 		const rootDir = './dist';
 		server.use('/public', express.static('./dist/public'));
-		server.use(/^\/(?!.*dist)(?!api).*$/, (req, res) => {
-			res.sendFile('index.html', limiter, { root: rootDir });
+		server.use(/^\/(?!.*dist)(?!api).*$/, limiter, (req, res) => {
+			res.sendFile('index.html', { root: rootDir });
 		});
 
 		server.listen(port, () => logger.info(`Listening on port ${port}`));
