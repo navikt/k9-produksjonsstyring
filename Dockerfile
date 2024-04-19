@@ -1,8 +1,12 @@
-FROM nginxinc/nginx-unprivileged:stable-alpine-slim
+FROM gcr.io/distroless/nodejs18-debian11:nonroot
 
-COPY dist /usr/share/nginx/html
-COPY server.nginx /etc/nginx/conf.d/app.conf.template
-COPY start-server.sh /start-server.sh
+ENV TZ="Europe/Oslo"
+ENV NODE_ENV production
 
-CMD sh /start-server.sh
+WORKDIR /app
 
+COPY ./dist ./dist
+COPY ./node_modules ./node_modules
+COPY server ./
+
+CMD ["./server.js"]

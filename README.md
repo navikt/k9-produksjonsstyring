@@ -48,6 +48,14 @@ Før du kjører `yarn install`, sett opp lokal NPM for autentisering mot GitHub 
 
 Nå kan du søke opp saksnummeret eller søkeren i k9-los-web. Dersom oppgaven matcher kriteriene i en av dine køer vil den også dukke opp i listen over oppgaver.
 
+##### Bygge k9-los-web i docker og kjøre mot k9-los-web i veridkjede
+1. yarn build
+2. docker build -t k9-los-web:din-valgfrie-tag
+3. 
+```
+   docker run -p 8031:8031 --env IS_VERDIKJEDE=true --env PORT=8031 --env PROXY_CONFIG='{"apis":[{"path":"/api/k9-los-api","url":"http://host.docker.internal:8020","scopes":"api://k9-los-web/.default", "backendPath":"/api"}]}' k9-los-web:din-valgfrie-tag
+```
+
 ##### Mock Service Worker
 
 MSW kan brukes til å enkelt mocke API-requests.

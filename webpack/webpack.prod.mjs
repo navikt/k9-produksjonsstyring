@@ -33,9 +33,6 @@ const config = {
 			template: path.join(ROOT_DIR, 'index.html'),
 		}),
 		new webpack.EnvironmentPlugin({ SENTRY_RELEASE: null }),
-		new CopyPlugin({
-			patterns: [{ from: 'webpack/envVariablesForEnvSubst.json', to: 'envVariablesForEnvSubst.json' }],
-		}),
 	],
 
 	optimization: {

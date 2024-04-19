@@ -5,26 +5,40 @@ metadata:
   namespace: k9saksbehandling
   labels:
     team: k9saksbehandling
-  annotations:
-    nais.io/run-as-user: "101" # Fix permissions for nginx
-    nais.io/read-only-file-system: "false" # Fix permissions for nginx
 spec:
   image: {{ image }}
   port: 8030
+  azure:
+    application:
+      enabled: true
+      allowAllUsers: true
+      tenant: {{ azureTenant }}
+    sidecar:
+      enabled: true
+      autoLogin: true
+      autoLoginIgnorePaths:
+      - /health/**
+      - /logout
   liveness:
-    path: /isAlive
+    path: health/isAlive
     initialDelay: 20
     timeout: 1
     periodSeconds: 5
     failureThreshold: 10
   readiness:
-    path: /isReady
+    path: health/isReady
     initialDelay: 20
     timeout: 1
   replicas:
     min: 2
     max: 4
     cpuThresholdPercentage: 50
+  accessPolicy:
+    outbound:
+      external:
+      {{#each outboundExternalHosts as |host|}}
+       - host: {{host}}
+      {{/each}}
   resources:
     limits:
       cpu: 500m
@@ -37,11 +51,13 @@ spec:
     - {{url}}
   {{/each}}
   env:
+    - name: PROXY_CONFIG
+      value: '{"apis":[
+              {{#each proxyRedirects}}
+                {"path":"{{path}}", "url":"{{url}}", "scopes":"{{scope}}"}{{#unless @last}},{{/unless}}
+              {{/each}}
+              ]}'
   {{#each env}}
     - name: {{this.name }}
       value: {{this.value}}
   {{/each}}
-    - name: APP_NAME
-      value: k9-los-web
-    - name: APP_PORT
-      value: "8030"

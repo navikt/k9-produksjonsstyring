@@ -26,8 +26,7 @@ interface OwnProps {
 	setSiteHeight: (clientHeight: number) => void;
 }
 
-const isDev =
-	window.location.hostname.includes('dev.adeo.no') || window.location.hostname.includes('dev.intern.nav.no');
+const isDev = window.location.hostname.includes('intern.dev.nav.no');
 
 const useOutsideClickEvent = (
 	erLenkepanelApent,

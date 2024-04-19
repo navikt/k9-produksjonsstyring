@@ -1,6 +1,6 @@
 import webpack from 'webpack';
 import WebpackDevServer from 'webpack-dev-server';
-import envVariables from './envVariables.mjs';
+import { envVariables } from '@k9-los-web/server/envVariables.js';
 import config, { PORT } from './webpack.dev.mjs';
 
 if (process.argv.includes('--no-fix')) {
@@ -13,8 +13,9 @@ const options = {
 		watch: true,
 	},
 	proxy: {
-		'/api': {
+		'/api/k9-los-api': {
 			target: 'http://localhost:8020',
+			pathRewrite: { '^/api/k9-los-api': '/api' },
 			secure: false,
 		},
 	},

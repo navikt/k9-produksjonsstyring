@@ -86,13 +86,13 @@ jobs:
               owner: context.issue.owner,
               repo: context.issue.repo,
               labels: ['deployment'],
-              body: 'Kommenter enten "/promote dev-fss" eller "/promote prod-fss" for å deploye ${{ github.sha }}',
+              body: 'Kommenter enten "/promote dev-gcp" eller "/promote prod-gcp" for å deploye ${{ github.sha }}',
               title: 'Deploy av ${{ env.DOCKER_METADATA_OUTPUT_VERSION }}'})
             .then(response => {
                     core.setOutput('number', response.data.number);
             });
 
-      - name: Trigg deploy til dev-fss
+      - name: Trigg deploy til dev-gcp
         if: success()
         uses: actions/github-script@v7
         with:
@@ -101,7 +101,7 @@ jobs:
             const issue = { owner: context.issue.owner,
                             repo: context.issue.repo,
                             issue_number: ${{ steps.createdeployissue.outputs.number }} }
-            github.rest.issues.createComment({...issue, body: '/promote dev-fss'})
+            github.rest.issues.createComment({...issue, body: '/promote dev-gcp'})
 
   trigger-verdikjede:
     name: Trigger verdikjede test
