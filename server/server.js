@@ -5,6 +5,7 @@ import helmet from 'helmet';
 import timeout from 'connect-timeout';
 import { validateToken } from '@navikt/oasis';
 import { decodeJwt } from 'jose';
+import rateLimit from 'express-rate-limit';
 
 import logger from './src/log.js';
 
@@ -14,6 +15,11 @@ import { envVariables } from './envVariables.js';
 
 const server = express();
 const { port } = config.server;
+
+const limiter = rateLimit({
+	windowMs: 15 * 60 * 1000, // 1 hour
+	max: 1000, // limit each IP to 1000 requests per windowMs
+});
 
 async function startApp() {
 	try {
@@ -123,7 +129,7 @@ async function startApp() {
 		const rootDir = './dist';
 		server.use('/public', express.static('./dist/public'));
 		server.use(/^\/(?!.*dist)(?!api).*$/, (req, res) => {
-			res.sendFile('index.html', { root: rootDir });
+			res.sendFile('index.html', limiter, { root: rootDir });
 		});
 
 		server.listen(port, () => logger.info(`Listening on port ${port}`));
