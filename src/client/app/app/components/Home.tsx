@@ -35,7 +35,7 @@ const Home: FunctionComponent<OwnProps> = ({ headerHeight }) => {
 					<Route path="/" element={<SaksbehandlerIndex />} />
 					<Route path="/avdelingsleder" element={<AvdelingslederIndex />} />
 					<Route path="/admin" element={<AdminIndex />} />
-					<Route element={<MissingPage />} />
+					<Route path="*" element={<MissingPage />} />
 				</SentryRoutes>
 			</AppContext.Provider>
 		</div>
