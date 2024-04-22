@@ -50,6 +50,7 @@ const proxyOptions = (api) => ({
 		const PROXY_CONFIG = configValueAsJson({ name: 'PROXY_CONFIG' });
 		// go through proxy config and replace the path
 		PROXY_CONFIG.apis.forEach((proxyEntry) => {
+			console.log('proxyentry', proxyEntry);
 			if (proxyEntry.backendPath !== undefined) {
 				path = path.replace(proxyEntry.path, proxyEntry.backendPath);
 			}
