@@ -151,8 +151,8 @@
 
 	"ManueltPaVentGraf.Antall": "Antall: {antall}",
 
-	"MissingPage.PageIsMissing": "Side finnes ikke",
-	"MissingPage.Home": "Hjem",
+	"MissingPage.PageIsMissing": "Denne siden finnes ikke. Hvis du mener dette er en feil, vennligst meld fra i porten.",
+	"MissingPage.Home": "Gå til forsiden",
 
 	"MottattPanel.MottattRefusjonskrav": "Mottatt refusjonskrav",
 

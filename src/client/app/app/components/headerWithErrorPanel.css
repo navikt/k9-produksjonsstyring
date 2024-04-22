@@ -6,15 +6,6 @@
 .container button {
 	background-color: transparent;
 }
-.containerDev {
-	position: fixed;
-	top: 0;
-	width: 100%;
-	z-index: 101;
-}
-.containerDev button {
-	background-color: transparent;
-}
 .containerDev header {
 	background-color: #0a0;
 }
