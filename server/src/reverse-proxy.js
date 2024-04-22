@@ -55,8 +55,9 @@ const proxyOptions = (api) => ({
 			}
 		});
 		const queryString = urlFromRequest.query;
+		log.info(`ReplacedPath ${path}`);
 		const newPath = (pathFromApi || '') + (path || '') + (queryString ? `?${queryString}` : '');
-
+		log.info(`newpath ${newPath}`);
 		log.info(`Proxying request from '${req.originalUrl}' to '${stripTrailingSlash(urlFromApi.href)}${newPath}'`);
 		return newPath;
 	},
