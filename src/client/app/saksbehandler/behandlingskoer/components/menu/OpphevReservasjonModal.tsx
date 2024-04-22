@@ -2,7 +2,6 @@ import React, { FunctionComponent, useCallback } from 'react';
 import { Form } from 'react-final-form';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useQueryClient } from 'react-query';
-import { captureMessage } from '@sentry/browser';
 import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
 import { Undertittel } from 'nav-frontend-typografi';
 import { OppgaveNøkkel } from 'types/OppgaveNøkkel';
@@ -36,11 +35,6 @@ export const OpphevReservasjonModal: FunctionComponent<OwnProps> = ({ showModal,
 	const opphevReservasjonFn = useCallback(
 		(begrunnelse: string) =>
 			opphevOppgavereservasjon({ oppgaveNøkkel, begrunnelse }).then(() => {
-				captureMessage(
-					`Legg tilbake: ${oppgaveNøkkel.oppgaveEksternId} - Tidspunkt: ${new Date().toLocaleString('no-NO', {
-						timeZone: 'Europe/Oslo',
-					})}`,
-				);
 				// eslint-disable-next-line @typescript-eslint/no-empty-function
 				setTimeout(() => {}, 1000);
 				queryClient.invalidateQueries(apiPaths.saksbehandlerReservasjoner);

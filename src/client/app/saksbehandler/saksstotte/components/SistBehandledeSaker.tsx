@@ -1,6 +1,5 @@
 import React, { Fragment, FunctionComponent } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { captureMessage } from '@sentry/browser';
 import Lenke from 'nav-frontend-lenker';
 import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import { getK9punsjRef, getK9sakHref } from 'app/paths';
@@ -34,11 +33,6 @@ const SistBehandledeSaker: FunctionComponent = () => {
 	};
 
 	const sendVidereTilFagsak = (sbs: BehandletOppgave) => {
-		captureMessage(
-			`Send til: ${sbs.saksnummer || sbs.journalpostId} - Tidspunkt: ${new Date().toLocaleString('no-NO', {
-				timeZone: 'Europe/Oslo',
-			})}`,
-		);
 		window.location.assign(getUrl(sbs));
 	};
 
