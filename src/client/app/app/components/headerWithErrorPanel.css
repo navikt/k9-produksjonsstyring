@@ -2,7 +2,6 @@
 	top: 0;
 	width: 100%;
 	z-index: 101;
-	white-space: nowrap;
 }
 .container button {
 	background-color: transparent;
