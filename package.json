@@ -26,7 +26,7 @@
 		"@navikt/ft-plattform-komponenter": "2.5.5",
 		"@popperjs/core": "2.11.8",
 		"@reach/combobox": "0.18.0",
-		"@sentry/browser": "7.111.0",
+		"@sentry/browser": "7.112.1",
 		"@sentry/cli": "2.31.0",
 		"@sentry/react": "^7.111.0",
 		"@testing-library/jest-dom": "6.4.2",
