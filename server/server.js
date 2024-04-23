@@ -38,7 +38,12 @@ async function startApp() {
 					directives: {
 						'default-src': ["'self'"],
 						'base-uri': ["'self'"],
-						'connect-src': ["'self'", 'https://sentry.gc.nav.no'],
+						'connect-src': [
+							"'self'",
+							'https://sentry.gc.nav.no',
+							'https://familie-endringslogg.intern.dev.nav.no/endringslogg',
+							'https://familie-endringslogg.intern.nav.no/endringslogg',
+						],
 						'font-src': ["'self'", 'https://cdn.nav.no', 'data:'],
 						'img-src': ["'self'", 'data:', 'blob:'],
 						'style-src': ["'self'", "'unsafe-inline'"],
