@@ -210,6 +210,7 @@ const HeaderWithErrorPanel: FunctionComponent<OwnProps> = ({ queryStrings, crash
 								}
 								stil="lys"
 								alignLeft
+								maxEntries={20}
 							/>
 						</div>
 					)}
