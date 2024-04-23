@@ -8,6 +8,12 @@ proxyRedirects:
     scope: "api://dev-fss.k9saksbehandling.k9-los-api/.default"
     url: "https://k9-los-api.dev-fss-pub.nais.io"
     backendPath: "/api"
+  - path: "/api/innsikt"
+    scope: "api://dev-fss.k9saksbehandling.k9-los-api/.default"
+    url: "https://k9-los-api.dev-fss-pub.nais.io"
+    backendPath: "/innsikt"
+
+
 env:
   - name: SAKSBEHANDLER_KAN_VELGE_NYE_KOER
     value: "enabled"
