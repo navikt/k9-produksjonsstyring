@@ -1,6 +1,6 @@
 {
 	"AdminIndex.Driftsmeldinger": "Driftsmeldinger",
-	
+
 	"AndreKriterierVelger.TilBeslutter": "Til beslutter",
 	"AndreKriterierVelger.RegistrerPapirsoknad": "Registrer papirsøknad",
 	"AndreKriterierVelger.AndreKriterier": "Andre kriterier",
@@ -112,6 +112,7 @@
 	"Header.K9Los": "Pleiepenger og omsorgspenger",
 	"Header.NavAnsatt": "NAV-ansatt",
 	"Header.Rettskilde": "Rettskildene",
+	"Header.Sharepoint": "Sharepoint",
 	"Header.Systemrutine": "Systemrutine",
 	"Header.Enhet": "Enhet ",
 
