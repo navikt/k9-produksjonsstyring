@@ -12,7 +12,7 @@ describe('<HeaderWithErrorPanel>', () => {
 	afterEach(() => server.resetHandlers());
 	afterAll(() => server.close());
 	// spyr ut errors om manglende tekster fordi setup-test-env.js mocker ut react-intl
-	it('skal vise lenker for rettskilde og systemrutine i header men ingen avdelinger når det ikke er noen', async () => {
+	it('skal vise lenker for rettskilde i header men ingen avdelinger når det ikke er noen', async () => {
 		act(() => {
 			renderWithAllProviders(
 				<HeaderWithErrorPanel queryStrings={{}} crashMessage={crashMessage} setSiteHeight={setSiteHeight} />,
