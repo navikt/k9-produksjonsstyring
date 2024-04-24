@@ -16,7 +16,7 @@ import Home from './components/Home';
  *
  * Container komponent. Dette er toppkomponenten i applikasjonen. Denne vil rendre header
  * og home-komponentene. Home-komponenten vil rendre barn-komponenter via ruter.
- * Komponenten er også ansvarlig for å hente innlogget NAV-ansatt, rettskilde-url, systemrutine-url
+ * Komponenten er også ansvarlig for å hente innlogget NAV-ansatt, rettskilde-url, 
  * og kodeverk fra server og lagre desse i klientens state.
  */
 const AppIndex: FunctionComponent = () => {
