@@ -1,66 +1,57 @@
-import React, { Fragment, FunctionComponent } from 'react';
+import React, { FunctionComponent } from 'react';
 import { FormattedMessage } from 'react-intl';
-import Lenke from 'nav-frontend-lenker';
-import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import { getK9punsjRef, getK9sakHref } from 'app/paths';
 import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
+import { Link, BodyShort, Label } from '@navikt/ds-react';
 import useGlobalStateRestApiData from 'api/rest-api-hooks/src/global-data/useGlobalStateRestApiData';
 import useRestApi from 'api/rest-api-hooks/src/local-data/useRestApi';
 import BehandletOppgave from 'saksbehandler/saksstotte/behandletOppgaveTsType';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
-
-const EMPTY_ARRAY = [];
+import OppgaveSystem from 'types/OppgaveSystem';
 
 /**
  * SistBehandledeSaker
  *
- * Denne komponenten viser de tre siste fagsakene en nav-ansatt har behandlet.
+ * Denne komponenten viser de ti siste oppgavene en nav-ansatt har behandlet.
  */
 const SistBehandledeSaker: FunctionComponent = () => {
-	const { data: sistBehandledeSaker = EMPTY_ARRAY } = useRestApi<BehandletOppgave[]>(K9LosApiKeys.BEHANDLEDE_OPPGAVER);
+	const { data: sistBehandledeSaker = [] } = useRestApi<BehandletOppgave[]>(K9LosApiKeys.BEHANDLEDE_OPPGAVER);
 	const k9sakUrl = useGlobalStateRestApiData<{ verdi?: string }>(RestApiGlobalStatePathsKeys.K9SAK_URL);
 	const k9punsjUrl = useGlobalStateRestApiData<{ verdi?: string }>(RestApiGlobalStatePathsKeys.PUNSJ_URL);
 
-	const getUrl = (oppgave: BehandletOppgave) => {
+	const oppgaveUrl = (oppgave: BehandletOppgave) => {
 		switch (oppgave.system) {
-			case 'K9SAK':
-				return getK9sakHref(k9sakUrl.verdi, oppgave.saksnummer, oppgave.behandlingId);
-			case 'PUNSJ':
+			case OppgaveSystem.PUNSJ:
 				return getK9punsjRef(k9punsjUrl.verdi, oppgave.journalpostId);
 			default:
 				return getK9sakHref(k9sakUrl.verdi, oppgave.saksnummer, oppgave.behandlingId);
 		}
 	};
 
-	const sendVidereTilFagsak = (sbs: BehandletOppgave) => {
-		window.location.assign(getUrl(sbs));
-	};
-
+	if (sistBehandledeSaker.length === 0) {
+		return (
+			<>
+				<Label>
+					<FormattedMessage id="SistBehandledeSaker.SistBehandledeSaker" />
+				</Label>
+				<BodyShort className="mt-2">
+					<FormattedMessage id="SistBehandledeSaker.IngenBehandlinger" />
+				</BodyShort>
+			</>
+		);
+	}
 	return (
 		<>
-			<Undertittel>
+			<Label>
 				<FormattedMessage id="SistBehandledeSaker.SistBehandledeSaker" />
-			</Undertittel>
-			<VerticalSpacer eightPx />
-			{sistBehandledeSaker.length === 0 && (
-				<Normaltekst>
-					<FormattedMessage id="SistBehandledeSaker.IngenBehandlinger" />
-				</Normaltekst>
-			)}
-			{sistBehandledeSaker.map((sbs, index) => (
-				<Fragment key={sbs.behandlingId}>
-					<Normaltekst>
-						{sbs.navn ? (
-							<Lenke onClick={() => sendVidereTilFagsak(sbs)}>{`${sbs.navn} ${sbs.personnummer}`}</Lenke>
-						) : (
-							<Lenke onClick={() => sendVidereTilFagsak(sbs)}>
-								<FormattedMessage id="SistBehandledeSaker.Behandling" values={{ index: index + 1 }} />
-							</Lenke>
-						)}
-					</Normaltekst>
-					<VerticalSpacer eightPx />
-				</Fragment>
-			))}
+			</Label>
+			<div className="flex flex-col gap-2 mt-2">
+				{sistBehandledeSaker.map((oppgave) => (
+					<Link key={oppgave.eksternId} href={oppgaveUrl(oppgave)}>{`${oppgave.navn} ${oppgave.personnummer} ${
+						oppgave.system === OppgaveSystem.PUNSJ ? '(Punsj)' : '(K9)'
+					}`}</Link>
+				))}
+			</div>
 		</>
 	);
 };

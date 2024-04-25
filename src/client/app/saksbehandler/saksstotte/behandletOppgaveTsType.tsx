@@ -1,3 +1,5 @@
+import OppgaveSystem from 'types/OppgaveSystem';
+
 type BehandletOppgave = Readonly<{
 	saksnummer: string;
 	behandlingId: number;
@@ -5,7 +7,7 @@ type BehandletOppgave = Readonly<{
 	navn: string;
 	eksternId: string;
 	journalpostId: string;
-	system: string;
+	system: OppgaveSystem;
 }>;
 
 export default BehandletOppgave;
