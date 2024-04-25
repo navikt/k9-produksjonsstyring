@@ -7,7 +7,7 @@ import { BoxedListWithLinks, Header, Popover, SystemButton, UserPanel } from '@n
 import DriftsmeldingPanel from 'app/components/DriftsmeldingPanel';
 import ErrorFormatter from 'app/feilhandtering/ErrorFormatter';
 import NavAnsatt from 'app/navAnsattTsType';
-import { RETTSKILDE_URL, SYSTEMRUTINE_URL, SHAREPOINT_URL } from 'api/eksterneLenker';
+import { RETTSKILDE_URL, SHAREPOINT_URL } from 'api/eksterneLenker';
 import useRestApiError from 'api/error/useRestApiError';
 import useRestApiErrorDispatcher from 'api/error/useRestApiErrorDispatcher';
 import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
@@ -148,11 +148,6 @@ const HeaderWithErrorPanel: FunctionComponent<OwnProps> = ({ queryStrings, crash
 					{
 						name: intl.formatMessage({ id: 'Header.Sharepoint' }),
 						href: SHAREPOINT_URL,
-						isExternal: true,
-					},
-					{
-						name: intl.formatMessage({ id: 'Header.Systemrutine' }),
-						href: SYSTEMRUTINE_URL,
 						isExternal: true,
 					},
 				]}
