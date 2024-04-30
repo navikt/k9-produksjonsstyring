@@ -3,6 +3,7 @@ import { OppgaveNøkkel } from 'types/OppgaveNøkkel';
 
 type Reservasjon = Readonly<{
 	oppgavenøkkel: OppgaveNøkkel;
+	reservertAvIdent: string;
 	reservertAvEpost: string;
 	reservertTilTidspunkt: string;
 	saksnummer: string;

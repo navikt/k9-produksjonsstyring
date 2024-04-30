@@ -5,7 +5,8 @@ import { OppgaveNøkkel } from 'types/OppgaveNøkkel';
 interface ReservasjonV3 {
 	reserverteV3Oppgaver: OppgaveV3[];
 	reservertOppgaveV1Dto?: Oppgave;
-	reservertAv: string;
+	reservertAvIdent: string;
+	reservertAvEpost: string;
 	kommentar: string;
 	reservertFra: string;
 	reservertTil: string;
@@ -15,17 +16,18 @@ export interface ReservasjonV3FraKøDto {
 	oppgaveNøkkelDto: OppgaveNøkkel;
 	reservasjonsnøkkel: string;
 	oppgavebehandlingsUrl: string;
-	reservertAv: string;
+	reservertAvIdent: string;
+	reservertAvEpost: string;
 	reservertFra: string;
 	reservertTil: string;
 }
 
 export type MappedReservasjon = (Oppgave | OppgaveV3) &
-	Pick<ReservasjonV3, 'reservertAv' | 'kommentar' | 'reservertFra' | 'reservertTil'>;
+	Pick<ReservasjonV3, 'reservertAvIdent' | 'reservertAvEpost' | 'kommentar' | 'reservertFra' | 'reservertTil'>;
 
 function pickReservasjonProperties(reservasjon: ReservasjonV3) {
-	const { reservertAv, kommentar, reservertFra, reservertTil } = reservasjon;
-	return { reservertAv, kommentar, reservertFra, reservertTil };
+	const { reservertAvIdent, kommentar, reservertFra, reservertTil, reservertAvEpost } = reservasjon;
+	return { reservertAvIdent, kommentar, reservertFra, reservertTil, reservertAvEpost };
 }
 
 export function mapReservasjonV3Array(reservasjonV3Array: ReservasjonV3[]): MappedReservasjon[] {

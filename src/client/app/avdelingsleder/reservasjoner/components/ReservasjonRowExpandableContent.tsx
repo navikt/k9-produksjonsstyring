@@ -35,6 +35,7 @@ const ReservasjonRowExpandableContent = ({ reservasjon }: { reservasjon: MappedR
 				<FlyttReservasjonModal
 					oppgaveNøkkel={reservasjon.oppgaveNøkkel}
 					oppgaveReservertTil={reservasjon.reservertTil}
+					reservertAvIdent={reservasjon.reservertAvIdent}
 					eksisterendeBegrunnelse={reservasjon.kommentar}
 					showModal={showFlyttReservasjonModal}
 					closeModal={() => setShowFlyttReservasjonModal(false)}

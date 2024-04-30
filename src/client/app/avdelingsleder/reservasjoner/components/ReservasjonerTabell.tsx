@@ -20,7 +20,7 @@ import ReservasjonRowExpandableContent from './ReservasjonRowExpandableContent';
 
 const sorterMedReservertAv = (reservasjonerListe: MappedReservasjon[]) =>
 	reservasjonerListe?.sort((reservasjon1, reservasjon2) =>
-		reservasjon1.reservertAv.localeCompare(reservasjon2.reservertAv),
+		reservasjon1.reservertAvIdent.localeCompare(reservasjon2.reservertAvIdent),
 	);
 
 const ReservasjonerTabell = () => {
@@ -45,7 +45,7 @@ const ReservasjonerTabell = () => {
 		const sokVerdi = e.target.value.toLowerCase();
 		const reservasjonerMedMatch = reservasjoner.filter(
 			(res) =>
-				res.reservertAv.toLowerCase().includes(sokVerdi) ||
+				res.reservertAvEpost.toLowerCase().includes(sokVerdi) ||
 				res.saksnummer?.toLowerCase()?.includes(sokVerdi) ||
 				res.journalpostId?.toLowerCase()?.includes(sokVerdi),
 		);
@@ -106,7 +106,7 @@ const ReservasjonerTabell = () => {
 								key={`${reservasjon.oppgaveNøkkel.oppgaveEksternId} ${reservasjon.saksnummer} ${reservasjon.journalpostId}`}
 								content={<ReservasjonRowExpandableContent reservasjon={reservasjon} />}
 							>
-								<Table.DataCell>{reservasjon.reservertAv}</Table.DataCell>
+								<Table.DataCell>{reservasjon.reservertAvEpost}</Table.DataCell>
 								<Table.DataCell>{reservasjon.saksnummer || reservasjon.journalpostId}</Table.DataCell>
 								<Table.DataCell>
 									{getKodeverknavnFraKode(

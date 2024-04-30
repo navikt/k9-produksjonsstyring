@@ -34,7 +34,7 @@ interface OwnProps {
 	oppgaveReservertTil?: Date | string;
 	closeModal: () => void;
 	eksisterendeBegrunnelse?: string;
-	reservertAv: string;
+	reservertAvIdent: string;
 }
 
 /**
@@ -48,7 +48,7 @@ export const FlyttReservasjonModal: FunctionComponent<OwnProps> = ({
 	oppgaveNøkkel,
 	oppgaveReservertTil,
 	eksisterendeBegrunnelse,
-	reservertAv,
+	reservertAvIdent,
 }) => {
 	const {
 		startRequest,
@@ -116,7 +116,7 @@ export const FlyttReservasjonModal: FunctionComponent<OwnProps> = ({
 		>
 			<Form
 				onSubmit={(values) => finnSaksbehandler(values.brukerIdent)}
-				initialValues={{ brukerIdent: reservertAv || '' }}
+				initialValues={{ brukerIdent: reservertAvIdent || '' }}
 				render={({ handleSubmit, values }) => (
 					<form onSubmit={handleSubmit}>
 						<Element>

@@ -115,7 +115,9 @@ const ReservasjonMeny: React.FC<OwnProps> = ({
 			{showFlyttReservasjonModal && (
 				<FlyttReservasjonModal
 					oppgaveNøkkel={oppgave.oppgaveNøkkel}
-					reservasjon={reservasjon}
+					reservertAvIdent={reservasjon.reservertAvIdent}
+					eksisterendeBegrunnelse={reservasjon.kommentar}
+					oppgaveReservertTil={reservasjon.reservertTil}
 					showModal={showFlyttReservasjonModal}
 					closeModal={closeFlytteModal}
 				/>

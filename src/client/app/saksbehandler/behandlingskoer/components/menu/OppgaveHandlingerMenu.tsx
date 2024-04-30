@@ -118,6 +118,7 @@ const OppgaveHandlingerMenu: React.FC<OwnProps> = ({
 			{showFlyttReservasjonModal && (
 				<FlyttReservasjonModal
 					oppgaveNøkkel={oppgave.oppgaveNøkkel}
+					reservertAvIdent={reservasjon.reservertAvIdent}
 					oppgaveReservertTil={reservasjon.reservertTil}
 					showModal={showFlyttReservasjonModal}
 					closeModal={closeFlytteModal}

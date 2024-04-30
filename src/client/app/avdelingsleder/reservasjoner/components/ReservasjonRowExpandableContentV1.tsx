@@ -34,6 +34,7 @@ const ReservasjonRowExpandableContent = ({ reservasjon }: { reservasjon: Reserva
 			{showFlyttReservasjonModal && (
 				<FlyttReservasjonModal
 					oppgaveNøkkel={reservasjon.oppgavenøkkel}
+					reservertAvIdent={reservasjon.reservertAvIdent}
 					oppgaveReservertTil={reservasjon.reservertTilTidspunkt}
 					eksisterendeBegrunnelse={reservasjon?.kommentar}
 					showModal={showFlyttReservasjonModal}
