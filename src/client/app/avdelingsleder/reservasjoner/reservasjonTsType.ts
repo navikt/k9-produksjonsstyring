@@ -8,6 +8,7 @@ type Reservasjon = Readonly<{
 	saksnummer: string;
 	journalpostId: string;
 	behandlingType: KodeverkMedNavn;
+	tilBeslutter: boolean;
 	kommentar?: string;
 }>;
 

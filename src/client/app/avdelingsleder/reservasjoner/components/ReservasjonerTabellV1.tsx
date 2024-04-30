@@ -109,7 +109,7 @@ const ReservasjonerTabell = () => {
 										reservasjon.behandlingType?.kode,
 										kodeverkTyper.BEHANDLING_TYPE,
 										alleKodeverk,
-									) + (reservasjon ? ' - [B] ' : '')}
+									) + (reservasjon.tilBeslutter ? ' - [B] ' : '')}
 								</Table.DataCell>
 								<Table.DataCell>
 									<FormattedMessage
