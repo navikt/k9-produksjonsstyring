@@ -22,6 +22,7 @@ import {
 	minLength,
 	required,
 } from 'utils/validation/validators';
+import ReservasjonV3 from 'saksbehandler/behandlingskoer/ReservasjonV3Dto';
 import { Saksbehandler } from '../../saksbehandlerTsType';
 import styles from './flyttReservasjonModal.css';
 
@@ -31,9 +32,8 @@ const maxLength1500 = maxLength(1500);
 interface OwnProps {
 	showModal: boolean;
 	oppgaveNøkkel: OppgaveNøkkel;
-	oppgaveReservertTil?: Date | string;
+	reservasjon: ReservasjonV3;
 	closeModal: () => void;
-	eksisterendeBegrunnelse?: string;
 }
 
 /**
@@ -45,8 +45,7 @@ export const FlyttReservasjonModal: FunctionComponent<OwnProps> = ({
 	showModal,
 	closeModal,
 	oppgaveNøkkel,
-	oppgaveReservertTil,
-	eksisterendeBegrunnelse,
+	reservasjon,
 }) => {
 	const {
 		startRequest,
@@ -114,7 +113,7 @@ export const FlyttReservasjonModal: FunctionComponent<OwnProps> = ({
 		>
 			<Form
 				onSubmit={(values) => finnSaksbehandler(values.brukerIdent)}
-				initialValues={{ brukerIdent: saksbehandler?.brukerIdent || '' }}
+				initialValues={{ brukerIdent: reservasjon.reservertAv || '' }}
 				render={({ handleSubmit, values }) => (
 					<form onSubmit={handleSubmit}>
 						<Element>
@@ -159,8 +158,8 @@ export const FlyttReservasjonModal: FunctionComponent<OwnProps> = ({
 					onSubmit(saksbehandler ? saksbehandler.brukerIdent : '', values.begrunnelse, values.reserverTil)
 				}
 				initialValues={{
-					reserverTil: oppgaveReservertTil ? dayjs(oppgaveReservertTil).format('YYYY-MM-DD') : '',
-					begrunnelse: eksisterendeBegrunnelse || '',
+					reserverTil: reservasjon.reservertTil ? dayjs(reservasjon.reservertTil).format('YYYY-MM-DD') : '',
+					begrunnelse: reservasjon.kommentar || '',
 				}}
 				render={({ handleSubmit, values }) => (
 					<form onSubmit={handleSubmit}>
