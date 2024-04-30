@@ -94,8 +94,8 @@ test('kan forlenge reservasjon', async ({ page }) => {
 test('kan endre/og flytte reservasjon reservasjon', async ({ page }) => {
 	await page.getByRole('row', { name: saksnummer }).getByRole('img').click();
 	await page.getByRole('button', { name: 'Endre og/eller flytte' }).click();
-	await page.getByLabel('Saksbehandlers navn').click();
-	await page.getByLabel('Saksbehandlers navn').fill('Sara');
+	await page.getByLabel('Saksbehandlers brukerident').click();
+	await page.getByLabel('Saksbehandlers brukerident').fill('Sara');
 	await page.getByLabel('Endre og/eller flytte').getByRole('button', { name: 'Søk' }).click();
 	// Get a date one week from now
 	const date = new Date();
@@ -117,8 +117,8 @@ test('kan endre reservasjon som avdelingsleder', async ({ page }) => {
 	await page.getByRole('link', { name: 'Reservasjoner' }).click();
 	await page.getByRole('row', { name: saksnummer }).getByRole('cell').nth(0).click();
 	await page.getByRole('button', { name: 'Flytt reservasjonen til annen saksbehandler' }).click();
-	await page.getByLabel('Saksbehandlers navn').click();
-	await page.getByLabel('Saksbehandlers navn').fill('Sara');
+	await page.getByLabel('Saksbehandlers brukerident').click();
+	await page.getByLabel('Saksbehandlers brukerident').fill('Sara');
 	await page.getByLabel('Endre og/eller flytte').getByRole('button', { name: 'Søk' }).click();
 	// Get a date two weeks from now
 	const date = new Date();
