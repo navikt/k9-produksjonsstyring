@@ -80,7 +80,7 @@
 	"FerdigstilteHistorikkPanel.Ferdigstilte": "Historikk over ferdigstilte oppgaver",
 
 	"FlyttReservasjonModal.Titel": "Endre og/eller flytte reservasjon",
-	"FlyttReservasjonModal.Brukerident": "Saksbehandlers navn",
+	"FlyttReservasjonModal.Brukerident": "Saksbehandlers brukerident",
 	"FlyttReservasjonModal.Sok": "Søk",
 	"FlyttReservasjonModal.Begrunn": "Begrunn endring av reservasjon",
 	"FlyttReservasjonModal.Ok": "OK",

@@ -114,7 +114,7 @@ export const FlyttReservasjonModal: FunctionComponent<OwnProps> = ({
 		>
 			<Form
 				onSubmit={(values) => finnSaksbehandler(values.brukerIdent)}
-				initialValues={{ brukerIdent: saksbehandler?.navn || saksbehandler?.brukerIdent || '' }}
+				initialValues={{ brukerIdent: saksbehandler?.brukerIdent || '' }}
 				render={({ handleSubmit, values }) => (
 					<form onSubmit={handleSubmit}>
 						<Element>
