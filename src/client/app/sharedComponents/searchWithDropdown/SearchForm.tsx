@@ -2,7 +2,7 @@ import React from 'react';
 import { Combobox, ComboboxInput } from '@reach/combobox';
 import { Search } from '@navikt/ds-icons';
 import { BodyShort, Label } from '@navikt/ds-react';
-import styles from './searchWithDropdown.css';
+import * as styles from './searchWithDropdown.css';
 
 interface SearchFormProps {
 	label: string;
@@ -52,7 +52,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
 			)}
 			<Combobox className={`navds-search__wrapper ${styles.searchWrapper} mt-2`} onSelect={onSelect} openOnFocus>
 				<div className="flex">
-					<div className={`navds-search__wrapper-inner ${styles.searchWrapper__inner}`}>
+					<div className={'navds-search__wrapper-inner'}>
 						<ComboboxInput
 							id={inputId}
 							autoComplete="off"

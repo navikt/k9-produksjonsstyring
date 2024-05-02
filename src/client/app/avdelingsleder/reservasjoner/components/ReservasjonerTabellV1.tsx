@@ -12,7 +12,7 @@ import { useAvdelingslederReservasjoner } from 'api/queries/avdelingslederQuerie
 import { getKodeverknavnFraKode } from 'utils/kodeverkUtils';
 import Reservasjon from '../reservasjonTsType';
 import useGlobalStateRestApiData from '../../../api/rest-api-hooks/src/global-data/useGlobalStateRestApiData';
-import styles from './reservasjonerTabell.css';
+import * as styles from './reservasjonerTabell.css';
 import ReservasjonRowExpandableContent from './ReservasjonRowExpandableContentV1';
 
 const sorterMedReservertAv = (reservasjonerListe: Reservasjon[]) =>

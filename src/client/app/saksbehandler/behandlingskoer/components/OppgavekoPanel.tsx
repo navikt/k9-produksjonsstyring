@@ -14,7 +14,7 @@ import advarselImageUrl from '../../../../images/advarsel.svg';
 import RestApiState from '../../../api/rest-api-hooks/src/RestApiState';
 import { erKoV3, getKoId } from '../utils';
 import OppgavekoVelgerForm from './OppgavekoVelgerForm';
-import styles from './oppgavekoPanel.css';
+import * as styles from './oppgavekoPanel.css';
 import OppgaverTabell from './oppgavetabeller/OppgaverTabell';
 import { OppgavetabellV3Container } from './oppgavetabeller/OppgavetabellV3Container';
 

@@ -8,7 +8,7 @@ import { Saksbehandler } from 'avdelingsleder/bemanning/saksbehandlerTsType';
 import { K9LosApiKeys } from 'api/k9LosApi';
 import { useRestApiRunner } from 'api/rest-api-hooks';
 import { useQueryClient } from 'react-query';
-import styles from './saksbehandlerInfo.css';
+import * as styles from './saksbehandlerInfo.css';
 
 interface OwnProps {
 	saksbehandler: Saksbehandler;

@@ -4,12 +4,12 @@ import { Delete } from '@navikt/ds-icons';
 import { Button, Heading, Label, Panel, ToggleGroup } from '@navikt/ds-react';
 import { FilterContext } from 'filter/FilterContext';
 import { addFilter, addGruppe, removeFilter, updateFilter } from 'filter/queryUtils';
-import styles from '../filterIndex.css';
+import * as styles from '../filterIndex.css';
 import { CombineOppgavefilter, FeltverdiOppgavefilter, OppgaveQuery, OppgavefilterKode } from '../filterTsTypes';
 import FeltverdiOppgavefilterPanel from './FeltverdiOppgavefilterPanel/FeltverdiOppgavefilterPanel';
 import Kriterie from './Kriterie';
 import VelgKriterie from './VelgKriterie';
-import filterGruppeStyles from './filterGruppe.css';
+import * as filterGruppeStyles from './filterGruppe.css';
 
 interface OppgavefilterPanelProps {
 	oppgavefilter: FeltverdiOppgavefilter | CombineOppgavefilter;
@@ -109,7 +109,7 @@ const FilterGruppe = ({ oppgavefilter, køvisning }: FilterGruppeProps) => {
 const CombineOppgavefilterPanel = ({ oppgavefilter }: CombineOppgavefilterPanelProps) => {
 	const { updateQuery } = useContext(FilterContext);
 	return (
-		<Panel className={`${styles.filter} ${styles.filterGruppe}`} key={oppgavefilter.id} border>
+		<Panel className={`${styles.filter}`} key={oppgavefilter.id} border>
 			<Heading level="5" size="xsmall">
 				{oppgavefilter.combineOperator === 'OR'
 					? 'Minimum en av disse må gjelde for oppgaven'

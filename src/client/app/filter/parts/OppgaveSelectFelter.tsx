@@ -6,7 +6,7 @@ import AppContext from 'app/AppContext';
 import { FilterContext } from 'filter/FilterContext';
 import { addSelectFelt, removeSelectFelt, updateSelectFelt } from 'filter/queryUtils';
 import { feltverdiKey } from '../utils';
-import styles from './OppgaveSelectFelter.css';
+import * as styles from './OppgaveSelectFelter.css';
 
 const OppgaveSelectFelter = () => {
 	const { felter } = useContext(AppContext);

@@ -17,7 +17,7 @@ import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
 import NyeOgFerdigstilteOppgaverForSisteSyvGraf from 'saksbehandler/saksstotte/nokkeltall/components/nyeOgFerdigstilteOppgaverForSisteSyv/NyeOgFerdigstilteOppgaverForSisteSyvGraf';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import { ISO_DATE_FORMAT } from 'utils/formats';
-import styles from '../nyeOgFerdigstilteOppgaverFelles.css';
+import * as styles from '../nyeOgFerdigstilteOppgaverFelles.css';
 import NyeOgFerdigstilteOppgaver, { fagytelsetyperForOppgaveFiltrering } from '../nyeOgFerdigstilteOppgaverTsType';
 
 export const getNyeOgFerdigstilteForSisteSyvDager = (nyeOgFerdigstilte: NyeOgFerdigstilteOppgaver[] = []) => {

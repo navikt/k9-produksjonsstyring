@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { DDMMYYYY_DATE_FORMAT } from 'utils/formats';
 import CalendarOverlay from './CalendarOverlay';
 import CalendarToggleButton from './CalendarToggleButton';
-import styles from './datepicker.css';
+import * as styles from './datepicker.css';
 
 class Datepicker extends Component {
 	constructor() {

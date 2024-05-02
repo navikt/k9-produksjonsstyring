@@ -17,11 +17,11 @@ import { getHeaderCodes } from 'saksbehandler/behandlingskoer/components/oppgave
 import Oppgave from 'saksbehandler/oppgaveTsType';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import { OppgaveNøkkel } from 'types/OppgaveNøkkel';
-import kopanelStyles from '../oppgavekoPanel.css';
+import * as kopanelStyles from '../oppgavekoPanel.css';
 import OppgaveTabellMenyAntallOppgaver from './OppgaveTabellMenyAntallOppgaver';
 import ReservertOppgaveRadV1 from './ReservertOppgaveRadV1';
 import ReservertOppgaveRadV3 from './ReservertOppgaveRadV3';
-import styles from './oppgaverTabell.css';
+import * as styles from './oppgaverTabell.css';
 
 interface OwnProps {
 	apneOppgave: (oppgave: Oppgave) => void;
