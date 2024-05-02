@@ -159,7 +159,6 @@
 		"postcss-loader": "8.1.1",
 		"stylelint": "16.4.0",
 		"stylelint-config-prettier": "9.0.5",
-		"stylelint-config-standard": "36.0.0",
 		"stylelint-order": "6.0.4",
 		"terser-webpack-plugin": "5.3.10",
 		"thread-loader": "4.0.2",
