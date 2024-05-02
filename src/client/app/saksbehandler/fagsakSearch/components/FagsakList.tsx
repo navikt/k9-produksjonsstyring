@@ -16,7 +16,7 @@ import ModalMedIkon from 'sharedComponents/modal/ModalMedIkon';
 import { getYearFromString } from 'utils/dateUtils';
 import { getKodeverknavnFraKode } from 'utils/kodeverkUtils';
 import OppgaveSystem from '../../../types/OppgaveSystem';
-import * as styles from './fagsakList.css';
+import styles from './fagsakList.css';
 
 const headerTextCodes = [
 	'EMPTY_1',

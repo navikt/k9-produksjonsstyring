@@ -8,7 +8,7 @@ import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import { hasValidSaksnummerEllerJournalpostFormat } from 'utils/validation/validators';
 import FagsakList from './FagsakList';
 import SearchForm from './SearchForm';
-import * as styles from './fagsakSearch.css';
+import styles from './fagsakSearch.css';
 import PersonInfo from './person/PersonInfo';
 
 interface OwnProps {

@@ -7,7 +7,7 @@ import { FeltverdiOppgavefilter, Oppgavefelt, TolkesSom } from 'filter/filterTsT
 import { aksjonspunktKoder } from 'filter/konstanter';
 import { updateFilter } from 'filter/queryUtils';
 import { OPERATORS, calculateDays, mapBooleanToStringArray, mapStringToBooleanArray } from 'filter/utils';
-import * as styles from '../filterIndex.css';
+import styles from '../filterIndex.css';
 import MultiSelectKriterie from './MultiSelectKriterie';
 
 const useChangeValue = (oppgavefilter, updateQuery) => (value) => {

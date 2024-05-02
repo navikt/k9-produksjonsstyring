@@ -1,7 +1,7 @@
 import React from 'react';
 import classnames from 'classnames/bind';
 import PropTypes from 'prop-types';
-import * as styles from './flexContainer.css';
+import styles from './flexContainer.css';
 
 const classNames = classnames.bind(styles);
 

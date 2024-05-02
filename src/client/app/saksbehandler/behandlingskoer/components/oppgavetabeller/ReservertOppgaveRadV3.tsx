@@ -19,7 +19,7 @@ import OppgaveV3 from 'types/OppgaveV3';
 import { getDateAndTime } from 'utils/dateUtils';
 import DateLabel from 'sharedComponents/DateLabel';
 import ReservasjonMeny from '../menu/ReservasjonMeny';
-import * as styles from './oppgaverTabell.css';
+import styles from './oppgaverTabell.css';
 
 // Update the path as necessary
 

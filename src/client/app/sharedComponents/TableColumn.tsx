@@ -1,7 +1,7 @@
 import React from 'react';
 import classnames from 'classnames/bind';
 import PropTypes from 'prop-types';
-import * as styles from './tableColumn.css';
+import styles from './tableColumn.css';
 
 const classNames = classnames.bind(styles);
 

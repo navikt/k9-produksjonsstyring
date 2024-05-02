@@ -1,6 +1,6 @@
 import React, { FunctionComponent, ReactNode } from 'react';
 import { Normaltekst, Undertekst } from 'nav-frontend-typografi';
-import * as styles from './labelWithHeader.css';
+import styles from './labelWithHeader.css';
 
 interface OwnProps {
 	header: string | ReactNode;

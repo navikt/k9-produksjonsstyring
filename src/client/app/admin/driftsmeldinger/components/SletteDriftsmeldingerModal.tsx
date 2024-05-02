@@ -7,7 +7,7 @@ import { Normaltekst } from 'nav-frontend-typografi';
 import Image from 'sharedComponents/Image';
 import Modal from 'sharedComponents/Modal';
 import { Driftsmelding } from '../driftsmeldingTsType';
-import * as styles from './sletteDriftsmeldingerModal.css';
+import styles from './sletteDriftsmeldingerModal.css';
 
 type TsProps = Readonly<{
 	valgtDriftsmelding: Driftsmelding;

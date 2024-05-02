@@ -5,7 +5,7 @@ import useGlobalStateRestApiData from 'api/rest-api-hooks/src/global-data/useGlo
 import BehandlingskoerIndex from '../behandlingskoer/BehandlingskoerIndex';
 import FagsakSearchIndex from '../fagsakSearch/FagsakSearchIndex';
 import SaksstotteIndex from '../saksstotte/SaksstotteIndex';
-import * as styles from './saksbehandlerDashboard.css';
+import styles from './saksbehandlerDashboard.css';
 
 /**
  * SaksbehandlerDashboard

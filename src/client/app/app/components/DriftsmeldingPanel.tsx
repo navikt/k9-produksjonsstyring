@@ -6,7 +6,7 @@ import { Undertekst } from 'nav-frontend-typografi';
 import Image from 'sharedComponents/Image';
 import { DD_MM_HHMM } from 'utils/formats';
 import { Driftsmelding } from '../../admin/driftsmeldinger/driftsmeldingTsType';
-import * as styles from './driftsmeldingPanel.css';
+import styles from './driftsmeldingPanel.css';
 
 interface OwnProps {
 	driftsmeldinger: Driftsmelding[];

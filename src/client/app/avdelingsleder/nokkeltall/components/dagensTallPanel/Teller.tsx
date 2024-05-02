@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import * as styles from './teller.css';
+import styles from './teller.css';
 
 interface OwnProps {
 	forklaring: string;

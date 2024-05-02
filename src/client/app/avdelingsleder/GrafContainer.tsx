@@ -5,7 +5,7 @@ import Hjelpetekst from 'nav-frontend-hjelpetekst';
 import { Heading, Panel, Select } from '@navikt/ds-react';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import { lagreTilLocalStorageCallback } from 'utils/localStorageHelper';
-import * as styles from './grafContainer.css';
+import styles from './grafContainer.css';
 import { fremtidigeUker, uker, ytelseTyper } from './nokkeltall/nokkeltallUtils';
 
 interface OwnProps {

@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 import { Oppgave } from 'saksbehandler/oppgaveTsType';
 import Image from 'sharedComponents/Image';
 import Modal from 'sharedComponents/Modal';
-import * as styles from './reserverOppgaveModal.css';
+import styles from './reserverOppgaveModal.css';
 
 type TsProps = Readonly<{
 	cancel: (oppgave: Oppgave, selectOppgaveCallback) => void;

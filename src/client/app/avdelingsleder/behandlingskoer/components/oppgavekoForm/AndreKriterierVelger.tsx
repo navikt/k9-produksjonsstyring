@@ -7,7 +7,7 @@ import { CheckboxField, RadioGroupField, RadioOption } from 'form/FinalFields';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
 import ArrowBox from 'sharedComponents/ArrowBox';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
-import * as styles from './andreKriterierVelger.css';
+import styles from './andreKriterierVelger.css';
 
 interface OwnProps {
 	valgtOppgavekoId: string;

@@ -2,7 +2,7 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import Panel from 'nav-frontend-paneler';
 import { Undertittel } from 'nav-frontend-typografi';
-import * as styles from './ikkeTilgangTilKode6AvdelingPanel.css';
+import styles from './ikkeTilgangTilKode6AvdelingPanel.css';
 
 /**
  * IkkeTilgangTilKode6AvdelingPanel

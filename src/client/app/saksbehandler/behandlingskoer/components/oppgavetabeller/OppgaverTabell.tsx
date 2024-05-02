@@ -17,7 +17,7 @@ import TableColumn from 'sharedComponents/TableColumn';
 import TableRow from 'sharedComponents/TableRow';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import { getDateAndTime } from 'utils/dateUtils';
-import * as styles from './oppgaverTabell.css';
+import styles from './oppgaverTabell.css';
 
 interface OwnProps {
 	valgtKo: OppgavekøV1 | OppgavekøV3MedNavn;

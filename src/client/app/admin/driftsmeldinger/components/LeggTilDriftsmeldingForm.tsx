@@ -10,7 +10,7 @@ import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import { FlexColumn, FlexContainer, FlexRow } from 'sharedComponents/flexGrid';
 import { hasValidEmailFormat } from 'utils/validation/validators';
 import { Driftsmelding } from '../driftsmeldingTsType';
-import * as styles from './leggTilDriftsmeldingForm.css';
+import styles from './leggTilDriftsmeldingForm.css';
 
 /**
  * LeggTilDriftsmeldingForm

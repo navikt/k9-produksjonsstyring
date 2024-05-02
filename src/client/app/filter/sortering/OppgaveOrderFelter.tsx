@@ -6,7 +6,7 @@ import AppContext from 'app/AppContext';
 import { FilterContext } from 'filter/FilterContext';
 import { addSortering, removeSortering, updateSortering } from 'filter/queryUtils';
 import { feltverdiKey, kodeFraKey, områdeFraKey } from '../utils';
-import * as styles from './OppgaveOrderFelter.css';
+import styles from './OppgaveOrderFelter.css';
 
 const OppgaveOrderFelter = () => {
 	const { felter } = useContext(AppContext);

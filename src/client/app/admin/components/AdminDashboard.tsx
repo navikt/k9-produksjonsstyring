@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import * as styles from './adminDashboard.css';
+import styles from './adminDashboard.css';
 
 type TsProps = Readonly<{
 	children: React.ReactNode;

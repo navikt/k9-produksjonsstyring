@@ -14,7 +14,7 @@ import kodeverkTyper from 'kodeverk/kodeverkTyper';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import { getKodeverkFraKode, getKodeverknavnFraKode } from 'utils/kodeverkUtils';
 import punsjBehandlingstyper from '../../../../types/PunsjBehandlingstyper';
-import * as styles from './utvalgskriterierForOppgavekoForm.css';
+import styles from './utvalgskriterierForOppgavekoForm.css';
 
 const behandlingstypeOrder = Object.values(behandlingType);
 

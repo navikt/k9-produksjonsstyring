@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl';
 import { Normaltekst } from 'nav-frontend-typografi';
 import PropTypes from 'prop-types';
 import DateLabel from 'sharedComponents/DateLabel';
-import * as styles from './aldervisning.css';
+import styles from './aldervisning.css';
 
 interface TsProps {
 	doedsdato?: string;

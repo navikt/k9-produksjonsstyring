@@ -11,7 +11,7 @@ import { FlexColumn } from 'sharedComponents/flexGrid';
 import { DDMMYYYY_DATE_FORMAT } from 'utils/formats';
 import { getKodeverknavnFraKode } from 'utils/kodeverkUtils';
 import { OppgavekøV1 } from '../oppgavekoTsType';
-import * as styles from './oppgavekoVelgerForm.css';
+import styles from './oppgavekoVelgerForm.css';
 
 const getStonadstyper = (intl: IntlShape, alleKodeverk: AlleKodeverk, oppgaveko?: OppgavekøV1) =>
 	oppgaveko && oppgaveko.fagsakYtelseTyper.length > 0

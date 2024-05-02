@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import { ErrorMessage } from '@navikt/ds-react';
 import Image from 'sharedComponents/Image';
 import Modal from 'sharedComponents/Modal';
-import * as styles from './modalMedIkon.css';
+import styles from './modalMedIkon.css';
 
 type TsProps = Readonly<{
 	cancel: () => void;

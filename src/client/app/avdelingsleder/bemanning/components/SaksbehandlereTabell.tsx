@@ -8,7 +8,7 @@ import { AvdelingslederContext } from 'avdelingsleder/context';
 import Image from 'sharedComponents/Image';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import saksbehandlereGra from '../../../../images/saksbehandlereGra.svg';
-import * as styles from './saksbehandlereTabell.css';
+import styles from './saksbehandlereTabell.css';
 
 /**
  * SaksbehandlereTabell

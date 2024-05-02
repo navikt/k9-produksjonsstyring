@@ -10,7 +10,7 @@ import SaksbehandlerIndex from 'saksbehandler/SaksbehandlerIndex';
 import AdminIndex from '../../admin/AdminIndex';
 import FilterIndex from '../../filter/FilterIndex';
 import MissingPage from './MissingPage';
-import * as styles from './home.css';
+import styles from './home.css';
 
 interface OwnProps {
 	headerHeight: number;

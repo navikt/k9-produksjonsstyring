@@ -33,7 +33,7 @@ import LoadingPanel from 'sharedComponents/LoadingPanel';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import { avdelingslederTilgangTilNyeKoer } from 'app/envVariablesUtils';
 import { parseQueryString } from 'utils/urlUtils';
-import * as styles from './avdelingslederIndex.css';
+import styles from './avdelingslederIndex.css';
 import AvdelingslederPanels from './avdelingslederPanels';
 import EndreBehandlingskoerIndex from './behandlingskoer/EndreBehandlingskoerIndex';
 import BehandlingskoerIndex from './behandlingskoerV3/BehandlingskoerIndex';

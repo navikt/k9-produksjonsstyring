@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import EditedIcon from 'sharedComponents/EditedIcon';
 import { FlexColumn, FlexContainer, FlexRow } from 'sharedComponents/flexGrid';
 import { range } from 'utils/arrayUtils';
-import * as styles from './optionGrid.css';
+import styles from './optionGrid.css';
 
 export const OptionGrid = ({ id, columns, rows, options, spaceBetween, isEdited, direction }) => {
 	if (direction === 'vertical') {

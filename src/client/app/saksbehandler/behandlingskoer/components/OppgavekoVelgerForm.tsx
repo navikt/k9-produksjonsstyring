@@ -20,7 +20,7 @@ import { Saksbehandler } from '../saksbehandlerTsType';
 import { erKoV3, getKoId } from '../utils';
 import OldOppsummeringAvKø from './OldOppsummeringAvKø';
 import OppsummeringAvKø from './OppusmmeringAvKø';
-import * as styles from './oppgavekoVelgerForm.css';
+import styles from './oppgavekoVelgerForm.css';
 
 interface OwnProps {
 	plukkNyOppgave: () => void;

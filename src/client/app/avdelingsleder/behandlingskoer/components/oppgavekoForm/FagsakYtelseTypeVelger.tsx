@@ -8,7 +8,7 @@ import { CheckboxField } from 'form/FinalFields';
 import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
-import * as styles from './utvalgskriterierForOppgavekoForm.css';
+import styles from './utvalgskriterierForOppgavekoForm.css';
 
 const finnFagsakYtelseTypeNavn = (fagsakYtelseTyper, valgtFagsakYtelseType) => {
 	const type = fagsakYtelseTyper.find((fyt) => fyt.kode === valgtFagsakYtelseType);

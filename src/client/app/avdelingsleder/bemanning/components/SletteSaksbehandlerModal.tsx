@@ -5,7 +5,7 @@ import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
 import { Normaltekst } from 'nav-frontend-typografi';
 import Modal from 'sharedComponents/Modal';
 import { Saksbehandler } from '../saksbehandlerTsType';
-import * as styles from './sletteSaksbehandlerModal.css';
+import styles from './sletteSaksbehandlerModal.css';
 
 type OwnProps = Readonly<{
 	valgtSaksbehandler: Saksbehandler;

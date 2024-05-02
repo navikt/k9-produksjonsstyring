@@ -1,7 +1,7 @@
 import React, { Node } from 'react';
 import { Undertekst } from 'nav-frontend-typografi';
 import PropTypes from 'prop-types';
-import * as styles from './menuButton.css';
+import styles from './menuButton.css';
 
 type TsProps = Readonly<{
 	onClick: () => void;

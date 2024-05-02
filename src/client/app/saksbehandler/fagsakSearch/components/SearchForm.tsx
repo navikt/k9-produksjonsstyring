@@ -12,7 +12,7 @@ import Image from 'sharedComponents/Image';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import { FlexColumn, FlexContainer, FlexRow } from 'sharedComponents/flexGrid';
 import { hasValidSaksnummerOrFodselsnummerFormat } from 'utils/validation/validators';
-import * as styles from './searchForm.css';
+import styles from './searchForm.css';
 
 const isButtonDisabled = (
 	searchString: string,

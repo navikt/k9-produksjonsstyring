@@ -2,7 +2,7 @@ import React from 'react';
 import { Combobox, ComboboxInput } from '@reach/combobox';
 import { Search } from '@navikt/ds-icons';
 import { BodyShort, Label } from '@navikt/ds-react';
-import * as styles from './searchWithDropdown.css';
+import styles from './searchWithDropdown.css';
 
 interface SearchFormProps {
 	label: string;

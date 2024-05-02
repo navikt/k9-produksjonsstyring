@@ -15,7 +15,7 @@ import { useGlobalStateRestApiData } from 'api/rest-api-hooks';
 import useRestApi from 'api/rest-api-hooks/src/local-data/useRestApi';
 import { Driftsmelding } from '../../admin/driftsmeldinger/driftsmeldingTsType';
 import ErrorMessagePanel from './ErrorMessagePanel';
-import * as styles from './headerWithErrorPanel.css';
+import styles from './headerWithErrorPanel.css';
 
 interface OwnProps {
 	queryStrings: {

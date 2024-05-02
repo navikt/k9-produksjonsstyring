@@ -8,7 +8,7 @@ import { Saksbehandler } from 'avdelingsleder/bemanning/saksbehandlerTsType';
 import { CheckboxField } from 'form/FinalFields';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import { Oppgaveko } from '../../oppgavekoTsType';
-import * as styles from './saksbehandlereForOppgavekoForm.css';
+import styles from './saksbehandlereForOppgavekoForm.css';
 
 interface OwnProps {
 	valgtOppgaveko: Oppgaveko;

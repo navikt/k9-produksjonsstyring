@@ -13,7 +13,7 @@ import useGlobalStateRestApiData from 'api/rest-api-hooks/src/global-data/useGlo
 import LoadingPanel from 'sharedComponents/LoadingPanel';
 import { parseQueryString } from 'utils/urlUtils';
 import AdminPanels from './AdminPanels';
-import * as styles from './adminIndex.css';
+import styles from './adminIndex.css';
 import AdminDashboard from './components/AdminDashboard';
 import IkkeTilgangTilAvdelingslederPanel from './components/IkkeTilgangTilAvdelingslederPanel';
 import EndreDriftsmeldingerIndex from './driftsmeldinger/EndreDriftsmeldingerIndex';

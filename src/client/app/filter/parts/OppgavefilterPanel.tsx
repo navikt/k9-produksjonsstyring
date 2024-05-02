@@ -4,7 +4,7 @@ import { Delete } from '@navikt/ds-icons';
 import { Button, Heading, Label, Panel, ToggleGroup } from '@navikt/ds-react';
 import { FilterContext } from 'filter/FilterContext';
 import { addFilter, addGruppe, removeFilter, updateFilter } from 'filter/queryUtils';
-import * as styles from '../filterIndex.css';
+import styles from '../filterIndex.css';
 import { CombineOppgavefilter, FeltverdiOppgavefilter, OppgaveQuery, OppgavefilterKode } from '../filterTsTypes';
 import FeltverdiOppgavefilterPanel from './FeltverdiOppgavefilterPanel/FeltverdiOppgavefilterPanel';
 import Kriterie from './Kriterie';

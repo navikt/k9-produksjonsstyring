@@ -2,7 +2,7 @@ import React, { FunctionComponent } from 'react';
 import { FormattedMessage } from 'react-intl';
 import classnames from 'classnames';
 import { WarningColored } from '@navikt/ds-icons';
-import * as styles from './oppgaverTabellMenyAntallOppgaver.css';
+import styles from './oppgaverTabellMenyAntallOppgaver.css';
 
 interface OwnProps {
 	antallOppgaver: number;
