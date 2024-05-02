@@ -5,7 +5,7 @@ import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
 import { Normaltekst } from 'nav-frontend-typografi';
 import Modal from 'sharedComponents/Modal';
 import { Oppgaveko } from '../oppgavekoTsType';
-import styles from './sletteOppgavekoModal.css';
+import * as styles from './sletteOppgavekoModal.css';
 
 type TsProps = Readonly<{
 	intl: any;

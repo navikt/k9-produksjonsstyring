@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import styles from './enkelTeller.css';
+import * as styles from './enkelTeller.css';
 
 interface OwnProps {
 	antall: number;

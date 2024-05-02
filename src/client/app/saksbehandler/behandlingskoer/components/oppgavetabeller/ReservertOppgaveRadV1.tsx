@@ -16,7 +16,7 @@ import Image from 'sharedComponents/Image';
 import { OppgaveNøkkel } from 'types/OppgaveNøkkel';
 import { getDateAndTime } from 'utils/dateUtils';
 import OppgaveHandlingerMenu from '../menu/OppgaveHandlingerMenu';
-import styles from './oppgaverTabell.css';
+import * as styles from './oppgaverTabell.css';
 
 // Update the path as necessary
 

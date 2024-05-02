@@ -23,7 +23,7 @@ import {
 	required,
 } from 'utils/validation/validators';
 import { Saksbehandler } from '../../saksbehandlerTsType';
-import styles from './flyttReservasjonModal.css';
+import * as styles from './flyttReservasjonModal.css';
 
 const minLength3 = minLength(3);
 const maxLength1500 = maxLength(1500);

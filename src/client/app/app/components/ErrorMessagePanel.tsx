@@ -5,7 +5,7 @@ import Lukknapp from 'nav-frontend-lukknapp';
 import { Undertekst } from 'nav-frontend-typografi';
 import EventType from 'api/rest-api/src/requestApi/eventType';
 import decodeHtmlEntity from 'utils/decodeHtmlEntityUtils';
-import styles from './errorMessagePanel.css';
+import * as styles from './errorMessagePanel.css';
 
 export const getErrorMessageList = (
 	intl: IntlShape,

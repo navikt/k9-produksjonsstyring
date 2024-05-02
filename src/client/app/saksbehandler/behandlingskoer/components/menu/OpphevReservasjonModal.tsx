@@ -11,7 +11,7 @@ import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner
 import { TextAreaField } from 'form/FinalFields';
 import Modal from 'sharedComponents/Modal';
 import { hasValidText, maxLength, minLength, required } from 'utils/validation/validators';
-import styles from './opphevReservasjonModal.css';
+import * as styles from './opphevReservasjonModal.css';
 
 const minLength3 = minLength(3);
 const maxLength1500 = maxLength(1500);

@@ -6,7 +6,7 @@ import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner
 import { Oppgaveko } from 'avdelingsleder/behandlingskoer/oppgavekoTsType';
 import { RadioGroupField, RadioOption } from 'form/FinalFields';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
-import styles from './utvalgskriterierForOppgavekoForm.css';
+import * as styles from './utvalgskriterierForOppgavekoForm.css';
 
 interface OwnProps {
 	valgtOppgaveko: Oppgaveko;

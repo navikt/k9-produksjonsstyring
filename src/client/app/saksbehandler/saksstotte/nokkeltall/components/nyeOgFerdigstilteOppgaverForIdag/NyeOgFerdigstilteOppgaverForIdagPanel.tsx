@@ -19,7 +19,7 @@ import kodeverkTyper from 'kodeverk/kodeverkTyper';
 import NyeOgFerdigstilteOppgaverForIdagGraf from 'saksbehandler/saksstotte/nokkeltall/components/nyeOgFerdigstilteOppgaverForIdag/NyeOgFerdigstilteOppgaverForIdagGraf';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import { ISO_DATE_FORMAT } from 'utils/formats';
-import styles from '../nyeOgFerdigstilteOppgaverFelles.css';
+import * as styles from '../nyeOgFerdigstilteOppgaverFelles.css';
 import NyeOgFerdigstilteOppgaver, { fagytelsetyperForOppgaveFiltrering } from '../nyeOgFerdigstilteOppgaverTsType';
 
 export const getNyeOgFerdigstilteForIDag = (nyeOgFerdigstilte: NyeOgFerdigstilteOppgaver[] = []) => {

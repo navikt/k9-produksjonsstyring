@@ -2,7 +2,7 @@ import React from 'react';
 import { ComboboxList, ComboboxPopover } from '@reach/combobox';
 import { Button, Checkbox } from '@navikt/ds-react';
 import SelectCheckbox from '../SelectCheckbox';
-import styles from './searchWithDropdown.css';
+import * as styles from './searchWithDropdown.css';
 
 const SuggestionList = ({
 	groups,

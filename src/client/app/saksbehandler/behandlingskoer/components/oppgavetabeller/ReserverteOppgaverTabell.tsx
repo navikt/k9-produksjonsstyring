@@ -21,7 +21,7 @@ import kopanelStyles from '../oppgavekoPanel.css';
 import OppgaveTabellMenyAntallOppgaver from './OppgaveTabellMenyAntallOppgaver';
 import ReservertOppgaveRadV1 from './ReservertOppgaveRadV1';
 import ReservertOppgaveRadV3 from './ReservertOppgaveRadV3';
-import styles from './oppgaverTabell.css';
+import * as styles from './oppgaverTabell.css';
 
 interface OwnProps {
 	apneOppgave: (oppgave: Oppgave) => void;

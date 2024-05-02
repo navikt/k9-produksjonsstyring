@@ -15,7 +15,7 @@ import ReservasjonV3, {
 } from 'saksbehandler/behandlingskoer/ReservasjonV3Dto';
 import { getKodeverknavnFraKode } from 'utils/kodeverkUtils';
 import useGlobalStateRestApiData from '../../../api/rest-api-hooks/src/global-data/useGlobalStateRestApiData';
-import styles from './reservasjonerTabell.css';
+import * as styles from './reservasjonerTabell.css';
 import ReservasjonRowExpandableContent from './ReservasjonRowExpandableContent';
 
 const sorterMedReservertAv = (reservasjonerListe: MappedReservasjon[]) =>

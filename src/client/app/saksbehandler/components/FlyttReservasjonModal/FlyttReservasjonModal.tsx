@@ -11,7 +11,7 @@ import Image from 'sharedComponents/Image';
 import Modal from 'sharedComponents/Modal';
 import useGlobalStateRestApiData from '../../../api/rest-api-hooks/src/global-data/useGlobalStateRestApiData';
 import useRestApiRunner from '../../../api/rest-api-hooks/src/local-data/useRestApiRunner';
-import styles from './flyttReservasjonsmodal.css';
+import * as styles from './flyttReservasjonsmodal.css';
 
 interface OwnProps {
 	oppgave: Oppgave;
