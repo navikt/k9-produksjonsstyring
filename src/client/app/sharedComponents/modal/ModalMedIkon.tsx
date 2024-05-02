@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import { ErrorMessage } from '@navikt/ds-react';
 import Image from 'sharedComponents/Image';
 import Modal from 'sharedComponents/Modal';
-import styles from './modalMedIkon.css';
+import * as styles from './modalMedIkon.css';
 
 type TsProps = Readonly<{
 	cancel: () => void;
@@ -24,7 +24,7 @@ type TsProps = Readonly<{
 }>;
 
 const ModalMedIkon = ({ cancel, submit, tekst, ikonUrl, ikonAlt, errorMessage }: TsProps) => (
-	<Modal className={styles.modal} closeButton={false} isOpen onRequestClose={cancel}>
+	<Modal closeButton={false} isOpen onRequestClose={cancel}>
 		<div className={classnames(styles.row, styles.container)}>
 			<div>
 				<Image className={styles.image} alt={ikonAlt} src={ikonUrl} />

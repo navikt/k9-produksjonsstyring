@@ -8,7 +8,7 @@ import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import { FlexColumn, FlexContainer, FlexRow } from 'sharedComponents/flexGrid';
 import { DDMMYYYY_DATE_FORMAT, ISO_DATE_FORMAT } from 'utils/formats';
 import { hasValidDate } from 'utils/validation/validators';
-import styles from './sorteringVelger.css';
+import * as styles from './sorteringVelger.css';
 
 const getLagreDatoFn =
 	(lagreOppgavekoSorteringTidsintervallDato, valgtOppgavekoId, annenDato, erFomDato, hentKo) => (e) => {

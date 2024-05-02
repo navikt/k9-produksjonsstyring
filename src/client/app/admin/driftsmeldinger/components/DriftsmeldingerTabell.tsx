@@ -13,7 +13,7 @@ import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import { getDateAndTime } from 'utils/dateUtils';
 import { Driftsmelding } from '../driftsmeldingTsType';
 import SletteDriftsmeldingerModal from './SletteDriftsmeldingerModal';
-import styles from './driftsmeldingerTabell.css';
+import * as styles from './driftsmeldingerTabell.css';
 
 const headerTextCodes = ['DriftsmeldingTabell.Tekst', 'DriftsmeldingTabell.Aktiv', 'DriftsmeldingTabell.Dato'];
 

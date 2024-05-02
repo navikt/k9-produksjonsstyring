@@ -10,7 +10,6 @@ import SaksbehandlerIndex from 'saksbehandler/SaksbehandlerIndex';
 import AdminIndex from '../../admin/AdminIndex';
 import FilterIndex from '../../filter/FilterIndex';
 import MissingPage from './MissingPage';
-import styles from './home.css';
 
 interface OwnProps {
 	headerHeight: number;
@@ -28,7 +27,7 @@ const Home: FunctionComponent<OwnProps> = ({ headerHeight }) => {
 	const contextValues = useMemo(() => ({ felter: data ? data.felter : [] }), [data]);
 
 	return (
-		<div className={styles.content} style={{ margin: `${headerHeight + 10}px auto 0` }}>
+		<div style={{ margin: `${headerHeight + 10}px auto 0` }}>
 			<AppContext.Provider value={contextValues}>
 				<SentryRoutes>
 					<Route path="/filter" element={<FilterIndex tittel="Søk på oppgaver" visningV3 />} />

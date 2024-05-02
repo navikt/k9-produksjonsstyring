@@ -20,7 +20,7 @@ import FagsakYtelseTypeVelger from './FagsakYtelseTypeVelger';
 import MerknadVelger from './MerknadVelger';
 import OppgaveKoKriterieVelger from './OppgaveKøKriterieVelger';
 import SorteringVelger from './SorteringVelger';
-import styles from './utvalgskriterierForOppgavekoForm.css';
+import * as styles from './utvalgskriterierForOppgavekoForm.css';
 
 const minLength3 = minLength(3);
 const maxLength100 = maxLength(100);
@@ -157,7 +157,7 @@ export const UtvalgskriterierForOppgavekoForm: FunctionComponent<OwnProps & Wrap
 								<Normaltekst className={styles.header}>
 									<FormattedMessage id="UtvalgskriterierForOppgavekoForm.Saksbehandlere" />
 								</Normaltekst>
-								<hr className={styles.line1} />
+								<hr />
 								<SaksbehandlereForOppgavekoForm
 									valgtOppgaveko={valgtOppgaveko}
 									alleSaksbehandlere={alleSaksbehandlere}

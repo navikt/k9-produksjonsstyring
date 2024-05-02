@@ -10,7 +10,7 @@ import AlleKodeverk from 'kodeverk/alleKodeverkTsType';
 import behandlingType from 'kodeverk/behandlingType';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
 import { getKodeverkFraKode, getKodeverknavnFraKode } from 'utils/kodeverkUtils';
-import styles from './dagensTallPanel.css';
+import * as styles from './dagensTallPanel.css';
 
 interface OwnProps {
 	totaltIdag: number;
@@ -73,7 +73,7 @@ const DagensTallPanel: FunctionComponent<OwnProps & WrappedComponentProps> = ({ 
 	};
 
 	return (
-		<div className={styles.dagensTallContainer}>
+		<div>
 			<Normaltekst className={styles.header}>Status</Normaltekst>
 			<div className={styles.container}>
 				<EnkelTeller antall={totaltIdag} tekst="Åpne behandlinger" />

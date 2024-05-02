@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import styles from './enkelTeller.css';
+import * as styles from './enkelTeller.css';
 
 interface OwnProps {
 	antall: number;
@@ -7,8 +7,8 @@ interface OwnProps {
 }
 const EnkelTeller: FunctionComponent<OwnProps> = ({ antall, tekst }) => (
 	<div className={styles.frame}>
-		<div className={styles.container}>
-			<div className={styles.venstre}>
+		<div>
+			<div>
 				<p className={styles.number}>{antall}</p>
 			</div>
 			<hr className={styles.line} />

@@ -6,7 +6,7 @@ import { Undertekst, Undertittel } from 'nav-frontend-typografi';
 import Image from 'sharedComponents/Image';
 import Person from '../../personTsType';
 import AlderVisning from './Aldervisning';
-import styles from './personInfo.css';
+import * as styles from './personInfo.css';
 
 interface OwnProps {
 	person: Person;

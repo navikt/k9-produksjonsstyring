@@ -9,7 +9,7 @@ import Oppgave from 'saksbehandler/oppgaveTsType';
 import Image from 'sharedComponents/Image';
 import Modal from 'sharedComponents/Modal';
 import { getDateAndTime } from 'utils/dateUtils';
-import styles from './oppgaveErReservertAvAnnenModal.css';
+import * as styles from './oppgaveErReservertAvAnnenModal.css';
 
 type OwnProps = Readonly<{
 	lukkErReservertModalOgOpneOppgave: (oppgave: Oppgave) => void;
@@ -64,7 +64,7 @@ export const OppgaveErReservertAvAnnenModal: FunctionComponent<OwnProps & Wrappe
 		</Row>
 		<Row>
 			<div className={styles.knappContainer}>
-				<Knapp className={styles.tilbakeButton} mini htmlType="button" onClick={() => lukkModal()} autoFocus>
+				<Knapp mini htmlType="button" onClick={() => lukkModal()} autoFocus>
 					{intl.formatMessage({ id: 'OppgaveErReservertAvAnnenModal.GåTilKøen' })}
 				</Knapp>
 				<Hovedknapp

@@ -8,7 +8,7 @@ import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import FlyttReservasjonModal from './FlyttReservasjonModal';
 import MenuButton from './MenuButton';
 import OpphevReservasjonModal from './OpphevReservasjonModal';
-import styles from './oppgaveHandlingerMenu.css';
+import * as styles from './oppgaveHandlingerMenu.css';
 
 const toggleEventListeners = (turnOnEventListeners, handleOutsideClick) => {
 	if (turnOnEventListeners) {

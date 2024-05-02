@@ -2,7 +2,7 @@ import React, { FunctionComponent } from 'react';
 import { Normaltekst } from 'nav-frontend-typografi';
 import EditedIcon from 'sharedComponents/EditedIcon';
 import Label, { LabelType } from './Label';
-import styles from './readOnlyField.css';
+import * as styles from './readOnlyField.css';
 
 const hasValue = (value) => value !== undefined && value !== null && value !== '';
 

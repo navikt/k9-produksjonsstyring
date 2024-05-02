@@ -6,7 +6,7 @@ import { Textarea as NavTextarea } from 'nav-frontend-skjema';
 import { LabelType } from './Label';
 import ReadOnlyField from './ReadOnlyField';
 import renderNavField from './renderNavField';
-import styles from './textAreaField.css';
+import * as styles from './textAreaField.css';
 
 const composeValidators = (validators) => (value) =>
 	validators ? validators.reduce((error, validator) => error || validator(value), undefined) : [];

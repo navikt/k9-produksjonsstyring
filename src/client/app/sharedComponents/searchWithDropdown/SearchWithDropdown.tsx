@@ -6,7 +6,7 @@ import Merkelapp from '../merkelapp/Merkelapp';
 import Merkelapper from '../merkelapp/Merkelapper';
 import SearchForm from './SearchForm';
 import SuggestionList from './SuggestionList';
-import styles from './searchWithDropdown.css';
+import * as styles from './searchWithDropdown.css';
 
 interface SuggestionsType {
 	label: string;

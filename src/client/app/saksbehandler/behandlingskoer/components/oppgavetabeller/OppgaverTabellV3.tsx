@@ -4,7 +4,7 @@ import { getHeaderCodes } from 'saksbehandler/behandlingskoer/components/oppgave
 import Table from 'sharedComponents/Table';
 import TableColumn from 'sharedComponents/TableColumn';
 import TableRow from 'sharedComponents/TableRow';
-import styles from './oppgaverTabell.css';
+import * as styles from './oppgaverTabell.css';
 
 interface OwnProps {
 	oppgaver: OppgaveV3[];

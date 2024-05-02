@@ -18,7 +18,7 @@ import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import addCircle from '../../../../images/add-circle-bla.svg';
 import { Oppgaveko } from '../oppgavekoTsType';
 import SletteOppgavekoModal from './SletteOppgavekoModal';
-import styles from './gjeldendeOppgavekoerTabell.css';
+import * as styles from './gjeldendeOppgavekoerTabell.css';
 
 const headerTextCodes = [
 	'GjeldendeOppgavekoerTabell.Listenavn',

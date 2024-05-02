@@ -4,7 +4,7 @@ import { useFormik } from 'formik';
 import { Undertekst } from 'nav-frontend-typografi';
 import { TextField } from '@navikt/ds-react';
 import ArrowBox from 'sharedComponents/ArrowBox';
-import styles from './utvalgskriterierForOppgavekoForm.css';
+import * as styles from './utvalgskriterierForOppgavekoForm.css';
 
 const validate = (values) => {
 	const errors: {

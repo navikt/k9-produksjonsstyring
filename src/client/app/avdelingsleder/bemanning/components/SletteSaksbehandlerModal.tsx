@@ -5,7 +5,7 @@ import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
 import { Normaltekst } from 'nav-frontend-typografi';
 import Modal from 'sharedComponents/Modal';
 import { Saksbehandler } from '../saksbehandlerTsType';
-import styles from './sletteSaksbehandlerModal.css';
+import * as styles from './sletteSaksbehandlerModal.css';
 
 type OwnProps = Readonly<{
 	valgtSaksbehandler: Saksbehandler;
@@ -40,18 +40,12 @@ const SletteSaksbehandlerModal: FunctionComponent<OwnProps & WrappedComponentPro
 		</div>
 		<div className={styles.buttons}>
 			<Column>
-				<Knapp className={styles.cancelButton} mini htmlType="reset" onClick={closeSletteModal}>
+				<Knapp mini htmlType="reset" onClick={closeSletteModal}>
 					{intl.formatMessage({ id: 'SletteSaksbehandlerModal.Nei' })}
 				</Knapp>
 			</Column>
 			<Column xs="4">
-				<Hovedknapp
-					className={styles.submitButton}
-					mini
-					htmlType="submit"
-					onClick={() => fjernSaksbehandler(valgtSaksbehandler.epost)}
-					autoFocus
-				>
+				<Hovedknapp mini htmlType="submit" onClick={() => fjernSaksbehandler(valgtSaksbehandler.epost)} autoFocus>
 					{intl.formatMessage({ id: 'SletteSaksbehandlerModal.Ja' })}
 				</Hovedknapp>
 			</Column>

@@ -22,7 +22,7 @@ import { ISO_DATE_FORMAT } from 'utils/formats';
 import { getKodeverknavnFraKode } from 'utils/kodeverkUtils';
 import { getValueFromLocalStorage, lagreTilLocalStorageCallback } from 'utils/localStorageHelper';
 import Teller from './Teller';
-import styles from './inngangOgFerdigstiltePanel.css';
+import * as styles from './inngangOgFerdigstiltePanel.css';
 
 export const slaSammenLikeBehandlingstyper = (oppgaver) => {
 	const sammenslatte = [];

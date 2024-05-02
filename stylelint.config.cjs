@@ -1,5 +1,5 @@
 module.exports = {
-	extends: ['stylelint-config-standard', 'stylelint-config-prettier', '@navikt/aksel-stylelint/recommended'],
+	extends: ['stylelint-config-prettier', '@navikt/aksel-stylelint/recommended'],
 	customSyntax: 'postcss-less',
 	rules: {
 		'selector-class-pattern': null,
