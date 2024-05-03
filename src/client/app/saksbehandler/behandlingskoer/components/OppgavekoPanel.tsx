@@ -42,7 +42,6 @@ const OppgavekoPanel: FunctionComponent<OwnProps> = ({ apneOppgave }) => {
 		leggTilBehandletOppgave(oppgave.oppgaveNøkkelDto);
 		window.location.assign(oppgave.oppgavebehandlingsUrl);
 	});
-	console.log(restApiState);
 
 	useEffect(() => {
 		if (
