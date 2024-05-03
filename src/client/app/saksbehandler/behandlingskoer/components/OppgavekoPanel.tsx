@@ -27,6 +27,7 @@ interface OwnProps {
  */
 const OppgavekoPanel: FunctionComponent<OwnProps> = ({ apneOppgave }) => {
 	const [visBehandlingerIKo, setVisBehandlingerIKo] = useState<boolean>(false);
+	const [loadingOppgaveFraKo, setLoadingOppgaveFraKo] = useState<boolean>(false);
 	const { valgtOppgavekoId, oppgavekoer } = useContext(BehandlingskoerContext);
 	const [visFinnesIngenBehandlingerIKoModal, setVisFinnesIngenBehandlingerIKoModal] = useState<boolean>(false);
 	const { startRequest: leggTilBehandletOppgave } = useRestApiRunner(K9LosApiKeys.LEGG_TIL_BEHANDLET_OPPGAVE);
@@ -41,6 +42,7 @@ const OppgavekoPanel: FunctionComponent<OwnProps> = ({ apneOppgave }) => {
 		leggTilBehandletOppgave(oppgave.oppgaveNøkkelDto);
 		window.location.assign(oppgave.oppgavebehandlingsUrl);
 	});
+	console.log(restApiState);
 
 	useEffect(() => {
 		if (
@@ -62,10 +64,16 @@ const OppgavekoPanel: FunctionComponent<OwnProps> = ({ apneOppgave }) => {
 
 	const plukkNyOppgave = () => {
 		if (!erKoV3(valgtOppgavekoId)) {
-			fåOppgaveFraKo({ oppgaveKøId: getKoId(valgtOppgavekoId) }).then((reservertOppgave) => {
-				resetRequestData();
-				apneOppgave(reservertOppgave);
-			});
+			setLoadingOppgaveFraKo(true);
+			fåOppgaveFraKo({ oppgaveKøId: getKoId(valgtOppgavekoId) })
+				.then((reservertOppgave) => {
+					resetRequestData();
+					setLoadingOppgaveFraKo(false);
+					apneOppgave(reservertOppgave);
+				})
+				.catch(() => {
+					setLoadingOppgaveFraKo(false);
+				});
 			return;
 		}
 
@@ -79,10 +87,7 @@ const OppgavekoPanel: FunctionComponent<OwnProps> = ({ apneOppgave }) => {
 				<FormattedMessage id="OppgavekoPanel.StartBehandling" />
 			</Undertittel>
 			<VerticalSpacer sixteenPx />
-			<OppgavekoVelgerForm
-				plukkNyOppgave={plukkNyOppgave}
-				erRestApiKallLoading={restApiState === RestApiState.LOADING}
-			/>
+			<OppgavekoVelgerForm plukkNyOppgave={plukkNyOppgave} loadingOppgaveFraKo={loadingOppgaveFraKo} />
 			<VerticalSpacer twentyPx />
 			<div className={styles.behandlingskoerContainer}>
 				<ReserverteOppgaverTabell gjelderHastesaker apneOppgave={apneOppgave} />

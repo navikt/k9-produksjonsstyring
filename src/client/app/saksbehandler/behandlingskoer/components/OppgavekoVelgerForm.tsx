@@ -24,7 +24,7 @@ import * as styles from './oppgavekoVelgerForm.css';
 
 interface OwnProps {
 	plukkNyOppgave: () => void;
-	erRestApiKallLoading: boolean;
+	loadingOppgaveFraKo: boolean;
 }
 
 const createTooltip = (saksbehandlere: Saksbehandler[]): ReactNode | undefined => {
@@ -65,7 +65,7 @@ const getDefaultOppgaveko = (oppgavekoer: Array<OppgavekøV1 | OppgavekøV3MedNa
  * OppgavekoVelgerForm
  *
  */
-export const OppgavekoVelgerForm: FunctionComponent<OwnProps> = ({ plukkNyOppgave, erRestApiKallLoading }) => {
+export const OppgavekoVelgerForm: FunctionComponent<OwnProps> = ({ plukkNyOppgave, loadingOppgaveFraKo }) => {
 	const { oppgavekoer, valgtOppgavekoId, setValgtOppgavekoId } = useContext(BehandlingskoerContext);
 	const queryClient = useQueryClient();
 	const intl = useIntl();
@@ -120,7 +120,6 @@ export const OppgavekoVelgerForm: FunctionComponent<OwnProps> = ({ plukkNyOppgav
 		);
 	}
 
-	
 	return (
 		<div className={styles.oppgavevelgerform_container}>
 			<div className="flex">
@@ -148,8 +147,8 @@ export const OppgavekoVelgerForm: FunctionComponent<OwnProps> = ({ plukkNyOppgav
 					<Button
 						id="frode sin knapp"
 						className="mt-4 max-w-sm"
-						loading={erRestApiKallLoading}
-						disabled={erRestApiKallLoading}
+						loading={loadingOppgaveFraKo}
+						disabled={loadingOppgaveFraKo}
 						onClick={() => plukkNyOppgave()}
 					>
 						{intl.formatMessage({ id: 'OppgavekoVelgerForm.PlukkNyOppgave' })}

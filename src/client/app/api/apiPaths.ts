@@ -41,7 +41,7 @@ const apiPaths = {
 	saksbehandlerReservasjoner: '/api/k9-los-api/saksbehandler/oppgaver/reserverte',
 	slettOppgaveko: '/api/k9-los-api/ny-oppgavestyring/ko/',
 	sok: '/api/k9-los-api/fagsak/sok',
-	valider: '/api/k9-los-api/ny-oppgavestyring/oppgave/validate',
+	validerQuery: '/api/k9-los-api/ny-oppgavestyring/oppgave/validate',
 };
 
 export default apiPaths;

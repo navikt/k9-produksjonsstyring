@@ -8,12 +8,13 @@ import { antallTreffOppgaver } from './utils';
 import { FilterContext } from './FilterContext';
 
 interface OwnProps {
-	validateOppgaveQuery: () => Promise<boolean>;
+	validateOppgaveQuery: (validateFunc: (isValidating: boolean) => void) => Promise<boolean>;
 	setQueryError: (error: string) => void;
 }
 
 export const AntallOppgaver = ({ validateOppgaveQuery, setQueryError }: OwnProps) => {
 	const { oppgaveQuery } = useContext(FilterContext);
+	const [isValidating, setIsValidating] = useState(false);
 
 	const [antallOppgaver, setAntallOppgaver] = useState('');
 	const { mutate, isLoading } = useMutation<unknown, unknown, { url: string; body: OppgaveQuery }>({
@@ -24,8 +25,10 @@ export const AntallOppgaver = ({ validateOppgaveQuery, setQueryError }: OwnProps
 		},
 	});
 
+	const loading = isLoading || isValidating;
+
 	const hentOppgaver = async () => {
-		const oppgaveQueryIsValid = await validateOppgaveQuery();
+		const oppgaveQueryIsValid = await validateOppgaveQuery(setIsValidating);
 		if (oppgaveQueryIsValid) {
 			mutate({ url: apiPaths.hentOppgaver, body: oppgaveQuery });
 			setQueryError('');
@@ -37,16 +40,17 @@ export const AntallOppgaver = ({ validateOppgaveQuery, setQueryError }: OwnProps
 	return (
 		<div className="flex flex-col m-auto">
 			<Label size="small">
-				Antall oppgaver: {isLoading ? <Skeleton className="inline-block w-12" /> : antallOppgaver}
+				Antall oppgaver: {loading ? <Skeleton className="inline-block w-12" /> : antallOppgaver}
 			</Label>
 			<Button
 				variant="tertiary"
-				icon={<ArrowsCirclepathIcon aria-hidden className={`${isLoading ? 'animate-spin' : ' '}`} />}
+				icon={<ArrowsCirclepathIcon aria-hidden />}
 				size="small"
 				onClick={hentOppgaver}
-				disabled={isLoading}
+				loading={loading}
+				disabled={loading}
 			>
-				{isLoading ? 'Oppdaterer antall...' : 'Oppdater antall'}
+				Oppdater antall
 			</Button>
 		</div>
 	);

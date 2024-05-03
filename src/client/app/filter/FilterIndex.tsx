@@ -61,6 +61,7 @@ const FilterIndex = ({ initialQuery, lagre, avbryt, tittel, visningV3, køvisnin
 	const [loading, setLoading] = useState(false);
 	const [loadingDownload, setLoadingDownload] = useState(false);
 	const [koId, setKoId] = useState(null);
+	const [isValidating, setIsValidating] = useState(false);
 	const [oppgaveQuery, setOppgaveQuery] = useState(
 		initialQuery ? new OppgaveQueryModel(initialQuery).toOppgaveQuery() : new OppgaveQueryModel().toOppgaveQuery(),
 	);
@@ -105,13 +106,21 @@ const FilterIndex = ({ initialQuery, lagre, avbryt, tittel, visningV3, køvisnin
 		},
 	});
 
-	const validateOppgaveQuery = (): Promise<boolean> =>
-		post(apiPaths.valider, oppgaveQuery)
-			.then((data: boolean) => data)
-			.catch(() => false);
+	const validateOppgaveQuery = async (isValidatingFunc: (validating: boolean) => void): Promise<boolean> => {
+		isValidatingFunc(true);
+		return post(apiPaths.validerQuery, oppgaveQuery)
+			.then((data: boolean) => {
+				isValidatingFunc(false);
+				return data;
+			})
+			.catch(() => {
+				isValidatingFunc(false);
+				return false;
+			});
+	};
 
 	const validerOgLagre = async () => {
-		const valideringOK = await validateOppgaveQuery();
+		const valideringOK = await validateOppgaveQuery(setIsValidating);
 		if (valideringOK) {
 			setQueryError(null);
 			lagre(oppgaveQuery);
@@ -271,10 +280,10 @@ const FilterIndex = ({ initialQuery, lagre, avbryt, tittel, visningV3, køvisnin
 					<div className={styles.filterButtonGroup}>
 						{lagre && (
 							<div className="ml-auto">
-								<Button className="mr-2" variant="secondary" onClick={avbryt}>
+								<Button className="mr-2" variant="secondary" onClick={avbryt} disabled={isValidating || loading}>
 									Avbryt
 								</Button>
-								<Button onClick={validerOgLagre} loading={loading}>
+								<Button onClick={validerOgLagre} loading={isValidating || loading} disabled={isValidating || loading}>
 									Lagre
 								</Button>
 							</div>
