@@ -8,10 +8,10 @@ proxyRedirects:
     scope: "api://dev-fss.k9saksbehandling.k9-los-api/.default"
     url: "https://k9-los-api.dev-fss-pub.nais.io"
     backendPath: "/api"
-  - path: "/api/innsikt"
+  - path: "/api/forvaltning"
     scope: "api://dev-fss.k9saksbehandling.k9-los-api/.default"
     url: "https://k9-los-api.dev-fss-pub.nais.io"
-    backendPath: "/innsikt"
+    backendPath: "/forvaltning"
 
 
 env:
