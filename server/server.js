@@ -41,8 +41,8 @@ async function startApp() {
 						'connect-src': [
 							"'self'",
 							'https://sentry.gc.nav.no',
-							'https://familie-endringslogg.intern.dev.nav.no/endringslogg',
-							'https://familie-endringslogg.intern.nav.no/endringslogg',
+							'https://familie-endringslogg.intern.dev.nav.no',
+							'https://familie-endringslogg.intern.nav.no',
 						],
 						'font-src': ["'self'", 'https://cdn.nav.no', 'data:'],
 						'img-src': ["'self'", 'data:', 'blob:'],
