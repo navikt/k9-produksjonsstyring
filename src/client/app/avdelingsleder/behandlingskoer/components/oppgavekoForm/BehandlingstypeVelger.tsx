@@ -34,7 +34,7 @@ interface ValgtBehandlingstype {
 const BehandlingstypeVelger: FunctionComponent<OwnProps> = ({
 	valgtOppgavekoId,
 	hentOppgaveko,
-	valgteBehandlingstyper,
+	valgteBehandlingstyper = [],
 }) => {
 	const { startRequest: lagreOppgavekoBehandlingstype } = useRestApiRunner(
 		K9LosApiKeys.LAGRE_OPPGAVEKO_BEHANDLINGSTYPE,
