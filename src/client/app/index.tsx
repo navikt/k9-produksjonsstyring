@@ -16,26 +16,27 @@ import '@navikt/ft-plattform-komponenter/dist/style.css';
 /* eslint no-undef: "error" */
 const environment = window.location.hostname;
 
-init({
-	dsn: 'https://ee88a0763c614159ba73dbae305f737e@sentry.gc.nav.no/38',
-	release: process.env.SENTRY_RELEASE || 'unknown',
-	tracesSampleRate: 1.0,
-	integrations: [
-		breadcrumbsIntegration({ console: false }),
-		reactRouterV6BrowserTracingIntegration({
-			useEffect: React.useEffect,
-			useLocation,
-			useNavigationType,
-			createRoutesFromChildren,
-			matchRoutes,
-		}),
-	],
-	environment,
-});
-
 async function prepare() {
 	if (process.env.NODE_ENV !== 'production') {
 		return import('../mocks/browser').then(({ worker }) => worker.start({ onUnhandledRequest: 'bypass' }));
+	}
+	if (environment.includes('nav.no')) {
+		init({
+			dsn: 'https://ee88a0763c614159ba73dbae305f737e@sentry.gc.nav.no/38',
+			release: process.env.SENTRY_RELEASE || 'unknown',
+			tracesSampleRate: 1.0,
+			integrations: [
+				breadcrumbsIntegration({ console: false }),
+				reactRouterV6BrowserTracingIntegration({
+					useEffect: React.useEffect,
+					useLocation,
+					useNavigationType,
+					createRoutesFromChildren,
+					matchRoutes,
+				}),
+			],
+			environment,
+		});
 	}
 	return Promise.resolve();
 }
