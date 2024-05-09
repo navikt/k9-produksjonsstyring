@@ -184,9 +184,6 @@
 		"sentry-release": "(SENTRY_RELEASE=$(git rev-parse --short HEAD); node ./setup/sentry-release.cjs)",
 		"prepare": "husky install"
 	},
-	"msw": {
-		"workerDirectory": "src/client"
-	},
 	"lint-staged": {
 		"src/client/**/*.ts?(x)": "eslint --cache --fix",
 		"*.(le|c)ss": "stylelint --fix",
