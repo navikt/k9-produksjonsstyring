@@ -2995,10 +2995,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@navikt/ds-css@npm:6.6.1":
-  version: 6.6.1
-  resolution: "@navikt/ds-css@npm:6.6.1::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40navikt%2Fds-css%2F6.6.1%2F9dc8412bbd265411cdd9b6112df1935e758fd106"
-  checksum: 9ba6531ce211358f8ec55c5975338e341838ff01fd3a69d5d4281e711d2329b141b2f34033a5cc201bdd398a05b211e03dd3eac07ed71d157926a763d19ddcd7
+"@navikt/ds-css@npm:6.7.1":
+  version: 6.7.1
+  resolution: "@navikt/ds-css@npm:6.7.1::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40navikt%2Fds-css%2F6.7.1%2F339abde646df6131551b6e960df6e03faf152967"
+  checksum: abb71e31a5ddf1ac5d9905361e330b16f66224e4409af2cea36915fd9a030b29fb1ac677e68b1ad2a254ac6f78ecd894a6beb3d7f5048b93a571df8c2c19f7ae
   languageName: node
   linkType: hard
 
@@ -11324,7 +11324,7 @@ __metadata:
     "@formatjs/intl-numberformat": 8.10.1
     "@navikt/aksel-icons": 6.6.1
     "@navikt/aksel-stylelint": 6.6.1
-    "@navikt/ds-css": 6.6.1
+    "@navikt/ds-css": 6.7.1
     "@navikt/ds-icons": 3.4.3
     "@navikt/ds-react": 6.6.1
     "@navikt/ds-tailwind": 6.6.1
