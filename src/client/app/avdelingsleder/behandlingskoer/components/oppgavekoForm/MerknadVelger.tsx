@@ -20,7 +20,7 @@ const MerknadVelger: FunctionComponent<OwnProps> = ({ valgtOppgavekoId, values, 
 	const merknadsTyper = useKodeverk(kodeverkTyper.MERKNAD_TYPE);
 	const { startRequest: lagreOppgavekoMerknader } = useRestApiRunner(K9LosApiKeys.LAGRE_OPPGAVEKO_KRITERIER);
 
-	const merknadValues = values.kriterier.filter(
+	const merknadValues = values.kriterier?.filter(
 		(kriterier: Kriterie) => kriterier.kriterierType.felttypeKodeverk === kodeverkTyper.MERKNAD_TYPE,
 	);
 	const aktiveMerknader = merknadValues[0]?.koder || [];

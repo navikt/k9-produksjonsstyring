@@ -57,7 +57,7 @@ const buildInitialValues = (intl: IntlShape, ko: Oppgaveko) => {
 		sortering: ko.sortering ? ko.sortering.sorteringType.kode : undefined,
 		fomDato: ko.sortering ? ko.sortering.fomDato : undefined,
 		tomDato: ko.sortering ? ko.sortering.tomDato : undefined,
-		kriterier: ko.kriterier,
+		kriterier: ko.kriterier || [],
 		skjermet: ko.skjermet,
 		fagsakYtelseTyper,
 		behandlingTypes,
