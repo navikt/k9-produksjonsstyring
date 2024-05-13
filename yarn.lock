@@ -2918,7 +2918,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@k9-los-web/server@workspace:server"
   dependencies:
-    "@navikt/oasis": 3.2.4
+    "@navikt/oasis": 3.3.0
     axios: 1.6.8
     connect-timeout: 1.9.0
     cors: 2.8.5
@@ -3221,14 +3221,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@navikt/oasis@npm:3.2.4":
-  version: 3.2.4
-  resolution: "@navikt/oasis@npm:3.2.4::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40navikt%2Foasis%2F3.2.4%2Fd2f3829d5b2ca14b442bf3024a8e2585611a7509"
+"@navikt/oasis@npm:3.3.0":
+  version: 3.3.0
+  resolution: "@navikt/oasis@npm:3.3.0::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40navikt%2Foasis%2F3.3.0%2F0d6116b68e84598184f94a86087eee68d8f929a1"
   dependencies:
     jose: ^5.2.3
     openid-client: ^5.6.5
     prom-client: ^15.1.0
-  checksum: 4a1741dda252d3d4f9ace0e97770035cad6ad95c21f74b26034cc0261fb40336682b909ba51d5a119fef8f6a0e1aafb1c913e1bc064be5db2b11be99e2dae268
+  checksum: 147232287eef398f3c11cf3e6de1de3f6b822d44400331b53169ee4dedbd5732a9dc223dbab8b8d68ae4fbc642075cbf5efec55667c0a1eff5e9232727317aa8
   languageName: node
   linkType: hard
 
