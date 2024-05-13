@@ -38,6 +38,7 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps> = ({ apneOppgave, gj
 		isError,
 	} = useSaksbehandlerReservasjoner({
 		select: (reserverteOppgaverData: ReservasjonV3[]): ReservasjonV3[] => {
+			console.log(reserverteOppgaverData);
 			if (gjelderHastesaker) {
 				return reserverteOppgaverData.filter(
 					(reservasjon) => !!reservasjon?.reservertOppgaveV1Dto?.merknad?.merknadKoder?.includes(merknadType.HASTESAK),
@@ -71,10 +72,10 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps> = ({ apneOppgave, gj
 		if (reservasjon.reservertOppgaveV1Dto) {
 			return 1;
 		}
-		const v3OppgaverSomSkalVises = reservasjon.reserverteV3Oppgaver.filter(
+		const v3OppgaverSomSkalVises = reservasjon.reserverteV3Oppgaver?.filter(
 			(v) => v.oppgavestatus === OppgavestatusV3.AAPEN,
 		);
-		if (v3OppgaverSomSkalVises.length > 0) {
+		if (v3OppgaverSomSkalVises?.length > 0) {
 			return v3OppgaverSomSkalVises.length;
 		}
 		return 0;
