@@ -2,7 +2,7 @@ import React, { useCallback, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import _ from 'lodash';
 import { Normaltekst } from 'nav-frontend-typografi';
-import {Checkbox, Loader, Table, TextField} from '@navikt/ds-react';
+import { Checkbox, Loader, Table, TextField } from '@navikt/ds-react';
 import { RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
 import AlleKodeverk from 'kodeverk/alleKodeverkTsType';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';

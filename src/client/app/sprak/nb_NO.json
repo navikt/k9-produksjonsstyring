@@ -79,7 +79,7 @@
 
 	"FerdigstilteHistorikkPanel.Ferdigstilte": "Historikk over ferdigstilte oppgaver",
 
-	"FlyttReservasjonModal.Titel": "Endre og/eller flytte reservasjon",
+	"FlyttReservasjonModal.Tittel": "Endre og/eller flytte reservasjon",
 	"FlyttReservasjonModal.Brukerident": "Saksbehandlers brukerident",
 	"FlyttReservasjonModal.Sok": "Søk",
 	"FlyttReservasjonModal.Begrunn": "Begrunn endring av reservasjon",
@@ -87,6 +87,16 @@
 	"FlyttReservasjonModal.Avbryt": "Avbryt",
 	"FlyttReservasjonBegrunnelseModal.FlyttTilSaksbehandler": "Flytt til saksbehandler",
 	"FlyttReservasjonBegrunnelseModal.Begrunnelse": "Begrunnelse for flytting av reservasjon",
+
+	"FlyttReservasjonBolkModal.Tittel": "Flytt {antall} reservasjoner",
+	"FlyttReservasjonBolkModal.Brukerident": "Saksbehandlers brukerident",
+	"FlyttReservasjonBolkModal.Sok": "Søk",
+	"FlyttReservasjonBolkModal.Begrunn": "Begrunn endring av reservasjoner",
+	"FlyttReservasjonBolkModal.FlyttReservasjonText": "Velg dato som reservasjonene avsluttes (Valgfritt å fylle ut)",
+	"FlyttReservasjonBolkModal.Ok": "OK",
+	"FlyttReservasjonBolkModal.Avbryt": "Avbryt",
+	"FlyttReservasjonBolkBegrunnelseModal.FlyttTilSaksbehandler": "Flytt til saksbehandler",
+	"FlyttReservasjonBolkBegrunnelseModal.Begrunnelse": "Begrunnelse for flytting av reservasjoner",
 
 	"FordelingAvBehandlingstypePanel.Fordeling": "Antall åpne oppgave",
 	"FordelingAvBehandlingstypePanel.Alle": "Alle ytelser",
@@ -242,6 +252,11 @@
 	"OpphevReservasjonModal.Ok": "OK",
 	"OpphevReservasjonModal.Avbryt": "Avbryt",
 
+	"OpphevReservasjonBolkModal.Tittel": "Legg {antall} reservasjoner tilbake i felles kø",
+	"OpphevReservasjonBolkModal.Begrunnelse": "Begrunn oppheving av reservasjoner",
+	"OpphevReservasjonBolkModal.Ok": "OK",
+	"OpphevReservasjonBolkModal.Avbryt": "Avbryt",
+
 	"Person.Age": "{age} år",
 	"Person.ImageText": "Personinformasjon",
 	"Person.Woman": "Kvinne",
@@ -266,8 +281,10 @@
 	"ReservasjonerTabell.IngenReservasjoner": "Ingen reservasjoner funnet",
 	"ReservasjonerTabell.IngenMatchandeReservasjoner": "Ingen reservasjoner som matcher søk.",
 	"ReservasjonerTabell.LeggTilbake": "Legg oppgave tilbake i felles kø",
+	"ReservasjonerTabell.LeggTilbakeBolk": "Legg oppgaver tilbake i felles kø",
 	"ReservasjonerTabell.EndreReservasjon": "Reserver oppgave med dato",
 	"ReservasjonerTabell.FlyttReservasjon": "Flytt reservasjonen til annen saksbehandler",
+	"ReservasjonerTabell.FlyttReservasjonBolk": "Flytt reservasjonene til annen saksbehandler",
 
 	"ReserverOppgaveModal.ReserverOppgave": "Ønsker du å reservere oppgaven?",
 	"OppgavePåVentModal.OppgavePåVent": "Saken er satt på vent til {dato}",

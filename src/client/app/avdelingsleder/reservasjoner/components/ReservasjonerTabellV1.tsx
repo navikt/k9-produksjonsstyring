@@ -2,7 +2,7 @@ import React, { useCallback, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import _ from 'lodash';
 import { Normaltekst } from 'nav-frontend-typografi';
-import { Loader, Table, TextField } from '@navikt/ds-react';
+import { Button, Checkbox, Loader, SortState, Table, TextField } from '@navikt/ds-react';
 import { RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
 import AlleKodeverk from 'kodeverk/alleKodeverkTsType';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
@@ -10,34 +10,93 @@ import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import { getDateAndTime } from 'utils/dateUtils';
 import { useAvdelingslederReservasjoner } from 'api/queries/avdelingslederQueries';
 import { getKodeverknavnFraKode } from 'utils/kodeverkUtils';
+import { OppgaveNøkkel } from 'types/OppgaveNøkkel';
+import ReservasjonerBolkButtons from 'avdelingsleder/reservasjoner/components/ReservasjonerBolkButtons';
 import Reservasjon from '../reservasjonTsType';
 import useGlobalStateRestApiData from '../../../api/rest-api-hooks/src/global-data/useGlobalStateRestApiData';
 import * as styles from './reservasjonerTabell.css';
-import ReservasjonRowExpandableContent from './ReservasjonRowExpandableContentV1';
+import ModalButton from 'sharedComponents/ModalButton';
+import FlyttReservasjonModal from 'saksbehandler/behandlingskoer/components/menu/FlyttReservasjonModal';
+import { ArrowUndoIcon, PencilIcon } from '@navikt/aksel-icons';
+import OpphevReservasjonModal from 'saksbehandler/behandlingskoer/components/menu/OpphevReservasjonModal';
 
-const sorterMedReservertAv = (reservasjonerListe: Reservasjon[]) =>
-	reservasjonerListe?.sort((reservasjon1, reservasjon2) =>
-		reservasjon1.reservertAvEpost.localeCompare(reservasjon2.reservertAvEpost),
-	);
+type ReservasjonTableData = {
+	reservasjon: Reservasjon;
+	id: string;
+	navn: string;
+	type: string;
+	reservertTil: string;
+};
+
+// Snevrer inn typesettingen av vanlig SortState, slik at kun felter som finnes i tabellen kan sorteres på
+type ReservasjonTableDataSortState = SortState & { orderBy: keyof ReservasjonTableData };
 
 const ReservasjonerTabell = () => {
-	const [reservasjonerSomSkalVises, setReservasjonerSomSkalVises] = useState<Reservasjon[]>([]);
+	const [reservasjonerSomSkalVises, setReservasjonerSomSkalVises] = useState<ReservasjonTableData[]>([]);
 	const [finnesSokResultat, setFinnesSokResultat] = useState(true);
+	const [valgteReservasjoner, setValgteReservasjoner] = useState<OppgaveNøkkel[]>([]);
+	const [sort, setSort] = useState<ReservasjonTableDataSortState>({ orderBy: 'navn', direction: 'ascending' });
+
+	const comparator = (a: ReservasjonTableData, b: ReservasjonTableData, orderBy: keyof ReservasjonTableData) => {
+		switch (orderBy) {
+			case 'reservasjon':
+				// Brukes ikke til sortering
+				return 0;
+			case 'reservertTil':
+				// Kan ikke bruke DD.MM.YYYY til å sortere på, må bruke YYYY-MM-DD
+				return a.reservasjon.reservertTilTidspunkt.localeCompare(b.reservasjon.reservertTilTidspunkt);
+			default:
+				return a[orderBy].localeCompare(b[orderBy]);
+		}
+	};
+
+	const sorter = (reservasjonerListe: ReservasjonTableData[], newSort: ReservasjonTableDataSortState) => {
+		return reservasjonerListe?.sort((a, b) => {
+			if (newSort) {
+				return newSort.direction === 'ascending'
+					? comparator(b, a, newSort.orderBy)
+					: comparator(a, b, newSort.orderBy);
+			}
+			return 1;
+		});
+	};
+
+	const handleSort = (sortKey: keyof ReservasjonTableData) => {
+		const newSort: ReservasjonTableDataSortState =
+			sort && sortKey === sort.orderBy && sort.direction === 'descending'
+				? undefined
+				: {
+						orderBy: sortKey,
+						direction: sort && sortKey === sort.orderBy && sort.direction === 'ascending' ? 'descending' : 'ascending',
+					};
+		setSort(newSort);
+		setReservasjonerSomSkalVises(sorter(reservasjonerSomSkalVises, newSort));
+	};
 
 	const {
 		data: reservasjoner,
 		isLoading,
 		isSuccess,
 	} = useAvdelingslederReservasjoner({
-		select: (reservasjonerData: Reservasjon[]): Reservasjon[] => sorterMedReservertAv(reservasjonerData),
 		onSuccess: (data: Reservasjon[]) => {
-			setReservasjonerSomSkalVises(data);
+			setReservasjonerSomSkalVises(sorter(data.map(mapTilTableData), sort));
+			setValgteReservasjoner([]);
 		},
 	});
 
 	const alleKodeverk: AlleKodeverk = useGlobalStateRestApiData(RestApiGlobalStatePathsKeys.KODEVERK);
 
-	const sokEtterReservasjon = (e) => {
+	const mapTilTableData = (reservasjon: Reservasjon): ReservasjonTableData => ({
+		reservasjon,
+		navn: reservasjon.reservertAvEpost,
+		id: reservasjon.saksnummer || reservasjon.journalpostId,
+		type:
+			getKodeverknavnFraKode(reservasjon.behandlingType?.kode, kodeverkTyper.BEHANDLING_TYPE, alleKodeverk) +
+			(reservasjon.tilBeslutter ? ' - [B] ' : ''),
+		reservertTil: getDateAndTime(reservasjon.reservertTilTidspunkt).date,
+	});
+
+	const sokEtterReservasjon = (e: any) => {
 		const sokVerdi = e.target.value.toLowerCase();
 		const reservasjonerMedMatch = reservasjoner.filter(
 			(res) =>
@@ -47,7 +106,7 @@ const ReservasjonerTabell = () => {
 		);
 		if (reservasjonerMedMatch.length > 0) {
 			setFinnesSokResultat(true);
-			setReservasjonerSomSkalVises(reservasjonerMedMatch);
+			setReservasjonerSomSkalVises(reservasjonerMedMatch.map(mapTilTableData));
 		} else {
 			setFinnesSokResultat(false);
 		}
@@ -57,10 +116,14 @@ const ReservasjonerTabell = () => {
 	return (
 		<>
 			<div className={styles.titelContainer}>
-				<b>
-					<FormattedMessage id="ReservasjonerTabell.Reservasjoner" />
-					{reservasjoner?.length > 0 && isSuccess && ` (${reservasjoner.length} stk)`}
-				</b>
+				<div className="flex flex-col justify-between">
+					<b>
+						<FormattedMessage id="ReservasjonerTabell.Reservasjoner" />
+						{reservasjoner?.length > 0 && isSuccess && ` (${reservasjoner.length} stk)`}
+					</b>
+					{/* Hvis mer enn 50 antas litt scrolling, så det kan være kjekt å ha knappene på toppen i tillegg til i bunn */}
+					{valgteReservasjoner.length > 50 && <ReservasjonerBolkButtons valgteReservasjoner={valgteReservasjoner} />}
+				</div>
 				<div className={styles.sokfelt}>
 					<TextField onChange={debounceFn} label="Søk på reservasjon" />
 				</div>
@@ -86,41 +149,121 @@ const ReservasjonerTabell = () => {
 				</>
 			)}
 			{reservasjonerSomSkalVises?.length > 0 && finnesSokResultat && (
-				<Table>
+				<Table sort={sort} onSortChange={handleSort}>
 					<Table.Header>
 						<Table.Row>
-							<Table.HeaderCell scope="col" />
-							<Table.HeaderCell scope="col">Navn</Table.HeaderCell>
-							<Table.HeaderCell scope="col">Id</Table.HeaderCell>
-							<Table.HeaderCell scope="col">Type</Table.HeaderCell>
-							<Table.HeaderCell scope="col">Reservert til</Table.HeaderCell>
+							<Table.ColumnHeader scope="col">
+								<Checkbox
+									checked={valgteReservasjoner.length === reservasjonerSomSkalVises.length}
+									indeterminate={
+										valgteReservasjoner.length > 0 && valgteReservasjoner.length !== reservasjonerSomSkalVises.length
+									}
+									onChange={() => {
+										if (valgteReservasjoner.length > 0) {
+											setValgteReservasjoner([]);
+										} else {
+											setValgteReservasjoner(reservasjonerSomSkalVises.map((r) => r.reservasjon.oppgavenøkkel));
+										}
+									}}
+									hideLabel
+								>
+									Velg alle rader
+								</Checkbox>
+							</Table.ColumnHeader>
+							<Table.ColumnHeader scope="col" sortable sortKey="navn">
+								Navn
+							</Table.ColumnHeader>
+							<Table.ColumnHeader scope="col" sortable sortKey="id">
+								Id
+							</Table.ColumnHeader>
+							<Table.ColumnHeader scope="col" sortable sortKey="type">
+								Type
+							</Table.ColumnHeader>
+							<Table.ColumnHeader scope="col" sortable sortKey="reservertTil">
+								Reservert til
+							</Table.ColumnHeader>
+							<Table.ColumnHeader scope="col" />
 						</Table.Row>
 					</Table.Header>
 					<Table.Body>
-						{reservasjonerSomSkalVises.map((reservasjon) => (
-							<Table.ExpandableRow
-								key={`${reservasjon.oppgavenøkkel}`}
-								content={<ReservasjonRowExpandableContent reservasjon={reservasjon} />}
-							>
-								<Table.DataCell>{reservasjon.reservertAvEpost}</Table.DataCell>
-								<Table.DataCell>{reservasjon.saksnummer || reservasjon.journalpostId}</Table.DataCell>
+						{reservasjonerSomSkalVises.map(({ reservasjon, id, navn, type, reservertTil }) => (
+							<Table.Row key={`${reservasjon.oppgavenøkkel}`}>
 								<Table.DataCell>
-									{getKodeverknavnFraKode(
-										reservasjon.behandlingType?.kode,
-										kodeverkTyper.BEHANDLING_TYPE,
-										alleKodeverk,
-									) + (reservasjon.tilBeslutter ? ' - [B] ' : '')}
+									<Checkbox
+										hideLabel
+										checked={valgteReservasjoner.includes(reservasjon.oppgavenøkkel)}
+										onClick={(event) => {
+											if (event.currentTarget.checked) {
+												const endret = [...valgteReservasjoner];
+												endret.push(reservasjon.oppgavenøkkel);
+												setValgteReservasjoner(endret);
+											} else {
+												setValgteReservasjoner(valgteReservasjoner.filter((r) => r !== reservasjon.oppgavenøkkel));
+											}
+										}}
+									>
+										Velg reservasjon {id}
+									</Checkbox>
 								</Table.DataCell>
+								<Table.DataCell>{navn}</Table.DataCell>
+								<Table.DataCell>{id}</Table.DataCell>
+								<Table.DataCell>{type}</Table.DataCell>
+								<Table.DataCell>{reservertTil}</Table.DataCell>
 								<Table.DataCell>
-									<FormattedMessage
-										id="ReservasjonerTabell.ReservertTilFormat"
-										values={getDateAndTime(reservasjon.reservertTilTidspunkt)}
+									<ModalButton
+										renderButton={({ openModal }) => (
+											<Button
+												size="small"
+												variant="tertiary"
+												icon={<ArrowUndoIcon />}
+												onClick={openModal}
+												disabled={valgteReservasjoner.length > 0}
+											>
+												Legg tilbake i kø
+											</Button>
+										)}
+										renderModal={({ closeModal, open }) => (
+											<OpphevReservasjonModal
+												showModal={open}
+												cancel={closeModal}
+												oppgaveNøkkel={reservasjon.oppgavenøkkel}
+											/>
+										)}
+									/>
+									<ModalButton
+										renderButton={({ openModal }) => (
+											<Button
+												size="small"
+												variant="tertiary"
+												icon={<PencilIcon />}
+												onClick={openModal}
+												disabled={valgteReservasjoner.length > 0}
+											>
+												Endre/flytt
+											</Button>
+										)}
+										renderModal={({ closeModal, open }) => (
+											<FlyttReservasjonModal
+												showModal={open}
+												closeModal={closeModal}
+												oppgaveNøkkel={reservasjon.oppgavenøkkel}
+												reservertAvIdent={reservasjon.reservertAvIdent}
+												oppgaveReservertTil={reservasjon.reservertTilTidspunkt}
+												eksisterendeBegrunnelse={reservasjon.kommentar}
+											/>
+										)}
 									/>
 								</Table.DataCell>
-							</Table.ExpandableRow>
+							</Table.Row>
 						))}
 					</Table.Body>
 				</Table>
+			)}
+			{valgteReservasjoner.length > 0 && (
+				<>
+					<VerticalSpacer sixteenPx />
+					<ReservasjonerBolkButtons valgteReservasjoner={valgteReservasjoner} />
+				</>
 			)}
 		</>
 	);
