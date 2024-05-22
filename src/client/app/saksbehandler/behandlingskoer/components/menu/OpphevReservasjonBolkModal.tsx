@@ -38,7 +38,9 @@ export const OpphevReservasjonBolkModal: FunctionComponent<OwnProps> = ({ open, 
 			onRequestClose={closeModal}
 		>
 			<Form
-				onSubmit={({ begrunnelse }) => opphevReservasjoner({ oppgaveNøkler, begrunnelse }, { onSuccess: closeModal })}
+				onSubmit={({ begrunnelse }) =>
+					opphevReservasjoner({ oppgaveNøkkel: oppgaveNøkler, begrunnelse }, { onSuccess: closeModal })
+				}
 				render={({ handleSubmit }) => (
 					<form onSubmit={handleSubmit}>
 						<Element>

@@ -19,7 +19,7 @@ import {
 	minLength,
 	required,
 } from 'utils/validation/validators';
-import { useAvdelingslederFlyttReservasjoner } from 'api/queries/avdelingslederQueries';
+import { useAvdelingslederEndreReservasjoner } from 'api/queries/avdelingslederQueries';
 import { Saksbehandler } from '../../saksbehandlerTsType';
 import * as styles from './flyttReservasjonModal.css';
 
@@ -44,7 +44,7 @@ export const FlyttReservasjonBolkModal: FunctionComponent<OwnProps> = ({ open, c
 		data: saksbehandler,
 		resetRequestData,
 	} = useRestApiRunner<Saksbehandler>(K9LosApiKeys.FLYTT_RESERVASJON_SAKSBEHANDLER_SOK);
-	const { mutate: flyttReservasjoner } = useAvdelingslederFlyttReservasjoner();
+	const { mutate: flyttReservasjoner } = useAvdelingslederEndreReservasjoner();
 	const intl = useIntl();
 	const finnSaksbehandler = useCallback((brukerIdent: string) => startRequest({ brukerIdent }), []);
 
@@ -116,7 +116,7 @@ export const FlyttReservasjonBolkModal: FunctionComponent<OwnProps> = ({ open, c
 				onSubmit={({ begrunnelse, reservertTilDato }) =>
 					flyttReservasjoner(
 						{
-							oppgaveNøkler,
+							oppgaveNøkkel: oppgaveNøkler,
 							begrunnelse,
 							reservertTilDato,
 							brukerIdent: saksbehandler ? saksbehandler.brukerIdent : '',
