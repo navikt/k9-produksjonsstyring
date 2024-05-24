@@ -3,6 +3,7 @@ import { OppgavekøV3, OppgavekøV3Enkel, OppgavekøerV3 } from 'types/Oppgavek�
 import apiPaths from 'api/apiPaths';
 import { axiosInstance } from 'utils/reactQueryConfig';
 import Reservasjon from 'avdelingsleder/reservasjoner/reservasjonTsType';
+import { OppgaveNøkkel } from 'types/OppgaveNøkkel';
 
 // eslint-disable-next-line import/prefer-default-export
 export const useAlleKoer = (options = {}) =>
@@ -35,6 +36,28 @@ export const useAvdelingslederReservasjoner = (options: UseQueryOptions<Reservas
 		queryKey: [apiPaths.avdelinglederReservasjoner],
 		...options,
 	});
+
+export const useAvdelingslederOpphevReservasjoner = () => {
+	const queryClient = useQueryClient();
+	return useMutation({
+		mutationFn: (data: { oppgaveNøkkel: Array<OppgaveNøkkel>; begrunnelse: string }) =>
+			axiosInstance.post(apiPaths.avdelingslederOpphevReservasjoner, data),
+		onSuccess: () => queryClient.invalidateQueries(apiPaths.avdelinglederReservasjoner),
+	});
+};
+
+export const useAvdelingslederEndreReservasjoner = () => {
+	const queryClient = useQueryClient();
+	return useMutation({
+		mutationFn: (data: {
+			oppgaveNøkkel: Array<OppgaveNøkkel>;
+			begrunnelse: string;
+			reservertTilDato: string;
+			brukerIdent: string;
+		}) => axiosInstance.post(apiPaths.avdelingslederEndreReservasjoner, data),
+		onSuccess: () => queryClient.invalidateQueries(apiPaths.avdelinglederReservasjoner),
+	});
+};
 
 export const useKopierKøMutation = (callback?: () => void) => {
 	const queryClient = useQueryClient();
