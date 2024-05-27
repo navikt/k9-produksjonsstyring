@@ -2,7 +2,6 @@ import React, { FunctionComponent, useEffect } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { BodyShort } from '@navikt/ds-react';
-import * as Sentry from '@sentry/react';
 
 const MissingPage: FunctionComponent = () => {
 	return (
