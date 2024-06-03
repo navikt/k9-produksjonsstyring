@@ -152,7 +152,7 @@ const ReservasjonerTabell = () => {
 				<Table sort={sort} onSortChange={handleSort}>
 					<Table.Header>
 						<Table.Row>
-							<Table.ColumnHeader scope="col">
+							{/* <Table.ColumnHeader scope="col">
 								<Checkbox
 									checked={valgteReservasjoner.length === reservasjonerSomSkalVises.length}
 									indeterminate={
@@ -169,7 +169,7 @@ const ReservasjonerTabell = () => {
 								>
 									Velg alle rader
 								</Checkbox>
-							</Table.ColumnHeader>
+							</Table.ColumnHeader> */}
 							<Table.ColumnHeader scope="col" sortable sortKey="navn">
 								Navn
 							</Table.ColumnHeader>
@@ -188,7 +188,7 @@ const ReservasjonerTabell = () => {
 					<Table.Body>
 						{reservasjonerSomSkalVises.map(({ reservasjon, id, navn, type, reservertTil }) => (
 							<Table.Row key={`${reservasjon.oppgavenøkkel}`}>
-								<Table.DataCell>
+								{/* <Table.DataCell>
 									<Checkbox
 										hideLabel
 										checked={valgteReservasjoner.includes(reservasjon.oppgavenøkkel)}
@@ -204,7 +204,7 @@ const ReservasjonerTabell = () => {
 									>
 										Velg reservasjon {id}
 									</Checkbox>
-								</Table.DataCell>
+								</Table.DataCell> */}
 								<Table.DataCell>{navn}</Table.DataCell>
 								<Table.DataCell>{id}</Table.DataCell>
 								<Table.DataCell>{type}</Table.DataCell>
