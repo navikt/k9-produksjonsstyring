@@ -73,7 +73,7 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps> = ({ apneOppgave, gj
 			return 1;
 		}
 		const v3OppgaverSomSkalVises = reservasjon.reserverteV3Oppgaver?.filter(
-			(v) => v.oppgavestatus === OppgavestatusV3.AAPEN,
+			(v) => v.oppgavestatus === OppgavestatusV3.AAPEN || v.oppgavestatus === OppgavestatusV3.VENTER,
 		);
 		if (v3OppgaverSomSkalVises?.length > 0) {
 			return v3OppgaverSomSkalVises.length;
@@ -153,7 +153,7 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps> = ({ apneOppgave, gj
 									/>
 								) : (
 									reservasjon.reserverteV3Oppgaver
-										?.filter((v) => v.oppgavestatus === OppgavestatusV3.AAPEN)
+										?.filter((v) => v.oppgavestatus === OppgavestatusV3.AAPEN || OppgavestatusV3.VENTER)
 										.map((oppgave) => (
 											<ReservertOppgaveRadV3
 												key={oppgave.oppgaveNøkkel.oppgaveEksternId}
