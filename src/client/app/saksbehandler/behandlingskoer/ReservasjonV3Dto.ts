@@ -41,7 +41,7 @@ export function mapReservasjonV3Array(reservasjonV3Array: ReservasjonV3[]): Mapp
 			];
 		}
 		return reservasjon.reserverteV3Oppgaver
-			.filter((v) => v.oppgavestatus === OppgavestatusV3.AAPEN || v.oppgavestatus === OppgavestatusV3.VENTER)
+			.filter((v) => v.oppgavestatus === OppgavestatusV3.AAPEN)
 			.map(
 				(oppgave): MappedReservasjon => ({
 					...(oppgave as MappedReservasjon),
