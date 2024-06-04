@@ -19,4 +19,5 @@ Dersom du vil kjøre frontend lokalt selv kan du skrive følgende.
 
 Se README.md i root for mer info angående kjøring av k9-sak-web utenfor docker
 
-3. yarn test:e2e i /e2e for å kjøre testene
+3. Etter at verdikjeden er oppe, kjør LosFrontendTest i k9-verdikjede. Dette vil opprette en sak med saksnummer, f.eks. xyz, som må hentes fra konsollet.
+4. yarn test:e2e i /e2e for å kjøre testene, sett SAKSNUMMER=xyz som miljøvariabel
