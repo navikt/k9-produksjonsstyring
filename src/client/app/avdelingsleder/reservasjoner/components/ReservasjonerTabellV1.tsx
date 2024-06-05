@@ -34,7 +34,9 @@ type ReservasjonTableDataSortState = SortState & { orderBy: keyof ReservasjonTab
 const ReservasjonerTabell = () => {
 	const [reservasjonerSomSkalVises, setReservasjonerSomSkalVises] = useState<ReservasjonTableData[]>([]);
 	const [finnesSokResultat, setFinnesSokResultat] = useState(true);
-	const [valgteReservasjoner, setValgteReservasjoner] = useState<OppgaveNøkkel[]>([]);
+	const [valgteReservasjoner, setValgteReservasjoner] = useState<
+		{ oppgaveNøkkel: OppgaveNøkkel; begrunnelse: string }[]
+	>([]);
 	const [sort, setSort] = useState<ReservasjonTableDataSortState>({ orderBy: 'navn', direction: 'ascending' });
 
 	const comparator = (a: ReservasjonTableData, b: ReservasjonTableData, orderBy: keyof ReservasjonTableData) => {
@@ -152,7 +154,7 @@ const ReservasjonerTabell = () => {
 				<Table sort={sort} onSortChange={handleSort}>
 					<Table.Header>
 						<Table.Row>
-							{/* <Table.ColumnHeader scope="col">
+							<Table.ColumnHeader scope="col">
 								<Checkbox
 									checked={valgteReservasjoner.length === reservasjonerSomSkalVises.length}
 									indeterminate={
@@ -162,14 +164,19 @@ const ReservasjonerTabell = () => {
 										if (valgteReservasjoner.length > 0) {
 											setValgteReservasjoner([]);
 										} else {
-											setValgteReservasjoner(reservasjonerSomSkalVises.map((r) => r.reservasjon.oppgavenøkkel));
+											setValgteReservasjoner(
+												reservasjonerSomSkalVises.map((r) => ({
+													oppgaveNøkkel: r.reservasjon.oppgavenøkkel,
+													begrunnelse: r.reservasjon.kommentar,
+												})),
+											);
 										}
 									}}
 									hideLabel
 								>
 									Velg alle rader
 								</Checkbox>
-							</Table.ColumnHeader> */}
+							</Table.ColumnHeader>
 							<Table.ColumnHeader scope="col" sortable sortKey="navn">
 								Navn
 							</Table.ColumnHeader>
@@ -188,23 +195,30 @@ const ReservasjonerTabell = () => {
 					<Table.Body>
 						{reservasjonerSomSkalVises.map(({ reservasjon, id, navn, type, reservertTil }) => (
 							<Table.Row key={`${reservasjon.oppgavenøkkel}`}>
-								{/* <Table.DataCell>
+								<Table.DataCell>
 									<Checkbox
 										hideLabel
-										checked={valgteReservasjoner.includes(reservasjon.oppgavenøkkel)}
+										checked={
+											valgteReservasjoner.filter(({ oppgaveNøkkel }) => oppgaveNøkkel == reservasjon.oppgavenøkkel)
+												.length > 0
+										}
 										onClick={(event) => {
 											if (event.currentTarget.checked) {
 												const endret = [...valgteReservasjoner];
-												endret.push(reservasjon.oppgavenøkkel);
+												endret.push({ oppgaveNøkkel: reservasjon.oppgavenøkkel, begrunnelse: reservasjon.kommentar });
 												setValgteReservasjoner(endret);
 											} else {
-												setValgteReservasjoner(valgteReservasjoner.filter((r) => r !== reservasjon.oppgavenøkkel));
+												setValgteReservasjoner(
+													valgteReservasjoner.filter(
+														({ oppgaveNøkkel }) => oppgaveNøkkel !== reservasjon.oppgavenøkkel,
+													),
+												);
 											}
 										}}
 									>
 										Velg reservasjon {id}
 									</Checkbox>
-								</Table.DataCell> */}
+								</Table.DataCell>
 								<Table.DataCell>{navn}</Table.DataCell>
 								<Table.DataCell>{id}</Table.DataCell>
 								<Table.DataCell>{type}</Table.DataCell>

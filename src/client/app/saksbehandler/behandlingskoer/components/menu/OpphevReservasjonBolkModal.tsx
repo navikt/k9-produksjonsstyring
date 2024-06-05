@@ -16,7 +16,7 @@ const maxLength1500 = maxLength(1500);
 
 type OwnProps = Readonly<{
 	open: boolean;
-	oppgaveNøkler: Array<OppgaveNøkkel>;
+	valgteReservasjoner: Array<{ oppgaveNøkkel: OppgaveNøkkel; begrunnelse: string }>;
 	closeModal: () => void;
 }>;
 
@@ -25,7 +25,7 @@ type OwnProps = Readonly<{
  *
  * Presentasjonskomponent. Modal som lar en begrunne hvorfor en sak skal frigjøres.
  */
-export const OpphevReservasjonBolkModal: FunctionComponent<OwnProps> = ({ open, closeModal, oppgaveNøkler }) => {
+export const OpphevReservasjonBolkModal: FunctionComponent<OwnProps> = ({ open, closeModal, valgteReservasjoner }) => {
 	const { mutate: opphevReservasjoner } = useAvdelingslederOpphevReservasjoner();
 	const intl = useIntl();
 
@@ -34,17 +34,26 @@ export const OpphevReservasjonBolkModal: FunctionComponent<OwnProps> = ({ open, 
 			className={styles.modal}
 			isOpen={open}
 			closeButton={false}
-			contentLabel={intl.formatMessage({ id: 'OpphevReservasjonBolkModal.Tittel' }, { antall: oppgaveNøkler.length })}
+			contentLabel={intl.formatMessage(
+				{ id: 'OpphevReservasjonBolkModal.Tittel' },
+				{ antall: valgteReservasjoner.length },
+			)}
 			onRequestClose={closeModal}
 		>
 			<Form
 				onSubmit={({ begrunnelse }) =>
-					opphevReservasjoner({ oppgaveNøkkel: oppgaveNøkler, begrunnelse }, { onSuccess: closeModal })
+					opphevReservasjoner(
+						valgteReservasjoner.map(({ oppgaveNøkkel }) => ({ oppgaveNøkkel, begrunnelse })),
+						{ onSuccess: closeModal },
+					)
 				}
 				render={({ handleSubmit }) => (
 					<form onSubmit={handleSubmit}>
 						<Element>
-							<FormattedMessage id="OpphevReservasjonBolkModal.Tittel" values={{ antall: oppgaveNøkler.length }} />
+							<FormattedMessage
+								id="OpphevReservasjonBolkModal.Tittel"
+								values={{ antall: valgteReservasjoner.length }}
+							/>
 						</Element>
 						<VerticalSpacer eightPx />
 						<TextAreaField
