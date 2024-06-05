@@ -40,7 +40,7 @@ export const useAvdelingslederReservasjoner = (options: UseQueryOptions<Reservas
 export const useAvdelingslederOpphevReservasjoner = () => {
 	const queryClient = useQueryClient();
 	return useMutation({
-		mutationFn: (data: { oppgaveNøkkel: Array<OppgaveNøkkel>; begrunnelse: string }) =>
+		mutationFn: (data: Array<{ oppgaveNøkkel: OppgaveNøkkel; begrunnelse: string }>) =>
 			axiosInstance.post(apiPaths.avdelingslederOpphevReservasjoner, data),
 		onSuccess: () => queryClient.invalidateQueries(apiPaths.avdelinglederReservasjoner),
 	});
@@ -49,12 +49,14 @@ export const useAvdelingslederOpphevReservasjoner = () => {
 export const useAvdelingslederEndreReservasjoner = () => {
 	const queryClient = useQueryClient();
 	return useMutation({
-		mutationFn: (data: {
-			oppgaveNøkkel: Array<OppgaveNøkkel>;
-			begrunnelse: string;
-			reservertTilDato: string;
-			brukerIdent: string;
-		}) => axiosInstance.post(apiPaths.avdelingslederEndreReservasjoner, data),
+		mutationFn: (
+			data: Array<{
+				oppgaveNøkkel: OppgaveNøkkel;
+				begrunnelse: string;
+				reservertTilDato: string;
+				brukerIdent: string;
+			}>,
+		) => axiosInstance.post(apiPaths.avdelingslederEndreReservasjoner, data),
 		onSuccess: () => queryClient.invalidateQueries(apiPaths.avdelinglederReservasjoner),
 	});
 };
