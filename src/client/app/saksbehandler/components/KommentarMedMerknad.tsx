@@ -24,7 +24,7 @@ const KommentarMedMerknad = ({ reservasjon }: { reservasjon: ReservasjonV3 }) =>
 				<>
 					{reservasjon && (
 						<>
-							<Normaltekst>{`Reservert av ${reservasjon.reservertAvIdent}`}</Normaltekst>
+							<Normaltekst>{`Reservert av ${reservasjon.reservertAvEpost}`}</Normaltekst>
 							<Normaltekst>{`${date} ${time}`}</Normaltekst>
 							<VerticalSpacer sixteenPx />
 							<Normaltekst>{reservasjon.kommentar}</Normaltekst>
