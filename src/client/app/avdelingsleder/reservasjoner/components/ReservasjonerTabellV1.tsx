@@ -68,7 +68,7 @@ const ReservasjonerTabell = () => {
 				: {
 						orderBy: sortKey,
 						direction: sort && sortKey === sort.orderBy && sort.direction === 'ascending' ? 'descending' : 'ascending',
-					};
+				  };
 		setSort(newSort);
 		setReservasjonerSomSkalVises(sorter(reservasjonerSomSkalVises, newSort));
 	};
@@ -88,7 +88,7 @@ const ReservasjonerTabell = () => {
 
 	const mapTilTableData = (reservasjon: Reservasjon): ReservasjonTableData => ({
 		reservasjon,
-		navn: reservasjon.reservertAvEpost,
+		navn: reservasjon.reservertAvNavn || reservasjon.reservertAvEpost,
 		id: reservasjon.saksnummer || reservasjon.journalpostId,
 		type:
 			getKodeverknavnFraKode(reservasjon.behandlingType?.kode, kodeverkTyper.BEHANDLING_TYPE, alleKodeverk) +
