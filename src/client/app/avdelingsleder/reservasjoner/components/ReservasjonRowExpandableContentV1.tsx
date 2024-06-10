@@ -26,9 +26,9 @@ const ReservasjonRowExpandableContent = ({ reservasjon }: { reservasjon: Reserva
 			</div>
 			{showOpphevReservasjonModal && (
 				<OpphevReservasjonModal
-					oppgaveNøkkel={reservasjon.oppgavenøkkel}
-					showModal={showOpphevReservasjonModal}
-					cancel={() => setShowOpphevReservasjonModal(false)}
+					oppgaveNøkkel={[reservasjon.oppgavenøkkel]}
+					open={showOpphevReservasjonModal}
+					closeModal={() => setShowOpphevReservasjonModal(false)}
 				/>
 			)}
 			{showFlyttReservasjonModal && (

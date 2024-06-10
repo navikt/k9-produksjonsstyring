@@ -109,9 +109,9 @@ const OppgaveHandlingerMenu: React.FC<OwnProps> = ({
 			</div>
 			{showOpphevReservasjonModal && (
 				<OpphevReservasjonModal
-					oppgaveNøkkel={oppgave.oppgaveNøkkel}
-					showModal={showOpphevReservasjonModal}
-					cancel={closeBegrunnelseModal}
+					oppgaveNøkkel={[oppgave.oppgaveNøkkel]}
+					open={showOpphevReservasjonModal}
+					closeModal={closeBegrunnelseModal}
 				/>
 			)}
 

@@ -1,7 +1,7 @@
 import ModalButton from 'sharedComponents/ModalButton';
 import { Button } from '@navikt/ds-react';
 import { FormattedMessage } from 'react-intl';
-import OpphevReservasjonBolkModal from 'saksbehandler/behandlingskoer/components/menu/OpphevReservasjonBolkModal';
+import OpphevReservasjonModal from 'saksbehandler/behandlingskoer/components/menu/OpphevReservasjonModal';
 import FlyttReservasjonBolkModal from 'saksbehandler/behandlingskoer/components/menu/FlyttReservasjonBolkModal';
 import React from 'react';
 import { OppgaveNøkkel } from 'types/OppgaveNøkkel';
@@ -19,7 +19,11 @@ const ReservasjonerBolkButtons = ({ valgteReservasjoner }: Props) => (
 				</Button>
 			)}
 			renderModal={({ closeModal, open }) => (
-				<OpphevReservasjonBolkModal valgteReservasjoner={valgteReservasjoner} open={open} closeModal={closeModal} />
+				<OpphevReservasjonModal
+					oppgaveNøkkel={valgteReservasjoner.map((r) => r.oppgaveNøkkel)}
+					open={open}
+					closeModal={closeModal}
+				/>
 			)}
 		/>
 		<ModalButton

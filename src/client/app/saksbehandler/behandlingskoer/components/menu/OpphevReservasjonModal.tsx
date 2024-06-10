@@ -1,79 +1,53 @@
-import React, { FunctionComponent, useCallback } from 'react';
-import { Form } from 'react-final-form';
+import React, { FunctionComponent } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { useQueryClient } from 'react-query';
-import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
-import { Undertittel } from 'nav-frontend-typografi';
 import { OppgaveNøkkel } from 'types/OppgaveNøkkel';
-import apiPaths from 'api/apiPaths';
-import { K9LosApiKeys } from 'api/k9LosApi';
-import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
-import { TextAreaField } from 'form/FinalFields';
-import Modal from 'sharedComponents/Modal';
-import { hasValidText, maxLength, minLength, required } from 'utils/validation/validators';
-import * as styles from './opphevReservasjonModal.css';
-
-const minLength3 = minLength(3);
-const maxLength1500 = maxLength(1500);
+import { useOpphevReservasjoner } from 'api/queries/avdelingslederQueries';
+import { Button, Modal } from '@navikt/ds-react';
 
 type OwnProps = Readonly<{
-	showModal: boolean;
-	oppgaveNøkkel: OppgaveNøkkel;
-	cancel: () => void;
+	open: boolean;
+	oppgaveNøkkel: Array<OppgaveNøkkel>;
+	closeModal: () => void;
 }>;
 
-/**
- * OpphevReservasjonModal
- *
- * Presentasjonskomponent. Modal som lar en begrunne hvorfor en sak skal frigjøres.
- */
-export const OpphevReservasjonModal: FunctionComponent<OwnProps> = ({ showModal, cancel, oppgaveNøkkel }) => {
-	const { startRequest: opphevOppgavereservasjon } = useRestApiRunner(K9LosApiKeys.OPPHEV_OPPGAVERESERVASJON);
+export const OpphevReservasjonModal: FunctionComponent<OwnProps> = ({ open, closeModal, oppgaveNøkkel }) => {
+	const { mutate: opphevReservasjoner } = useOpphevReservasjoner();
 	const intl = useIntl();
-	const queryClient = useQueryClient();
 
-	const opphevReservasjonFn = useCallback(
-		(begrunnelse: string) =>
-			opphevOppgavereservasjon({ oppgaveNøkkel, begrunnelse }).then(() => {
-				// eslint-disable-next-line @typescript-eslint/no-empty-function
-				setTimeout(() => {}, 1000);
-				queryClient.invalidateQueries(apiPaths.saksbehandlerReservasjoner);
-				queryClient.invalidateQueries(apiPaths.avdelinglederReservasjoner);
-				cancel();
-			}),
-		[JSON.stringify(oppgaveNøkkel)],
-	);
+	const antall = oppgaveNøkkel.length;
 
 	return (
 		<Modal
-			className={styles.modal}
-			isOpen={showModal}
-			closeButton={false}
-			contentLabel={intl.formatMessage({ id: 'OpphevReservasjonModal.Begrunnelse' })}
-			onRequestClose={cancel}
+			open={open}
+			header={{
+				heading: intl.formatMessage({ id: 'OpphevReservasjonModal.Tittel' }),
+			}}
+			onClose={closeModal}
 		>
-			<Form
-				onSubmit={(values) => opphevReservasjonFn(values.begrunnelse)}
-				render={({ handleSubmit }) => (
-					<form onSubmit={handleSubmit}>
-						<Undertittel>
-							<FormattedMessage id="OpphevReservasjonModal.Begrunnelse" />
-						</Undertittel>
-						<TextAreaField
-							name="begrunnelse"
-							label={intl.formatMessage({ id: 'OpphevReservasjonModal.Hjelpetekst' })}
-							validate={[required, maxLength1500, minLength3, hasValidText]}
-							maxLength={1500}
-						/>
-						<Hovedknapp className={styles.submitButton} mini htmlType="submit" autoFocus>
-							{intl.formatMessage({ id: 'OpphevReservasjonModal.Ok' })}
-						</Hovedknapp>
-						<Knapp className={styles.cancelButton} mini htmlType="reset" onClick={cancel}>
-							{intl.formatMessage({ id: 'OpphevReservasjonModal.Avbryt' })}
-						</Knapp>
-					</form>
+			<Modal.Body>
+				{antall > 1 ? (
+					<FormattedMessage id="OpphevReservasjonModal.TekstFlertall" values={{ antall }} />
+				) : (
+					<FormattedMessage id="OpphevReservasjonModal.TekstEntall" />
 				)}
-			/>
+			</Modal.Body>
+			<Modal.Footer>
+				<Button
+					onClick={() =>
+						opphevReservasjoner(
+							oppgaveNøkkel.map((o) => ({
+								oppgaveNøkkel: o,
+							})),
+							{ onSuccess: closeModal },
+						)
+					}
+				>
+					{intl.formatMessage({ id: 'OpphevReservasjonModal.Ok' })}
+				</Button>
+				<Button variant="secondary" type="button" onClick={closeModal}>
+					{intl.formatMessage({ id: 'OpphevReservasjonModal.Avbryt' })}
+				</Button>
+			</Modal.Footer>
 		</Modal>
 	);
 };

@@ -70,7 +70,7 @@ const ReservasjonerTabell = () => {
 				: {
 						orderBy: sortKey,
 						direction: sort && sortKey === sort.orderBy && sort.direction === 'ascending' ? 'descending' : 'ascending',
-				  };
+					};
 		setSort(newSort);
 		setReservasjonerSomSkalVises(sorter(reservasjonerSomSkalVises, newSort));
 	};
@@ -238,9 +238,9 @@ const ReservasjonerTabell = () => {
 										)}
 										renderModal={({ closeModal, open }) => (
 											<OpphevReservasjonModal
-												showModal={open}
-												cancel={closeModal}
-												oppgaveNøkkel={reservasjon.oppgavenøkkel}
+												open={open}
+												closeModal={closeModal}
+												oppgaveNøkkel={[reservasjon.oppgavenøkkel]}
 											/>
 										)}
 									/>

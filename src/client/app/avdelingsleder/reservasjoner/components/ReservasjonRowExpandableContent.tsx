@@ -26,9 +26,9 @@ const ReservasjonRowExpandableContent = ({ reservasjon }: { reservasjon: MappedR
 			</div>
 			{showOpphevReservasjonModal && (
 				<OpphevReservasjonModal
-					oppgaveNøkkel={reservasjon.oppgaveNøkkel}
-					showModal={showOpphevReservasjonModal}
-					cancel={() => setShowOpphevReservasjonModal(false)}
+					oppgaveNøkkel={[reservasjon.oppgaveNøkkel]}
+					open={showOpphevReservasjonModal}
+					closeModal={() => setShowOpphevReservasjonModal(false)}
 				/>
 			)}
 			{showFlyttReservasjonModal && (
