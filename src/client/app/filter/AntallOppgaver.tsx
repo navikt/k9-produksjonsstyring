@@ -17,10 +17,10 @@ export const AntallOppgaver = ({ validateOppgaveQuery, setQueryError }: OwnProps
 	const [isValidating, setIsValidating] = useState(false);
 
 	const [antallOppgaver, setAntallOppgaver] = useState('');
-	const { mutate, isLoading } = useMutation<unknown, unknown, { url: string; body: OppgaveQuery }>({
-		onSuccess: (data) => {
-			if (data) {
-				setAntallOppgaver(antallTreffOppgaver(data as Oppgaverad[]));
+	const { mutate, isLoading } = useMutation<string, unknown, { url: string; body: OppgaveQuery }>({
+		onSuccess: (antallOppgaver) => {
+			if (antallOppgaver) {
+				setAntallOppgaver(antallOppgaver);
 			}
 		},
 	});
