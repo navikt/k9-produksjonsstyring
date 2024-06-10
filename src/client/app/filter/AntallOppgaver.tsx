@@ -30,7 +30,7 @@ export const AntallOppgaver = ({ validateOppgaveQuery, setQueryError }: OwnProps
 	const hentOppgaver = async () => {
 		const oppgaveQueryIsValid = await validateOppgaveQuery(setIsValidating);
 		if (oppgaveQueryIsValid) {
-			mutate({ url: apiPaths.hentOppgaver, body: oppgaveQuery });
+			mutate({ url: apiPaths.hentAntallOppgaver, body: oppgaveQuery });
 			setQueryError('');
 		} else {
 			setAntallOppgaver('');
