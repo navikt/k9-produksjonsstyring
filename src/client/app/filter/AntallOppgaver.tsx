@@ -8,47 +8,40 @@ import { antallTreffOppgaver } from './utils';
 import { FilterContext } from './FilterContext';
 
 interface OwnProps {
-	validateOppgaveQuery: (validateFunc: (isValidating: boolean) => void) => Promise<boolean>;
 	setQueryError: (error: string) => void;
 }
 
-export const AntallOppgaver = ({ validateOppgaveQuery, setQueryError }: OwnProps) => {
+export const AntallOppgaver = ({ setQueryError }: OwnProps) => {
 	const { oppgaveQuery } = useContext(FilterContext);
-	const [isValidating, setIsValidating] = useState(false);
 
 	const [antallOppgaver, setAntallOppgaver] = useState('');
 	const { mutate, isLoading } = useMutation<string, unknown, { url: string; body: OppgaveQuery }>({
 		onSuccess: (antallOppgaver) => {
 			if (antallOppgaver) {
 				setAntallOppgaver(antallOppgaver);
+				setQueryError('');
 			}
+		},
+		onError: () => {
+			setQueryError('Noe gikk galt ved henting av antall oppgaver. Prøv igjen senere.');
 		},
 	});
 
-	const loading = isLoading || isValidating;
-
 	const hentOppgaver = async () => {
-		const oppgaveQueryIsValid = await validateOppgaveQuery(setIsValidating);
-		if (oppgaveQueryIsValid) {
-			mutate({ url: apiPaths.hentAntallOppgaver, body: oppgaveQuery });
-			setQueryError('');
-		} else {
-			setAntallOppgaver('');
-			setQueryError('Kriteriene for køen er ikke gyldige.');
-		}
+		mutate({ url: apiPaths.hentAntallOppgaver, body: oppgaveQuery });
 	};
 	return (
 		<div className="flex flex-col m-auto">
 			<Label size="small">
-				Antall oppgaver: {loading ? <Skeleton className="inline-block w-12" /> : antallOppgaver}
+				Antall oppgaver: {isLoading ? <Skeleton className="inline-block w-12" /> : antallOppgaver}
 			</Label>
 			<Button
 				variant="tertiary"
 				icon={<ArrowsCirclepathIcon aria-hidden />}
 				size="small"
 				onClick={hentOppgaver}
-				loading={loading}
-				disabled={loading}
+				loading={isLoading}
+				disabled={isLoading}
 			>
 				Oppdater antall
 			</Button>

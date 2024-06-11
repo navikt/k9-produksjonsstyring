@@ -269,7 +269,7 @@ const FilterIndex = ({ initialQuery, lagre, avbryt, tittel, visningV3, køvisnin
 							<div className="w-6/12">
 								<EnkelSortering />
 							</div>
-							<AntallOppgaver validateOppgaveQuery={validateOppgaveQuery} setQueryError={setQueryError} />
+							<AntallOppgaver setQueryError={setQueryError} />
 						</div>
 					)}
 					{queryError && (
