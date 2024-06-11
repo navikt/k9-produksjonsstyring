@@ -6,15 +6,15 @@ import { Button, Modal } from '@navikt/ds-react';
 
 type OwnProps = Readonly<{
 	open: boolean;
-	oppgaveNøkkel: Array<OppgaveNøkkel>;
+	oppgaveNøkler: Array<OppgaveNøkkel>;
 	closeModal: () => void;
 }>;
 
-export const OpphevReservasjonModal: FunctionComponent<OwnProps> = ({ open, closeModal, oppgaveNøkkel }) => {
+export const OpphevReservasjonerModal: FunctionComponent<OwnProps> = ({ open, closeModal, oppgaveNøkler }) => {
 	const { mutate: opphevReservasjoner } = useOpphevReservasjoner();
 	const intl = useIntl();
 
-	const antall = oppgaveNøkkel.length;
+	const antall = oppgaveNøkler.length;
 
 	return (
 		<Modal
@@ -35,7 +35,7 @@ export const OpphevReservasjonModal: FunctionComponent<OwnProps> = ({ open, clos
 				<Button
 					onClick={() =>
 						opphevReservasjoner(
-							oppgaveNøkkel.map((o) => ({
+							oppgaveNøkler.map((o) => ({
 								oppgaveNøkkel: o,
 							})),
 							{ onSuccess: closeModal },
@@ -52,4 +52,4 @@ export const OpphevReservasjonModal: FunctionComponent<OwnProps> = ({ open, clos
 	);
 };
 
-export default OpphevReservasjonModal;
+export default OpphevReservasjonerModal;

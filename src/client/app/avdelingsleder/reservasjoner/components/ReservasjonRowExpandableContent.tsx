@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { MappedReservasjon } from 'saksbehandler/behandlingskoer/ReservasjonV3Dto';
 import FlyttReservasjonModal from 'saksbehandler/behandlingskoer/components/menu/FlyttReservasjonModal';
-import OpphevReservasjonModal from 'saksbehandler/behandlingskoer/components/menu/OpphevReservasjonModal';
+import OpphevReservasjonerModal from 'saksbehandler/behandlingskoer/components/menu/OpphevReservasjonerModal';
 
 const ReservasjonRowExpandableContent = ({ reservasjon }: { reservasjon: MappedReservasjon }) => {
 	const [showFlyttReservasjonModal, setShowFlyttReservasjonModal] = useState(false);
@@ -25,8 +25,8 @@ const ReservasjonRowExpandableContent = ({ reservasjon }: { reservasjon: MappedR
 				</Button>
 			</div>
 			{showOpphevReservasjonModal && (
-				<OpphevReservasjonModal
-					oppgaveNøkkel={[reservasjon.oppgaveNøkkel]}
+				<OpphevReservasjonerModal
+					oppgaveNøkler={[reservasjon.oppgaveNøkkel]}
 					open={showOpphevReservasjonModal}
 					closeModal={() => setShowOpphevReservasjonModal(false)}
 				/>

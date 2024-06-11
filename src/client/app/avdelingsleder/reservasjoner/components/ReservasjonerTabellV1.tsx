@@ -18,7 +18,7 @@ import * as styles from './reservasjonerTabell.css';
 import ModalButton from 'sharedComponents/ModalButton';
 import FlyttReservasjonModal from 'saksbehandler/behandlingskoer/components/menu/FlyttReservasjonModal';
 import { ArrowUndoIcon, PencilIcon } from '@navikt/aksel-icons';
-import OpphevReservasjonModal from 'saksbehandler/behandlingskoer/components/menu/OpphevReservasjonModal';
+import OpphevReservasjonerModal from 'saksbehandler/behandlingskoer/components/menu/OpphevReservasjonerModal';
 
 type ReservasjonTableData = {
 	reservasjon: Reservasjon;
@@ -237,10 +237,10 @@ const ReservasjonerTabell = () => {
 											</Button>
 										)}
 										renderModal={({ closeModal, open }) => (
-											<OpphevReservasjonModal
+											<OpphevReservasjonerModal
 												open={open}
 												closeModal={closeModal}
-												oppgaveNøkkel={[reservasjon.oppgavenøkkel]}
+												oppgaveNøkler={[reservasjon.oppgavenøkkel]}
 											/>
 										)}
 									/>
