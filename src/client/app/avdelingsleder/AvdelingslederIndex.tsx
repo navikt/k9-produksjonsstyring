@@ -136,7 +136,7 @@ export const AvdelingslederIndex: FunctionComponent = () => {
 		K9LosApiKeys.HENT_DAGENS_TALL,
 	);
 
-	const { data: alleSaksbehandlere, isSuccess } = useQuery<Saksbehandler[]>(apiPaths.hentSaksbehandlere);
+	const { data: alleSaksbehandlere, isSuccess } = useQuery<Saksbehandler[]>(apiPaths.hentSaksbehandlereAvdelingsleder);
 
 	useEffect(() => {
 		hentAntallIdag();

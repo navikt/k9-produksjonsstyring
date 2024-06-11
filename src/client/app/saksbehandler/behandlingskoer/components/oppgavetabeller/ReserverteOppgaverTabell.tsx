@@ -8,7 +8,7 @@ import Reservasjon from 'avdelingsleder/reservasjoner/reservasjonTsType';
 import merknadType from 'kodeverk/merknadType';
 import NavFrontendChevron from 'nav-frontend-chevron';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
-import React, { FunctionComponent, useRef, useState } from 'react';
+import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useQueryClient } from 'react-query';
 import { OppgavestatusV3 } from 'types/OppgaveV3';
@@ -31,6 +31,11 @@ interface OwnProps {
 const ReserverteOppgaverTabell: FunctionComponent<OwnProps> = ({ apneOppgave, gjelderHastesaker }) => {
 	const [valgtOppgaveId, setValgtOppgaveId] = useState<string>();
 	const [visReservasjoner, setVisReservasjoner] = useState(true);
+	const queryClient = useQueryClient();
+	useEffect(() => {
+		queryClient.prefetchQuery(apiPaths.hentSaksbehandlereSomSaksbehandler);
+	}, [queryClient]);
+
 	const {
 		data: reservasjoner,
 		isLoading,
@@ -38,7 +43,6 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps> = ({ apneOppgave, gj
 		isError,
 	} = useSaksbehandlerReservasjoner({
 		select: (reserverteOppgaverData: ReservasjonV3[]): ReservasjonV3[] => {
-			console.log(reserverteOppgaverData);
 			if (gjelderHastesaker) {
 				return reserverteOppgaverData.filter(
 					(reservasjon) => !!reservasjon?.reservertOppgaveV1Dto?.merknad?.merknadKoder?.includes(merknadType.HASTESAK),
@@ -49,7 +53,6 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps> = ({ apneOppgave, gj
 			);
 		},
 	});
-	const queryClient = useQueryClient();
 
 	const { startRequest: leggTilBehandletOppgave } = useRestApiRunner(K9LosApiKeys.LEGG_TIL_BEHANDLET_OPPGAVE);
 	const { startRequest: forlengOppgavereservasjon } = useRestApiRunner<Reservasjon[]>(

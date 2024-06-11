@@ -41,7 +41,7 @@ export const useAvdelingslederOpphevReservasjoner = () => {
 	const queryClient = useQueryClient();
 	return useMutation({
 		mutationFn: (data: { oppgaveNøkkel: Array<OppgaveNøkkel>; begrunnelse: string }) =>
-			axiosInstance.post(apiPaths.avdelingslederOpphevReservasjoner, data),
+			axiosInstance.post(apiPaths.opphevReservasjoner, data),
 		onSuccess: () => queryClient.invalidateQueries(apiPaths.avdelinglederReservasjoner),
 	});
 };
@@ -54,7 +54,7 @@ export const useAvdelingslederEndreReservasjoner = () => {
 			begrunnelse: string;
 			reservertTilDato: string;
 			brukerIdent: string;
-		}) => axiosInstance.post(apiPaths.avdelingslederEndreReservasjoner, data),
+		}) => axiosInstance.post(apiPaths.endreReservasjoner, data),
 		onSuccess: () => queryClient.invalidateQueries(apiPaths.avdelinglederReservasjoner),
 	});
 };
