@@ -10,10 +10,10 @@ import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner
 import Modal from 'sharedComponents/Modal';
 import * as styles from './flyttReservasjonModal.css';
 import { useGetAlleSaksbehandlere } from 'api/queries/saksbehandlerQueries';
-import { DatePicker, ErrorMessage, Skeleton, UNSAFE_Combobox, useDatepicker } from '@navikt/ds-react';
+import { ErrorMessage, Skeleton, UNSAFE_Combobox, useDatepicker } from '@navikt/ds-react';
 import { SaksbehandlerEnkel } from 'avdelingsleder/bemanning/saksbehandlerTsType';
 import { useForm } from 'react-hook-form';
-import { Form, InputField, TextAreaField } from '@navikt/ft-form-hooks';
+import { Form, TextAreaField, Datepicker } from '@navikt/ft-form-hooks';
 
 interface OwnProps {
 	showModal: boolean;
@@ -48,20 +48,21 @@ export const FlyttReservasjonModal: FunctionComponent<OwnProps> = ({
 		}
 	}, [saksbehandlere]);
 
-	const initialValues = { reserverTil: '', begrunnelse: '', saksbehandler: null };
-	const formMethods = useForm({ defaultValues: initialValues });
-	const { getValues } = formMethods;
-
-	const onDateChange = (date) => {
-		if (!date) {
-			return;
-		}
+	const fieldnames = {
+		reserverTil: 'reserverTil',
+		begrunnelse: 'begrunnelse',
+		saksbehandler: 'saksbehandler',
 	};
-	const { datepickerProps, inputProps } = useDatepicker({
-		fromDate: new Date(),
-		onDateChange,
-		defaultSelected: new Date(oppgaveReservertTil),
-	});
+
+	const initialValues = {
+		[fieldnames.reserverTil]: oppgaveReservertTil
+			? dayjs(oppgaveReservertTil).format('YYYY-MM-DD')
+			: dayjs().format('YYYY-MM-DD'),
+		[fieldnames.begrunnelse]: '',
+		[fieldnames.saksbehandler]: null,
+	};
+	const formMethods = useForm({ defaultValues: initialValues });
+	const { watch } = formMethods;
 
 	const endreReservasjonFn = useCallback(
 		(brukerIdent: string, begrunnelse: string, reservertTilDato: string): Promise<any> => {
@@ -104,38 +105,38 @@ export const FlyttReservasjonModal: FunctionComponent<OwnProps> = ({
 			contentLabel={intl.formatMessage({ id: 'FlyttReservasjonModal.Tittel' })}
 			onRequestClose={closeModal}
 		>
-			{isLoading && <Skeleton height={80} />}
-			{error && <ErrorMessage>Noe gikk galt ved henting av saksbehandlere</ErrorMessage>}
-			{saksbehandlere.length > 0 && (
-				<UNSAFE_Combobox
-					label="Velg saksbehandler"
-					options={saksbehandlere.map((v) => v.navn)}
-					selectedOptions={saksbehandler ? [saksbehandler.navn] : []}
-					onToggleSelected={(saksbehandlerOption, isSelected) => {
-						if (isSelected) {
-							setSaksbehandler(saksbehandlere.find((v) => v.navn.toLowerCase() === saksbehandlerOption.toLowerCase()));
-						} else {
-							setSaksbehandler(undefined);
-						}
-					}}
-					shouldAutocomplete={true}
-				/>
-			)}
 			<Form
 				formMethods={formMethods}
 				onSubmit={(values) =>
 					onSubmit(saksbehandler ? saksbehandler.brukerIdent : '', values.begrunnelse, values.reserverTil)
 				}
 			>
-				<DatePicker {...datepickerProps}>
-					<DatePicker.Input {...inputProps} label="Velg dato" hideLabel />
-				</DatePicker>
+				{isLoading && <Skeleton height={80} />}
+				{error && <ErrorMessage>Noe gikk galt ved henting av saksbehandlere</ErrorMessage>}
+				{saksbehandlere.length > 0 && (
+					<UNSAFE_Combobox
+						label="Velg saksbehandler"
+						options={saksbehandlere.map((v) => v.navn)}
+						selectedOptions={saksbehandler ? [saksbehandler.navn] : []}
+						onToggleSelected={(saksbehandlerOption, isSelected) => {
+							if (isSelected) {
+								setSaksbehandler(
+									saksbehandlere.find((v) => v.navn.toLowerCase() === saksbehandlerOption.toLowerCase()),
+								);
+							} else {
+								setSaksbehandler(undefined);
+							}
+						}}
+						shouldAutocomplete={true}
+					/>
+				)}
+				<Datepicker label="" name={fieldnames.reserverTil} />
 				<TextAreaField label="Begrunnelse" name="begrunnelse" />
 				<Hovedknapp
 					className={styles.submitButton}
 					mini
 					htmlType="submit"
-					disabled={!saksbehandler || !getValues().begrunnelse || getValues().begrunnelse.length < 3}
+					disabled={!saksbehandler || !watch(fieldnames.reserverTil) || watch(fieldnames.begrunnelse)?.length < 3}
 				>
 					{intl.formatMessage({ id: 'FlyttReservasjonModal.Ok' })}
 				</Hovedknapp>
