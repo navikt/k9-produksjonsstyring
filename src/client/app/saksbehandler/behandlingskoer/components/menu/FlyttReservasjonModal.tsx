@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useCallback, useEffect, useRef, useState } from 'react';
+import React, { FunctionComponent, useEffect } from 'react';
 import { useIntl } from 'react-intl';
 import { useQueryClient } from 'react-query';
 import dayjs from 'dayjs';
@@ -11,10 +11,10 @@ import Modal from 'sharedComponents/Modal';
 import * as styles from './flyttReservasjonModal.css';
 import { useGetAlleSaksbehandlere } from 'api/queries/saksbehandlerQueries';
 import { ErrorMessage, Skeleton, UNSAFE_Combobox, Heading } from '@navikt/ds-react';
-import { SaksbehandlerEnkel } from 'avdelingsleder/bemanning/saksbehandlerTsType';
 import { useForm } from 'react-hook-form';
 import { Form, TextAreaField, Datepicker } from '@navikt/ft-form-hooks';
 import { hasValidText, maxLength, minLength, required, dateAfterOrEqualToToday } from '@navikt/ft-form-validators';
+import { useFormState } from 'react-final-form';
 
 interface OwnProps {
 	showModal: boolean;
@@ -68,7 +68,12 @@ export const FlyttReservasjonModal: FunctionComponent<OwnProps> = ({
 		[fieldnames.begrunnelse]: eksisterendeBegrunnelse || '',
 		[fieldnames.saksbehandlerIdent]: reservertAvIdent || '',
 	};
-	const formMethods = useForm<FlyttReservasjonType>({ defaultValues: initialValues });
+	const formMethods = useForm<FlyttReservasjonType>({ defaultValues: initialValues, mode: 'onBlur' });
+
+	const { setValue, formState, trigger } = formMethods;
+	useEffect(() => {
+		formMethods.register(fieldnames.saksbehandlerIdent as keyof FlyttReservasjonType, { validate: required });
+	}, [formMethods]);
 
 	const saksbehandlerIdent = formMethods.watch(fieldnames.saksbehandlerIdent as keyof FlyttReservasjonType);
 	const endreReservasjonFn = (brukerIdent: string, begrunnelse: string, reservertTilDato: string): Promise<any> => {
@@ -105,7 +110,7 @@ export const FlyttReservasjonModal: FunctionComponent<OwnProps> = ({
 				}
 			>
 				{isLoading && <Skeleton height={80} />}
-				{error && <ErrorMessage>Noe gikk galt ved henting av saksbehandlere</ErrorMessage>}
+				{(error || !saksbehandlere) && <ErrorMessage>Noe gikk galt ved henting av saksbehandlere</ErrorMessage>}
 				{saksbehandlere.length > 0 && (
 					<UNSAFE_Combobox
 						label="Velg saksbehandler"
@@ -119,15 +124,17 @@ export const FlyttReservasjonModal: FunctionComponent<OwnProps> = ({
 						}
 						onToggleSelected={(optionValue, isSelected) => {
 							if (isSelected) {
-								formMethods.setValue(
+								setValue(
 									fieldnames.saksbehandlerIdent as keyof FlyttReservasjonType,
 									saksbehandlere.find((v) => v.brukerIdent === optionValue)?.brukerIdent,
 								);
 							} else {
-								formMethods.setValue(fieldnames.saksbehandlerIdent as keyof FlyttReservasjonType, '');
+								setValue(fieldnames.saksbehandlerIdent as keyof FlyttReservasjonType, '');
 							}
 						}}
 						shouldAutocomplete={true}
+						onBlurCapture={() => trigger(fieldnames.saksbehandlerIdent as keyof FlyttReservasjonType)}
+						error={formState.errors.saksbehandlerIdent?.message}
 					/>
 				)}
 				<div className="mt-8">
