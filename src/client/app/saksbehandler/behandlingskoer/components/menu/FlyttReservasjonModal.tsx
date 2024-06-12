@@ -10,10 +10,11 @@ import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner
 import Modal from 'sharedComponents/Modal';
 import * as styles from './flyttReservasjonModal.css';
 import { useGetAlleSaksbehandlere } from 'api/queries/saksbehandlerQueries';
-import { ErrorMessage, Skeleton, UNSAFE_Combobox, useDatepicker } from '@navikt/ds-react';
+import { ErrorMessage, Skeleton, UNSAFE_Combobox, Heading } from '@navikt/ds-react';
 import { SaksbehandlerEnkel } from 'avdelingsleder/bemanning/saksbehandlerTsType';
 import { useForm } from 'react-hook-form';
 import { Form, TextAreaField, Datepicker } from '@navikt/ft-form-hooks';
+import { hasValidText, maxLength, minLength, required, dateAfterOrEqualToToday } from '@navikt/ft-form-validators';
 
 interface OwnProps {
 	showModal: boolean;
@@ -58,11 +59,10 @@ export const FlyttReservasjonModal: FunctionComponent<OwnProps> = ({
 		[fieldnames.reserverTil]: oppgaveReservertTil
 			? dayjs(oppgaveReservertTil).format('YYYY-MM-DD')
 			: dayjs().format('YYYY-MM-DD'),
-		[fieldnames.begrunnelse]: '',
-		[fieldnames.saksbehandler]: null,
+		[fieldnames.begrunnelse]: eksisterendeBegrunnelse || '',
+		[fieldnames.saksbehandler]: reservertAvIdent || '', // TOOODOOOOOO
 	};
 	const formMethods = useForm({ defaultValues: initialValues });
-	const { watch } = formMethods;
 
 	const endreReservasjonFn = useCallback(
 		(brukerIdent: string, begrunnelse: string, reservertTilDato: string): Promise<any> => {
@@ -105,6 +105,7 @@ export const FlyttReservasjonModal: FunctionComponent<OwnProps> = ({
 			contentLabel={intl.formatMessage({ id: 'FlyttReservasjonModal.Tittel' })}
 			onRequestClose={closeModal}
 		>
+			<Heading size="small">{intl.formatMessage({ id: 'FlyttReservasjonModal.Tittel' })}</Heading>
 			<Form
 				formMethods={formMethods}
 				onSubmit={(values) =>
@@ -116,6 +117,8 @@ export const FlyttReservasjonModal: FunctionComponent<OwnProps> = ({
 				{saksbehandlere.length > 0 && (
 					<UNSAFE_Combobox
 						label="Velg saksbehandler"
+						className="mt-8"
+						size="small"
 						options={saksbehandlere.map((v) => v.navn)}
 						selectedOptions={saksbehandler ? [saksbehandler.navn] : []}
 						onToggleSelected={(saksbehandlerOption, isSelected) => {
@@ -130,14 +133,20 @@ export const FlyttReservasjonModal: FunctionComponent<OwnProps> = ({
 						shouldAutocomplete={true}
 					/>
 				)}
-				<Datepicker label="" name={fieldnames.reserverTil} />
-				<TextAreaField label="Begrunnelse" name="begrunnelse" />
-				<Hovedknapp
-					className={styles.submitButton}
-					mini
-					htmlType="submit"
-					disabled={!saksbehandler || !watch(fieldnames.reserverTil) || watch(fieldnames.begrunnelse)?.length < 3}
-				>
+				<div className="mt-8">
+					<Datepicker
+						label={intl.formatMessage({ id: 'FlyttReservasjonModal.FlyttReservasjonText' })}
+						name={fieldnames.reserverTil}
+						validate={[dateAfterOrEqualToToday]}
+					/>
+				</div>
+				<TextAreaField
+					className="mt-8"
+					label={intl.formatMessage({ id: 'FlyttReservasjonModal.Begrunn' })}
+					name="begrunnelse"
+					validate={[required, minLength(3), maxLength(1500), hasValidText]}
+				/>
+				<Hovedknapp className={styles.submitButton} mini htmlType="submit">
 					{intl.formatMessage({ id: 'FlyttReservasjonModal.Ok' })}
 				</Hovedknapp>
 				<Knapp className={styles.cancelButton} mini htmlType="reset" onClick={closeModal}>
