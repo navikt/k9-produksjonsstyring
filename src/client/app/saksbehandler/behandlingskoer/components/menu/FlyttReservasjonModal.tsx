@@ -2,19 +2,15 @@ import React, { FunctionComponent, useEffect } from 'react';
 import { useIntl } from 'react-intl';
 import { useQueryClient } from 'react-query';
 import dayjs from 'dayjs';
-import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
 import { OppgaveNøkkel } from 'types/OppgaveNøkkel';
 import apiPaths from 'api/apiPaths';
 import { K9LosApiKeys } from 'api/k9LosApi';
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
-import Modal from 'sharedComponents/Modal';
-import * as styles from './flyttReservasjonModal.css';
 import { useGetAlleSaksbehandlere } from 'api/queries/saksbehandlerQueries';
-import { ErrorMessage, Skeleton, UNSAFE_Combobox, Heading } from '@navikt/ds-react';
+import { ErrorMessage, Skeleton, UNSAFE_Combobox, Modal, Button } from '@navikt/ds-react';
 import { useForm } from 'react-hook-form';
 import { Form, TextAreaField, Datepicker } from '@navikt/ft-form-hooks';
 import { hasValidText, maxLength, minLength, required, dateAfterOrEqualToToday } from '@navikt/ft-form-validators';
-import { useFormState } from 'react-final-form';
 
 interface OwnProps {
 	showModal: boolean;
@@ -96,67 +92,66 @@ export const FlyttReservasjonModal: FunctionComponent<OwnProps> = ({
 
 	return (
 		<Modal
-			className={styles.modal}
-			isOpen={showModal}
-			closeButton={false}
-			contentLabel={intl.formatMessage({ id: 'FlyttReservasjonModal.Tittel' })}
-			onRequestClose={closeModal}
+			open={showModal}
+			onClose={closeModal}
+			header={{ heading: intl.formatMessage({ id: 'FlyttReservasjonModal.Tittel' }) }}
 		>
-			<Heading size="small">{intl.formatMessage({ id: 'FlyttReservasjonModal.Tittel' })}</Heading>
-			<Form
-				formMethods={formMethods}
-				onSubmit={(values) =>
-					onSubmit(saksbehandlerIdent ? saksbehandlerIdent : '', values.begrunnelse, values.reserverTil)
-				}
-			>
-				{isLoading && <Skeleton height={80} />}
-				{(error || !saksbehandlere) && <ErrorMessage>Noe gikk galt ved henting av saksbehandlere</ErrorMessage>}
-				{saksbehandlere.length > 0 && (
-					<UNSAFE_Combobox
-						label="Velg saksbehandler"
-						className="mt-8"
-						size="small"
-						options={saksbehandlerOptions}
-						selectedOptions={
-							saksbehandlerIdent && saksbehandlerOptions.find((v) => v.value === saksbehandlerIdent)
-								? saksbehandlerOptions.filter((v) => v.value === saksbehandlerIdent)
-								: []
-						}
-						onToggleSelected={(optionValue, isSelected) => {
-							if (isSelected) {
-								setValue(
-									fieldnames.saksbehandlerIdent as keyof FlyttReservasjonType,
-									saksbehandlere.find((v) => v.brukerIdent === optionValue)?.brukerIdent,
-								);
-							} else {
-								setValue(fieldnames.saksbehandlerIdent as keyof FlyttReservasjonType, '');
+			<Modal.Body>
+				<Form
+					formMethods={formMethods}
+					onSubmit={(values) => onSubmit(values.saksbehandlerIdent, values.begrunnelse, values.reserverTil)}
+					className="p-2"
+				>
+					{isLoading && <Skeleton height={80} />}
+					{(error || !saksbehandlere) && <ErrorMessage>Noe gikk galt ved henting av saksbehandlere</ErrorMessage>}
+					{saksbehandlere.length > 0 && (
+						<UNSAFE_Combobox
+							label="Velg saksbehandler"
+							size="small"
+							options={saksbehandlerOptions}
+							selectedOptions={
+								saksbehandlerIdent && saksbehandlerOptions.find((v) => v.value === saksbehandlerIdent)
+									? saksbehandlerOptions.filter((v) => v.value === saksbehandlerIdent)
+									: []
 							}
-						}}
-						shouldAutocomplete={true}
-						onBlurCapture={() => trigger(fieldnames.saksbehandlerIdent as keyof FlyttReservasjonType)}
-						error={formState.errors.saksbehandlerIdent?.message}
+							onToggleSelected={(optionValue, isSelected) => {
+								if (isSelected) {
+									setValue(
+										fieldnames.saksbehandlerIdent as keyof FlyttReservasjonType,
+										saksbehandlere.find((v) => v.brukerIdent === optionValue)?.brukerIdent,
+									);
+								} else {
+									setValue(fieldnames.saksbehandlerIdent as keyof FlyttReservasjonType, '');
+								}
+							}}
+							shouldAutocomplete={true}
+							onBlurCapture={() => trigger(fieldnames.saksbehandlerIdent as keyof FlyttReservasjonType)}
+							error={formState.errors.saksbehandlerIdent?.message}
+						/>
+					)}
+					<div className="mt-8">
+						<Datepicker
+							label={intl.formatMessage({ id: 'FlyttReservasjonModal.FlyttReservasjonText' })}
+							name={fieldnames.reserverTil}
+							validate={[dateAfterOrEqualToToday]}
+						/>
+					</div>
+					<TextAreaField
+						className="mt-8"
+						label={intl.formatMessage({ id: 'FlyttReservasjonModal.Begrunn' })}
+						name="begrunnelse"
+						validate={[required, minLength(3), maxLength(1500), hasValidText]}
 					/>
-				)}
-				<div className="mt-8">
-					<Datepicker
-						label={intl.formatMessage({ id: 'FlyttReservasjonModal.FlyttReservasjonText' })}
-						name={fieldnames.reserverTil}
-						validate={[dateAfterOrEqualToToday]}
-					/>
-				</div>
-				<TextAreaField
-					className="mt-8"
-					label={intl.formatMessage({ id: 'FlyttReservasjonModal.Begrunn' })}
-					name="begrunnelse"
-					validate={[required, minLength(3), maxLength(1500), hasValidText]}
-				/>
-				<Hovedknapp className={styles.submitButton} mini htmlType="submit">
-					{intl.formatMessage({ id: 'FlyttReservasjonModal.Ok' })}
-				</Hovedknapp>
-				<Knapp className={styles.cancelButton} mini htmlType="reset" onClick={closeModal}>
-					{intl.formatMessage({ id: 'FlyttReservasjonModal.Avbryt' })}
-				</Knapp>
-			</Form>
+					<Modal.Footer>
+						<Button variant="primary" type="submit">
+							{intl.formatMessage({ id: 'FlyttReservasjonModal.Ok' })}
+						</Button>
+						<Button variant="secondary" type="reset" onClick={closeModal}>
+							{intl.formatMessage({ id: 'FlyttReservasjonModal.Avbryt' })}
+						</Button>
+					</Modal.Footer>
+				</Form>
+			</Modal.Body>
 		</Modal>
 	);
 };
