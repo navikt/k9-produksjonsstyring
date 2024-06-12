@@ -19,7 +19,7 @@ import {
 	minLength,
 	required,
 } from 'utils/validation/validators';
-import { useAvdelingslederEndreReservasjoner } from 'api/queries/avdelingslederQueries';
+import { useEndreReservasjoner } from 'api/queries/avdelingslederQueries';
 import { Saksbehandler } from '../../saksbehandlerTsType';
 import * as styles from './flyttReservasjonModal.css';
 
@@ -29,7 +29,7 @@ const maxLength1500 = maxLength(1500);
 interface OwnProps {
 	open: boolean;
 	closeModal: () => void;
-	oppgaveNøkler: Array<OppgaveNøkkel>;
+	valgteReservasjoner: Array<{ oppgaveNøkkel: OppgaveNøkkel; begrunnelse: string }>;
 }
 
 /**
@@ -37,14 +37,14 @@ interface OwnProps {
  *
  * Presentasjonskomponent. Modal som lar en søke opp en saksbehandler som saken skal flyttes til. En kan også begrunne hvorfor saken skal flyttes.
  */
-export const FlyttReservasjonBolkModal: FunctionComponent<OwnProps> = ({ open, closeModal, oppgaveNøkler }) => {
+export const FlyttReservasjonBolkModal: FunctionComponent<OwnProps> = ({ open, closeModal, valgteReservasjoner }) => {
 	const {
 		startRequest,
 		state,
 		data: saksbehandler,
 		resetRequestData,
 	} = useRestApiRunner<Saksbehandler>(K9LosApiKeys.FLYTT_RESERVASJON_SAKSBEHANDLER_SOK);
-	const { mutate: flyttReservasjoner } = useAvdelingslederEndreReservasjoner();
+	const { mutate: flyttReservasjoner } = useEndreReservasjoner();
 	const intl = useIntl();
 	const finnSaksbehandler = useCallback((brukerIdent: string) => startRequest({ brukerIdent }), []);
 
@@ -67,7 +67,10 @@ export const FlyttReservasjonBolkModal: FunctionComponent<OwnProps> = ({ open, c
 			className={styles.modal}
 			isOpen={open}
 			closeButton={false}
-			contentLabel={intl.formatMessage({ id: 'FlyttReservasjonBolkModal.Tittel' }, { antall: oppgaveNøkler.length })}
+			contentLabel={intl.formatMessage(
+				{ id: 'FlyttReservasjonBolkModal.Tittel' },
+				{ antall: valgteReservasjoner.length },
+			)}
 			onRequestClose={closeModal}
 		>
 			<Form
@@ -76,7 +79,7 @@ export const FlyttReservasjonBolkModal: FunctionComponent<OwnProps> = ({ open, c
 				render={({ handleSubmit, values }) => (
 					<form onSubmit={handleSubmit}>
 						<Element>
-							<FormattedMessage id="FlyttReservasjonBolkModal.Tittel" values={{ antall: oppgaveNøkler.length }} />
+							<FormattedMessage id="FlyttReservasjonBolkModal.Tittel" values={{ antall: valgteReservasjoner.length }} />
 						</Element>
 						<VerticalSpacer eightPx />
 						<FlexContainer>
@@ -113,21 +116,18 @@ export const FlyttReservasjonBolkModal: FunctionComponent<OwnProps> = ({ open, c
 				)}
 			/>
 			<Form
-				onSubmit={({ begrunnelse, reservertTilDato }) =>
+				onSubmit={({ reserverTil }) =>
 					flyttReservasjoner(
-						{
-							oppgaveNøkkel: oppgaveNøkler,
-							begrunnelse,
-							reservertTilDato,
-							brukerIdent: saksbehandler ? saksbehandler.brukerIdent : '',
-						},
+						valgteReservasjoner.map((r) => ({
+							oppgaveNøkkel: r.oppgaveNøkkel,
+							begrunnelse: r.begrunnelse,
+							reserverTil,
+							brukerIdent: saksbehandler?.brukerIdent ?? '',
+						})),
+
 						{ onSuccess: closeModal },
 					)
 				}
-				initialValues={{
-					reserverTil: '',
-					begrunnelse: '',
-				}}
 				render={({ handleSubmit, values }) => (
 					<form onSubmit={handleSubmit}>
 						<VerticalSpacer sixteenPx />
@@ -142,18 +142,7 @@ export const FlyttReservasjonBolkModal: FunctionComponent<OwnProps> = ({ open, c
 							/>
 						</div>
 						<VerticalSpacer sixteenPx />
-						<TextAreaField
-							name="begrunnelse"
-							label={intl.formatMessage({ id: 'FlyttReservasjonBolkModal.Begrunn' })}
-							validate={[required, maxLength1500, minLength3, hasValidText]}
-							maxLength={1500}
-						/>
-						<Hovedknapp
-							className={styles.submitButton}
-							mini
-							htmlType="submit"
-							disabled={!saksbehandler || !values.begrunnelse || values.begrunnelse.length < 3}
-						>
+						<Hovedknapp className={styles.submitButton} mini htmlType="submit" disabled={!saksbehandler}>
 							{intl.formatMessage({ id: 'FlyttReservasjonBolkModal.Ok' })}
 						</Hovedknapp>
 						<Knapp className={styles.cancelButton} mini htmlType="reset" onClick={closeModal}>
