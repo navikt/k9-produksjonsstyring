@@ -61,7 +61,6 @@ test('kan legge tilbake reservasjon i felles kø', async ({ page }) => {
 	await expect(page.getByRole('cell', { name: saksnummer })).toBeVisible();
 	await page.getByRole('img', { name: 'Handlinger på oppgave' }).click();
 	await page.getByRole('button', { name: 'Legg oppgave tilbake i felles kø' }).click();
-	await page.getByLabel('Når en reservert sak frigjøres er begrunnelse obligatorisk').fill('Dette er en god grunn');
 	await page.getByRole('button', { name: 'OK' }).click();
 
 	await expect(page.getByRole('cell', { name: saksnummer })).not.toBeVisible();
@@ -140,7 +139,6 @@ test('kan fjerne reservasjon som avdelingsleder', async ({ page }) => {
 	await page.goto('/avdelingsleder');
 	await page.getByRole('link', { name: 'Reservasjoner' }).click();
 	await page.getByRole('button', { name: 'Legg tilbake i kø' }).click();
-	await page.getByLabel('Når en reservert sak frigjøres er begrunnelse obligatorisk').fill('Dette er en god grunn');
 	await page.getByRole('button', { name: 'OK' }).click();
 
 	await page.waitForResponse(
