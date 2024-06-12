@@ -40,7 +40,7 @@ export const useAvdelingslederReservasjoner = (options: UseQueryOptions<Reservas
 export const useOpphevReservasjoner = () => {
 	const queryClient = useQueryClient();
 	return useMutation({
-		mutationFn: (data: Array<{ oppgaveNøkkel: OppgaveNøkkel }>) =>
+		mutationFn: (data: { oppgaveNøkkel: Array<OppgaveNøkkel>; begrunnelse: string }) =>
 			axiosInstance.post(apiPaths.opphevReservasjoner, data),
 		onSuccess: () =>
 			Promise.all([
@@ -53,14 +53,12 @@ export const useOpphevReservasjoner = () => {
 export const useEndreReservasjoner = () => {
 	const queryClient = useQueryClient();
 	return useMutation({
-		mutationFn: (
-			data: Array<{
-				oppgaveNøkkel: OppgaveNøkkel;
-				begrunnelse: string;
-				reserverTil: string;
-				brukerIdent: string;
-			}>,
-		) => axiosInstance.post(apiPaths.endreReservasjoner, data),
+		mutationFn: (data: {
+			oppgaveNøkkel: Array<OppgaveNøkkel>;
+			begrunnelse: string;
+			reservertTilDato: string;
+			brukerIdent: string;
+		}) => axiosInstance.post(apiPaths.endreReservasjoner, data),
 		onSuccess: () =>
 			Promise.all([
 				queryClient.invalidateQueries(apiPaths.saksbehandlerReservasjoner),

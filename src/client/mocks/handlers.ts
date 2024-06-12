@@ -98,7 +98,7 @@ export const developmentHandlers = {
 	oppgaver: rest.get(apiPaths.oppgaver, (req, res, ctx) => res(ctx.json(10))),
 	oppgavekoer: rest.get(apiPaths.hentAlleKoerSaksbehandlerV1, (req, res, ctx) => res(ctx.json(saksbehandlerOppgaveko))),
 	sok: rest.post(apiPaths.sok, (req, res, ctx) => res(ctx.json(soek))),
-	saksbehandlere: rest.get(apiPaths.hentSaksbehandlere, (req, res, ctx) =>
+	saksbehandlere: rest.get(apiPaths.hentSaksbehandlereAvdelingsleder, (req, res, ctx) =>
 		res(
 			ctx.json([
 				{ navn: 'Ping Pong Paul', brukerIdent: 'M088876', epost: 'pingpongpaul@nav.no' },

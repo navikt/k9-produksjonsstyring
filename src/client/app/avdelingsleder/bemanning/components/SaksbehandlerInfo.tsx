@@ -25,7 +25,7 @@ const SaksbehandlerInfo: FunctionComponent<OwnProps> = ({ saksbehandler }) => {
 	const { startRequest: fjernSaksbehandler } = useRestApiRunner<Saksbehandler>(K9LosApiKeys.SLETT_SAKSBEHANDLER);
 	const fjernSaksbehandlerFn = (epost: string) =>
 		fjernSaksbehandler({ epost }).then(() => {
-			queryClient.invalidateQueries({ queryKey: apiPaths.hentSaksbehandlere });
+			queryClient.invalidateQueries({ queryKey: apiPaths.hentSaksbehandlereAvdelingsleder });
 			lukkSlettModal();
 		});
 

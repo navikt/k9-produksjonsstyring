@@ -1,5 +1,5 @@
-import React, { FunctionComponent, useMemo } from 'react';
-import { useQuery } from 'react-query';
+import React, { FunctionComponent, useEffect, useMemo } from 'react';
+import { useQuery, useQueryClient } from 'react-query';
 import { Route, Routes } from 'react-router-dom';
 import AppContext from 'app/AppContext';
 import apiPaths from 'api/apiPaths';
@@ -10,6 +10,9 @@ import SaksbehandlerIndex from 'saksbehandler/SaksbehandlerIndex';
 import AdminIndex from '../../admin/AdminIndex';
 import FilterIndex from '../../filter/FilterIndex';
 import MissingPage from './MissingPage';
+import { useGlobalStateRestApi, useGlobalStateRestApiData } from 'api/rest-api-hooks';
+import { RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
+import NavAnsatt from 'app/navAnsattTsType';
 
 interface OwnProps {
 	headerHeight: number;
@@ -24,6 +27,19 @@ interface OwnProps {
 const SentryRoutes = withSentryReactRouterV6Routing(Routes);
 const Home: FunctionComponent<OwnProps> = ({ headerHeight }) => {
 	const { data } = useQuery<{ felter: Oppgavefelt[] }>(apiPaths.hentOppgaveFelter);
+	const { kanOppgavestyre, brukerIdent } = useGlobalStateRestApiData<NavAnsatt>(RestApiGlobalStatePathsKeys.NAV_ANSATT);
+
+	const queryClient = useQueryClient();
+
+	useEffect(() => {
+		if (brukerIdent) {
+			if (kanOppgavestyre) {
+				queryClient.prefetchQuery(apiPaths.hentSaksbehandlereAvdelingsleder);
+			}
+			queryClient.prefetchQuery(apiPaths.hentSaksbehandlereSomSaksbehandler);
+		}
+	}, [queryClient, brukerIdent, kanOppgavestyre]);
+
 	const contextValues = useMemo(() => ({ felter: data ? data.felter : [] }), [data]);
 
 	return (
