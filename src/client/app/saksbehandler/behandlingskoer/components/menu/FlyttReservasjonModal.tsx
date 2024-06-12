@@ -115,7 +115,7 @@ export const FlyttReservasjonModal: FunctionComponent<OwnProps> = ({
 						selectedOptions={
 							saksbehandlerIdent && saksbehandlerOptions.find((v) => v.value === saksbehandlerIdent)
 								? saksbehandlerOptions.filter((v) => v.value === saksbehandlerIdent)
-								: undefined
+								: []
 						}
 						onToggleSelected={(optionValue, isSelected) => {
 							if (isSelected) {
