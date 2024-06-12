@@ -25,6 +25,12 @@ interface OwnProps {
 	reservertAvIdent: string;
 }
 
+interface FlyttReservasjonType {
+	reserverTil: string;
+	begrunnelse: string;
+	saksbehandlerIdent: string;
+}
+
 /**
  * FlyttReservasjonModal
  *
@@ -41,18 +47,18 @@ export const FlyttReservasjonModal: FunctionComponent<OwnProps> = ({
 	const { startRequest: endreOppgaveReservasjon } = useRestApiRunner(K9LosApiKeys.ENDRE_OPPGAVERESERVASJON);
 	const intl = useIntl();
 	const queryClient = useQueryClient();
-	const [saksbehandler, setSaksbehandler] = useState<SaksbehandlerEnkel | undefined>();
-	const { data: saksbehandlere, isLoading, error } = useGetAlleSaksbehandlere();
-	useEffect(() => {
-		if (saksbehandlere && reservertAvIdent && !saksbehandler) {
-			setSaksbehandler(saksbehandlere.find((v) => v.brukerIdent === reservertAvIdent));
-		}
-	}, [saksbehandlere]);
+	const { data: saksbehandlere, isLoading, error } = useGetAlleSaksbehandlere({ placeholderData: [] });
 
-	const fieldnames = {
+	const uniqueSaksbehandlere = Array.from(new Set(saksbehandlere.map((a) => a.brukerIdent))).map((brukerIdent) => {
+		return saksbehandlere.find((a) => a.brukerIdent === brukerIdent);
+	});
+
+	const saksbehandlerOptions = uniqueSaksbehandlere.map((v) => ({ value: v.brukerIdent, label: v.navn }));
+
+	const fieldnames: FlyttReservasjonType = {
 		reserverTil: 'reserverTil',
 		begrunnelse: 'begrunnelse',
-		saksbehandler: 'saksbehandler',
+		saksbehandlerIdent: 'saksbehandlerIdent',
 	};
 
 	const initialValues = {
@@ -60,42 +66,28 @@ export const FlyttReservasjonModal: FunctionComponent<OwnProps> = ({
 			? dayjs(oppgaveReservertTil).format('YYYY-MM-DD')
 			: dayjs().format('YYYY-MM-DD'),
 		[fieldnames.begrunnelse]: eksisterendeBegrunnelse || '',
-		[fieldnames.saksbehandler]: reservertAvIdent || '', // TOOODOOOOOO
+		[fieldnames.saksbehandlerIdent]: reservertAvIdent || '',
 	};
-	const formMethods = useForm({ defaultValues: initialValues });
+	const formMethods = useForm<FlyttReservasjonType>({ defaultValues: initialValues });
 
-	const endreReservasjonFn = useCallback(
-		(brukerIdent: string, begrunnelse: string, reservertTilDato: string): Promise<any> => {
-			const params: {
-				oppgaveNøkkel: OppgaveNøkkel;
-				brukerIdent: string;
-				begrunnelse: string;
-				reserverTil?: string;
-			} = {
-				oppgaveNøkkel,
-				brukerIdent,
-				begrunnelse,
-			};
+	const saksbehandlerIdent = formMethods.watch(fieldnames.saksbehandlerIdent as keyof FlyttReservasjonType);
+	const endreReservasjonFn = (brukerIdent: string, begrunnelse: string, reservertTilDato: string): Promise<any> => {
+		const params = {
+			oppgaveNøkkel,
+			brukerIdent,
+			begrunnelse,
+			reserverTil: reservertTilDato,
+		};
 
-			if (reservertTilDato) {
-				params.reserverTil = reservertTilDato;
-			}
-
-			return endreOppgaveReservasjon(params).then(() => {
-				closeModal();
-				queryClient.invalidateQueries(apiPaths.saksbehandlerReservasjoner);
-				queryClient.invalidateQueries(apiPaths.avdelinglederReservasjoner);
-			});
-		},
-		[queryClient],
-	);
+		return endreOppgaveReservasjon(params).then(() => {
+			closeModal();
+			queryClient.invalidateQueries(apiPaths.saksbehandlerReservasjoner);
+			queryClient.invalidateQueries(apiPaths.avdelinglederReservasjoner);
+		});
+	};
 	const onSubmit = (brukerIdent: string, begrunnelse: string, reservertTilDato: string) => {
 		endreReservasjonFn(brukerIdent, begrunnelse, reservertTilDato);
 	};
-
-	//validering
-	// datepicker må være etter dagens dato, påkrevd og være en gyldig dato
-	// begrunnelse må være minst 3 tegn, påkrevd, ha gyldig tekst og maks 1500 tegn
 
 	return (
 		<Modal
@@ -109,7 +101,7 @@ export const FlyttReservasjonModal: FunctionComponent<OwnProps> = ({
 			<Form
 				formMethods={formMethods}
 				onSubmit={(values) =>
-					onSubmit(saksbehandler ? saksbehandler.brukerIdent : '', values.begrunnelse, values.reserverTil)
+					onSubmit(saksbehandlerIdent ? saksbehandlerIdent : '', values.begrunnelse, values.reserverTil)
 				}
 			>
 				{isLoading && <Skeleton height={80} />}
@@ -119,15 +111,20 @@ export const FlyttReservasjonModal: FunctionComponent<OwnProps> = ({
 						label="Velg saksbehandler"
 						className="mt-8"
 						size="small"
-						options={saksbehandlere.map((v) => v.navn)}
-						selectedOptions={saksbehandler ? [saksbehandler.navn] : []}
-						onToggleSelected={(saksbehandlerOption, isSelected) => {
+						options={saksbehandlerOptions}
+						selectedOptions={
+							saksbehandlerIdent && saksbehandlerOptions.find((v) => v.value === saksbehandlerIdent)
+								? saksbehandlerOptions.filter((v) => v.value === saksbehandlerIdent)
+								: undefined
+						}
+						onToggleSelected={(optionValue, isSelected) => {
 							if (isSelected) {
-								setSaksbehandler(
-									saksbehandlere.find((v) => v.navn.toLowerCase() === saksbehandlerOption.toLowerCase()),
+								formMethods.setValue(
+									fieldnames.saksbehandlerIdent as keyof FlyttReservasjonType,
+									saksbehandlere.find((v) => v.brukerIdent === optionValue)?.brukerIdent,
 								);
 							} else {
-								setSaksbehandler(undefined);
+								formMethods.setValue(fieldnames.saksbehandlerIdent as keyof FlyttReservasjonType, '');
 							}
 						}}
 						shouldAutocomplete={true}
