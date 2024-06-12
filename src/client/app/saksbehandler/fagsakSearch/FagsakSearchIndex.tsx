@@ -5,7 +5,7 @@ import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
 import { ErrorTypes, errorOfType, getErrorResponseData } from 'api/rest-api';
 import useGlobalStateRestApiData from 'api/rest-api-hooks/src/global-data/useGlobalStateRestApiData';
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
-import { FlyttReservasjonsmodal } from 'saksbehandler/components/FlyttReservasjonModal/FlyttReservasjonModal';
+import { FlyttReservasjonISoekModal } from 'saksbehandler/components/FlyttReservasjonModal/FlyttReservasjonISoekModal';
 import OppgaveErReservertAvAnnenModal from 'saksbehandler/components/OppgaveErReservertAvAnnenModal';
 import { SokeResultat } from 'saksbehandler/fagsakSearch/sokeResultatTsType';
 import { OppgaveStatus } from 'saksbehandler/oppgaveStatusTsType';
@@ -154,7 +154,7 @@ const FagsakSearchIndex: FunctionComponent<OwnProps> = ({ k9sakUrl, k9punsjUrl }
 			)}
 
 			{visModalForFlyttReservasjon && valgtOppgave && valgtOppgaveStatus && (
-				<FlyttReservasjonsmodal
+				<FlyttReservasjonISoekModal
 					oppgave={valgtOppgave}
 					oppgaveStatus={valgtOppgaveStatus}
 					lukkFlyttReservasjonsmodal={() => {
