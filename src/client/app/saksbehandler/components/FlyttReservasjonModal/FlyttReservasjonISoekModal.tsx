@@ -21,7 +21,7 @@ interface OwnProps {
 	hentOppgaverTilBehandling?: () => void;
 }
 
-export const FlyttReservasjonsmodal: FunctionComponent<OwnProps> = ({
+export const FlyttReservasjonISoekModal: FunctionComponent<OwnProps> = ({
 	oppgave,
 	oppgaveStatus,
 	lukkFlyttReservasjonsmodal,
@@ -141,4 +141,4 @@ export const FlyttReservasjonsmodal: FunctionComponent<OwnProps> = ({
 	);
 };
 
-export default FlyttReservasjonsmodal;
+export default FlyttReservasjonISoekModal;
