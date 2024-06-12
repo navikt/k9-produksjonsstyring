@@ -32,9 +32,6 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps> = ({ apneOppgave, gj
 	const [valgtOppgaveId, setValgtOppgaveId] = useState<string>();
 	const [visReservasjoner, setVisReservasjoner] = useState(true);
 	const queryClient = useQueryClient();
-	useEffect(() => {
-		queryClient.prefetchQuery(apiPaths.hentSaksbehandlereSomSaksbehandler);
-	}, [queryClient]);
 
 	const {
 		data: reservasjoner,
