@@ -7,7 +7,7 @@ import Oppgave from 'saksbehandler/oppgaveTsType';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import FlyttReservasjonModal from './FlyttReservasjonModal';
 import MenuButton from './MenuButton';
-import OpphevReservasjonModal from './OpphevReservasjonModal';
+import OpphevReservasjonerModal from './OpphevReservasjonerModal';
 import * as styles from './oppgaveHandlingerMenu.css';
 
 const toggleEventListeners = (turnOnEventListeners, handleOutsideClick) => {
@@ -108,10 +108,10 @@ const OppgaveHandlingerMenu: React.FC<OwnProps> = ({
 				</MenuButton>
 			</div>
 			{showOpphevReservasjonModal && (
-				<OpphevReservasjonModal
-					oppgaveNøkkel={oppgave.oppgaveNøkkel}
-					showModal={showOpphevReservasjonModal}
-					cancel={closeBegrunnelseModal}
+				<OpphevReservasjonerModal
+					oppgaveNøkler={[oppgave.oppgaveNøkkel]}
+					open={showOpphevReservasjonModal}
+					closeModal={closeBegrunnelseModal}
 				/>
 			)}
 

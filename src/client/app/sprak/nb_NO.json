@@ -247,15 +247,11 @@
 	"OppgaveReservasjonEndringDatoModal.Ok": "OK",
 	"OppgaveReservasjonEndringDatoModal.Avbryt": "Avbryt",
 
-	"OpphevReservasjonModal.Begrunnelse": "Angi begrunnelse",
-	"OpphevReservasjonModal.Hjelpetekst": "Når en reservert sak frigjøres er begrunnelse obligatorisk",
+	"OpphevReservasjonModal.Tittel": "Oppheve reservasjon?",
+	"OpphevReservasjonModal.TekstEntall": "Er du sikker på at du vil oppheve reservasjonen?",
+	"OpphevReservasjonModal.TekstFlertall": "Er du sikker på at du vil oppheve {antall} reservasjoner?",
 	"OpphevReservasjonModal.Ok": "OK",
 	"OpphevReservasjonModal.Avbryt": "Avbryt",
-
-	"OpphevReservasjonBolkModal.Tittel": "Legg {antall} reservasjoner tilbake i felles kø",
-	"OpphevReservasjonBolkModal.Begrunnelse": "Begrunn oppheving av reservasjoner",
-	"OpphevReservasjonBolkModal.Ok": "OK",
-	"OpphevReservasjonBolkModal.Avbryt": "Avbryt",
 
 	"Person.Age": "{age} år",
 	"Person.ImageText": "Personinformasjon",

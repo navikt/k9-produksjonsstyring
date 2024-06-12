@@ -1,13 +1,13 @@
 import ModalButton from 'sharedComponents/ModalButton';
 import { Button } from '@navikt/ds-react';
 import { FormattedMessage } from 'react-intl';
-import OpphevReservasjonBolkModal from 'saksbehandler/behandlingskoer/components/menu/OpphevReservasjonBolkModal';
+import OpphevReservasjonerModal from 'saksbehandler/behandlingskoer/components/menu/OpphevReservasjonerModal';
 import FlyttReservasjonBolkModal from 'saksbehandler/behandlingskoer/components/menu/FlyttReservasjonBolkModal';
 import React from 'react';
 import { OppgaveNøkkel } from 'types/OppgaveNøkkel';
 
 interface Props {
-	valgteReservasjoner: Array<OppgaveNøkkel>;
+	valgteReservasjoner: Array<{ oppgaveNøkkel: OppgaveNøkkel; begrunnelse: string }>;
 }
 
 const ReservasjonerBolkButtons = ({ valgteReservasjoner }: Props) => (
@@ -19,7 +19,11 @@ const ReservasjonerBolkButtons = ({ valgteReservasjoner }: Props) => (
 				</Button>
 			)}
 			renderModal={({ closeModal, open }) => (
-				<OpphevReservasjonBolkModal oppgaveNøkler={valgteReservasjoner} open={open} closeModal={closeModal} />
+				<OpphevReservasjonerModal
+					oppgaveNøkler={valgteReservasjoner.map((r) => r.oppgaveNøkkel)}
+					open={open}
+					closeModal={closeModal}
+				/>
 			)}
 		/>
 		<ModalButton
@@ -32,7 +36,7 @@ const ReservasjonerBolkButtons = ({ valgteReservasjoner }: Props) => (
 				</Button>
 			)}
 			renderModal={({ closeModal, open }) => (
-				<FlyttReservasjonBolkModal oppgaveNøkler={valgteReservasjoner} open={open} closeModal={closeModal} />
+				<FlyttReservasjonBolkModal valgteReservasjoner={valgteReservasjoner} open={open} closeModal={closeModal} />
 			)}
 		/>
 	</div>
