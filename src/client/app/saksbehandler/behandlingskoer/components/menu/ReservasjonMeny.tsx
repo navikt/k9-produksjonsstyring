@@ -5,7 +5,7 @@ import OppgaveV3 from 'types/OppgaveV3';
 import ReservasjonV3 from 'saksbehandler/behandlingskoer/ReservasjonV3Dto';
 import Oppgave from 'saksbehandler/oppgaveTsType';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
-import FlyttReservasjonModal from './FlyttReservasjonModal';
+import FlyttReservasjonerModal from './FlyttReservasjonerModal';
 import MenuButton from './MenuButton';
 import OpphevReservasjonerModal from './OpphevReservasjonerModal';
 import * as styles from './oppgaveHandlingerMenu.css';
@@ -113,12 +113,16 @@ const ReservasjonMeny: React.FC<OwnProps> = ({
 			)}
 
 			{showFlyttReservasjonModal && (
-				<FlyttReservasjonModal
-					oppgaveNøkkel={oppgave.oppgaveNøkkel}
-					reservertAvIdent={reservasjon.reservertAvIdent}
-					eksisterendeBegrunnelse={reservasjon.kommentar}
-					oppgaveReservertTil={reservasjon.reservertTil}
-					showModal={showFlyttReservasjonModal}
+				<FlyttReservasjonerModal
+					reservasjoner={[
+						{
+							oppgaveNøkkel: oppgave.oppgaveNøkkel,
+							begrunnelse: reservasjon.kommentar,
+							reservertTil: reservasjon.reservertTil,
+							reservertAvIdent: reservasjon.reservertAvIdent,
+						},
+					]}
+					open={showFlyttReservasjonModal}
 					closeModal={closeFlytteModal}
 				/>
 			)}

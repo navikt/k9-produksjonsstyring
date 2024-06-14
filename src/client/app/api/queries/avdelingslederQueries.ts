@@ -53,12 +53,14 @@ export const useOpphevReservasjoner = () => {
 export const useEndreReservasjoner = () => {
 	const queryClient = useQueryClient();
 	return useMutation({
-		mutationFn: (data: {
-			oppgaveNøkkel: Array<OppgaveNøkkel>;
-			begrunnelse: string;
-			reservertTilDato: string;
-			brukerIdent: string;
-		}) => axiosInstance.post(apiPaths.endreReservasjoner, data),
+		mutationFn: (
+			data: {
+				oppgaveNøkkel: OppgaveNøkkel;
+				begrunnelse: string;
+				reservertTilDato: string;
+				brukerIdent: string;
+			}[],
+		) => axiosInstance.post(apiPaths.endreReservasjoner, data),
 		onSuccess: () =>
 			Promise.all([
 				queryClient.invalidateQueries(apiPaths.saksbehandlerReservasjoner),

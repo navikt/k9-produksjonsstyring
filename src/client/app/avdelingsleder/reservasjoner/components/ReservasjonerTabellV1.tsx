@@ -16,7 +16,7 @@ import Reservasjon from '../reservasjonTsType';
 import useGlobalStateRestApiData from '../../../api/rest-api-hooks/src/global-data/useGlobalStateRestApiData';
 import * as styles from './reservasjonerTabell.css';
 import ModalButton from 'sharedComponents/ModalButton';
-import FlyttReservasjonModal from 'saksbehandler/behandlingskoer/components/menu/FlyttReservasjonModal';
+import FlyttReservasjonerModal from 'saksbehandler/behandlingskoer/components/menu/FlyttReservasjonerModal';
 import { ArrowUndoIcon, PencilIcon } from '@navikt/aksel-icons';
 import OpphevReservasjonerModal from 'saksbehandler/behandlingskoer/components/menu/OpphevReservasjonerModal';
 
@@ -70,7 +70,7 @@ const ReservasjonerTabell = () => {
 				: {
 						orderBy: sortKey,
 						direction: sort && sortKey === sort.orderBy && sort.direction === 'ascending' ? 'descending' : 'ascending',
-					};
+				  };
 		setSort(newSort);
 		setReservasjonerSomSkalVises(sorter(reservasjonerSomSkalVises, newSort));
 	};
@@ -257,13 +257,17 @@ const ReservasjonerTabell = () => {
 											</Button>
 										)}
 										renderModal={({ closeModal, open }) => (
-											<FlyttReservasjonModal
-												showModal={open}
+											<FlyttReservasjonerModal
+												open={open}
 												closeModal={closeModal}
-												oppgaveNøkkel={reservasjon.oppgavenøkkel}
-												reservertAvIdent={reservasjon.reservertAvIdent}
-												oppgaveReservertTil={reservasjon.reservertTilTidspunkt}
-												eksisterendeBegrunnelse={reservasjon.kommentar}
+												reservasjoner={[
+													{
+														oppgaveNøkkel: reservasjon.oppgavenøkkel,
+														begrunnelse: reservasjon.kommentar,
+														reservertTil: reservasjon.reservertTilTidspunkt,
+														reservertAvIdent: reservasjon.reservertAvIdent,
+													},
+												]}
 											/>
 										)}
 									/>
