@@ -45,7 +45,7 @@ const initialValues = (reservasjoner: FlyttReservasjonType[]) => {
  * Presentasjonskomponent. Modal som lar en søke opp en saksbehandler som saken skal flyttes til. En kan også begrunne hvorfor saken skal flyttes.
  */
 export const FlyttReservasjonerModal: FunctionComponent<OwnProps> = ({ open, closeModal, reservasjoner }) => {
-	const { mutate: flyttReservasjoner } = useEndreReservasjoner();
+	const { mutate: flyttReservasjoner } = useEndreReservasjoner({ callback: closeModal });
 	const intl = useIntl();
 	const { data: saksbehandlere, isLoading, error } = useGetAlleSaksbehandlere({ placeholderData: [] });
 	const uniqueSaksbehandlere = Array.from(new Set(saksbehandlere.map((a) => a.brukerIdent))).map((brukerIdent) => {
@@ -90,7 +90,10 @@ export const FlyttReservasjonerModal: FunctionComponent<OwnProps> = ({ open, clo
 		<Modal
 			open={open}
 			onClose={closeModal}
-			header={{ heading: intl.formatMessage({ id: 'FlyttReservasjonModal.Tittel' }) }}
+			header={{
+				heading: intl.formatMessage({ id: 'FlyttReservasjonerModal.Tittel' }, { antall: reservasjoner.length }),
+			}}
+			className="min-w-[500px]"
 		>
 			<Modal.Body>
 				<Form
@@ -113,6 +116,7 @@ export const FlyttReservasjonerModal: FunctionComponent<OwnProps> = ({ open, clo
 							onToggleSelected={(optionValue, isSelected) => {
 								if (isSelected) {
 									setValue('reservertAvIdent', saksbehandlere.find((v) => v.brukerIdent === optionValue)?.brukerIdent);
+									trigger('reservertAvIdent');
 								} else {
 									setValue('reservertAvIdent', '');
 								}
@@ -124,7 +128,8 @@ export const FlyttReservasjonerModal: FunctionComponent<OwnProps> = ({ open, clo
 					)}
 					<div className="mt-8">
 						<Datepicker
-							label={intl.formatMessage({ id: 'FlyttReservasjonModal.FlyttReservasjonText' })}
+							label={intl.formatMessage({ id: 'FlyttReservasjonerModal.FlyttReservasjonText' })}
+							description={intl.formatMessage({ id: 'FlyttReservasjonerModal.FlyttReservasjonText.Description' })}
 							name={'reserverTil'}
 							validate={[dateAfterOrEqualToToday]}
 						/>
@@ -132,19 +137,19 @@ export const FlyttReservasjonerModal: FunctionComponent<OwnProps> = ({ open, clo
 					{!harFlereReservasjoner(reservasjoner) && (
 						<TextAreaField
 							className="mt-8"
-							label={intl.formatMessage({ id: 'FlyttReservasjonModal.Begrunn' })}
+							label={intl.formatMessage({ id: 'FlyttReservasjonerModal.Begrunn' })}
 							name="begrunnelse"
 							validate={[required, minLength(3), maxLength(1500), hasValidText]}
 						/>
 					)}
-					<Modal.Footer>
+					<div className="flex flex-row-reverse gap-4 mt-8">
 						<Button variant="primary" type="submit">
-							{intl.formatMessage({ id: 'FlyttReservasjonModal.Ok' })}
+							{intl.formatMessage({ id: 'FlyttReservasjonerModal.Ok' })}
 						</Button>
 						<Button variant="secondary" type="reset" onClick={closeModal}>
-							{intl.formatMessage({ id: 'FlyttReservasjonModal.Avbryt' })}
+							{intl.formatMessage({ id: 'FlyttReservasjonerModal.Avbryt' })}
 						</Button>
-					</Modal.Footer>
+					</div>
 				</Form>
 			</Modal.Body>
 		</Modal>

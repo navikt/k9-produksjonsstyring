@@ -50,7 +50,7 @@ export const useOpphevReservasjoner = () => {
 	});
 };
 
-export const useEndreReservasjoner = () => {
+export const useEndreReservasjoner = ({ callback }: { callback: () => void }) => {
 	const queryClient = useQueryClient();
 	return useMutation({
 		mutationFn: (
@@ -61,11 +61,13 @@ export const useEndreReservasjoner = () => {
 				brukerIdent: string;
 			}[],
 		) => axiosInstance.post(apiPaths.endreReservasjoner, data),
-		onSuccess: () =>
+		onSuccess: () => {
 			Promise.all([
 				queryClient.invalidateQueries(apiPaths.saksbehandlerReservasjoner),
 				queryClient.invalidateQueries(apiPaths.avdelinglederReservasjoner),
-			]),
+			]);
+			if (callback) callback();
+		},
 	});
 };
 
