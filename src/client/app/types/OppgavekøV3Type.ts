@@ -15,7 +15,6 @@ export interface OppgavekøV3 extends OppgavekøV3Enkel {
 export interface OppgavekøV3Enkel {
 	id: string;
 	tittel: string;
-	antallOppgaver: number,
 	antallSaksbehandlere: number;
 	sistEndret: string | null;
 }
