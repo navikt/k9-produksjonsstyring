@@ -81,9 +81,9 @@
 
 	"FlyttReservasjonerModal.Tittel": "Endre 1 reservasjon",
 	"FlyttReservasjonerModal.Tittel.Flertall": "Endre {antall} reservasjoner",
-	"FlyttReservasjonerModal.Begrunn": "Begrunn endring av reservasjoner",
-	"FlyttReservasjonerModal.Begrunn.Flertall": "Begrunn endring av reservasjoner",
+	"FlyttReservasjonerModal.Begrunn": "Begrunn endring av reservasjon",
 	"FlyttReservasjonerModal.FlyttReservasjonText": "Velg dato som reservasjonen avsluttes",
+	"FlyttReservasjonerModal.FlyttReservasjonText.Flertall": "Velg dato som reservasjonene avsluttes",
 	"FlyttReservasjonerModal.FlyttReservasjonText.Description": "Behold eksisterende dato ved å la feltet stå tomt",
 	"FlyttReservasjonerModal.Ok": "Lagre",
 	"FlyttReservasjonerModal.Avbryt": "Avbryt",

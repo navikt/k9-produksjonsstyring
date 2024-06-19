@@ -110,11 +110,11 @@ test('kan endre/og flytte reservasjon reservasjon', async ({ page }) => {
 	// Format the date as dd.mm.yyyy
 	const oneWeekFromNow = formatDate(date);
 	// fill with date one week in the future dd.mm.yyyy this format
-	await page.getByLabel(/Velg dato som reservasjonene avsluttes/i).fill(oneWeekFromNow);
+	await page.getByLabel(/Velg dato som reservasjonen avsluttes/i).fill(oneWeekFromNow);
 	await page
 		.getByLabel('Begrunn endring av reservasjon')
 		.fill('Jeg ønsker å beholde denne reservasjonen lenger på grunn av separasjonsangst');
-	await page.getByRole('button', { name: 'OK' }).click();
+	await page.getByRole('button', { name: 'Lagre' }).click();
 	await page.getByRole('cell', { name: `Reservert til ${oneWeekFromNow}` }).isVisible();
 });
 test('kan endre reservasjon som avdelingsleder', async ({ page }) => {
@@ -126,12 +126,11 @@ test('kan endre reservasjon som avdelingsleder', async ({ page }) => {
 	date.setDate(date.getDate() + 14);
 
 	const twoWeeksFromNow = formatDate(date);
-	await page.getByLabel(/Velg dato som reservasjonene avsluttes/i).fill(twoWeeksFromNow);
-	await page.getByLabel('Begrunn endring av reservasjon').click();
+	await page.getByLabel(/Velg dato som reservasjonen avsluttes/i).fill(twoWeeksFromNow);
 	await page
 		.getByLabel('Begrunn endring av reservasjon')
 		.fill('jeg ønsker å ha denne oppgaven liggende på min benk skikkelig lenge');
-	await page.getByRole('button', { name: 'OK' }).click();
+	await page.getByRole('button', { name: 'Lagre' }).click();
 	await page.getByRole('cell', { name: `Reservert til ${twoWeeksFromNow}` }).isVisible();
 });
 
