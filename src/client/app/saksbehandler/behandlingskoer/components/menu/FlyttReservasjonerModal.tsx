@@ -55,6 +55,7 @@ export const FlyttReservasjonerModal: FunctionComponent<OwnProps> = ({ open, clo
 	const formMethods = useForm<Omit<FlyttReservasjonType, 'oppgaveNøkkel'>>({
 		defaultValues: initialValues(reservasjoner),
 		mode: 'onBlur',
+		reValidateMode: 'onChange',
 	});
 	const { setValue, formState, trigger } = formMethods;
 	useEffect(() => {
