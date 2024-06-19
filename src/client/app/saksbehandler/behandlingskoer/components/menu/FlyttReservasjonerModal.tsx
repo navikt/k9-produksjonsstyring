@@ -51,7 +51,10 @@ export const FlyttReservasjonerModal: FunctionComponent<OwnProps> = ({ open, clo
 	const uniqueSaksbehandlere = Array.from(new Set(saksbehandlere.map((a) => a.brukerIdent))).map((brukerIdent) => {
 		return saksbehandlere.find((a) => a.brukerIdent === brukerIdent);
 	});
-	const saksbehandlerOptions = uniqueSaksbehandlere.map((v) => ({ value: v.brukerIdent, label: v.navn }));
+	const saksbehandlerOptions = uniqueSaksbehandlere
+		.map((v) => ({ value: v.brukerIdent, label: v.navn }))
+		.sort((a, b) => a.label.localeCompare(b.label));
+
 	const formMethods = useForm<Omit<FlyttReservasjonType, 'oppgaveNøkkel'>>({
 		defaultValues: initialValues(reservasjoner),
 		mode: 'onBlur',
