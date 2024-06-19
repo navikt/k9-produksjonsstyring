@@ -37,7 +37,7 @@ const ReservasjonRowExpandableContent = ({ reservasjon }: { reservasjon: MappedR
 						{
 							oppgaveNøkkel: reservasjon.oppgaveNøkkel,
 							begrunnelse: reservasjon.kommentar,
-							reservertTil: reservasjon.reservertTil,
+							reserverTil: reservasjon.reservertTil,
 							reservertAvIdent: reservasjon.reservertAvIdent,
 						},
 					]}

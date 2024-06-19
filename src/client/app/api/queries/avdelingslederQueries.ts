@@ -57,7 +57,7 @@ export const useEndreReservasjoner = ({ callback }: { callback: () => void }) =>
 			data: {
 				oppgaveNøkkel: OppgaveNøkkel;
 				begrunnelse: string;
-				reservertTilDato: string;
+				reserverTil: string;
 				brukerIdent: string;
 			}[],
 		) => axiosInstance.post(apiPaths.endreReservasjoner, data),

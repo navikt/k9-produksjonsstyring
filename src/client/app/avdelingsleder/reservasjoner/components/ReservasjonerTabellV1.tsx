@@ -264,7 +264,7 @@ const ReservasjonerTabell = () => {
 													{
 														oppgaveNøkkel: reservasjon.oppgavenøkkel,
 														begrunnelse: reservasjon.kommentar,
-														reservertTil: reservasjon.reservertTilTidspunkt,
+														reserverTil: reservasjon.reservertTilTidspunkt,
 														reservertAvIdent: reservasjon.reservertAvIdent,
 													},
 												]}

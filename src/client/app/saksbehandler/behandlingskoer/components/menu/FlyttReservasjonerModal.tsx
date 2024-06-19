@@ -12,7 +12,7 @@ import { useEndreReservasjoner } from 'api/queries/avdelingslederQueries';
 interface FlyttReservasjonType {
 	oppgaveNøkkel: OppgaveNøkkel;
 	begrunnelse: string;
-	reservertTil?: string;
+	reserverTil?: string;
 	reservertAvIdent?: string;
 }
 
@@ -33,7 +33,7 @@ const initialValues = (reservasjoner: FlyttReservasjonType[]) => {
 		};
 	}
 	return {
-		reserverTil: reservasjoner[0]?.reservertTil ? dayjs(reservasjoner[0].reservertTil).format('YYYY-MM-DD') : '',
+		reserverTil: reservasjoner[0]?.reserverTil ? dayjs(reservasjoner[0].reserverTil).format('YYYY-MM-DD') : '',
 		begrunnelse: reservasjoner[0]?.begrunnelse || null,
 		reservertAvIdent: reservasjoner[0]?.reservertAvIdent || '',
 	};
@@ -63,14 +63,14 @@ export const FlyttReservasjonerModal: FunctionComponent<OwnProps> = ({ open, clo
 	}, [formMethods]);
 
 	const saksbehandlerIdent = formMethods.watch('reservertAvIdent');
-	const onSubmit = (brukerIdent: string, begrunnelse: string, reservertTilDato: string) => {
+	const onSubmit = (brukerIdent: string, begrunnelse: string, reserverTil: string) => {
 		if (reservasjoner.length === 1) {
 			flyttReservasjoner([
 				{
 					oppgaveNøkkel: reservasjoner[0]?.oppgaveNøkkel,
 					brukerIdent,
 					begrunnelse,
-					reservertTilDato,
+					reserverTil,
 				},
 			]);
 			return;
@@ -81,7 +81,7 @@ export const FlyttReservasjonerModal: FunctionComponent<OwnProps> = ({ open, clo
 				oppgaveNøkkel: v.oppgaveNøkkel,
 				begrunnelse: v.begrunnelse,
 				brukerIdent,
-				reservertTilDato,
+				reserverTil,
 			})),
 		);
 		return;
@@ -92,14 +92,17 @@ export const FlyttReservasjonerModal: FunctionComponent<OwnProps> = ({ open, clo
 			open={open}
 			onClose={closeModal}
 			header={{
-				heading: intl.formatMessage({ id: 'FlyttReservasjonerModal.Tittel' }, { antall: reservasjoner.length }),
+				heading:
+					reservasjoner.length === 1
+						? intl.formatMessage({ id: 'FlyttReservasjonerModal.Tittel' })
+						: intl.formatMessage({ id: 'FlyttReservasjonerModal.Tittel.Flertall' }, { antall: reservasjoner.length }),
 			}}
 			className="min-w-[500px]"
 		>
 			<Modal.Body>
 				<Form
 					formMethods={formMethods}
-					onSubmit={(values) => onSubmit(values.reservertAvIdent, values.begrunnelse, values.reservertTil)}
+					onSubmit={(values) => onSubmit(values.reservertAvIdent, values.begrunnelse, values.reserverTil)}
 					className="p-2"
 				>
 					{isLoading && <Skeleton height={80} />}
@@ -129,7 +132,11 @@ export const FlyttReservasjonerModal: FunctionComponent<OwnProps> = ({ open, clo
 					)}
 					<div className="mt-8">
 						<Datepicker
-							label={intl.formatMessage({ id: 'FlyttReservasjonerModal.FlyttReservasjonText' })}
+							label={
+								reservasjoner.length === 1
+									? intl.formatMessage({ id: 'FlyttReservasjonerModal.FlyttReservasjonText' })
+									: intl.formatMessage({ id: 'FlyttReservasjonerModal.FlyttReservasjonText.Flertall' })
+							}
 							description={intl.formatMessage({ id: 'FlyttReservasjonerModal.FlyttReservasjonText.Description' })}
 							name={'reserverTil'}
 							validate={[dateAfterOrEqualToToday]}

@@ -121,7 +121,7 @@ const OppgaveHandlingerMenu: React.FC<OwnProps> = ({
 						{
 							oppgaveNøkkel: oppgave.oppgaveNøkkel,
 							begrunnelse: reservasjon.kommentar,
-							reservertTil: reservasjon.reservertTil,
+							reserverTil: reservasjon.reservertTil,
 							reservertAvIdent: reservasjon.reservertAvIdent,
 						},
 					]}

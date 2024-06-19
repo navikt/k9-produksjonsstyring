@@ -37,7 +37,7 @@ const ReservasjonRowExpandableContent = ({ reservasjon }: { reservasjon: Reserva
 						{
 							oppgaveNøkkel: reservasjon.oppgavenøkkel,
 							begrunnelse: reservasjon.kommentar,
-							reservertTil: reservasjon.reservertTilTidspunkt,
+							reserverTil: reservasjon.reservertTilTidspunkt,
 							reservertAvIdent: reservasjon.reservertAvIdent,
 						},
 					]}

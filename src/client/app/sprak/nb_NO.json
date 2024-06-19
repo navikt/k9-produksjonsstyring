@@ -79,9 +79,11 @@
 
 	"FerdigstilteHistorikkPanel.Ferdigstilte": "Historikk over ferdigstilte oppgaver",
 
-	"FlyttReservasjonerModal.Tittel": "Endre {antall} reservasjoner",
+	"FlyttReservasjonerModal.Tittel": "Endre 1 reservasjon",
+	"FlyttReservasjonerModal.Tittel.Flertall": "Endre {antall} reservasjoner",
 	"FlyttReservasjonerModal.Begrunn": "Begrunn endring av reservasjoner",
-	"FlyttReservasjonerModal.FlyttReservasjonText": "Velg dato som reservasjonene avsluttes",
+	"FlyttReservasjonerModal.Begrunn.Flertall": "Begrunn endring av reservasjoner",
+	"FlyttReservasjonerModal.FlyttReservasjonText": "Velg dato som reservasjonen avsluttes",
 	"FlyttReservasjonerModal.FlyttReservasjonText.Description": "Behold eksisterende dato ved å la feltet stå tomt",
 	"FlyttReservasjonerModal.Ok": "Lagre",
 	"FlyttReservasjonerModal.Avbryt": "Avbryt",
