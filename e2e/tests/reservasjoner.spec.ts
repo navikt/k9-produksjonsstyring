@@ -110,7 +110,7 @@ test('kan endre/og flytte reservasjon reservasjon', async ({ page }) => {
 	// Format the date as dd.mm.yyyy
 	const oneWeekFromNow = formatDate(date);
 	// fill with date one week in the future dd.mm.yyyy this format
-	await page.getByLabel(/^Velg dato som reservasjonen avsluttes/).fill(oneWeekFromNow);
+	await page.getByLabel(/Velg dato som reservasjonen avsluttes/i).fill(oneWeekFromNow);
 	await page
 		.getByLabel('Begrunn endring av reservasjon')
 		.fill('Jeg ønsker å beholde denne reservasjonen lenger på grunn av separasjonsangst');
@@ -126,7 +126,7 @@ test('kan endre reservasjon som avdelingsleder', async ({ page }) => {
 	date.setDate(date.getDate() + 14);
 
 	const twoWeeksFromNow = formatDate(date);
-	await page.getByLabel(/^Velg dato som reservasjonen avsluttes/).fill(twoWeeksFromNow);
+	await page.getByLabel(/Velg dato som reservasjonen avsluttes/i).fill(twoWeeksFromNow);
 	await page.getByLabel('Begrunn endring av reservasjon').click();
 	await page
 		.getByLabel('Begrunn endring av reservasjon')
