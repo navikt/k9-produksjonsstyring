@@ -140,7 +140,10 @@ export const FlyttReservasjonerModal: FunctionComponent<OwnProps> = ({ open, clo
 									? intl.formatMessage({ id: 'FlyttReservasjonerModal.FlyttReservasjonText' })
 									: intl.formatMessage({ id: 'FlyttReservasjonerModal.FlyttReservasjonText.Flertall' })
 							}
-							description={intl.formatMessage({ id: 'FlyttReservasjonerModal.FlyttReservasjonText.Description' })}
+							description={
+								reservasjoner.length > 1 &&
+								intl.formatMessage({ id: 'FlyttReservasjonerModal.FlyttReservasjonText.Description' })
+							}
 							name={'reserverTil'}
 							validate={[dateAfterOrEqualToToday]}
 						/>
