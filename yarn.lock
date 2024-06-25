@@ -2900,7 +2900,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@navikt/aksel-icons@npm:6.11.0, @navikt/aksel-icons@npm:^6.10.1, @navikt/aksel-icons@npm:^6.11.0":
+"@navikt/aksel-icons@npm:6.12.0":
+  version: 6.12.0
+  resolution: "@navikt/aksel-icons@npm:6.12.0::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40navikt%2Faksel-icons%2F6.12.0%2Fa34bfde9bd19df39fcf18ef89651713875d8375f"
+  checksum: e5acab455e374f3a90789d914d222271b96964a9126262b870cedbe06405573ae4fc6431289541b016392f9dc08fbe93736cc2918cbcf8ddff566ab86d0e6619
+  languageName: node
+  linkType: hard
+
+"@navikt/aksel-icons@npm:^6.10.1, @navikt/aksel-icons@npm:^6.11.0":
   version: 6.11.0
   resolution: "@navikt/aksel-icons@npm:6.11.0::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40navikt%2Faksel-icons%2F6.11.0%2F77b15cf3dd8cd4240862b8bb212a3e94c7b507f8"
   checksum: 987363fe1ea4d084945182d08d79536b527ae5a338bb3fc02c3378f5ef2ec38719f94f51437d495a14ca97651d65421ea681ed1d4af4e16ad3854d20d7bf7ec4
@@ -11228,7 +11235,7 @@ __metadata:
     "@babel/register": 7.24.6
     "@formatjs/intl-datetimeformat": 6.12.5
     "@formatjs/intl-numberformat": 8.10.3
-    "@navikt/aksel-icons": 6.11.0
+    "@navikt/aksel-icons": 6.12.0
     "@navikt/aksel-stylelint": 6.11.0
     "@navikt/ds-css": 6.11.0
     "@navikt/ds-icons": 3.4.3
