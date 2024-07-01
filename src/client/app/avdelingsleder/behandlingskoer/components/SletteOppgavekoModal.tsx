@@ -16,9 +16,11 @@ type TsProps = Readonly<{
 
 /**
  * SletteOppgavekoModal
+ * @deprecated
  *
  * Presentasjonskomponent. Modal som lar en avdelingsleder fjerne oppgavekøer.
  */
+
 export const SletteOppgavekoModal: FunctionComponent<TsProps & WrappedComponentProps> = ({
 	intl,
 	valgtOppgaveko,
