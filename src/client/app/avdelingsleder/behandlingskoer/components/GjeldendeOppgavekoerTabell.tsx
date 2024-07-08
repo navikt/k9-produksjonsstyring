@@ -171,7 +171,7 @@ export const GjeldendeOppgavekoerTabell: FunctionComponent<OwnProps> = ({
 								<TableColumn>{oppgaveko.saksbehandlere.length > 0 ? oppgaveko.saksbehandlere.length : ''}</TableColumn>
 								<TableColumn>{`${oppgaveko.antallUreserverteOppgaver} ${
 									oppgaveko.antallBehandlinger ? `(${oppgaveko.antallBehandlinger})` : ''
-								})`}</TableColumn>
+								}`}</TableColumn>
 								<TableColumn>
 									<DateLabel dateString={oppgaveko.sistEndret} />
 								</TableColumn>
