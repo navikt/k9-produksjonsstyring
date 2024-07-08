@@ -19,6 +19,7 @@ export type Oppgaveko = Readonly<{
 	kriterier: Kriterie[];
 	saksbehandlere: Saksbehandler[];
 	antallBehandlinger: number;
+	antallUreserverteOppgaver: number;
 }>;
 
 type AnnetKriterie = Readonly<{

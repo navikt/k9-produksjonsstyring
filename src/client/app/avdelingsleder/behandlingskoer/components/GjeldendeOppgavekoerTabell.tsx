@@ -169,7 +169,9 @@ export const GjeldendeOppgavekoerTabell: FunctionComponent<OwnProps> = ({
 								<TableColumn>{oppgaveko.navn}</TableColumn>
 								<TableColumn>{formatStonadstyper(oppgaveko.fagsakYtelseTyper)}</TableColumn>
 								<TableColumn>{oppgaveko.saksbehandlere.length > 0 ? oppgaveko.saksbehandlere.length : ''}</TableColumn>
-								<TableColumn>{oppgaveko.antallBehandlinger}</TableColumn>
+								<TableColumn>{`${oppgaveko.antallUreserverteOppgaver} ${
+									oppgaveko.antallBehandlinger ? `(${oppgaveko.antallBehandlinger})` : ''
+								})`}</TableColumn>
 								<TableColumn>
 									<DateLabel dateString={oppgaveko.sistEndret} />
 								</TableColumn>
