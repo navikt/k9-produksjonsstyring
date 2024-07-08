@@ -8,6 +8,7 @@ interface BaseReservasjonV3 {
 	reservertAvNavn?: string;
 	reservertFra: string;
 	reservertTil: string;
+	endretAvNavn?: string;
 }
 
 interface ReservasjonV3 extends BaseReservasjonV3 {
