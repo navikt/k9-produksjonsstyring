@@ -26,5 +26,5 @@
 			"utils/*": ["app/utils/*"]
 		}
 	},
-	"include": ["src", "setup/testHelpers/testUtils.js, webpack"]
+	"include": ["src", "setup/testHelpers/testUtils.js, webpack", "setup/setup-test-env.ts"]
 }

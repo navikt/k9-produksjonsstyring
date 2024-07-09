@@ -13,7 +13,7 @@ import PersonInfo from './person/PersonInfo';
 
 interface OwnProps {
 	resultat: SokeResultat;
-	searchFagsakCallback: ({ searchString, skalReservere }: { searchString: string; skalReservere: boolean }) => void;
+	searchFagsakCallback: (searchString: String) => void;
 	searchResultReceived: boolean;
 	selectOppgaveCallback: (oppgave: Oppgave, reserver: boolean, onError?: (errorMessage: string) => void) => void;
 	searchStarted: boolean;
@@ -55,10 +55,7 @@ const FagsakSearch: FunctionComponent<OwnProps> = ({
 	useEffect(() => {
 		if (erSokViaQueryParams) {
 			const paramToString = queryFraURL.sok.toString();
-			searchFagsakCallback({
-				searchString: paramToString,
-				skalReservere: false,
-			});
+			searchFagsakCallback(paramToString);
 		}
 	}, []);
 
@@ -112,10 +109,6 @@ const FagsakSearch: FunctionComponent<OwnProps> = ({
 			)}
 		</div>
 	);
-};
-
-FagsakSearch.defaultProps = {
-	searchResultAccessDenied: undefined,
 };
 
 export default FagsakSearch;

@@ -10,7 +10,7 @@ export default {
       },
       roots: ["<rootDir>/src"],
       setupFiles: ["<rootDir>/setup/setup.js"],
-      setupFilesAfterEnv: ["<rootDir>/setup/setup-test-env.js"],
+      setupFilesAfterEnv: ["<rootDir>/setup/setup-test-env.ts"],
       testEnvironment: "jsdom",
       testMatch: ["**/?(*.)+(spec).+(js|jsx|ts|tsx)"],
       testPathIgnorePatterns: [

@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
 import { Form } from 'react-final-form';
 import { FormattedMessage, useIntl } from 'react-intl';
 import advarselIcon from 'images/advarsel.svg';
@@ -13,6 +13,8 @@ import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import { FlexColumn, FlexContainer, FlexRow } from 'sharedComponents/flexGrid';
 import { hasValidSaksnummerOrFodselsnummerFormat } from 'utils/validation/validators';
 import * as styles from './searchForm.css';
+import { Loader, TextField } from '@navikt/ds-react';
+import { useInnloggetSaksbehandler } from 'api/queries/saksbehandlerQueries';
 
 const isButtonDisabled = (
 	searchString: string,
@@ -21,7 +23,7 @@ const isButtonDisabled = (
 ) => (!searchResultAccessDenied.feilmelding && searchStarted) || !searchString;
 
 interface OwnProps {
-	onSubmit: ({ searchString, skalReservere }: { searchString: string; skalReservere: boolean }) => void;
+	onSubmit: (searchString: string) => void;
 	searchStarted: boolean;
 	searchResultAccessDenied?: {
 		feilmelding?: string;
@@ -33,65 +35,71 @@ interface OwnProps {
  *
  * Presentasjonskomponent. Definerer søkefelt og tilhørende søkeknapp.
  */
-export const SearchForm: FunctionComponent<OwnProps> = ({ onSubmit, searchStarted, searchResultAccessDenied }) => {
-	const { kanSaksbehandle } = useGlobalStateRestApiData<NavAnsatt>(RestApiGlobalStatePathsKeys.NAV_ANSATT);
+export const SearchForm: FunctionComponent<OwnProps> = ({ onSubmit, searchStarted, searchResultAccessDenied = {} }) => {
 	const intl = useIntl();
+	const [searchString, setSearchString] = useState<string>('');
+	const [error, setError] = useState<{ id: string } | undefined>(undefined);
+	const prevSearchStringRef = useRef<string>('');
 
+	useEffect(() => {
+		if (error && searchString !== prevSearchStringRef.current) {
+			setError(undefined);
+		}
+		prevSearchStringRef.current = searchString;
+	}, [searchString, error]);
+
+	const handleSubmit = () => {
+		const error = hasValidSaksnummerOrFodselsnummerFormat(searchString);
+		if (!error) {
+			onSubmit(searchString);
+		} else {
+			setError(error[0]);
+		}
+	};
+	console.log(error);
 	return (
-		<Form
-			onSubmit={onSubmit}
-			render={({ handleSubmit, values }) => (
-				<form className={styles.container} onSubmit={handleSubmit}>
-					<Undertittel>{intl.formatMessage({ id: 'Search.SearchFagsakOrPerson' })}</Undertittel>
-					{kanSaksbehandle && <VerticalSpacer sixteenPx />}
-					<VerticalSpacer eightPx />
-					<FlexContainer>
+		<form className={styles.container} onSubmit={handleSubmit}>
+			<Undertittel>{intl.formatMessage({ id: 'Search.SearchFagsakOrPerson' })}</Undertittel>
+			<VerticalSpacer eightPx />
+			<FlexContainer>
+				<FlexRow>
+					<FlexColumn>
+						<TextField
+							label={intl.formatMessage({ id: 'Search.SaksnummerOrPersonId' })}
+							value={searchString}
+							onChange={(e) => setSearchString(e.target.value)}
+							error={error && intl.formatMessage(error)}
+							size="small"
+						/>
+					</FlexColumn>
+					<FlexColumn>
+						<Knapp
+							mini
+							htmlType="submit"
+							className={styles.button}
+							spinner={!searchResultAccessDenied.feilmelding && searchStarted}
+							disabled={isButtonDisabled(searchString, searchStarted, searchResultAccessDenied)}
+						>
+							<FormattedMessage id="Search.Search" />
+						</Knapp>
+					</FlexColumn>
+				</FlexRow>
+				{searchResultAccessDenied.feilmelding && (
+					<>
+						<VerticalSpacer eightPx />
 						<FlexRow>
 							<FlexColumn>
-								<InputField
-									name="searchString"
-									parse={(s = '') => s.trim()}
-									label={intl.formatMessage({ id: 'Search.SaksnummerOrPersonId' })}
-									bredde="L"
-									validate={[hasValidSaksnummerOrFodselsnummerFormat]}
-								/>
+								<Image className={styles.advarselIcon} src={advarselIcon} />
 							</FlexColumn>
 							<FlexColumn>
-								<Knapp
-									mini
-									htmlType="submit"
-									className={styles.button}
-									spinner={!searchResultAccessDenied.feilmelding && searchStarted}
-									disabled={isButtonDisabled(values.searchString, searchStarted, searchResultAccessDenied)}
-								>
-									<FormattedMessage id="Search.Search" />
-								</Knapp>
+								<FormattedMessage id={searchResultAccessDenied.feilmelding} />
 							</FlexColumn>
 						</FlexRow>
-						{searchResultAccessDenied.feilmelding && (
-							<>
-								<VerticalSpacer eightPx />
-								<FlexRow>
-									<FlexColumn>
-										<Image className={styles.advarselIcon} src={advarselIcon} />
-									</FlexColumn>
-									<FlexColumn>
-										<FormattedMessage id={searchResultAccessDenied.feilmelding} />
-									</FlexColumn>
-								</FlexRow>
-							</>
-						)}
-					</FlexContainer>
-				</form>
-			)}
-		/>
+					</>
+				)}
+			</FlexContainer>
+		</form>
 	);
-};
-
-SearchForm.defaultProps = {
-	searchResultAccessDenied: {
-		feilmelding: undefined,
-	},
 };
 
 export default SearchForm;

@@ -1,9 +1,7 @@
 import React, { FunctionComponent, useState } from 'react';
-import NavAnsatt from 'app/navAnsattTsType';
 import { getK9punsjRef, getK9sakHref } from 'app/paths';
-import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
+import { K9LosApiKeys } from 'api/k9LosApi';
 import { ErrorTypes, errorOfType, getErrorResponseData } from 'api/rest-api';
-import useGlobalStateRestApiData from 'api/rest-api-hooks/src/global-data/useGlobalStateRestApiData';
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
 import { FlyttReservasjonISoekModal } from 'saksbehandler/components/FlyttReservasjonModal/FlyttReservasjonISoekModal';
 import OppgaveErReservertAvAnnenModal from 'saksbehandler/components/OppgaveErReservertAvAnnenModal';
@@ -12,6 +10,7 @@ import { OppgaveStatus } from 'saksbehandler/oppgaveStatusTsType';
 import Oppgave from 'saksbehandler/oppgaveTsType';
 import OppgaveSystem from '../../types/OppgaveSystem';
 import FagsakSearch from './components/FagsakSearch';
+import { useInnloggetSaksbehandler } from 'api/queries/saksbehandlerQueries';
 
 interface OwnProps {
 	k9sakUrl: string;
@@ -34,7 +33,7 @@ const FagsakSearchIndex: FunctionComponent<OwnProps> = ({ k9sakUrl, k9punsjUrl }
 	const [reservertOppgave, setReservertOppgave] = useState<Oppgave>();
 	const [sokStartet, setSokStartet] = useState(false);
 	const [sokFerdig, setSokFerdig] = useState(false);
-	const { kanReservere } = useGlobalStateRestApiData<NavAnsatt>(RestApiGlobalStatePathsKeys.NAV_ANSATT);
+	const { data: saksbehandler } = useInnloggetSaksbehandler();
 
 	const goToFagsak = (oppgave: Oppgave) => {
 		switch (oppgave.system) {
@@ -81,14 +80,14 @@ const FagsakSearchIndex: FunctionComponent<OwnProps> = ({ k9sakUrl, k9punsjUrl }
 			setReservertAvAnnenSaksbehandler(true);
 		}
 
-		if (reserver && !kanReservere) {
+		if (reserver && !saksbehandler.kanReservere) {
 			leggTilBehandletOppgave(oppgave.oppgaveNøkkel);
 			goToFagsak(oppgave);
 		}
 		if (!reserver) {
 			leggTilBehandletOppgave(oppgave.oppgaveNøkkel);
 			goToFagsakEllerApneModal(oppgave);
-		} else if (reserver && kanReservere) {
+		} else if (reserver && saksbehandler.kanReservere) {
 			reserverOppgave({ oppgaveId: oppgave.eksternId, oppgaveNøkkel: oppgave.oppgaveNøkkel })
 				.then((nyOppgaveStatus) => {
 					if (nyOppgaveStatus.kanOverstyres) {
@@ -105,17 +104,16 @@ const FagsakSearchIndex: FunctionComponent<OwnProps> = ({ k9sakUrl, k9punsjUrl }
 						onError('Feil ved reservering av oppgave');
 					}
 				});
-		} else if (!kanReservere) {
+		} else if (!saksbehandler.kanReservere) {
 			leggTilBehandletOppgave(oppgave.oppgaveNøkkel);
 			goToFagsak(oppgave);
 		}
 	};
 
-	const sokFagsakFn = (values: { searchString: string; skalReservere: boolean }) => {
+	const sokFagsakFn = (searchString = '') => {
 		setSokStartet(true);
 		setSokFerdig(false);
-
-		return sokFagsak(values).then(() => {
+		return sokFagsak({ searchString }).then(() => {
 			setSokStartet(false);
 			setSokFerdig(true);
 		});

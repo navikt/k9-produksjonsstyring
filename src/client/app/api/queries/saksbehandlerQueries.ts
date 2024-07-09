@@ -7,7 +7,10 @@ import { OppgavekøV1 } from 'saksbehandler/behandlingskoer/oppgavekoTsType';
 import Oppgave from 'saksbehandler/oppgaveTsType';
 import { axiosInstance } from 'utils/reactQueryConfig';
 import { SaksbehandlerEnkel } from 'avdelingsleder/bemanning/saksbehandlerTsType';
+import NavAnsatt from 'app/navAnsattTsType';
 
+export const useInnloggetSaksbehandler = (options: UseQueryOptions<NavAnsatt, Error> = {}) =>
+	useQuery<NavAnsatt, Error>(apiPaths.saksbehandler, options);
 export const useGetAlleSaksbehandlere = (options: UseQueryOptions<SaksbehandlerEnkel[], Error> = {}) =>
 	useQuery<SaksbehandlerEnkel[], Error>(apiPaths.hentSaksbehandlereSomSaksbehandler, options);
 
@@ -25,8 +28,8 @@ export const useAlleSaksbehandlerKoerV1 = (options: UseQueryOptions<OppgavekøV1
 
 export const useAlleSaksbehandlerKoerV3 = (options: UseQueryOptions<OppgavekøV3Enkel[], Error> = {}) =>
 	useQuery<OppgavekøV3Enkel[], Error>({
-        queryKey: [apiPaths.hentAlleKoerSaksbehandlerV3],
-        ...options,
+		queryKey: [apiPaths.hentAlleKoerSaksbehandlerV3],
+		...options,
 	});
 
 export const useSaksbehandlerNesteTiV3 = (id: string, options: UseQueryOptions<OppgaveV3[], Error> = {}) =>

@@ -1,12 +1,14 @@
 import React from 'react';
 import { act, screen, waitFor } from '@testing-library/react';
 import { renderWithAllProviders } from '../../../../../setup/testHelpers/testUtils';
-import { server } from '../../../mocks/server';
+import { unitTestHandlers } from '../../../mocks/unitTestHandlers';
 import HeaderWithErrorPanel from './HeaderWithErrorPanel';
+import { setupServer } from 'msw/lib/node';
 
 const setSiteHeight = (): void => null;
 const crashMessage = 'CrashMessage';
 
+const server = setupServer(...unitTestHandlers);
 describe('<HeaderWithErrorPanel>', () => {
 	beforeAll(() => server.listen());
 	afterEach(() => server.resetHandlers());

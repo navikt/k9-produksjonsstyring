@@ -25,7 +25,10 @@ export const renderWithAllProviders = (ui, { ...renderOptions } = {}) => {
 		<BrowserRouter>
 			<RestApiProvider
 				requestApi={k9LosApi()}
-				initialState={{ KODEVERK: kodeverk, NAV_ANSATT: { navn: 'Paul', brukernavn: 'pingpongpaul@nav.no' } }}
+				initialState={{
+					KODEVERK: kodeverk,
+					NAV_ANSATT: { navn: 'Saksbehandler Sara', brukernavn: 'saksbehandler@nav.no' },
+				}}
 			>
 				<QueryClientProvider client={queryClient}>
 					<IntlProvider locale="nb-NO" defaultLocale="nb-NO" messages={defaultMessages}>

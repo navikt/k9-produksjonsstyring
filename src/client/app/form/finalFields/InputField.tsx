@@ -29,11 +29,11 @@ interface OwnProps {
 
 const InputField: FunctionComponent<OwnProps> = ({
 	name,
-	type,
-	label,
-	validate,
-	readOnly,
-	isEdited,
+	type = 'text',
+	label = '',
+	validate = [],
+	readOnly = false,
+	isEdited = false,
 	...otherProps
 }) => (
 	<Field
@@ -50,13 +50,5 @@ const InputField: FunctionComponent<OwnProps> = ({
 		autoComplete="off"
 	/>
 );
-
-InputField.defaultProps = {
-	type: 'text',
-	validate: [],
-	readOnly: false,
-	label: '',
-	isEdited: false,
-};
 
 export default InputField;
