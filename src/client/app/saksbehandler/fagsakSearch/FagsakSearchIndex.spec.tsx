@@ -1,6 +1,5 @@
-// Import necessary utilities and components
 import React from 'react';
-import { fireEvent, waitFor, screen } from '@testing-library/react';
+import { waitFor } from '@testing-library/react';
 import FagsakSearchIndex from './FagsakSearchIndex';
 import apiPaths from 'api/apiPaths';
 import { rest } from 'msw';
@@ -10,16 +9,11 @@ import { renderWithAllProviders } from '../../../../../setup/testHelpers/testUti
 import userEvent from '@testing-library/user-event';
 
 const server = setupServer(...unitTestHandlers, ureservertOppgaveHandler());
-// Optionally, you can add specific handlers for tests
 beforeAll(() => server.listen({ onUnhandledRequest: 'bypass' }));
 afterEach(() => server.resetHandlers());
 afterAll(() => server.close());
 
 describe('FagsakSearchIndex', () => {
-	beforeEach(() => {
-		jest.clearAllMocks();
-	});
-
 	it('Kan åpne eller reservere oppgave som er reservert av annen saksbehandler', async () => {
 		server.use(reservertOppgaveHandler());
 		const { getByText, getByRole } = renderWithAllProviders(<FagsakSearchIndex k9punsjUrl="test" k9sakUrl="test" />);
