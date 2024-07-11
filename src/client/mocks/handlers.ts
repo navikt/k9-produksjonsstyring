@@ -333,72 +333,7 @@ if (process.env.MSW_MODE === 'test') {
 }
 
 if (process.env.MSW_MODE === 'development') {
-	handlers = [
-		rest.post(apiPaths.sok, (req, res, ctx) => {
-			return res(
-				ctx.json({
-					ikkeTilgang: false,
-					person: null,
-					oppgaver: [
-						{
-							status: {
-								erReservert: true,
-								reservertTilTidspunkt: '2024-07-11T23:59:00',
-								erReservertAvInnloggetBruker: false,
-								reservertAv: 'Z123456',
-								reservertAvNavn: 'Saksbehandler Sara',
-								flyttetReservasjon: null,
-								kanOverstyres: false,
-								beskjed: null,
-							},
-							behandlingId: null,
-							journalpostId: null,
-							saksnummer: '5YC1S',
-							navn: 'ForkortetNavn',
-							system: 'K9SAK',
-							personnummer: '012345678901',
-							behandlingstype: {
-								kode: 'BT-002',
-								navn: 'Førstegangsbehandling',
-								kodeverk: 'ae0034',
-							},
-							fagsakYtelseType: {
-								kode: 'PSB',
-								navn: 'Pleiepenger sykt barn',
-								kodeverk: 'FAGSAK_YTELSE_TYPE',
-							},
-							behandlingStatus: {
-								kode: 'UTRED',
-								navn: 'Utredes',
-								kodeverk: 'BEHANDLING_TYPE',
-							},
-							erTilSaksbehandling: true,
-							opprettetTidspunkt: '2024-07-09T09:35:58',
-							behandlingsfrist: '2024-08-20T00:00:00',
-							eksternId: 'eeae15c0-0011-4ace-a8af-7ddc523c38a5',
-							tilBeslutter: false,
-							utbetalingTilBruker: false,
-							avklarArbeidsforhold: false,
-							selvstendigFrilans: false,
-							søktGradering: false,
-							fagsakPeriode: {
-								fom: '2024-06-11',
-								tom: '2024-08-11',
-							},
-							paaVent: null,
-							merknad: null,
-							oppgaveNøkkel: {
-								oppgaveEksternId: 'eeae15c0-0011-4ace-a8af-7ddc523c38a5',
-								oppgaveTypeEksternId: 'V1Oppgave',
-								områdeEksternId: 'V1Oppgave',
-							},
-							endretAvNavn: null,
-						},
-					],
-				}),
-			);
-		}),
-	];
+	handlers = [];
 }
 
 export default handlers;

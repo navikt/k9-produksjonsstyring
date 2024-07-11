@@ -1,26 +1,14 @@
 import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
-import { Form } from 'react-final-form';
 import { FormattedMessage, useIntl } from 'react-intl';
-import advarselIcon from 'images/advarsel.svg';
 import { Knapp } from 'nav-frontend-knapper';
 import { Undertittel } from 'nav-frontend-typografi';
-import NavAnsatt from 'app/navAnsattTsType';
-import { RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
-import useGlobalStateRestApiData from 'api/rest-api-hooks/src/global-data/useGlobalStateRestApiData';
-import { InputField } from 'form/FinalFields';
-import Image from 'sharedComponents/Image';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import { FlexColumn, FlexContainer, FlexRow } from 'sharedComponents/flexGrid';
 import { hasValidSaksnummerOrFodselsnummerFormat } from 'utils/validation/validators';
 import * as styles from './searchForm.css';
-import { Loader, TextField } from '@navikt/ds-react';
-import { useInnloggetSaksbehandler } from 'api/queries/saksbehandlerQueries';
+import { TextField } from '@navikt/ds-react';
 
-const isButtonDisabled = (
-	searchString: string,
-	searchStarted: boolean,
-	searchResultAccessDenied: { feilmelding?: string },
-) => (!searchResultAccessDenied.feilmelding && searchStarted) || !searchString;
+const isButtonDisabled = (searchString: string, searchStarted: boolean) => searchStarted || !searchString;
 
 interface OwnProps {
 	onSubmit: (searchString: string) => void;
@@ -35,7 +23,7 @@ interface OwnProps {
  *
  * Presentasjonskomponent. Definerer søkefelt og tilhørende søkeknapp.
  */
-export const SearchForm: FunctionComponent<OwnProps> = ({ onSubmit, searchStarted, searchResultAccessDenied = {} }) => {
+export const SearchForm: FunctionComponent<OwnProps> = ({ onSubmit, searchStarted }) => {
 	const intl = useIntl();
 	const [searchString, setSearchString] = useState<string>('');
 	const [error, setError] = useState<{ id: string } | undefined>(undefined);
@@ -48,7 +36,8 @@ export const SearchForm: FunctionComponent<OwnProps> = ({ onSubmit, searchStarte
 		prevSearchStringRef.current = searchString;
 	}, [searchString, error]);
 
-	const handleSubmit = () => {
+	const handleSubmit = (e) => {
+		e.preventDefault();
 		const error = hasValidSaksnummerOrFodselsnummerFormat(searchString);
 		if (!error) {
 			onSubmit(searchString);
@@ -56,7 +45,6 @@ export const SearchForm: FunctionComponent<OwnProps> = ({ onSubmit, searchStarte
 			setError(error[0]);
 		}
 	};
-	console.log(error);
 	return (
 		<form className={styles.container} onSubmit={handleSubmit}>
 			<Undertittel>{intl.formatMessage({ id: 'Search.SearchFagsakOrPerson' })}</Undertittel>
@@ -77,26 +65,13 @@ export const SearchForm: FunctionComponent<OwnProps> = ({ onSubmit, searchStarte
 							mini
 							htmlType="submit"
 							className={styles.button}
-							spinner={!searchResultAccessDenied.feilmelding && searchStarted}
-							disabled={isButtonDisabled(searchString, searchStarted, searchResultAccessDenied)}
+							spinner={searchStarted}
+							disabled={isButtonDisabled(searchString, searchStarted)}
 						>
 							<FormattedMessage id="Search.Search" />
 						</Knapp>
 					</FlexColumn>
 				</FlexRow>
-				{searchResultAccessDenied.feilmelding && (
-					<>
-						<VerticalSpacer eightPx />
-						<FlexRow>
-							<FlexColumn>
-								<Image className={styles.advarselIcon} src={advarselIcon} />
-							</FlexColumn>
-							<FlexColumn>
-								<FormattedMessage id={searchResultAccessDenied.feilmelding} />
-							</FlexColumn>
-						</FlexRow>
-					</>
-				)}
 			</FlexContainer>
 		</form>
 	);
