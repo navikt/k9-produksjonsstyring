@@ -11,6 +11,7 @@ import NavAnsatt from 'app/navAnsattTsType';
 import { SokeResultat } from 'saksbehandler/fagsakSearch/sokeResultatTsType';
 import { OppgaveNøkkel } from 'types/OppgaveNøkkel';
 import { OppgaveStatus } from 'saksbehandler/oppgaveStatusTsType';
+import EndreOppgaveType from 'types/EndreOppgaveType';
 
 export const useInnloggetSaksbehandler = (options: UseQueryOptions<NavAnsatt, Error> = {}) =>
 	useQuery<NavAnsatt, Error>(apiPaths.saksbehandler, options);
@@ -69,6 +70,20 @@ export const useReserverOppgaveMutation = (options: UseMutationOptions<OppgaveSt
 		mutationFn: (oppgaveNøkkel: OppgaveNøkkel): Promise<OppgaveStatus> =>
 			axiosInstance.post(apiPaths.reserverOppgave, { oppgaveNøkkel }).then((response) => response.data),
 		...options,
+	});
+};
+
+export const useEndreReservasjoner = (options: UseMutationOptions<OppgaveStatus, Error, EndreOppgaveType[]> = {}) => {
+	const queryClient = useQueryClient();
+	return useMutation({
+		...options,
+		mutationFn: (data) => axiosInstance.post(apiPaths.endreReservasjoner, data),
+		onSuccess: () => {
+			Promise.all([
+				queryClient.refetchQueries(apiPaths.saksbehandlerReservasjoner),
+				queryClient.refetchQueries(apiPaths.avdelinglederReservasjoner),
+			]);
+		},
 	});
 };
 export const usePlukkOppgaveMutation = (callback?: (oppgave: ReservasjonV3FraKøDto) => void) => {
