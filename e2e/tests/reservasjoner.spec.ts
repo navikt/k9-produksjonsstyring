@@ -48,7 +48,7 @@ test('Kan søke opp og reservere opppgave', async ({ page }) => {
 	await expect(searchResult).toBeVisible();
 	await searchResult.click();
 
-	expect(page.getByText('Ønsker du å reservere oppgaven?')).toBeVisible();
+	expect(page.getByText('Hva ønsker du å gjøre med oppgaven?')).toBeVisible();
 	await page.getByRole('button', { name: 'Ja' }).click();
 
 	await page.waitForResponse(

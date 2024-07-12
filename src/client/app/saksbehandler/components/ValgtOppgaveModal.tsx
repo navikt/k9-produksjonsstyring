@@ -1,9 +1,12 @@
 import React, { FunctionComponent, useEffect } from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
 import Oppgave from 'saksbehandler/oppgaveTsType';
 import { BodyShort, Modal, Button } from '@navikt/ds-react';
 import { getDateAndTime } from 'utils/dateUtils';
-import { useInnloggetSaksbehandler, useReserverOppgaveMutation } from 'api/queries/saksbehandlerQueries';
+import {
+	useEndreReservasjoner,
+	useInnloggetSaksbehandler,
+	useReserverOppgaveMutation,
+} from 'api/queries/saksbehandlerQueries';
 import dayjs from 'dayjs';
 
 interface OwnProps {
@@ -23,16 +26,17 @@ const erSattPåVent = (oppgave: Oppgave) => {
 };
 
 export const ValgtOppgaveModal: FunctionComponent<OwnProps> = ({ oppgave, setValgtOppgave, goToFagsak }) => {
-	const { mutate: reserverOppgave, isSuccess } = useReserverOppgaveMutation();
+	const { mutate: endreReservasjoner, isSuccess: harEndretReservasjon } = useEndreReservasjoner();
+	const { mutate: reserverOppgave, isSuccess: harReservertOppgave } = useReserverOppgaveMutation();
 	const { data: saksbehandler } = useInnloggetSaksbehandler();
 
 	const onClose = () => setValgtOppgave(undefined);
 
 	useEffect(() => {
-		if (isSuccess) {
+		if (harReservertOppgave || harEndretReservasjon) {
 			onClose();
 		}
-	}, [isSuccess]);
+	}, [harEndretReservasjon, harReservertOppgave]);
 
 	if (erSattPåVent(oppgave)) {
 		return (
@@ -93,7 +97,13 @@ export const ValgtOppgaveModal: FunctionComponent<OwnProps> = ({ oppgave, setVal
 						Åpne oppgaven
 					</Button>
 					{saksbehandler?.kanReservere && (
-						<Button variant="secondary" size="small" onClick={() => reserverOppgave(oppgave.oppgaveNøkkel)}>
+						<Button
+							variant="secondary"
+							size="small"
+							onClick={() =>
+								endreReservasjoner([{ oppgaveNøkkel: oppgave.oppgaveNøkkel, brukerIdent: saksbehandler.brukerIdent }])
+							}
+						>
 							Jeg vil reservere oppgaven
 						</Button>
 					)}
