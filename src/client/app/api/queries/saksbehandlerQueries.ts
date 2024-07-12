@@ -79,10 +79,8 @@ export const useEndreReservasjoner = (options: UseMutationOptions<OppgaveStatus,
 		...options,
 		mutationFn: (data) => axiosInstance.post(apiPaths.endreReservasjoner, data),
 		onSuccess: () => {
-			Promise.all([
-				queryClient.refetchQueries(apiPaths.saksbehandlerReservasjoner),
-				queryClient.refetchQueries(apiPaths.avdelinglederReservasjoner),
-			]);
+			queryClient.refetchQueries(apiPaths.saksbehandlerReservasjoner);
+			queryClient.refetchQueries(apiPaths.avdelinglederReservasjoner);
 		},
 	});
 };

@@ -42,11 +42,10 @@ export const useOpphevReservasjoner = () => {
 	return useMutation({
 		mutationFn: (data: { oppgaveNøkkel: Array<OppgaveNøkkel>; begrunnelse: string }) =>
 			axiosInstance.post(apiPaths.opphevReservasjoner, data),
-		onSuccess: () =>
-			Promise.all([
-				queryClient.invalidateQueries(apiPaths.saksbehandlerReservasjoner),
-				queryClient.invalidateQueries(apiPaths.avdelinglederReservasjoner),
-			]),
+		onSuccess: () => {
+			queryClient.invalidateQueries(apiPaths.saksbehandlerReservasjoner);
+			queryClient.invalidateQueries(apiPaths.avdelinglederReservasjoner);
+		},
 	});
 };
 
