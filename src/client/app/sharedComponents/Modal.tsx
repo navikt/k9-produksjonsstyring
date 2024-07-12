@@ -7,22 +7,14 @@ import PropTypes from 'prop-types';
  *
  * Presentasjonskomponent. Wrapper Modal-komponenten fra nav-frontend-biblioteket, men tillater ikke bruk av propertien 'shouldCloseOnOverlayClick'.
  */
-export const Modal = ({ children, ...otherProps }) => {
+export const Modal = ({ children, shouldCloseOnOverlayClick = false, ...otherProps }) => {
 	NavModal.setAppElement('div#app');
-	return (
-		<NavModal ariaHideApp={false} {...otherProps}>
-			{children}
-		</NavModal>
-	);
+	return <NavModal {...otherProps}>{children}</NavModal>;
 };
 
 Modal.propTypes = {
 	...NavModal.propTypes,
 	shouldCloseOnOverlayClick: PropTypes.oneOf([false]),
-};
-
-Modal.defaultProps = {
-	shouldCloseOnOverlayClick: false,
 };
 
 export default Modal;

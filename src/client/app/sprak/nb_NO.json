@@ -207,19 +207,6 @@
 	"OkAvbrytModal.Ok": "OK",
 	"OkAvbrytModal.Avbryt": "Avbryt",
 
-	"OppgaveErReservertAvAnnenModal.ReservertAv": "{saksbehandlernavn}({saksbehandlerid}) arbeider nå med denne oppgaven (reservert fram t.o.m {date} - {time})",
-	"OppgaveErReservertAvAnnenModal.ReservertAvEnkel": "En annen saksbehandler arbeider nå med denne oppgaven",
-	"OppgaveErReservertAvAnnenModal.Ok": "Åpne oppgaven",
-	"OppgaveErReservertAvAnnenModal.GåTilKøen": "Gå tilbake til køen",
-
-	"FlyttReservasjonModal.ReservertAv": "{saksbehandlernavn}({saksbehandlerid}) arbeider nå med den andre parten i denne saken. Vil du legge denne oppgaven til saksbehandleren?",
-	"FlyttReservasjonModal.ReservertAvEnkel": "En annen saksbehandler arbeider nå med den andre parten i denne saken",
-	"FlyttReservasjonModal.OverstyrReservasjon": "Nei, jeg vil reservere oppgaven",
-	"FlyttReservasjonModal.FlyttReservasjon": "Ja, legg reservasjonen til saksbehandleren",
-	"FlyttReservasjonModal.FlyttReservasjonText": "Velg dato som reservasjonen avsluttes (Valgfritt å fylle ut)",
-	"FlyttReservasjonModal.GåTilKøen": "Gå tilbake til køen",
-	"FlyttReservasjonModal.Feil": "Mangler reservasjonsrettigheter.",
-
 	"OppgaveHandlingerMenu.LeggTilbake": "Legg oppgave{br}tilbake i felles kø",
 	"OppgaveHandlingerMenu.ForlengReservasjon": "Forleng din reservasjon av{br}oppgaven med 24 timer",
 	"OppgaveHandlingerMenu.EndreReservasjon": "Reserver oppgaven med dato",
@@ -272,9 +259,6 @@
 	"ReservasjonerTabell.EndreReservasjon": "Reserver oppgave med dato",
 	"ReservasjonerTabell.FlyttReservasjon": "Flytt reservasjonen til annen saksbehandler",
 	"ReservasjonerTabell.FlyttReservasjonBolk": "Flytt reservasjonene til annen saksbehandler",
-
-	"ReserverOppgaveModal.ReserverOppgave": "Ønsker du å reservere oppgaven?",
-	"OppgavePåVentModal.OppgavePåVent": "Saken er satt på vent til {dato}",
 
 	"LoggetUtModal.Tekst": "Sesjonen er utløpt.",
 

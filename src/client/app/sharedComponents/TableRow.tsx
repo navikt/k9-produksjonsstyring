@@ -85,19 +85,4 @@ TableRow.propTypes = {
 	className: PropTypes.string,
 };
 
-TableRow.defaultProps = {
-	id: null,
-	model: null,
-	isHeader: false,
-	onMouseDown: null,
-	onKeyDown: null,
-	noHover: false,
-	isSelected: false,
-	isBold: false,
-	isDashedBottomBorder: false,
-	isSolidBottomBorder: false,
-	isApLeftBorder: false,
-	className: undefined,
-};
-
 export default TableRow;

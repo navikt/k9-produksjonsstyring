@@ -22,12 +22,4 @@ FlexRow.propTypes = {
 	wrap: PropTypes.bool,
 };
 
-FlexRow.defaultProps = {
-	children: null,
-	spaceBetween: false,
-	alignItemsToBaseline: false,
-	alignItemsToFlexEnd: false,
-	wrap: false,
-};
-
 export default FlexRow;

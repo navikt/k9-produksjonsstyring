@@ -16,10 +16,10 @@ type Oppgave = {
 	navn: string;
 	system: string;
 	behandlingstype: KodeverkMedNavn;
-	behandlingStatus: string;
+	behandlingStatus: KodeverkMedNavn;
 	opprettetTidspunkt: string;
 	behandlingsfrist: string;
-	fagsakYtelseType: string;
+	fagsakYtelseType: KodeverkMedNavn;
 	fagsakPeriode?: {
 		fom: string;
 		tom: string;

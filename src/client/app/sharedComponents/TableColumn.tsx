@@ -28,10 +28,4 @@ TableColumn.propTypes = {
 	hidden: PropTypes.bool,
 };
 
-TableColumn.defaultProps = {
-	children: '',
-	className: undefined,
-	hidden: false,
-};
-
 export default TableColumn;
