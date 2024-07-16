@@ -25,7 +25,7 @@ describe('FagsakSearchIndex', () => {
 		await userEvent.click(row);
 		expect(getByRole('button', { name: 'Avbryt' })).toBeEnabled();
 		expect(getByRole('button', { name: 'Åpne oppgaven' })).toBeEnabled();
-		expect(getByRole('button', { name: 'Jeg vil reservere oppgaven' })).toBeEnabled();
+		expect(getByRole('button', { name: 'Reserver og åpne oppgaven' })).toBeEnabled();
 	});
 
 	it('kan åpne oppgave som er på vent', async () => {
@@ -53,7 +53,7 @@ describe('FagsakSearchIndex', () => {
 		await userEvent.click(row);
 		expect(getByText('Hva ønsker du å gjøre med oppgaven?')).toBeDefined();
 		expect(getByRole('button', { name: 'Avbryt' })).toBeEnabled();
-		expect(getByRole('button', { name: 'Jeg vil reservere oppgaven' })).toBeEnabled();
+		expect(getByRole('button', { name: 'Reserver og åpne oppgaven' })).toBeEnabled();
 		expect(getByRole('button', { name: 'Åpne oppgaven' })).toBeEnabled();
 	});
 
