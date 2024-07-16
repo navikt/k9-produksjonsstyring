@@ -57,7 +57,7 @@ describe('FagsakSearchIndex', () => {
 		expect(getByRole('button', { name: 'Åpne oppgaven' })).toBeEnabled();
 	});
 
-	it('kan åpne oppgave eller legge tilbake i kø hvis innlogget bruker har reservert oppgaven fra før avs', async () => {
+	it('kan åpne oppgave eller legge tilbake i kø hvis innlogget bruker har reservert oppgaven fra før av', async () => {
 		server.use(oppgaveReservertAvInnloggetBruker());
 		const { getByText, getByRole } = renderWithAllProviders(<FagsakSearchIndex k9punsjUrl="test" k9sakUrl="test" />);
 		await userEvent.type(getByText('Søk på saksnummer, personnummer eller journalpostID'), '5YC1S');
