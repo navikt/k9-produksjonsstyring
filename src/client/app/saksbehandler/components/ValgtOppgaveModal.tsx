@@ -8,7 +8,6 @@ import {
 	useReserverOppgaveMutation,
 } from 'api/queries/saksbehandlerQueries';
 import dayjs from 'dayjs';
-import { useQueryClient } from 'react-query';
 
 interface OwnProps {
 	oppgave: Oppgave;
