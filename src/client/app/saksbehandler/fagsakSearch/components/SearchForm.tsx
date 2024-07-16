@@ -1,9 +1,5 @@
 import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
-import { Knapp } from 'nav-frontend-knapper';
-import { Undertittel } from 'nav-frontend-typografi';
-import VerticalSpacer from 'sharedComponents/VerticalSpacer';
-import { FlexColumn, FlexContainer, FlexRow } from 'sharedComponents/flexGrid';
+import { useIntl } from 'react-intl';
 import { hasValidSaksnummerOrFodselsnummerFormat } from 'utils/validation/validators';
 import * as styles from './searchForm.css';
 import { Button, TextField } from '@navikt/ds-react';
