@@ -6,7 +6,7 @@ import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import { FlexColumn, FlexContainer, FlexRow } from 'sharedComponents/flexGrid';
 import { hasValidSaksnummerOrFodselsnummerFormat } from 'utils/validation/validators';
 import * as styles from './searchForm.css';
-import { TextField } from '@navikt/ds-react';
+import { Button, TextField } from '@navikt/ds-react';
 
 const isButtonDisabled = (searchString: string, searchStarted: boolean) => searchStarted || !searchString;
 
@@ -47,32 +47,26 @@ export const SearchForm: FunctionComponent<OwnProps> = ({ onSubmit, searchStarte
 	};
 	return (
 		<form className={styles.container} onSubmit={handleSubmit}>
-			<Undertittel>{intl.formatMessage({ id: 'Search.SearchFagsakOrPerson' })}</Undertittel>
-			<VerticalSpacer eightPx />
-			<FlexContainer>
-				<FlexRow>
-					<FlexColumn>
-						<TextField
-							label={intl.formatMessage({ id: 'Search.SaksnummerOrPersonId' })}
-							value={searchString}
-							onChange={(e) => setSearchString(e.target.value)}
-							error={error && intl.formatMessage(error)}
-							size="small"
-						/>
-					</FlexColumn>
-					<FlexColumn>
-						<Knapp
-							mini
-							htmlType="submit"
-							className={styles.button}
-							spinner={searchStarted}
-							disabled={isButtonDisabled(searchString, searchStarted)}
-						>
-							<FormattedMessage id="Search.Search" />
-						</Knapp>
-					</FlexColumn>
-				</FlexRow>
-			</FlexContainer>
+			<div className="flex">
+				<TextField
+					label="Søk på saksnummer, personnummer eller journalpostID"
+					value={searchString}
+					onChange={(e) => setSearchString(e.target.value)}
+					error={error && intl.formatMessage(error)}
+					size="medium"
+				/>
+				<div className="relative ml-6">
+					<Button
+						className="absolute bottom-0"
+						variant="primary"
+						type="submit"
+						loading={searchStarted}
+						disabled={isButtonDisabled(searchString, searchStarted)}
+					>
+						Søk
+					</Button>
+				</div>
+			</div>
 		</form>
 	);
 };
