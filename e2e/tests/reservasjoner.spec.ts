@@ -32,7 +32,7 @@ test.beforeEach(async ({ page }) => {
 });
 
 test('Kan søke opp og reservere opppgave', async ({ page }) => {
-	const searchInput = page.getByLabel('Saksnummer, personnummer eller journalpostID');
+	const searchInput = page.getByLabel('Søk på saksnummer, personnummer eller journalpostID');
 	await searchInput.click();
 	await searchInput.fill(saksnummer);
 
