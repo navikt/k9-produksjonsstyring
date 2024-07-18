@@ -5,6 +5,7 @@ import { getDateAndTime } from 'utils/dateUtils';
 import {
 	useEndreReservasjoner,
 	useInnloggetSaksbehandler,
+	useOpphevReservasjoner,
 	useReserverOppgaveMutation,
 } from 'api/queries/saksbehandlerQueries';
 import dayjs from 'dayjs';
@@ -28,15 +29,16 @@ const erSattPåVent = (oppgave: Oppgave) => {
 export const ValgtOppgaveModal: FunctionComponent<OwnProps> = ({ oppgave, setValgtOppgave, goToFagsak }) => {
 	const { mutate: endreReservasjoner, isSuccess: harEndretReservasjon } = useEndreReservasjoner();
 	const { mutate: reserverOppgave, isSuccess: harReservertOppgave } = useReserverOppgaveMutation();
+	const { mutate: opphevReservasjoner, isSuccess: harOpphevetReservasjon } = useOpphevReservasjoner();
 	const { data: saksbehandler } = useInnloggetSaksbehandler();
 
 	const onClose = () => setValgtOppgave(undefined);
 
 	useEffect(() => {
-		if (harReservertOppgave || harEndretReservasjon) {
+		if (harReservertOppgave || harEndretReservasjon || harOpphevetReservasjon) {
 			onClose();
 		}
-	}, [harEndretReservasjon, harReservertOppgave]);
+	}, [harEndretReservasjon, harReservertOppgave, harOpphevetReservasjon]);
 
 	if (erSattPåVent(oppgave)) {
 		return (
@@ -70,7 +72,11 @@ export const ValgtOppgaveModal: FunctionComponent<OwnProps> = ({ oppgave, setVal
 					<Button variant="primary" size="small" onClick={() => goToFagsak(oppgave)}>
 						Åpne oppgaven
 					</Button>
-					<Button variant="secondary" size="small" onClick={onClose}>
+					<Button
+						variant="secondary"
+						size="small"
+						onClick={() => opphevReservasjoner([{ oppgaveNøkkel: oppgave.oppgaveNøkkel }])}
+					>
 						Legg tilbake i kø
 					</Button>
 					<Button variant="secondary" size="small" onClick={onClose}>

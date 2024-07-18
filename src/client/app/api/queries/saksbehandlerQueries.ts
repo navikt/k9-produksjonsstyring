@@ -97,3 +97,15 @@ export const usePlukkOppgaveMutation = (callback?: (oppgave: ReservasjonV3FraKø
 		},
 	});
 };
+
+export const useOpphevReservasjoner = () => {
+	const queryClient = useQueryClient();
+	return useMutation({
+		mutationFn: (data: Array<{ oppgaveNøkkel: OppgaveNøkkel }>) =>
+			axiosInstance.post(apiPaths.opphevReservasjoner, data),
+		onSuccess: () => {
+			queryClient.invalidateQueries(apiPaths.saksbehandlerReservasjoner);
+			queryClient.invalidateQueries(apiPaths.avdelinglederReservasjoner);
+		},
+	});
+};

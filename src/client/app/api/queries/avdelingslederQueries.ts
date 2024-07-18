@@ -37,18 +37,6 @@ export const useAvdelingslederReservasjoner = (options: UseQueryOptions<Reservas
 		...options,
 	});
 
-export const useOpphevReservasjoner = () => {
-	const queryClient = useQueryClient();
-	return useMutation({
-		mutationFn: (data: { oppgaveNøkkel: Array<OppgaveNøkkel>; begrunnelse: string }) =>
-			axiosInstance.post(apiPaths.opphevReservasjoner, data),
-		onSuccess: () => {
-			queryClient.invalidateQueries(apiPaths.saksbehandlerReservasjoner);
-			queryClient.invalidateQueries(apiPaths.avdelinglederReservasjoner);
-		},
-	});
-};
-
 export const useKopierKøMutation = (callback?: () => void) => {
 	const queryClient = useQueryClient();
 
