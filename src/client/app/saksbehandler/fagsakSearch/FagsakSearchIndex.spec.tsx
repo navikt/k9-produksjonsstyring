@@ -17,7 +17,7 @@ describe('FagsakSearchIndex', () => {
 	it('Kan åpne eller reservere oppgave som er reservert av annen saksbehandler', async () => {
 		server.use(reservertOppgaveHandler());
 		const { getByText, getByRole } = renderWithAllProviders(<FagsakSearchIndex k9punsjUrl="test" k9sakUrl="test" />);
-		await userEvent.type(getByText('Saksnummer, fødselsnummer/D-nummer eller journalpostID'), '5YC1S');
+		await userEvent.type(getByText('Søk på saksnummer, personnummer eller journalpostID'), '5YC1S');
 		const searchButton = getByRole('button', { name: 'Søk' });
 		expect(searchButton).toBeEnabled();
 		await userEvent.click(searchButton);
@@ -25,13 +25,13 @@ describe('FagsakSearchIndex', () => {
 		await userEvent.click(row);
 		expect(getByRole('button', { name: 'Avbryt' })).toBeEnabled();
 		expect(getByRole('button', { name: 'Åpne oppgaven' })).toBeEnabled();
-		expect(getByRole('button', { name: 'Jeg vil reservere oppgaven' })).toBeEnabled();
+		expect(getByRole('button', { name: 'Reserver og åpne oppgaven' })).toBeEnabled();
 	});
 
 	it('kan åpne oppgave som er på vent', async () => {
 		server.use(paaVentOppgaveHandler());
 		const { getByText, getByRole } = renderWithAllProviders(<FagsakSearchIndex k9punsjUrl="test" k9sakUrl="test" />);
-		await userEvent.type(getByText('Saksnummer, fødselsnummer/D-nummer eller journalpostID'), '5YC1S');
+		await userEvent.type(getByText('Søk på saksnummer, personnummer eller journalpostID'), '5YC1S');
 		const searchButton = getByRole('button', { name: 'Søk' });
 		expect(searchButton).toBeEnabled();
 		await userEvent.click(searchButton);
@@ -45,7 +45,7 @@ describe('FagsakSearchIndex', () => {
 	it('kan åpne eller reservere oppgave som ikke er reservert', async () => {
 		server.use(ureservertOppgaveHandler());
 		const { getByText, getByRole } = renderWithAllProviders(<FagsakSearchIndex k9punsjUrl="test" k9sakUrl="test" />);
-		await userEvent.type(getByText('Saksnummer, fødselsnummer/D-nummer eller journalpostID'), '5YC1S');
+		await userEvent.type(getByText('Søk på saksnummer, personnummer eller journalpostID'), '5YC1S');
 		const searchButton = getByRole('button', { name: 'Søk' });
 		expect(searchButton).toBeEnabled();
 		await userEvent.click(searchButton);
@@ -53,14 +53,14 @@ describe('FagsakSearchIndex', () => {
 		await userEvent.click(row);
 		expect(getByText('Hva ønsker du å gjøre med oppgaven?')).toBeDefined();
 		expect(getByRole('button', { name: 'Avbryt' })).toBeEnabled();
-		expect(getByRole('button', { name: 'Jeg vil reservere oppgaven' })).toBeEnabled();
+		expect(getByRole('button', { name: 'Reserver og åpne oppgaven' })).toBeEnabled();
 		expect(getByRole('button', { name: 'Åpne oppgaven' })).toBeEnabled();
 	});
 
-	it('kan åpne oppgave eller legge tilbake i kø hvis innlogget bruker har reservert oppgaven fra før avs', async () => {
+	it('kan åpne oppgave eller legge tilbake i kø hvis innlogget bruker har reservert oppgaven fra før av', async () => {
 		server.use(oppgaveReservertAvInnloggetBruker());
 		const { getByText, getByRole } = renderWithAllProviders(<FagsakSearchIndex k9punsjUrl="test" k9sakUrl="test" />);
-		await userEvent.type(getByText('Saksnummer, fødselsnummer/D-nummer eller journalpostID'), '5YC1S');
+		await userEvent.type(getByText('Søk på saksnummer, personnummer eller journalpostID'), '5YC1S');
 		const searchButton = getByRole('button', { name: 'Søk' });
 		expect(searchButton).toBeEnabled();
 		await userEvent.click(searchButton);

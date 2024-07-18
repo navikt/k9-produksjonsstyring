@@ -42,7 +42,7 @@ export const ValgtOppgaveModal: FunctionComponent<OwnProps> = ({ oppgave, setVal
 
 	if (erSattPåVent(oppgave)) {
 		return (
-			<Modal open className="min-w-[500px]" onClose={onClose} header={{ heading: 'Oppgaven er satt på vent' }}>
+			<Modal open className="min-w-[550px]" onClose={onClose} header={{ heading: 'Oppgaven er satt på vent' }}>
 				<Modal.Body>
 					<BodyShort>
 						{`Oppgaven er satt på vent til ${dayjs(oppgave.behandlingsfrist).format(
@@ -64,7 +64,7 @@ export const ValgtOppgaveModal: FunctionComponent<OwnProps> = ({ oppgave, setVal
 
 	if (erReservertAvInnloggetSaksbehandler(oppgave)) {
 		return (
-			<Modal open onClose={onClose} header={{ heading: 'Oppgaven er reservert av deg' }} className="min-w-[500px]">
+			<Modal open onClose={onClose} header={{ heading: 'Oppgaven er reservert av deg' }} className="min-w-[550px]">
 				<Modal.Body>
 					<BodyShort> Hva ønsker du å gjøre med oppgaven?</BodyShort>
 				</Modal.Body>
@@ -110,7 +110,7 @@ export const ValgtOppgaveModal: FunctionComponent<OwnProps> = ({ oppgave, setVal
 								endreReservasjoner([{ oppgaveNøkkel: oppgave.oppgaveNøkkel, brukerIdent: saksbehandler.brukerIdent }])
 							}
 						>
-							Jeg vil reservere oppgaven
+							Reserver og åpne oppgaven
 						</Button>
 					)}
 					<Button variant="secondary" size="small" onClick={onClose}>
@@ -122,14 +122,14 @@ export const ValgtOppgaveModal: FunctionComponent<OwnProps> = ({ oppgave, setVal
 	}
 
 	return (
-		<Modal open onClose={onClose} header={{ heading: 'Hva ønsker du å gjøre med oppgaven?' }} className="min-w-[500px]">
+		<Modal open onClose={onClose} header={{ heading: 'Hva ønsker du å gjøre med oppgaven?' }} className="min-w-[550px]">
 			<Modal.Footer>
 				<Button variant="primary" size="small" onClick={() => goToFagsak(oppgave)}>
 					Åpne oppgaven
 				</Button>
 				{saksbehandler?.kanReservere && (
 					<Button variant="secondary" size="small" onClick={() => reserverOppgave(oppgave.oppgaveNøkkel)}>
-						Jeg vil reservere oppgaven
+						Reserver og åpne oppgaven
 					</Button>
 				)}
 				<Button variant="secondary" size="small" onClick={onClose}>
