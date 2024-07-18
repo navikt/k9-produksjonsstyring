@@ -7,6 +7,7 @@ import {
 	useInnloggetSaksbehandler,
 	useOpphevReservasjoner,
 	useReserverOppgaveMutation,
+	useSøk,
 } from 'api/queries/saksbehandlerQueries';
 import dayjs from 'dayjs';
 
@@ -27,18 +28,20 @@ const erSattPåVent = (oppgave: Oppgave) => {
 };
 
 export const ValgtOppgaveModal: FunctionComponent<OwnProps> = ({ oppgave, setValgtOppgave, goToFagsak }) => {
-	const { mutate: endreReservasjoner, isSuccess: harEndretReservasjon } = useEndreReservasjoner();
-	const { mutate: reserverOppgave, isSuccess: harReservertOppgave } = useReserverOppgaveMutation();
+	const { mutate: endreReservasjoner } = useEndreReservasjoner();
+	const { mutate: reserverOppgave } = useReserverOppgaveMutation();
 	const { mutate: opphevReservasjoner, isSuccess: harOpphevetReservasjon } = useOpphevReservasjoner();
+	const { reset: resetSøk } = useSøk();
 	const { data: saksbehandler } = useInnloggetSaksbehandler();
 
 	const onClose = () => setValgtOppgave(undefined);
 
 	useEffect(() => {
-		if (harReservertOppgave || harEndretReservasjon || harOpphevetReservasjon) {
+		if (harOpphevetReservasjon) {
+			resetSøk();
 			onClose();
 		}
-	}, [harEndretReservasjon, harReservertOppgave, harOpphevetReservasjon]);
+	}, [harOpphevetReservasjon]);
 
 	if (erSattPåVent(oppgave)) {
 		return (
