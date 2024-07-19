@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { OppgaveNøkkel } from 'types/OppgaveNøkkel';
-import { useOpphevReservasjoner } from 'api/queries/avdelingslederQueries';
+import { useOpphevReservasjoner } from 'api/queries/saksbehandlerQueries';
 import { Button, Modal } from '@navikt/ds-react';
 
 type OwnProps = Readonly<{

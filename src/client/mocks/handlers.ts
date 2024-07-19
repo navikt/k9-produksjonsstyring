@@ -333,7 +333,7 @@ if (process.env.MSW_MODE === 'test') {
 }
 
 if (process.env.MSW_MODE === 'development') {
-	handlers = [developmentHandlers.hentAlleKoerSaksbehandler, developmentHandlers.saksbehandlerReservasjoner];
+	handlers = [];
 }
 
 export default handlers;

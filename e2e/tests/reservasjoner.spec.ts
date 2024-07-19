@@ -32,7 +32,7 @@ test.beforeEach(async ({ page }) => {
 });
 
 test('Kan søke opp og reservere opppgave', async ({ page }) => {
-	const searchInput = page.getByLabel('Saksnummer, fødselsnummer/D-nummer eller journalpostID');
+	const searchInput = page.getByLabel('Søk på saksnummer, personnummer eller journalpostID');
 	await searchInput.click();
 	await searchInput.fill(saksnummer);
 
@@ -48,8 +48,8 @@ test('Kan søke opp og reservere opppgave', async ({ page }) => {
 	await expect(searchResult).toBeVisible();
 	await searchResult.click();
 
-	expect(page.getByText('Ønsker du å reservere oppgaven?')).toBeVisible();
-	await page.getByRole('button', { name: 'Ja' }).click();
+	expect(page.getByText('Hva ønsker du å gjøre med oppgaven?')).toBeVisible();
+	await page.getByRole('button', { name: 'Reserver og åpne oppgaven' }).click();
 
 	await page.waitForResponse(
 		(response) =>

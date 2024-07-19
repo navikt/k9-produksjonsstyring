@@ -7,7 +7,7 @@ import { ErrorMessage, Skeleton, UNSAFE_Combobox, Modal, Button } from '@navikt/
 import { useForm } from 'react-hook-form';
 import { Form, TextAreaField, Datepicker } from '@navikt/ft-form-hooks';
 import { hasValidText, maxLength, minLength, required, dateAfterOrEqualToToday } from '@navikt/ft-form-validators';
-import { useEndreReservasjoner } from 'api/queries/avdelingslederQueries';
+import { useEndreReservasjoner } from 'api/queries/saksbehandlerQueries';
 
 interface FlyttReservasjonType {
 	oppgaveNøkkel: OppgaveNøkkel;
@@ -45,7 +45,13 @@ const initialValues = (reservasjoner: FlyttReservasjonType[]) => {
  * Presentasjonskomponent. Modal som lar en søke opp en saksbehandler som saken skal flyttes til. En kan også begrunne hvorfor saken skal flyttes.
  */
 export const FlyttReservasjonerModal: FunctionComponent<OwnProps> = ({ open, closeModal, reservasjoner }) => {
-	const { mutate: flyttReservasjoner } = useEndreReservasjoner({ callback: closeModal });
+	const { mutate: flyttReservasjoner, isSuccess } = useEndreReservasjoner();
+
+	useEffect(() => {
+		if (isSuccess) {
+			closeModal();
+		}
+	}, [isSuccess]);
 	const intl = useIntl();
 	const { data: saksbehandlere, isLoading, error } = useGetAlleSaksbehandlere({ placeholderData: [] });
 	const uniqueSaksbehandlere = Array.from(new Set(saksbehandlere.map((a) => a.brukerIdent))).map((brukerIdent) => {

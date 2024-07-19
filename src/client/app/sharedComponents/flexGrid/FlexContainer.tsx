@@ -14,9 +14,4 @@ FlexContainer.propTypes = {
 	wrap: PropTypes.bool,
 };
 
-FlexContainer.defaultProps = {
-	children: null,
-	wrap: false,
-};
-
 export default FlexContainer;
