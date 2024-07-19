@@ -12,13 +12,13 @@ import { useAvdelingslederReservasjoner } from 'api/queries/avdelingslederQuerie
 import { getKodeverknavnFraKode } from 'utils/kodeverkUtils';
 import { OppgaveNøkkel } from 'types/OppgaveNøkkel';
 import ReservasjonerBolkButtons from 'avdelingsleder/reservasjoner/components/ReservasjonerBolkButtons';
-import Reservasjon from '../reservasjonTsType';
-import useGlobalStateRestApiData from '../../../api/rest-api-hooks/src/global-data/useGlobalStateRestApiData';
-import * as styles from './reservasjonerTabell.css';
 import ModalButton from 'sharedComponents/ModalButton';
 import FlyttReservasjonerModal from 'saksbehandler/behandlingskoer/components/menu/FlyttReservasjonerModal';
 import { ArrowUndoIcon, PencilIcon } from '@navikt/aksel-icons';
 import OpphevReservasjonerModal from 'saksbehandler/behandlingskoer/components/menu/OpphevReservasjonerModal';
+import * as styles from './reservasjonerTabell.css';
+import useGlobalStateRestApiData from '../../../api/rest-api-hooks/src/global-data/useGlobalStateRestApiData';
+import Reservasjon from '../reservasjonTsType';
 
 type ReservasjonTableData = {
 	reservasjon: Reservasjon;
@@ -52,8 +52,7 @@ const ReservasjonerTabell = () => {
 		}
 	};
 
-	const sorter = (reservasjonerListe: ReservasjonTableData[], newSort: ReservasjonTableDataSortState) => {
-		return reservasjonerListe?.sort((a, b) => {
+	const sorter = (reservasjonerListe: ReservasjonTableData[], newSort: ReservasjonTableDataSortState) => reservasjonerListe?.sort((a, b) => {
 			if (newSort) {
 				return newSort.direction === 'ascending'
 					? comparator(b, a, newSort.orderBy)
@@ -61,7 +60,6 @@ const ReservasjonerTabell = () => {
 			}
 			return 1;
 		});
-	};
 
 	const handleSort = (sortKey: keyof ReservasjonTableData) => {
 		const newSort: ReservasjonTableDataSortState =
@@ -70,7 +68,7 @@ const ReservasjonerTabell = () => {
 				: {
 						orderBy: sortKey,
 						direction: sort && sortKey === sort.orderBy && sort.direction === 'ascending' ? 'descending' : 'ascending',
-				  };
+					};
 		setSort(newSort);
 		setReservasjonerSomSkalVises(sorter(reservasjonerSomSkalVises, newSort));
 	};

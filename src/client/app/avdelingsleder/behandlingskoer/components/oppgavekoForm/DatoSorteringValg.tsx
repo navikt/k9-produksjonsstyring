@@ -24,12 +24,12 @@ const getLagreDatoFn =
 						id: valgtOppgavekoId,
 						fomDato: d,
 						tomDato: annenDato,
-				  }
+					}
 				: {
 						id: valgtOppgavekoId,
 						fomDato: annenDato,
 						tomDato: d,
-				  };
+					};
 
 			return lagreOppgavekoSorteringTidsintervallDato(params).then(() => {
 				hentKo(valgtOppgavekoId);

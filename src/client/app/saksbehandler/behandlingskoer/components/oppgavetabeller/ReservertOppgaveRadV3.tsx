@@ -61,7 +61,7 @@ const ReservertOppgaveRadV3: React.ForwardRefExoticComponent<Props> = React.forw
 
 		const tilOppgave = () => {
 			leggTilBehandletOppgave(oppgave.oppgaveNøkkel);
-			
+
 			let fallbackUrl = '';
 
 			if (oppgave?.saksnummer) {
@@ -93,7 +93,7 @@ const ReservertOppgaveRadV3: React.ForwardRefExoticComponent<Props> = React.forw
 					{oppgave.behandlingstype.navn}
 				</Table.DataCell>
 				<Table.DataCell onClick={tilOppgave} className="hover:cursor-pointer">
-					{oppgave.opprettetTidspunkt && <DateLabel dateString={oppgave.opprettetTidspunkt} />  || '-'}
+					{(oppgave.opprettetTidspunkt && <DateLabel dateString={oppgave.opprettetTidspunkt} />) || '-'}
 				</Table.DataCell>
 				<Table.DataCell onClick={tilOppgave} className={`${styles.reservertTil} hover:cursor-pointer`}>
 					<FormattedMessage

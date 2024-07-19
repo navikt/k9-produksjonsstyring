@@ -48,7 +48,7 @@ const buildInitialValues = (intl: IntlShape, ko: Oppgaveko) => {
 		? ko.kriterier.reduce(
 				(acc, køKriterie) => ({ ...acc, [`${køKriterie.kriterierType.kode}_inkluder`]: køKriterie.inkluder }),
 				{},
-		  )
+			)
 		: {};
 
 	return {

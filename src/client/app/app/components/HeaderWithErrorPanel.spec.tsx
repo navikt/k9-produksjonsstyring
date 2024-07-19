@@ -1,9 +1,9 @@
 import React from 'react';
 import { act, screen, waitFor } from '@testing-library/react';
+import { setupServer } from 'msw/node';
 import { renderWithAllProviders } from '../../../../../setup/testHelpers/testUtils';
 import { unitTestHandlers } from '../../../mocks/unitTestHandlers';
 import HeaderWithErrorPanel from './HeaderWithErrorPanel';
-import { setupServer } from 'msw/node';
 
 const setSiteHeight = (): void => null;
 const crashMessage = 'CrashMessage';

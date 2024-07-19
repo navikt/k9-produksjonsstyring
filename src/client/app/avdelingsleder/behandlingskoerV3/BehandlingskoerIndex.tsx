@@ -3,12 +3,12 @@ import dayjs from 'dayjs';
 import { PlusCircleIcon } from '@navikt/aksel-icons';
 import { Button, Loader, Skeleton, Table } from '@navikt/ds-react';
 import { useAlleKoer } from 'api/queries/avdelingslederQueries';
+import { OppgavekøV3Enkel } from 'types/OppgavekøV3Type';
+import { useAntallOppgaverIKoV3 } from 'api/queries/saksbehandlerQueries';
 import BehandlingsKoForm from './BehandlingsKoForm';
 import KopierKø from './KopierKø';
 import NyKøModal from './NyKøModal';
 import SlettKø from './SlettKø';
-import { OppgavekøV3Enkel } from 'types/OppgavekøV3Type';
-import { useAntallOppgaverIKoV3 } from 'api/queries/saksbehandlerQueries';
 
 function scrollToId(id: string) {
 	let intervalId: NodeJS.Timeout | undefined;
@@ -44,7 +44,7 @@ const Row = ({
 		>
 			<Table.DataCell scope="row">{kø.tittel}</Table.DataCell>
 			<Table.DataCell>{kø.antallSaksbehandlere || '0'}</Table.DataCell>
-			<Table.DataCell>{isLoading ? <Skeleton variant="text" /> : antallOppgaver ?? '-'}</Table.DataCell>
+			<Table.DataCell>{isLoading ? <Skeleton variant="text" /> : (antallOppgaver ?? '-')}</Table.DataCell>
 			<Table.DataCell>{kø.sistEndret ? dayjs(kø.sistEndret).format('DD.MM.YYYY HH:mm') : '-'}</Table.DataCell>
 			<Table.DataCell>
 				<KopierKø kø={kø} />

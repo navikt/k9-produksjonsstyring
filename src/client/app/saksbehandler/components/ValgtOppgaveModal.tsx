@@ -17,15 +17,9 @@ interface OwnProps {
 	goToFagsak: (oppgave: Oppgave) => void;
 }
 
-const erReservertAvAnnenSaksbehandler = (oppgave: Oppgave) => {
-	return oppgave.status.erReservert && !oppgave.status.erReservertAvInnloggetBruker;
-};
-const erReservertAvInnloggetSaksbehandler = (oppgave: Oppgave) => {
-	return oppgave.status.erReservert && oppgave.status.erReservertAvInnloggetBruker;
-};
-const erSattPåVent = (oppgave: Oppgave) => {
-	return oppgave.paaVent;
-};
+const erReservertAvAnnenSaksbehandler = (oppgave: Oppgave) => oppgave.status.erReservert && !oppgave.status.erReservertAvInnloggetBruker;
+const erReservertAvInnloggetSaksbehandler = (oppgave: Oppgave) => oppgave.status.erReservert && oppgave.status.erReservertAvInnloggetBruker;
+const erSattPåVent = (oppgave: Oppgave) => oppgave.paaVent;
 
 export const ValgtOppgaveModal: FunctionComponent<OwnProps> = ({ oppgave, setValgtOppgave, goToFagsak }) => {
 	const { mutate: endreReservasjoner } = useEndreReservasjoner();
