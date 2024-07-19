@@ -1,12 +1,11 @@
 import React, { FunctionComponent, useState } from 'react';
+import { K9LosApiKeys } from 'api/k9LosApi';
+import { useRestApiRunner } from 'api/rest-api-hooks';
 import { getK9punsjRef, getK9sakHref } from 'app/paths';
 import ValgtOppgaveModal from 'saksbehandler/components/ValgtOppgaveModal';
 import Oppgave from 'saksbehandler/oppgaveTsType';
-import { useRestApiRunner } from 'api/rest-api-hooks';
-import { K9LosApiKeys } from 'api/k9LosApi';
-import { useInnloggetSaksbehandler } from 'api/queries/saksbehandlerQueries';
-import FagsakSearch from './components/FagsakSearch';
 import OppgaveSystem from '../../types/OppgaveSystem';
+import FagsakSearch from './components/FagsakSearch';
 
 interface OwnProps {
 	k9sakUrl: string;
