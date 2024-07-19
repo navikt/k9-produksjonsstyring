@@ -1,22 +1,22 @@
 import React, { FunctionComponent, useCallback, useState } from 'react';
 import { useIdleTimer } from 'react-idle-timer';
 import { useLocation } from 'react-router';
-import ModalMedIkon from 'sharedComponents/modal/ModalMedIkon';
 import { parseQueryString } from 'utils/urlUtils';
-import advarselImageUrl from '../../images/advarsel.svg';
 import '../../styles/global.css';
 import AppConfigResolver from './AppConfigResolver';
 import ErrorBoundary from './ErrorBoundary';
 import LanguageProvider from './LanguageProvider';
 import HeaderWithErrorPanel from './components/HeaderWithErrorPanel';
 import Home from './components/Home';
+import { Button, Modal } from '@navikt/ds-react';
+import { ExclamationmarkTriangleIcon } from '@navikt/aksel-icons';
 
 /**
  * AppIndex
  *
  * Container komponent. Dette er toppkomponenten i applikasjonen. Denne vil rendre header
  * og home-komponentene. Home-komponenten vil rendre barn-komponenter via ruter.
- * Komponenten er også ansvarlig for å hente innlogget NAV-ansatt, rettskilde-url, 
+ * Komponenten er også ansvarlig for å hente innlogget NAV-ansatt, rettskilde-url,
  * og kodeverk fra server og lagre desse i klientens state.
  */
 const AppIndex: FunctionComponent = () => {
@@ -52,19 +52,21 @@ const AppIndex: FunctionComponent = () => {
 				<LanguageProvider>
 					<HeaderWithErrorPanel queryStrings={queryStrings} setSiteHeight={setSiteHeight} crashMessage={crashMessage} />
 					{sessionHarUtlopt && (
-						<ModalMedIkon
-							cancel={() => {
-								window.location.reload();
-							}}
-							tekst={{
-								valgmulighetB: 'Logg inn',
-								formattedMessageId: 'LoggetUtModal.Tekst',
-							}}
-							ikonUrl={advarselImageUrl}
-							ikonAlt="Varseltrekant"
-						/>
+						<Modal
+							className="min-w-[500px]"
+							open
+							onClose={() => window.location.reload()}
+							header={{ heading: 'Sesjonen er utløpt', icon: <ExclamationmarkTriangleIcon /> }}
+						>
+							<Modal.Body>
+								Økten din har utløpt etter en periode med inaktivitet. Vennligst logg inn på nytt for å fortsette.
+							</Modal.Body>
+							<Modal.Footer>
+								<Button>Logg inn på nytt</Button>
+							</Modal.Footer>
+						</Modal>
 					)}
-					{crashMessage === undefined && <Home headerHeight={headerHeight} />}
+					{!crashMessage && <Home headerHeight={headerHeight} />}
 				</LanguageProvider>
 			</AppConfigResolver>
 		</ErrorBoundary>

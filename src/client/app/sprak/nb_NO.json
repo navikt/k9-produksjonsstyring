@@ -219,7 +219,6 @@
 
 	"OppgaveReservasjonForlengetModal.Reservert": "Oppgaven er reservert på deg t.o.m. {date} - {time}.",
 	"OppgaveReservasjonForlengetModal.Ok": "OK",
-	"IngenOppgaverIKonModan.Tekst": "Ingen flere ureserverte behandlinger i valgt kø. Velg en annen kø.",
 
 	"OppgaveReservasjonEndringDatoModal.Header": "Velg dato som reservasjonen avsluttes",
 	"OppgaveReservasjonEndringDatoModal.Ok": "OK",
@@ -260,8 +259,6 @@
 	"ReservasjonerTabell.FlyttReservasjon": "Flytt reservasjonen til annen saksbehandler",
 	"ReservasjonerTabell.FlyttReservasjonBolk": "Flytt reservasjonene til annen saksbehandler",
 
-	"LoggetUtModal.Tekst": "Sesjonen er utløpt.",
-
 	"SaksbehandlereForOppgavekoForm.Saksbehandlere": "Saksbehandlere",
 	"SaksbehandlereForOppgavekoForm.IngenSaksbehandlere": "Ingen saksbehandlere",
 
@@ -277,11 +274,6 @@
 
 	"SistBehandledeSaker.IngenBehandlinger": "Ingen oppgaver",
 	"SistBehandledeSaker.Behandling": "Oppgave {index}",
-
-	"SletteOppgavekoModal.SletteModal": "Ønsker du å slette oppgavekøen?",
-	"SletteOppgavekoModal.SletteOppgaveko": "Er du sikker på at du vil slette {OppgavekoNavn}?",
-	"SletteOppgavekoModal.Ja": "Ja",
-	"SletteOppgavekoModal.Nei": "Nei",
 
 	"SletteDriftsmeldingModal.SletteDriftsmelding": "Ønsker du å slette driftsmeldingen?",
 	"SletteDriftsmeldingModal.Ja": "Ja",
@@ -301,7 +293,6 @@
 	"SorteringVelger.Fra": "Fra",
 	"SorteringVelger.Til": "Til",
 
-	"SletteSaksbehandlerModal.SletteModal": "Ønsker du å slette saksbehandler?",
 	"SletteSaksbehandlerModal.SletteSaksbehandler": "Er du sikker på at du vil slette {saksbehandlerNavn}?",
 	"SletteSaksbehandlerModal.Ja": "Slett saksbehandleren",
 	"SletteSaksbehandlerModal.Nei": "Avbryt",

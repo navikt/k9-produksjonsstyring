@@ -9,14 +9,14 @@ import BehandlingskoerContext from 'saksbehandler/BehandlingskoerContext';
 import ReserverteOppgaverTabell from 'saksbehandler/behandlingskoer/components/oppgavetabeller/ReserverteOppgaverTabell';
 import Oppgave from 'saksbehandler/oppgaveTsType';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
-import ModalMedIkon from 'sharedComponents/modal/ModalMedIkon';
-import advarselImageUrl from '../../../../images/advarsel.svg';
 import RestApiState from '../../../api/rest-api-hooks/src/RestApiState';
 import { erKoV3, getKoId } from '../utils';
 import OppgavekoVelgerForm from './OppgavekoVelgerForm';
 import * as styles from './oppgavekoPanel.css';
 import OppgaverTabell from './oppgavetabeller/OppgaverTabell';
 import { OppgavetabellV3Container } from './oppgavetabeller/OppgavetabellV3Container';
+import { Button, Modal } from '@navikt/ds-react';
+import { ExclamationmarkTriangleIcon } from '@navikt/aksel-icons';
 
 interface OwnProps {
 	apneOppgave: (oppgave: Oppgave) => void;
@@ -94,15 +94,22 @@ const OppgavekoPanel: FunctionComponent<OwnProps> = ({ apneOppgave }) => {
 			</div>
 			<VerticalSpacer eightPx />
 			{visFinnesIngenBehandlingerIKoModal && (
-				<ModalMedIkon
-					cancel={() => setVisFinnesIngenBehandlingerIKoModal(false)}
-					tekst={{
-						valgmulighetB: 'Gå tilbake til køen',
-						formattedMessageId: 'IngenOppgaverIKonModan.Tekst',
-					}}
-					ikonUrl={advarselImageUrl}
-					ikonAlt="Varseltrekant"
-				/>
+				<>
+					<Modal
+						className="min-w-[500px]"
+						open
+						onClose={() => setVisFinnesIngenBehandlingerIKoModal(false)}
+						header={{ heading: 'Ingen flere ureserverte oppgaver i køen', icon: <ExclamationmarkTriangleIcon /> }}
+					>
+						<Modal.Body>
+							Det ser ut til at det ikke er flere ureserverte behandlinger i den valgte køen. Prøv å velge en annen kø
+							for å fortsette.
+						</Modal.Body>
+						<Modal.Footer>
+							<Button>Lukk</Button>
+						</Modal.Footer>
+					</Modal>
+				</>
 			)}
 			<div className={styles.behandlingskoerContainer}>
 				<button
