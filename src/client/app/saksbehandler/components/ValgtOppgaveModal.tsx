@@ -17,24 +17,24 @@ interface OwnProps {
 	goToFagsak: (oppgave: Oppgave) => void;
 }
 
-const erReservertAvAnnenSaksbehandler = (oppgave: Oppgave) => {
-	return oppgave.status.erReservert && !oppgave.status.erReservertAvInnloggetBruker;
-};
-const erReservertAvInnloggetSaksbehandler = (oppgave: Oppgave) => {
-	return oppgave.status.erReservert && oppgave.status.erReservertAvInnloggetBruker;
-};
-const erSattPåVent = (oppgave: Oppgave) => {
-	return oppgave.paaVent;
-};
+const erReservertAvAnnenSaksbehandler = (oppgave: Oppgave) => oppgave.status.erReservert && !oppgave.status.erReservertAvInnloggetBruker;
+const erReservertAvInnloggetSaksbehandler = (oppgave: Oppgave) => oppgave.status.erReservert && oppgave.status.erReservertAvInnloggetBruker;
+const erSattPåVent = (oppgave: Oppgave) => oppgave.paaVent;
 
 export const ValgtOppgaveModal: FunctionComponent<OwnProps> = ({ oppgave, setValgtOppgave, goToFagsak }) => {
 	const { mutate: endreReservasjoner } = useEndreReservasjoner();
-	const { mutate: reserverOppgave } = useReserverOppgaveMutation();
+	const { mutate: reserverOppgave, isSuccess: harReservertNyOppgave } = useReserverOppgaveMutation();
 	const { mutate: opphevReservasjoner, isSuccess: harOpphevetReservasjon } = useOpphevReservasjoner();
 	const { reset: resetSøk } = useSøk();
 	const { data: saksbehandler } = useInnloggetSaksbehandler();
 
 	const onClose = () => setValgtOppgave(undefined);
+
+	useEffect(() => {
+		if (harReservertNyOppgave) {
+			goToFagsak(oppgave);
+		}
+	}, [harReservertNyOppgave]);
 
 	useEffect(() => {
 		if (harOpphevetReservasjon) {
