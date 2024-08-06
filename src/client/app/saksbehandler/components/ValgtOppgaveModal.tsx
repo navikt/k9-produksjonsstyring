@@ -1,7 +1,4 @@
 import React, { FunctionComponent, useEffect } from 'react';
-import Oppgave from 'saksbehandler/oppgaveTsType';
-import { BodyShort, Modal, Button } from '@navikt/ds-react';
-import { getDateAndTime } from 'utils/dateUtils';
 import {
 	useEndreReservasjoner,
 	useInnloggetSaksbehandler,
@@ -10,6 +7,9 @@ import {
 	useSøk,
 } from 'api/queries/saksbehandlerQueries';
 import dayjs from 'dayjs';
+import Oppgave from 'saksbehandler/oppgaveTsType';
+import { getDateAndTime } from 'utils/dateUtils';
+import { BodyShort, Button, Modal } from '@navikt/ds-react';
 
 interface OwnProps {
 	oppgave: Oppgave;
@@ -17,18 +17,26 @@ interface OwnProps {
 	goToFagsak: (oppgave: Oppgave) => void;
 }
 
-const erReservertAvAnnenSaksbehandler = (oppgave: Oppgave) => oppgave.status.erReservert && !oppgave.status.erReservertAvInnloggetBruker;
-const erReservertAvInnloggetSaksbehandler = (oppgave: Oppgave) => oppgave.status.erReservert && oppgave.status.erReservertAvInnloggetBruker;
+const erReservertAvAnnenSaksbehandler = (oppgave: Oppgave) =>
+	oppgave.status.erReservert && !oppgave.status.erReservertAvInnloggetBruker;
+const erReservertAvInnloggetSaksbehandler = (oppgave: Oppgave) =>
+	oppgave.status.erReservert && oppgave.status.erReservertAvInnloggetBruker;
 const erSattPåVent = (oppgave: Oppgave) => oppgave.paaVent;
 
 export const ValgtOppgaveModal: FunctionComponent<OwnProps> = ({ oppgave, setValgtOppgave, goToFagsak }) => {
 	const { mutate: endreReservasjoner } = useEndreReservasjoner();
-	const { mutate: reserverOppgave } = useReserverOppgaveMutation();
+	const { mutate: reserverOppgave, isSuccess: harReservertNyOppgave } = useReserverOppgaveMutation();
 	const { mutate: opphevReservasjoner, isSuccess: harOpphevetReservasjon } = useOpphevReservasjoner();
 	const { reset: resetSøk } = useSøk();
 	const { data: saksbehandler } = useInnloggetSaksbehandler();
 
 	const onClose = () => setValgtOppgave(undefined);
+
+	useEffect(() => {
+		if (harReservertNyOppgave) {
+			goToFagsak(oppgave);
+		}
+	}, [harReservertNyOppgave]);
 
 	useEffect(() => {
 		if (harOpphevetReservasjon) {
