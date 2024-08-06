@@ -9,14 +9,14 @@ import BehandlingskoerContext from 'saksbehandler/BehandlingskoerContext';
 import ReserverteOppgaverTabell from 'saksbehandler/behandlingskoer/components/oppgavetabeller/ReserverteOppgaverTabell';
 import Oppgave from 'saksbehandler/oppgaveTsType';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
+import { Button, Modal } from '@navikt/ds-react';
+import { ExclamationmarkTriangleIcon } from '@navikt/aksel-icons';
 import RestApiState from '../../../api/rest-api-hooks/src/RestApiState';
 import { erKoV3, getKoId } from '../utils';
 import OppgavekoVelgerForm from './OppgavekoVelgerForm';
 import * as styles from './oppgavekoPanel.css';
 import OppgaverTabell from './oppgavetabeller/OppgaverTabell';
 import { OppgavetabellV3Container } from './oppgavetabeller/OppgavetabellV3Container';
-import { Button, Modal } from '@navikt/ds-react';
-import { ExclamationmarkTriangleIcon } from '@navikt/aksel-icons';
 
 interface OwnProps {
 	apneOppgave: (oppgave: Oppgave) => void;
@@ -80,6 +80,7 @@ const OppgavekoPanel: FunctionComponent<OwnProps> = ({ apneOppgave }) => {
 	};
 
 	const valgtOppgaveko = oppgavekoer.find((s) => valgtOppgavekoId === `${s.id}`);
+	const lukkFinnesIngenBehandlingerIKoModal = () => setVisFinnesIngenBehandlingerIKoModal(false);
 	return (
 		<div className={styles.container}>
 			<Undertittel>
@@ -94,11 +95,10 @@ const OppgavekoPanel: FunctionComponent<OwnProps> = ({ apneOppgave }) => {
 			</div>
 			<VerticalSpacer eightPx />
 			{visFinnesIngenBehandlingerIKoModal && (
-				<>
-					<Modal
+				<Modal
 						className="min-w-[500px]"
 						open
-						onClose={() => setVisFinnesIngenBehandlingerIKoModal(false)}
+						onClose={lukkFinnesIngenBehandlingerIKoModal}
 						header={{ heading: 'Ingen flere ureserverte oppgaver i køen', icon: <ExclamationmarkTriangleIcon /> }}
 					>
 						<Modal.Body>
@@ -106,10 +106,9 @@ const OppgavekoPanel: FunctionComponent<OwnProps> = ({ apneOppgave }) => {
 							for å fortsette.
 						</Modal.Body>
 						<Modal.Footer>
-							<Button>Lukk</Button>
+							<Button onClick={lukkFinnesIngenBehandlingerIKoModal}>Lukk</Button>
 						</Modal.Footer>
 					</Modal>
-				</>
 			)}
 			<div className={styles.behandlingskoerContainer}>
 				<button

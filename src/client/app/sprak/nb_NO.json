@@ -275,10 +275,6 @@
 	"SistBehandledeSaker.IngenBehandlinger": "Ingen oppgaver",
 	"SistBehandledeSaker.Behandling": "Oppgave {index}",
 
-	"SletteDriftsmeldingModal.SletteDriftsmelding": "Ønsker du å slette driftsmeldingen?",
-	"SletteDriftsmeldingModal.Ja": "Ja",
-	"SletteDriftsmeldingModal.Nei": "Nei",
-
 	"SorteringVelger.Sortering": "Sortering",
 	"FiltreringsVelger.Filtrering": "Filtrering",
 	"SorteringVelger.FiltrerPaHeltall": "Ta kun med oppgaver mellom",

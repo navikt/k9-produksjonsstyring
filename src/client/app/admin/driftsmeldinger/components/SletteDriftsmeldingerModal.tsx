@@ -1,8 +1,7 @@
 import React, { FunctionComponent } from 'react';
-import { useIntl } from 'react-intl';
 import { Modal, Button } from '@navikt/ds-react';
-import { Driftsmelding } from '../driftsmeldingTsType';
 import { ExclamationmarkTriangleIcon } from '@navikt/aksel-icons';
+import { Driftsmelding } from '../driftsmeldingTsType';
 
 type TsProps = Readonly<{
 	valgtDriftsmelding: Driftsmelding;
@@ -19,29 +18,26 @@ const SletteDriftsmeldingModal: FunctionComponent<TsProps> = ({
 	valgtDriftsmelding,
 	closeSletteModal,
 	fjernDriftsmelding,
-}: TsProps) => {
-	const intl = useIntl();
-
-	return (
+}: TsProps) => (
 		<Modal
 			open
 			onClose={closeSletteModal}
 			header={{
-				heading: intl.formatMessage({ id: 'SletteDriftsmeldingModal.SletteDriftsmelding' }),
+				heading: 'Slette driftmelding',
 				closeButton: false,
 				icon: <ExclamationmarkTriangleIcon />,
 			}}
 		>
+			<Modal.Body>Ønsker du å slette driftmelding?</Modal.Body>
 			<Modal.Footer>
 				<Button variant="primary" onClick={() => fjernDriftsmelding(valgtDriftsmelding)} autoFocus>
-					{intl.formatMessage({ id: 'SletteDriftsmeldingModal.Ja' })}
+					Ja
 				</Button>
 				<Button variant="secondary" onClick={closeSletteModal}>
-					{intl.formatMessage({ id: 'SletteDriftsmeldingModal.Nei' })}
+					Nei
 				</Button>
 			</Modal.Footer>
 		</Modal>
 	);
-};
 
 export default SletteDriftsmeldingModal;

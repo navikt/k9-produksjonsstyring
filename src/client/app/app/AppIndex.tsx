@@ -3,13 +3,13 @@ import { useIdleTimer } from 'react-idle-timer';
 import { useLocation } from 'react-router';
 import { parseQueryString } from 'utils/urlUtils';
 import '../../styles/global.css';
+import { Button, Modal } from '@navikt/ds-react';
+import { ExclamationmarkTriangleIcon } from '@navikt/aksel-icons';
 import AppConfigResolver from './AppConfigResolver';
 import ErrorBoundary from './ErrorBoundary';
 import LanguageProvider from './LanguageProvider';
 import HeaderWithErrorPanel from './components/HeaderWithErrorPanel';
 import Home from './components/Home';
-import { Button, Modal } from '@navikt/ds-react';
-import { ExclamationmarkTriangleIcon } from '@navikt/aksel-icons';
 
 /**
  * AppIndex
@@ -56,13 +56,13 @@ const AppIndex: FunctionComponent = () => {
 							className="min-w-[500px]"
 							open
 							onClose={() => window.location.reload()}
-							header={{ heading: 'Sesjonen er utløpt', icon: <ExclamationmarkTriangleIcon /> }}
+							header={{ heading: 'Sesjonen er utløpt', icon: <ExclamationmarkTriangleIcon />, closeButton: false }}
 						>
 							<Modal.Body>
 								Økten din har utløpt etter en periode med inaktivitet. Vennligst logg inn på nytt for å fortsette.
 							</Modal.Body>
 							<Modal.Footer>
-								<Button>Logg inn på nytt</Button>
+								<Button onClick={() => window.location.reload()}>Logg inn på nytt</Button>
 							</Modal.Footer>
 						</Modal>
 					)}
