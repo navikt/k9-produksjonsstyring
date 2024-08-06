@@ -1,8 +1,8 @@
 import React, { FunctionComponent } from 'react';
-import { FormattedMessage, WrappedComponentProps, injectIntl, useIntl } from 'react-intl';
-import { Modal, Button, Alert, Heading } from '@navikt/ds-react';
-import { WarningColored } from '@navikt/ds-icons';
+import { useIntl } from 'react-intl';
+import { Modal, Button } from '@navikt/ds-react';
 import { Driftsmelding } from '../driftsmeldingTsType';
+import { ExclamationmarkTriangleIcon } from '@navikt/aksel-icons';
 
 type TsProps = Readonly<{
 	valgtDriftsmelding: Driftsmelding;
@@ -15,7 +15,7 @@ type TsProps = Readonly<{
  *
  * Presentasjonskomponent. Modal som lar en avdelingsleder fjerne tilgjengelige saksbehandlere.
  */
-const SletteDriftsmeldingModal: FunctionComponent<TsProps & WrappedComponentProps> = ({
+const SletteDriftsmeldingModal: FunctionComponent<TsProps> = ({
 	valgtDriftsmelding,
 	closeSletteModal,
 	fjernDriftsmelding,
@@ -29,6 +29,7 @@ const SletteDriftsmeldingModal: FunctionComponent<TsProps & WrappedComponentProp
 			header={{
 				heading: intl.formatMessage({ id: 'SletteDriftsmeldingModal.SletteDriftsmelding' }),
 				closeButton: false,
+				icon: <ExclamationmarkTriangleIcon />,
 			}}
 		>
 			<Modal.Footer>
