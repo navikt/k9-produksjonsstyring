@@ -11,7 +11,6 @@ module.exports = {
 	singleQuote: true,
 	tabWidth: 2,
 	useTabs: true,
-	trailingComma: 'all',
 	importOrder: ['^react', '<THIRD_PARTY_MODULES>', '^@navikt/(.*)$', '^[../]', '^[./]'],
 	importOrderSortSpecifiers: true,
 	plugins: ['@trivago/prettier-plugin-sort-imports'],
