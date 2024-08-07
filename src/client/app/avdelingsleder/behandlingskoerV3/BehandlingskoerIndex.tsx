@@ -110,7 +110,7 @@ const BehandlingskoerIndex = () => {
 
 	return (
 		<>
-			<Button className="my-7" variant="primary" onClick={() => setVisNyKøModal(true)} icon={<PlusCircleIcon />}>
+			<Button className="mb-7" variant="primary" onClick={() => setVisNyKøModal(true)} icon={<PlusCircleIcon />}>
 				Legg til ny oppgavekø
 			</Button>
 			<Table sort={sort} onSortChange={handleSort} size="small">

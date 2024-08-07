@@ -13,8 +13,9 @@
 	background-color: transparent;
 	border: none;
 	color: white;
-	font-weight: 400;
 	text-transform: none;
+	font-weight: 400;
+	padding: 0.75rem 1.25rem
 }
 .knapp:hover {
 	background-color: #0067c5;

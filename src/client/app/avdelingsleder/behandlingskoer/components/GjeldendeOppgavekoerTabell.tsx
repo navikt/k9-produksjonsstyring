@@ -1,24 +1,22 @@
 import React, { FunctionComponent, useCallback, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import Chevron from 'nav-frontend-chevron';
-import { Knapp } from 'nav-frontend-knapper';
 import { Normaltekst } from 'nav-frontend-typografi';
-import { Loader } from '@navikt/ds-react';
+import { Button, Loader } from '@navikt/ds-react';
 import { K9LosApiKeys } from 'api/k9LosApi';
 import useKodeverk from 'api/rest-api-hooks/src/global-data/useKodeverk';
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
 import UtvalgskriterierForOppgavekoForm from 'avdelingsleder/behandlingskoer/components/oppgavekoForm/UtvalgskriterierForOppgavekoForm';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
 import DateLabel from 'sharedComponents/DateLabel';
-import Image from 'sharedComponents/Image';
 import Table from 'sharedComponents/Table';
 import TableColumn from 'sharedComponents/TableColumn';
 import TableRow from 'sharedComponents/TableRow';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
-import addCircle from '../../../../images/add-circle-bla.svg';
 import { Oppgaveko } from '../oppgavekoTsType';
 import SletteOppgavekoModal from './SletteOppgavekoModal';
 import * as styles from './gjeldendeOppgavekoerTabell.css';
+import { PlusCircleIcon } from '@navikt/aksel-icons';
 
 const headerTextCodes = [
 	'GjeldendeOppgavekoerTabell.Listenavn',
@@ -135,16 +133,14 @@ export const GjeldendeOppgavekoerTabell: FunctionComponent<OwnProps> = ({
 	return (
 		<>
 			{requestFinished && (
-				<Knapp
-					mini
-					className={styles.addKnapp}
+				<Button
 					tabIndex={0}
 					onClick={lagNyOppgavekoOnClick}
 					onKeyDown={(e) => lagNyOppgavekoOnKeyDown(e)}
+					icon={<PlusCircleIcon />}
 				>
-					<Image src={addCircle} className={styles.addIcon} />
-					<FormattedMessage id="GjeldendeOppgavekoerTabell.LeggTilListe" />
-				</Knapp>
+					Legg til ny oppgavekø
+				</Button>
 			)}
 			{oppgavekoer.length === 0 && !requestFinished && <Loader size="2xlarge" className={styles.spinner} />}
 			{oppgavekoer.length === 0 && requestFinished && (
@@ -157,51 +153,55 @@ export const GjeldendeOppgavekoerTabell: FunctionComponent<OwnProps> = ({
 				</>
 			)}
 			{oppgavekoer.length > 0 && (
-				<Table headerTextCodes={headerTextCodes}>
-					{oppgavekoer.map((oppgaveko) => (
-						<React.Fragment key={oppgaveko.id}>
-							<TableRow
-								className={oppgaveko.id === valgtOppgavekoId ? styles.isSelected : styles.notSelected}
-								id={oppgaveko.id}
-								onMouseDown={setValgtOppgaveko}
-								onKeyDown={setValgtOppgaveko}
-							>
-								<TableColumn>{oppgaveko.navn}</TableColumn>
-								<TableColumn>{formatStonadstyper(oppgaveko.fagsakYtelseTyper)}</TableColumn>
-								<TableColumn>{oppgaveko.saksbehandlere.length > 0 ? oppgaveko.saksbehandlere.length : ''}</TableColumn>
-								<TableColumn>{`${oppgaveko.antallUreserverteOppgaver} ${
-									oppgaveko.antallBehandlinger ? `(${oppgaveko.antallBehandlinger})` : ''
-								}`}</TableColumn>
-								<TableColumn>
-									<DateLabel dateString={oppgaveko.sistEndret} />
-								</TableColumn>
-								<TableColumn>
-									<Chevron
-										key={oppgaveko.id}
-										type={valgtOppgavekoId && valgtOppgavekoId === oppgaveko.id ? 'opp' : 'ned'}
-										className={styles.chevron}
-									/>
-								</TableColumn>
-							</TableRow>
+				<div className="mt-8">
+					<Table headerTextCodes={headerTextCodes}>
+						{oppgavekoer.map((oppgaveko) => (
+							<React.Fragment key={oppgaveko.id}>
+								<TableRow
+									className={oppgaveko.id === valgtOppgavekoId ? styles.isSelected : styles.notSelected}
+									id={oppgaveko.id}
+									onMouseDown={setValgtOppgaveko}
+									onKeyDown={setValgtOppgaveko}
+								>
+									<TableColumn>{oppgaveko.navn}</TableColumn>
+									<TableColumn>{formatStonadstyper(oppgaveko.fagsakYtelseTyper)}</TableColumn>
+									<TableColumn>
+										{oppgaveko.saksbehandlere.length > 0 ? oppgaveko.saksbehandlere.length : ''}
+									</TableColumn>
+									<TableColumn>{`${oppgaveko.antallUreserverteOppgaver} ${
+										oppgaveko.antallBehandlinger ? `(${oppgaveko.antallBehandlinger})` : ''
+									}`}</TableColumn>
+									<TableColumn>
+										<DateLabel dateString={oppgaveko.sistEndret} />
+									</TableColumn>
+									<TableColumn>
+										<Chevron
+											key={oppgaveko.id}
+											type={valgtOppgavekoId && valgtOppgavekoId === oppgaveko.id ? 'opp' : 'ned'}
+											className={styles.chevron}
+										/>
+									</TableColumn>
+								</TableRow>
 
-							{valgtKo && valgtOppgavekoId === oppgaveko.id && (
-								<td colSpan={6}>
-									<br />
-									<UtvalgskriterierForOppgavekoForm
-										valgtOppgaveko={valgtKo}
-										hentKo={hentOppgaveKoFn}
-										hentAlleOppgavekoer={hentAlleOppgavekoer}
-										visModal={visFjernOppgavekoModal}
-									/>
-								</td>
-							)}
+								{valgtKo && valgtOppgavekoId === oppgaveko.id && (
+									<td colSpan={6}>
+										<br />
+										<UtvalgskriterierForOppgavekoForm
+											valgtOppgaveko={valgtKo}
+											hentKo={hentOppgaveKoFn}
+											hentAlleOppgavekoer={hentAlleOppgavekoer}
+											visModal={visFjernOppgavekoModal}
+										/>
+									</td>
+								)}
 
-							{visSlettModal && (
-								<SletteOppgavekoModal valgtOppgaveko={valgtKo} cancel={closeSletteModal} submit={fjernOppgavekoFn} />
-							)}
-						</React.Fragment>
-					))}
-				</Table>
+								{visSlettModal && (
+									<SletteOppgavekoModal valgtOppgaveko={valgtKo} cancel={closeSletteModal} submit={fjernOppgavekoFn} />
+								)}
+							</React.Fragment>
+						))}
+					</Table>
+				</div>
 			)}
 		</>
 	);
