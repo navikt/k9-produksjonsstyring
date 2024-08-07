@@ -32,6 +32,7 @@ export const ValgtOppgaveModal: FunctionComponent<OwnProps> = ({ oppgave, setVal
 
 	const onClose = () => setValgtOppgave(undefined);
 
+	// Åpner oppgave etter at den er reservert
 	useEffect(() => {
 		if (harReservertNyOppgave) {
 			goToFagsak(oppgave);
@@ -45,7 +46,7 @@ export const ValgtOppgaveModal: FunctionComponent<OwnProps> = ({ oppgave, setVal
 		}
 	}, [harOpphevetReservasjon]);
 
-	const reserverOgÅpneValgtOppgave = () =>
+	const reserverValgtOppgave = () =>
 		erReservertAvAnnenSaksbehandler(oppgave)
 			? endreReservasjoner([{ oppgaveNøkkel: oppgave.oppgaveNøkkel, brukerIdent: saksbehandler.brukerIdent }])
 			: reserverOppgave(oppgave.oppgaveNøkkel);
@@ -65,7 +66,7 @@ export const ValgtOppgaveModal: FunctionComponent<OwnProps> = ({ oppgave, setVal
 						Åpne oppgaven
 					</Button>
 					{saksbehandler?.kanReservere && !erReservertAvInnloggetSaksbehandler(oppgave) && (
-						<Button variant="secondary" size="small" onClick={reserverOgÅpneValgtOppgave}>
+						<Button variant="secondary" size="small" onClick={reserverValgtOppgave}>
 							Reserver og åpne oppgaven
 						</Button>
 					)}
@@ -128,7 +129,7 @@ export const ValgtOppgaveModal: FunctionComponent<OwnProps> = ({ oppgave, setVal
 						Åpne oppgaven
 					</Button>
 					{saksbehandler?.kanReservere && (
-						<Button variant="secondary" size="small" onClick={reserverOgÅpneValgtOppgave}>
+						<Button variant="secondary" size="small" onClick={reserverValgtOppgave}>
 							Reserver og åpne oppgaven
 						</Button>
 					)}
@@ -147,7 +148,7 @@ export const ValgtOppgaveModal: FunctionComponent<OwnProps> = ({ oppgave, setVal
 					Åpne oppgaven
 				</Button>
 				{saksbehandler?.kanReservere && (
-					<Button variant="secondary" size="small" onClick={reserverOgÅpneValgtOppgave}>
+					<Button variant="secondary" size="small" onClick={reserverValgtOppgave}>
 						Reserver og åpne oppgaven
 					</Button>
 				)}
