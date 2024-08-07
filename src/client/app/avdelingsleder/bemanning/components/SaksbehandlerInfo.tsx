@@ -50,7 +50,7 @@ const SaksbehandlerInfo: FunctionComponent<OwnProps> = ({ saksbehandler }) => {
 			>
 				Slett saksbehandler
 			</Button>
-			{visSlettModal === true && (
+			{visSlettModal && (
 				<SletteSaksbehandlerModal
 					valgtSaksbehandler={saksbehandler}
 					closeSletteModal={lukkSlettModal}

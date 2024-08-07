@@ -9886,8 +9886,6 @@ __metadata:
     nav-frontend-lenker-style: 2.0.2
     nav-frontend-lukknapp: 2.0.2
     nav-frontend-lukknapp-style: 2.0.2
-    nav-frontend-modal: 2.0.2
-    nav-frontend-modal-style: 2.0.2
     nav-frontend-paneler: 3.0.2
     nav-frontend-paneler-style: 2.0.2
     nav-frontend-popover: 2.0.4
@@ -11079,32 +11077,6 @@ __metadata:
     prop-types: ^15.5.10
     react: ^16.8.0 || ^17.0.0
   checksum: 56adeb220696aea940bd9ca9e20775ccb0d2f3b61513e9dfdaf9044f88cf6f4137fdc4823db2d41a1db59f5d25236482b69664a3424a4e07686e42cca7d3d988
-  languageName: node
-  linkType: hard
-
-"nav-frontend-modal-style@npm:2.0.2":
-  version: 2.0.2
-  resolution: "nav-frontend-modal-style@npm:2.0.2"
-  peerDependencies:
-    nav-frontend-core: ^6.0.0
-    nav-frontend-lukknapp-style: ^2.0.0
-    nav-frontend-paneler-style: ^2.0.0
-  checksum: 4b994e42e167689c21a6f40390a39c7e70d56832a396761f3d940611ed8b75827bcb8a80bbb2c45b81e8e8ac298d2f80df0e09b4c1c99a32cec94bf03a79dd33
-  languageName: node
-  linkType: hard
-
-"nav-frontend-modal@npm:2.0.2":
-  version: 2.0.2
-  resolution: "nav-frontend-modal@npm:2.0.2"
-  peerDependencies:
-    "@types/react-modal": ^3.1.2
-    classnames: ^2.2.5
-    nav-frontend-lukknapp: ^2.0.0
-    nav-frontend-modal-style: ^2.0.0
-    prop-types: ^15.5.10
-    react: ^16.8.0 || ^17.0.0
-    react-modal: ^2.2.4 || ^3.3.1
-  checksum: 264f32dbf190eabd126f3e2459b99089366e9b3287c38e43a34aab81382f30c6af9e0a85c5ce57bf71bdbffcb523b49caecc340b241938d5a83c0c2039e23c56
   languageName: node
   linkType: hard
 

@@ -1,10 +1,10 @@
 import React, { FunctionComponent, useCallback, useState } from 'react';
 import { useIdleTimer } from 'react-idle-timer';
 import { useLocation } from 'react-router';
-import ModalMedIkon from 'sharedComponents/modal/ModalMedIkon';
 import { parseQueryString } from 'utils/urlUtils';
-import advarselImageUrl from '../../images/advarsel.svg';
 import '../../styles/global.css';
+import { Button, Modal } from '@navikt/ds-react';
+import { ExclamationmarkTriangleIcon } from '@navikt/aksel-icons';
 import AppConfigResolver from './AppConfigResolver';
 import ErrorBoundary from './ErrorBoundary';
 import LanguageProvider from './LanguageProvider';
@@ -52,19 +52,21 @@ const AppIndex: FunctionComponent = () => {
 				<LanguageProvider>
 					<HeaderWithErrorPanel queryStrings={queryStrings} setSiteHeight={setSiteHeight} crashMessage={crashMessage} />
 					{sessionHarUtlopt && (
-						<ModalMedIkon
-							cancel={() => {
-								window.location.reload();
-							}}
-							tekst={{
-								valgmulighetB: 'Logg inn',
-								formattedMessageId: 'LoggetUtModal.Tekst',
-							}}
-							ikonUrl={advarselImageUrl}
-							ikonAlt="Varseltrekant"
-						/>
+						<Modal
+							className="min-w-[500px]"
+							open
+							onClose={() => window.location.reload()}
+							header={{ heading: 'Sesjonen er utløpt', icon: <ExclamationmarkTriangleIcon />, closeButton: false }}
+						>
+							<Modal.Body>
+								Økten din har utløpt etter en periode med inaktivitet. Vennligst logg inn på nytt for å fortsette.
+							</Modal.Body>
+							<Modal.Footer>
+								<Button onClick={() => window.location.reload()}>Logg inn på nytt</Button>
+							</Modal.Footer>
+						</Modal>
 					)}
-					{crashMessage === undefined && <Home headerHeight={headerHeight} />}
+					{!crashMessage && <Home headerHeight={headerHeight} />}
 				</LanguageProvider>
 			</AppConfigResolver>
 		</ErrorBoundary>
