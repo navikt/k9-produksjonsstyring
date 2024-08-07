@@ -56,7 +56,7 @@ const BehandlingstypeVelger: FunctionComponent<OwnProps> = ({
 		valgteBehandlingstyper
 			? valgteBehandlingstyper.some(
 					(bt) => getKodeverkFraKode(bt, kodeverkTyper.BEHANDLING_TYPE, alleKodeverk) === punsjKodeverkNavn,
-			  )
+				)
 			: false,
 	);
 

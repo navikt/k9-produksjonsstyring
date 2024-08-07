@@ -50,8 +50,7 @@ const FagsakList: FunctionComponent<OwnProps> = ({ fagsakOppgaver, setOppgave, g
 		oppgave.fagsakPeriode ? `(${getYearFromString(oppgave.fagsakPeriode.fom)})` : '';
 
 	return (
-		<>
-			<Table headerTextCodes={headerTextCodes} classNameTable={styles.table}>
+		<Table headerTextCodes={headerTextCodes} classNameTable={styles.table}>
 				{fagsakOppgaver.map((oppgave, index) => (
 					<TableRow
 						key={`oppgave${oppgave.eksternId}`}
@@ -59,7 +58,7 @@ const FagsakList: FunctionComponent<OwnProps> = ({ fagsakOppgaver, setOppgave, g
 						onMouseDown={() => onClick(oppgave)}
 						onKeyDown={() => onClick(oppgave)}
 						isDashedBottomBorder={fagsakOppgaver.length > index + 1}
-						className={!!oppgave.merknad ? styles.hastesakRad : ''}
+						className={oppgave.merknad ? styles.hastesakRad : ''}
 					>
 						<TableColumn>{!!oppgave.merknad && <WarningColored className={styles.hastesakIkon} />}</TableColumn>
 
@@ -86,7 +85,6 @@ const FagsakList: FunctionComponent<OwnProps> = ({ fagsakOppgaver, setOppgave, g
 					</TableRow>
 				))}
 			</Table>
-		</>
 	);
 };
 

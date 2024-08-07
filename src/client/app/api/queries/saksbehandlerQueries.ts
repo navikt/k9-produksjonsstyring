@@ -1,17 +1,17 @@
 import { UseMutationOptions, UseQueryOptions, useMutation, useQuery, useQueryClient } from 'react-query';
-import OppgaveV3 from 'types/OppgaveV3';
-import { OppgavekøV3Enkel, OppgavekøerV3 } from 'types/OppgavekøV3Type';
 import apiPaths from 'api/apiPaths';
+import NavAnsatt from 'app/navAnsattTsType';
+import { SaksbehandlerEnkel } from 'avdelingsleder/bemanning/saksbehandlerTsType';
 import ReservasjonV3, { ReservasjonV3FraKøDto } from 'saksbehandler/behandlingskoer/ReservasjonV3Dto';
 import { OppgavekøV1 } from 'saksbehandler/behandlingskoer/oppgavekoTsType';
-import Oppgave from 'saksbehandler/oppgaveTsType';
-import { axiosInstance } from 'utils/reactQueryConfig';
-import { SaksbehandlerEnkel } from 'avdelingsleder/bemanning/saksbehandlerTsType';
-import NavAnsatt from 'app/navAnsattTsType';
 import { SokeResultat } from 'saksbehandler/fagsakSearch/sokeResultatTsType';
-import { OppgaveNøkkel } from 'types/OppgaveNøkkel';
 import { OppgaveStatus } from 'saksbehandler/oppgaveStatusTsType';
+import Oppgave from 'saksbehandler/oppgaveTsType';
 import EndreOppgaveType from 'types/EndreOppgaveType';
+import { OppgaveNøkkel } from 'types/OppgaveNøkkel';
+import OppgaveV3 from 'types/OppgaveV3';
+import { OppgavekøV3Enkel } from 'types/OppgavekøV3Type';
+import { axiosInstance } from 'utils/reactQueryConfig';
 
 export const useInnloggetSaksbehandler = (options: UseQueryOptions<NavAnsatt, Error> = {}) =>
 	useQuery<NavAnsatt, Error>(apiPaths.saksbehandler, options);

@@ -7,12 +7,12 @@ import AvdelingslederIndex from 'avdelingsleder/AvdelingslederIndex';
 import { Oppgavefelt } from 'filter/filterTsTypes';
 import { withSentryReactRouterV6Routing } from '@sentry/react';
 import SaksbehandlerIndex from 'saksbehandler/SaksbehandlerIndex';
-import AdminIndex from '../../admin/AdminIndex';
-import FilterIndex from '../../filter/FilterIndex';
-import MissingPage from './MissingPage';
 import { useGlobalStateRestApi, useGlobalStateRestApiData } from 'api/rest-api-hooks';
 import { RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
 import NavAnsatt from 'app/navAnsattTsType';
+import AdminIndex from '../../admin/AdminIndex';
+import FilterIndex from '../../filter/FilterIndex';
+import MissingPage from './MissingPage';
 
 interface OwnProps {
 	headerHeight: number;

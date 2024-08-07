@@ -5,11 +5,11 @@ import queryString from 'query-string';
 import Oppgave from 'saksbehandler/oppgaveTsType';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import { hasValidSaksnummerEllerJournalpostFormat } from 'utils/validation/validators';
+import { useSøk } from 'api/queries/saksbehandlerQueries';
 import FagsakList from './FagsakList';
 import SearchForm from './SearchForm';
 import * as styles from './fagsakSearch.css';
 import PersonInfo from './person/PersonInfo';
-import { useSøk } from 'api/queries/saksbehandlerQueries';
 
 interface OwnProps {
 	setOppgave: (oppgave: Oppgave) => void;

@@ -1,10 +1,10 @@
 import React, { FunctionComponent, useContext, useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
-import NavFrontendChevron from 'nav-frontend-chevron';
-import { Element, Undertittel } from 'nav-frontend-typografi';
 import { K9LosApiKeys } from 'api/k9LosApi';
 import { usePlukkOppgaveMutation } from 'api/queries/saksbehandlerQueries';
 import { useRestApiRunner } from 'api/rest-api-hooks';
+import NavFrontendChevron from 'nav-frontend-chevron';
+import { Element, Undertittel } from 'nav-frontend-typografi';
 import BehandlingskoerContext from 'saksbehandler/BehandlingskoerContext';
 import ReserverteOppgaverTabell from 'saksbehandler/behandlingskoer/components/oppgavetabeller/ReserverteOppgaverTabell';
 import Oppgave from 'saksbehandler/oppgaveTsType';
@@ -64,7 +64,9 @@ const OppgavekoPanel: FunctionComponent<OwnProps> = ({ apneOppgave }) => {
 	const plukkNyOppgave = () => {
 		if (!erKoV3(valgtOppgavekoId)) {
 			setLoadingOppgaveFraKo(true);
-			fåOppgaveFraKo({ oppgaveKøId: getKoId(valgtOppgavekoId) })
+			fåOppgaveFraKo({
+				oppgaveKøId: getKoId(valgtOppgavekoId),
+			})
 				.then((reservertOppgave) => {
 					resetRequestData();
 					setLoadingOppgaveFraKo(false);
@@ -76,7 +78,9 @@ const OppgavekoPanel: FunctionComponent<OwnProps> = ({ apneOppgave }) => {
 			return;
 		}
 
-		mutate({ oppgaveKøId: getKoId(valgtOppgavekoId) });
+		mutate({
+			oppgaveKøId: getKoId(valgtOppgavekoId),
+		});
 	};
 
 	const valgtOppgaveko = oppgavekoer.find((s) => valgtOppgavekoId === `${s.id}`);

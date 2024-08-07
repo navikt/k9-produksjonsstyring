@@ -3,8 +3,7 @@ import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { BodyShort } from '@navikt/ds-react';
 
-const MissingPage: FunctionComponent = () => {
-	return (
+const MissingPage: FunctionComponent = () => (
 		<div className="bg-gray-100 flex m-auto justify-center">
 			<div className="bg-white rounded-md p-8">
 				<BodyShort>
@@ -20,6 +19,5 @@ const MissingPage: FunctionComponent = () => {
 			</div>
 		</div>
 	);
-};
 
 export default MissingPage;

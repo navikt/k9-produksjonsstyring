@@ -59,19 +59,22 @@ const sorterBehandlingtyper = (b1, b2) => {
 const konverterTilKoordinaterGruppertPaBehandlingstype = (
 	oppgaverForAvdeling: HistoriskData[],
 ): Record<string, Koordinat[]> =>
-	oppgaverForAvdeling.reduce((acc, o) => {
-		const nyKoordinat = {
-			x: dayjs(o.dato).startOf('day').toDate(),
-			y: o.antall,
-		};
+	oppgaverForAvdeling.reduce(
+		(acc, o) => {
+			const nyKoordinat = {
+				x: dayjs(o.dato).startOf('day').toDate(),
+				y: o.antall,
+			};
 
-		const eksisterendeKoordinater = acc[o.behandlingType];
+			const eksisterendeKoordinater = acc[o.behandlingType];
 
-		return {
-			...acc,
-			[o.behandlingType]: eksisterendeKoordinater ? eksisterendeKoordinater.concat(nyKoordinat) : [nyKoordinat],
-		};
-	}, {} as Record<string, Koordinat[]>);
+			return {
+				...acc,
+				[o.behandlingType]: eksisterendeKoordinater ? eksisterendeKoordinater.concat(nyKoordinat) : [nyKoordinat],
+			};
+		},
+		{} as Record<string, Koordinat[]>,
+	);
 
 const fyllInnManglendeDatoerOgSorterEtterDato = (
 	data: Record<string, Koordinat[]>,

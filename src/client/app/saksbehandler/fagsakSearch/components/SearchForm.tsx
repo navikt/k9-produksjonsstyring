@@ -1,8 +1,8 @@
 import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { hasValidSaksnummerOrFodselsnummerFormat } from 'utils/validation/validators';
-import * as styles from './searchForm.css';
 import { Button, TextField } from '@navikt/ds-react';
+import * as styles from './searchForm.css';
 
 const isButtonDisabled = (searchString: string, searchStarted: boolean) => searchStarted || !searchString;
 

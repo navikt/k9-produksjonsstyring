@@ -17,7 +17,7 @@ const getStonadstyper = (intl: IntlShape, alleKodeverk: AlleKodeverk, oppgaveko?
 	oppgaveko && oppgaveko.fagsakYtelseTyper.length > 0
 		? oppgaveko.fagsakYtelseTyper.map((type) =>
 				getKodeverknavnFraKode(type, kodeverkTyper.FAGSAK_YTELSE_TYPE, alleKodeverk),
-		  )
+			)
 		: [intl.formatMessage({ id: 'OppgavekoVelgerForm.Alle' })];
 
 const getBehandlingstyper = (intl: IntlShape, alleKodeverk: AlleKodeverk, oppgaveko?: OppgavekøV1) =>

@@ -1,12 +1,13 @@
 import React from 'react';
 import { waitFor } from '@testing-library/react';
-import FagsakSearchIndex from './FagsakSearchIndex';
 import apiPaths from 'api/apiPaths';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 import { unitTestHandlers } from 'mocks/unitTestHandlers';
-import { renderWithAllProviders } from '../../../../../setup/testHelpers/testUtils';
 import userEvent from '@testing-library/user-event';
+
+import { renderWithAllProviders } from '../../../../../setup/testHelpers/testUtils';
+import FagsakSearchIndex from './FagsakSearchIndex';
 
 const server = setupServer(...unitTestHandlers, ureservertOppgaveHandler());
 beforeAll(() => server.listen({ onUnhandledRequest: 'bypass' }));
@@ -70,8 +71,8 @@ describe('FagsakSearchIndex', () => {
 });
 
 function ureservertOppgaveHandler() {
-	return rest.post(apiPaths.sok, (req, res, ctx) => {
-		return res(
+	return rest.post(apiPaths.sok, (req, res, ctx) =>
+		res(
 			ctx.json({
 				ikkeTilgang: false,
 				person: null,
@@ -126,13 +127,13 @@ function ureservertOppgaveHandler() {
 					},
 				],
 			}),
-		);
-	});
+		),
+	);
 }
 
 function reservertOppgaveHandler() {
-	return rest.post(apiPaths.sok, (req, res, ctx) => {
-		return res(
+	return rest.post(apiPaths.sok, (req, res, ctx) =>
+		res(
 			ctx.json({
 				ikkeTilgang: false,
 				person: null,
@@ -193,13 +194,13 @@ function reservertOppgaveHandler() {
 					},
 				],
 			}),
-		);
-	});
+		),
+	);
 }
 
 function paaVentOppgaveHandler() {
-	return rest.post(apiPaths.sok, (req, res, ctx) => {
-		return res(
+	return rest.post(apiPaths.sok, (req, res, ctx) =>
+		res(
 			ctx.json({
 				ikkeTilgang: false,
 				person: null,
@@ -260,13 +261,13 @@ function paaVentOppgaveHandler() {
 					},
 				],
 			}),
-		);
-	});
+		),
+	);
 }
 
 function oppgaveReservertAvInnloggetBruker() {
-	return rest.post(apiPaths.sok, (req, res, ctx) => {
-		return res(
+	return rest.post(apiPaths.sok, (req, res, ctx) =>
+		res(
 			ctx.json({
 				ikkeTilgang: false,
 				person: null,
@@ -327,6 +328,6 @@ function oppgaveReservertAvInnloggetBruker() {
 					},
 				],
 			}),
-		);
-	});
+		),
+	);
 }

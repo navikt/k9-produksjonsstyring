@@ -38,25 +38,28 @@ const slåSammen = (
 	erPunsjValgt: boolean,
 	alleKodeverk: AlleKodeverk,
 ): number[] => {
-	const test = oppgaverForAvdeling.reduce((acc, o) => {
-		const index = erPunsjValgt
-			? fagytelseTypeOrder.findIndex((bo) => bo === o.fagsakYtelseType) + 1
-			: behandlingstypeOrder.findIndex((bo) => bo === o.behandlingType) + 1;
-		if (
-			(erPunsjValgt &&
-				getKodeverkFraKode(o.behandlingType, kodeverkTyper.BEHANDLING_TYPE, alleKodeverk) === punsjKodeverkNavn) ||
-			(!erPunsjValgt &&
-				getKodeverkFraKode(o.behandlingType, kodeverkTyper.BEHANDLING_TYPE, alleKodeverk) !== punsjKodeverkNavn)
-		) {
+	const test = oppgaverForAvdeling.reduce(
+		(acc, o) => {
+			const index = erPunsjValgt
+				? fagytelseTypeOrder.findIndex((bo) => bo === o.fagsakYtelseType) + 1
+				: behandlingstypeOrder.findIndex((bo) => bo === o.behandlingType) + 1;
+			if (
+				(erPunsjValgt &&
+					getKodeverkFraKode(o.behandlingType, kodeverkTyper.BEHANDLING_TYPE, alleKodeverk) === punsjKodeverkNavn) ||
+				(!erPunsjValgt &&
+					getKodeverkFraKode(o.behandlingType, kodeverkTyper.BEHANDLING_TYPE, alleKodeverk) !== punsjKodeverkNavn)
+			) {
+				return {
+					...acc,
+					[index]: acc[index] ? acc[index] + o.antall : o.antall,
+				};
+			}
 			return {
 				...acc,
-				[index]: acc[index] ? acc[index] + o.antall : o.antall,
 			};
-		}
-		return {
-			...acc,
-		};
-	}, {} as Record<string, number>);
+		},
+		{} as Record<string, number>,
+	);
 
 	return erPunsjValgt
 		? fagytelseTypeOrder.map((b, index) => test[index + 1])

@@ -45,30 +45,33 @@ export const fagytelseTyperSomSkalVises = [
 const konverterTilKoordinaterGruppertPaFagytelsetype = (
 	oppgaverForAvdeling: HistoriskData[],
 ): Record<string, Koordinat[]> =>
-	oppgaverForAvdeling.reduce((acc, o) => {
-		const nyKoordinat = {
-			x: dayjs(o.dato).startOf('day').toDate(),
-			y: o.antall,
-		};
+	oppgaverForAvdeling.reduce(
+		(acc, o) => {
+			const nyKoordinat = {
+				x: dayjs(o.dato).startOf('day').toDate(),
+				y: o.antall,
+			};
 
-		if (omsorgsdagerYtelsetyper.includes(o.fagsakYtelseType)) {
-			const eksisterendeKoordinater = acc[samletNavnForOmsorgsdager];
+			if (omsorgsdagerYtelsetyper.includes(o.fagsakYtelseType)) {
+				const eksisterendeKoordinater = acc[samletNavnForOmsorgsdager];
+
+				return {
+					...acc,
+					[samletNavnForOmsorgsdager]: eksisterendeKoordinater
+						? eksisterendeKoordinater.concat(nyKoordinat)
+						: [nyKoordinat],
+				};
+			}
+
+			const eksisterendeKoordinater = acc[o.fagsakYtelseType];
 
 			return {
 				...acc,
-				[samletNavnForOmsorgsdager]: eksisterendeKoordinater
-					? eksisterendeKoordinater.concat(nyKoordinat)
-					: [nyKoordinat],
+				[o.fagsakYtelseType]: eksisterendeKoordinater ? eksisterendeKoordinater.concat(nyKoordinat) : [nyKoordinat],
 			};
-		}
-
-		const eksisterendeKoordinater = acc[o.fagsakYtelseType];
-
-		return {
-			...acc,
-			[o.fagsakYtelseType]: eksisterendeKoordinater ? eksisterendeKoordinater.concat(nyKoordinat) : [nyKoordinat],
-		};
-	}, {} as Record<string, Koordinat[]>);
+		},
+		{} as Record<string, Koordinat[]>,
+	);
 
 const fyllInnManglendeDatoerOgSorterEtterDato = (
 	data: Record<string, Koordinat[]>,
