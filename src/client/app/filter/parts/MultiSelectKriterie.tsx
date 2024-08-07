@@ -77,11 +77,7 @@ const MultiSelectKriterie = ({ feltdefinisjon, oppgavefilter }: Props) => {
 				hideLabel
 				options={options}
 				isMultiSelect
-				onChange={(event) => {
-					if (event) {
-						setValue(event.target.value);
-					}
-				}}
+				onChange={setValue}
 				onToggleSelected={onToggleSelected}
 				selectedOptions={selectedOptions || []}
 				value={value}
