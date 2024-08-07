@@ -45,6 +45,11 @@ export const ValgtOppgaveModal: FunctionComponent<OwnProps> = ({ oppgave, setVal
 		}
 	}, [harOpphevetReservasjon]);
 
+	const reserverOgÅpneValgtOppgave = () =>
+		erReservertAvAnnenSaksbehandler(oppgave)
+			? endreReservasjoner([{ oppgaveNøkkel: oppgave.oppgaveNøkkel, brukerIdent: saksbehandler.brukerIdent }])
+			: reserverOppgave(oppgave.oppgaveNøkkel);
+
 	if (erSattPåVent(oppgave)) {
 		return (
 			<Modal open className="min-w-[550px]" onClose={onClose} header={{ heading: 'Oppgaven er satt på vent' }}>
@@ -60,18 +65,7 @@ export const ValgtOppgaveModal: FunctionComponent<OwnProps> = ({ oppgave, setVal
 						Åpne oppgaven
 					</Button>
 					{saksbehandler?.kanReservere && !erReservertAvInnloggetSaksbehandler(oppgave) && (
-						<Button
-							variant="secondary"
-							size="small"
-							onClick={
-								erReservertAvAnnenSaksbehandler(oppgave)
-									? () =>
-											endreReservasjoner([
-												{ oppgaveNøkkel: oppgave.oppgaveNøkkel, brukerIdent: saksbehandler.brukerIdent },
-											])
-									: () => reserverOppgave(oppgave.oppgaveNøkkel)
-							}
-						>
+						<Button variant="secondary" size="small" onClick={reserverOgÅpneValgtOppgave}>
 							Reserver og åpne oppgaven
 						</Button>
 					)}
@@ -134,13 +128,7 @@ export const ValgtOppgaveModal: FunctionComponent<OwnProps> = ({ oppgave, setVal
 						Åpne oppgaven
 					</Button>
 					{saksbehandler?.kanReservere && (
-						<Button
-							variant="secondary"
-							size="small"
-							onClick={() =>
-								endreReservasjoner([{ oppgaveNøkkel: oppgave.oppgaveNøkkel, brukerIdent: saksbehandler.brukerIdent }])
-							}
-						>
+						<Button variant="secondary" size="small" onClick={reserverOgÅpneValgtOppgave}>
 							Reserver og åpne oppgaven
 						</Button>
 					)}
@@ -159,7 +147,7 @@ export const ValgtOppgaveModal: FunctionComponent<OwnProps> = ({ oppgave, setVal
 					Åpne oppgaven
 				</Button>
 				{saksbehandler?.kanReservere && (
-					<Button variant="secondary" size="small" onClick={() => reserverOppgave(oppgave.oppgaveNøkkel)}>
+					<Button variant="secondary" size="small" onClick={reserverOgÅpneValgtOppgave}>
 						Reserver og åpne oppgaven
 					</Button>
 				)}
