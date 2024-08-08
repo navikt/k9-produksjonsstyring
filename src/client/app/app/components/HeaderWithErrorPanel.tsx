@@ -1,7 +1,6 @@
 import React, { FunctionComponent, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useNavigate } from 'react-router';
-import Knapp from 'nav-frontend-knapper';
 import Endringslogg from '@navikt/familie-endringslogg';
 import { BoxedListWithLinks, Header, Popover, SystemButton, UserPanel } from '@navikt/ft-plattform-komponenter';
 import DriftsmeldingPanel from 'app/components/DriftsmeldingPanel';
@@ -178,14 +177,14 @@ const HeaderWithErrorPanel: FunctionComponent<OwnProps> = ({ queryStrings, crash
 			<div ref={wrapperRef}>
 				<Header title={intl.formatMessage({ id: 'Header.K9Los' })} changeLocation={goToHomepage}>
 					{visAdminKnapp() && (
-						<Knapp className={styles.knapp} onClick={goTilDriftsmeldingerPanel}>
+						<button className={styles.knapp} onClick={goTilDriftsmeldingerPanel}>
 							Driftsmeldinger
-						</Knapp>
+						</button>
 					)}
 					{visAvdelingslederKnapp() && (
-						<Knapp className={styles.knapp} onClick={goTilAvdelingslederPanel}>
+						<button className={styles.knapp} onClick={goTilAvdelingslederPanel}>
 							Avdelingslederpanel
-						</Knapp>
+						</button>
 					)}
 					{/*
             Går mot en backend som foreldrepenger styrer.
@@ -225,9 +224,9 @@ const HeaderWithErrorPanel: FunctionComponent<OwnProps> = ({ queryStrings, crash
 					/>
 					{brukerPanel}
 					{isDev && (
-						<Knapp className={styles.knapp} onClick={loggUt}>
+						<button className={styles.knapp} onClick={loggUt}>
 							Logg ut
-						</Knapp>
+						</button>
 					)}
 				</Header>
 			</div>

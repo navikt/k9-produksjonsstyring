@@ -1,4 +1,6 @@
 import React, { FunctionComponent, useEffect } from 'react';
+import dayjs from 'dayjs';
+import { BodyShort, Button, Modal } from '@navikt/ds-react';
 import {
 	useEndreReservasjoner,
 	useInnloggetSaksbehandler,
@@ -6,10 +8,8 @@ import {
 	useReserverOppgaveMutation,
 	useSøk,
 } from 'api/queries/saksbehandlerQueries';
-import dayjs from 'dayjs';
 import Oppgave from 'saksbehandler/oppgaveTsType';
 import { getDateAndTime } from 'utils/dateUtils';
-import { BodyShort, Button, Modal } from '@navikt/ds-react';
 
 interface OwnProps {
 	oppgave: Oppgave;
@@ -32,6 +32,7 @@ export const ValgtOppgaveModal: FunctionComponent<OwnProps> = ({ oppgave, setVal
 
 	const onClose = () => setValgtOppgave(undefined);
 
+	// Åpner oppgave etter at den er reservert
 	useEffect(() => {
 		if (harReservertNyOppgave) {
 			goToFagsak(oppgave);
@@ -44,6 +45,11 @@ export const ValgtOppgaveModal: FunctionComponent<OwnProps> = ({ oppgave, setVal
 			onClose();
 		}
 	}, [harOpphevetReservasjon]);
+
+	const reserverValgtOppgave = () =>
+		erReservertAvAnnenSaksbehandler(oppgave)
+			? endreReservasjoner([{ oppgaveNøkkel: oppgave.oppgaveNøkkel, brukerIdent: saksbehandler.brukerIdent }])
+			: reserverOppgave(oppgave.oppgaveNøkkel);
 
 	if (erSattPåVent(oppgave)) {
 		return (
@@ -59,6 +65,21 @@ export const ValgtOppgaveModal: FunctionComponent<OwnProps> = ({ oppgave, setVal
 					<Button variant="primary" size="small" onClick={() => goToFagsak(oppgave)}>
 						Åpne oppgaven
 					</Button>
+					{saksbehandler?.kanReservere && !erReservertAvInnloggetSaksbehandler(oppgave) && (
+						<Button variant="secondary" size="small" onClick={reserverValgtOppgave}>
+							Reserver og åpne oppgaven
+						</Button>
+					)}
+					{erReservertAvInnloggetSaksbehandler(oppgave) && (
+						<Button
+							variant="secondary"
+							size="small"
+							onClick={() => opphevReservasjoner([{ oppgaveNøkkel: oppgave.oppgaveNøkkel }])}
+						>
+							Legg tilbake i kø
+						</Button>
+					)}
+
 					<Button variant="secondary" size="small" onClick={onClose}>
 						Avbryt
 					</Button>
@@ -108,13 +129,7 @@ export const ValgtOppgaveModal: FunctionComponent<OwnProps> = ({ oppgave, setVal
 						Åpne oppgaven
 					</Button>
 					{saksbehandler?.kanReservere && (
-						<Button
-							variant="secondary"
-							size="small"
-							onClick={() =>
-								endreReservasjoner([{ oppgaveNøkkel: oppgave.oppgaveNøkkel, brukerIdent: saksbehandler.brukerIdent }])
-							}
-						>
+						<Button variant="secondary" size="small" onClick={reserverValgtOppgave}>
 							Reserver og åpne oppgaven
 						</Button>
 					)}
@@ -133,7 +148,7 @@ export const ValgtOppgaveModal: FunctionComponent<OwnProps> = ({ oppgave, setVal
 					Åpne oppgaven
 				</Button>
 				{saksbehandler?.kanReservere && (
-					<Button variant="secondary" size="small" onClick={() => reserverOppgave(oppgave.oppgaveNøkkel)}>
+					<Button variant="secondary" size="small" onClick={reserverValgtOppgave}>
 						Reserver og åpne oppgaven
 					</Button>
 				)}
