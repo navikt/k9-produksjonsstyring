@@ -1,11 +1,10 @@
 import React, { useContext, useState } from 'react';
-import { ArrowsCirclepathIcon } from '@navikt/aksel-icons';
-import { Skeleton, Button, Label } from '@navikt/ds-react';
-import apiPaths from 'api/apiPaths';
 import { useMutation } from 'react-query';
-import { OppgaveQuery, Oppgaverad } from './filterTsTypes';
-import { antallTreffOppgaver } from './utils';
+import { ArrowsCirclepathIcon } from '@navikt/aksel-icons';
+import { Button, Label, Skeleton } from '@navikt/ds-react';
+import apiPaths from 'api/apiPaths';
 import { FilterContext } from './FilterContext';
+import { OppgaveQuery } from './filterTsTypes';
 
 interface OwnProps {
 	setQueryError: (error: string) => void;
@@ -16,9 +15,9 @@ export const AntallOppgaver = ({ setQueryError }: OwnProps) => {
 
 	const [antallOppgaver, setAntallOppgaver] = useState('');
 	const { mutate, isLoading } = useMutation<string, unknown, { url: string; body: OppgaveQuery }>({
-		onSuccess: (antallOppgaver) => {
-			if (antallOppgaver) {
-				setAntallOppgaver(antallOppgaver);
+		onSuccess: (respons) => {
+			if (respons !== undefined) {
+				setAntallOppgaver(respons);
 				setQueryError('');
 			}
 		},
