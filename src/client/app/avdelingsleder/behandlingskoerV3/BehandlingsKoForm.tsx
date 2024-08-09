@@ -33,7 +33,6 @@ interface BehandlingsKoFormProps extends BaseProps {
 const BehandlingsKoForm = ({ kø, lukk, ekspandert, id }: BehandlingsKoFormProps) => {
 	const { versjon } = kø;
 	const [visFilterModal, setVisFilterModal] = useState(false);
-	const [visLagreModal, setVisLagreModal] = useState(false);
 	const [visSuksess, setVisSuksess] = useState(false);
 	const { saksbehandlere: alleSaksbehandlere } = useContext(AvdelingslederContext);
 	const defaultValues = {
@@ -49,7 +48,6 @@ const BehandlingsKoForm = ({ kø, lukk, ekspandert, id }: BehandlingsKoFormProps
 	});
 
 	const lagreMutation = useOppdaterKøMutation(() => {
-		setVisLagreModal(false);
 		setVisSuksess(true);
 	});
 
