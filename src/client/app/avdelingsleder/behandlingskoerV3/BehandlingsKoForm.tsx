@@ -1,16 +1,16 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FormattedMessage } from 'react-intl';
-import { OppgavekøV3 } from 'types/OppgavekøV3Type';
 import { Edit } from '@navikt/ds-icons';
 import { Alert, Button, ErrorMessage, Heading, Label, Modal } from '@navikt/ds-react';
 import { Form, InputField, TextAreaField } from '@navikt/ft-form-hooks';
 import { minLength, required } from '@navikt/ft-form-validators';
-import { OppgaveQuery } from 'filter/filterTsTypes';
 import { useKo, useOppdaterKøMutation } from 'api/queries/avdelingslederQueries';
 import { AvdelingslederContext } from 'avdelingsleder/context';
 import FilterIndex from 'filter/FilterIndex';
+import { OppgaveQuery } from 'filter/filterTsTypes';
 import SearchWithDropdown from 'sharedComponents/searchWithDropdown/SearchWithDropdown';
+import { OppgavekøV3 } from 'types/OppgavekøV3Type';
 import LagreKoModal from './LagreKoModal';
 
 enum fieldnames {
