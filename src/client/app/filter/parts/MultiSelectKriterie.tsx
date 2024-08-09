@@ -23,8 +23,13 @@ const MultiSelectKriterie = ({ feltdefinisjon, oppgavefilter }: Props) => {
 	);
 
 	const getOptions = () => {
-		const primærvalg = feltdefinisjon.verdiforklaringer?.filter((v) => !v.sekundærvalg).map((v) => v.visningsnavn);
-		const sekundærvalg = feltdefinisjon.verdiforklaringer?.filter((v) => v.sekundærvalg).map((v) => v.visningsnavn);
+		const primærvalg = feltdefinisjon.verdiforklaringer
+			?.filter((v) => !v.sekundærvalg)
+			.map((v) => ({ value: v.verdi, label: v.visningsnavn }));
+		const sekundærvalg = feltdefinisjon.verdiforklaringer
+			?.filter((v) => v.sekundærvalg)
+			.map((v) => ({ value: v.verdi, label: v.visningsnavn }));
+
 		const harSekundærvalg = sekundærvalg?.length > 0;
 		if (visSekundærvalg && harSekundærvalg) {
 			const valg = [...primærvalg, ...sekundærvalg];
@@ -37,7 +42,7 @@ const MultiSelectKriterie = ({ feltdefinisjon, oppgavefilter }: Props) => {
 
 		const filteredOptions = feltdefinisjon.verdiforklaringer
 			?.filter((v) => !v.sekundærvalg)
-			?.map((v) => v.visningsnavn);
+			?.map((v) => ({ value: v.verdi, label: v.visningsnavn }));
 		return [...filteredOptions, harSekundærvalg ? '--- Vis alle ---' : false].filter(Boolean);
 	};
 
@@ -51,8 +56,7 @@ const MultiSelectKriterie = ({ feltdefinisjon, oppgavefilter }: Props) => {
 			setValue('');
 			return;
 		}
-
-		const verdi = feltdefinisjon?.verdiforklaringer.find((v) => v.visningsnavn === option)?.verdi;
+		const verdi = feltdefinisjon?.verdiforklaringer.find((v) => v.verdi === option)?.verdi;
 		if (isSelected) {
 			updateQuery([updateFilter(oppgavefilter.id, { verdi: [...(oppgavefilter?.verdi || []), verdi] })]);
 		} else {
