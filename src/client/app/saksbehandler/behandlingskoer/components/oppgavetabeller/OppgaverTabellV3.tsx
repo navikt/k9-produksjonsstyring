@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import moment from 'moment/moment';
+import dayjs from 'dayjs';
 import { getHeaderCodes } from 'saksbehandler/behandlingskoer/components/oppgavetabeller/oppgavetabellerfelles';
 import Table from 'sharedComponents/Table';
 import TableColumn from 'sharedComponents/TableColumn';
@@ -31,7 +31,7 @@ export const OppgaverTabellV3: FunctionComponent<OwnProps> = ({ oppgaver = [] }:
 						<TableColumn>{oppgave.journalpostId || oppgave.saksnummer}</TableColumn>
 						<TableColumn>{oppgave.behandlingstype.navn}</TableColumn>
 						<TableColumn>
-							{oppgave.opprettetTidspunkt && moment(oppgave.opprettetTidspunkt).format(DDMMYYYY_DATE_FORMAT)}
+							{oppgave.opprettetTidspunkt && dayjs(oppgave.opprettetTidspunkt).format(DDMMYYYY_DATE_FORMAT)}
 						</TableColumn>
 					</TableRow>
 				))}
