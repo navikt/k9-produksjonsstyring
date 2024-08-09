@@ -26,7 +26,8 @@ test('filtrering på verdier som er predefinerte', async ({ page }) => {
 	await page.getByRole('button', { name: 'Legg til nytt kriterie' }).click();
 	await page.getByLabel('Velg kriterie:').selectOption('K9__fagsystem');
 	await page.getByRole('button', { name: 'Legg til', exact: true }).click();
-	await page.getByLabel('Fagsystem').fill('FP-tilbake');
+	await page.getByLabel('Fagsystem').click();
+	await page.keyboard.type('FP-tilbake');
 	await page.getByRole('option', { name: 'K9-punsj' }).isHidden();
 	await page.getByRole('option', { name: /FP-tilbake/i }).click();
 	await page.getByLabel('FP-tilbake slett').isVisible();
