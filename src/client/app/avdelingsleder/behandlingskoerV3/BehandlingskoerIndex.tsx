@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import dayjs from 'dayjs';
 import { PlusCircleIcon } from '@navikt/aksel-icons';
 import { Button, Loader, Skeleton, Table } from '@navikt/ds-react';
 import { useAlleKoer } from 'api/queries/avdelingslederQueries';
-import { OppgavekøV3Enkel } from 'types/OppgavekøV3Type';
 import { useAntallOppgaverIKoV3 } from 'api/queries/saksbehandlerQueries';
+import { OppgavekøV3Enkel } from 'types/OppgavekøV3Type';
 import BehandlingsKoForm from './BehandlingsKoForm';
 import KopierKø from './KopierKø';
 import NyKøModal from './NyKøModal';
@@ -34,6 +34,7 @@ const Row = ({
 	toggleExpand: () => void;
 }) => {
 	const { data: antallOppgaver, isLoading } = useAntallOppgaverIKoV3(kø.id, { enabled: !!kø.id });
+
 	return (
 		<Table.ExpandableRow
 			key={kø.id}
