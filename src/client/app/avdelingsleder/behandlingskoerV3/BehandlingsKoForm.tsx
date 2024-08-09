@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FormattedMessage } from 'react-intl';
-import { QueryClient } from 'react-query';
 import { Edit } from '@navikt/ds-icons';
 import { Alert, Button, ErrorMessage, Heading, Label, Modal } from '@navikt/ds-react';
 import { Form, InputField, TextAreaField } from '@navikt/ft-form-hooks';

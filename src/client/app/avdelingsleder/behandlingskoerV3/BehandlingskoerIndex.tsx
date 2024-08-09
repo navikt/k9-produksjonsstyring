@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import dayjs from 'dayjs';
 import { PlusCircleIcon } from '@navikt/aksel-icons';
 import { Button, Loader, Skeleton, Table } from '@navikt/ds-react';
