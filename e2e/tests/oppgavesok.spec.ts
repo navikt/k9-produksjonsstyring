@@ -27,9 +27,9 @@ test('filtrering på verdier som er predefinerte', async ({ page }) => {
 	await page.getByLabel('Velg kriterie:').selectOption('K9__fagsystem');
 	await page.getByRole('button', { name: 'Legg til', exact: true }).click();
 	await page.getByLabel('Fagsystem').click();
-	await page.keyboard.type('FP-tilbake');
+	await page.keyboard.type('tilbake');
 	await page.getByRole('option', { name: 'K9-punsj' }).isHidden();
-	await page.getByRole('option', { name: /FP-tilbake/i }).click();
+	await page.getByRole('option', { name: /k9-tilbake/i }).click();
 	await page.getByLabel('FP-tilbake slett').isVisible();
 });
 test('kan legge til verdier fra fritekst', async ({ page }) => {

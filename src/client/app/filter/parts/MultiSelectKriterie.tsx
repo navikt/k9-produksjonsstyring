@@ -18,9 +18,10 @@ const MultiSelectKriterie = ({ feltdefinisjon, oppgavefilter }: Props) => {
 	const [selectedChildIndex, setSelectedChildIndex] = useState(undefined);
 	const [options, setOptions] = useState([]);
 	const { updateQuery } = useContext(FilterContext);
-	const selectedOptions = oppgavefilter.verdi?.map(
-		(v) => feltdefinisjon.verdiforklaringer.find((verdiforklaring) => verdiforklaring.verdi === v).visningsnavn,
-	);
+	const selectedOptions = oppgavefilter.verdi?.map((v) => {
+		const option = feltdefinisjon.verdiforklaringer.find((verdiforklaring) => verdiforklaring.verdi === v);
+		return { value: option.verdi, label: option.visningsnavn };
+	});
 
 	const getOptions = () => {
 		const primærvalg = feltdefinisjon.verdiforklaringer
