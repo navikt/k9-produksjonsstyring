@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 
 const lagNyoppgavekø = async (page: any, kønavn: string) => {
 	await page.goto('/');
@@ -14,7 +14,6 @@ const lagNyoppgavekø = async (page: any, kønavn: string) => {
 	await page.getByLabel('Beskrivelse').click();
 	await page.getByLabel('Beskrivelse').fill('aisjdfiasjdfiasdfjasidfj');
 	await page.getByRole('button', { name: 'Lagre oppgavekø' }).click();
-	await page.getByTestId('lagre-button-modal').click();
 	await page.getByRole('button', { name: 'Lukk' }).click();
 };
 
