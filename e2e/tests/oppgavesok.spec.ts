@@ -22,6 +22,16 @@ test('kan legge til verdier som er predefinerte', async ({ page }) => {
 	await page.getByRole('option', { name: 'K9-punsj' }).click();
 	await page.getByLabel('K9-punsj slett').isVisible();
 });
+test('filtrering på verdier som er predefinerte', async ({ page }) => {
+	await page.getByRole('button', { name: 'Legg til nytt kriterie' }).click();
+	await page.getByLabel('Velg kriterie:').selectOption('K9__fagsystem');
+	await page.getByRole('button', { name: 'Legg til', exact: true }).click();
+	await page.getByLabel('Fagsystem').click();
+	await page.keyboard.type('tilbake');
+	await page.getByRole('option', { name: 'K9-punsj' }).isHidden();
+	await page.getByRole('option', { name: /k9-tilbake/i }).click();
+	await page.getByLabel('FP-tilbake slett').isVisible();
+});
 test('kan legge til verdier fra fritekst', async ({ page }) => {
 	await page.getByRole('button', { name: 'Legg til nytt kriterie' }).click();
 	await page.getByLabel('Velg kriterie:').selectOption('K9__saksnummer');

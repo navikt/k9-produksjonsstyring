@@ -37,7 +37,6 @@ const Row = ({
 
 	return (
 		<Table.ExpandableRow
-			key={kø.id}
 			onOpenChange={toggleExpand}
 			open={ekspandert}
 			togglePlacement="left"
@@ -135,7 +134,12 @@ const BehandlingskoerIndex = () => {
 				</Table.Header>
 				<Table.Body>
 					{sortedData?.map((kø) => (
-						<Row kø={kø} ekspandert={ekspanderteKøer.includes(kø.id)} toggleExpand={() => toggleExpand(kø.id)} />
+						<Row
+							kø={kø}
+							key={kø.id}
+							ekspandert={ekspanderteKøer.includes(kø.id)}
+							toggleExpand={() => toggleExpand(kø.id)}
+						/>
 					))}
 				</Table.Body>
 			</Table>

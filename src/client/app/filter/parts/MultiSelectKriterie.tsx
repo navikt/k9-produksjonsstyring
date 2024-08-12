@@ -18,13 +18,19 @@ const MultiSelectKriterie = ({ feltdefinisjon, oppgavefilter }: Props) => {
 	const [selectedChildIndex, setSelectedChildIndex] = useState(undefined);
 	const [options, setOptions] = useState([]);
 	const { updateQuery } = useContext(FilterContext);
-	const selectedOptions = oppgavefilter.verdi?.map(
-		(v) => feltdefinisjon.verdiforklaringer.find((verdiforklaring) => verdiforklaring.verdi === v).visningsnavn,
-	);
+	const selectedOptions = oppgavefilter.verdi?.map((v) => {
+		const option = feltdefinisjon.verdiforklaringer.find((verdiforklaring) => verdiforklaring.verdi === v);
+		return { value: option.verdi, label: option.visningsnavn };
+	});
 
 	const getOptions = () => {
-		const primærvalg = feltdefinisjon.verdiforklaringer?.filter((v) => !v.sekundærvalg).map((v) => v.visningsnavn);
-		const sekundærvalg = feltdefinisjon.verdiforklaringer?.filter((v) => v.sekundærvalg).map((v) => v.visningsnavn);
+		const primærvalg = feltdefinisjon.verdiforklaringer
+			?.filter((v) => !v.sekundærvalg)
+			.map((v) => ({ value: v.verdi, label: v.visningsnavn }));
+		const sekundærvalg = feltdefinisjon.verdiforklaringer
+			?.filter((v) => v.sekundærvalg)
+			.map((v) => ({ value: v.verdi, label: v.visningsnavn }));
+
 		const harSekundærvalg = sekundærvalg?.length > 0;
 		if (visSekundærvalg && harSekundærvalg) {
 			const valg = [...primærvalg, ...sekundærvalg];
@@ -37,7 +43,7 @@ const MultiSelectKriterie = ({ feltdefinisjon, oppgavefilter }: Props) => {
 
 		const filteredOptions = feltdefinisjon.verdiforklaringer
 			?.filter((v) => !v.sekundærvalg)
-			?.map((v) => v.visningsnavn);
+			?.map((v) => ({ value: v.verdi, label: v.visningsnavn }));
 		return [...filteredOptions, harSekundærvalg ? '--- Vis alle ---' : false].filter(Boolean);
 	};
 
@@ -51,8 +57,7 @@ const MultiSelectKriterie = ({ feltdefinisjon, oppgavefilter }: Props) => {
 			setValue('');
 			return;
 		}
-
-		const verdi = feltdefinisjon?.verdiforklaringer.find((v) => v.visningsnavn === option)?.verdi;
+		const verdi = feltdefinisjon?.verdiforklaringer.find((v) => v.verdi === option)?.verdi;
 		if (isSelected) {
 			updateQuery([updateFilter(oppgavefilter.id, { verdi: [...(oppgavefilter?.verdi || []), verdi] })]);
 		} else {
@@ -77,11 +82,7 @@ const MultiSelectKriterie = ({ feltdefinisjon, oppgavefilter }: Props) => {
 				hideLabel
 				options={options}
 				isMultiSelect
-				onChange={(event) => {
-					if (event) {
-						setValue(event.target.value);
-					}
-				}}
+				onChange={setValue}
 				onToggleSelected={onToggleSelected}
 				selectedOptions={selectedOptions || []}
 				value={value}
