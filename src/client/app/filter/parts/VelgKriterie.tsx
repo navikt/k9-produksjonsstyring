@@ -1,5 +1,8 @@
+/* eslint-disable camelcase */
+
+/* eslint-disable react/jsx-pascal-case */
 import React, { useContext, useEffect, useMemo, useState } from 'react';
-import { BodyLong, Button, Checkbox, Label, Select } from '@navikt/ds-react';
+import { BodyLong, Button, Checkbox, Label, UNSAFE_Combobox } from '@navikt/ds-react';
 import AppContext from 'app/AppContext';
 import { FilterContext } from 'filter/FilterContext';
 import { FeltverdiOppgavefilter, OppgaveQuery, Oppgavefelt, OppgavefilterKode } from 'filter/filterTsTypes';
@@ -17,6 +20,7 @@ const VelgKriterie = ({ oppgavefilter, addGruppeOperation, køvisning, paakrevde
 	const { updateQuery } = useContext(FilterContext);
 	const { felter } = useContext(AppContext);
 	const [valgtKriterie, setValgtKriterie] = useState<Oppgavefelt | string>();
+	const [fritekst, setFritekst] = useState('');
 	const [visAvanserteValg, setVisAvanserteValg] = useState('nei');
 
 	const kriterierSomKanVelges = paakrevdeKoder.length
@@ -25,12 +29,12 @@ const VelgKriterie = ({ oppgavefilter, addGruppeOperation, køvisning, paakrevde
 	const toggleAvanserteValg = () => {
 		setVisAvanserteValg((prevState) => (prevState === 'nei' ? 'ja' : 'nei'));
 	};
-	const handleSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
-		if (event.target.value === '__gruppe') {
-			setValgtKriterie(event.target.value);
+	const handleSelect = (value: string) => {
+		if (value === '__gruppe') {
+			setValgtKriterie(value);
 			return;
 		}
-		const kode = kodeFraKey(event.target.value);
+		const kode = kodeFraKey(value);
 		const kriterie = kriterierSomKanVelges.find((k) => k.kode === kode);
 		setValgtKriterie(kriterie);
 	};
@@ -59,41 +63,33 @@ const VelgKriterie = ({ oppgavefilter, addGruppeOperation, køvisning, paakrevde
 		setValgtKriterie('');
 	}, [visAvanserteValg]);
 
-	const options = useMemo(
-		() =>
-			kriterierSomKanVelges
-				.filter((v) => {
-					if (køvisning) {
-						if (visAvanserteValg === 'ja') {
-							return true;
-						}
-						return v.kokriterie;
+	const options = useMemo(() => {
+		const optionsMappet = kriterierSomKanVelges
+			.filter((v) => {
+				if (køvisning) {
+					if (visAvanserteValg === 'ja') {
+						return true;
 					}
+					return v.kokriterie;
+				}
 
-					return true;
-				})
-				.map((v) => (
-					<option key={feltverdiKey(v)} value={feltverdiKey(v)}>
-						{v.visningsnavn}
-					</option>
-				)),
-		[kriterierSomKanVelges, visAvanserteValg, køvisning],
-	);
+				return true;
+			})
+			.map((v) => ({ label: v.visningsnavn, value: feltverdiKey(v) }));
+
+		return [{ label: 'Gruppe', value: '__gruppe' }, ...optionsMappet];
+	}, [kriterierSomKanVelges, visAvanserteValg, køvisning]);
 	return (
 		<div className="flex gap-7 border-dashed border-[1px] border-surface-action rounded-sm pt-4 pr-7 pb-5 pl-4">
 			<div className="basis-5/12">
-				<Select
+				<UNSAFE_Combobox
 					label="Velg kriterie:"
 					size="small"
-					value={
-						valgtKriterie && typeof valgtKriterie === 'object' ? feltverdiKey(valgtKriterie) : (valgtKriterie as string)
-					}
-					onChange={handleSelect}
-				>
-					<option value="">Velg kriterie</option>
-					<option value="__gruppe">Gruppe</option>
-					{options}
-				</Select>
+					value={fritekst}
+					onChange={setFritekst}
+					onToggleSelected={handleSelect}
+					options={options}
+				/>
 				{køvisning && (
 					<Checkbox id="avanserte-valg" value="ja" size="small" onClick={toggleAvanserteValg}>
 						<Label htmlFor="avanserte-valg" size="small">
