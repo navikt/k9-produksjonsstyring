@@ -1,12 +1,15 @@
+/* eslint-disable camelcase */
+
+/* eslint-disable react/jsx-pascal-case */
 import React, { FunctionComponent, useEffect } from 'react';
+import { useForm } from 'react-hook-form';
 import { useIntl } from 'react-intl';
 import dayjs from 'dayjs';
+import { Button, ErrorMessage, Modal, Skeleton, UNSAFE_Combobox } from '@navikt/ds-react';
+import { Datepicker, Form, TextAreaField } from '@navikt/ft-form-hooks';
+import { dateAfterOrEqualToToday, hasValidText, maxLength, minLength, required } from '@navikt/ft-form-validators';
+import { useEndreReservasjoner, useGetAlleSaksbehandlere } from 'api/queries/saksbehandlerQueries';
 import { OppgaveNøkkel } from 'types/OppgaveNøkkel';
-import { useGetAlleSaksbehandlere , useEndreReservasjoner } from 'api/queries/saksbehandlerQueries';
-import { ErrorMessage, Skeleton, UNSAFE_Combobox, Modal, Button } from '@navikt/ds-react';
-import { useForm } from 'react-hook-form';
-import { Form, TextAreaField, Datepicker } from '@navikt/ft-form-hooks';
-import { hasValidText, maxLength, minLength, required, dateAfterOrEqualToToday } from '@navikt/ft-form-validators';
 
 interface FlyttReservasjonType {
 	oppgaveNøkkel: OppgaveNøkkel;
@@ -53,7 +56,9 @@ export const FlyttReservasjonerModal: FunctionComponent<OwnProps> = ({ open, clo
 	}, [isSuccess]);
 	const intl = useIntl();
 	const { data: saksbehandlere, isLoading, error } = useGetAlleSaksbehandlere({ placeholderData: [] });
-	const uniqueSaksbehandlere = Array.from(new Set(saksbehandlere.map((a) => a.brukerIdent))).map((brukerIdent) => saksbehandlere.find((a) => a.brukerIdent === brukerIdent));
+	const uniqueSaksbehandlere = Array.from(new Set(saksbehandlere.map((a) => a.brukerIdent))).map((brukerIdent) =>
+		saksbehandlere.find((a) => a.brukerIdent === brukerIdent),
+	);
 	const saksbehandlerOptions = uniqueSaksbehandlere
 		.map((v) => ({ value: v.brukerIdent, label: v.navn }))
 		.sort((a, b) => a.label.localeCompare(b.label));
@@ -90,7 +95,6 @@ export const FlyttReservasjonerModal: FunctionComponent<OwnProps> = ({ open, clo
 				reserverTil,
 			})),
 		);
-		
 	};
 
 	return (
