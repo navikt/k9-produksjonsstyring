@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 import classnames from 'classnames/bind';
 import Panel from 'nav-frontend-paneler';
 import Tabs from 'nav-frontend-tabs';
-import { Undertittel } from 'nav-frontend-typografi';
+import { Heading } from '@navikt/ds-react';
 import useTrackRouteParam from 'app/data/trackRouteParam';
 import NavAnsatt from 'app/navAnsattTsType';
 import { getPanelLocationCreator } from 'app/paths';
@@ -33,9 +33,9 @@ const messageId = {
 
 const getTab = (avdelingslederPanel, activeAvdelingslederPanel, getDriftsmeldingerPanelLocation) => ({
 	label: (
-		<Undertittel>
+		<Heading size="small">
 			<FormattedMessage id={messageId[avdelingslederPanel]} />
-		</Undertittel>
+		</Heading>
 	),
 	aktiv: avdelingslederPanel === activeAvdelingslederPanel,
 	// eslint-disable-next-line react/prop-types

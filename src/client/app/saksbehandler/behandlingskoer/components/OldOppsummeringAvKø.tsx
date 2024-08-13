@@ -1,17 +1,16 @@
 import React from 'react';
 import { IntlShape, useIntl } from 'react-intl';
 import moment from 'moment';
-import { OppgavekøV3MedNavn } from 'types/OppgavekøV3Type';
 import { RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
 import { useGlobalStateRestApiData } from 'api/rest-api-hooks';
 import AlleKodeverk from 'kodeverk/alleKodeverkTsType';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
 import LabelWithHeader from 'sharedComponents/LabelWithHeader';
 import { FlexColumn } from 'sharedComponents/flexGrid';
+import { OppgavekøV3MedNavn } from 'types/OppgavekøV3Type';
 import { DDMMYYYY_DATE_FORMAT } from 'utils/formats';
 import { getKodeverknavnFraKode } from 'utils/kodeverkUtils';
 import { OppgavekøV1 } from '../oppgavekoTsType';
-import * as styles from './oppgavekoVelgerForm.css';
 
 const getStonadstyper = (intl: IntlShape, alleKodeverk: AlleKodeverk, oppgaveko?: OppgavekøV1) =>
 	oppgaveko && oppgaveko.fagsakYtelseTyper.length > 0

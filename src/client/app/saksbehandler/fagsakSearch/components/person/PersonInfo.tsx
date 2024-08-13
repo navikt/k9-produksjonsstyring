@@ -2,7 +2,8 @@ import React, { FunctionComponent } from 'react';
 import { WrappedComponentProps, injectIntl } from 'react-intl';
 import urlKvinne from 'images/kvinne.svg';
 import urlMann from 'images/mann.svg';
-import { Undertekst, Undertittel } from 'nav-frontend-typografi';
+import { Undertekst } from 'nav-frontend-typografi';
+import { Heading } from '@navikt/ds-react';
 import Image from 'sharedComponents/Image';
 import Person from '../../personTsType';
 import AlderVisning from './Aldervisning';
@@ -34,9 +35,9 @@ const PersonInfo: FunctionComponent<OwnProps & WrappedComponentProps> = ({ perso
 			/>
 			<div className={styles.infoPlaceholder}>
 				<div>
-					<Undertittel>
+					<Heading size="small">
 						{navn} {doedsdato && <AlderVisning doedsdato={doedsdato} />}
-					</Undertittel>
+					</Heading>
 					<Undertekst>{personnummer}</Undertekst>
 				</div>
 			</div>

@@ -1,8 +1,7 @@
 import React, { FunctionComponent, useMemo } from 'react';
 import { IntlShape, WrappedComponentProps, injectIntl } from 'react-intl';
-import { Column, Row } from 'nav-frontend-grid';
-import Lukknapp from 'nav-frontend-lukknapp';
-import { Undertekst } from 'nav-frontend-typografi';
+import { XMarkIcon } from '@navikt/aksel-icons';
+import { BodyShort, Button } from '@navikt/ds-react';
 import EventType from 'api/rest-api/src/requestApi/eventType';
 import decodeHtmlEntity from 'utils/decodeHtmlEntityUtils';
 import * as styles from './errorMessagePanel.css';
@@ -65,18 +64,18 @@ const ErrorMessagePanel: FunctionComponent<OwnProps & WrappedComponentProps> = (
 	return (
 		<div className={styles.container}>
 			{feilmeldinger.length !== 0 &&
-				feilmeldinger.map((message) => (
-					<Row key={message}>
-						<Column xs="11">
-							<Undertekst className={styles.wordWrap}>{`${decodeHtmlEntity(message)} `}</Undertekst>
-						</Column>
-					</Row>
-				))}
+				feilmeldinger.map((message) => <BodyShort>{`${decodeHtmlEntity(message)} `}</BodyShort>)}
 
 			<div className={styles.lukkContainer}>
-				<Lukknapp hvit onClick={removeErrorMessages}>
+				<Button
+					size="small"
+					variant="tertiary-neutral"
+					className="text-white hover:bg-gray-200 hover:text-black hover:shadow-md"
+					icon={<XMarkIcon />}
+					onClick={removeErrorMessages}
+				>
 					{intl.formatMessage({ id: 'ErrorMessagePanel.Close' })}
-				</Lukknapp>
+				</Button>
 			</div>
 		</div>
 	);

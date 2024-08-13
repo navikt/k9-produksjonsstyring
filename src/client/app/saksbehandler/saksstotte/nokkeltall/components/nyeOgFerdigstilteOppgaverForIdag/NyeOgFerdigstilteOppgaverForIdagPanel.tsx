@@ -2,7 +2,8 @@ import React, { FunctionComponent, useMemo, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import moment from 'moment';
 import { Select } from 'nav-frontend-skjema';
-import { Element, Undertittel } from 'nav-frontend-typografi';
+import { Element } from 'nav-frontend-typografi';
+import { Heading } from '@navikt/ds-react';
 import { RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
 import { useGlobalStateRestApiData } from 'api/rest-api-hooks';
 import useKodeverk from 'api/rest-api-hooks/src/global-data/useKodeverk';
@@ -98,9 +99,9 @@ export const NyeOgFerdigstilteOppgaverForIdagPanel: FunctionComponent<OwnProps> 
 
 	return (
 		<>
-			<Undertittel>
+			<Heading size="small">
 				<FormattedMessage id="NyeOgFerdigstilteOppgaverForIdagPanel.NyeOgFerdigstilte" />
-			</Undertittel>
+			</Heading>
 			<VerticalSpacer eightPx />
 			<div className={styles.nyeOgFerdigstilteOppgaverForIdagPanel_Subtitel}>
 				<Element>
