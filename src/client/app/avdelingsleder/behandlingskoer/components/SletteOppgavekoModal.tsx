@@ -1,10 +1,9 @@
 import React, { FunctionComponent } from 'react';
-import { Oppgaveko } from '../oppgavekoTsType';
-import { BodyLong, Button, Modal } from '@navikt/ds-react';
 import { ExclamationmarkTriangleFillIcon } from '@navikt/aksel-icons';
+import { BodyLong, Button, Modal } from '@navikt/ds-react';
+import { Oppgaveko } from '../oppgavekoTsType';
 
 type TsProps = Readonly<{
-	intl: any;
 	valgtOppgaveko: Oppgaveko;
 	cancel: () => void;
 	submit: (oppgaveko: Oppgaveko) => void;
