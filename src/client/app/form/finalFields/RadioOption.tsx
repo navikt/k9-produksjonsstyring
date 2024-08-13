@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { CSSProperties, FunctionComponent, ReactNode } from 'react';
 import { Radio as NavRadio } from 'nav-frontend-skjema';
 import { Normaltekst } from 'nav-frontend-typografi';
@@ -16,6 +17,10 @@ interface OwnProps {
 	style?: CSSProperties;
 	manualHideChildren?: boolean;
 }
+
+/**
+ * @deprecated
+ */
 
 export const RadioOption: FunctionComponent<OwnProps> = ({
 	name,

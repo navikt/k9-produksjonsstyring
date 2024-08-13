@@ -14,6 +14,9 @@ interface OwnProps {
 	isEdited?: boolean;
 }
 
+/**
+ * @deprecated
+ */
 export const ReadOnlyField: FunctionComponent<OwnProps> = ({ label, input, isEdited }) => {
 	if (!hasValue(input.value)) {
 		return null;

@@ -1,5 +1,6 @@
 import React, { FunctionComponent, ReactNode } from 'react';
-import { Normaltekst, Undertekst } from 'nav-frontend-typografi';
+import { Normaltekst } from 'nav-frontend-typografi';
+import { Detail } from '@navikt/ds-react';
 import * as styles from './labelWithHeader.css';
 
 interface OwnProps {
@@ -14,7 +15,7 @@ interface OwnProps {
  */
 const LabelWithHeader: FunctionComponent<OwnProps> = ({ header, texts }) => (
 	<div className={styles.container}>
-		<Undertekst>{header}</Undertekst>
+		<Detail>{header}</Detail>
 		<div className={styles.text}>
 			{texts.map((text) => (
 				<Normaltekst key={text}>{text}</Normaltekst>

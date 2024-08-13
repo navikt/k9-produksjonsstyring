@@ -17,6 +17,10 @@ interface OwnProps {
 	onBlurValidation?: boolean;
 }
 
+/**
+ * @deprecated
+ */
+
 const renderNavField = (WrappedNavFieldComponent) => {
 	class FieldComponent extends Component<OwnProps & WrappedComponentProps> {
 		// eslint-disable-next-line react/static-property-placement
@@ -35,7 +39,7 @@ const renderNavField = (WrappedNavFieldComponent) => {
 		formatError(submitFailed, error, onBlurValidation) {
 			const { intl } = this.props;
 			if ((onBlurValidation || submitFailed) && error) {
-				// @ts-ignore
+				// @ts-expect-error deprecated component, fikser ikke
 				return intl.formatMessage(...error);
 			}
 			return undefined;
