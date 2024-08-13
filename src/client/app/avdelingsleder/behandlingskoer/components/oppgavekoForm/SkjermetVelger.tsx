@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Normaltekst } from 'nav-frontend-typografi';
+import { BodyShort } from '@navikt/ds-react';
 import { K9LosApiKeys } from 'api/k9LosApi';
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
 import { Oppgaveko } from 'avdelingsleder/behandlingskoer/oppgavekoTsType';
@@ -18,9 +18,9 @@ export const SkjermetVelger: FunctionComponent<OwnProps> = ({ valgtOppgaveko, he
 
 	return (
 		<div className={styles.skjermet}>
-			<Normaltekst className={styles.label}>
+			<BodyShort size="small" className={styles.label}>
 				<FormattedMessage id="SkjermetVelger.Skjermet" />
-			</Normaltekst>
+			</BodyShort>
 			<VerticalSpacer eightPx />
 			<RadioGroupField
 				direction="vertical"

@@ -1,8 +1,8 @@
 import React, { FunctionComponent, useCallback, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import Chevron from 'nav-frontend-chevron';
-import { Normaltekst } from 'nav-frontend-typografi';
-import { Button, Loader } from '@navikt/ds-react';
+import { PlusCircleIcon } from '@navikt/aksel-icons';
+import { BodyShort, Button, Loader } from '@navikt/ds-react';
 import { K9LosApiKeys } from 'api/k9LosApi';
 import useKodeverk from 'api/rest-api-hooks/src/global-data/useKodeverk';
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
@@ -16,7 +16,6 @@ import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import { Oppgaveko } from '../oppgavekoTsType';
 import SletteOppgavekoModal from './SletteOppgavekoModal';
 import * as styles from './gjeldendeOppgavekoerTabell.css';
-import { PlusCircleIcon } from '@navikt/aksel-icons';
 
 const headerTextCodes = [
 	'GjeldendeOppgavekoerTabell.Listenavn',
@@ -43,6 +42,7 @@ const wait = (ms) =>
 
 /**
  * GjeldendeOppgavekoerTabell
+ * @deprecated
  */
 export const GjeldendeOppgavekoerTabell: FunctionComponent<OwnProps> = ({
 	oppgavekoer,
@@ -146,9 +146,9 @@ export const GjeldendeOppgavekoerTabell: FunctionComponent<OwnProps> = ({
 			{oppgavekoer.length === 0 && requestFinished && (
 				<>
 					<VerticalSpacer eightPx />
-					<Normaltekst>
+					<BodyShort size="small">
 						<FormattedMessage id="GjeldendeOppgavekoerTabell.IngenLister" />
-					</Normaltekst>
+					</BodyShort>
 					<VerticalSpacer eightPx />
 				</>
 			)}

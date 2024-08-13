@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Normaltekst } from 'nav-frontend-typografi';
+import { BodyShort } from '@navikt/ds-react';
 import { K9LosApiKeys } from 'api/k9LosApi';
 import useKodeverk from 'api/rest-api-hooks/src/global-data/useKodeverk';
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
@@ -71,9 +71,9 @@ const FagsakYtelseTypeVelger: FunctionComponent<OwnProps> = ({
 
 	return (
 		<div className={styles.stonadsVelger}>
-			<Normaltekst className={styles.label}>
+			<BodyShort size="small" className={styles.label}>
 				<FormattedMessage id="FagsakYtelseTypeVelger.Stonadstype" />
-			</Normaltekst>
+			</BodyShort>
 			<VerticalSpacer eightPx />
 			<CheckboxField
 				name={fagsakYtelseType.OMSORGSPENGER}

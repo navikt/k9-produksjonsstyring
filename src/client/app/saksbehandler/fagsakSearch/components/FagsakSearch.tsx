@@ -1,11 +1,11 @@
 import React, { FunctionComponent, useEffect } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Normaltekst } from 'nav-frontend-typografi';
 import queryString from 'query-string';
+import { BodyShort } from '@navikt/ds-react';
+import { useSøk } from 'api/queries/saksbehandlerQueries';
 import Oppgave from 'saksbehandler/oppgaveTsType';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import { hasValidSaksnummerEllerJournalpostFormat } from 'utils/validation/validators';
-import { useSøk } from 'api/queries/saksbehandlerQueries';
 import FagsakList from './FagsakList';
 import SearchForm from './SearchForm';
 import * as styles from './fagsakSearch.css';
@@ -30,9 +30,9 @@ const skalViseListe = (resultat) => {
  * Er søkeresultat mottatt vises enten trefflisten og relatert person, eller en tekst som viser ingen resultater.
  */
 const FagsakSearch: FunctionComponent<OwnProps> = ({ setOppgave, goToFagsak }) => {
-	const queryFraURL = queryString.parse(window.location?.search ? location.search : '');
+	const queryFraURL = queryString.parse(window.location?.search ? window.location.search : '');
 	const erSokViaQueryParams = queryFraURL.sok && !hasValidSaksnummerEllerJournalpostFormat(queryFraURL.sok);
-	const { data: resultat, mutate: sok, error, isSuccess, isLoading } = useSøk();
+	const { data: resultat, mutate: sok, isSuccess, isLoading } = useSøk();
 	useEffect(() => {
 		if (erSokViaQueryParams) {
 			const paramToString = queryFraURL.sok.toString();
@@ -44,22 +44,22 @@ const FagsakSearch: FunctionComponent<OwnProps> = ({ setOppgave, goToFagsak }) =
 		<div>
 			<SearchForm onSubmit={sok} searchStarted={isLoading} />
 			{isSuccess && resultat && resultat.oppgaver.length === 0 && !resultat.ikkeTilgang && (
-				<Normaltekst className={styles.label}>
+				<BodyShort className={styles.label}>
 					<FormattedMessage id="FagsakSearch.ZeroSearchResults" />
-				</Normaltekst>
+				</BodyShort>
 			)}
 			{isSuccess && resultat && resultat.oppgaver.length === 0 && resultat.ikkeTilgang && (
-				<Normaltekst className={styles.label}>
+				<BodyShort className={styles.label}>
 					<FormattedMessage id="FagsakSearch.IkkeTilgang" />
-				</Normaltekst>
+				</BodyShort>
 			)}
 			{isSuccess && skalViseListe(resultat) && (
 				<>
 					{resultat.person && <PersonInfo person={resultat.person} />}
 					<VerticalSpacer sixteenPx />
-					<Normaltekst>
+					<BodyShort>
 						<FormattedMessage id="FagsakSearch.FlereApneBehandlinger" />
-					</Normaltekst>
+					</BodyShort>
 					<FagsakList fagsakOppgaver={resultat.oppgaver} setOppgave={setOppgave} goToFagsak={goToFagsak} />
 				</>
 			)}

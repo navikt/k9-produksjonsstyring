@@ -33,7 +33,7 @@ const createKeyHandler = (onKeyDown, id, model) => (e) => {
 
 /**
  * TableRow
- *
+ * @deprecated
  * Presentasjonskomponent. Tabellrad som brukes av komponenten Table.
  */
 const TableRow = ({

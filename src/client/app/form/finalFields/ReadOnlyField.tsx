@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { Normaltekst } from 'nav-frontend-typografi';
+import { BodyShort } from '@navikt/ds-react';
 import EditedIcon from 'sharedComponents/EditedIcon';
 import Label, { LabelType } from './Label';
 import * as styles from './readOnlyField.css';
@@ -24,10 +24,10 @@ export const ReadOnlyField: FunctionComponent<OwnProps> = ({ label, input, isEdi
 	return (
 		<div className={styles.readOnlyContainer}>
 			<Label input={label} readOnly />
-			<Normaltekst className={styles.readOnlyContent}>
+			<BodyShort size="small" className={styles.readOnlyContent}>
 				{input.value}
 				{isEdited && <EditedIcon />}
-			</Normaltekst>
+			</BodyShort>
 		</div>
 	);
 };

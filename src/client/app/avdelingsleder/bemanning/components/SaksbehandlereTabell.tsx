@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useContext } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Element, Normaltekst } from 'nav-frontend-typografi';
-import { Table } from '@navikt/ds-react';
+import { Element } from 'nav-frontend-typografi';
+import { BodyShort, Table } from '@navikt/ds-react';
 import LeggTilSaksbehandlerForm from 'avdelingsleder/bemanning/components/LeggTilSaksbehandlerForm';
 import SaksbehandlerInfo from 'avdelingsleder/bemanning/components/SaksbehandlerInfo';
 import { AvdelingslederContext } from 'avdelingsleder/context';
@@ -27,9 +27,9 @@ const SaksbehandlereTabell: FunctionComponent = () => {
 			{saksbehandlere.length === 0 && (
 				<>
 					<VerticalSpacer eightPx />
-					<Normaltekst>
+					<BodyShort size="small">
 						<FormattedMessage id="SaksbehandlereTabell.IngenSaksbehandlere" />
-					</Normaltekst>
+					</BodyShort>
 					<VerticalSpacer eightPx />
 				</>
 			)}

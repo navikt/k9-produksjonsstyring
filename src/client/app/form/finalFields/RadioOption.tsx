@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { CSSProperties, FunctionComponent, ReactNode } from 'react';
 import { Radio as NavRadio } from 'nav-frontend-skjema';
-import { Normaltekst } from 'nav-frontend-typografi';
+import { BodyShort } from '@navikt/ds-react';
 import Label, { LabelType } from './Label';
 
 interface OwnProps {
@@ -43,7 +43,7 @@ export const RadioOption: FunctionComponent<OwnProps> = ({
 			<NavRadio
 				name={name}
 				className={className}
-				label={<Label input={label} typographyElement={Normaltekst} />}
+				label={<Label input={label} typographyElement={BodyShort} />}
 				value={value}
 				checked={checked}
 				disabled={disabled || groupDisabled}

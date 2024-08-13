@@ -1,22 +1,21 @@
 import React, { useCallback, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import _ from 'lodash';
-import { Normaltekst } from 'nav-frontend-typografi';
-import { Checkbox, Loader, Table, TextField } from '@navikt/ds-react';
+import { BodyShort, Checkbox, Loader, Table, TextField } from '@navikt/ds-react';
 import { RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
+import { useAvdelingslederReservasjoner } from 'api/queries/avdelingslederQueries';
 import AlleKodeverk from 'kodeverk/alleKodeverkTsType';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
-import VerticalSpacer from 'sharedComponents/VerticalSpacer';
-import { getDateAndTime } from 'utils/dateUtils';
-import { useAvdelingslederReservasjoner } from 'api/queries/avdelingslederQueries';
 import ReservasjonV3, {
 	MappedReservasjon,
 	mapReservasjonV3Array,
 } from 'saksbehandler/behandlingskoer/ReservasjonV3Dto';
+import VerticalSpacer from 'sharedComponents/VerticalSpacer';
+import { getDateAndTime } from 'utils/dateUtils';
 import { getKodeverknavnFraKode } from 'utils/kodeverkUtils';
 import useGlobalStateRestApiData from '../../../api/rest-api-hooks/src/global-data/useGlobalStateRestApiData';
-import * as styles from './reservasjonerTabell.css';
 import ReservasjonRowExpandableContent from './ReservasjonRowExpandableContent';
+import * as styles from './reservasjonerTabell.css';
 
 const sorterMedReservertAv = (reservasjonerListe: MappedReservasjon[]) =>
 	reservasjonerListe?.sort((reservasjon1, reservasjon2) =>
@@ -74,18 +73,18 @@ const ReservasjonerTabell = () => {
 			{reservasjoner?.length > 0 && isSuccess && !finnesSokResultat && (
 				<>
 					<VerticalSpacer eightPx />
-					<Normaltekst>
+					<BodyShort size="small">
 						<FormattedMessage id="ReservasjonerTabell.IngenMatchandeReservasjoner" />
-					</Normaltekst>
+					</BodyShort>
 					<VerticalSpacer eightPx />
 				</>
 			)}
 			{reservasjoner?.length === 0 && isSuccess && (
 				<>
 					<VerticalSpacer eightPx />
-					<Normaltekst>
+					<BodyShort size="small">
 						<FormattedMessage id="ReservasjonerTabell.IngenReservasjoner" />
-					</Normaltekst>
+					</BodyShort>
 					<VerticalSpacer eightPx />
 				</>
 			)}

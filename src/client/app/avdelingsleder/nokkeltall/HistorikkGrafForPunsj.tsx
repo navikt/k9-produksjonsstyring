@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl';
 import dayjs from 'dayjs';
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
-import { Normaltekst } from 'nav-frontend-typografi';
+import { BodyShort } from '@navikt/ds-react';
 import HistoriskData from 'avdelingsleder/nokkeltall/historiskDataTsType';
 import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
@@ -134,9 +134,9 @@ const HistorikkGrafForPunsj: FunctionComponent<OwnProps> = ({ historiskData, isF
 	if (oppgaverInomValgtPeriode.length === 0) {
 		return (
 			<div>
-				<Normaltekst>
+				<BodyShort size="small">
 					<FormattedMessage id="InngangOgFerdigstiltePanel.IngenTall" />
-				</Normaltekst>
+				</BodyShort>
 			</div>
 		);
 	}
@@ -173,7 +173,6 @@ const HistorikkGrafForPunsj: FunctionComponent<OwnProps> = ({ historiskData, isF
 						// bruker category istedet for time for att vise alle dato og ikke bara hvert femte.
 						type: 'category',
 						// boundaryGap ser till att dato hamnar på en linje istället for mellom.
-						// @ts-ignore
 						boundaryGap: false,
 						axisTick: eChartXAxisTickDefAvdelningslederNokkeltall,
 						axisLabel: {

@@ -13,6 +13,7 @@ interface OwnProps {
 }
 
 /**
+ * @deprecated
  * EndreOppgavekoerPanel
  */
 const EndreOppgavekoerPanel: FunctionComponent<OwnProps & WrappedComponentProps> = ({

@@ -69,7 +69,9 @@ const getSorteringsnavn = (intl: IntlShape, oppgaveko?: OppgavekøV1) => {
 interface OwnProps {
 	oppgaveko: OppgavekøV1 | OppgavekøV3MedNavn;
 }
-
+/**
+ * @deprecated
+ */
 const OldOppsummeringAvKø = ({ oppgaveko }: OwnProps) => {
 	const intl = useIntl();
 

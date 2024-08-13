@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useMemo, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import NavFrontendChevron from 'nav-frontend-chevron';
-import { Normaltekst } from 'nav-frontend-typografi';
+import { BodyShort } from '@navikt/ds-react';
 import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
 import { useGlobalStateRestApiData } from 'api/rest-api-hooks';
 import useKodeverk from 'api/rest-api-hooks/src/global-data/useKodeverk';
@@ -12,7 +12,7 @@ import AlleKodeverk from 'kodeverk/alleKodeverkTsType';
 import behandlingType from 'kodeverk/behandlingType';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
-import { getKodeverkFraKode, getKodeverknavnFraKode } from 'utils/kodeverkUtils';
+import { getKodeverkFraKode } from 'utils/kodeverkUtils';
 import punsjBehandlingstyper from '../../../../types/PunsjBehandlingstyper';
 import * as styles from './utvalgskriterierForOppgavekoForm.css';
 
@@ -85,9 +85,9 @@ const BehandlingstypeVelger: FunctionComponent<OwnProps> = ({
 
 	return (
 		<>
-			<Normaltekst className={styles.label}>
+			<BodyShort size="small" className={styles.label}>
 				<FormattedMessage id="BehandlingstypeVelger.Behandlingstype" />
-			</Normaltekst>
+			</BodyShort>
 			<VerticalSpacer eightPx />
 			{behandlingTyperIkkePunsj.map((bt) => (
 				<React.Fragment key={bt.kode}>
@@ -108,7 +108,9 @@ const BehandlingstypeVelger: FunctionComponent<OwnProps> = ({
 
 			<button type="button" className={styles.punsjVal} onClick={() => setVisPunsj(!visPunsj)}>
 				<NavFrontendChevron type={visPunsj ? 'ned' : 'høyre'} />
-				<Normaltekst className={styles.punsjTekst}>Punsj</Normaltekst>
+				<BodyShort size="small" className={styles.punsjTekst}>
+					Punsj
+				</BodyShort>
 			</button>
 
 			{visPunsj && (

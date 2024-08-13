@@ -14,9 +14,8 @@ import prognoseSort from 'images/prognose-sort.svg';
 import { Row } from 'nav-frontend-grid';
 import Panel from 'nav-frontend-paneler';
 import Tabs from 'nav-frontend-tabs';
-import { Normaltekst } from 'nav-frontend-typografi';
 import { PersonGroupIcon } from '@navikt/aksel-icons';
-import { Heading } from '@navikt/ds-react';
+import { BodyShort, Heading } from '@navikt/ds-react';
 import useTrackRouteParam from 'app/data/trackRouteParam';
 import { avdelingslederTilgangTilNyeKoer } from 'app/envVariablesUtils';
 import NavAnsatt from 'app/navAnsattTsType';
@@ -169,7 +168,7 @@ export const AvdelingslederIndex: FunctionComponent = () => {
 		return (
 			<AvdelingslederContext.Provider value={avdelingslederContextValue}>
 				<Row>
-					<Normaltekst className={styles.paneltekst}>Avdelingslederpanel</Normaltekst>
+					<BodyShort className={styles.paneltekst}>Avdelingslederpanel</BodyShort>
 				</Row>
 				<Row>
 					<DagensTallPanel totaltIdag={totaltIdag} dagensTall={dagensTall} />
