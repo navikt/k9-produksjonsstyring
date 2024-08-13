@@ -185,7 +185,7 @@ const SearchWithDropdown: React.FC<SearchWithDropdownProps> = (props) => {
 				<div>
 					<Label className="self-center text-sm">Valgte filter:</Label>
 					<Button
-						icon={<TrashIcon />}
+						icon={<TrashIcon height="1.5rem" width="1.5rem" />}
 						variant="tertiary"
 						size="xsmall"
 						className="border-border-danger text-border-danger float-right"

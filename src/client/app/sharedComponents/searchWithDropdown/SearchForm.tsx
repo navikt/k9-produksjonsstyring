@@ -1,6 +1,6 @@
 import React from 'react';
 import { Combobox, ComboboxInput } from '@reach/combobox';
-import { Search } from '@navikt/ds-icons';
+import { MagnifyingGlassIcon } from '@navikt/aksel-icons';
 import { BodyShort, Label } from '@navikt/ds-react';
 import * as styles from './searchWithDropdown.css';
 
@@ -75,7 +75,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
 						aria-label="search button"
 					>
 						<span className="navds-button__icon">
-							<Search />
+							<MagnifyingGlassIcon />
 						</span>
 					</button>
 				</div>

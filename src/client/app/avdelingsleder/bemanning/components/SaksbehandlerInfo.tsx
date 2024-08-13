@@ -45,7 +45,7 @@ const SaksbehandlerInfo: FunctionComponent<OwnProps> = ({ saksbehandler }) => {
 				}}
 				className="bg-red-400 hover:bg-red-600 mt-6"
 				size="small"
-				icon={<TrashIcon />}
+				icon={<TrashIcon height="1.5rem" width="1.5rem" />}
 			>
 				Slett saksbehandler
 			</Button>

@@ -12,6 +12,7 @@ import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 
 interface OwnProps {
 	valgtOppgavekoId: string;
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	values: any;
 	hentOppgaveko: (id: string) => void;
 	kodeverkType: string;
@@ -21,6 +22,7 @@ interface OwnProps {
 
 /**
  * OppgaveKoKriterieVelger
+ * @deprecated
  */
 const OppgaveKoKriterieVelger: FunctionComponent<OwnProps> = ({
 	valgtOppgavekoId,

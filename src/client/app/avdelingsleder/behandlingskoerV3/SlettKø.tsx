@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { OppgavekøV3Enkel } from 'types/OppgavekøV3Type';
 import { TrashIcon } from '@navikt/aksel-icons';
 import { Button } from '@navikt/ds-react';
+import { OppgavekøV3Enkel } from 'types/OppgavekøV3Type';
 import SlettKøModal from './SlettKøModal';
 
 interface Props {
@@ -13,7 +13,12 @@ const SlettKø = ({ kø }: Props) => {
 
 	return (
 		<>
-			<Button variant="tertiary" size="small" icon={<TrashIcon />} onClick={() => setVisSlettKøModal(true)}>
+			<Button
+				variant="tertiary"
+				size="small"
+				icon={<TrashIcon height="1.5rem" width="1.5rem" />}
+				onClick={() => setVisSlettKøModal(true)}
+			>
 				Slett
 			</Button>
 			{visSlettKøModal && <SlettKøModal lukk={() => setVisSlettKøModal(false)} køTittel={kø.tittel} id={kø.id} />}

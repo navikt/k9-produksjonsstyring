@@ -1,13 +1,13 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 
 /* eslint-disable no-param-reassign */
-import { WarningColored } from '@navikt/ds-icons';
-import { Table } from '@navikt/ds-react';
+import React, { RefAttributes } from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
 import classNames from 'classnames';
 import menuIconBlackUrl from 'images/ic-menu-18px_black.svg';
 import menuIconBlueUrl from 'images/ic-menu-18px_blue.svg';
-import React, { RefAttributes } from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
+import { ExclamationmarkTriangleFillIcon } from '@navikt/aksel-icons';
+import { Table } from '@navikt/ds-react';
 import ReservasjonV3 from 'saksbehandler/behandlingskoer/ReservasjonV3Dto';
 import KommentarMedMerknad from 'saksbehandler/components/KommentarMedMerknad';
 import Oppgave from 'saksbehandler/oppgaveTsType';
@@ -65,7 +65,7 @@ const ReservertOppgaveRadV1: React.ForwardRefExoticComponent<OwnProps> = React.f
 			>
 				{gjelderHastesaker && (
 					<Table.DataCell onClick={() => goToFagsak(oppgave)} className={`${styles.hastesakTd} hover:cursor-pointer`}>
-						<WarningColored className={styles.hastesakIkon} />
+						<ExclamationmarkTriangleFillIcon height="1.5rem" width="1.5rem" className={styles.hastesakIkon} />
 					</Table.DataCell>
 				)}
 				<Table.DataCell

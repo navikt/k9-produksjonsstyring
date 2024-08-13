@@ -1,23 +1,23 @@
 /* eslint-disable no-param-reassign */
 
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import { WarningColored } from '@navikt/ds-icons';
-import { Table } from '@navikt/ds-react';
-import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
-import { useGlobalStateRestApiData, useRestApiRunner } from 'api/rest-api-hooks';
+import React, { RefAttributes } from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
 import classNames from 'classnames';
 import menuIconBlackUrl from 'images/ic-menu-18px_black.svg';
 import menuIconBlueUrl from 'images/ic-menu-18px_blue.svg';
+import { ExclamationmarkTriangleFillIcon } from '@navikt/aksel-icons';
+import { Table } from '@navikt/ds-react';
 import { getK9sakHref } from 'app/paths';
-import React, { RefAttributes } from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
+import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
+import { useGlobalStateRestApiData, useRestApiRunner } from 'api/rest-api-hooks';
 import ReservasjonV3 from 'saksbehandler/behandlingskoer/ReservasjonV3Dto';
 import KommentarMedMerknad from 'saksbehandler/components/KommentarMedMerknad';
+import DateLabel from 'sharedComponents/DateLabel';
 import Image from 'sharedComponents/Image';
 import { OppgaveNøkkel } from 'types/OppgaveNøkkel';
 import OppgaveV3 from 'types/OppgaveV3';
 import { getDateAndTime } from 'utils/dateUtils';
-import DateLabel from 'sharedComponents/DateLabel';
 import ReservasjonMeny from '../menu/ReservasjonMeny';
 import * as styles from './oppgaverTabell.css';
 
@@ -77,7 +77,7 @@ const ReservertOppgaveRadV3: React.ForwardRefExoticComponent<Props> = React.forw
 			>
 				{gjelderHastesaker && (
 					<Table.DataCell onClick={tilOppgave} className={`${styles.hastesakTd} hover:cursor-pointer`}>
-						<WarningColored className={styles.hastesakIkon} />
+						<ExclamationmarkTriangleFillIcon height="1.5rem" width="1.5rem" className={styles.hastesakIkon} />
 					</Table.DataCell>
 				)}
 				<Table.DataCell

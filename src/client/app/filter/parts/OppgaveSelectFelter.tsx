@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
-import { PlusCircleIcon } from '@navikt/aksel-icons';
-import { Delete } from '@navikt/ds-icons';
+import { PlusCircleIcon, TrashIcon } from '@navikt/aksel-icons';
 import { Button, Select } from '@navikt/ds-react';
 import AppContext from 'app/AppContext';
 import { FilterContext } from 'filter/FilterContext';
@@ -42,7 +41,12 @@ const OppgaveSelectFelter = () => {
 							</option>
 						))}
 					</Select>
-					<Button icon={<Delete aria-hidden />} size="medium" variant="tertiary" onClick={() => handleRemove(felt)} />
+					<Button
+						icon={<TrashIcon height="1.5rem" width="1.5rem" />}
+						size="medium"
+						variant="tertiary"
+						onClick={() => handleRemove(felt)}
+					/>
 				</div>
 			))}
 			<Button icon={<PlusCircleIcon aria-hidden />} size="small" variant="tertiary" onClick={handleAdd}>

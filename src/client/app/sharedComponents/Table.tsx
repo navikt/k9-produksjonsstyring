@@ -19,7 +19,7 @@ interface OwnProps {
 
 /**
  * Table
- *
+ * @deprecated
  * Presentasjonskomponent. Definerer en tabell med rader og kolonner.
  */
 const Table: FunctionComponent<OwnProps> = ({
