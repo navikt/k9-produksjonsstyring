@@ -3,8 +3,7 @@ import React, { FunctionComponent, useRef, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useQueryClient } from 'react-query';
 import NavFrontendChevron from 'nav-frontend-chevron';
-import { Element } from 'nav-frontend-typografi';
-import { BodyShort, ErrorMessage, Loader, Table } from '@navikt/ds-react';
+import { BodyShort, ErrorMessage, Label, Loader, Table } from '@navikt/ds-react';
 import apiPaths from 'api/apiPaths';
 import { K9LosApiKeys } from 'api/k9LosApi';
 import { useSaksbehandlerReservasjoner } from 'api/queries/saksbehandlerQueries';
@@ -92,11 +91,11 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps> = ({ apneOppgave, gj
 				onClick={() => setVisReservasjoner(!visReservasjoner)}
 			>
 				<NavFrontendChevron type={visReservasjoner ? 'ned' : 'høyre'} className={kopanelStyles.chevron} />
-				<Element>
+				<Label>
 					<FormattedMessage
 						id={gjelderHastesaker ? 'OppgaverTabell.ReserverteHastesaker' : 'OppgaverTabell.ReserverteOppgaver'}
 					/>
-				</Element>
+				</Label>
 				{isSuccess && (
 					<OppgaveTabellMenyAntallOppgaver
 						antallOppgaver={antallReservasjoner}

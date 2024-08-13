@@ -2,8 +2,7 @@ import React, { FunctionComponent, useMemo, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import moment from 'moment';
 import { Select } from 'nav-frontend-skjema';
-import { Element } from 'nav-frontend-typografi';
-import { Heading } from '@navikt/ds-react';
+import { Heading, Label } from '@navikt/ds-react';
 import { RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
 import { useGlobalStateRestApiData } from 'api/rest-api-hooks';
 import useKodeverk from 'api/rest-api-hooks/src/global-data/useKodeverk';
@@ -104,9 +103,9 @@ export const NyeOgFerdigstilteOppgaverForIdagPanel: FunctionComponent<OwnProps> 
 			</Heading>
 			<VerticalSpacer eightPx />
 			<div className={styles.nyeOgFerdigstilteOppgaverForIdagPanel_Subtitel}>
-				<Element>
+				<Label>
 					<FormattedMessage id="NyeOgFerdigstilteOppgaverForIdagPanel.IDag" />
-				</Element>
+				</Label>
 
 				<Select value={selectValue} aria-label="Velg ytelse" onChange={(e) => setSelectValue(e.target.value)}>
 					<option value="" disabled defaultValue={ALLE_YTELSETYPER_VALGT}>

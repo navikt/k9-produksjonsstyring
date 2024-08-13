@@ -1,9 +1,8 @@
 import React, { FunctionComponent, useContext, useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import NavFrontendChevron from 'nav-frontend-chevron';
-import { Element } from 'nav-frontend-typografi';
 import { ExclamationmarkTriangleIcon } from '@navikt/aksel-icons';
-import { Button, Heading, Modal } from '@navikt/ds-react';
+import { Button, Heading, Label, Modal } from '@navikt/ds-react';
 import { K9LosApiKeys } from 'api/k9LosApi';
 import { usePlukkOppgaveMutation } from 'api/queries/saksbehandlerQueries';
 import { useRestApiRunner } from 'api/rest-api-hooks';
@@ -121,9 +120,9 @@ const OppgavekoPanel: FunctionComponent<OwnProps> = ({ apneOppgave }) => {
 					onClick={() => setVisBehandlingerIKo(!visBehandlingerIKo)}
 				>
 					<NavFrontendChevron type={visBehandlingerIKo ? 'ned' : 'høyre'} className={styles.chevron} />
-					<Element>
+					<Label>
 						<FormattedMessage id="OppgaverTabell.DineNesteSaker" />
-					</Element>
+					</Label>
 				</button>
 
 				{visBehandlingerIKo &&

@@ -3,13 +3,12 @@ import { Field, FieldMetaState, Form } from 'react-final-form';
 import { FormattedMessage } from 'react-intl';
 import { useQueryClient } from 'react-query';
 import { FormApi } from 'final-form';
-import { Element } from 'nav-frontend-typografi';
-import { Button, TextField } from '@navikt/ds-react';
+import { Button, Label, TextField } from '@navikt/ds-react';
 import { PlusIcon } from '@navikt/ft-plattform-komponenter';
+import apiPaths from 'api/apiPaths';
 import { K9LosApiKeys } from 'api/k9LosApi';
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
 import { AvdelingslederContext } from 'avdelingsleder/context';
-import apiPaths from 'api/apiPaths';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import { hasValidEmailFormat } from 'utils/validation/validators';
 import { Saksbehandler } from '../saksbehandlerTsType';
@@ -31,6 +30,7 @@ export const LeggTilSaksbehandlerForm: FunctionComponent = () => {
 		setFinnesAllerede(false);
 	};
 
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	const addSaksbehandler = (epost: string, form: FormApi<any, Partial<any>>, meta: FieldMetaState<any>) => {
 		if (meta.error) {
 			form.blur('epost');
@@ -53,9 +53,9 @@ export const LeggTilSaksbehandlerForm: FunctionComponent = () => {
 			onSubmit={() => undefined}
 			render={({ submitting, form, values }) => (
 				<div>
-					<Element>
+					<Label>
 						<FormattedMessage id="LeggTilSaksbehandlerForm.LeggTil" />
-					</Element>
+					</Label>
 					<VerticalSpacer eightPx />
 					<div className="flex flex-row">
 						<Field name="epost" validate={hasValidEmailFormat}>
