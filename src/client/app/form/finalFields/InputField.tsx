@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { FunctionComponent } from 'react';
 import { Field } from 'react-final-form';
 import { Input as NavInput } from 'nav-frontend-skjema';
@@ -27,6 +28,9 @@ interface OwnProps {
 	autoFocus?: boolean;
 }
 
+/**
+ * @deprecated
+ */
 const InputField: FunctionComponent<OwnProps> = ({
 	name,
 	type = 'text',
@@ -39,7 +43,7 @@ const InputField: FunctionComponent<OwnProps> = ({
 	<Field
 		name={name}
 		validate={composeValidators(validate)}
-		// @ts-ignore
+		// @ts-expect-error deprecated component, fikser ikke
 		component={readOnly ? ReadOnlyField : renderNavInput}
 		type={type}
 		label={label}

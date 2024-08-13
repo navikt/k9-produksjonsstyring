@@ -2,7 +2,7 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import bubbletextBlack from 'images/bubbletext_black.svg';
 import bubbletextFilledUrl from 'images/bubbletext_filled.svg';
-import { Normaltekst } from 'nav-frontend-typografi';
+import { BodyShort } from '@navikt/ds-react';
 import ReservasjonV3 from 'saksbehandler/behandlingskoer/ReservasjonV3Dto';
 import Image from 'sharedComponents/Image';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
@@ -24,10 +24,10 @@ const KommentarMedMerknad = ({ reservasjon }: { reservasjon: ReservasjonV3 }) =>
 				<>
 					{reservasjon && (
 						<>
-							<Normaltekst>{`Reservasjon endret av ${reservasjon.endretAvNavn || 'Ukjent'}`}</Normaltekst>
-							<Normaltekst>{`${date} ${time}`}</Normaltekst>
+							<BodyShort size="small">{`Reservasjon endret av ${reservasjon.endretAvNavn || 'Ukjent'}`}</BodyShort>
+							<BodyShort size="small">{`${date} ${time}`}</BodyShort>
 							<VerticalSpacer sixteenPx />
-							<Normaltekst>{reservasjon.kommentar}</Normaltekst>
+							<BodyShort size="small">{reservasjon.kommentar}</BodyShort>
 						</>
 					)}
 

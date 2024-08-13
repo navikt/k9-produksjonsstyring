@@ -1,7 +1,6 @@
 import React, { FunctionComponent, useContext } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Element, Normaltekst } from 'nav-frontend-typografi';
-import { Table } from '@navikt/ds-react';
+import { BodyShort, Label, Table } from '@navikt/ds-react';
 import LeggTilSaksbehandlerForm from 'avdelingsleder/bemanning/components/LeggTilSaksbehandlerForm';
 import SaksbehandlerInfo from 'avdelingsleder/bemanning/components/SaksbehandlerInfo';
 import { AvdelingslederContext } from 'avdelingsleder/context';
@@ -19,17 +18,17 @@ const SaksbehandlereTabell: FunctionComponent = () => {
 
 	return (
 		<>
-			<Element className={styles.tableHeader}>
+			<Label className={styles.tableHeader}>
 				<Image src={saksbehandlereGra} className={styles.icon} />
 				<FormattedMessage id="SaksbehandlereTabell.Saksbehandlere" />
-			</Element>
+			</Label>
 			<LeggTilSaksbehandlerForm />
 			{saksbehandlere.length === 0 && (
 				<>
 					<VerticalSpacer eightPx />
-					<Normaltekst>
+					<BodyShort size="small">
 						<FormattedMessage id="SaksbehandlereTabell.IngenSaksbehandlere" />
-					</Normaltekst>
+					</BodyShort>
 					<VerticalSpacer eightPx />
 				</>
 			)}

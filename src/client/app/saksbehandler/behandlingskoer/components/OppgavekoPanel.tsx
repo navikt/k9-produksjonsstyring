@@ -1,16 +1,15 @@
 import React, { FunctionComponent, useContext, useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
+import NavFrontendChevron from 'nav-frontend-chevron';
+import { ExclamationmarkTriangleIcon } from '@navikt/aksel-icons';
+import { Button, Heading, Label, Modal } from '@navikt/ds-react';
 import { K9LosApiKeys } from 'api/k9LosApi';
 import { usePlukkOppgaveMutation } from 'api/queries/saksbehandlerQueries';
 import { useRestApiRunner } from 'api/rest-api-hooks';
-import NavFrontendChevron from 'nav-frontend-chevron';
-import { Element, Undertittel } from 'nav-frontend-typografi';
 import BehandlingskoerContext from 'saksbehandler/BehandlingskoerContext';
 import ReserverteOppgaverTabell from 'saksbehandler/behandlingskoer/components/oppgavetabeller/ReserverteOppgaverTabell';
 import Oppgave from 'saksbehandler/oppgaveTsType';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
-import { Button, Modal } from '@navikt/ds-react';
-import { ExclamationmarkTriangleIcon } from '@navikt/aksel-icons';
 import RestApiState from '../../../api/rest-api-hooks/src/RestApiState';
 import { erKoV3, getKoId } from '../utils';
 import OppgavekoVelgerForm from './OppgavekoVelgerForm';
@@ -87,9 +86,9 @@ const OppgavekoPanel: FunctionComponent<OwnProps> = ({ apneOppgave }) => {
 	const lukkFinnesIngenBehandlingerIKoModal = () => setVisFinnesIngenBehandlingerIKoModal(false);
 	return (
 		<div className={styles.container}>
-			<Undertittel>
+			<Heading size="small">
 				<FormattedMessage id="OppgavekoPanel.StartBehandling" />
-			</Undertittel>
+			</Heading>
 			<VerticalSpacer sixteenPx />
 			<OppgavekoVelgerForm plukkNyOppgave={plukkNyOppgave} loadingOppgaveFraKo={loadingOppgaveFraKo} />
 			<VerticalSpacer twentyPx />
@@ -100,19 +99,19 @@ const OppgavekoPanel: FunctionComponent<OwnProps> = ({ apneOppgave }) => {
 			<VerticalSpacer eightPx />
 			{visFinnesIngenBehandlingerIKoModal && (
 				<Modal
-						className="min-w-[500px]"
-						open
-						onClose={lukkFinnesIngenBehandlingerIKoModal}
-						header={{ heading: 'Ingen flere ureserverte oppgaver i køen', icon: <ExclamationmarkTriangleIcon /> }}
-					>
-						<Modal.Body>
-							Det ser ut til at det ikke er flere ureserverte behandlinger i den valgte køen. Prøv å velge en annen kø
-							for å fortsette.
-						</Modal.Body>
-						<Modal.Footer>
-							<Button onClick={lukkFinnesIngenBehandlingerIKoModal}>Lukk</Button>
-						</Modal.Footer>
-					</Modal>
+					className="min-w-[500px]"
+					open
+					onClose={lukkFinnesIngenBehandlingerIKoModal}
+					header={{ heading: 'Ingen flere ureserverte oppgaver i køen', icon: <ExclamationmarkTriangleIcon /> }}
+				>
+					<Modal.Body>
+						Det ser ut til at det ikke er flere ureserverte behandlinger i den valgte køen. Prøv å velge en annen kø for
+						å fortsette.
+					</Modal.Body>
+					<Modal.Footer>
+						<Button onClick={lukkFinnesIngenBehandlingerIKoModal}>Lukk</Button>
+					</Modal.Footer>
+				</Modal>
 			)}
 			<div className={styles.behandlingskoerContainer}>
 				<button
@@ -121,9 +120,9 @@ const OppgavekoPanel: FunctionComponent<OwnProps> = ({ apneOppgave }) => {
 					onClick={() => setVisBehandlingerIKo(!visBehandlingerIKo)}
 				>
 					<NavFrontendChevron type={visBehandlingerIKo ? 'ned' : 'høyre'} className={styles.chevron} />
-					<Element>
+					<Label>
 						<FormattedMessage id="OppgaverTabell.DineNesteSaker" />
-					</Element>
+					</Label>
 				</button>
 
 				{visBehandlingerIKo &&

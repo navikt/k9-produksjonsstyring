@@ -1,22 +1,21 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import { ErrorMessage, Loader, Table } from '@navikt/ds-react';
+import React, { FunctionComponent, useRef, useState } from 'react';
+import { FormattedMessage } from 'react-intl';
+import { useQueryClient } from 'react-query';
+import NavFrontendChevron from 'nav-frontend-chevron';
+import { BodyShort, ErrorMessage, Label, Loader, Table } from '@navikt/ds-react';
 import apiPaths from 'api/apiPaths';
 import { K9LosApiKeys } from 'api/k9LosApi';
 import { useSaksbehandlerReservasjoner } from 'api/queries/saksbehandlerQueries';
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
 import Reservasjon from 'avdelingsleder/reservasjoner/reservasjonTsType';
 import merknadType from 'kodeverk/merknadType';
-import NavFrontendChevron from 'nav-frontend-chevron';
-import { Element, Normaltekst } from 'nav-frontend-typografi';
-import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
-import { FormattedMessage } from 'react-intl';
-import { useQueryClient } from 'react-query';
-import { OppgavestatusV3 } from 'types/OppgaveV3';
 import ReservasjonV3 from 'saksbehandler/behandlingskoer/ReservasjonV3Dto';
 import { getHeaderCodes } from 'saksbehandler/behandlingskoer/components/oppgavetabeller/oppgavetabellerfelles';
 import Oppgave from 'saksbehandler/oppgaveTsType';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import { OppgaveNøkkel } from 'types/OppgaveNøkkel';
+import { OppgavestatusV3 } from 'types/OppgaveV3';
 import * as kopanelStyles from '../oppgavekoPanel.css';
 import OppgaveTabellMenyAntallOppgaver from './OppgaveTabellMenyAntallOppgaver';
 import ReservertOppgaveRadV1 from './ReservertOppgaveRadV1';
@@ -92,11 +91,11 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps> = ({ apneOppgave, gj
 				onClick={() => setVisReservasjoner(!visReservasjoner)}
 			>
 				<NavFrontendChevron type={visReservasjoner ? 'ned' : 'høyre'} className={kopanelStyles.chevron} />
-				<Element>
+				<Label>
 					<FormattedMessage
 						id={gjelderHastesaker ? 'OppgaverTabell.ReserverteHastesaker' : 'OppgaverTabell.ReserverteOppgaver'}
 					/>
-				</Element>
+				</Label>
 				{isSuccess && (
 					<OppgaveTabellMenyAntallOppgaver
 						antallOppgaver={antallReservasjoner}
@@ -114,13 +113,13 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps> = ({ apneOppgave, gj
 			{antallReservasjoner === 0 && isSuccess && visReservasjoner && (
 				<>
 					<VerticalSpacer eightPx />
-					<Normaltekst>
+					<BodyShort size="small">
 						{!gjelderHastesaker ? (
 							<FormattedMessage id="OppgaverTabell.IngenReserverteOppgaver" />
 						) : (
 							<FormattedMessage id="OppgaverTabell.IngenReserverteHastesaker" />
 						)}
-					</Normaltekst>
+					</BodyShort>
 				</>
 			)}
 			{antallReservasjoner > 0 && isSuccess && visReservasjoner && (

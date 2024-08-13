@@ -1,14 +1,12 @@
 import React, { FunctionComponent, useState } from 'react';
 import { Form } from 'react-final-form';
 import { FormattedMessage } from 'react-intl';
-import { Element } from 'nav-frontend-typografi';
+import { Button } from '@navikt/ds-react';
 import { K9LosApiKeys } from 'api/k9LosApi';
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
 import { InputField } from 'form/FinalFields';
-import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import { hasValidEmailFormat } from 'utils/validation/validators';
 import { Driftsmelding } from '../driftsmeldingTsType';
-import { Button } from '@navikt/ds-react';
 
 /**
  * LeggTilDriftsmeldingForm
@@ -38,15 +36,11 @@ export const LeggTilDriftsmeldingForm: FunctionComponent<OwnProps> = ({ hentAlle
 			onSubmit={() => undefined}
 			render={({ submitting, form, values }) => (
 				<div>
-					<Element>
-						<FormattedMessage id="LeggTilDriftsmeldingForm.LeggTil" />
-					</Element>
-					<VerticalSpacer eightPx />
 					<div className="flex gap-6 relative">
 						<InputField
 							name="melding"
 							className="min-w-64"
-							label={<FormattedMessage id="LeggTilDriftsmeldingForm.Melding" />}
+							label={<FormattedMessage id="LeggTilDriftsmeldingForm.LeggTil" />}
 							bredde="L"
 							validate={[hasValidEmailFormat]}
 						/>

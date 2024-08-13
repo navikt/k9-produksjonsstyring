@@ -14,9 +14,10 @@ import prognoseSort from 'images/prognose-sort.svg';
 import { Row } from 'nav-frontend-grid';
 import Panel from 'nav-frontend-paneler';
 import Tabs from 'nav-frontend-tabs';
-import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import { PersonGroupIcon } from '@navikt/aksel-icons';
+import { BodyShort, Heading } from '@navikt/ds-react';
 import useTrackRouteParam from 'app/data/trackRouteParam';
+import { avdelingslederTilgangTilNyeKoer } from 'app/envVariablesUtils';
 import NavAnsatt from 'app/navAnsattTsType';
 import { getPanelLocationCreator } from 'app/paths';
 import apiPaths from 'api/apiPaths';
@@ -31,7 +32,6 @@ import PrognoseIndex from 'avdelingsleder/prognose/PrognoseIndex';
 import Image from 'sharedComponents/Image';
 import LoadingPanel from 'sharedComponents/LoadingPanel';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
-import { avdelingslederTilgangTilNyeKoer } from 'app/envVariablesUtils';
 import { parseQueryString } from 'utils/urlUtils';
 import * as styles from './avdelingslederIndex.css';
 import AvdelingslederPanels from './avdelingslederPanels';
@@ -103,9 +103,9 @@ const getTab = (
 		label: (
 			<div className={styles.tabLabel}>
 				{typeof icon === 'string' ? <Image className={styles.tabIcon} src={icon} /> : icon}
-				<Undertittel>
+				<Heading size="small">
 					<FormattedMessage id={messageId[avdelingslederPanel]} />
-				</Undertittel>
+				</Heading>
 			</div>
 		),
 		aktiv: isActive,
@@ -168,7 +168,7 @@ export const AvdelingslederIndex: FunctionComponent = () => {
 		return (
 			<AvdelingslederContext.Provider value={avdelingslederContextValue}>
 				<Row>
-					<Normaltekst className={styles.paneltekst}>Avdelingslederpanel</Normaltekst>
+					<BodyShort className={styles.paneltekst}>Avdelingslederpanel</BodyShort>
 				</Row>
 				<Row>
 					<DagensTallPanel totaltIdag={totaltIdag} dagensTall={dagensTall} />

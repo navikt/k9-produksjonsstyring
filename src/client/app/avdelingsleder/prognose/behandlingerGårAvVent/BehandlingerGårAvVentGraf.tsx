@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useMemo } from 'react';
 import { FormattedMessage } from 'react-intl';
 import dayjs from 'dayjs';
-import { Normaltekst } from 'nav-frontend-typografi';
+import { BodyShort } from '@navikt/ds-react';
 import ReactECharts from 'sharedComponents/echart/ReactEcharts';
 import { momentDateFormat } from 'utils/dateUtils';
 import { ISO_DATE_FORMAT } from 'utils/formats';
@@ -76,9 +76,9 @@ const BehandlingerGårAvVentGraf: FunctionComponent<OwnProps> = ({
 	if (oppgaverInomValgtPeriode.length === 0) {
 		return (
 			<div>
-				<Normaltekst>
+				<BodyShort>
 					<FormattedMessage id="InngangOgFerdigstiltePanel.IngenTall" />
-				</Normaltekst>
+				</BodyShort>
 			</div>
 		);
 	}
@@ -111,7 +111,6 @@ const BehandlingerGårAvVentGraf: FunctionComponent<OwnProps> = ({
 						// bruker category istedet for time for att vise alle dato og ikke bara hvert femte.
 						type: 'category',
 						// boundaryGap ser till att dato hamnar på en linje istället for mellom.
-						// @ts-ignore
 						boundaryGap: false,
 						axisTick: eChartXAxisTickDefAvdelningslederNokkeltall,
 						axisLabel: {

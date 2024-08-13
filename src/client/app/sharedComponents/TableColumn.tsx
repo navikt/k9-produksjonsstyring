@@ -7,9 +7,10 @@ const classNames = classnames.bind(styles);
 
 /**
  * TableColumn
- *
+ * @deprecated
  * Presentasjonskomponent. Tabellkolonne som brukes av komponenten Table.
  */
+
 const TableColumn = ({ children, className, hidden }) => {
 	if (hidden) {
 		return null;

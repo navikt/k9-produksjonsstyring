@@ -1,7 +1,6 @@
 import React, { FunctionComponent, ReactNode, useContext, useEffect } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useQuery, useQueryClient } from 'react-query';
-import { OppgavekøV3MedNavn } from 'types/OppgavekøV3Type';
 import { BodyShort, Button, Heading, ReadMore, Select } from '@navikt/ds-react';
 import apiPaths from 'api/apiPaths';
 import { K9LosApiKeys } from 'api/k9LosApi';
@@ -10,7 +9,7 @@ import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner
 import BehandlingskoerContext from 'saksbehandler/BehandlingskoerContext';
 import { OppgavekøV1 } from 'saksbehandler/behandlingskoer/oppgavekoTsType';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
-import { FlexColumn, FlexContainer, FlexRow } from 'sharedComponents/flexGrid';
+import { OppgavekøV3MedNavn } from 'types/OppgavekøV3Type';
 import {
 	getValueFromLocalStorage,
 	removeValueFromLocalStorage,

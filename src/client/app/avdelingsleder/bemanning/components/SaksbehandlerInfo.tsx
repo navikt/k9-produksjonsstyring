@@ -1,13 +1,12 @@
 import React, { FunctionComponent, useState } from 'react';
-import { Normaltekst } from 'nav-frontend-typografi';
+import { useQueryClient } from 'react-query';
 import { TrashIcon } from '@navikt/aksel-icons';
+import { BodyShort, Button } from '@navikt/ds-react';
 import apiPaths from 'api/apiPaths';
-import { Button } from '@navikt/ds-react';
-import SletteSaksbehandlerModal from 'avdelingsleder/bemanning/components/SletteSaksbehandlerModal';
-import { Saksbehandler } from 'avdelingsleder/bemanning/saksbehandlerTsType';
 import { K9LosApiKeys } from 'api/k9LosApi';
 import { useRestApiRunner } from 'api/rest-api-hooks';
-import { useQueryClient } from 'react-query';
+import SletteSaksbehandlerModal from 'avdelingsleder/bemanning/components/SletteSaksbehandlerModal';
+import { Saksbehandler } from 'avdelingsleder/bemanning/saksbehandlerTsType';
 import * as styles from './saksbehandlerInfo.css';
 
 interface OwnProps {
@@ -31,13 +30,13 @@ const SaksbehandlerInfo: FunctionComponent<OwnProps> = ({ saksbehandler }) => {
 
 	return (
 		<div>
-			<Normaltekst className={styles.overskrift}>Køer</Normaltekst>
-			{!saksbehandler?.oppgavekoer?.length && <Normaltekst className={styles.info}>Ingen køer tildelt</Normaltekst>}
+			<BodyShort className={styles.overskrift}>Køer</BodyShort>
+			{!saksbehandler?.oppgavekoer?.length && <BodyShort className={styles.info}>Ingen køer tildelt</BodyShort>}
 			{saksbehandler?.oppgavekoer?.length > 0 &&
 				saksbehandler.oppgavekoer.map((ko) => (
-					<Normaltekst key={ko} className={styles.info}>
+					<BodyShort size="small" key={ko} className={styles.info}>
 						{ko}
-					</Normaltekst>
+					</BodyShort>
 				))}
 			{/* eslint-disable-next-line jsx-a11y/interactive-supports-focus */}
 			<Button

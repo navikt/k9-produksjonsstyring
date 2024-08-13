@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useMemo } from 'react';
 import { FormattedMessage, WrappedComponentProps, injectIntl } from 'react-intl';
 import dayjs from 'dayjs';
-import { Normaltekst } from 'nav-frontend-typografi';
+import { BodyShort } from '@navikt/ds-react';
 import NyeOgFerdigstilteOppgaver from 'saksbehandler/saksstotte/nokkeltall/components/nyeOgFerdigstilteOppgaverTsType';
 import ReactECharts from 'sharedComponents/echart/ReactEcharts';
 import { momentDateFormat } from 'utils/dateUtils';
@@ -78,9 +78,9 @@ const NyeOgFerdigstilteOppgaverForSisteSyvGraf: FunctionComponent<OwnProps & Wra
 	if (nyeOgFerdigstilteOppgaver.length === 0) {
 		return (
 			<div>
-				<Normaltekst>
+				<BodyShort size="small">
 					<FormattedMessage id="InngangOgFerdigstiltePanel.IngenTall" />
-				</Normaltekst>
+				</BodyShort>
 			</div>
 		);
 	}

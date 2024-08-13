@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import { FormattedMessage, WrappedComponentProps } from 'react-intl';
 import moment from 'moment';
-import { Undertekst } from 'nav-frontend-typografi';
+import { Detail } from '@navikt/ds-react';
 import { DatepickerField } from 'form/FinalFields';
 import ArrowBox from 'sharedComponents/ArrowBox';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
@@ -54,9 +54,9 @@ export const DatoSorteringValg: FunctionComponent<OwnProps & WrappedComponentPro
 }) => (
 	<div className={styles.arrowBoxContainer}>
 		<ArrowBox>
-			<Undertekst>
+			<Detail>
 				<FormattedMessage id="SorteringVelger.FiltrerPaTidsintervall" />
-			</Undertekst>
+			</Detail>
 			<FlexContainer>
 				<FlexRow>
 					<FlexColumn>
@@ -75,9 +75,9 @@ export const DatoSorteringValg: FunctionComponent<OwnProps & WrappedComponentPro
 						/>
 					</FlexColumn>
 					<FlexColumn>
-						<Undertekst className={styles.dager}>
+						<Detail className={styles.dager}>
 							<FormattedMessage id="SorteringVelger.Bindestrek" />
-						</Undertekst>
+						</Detail>
 					</FlexColumn>
 					<FlexColumn className={styles.tomDato}>
 						<DatepickerField

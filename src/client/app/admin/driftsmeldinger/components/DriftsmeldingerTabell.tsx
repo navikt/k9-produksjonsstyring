@@ -2,7 +2,7 @@ import React, { FunctionComponent, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import removeIcon from 'images/remove.svg';
 import { Checkbox } from 'nav-frontend-skjema';
-import { Element, Normaltekst } from 'nav-frontend-typografi';
+import { BodyShort, Label } from '@navikt/ds-react';
 import { K9LosApiKeys } from 'api/k9LosApi';
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
 import Image from 'sharedComponents/Image';
@@ -52,15 +52,15 @@ const DriftsmeldingerTabell: FunctionComponent<OwnProps> = ({ driftsmeldinger, h
 
 	return (
 		<>
-			<Element>
+			<Label>
 				<FormattedMessage id="DriftsmeldingerTabell.Driftsmeldinger" />
-			</Element>
+			</Label>
 			{sorterteDriftsmeldinger.length === 0 && (
 				<>
 					<VerticalSpacer eightPx />
-					<Normaltekst>
+					<BodyShort size="small">
 						<FormattedMessage id="DriftsmeldingerTabell.IngenDriftsmeldinger" />
-					</Normaltekst>
+					</BodyShort>
 					<VerticalSpacer eightPx />
 				</>
 			)}

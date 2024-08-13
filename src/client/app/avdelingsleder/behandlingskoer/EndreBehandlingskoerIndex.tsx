@@ -2,6 +2,7 @@ import React, { FunctionComponent, useCallback, useState } from 'react';
 import EndreOppgavekoerPanel from './components/EndreOppgavekoerPanel';
 
 /**
+ * @deprecated
  * EndreBehandlingskoerIndex
  */
 const EndreBehandlingskoerIndex: FunctionComponent = () => {

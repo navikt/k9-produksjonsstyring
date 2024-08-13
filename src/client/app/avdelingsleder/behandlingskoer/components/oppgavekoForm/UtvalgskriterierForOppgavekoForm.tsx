@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useContext } from 'react';
 import { Form } from 'react-final-form';
 import { FormattedMessage, IntlShape, WrappedComponentProps, injectIntl } from 'react-intl';
-import { Normaltekst } from 'nav-frontend-typografi';
+import { BodyShort } from '@navikt/ds-react';
 import { K9LosApiKeys } from 'api/k9LosApi';
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
 import SkjermetVelger from 'avdelingsleder/behandlingskoer/components/oppgavekoForm/SkjermetVelger';
@@ -68,6 +68,7 @@ const buildInitialValues = (intl: IntlShape, ko: Oppgaveko) => {
 };
 
 /**
+ * @deprecated
  * UtvalgskriterierForOppgavekoForm
  */
 export const UtvalgskriterierForOppgavekoForm: FunctionComponent<OwnProps & WrappedComponentProps> = ({
@@ -97,13 +98,13 @@ export const UtvalgskriterierForOppgavekoForm: FunctionComponent<OwnProps & Wrap
 						<AutoLagringVedBlur lagre={transformValues} fieldNames={['navn']} />
 						<div className={styles.container}>
 							<div>
-								<Normaltekst className={styles.header}>
+								<BodyShort size="small" className={styles.header}>
 									<FormattedMessage id="UtvalgskriterierForOppgavekoForm.OmKoen" />
-								</Normaltekst>
+								</BodyShort>
 								<hr className={styles.line} />
-								<Normaltekst className={styles.label}>
+								<BodyShort size="small" className={styles.label}>
 									{intl.formatMessage({ id: 'UtvalgskriterierForOppgavekoForm.Navn' })}
-								</Normaltekst>
+								</BodyShort>
 								<InputField
 									className={styles.navn}
 									name="navn"
@@ -124,9 +125,9 @@ export const UtvalgskriterierForOppgavekoForm: FunctionComponent<OwnProps & Wrap
 								/>
 							</div>
 							<div>
-								<Normaltekst className={styles.header}>
+								<BodyShort size="small" className={styles.header}>
 									<FormattedMessage id="UtvalgskriterierForOppgavekoForm.Kriterier" />
-								</Normaltekst>
+								</BodyShort>
 								<hr className={styles.line} />
 								<AndreKriterierVelger valgtOppgavekoId={valgtOppgaveko.id} values={values} hentOppgaveko={hentKo} />
 								<OppgaveKoKriterieVelger
@@ -154,9 +155,9 @@ export const UtvalgskriterierForOppgavekoForm: FunctionComponent<OwnProps & Wrap
 								/>
 							</div>
 							<div className={styles.saksbehandler}>
-								<Normaltekst className={styles.header}>
+								<BodyShort size="small" className={styles.header}>
 									<FormattedMessage id="UtvalgskriterierForOppgavekoForm.Saksbehandlere" />
-								</Normaltekst>
+								</BodyShort>
 								<hr />
 								<SaksbehandlereForOppgavekoForm
 									valgtOppgaveko={valgtOppgaveko}

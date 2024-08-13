@@ -1,24 +1,26 @@
+/* eslint-disable no-use-before-define */
+
+/* eslint-disable @typescript-eslint/no-use-before-define */
 import React, { useCallback, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import _ from 'lodash';
-import { Normaltekst } from 'nav-frontend-typografi';
-import { Button, Checkbox, Loader, SortState, Table, TextField } from '@navikt/ds-react';
+import { ArrowUndoIcon, PencilIcon } from '@navikt/aksel-icons';
+import { BodyShort, Button, Checkbox, Loader, SortState, Table, TextField } from '@navikt/ds-react';
 import { RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
+import { useAvdelingslederReservasjoner } from 'api/queries/avdelingslederQueries';
+import ReservasjonerBolkButtons from 'avdelingsleder/reservasjoner/components/ReservasjonerBolkButtons';
 import AlleKodeverk from 'kodeverk/alleKodeverkTsType';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
-import VerticalSpacer from 'sharedComponents/VerticalSpacer';
-import { getDateAndTime } from 'utils/dateUtils';
-import { useAvdelingslederReservasjoner } from 'api/queries/avdelingslederQueries';
-import { getKodeverknavnFraKode } from 'utils/kodeverkUtils';
-import { OppgaveNøkkel } from 'types/OppgaveNøkkel';
-import ReservasjonerBolkButtons from 'avdelingsleder/reservasjoner/components/ReservasjonerBolkButtons';
-import ModalButton from 'sharedComponents/ModalButton';
 import FlyttReservasjonerModal from 'saksbehandler/behandlingskoer/components/menu/FlyttReservasjonerModal';
-import { ArrowUndoIcon, PencilIcon } from '@navikt/aksel-icons';
 import OpphevReservasjonerModal from 'saksbehandler/behandlingskoer/components/menu/OpphevReservasjonerModal';
-import * as styles from './reservasjonerTabell.css';
+import ModalButton from 'sharedComponents/ModalButton';
+import VerticalSpacer from 'sharedComponents/VerticalSpacer';
+import { OppgaveNøkkel } from 'types/OppgaveNøkkel';
+import { getDateAndTime } from 'utils/dateUtils';
+import { getKodeverknavnFraKode } from 'utils/kodeverkUtils';
 import useGlobalStateRestApiData from '../../../api/rest-api-hooks/src/global-data/useGlobalStateRestApiData';
 import Reservasjon from '../reservasjonTsType';
+import * as styles from './reservasjonerTabell.css';
 
 type ReservasjonTableData = {
 	reservasjon: Reservasjon;
@@ -52,7 +54,8 @@ const ReservasjonerTabell = () => {
 		}
 	};
 
-	const sorter = (reservasjonerListe: ReservasjonTableData[], newSort: ReservasjonTableDataSortState) => reservasjonerListe?.sort((a, b) => {
+	const sorter = (reservasjonerListe: ReservasjonTableData[], newSort: ReservasjonTableDataSortState) =>
+		reservasjonerListe?.sort((a, b) => {
 			if (newSort) {
 				return newSort.direction === 'ascending'
 					? comparator(b, a, newSort.orderBy)
@@ -96,6 +99,7 @@ const ReservasjonerTabell = () => {
 		reservertTil: getDateAndTime(reservasjon.reservertTilTidspunkt).date,
 	});
 
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	const sokEtterReservasjon = (e: any) => {
 		const sokVerdi = e.target.value.toLowerCase();
 		const reservasjonerMedMatch = reservasjoner.filter(
@@ -133,18 +137,18 @@ const ReservasjonerTabell = () => {
 			{reservasjoner?.length > 0 && isSuccess && !finnesSokResultat && (
 				<>
 					<VerticalSpacer eightPx />
-					<Normaltekst>
+					<BodyShort size="small">
 						<FormattedMessage id="ReservasjonerTabell.IngenMatchandeReservasjoner" />
-					</Normaltekst>
+					</BodyShort>
 					<VerticalSpacer eightPx />
 				</>
 			)}
 			{reservasjoner?.length === 0 && isSuccess && (
 				<>
 					<VerticalSpacer eightPx />
-					<Normaltekst>
+					<BodyShort size="small">
 						<FormattedMessage id="ReservasjonerTabell.IngenReservasjoner" />
-					</Normaltekst>
+					</BodyShort>
 					<VerticalSpacer eightPx />
 				</>
 			)}
@@ -197,7 +201,7 @@ const ReservasjonerTabell = () => {
 									<Checkbox
 										hideLabel
 										checked={
-											valgteReservasjoner.filter(({ oppgaveNøkkel }) => oppgaveNøkkel == reservasjon.oppgavenøkkel)
+											valgteReservasjoner.filter(({ oppgaveNøkkel }) => oppgaveNøkkel === reservasjon.oppgavenøkkel)
 												.length > 0
 										}
 										onClick={(event) => {

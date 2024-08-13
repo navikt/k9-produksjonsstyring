@@ -2,9 +2,7 @@ import React, { FunctionComponent, ReactNode, useCallback } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import bubbletextUrl from 'images/bubbletext.svg';
 import bubbletextFilledUrl from 'images/bubbletext_filled.svg';
-import { Normaltekst } from 'nav-frontend-typografi';
-import { OppgavekøV3MedNavn } from 'types/OppgavekøV3Type';
-import { ErrorMessage, Loader } from '@navikt/ds-react';
+import { BodyShort, ErrorMessage, Loader } from '@navikt/ds-react';
 import { useSaksbehandlerNesteTiV1 } from 'api/queries/saksbehandlerQueries';
 import { getHeaderCodes } from 'saksbehandler/behandlingskoer/components/oppgavetabeller/oppgavetabellerfelles';
 import { OppgavekøV1 } from 'saksbehandler/behandlingskoer/oppgavekoTsType';
@@ -16,6 +14,7 @@ import Table from 'sharedComponents/Table';
 import TableColumn from 'sharedComponents/TableColumn';
 import TableRow from 'sharedComponents/TableRow';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
+import { OppgavekøV3MedNavn } from 'types/OppgavekøV3Type';
 import { getDateAndTime } from 'utils/dateUtils';
 import * as styles from './oppgaverTabell.css';
 
@@ -45,9 +44,9 @@ export const OppgaverTabell: FunctionComponent<OwnProps> = ({ valgtKo }) => {
 			br: <br />,
 		};
 		return (
-			<Normaltekst>
+			<BodyShort size="small">
 				<FormattedMessage id="OppgaverTabell.OverfortReservasjonTooltip" values={textValues} />
-			</Normaltekst>
+			</BodyShort>
 		);
 	}, []);
 
@@ -66,9 +65,9 @@ export const OppgaverTabell: FunctionComponent<OwnProps> = ({ valgtKo }) => {
 		return (
 			<>
 				<VerticalSpacer eightPx />
-				<Normaltekst>
+				<BodyShort size="small">
 					<FormattedMessage id="OppgaverTabell.IngenOppgaver" />
-				</Normaltekst>
+				</BodyShort>
 			</>
 		);
 	}
