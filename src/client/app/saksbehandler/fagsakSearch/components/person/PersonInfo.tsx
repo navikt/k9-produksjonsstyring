@@ -1,5 +1,4 @@
 import React, { FunctionComponent } from 'react';
-import { WrappedComponentProps, injectIntl } from 'react-intl';
 import { FigureInwardIcon, FigureOutwardIcon } from '@navikt/aksel-icons';
 import { Detail, Heading } from '@navikt/ds-react';
 import Person from '../../personTsType';
@@ -25,7 +24,7 @@ const PersonInfo: FunctionComponent<OwnProps> = ({ person }) => {
 	const { navn, personnummer, kjoenn, doedsdato } = person;
 	return (
 		<div>
-			{kjoenn === 'KVINNE' ? <FigureOutwardIcon title="test" /> : <FigureInwardIcon title="test" />}
+			{kjoenn === 'KVINNE' ? <FigureOutwardIcon /> : <FigureInwardIcon />}
 			<div className={styles.infoPlaceholder}>
 				<div>
 					<Heading size="small">
@@ -38,4 +37,4 @@ const PersonInfo: FunctionComponent<OwnProps> = ({ person }) => {
 	);
 };
 
-export default injectIntl(PersonInfo);
+export default PersonInfo;
