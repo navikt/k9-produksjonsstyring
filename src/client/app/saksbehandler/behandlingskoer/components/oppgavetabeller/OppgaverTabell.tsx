@@ -27,28 +27,6 @@ interface OwnProps {
  */
 export const OppgaverTabell: FunctionComponent<OwnProps> = ({ valgtKo }) => {
 	const { data: oppgaverTilBehandling, error, isLoading, isSuccess } = useSaksbehandlerNesteTiV1(getKoId(valgtKo.id));
-	const intl = useIntl();
-
-	const createTooltip = useCallback((oppgaveStatus: OppgaveStatus): ReactNode | undefined => {
-		const { flyttetReservasjon } = oppgaveStatus;
-		if (!flyttetReservasjon) {
-			return undefined;
-		}
-		const datoOgTid = getDateAndTime(flyttetReservasjon.tidspunkt);
-		const textValues = {
-			dato: datoOgTid.date,
-			tid: datoOgTid.time,
-			uid: flyttetReservasjon.uid,
-			navn: flyttetReservasjon.navn,
-			beskrivelse: flyttetReservasjon.begrunnelse,
-			br: <br />,
-		};
-		return (
-			<BodyShort size="small">
-				<FormattedMessage id="OppgaverTabell.OverfortReservasjonTooltip" values={textValues} />
-			</BodyShort>
-		);
-	}, []);
 
 	if (isLoading) {
 		return <Loader size="2xlarge" className={styles.spinner} />;
@@ -86,16 +64,6 @@ export const OppgaverTabell: FunctionComponent<OwnProps> = ({ valgtKo }) => {
 						<TableColumn>{oppgave.behandlingstype.navn}</TableColumn>
 						<TableColumn>
 							{oppgave.opprettetTidspunkt && <DateLabel dateString={oppgave.opprettetTidspunkt} />}
-						</TableColumn>
-						<TableColumn>
-							{oppgave.status.flyttetReservasjon && (
-								<Image
-									src={bubbletextUrl}
-									srcHover={bubbletextFilledUrl}
-									alt={intl.formatMessage({ id: 'OppgaverTabell.OverfortReservasjon' })}
-									tooltip={createTooltip(oppgave.status)}
-								/>
-							)}
 						</TableColumn>
 					</TableRow>
 				))}
