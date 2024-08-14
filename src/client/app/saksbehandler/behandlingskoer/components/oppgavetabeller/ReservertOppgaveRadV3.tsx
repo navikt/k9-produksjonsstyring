@@ -2,19 +2,16 @@
 
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { RefAttributes } from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import classNames from 'classnames';
-import menuIconBlackUrl from 'images/ic-menu-18px_black.svg';
-import menuIconBlueUrl from 'images/ic-menu-18px_blue.svg';
-import { ExclamationmarkTriangleFillIcon } from '@navikt/aksel-icons';
-import { Table } from '@navikt/ds-react';
+import { ExclamationmarkTriangleFillIcon, MenuHamburgerIcon } from '@navikt/aksel-icons';
+import { Button, Table } from '@navikt/ds-react';
 import { getK9sakHref } from 'app/paths';
 import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
 import { useGlobalStateRestApiData, useRestApiRunner } from 'api/rest-api-hooks';
 import ReservasjonV3 from 'saksbehandler/behandlingskoer/ReservasjonV3Dto';
 import KommentarMedMerknad from 'saksbehandler/components/KommentarMedMerknad';
 import DateLabel from 'sharedComponents/DateLabel';
-import Image from 'sharedComponents/Image';
 import { OppgaveNøkkel } from 'types/OppgaveNøkkel';
 import OppgaveV3 from 'types/OppgaveV3';
 import { getDateAndTime } from 'utils/dateUtils';
@@ -32,7 +29,7 @@ interface OwnProps {
 	gjelderHastesaker: boolean;
 }
 
-type Ref = { [key: string]: HTMLDivElement };
+type Ref = { [key: string]: HTMLElement | null };
 type Props = OwnProps & RefAttributes<Ref>;
 
 const ReservertOppgaveRadV3: React.ForwardRefExoticComponent<Props> = React.forwardRef(
@@ -45,19 +42,18 @@ const ReservertOppgaveRadV3: React.ForwardRefExoticComponent<Props> = React.forw
 			setValgtOppgaveId,
 			gjelderHastesaker,
 		}: OwnProps,
-		ref: React.RefObject<{ [key: string]: HTMLDivElement }>,
+		ref: React.RefObject<{ [key: string]: HTMLElement | null }>,
 	) => {
 		const { startRequest: leggTilBehandletOppgave } = useRestApiRunner(K9LosApiKeys.LEGG_TIL_BEHANDLET_OPPGAVE);
 		const k9sakUrl = useGlobalStateRestApiData<{ verdi?: string }>(RestApiGlobalStatePathsKeys.K9SAK_URL);
 
-		const toggleMenu = (oppgaveValgt: OppgaveV3) => {
-			if (oppgaveValgt) {
+		const toggleMenu = (oppgaveValgt?: OppgaveV3) => {
+			if (oppgaveValgt && (!valgtOppgaveId || valgtOppgaveId !== oppgaveValgt.oppgaveNøkkel.oppgaveEksternId)) {
 				setValgtOppgaveId(oppgaveValgt.oppgaveNøkkel.oppgaveEksternId);
 			} else {
 				setValgtOppgaveId(undefined);
 			}
 		};
-		const intl = useIntl();
 
 		const tilOppgave = () => {
 			leggTilBehandletOppgave(oppgave.oppgaveNøkkel);
@@ -124,13 +120,11 @@ const ReservertOppgaveRadV3: React.ForwardRefExoticComponent<Props> = React.forw
 								forlengOppgaveReservasjon={forlengOppgaveReservasjonFn}
 							/>
 						)}
-						<Image
-							className={styles.image}
-							src={menuIconBlackUrl}
-							srcHover={menuIconBlueUrl}
-							alt={intl.formatMessage({ id: 'OppgaverTabell.OppgaveHandlinger' })}
-							onMouseDown={() => toggleMenu(oppgave)}
-							onKeyDown={() => toggleMenu(oppgave)}
+						<Button
+							icon={<MenuHamburgerIcon />}
+							className="p-0 mr-4"
+							variant="tertiary"
+							onClick={() => toggleMenu(oppgave)}
 						/>
 					</div>
 				</Table.DataCell>

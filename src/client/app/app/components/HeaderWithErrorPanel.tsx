@@ -22,7 +22,6 @@ interface OwnProps {
 		errorcode?: string;
 	};
 	crashMessage?: string;
-	setSiteHeight: (clientHeight: number) => void;
 }
 
 const isDev = !window.location.hostname.includes('intern.nav.no');
@@ -65,7 +64,7 @@ const useOutsideClickEvent = (
  * Denne viser lenke tilbake til hovedsiden, nettside-navnet og NAV-ansatt navn.
  * I tillegg vil den vise potensielle feilmeldinger i ErrorMessagePanel.
  */
-const HeaderWithErrorPanel: FunctionComponent<OwnProps> = ({ queryStrings, crashMessage, setSiteHeight }) => {
+const HeaderWithErrorPanel: FunctionComponent<OwnProps> = ({ queryStrings, crashMessage }) => {
 	const [erLenkePanelApent, setLenkePanelApent] = useState(false);
 	const [erAvdelingerPanelApent, setAvdelingerPanelApent] = useState(false);
 	const navigate = useNavigate();
@@ -89,9 +88,6 @@ const HeaderWithErrorPanel: FunctionComponent<OwnProps> = ({ queryStrings, crash
 	);
 	const brukerPanel = <UserPanel name={navAnsatt.navn} />;
 	const fixedHeaderRef = useRef(null);
-	useEffect(() => {
-		setSiteHeight(fixedHeaderRef.current.clientHeight);
-	}, [errorMessages.length, driftsmeldinger.length]);
 
 	const goTilAvdelingslederPanel = () => {
 		navigate('/avdelingsleder');
@@ -177,12 +173,12 @@ const HeaderWithErrorPanel: FunctionComponent<OwnProps> = ({ queryStrings, crash
 			<div ref={wrapperRef}>
 				<Header title={intl.formatMessage({ id: 'Header.K9Los' })} changeLocation={goToHomepage}>
 					{visAdminKnapp() && (
-						<button className={styles.knapp} onClick={goTilDriftsmeldingerPanel}>
+						<button type="button" className={styles.knapp} onClick={goTilDriftsmeldingerPanel}>
 							Driftsmeldinger
 						</button>
 					)}
 					{visAvdelingslederKnapp() && (
-						<button className={styles.knapp} onClick={goTilAvdelingslederPanel}>
+						<button type="button" className={styles.knapp} onClick={goTilAvdelingslederPanel}>
 							Avdelingslederpanel
 						</button>
 					)}
@@ -224,7 +220,7 @@ const HeaderWithErrorPanel: FunctionComponent<OwnProps> = ({ queryStrings, crash
 					/>
 					{brukerPanel}
 					{isDev && (
-						<button className={styles.knapp} onClick={loggUt}>
+						<button type="button" className={styles.knapp} onClick={loggUt}>
 							Logg ut
 						</button>
 					)}

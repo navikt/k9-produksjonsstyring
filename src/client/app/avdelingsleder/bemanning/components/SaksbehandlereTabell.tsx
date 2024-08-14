@@ -1,13 +1,10 @@
 import React, { FunctionComponent, useContext } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { BodyShort, Label, Table } from '@navikt/ds-react';
+import { BodyShort, Table } from '@navikt/ds-react';
 import LeggTilSaksbehandlerForm from 'avdelingsleder/bemanning/components/LeggTilSaksbehandlerForm';
 import SaksbehandlerInfo from 'avdelingsleder/bemanning/components/SaksbehandlerInfo';
 import { AvdelingslederContext } from 'avdelingsleder/context';
-import Image from 'sharedComponents/Image';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
-import saksbehandlereGra from '../../../../images/saksbehandlereGra.svg';
-import * as styles from './saksbehandlereTabell.css';
 
 /**
  * SaksbehandlereTabell
@@ -18,11 +15,9 @@ const SaksbehandlereTabell: FunctionComponent = () => {
 
 	return (
 		<>
-			<Label className={styles.tableHeader}>
-				<Image src={saksbehandlereGra} className={styles.icon} />
-				<FormattedMessage id="SaksbehandlereTabell.Saksbehandlere" />
-			</Label>
-			<LeggTilSaksbehandlerForm />
+			<div className="mt-4 mb-10">
+				<LeggTilSaksbehandlerForm />
+			</div>
 			{saksbehandlere.length === 0 && (
 				<>
 					<VerticalSpacer eightPx />

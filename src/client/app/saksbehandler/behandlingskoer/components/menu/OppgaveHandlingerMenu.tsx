@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { OppgaveNøkkel } from 'types/OppgaveNøkkel';
-import OppgaveV3 from 'types/OppgaveV3';
 import ReservasjonV3Dto from 'saksbehandler/behandlingskoer/ReservasjonV3Dto';
 import Oppgave from 'saksbehandler/oppgaveTsType';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
+import { OppgaveNøkkel } from 'types/OppgaveNøkkel';
+import OppgaveV3 from 'types/OppgaveV3';
 import FlyttReservasjonerModal from './FlyttReservasjonerModal';
 import MenuButton from './MenuButton';
 import OpphevReservasjonerModal from './OpphevReservasjonerModal';
@@ -30,9 +30,6 @@ interface OwnProps {
 	forlengOppgaveReservasjon: (oppgaveNøkkel: OppgaveNøkkel) => void;
 }
 
-/**
- * @deprecated
- */
 const OppgaveHandlingerMenu: React.FC<OwnProps> = ({
 	toggleMenu,
 	oppgave,

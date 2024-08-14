@@ -1,9 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import { WrappedComponentProps, injectIntl } from 'react-intl';
-import urlKvinne from 'images/kvinne.svg';
-import urlMann from 'images/mann.svg';
+import { FigureInwardIcon, FigureOutwardIcon } from '@navikt/aksel-icons';
 import { Detail, Heading } from '@navikt/ds-react';
-import Image from 'sharedComponents/Image';
 import Person from '../../personTsType';
 import AlderVisning from './Aldervisning';
 import * as styles from './personInfo.css';
@@ -23,15 +21,11 @@ interface OwnProps {
  * erDod:false diskresjonskode:"6" dodsdato:"1990.03.03"} medPanel />
  * ```
  */
-const PersonInfo: FunctionComponent<OwnProps & WrappedComponentProps> = ({ person, intl }) => {
+const PersonInfo: FunctionComponent<OwnProps> = ({ person }) => {
 	const { navn, personnummer, kjoenn, doedsdato } = person;
 	return (
 		<div>
-			<Image
-				className={styles.icon}
-				src={kjoenn === 'KVINNE' ? urlKvinne : urlMann}
-				alt={intl.formatMessage({ id: 'Person.ImageText' })}
-			/>
+			{kjoenn === 'KVINNE' ? <FigureOutwardIcon title="test" /> : <FigureInwardIcon title="test" />}
 			<div className={styles.infoPlaceholder}>
 				<div>
 					<Heading size="small">

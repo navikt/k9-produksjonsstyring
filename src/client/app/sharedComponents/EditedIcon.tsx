@@ -7,9 +7,9 @@ import * as styles from './editedIcon.css';
 
 const classNames = classnames.bind(styles);
 
-/*
+/**
  * EditedIcon
- *
+ * @deprecated
  * Komponent/Ikon som viser om noe i GUI er endret.
  */
 
