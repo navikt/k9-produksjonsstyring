@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { ComboboxList, ComboboxPopover } from '@reach/combobox';
 import { Button, Checkbox } from '@navikt/ds-react';
 import SelectCheckbox from '../SelectCheckbox';
@@ -15,11 +15,13 @@ const SuggestionList = ({
 	toggleGroupOpen,
 	toggleGroupSelectionValues,
 	updateSelection,
-	addButtonText,
 	openSuggestionGroups,
 	setIsPopoverOpen,
 	getSuggestion,
 }) => {
+	useEffect(() => {
+		updateSelection(selectedSuggestionValues);
+	}, [selectedSuggestionValues]);
 	const groupHasSelectedSuggestions = (group) =>
 		selectedSuggestionValues.some((suggestionValue) => getSuggestion(suggestionValue)?.group === group);
 
@@ -120,14 +122,13 @@ const SuggestionList = ({
 			<p className={styles.popoverButtonWrapper}>
 				<Button
 					onClick={() => {
-						updateSelection(selectedSuggestionValues);
 						setIsPopoverOpen(false);
 					}}
-					variant="primary"
+					variant="tertiary"
 					size="small"
 					type="button"
 				>
-					{addButtonText}
+					Lukk
 				</Button>
 			</p>
 		</ComboboxPopover>
