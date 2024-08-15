@@ -91,10 +91,8 @@ const VelgKriterie = ({ oppgavefilter, addGruppeOperation, køvisning, paakrevde
 					options={options}
 				/>
 				{køvisning && (
-					<Checkbox id="avanserte-valg" value="ja" size="small" onClick={toggleAvanserteValg}>
-						<Label htmlFor="avanserte-valg" size="small">
-							Avanserte valg
-						</Label>
+					<Checkbox value="ja" size="small" onClick={toggleAvanserteValg}>
+						Avanserte valg
 					</Checkbox>
 				)}
 				<div className="flex gap-4 mt-4">
@@ -106,9 +104,11 @@ const VelgKriterie = ({ oppgavefilter, addGruppeOperation, køvisning, paakrevde
 					</Button>
 				</div>
 			</div>
-			<div>
-				<Label>Beskrivelse:</Label>
-				<BodyLong>Her vil det komme en beskrivelse for hva dette kriteriet er</BodyLong>
+			<div className="mt-[-0.125rem]">
+				<Label size="small">Beskrivelse:</Label>
+				<BodyLong className="mt-1" size="small">
+					Her vil det komme en beskrivelse for hva dette kriteriet er
+				</BodyLong>
 			</div>
 		</div>
 	);

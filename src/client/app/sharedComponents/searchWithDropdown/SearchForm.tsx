@@ -42,15 +42,17 @@ const SearchForm: React.FC<SearchFormProps> = ({
 	const comboboxSize = size === 'medium' ? '3rem' : '2rem';
 	return (
 		<div className={styles.form}>
-			<Label htmlFor={inputId} size={size} className={`${showLabel ? '' : 'navds-sr-only'}`}>
-				{label}
-			</Label>
+			<div className="mb-2">
+				<Label htmlFor={inputId} size={size} className={`${showLabel ? '' : 'navds-sr-only'}`}>
+					{label}
+				</Label>
+			</div>
 			{description && (
 				<BodyShort size={size} as="div" id={descriptionId} className="navds-form-field__description">
 					{description}
 				</BodyShort>
 			)}
-			<Combobox className={`navds-search__wrapper ${styles.searchWrapper} mt-2`} onSelect={onSelect} openOnFocus>
+			<Combobox className={`navds-search__wrapper ${styles.searchWrapper}`} onSelect={onSelect} openOnFocus>
 				<div className="flex">
 					<div className="navds-search__wrapper-inner">
 						<ComboboxInput

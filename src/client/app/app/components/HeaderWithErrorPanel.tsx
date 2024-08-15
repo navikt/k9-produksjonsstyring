@@ -173,7 +173,7 @@ const HeaderWithErrorPanel: FunctionComponent<OwnProps> = ({ queryStrings, crash
 	);
 
 	return (
-		<header ref={fixedHeaderRef} className={`${styles.container} ${isDev ? styles.containerDev : ''}`}>
+		<header ref={fixedHeaderRef} className={`${styles.container} ${isDev ? styles.containerDev : ''} fixed`}>
 			<div ref={wrapperRef}>
 				<Header title={intl.formatMessage({ id: 'Header.K9Los' })} changeLocation={goToHomepage}>
 					{visAdminKnapp() && (
