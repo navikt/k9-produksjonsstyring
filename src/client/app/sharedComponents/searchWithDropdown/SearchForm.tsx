@@ -50,7 +50,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
 					{description}
 				</BodyShort>
 			)}
-			<Combobox className={`navds-search__wrapper ${styles.searchWrapper} mt-2`} onSelect={onSelect} openOnFocus>
+			<Combobox className={`navds-search__wrapper ${styles.searchWrapper}`} onSelect={onSelect} openOnFocus>
 				<div className="flex">
 					<div className="navds-search__wrapper-inner">
 						<ComboboxInput
