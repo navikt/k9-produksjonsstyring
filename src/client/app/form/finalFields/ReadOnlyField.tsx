@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
+import { PersonPencilIcon } from '@navikt/aksel-icons';
 import { BodyShort } from '@navikt/ds-react';
-import EditedIcon from 'sharedComponents/EditedIcon';
 import Label, { LabelType } from './Label';
 import * as styles from './readOnlyField.css';
 
@@ -26,7 +26,7 @@ export const ReadOnlyField: FunctionComponent<OwnProps> = ({ label, input, isEdi
 			<Label input={label} readOnly />
 			<BodyShort size="small" className={styles.readOnlyContent}>
 				{input.value}
-				{isEdited && <EditedIcon />}
+				{isEdited && <PersonPencilIcon />}
 			</BodyShort>
 		</div>
 	);

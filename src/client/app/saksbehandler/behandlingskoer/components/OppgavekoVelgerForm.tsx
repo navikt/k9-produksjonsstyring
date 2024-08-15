@@ -1,7 +1,7 @@
 import React, { FunctionComponent, ReactNode, useContext, useEffect } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useQuery, useQueryClient } from 'react-query';
-import { BodyShort, Button, Heading, ReadMore, Select } from '@navikt/ds-react';
+import { BodyShort, Button, ReadMore, Select } from '@navikt/ds-react';
 import apiPaths from 'api/apiPaths';
 import { K9LosApiKeys } from 'api/k9LosApi';
 import { useAntallOppgaverIKoV3 } from 'api/queries/saksbehandlerQueries';

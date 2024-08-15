@@ -1,21 +1,16 @@
-import React, { FunctionComponent, ReactNode, useCallback } from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
-import bubbletextUrl from 'images/bubbletext.svg';
-import bubbletextFilledUrl from 'images/bubbletext_filled.svg';
+import React, { FunctionComponent } from 'react';
+import { FormattedMessage } from 'react-intl';
 import { BodyShort, ErrorMessage, Loader } from '@navikt/ds-react';
 import { useSaksbehandlerNesteTiV1 } from 'api/queries/saksbehandlerQueries';
 import { getHeaderCodes } from 'saksbehandler/behandlingskoer/components/oppgavetabeller/oppgavetabellerfelles';
 import { OppgavekøV1 } from 'saksbehandler/behandlingskoer/oppgavekoTsType';
 import { getKoId } from 'saksbehandler/behandlingskoer/utils';
-import { OppgaveStatus } from 'saksbehandler/oppgaveStatusTsType';
 import DateLabel from 'sharedComponents/DateLabel';
-import Image from 'sharedComponents/Image';
 import Table from 'sharedComponents/Table';
 import TableColumn from 'sharedComponents/TableColumn';
 import TableRow from 'sharedComponents/TableRow';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import { OppgavekøV3MedNavn } from 'types/OppgavekøV3Type';
-import { getDateAndTime } from 'utils/dateUtils';
 import * as styles from './oppgaverTabell.css';
 
 interface OwnProps {
