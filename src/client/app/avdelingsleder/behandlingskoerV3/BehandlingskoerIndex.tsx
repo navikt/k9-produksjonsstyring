@@ -90,6 +90,10 @@ const BehandlingskoerIndex = () => {
 			const comparator = (itemA, itemB, orderBy) => {
 				let aVal = itemA[orderBy];
 				let bVal = itemB[orderBy];
+				if (orderBy === 'sistEndret') {
+					aVal = aVal ? new Date(aVal).getTime() : 0;
+					bVal = bVal ? new Date(bVal).getTime() : 0;
+				}
 				if (orderBy === 'tittel') {
 					aVal = aVal?.toLowerCase();
 					bVal = bVal?.toLowerCase();
@@ -126,7 +130,7 @@ const BehandlingskoerIndex = () => {
 						<Table.ColumnHeader sortKey="antallOppgaver" sortable scope="col">
 							Antall oppgaver
 						</Table.ColumnHeader>
-						<Table.ColumnHeader sortKey="Sist endret" sortable scope="col">
+						<Table.ColumnHeader sortKey="sistEndret" sortable scope="col">
 							Sist endret
 						</Table.ColumnHeader>
 						<Table.HeaderCell />
