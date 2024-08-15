@@ -31,7 +31,7 @@ const Kriterie: React.FC<Props> = ({ oppgavefilter, paakrevdeKoder = [] }) => {
 	const kriterieErPåkrevd = paakrevdeKoder.some((v) => v === feltdefinisjon?.kode);
 	return (
 		<div id={`feltpanel-${testID}`} className="flex gap-4 rounded bg-surface-selected p-4">
-			<Label size="small" className="min-w-[10rem] w-[10rem] mt-2">
+			<Label size="small" className="min-w-[10rem] w-[10rem] mt-1.5">
 				{feltdefinisjon?.visningsnavn}:
 			</Label>
 			{oppgavefilter.kode && (
