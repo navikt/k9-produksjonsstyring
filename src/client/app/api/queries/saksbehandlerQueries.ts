@@ -1,6 +1,6 @@
 import { UseMutationOptions, UseQueryOptions, useMutation, useQuery, useQueryClient } from 'react-query';
-import apiPaths from 'api/apiPaths';
 import NavAnsatt from 'app/navAnsattTsType';
+import apiPaths from 'api/apiPaths';
 import { SaksbehandlerEnkel } from 'avdelingsleder/bemanning/saksbehandlerTsType';
 import ReservasjonV3, { ReservasjonV3FraKøDto } from 'saksbehandler/behandlingskoer/ReservasjonV3Dto';
 import { OppgavekøV1 } from 'saksbehandler/behandlingskoer/oppgavekoTsType';

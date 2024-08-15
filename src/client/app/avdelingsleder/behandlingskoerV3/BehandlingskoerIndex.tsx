@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import { useQuery } from 'react-query';
 import dayjs from 'dayjs';
 import { PlusCircleIcon } from '@navikt/aksel-icons';
 import { Button, Loader, Skeleton, Table } from '@navikt/ds-react';
+import apiPaths from 'api/apiPaths';
 import { useAlleKoer } from 'api/queries/avdelingslederQueries';
-import { useAntallOppgaverIKoV3 } from 'api/queries/saksbehandlerQueries';
 import { OppgavekøV3Enkel } from 'types/OppgavekøV3Type';
+import { axiosInstance } from 'utils/reactQueryConfig';
 import BehandlingsKoForm from './BehandlingsKoForm';
 import KopierKø from './KopierKø';
 import NyKøModal from './NyKøModal';
@@ -24,18 +26,40 @@ function scrollToId(id: string) {
 	intervalId = setInterval(scroll, 100);
 }
 
+const berikMedAntallOppgaver = (køArray: OppgavekøV3Enkel[]) =>
+	useQuery(
+		['beriketAntallOppgaver', køArray],
+		async () => {
+			if (!køArray) return køArray;
+
+			const requests = køArray.map(async (kø) => {
+				try {
+					const response = await axiosInstance.get(apiPaths.antallOppgaverIKoV3(kø.id));
+					return { ...kø, antallOppgaver: response.data };
+					// eslint-disable-next-line @typescript-eslint/no-unused-vars
+				} catch (error) {
+					return { ...kø, antallOppgaver: undefined };
+				}
+			});
+
+			return Promise.all(requests);
+		},
+		{
+			enabled: !!køArray,
+		},
+	);
+
 const Row = ({
 	kø,
 	ekspandert,
+	isLoadingAntallOppgaver,
 	toggleExpand,
 }: {
-	kø: OppgavekøV3Enkel;
+	kø: OppgavekøV3Enkel & { antallOppgaver?: number };
 	ekspandert: boolean;
+	isLoadingAntallOppgaver: boolean;
 	toggleExpand: () => void;
-}) => {
-	const { data: antallOppgaver, isLoading } = useAntallOppgaverIKoV3(kø.id, { enabled: !!kø.id });
-
-	return (
+}) => (
 		<Table.ExpandableRow
 			onOpenChange={toggleExpand}
 			open={ekspandert}
@@ -44,7 +68,9 @@ const Row = ({
 		>
 			<Table.DataCell scope="row">{kø.tittel}</Table.DataCell>
 			<Table.DataCell>{kø.antallSaksbehandlere || '0'}</Table.DataCell>
-			<Table.DataCell>{isLoading ? <Skeleton variant="text" /> : (antallOppgaver ?? '-')}</Table.DataCell>
+			<Table.DataCell>
+				{isLoadingAntallOppgaver ? <Skeleton variant="text" /> : (kø?.antallOppgaver ?? '-')}
+			</Table.DataCell>
 			<Table.DataCell>{kø.sistEndret ? dayjs(kø.sistEndret).format('DD.MM.YYYY HH:mm') : '-'}</Table.DataCell>
 			<Table.DataCell>
 				<KopierKø kø={kø} />
@@ -52,9 +78,13 @@ const Row = ({
 			</Table.DataCell>
 		</Table.ExpandableRow>
 	);
-};
 const BehandlingskoerIndex = () => {
-	const { data, isLoading, error } = useAlleKoer();
+	const { data: initielleKøer, isLoading, error } = useAlleKoer();
+	const {
+		data: køer,
+		isLoading: isLoadingAntallOppgaver,
+		isSuccess: harHentetAntallOppgaver,
+	} = berikMedAntallOppgaver(initielleKøer);
 	const [visNyKøModal, setVisNyKøModal] = useState(false);
 	const [sort, setSort] = useState(null);
 	const [ekspanderteKøer, setEkspanderteKøer] = useState([]);
@@ -84,12 +114,16 @@ const BehandlingskoerIndex = () => {
 	};
 
 	const sortData = () => {
-		if (!data || !sort) return data;
+		if (!køer || !sort) return køer;
 
-		return data.slice().sort((a, b) => {
+		return køer.slice().sort((a, b) => {
 			const comparator = (itemA, itemB, orderBy) => {
 				let aVal = itemA[orderBy];
 				let bVal = itemB[orderBy];
+				if (orderBy === 'sistEndret') {
+					aVal = aVal ? new Date(aVal).getTime() : 0;
+					bVal = bVal ? new Date(bVal).getTime() : 0;
+				}
 				if (orderBy === 'tittel') {
 					aVal = aVal?.toLowerCase();
 					bVal = bVal?.toLowerCase();
@@ -123,10 +157,10 @@ const BehandlingskoerIndex = () => {
 						<Table.ColumnHeader sortKey="antallSaksbehandlere" sortable scope="col">
 							Saksbehandlere
 						</Table.ColumnHeader>
-						<Table.ColumnHeader sortKey="antallOppgaver" sortable scope="col">
+						<Table.ColumnHeader sortKey="antallOppgaver" sortable={harHentetAntallOppgaver} scope="col">
 							Antall oppgaver
 						</Table.ColumnHeader>
-						<Table.ColumnHeader sortKey="Sist endret" sortable scope="col">
+						<Table.ColumnHeader sortKey="sistEndret" sortable scope="col">
 							Sist endret
 						</Table.ColumnHeader>
 						<Table.HeaderCell />
@@ -137,6 +171,7 @@ const BehandlingskoerIndex = () => {
 						<Row
 							kø={kø}
 							key={kø.id}
+							isLoadingAntallOppgaver={isLoadingAntallOppgaver}
 							ekspandert={ekspanderteKøer.includes(kø.id)}
 							toggleExpand={() => toggleExpand(kø.id)}
 						/>
