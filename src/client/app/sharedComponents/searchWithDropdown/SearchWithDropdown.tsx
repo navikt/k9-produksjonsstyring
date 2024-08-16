@@ -37,7 +37,6 @@ const SearchWithDropdown: React.FC<SearchWithDropdownProps> = (props) => {
 		suggestions,
 		groups,
 		heading,
-		addButtonText,
 		updateSelection,
 		selectedValues,
 		error,
@@ -69,7 +68,7 @@ const SearchWithDropdown: React.FC<SearchWithDropdownProps> = (props) => {
 		setShowFilteredSuggestionsOnly(false);
 		setFilteredSuggestions(suggestions);
 		setCurrentInput('');
-	}, [selectedValues]);
+	}, [JSON.stringify(selectedValues)]);
 
 	const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const suggestionLabel = event.target.value;
