@@ -174,7 +174,6 @@ const SearchWithDropdown: React.FC<SearchWithDropdownProps> = (props) => {
 						toggleGroupSelectionValues={toggleGroupSelectionValues}
 						toggleGroupOpen={toggleGroupOpen}
 						updateSelection={updateSelection}
-						addButtonText={addButtonText}
 						openSuggestionGroups={openSuggestionGroups}
 						setIsPopoverOpen={setIsPopoverOpen}
 						getSuggestion={getSuggestion}
@@ -184,13 +183,7 @@ const SearchWithDropdown: React.FC<SearchWithDropdownProps> = (props) => {
 			{selectedValues.length > 0 && (
 				<div>
 					<Label className="self-center text-sm">Valgte filter:</Label>
-					<Button
-						icon={<TrashIcon height="1.5rem" width="1.5rem" />}
-						variant="tertiary"
-						size="xsmall"
-						className="border-border-danger text-border-danger float-right"
-						onClick={removeAllSuggestions}
-					>
+					<Button icon={<TrashIcon />} variant="tertiary" size="xsmall" onClick={removeAllSuggestions}>
 						<span className="text-sm">Fjern alle</span>
 					</Button>
 				</div>

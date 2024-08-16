@@ -161,45 +161,51 @@ export const AvdelingslederIndex: FunctionComponent = () => {
 
 	if (activeAvdelingslederPanel) {
 		return (
-			<AvdelingslederContext.Provider value={avdelingslederContextValue}>
-				<Row>
-					<BodyShort className={styles.paneltekst}>Avdelingslederpanel</BodyShort>
-				</Row>
-				<Row>
-					<DagensTallPanel totaltIdag={totaltIdag} dagensTall={dagensTall} />
-				</Row>
-				<VerticalSpacer twentyPx />
-				<Row>
-					<AvdelingslederDashboard>
-						<div>
-							<Tabs
-								tabs={[
-									getTab(
-										AvdelingslederPanels.BEHANDLINGSKOER,
-										activeAvdelingslederPanel,
-										getAvdelingslederPanelLocation,
-									),
-									avdelingslederTilgangTilNyeKoer() &&
+			<div className="max-w-[1400px]">
+				<AvdelingslederContext.Provider value={avdelingslederContextValue}>
+					<Row>
+						<BodyShort className={styles.paneltekst}>Avdelingslederpanel</BodyShort>
+					</Row>
+					<Row>
+						<DagensTallPanel totaltIdag={totaltIdag} dagensTall={dagensTall} />
+					</Row>
+					<VerticalSpacer twentyPx />
+					<Row>
+						<AvdelingslederDashboard>
+							<div>
+								<Tabs
+									tabs={[
 										getTab(
-											AvdelingslederPanels.BEHANDLINGSKOER_V3,
+											AvdelingslederPanels.BEHANDLINGSKOER,
 											activeAvdelingslederPanel,
 											getAvdelingslederPanelLocation,
 										),
-									getTab(AvdelingslederPanels.NOKKELTALL, activeAvdelingslederPanel, getAvdelingslederPanelLocation),
-									getTab(AvdelingslederPanels.PROGNOSE, activeAvdelingslederPanel, getAvdelingslederPanelLocation),
-									getTab(AvdelingslederPanels.RESERVASJONER, activeAvdelingslederPanel, getAvdelingslederPanelLocation),
-									getTab(
-										AvdelingslederPanels.SAKSBEHANDLERE,
-										activeAvdelingslederPanel,
-										getAvdelingslederPanelLocation,
-									),
-								].filter(Boolean)}
-							/>
-							<Panel className={styles.panelPadding}>{renderAvdelingslederPanel(activeAvdelingslederPanel)}</Panel>
-						</div>
-					</AvdelingslederDashboard>
-				</Row>
-			</AvdelingslederContext.Provider>
+										avdelingslederTilgangTilNyeKoer() &&
+											getTab(
+												AvdelingslederPanels.BEHANDLINGSKOER_V3,
+												activeAvdelingslederPanel,
+												getAvdelingslederPanelLocation,
+											),
+										getTab(AvdelingslederPanels.NOKKELTALL, activeAvdelingslederPanel, getAvdelingslederPanelLocation),
+										getTab(AvdelingslederPanels.PROGNOSE, activeAvdelingslederPanel, getAvdelingslederPanelLocation),
+										getTab(
+											AvdelingslederPanels.RESERVASJONER,
+											activeAvdelingslederPanel,
+											getAvdelingslederPanelLocation,
+										),
+										getTab(
+											AvdelingslederPanels.SAKSBEHANDLERE,
+											activeAvdelingslederPanel,
+											getAvdelingslederPanelLocation,
+										),
+									].filter(Boolean)}
+								/>
+								<Panel className={styles.panelPadding}>{renderAvdelingslederPanel(activeAvdelingslederPanel)}</Panel>
+							</div>
+						</AvdelingslederDashboard>
+					</Row>
+				</AvdelingslederContext.Provider>
+			</div>
 		);
 	}
 	return <LoadingPanel />;
