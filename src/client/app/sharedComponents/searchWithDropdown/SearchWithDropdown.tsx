@@ -95,16 +95,6 @@ const SearchWithDropdown: React.FC<SearchWithDropdownProps> = (props) => {
 		}
 	};
 
-	const onSubmit = () => {
-		const matchedSuggestion = suggestions.find(
-			(suggestion) => currentInput.toLowerCase() === suggestion.value.toLowerCase(),
-		);
-
-		if (matchedSuggestion) {
-			onSelect(matchedSuggestion.value);
-		}
-	};
-
 	const deselectSuggestionGroupAndSubValues = (suggestionGroup: string) => {
 		setSelectedSuggestionValues(
 			selectedSuggestionValues.filter((suggestionValue) => getSuggestion(suggestionValue).group !== suggestionGroup),
@@ -154,7 +144,6 @@ const SearchWithDropdown: React.FC<SearchWithDropdownProps> = (props) => {
 				description={description}
 				inputId={inputId}
 				descriptionId={descriptionId}
-				onSubmit={onSubmit}
 				currentInput={currentInput}
 				onChange={onChange}
 				setIsPopoverOpen={setIsPopoverOpen}

@@ -15,7 +15,6 @@ interface SearchFormProps {
 	setIsPopoverOpen: (open: boolean) => void;
 	children?: React.ReactNode;
 	onSelect: (value: string) => void;
-	onSubmit: () => void;
 	size?: 'small' | 'medium';
 }
 
@@ -29,16 +28,9 @@ const SearchForm: React.FC<SearchFormProps> = ({
 	setIsPopoverOpen,
 	onSelect,
 	children,
-	onSubmit,
 	showLabel = false,
 	size = 'small',
 }) => {
-	const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
-		if (event.key === 'Enter') {
-			onSubmit();
-		}
-	};
-
 	const comboboxSize = size === 'medium' ? '3rem' : '2rem';
 	return (
 		<div className={styles.form}>
@@ -65,7 +57,6 @@ const SearchForm: React.FC<SearchFormProps> = ({
 							onChange={onChange}
 							value={currentInput}
 							onFocus={() => setIsPopoverOpen(true)}
-							onKeyPress={handleKeyPress}
 						/>
 					</div>
 					<button
@@ -73,7 +64,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
 						// eslint-disable-next-line max-len
 						className={`${styles.searchButton} navds-button navds-button--primary navds-button--medium navds-button--icon-only p-1`}
 						style={{ minWidth: comboboxSize, minHeight: comboboxSize }}
-						onClick={onSubmit}
+						onClick={() => setIsPopoverOpen(true)}
 						aria-label="search button"
 					>
 						<span className="navds-button__icon">
