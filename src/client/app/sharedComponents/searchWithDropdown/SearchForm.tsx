@@ -13,6 +13,7 @@ interface SearchFormProps {
 	currentInput: string;
 	onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 	setIsPopoverOpen: (open: boolean) => void;
+	isPopoverOpen: boolean;
 	children?: React.ReactNode;
 	onSelect: (value: string) => void;
 	size?: 'small' | 'medium';
@@ -26,6 +27,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
 	currentInput,
 	onChange,
 	setIsPopoverOpen,
+	isPopoverOpen,
 	onSelect,
 	children,
 	showLabel = false,
@@ -51,7 +53,6 @@ const SearchForm: React.FC<SearchFormProps> = ({
 							id={inputId}
 							autoComplete="off"
 							aria-describedby={descriptionId}
-							// eslint-disable-next-line max-len
 							className="navds-search__input navds-search__input--secondary navds-text-field__input navds-body-short navds-body--small py-0"
 							style={{ minHeight: comboboxSize }}
 							onChange={onChange}
@@ -61,10 +62,18 @@ const SearchForm: React.FC<SearchFormProps> = ({
 					</div>
 					<button
 						type="button"
-						// eslint-disable-next-line max-len
 						className={`${styles.searchButton} navds-button navds-button--primary navds-button--medium navds-button--icon-only p-1`}
 						style={{ minWidth: comboboxSize, minHeight: comboboxSize }}
-						onClick={() => setIsPopoverOpen(true)}
+						onClick={() => {
+							const comboboxInput = document.getElementById(inputId) as HTMLInputElement;
+							if (isPopoverOpen) {
+								comboboxInput?.blur();
+								setIsPopoverOpen(false);
+							} else {
+								comboboxInput?.focus();
+								setIsPopoverOpen(true);
+							}
+						}}
 						aria-label="search button"
 					>
 						<span className="navds-button__icon">

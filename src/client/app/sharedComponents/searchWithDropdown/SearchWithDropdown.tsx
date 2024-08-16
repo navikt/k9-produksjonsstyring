@@ -146,6 +146,7 @@ const SearchWithDropdown: React.FC<SearchWithDropdownProps> = (props) => {
 				descriptionId={descriptionId}
 				currentInput={currentInput}
 				onChange={onChange}
+				isPopoverOpen={isPopoverOpen}
 				setIsPopoverOpen={setIsPopoverOpen}
 				onSelect={onSelect}
 				size={size}
