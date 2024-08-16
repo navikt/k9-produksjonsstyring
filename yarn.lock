@@ -2435,9 +2435,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@navikt/ft-form-hooks@npm:4.4.20":
-  version: 4.4.20
-  resolution: "@navikt/ft-form-hooks@npm:4.4.20::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40navikt%2Fft-form-hooks%2F4.4.20%2F09aa9dfe224903f4ee9463bace47bfb36b80c5ac"
+"@navikt/ft-form-hooks@npm:5.0.0":
+  version: 5.0.0
+  resolution: "@navikt/ft-form-hooks@npm:5.0.0::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40navikt%2Fft-form-hooks%2F5.0.0%2F428d791811c515fc80f6513ae47b82fc0937b148"
   dependencies:
     "@navikt/aksel-icons": 6.13.0
     "@navikt/ds-css": 6.13.0
@@ -2464,7 +2464,7 @@ __metadata:
     lodash.throttle: 4.1.1
     react: 18.3.1
     react-hook-form: 7.52.0
-  checksum: f3d766fee4548570bb87353893b82fd49cd34f19a84f51e51df908022c83eb2824c3331d4ae96ad0eda8c1f61d1ecf373d3f3a64df8fb2586ea5e3c16702ef7d
+  checksum: 89babbe3817091180e181049b24995189fffeb45b85e4994d7922b47401b7152d95573639ed08a2c58ea5b27c16e0e73227f0df20a086a94394cea4c401cbea1
   languageName: node
   linkType: hard
 
@@ -9901,7 +9901,7 @@ __metadata:
     "@navikt/ds-tokens": 6.16.0
     "@navikt/familie-endringslogg": 13.1.1
     "@navikt/fnrvalidator": ^2.1.0
-    "@navikt/ft-form-hooks": 4.4.20
+    "@navikt/ft-form-hooks": 5.0.0
     "@navikt/ft-form-validators": 2.3.18
     "@navikt/ft-plattform-komponenter": 3.0.4
     "@playwright/test": 1.46.0
