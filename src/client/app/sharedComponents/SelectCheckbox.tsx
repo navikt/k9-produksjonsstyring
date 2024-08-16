@@ -1,5 +1,5 @@
 import React from 'react';
-import { Next } from '@navikt/ds-icons';
+import { ChevronRightIcon } from '@navikt/aksel-icons';
 import { Checkbox } from '@navikt/ds-react';
 import * as styles from './selectCheckbox.css';
 
@@ -34,9 +34,9 @@ const SelectCheckbox: React.FC<Props> = ({
 							<span className="text-sm">{numberOfItems}</span>
 						</div>
 					) : null}
-					<Next
-						width="1rem"
-						height="1rem"
+					<ChevronRightIcon
+						width="1.5rem"
+						height="1.5rem"
 						onClick={() => toggleGroupOpen(value)}
 						className={`${isOpen ? styles.chevronIconChecked : ''} cursor-pointer`}
 					/>

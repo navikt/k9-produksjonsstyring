@@ -18,6 +18,9 @@ interface StateProps {
 	buttonWidth?: number;
 }
 
+/**
+ * @deprecated
+ */
 class CalendarToggleButton extends Component<OwnProps, StateProps> {
 	// eslint-disable-next-line react/static-property-placement
 	static defaultProps = {

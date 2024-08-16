@@ -5,7 +5,7 @@ import React, { useCallback, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import _ from 'lodash';
 import { ArrowUndoIcon, PencilIcon } from '@navikt/aksel-icons';
-import { BodyShort, Button, Checkbox, Loader, SortState, Table, TextField } from '@navikt/ds-react';
+import { BodyShort, Button, Checkbox, Loader, Search, SortState, Table } from '@navikt/ds-react';
 import { RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
 import { useAvdelingslederReservasjoner } from 'api/queries/avdelingslederQueries';
 import ReservasjonerBolkButtons from 'avdelingsleder/reservasjoner/components/ReservasjonerBolkButtons';
@@ -100,11 +100,11 @@ const ReservasjonerTabell = () => {
 	});
 
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	const sokEtterReservasjon = (e: any) => {
-		const sokVerdi = e.target.value.toLowerCase();
+	const sokEtterReservasjon = (value: string) => {
+		const sokVerdi = value.toLowerCase();
 		const reservasjonerMedMatch = reservasjoner.filter(
 			(res) =>
-				res.reservertAvEpost.toLowerCase().includes(sokVerdi) ||
+				res.reservertAvNavn.toLowerCase().includes(sokVerdi) ||
 				res.saksnummer?.toLowerCase()?.includes(sokVerdi) ||
 				res.journalpostId?.toLowerCase()?.includes(sokVerdi),
 		);
@@ -128,8 +128,14 @@ const ReservasjonerTabell = () => {
 					{/* Hvis mer enn 50 antas litt scrolling, så det kan være kjekt å ha knappene på toppen i tillegg til i bunn */}
 					{valgteReservasjoner.length > 50 && <ReservasjonerBolkButtons valgteReservasjoner={valgteReservasjoner} />}
 				</div>
-				<div className={styles.sokfelt}>
-					<TextField onChange={debounceFn} label="Søk på reservasjon" />
+				<div>
+					<Search
+						variant="simple"
+						onChange={debounceFn}
+						label="Søk på reservasjon"
+						hideLabel={false}
+						description="Du kan søke på navn, saksnummer eller journalpost-ID"
+					/>
 				</div>
 			</div>
 			<VerticalSpacer sixteenPx />

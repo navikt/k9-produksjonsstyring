@@ -1,9 +1,8 @@
 import React, { FunctionComponent } from 'react';
-import advarselImageUrl from 'images/advarsel-sirkel-fyll.svg';
 import moment from 'moment';
 import { Column, Row } from 'nav-frontend-grid';
 import { Heading } from '@navikt/ds-react';
-import Image from 'sharedComponents/Image';
+import { WarningIcon } from '@navikt/ft-plattform-komponenter';
 import { DD_MM_HHMM } from 'utils/formats';
 import { Driftsmelding } from '../../admin/driftsmeldinger/driftsmeldingTsType';
 import * as styles from './driftsmeldingPanel.css';
@@ -33,7 +32,7 @@ const DriftsmeldingPanel: FunctionComponent<OwnProps> = ({ driftsmeldinger }) =>
 			{aktiveDriftsmeldinger.map((message) => (
 				<Row key={message.id}>
 					<Column xs="11" className={styles.column}>
-						<Image className={styles.image} src={advarselImageUrl} />
+						<WarningIcon />
 						<Heading size="small">
 							{`${message.melding}. (Registrert ${moment(message.aktivert).format(DD_MM_HHMM)})`}
 						</Heading>

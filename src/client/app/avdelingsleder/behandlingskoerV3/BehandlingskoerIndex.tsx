@@ -60,24 +60,24 @@ const Row = ({
 	isLoadingAntallOppgaver: boolean;
 	toggleExpand: () => void;
 }) => (
-		<Table.ExpandableRow
-			onOpenChange={toggleExpand}
-			open={ekspandert}
-			togglePlacement="left"
-			content={<BehandlingsKoForm id={kø.id} ekspandert={ekspandert} lukk={toggleExpand} />}
-		>
-			<Table.DataCell scope="row">{kø.tittel}</Table.DataCell>
-			<Table.DataCell>{kø.antallSaksbehandlere || '0'}</Table.DataCell>
-			<Table.DataCell>
-				{isLoadingAntallOppgaver ? <Skeleton variant="text" /> : (kø?.antallOppgaver ?? '-')}
-			</Table.DataCell>
-			<Table.DataCell>{kø.sistEndret ? dayjs(kø.sistEndret).format('DD.MM.YYYY HH:mm') : '-'}</Table.DataCell>
-			<Table.DataCell>
-				<KopierKø kø={kø} />
-				<SlettKø kø={kø} />
-			</Table.DataCell>
-		</Table.ExpandableRow>
-	);
+	<Table.ExpandableRow
+		onOpenChange={toggleExpand}
+		open={ekspandert}
+		togglePlacement="left"
+		content={<BehandlingsKoForm id={kø.id} ekspandert={ekspandert} lukk={toggleExpand} />}
+	>
+		<Table.DataCell scope="row">{kø.tittel}</Table.DataCell>
+		<Table.DataCell>{kø.antallSaksbehandlere || '0'}</Table.DataCell>
+		<Table.DataCell>
+			{isLoadingAntallOppgaver ? <Skeleton variant="text" /> : (kø?.antallOppgaver ?? '-')}
+		</Table.DataCell>
+		<Table.DataCell>{kø.sistEndret ? dayjs(kø.sistEndret).format('DD.MM.YYYY HH:mm') : '-'}</Table.DataCell>
+		<Table.DataCell>
+			<KopierKø kø={kø} />
+			<SlettKø kø={kø} />
+		</Table.DataCell>
+	</Table.ExpandableRow>
+);
 const BehandlingskoerIndex = () => {
 	const { data: initielleKøer, isLoading, error } = useAlleKoer();
 	const {

@@ -29,6 +29,11 @@ interface OwnProps {
 	checked?: boolean;
 }
 
+/**
+ *
+ * @depreacted
+ *
+ */
 const CheckboxField: FunctionComponent<OwnProps> = ({ name, label, validate, readOnly, ...otherProps }) => (
 	<Field
 		type="checkbox"

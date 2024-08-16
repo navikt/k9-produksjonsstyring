@@ -1,7 +1,8 @@
 import React, { FunctionComponent, useContext } from 'react';
 import { Form } from 'react-final-form';
 import { FormattedMessage, IntlShape, WrappedComponentProps, injectIntl } from 'react-intl';
-import { BodyShort } from '@navikt/ds-react';
+import { TrashIcon } from '@navikt/aksel-icons';
+import { BodyShort, Button } from '@navikt/ds-react';
 import { K9LosApiKeys } from 'api/k9LosApi';
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
 import SkjermetVelger from 'avdelingsleder/behandlingskoer/components/oppgavekoForm/SkjermetVelger';
@@ -9,9 +10,7 @@ import SaksbehandlereForOppgavekoForm from 'avdelingsleder/behandlingskoer/compo
 import { AvdelingslederContext } from 'avdelingsleder/context';
 import { InputField } from 'form/FinalFields';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
-import Image from 'sharedComponents/Image';
 import { hasValidName, maxLength, minLength, required } from 'utils/validation/validators';
-import binIcon from '../../../../../images/bin-1.svg';
 import { Oppgaveko } from '../../oppgavekoTsType';
 import AndreKriterierVelger from './AndreKriterierVelger';
 import AutoLagringVedBlur from './AutoLagringVedBlur';
@@ -167,17 +166,9 @@ export const UtvalgskriterierForOppgavekoForm: FunctionComponent<OwnProps & Wrap
 							</div>
 							<div>
 								<div className={styles.slettContainer}>
-									<Image src={binIcon} />
-									<div
-										id="slett"
-										role="button"
-										className={styles.slett}
-										onClick={visModal}
-										onKeyDown={visModal}
-										tabIndex={0}
-									>
+									<Button icon={<TrashIcon />} onClick={visModal} onKeyDown={visModal} tabIndex={0} variant="tertiary">
 										Slett kø
-									</div>
+									</Button>
 								</div>
 							</div>
 						</div>

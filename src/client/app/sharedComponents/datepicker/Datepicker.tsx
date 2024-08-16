@@ -7,6 +7,9 @@ import CalendarOverlay from './CalendarOverlay';
 import CalendarToggleButton from './CalendarToggleButton';
 import * as styles from './datepicker.css';
 
+/**
+ * @deprecated
+ */
 class Datepicker extends Component {
 	constructor() {
 		super();
