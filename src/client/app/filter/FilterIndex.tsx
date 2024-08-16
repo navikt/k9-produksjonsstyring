@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { v4 as uuid } from 'uuid';
-import { PlusCircleIcon } from '@navikt/aksel-icons';
-import { Download, Refresh, Search } from '@navikt/ds-icons';
+import { ArrowCirclepathIcon, DownloadIcon, MagnifyingGlassIcon, PlusCircleIcon } from '@navikt/aksel-icons';
 import { Alert, BodyShort, Button, Heading, Loader, ReadMore, Select, TextField } from '@navikt/ds-react';
 import AppContext from 'app/AppContext';
 import apiPaths from 'api/apiPaths';
@@ -293,7 +292,7 @@ const FilterIndex = ({ initialQuery, lagre, avbryt, tittel, visningV3, køvisnin
 						<div className="flex gap-4">
 							<Button
 								variant={lagre ? 'tertiary' : 'primary'}
-								icon={<Search aria-hidden />}
+								icon={<MagnifyingGlassIcon />}
 								onClick={executeOppgavesøk}
 								loading={loading}
 							>
@@ -301,7 +300,7 @@ const FilterIndex = ({ initialQuery, lagre, avbryt, tittel, visningV3, køvisnin
 							</Button>
 							<Button
 								variant="secondary"
-								icon={<Download aria-hidden />}
+								icon={<DownloadIcon />}
 								onClick={executeOppgavesøkToFile}
 								loading={loadingDownload}
 							>
@@ -333,7 +332,7 @@ const FilterIndex = ({ initialQuery, lagre, avbryt, tittel, visningV3, køvisnin
 								<Button
 									className="ml-2"
 									variant="tertiary"
-									icon={<Refresh aria-hidden />}
+									icon={<ArrowCirclepathIcon />}
 									size="small"
 									onClick={executeOppgavesøk}
 									loading={loading}

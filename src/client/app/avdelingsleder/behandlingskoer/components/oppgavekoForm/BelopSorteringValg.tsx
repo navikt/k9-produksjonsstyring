@@ -26,6 +26,11 @@ interface OwnProps {
 	lagreFilteringBelopp: (fraBelop: number, tilBelop: number) => void;
 }
 
+/**
+ *
+ * @deprecated
+ *
+ */
 const BelopSorteringValg: React.FunctionComponent<OwnProps> = ({ til, fra, lagreFilteringBelopp }) => {
 	const formik = useFormik({
 		initialValues: { fraBelop: fra || 0, tilBelop: til || 0 },

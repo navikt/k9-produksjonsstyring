@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { hasValidSaksnummerOrFodselsnummerFormat } from 'utils/validation/validators';
 import { Button, TextField } from '@navikt/ds-react';
+import { hasValidSaksnummerOrFodselsnummerFormat } from 'utils/validation/validators';
 import * as styles from './searchForm.css';
 
 const isButtonDisabled = (searchString: string, searchStarted: boolean) => searchStarted || !searchString;
@@ -34,11 +34,11 @@ export const SearchForm: FunctionComponent<OwnProps> = ({ onSubmit, searchStarte
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		const error = hasValidSaksnummerOrFodselsnummerFormat(searchString);
-		if (!error) {
+		const err = hasValidSaksnummerOrFodselsnummerFormat(searchString);
+		if (!err) {
 			onSubmit(searchString);
 		} else {
-			setError(error[0]);
+			setError(err[0]);
 		}
 	};
 	return (
@@ -53,7 +53,7 @@ export const SearchForm: FunctionComponent<OwnProps> = ({ onSubmit, searchStarte
 				/>
 				<div className="relative ml-6">
 					<Button
-						className="absolute bottom-0"
+						className="absolute top-8"
 						variant="primary"
 						type="submit"
 						loading={searchStarted}

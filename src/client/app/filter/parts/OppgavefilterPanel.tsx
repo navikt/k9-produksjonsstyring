@@ -1,6 +1,6 @@
+/* eslint-disable no-use-before-define */
 import React, { useContext } from 'react';
-import { PlusCircleIcon } from '@navikt/aksel-icons';
-import { Delete } from '@navikt/ds-icons';
+import { PlusCircleIcon, TrashIcon } from '@navikt/aksel-icons';
 import { Button, Heading, Label, Panel, ToggleGroup } from '@navikt/ds-react';
 import { FilterContext } from 'filter/FilterContext';
 import { addFilter, addGruppe, removeFilter, updateFilter } from 'filter/queryUtils';
@@ -75,7 +75,7 @@ const FilterGruppe = ({ oppgavefilter, køvisning }: FilterGruppeProps) => {
 					</ToggleGroup>
 				</div>
 				<Button
-					icon={<Delete aria-hidden />}
+					icon={<TrashIcon height="1.5rem" width="1.5rem" />}
 					size="small"
 					variant="tertiary"
 					className="ml-auto"
@@ -119,7 +119,7 @@ const CombineOppgavefilterPanel = ({ oppgavefilter }: CombineOppgavefilterPanelP
 				<OppgavefilterPanel key={item.id} oppgavefilter={item} />
 			))}
 			<Button
-				icon={<Delete aria-hidden />}
+				icon={<TrashIcon height="1.5rem" width="1.5rem" />}
 				size="small"
 				variant="tertiary"
 				onClick={() => updateQuery([removeFilter(oppgavefilter.id)])}

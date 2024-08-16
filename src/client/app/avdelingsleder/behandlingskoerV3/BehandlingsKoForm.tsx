@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FormattedMessage } from 'react-intl';
-import { Edit } from '@navikt/ds-icons';
+import { PencilIcon } from '@navikt/aksel-icons';
 import { Alert, Button, ErrorMessage, Heading, Label, Modal } from '@navikt/ds-react';
 import { Form, InputField, TextAreaField } from '@navikt/ft-form-hooks';
 import { minLength, required } from '@navikt/ft-form-validators';
@@ -140,7 +140,7 @@ const BehandlingsKoForm = ({ kø, lukk, ekspandert, id }: BehandlingsKoFormProps
 					variant="tertiary"
 					type="button"
 					onClick={() => setVisFilterModal(true)}
-					icon={<Edit />}
+					icon={<PencilIcon />}
 				>
 					Endre og legge til kriterier
 				</Button>

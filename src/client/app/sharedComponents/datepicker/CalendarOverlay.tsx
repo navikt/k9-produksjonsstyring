@@ -18,7 +18,9 @@ interface OwnProps {
 	numberOfMonths: number;
 	disabledDays: Date | Date[];
 }
-
+/**
+ * @deprecated
+ */
 class CalendarOverlay extends Component<OwnProps & WrappedComponentProps> {
 	calendarRootRef: HTMLDivElement;
 

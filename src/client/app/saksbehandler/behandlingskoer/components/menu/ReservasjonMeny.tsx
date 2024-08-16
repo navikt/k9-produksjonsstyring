@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { OppgaveNøkkel } from 'types/OppgaveNøkkel';
-import OppgaveV3 from 'types/OppgaveV3';
 import ReservasjonV3 from 'saksbehandler/behandlingskoer/ReservasjonV3Dto';
 import Oppgave from 'saksbehandler/oppgaveTsType';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
+import { OppgaveNøkkel } from 'types/OppgaveNøkkel';
+import OppgaveV3 from 'types/OppgaveV3';
 import FlyttReservasjonerModal from './FlyttReservasjonerModal';
 import MenuButton from './MenuButton';
 import OpphevReservasjonerModal from './OpphevReservasjonerModal';
@@ -23,9 +23,10 @@ const toggleEventListeners = (turnOnEventListeners, handleOutsideClick) => {
 };
 
 interface OwnProps {
-	toggleMenu: (valgtOppgave: OppgaveV3) => void;
+	toggleMenu: (valgtOppgave?: OppgaveV3) => void;
 	reservasjon: ReservasjonV3;
 	oppgave: Oppgave | OppgaveV3;
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	imageNode: any;
 	forlengOppgaveReservasjon: (oppgaveNøkkel: OppgaveNøkkel) => void;
 }

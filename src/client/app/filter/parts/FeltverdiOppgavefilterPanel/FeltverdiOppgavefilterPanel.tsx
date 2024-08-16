@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 import classNames from 'classnames';
-import { Delete } from '@navikt/ds-icons';
+import { TrashIcon } from '@navikt/aksel-icons';
 import { Button, Panel, Select } from '@navikt/ds-react';
 import AppContext from 'app/AppContext';
 import { FilterContext } from 'filter/FilterContext';
@@ -71,7 +71,7 @@ const FeltverdiOppgavefilterPanel: React.FC<Props> = ({ oppgavefilter }) => {
 				)}
 			</div>
 			<Button
-				icon={<Delete aria-hidden />}
+				icon={<TrashIcon height="1.5rem" width="1.5rem" />}
 				size="small"
 				variant="tertiary"
 				onClick={() => updateQuery([removeFilter(oppgavefilter.id)])}

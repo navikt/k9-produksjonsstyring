@@ -14,6 +14,7 @@ interface OwnProps {
 }
 
 /**
+ * @deprecated
  * Tooltip
  */
 const Tooltip: FunctionComponent<OwnProps> = ({

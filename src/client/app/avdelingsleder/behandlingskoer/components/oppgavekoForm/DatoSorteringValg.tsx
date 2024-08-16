@@ -45,6 +45,11 @@ interface OwnProps {
 	tomDato: string;
 }
 
+/**
+ *
+ * @deprecated
+ *
+ */
 export const DatoSorteringValg: FunctionComponent<OwnProps & WrappedComponentProps> = ({
 	valgtOppgavekoId,
 	lagreOppgavekoSorteringTidsintervallDato,

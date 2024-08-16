@@ -84,9 +84,9 @@ const getOffset = (alignOffset, alignLeft) => {
 	return alignLeft ? DEFAULT_LEFT_OFFSET : DEFAULT_TOP_OFFSET;
 };
 
-/*
+/**
  * ArrowBox
- *
+ * @deprecated
  * Vise innhold med ramme og pil
  */
 const ArrowBox = ({ children, alignOffset, alignLeft, hideBorder }) => {

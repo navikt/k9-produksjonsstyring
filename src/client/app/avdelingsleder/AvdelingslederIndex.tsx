@@ -3,18 +3,16 @@ import { FormattedMessage } from 'react-intl';
 import { useQuery } from 'react-query';
 import { NavLink } from 'react-router-dom';
 import classnames from 'classnames/bind';
-import reservasjonBla from 'images/delete-1.svg';
-import reservasjonSvart from 'images/delete-11.svg';
-import koerSvart from 'images/drawer-22.svg';
-import koerBla from 'images/drawer-23.svg';
-import nokkelSvart from 'images/key-hole-1.svg';
-import nokkelBla from 'images/key-hole-11.svg';
-import prognoseBlå from 'images/prognose-bla.svg';
-import prognoseSort from 'images/prognose-sort.svg';
 import { Row } from 'nav-frontend-grid';
 import Panel from 'nav-frontend-paneler';
 import Tabs from 'nav-frontend-tabs';
-import { PersonGroupIcon } from '@navikt/aksel-icons';
+import {
+	CircleSlashIcon,
+	KeyHorizontalIcon,
+	LineGraphDotIcon,
+	PersonGroupIcon,
+	TasklistIcon,
+} from '@navikt/aksel-icons';
 import { BodyShort, Heading } from '@navikt/ds-react';
 import useTrackRouteParam from 'app/data/trackRouteParam';
 import { avdelingslederTilgangTilNyeKoer } from 'app/envVariablesUtils';
@@ -74,15 +72,12 @@ const messageId = {
 };
 
 const tabStyle = {
-	[AvdelingslederPanels.BEHANDLINGSKOER]: [koerSvart, koerBla],
-	[AvdelingslederPanels.BEHANDLINGSKOER_V3]: [koerSvart, koerBla],
-	[AvdelingslederPanels.NOKKELTALL]: [nokkelSvart, nokkelBla],
-	[AvdelingslederPanels.PROGNOSE]: [prognoseSort, prognoseBlå],
-	[AvdelingslederPanels.RESERVASJONER]: [reservasjonSvart, reservasjonBla],
-	[AvdelingslederPanels.SAKSBEHANDLERE]: [
-		<PersonGroupIcon key="aktiv" title="a11y-title" fontSize="1.5rem" />,
-		<PersonGroupIcon key="inaktiv" title="a11y-title" fontSize="1.5rem" />,
-	],
+	[AvdelingslederPanels.BEHANDLINGSKOER]: [<TasklistIcon fontSize="1.5rem" />, <TasklistIcon fontSize="1.5rem" />],
+	[AvdelingslederPanels.BEHANDLINGSKOER_V3]: [<TasklistIcon fontSize="1.5rem" />, <TasklistIcon fontSize="1.5rem" />],
+	[AvdelingslederPanels.NOKKELTALL]: [<KeyHorizontalIcon fontSize="1.5rem" />, <KeyHorizontalIcon fontSize="1.5rem" />],
+	[AvdelingslederPanels.PROGNOSE]: [<LineGraphDotIcon fontSize="1.5rem" />, <LineGraphDotIcon fontSize="1.5rem" />],
+	[AvdelingslederPanels.RESERVASJONER]: [<CircleSlashIcon fontSize="1.5rem" />, <CircleSlashIcon fontSize="1.5rem" />],
+	[AvdelingslederPanels.SAKSBEHANDLERE]: [<PersonGroupIcon fontSize="1.5rem" />, <PersonGroupIcon fontSize="1.5rem" />],
 };
 
 type TabProps = {
