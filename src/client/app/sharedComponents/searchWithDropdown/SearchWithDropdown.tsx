@@ -37,7 +37,6 @@ const SearchWithDropdown: React.FC<SearchWithDropdownProps> = (props) => {
 		suggestions,
 		groups,
 		heading,
-		addButtonText,
 		updateSelection,
 		selectedValues,
 		error,
@@ -69,7 +68,7 @@ const SearchWithDropdown: React.FC<SearchWithDropdownProps> = (props) => {
 		setShowFilteredSuggestionsOnly(false);
 		setFilteredSuggestions(suggestions);
 		setCurrentInput('');
-	}, [selectedValues]);
+	}, [JSON.stringify(selectedValues)]);
 
 	const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const suggestionLabel = event.target.value;
@@ -93,16 +92,6 @@ const SearchWithDropdown: React.FC<SearchWithDropdownProps> = (props) => {
 			setSelectedSuggestionValues(selectedSuggestionValues.filter((s) => s !== suggestionValue));
 		} else {
 			setSelectedSuggestionValues([...selectedSuggestionValues, suggestionValue]);
-		}
-	};
-
-	const onSubmit = () => {
-		const matchedSuggestion = suggestions.find(
-			(suggestion) => currentInput.toLowerCase() === suggestion.value.toLowerCase(),
-		);
-
-		if (matchedSuggestion) {
-			onSelect(matchedSuggestion.value);
 		}
 	};
 
@@ -155,9 +144,9 @@ const SearchWithDropdown: React.FC<SearchWithDropdownProps> = (props) => {
 				description={description}
 				inputId={inputId}
 				descriptionId={descriptionId}
-				onSubmit={onSubmit}
 				currentInput={currentInput}
 				onChange={onChange}
+				isPopoverOpen={isPopoverOpen}
 				setIsPopoverOpen={setIsPopoverOpen}
 				onSelect={onSelect}
 				size={size}

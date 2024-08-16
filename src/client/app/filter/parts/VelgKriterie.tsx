@@ -105,10 +105,14 @@ const VelgKriterie = ({ oppgavefilter, addGruppeOperation, køvisning, paakrevde
 				</div>
 			</div>
 			<div className="mt-[-0.125rem]">
-				<Label size="small">Beskrivelse:</Label>
-				<BodyLong className="mt-1" size="small">
-					Her vil det komme en beskrivelse for hva dette kriteriet er
-				</BodyLong>
+				{valgtKriterie && (
+					<>
+						<Label size="small">Beskrivelse:</Label>
+						<BodyLong className="mt-1" size="small">
+							Her vil det komme en beskrivelse for hva dette kriteriet er
+						</BodyLong>
+					</>
+				)}
 			</div>
 		</div>
 	);

@@ -2,9 +2,9 @@ import React, { useContext, useEffect, useMemo } from 'react';
 import { Select } from '@navikt/ds-react';
 import AppContext from 'app/AppContext';
 import { FilterContext } from 'filter/FilterContext';
+import { TolkesSom } from 'filter/filterTsTypes';
 import { updateFilter } from 'filter/queryUtils';
 import { OPERATORS, operatorsFraTolkesSom } from 'filter/utils';
-import { TolkesSom } from 'filter/filterTsTypes';
 
 function KriterieOperator({ oppgavefilter }) {
 	const { updateQuery } = useContext(FilterContext);
@@ -29,7 +29,7 @@ function KriterieOperator({ oppgavefilter }) {
 			kriterieDefinisjon.tolkes_som === TolkesSom.Timestamp ? 'Til og med' : 'Mindre enn eller lik (<=)',
 		[OPERATORS.GREATER_THAN_OR_EQUALS]:
 			kriterieDefinisjon.tolkes_som === TolkesSom.Timestamp ? 'Fra og med' : 'Større enn eller lik (>=)',
-		[OPERATORS.INTERVAL]: 'Mellom',
+		[OPERATORS.INTERVAL]: 'Fra og med, til og med',
 	};
 
 	const operators = useMemo(

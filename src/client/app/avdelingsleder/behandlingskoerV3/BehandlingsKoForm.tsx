@@ -142,7 +142,7 @@ const BehandlingsKoForm = ({ kø, lukk, ekspandert, id }: BehandlingsKoFormProps
 					onClick={() => setVisFilterModal(true)}
 					icon={<PencilIcon />}
 				>
-					Endre kriterier
+					Endre og legge til kriterier
 				</Button>
 			</div>
 			{formMethods.formState.isDirty && (
