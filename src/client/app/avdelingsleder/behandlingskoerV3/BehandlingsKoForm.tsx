@@ -117,7 +117,6 @@ const BehandlingsKoForm = ({ kø, lukk, ekspandert, id }: BehandlingsKoFormProps
 							suggestions={formaterteSaksbehandlere}
 							showLabel
 							groups={grupper}
-							addButtonText="Legg til saksbehandlere"
 							heading="Velg saksbehandlere"
 							updateSelection={(valgteSaksbehandlere) => {
 								formMethods.setValue(fieldnames.SAKSBEHANDLERE, valgteSaksbehandlere, { shouldDirty: true });

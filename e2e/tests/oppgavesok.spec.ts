@@ -11,7 +11,6 @@ test('kan legge til aksjonspunkt', async ({ page }) => {
 	await page.getByRole('button', { name: 'Legg til', exact: true }).click();
 	await page.getByLabel('Løsbare og fremtidige').click();
 	await page.getByLabel('Beregning').check();
-	await page.getByRole('button', { name: 'Legg til løsbare og fremtidige aksjonspunkt' }).click();
 	await page
 		.locator('div')
 		.filter({ hasText: /^Løsbare og fremtidige aksjonspunkt$/ })

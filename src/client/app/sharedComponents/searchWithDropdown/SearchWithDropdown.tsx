@@ -21,7 +21,6 @@ export type SearchWithDropdownProps = {
 	suggestions: SuggestionsType[];
 	groups?: string[];
 	heading: string;
-	addButtonText: string;
 	updateSelection: (values: string[]) => void;
 	selectedValues: string[];
 	showLabel?: boolean;
