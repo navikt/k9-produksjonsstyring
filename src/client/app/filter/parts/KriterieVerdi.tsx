@@ -91,7 +91,13 @@ const KriterieVerdi = ({
 
 	if (aksjonspunktKoder.includes(feltdefinisjon?.kode)) {
 		return (
-			<AksjonspunktVelger onChange={handleChangeValue} feltdefinisjon={feltdefinisjon} oppgavefilter={oppgavefilter} />
+			<div className="mt-[-9px]">
+				<AksjonspunktVelger
+					onChange={handleChangeValue}
+					feltdefinisjon={feltdefinisjon}
+					oppgavefilter={oppgavefilter}
+				/>
+			</div>
 		);
 	}
 

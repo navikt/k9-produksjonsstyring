@@ -31,7 +31,7 @@ const Kriterie: React.FC<Props> = ({ oppgavefilter, paakrevdeKoder = [] }) => {
 	const kriterieErPåkrevd = paakrevdeKoder.some((v) => v === feltdefinisjon?.kode);
 	return (
 		<div id={`feltpanel-${testID}`} className="flex gap-4 rounded bg-surface-selected p-4">
-			<Label size="small" className="min-w-[10rem] w-[10rem] mt-1.5">
+			<Label size="small" className="min-w-[10rem] w-[10rem]">
 				{feltdefinisjon?.visningsnavn}:
 			</Label>
 			{oppgavefilter.kode && (
@@ -43,13 +43,15 @@ const Kriterie: React.FC<Props> = ({ oppgavefilter, paakrevdeKoder = [] }) => {
 				</div>
 			)}
 			{!kriterieErPåkrevd && (
-				<Button
-					className="ml-auto "
-					icon={<TrashIcon height="1.5rem" width="1.5rem" />}
-					size="small"
-					variant="tertiary"
-					onClick={() => updateQuery([removeFilter(oppgavefilter.id)])}
-				/>
+				<div>
+					<Button
+						className="ml-auto "
+						icon={<TrashIcon />}
+						size="small"
+						variant="tertiary"
+						onClick={() => updateQuery([removeFilter(oppgavefilter.id)])}
+					/>
+				</div>
 			)}
 		</div>
 	);
