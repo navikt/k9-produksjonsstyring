@@ -91,7 +91,7 @@ const KriterieVerdi = ({
 
 	if (aksjonspunktKoder.includes(feltdefinisjon?.kode)) {
 		return (
-			<div className="mt-[-9px]">
+			<div className="mt-[-8px]">
 				<AksjonspunktVelger
 					onChange={handleChangeValue}
 					feltdefinisjon={feltdefinisjon}
