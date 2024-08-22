@@ -46,6 +46,7 @@ test('kan redigere kø', async ({ page }) => {
 	await page.getByRole('button', { name: 'Endre og legge til kriterier' }).click();
 
 	// Legg til Duration
+
 	await page.getByRole('button', { name: 'Legg til nytt kriterie' }).click();
 
 	await page.getByLabel('Velg kriterie:').click();
@@ -69,6 +70,7 @@ test('kan redigere kø', async ({ page }) => {
 	await page.getByRole('button', { name: 'Legg til', exact: true }).click();
 	await page.getByLabel('Løsbart aksjonspunkt').click();
 	await page.getByText('Beregning').click();
+	await page.locator('#feltpanel-5').getByRole('button', { name: 'Lukk' }).click();
 	await page.getByRole('button', { name: 'Legg til nytt kriterie' }).click();
 	await page.getByLabel('Velg kriterie:').click();
 	await page.getByRole('option', { name: 'Behandlingstype' }).click();

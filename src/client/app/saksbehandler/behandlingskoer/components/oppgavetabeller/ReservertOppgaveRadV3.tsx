@@ -124,6 +124,7 @@ const ReservertOppgaveRadV3: React.ForwardRefExoticComponent<Props> = React.forw
 							icon={<MenuHamburgerIcon />}
 							className="p-0 mr-4"
 							variant="tertiary"
+							aria-label="Handlinger på oppgave"
 							onClick={() => toggleMenu(oppgave)}
 						/>
 					</div>
