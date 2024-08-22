@@ -45,7 +45,7 @@ const Kriterie: React.FC<Props> = ({ oppgavefilter, paakrevdeKoder = [] }) => {
 			{!kriterieErPåkrevd && (
 				<div>
 					<Button
-						className="ml-auto "
+						className="ml-auto"
 						icon={<TrashIcon />}
 						size="small"
 						variant="tertiary"
