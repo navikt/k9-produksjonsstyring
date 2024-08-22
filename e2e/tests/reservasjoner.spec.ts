@@ -10,7 +10,6 @@ const lagNyoppgavekø = async (page: any, kønavn: string) => {
 	await page.getByLabel('Velg saksbehandlere').click();
 	await page.getByLabel('Velg saksbehandlere').fill('saks');
 	await page.getByLabel('Saksbehandler Sara').click();
-	await page.getByRole('button', { name: 'Legg til saksbehandlere' }).click();
 	await page.getByLabel('Beskrivelse').click();
 	await page.getByLabel('Beskrivelse').fill('aisjdfiasjdfiasdfjasidfj');
 	await page.getByRole('button', { name: 'Lagre oppgavekø' }).click();
@@ -58,7 +57,7 @@ test('Kan søke opp og reservere opppgave', async ({ page }) => {
 
 test('kan legge tilbake reservasjon i felles kø', async ({ page }) => {
 	await expect(page.getByRole('cell', { name: saksnummer })).toBeVisible();
-	await page.getByRole('img', { name: 'Handlinger på oppgave' }).click();
+	await page.getByRole('button', { name: 'Handlinger på oppgave' }).click();
 	await page.getByRole('button', { name: 'Legg oppgave tilbake i felles kø' }).click();
 	await page.getByRole('button', { name: 'OK' }).click();
 
@@ -78,7 +77,7 @@ test('kan plukke oppgave fra kø og reservere', async ({ page }) => {
 });
 
 test('kan forlenge reservasjon', async ({ page }) => {
-	await page.getByRole('row', { name: saksnummer }).getByRole('img', { name: 'Handlinger på oppgave' }).click();
+	await page.getByRole('row', { name: saksnummer }).getByRole('button', { name: 'Handlinger på oppgave' }).click();
 	const today = new Date();
 	const todayFormatted = formatDate(today);
 
@@ -90,7 +89,7 @@ test('kan forlenge reservasjon', async ({ page }) => {
 });
 
 test('kan endre/og flytte reservasjon reservasjon', async ({ page }) => {
-	await page.getByRole('row', { name: saksnummer }).getByRole('img', { name: 'Handlinger på oppgave' }).click();
+	await page.getByRole('row', { name: saksnummer }).getByRole('button', { name: 'Handlinger på oppgave' }).click();
 	await page.getByRole('button', { name: 'Endre og/eller flytte' }).click();
 	// kan fjerne saksbehandler
 	await page.getByRole('list').getByText('Saksbehandler Sara').click();

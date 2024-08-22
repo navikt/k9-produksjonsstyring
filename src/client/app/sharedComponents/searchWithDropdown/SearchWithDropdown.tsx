@@ -21,7 +21,6 @@ export type SearchWithDropdownProps = {
 	suggestions: SuggestionsType[];
 	groups?: string[];
 	heading: string;
-	addButtonText: string;
 	updateSelection: (values: string[]) => void;
 	selectedValues: string[];
 	showLabel?: boolean;
@@ -171,7 +170,7 @@ const SearchWithDropdown: React.FC<SearchWithDropdownProps> = (props) => {
 			</SearchForm>
 			{selectedValues.length > 0 && (
 				<div>
-					<Label className="self-center text-sm">Valgte filter:</Label>
+					<Label className="self-center text-sm ">Valgte:</Label>
 					<Button icon={<TrashIcon />} variant="tertiary" size="xsmall" onClick={removeAllSuggestions}>
 						<span className="text-sm">Fjern alle</span>
 					</Button>

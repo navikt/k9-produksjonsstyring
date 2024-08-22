@@ -30,8 +30,6 @@ const berikMedAntallOppgaver = (køArray: OppgavekøV3Enkel[]) =>
 	useQuery(
 		['beriketAntallOppgaver', køArray],
 		async () => {
-			if (!køArray) return køArray;
-
 			const requests = køArray.map(async (kø) => {
 				try {
 					const response = await axiosInstance.get(apiPaths.antallOppgaverIKoV3(kø.id));
@@ -46,6 +44,7 @@ const berikMedAntallOppgaver = (køArray: OppgavekøV3Enkel[]) =>
 		},
 		{
 			enabled: !!køArray,
+			placeholderData: køArray,
 		},
 	);
 

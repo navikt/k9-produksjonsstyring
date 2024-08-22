@@ -36,7 +36,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
 	const comboboxSize = size === 'medium' ? '3rem' : '2rem';
 	return (
 		<div className={styles.form}>
-			<div className="mb-2">
+			<div className={showLabel ? 'mb-2' : ''}>
 				<Label htmlFor={inputId} size={size} className={`${showLabel ? '' : 'navds-sr-only'}`}>
 					{label}
 				</Label>

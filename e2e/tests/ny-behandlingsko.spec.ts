@@ -12,7 +12,6 @@ test('Kan lage ny oppgavekø', async ({ page }) => {
 	await page.getByLabel('Velg saksbehandlere').click();
 	await page.getByLabel('Velg saksbehandlere').fill('saks');
 	await page.getByLabel('Saksbehandler Sara').click();
-	await page.getByRole('button', { name: 'Legg til saksbehandlere' }).click();
 	await page.getByLabel('Beskrivelse').click();
 	await page.getByLabel('Beskrivelse').fill('aisjdfiasjdfiasdfjasidfj');
 	await page.getByRole('button', { name: 'Lagre oppgavekø' }).click();
@@ -44,9 +43,10 @@ test('kan redigere kø', async ({ page }) => {
 	await page.getByRole('button', { name: 'Lagre oppgavekø' }).isEnabled();
 	await page.getByRole('button', { name: 'Lagre oppgavekø' }).click();
 
-	await page.getByRole('button', { name: 'Endre kriterier' }).click();
+	await page.getByRole('button', { name: 'Endre og legge til kriterier' }).click();
 
 	// Legg til Duration
+
 	await page.getByRole('button', { name: 'Legg til nytt kriterie' }).click();
 
 	await page.getByLabel('Velg kriterie:').click();
@@ -70,7 +70,7 @@ test('kan redigere kø', async ({ page }) => {
 	await page.getByRole('button', { name: 'Legg til', exact: true }).click();
 	await page.getByLabel('Løsbart aksjonspunkt').click();
 	await page.getByText('Beregning').click();
-	await page.getByRole('button', { name: 'Legg til løsbart aksjonspunkt' }).click();
+	await page.locator('#feltpanel-5').getByRole('button', { name: 'Lukk' }).click();
 	await page.getByRole('button', { name: 'Legg til nytt kriterie' }).click();
 	await page.getByLabel('Velg kriterie:').click();
 	await page.getByRole('option', { name: 'Behandlingstype' }).click();
@@ -104,7 +104,7 @@ test('kan redigere kø', async ({ page }) => {
 
 test('tidligere lagret kø vises korrekt', async ({ page }) => {
 	await page.getByRole('row', { name: 'Beskrivende tittel' }).getByRole('button', { name: 'Vis mer' }).click();
-	await page.getByRole('button', { name: 'Endre kriterier' }).click();
+	await page.getByRole('button', { name: 'Endre og legge til kriterier' }).click();
 
 	// Timestamp
 	page.getByText('01.06.2023').isVisible();
