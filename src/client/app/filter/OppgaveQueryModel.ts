@@ -10,6 +10,8 @@ import {
 export default class OppgaveQueryModel {
 	private oppgaveQuery: OppgaveQuery;
 
+	private errors: { id: string; felt: string; message: string }[] = [];
+
 	constructor(oppgaveQuery?: OppgaveQuery) {
 		let newOppgaveQuery = oppgaveQuery;
 		if (newOppgaveQuery == null) {
@@ -64,6 +66,36 @@ export default class OppgaveQueryModel {
 
 	toOppgaveQuery(): OppgaveQuery {
 		return this.oppgaveQuery;
+	}
+
+	private internalValidate(filtere: FilterType[]) {
+		filtere.forEach((f) => {
+			if ('kode' in f && f.kode == null) {
+				this.errors.push({ id: f.id, felt: 'kode', message: 'Du må velge et kriterie' });
+			}
+			if ('kode' in f) {
+				if (
+					f.verdi === null ||
+					f.verdi === undefined ||
+					f.verdi === '' ||
+					(Array.isArray(f.verdi) && f.verdi.length === 0)
+				) {
+					this.errors.push({ id: f.id, felt: 'verdi', message: 'Du må fylle ut en verdi' });
+				}
+			}
+			if ('combineOperator' in f) {
+				this.internalValidate(f.filtere);
+			}
+		});
+	}
+
+	validate() {
+		this.internalValidate(this.oppgaveQuery.filtere);
+		return this;
+	}
+
+	getErrors() {
+		return this.errors;
 	}
 
 	removeFilter(id) {

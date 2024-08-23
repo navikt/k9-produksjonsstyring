@@ -9,6 +9,7 @@ const AksjonspunktVelger: FunctionComponent<SearchDropdownPredefinerteVerdierPro
 	onChange,
 	feltdefinisjon,
 	oppgavefilter,
+	error,
 }) => {
 	const oppgavekoder = useKodeverk(kodeverkTyper.OPPGAVE_KODE);
 	const formaterteOppgavekoder = oppgavekoder
@@ -26,6 +27,7 @@ const AksjonspunktVelger: FunctionComponent<SearchDropdownPredefinerteVerdierPro
 			oppgavefilter={oppgavefilter}
 			suggestions={formaterteOppgavekoder}
 			groups={grupper}
+			error={error}
 		/>
 	);
 };
