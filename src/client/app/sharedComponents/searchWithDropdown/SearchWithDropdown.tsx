@@ -1,8 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { TrashIcon } from '@navikt/aksel-icons';
-import { Button, ErrorMessage, Label } from '@navikt/ds-react';
-import Merkelapp from '../merkelapp/Merkelapp';
+import { Box, Button, Chips, ErrorMessage, Label } from '@navikt/ds-react';
 import Merkelapper from '../merkelapp/Merkelapper';
 import SearchForm from './SearchForm';
 import SuggestionList from './SuggestionList';
@@ -135,6 +134,18 @@ const SearchWithDropdown: React.FC<SearchWithDropdownProps> = (props) => {
 		updateSelection([]);
 	};
 
+	const suggestionsgrupp = suggestions.reduce(
+		(acc, suggestion) => {
+			if (suggestion.group) {
+				acc[suggestion.group] = [...(acc[suggestion.group] || []), suggestion];
+			}
+			return acc;
+		},
+		{} as { [key: string]: SuggestionsType[] },
+	);
+	console.log(suggestionsgrupp);
+	console.log('suggestions', suggestions);
+	console.log(groups);
 	return (
 		<div className={`${styles.searchContainer} ${className || ''}`}>
 			<SearchForm
@@ -177,10 +188,15 @@ const SearchWithDropdown: React.FC<SearchWithDropdownProps> = (props) => {
 				</div>
 			)}
 			<Merkelapper>
-				{selectedValues.map((suggestion) => (
-					<Merkelapp key={suggestion} onClick={() => onRemoveSuggestion(suggestion)}>
-						{getSuggestion(suggestion)?.label}
-					</Merkelapp>
+				{Object.entries(suggestionsgrupp).map((suggestion) => (
+					<Box key={suggestion[0]}>
+						<Label className="text-sm">{`${suggestion[0]} (${suggestion[1].length} av )`}</Label>
+						<Chips size="small">
+							{suggestion[1].map((s) => (
+								<Chips.Removable key={s.value}>{s.label}</Chips.Removable>
+							))}
+						</Chips>
+					</Box>
 				))}
 			</Merkelapper>
 
