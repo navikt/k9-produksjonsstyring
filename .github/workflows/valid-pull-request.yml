@@ -55,7 +55,7 @@ jobs:
           identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
           push-image: 'false'
           upload-image: 'true'
-          dockerfile: 'Dockerfile'
+          docker_platforms: 'linux/amd64'
 
   verdikjede-tester:
     name: Verdikjedetester
@@ -66,6 +66,7 @@ jobs:
       contents: read
       packages: read
     uses: navikt/sif-gha-workflows/.github/workflows/verdikjede-test-v2.yml@main
+    if: ${{github.actor != 'dependabot[bot]'}}
     with:
       suites: 'frontend-los'
       tag: ${{ needs.build-and-test.outputs.image_version}}
