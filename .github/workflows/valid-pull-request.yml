@@ -9,13 +9,17 @@ on:
       - 'CODEOWNERS'
 
 jobs:
-  valid-pull-request:
-    name: Valider pull request
+  build-and-test:
+    name: Bygg og test kode
     runs-on: ubuntu-latest
     permissions:
       id-token: write
       contents: read
       packages: read
+    outputs:
+      image_artifact_name: ${{ steps.docker-push.outputs.image-artifact-name }}
+      image_version: ${{ github.sha }}
+
     steps:
       - name: Hente kode
         uses: actions/checkout@v4
@@ -41,16 +45,25 @@ jobs:
         run: yarn build
       - name: Bygg Dockerimage
         uses: navikt/sif-gha-workflows/.github/actions/maven/build-push-docker-image@main # ratchet:exclude
+        id: docker-push
         with:
           build-version: ${{ github.sha }}
           project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
           identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
-          namespace: ${{ inputs.namespace }}
           push-image: 'false'
           upload-image: 'true'
-      - name: Kjør verdikjedetester
-        uses: navikt/sif-gha-workflows/.github/workflows/verdikjede-test-v2.yml@main
-        with:
-          tag: ${{ needs.build-and-deploy.outputs.image_version }}
-          suites: 'frontend-los'
-          image_version: ${{ needs.build-and-deploy.outputs.image_version}}
+          dockerfile: 'Dockerfile'
+
+  verdikjede-tester:
+    name: Verdikjedetester
+    needs: [build-and-test]
+    secrets: inherit
+    permissions:
+      id-token: write
+      contents: read
+      packages: read
+    uses: navikt/sif-gha-workflows/.github/workflows/verdikjede-test-v2.yml@main
+    with:
+      suites: 'frontend-los'
+      image_version: ${{ needs.build-and-test.outputs.image_version}}
+      override_image_artifact_name: ${{ needs.build-and-test.outputs.image_artifact_name }}
