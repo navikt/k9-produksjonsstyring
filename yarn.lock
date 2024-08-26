@@ -10016,7 +10016,7 @@ __metadata:
     react-day-picker: 7.4.10
     react-dom: 18.3.1
     react-final-form: 6.5.9
-    react-hook-form: 7.52.2
+    react-hook-form: 7.53.0
     react-idle-timer: 5.7.2
     react-intl: 6.6.8
     react-modal: 3.16.1
@@ -12904,6 +12904,15 @@ __metadata:
   peerDependencies:
     react: ^16.8.0 || ^17 || ^18 || ^19
   checksum: 8621a21cf674f46507776741b2507d5357564af62bfc9dae8d1d7fb9076538352a48f16485885d3379d685d2d50537b28285322ad5a8c33d0ea5ddff21080543
+  languageName: node
+  linkType: hard
+
+"react-hook-form@npm:7.53.0":
+  version: 7.53.0
+  resolution: "react-hook-form@npm:7.53.0"
+  peerDependencies:
+    react: ^16.8.0 || ^17 || ^18 || ^19
+  checksum: 84d67fb79bad03d0aa809b5e411d97fb081fc13cd2b6d063a988f81f6fbef8545463e05360afa9d8d58fff19f08fa919930dcdc98a9e68bf74048c9f63e10ad5
   languageName: node
   linkType: hard
 
