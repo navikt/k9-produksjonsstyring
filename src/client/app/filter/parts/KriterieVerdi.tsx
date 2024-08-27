@@ -3,7 +3,7 @@ import dayjs from 'dayjs';
 import { Checkbox, CheckboxGroup, DatePicker, TextField, useDatepicker, useRangeDatepicker } from '@navikt/ds-react';
 import AksjonspunktVelger from 'avdelingsleder/behandlingskoerV3/components/AksjonspunktVelger';
 import { FilterContext } from 'filter/FilterContext';
-import { FeltverdiOppgavefilter, Oppgavefelt, TolkesSom } from 'filter/filterTsTypes';
+import { FeltverdiOppgavefilter, Oppgavefelt, OppgavefilterKode, TolkesSom } from 'filter/filterTsTypes';
 import { aksjonspunktKoder } from 'filter/konstanter';
 import { updateFilter } from 'filter/queryUtils';
 import { OPERATORS, calculateDays, mapBooleanToStringArray, mapStringToBooleanArray } from 'filter/utils';
@@ -148,7 +148,7 @@ const KriterieVerdi = ({
 				error={errorMessage}
 			>
 				<Checkbox value="ja">Ja</Checkbox>
-				<Checkbox value="nei">Nei</Checkbox>
+				{feltdefinisjon.kode !== OppgavefilterKode.Hastesak ? <Checkbox value="nei">Nei</Checkbox> : null}
 			</CheckboxGroup>
 		);
 	}
