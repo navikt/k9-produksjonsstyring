@@ -56,7 +56,9 @@ const hasQueryChangedExcludingLimit = (prev, current) => {
 	return JSON.stringify(prevRest) !== JSON.stringify(currRest);
 };
 const FilterIndex = ({ initialQuery, lagre, avbryt, tittel, visningV3, køvisning }: OwnProps) => {
-	const [queryError, setQueryError] = useState(null);
+	const [queryErrorMessage, setQueryErrorMessage] = useState(null);
+	const [queryErrors, setQueryErrors] = useState([]);
+	const [shouldRevalidate, setShouldRevalidate] = useState(false);
 	const [loading, setLoading] = useState(false);
 	const [loadingDownload, setLoadingDownload] = useState(false);
 	const [koId, setKoId] = useState(null);
@@ -64,6 +66,17 @@ const FilterIndex = ({ initialQuery, lagre, avbryt, tittel, visningV3, køvisnin
 	const [oppgaveQuery, setOppgaveQuery] = useState(
 		initialQuery ? new OppgaveQueryModel(initialQuery).toOppgaveQuery() : new OppgaveQueryModel().toOppgaveQuery(),
 	);
+
+	useEffect(() => {
+		if (oppgaveQuery && shouldRevalidate) {
+			const model = new OppgaveQueryModel(oppgaveQuery);
+			const errors = model.validate().getErrors();
+			if (errors.length === 0) {
+				setShouldRevalidate(false);
+			}
+			setQueryErrors(errors);
+		}
+	}, [oppgaveQuery, shouldRevalidate]);
 
 	const updateQuery = (operations: Array<QueryFunction>) => {
 		const newQuery = applyFunctions(oppgaveQuery, operations);
@@ -89,7 +102,7 @@ const FilterIndex = ({ initialQuery, lagre, avbryt, tittel, visningV3, køvisnin
 		if (hasQueryChangedExcludingLimit(prevOppgaveQuery, oppgaveQuery)) {
 			nullstillTreff();
 			setPrevOppgaveQuery(oppgaveQuery);
-			setQueryError(null);
+			setQueryErrorMessage(null);
 		}
 	}, [oppgaveQuery]);
 
@@ -120,12 +133,18 @@ const FilterIndex = ({ initialQuery, lagre, avbryt, tittel, visningV3, køvisnin
 
 	const validerOgLagre = async () => {
 		const valideringOK = await validateOppgaveQuery(setIsValidating);
-		if (valideringOK) {
-			setQueryError(null);
+		const model = new OppgaveQueryModel(oppgaveQuery);
+		model.validate();
+		const errors = model.getErrors();
+		if (valideringOK && errors.length === 0) {
+			setQueryErrorMessage(null);
+			setQueryErrors([]);
 			lagre(oppgaveQuery);
 			return;
 		}
-		setQueryError('Kriteriene er ikke gyldige. Kriterier for kø kan ikke lagres.');
+		setShouldRevalidate(true);
+		setQueryErrors(errors);
+		setQueryErrorMessage('Kriteriene er ikke gyldige. Kriterier for kø kan ikke lagres.');
 	};
 
 	const executeOppgavesøk = () => {
@@ -149,17 +168,17 @@ const FilterIndex = ({ initialQuery, lagre, avbryt, tittel, visningV3, køvisnin
 			.then((dataRes) => {
 				if (dataRes.payload !== REQUEST_POLLING_CANCELLED) {
 					setOppgaver(updateIdentities(dataRes.payload));
-					setQueryError(null);
+					setQueryErrorMessage(null);
 					setLoading(false);
 				} else {
 					setOppgaver([]);
-					setQueryError('Klarte ikke å kjøre søk grunnet tidsavbrudd.');
+					setQueryErrorMessage('Klarte ikke å kjøre søk grunnet tidsavbrudd.');
 					setLoading(false);
 				}
 			})
 			.catch(() => {
 				setOppgaver([]);
-				setQueryError('Klarte ikke å kjøre søk grunnet ukjent feil.');
+				setQueryErrorMessage('Klarte ikke å kjøre søk grunnet ukjent feil.');
 				setLoading(false);
 			});
 	};
@@ -178,12 +197,12 @@ const FilterIndex = ({ initialQuery, lagre, avbryt, tittel, visningV3, køvisnin
 			);
 
 			if (dataRes.payload !== REQUEST_POLLING_CANCELLED) {
-				setQueryError(null);
+				setQueryErrorMessage(null);
 			} else {
-				setQueryError('Klarte ikke å kjøre søk grunnet tidsavbrudd.');
+				setQueryErrorMessage('Klarte ikke å kjøre søk grunnet tidsavbrudd.');
 			}
 		} catch {
-			setQueryError('Klarte ikke å kjøre søk grunnet ukjent feil.');
+			setQueryErrorMessage('Klarte ikke å kjøre søk grunnet ukjent feil.');
 		} finally {
 			setLoadingDownload(false);
 		}
@@ -199,8 +218,9 @@ const FilterIndex = ({ initialQuery, lagre, avbryt, tittel, visningV3, køvisnin
 		() => ({
 			oppgaveQuery,
 			updateQuery,
+			errors: queryErrors,
 		}),
-		[oppgaveQuery],
+		[oppgaveQuery, queryErrors],
 	);
 
 	if (felter.length === 0) {
@@ -268,12 +288,12 @@ const FilterIndex = ({ initialQuery, lagre, avbryt, tittel, visningV3, køvisnin
 							<div className="w-6/12">
 								<EnkelSortering />
 							</div>
-							<AntallOppgaver setQueryError={setQueryError} />
+							<AntallOppgaver setQueryError={setQueryErrorMessage} />
 						</div>
 					)}
-					{queryError && (
+					{queryErrorMessage && (
 						<Alert variant="error" className="my-4">
-							{queryError}
+							{queryErrorMessage}
 						</Alert>
 					)}
 					<div className={styles.filterButtonGroup}>
@@ -312,7 +332,7 @@ const FilterIndex = ({ initialQuery, lagre, avbryt, tittel, visningV3, køvisnin
 			</div>
 			{!køvisning && (
 				<div className="mt-10">
-					{queryError && <Alert variant="error">{queryError}</Alert>}
+					{queryErrorMessage && <Alert variant="error">{queryErrorMessage}</Alert>}
 					{oppgaver && (
 						<>
 							<Heading size="small" spacing className="mt-6">

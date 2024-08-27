@@ -85,7 +85,7 @@ const BehandlingsKoForm = ({ kø, lukk, ekspandert, id }: BehandlingsKoFormProps
 						Om køen
 					</Heading>
 					<div className="bg-[#e6f0ff] rounded p-5">
-						<InputField label="Navn" name={fieldnames.TITTEL} size="medium" validate={[required, minLength(3)]} />
+						<InputField label="Navn" name={fieldnames.TITTEL} size="medium" validate={[required]} />
 						<TextAreaField
 							size="medium"
 							name="beskrivelse"
@@ -93,7 +93,7 @@ const BehandlingsKoForm = ({ kø, lukk, ekspandert, id }: BehandlingsKoFormProps
 							description="Her kan du legge inn en valgfri beskrivelse av hva denne køen inneholder."
 							className="mt-8"
 							maxLength={4000}
-							validate={[required, minLength(3)]}
+							validate={[required]}
 						/>
 					</div>
 				</div>
@@ -138,7 +138,12 @@ const BehandlingsKoForm = ({ kø, lukk, ekspandert, id }: BehandlingsKoFormProps
 					size="small"
 					variant="tertiary"
 					type="button"
-					onClick={() => setVisFilterModal(true)}
+					onClick={async () => {
+						const isValid = await formMethods.trigger();
+						if (isValid) {
+							setVisFilterModal(true);
+						}
+					}}
 					icon={<PencilIcon />}
 				>
 					Endre og legge til kriterier

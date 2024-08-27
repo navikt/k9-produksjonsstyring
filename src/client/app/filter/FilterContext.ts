@@ -5,6 +5,7 @@ import { QueryFunction } from './queryUtils';
 export type FilterContextType = {
 	oppgaveQuery: OppgaveQuery;
 	updateQuery: (operations: Array<QueryFunction>) => void;
+	errors: { id: string; felt: string; message: string }[];
 };
 
 export const FilterContext = React.createContext<FilterContextType>(null);

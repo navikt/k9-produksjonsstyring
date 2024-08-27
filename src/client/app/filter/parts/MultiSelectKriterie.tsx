@@ -10,9 +10,10 @@ import { updateFilter } from 'filter/queryUtils';
 interface Props {
 	feltdefinisjon?: Oppgavefelt;
 	oppgavefilter: FeltverdiOppgavefilter;
+	error?: string;
 }
 
-const MultiSelectKriterie = ({ feltdefinisjon, oppgavefilter }: Props) => {
+const MultiSelectKriterie = ({ feltdefinisjon, oppgavefilter, error }: Props) => {
 	const [value, setValue] = useState('');
 	const [visSekundærvalg, setVisSekundærvalg] = useState(false);
 	const [selectedChildIndex, setSelectedChildIndex] = useState(undefined);
@@ -86,6 +87,7 @@ const MultiSelectKriterie = ({ feltdefinisjon, oppgavefilter }: Props) => {
 				onToggleSelected={onToggleSelected}
 				selectedOptions={selectedOptions || []}
 				value={value}
+				error={error}
 			/>
 		</div>
 	);
