@@ -17,11 +17,17 @@ interface Props {
 }
 
 const VelgKriterie = ({ oppgavefilter, addGruppeOperation, køvisning, paakrevdeKoder = [] }: Props) => {
-	const { updateQuery } = useContext(FilterContext);
+	const { updateQuery, errors } = useContext(FilterContext);
 	const { felter } = useContext(AppContext);
 	const [valgtKriterie, setValgtKriterie] = useState<Oppgavefelt | string>();
 	const [fritekst, setFritekst] = useState('');
 	const [visAvanserteValg, setVisAvanserteValg] = useState('nei');
+	const [klikketLeggTilUtenÅVelgeKriterie, setKlikketLeggTilUtenÅVelgeKriterie] = useState(false);
+	// error fra modellen
+	const errorMessage =
+		klikketLeggTilUtenÅVelgeKriterie && !valgtKriterie
+			? 'Du må velge et kriterie'
+			: errors.find((e) => e.id === oppgavefilter.id && e.felt === 'kode')?.message;
 
 	const kriterierSomKanVelges = paakrevdeKoder.length
 		? felter.filter((kriterie) => paakrevdeKoder.some((v) => v !== kriterie.kode))
@@ -29,6 +35,7 @@ const VelgKriterie = ({ oppgavefilter, addGruppeOperation, køvisning, paakrevde
 	const toggleAvanserteValg = () => {
 		setVisAvanserteValg((prevState) => (prevState === 'nei' ? 'ja' : 'nei'));
 	};
+
 	const handleSelect = (value: string) => {
 		if (value === '__gruppe') {
 			setValgtKriterie(value);
@@ -41,6 +48,7 @@ const VelgKriterie = ({ oppgavefilter, addGruppeOperation, køvisning, paakrevde
 
 	const leggTil = (kriterie: Oppgavefelt | string) => {
 		if (!kriterie) {
+			setKlikketLeggTilUtenÅVelgeKriterie(true);
 			return;
 		}
 
@@ -89,6 +97,7 @@ const VelgKriterie = ({ oppgavefilter, addGruppeOperation, køvisning, paakrevde
 					onChange={setFritekst}
 					onToggleSelected={handleSelect}
 					options={options}
+					error={errorMessage}
 				/>
 				{køvisning && (
 					<Checkbox value="ja" size="small" onClick={toggleAvanserteValg}>
