@@ -43,15 +43,12 @@ jobs:
         run: yarn test --maxWorkers=2
       - name: Bygge
         run: yarn build
-      - name: Sette build-versjon
-        id: build_version
-        run: echo "build-version=$(date +%Y.%m.%d.%H%M%S)-$(echo $GITHUB_SHA | cut -c1-7)" >> $GITHUB_ENV
       - name: Bygg Dockerimage
         uses: navikt/sif-gha-workflows/.github/actions/maven/build-push-docker-image@main # ratchet:exclude
         id: docker-push
         if: ${{github.actor != 'dependabot[bot]'}}
         with:
-          build-version: ${{ env.build-version }}
+          build-version: ${{ github.sha }}
           project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
           identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
           push-image: 'false'
