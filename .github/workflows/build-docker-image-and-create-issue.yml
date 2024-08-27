@@ -118,8 +118,8 @@ jobs:
     uses: navikt/sif-gha-workflows/.github/workflows/verdikjede-test-v2.yml@main
     with:
       tag: ${{ needs.build-and-deploy.outputs.image_version }}
-      suites: "frontend-los"
-      image_version: ${{ needs.build-and-deploy.outputs.image_version}}}
+      suites: 'frontend-los'
+      image_version: ${{ needs.build-and-deploy.outputs.image_version}}
 
   trivy:
     needs: [build-and-deploy]
