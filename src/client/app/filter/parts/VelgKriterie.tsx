@@ -13,6 +13,7 @@ interface Props {
 	oppgavefilter: FeltverdiOppgavefilter;
 	addGruppeOperation: (model: OppgaveQuery) => OppgaveQuery;
 	paakrevdeKoder: OppgavefilterKode[];
+	køvisning: boolean;
 }
 
 const VelgKriterie = ({ oppgavefilter, addGruppeOperation, køvisning, paakrevdeKoder = [] }: Props) => {
@@ -91,12 +92,6 @@ const VelgKriterie = ({ oppgavefilter, addGruppeOperation, køvisning, paakrevde
 		updateQuery([updateFilter(oppgavefilter.id, updateData)]);
 	};
 
-	const selectedOption = () => {
-		if (typeof valgtKriterie === 'string') {
-			return valgtKriterie;
-		}
-		return valgtKriterie ? valgtKriterie.visningsnavn : '';
-	};
 	return (
 		<div className="flex gap-7 border-dashed border-[1px] border-surface-action rounded-sm pt-4 pr-7 pb-5 pl-4">
 			<div className="basis-5/12 velgKriterie">
@@ -112,10 +107,6 @@ const VelgKriterie = ({ oppgavefilter, addGruppeOperation, køvisning, paakrevde
 					onChange={setFritekst}
 					onToggleSelected={handleSelect}
 					options={options}
-					onClear={() => {
-						setFritekst('');
-					}}
-					selectedOptions={[selectedOption()] || []}
 					error={errorMessage}
 				/>
 				{køvisning && (
