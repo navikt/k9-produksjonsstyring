@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 
 /* eslint-disable react/jsx-pascal-case */
-import React, { useContext, useEffect, useMemo, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { BodyLong, Button, Checkbox, Label, UNSAFE_Combobox } from '@navikt/ds-react';
 import AppContext from 'app/AppContext';
 import { FilterContext } from 'filter/FilterContext';
@@ -12,7 +12,6 @@ import { feltverdiKey, kodeFraKey } from 'filter/utils';
 interface Props {
 	oppgavefilter: FeltverdiOppgavefilter;
 	addGruppeOperation: (model: OppgaveQuery) => OppgaveQuery;
-	køvisning: boolean;
 	paakrevdeKoder: OppgavefilterKode[];
 }
 
@@ -20,6 +19,8 @@ const VelgKriterie = ({ oppgavefilter, addGruppeOperation, køvisning, paakrevde
 	const { updateQuery, errors } = useContext(FilterContext);
 	const { felter } = useContext(AppContext);
 	const [valgtKriterie, setValgtKriterie] = useState<Oppgavefelt | string>();
+	const [options, setOptions] = useState([]);
+	const [selectedChildIndex, setSelectedChildIndex] = useState(undefined);
 	const [fritekst, setFritekst] = useState('');
 	const [visAvanserteValg, setVisAvanserteValg] = useState('nei');
 	const [klikketLeggTilUtenÅVelgeKriterie, setKlikketLeggTilUtenÅVelgeKriterie] = useState(false);
@@ -32,6 +33,28 @@ const VelgKriterie = ({ oppgavefilter, addGruppeOperation, køvisning, paakrevde
 	const kriterierSomKanVelges = paakrevdeKoder.length
 		? felter.filter((kriterie) => paakrevdeKoder.some((v) => v !== kriterie.kode))
 		: felter;
+
+	const getOptions = () => {
+		const primærvalg = kriterierSomKanVelges?.filter((v) => v.kokriterie);
+		const avanserteValg = kriterierSomKanVelges?.filter((v) => !v.kokriterie);
+
+		if (visAvanserteValg === 'ja') {
+			const valg = [...primærvalg, ...avanserteValg];
+			const selectedChild = valg.findIndex((v) => v === avanserteValg[0]);
+			if (selectedChild !== -1) {
+				setSelectedChildIndex(selectedChild + 2);
+			}
+			const optionList = valg.map((v) => ({ value: feltverdiKey(v), label: v.visningsnavn }));
+			return [{ label: 'Gruppe', value: '__gruppe' }, ...optionList];
+		}
+		const optionList = primærvalg.map((v) => ({ value: feltverdiKey(v), label: v.visningsnavn }));
+		return [{ label: 'Gruppe', value: '__gruppe' }, ...optionList];
+	};
+
+	useEffect(() => {
+		setOptions(getOptions());
+	}, [JSON.stringify(kriterierSomKanVelges), visAvanserteValg]);
+
 	const toggleAvanserteValg = () => {
 		setVisAvanserteValg((prevState) => (prevState === 'nei' ? 'ja' : 'nei'));
 	};
@@ -41,6 +64,7 @@ const VelgKriterie = ({ oppgavefilter, addGruppeOperation, køvisning, paakrevde
 			setValgtKriterie(value);
 			return;
 		}
+
 		const kode = kodeFraKey(value);
 		const kriterie = kriterierSomKanVelges.find((k) => k.kode === kode);
 		setValgtKriterie(kriterie);
@@ -67,29 +91,20 @@ const VelgKriterie = ({ oppgavefilter, addGruppeOperation, køvisning, paakrevde
 		updateQuery([updateFilter(oppgavefilter.id, updateData)]);
 	};
 
-	useEffect(() => {
-		setValgtKriterie('');
-	}, [visAvanserteValg]);
-
-	const options = useMemo(() => {
-		const optionsMappet = kriterierSomKanVelges
-			.filter((v) => {
-				if (køvisning) {
-					if (visAvanserteValg === 'ja') {
-						return true;
-					}
-					return v.kokriterie;
-				}
-
-				return true;
-			})
-			.map((v) => ({ label: v.visningsnavn, value: feltverdiKey(v) }));
-
-		return [{ label: 'Gruppe', value: '__gruppe' }, ...optionsMappet];
-	}, [kriterierSomKanVelges, visAvanserteValg, køvisning]);
+	const selectedOption = () => {
+		if (typeof valgtKriterie === 'string') {
+			return valgtKriterie;
+		}
+		return valgtKriterie ? valgtKriterie.visningsnavn : '';
+	};
 	return (
 		<div className="flex gap-7 border-dashed border-[1px] border-surface-action rounded-sm pt-4 pr-7 pb-5 pl-4">
-			<div className="basis-5/12">
+			<div className="basis-5/12 velgKriterie">
+				<style>
+					{`.velgKriterie ul > li:nth-child(${selectedChildIndex}) {
+           border-top: 2px solid black; 
+        }`}
+				</style>
 				<UNSAFE_Combobox
 					label="Velg kriterie:"
 					size="small"
@@ -97,6 +112,10 @@ const VelgKriterie = ({ oppgavefilter, addGruppeOperation, køvisning, paakrevde
 					onChange={setFritekst}
 					onToggleSelected={handleSelect}
 					options={options}
+					onClear={() => {
+						setFritekst('');
+					}}
+					selectedOptions={[selectedOption()] || []}
 					error={errorMessage}
 				/>
 				{køvisning && (
