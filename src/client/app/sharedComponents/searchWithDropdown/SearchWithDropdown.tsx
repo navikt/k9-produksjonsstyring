@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { TrashIcon } from '@navikt/aksel-icons';
 import { Box, Button, Chips, ErrorMessage, Label } from '@navikt/ds-react';
 import Merkelapper from '../merkelapp/Merkelapper';
+import { Groups } from './Group';
 import SearchForm from './SearchForm';
 import SuggestionList from './SuggestionList';
 import * as styles from './searchWithDropdown.css';
