@@ -3535,6 +3535,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@storybook/addon-styling-webpack@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "@storybook/addon-styling-webpack@npm:1.0.0"
+  dependencies:
+    "@storybook/node-logger": ^8.0.0-alpha.10
+  peerDependencies:
+    webpack: ^5.0.0
+  checksum: fa907064a42b255fad274ae898b48cb1ce53d969cf79b48e8e0d761ae05500ab9e486d54b2aac625f57c78347daa51828a864497955cd4b0b650e67e8196a341
+  languageName: node
+  linkType: hard
+
 "@storybook/addon-toolbars@npm:8.2.9":
   version: 8.2.9
   resolution: "@storybook/addon-toolbars@npm:8.2.9"
@@ -3762,6 +3773,15 @@ __metadata:
   peerDependencies:
     storybook: ^8.2.9
   checksum: 5ee66ebdc88f886c05425acff2c362681a6f778e2f27023a43c6c36767ef265175c58b8f23f74684dba64477b26b310fad7cf1761e6643325325a8724f53d93c
+  languageName: node
+  linkType: hard
+
+"@storybook/node-logger@npm:^8.0.0-alpha.10":
+  version: 8.2.9
+  resolution: "@storybook/node-logger@npm:8.2.9"
+  peerDependencies:
+    storybook: ^8.2.9
+  checksum: b4cdcb0d7bdd4fabb0d9876800bb620252489b4587ff3b49acb4c526b2183b11077f8060cfd8ed4591ab818280c78f0f2212f4029146a7edef536e61e74c3dc9
   languageName: node
   linkType: hard
 
@@ -11739,6 +11759,7 @@ __metadata:
     "@storybook/addon-interactions": ^8.2.9
     "@storybook/addon-links": ^8.2.9
     "@storybook/addon-onboarding": ^8.2.9
+    "@storybook/addon-styling-webpack": ^1.0.0
     "@storybook/addon-webpack5-compiler-swc": ^1.0.5
     "@storybook/blocks": ^8.2.9
     "@storybook/react": ^8.2.9

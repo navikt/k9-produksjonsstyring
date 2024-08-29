@@ -17,6 +17,30 @@ const config: StorybookConfig = {
 		getAbsolutePath('@storybook/addon-essentials'),
 		getAbsolutePath('@chromatic-com/storybook'),
 		getAbsolutePath('@storybook/addon-interactions'),
+		getAbsolutePath('@storybook/addon-styling-webpack'),
+		{
+			name: '@storybook/addon-styling-webpack',
+			options: {
+				rules: [
+					// Replaces existing CSS rules to support PostCSS
+					{
+						test: /\.css$/,
+						use: [
+							'style-loader',
+							{
+								loader: 'css-loader',
+								options: { importLoaders: 1 },
+							},
+							{
+								// Gets options from `postcss.config.js` in your project root
+								loader: 'postcss-loader',
+								options: { implementation: require.resolve('postcss') },
+							},
+						],
+					},
+				],
+			},
+		},
 	],
 	framework: {
 		name: getAbsolutePath('@storybook/react-webpack5'),

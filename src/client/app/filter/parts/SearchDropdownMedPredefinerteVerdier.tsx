@@ -23,7 +23,7 @@ const SearchDropdownMedPredefinerteVerdier = ({
 			value: verdiforklaring.verdi,
 		}))}
 		heading={`Velg ${feltdefinisjon.visningsnavn}`}
-s		updateSelection={onChange}
+		updateSelection={onChange}
 		selectedValues={(oppgavefilter.verdi as string[]) || []}
 		label={feltdefinisjon.visningsnavn}
 		className="grow"
