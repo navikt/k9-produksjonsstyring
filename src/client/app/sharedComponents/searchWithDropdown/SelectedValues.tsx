@@ -20,7 +20,7 @@ const Group = ({ group, chips, remove }: { group: string; chips: Props['values']
 	return (
 		<div className={open ? `bg-white rounded-md p-1.5 pt-0 pl-0 w-full` : ''}>
 			<Button
-				style={{ padding: '4px' }}
+				className="!p-1"
 				size="small"
 				type="button"
 				icon={!open ? <ChevronDownIcon /> : <ChevronUpIcon />}

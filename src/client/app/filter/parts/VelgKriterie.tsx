@@ -48,7 +48,10 @@ const VelgKriterie = ({ oppgavefilter, addGruppeOperation, køvisning, paakrevde
 			const optionList = valg.map((v) => ({ value: feltverdiKey(v), label: v.visningsnavn }));
 			return [{ label: 'Gruppe', value: '__gruppe' }, ...optionList];
 		}
-		const optionList = primærvalg.map((v) => ({ value: feltverdiKey(v), label: v.visningsnavn }));
+		const optionList = [...primærvalg, ...avanserteValg].map((v) => ({
+			value: feltverdiKey(v),
+			label: v.visningsnavn,
+		}));
 		return [{ label: 'Gruppe', value: '__gruppe' }, ...optionList];
 	};
 
