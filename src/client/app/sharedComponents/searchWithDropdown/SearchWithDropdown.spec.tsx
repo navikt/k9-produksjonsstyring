@@ -14,7 +14,6 @@ const defaultProps: SearchWithDropdownProps = {
 	label: 'Search label',
 	suggestions,
 	heading: 'Suggestion heading',
-	addButtonText: 'Add suggestion',
 	updateSelection: jest.fn(),
 	selectedValues: [],
 };
@@ -35,6 +34,6 @@ describe('SearchWithDropdown', () => {
 
 	it('renders selected suggestions correctly', () => {
 		render(<SearchWithDropdown {...defaultProps} selectedValues={['Value 1']} />);
-		expect(screen.getByText('Label 1')).toBeInTheDocument();
+		expect(screen.getByText('Group 1 (1)')).toBeInTheDocument();
 	});
 });
