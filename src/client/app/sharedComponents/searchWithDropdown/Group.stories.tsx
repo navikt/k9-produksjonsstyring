@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { GroupedChips } from './Group';
+import { SelectedValues } from './SelectedValues';
 
 const meta = {
-	component: GroupedChips,
+	component: SelectedValues,
 	title: 'sharedComponents/searchWithDropdown/Group',
 	args: {
-		chips: [
+		values: [
 			{
 				value: '5015',
 				label: '5015 - Foreslå vedtak',
@@ -163,7 +163,7 @@ const meta = {
 			},
 		],
 	},
-} satisfies Meta<typeof GroupedChips>;
+} satisfies Meta<typeof SelectedValues>;
 
 export default meta;
 

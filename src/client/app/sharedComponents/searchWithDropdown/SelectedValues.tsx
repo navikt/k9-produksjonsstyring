@@ -9,17 +9,18 @@ type groupObject = {
 };
 
 interface Props {
-	chips: groupObject[];
+	values: groupObject[];
 }
 
 const Group = ({ group, chips }) => {
 	const [open, setOpen] = useState(false);
 
 	return (
-		<div className={`bg-bg-subtle rounded-md ${open ? 'p-1 py-0 pl-0' : ''}`}>
+		<div className={open ? `bg-[#F2F9FF] rounded-md p-1 py-0 pl-0` : ''}>
 			<Button
 				style={{ padding: '4px' }}
 				size="small"
+				type="button"
 				icon={!open ? <ChevronDownIcon /> : <ChevronUpIcon />}
 				variant="tertiary"
 				onClick={() => setOpen(!open)}
@@ -41,16 +42,16 @@ const Group = ({ group, chips }) => {
 	);
 };
 
-export const GroupedChips = ({ chips }: Props) => {
+export const SelectedValues = ({ values }: Props) => {
 	const getUniqueGroups = () => {
-		const groups = chips.map((group) => group.group);
+		const groups = values.map((group) => group.group);
 		return [...new Set(groups)];
 	};
 	const groups = getUniqueGroups();
 	return (
 		<div className="flex flex-wrap gap-2">
 			{groups.map((group) => (
-				<Group key={group} group={group} chips={chips.filter((v) => v.group === group)} />
+				<Group key={group} group={group} chips={values.filter((v) => v.group === group)} />
 			))}
 		</div>
 	);
