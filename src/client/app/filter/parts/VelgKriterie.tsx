@@ -39,7 +39,7 @@ const VelgKriterie = ({ oppgavefilter, addGruppeOperation, køvisning, paakrevde
 		const primærvalg = kriterierSomKanVelges?.filter((v) => v.kokriterie);
 		const avanserteValg = kriterierSomKanVelges?.filter((v) => !v.kokriterie);
 
-		if (visAvanserteValg === 'ja') {
+		if (visAvanserteValg === 'ja' || !køvisning) {
 			const valg = [...primærvalg, ...avanserteValg];
 			const selectedChild = valg.findIndex((v) => v === avanserteValg[0]);
 			if (selectedChild !== -1) {
@@ -48,10 +48,7 @@ const VelgKriterie = ({ oppgavefilter, addGruppeOperation, køvisning, paakrevde
 			const optionList = valg.map((v) => ({ value: feltverdiKey(v), label: v.visningsnavn }));
 			return [{ label: 'Gruppe', value: '__gruppe' }, ...optionList];
 		}
-		const optionList = [...primærvalg, ...avanserteValg].map((v) => ({
-			value: feltverdiKey(v),
-			label: v.visningsnavn,
-		}));
+		const optionList = primærvalg.map((v) => ({ value: feltverdiKey(v), label: v.visningsnavn }));
 		return [{ label: 'Gruppe', value: '__gruppe' }, ...optionList];
 	};
 
