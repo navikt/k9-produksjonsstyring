@@ -10,9 +10,10 @@ type groupObject = {
 
 interface Props {
 	values: groupObject[];
+	remove: (value: string) => void;
 }
 
-const Group = ({ group, chips }) => {
+const Group = ({ group, chips, remove }: { group: string; chips: Props['values']; remove: Props['remove'] }) => {
 	const [open, setOpen] = useState(false);
 
 	return (
@@ -30,11 +31,11 @@ const Group = ({ group, chips }) => {
 			{open && (
 				<div className="p-2">
 					<Chips size="small">
-						{chips
-							.filter((v) => v.group === group)
-							.map((v) => (
-								<Chips.Removable key={v.value}>{v.label}</Chips.Removable>
-							))}
+						{chips.map((v) => (
+							<Chips.Removable key={v.value} onClick={() => remove(v.value)}>
+								{v.label}
+							</Chips.Removable>
+						))}
 					</Chips>
 				</div>
 			)}
@@ -42,7 +43,7 @@ const Group = ({ group, chips }) => {
 	);
 };
 
-export const SelectedValues = ({ values }: Props) => {
+export const SelectedValues = ({ values, remove }: Props) => {
 	const getUniqueGroups = () => {
 		const groups = values.map((group) => group.group);
 		return [...new Set(groups)];
@@ -51,7 +52,7 @@ export const SelectedValues = ({ values }: Props) => {
 	return (
 		<div className="flex flex-wrap gap-2">
 			{groups.map((group) => (
-				<Group key={group} group={group} chips={values.filter((v) => v.group === group)} />
+				<Group key={group} group={group} chips={values.filter((v) => v.group === group)} remove={remove} />
 			))}
 		</div>
 	);

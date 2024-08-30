@@ -177,7 +177,7 @@ const SearchWithDropdown: React.FC<SearchWithDropdownProps> = (props) => {
 					</Button>
 				</div>
 			)}
-			<SelectedValues values={sv} />
+			<SelectedValues values={sv} remove={onRemoveSuggestion} />
 			{error && <ErrorMessage>{error}</ErrorMessage>}
 		</div>
 	);
