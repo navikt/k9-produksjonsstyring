@@ -5,12 +5,9 @@ import SearchDropdownMedPredefinerteVerdier, {
 } from 'filter/parts/SearchDropdownMedPredefinerteVerdier';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
 
-const AksjonspunktVelger: FunctionComponent<SearchDropdownPredefinerteVerdierProps> = ({
-	onChange,
-	feltdefinisjon,
-	oppgavefilter,
-	error,
-}) => {
+const AksjonspunktVelger: FunctionComponent<
+	SearchDropdownPredefinerteVerdierProps & { skjulValgteVerdierUnderDropdown: boolean }
+> = ({ onChange, feltdefinisjon, oppgavefilter, error, skjulValgteVerdierUnderDropdown }) => {
 	const oppgavekoder = useKodeverk(kodeverkTyper.OPPGAVE_KODE);
 	const formaterteOppgavekoder = oppgavekoder
 		.map((oppgavekode) => ({
@@ -28,6 +25,7 @@ const AksjonspunktVelger: FunctionComponent<SearchDropdownPredefinerteVerdierPro
 			suggestions={formaterteOppgavekoder}
 			groups={grupper}
 			error={error}
+			skjulValgteVerdierUnderDropdown={skjulValgteVerdierUnderDropdown}
 		/>
 	);
 };

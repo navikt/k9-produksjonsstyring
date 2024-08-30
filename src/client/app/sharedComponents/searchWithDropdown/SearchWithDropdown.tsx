@@ -26,6 +26,7 @@ export type SearchWithDropdownProps = {
 	error?: string;
 	className?: string;
 	id?: string;
+	skjulValgteVerdierUnderDropdown?: boolean;
 };
 
 const SearchWithDropdown: React.FC<SearchWithDropdownProps> = (props) => {
@@ -42,6 +43,7 @@ const SearchWithDropdown: React.FC<SearchWithDropdownProps> = (props) => {
 		id,
 		showLabel = false,
 		size = 'small',
+		skjulValgteVerdierUnderDropdown = false,
 	} = props;
 
 	const [selectedSuggestionValues, setSelectedSuggestionValues] = useState(selectedValues);
@@ -169,15 +171,9 @@ const SearchWithDropdown: React.FC<SearchWithDropdownProps> = (props) => {
 					/>
 				)}
 			</SearchForm>
-			{selectedValues.length > 0 && (
-				<div>
-					<Label className="self-center text-sm ">Valgte:</Label>
-					<Button icon={<TrashIcon />} variant="tertiary" size="xsmall" onClick={removeAllSuggestions}>
-						<span className="text-sm">Fjern alle</span>
-					</Button>
-				</div>
+			{!skjulValgteVerdierUnderDropdown && (
+				<SelectedValues values={sv} remove={onRemoveSuggestion} removeAllValues={removeAllSuggestions} />
 			)}
-			<SelectedValues values={sv} remove={onRemoveSuggestion} />
 			{error && <ErrorMessage>{error}</ErrorMessage>}
 		</div>
 	);
