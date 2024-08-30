@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { useKodeverk } from 'api/rest-api-hooks';
 import { FilterContext } from 'filter/FilterContext';
 import { FeltverdiOppgavefilter } from 'filter/filterTsTypes';
-import { removeFilter, updateFilter } from 'filter/queryUtils';
+import { updateFilter } from 'filter/queryUtils';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
 import { SelectedValues } from 'sharedComponents/searchWithDropdown/SelectedValues';
 
@@ -21,7 +21,7 @@ export const Aksjonspunktvisning = ({ oppgavefilter }: Props) => {
 		}))
 		.sort((a, b) => Number(a.value) - Number(b.value));
 
-	const valgteAksjonspunkter = oppgavefilter.verdi as string[];
+	const valgteAksjonspunkter = (oppgavefilter.verdi as string[]) || [];
 	const values = valgteAksjonspunkter.map((value) => {
 		const aksjonspunkt = formaterteOppgavekoder.find((ap) => ap.value === value);
 		return {
