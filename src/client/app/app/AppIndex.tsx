@@ -40,31 +40,7 @@ const AppIndex: FunctionComponent = () => {
 	const location = useLocation();
 	const queryStrings = parseQueryString(location.search);
 
-	return (
-		<ErrorBoundary errorMessageCallback={addErrorMessageAndSetAsCrashed}>
-			<AppConfigResolver>
-				<LanguageProvider>
-					<HeaderWithErrorPanel queryStrings={queryStrings} crashMessage={crashMessage} />
-					{sessionHarUtlopt && (
-						<Modal
-							className="min-w-[500px]"
-							open
-							onClose={() => window.location.reload()}
-							header={{ heading: 'Sesjonen er utløpt', icon: <ExclamationmarkTriangleIcon />, closeButton: false }}
-						>
-							<Modal.Body>
-								Økten din har utløpt etter en periode med inaktivitet. Vennligst logg inn på nytt for å fortsette.
-							</Modal.Body>
-							<Modal.Footer>
-								<Button onClick={() => window.location.reload()}>Logg inn på nytt</Button>
-							</Modal.Footer>
-						</Modal>
-					)}
-					{!crashMessage && <Home />}
-				</LanguageProvider>
-			</AppConfigResolver>
-		</ErrorBoundary>
-	);
+	return <></>;
 };
 
 export default AppIndex;
