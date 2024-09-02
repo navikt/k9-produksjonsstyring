@@ -1,7 +1,7 @@
 const apiPaths = {
 	aksjonspunkterPerEnhet: '/api/k9-los-api/avdelingsleder/nokkeltall/aksjonspunkter-per-enhet-historikk',
 	allePaaVent: '/api/k9-los-api/avdelingsleder/nokkeltall/alle-paa-vent_v2',
-	antallOppgaverIKoV3: (id: string) => `/api/k9-los-api/ny-oppgavestyring/ko/${id}/antall-oppgaver`,
+	antallOppgaverIKoV3: (id: string) => `/api/k9-los-api/ny-oppgavestyring/ko/${id}/antall`,
 	avdelinglederReservasjoner: '/api/k9-los-api/avdelingsleder/reservasjoner',
 	endreReservasjoner: '/api/k9-los-api/saksbehandler/oppgaver/reservasjon/endre',
 	opphevReservasjoner: '/api/k9-los-api/saksbehandler/oppgaver/opphev',

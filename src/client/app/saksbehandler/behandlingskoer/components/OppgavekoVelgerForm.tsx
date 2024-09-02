@@ -75,9 +75,9 @@ export const OppgavekoVelgerForm: FunctionComponent<OwnProps> = ({ plukkNyOppgav
 	const oppgavekoerSortertAlfabetisk = oppgavekoer.sort((a, b) => a.navn.localeCompare(b.navn));
 	const harKoer = !!oppgavekoerSortertAlfabetisk.length;
 	const valgtKoId = getDefaultOppgaveko(oppgavekoerSortertAlfabetisk);
-	const { data: antallOppgaverV3 } = useAntallOppgaverIKoV3(getKoId(valgtKoId), {
+	const antallOppgaverV3 = useAntallOppgaverIKoV3(getKoId(valgtKoId), {
 		enabled: harKoer && valgtKoId && erKoV3(valgtKoId),
-	});
+	})?.data?.antallUtenReserverte;
 
 	const { data: saksbehandlere, startRequest: hentSaksbehandlere } = useRestApiRunner<Saksbehandler[]>(
 		K9LosApiKeys.OPPGAVEKO_SAKSBEHANDLERE,

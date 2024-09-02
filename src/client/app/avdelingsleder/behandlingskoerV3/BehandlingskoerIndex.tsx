@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import { useQuery } from 'react-query';
 import dayjs from 'dayjs';
 import { PlusCircleIcon } from '@navikt/aksel-icons';
@@ -32,11 +32,11 @@ const berikMedAntallOppgaver = (køArray: OppgavekøV3Enkel[]) =>
 		async () => {
 			const requests = køArray.map(async (kø) => {
 				try {
-					const response = await axiosInstance.get(apiPaths.antallOppgaverIKoV3(kø.id));
-					return { ...kø, antallOppgaver: response.data };
+					const { data } = await axiosInstance.get(apiPaths.antallOppgaverIKoV3(kø.id));
+					return { ...kø, ...data };
 					// eslint-disable-next-line @typescript-eslint/no-unused-vars
 				} catch (error) {
-					return { ...kø, antallOppgaver: undefined };
+					return { ...kø };
 				}
 			});
 
@@ -54,12 +54,13 @@ const Row = ({
 	isLoadingAntallOppgaver,
 	toggleExpand,
 }: {
-	kø: OppgavekøV3Enkel & { antallOppgaver?: number };
+	kø: OppgavekøV3Enkel & { antallUtenReserverte?: number; antallMedReserverte?: number };
 	ekspandert: boolean;
 	isLoadingAntallOppgaver: boolean;
 	toggleExpand: () => void;
 }) => (
 	<Table.ExpandableRow
+		key={kø.id}
 		onOpenChange={toggleExpand}
 		open={ekspandert}
 		togglePlacement="left"
@@ -68,7 +69,11 @@ const Row = ({
 		<Table.DataCell scope="row">{kø.tittel}</Table.DataCell>
 		<Table.DataCell>{kø.antallSaksbehandlere || '0'}</Table.DataCell>
 		<Table.DataCell>
-			{isLoadingAntallOppgaver ? <Skeleton variant="text" /> : (kø?.antallOppgaver ?? '-')}
+			{isLoadingAntallOppgaver ? (
+				<Skeleton variant="text" />
+			) : (
+				(`${kø?.antallUtenReserverte} (${kø.antallMedReserverte})` ?? '-')
+			)}
 		</Table.DataCell>
 		<Table.DataCell>{kø.sistEndret ? dayjs(kø.sistEndret).format('DD.MM.YYYY HH:mm') : '-'}</Table.DataCell>
 		<Table.DataCell>
@@ -156,8 +161,8 @@ const BehandlingskoerIndex = () => {
 						<Table.ColumnHeader sortKey="antallSaksbehandlere" sortable scope="col">
 							Saksbehandlere
 						</Table.ColumnHeader>
-						<Table.ColumnHeader sortKey="antallOppgaver" sortable={harHentetAntallOppgaver} scope="col">
-							Antall oppgaver
+						<Table.ColumnHeader sortKey="antallUtenReserverte" sortable={harHentetAntallOppgaver} scope="col">
+							Antall oppgaver (med reserverte)
 						</Table.ColumnHeader>
 						<Table.ColumnHeader sortKey="sistEndret" sortable scope="col">
 							Sist endret
@@ -169,7 +174,6 @@ const BehandlingskoerIndex = () => {
 					{sortedData?.map((kø) => (
 						<Row
 							kø={kø}
-							key={kø.id}
 							isLoadingAntallOppgaver={isLoadingAntallOppgaver}
 							ekspandert={ekspanderteKøer.includes(kø.id)}
 							toggleExpand={() => toggleExpand(kø.id)}
