@@ -40,7 +40,7 @@ const AppIndex: FunctionComponent = () => {
 	const location = useLocation();
 	const queryStrings = parseQueryString(location.search);
 
-	return <>a</>;
+	return <>a </>;
 };
 
 export default AppIndex;
