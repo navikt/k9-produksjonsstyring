@@ -39,7 +39,7 @@ const VelgKriterie = ({ oppgavefilter, addGruppeOperation, køvisning, paakrevde
 		const primærvalg = kriterierSomKanVelges?.filter((v) => v.kokriterie);
 		const avanserteValg = kriterierSomKanVelges?.filter((v) => !v.kokriterie);
 
-		if (visAvanserteValg === 'ja') {
+		if (visAvanserteValg === 'ja' || !køvisning) {
 			const valg = [...primærvalg, ...avanserteValg];
 			const selectedChild = valg.findIndex((v) => v === avanserteValg[0]);
 			if (selectedChild !== -1) {

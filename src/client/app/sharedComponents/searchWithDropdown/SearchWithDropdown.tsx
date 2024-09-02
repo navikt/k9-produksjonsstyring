@@ -2,9 +2,8 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { TrashIcon } from '@navikt/aksel-icons';
 import { Button, ErrorMessage, Label } from '@navikt/ds-react';
-import Merkelapp from '../merkelapp/Merkelapp';
-import Merkelapper from '../merkelapp/Merkelapper';
 import SearchForm from './SearchForm';
+import { SelectedValues } from './SelectedValues';
 import SuggestionList from './SuggestionList';
 import * as styles from './searchWithDropdown.css';
 
@@ -27,6 +26,7 @@ export type SearchWithDropdownProps = {
 	error?: string;
 	className?: string;
 	id?: string;
+	skjulValgteVerdierUnderDropdown?: boolean;
 };
 
 const SearchWithDropdown: React.FC<SearchWithDropdownProps> = (props) => {
@@ -43,6 +43,7 @@ const SearchWithDropdown: React.FC<SearchWithDropdownProps> = (props) => {
 		id,
 		showLabel = false,
 		size = 'small',
+		skjulValgteVerdierUnderDropdown = false,
 	} = props;
 
 	const [selectedSuggestionValues, setSelectedSuggestionValues] = useState(selectedValues);
@@ -135,6 +136,8 @@ const SearchWithDropdown: React.FC<SearchWithDropdownProps> = (props) => {
 		updateSelection([]);
 	};
 
+	const sv = selectedSuggestionValues.map((s) => getSuggestion(s));
+
 	return (
 		<div className={`${styles.searchContainer} ${className || ''}`}>
 			<SearchForm
@@ -168,22 +171,9 @@ const SearchWithDropdown: React.FC<SearchWithDropdownProps> = (props) => {
 					/>
 				)}
 			</SearchForm>
-			{selectedValues.length > 0 && (
-				<div>
-					<Label className="self-center text-sm ">Valgte:</Label>
-					<Button icon={<TrashIcon />} variant="tertiary" size="xsmall" onClick={removeAllSuggestions}>
-						<span className="text-sm">Fjern alle</span>
-					</Button>
-				</div>
+			{!skjulValgteVerdierUnderDropdown && (
+				<SelectedValues values={sv} remove={onRemoveSuggestion} removeAllValues={removeAllSuggestions} />
 			)}
-			<Merkelapper>
-				{selectedValues.map((suggestion) => (
-					<Merkelapp key={suggestion} onClick={() => onRemoveSuggestion(suggestion)}>
-						{getSuggestion(suggestion)?.label}
-					</Merkelapp>
-				))}
-			</Merkelapper>
-
 			{error && <ErrorMessage>{error}</ErrorMessage>}
 		</div>
 	);

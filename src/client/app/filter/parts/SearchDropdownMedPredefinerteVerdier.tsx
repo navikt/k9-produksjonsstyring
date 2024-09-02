@@ -7,6 +7,7 @@ export interface SearchDropdownPredefinerteVerdierProps extends Partial<SearchWi
 	onChange: (values: string[]) => void;
 	oppgavefilter: FeltverdiOppgavefilter;
 	error?: string;
+	skjulValgteVerdierUnderDropdown: boolean;
 }
 
 const SearchDropdownMedPredefinerteVerdier = ({
@@ -14,6 +15,7 @@ const SearchDropdownMedPredefinerteVerdier = ({
 	onChange,
 	oppgavefilter,
 	error,
+	skjulValgteVerdierUnderDropdown,
 	...rest
 }: SearchDropdownPredefinerteVerdierProps) => (
 	<SearchWithDropdown
@@ -29,6 +31,7 @@ const SearchDropdownMedPredefinerteVerdier = ({
 		className="grow"
 		size="small"
 		error={error}
+		skjulValgteVerdierUnderDropdown={skjulValgteVerdierUnderDropdown}
 		{...rest}
 	/>
 );

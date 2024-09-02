@@ -97,6 +97,7 @@ const KriterieVerdi = ({
 				feltdefinisjon={feltdefinisjon}
 				oppgavefilter={oppgavefilter}
 				error={errorMessage}
+				skjulValgteVerdierUnderDropdown
 			/>
 		);
 	}
