@@ -41,6 +41,7 @@ async function startApp() {
 							'https://sentry.gc.nav.no',
 							'https://familie-endringslogg.intern.dev.nav.no',
 							'https://familie-endringslogg.intern.nav.no',
+							process.env.NAIS_FRONTEND_TELEMETRY_COLLECTOR_URL,
 						],
 						'font-src': ["'self'", 'https://cdn.nav.no', 'data:'],
 						'img-src': ["'self'", 'data:', 'blob:'],
