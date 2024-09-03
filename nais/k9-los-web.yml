@@ -51,7 +51,7 @@ spec:
       memory: 32Mi
   frontend:
     generatedConfig:
-      mountPath: /app/dist/js/nais.js
+      mountPath: /app/dist/public/nais.js
   ingresses:
   {{#each ingresses as |url|}}
     - {{url}}

@@ -34,7 +34,7 @@ const config = {
 			template: path.join(ROOT_DIR, 'index.html'),
 		}),
 		new CopyPlugin({
-			patterns: [{ from: 'webpack/faroConfig.js', to: 'dist/js/nais.js' }],
+			patterns: [{ from: 'webpack/faroConfig.js', to: 'public/nais.js' }],
 		}),
 
 		new webpack.HotModuleReplacementPlugin(),

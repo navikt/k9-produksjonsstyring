@@ -106,7 +106,6 @@ const config = {
 			failOnError: true,
 		}),
 	],
-	externals: { './faroConfig': 'false' },
 
 	resolve: {
 		alias: {

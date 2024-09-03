@@ -8,7 +8,7 @@
 		<script type="module">
 			// Dynamically import nais.js. Workaround til vi kan importere nais.js direkte i app.tsx via relative path når vi bytter til vite
 			// https://docs.nais.io/explanation/observability/frontend/?h=faro#tracing-opentelemetry
-			import('/dist/js/nais.js')
+			import('/public/nais.js')
 				.then((naisModule) => {
 					const faroConfig = naisModule.default;
 					window.nais = faroConfig;
