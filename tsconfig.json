@@ -27,5 +27,5 @@
 			"utils/*": ["app/utils/*"]
 		}
 	},
-	"include": ["src", "setup/setup-test-env.ts"]
+	"include": ["src", "setup/setup-test-env.ts", "./globals.d.ts"]
 }
