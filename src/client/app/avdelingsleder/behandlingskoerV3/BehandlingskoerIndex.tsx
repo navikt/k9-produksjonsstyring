@@ -39,7 +39,6 @@ const berikMedAntallOppgaver = (køArray: OppgavekøV3Enkel[]) =>
 					return { ...kø };
 				}
 			});
-
 			return Promise.all(requests);
 		},
 		{
@@ -72,7 +71,7 @@ const Row = ({
 			{isLoadingAntallOppgaver ? (
 				<Skeleton variant="text" />
 			) : (
-				(`${kø?.antallUtenReserverte} (${kø.antallMedReserverte})` ?? '-')
+				`${kø?.antallUtenReserverte ?? '-'} (${kø?.antallMedReserverte ?? '-'})`
 			)}
 		</Table.DataCell>
 		<Table.DataCell>{kø.sistEndret ? dayjs(kø.sistEndret).format('DD.MM.YYYY HH:mm') : '-'}</Table.DataCell>
@@ -85,7 +84,7 @@ const Row = ({
 const BehandlingskoerIndex = () => {
 	const { data: initielleKøer, isLoading, error } = useAlleKoer();
 	const {
-		data: køer,
+		data: køerMedAntallOppgaver,
 		isLoading: isLoadingAntallOppgaver,
 		isSuccess: harHentetAntallOppgaver,
 	} = berikMedAntallOppgaver(initielleKøer);
@@ -118,6 +117,7 @@ const BehandlingskoerIndex = () => {
 	};
 
 	const sortData = () => {
+		const køer = køerMedAntallOppgaver || initielleKøer;
 		if (!køer || !sort) return køer;
 
 		return køer.slice().sort((a, b) => {
