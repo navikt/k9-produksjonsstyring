@@ -49,6 +49,9 @@ spec:
     requests:
       cpu: 200m
       memory: 32Mi
+  frontend:
+    generatedConfig:
+      mountPath: /app/dist/js/nais.js
   ingresses:
   {{#each ingresses as |url|}}
     - {{url}}

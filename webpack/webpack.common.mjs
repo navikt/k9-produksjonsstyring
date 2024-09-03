@@ -1,8 +1,7 @@
-import { fileURLToPath } from 'url';
-
 import CircularDependencyPlugin from 'circular-dependency-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import path from 'path';
+import { fileURLToPath } from 'url';
 
 const isDevelopment = JSON.stringify(process.env.NODE_ENV) === '"development"';
 
@@ -107,6 +106,7 @@ const config = {
 			failOnError: true,
 		}),
 	],
+	externals: { './faroConfig': 'false' },
 
 	resolve: {
 		alias: {

@@ -6943,7 +6943,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"copy-webpack-plugin@npm:12.0.2":
+"copy-webpack-plugin@npm:^12.0.2":
   version: 12.0.2
   resolution: "copy-webpack-plugin@npm:12.0.2"
   dependencies:
@@ -11790,7 +11790,7 @@ __metadata:
     chai: 4.5.0
     circular-dependency-plugin: 5.2.2
     classnames: 2.5.1
-    copy-webpack-plugin: 12.0.2
+    copy-webpack-plugin: ^12.0.2
     cross-env: 7.0.3
     css-loader: 7.1.2
     css-minimizer-webpack-plugin: 7.0.0

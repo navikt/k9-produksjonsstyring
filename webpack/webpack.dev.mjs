@@ -1,6 +1,7 @@
-import { fileURLToPath } from 'url';
+import CopyPlugin from 'copy-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import path from 'path';
+import { fileURLToPath } from 'url';
 import webpack from 'webpack';
 import { merge } from 'webpack-merge';
 import commonDevAndProd from './webpack.common.mjs';
@@ -32,6 +33,10 @@ const config = {
 			favicon: path.join(ROOT_DIR, 'favicon.ico'),
 			template: path.join(ROOT_DIR, 'index.html'),
 		}),
+		new CopyPlugin({
+			patterns: [{ from: 'webpack/faroConfig.js', to: 'dist/js/nais.js' }],
+		}),
+
 		new webpack.HotModuleReplacementPlugin(),
 		new webpack.EnvironmentPlugin({
 			MSW_MODE: process.env.MSW_MODE || 'disabled',
