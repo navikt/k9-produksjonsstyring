@@ -1,6 +1,8 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import { useIdleTimer } from 'react-idle-timer';
 import { useLocation } from 'react-router';
+import { getWebInstrumentations, initializeFaro } from '@grafana/faro-web-sdk';
+import { TracingInstrumentation } from '@grafana/faro-web-tracing';
 import { ExclamationmarkTriangleIcon } from '@navikt/aksel-icons';
 import { Button, Modal } from '@navikt/ds-react';
 import { parseQueryString } from 'utils/urlUtils';
@@ -19,9 +21,22 @@ import Home from './components/Home';
  * Komponenten er også ansvarlig for å hente innlogget NAV-ansatt, rettskilde-url,
  * og kodeverk fra server og lagre desse i klientens state.
  */
+
 const AppIndex: FunctionComponent = () => {
 	const [crashMessage, setCrashMessage] = useState<string>();
 	const [sessionHarUtlopt, setSessionHarUtlopt] = useState<boolean>(false);
+
+	useEffect(() => {
+		if (window.location.hostname.includes('nav.no')) {
+			if (window.nais?.app && window.nais?.telemetryCollectorURL) {
+				initializeFaro({
+					url: window.nais?.telemetryCollectorURL,
+					app: window.nais?.app,
+					instrumentations: [...getWebInstrumentations({ captureConsole: true }), new TracingInstrumentation()],
+				});
+			}
+		}
+	}, [window.nais?.app, window.nais?.telemetryCollectorURL]);
 	const timeout = 1000 * 60 * 58;
 
 	const handleOnIdle = (): void => {
