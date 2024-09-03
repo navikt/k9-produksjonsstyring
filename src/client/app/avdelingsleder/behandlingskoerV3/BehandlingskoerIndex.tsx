@@ -43,7 +43,6 @@ const berikMedAntallOppgaver = (køArray: OppgavekøV3Enkel[]) =>
 		},
 		{
 			enabled: !!køArray,
-			placeholderData: køArray,
 		},
 	);
 
