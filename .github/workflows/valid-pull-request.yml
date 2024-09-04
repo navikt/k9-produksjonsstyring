@@ -54,6 +54,7 @@ jobs:
           push-image: 'false'
           upload-image: 'true'
           docker_platforms: 'linux/amd64'
+          without_navikt_prefix: 'true'
 
   verdikjede-tester:
     name: Verdikjedetester
