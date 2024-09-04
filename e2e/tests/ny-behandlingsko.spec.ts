@@ -70,7 +70,7 @@ test('kan redigere kø', async ({ page }) => {
 	await page.getByRole('button', { name: 'Legg til', exact: true }).click();
 	await page.getByLabel('Løsbart aksjonspunkt').click();
 	await page.getByText('Beregning').click();
-	await page.locator('#feltpanel-5').getByRole('button', { name: 'Lukk' }).click();
+	await page.locator('#feltpanel-7').getByRole('button', { name: 'Lukk' }).click();
 	await page.getByRole('button', { name: 'Legg til nytt kriterie' }).click();
 	await page.getByLabel('Velg kriterie:').click();
 	await page.getByRole('option', { name: 'Behandlingstype' }).click();
@@ -79,13 +79,17 @@ test('kan redigere kø', async ({ page }) => {
 	await page.getByText('Førstegangsbehandling').click();
 	await page.getByRole('option', { name: 'Innsyn' }).click();
 	await page.getByText('Inntektsmeldinger uten søknad').click();
+	await page.getByLabel('Ytelsestype').click();
+	await page.getByRole('option', { name: 'Pleiepenger sykt barn' }).click();
+
 	await page.getByRole('button', { name: 'Legg til nytt kriterie' }).click();
 
 	// Legg til boolean
 	await page.getByLabel('Velg kriterie:').click();
 	await page.getByRole('option', { name: 'Søknad om nye perioder' }).click();
 	await page.getByRole('button', { name: 'Legg til', exact: true }).click();
-	await page.getByLabel('Ja', { exact: true }).check();
+	await page.getByRole('group', { name: 'Ligger hos beslutter' }).getByLabel('Ja').check();
+	await page.getByRole('group', { name: 'Søknad om nye perioder' }).getByLabel('Ja').check();
 
 	// Legg til anvarlig saksbehandler
 	await page.getByRole('button', { name: 'Legg til nytt kriterie' }).click();
@@ -128,8 +132,8 @@ test('tidligere lagret kø vises korrekt', async ({ page }) => {
 	await page.getByRole('button', { name: 'Innsyn' }).isVisible();
 
 	// boolean settes
-	await expect(page.getByLabel('Ja', { exact: true })).toBeChecked(); // See if ja is checked
-
+	await page.getByRole('group', { name: 'Ligger hos beslutter' }).getByLabel('Ja').check();
+	await page.getByRole('group', { name: 'Søknad om nye perioder' }).getByLabel('Ja').check();
 	// fritekst settes
 	await expect(page.getByLabel('Skriv fritekst')).toHaveValue('M13337');
 });
