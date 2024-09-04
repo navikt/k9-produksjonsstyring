@@ -37,6 +37,7 @@ const AppIndex: FunctionComponent = () => {
 			}
 		}
 	}, [window.nais?.app, window.nais?.telemetryCollectorURL]);
+	console.log('test');
 	const timeout = 1000 * 60 * 58;
 
 	const handleOnIdle = (): void => {
