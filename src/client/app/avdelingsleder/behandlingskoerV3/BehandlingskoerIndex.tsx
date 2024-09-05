@@ -172,6 +172,7 @@ const BehandlingskoerIndex = () => {
 				<Table.Body>
 					{sortedData?.map((kø) => (
 						<Row
+							key={kø.id}
 							kø={kø}
 							isLoadingAntallOppgaver={isLoadingAntallOppgaver}
 							ekspandert={ekspanderteKøer.includes(kø.id)}
