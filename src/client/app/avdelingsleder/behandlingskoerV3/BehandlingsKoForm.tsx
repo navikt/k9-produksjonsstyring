@@ -4,8 +4,9 @@ import { FormattedMessage } from 'react-intl';
 import { PencilIcon } from '@navikt/aksel-icons';
 import { Alert, Button, ErrorMessage, Heading, Label, Modal } from '@navikt/ds-react';
 import { Form, InputField, TextAreaField } from '@navikt/ft-form-hooks';
-import { minLength, required } from '@navikt/ft-form-validators';
+import { required } from '@navikt/ft-form-validators';
 import { useKo, useOppdaterKøMutation } from 'api/queries/avdelingslederQueries';
+import { Saksbehandler } from 'avdelingsleder/bemanning/saksbehandlerTsType';
 import { AvdelingslederContext } from 'avdelingsleder/context';
 import FilterIndex from 'filter/FilterIndex';
 import { OppgaveQuery } from 'filter/filterTsTypes';
@@ -29,7 +30,22 @@ interface BaseProps {
 interface BehandlingsKoFormProps extends BaseProps {
 	kø: OppgavekøV3;
 }
-
+const saksbehandlereMapper = (saksbehandlere: Saksbehandler[]) => {
+	const relevanteEnheterForAvdelingsleder = ['2103', '4403', '4410'];
+	const isProd = window.location.hostname.includes('intern.nav.no');
+	if (isProd) {
+		return saksbehandlere.map((saksbehandler) => ({
+			value: saksbehandler.epost,
+			label: saksbehandler.navn || saksbehandler.epost,
+			group: relevanteEnheterForAvdelingsleder.includes(saksbehandler.enhet) ? saksbehandler.enhet : 'Andre enheter',
+		}));
+	}
+	return saksbehandlere.map((saksbehandler) => ({
+		value: saksbehandler.epost,
+		label: saksbehandler.navn || saksbehandler.epost,
+		group: saksbehandler.enhet,
+	}));
+};
 const BehandlingsKoForm = ({ kø, lukk, ekspandert, id }: BehandlingsKoFormProps) => {
 	const { versjon } = kø;
 	const [visFilterModal, setVisFilterModal] = useState(false);
@@ -61,12 +77,7 @@ const BehandlingsKoForm = ({ kø, lukk, ekspandert, id }: BehandlingsKoFormProps
 		}
 	}, [visSuksess]);
 
-	const manglerGruppering = 'Mangler gruppering';
-	const formaterteSaksbehandlere = alleSaksbehandlere.map((saksbehandler) => ({
-		value: saksbehandler.epost,
-		label: saksbehandler.navn || saksbehandler.epost,
-		group: saksbehandler.enhet || manglerGruppering,
-	}));
+	const formaterteSaksbehandlere = saksbehandlereMapper(alleSaksbehandlere);
 	const onSubmit = (data) => {
 		lagreMutation.mutate(data);
 	};
