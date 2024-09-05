@@ -37,7 +37,9 @@ const saksbehandlereMapper = (saksbehandlere: Saksbehandler[]) => {
 		return saksbehandlere.map((saksbehandler) => ({
 			value: saksbehandler.epost,
 			label: saksbehandler.navn || saksbehandler.epost,
-			group: relevanteEnheterForAvdelingsleder.includes(saksbehandler.enhet) ? saksbehandler.enhet : 'Andre enheter',
+			group: relevanteEnheterForAvdelingsleder.find((enhet) => saksbehandler.enhet.includes(enhet))
+				? saksbehandler.enhet
+				: 'Andre enheter',
 		}));
 	}
 	return saksbehandlere.map((saksbehandler) => ({
