@@ -49,6 +49,7 @@ test('kan redigere kø', async ({ page }) => {
 
 	await page.getByRole('button', { name: 'Legg til nytt kriterie' }).click();
 
+	await page.getByRole('checkbox', { name: 'Avanserte valg' }).click();
 	await page.getByLabel('Velg kriterie:').click();
 	await page.getByRole('option', { name: 'Hittil akkumulert ventetid på annet for denne oppgaven' }).click();
 	await page.getByRole('button', { name: 'Legg til', exact: true }).click();
