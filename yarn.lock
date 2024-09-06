@@ -1728,16 +1728,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@chromatic-com/storybook@npm:^1.7.0":
-  version: 1.7.0
-  resolution: "@chromatic-com/storybook@npm:1.7.0"
+"@chromatic-com/storybook@npm:^1.9.0":
+  version: 1.9.0
+  resolution: "@chromatic-com/storybook@npm:1.9.0"
   dependencies:
     chromatic: ^11.4.0
     filesize: ^10.0.12
     jsonfile: ^6.1.0
     react-confetti: ^6.1.0
     strip-ansi: ^7.1.0
-  checksum: 968abe1189f40eff0e663bc419443bbf346f19ae5b92a057e4f94a36eb0bb9d180d3a8f8ed0178ece57e11138fdf7f443fd3c8f687405a5cae9221bd7ebe9b58
+  checksum: 12ada9213a48e1145311e43cd2f972e312c77c978e3610eabbd698793011aeafe2a9256dd62c06492cbed7bc2b7c274f3a10887016c3333380b66180e40782cf
   languageName: node
   linkType: hard
 
@@ -12121,7 +12121,7 @@ __metadata:
     "@babel/preset-react": 7.24.7
     "@babel/preset-typescript": 7.24.7
     "@babel/register": 7.24.6
-    "@chromatic-com/storybook": ^1.7.0
+    "@chromatic-com/storybook": ^1.9.0
     "@formatjs/intl-datetimeformat": 6.12.5
     "@formatjs/intl-numberformat": 8.10.3
     "@grafana/faro-web-sdk": ^1.9.1
