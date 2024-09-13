@@ -114,7 +114,7 @@
     "@babel/register": "7.24.6",
     "@chromatic-com/storybook": "^1.7.0",
     "@navikt/aksel-stylelint": "6.16.2",
-    "@playwright/test": "1.46.1",
+    "@playwright/test": "1.47.1",
     "@storybook/addon-essentials": "^8.2.9",
     "@storybook/addon-interactions": "^8.2.9",
     "@storybook/addon-links": "^8.2.9",
