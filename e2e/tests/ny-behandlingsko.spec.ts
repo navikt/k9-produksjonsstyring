@@ -43,7 +43,7 @@ test('kan redigere kø', async ({ page }) => {
 	await page.getByRole('button', { name: 'Lagre oppgavekø' }).isEnabled();
 	await page.getByRole('button', { name: 'Lagre oppgavekø' }).click();
 
-	await page.getByRole('button', { name: 'Endre og legge til kriterier' }).click();
+	await page.getByRole('button', { name: 'Legge til, se og endre kriterier' }).click();
 
 	// Legg til Duration
 
@@ -67,9 +67,9 @@ test('kan redigere kø', async ({ page }) => {
 	// Legg til aksjonspunkt
 	await page.getByRole('button', { name: 'Legg til nytt kriterie' }).click();
 	await page.getByLabel('Velg kriterie:').click();
-	await page.getByRole('option', { name: 'Løsbart aksjonspunkt' }).click();
+	await page.getByRole('option', { name: 'Aksjonspunkt' }).click();
 	await page.getByRole('button', { name: 'Legg til', exact: true }).click();
-	await page.getByLabel('Løsbart aksjonspunkt').click();
+	await page.getByLabel('Aksjonspunkt').click();
 	await page.getByText('Beregning').click();
 	await page.locator('#feltpanel-7').getByRole('button', { name: 'Lukk' }).click();
 	await page.getByRole('button', { name: 'Legg til nytt kriterie' }).click();
@@ -89,7 +89,7 @@ test('kan redigere kø', async ({ page }) => {
 	await page.getByLabel('Velg kriterie:').click();
 	await page.getByRole('option', { name: 'Søknad om nye perioder' }).click();
 	await page.getByRole('button', { name: 'Legg til', exact: true }).click();
-	await page.getByRole('group', { name: 'Ligger hos beslutter' }).getByLabel('Ja').check();
+	await page.getByRole('group', { name: 'Til beslutter' }).getByLabel('Ja').check();
 	await page.getByRole('group', { name: 'Søknad om nye perioder' }).getByLabel('Ja').check();
 
 	// Legg til anvarlig saksbehandler
@@ -109,7 +109,7 @@ test('kan redigere kø', async ({ page }) => {
 
 test('tidligere lagret kø vises korrekt', async ({ page }) => {
 	await page.getByRole('row', { name: 'Beskrivende tittel' }).getByRole('button', { name: 'Vis mer' }).click();
-	await page.getByRole('button', { name: 'Endre og legge til kriterier' }).click();
+	await page.getByRole('button', { name: 'Legge til, se og endre kriterier' }).click();
 
 	// Timestamp
 	page.getByText('01.06.2023').isVisible();
@@ -133,7 +133,7 @@ test('tidligere lagret kø vises korrekt', async ({ page }) => {
 	await page.getByRole('button', { name: 'Innsyn' }).isVisible();
 
 	// boolean settes
-	await page.getByRole('group', { name: 'Ligger hos beslutter' }).getByLabel('Ja').check();
+	await page.getByRole('group', { name: 'Til beslutter' }).getByLabel('Ja').check();
 	await page.getByRole('group', { name: 'Søknad om nye perioder' }).getByLabel('Ja').check();
 	// fritekst settes
 	await expect(page.getByLabel('Skriv fritekst')).toHaveValue('M13337');

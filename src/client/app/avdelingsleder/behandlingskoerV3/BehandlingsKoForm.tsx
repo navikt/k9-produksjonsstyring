@@ -159,7 +159,7 @@ const BehandlingsKoForm = ({ kø, lukk, ekspandert, id }: BehandlingsKoFormProps
 					}}
 					icon={<PencilIcon />}
 				>
-					Endre og legge til kriterier
+					Legge til, se og endre kriterier
 				</Button>
 			</div>
 			{formMethods.formState.isDirty && (
