@@ -47,17 +47,15 @@ const Kriterie: React.FC<Props> = ({ oppgavefilter, paakrevdeKoder = [] }) => {
 						</div>
 					</div>
 				)}
-				{!kriterieErPåkrevd && (
-					<div>
-						<Button
-							className="ml-auto"
-							icon={<TrashIcon />}
-							size="small"
-							variant="tertiary"
-							onClick={() => updateQuery([removeFilter(oppgavefilter.id)])}
-						/>
-					</div>
-				)}
+				<div>
+					<Button
+						className={`ml-auto ${kriterieErPåkrevd ? 'invisible' : ''}`}
+						icon={<TrashIcon />}
+						size="small"
+						variant="tertiary"
+						onClick={() => updateQuery([removeFilter(oppgavefilter.id)])}
+					/>
+				</div>
 			</div>
 			{feltdefinisjon && erAksjonspunktFelt(feltdefinisjon) && <Aksjonspunktvisning oppgavefilter={oppgavefilter} />}
 		</div>

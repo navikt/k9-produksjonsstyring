@@ -1,6 +1,14 @@
 import React, { useContext } from 'react';
 import dayjs from 'dayjs';
-import { Checkbox, CheckboxGroup, DatePicker, TextField, useDatepicker, useRangeDatepicker } from '@navikt/ds-react';
+import {
+	Checkbox,
+	CheckboxGroup,
+	DatePicker,
+	Select,
+	TextField,
+	useDatepicker,
+	useRangeDatepicker,
+} from '@navikt/ds-react';
 import AksjonspunktVelger from 'avdelingsleder/behandlingskoerV3/components/AksjonspunktVelger';
 import { FilterContext } from 'filter/FilterContext';
 import { FeltverdiOppgavefilter, Oppgavefelt, OppgavefilterKode, TolkesSom } from 'filter/filterTsTypes';
@@ -99,6 +107,25 @@ const KriterieVerdi = ({
 				error={errorMessage}
 				skjulValgteVerdierUnderDropdown
 			/>
+		);
+	}
+
+	if (feltdefinisjon?.kode === OppgavefilterKode.Personbeskyttelse) {
+		return (
+			<Select
+				label="Personbeskyttelse"
+				hideLabel
+				size="small"
+				value={oppgavefilter.verdi as string}
+				onChange={(e) => handleChangeValue(e.target.value)}
+				error={errorMessage}
+			>
+				{feltdefinisjon.verdiforklaringer.map((verdiforklaring) => (
+					<option key={verdiforklaring.visningsnavn} value={verdiforklaring.verdi}>
+						{verdiforklaring.visningsnavn}
+					</option>
+				))}
+			</Select>
 		);
 	}
 
