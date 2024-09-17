@@ -1647,7 +1647,7 @@ export const felter = [
 	{
 		område: 'K9',
 		kode: 'løsbartAksjonspunkt',
-		visningsnavn: 'Aksjonspunkt',
+		visningsnavn: 'Aksjonspunkt som kan løses',
 		tolkes_som: 'String',
 		verdiforklaringerErUttømmende: false,
 		verdiforklaringer: [
