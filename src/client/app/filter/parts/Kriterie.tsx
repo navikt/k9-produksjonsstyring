@@ -1,11 +1,11 @@
-import React, { useContext, useEffect, useMemo, useState } from 'react';
+import React, { useContext, useMemo } from 'react';
 import { TrashIcon } from '@navikt/aksel-icons';
 import { Button, Label } from '@navikt/ds-react';
 import AppContext from 'app/AppContext';
 import { FilterContext } from 'filter/FilterContext';
 import { aksjonspunktKoder } from 'filter/konstanter';
 import { removeFilter } from 'filter/queryUtils';
-import { FeltverdiOppgavefilter, Oppgavefelt, OppgavefilterKode } from '../filterTsTypes';
+import { FeltverdiOppgavefilter, OppgavefilterKode } from '../filterTsTypes';
 import { Aksjonspunktvisning } from './Aksjonspunktvisning';
 import { generateId } from './FeltverdiOppgavefilterPanel/idGenerator';
 import KriterieOperator from './KriterieOperator';
@@ -24,14 +24,9 @@ const Kriterie: React.FC<Props> = ({ oppgavefilter, paakrevdeKoder = [], readOnl
 
 	const { updateQuery } = useContext(FilterContext);
 	const { felter: kriterierSomKanVelges } = useContext(AppContext);
-	const [feltdefinisjon, setFeltdefinisjon] = useState<Oppgavefelt | undefined>();
-
-	useEffect(() => {
-		const feltdef = kriterierSomKanVelges.find(
-			(fd) => fd.område === oppgavefilter.område && fd.kode === oppgavefilter.kode,
-		);
-		setFeltdefinisjon(feltdef);
-	}, [kriterierSomKanVelges, oppgavefilter.område, oppgavefilter.kode]);
+	const feltdefinisjon = kriterierSomKanVelges.find(
+		(fd) => fd.område === oppgavefilter.område && fd.kode === oppgavefilter.kode,
+	);
 
 	const kriterieErPåkrevd = paakrevdeKoder.some((v) => v === feltdefinisjon?.kode);
 	return (
