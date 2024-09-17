@@ -187,7 +187,7 @@ const HeaderWithErrorPanel: FunctionComponent<OwnProps> = ({ queryStrings, crash
             https://github.com/navikt/familie-endringslogg
             For å nå backend lokalt må man være tilkoblet naisdevice og kjøre opp k9-sak-web på port 8000 pga CORS
             */}
-					{navAnsatt?.brukerIdent && window.location.hostname.includes('nav') && (
+					{navAnsatt?.brukerIdent && (
 						<div className={styles['endringslogg-container']}>
 							<Endringslogg
 								userId={navAnsatt.brukerIdent}
