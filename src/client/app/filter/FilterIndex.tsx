@@ -261,11 +261,7 @@ const FilterIndex = ({ initialQuery, lagre, avbryt, tittel, visningV3, køvisnin
 							oppgavefilter={item}
 							visningV3={visningV3}
 							addGruppeOperation={addGruppe(oppgaveQuery.id)}
-							paakrevdeKoder={[
-								OppgavefilterKode.Oppgavestatus,
-								OppgavefilterKode.Beskyttelse,
-								OppgavefilterKode.EgenAnsatt,
-							]}
+							paakrevdeKoder={[OppgavefilterKode.Oppgavestatus, OppgavefilterKode.Personbeskyttelse]}
 						/>
 					))}
 				</div>
