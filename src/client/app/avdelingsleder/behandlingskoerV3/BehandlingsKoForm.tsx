@@ -9,7 +9,7 @@ import { useKo, useOppdaterKøMutation } from 'api/queries/avdelingslederQueries
 import { Saksbehandler } from 'avdelingsleder/bemanning/saksbehandlerTsType';
 import { AvdelingslederContext } from 'avdelingsleder/context';
 import FilterIndex from 'filter/FilterIndex';
-import { OppgaveQuery } from 'filter/filterTsTypes';
+import { OppgaveQuery, OppgavefilterKode } from 'filter/filterTsTypes';
 import SearchWithDropdown from 'sharedComponents/searchWithDropdown/SearchWithDropdown';
 import { OppgavekøV3 } from 'types/OppgavekøV3Type';
 
@@ -202,6 +202,8 @@ const BehandlingsKoForm = ({ kø, lukk, ekspandert, id }: BehandlingsKoFormProps
 							lagre={lagreIModal}
 							avbryt={() => setVisFilterModal(false)}
 							tittel="Kriterier for kø"
+							paakrevdeKoder={[OppgavefilterKode.Oppgavestatus, OppgavefilterKode.Personbeskyttelse]}
+							readOnlyKoder={kø.skjermet ? [OppgavefilterKode.Personbeskyttelse] : []}
 							visningV3
 							køvisning
 						/>

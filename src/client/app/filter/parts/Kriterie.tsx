@@ -14,11 +14,12 @@ import KriterieVerdi from './KriterieVerdi';
 interface Props {
 	oppgavefilter: FeltverdiOppgavefilter;
 	paakrevdeKoder: OppgavefilterKode[];
+	readOnly: boolean;
 }
 
 const erAksjonspunktFelt = (feltdefinisjon) => aksjonspunktKoder.includes(feltdefinisjon.kode);
 
-const Kriterie: React.FC<Props> = ({ oppgavefilter, paakrevdeKoder = [] }) => {
+const Kriterie: React.FC<Props> = ({ oppgavefilter, paakrevdeKoder = [], readOnly = false }) => {
 	const testID = useMemo(() => generateId(), []);
 
 	const { updateQuery } = useContext(FilterContext);
@@ -41,9 +42,9 @@ const Kriterie: React.FC<Props> = ({ oppgavefilter, paakrevdeKoder = [] }) => {
 				</Label>
 				{oppgavefilter.kode && (
 					<div className="flex grow gap-4">
-						<KriterieOperator oppgavefilter={oppgavefilter} />
+						<KriterieOperator oppgavefilter={oppgavefilter} readOnly={readOnly} />
 						<div className="grow">
-							<KriterieVerdi feltdefinisjon={feltdefinisjon} oppgavefilter={oppgavefilter} />
+							<KriterieVerdi feltdefinisjon={feltdefinisjon} oppgavefilter={oppgavefilter} readOnly={readOnly} />
 						</div>
 					</div>
 				)}

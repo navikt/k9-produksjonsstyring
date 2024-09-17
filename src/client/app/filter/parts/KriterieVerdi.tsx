@@ -30,9 +30,11 @@ const useChangeValue = (oppgavefilter, updateQuery) => (value) => {
 const KriterieVerdi = ({
 	feltdefinisjon,
 	oppgavefilter,
+	readOnly,
 }: {
 	feltdefinisjon?: Oppgavefelt;
 	oppgavefilter: FeltverdiOppgavefilter;
+	readOnly?: boolean;
 }) => {
 	const { updateQuery, errors } = useContext(FilterContext);
 	const errorMessage = errors.find((e) => e.id === oppgavefilter.id && e.felt === 'verdi')?.message;
@@ -119,6 +121,7 @@ const KriterieVerdi = ({
 				value={oppgavefilter.verdi as string}
 				onChange={(e) => handleChangeValue(e.target.value)}
 				error={errorMessage}
+				readOnly={readOnly}
 			>
 				{feltdefinisjon.verdiforklaringer.map((verdiforklaring) => (
 					<option key={verdiforklaring.visningsnavn} value={verdiforklaring.verdi}>
