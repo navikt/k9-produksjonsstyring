@@ -1,10 +1,11 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FormattedMessage } from 'react-intl';
 import { PencilIcon } from '@navikt/aksel-icons';
 import { Alert, Button, ErrorMessage, Heading, Label, Modal } from '@navikt/ds-react';
 import { Form, InputField, TextAreaField } from '@navikt/ft-form-hooks';
 import { required } from '@navikt/ft-form-validators';
+import AppContext from 'app/AppContext';
 import { useKo, useOppdaterKøMutation } from 'api/queries/avdelingslederQueries';
 import { Saksbehandler } from 'avdelingsleder/bemanning/saksbehandlerTsType';
 import { AvdelingslederContext } from 'avdelingsleder/context';
@@ -89,7 +90,21 @@ const BehandlingsKoForm = ({ kø, lukk, ekspandert, id }: BehandlingsKoFormProps
 	};
 	const grupper = [...new Set(formaterteSaksbehandlere.map((oppgavekode) => oppgavekode.group))].sort();
 	const saksbehandlere = formMethods.watch(fieldnames.SAKSBEHANDLERE);
-
+	const feltdefinisjoner = useContext(AppContext).felter;
+	const overstyrteFeltdefinisjoner = useMemo(
+		() => ({
+			felter: feltdefinisjoner.map((felt) => {
+				if (felt.kode === OppgavefilterKode.Personbeskyttelse && !kø.skjermet) {
+					return {
+						...felt,
+						verdiforklaringer: felt.verdiforklaringer.filter((v) => v.verdi !== 'KODE6'),
+					};
+				}
+				return felt;
+			}),
+		}),
+		[feltdefinisjoner, kø.skjermet],
+	);
 	return (
 		<Form formMethods={formMethods}>
 			<div className="grid grid-cols-2 gap-16">
@@ -197,16 +212,18 @@ const BehandlingsKoForm = ({ kø, lukk, ekspandert, id }: BehandlingsKoFormProps
 			{visFilterModal && (
 				<Modal open={visFilterModal} onClose={() => setVisFilterModal(false)} portal width={900}>
 					<Modal.Body className="flex flex-col min-h-[65rem]">
-						<FilterIndex
-							initialQuery={formMethods.watch(fieldnames.OPPGAVE_QUERY)}
-							lagre={lagreIModal}
-							avbryt={() => setVisFilterModal(false)}
-							tittel="Kriterier for kø"
-							paakrevdeKoder={[OppgavefilterKode.Oppgavestatus, OppgavefilterKode.Personbeskyttelse]}
-							readOnlyKoder={kø.skjermet ? [OppgavefilterKode.Personbeskyttelse] : []}
-							visningV3
-							køvisning
-						/>
+						<AppContext.Provider value={overstyrteFeltdefinisjoner}>
+							<FilterIndex
+								initialQuery={formMethods.watch(fieldnames.OPPGAVE_QUERY)}
+								lagre={lagreIModal}
+								avbryt={() => setVisFilterModal(false)}
+								tittel="Kriterier for kø"
+								paakrevdeKoder={[OppgavefilterKode.Oppgavestatus, OppgavefilterKode.Personbeskyttelse]}
+								readOnlyKoder={kø.skjermet ? [OppgavefilterKode.Personbeskyttelse] : []}
+								visningV3
+								køvisning
+							/>
+						</AppContext.Provider>
 					</Modal.Body>
 				</Modal>
 			)}
