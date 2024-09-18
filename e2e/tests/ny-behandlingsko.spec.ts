@@ -71,7 +71,7 @@ test('kan redigere kø', async ({ page }) => {
 	await page.getByRole('button', { name: 'Legg til', exact: true }).click();
 	await page.getByLabel('Aksjonspunkt som kan løses').click();
 	await page.getByText('Beregning').click();
-	await page.locator('#feltpanel-6').getByRole('button', { name: 'Lukk' }).click();
+	await page.locator('#feltpanel-7').getByRole('button', { name: 'Lukk' }).click();
 	await page.getByRole('button', { name: 'Legg til nytt kriterie' }).click();
 	await page.getByLabel('Velg kriterie:').click();
 	await page.getByRole('option', { name: 'Behandlingstype' }).click();
