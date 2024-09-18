@@ -43,5 +43,6 @@ jobs:
       packages: read
     uses: navikt/sif-gha-workflows/.github/workflows/verdikjede-test-v2.yml@main
     with:
+      tag: 'latest'
       suites: 'frontend-los'
       image_version: 'latest'
