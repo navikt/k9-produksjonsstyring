@@ -27,7 +27,7 @@ const OppgavefilterPanel = ({
 	addGruppeOperation,
 	køvisning,
 	paakrevdeKoder,
-	readOnlyKoder,
+	readOnlyKoder = [],
 }: OppgavefilterPanelProps) => {
 	if (oppgavefilter.type === 'feltverdi' && 'kode' in oppgavefilter && oppgavefilter.kode === null) {
 		return (
