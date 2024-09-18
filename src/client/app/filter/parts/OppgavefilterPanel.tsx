@@ -17,6 +17,7 @@ interface OppgavefilterPanelProps {
 	addGruppeOperation?: (model: OppgaveQuery) => OppgaveQuery;
 	køvisning?: boolean;
 	paakrevdeKoder?: OppgavefilterKode[];
+	readOnlyKoder?: OppgavefilterKode[];
 }
 
 /* eslint-disable @typescript-eslint/no-use-before-define */
@@ -26,6 +27,7 @@ const OppgavefilterPanel = ({
 	addGruppeOperation,
 	køvisning,
 	paakrevdeKoder,
+	readOnlyKoder = [],
 }: OppgavefilterPanelProps) => {
 	if (oppgavefilter.type === 'feltverdi' && 'kode' in oppgavefilter && oppgavefilter.kode === null) {
 		return (
@@ -40,7 +42,13 @@ const OppgavefilterPanel = ({
 
 	if (oppgavefilter.type === 'feltverdi' && 'operator' in oppgavefilter) {
 		if (!visningV3) return <FeltverdiOppgavefilterPanel oppgavefilter={oppgavefilter} />;
-		return <Kriterie oppgavefilter={oppgavefilter} paakrevdeKoder={paakrevdeKoder} />;
+		return (
+			<Kriterie
+				oppgavefilter={oppgavefilter}
+				paakrevdeKoder={paakrevdeKoder}
+				readOnly={readOnlyKoder.includes(oppgavefilter.kode)}
+			/>
+		);
 	}
 	if (oppgavefilter.type === 'combine' && 'combineOperator' in oppgavefilter) {
 		if (!visningV3) return <CombineOppgavefilterPanel oppgavefilter={oppgavefilter} />;

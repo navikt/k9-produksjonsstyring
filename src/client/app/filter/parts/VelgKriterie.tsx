@@ -31,9 +31,14 @@ const VelgKriterie = ({ oppgavefilter, addGruppeOperation, køvisning, paakrevde
 			? 'Du må velge et kriterie'
 			: errors.find((e) => e.id === oppgavefilter.id && e.felt === 'kode')?.message;
 
+	// TODO: fjern når de er fjernet i backend
+	const kriterierUtenEgenAnsattOgAdressebeskyttelse = felter.filter(
+		(v) => v.kode !== OppgavefilterKode.Beskyttelse && v.kode !== OppgavefilterKode.EgenAnsatt,
+	);
+
 	const kriterierSomKanVelges = paakrevdeKoder.length
-		? felter.filter((kriterie) => paakrevdeKoder.some((v) => v !== kriterie.kode))
-		: felter;
+		? kriterierUtenEgenAnsattOgAdressebeskyttelse.filter((kriterie) => paakrevdeKoder.some((v) => v !== kriterie.kode))
+		: kriterierUtenEgenAnsattOgAdressebeskyttelse;
 
 	const getOptions = () => {
 		const primærvalg = kriterierSomKanVelges?.filter((v) => v.kokriterie);

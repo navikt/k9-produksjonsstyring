@@ -27,8 +27,13 @@
 }
 .endringslogg-container {
 	color: black;
-	margin-top: -4px;
+	margin-top: 4px;
 }
+
+.endringslogg-container :global(.endringslogg) {
+	margin-right: unset;
+}
+
 .endringslogg-container :global(.endringslogg-dropDown) {
 	transform: scale(0.65);
 }

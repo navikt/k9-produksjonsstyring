@@ -2,11 +2,11 @@ import React, { useContext, useEffect, useMemo } from 'react';
 import { Select } from '@navikt/ds-react';
 import AppContext from 'app/AppContext';
 import { FilterContext } from 'filter/FilterContext';
-import { TolkesSom } from 'filter/filterTsTypes';
+import { FeltverdiOppgavefilter, TolkesSom } from 'filter/filterTsTypes';
 import { updateFilter } from 'filter/queryUtils';
 import { OPERATORS, operatorsFraTolkesSom } from 'filter/utils';
 
-function KriterieOperator({ oppgavefilter }) {
+function KriterieOperator({ oppgavefilter, readOnly }: { oppgavefilter: FeltverdiOppgavefilter; readOnly: boolean }) {
 	const { updateQuery } = useContext(FilterContext);
 	const { felter: kriterierSomKanVelges } = useContext(AppContext);
 
@@ -68,6 +68,7 @@ function KriterieOperator({ oppgavefilter }) {
 				className="w-[12rem]"
 				value={oppgavefilter.operator}
 				onChange={handleChangeOperator}
+				readOnly={readOnly}
 			>
 				{operators.map((operator) => (
 					<option key={operator} value={operator}>
