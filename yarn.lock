@@ -2667,7 +2667,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@navikt/aksel-icons@npm:7.0.1, @navikt/aksel-icons@npm:^7.0.0, @navikt/aksel-icons@npm:^7.0.1":
+"@navikt/aksel-icons@npm:7.1.0":
+  version: 7.1.0
+  resolution: "@navikt/aksel-icons@npm:7.1.0::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40navikt%2Faksel-icons%2F7.1.0%2F01f80ff249d8a5ea0158c737026860fd4b59c08b"
+  checksum: 250ec63831688e52e9ad799f328b42971f6143c6ad7ac2253200e176b02f765c9dd8802ed2f656fe3e3d8a36d50fe6d375913ba2e89daefa465aafeffcc7cc4a
+  languageName: node
+  linkType: hard
+
+"@navikt/aksel-icons@npm:^7.0.0, @navikt/aksel-icons@npm:^7.0.1":
   version: 7.0.1
   resolution: "@navikt/aksel-icons@npm:7.0.1::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40navikt%2Faksel-icons%2F7.0.1%2Fe577737bb8025322cbe3a147cd33ad0e1ce35732"
   checksum: 30e9849cbddb2deba9aea2886a2e2e5aa8721e529f38961e49164241286eb21392cc16966bddd0bda0d189a5f319813fa8db9c761b8f046cb827f11788d0de53
@@ -12069,7 +12076,7 @@ __metadata:
     "@formatjs/intl-numberformat": 8.10.3
     "@grafana/faro-web-sdk": ^1.10.0
     "@grafana/faro-web-tracing": ^1.10.0
-    "@navikt/aksel-icons": 7.0.1
+    "@navikt/aksel-icons": 7.1.0
     "@navikt/aksel-stylelint": 7.0.1
     "@navikt/ds-css": 7.0.1
     "@navikt/ds-react": 7.0.1
