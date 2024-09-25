@@ -2763,10 +2763,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@navikt/ds-tokens@npm:7.0.1, @navikt/ds-tokens@npm:^7.0.0, @navikt/ds-tokens@npm:^7.0.1":
-  version: 7.0.1
-  resolution: "@navikt/ds-tokens@npm:7.0.1::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40navikt%2Fds-tokens%2F7.0.1%2F476acfd2558df6284de7915317e227afbe3176c0"
-  checksum: b5a0e594cd0b60c3f6980f705814341af739a4b1895544fe2b6c17b7f1babb1c7eeac874c3d6fc2eb9e8555624319a9180bdbb76df30f081350397d997ab4e76
+"@navikt/ds-tokens@npm:7.1.0":
+  version: 7.1.0
+  resolution: "@navikt/ds-tokens@npm:7.1.0::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40navikt%2Fds-tokens%2F7.1.0%2Fc03dd5e1c9656faf78474c65c9d2c9ee76143695"
+  checksum: db788eae42ba608957698abc4a4b7afd45e4190bca32d29d3fea0b2428a57f9d985318c136c8d970dfa4d00c548e88816d846def0dc065946c73e96daf7719c6
   languageName: node
   linkType: hard
 
@@ -2774,6 +2774,13 @@ __metadata:
   version: 6.13.0
   resolution: "@navikt/ds-tokens@npm:6.13.0::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40navikt%2Fds-tokens%2F6.13.0%2F6704caca2fffee89abdce0207e5dfe00b875482f"
   checksum: a5bb9b0d8b4867912ecac8f04d21119a649c7fe6d3d74ca18782c5b5bf749d0dab6a3de6fb261d63d00620fcbd40c2f26e8aedab27c50d6fa7acc4fb1d45200c
+  languageName: node
+  linkType: hard
+
+"@navikt/ds-tokens@npm:^7.0.0, @navikt/ds-tokens@npm:^7.0.1":
+  version: 7.0.1
+  resolution: "@navikt/ds-tokens@npm:7.0.1::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40navikt%2Fds-tokens%2F7.0.1%2F476acfd2558df6284de7915317e227afbe3176c0"
+  checksum: b5a0e594cd0b60c3f6980f705814341af739a4b1895544fe2b6c17b7f1babb1c7eeac874c3d6fc2eb9e8555624319a9180bdbb76df30f081350397d997ab4e76
   languageName: node
   linkType: hard
 
@@ -12074,7 +12081,7 @@ __metadata:
     "@navikt/ds-css": 7.0.1
     "@navikt/ds-react": 7.0.1
     "@navikt/ds-tailwind": 7.0.1
-    "@navikt/ds-tokens": 7.0.1
+    "@navikt/ds-tokens": 7.1.0
     "@navikt/familie-endringslogg": 13.1.2
     "@navikt/fnrvalidator": ^2.1.2
     "@navikt/ft-form-hooks": 4.4.20
