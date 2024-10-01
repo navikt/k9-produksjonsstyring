@@ -78,10 +78,10 @@ test('kan redigere kø', async ({ page }) => {
 	await page.getByRole('button', { name: 'Legg til', exact: true }).click();
 	await page.getByLabel('Behandlingstype nivå 2').click();
 
-	await page.getByText('--- Vis alle ---').click();
-	await page.getByText('Førstegangsbehandling').click();
+	await page.getByRole('option', { name: '--- Vis alle ---' }).click()
+	await page.getByRole('option', { name: 'Førstegangsbehandling' }).click();
 	await page.getByRole('option', { name: 'Innsyn' }).click();
-	await page.getByText('Inntektsmeldinger uten søknad').click();
+	await page.getByRole('option', { name: 'Inntektsmeldinger uten søknad' }).click();
 	await page.getByLabel('Ytelsestype').click();
 	await page.getByRole('option', { name: 'Pleiepenger sykt barn' }).click();
 
