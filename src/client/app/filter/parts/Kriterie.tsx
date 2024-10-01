@@ -32,7 +32,7 @@ const Kriterie: React.FC<Props> = ({ oppgavefilter, paakrevdeKoder = [], readOnl
 	return (
 		<div id={`feltpanel-${testID}`} className="rounded bg-surface-selected p-4">
 			<div className="flex gap-4">
-				<Label size="small" className="min-w-[10rem] w-[10rem]">
+				<Label size="small" className="min-w-[10.5rem] w-[10.5rem]">
 					{feltdefinisjon?.visningsnavn}:
 				</Label>
 				{oppgavefilter.kode && (
