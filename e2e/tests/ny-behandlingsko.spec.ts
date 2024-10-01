@@ -74,9 +74,11 @@ test('kan redigere kø', async ({ page }) => {
 	await page.locator('#feltpanel-6').getByRole('button', { name: 'Lukk' }).click();
 	await page.getByRole('button', { name: 'Legg til nytt kriterie' }).click();
 	await page.getByLabel('Velg kriterie:').click();
-	await page.getByRole('option', { name: 'Behandlingstype' }).click();
+	await page.getByRole('option', { name: 'Behandlingstype nivå 2' }).click();
 	await page.getByRole('button', { name: 'Legg til', exact: true }).click();
-	await page.getByLabel('Behandlingstype').click();
+	await page.getByLabel('Behandlingstype nivå 2').click();
+
+	await page.getByText('--- Vis alle ---').click();
 	await page.getByText('Førstegangsbehandling').click();
 	await page.getByRole('option', { name: 'Innsyn' }).click();
 	await page.getByText('Inntektsmeldinger uten søknad').click();
