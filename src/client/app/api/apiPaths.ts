@@ -46,6 +46,7 @@ const apiPaths = {
 	saksbehandlereIOppgaveko: '/api/k9-los-api/saksbehandler/oppgaveko/saksbehandlere',
 	slettOppgaveko: '/api/k9-los-api/ny-oppgavestyring/ko/',
 	sok: '/api/k9-los-api/fagsak/sok',
+	sokV3: '/api/k9-los-api/ny-oppgavestyring/sok',
 	validerQuery: '/api/k9-los-api/ny-oppgavestyring/oppgave/validate',
 };
 

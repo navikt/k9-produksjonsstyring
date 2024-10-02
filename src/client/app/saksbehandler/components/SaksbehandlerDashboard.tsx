@@ -1,7 +1,9 @@
 import React, { FunctionComponent } from 'react';
 import Panel from 'nav-frontend-paneler';
+import { sokeboksNyeKoer } from 'app/envVariablesUtils';
 import { RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
 import useGlobalStateRestApiData from 'api/rest-api-hooks/src/global-data/useGlobalStateRestApiData';
+import { Søkeboks } from 'saksbehandler/sokeboks/Søkeboks';
 import BehandlingskoerIndex from '../behandlingskoer/BehandlingskoerIndex';
 import FagsakSearchIndex from '../fagsakSearch/FagsakSearchIndex';
 import SaksstotteIndex from '../saksstotte/SaksstotteIndex';
@@ -20,7 +22,11 @@ export const SaksbehandlerDashboard: FunctionComponent = () => {
 				<div className={styles.gridContainer}>
 					<div className={styles.leftColumn}>
 						<Panel className={styles.sakslistePanel}>
-							<FagsakSearchIndex k9punsjUrl={k9punsjUrl.verdi} k9sakUrl={k9sakUrl.verdi} />
+							{sokeboksNyeKoer() ? (
+								<Søkeboks />
+							) : (
+								<FagsakSearchIndex k9punsjUrl={k9punsjUrl.verdi} k9sakUrl={k9sakUrl.verdi} />
+							)}
 						</Panel>
 						<div>
 							<Panel className={styles.sakslistePanel}>
