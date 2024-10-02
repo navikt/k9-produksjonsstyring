@@ -7,3 +7,8 @@ export type Saksbehandler = Readonly<{
 	enhet?: string;
 	oppgavekoer: string[];
 }>;
+
+export type SaksbehandlerEnkel = {
+	brukerIdent: string;
+	navn: string;
+};

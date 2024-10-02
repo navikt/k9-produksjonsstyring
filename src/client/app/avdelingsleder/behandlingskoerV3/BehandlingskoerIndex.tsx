@@ -1,8 +1,12 @@
-import React, { useState } from 'react';
+import React, { Fragment, useState } from 'react';
+import { useQuery } from 'react-query';
 import dayjs from 'dayjs';
 import { PlusCircleIcon } from '@navikt/aksel-icons';
-import { Button, Loader, Table } from '@navikt/ds-react';
+import { Button, Loader, Skeleton, Table } from '@navikt/ds-react';
+import apiPaths from 'api/apiPaths';
 import { useAlleKoer } from 'api/queries/avdelingslederQueries';
+import { OppgavekøV3Enkel } from 'types/OppgavekøV3Type';
+import { axiosInstance } from 'utils/reactQueryConfig';
 import BehandlingsKoForm from './BehandlingsKoForm';
 import KopierKø from './KopierKø';
 import NyKøModal from './NyKøModal';
@@ -22,14 +26,73 @@ function scrollToId(id: string) {
 	intervalId = setInterval(scroll, 100);
 }
 
+const berikMedAntallOppgaver = (køArray: OppgavekøV3Enkel[]) =>
+	useQuery(
+		['beriketAntallOppgaver', køArray],
+		async () => {
+			const requests = køArray.map(async (kø) => {
+				try {
+					const { data } = await axiosInstance.get(apiPaths.antallOppgaverIKoV3(kø.id));
+					return { ...kø, ...data };
+					// eslint-disable-next-line @typescript-eslint/no-unused-vars
+				} catch (error) {
+					return { ...kø };
+				}
+			});
+			return Promise.all(requests);
+		},
+		{
+			enabled: !!køArray,
+		},
+	);
+
+const Row = ({
+	kø,
+	ekspandert,
+	isLoadingAntallOppgaver,
+	toggleExpand,
+}: {
+	kø: OppgavekøV3Enkel & { antallUtenReserverte?: number; antallMedReserverte?: number };
+	ekspandert: boolean;
+	isLoadingAntallOppgaver: boolean;
+	toggleExpand: () => void;
+}) => (
+	<Table.ExpandableRow
+		key={kø.id}
+		onOpenChange={toggleExpand}
+		open={ekspandert}
+		togglePlacement="left"
+		content={<BehandlingsKoForm id={kø.id} ekspandert={ekspandert} lukk={toggleExpand} />}
+	>
+		<Table.DataCell scope="row">{kø.tittel}</Table.DataCell>
+		<Table.DataCell>{kø.antallSaksbehandlere || '0'}</Table.DataCell>
+		<Table.DataCell>
+			{isLoadingAntallOppgaver ? (
+				<Skeleton variant="text" />
+			) : (
+				`${kø?.antallUtenReserverte ?? '-'} (${kø?.antallMedReserverte ?? '-'})`
+			)}
+		</Table.DataCell>
+		<Table.DataCell>{kø.sistEndret ? dayjs(kø.sistEndret).format('DD.MM.YYYY HH:mm') : '-'}</Table.DataCell>
+		<Table.DataCell>
+			<KopierKø kø={kø} />
+			<SlettKø kø={kø} />
+		</Table.DataCell>
+	</Table.ExpandableRow>
+);
 const BehandlingskoerIndex = () => {
-	const { data, isLoading, error } = useAlleKoer();
+	const { data: initielleKøer, isLoading, error } = useAlleKoer();
+	const {
+		data: køerMedAntallOppgaver,
+		isLoading: isLoadingAntallOppgaver,
+		isSuccess: harHentetAntallOppgaver,
+	} = berikMedAntallOppgaver(initielleKøer);
 	const [visNyKøModal, setVisNyKøModal] = useState(false);
 	const [sort, setSort] = useState(null);
 	const [ekspanderteKøer, setEkspanderteKøer] = useState([]);
 	const [køSomNettoppBleLaget, setKøSomNettoppBleLaget] = useState('');
 
-	const onOpenChange = (køId: string) => {
+	const toggleExpand = (køId: string) => {
 		setEkspanderteKøer((prevState) =>
 			prevState.includes(køId) ? prevState.filter((v) => v !== køId) : [...prevState, køId],
 		);
@@ -53,12 +116,17 @@ const BehandlingskoerIndex = () => {
 	};
 
 	const sortData = () => {
-		if (!data || !sort) return data;
+		const køer = køerMedAntallOppgaver || initielleKøer;
+		if (!køer || !sort) return køer;
 
-		return data.slice().sort((a, b) => {
+		return køer.slice().sort((a, b) => {
 			const comparator = (itemA, itemB, orderBy) => {
 				let aVal = itemA[orderBy];
 				let bVal = itemB[orderBy];
+				if (orderBy === 'sistEndret') {
+					aVal = aVal ? new Date(aVal).getTime() : 0;
+					bVal = bVal ? new Date(bVal).getTime() : 0;
+				}
 				if (orderBy === 'tittel') {
 					aVal = aVal?.toLowerCase();
 					bVal = bVal?.toLowerCase();
@@ -79,7 +147,7 @@ const BehandlingskoerIndex = () => {
 
 	return (
 		<>
-			<Button className="my-7" variant="primary" onClick={() => setVisNyKøModal(true)} icon={<PlusCircleIcon />}>
+			<Button className="mb-7" variant="primary" onClick={() => setVisNyKøModal(true)} icon={<PlusCircleIcon />}>
 				Legg til ny oppgavekø
 			</Button>
 			<Table sort={sort} onSortChange={handleSort} size="small">
@@ -92,10 +160,10 @@ const BehandlingskoerIndex = () => {
 						<Table.ColumnHeader sortKey="antallSaksbehandlere" sortable scope="col">
 							Saksbehandlere
 						</Table.ColumnHeader>
-						<Table.ColumnHeader sortKey="antallOppgaver" sortable scope="col">
-							Antall oppgaver
+						<Table.ColumnHeader sortKey="antallUtenReserverte" sortable={harHentetAntallOppgaver} scope="col">
+							Antall oppgaver (med reserverte)
 						</Table.ColumnHeader>
-						<Table.ColumnHeader sortKey="Sist endret" sortable scope="col">
+						<Table.ColumnHeader sortKey="sistEndret" sortable scope="col">
 							Sist endret
 						</Table.ColumnHeader>
 						<Table.HeaderCell />
@@ -103,28 +171,13 @@ const BehandlingskoerIndex = () => {
 				</Table.Header>
 				<Table.Body>
 					{sortedData?.map((kø) => (
-						<Table.ExpandableRow
+						<Row
 							key={kø.id}
-							onOpenChange={() => onOpenChange(kø.id)}
-							open={ekspanderteKøer.includes(kø.id)}
-							togglePlacement="left"
-							content={
-								<BehandlingsKoForm
-									id={kø.id}
-									ekspandert={ekspanderteKøer.includes(kø.id)}
-									lukk={() => onOpenChange(kø.id)}
-								/>
-							}
-						>
-							<Table.DataCell scope="row">{kø.tittel}</Table.DataCell>
-							<Table.DataCell>{kø.antallSaksbehandlere || '0'}</Table.DataCell>
-							<Table.DataCell>{kø.antallOppgaver || '0'}</Table.DataCell>
-							<Table.DataCell>{kø.sistEndret ? dayjs(kø.sistEndret).format('DD.MM.YYYY HH:mm') : '-'}</Table.DataCell>
-							<Table.DataCell>
-								<KopierKø kø={kø} />
-								<SlettKø kø={kø} />
-							</Table.DataCell>
-						</Table.ExpandableRow>
+							kø={kø}
+							isLoadingAntallOppgaver={isLoadingAntallOppgaver}
+							ekspandert={ekspanderteKøer.includes(kø.id)}
+							toggleExpand={() => toggleExpand(kø.id)}
+						/>
 					))}
 				</Table.Body>
 			</Table>

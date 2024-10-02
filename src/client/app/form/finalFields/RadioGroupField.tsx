@@ -10,6 +10,9 @@ const classNames = classnames.bind(styles);
 
 const isChecked = (radioOption, actualValueStringified) => radioOption.key === actualValueStringified;
 
+/**
+ * @deprecated
+ */
 const renderRadioGroupField = renderNavField(
 	({
 		label,

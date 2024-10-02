@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl';
 import dayjs from 'dayjs';
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
-import { Normaltekst } from 'nav-frontend-typografi';
+import { BodyShort } from '@navikt/ds-react';
 import HistoriskData from 'avdelingsleder/nokkeltall/historiskDataTsType';
 import { behandlingstypeOrder } from 'avdelingsleder/nokkeltall/nokkeltallUtils';
 import behandlingType from 'kodeverk/behandlingType';
@@ -59,19 +59,22 @@ const sorterBehandlingtyper = (b1, b2) => {
 const konverterTilKoordinaterGruppertPaBehandlingstype = (
 	oppgaverForAvdeling: HistoriskData[],
 ): Record<string, Koordinat[]> =>
-	oppgaverForAvdeling.reduce((acc, o) => {
-		const nyKoordinat = {
-			x: dayjs(o.dato).startOf('day').toDate(),
-			y: o.antall,
-		};
+	oppgaverForAvdeling.reduce(
+		(acc, o) => {
+			const nyKoordinat = {
+				x: dayjs(o.dato).startOf('day').toDate(),
+				y: o.antall,
+			};
 
-		const eksisterendeKoordinater = acc[o.behandlingType];
+			const eksisterendeKoordinater = acc[o.behandlingType];
 
-		return {
-			...acc,
-			[o.behandlingType]: eksisterendeKoordinater ? eksisterendeKoordinater.concat(nyKoordinat) : [nyKoordinat],
-		};
-	}, {} as Record<string, Koordinat[]>);
+			return {
+				...acc,
+				[o.behandlingType]: eksisterendeKoordinater ? eksisterendeKoordinater.concat(nyKoordinat) : [nyKoordinat],
+			};
+		},
+		{} as Record<string, Koordinat[]>,
+	);
 
 const fyllInnManglendeDatoerOgSorterEtterDato = (
 	data: Record<string, Koordinat[]>,
@@ -142,9 +145,9 @@ const HistorikkGraf: FunctionComponent<OwnProps> = ({ historiskData, isFireUkerV
 	if (oppgaverInomValgtPeriode.length === 0) {
 		return (
 			<div>
-				<Normaltekst>
+				<BodyShort size="small">
 					<FormattedMessage id="InngangOgFerdigstiltePanel.IngenTall" />
-				</Normaltekst>
+				</BodyShort>
 			</div>
 		);
 	}
@@ -181,7 +184,6 @@ const HistorikkGraf: FunctionComponent<OwnProps> = ({ historiskData, isFireUkerV
 						// bruker category istedet for time for att vise alle dato og ikke bara hvert femte.
 						type: 'category',
 						// boundaryGap ser till att dato hamnar på en linje istället for mellom.
-						// @ts-ignore
 						boundaryGap: false,
 						axisTick: eChartXAxisTickDefAvdelningslederNokkeltall,
 						axisLabel: {

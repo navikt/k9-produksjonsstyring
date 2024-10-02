@@ -2,9 +2,8 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { TrashIcon } from '@navikt/aksel-icons';
 import { Button, ErrorMessage, Label } from '@navikt/ds-react';
-import Merkelapp from '../merkelapp/Merkelapp';
-import Merkelapper from '../merkelapp/Merkelapper';
 import SearchForm from './SearchForm';
+import { SelectedValues } from './SelectedValues';
 import SuggestionList from './SuggestionList';
 import * as styles from './searchWithDropdown.css';
 
@@ -21,13 +20,13 @@ export type SearchWithDropdownProps = {
 	suggestions: SuggestionsType[];
 	groups?: string[];
 	heading: string;
-	addButtonText: string;
 	updateSelection: (values: string[]) => void;
 	selectedValues: string[];
 	showLabel?: boolean;
 	error?: string;
 	className?: string;
 	id?: string;
+	skjulValgteVerdierUnderDropdown?: boolean;
 };
 
 const SearchWithDropdown: React.FC<SearchWithDropdownProps> = (props) => {
@@ -37,7 +36,6 @@ const SearchWithDropdown: React.FC<SearchWithDropdownProps> = (props) => {
 		suggestions,
 		groups,
 		heading,
-		addButtonText,
 		updateSelection,
 		selectedValues,
 		error,
@@ -45,6 +43,7 @@ const SearchWithDropdown: React.FC<SearchWithDropdownProps> = (props) => {
 		id,
 		showLabel = false,
 		size = 'small',
+		skjulValgteVerdierUnderDropdown = false,
 	} = props;
 
 	const [selectedSuggestionValues, setSelectedSuggestionValues] = useState(selectedValues);
@@ -69,7 +68,7 @@ const SearchWithDropdown: React.FC<SearchWithDropdownProps> = (props) => {
 		setShowFilteredSuggestionsOnly(false);
 		setFilteredSuggestions(suggestions);
 		setCurrentInput('');
-	}, [selectedValues]);
+	}, [JSON.stringify(selectedValues)]);
 
 	const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const suggestionLabel = event.target.value;
@@ -93,16 +92,6 @@ const SearchWithDropdown: React.FC<SearchWithDropdownProps> = (props) => {
 			setSelectedSuggestionValues(selectedSuggestionValues.filter((s) => s !== suggestionValue));
 		} else {
 			setSelectedSuggestionValues([...selectedSuggestionValues, suggestionValue]);
-		}
-	};
-
-	const onSubmit = () => {
-		const matchedSuggestion = suggestions.find(
-			(suggestion) => currentInput.toLowerCase() === suggestion.value.toLowerCase(),
-		);
-
-		if (matchedSuggestion) {
-			onSelect(matchedSuggestion.value);
 		}
 	};
 
@@ -147,6 +136,8 @@ const SearchWithDropdown: React.FC<SearchWithDropdownProps> = (props) => {
 		updateSelection([]);
 	};
 
+	const sv = selectedSuggestionValues.map((s) => getSuggestion(s));
+
 	return (
 		<div className={`${styles.searchContainer} ${className || ''}`}>
 			<SearchForm
@@ -155,9 +146,9 @@ const SearchWithDropdown: React.FC<SearchWithDropdownProps> = (props) => {
 				description={description}
 				inputId={inputId}
 				descriptionId={descriptionId}
-				onSubmit={onSubmit}
 				currentInput={currentInput}
 				onChange={onChange}
+				isPopoverOpen={isPopoverOpen}
 				setIsPopoverOpen={setIsPopoverOpen}
 				onSelect={onSelect}
 				size={size}
@@ -174,35 +165,15 @@ const SearchWithDropdown: React.FC<SearchWithDropdownProps> = (props) => {
 						toggleGroupSelectionValues={toggleGroupSelectionValues}
 						toggleGroupOpen={toggleGroupOpen}
 						updateSelection={updateSelection}
-						addButtonText={addButtonText}
 						openSuggestionGroups={openSuggestionGroups}
 						setIsPopoverOpen={setIsPopoverOpen}
 						getSuggestion={getSuggestion}
 					/>
 				)}
 			</SearchForm>
-			{selectedValues.length > 0 && (
-				<div>
-					<Label className="self-center text-sm">Valgte filter:</Label>
-					<Button
-						icon={<TrashIcon />}
-						variant="tertiary"
-						size="xsmall"
-						className="border-border-danger text-border-danger float-right"
-						onClick={removeAllSuggestions}
-					>
-						<span className="text-sm">Fjern alle</span>
-					</Button>
-				</div>
+			{!skjulValgteVerdierUnderDropdown && (
+				<SelectedValues values={sv} remove={onRemoveSuggestion} removeAllValues={removeAllSuggestions} />
 			)}
-			<Merkelapper>
-				{selectedValues.map((suggestion) => (
-					<Merkelapp key={suggestion} onClick={() => onRemoveSuggestion(suggestion)}>
-						{getSuggestion(suggestion)?.label}
-					</Merkelapp>
-				))}
-			</Merkelapper>
-
 			{error && <ErrorMessage>{error}</ErrorMessage>}
 		</div>
 	);

@@ -11,12 +11,14 @@ import * as styles from './andreKriterierVelger.css';
 
 interface OwnProps {
 	valgtOppgavekoId: string;
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	values: any;
 	hentOppgaveko: (id: string) => void;
 }
 
 /**
  * AndreKriterierVelger
+ * @deprecated
  */
 const AndreKriterierVelger: FunctionComponent<OwnProps> = ({ valgtOppgavekoId, values, hentOppgaveko }) => {
 	const andreKriterierTyper = useKodeverk(kodeverkTyper.ANDRE_KRITERIER_TYPE);

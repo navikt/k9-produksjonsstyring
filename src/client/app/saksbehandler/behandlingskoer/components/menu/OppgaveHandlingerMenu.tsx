@@ -1,13 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { OppgaveNøkkel } from 'types/OppgaveNøkkel';
-import OppgaveV3 from 'types/OppgaveV3';
 import ReservasjonV3Dto from 'saksbehandler/behandlingskoer/ReservasjonV3Dto';
 import Oppgave from 'saksbehandler/oppgaveTsType';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
-import FlyttReservasjonModal from './FlyttReservasjonModal';
+import { OppgaveNøkkel } from 'types/OppgaveNøkkel';
+import OppgaveV3 from 'types/OppgaveV3';
+import FlyttReservasjonerModal from './FlyttReservasjonerModal';
 import MenuButton from './MenuButton';
-import OpphevReservasjonModal from './OpphevReservasjonModal';
+import OpphevReservasjonerModal from './OpphevReservasjonerModal';
 import * as styles from './oppgaveHandlingerMenu.css';
 
 const toggleEventListeners = (turnOnEventListeners, handleOutsideClick) => {
@@ -30,9 +30,6 @@ interface OwnProps {
 	forlengOppgaveReservasjon: (oppgaveNøkkel: OppgaveNøkkel) => void;
 }
 
-/**
- * @deprecated
- */
 const OppgaveHandlingerMenu: React.FC<OwnProps> = ({
 	toggleMenu,
 	oppgave,
@@ -108,21 +105,25 @@ const OppgaveHandlingerMenu: React.FC<OwnProps> = ({
 				</MenuButton>
 			</div>
 			{showOpphevReservasjonModal && (
-				<OpphevReservasjonModal
-					oppgaveNøkkel={oppgave.oppgaveNøkkel}
-					showModal={showOpphevReservasjonModal}
-					cancel={closeBegrunnelseModal}
+				<OpphevReservasjonerModal
+					oppgaveNøkler={[oppgave.oppgaveNøkkel]}
+					open={showOpphevReservasjonModal}
+					closeModal={closeBegrunnelseModal}
 				/>
 			)}
 
 			{showFlyttReservasjonModal && (
-				<FlyttReservasjonModal
-					oppgaveNøkkel={oppgave.oppgaveNøkkel}
-					reservertAvIdent={reservasjon.reservertAvIdent}
-					oppgaveReservertTil={reservasjon.reservertTil}
-					showModal={showFlyttReservasjonModal}
+				<FlyttReservasjonerModal
+					reservasjoner={[
+						{
+							oppgaveNøkkel: oppgave.oppgaveNøkkel,
+							begrunnelse: reservasjon.kommentar,
+							reserverTil: reservasjon.reservertTil,
+							reservertAvIdent: reservasjon.reservertAvIdent,
+						},
+					]}
+					open={showFlyttReservasjonModal}
 					closeModal={closeFlytteModal}
-					eksisterendeBegrunnelse={reservasjon.kommentar}
 				/>
 			)}
 		</>

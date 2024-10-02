@@ -37,6 +37,7 @@ interface OwnProps {
 	format?: (value: string) => string;
 	parse?: (value: string) => string;
 	isEdited?: boolean;
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	validate?: ((text: any) => { id: string }[])[];
 	onBlurValidation?: boolean;
 	onBlur?: (any) => void;
@@ -47,6 +48,9 @@ interface OwnProps {
 	};
 }
 
+/**
+ * @deprecated
+ */
 const DatepickerField: FunctionComponent<OwnProps> = ({
 	name,
 	label,
@@ -60,7 +64,7 @@ const DatepickerField: FunctionComponent<OwnProps> = ({
 	<Field
 		name={name}
 		validate={validate ? composeValidators(validate) : undefined}
-		// @ts-ignore
+		// @ts-expect-error deprecated, fikser ikke
 		component={readOnly ? ReadOnlyField : RenderDatepickerField}
 		label={label}
 		{...otherProps}

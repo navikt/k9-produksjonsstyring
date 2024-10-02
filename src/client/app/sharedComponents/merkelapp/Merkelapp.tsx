@@ -1,5 +1,5 @@
 import React, { FunctionComponent, ReactNode, useRef } from 'react';
-import { Close } from '@navikt/ds-icons';
+import { XMarkIcon } from '@navikt/aksel-icons';
 import * as styles from './merkelapp.css';
 
 type Props = {
@@ -19,7 +19,7 @@ const Merkelapp: FunctionComponent<Props> = ({ onClick, children }) => {
 			title={typeof children === 'string' ? children : undefined}
 		>
 			<span className={styles.tekst}>{children}</span>
-			<Close />
+			<XMarkIcon />
 		</button>
 	);
 };

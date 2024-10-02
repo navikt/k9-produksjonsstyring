@@ -1,9 +1,11 @@
 import React, { FunctionComponent } from 'react';
-import OppgaveV3 from 'types/OppgaveV3';
+import dayjs from 'dayjs';
 import { getHeaderCodes } from 'saksbehandler/behandlingskoer/components/oppgavetabeller/oppgavetabellerfelles';
 import Table from 'sharedComponents/Table';
 import TableColumn from 'sharedComponents/TableColumn';
 import TableRow from 'sharedComponents/TableRow';
+import OppgaveV3 from 'types/OppgaveV3';
+import { DDMMYYYY_DATE_FORMAT } from 'utils/formats';
 import * as styles from './oppgaverTabell.css';
 
 interface OwnProps {
@@ -28,6 +30,9 @@ export const OppgaverTabellV3: FunctionComponent<OwnProps> = ({ oppgaver = [] }:
 						</TableColumn>
 						<TableColumn>{oppgave.journalpostId || oppgave.saksnummer}</TableColumn>
 						<TableColumn>{oppgave.behandlingstype.navn}</TableColumn>
+						<TableColumn>
+							{oppgave.opprettetTidspunkt && dayjs(oppgave.opprettetTidspunkt).format(DDMMYYYY_DATE_FORMAT)}
+						</TableColumn>
 					</TableRow>
 				))}
 			</Table>

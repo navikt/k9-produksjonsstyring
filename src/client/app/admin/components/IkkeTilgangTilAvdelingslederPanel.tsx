@@ -1,7 +1,7 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import Panel from 'nav-frontend-paneler';
-import { Undertittel } from 'nav-frontend-typografi';
+import { Heading } from '@navikt/ds-react';
 import * as styles from './ikkeTilgangTilAvdelingslederPanel.css';
 
 /**
@@ -9,9 +9,9 @@ import * as styles from './ikkeTilgangTilAvdelingslederPanel.css';
  */
 const IkkeTilgangTilAvdelingslederPanel = () => (
 	<Panel className={styles.container}>
-		<Undertittel>
+		<Heading size="small">
 			<FormattedMessage id="IkkeTilgangTilAvdelingslederPanel.HarIkkeTilgang" />
-		</Undertittel>
+		</Heading>
 	</Panel>
 );
 

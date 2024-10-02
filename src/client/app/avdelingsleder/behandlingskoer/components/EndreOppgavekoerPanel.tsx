@@ -13,6 +13,7 @@ interface OwnProps {
 }
 
 /**
+ * @deprecated
  * EndreOppgavekoerPanel
  */
 const EndreOppgavekoerPanel: FunctionComponent<OwnProps & WrappedComponentProps> = ({
@@ -20,9 +21,6 @@ const EndreOppgavekoerPanel: FunctionComponent<OwnProps & WrappedComponentProps>
 	valgtOppgavekoId,
 	resetValgtOppgavekoId,
 }) => {
-	const { data: oppgaverAntallTotalt, startRequest: hentOppgaverAntallTotalt } = useRestApiRunner<number>(
-		K9LosApiKeys.OPPGAVE_ANTALL_TOTALT,
-	);
 	const {
 		data: oppgavekoer = [],
 		startRequest: hentAlleOppgavekoer,
@@ -46,7 +44,6 @@ const EndreOppgavekoerPanel: FunctionComponent<OwnProps & WrappedComponentProps>
 	);
 
 	useEffect(() => {
-		hentOppgaverAntallTotalt();
 		hentAlleOppgavekoer();
 	}, [hentAlleOppgavekoer]);
 
@@ -57,7 +54,6 @@ const EndreOppgavekoerPanel: FunctionComponent<OwnProps & WrappedComponentProps>
 			requestFinished={requestFinished}
 			setValgtOppgavekoId={setValgtOppgavekoId}
 			valgtOppgavekoId={valgtOppgavekoId}
-			oppgaverTotalt={oppgaverAntallTotalt}
 			hentAlleOppgavekoer={hentAlleOppgavekoer}
 		/>
 	);

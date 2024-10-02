@@ -1,17 +1,18 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FormattedMessage } from 'react-intl';
-import { OppgavekøV3 } from 'types/OppgavekøV3Type';
-import { Edit } from '@navikt/ds-icons';
+import { PencilIcon } from '@navikt/aksel-icons';
 import { Alert, Button, ErrorMessage, Heading, Label, Modal } from '@navikt/ds-react';
 import { Form, InputField, TextAreaField } from '@navikt/ft-form-hooks';
-import { minLength, required } from '@navikt/ft-form-validators';
-import { OppgaveQuery } from 'filter/filterTsTypes';
+import { required } from '@navikt/ft-form-validators';
+import AppContext from 'app/AppContext';
 import { useKo, useOppdaterKøMutation } from 'api/queries/avdelingslederQueries';
+import { Saksbehandler } from 'avdelingsleder/bemanning/saksbehandlerTsType';
 import { AvdelingslederContext } from 'avdelingsleder/context';
 import FilterIndex from 'filter/FilterIndex';
+import { OppgaveQuery, OppgavefilterKode } from 'filter/filterTsTypes';
 import SearchWithDropdown from 'sharedComponents/searchWithDropdown/SearchWithDropdown';
-import LagreKoModal from './LagreKoModal';
+import { OppgavekøV3 } from 'types/OppgavekøV3Type';
 
 enum fieldnames {
 	TITTEL = 'tittel',
@@ -30,11 +31,27 @@ interface BaseProps {
 interface BehandlingsKoFormProps extends BaseProps {
 	kø: OppgavekøV3;
 }
-
+const saksbehandlereMapper = (saksbehandlere: Saksbehandler[]) => {
+	const relevanteEnheterForAvdelingsleder = ['2103', '4403', '4410'];
+	const isProd = window.location.hostname.includes('intern.nav.no');
+	if (isProd) {
+		return saksbehandlere.map((saksbehandler) => ({
+			value: saksbehandler.epost,
+			label: saksbehandler.navn || saksbehandler.epost,
+			group: relevanteEnheterForAvdelingsleder.find((enhet) => saksbehandler.enhet.includes(enhet))
+				? saksbehandler.enhet
+				: 'Andre enheter',
+		}));
+	}
+	return saksbehandlere.map((saksbehandler) => ({
+		value: saksbehandler.epost,
+		label: saksbehandler.navn || saksbehandler.epost,
+		group: saksbehandler.enhet,
+	}));
+};
 const BehandlingsKoForm = ({ kø, lukk, ekspandert, id }: BehandlingsKoFormProps) => {
 	const { versjon } = kø;
 	const [visFilterModal, setVisFilterModal] = useState(false);
-	const [visLagreModal, setVisLagreModal] = useState(false);
 	const [visSuksess, setVisSuksess] = useState(false);
 	const { saksbehandlere: alleSaksbehandlere } = useContext(AvdelingslederContext);
 	const defaultValues = {
@@ -50,9 +67,9 @@ const BehandlingsKoForm = ({ kø, lukk, ekspandert, id }: BehandlingsKoFormProps
 	});
 
 	const lagreMutation = useOppdaterKøMutation(() => {
-		setVisLagreModal(false);
 		setVisSuksess(true);
 	});
+
 	useEffect(() => {
 		formMethods.reset(defaultValues);
 	}, [ekspandert, versjon]);
@@ -63,22 +80,31 @@ const BehandlingsKoForm = ({ kø, lukk, ekspandert, id }: BehandlingsKoFormProps
 		}
 	}, [visSuksess]);
 
-	const manglerGruppering = 'Mangler gruppering';
-	const formaterteSaksbehandlere = alleSaksbehandlere.map((saksbehandler) => ({
-		value: saksbehandler.epost,
-		label: saksbehandler.navn || saksbehandler.epost,
-		group: saksbehandler.enhet || manglerGruppering,
-	}));
-	const lagreOppgaveQuery = (oppgaveQuery: OppgaveQuery) => {
-		formMethods.setValue(fieldnames.OPPGAVE_QUERY, oppgaveQuery, { shouldDirty: true });
-		setVisFilterModal(false);
-	};
+	const formaterteSaksbehandlere = saksbehandlereMapper(alleSaksbehandlere);
 	const onSubmit = (data) => {
 		lagreMutation.mutate(data);
 	};
+	const lagreIModal = (oppgaveQuery: OppgaveQuery) => {
+		onSubmit({ ...kø, ...formMethods.getValues(), oppgaveQuery });
+		setVisFilterModal(false);
+	};
 	const grupper = [...new Set(formaterteSaksbehandlere.map((oppgavekode) => oppgavekode.group))].sort();
 	const saksbehandlere = formMethods.watch(fieldnames.SAKSBEHANDLERE);
-
+	const feltdefinisjoner = useContext(AppContext).felter;
+	const overstyrteFeltdefinisjoner = useMemo(
+		() => ({
+			felter: feltdefinisjoner.map((felt) => {
+				if (felt.kode === OppgavefilterKode.Personbeskyttelse && !kø.skjermet) {
+					return {
+						...felt,
+						verdiforklaringer: felt.verdiforklaringer.filter((v) => v.verdi !== 'KODE6'),
+					};
+				}
+				return felt;
+			}),
+		}),
+		[feltdefinisjoner, kø.skjermet],
+	);
 	return (
 		<Form formMethods={formMethods}>
 			<div className="grid grid-cols-2 gap-16">
@@ -87,7 +113,7 @@ const BehandlingsKoForm = ({ kø, lukk, ekspandert, id }: BehandlingsKoFormProps
 						Om køen
 					</Heading>
 					<div className="bg-[#e6f0ff] rounded p-5">
-						<InputField label="Navn" name={fieldnames.TITTEL} size="medium" validate={[required, minLength(3)]} />
+						<InputField label="Navn" name={fieldnames.TITTEL} size="medium" validate={[required]} />
 						<TextAreaField
 							size="medium"
 							name="beskrivelse"
@@ -95,7 +121,7 @@ const BehandlingsKoForm = ({ kø, lukk, ekspandert, id }: BehandlingsKoFormProps
 							description="Her kan du legge inn en valgfri beskrivelse av hva denne køen inneholder."
 							className="mt-8"
 							maxLength={4000}
-							validate={[required, minLength(3)]}
+							validate={[required]}
 						/>
 					</div>
 				</div>
@@ -119,7 +145,6 @@ const BehandlingsKoForm = ({ kø, lukk, ekspandert, id }: BehandlingsKoFormProps
 							suggestions={formaterteSaksbehandlere}
 							showLabel
 							groups={grupper}
-							addButtonText="Legg til saksbehandlere"
 							heading="Velg saksbehandlere"
 							updateSelection={(valgteSaksbehandlere) => {
 								formMethods.setValue(fieldnames.SAKSBEHANDLERE, valgteSaksbehandlere, { shouldDirty: true });
@@ -141,10 +166,15 @@ const BehandlingsKoForm = ({ kø, lukk, ekspandert, id }: BehandlingsKoFormProps
 					size="small"
 					variant="tertiary"
 					type="button"
-					onClick={() => setVisFilterModal(true)}
-					icon={<Edit />}
+					onClick={async () => {
+						const isValid = await formMethods.trigger();
+						if (isValid) {
+							setVisFilterModal(true);
+						}
+					}}
+					icon={<PencilIcon />}
 				>
-					Endre kriterier
+					Legge til, se og endre kriterier
 				</Button>
 			</div>
 			{formMethods.formState.isDirty && (
@@ -163,7 +193,7 @@ const BehandlingsKoForm = ({ kø, lukk, ekspandert, id }: BehandlingsKoFormProps
 					onClick={async () => {
 						const isValid = await formMethods.trigger();
 						if (isValid) {
-							setVisLagreModal(true);
+							onSubmit({ ...kø, ...formMethods.getValues() });
 						}
 					}}
 					disabled={!formMethods.formState.isDirty}
@@ -174,23 +204,26 @@ const BehandlingsKoForm = ({ kø, lukk, ekspandert, id }: BehandlingsKoFormProps
 					{formMethods.formState.isDirty ? 'Lukk uten å lagre' : 'Lukk'}
 				</Button>
 			</div>
-			<LagreKoModal
-				visLagreModal={visLagreModal}
-				setVisLagreModal={setVisLagreModal}
-				onSubmit={formMethods.handleSubmit((values) => onSubmit({ ...kø, ...values }))}
-				lagreMutation={lagreMutation}
-			/>
+			{lagreMutation.isError && (
+				<div>
+					<ErrorMessage>Noe gikk galt ved lagring av kø</ErrorMessage>
+				</div>
+			)}
 			{visFilterModal && (
 				<Modal open={visFilterModal} onClose={() => setVisFilterModal(false)} portal width={900}>
-					<Modal.Body className="flex flex-col min-h-[45rem]">
-						<FilterIndex
-							initialQuery={formMethods.watch(fieldnames.OPPGAVE_QUERY)}
-							lagre={lagreOppgaveQuery}
-							avbryt={() => setVisFilterModal(false)}
-							tittel="Kriterier for kø"
-							visningV3
-							køvisning
-						/>
+					<Modal.Body className="flex flex-col min-h-[65rem]">
+						<AppContext.Provider value={overstyrteFeltdefinisjoner}>
+							<FilterIndex
+								initialQuery={formMethods.watch(fieldnames.OPPGAVE_QUERY)}
+								lagre={lagreIModal}
+								avbryt={() => setVisFilterModal(false)}
+								tittel="Kriterier for kø"
+								paakrevdeKoder={[OppgavefilterKode.Oppgavestatus, OppgavefilterKode.Personbeskyttelse]}
+								readOnlyKoder={kø.skjermet ? [OppgavefilterKode.Personbeskyttelse] : []}
+								visningV3
+								køvisning
+							/>
+						</AppContext.Provider>
 					</Modal.Body>
 				</Modal>
 			)}

@@ -37,7 +37,7 @@ const SorteringVelger: FunctionComponent<OwnProps & WrappedComponentProps> = ({
 	hentOppgaveko,
 	kriterier,
 }) => {
-	const filtreringPåBelop = kriterier.find((kriterie) => kriterie.kriterierType.kode === KriterierType.Feilutbetaling);
+	const filtreringPåBelop = kriterier?.find((kriterie) => kriterie.kriterierType.kode === KriterierType.Feilutbetaling);
 	const filtreringPåDato = fomDato && tomDato;
 	const [valgtFiltrering, setValgtFiltrering] = useState<string[]>([]);
 
@@ -118,7 +118,6 @@ const SorteringVelger: FunctionComponent<OwnProps & WrappedComponentProps> = ({
 							</React.Fragment>
 						),
 				)}
-
 
 				{koKriterier
 					.filter((kriterie) => kriterie.kode === KriterierType.Feilutbetaling)

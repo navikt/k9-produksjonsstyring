@@ -6,12 +6,16 @@ export interface SearchDropdownPredefinerteVerdierProps extends Partial<SearchWi
 	feltdefinisjon: Oppgavefelt;
 	onChange: (values: string[]) => void;
 	oppgavefilter: FeltverdiOppgavefilter;
+	error?: string;
+	skjulValgteVerdierUnderDropdown: boolean;
 }
 
 const SearchDropdownMedPredefinerteVerdier = ({
 	feltdefinisjon,
 	onChange,
 	oppgavefilter,
+	error,
+	skjulValgteVerdierUnderDropdown,
 	...rest
 }: SearchDropdownPredefinerteVerdierProps) => (
 	<SearchWithDropdown
@@ -21,12 +25,13 @@ const SearchDropdownMedPredefinerteVerdier = ({
 			value: verdiforklaring.verdi,
 		}))}
 		heading={`Velg ${feltdefinisjon.visningsnavn}`}
-		addButtonText={`Legg til ${feltdefinisjon.visningsnavn.toLowerCase()}`}
 		updateSelection={onChange}
-		selectedValues={oppgavefilter.verdi || []}
+		selectedValues={(oppgavefilter.verdi as string[]) || []}
 		label={feltdefinisjon.visningsnavn}
 		className="grow"
 		size="small"
+		error={error}
+		skjulValgteVerdierUnderDropdown={skjulValgteVerdierUnderDropdown}
 		{...rest}
 	/>
 );

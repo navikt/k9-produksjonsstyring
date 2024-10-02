@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useMemo } from 'react';
 import { WrappedComponentProps, injectIntl } from 'react-intl';
-import { Normaltekst } from 'nav-frontend-typografi';
+import { BodyShort } from '@navikt/ds-react';
 import { RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
 import { useGlobalStateRestApiData } from 'api/rest-api-hooks';
 import EnkelTeller from 'avdelingsleder/dagensTall/EnkelTeller';
@@ -74,7 +74,7 @@ const DagensTallPanel: FunctionComponent<OwnProps & WrappedComponentProps> = ({ 
 
 	return (
 		<div>
-			<Normaltekst className={styles.header}>Status</Normaltekst>
+			<BodyShort className={styles.header}>Status</BodyShort>
 			<div className={styles.container}>
 				<EnkelTeller antall={totaltIdag} tekst="Åpne behandlinger" />
 

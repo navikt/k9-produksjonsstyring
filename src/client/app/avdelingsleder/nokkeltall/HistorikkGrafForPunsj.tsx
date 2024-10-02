@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl';
 import dayjs from 'dayjs';
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
-import { Normaltekst } from 'nav-frontend-typografi';
+import { BodyShort } from '@navikt/ds-react';
 import HistoriskData from 'avdelingsleder/nokkeltall/historiskDataTsType';
 import fagsakYtelseType from 'kodeverk/fagsakYtelseType';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
@@ -45,30 +45,33 @@ export const fagytelseTyperSomSkalVises = [
 const konverterTilKoordinaterGruppertPaFagytelsetype = (
 	oppgaverForAvdeling: HistoriskData[],
 ): Record<string, Koordinat[]> =>
-	oppgaverForAvdeling.reduce((acc, o) => {
-		const nyKoordinat = {
-			x: dayjs(o.dato).startOf('day').toDate(),
-			y: o.antall,
-		};
+	oppgaverForAvdeling.reduce(
+		(acc, o) => {
+			const nyKoordinat = {
+				x: dayjs(o.dato).startOf('day').toDate(),
+				y: o.antall,
+			};
 
-		if (omsorgsdagerYtelsetyper.includes(o.fagsakYtelseType)) {
-			const eksisterendeKoordinater = acc[samletNavnForOmsorgsdager];
+			if (omsorgsdagerYtelsetyper.includes(o.fagsakYtelseType)) {
+				const eksisterendeKoordinater = acc[samletNavnForOmsorgsdager];
+
+				return {
+					...acc,
+					[samletNavnForOmsorgsdager]: eksisterendeKoordinater
+						? eksisterendeKoordinater.concat(nyKoordinat)
+						: [nyKoordinat],
+				};
+			}
+
+			const eksisterendeKoordinater = acc[o.fagsakYtelseType];
 
 			return {
 				...acc,
-				[samletNavnForOmsorgsdager]: eksisterendeKoordinater
-					? eksisterendeKoordinater.concat(nyKoordinat)
-					: [nyKoordinat],
+				[o.fagsakYtelseType]: eksisterendeKoordinater ? eksisterendeKoordinater.concat(nyKoordinat) : [nyKoordinat],
 			};
-		}
-
-		const eksisterendeKoordinater = acc[o.fagsakYtelseType];
-
-		return {
-			...acc,
-			[o.fagsakYtelseType]: eksisterendeKoordinater ? eksisterendeKoordinater.concat(nyKoordinat) : [nyKoordinat],
-		};
-	}, {} as Record<string, Koordinat[]>);
+		},
+		{} as Record<string, Koordinat[]>,
+	);
 
 const fyllInnManglendeDatoerOgSorterEtterDato = (
 	data: Record<string, Koordinat[]>,
@@ -131,9 +134,9 @@ const HistorikkGrafForPunsj: FunctionComponent<OwnProps> = ({ historiskData, isF
 	if (oppgaverInomValgtPeriode.length === 0) {
 		return (
 			<div>
-				<Normaltekst>
+				<BodyShort size="small">
 					<FormattedMessage id="InngangOgFerdigstiltePanel.IngenTall" />
-				</Normaltekst>
+				</BodyShort>
 			</div>
 		);
 	}
@@ -170,7 +173,6 @@ const HistorikkGrafForPunsj: FunctionComponent<OwnProps> = ({ historiskData, isF
 						// bruker category istedet for time for att vise alle dato og ikke bara hvert femte.
 						type: 'category',
 						// boundaryGap ser till att dato hamnar på en linje istället for mellom.
-						// @ts-ignore
 						boundaryGap: false,
 						axisTick: eChartXAxisTickDefAvdelningslederNokkeltall,
 						axisLabel: {

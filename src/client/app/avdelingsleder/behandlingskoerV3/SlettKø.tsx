@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { OppgavekøV3Enkel } from 'types/OppgavekøV3Type';
 import { TrashIcon } from '@navikt/aksel-icons';
 import { Button } from '@navikt/ds-react';
+import { OppgavekøV3Enkel } from 'types/OppgavekøV3Type';
 import SlettKøModal from './SlettKøModal';
 
 interface Props {

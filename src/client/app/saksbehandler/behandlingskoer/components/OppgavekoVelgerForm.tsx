@@ -1,8 +1,7 @@
 import React, { FunctionComponent, ReactNode, useContext, useEffect } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useQuery, useQueryClient } from 'react-query';
-import { OppgavekøV3MedNavn } from 'types/OppgavekøV3Type';
-import { BodyShort, Button, Heading, ReadMore, Select } from '@navikt/ds-react';
+import { BodyShort, Button, ReadMore, Select } from '@navikt/ds-react';
 import apiPaths from 'api/apiPaths';
 import { K9LosApiKeys } from 'api/k9LosApi';
 import { useAntallOppgaverIKoV3 } from 'api/queries/saksbehandlerQueries';
@@ -10,7 +9,7 @@ import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner
 import BehandlingskoerContext from 'saksbehandler/BehandlingskoerContext';
 import { OppgavekøV1 } from 'saksbehandler/behandlingskoer/oppgavekoTsType';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
-import { FlexColumn, FlexContainer, FlexRow } from 'sharedComponents/flexGrid';
+import { OppgavekøV3MedNavn } from 'types/OppgavekøV3Type';
 import {
 	getValueFromLocalStorage,
 	removeValueFromLocalStorage,
@@ -76,9 +75,9 @@ export const OppgavekoVelgerForm: FunctionComponent<OwnProps> = ({ plukkNyOppgav
 	const oppgavekoerSortertAlfabetisk = oppgavekoer.sort((a, b) => a.navn.localeCompare(b.navn));
 	const harKoer = !!oppgavekoerSortertAlfabetisk.length;
 	const valgtKoId = getDefaultOppgaveko(oppgavekoerSortertAlfabetisk);
-	const { data: antallOppgaverV3 } = useAntallOppgaverIKoV3(getKoId(valgtKoId), {
+	const antallOppgaverV3 = useAntallOppgaverIKoV3(getKoId(valgtKoId), {
 		enabled: harKoer && valgtKoId && erKoV3(valgtKoId),
-	});
+	})?.data?.antallUtenReserverte;
 
 	const { data: saksbehandlere, startRequest: hentSaksbehandlere } = useRestApiRunner<Saksbehandler[]>(
 		K9LosApiKeys.OPPGAVEKO_SAKSBEHANDLERE,

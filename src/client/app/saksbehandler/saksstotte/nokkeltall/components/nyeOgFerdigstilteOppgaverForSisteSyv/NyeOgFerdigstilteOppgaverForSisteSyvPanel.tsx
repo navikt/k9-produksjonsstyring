@@ -2,7 +2,7 @@ import React, { FunctionComponent, useMemo, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import dayjs from 'dayjs';
 import { Select } from 'nav-frontend-skjema';
-import { Element } from 'nav-frontend-typografi';
+import { Label } from '@navikt/ds-react';
 import { RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
 import { useGlobalStateRestApiData } from 'api/rest-api-hooks';
 import {
@@ -103,9 +103,9 @@ export const NyeOgFerdigstilteOppgaverForSisteSyvPanel: FunctionComponent<OwnPro
 		<>
 			<VerticalSpacer eightPx />
 			<div className={styles.nyeOgFerdigstilteOppgaverForIdagPanel_Subtitel}>
-				<Element>
+				<Label>
 					<FormattedMessage id="NyeOgFerdigstilteOppgaverForSisteSyvPanel.SisteSyv" />
-				</Element>
+				</Label>
 
 				<Select value={selectValue} aria-label="Velg ytelse" onChange={(e) => setSelectValue(e.target.value)}>
 					<option value="" disabled defaultValue={ALLE_YTELSETYPER_VALGT}>

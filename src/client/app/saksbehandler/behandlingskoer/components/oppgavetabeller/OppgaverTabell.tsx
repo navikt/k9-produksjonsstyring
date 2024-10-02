@@ -1,22 +1,16 @@
-import React, { FunctionComponent, ReactNode, useCallback } from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
-import bubbletextUrl from 'images/bubbletext.svg';
-import bubbletextFilledUrl from 'images/bubbletext_filled.svg';
-import { Normaltekst } from 'nav-frontend-typografi';
-import { OppgavekøV3MedNavn } from 'types/OppgavekøV3Type';
-import { ErrorMessage, Loader } from '@navikt/ds-react';
+import React, { FunctionComponent } from 'react';
+import { FormattedMessage } from 'react-intl';
+import { BodyShort, ErrorMessage, Loader } from '@navikt/ds-react';
 import { useSaksbehandlerNesteTiV1 } from 'api/queries/saksbehandlerQueries';
 import { getHeaderCodes } from 'saksbehandler/behandlingskoer/components/oppgavetabeller/oppgavetabellerfelles';
 import { OppgavekøV1 } from 'saksbehandler/behandlingskoer/oppgavekoTsType';
 import { getKoId } from 'saksbehandler/behandlingskoer/utils';
-import { OppgaveStatus } from 'saksbehandler/oppgaveStatusTsType';
 import DateLabel from 'sharedComponents/DateLabel';
-import Image from 'sharedComponents/Image';
 import Table from 'sharedComponents/Table';
 import TableColumn from 'sharedComponents/TableColumn';
 import TableRow from 'sharedComponents/TableRow';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
-import { getDateAndTime } from 'utils/dateUtils';
+import { OppgavekøV3MedNavn } from 'types/OppgavekøV3Type';
 import * as styles from './oppgaverTabell.css';
 
 interface OwnProps {
@@ -28,28 +22,6 @@ interface OwnProps {
  */
 export const OppgaverTabell: FunctionComponent<OwnProps> = ({ valgtKo }) => {
 	const { data: oppgaverTilBehandling, error, isLoading, isSuccess } = useSaksbehandlerNesteTiV1(getKoId(valgtKo.id));
-	const intl = useIntl();
-
-	const createTooltip = useCallback((oppgaveStatus: OppgaveStatus): ReactNode | undefined => {
-		const { flyttetReservasjon } = oppgaveStatus;
-		if (!flyttetReservasjon) {
-			return undefined;
-		}
-		const datoOgTid = getDateAndTime(flyttetReservasjon.tidspunkt);
-		const textValues = {
-			dato: datoOgTid.date,
-			tid: datoOgTid.time,
-			uid: flyttetReservasjon.uid,
-			navn: flyttetReservasjon.navn,
-			beskrivelse: flyttetReservasjon.begrunnelse,
-			br: <br />,
-		};
-		return (
-			<Normaltekst>
-				<FormattedMessage id="OppgaverTabell.OverfortReservasjonTooltip" values={textValues} />
-			</Normaltekst>
-		);
-	}, []);
 
 	if (isLoading) {
 		return <Loader size="2xlarge" className={styles.spinner} />;
@@ -66,9 +38,9 @@ export const OppgaverTabell: FunctionComponent<OwnProps> = ({ valgtKo }) => {
 		return (
 			<>
 				<VerticalSpacer eightPx />
-				<Normaltekst>
+				<BodyShort size="small">
 					<FormattedMessage id="OppgaverTabell.IngenOppgaver" />
-				</Normaltekst>
+				</BodyShort>
 			</>
 		);
 	}
@@ -87,16 +59,6 @@ export const OppgaverTabell: FunctionComponent<OwnProps> = ({ valgtKo }) => {
 						<TableColumn>{oppgave.behandlingstype.navn}</TableColumn>
 						<TableColumn>
 							{oppgave.opprettetTidspunkt && <DateLabel dateString={oppgave.opprettetTidspunkt} />}
-						</TableColumn>
-						<TableColumn>
-							{oppgave.status.flyttetReservasjon && (
-								<Image
-									src={bubbletextUrl}
-									srcHover={bubbletextFilledUrl}
-									alt={intl.formatMessage({ id: 'OppgaverTabell.OverfortReservasjon' })}
-									tooltip={createTooltip(oppgave.status)}
-								/>
-							)}
 						</TableColumn>
 					</TableRow>
 				))}

@@ -1,8 +1,8 @@
 import { UseQueryOptions, useMutation, useQuery, useQueryClient } from 'react-query';
-import { OppgavekøV3, OppgavekøV3Enkel, OppgavekøerV3 } from 'types/OppgavekøV3Type';
 import apiPaths from 'api/apiPaths';
-import { axiosInstance } from 'utils/reactQueryConfig';
 import Reservasjon from 'avdelingsleder/reservasjoner/reservasjonTsType';
+import { OppgavekøV3, OppgavekøV3Enkel, OppgavekøerV3 } from 'types/OppgavekøV3Type';
+import { axiosInstance } from 'utils/reactQueryConfig';
 
 // eslint-disable-next-line import/prefer-default-export
 export const useAlleKoer = (options = {}) =>
@@ -60,7 +60,7 @@ export const useSlettKøMutation = (callback?: () => void) => {
 	});
 };
 
-export const useOppdaterKøMutation = (callback) => {
+export const useOppdaterKøMutation = (callback: () => void) => {
 	const queryClient = useQueryClient();
 	return useMutation<OppgavekøV3, unknown, OppgavekøV3>(
 		(payload) => axiosInstance.post(`${apiPaths.oppdaterOppgaveko}`, { ...payload }).then((res) => res.data),
@@ -70,6 +70,7 @@ export const useOppdaterKøMutation = (callback) => {
 				Promise.all([
 					queryClient.invalidateQueries(apiPaths.hentOppgavekoer),
 					queryClient.invalidateQueries(apiPaths.hentOppgaveko(id)),
+					queryClient.invalidateQueries(apiPaths.antallOppgaverIKoV3(id)),
 				]).then(() => {
 					if (callback) callback();
 				});

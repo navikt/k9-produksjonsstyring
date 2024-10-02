@@ -3,20 +3,19 @@ import { FormattedMessage } from 'react-intl';
 import { useQuery } from 'react-query';
 import { NavLink } from 'react-router-dom';
 import classnames from 'classnames/bind';
-import reservasjonBla from 'images/delete-1.svg';
-import reservasjonSvart from 'images/delete-11.svg';
-import koerSvart from 'images/drawer-22.svg';
-import koerBla from 'images/drawer-23.svg';
-import nokkelSvart from 'images/key-hole-1.svg';
-import nokkelBla from 'images/key-hole-11.svg';
-import prognoseBlå from 'images/prognose-bla.svg';
-import prognoseSort from 'images/prognose-sort.svg';
 import { Row } from 'nav-frontend-grid';
 import Panel from 'nav-frontend-paneler';
 import Tabs from 'nav-frontend-tabs';
-import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
-import { PersonGroupIcon } from '@navikt/aksel-icons';
+import {
+	CircleSlashIcon,
+	KeyHorizontalIcon,
+	LineGraphDotIcon,
+	PersonGroupIcon,
+	TasklistIcon,
+} from '@navikt/aksel-icons';
+import { BodyShort, Heading } from '@navikt/ds-react';
 import useTrackRouteParam from 'app/data/trackRouteParam';
+import { avdelingslederTilgangTilNyeKoer } from 'app/envVariablesUtils';
 import NavAnsatt from 'app/navAnsattTsType';
 import { getPanelLocationCreator } from 'app/paths';
 import apiPaths from 'api/apiPaths';
@@ -31,7 +30,6 @@ import PrognoseIndex from 'avdelingsleder/prognose/PrognoseIndex';
 import Image from 'sharedComponents/Image';
 import LoadingPanel from 'sharedComponents/LoadingPanel';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
-import { avdelingslederTilgangTilNyeKoer } from 'app/envVariablesUtils';
 import { parseQueryString } from 'utils/urlUtils';
 import * as styles from './avdelingslederIndex.css';
 import AvdelingslederPanels from './avdelingslederPanels';
@@ -74,15 +72,12 @@ const messageId = {
 };
 
 const tabStyle = {
-	[AvdelingslederPanels.BEHANDLINGSKOER]: [koerSvart, koerBla],
-	[AvdelingslederPanels.BEHANDLINGSKOER_V3]: [koerSvart, koerBla],
-	[AvdelingslederPanels.NOKKELTALL]: [nokkelSvart, nokkelBla],
-	[AvdelingslederPanels.PROGNOSE]: [prognoseSort, prognoseBlå],
-	[AvdelingslederPanels.RESERVASJONER]: [reservasjonSvart, reservasjonBla],
-	[AvdelingslederPanels.SAKSBEHANDLERE]: [
-		<PersonGroupIcon key="aktiv" title="a11y-title" fontSize="1.5rem" />,
-		<PersonGroupIcon key="inaktiv" title="a11y-title" fontSize="1.5rem" />,
-	],
+	[AvdelingslederPanels.BEHANDLINGSKOER]: [<TasklistIcon fontSize="1.5rem" />, <TasklistIcon fontSize="1.5rem" />],
+	[AvdelingslederPanels.BEHANDLINGSKOER_V3]: [<TasklistIcon fontSize="1.5rem" />, <TasklistIcon fontSize="1.5rem" />],
+	[AvdelingslederPanels.NOKKELTALL]: [<KeyHorizontalIcon fontSize="1.5rem" />, <KeyHorizontalIcon fontSize="1.5rem" />],
+	[AvdelingslederPanels.PROGNOSE]: [<LineGraphDotIcon fontSize="1.5rem" />, <LineGraphDotIcon fontSize="1.5rem" />],
+	[AvdelingslederPanels.RESERVASJONER]: [<CircleSlashIcon fontSize="1.5rem" />, <CircleSlashIcon fontSize="1.5rem" />],
+	[AvdelingslederPanels.SAKSBEHANDLERE]: [<PersonGroupIcon fontSize="1.5rem" />, <PersonGroupIcon fontSize="1.5rem" />],
 };
 
 type TabProps = {
@@ -103,9 +98,9 @@ const getTab = (
 		label: (
 			<div className={styles.tabLabel}>
 				{typeof icon === 'string' ? <Image className={styles.tabIcon} src={icon} /> : icon}
-				<Undertittel>
+				<Heading size="small">
 					<FormattedMessage id={messageId[avdelingslederPanel]} />
-				</Undertittel>
+				</Heading>
 			</div>
 		),
 		aktiv: isActive,
@@ -136,7 +131,7 @@ export const AvdelingslederIndex: FunctionComponent = () => {
 		K9LosApiKeys.HENT_DAGENS_TALL,
 	);
 
-	const { data: alleSaksbehandlere, isSuccess } = useQuery<Saksbehandler[]>(apiPaths.hentSaksbehandlere);
+	const { data: alleSaksbehandlere, isSuccess } = useQuery<Saksbehandler[]>(apiPaths.hentSaksbehandlereAvdelingsleder);
 
 	useEffect(() => {
 		hentAntallIdag();
@@ -166,45 +161,51 @@ export const AvdelingslederIndex: FunctionComponent = () => {
 
 	if (activeAvdelingslederPanel) {
 		return (
-			<AvdelingslederContext.Provider value={avdelingslederContextValue}>
-				<Row>
-					<Normaltekst className={styles.paneltekst}>Avdelingslederpanel</Normaltekst>
-				</Row>
-				<Row>
-					<DagensTallPanel totaltIdag={totaltIdag} dagensTall={dagensTall} />
-				</Row>
-				<VerticalSpacer twentyPx />
-				<Row>
-					<AvdelingslederDashboard>
-						<div>
-							<Tabs
-								tabs={[
-									getTab(
-										AvdelingslederPanels.BEHANDLINGSKOER,
-										activeAvdelingslederPanel,
-										getAvdelingslederPanelLocation,
-									),
-									avdelingslederTilgangTilNyeKoer() &&
+			<div className="max-w-[1400px]">
+				<AvdelingslederContext.Provider value={avdelingslederContextValue}>
+					<Row>
+						<BodyShort className={styles.paneltekst}>Avdelingslederpanel</BodyShort>
+					</Row>
+					<Row>
+						<DagensTallPanel totaltIdag={totaltIdag} dagensTall={dagensTall} />
+					</Row>
+					<VerticalSpacer twentyPx />
+					<Row>
+						<AvdelingslederDashboard>
+							<div>
+								<Tabs
+									tabs={[
 										getTab(
-											AvdelingslederPanels.BEHANDLINGSKOER_V3,
+											AvdelingslederPanels.BEHANDLINGSKOER,
 											activeAvdelingslederPanel,
 											getAvdelingslederPanelLocation,
 										),
-									getTab(AvdelingslederPanels.NOKKELTALL, activeAvdelingslederPanel, getAvdelingslederPanelLocation),
-									getTab(AvdelingslederPanels.PROGNOSE, activeAvdelingslederPanel, getAvdelingslederPanelLocation),
-									getTab(AvdelingslederPanels.RESERVASJONER, activeAvdelingslederPanel, getAvdelingslederPanelLocation),
-									getTab(
-										AvdelingslederPanels.SAKSBEHANDLERE,
-										activeAvdelingslederPanel,
-										getAvdelingslederPanelLocation,
-									),
-								].filter(Boolean)}
-							/>
-							<Panel className={styles.panelPadding}>{renderAvdelingslederPanel(activeAvdelingslederPanel)}</Panel>
-						</div>
-					</AvdelingslederDashboard>
-				</Row>
-			</AvdelingslederContext.Provider>
+										avdelingslederTilgangTilNyeKoer() &&
+											getTab(
+												AvdelingslederPanels.BEHANDLINGSKOER_V3,
+												activeAvdelingslederPanel,
+												getAvdelingslederPanelLocation,
+											),
+										getTab(AvdelingslederPanels.NOKKELTALL, activeAvdelingslederPanel, getAvdelingslederPanelLocation),
+										getTab(AvdelingslederPanels.PROGNOSE, activeAvdelingslederPanel, getAvdelingslederPanelLocation),
+										getTab(
+											AvdelingslederPanels.RESERVASJONER,
+											activeAvdelingslederPanel,
+											getAvdelingslederPanelLocation,
+										),
+										getTab(
+											AvdelingslederPanels.SAKSBEHANDLERE,
+											activeAvdelingslederPanel,
+											getAvdelingslederPanelLocation,
+										),
+									].filter(Boolean)}
+								/>
+								<Panel className={styles.panelPadding}>{renderAvdelingslederPanel(activeAvdelingslederPanel)}</Panel>
+							</div>
+						</AvdelingslederDashboard>
+					</Row>
+				</AvdelingslederContext.Provider>
+			</div>
 		);
 	}
 	return <LoadingPanel />;

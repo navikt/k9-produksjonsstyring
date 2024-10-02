@@ -33,7 +33,7 @@ const createKeyHandler = (onKeyDown, id, model) => (e) => {
 
 /**
  * TableRow
- *
+ * @deprecated
  * Presentasjonskomponent. Tabellrad som brukes av komponenten Table.
  */
 const TableRow = ({
@@ -83,21 +83,6 @@ TableRow.propTypes = {
 	isSolidBottomBorder: PropTypes.bool,
 	isApLeftBorder: PropTypes.bool,
 	className: PropTypes.string,
-};
-
-TableRow.defaultProps = {
-	id: null,
-	model: null,
-	isHeader: false,
-	onMouseDown: null,
-	onKeyDown: null,
-	noHover: false,
-	isSelected: false,
-	isBold: false,
-	isDashedBottomBorder: false,
-	isSolidBottomBorder: false,
-	isApLeftBorder: false,
-	className: undefined,
 };
 
 export default TableRow;

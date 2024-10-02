@@ -1,17 +1,15 @@
 /* eslint-disable no-underscore-dangle */
+import timeout from 'connect-timeout';
 import cors from 'cors';
 import express from 'express';
-import helmet from 'helmet';
-import timeout from 'connect-timeout';
-import { validateToken } from '@navikt/oasis';
-import { decodeJwt } from 'jose';
 import rateLimit from 'express-rate-limit';
-
-import logger from './src/log.js';
-
-import config from './src/config.js';
-import reverseProxy from './src/reverse-proxy.js';
+import helmet from 'helmet';
+import { decodeJwt } from 'jose';
+import { validateToken } from '@navikt/oasis';
 import { envVariables } from './envVariables.js';
+import config from './src/config.js';
+import logger from './src/log.js';
+import reverseProxy from './src/reverse-proxy.js';
 
 const server = express();
 const { port } = config.server;
@@ -36,13 +34,14 @@ async function startApp() {
 				contentSecurityPolicy: {
 					useDefaults: false,
 					directives: {
-						'default-src': ["'self'"],
+						'default-src': ["'self'", "'unsafe-inline'"],
 						'base-uri': ["'self'"],
 						'connect-src': [
 							"'self'",
 							'https://sentry.gc.nav.no',
 							'https://familie-endringslogg.intern.dev.nav.no',
 							'https://familie-endringslogg.intern.nav.no',
+							process.env.NAIS_FRONTEND_TELEMETRY_COLLECTOR_URL,
 						],
 						'font-src': ["'self'", 'https://cdn.nav.no', 'data:'],
 						'img-src': ["'self'", 'data:', 'blob:'],

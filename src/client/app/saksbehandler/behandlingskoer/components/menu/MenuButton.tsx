@@ -1,11 +1,11 @@
-import React, { Node } from 'react';
-import { Undertekst } from 'nav-frontend-typografi';
+import React from 'react';
 import PropTypes from 'prop-types';
+import { Detail } from '@navikt/ds-react';
 import * as styles from './menuButton.css';
 
 type TsProps = Readonly<{
 	onClick: () => void;
-	children: Node;
+	children: JSX.Element;
 }>;
 
 /**
@@ -15,7 +15,7 @@ type TsProps = Readonly<{
  */
 const MenuButton = React.forwardRef(({ onClick, children }: TsProps, ref) => (
 	<button ref={ref} className={styles.button} onClick={onClick} type="button">
-		<Undertekst>{children}</Undertekst>
+		<Detail>{children}</Detail>
 	</button>
 ));
 

@@ -5,6 +5,7 @@ type Reservasjon = Readonly<{
 	oppgavenøkkel: OppgaveNøkkel;
 	reservertAvIdent: string;
 	reservertAvEpost: string;
+	reservertAvNavn?: string;
 	reservertTilTidspunkt: string;
 	saksnummer: string;
 	journalpostId: string;

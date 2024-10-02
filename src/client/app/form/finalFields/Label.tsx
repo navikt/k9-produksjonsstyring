@@ -1,7 +1,7 @@
-import React, { Component, ReactNode, ReactType } from 'react';
+import React, { Component, ReactNode } from 'react';
 import { WrappedComponentProps, injectIntl } from 'react-intl';
 import classnames from 'classnames/bind';
-import { Undertekst } from 'nav-frontend-typografi';
+import { Detail } from '@navikt/ds-react';
 import * as styles from './label.css';
 
 const classNames = classnames.bind(styles);
@@ -11,18 +11,24 @@ export type LabelType =
 	| ReactNode
 	| {
 			id: string;
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			args?: any;
 	  };
 
 interface OwnProps {
 	input: LabelType;
-	typographyElement?: ReactType;
+	typographyElement?: React.ElementType;
 	readOnly?: boolean;
 }
 
+/**
+ * @deprecated
+ */
+
 export class Label extends Component<OwnProps & WrappedComponentProps> {
+	// eslint-disable-next-line react/static-property-placement
 	static defaultProps = {
-		typographyElement: Undertekst,
+		typographyElement: Detail,
 		readOnly: false,
 	};
 

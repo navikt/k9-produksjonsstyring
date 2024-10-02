@@ -1,11 +1,7 @@
 import React, { FunctionComponent } from 'react';
-import { FormattedMessage, WrappedComponentProps, injectIntl } from 'react-intl';
-import { Column } from 'nav-frontend-grid';
-import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
-import { Normaltekst } from 'nav-frontend-typografi';
-import Modal from 'sharedComponents/Modal';
+import { BodyLong, Button, Modal } from '@navikt/ds-react';
 import { Saksbehandler } from '../saksbehandlerTsType';
-import * as styles from './sletteSaksbehandlerModal.css';
+import { ExclamationmarkTriangleIcon } from '@navikt/aksel-icons';
 
 type OwnProps = Readonly<{
 	valgtSaksbehandler: Saksbehandler;
@@ -18,39 +14,33 @@ type OwnProps = Readonly<{
  *
  * Presentasjonskomponent. Modal som lar en avdelingsleder fjerne tilgjengelige saksbehandlere.
  */
-const SletteSaksbehandlerModal: FunctionComponent<OwnProps & WrappedComponentProps> = ({
-	intl,
+const SletteSaksbehandlerModal: FunctionComponent<OwnProps> = ({
 	valgtSaksbehandler,
 	closeSletteModal,
 	fjernSaksbehandler,
 }) => (
-	<Modal
-		closeButton={false}
-		isOpen
-		contentLabel={intl.formatMessage({ id: 'SletteSaksbehandlerModal.SletteModal' })}
-		onRequestClose={closeSletteModal}
-	>
-		<div className={styles.text}>
-			<Normaltekst>
-				<FormattedMessage
-					id="SletteSaksbehandlerModal.SletteSaksbehandler"
-					values={{ saksbehandlerNavn: valgtSaksbehandler.navn || valgtSaksbehandler.epost }}
-				/>
-			</Normaltekst>
-		</div>
-		<div className={styles.buttons}>
-			<Column>
-				<Knapp mini htmlType="reset" onClick={closeSletteModal}>
-					{intl.formatMessage({ id: 'SletteSaksbehandlerModal.Nei' })}
-				</Knapp>
-			</Column>
-			<Column xs="4">
-				<Hovedknapp mini htmlType="submit" onClick={() => fjernSaksbehandler(valgtSaksbehandler.epost)} autoFocus>
-					{intl.formatMessage({ id: 'SletteSaksbehandlerModal.Ja' })}
-				</Hovedknapp>
-			</Column>
-		</div>
-	</Modal>
+	<>
+		<Modal
+			header={{ heading: 'Ønsker du å slette saksbehandler?', icon: <ExclamationmarkTriangleIcon /> }}
+			onClose={closeSletteModal}
+			className="min-w-[500px]"
+			open
+		>
+			<Modal.Body>
+				<BodyLong>
+					{`Er du sikker på at du vil slette ${
+						valgtSaksbehandler.navn || valgtSaksbehandler.epost
+					}? Saksbehandleren kan fortsatt logge inn i K9Los og søke opp oppgaver, men vil ikke kunne reservere oppgaver eller legges til i køer.`}
+				</BodyLong>
+			</Modal.Body>
+			<Modal.Footer>
+				<Button onClick={() => fjernSaksbehandler(valgtSaksbehandler.epost)}>Ja</Button>
+				<Button variant="secondary" onClick={closeSletteModal}>
+					Nei
+				</Button>
+			</Modal.Footer>
+		</Modal>
+	</>
 );
 
-export default injectIntl(SletteSaksbehandlerModal);
+export default SletteSaksbehandlerModal;

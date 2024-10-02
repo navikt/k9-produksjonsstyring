@@ -1,8 +1,7 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useFormik } from 'formik';
-import { Undertekst } from 'nav-frontend-typografi';
-import { TextField } from '@navikt/ds-react';
+import { Detail, TextField } from '@navikt/ds-react';
 import ArrowBox from 'sharedComponents/ArrowBox';
 import * as styles from './utvalgskriterierForOppgavekoForm.css';
 
@@ -27,6 +26,11 @@ interface OwnProps {
 	lagreFilteringBelopp: (fraBelop: number, tilBelop: number) => void;
 }
 
+/**
+ *
+ * @deprecated
+ *
+ */
 const BelopSorteringValg: React.FunctionComponent<OwnProps> = ({ til, fra, lagreFilteringBelopp }) => {
 	const formik = useFormik({
 		initialValues: { fraBelop: fra || 0, tilBelop: til || 0 },
@@ -53,9 +57,9 @@ const BelopSorteringValg: React.FunctionComponent<OwnProps> = ({ til, fra, lagre
 							type="number"
 							label="Fra"
 						/>
-						<Undertekst className={styles.belop}>
+						<Detail className={styles.belop}>
 							<FormattedMessage id="SorteringVelger.Valuta" />
-						</Undertekst>
+						</Detail>
 						<TextField
 							name="tilBelop"
 							onChange={(e) =>
@@ -69,9 +73,9 @@ const BelopSorteringValg: React.FunctionComponent<OwnProps> = ({ til, fra, lagre
 							type="number"
 							label="Til"
 						/>
-						<Undertekst className={styles.belop}>
+						<Detail className={styles.belop}>
 							<FormattedMessage id="SorteringVelger.Valuta" />
-						</Undertekst>
+						</Detail>
 					</div>
 				</form>
 				{(formik.errors.fraBelop || formik.errors.tilBelop) && (

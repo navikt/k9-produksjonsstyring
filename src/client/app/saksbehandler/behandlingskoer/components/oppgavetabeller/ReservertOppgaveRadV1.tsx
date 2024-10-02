@@ -1,18 +1,15 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 
 /* eslint-disable no-param-reassign */
-import { WarningColored } from '@navikt/ds-icons';
-import { Table } from '@navikt/ds-react';
-import classNames from 'classnames';
-import menuIconBlackUrl from 'images/ic-menu-18px_black.svg';
-import menuIconBlueUrl from 'images/ic-menu-18px_blue.svg';
 import React, { RefAttributes } from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
+import classNames from 'classnames';
+import { ExclamationmarkTriangleFillIcon, MenuHamburgerIcon } from '@navikt/aksel-icons';
+import { Button, Table } from '@navikt/ds-react';
 import ReservasjonV3 from 'saksbehandler/behandlingskoer/ReservasjonV3Dto';
 import KommentarMedMerknad from 'saksbehandler/components/KommentarMedMerknad';
 import Oppgave from 'saksbehandler/oppgaveTsType';
 import DateLabel from 'sharedComponents/DateLabel';
-import Image from 'sharedComponents/Image';
 import { OppgaveNøkkel } from 'types/OppgaveNøkkel';
 import { getDateAndTime } from 'utils/dateUtils';
 import OppgaveHandlingerMenu from '../menu/OppgaveHandlingerMenu';
@@ -48,14 +45,13 @@ const ReservertOppgaveRadV1: React.ForwardRefExoticComponent<OwnProps> = React.f
 		ref: React.RefObject<{ [key: string]: HTMLDivElement }>,
 	) => {
 		const oppgave = reservasjon.reservertOppgaveV1Dto;
-		const toggleMenu = (oppgaveValgt: Oppgave) => {
-			if (oppgaveValgt) {
+		const toggleMenu = (oppgaveValgt?: Oppgave) => {
+			if (oppgaveValgt && (!valgtOppgaveId || valgtOppgaveId !== oppgaveValgt.eksternId)) {
 				setValgtOppgaveId(oppgaveValgt.eksternId);
 			} else {
 				setValgtOppgaveId(undefined);
 			}
 		};
-		const intl = useIntl();
 
 		return (
 			<Table.Row
@@ -65,7 +61,7 @@ const ReservertOppgaveRadV1: React.ForwardRefExoticComponent<OwnProps> = React.f
 			>
 				{gjelderHastesaker && (
 					<Table.DataCell onClick={() => goToFagsak(oppgave)} className={`${styles.hastesakTd} hover:cursor-pointer`}>
-						<WarningColored className={styles.hastesakIkon} />
+						<ExclamationmarkTriangleFillIcon height="1.5rem" width="1.5rem" className={styles.hastesakIkon} />
 					</Table.DataCell>
 				)}
 				<Table.DataCell
@@ -114,13 +110,12 @@ const ReservertOppgaveRadV1: React.ForwardRefExoticComponent<OwnProps> = React.f
 								forlengOppgaveReservasjon={forlengOppgaveReservasjonFn}
 							/>
 						)}
-						<Image
-							className={styles.image}
-							src={menuIconBlackUrl}
-							srcHover={menuIconBlueUrl}
-							alt={intl.formatMessage({ id: 'OppgaverTabell.OppgaveHandlinger' })}
-							onMouseDown={() => toggleMenu(oppgave)}
-							onKeyDown={() => toggleMenu(oppgave)}
+						<Button
+							icon={<MenuHamburgerIcon />}
+							className="p-0"
+							variant="tertiary"
+							aria-label="Handlinger på oppgave"
+							onClick={() => toggleMenu(oppgave)}
 						/>
 					</div>
 				</Table.DataCell>

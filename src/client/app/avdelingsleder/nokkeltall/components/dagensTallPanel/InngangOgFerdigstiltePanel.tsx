@@ -3,8 +3,7 @@ import { FormattedMessage, WrappedComponentProps, injectIntl } from 'react-intl'
 import dayjs from 'dayjs';
 import Panel from 'nav-frontend-paneler';
 import { ToggleKnapp } from 'nav-frontend-toggle';
-import { Normaltekst } from 'nav-frontend-typografi';
-import { Heading, Label, Loader, Select } from '@navikt/ds-react';
+import { BodyShort, Heading, Label, Loader, Select } from '@navikt/ds-react';
 import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
 import { useGlobalStateRestApiData } from 'api/rest-api-hooks';
 import RestApiState from 'api/rest-api-hooks/src/RestApiState';
@@ -134,9 +133,9 @@ export const InngangOgFerdigstiltePanel: FunctionComponent<WrappedComponentProps
 			</div>
 			{((erIdagValgt && requestFinished && nyeOgFerdigstilteOppgaverIdag.length === 0) ||
 				(!erIdagValgt && requestFinished && nyeOgFerdigstilteOppgaver7dager.length === 0)) && (
-				<Normaltekst className={styles.ingenTall}>
+				<BodyShort className={styles.ingenTall}>
 					<FormattedMessage id="InngangOgFerdigstiltePanel.IngenTall" />
-				</Normaltekst>
+				</BodyShort>
 			)}
 			{nyeOgFerdigstilteOppgaverIdag.length === 0 && !requestFinished && (
 				<Loader size="2xlarge" className={styles.spinner} />

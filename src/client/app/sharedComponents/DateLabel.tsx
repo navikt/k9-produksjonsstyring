@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
  * DateLabel
  *
  * Presentasjonskomponent. Formaterer dato på formatet dd.mm.yyyy.
- *
+ * @deprecatedƒ
  * Eksempel:
  * ```html
  * <DateLabel dateString="2017-08-31" />

@@ -119,6 +119,7 @@ export enum OppgavefilterKode {
 	BehandlingUuid = 'behandlingUuid',
 	Beskyttelse = 'beskyttelse',
 	EgenAnsatt = 'egenAnsatt',
+	Personbeskyttelse = 'personbeskyttelse',
 	Fagsystem = 'fagsystem',
 	FraEndringsdialog = 'fraEndringsdialog',
 	Hastesak = 'hastesak',

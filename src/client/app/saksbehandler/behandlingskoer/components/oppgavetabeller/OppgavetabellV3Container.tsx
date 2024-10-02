@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Normaltekst } from 'nav-frontend-typografi';
-import { ErrorMessage, Loader } from '@navikt/ds-react';
+import { BodyShort, ErrorMessage, Loader } from '@navikt/ds-react';
 import { useSaksbehandlerNesteTiV3 } from 'api/queries/saksbehandlerQueries';
 import BehandlingskoerContext from 'saksbehandler/BehandlingskoerContext';
 import { erKoV3, getKoId } from 'saksbehandler/behandlingskoer/utils';
@@ -24,9 +23,9 @@ export const OppgavetabellV3Container = () => {
 
 	if (isSuccess && data.length === 0) {
 		return (
-			<Normaltekst>
+			<BodyShort size="small">
 				<FormattedMessage id="OppgaverTabell.IngenOppgaver" />
-			</Normaltekst>
+			</BodyShort>
 		);
 	}
 

@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 
 const lagNyoppgavekø = async (page: any, kønavn: string) => {
 	await page.goto('/');
@@ -10,11 +10,9 @@ const lagNyoppgavekø = async (page: any, kønavn: string) => {
 	await page.getByLabel('Velg saksbehandlere').click();
 	await page.getByLabel('Velg saksbehandlere').fill('saks');
 	await page.getByLabel('Saksbehandler Sara').click();
-	await page.getByRole('button', { name: 'Legg til saksbehandlere' }).click();
 	await page.getByLabel('Beskrivelse').click();
 	await page.getByLabel('Beskrivelse').fill('aisjdfiasjdfiasdfjasidfj');
 	await page.getByRole('button', { name: 'Lagre oppgavekø' }).click();
-	await page.getByTestId('lagre-button-modal').click();
 	await page.getByRole('button', { name: 'Lukk' }).click();
 };
 
@@ -25,18 +23,14 @@ function formatDate(date: Date): string {
 	)}.${date.getFullYear()}`;
 }
 
-const saksnummer = process.env.SAKSNUMMER as string;
-
-if (!saksnummer) {
-	throw new Error('SAKSNUMMER må settes som environment variable');
-}
+const saksnummer = (process.env.SAKSNUMMER as string) || '5YC1S';
 
 test.beforeEach(async ({ page }) => {
 	await page.goto('/');
 });
 
 test('Kan søke opp og reservere opppgave', async ({ page }) => {
-	const searchInput = page.getByLabel('Saksnummer, fødselsnummer/D-nummer eller journalpostID');
+	const searchInput = page.getByLabel('Søk på saksnummer, personnummer eller journalpostID');
 	await searchInput.click();
 	await searchInput.fill(saksnummer);
 
@@ -44,25 +38,27 @@ test('Kan søke opp og reservere opppgave', async ({ page }) => {
 	await expect(searchButton).toBeEnabled();
 	await searchButton.click();
 
-	await page.waitForResponse((response) => response.url().includes('/api/k9-los-api/fagsak/sok') && response.status() === 200);
+	await page.waitForResponse(
+		(response) => response.url().includes('/api/k9-los-api/fagsak/sok') && response.status() === 200,
+	);
 
 	const searchResult = page.getByRole('cell', { name: saksnummer });
 	await expect(searchResult).toBeVisible();
 	await searchResult.click();
 
-	expect(page.getByText('Ønsker du å reservere oppgaven?')).toBeVisible();
-	await page.getByRole('button', { name: 'Ja' }).click();
+	expect(page.getByText('Hva ønsker du å gjøre med oppgaven?')).toBeVisible();
+	await page.getByRole('button', { name: 'Reserver og åpne oppgaven' }).click();
 
 	await page.waitForResponse(
-		(response) => response.url().includes('/api/k9-los-api/saksbehandler/oppgaver/reserver') && response.status() === 200,
+		(response) =>
+			response.url().includes('/api/k9-los-api/saksbehandler/oppgaver/reserver') && response.status() === 200,
 	);
 });
 
 test('kan legge tilbake reservasjon i felles kø', async ({ page }) => {
 	await expect(page.getByRole('cell', { name: saksnummer })).toBeVisible();
-	await page.getByRole('img', { name: 'Handlinger på oppgave' }).click();
+	await page.getByRole('button', { name: 'Handlinger på oppgave' }).click();
 	await page.getByRole('button', { name: 'Legg oppgave tilbake i felles kø' }).click();
-	await page.getByLabel('Når en reservert sak frigjøres er begrunnelse obligatorisk').fill('Dette er en god grunn');
 	await page.getByRole('button', { name: 'OK' }).click();
 
 	await expect(page.getByRole('cell', { name: saksnummer })).not.toBeVisible();
@@ -75,12 +71,13 @@ test('kan plukke oppgave fra kø og reservere', async ({ page }) => {
 	await page.getByLabel('Velg oppgavekø').selectOption(kønavn);
 	await page.getByRole('button', { name: 'Gi meg neste oppgave i køen' }).click();
 	await page.waitForResponse(
-		(response) => response.url().includes('/api/k9-los-api/saksbehandler/oppgaver/reserver') && response.status() === 200,
+		(response) =>
+			response.url().includes('/api/k9-los-api/saksbehandler/oppgaver/reserver') && response.status() === 200,
 	);
 });
 
 test('kan forlenge reservasjon', async ({ page }) => {
-	await page.getByRole('row', { name: saksnummer }).getByRole('img', { name: 'Handlinger på oppgave' }).click();
+	await page.getByRole('row', { name: saksnummer }).getByRole('button', { name: 'Handlinger på oppgave' }).click();
 	const today = new Date();
 	const todayFormatted = formatDate(today);
 
@@ -92,11 +89,18 @@ test('kan forlenge reservasjon', async ({ page }) => {
 });
 
 test('kan endre/og flytte reservasjon reservasjon', async ({ page }) => {
-	await page.getByRole('row', { name: saksnummer }).getByRole('img').click();
+	await page.getByRole('row', { name: saksnummer }).getByRole('button', { name: 'Handlinger på oppgave' }).click();
 	await page.getByRole('button', { name: 'Endre og/eller flytte' }).click();
-	await page.getByLabel('Saksbehandlers brukerident').click();
-	await page.getByLabel('Saksbehandlers brukerident').fill('Sara');
-	await page.getByLabel('Endre og/eller flytte').getByRole('button', { name: 'Søk' }).click();
+	// kan fjerne saksbehandler
+	await page.getByRole('list').getByText('Saksbehandler Sara').click();
+	await page.getByRole('option', { name: 'Saksbehandler Sara' }).click();
+	// sjekker at saksbehandleren og assert at den ikke er synlig
+	await expect(page.getByRole('list').getByText('Saksbehandler Sara')).not.toBeVisible();
+	// kan legge til saksbehandler
+	await page.getByLabel('Velg saksbehandler').click();
+	await page.getByLabel('Velg saksbehandler').fill('saks');
+	await page.getByLabel('Velg saksbehandler').press('Enter');
+
 	// Get a date one week from now
 	const date = new Date();
 	date.setDate(date.getDate() + 7);
@@ -104,42 +108,34 @@ test('kan endre/og flytte reservasjon reservasjon', async ({ page }) => {
 	// Format the date as dd.mm.yyyy
 	const oneWeekFromNow = formatDate(date);
 	// fill with date one week in the future dd.mm.yyyy this format
-	await page.getByLabel(/^Velg dato som reservasjonen avsluttes \(Valgfritt å fylle ut\)$/).fill(oneWeekFromNow);
-	await page.getByLabel('Begrunn endring av reservasjon').click();
+	await page.getByLabel(/Velg dato som reservasjonen avsluttes/i).fill(oneWeekFromNow);
 	await page
 		.getByLabel('Begrunn endring av reservasjon')
-		.fill('jeg ønsker å ha denne oppgaven liggende på min benk skikkelig lenge ');
-	await page.getByRole('button', { name: 'OK' }).click();
+		.fill('Jeg ønsker å beholde denne reservasjonen lenger på grunn av separasjonsangst');
+	await page.getByRole('button', { name: 'Lagre' }).click();
 	await page.getByRole('cell', { name: `Reservert til ${oneWeekFromNow}` }).isVisible();
 });
 test('kan endre reservasjon som avdelingsleder', async ({ page }) => {
 	await page.goto('/avdelingsleder');
 	await page.getByRole('link', { name: 'Reservasjoner' }).click();
-	await page.getByRole('row', { name: saksnummer }).getByRole('cell').nth(0).click();
-	await page.getByRole('button', { name: 'Flytt reservasjonen til annen saksbehandler' }).click();
-	await page.getByLabel('Saksbehandlers brukerident').click();
-	await page.getByLabel('Saksbehandlers brukerident').fill('Sara');
-	await page.getByLabel('Endre og/eller flytte').getByRole('button', { name: 'Søk' }).click();
+	await page.getByRole('button', { name: 'Endre/flytt' }).click();
 	// Get a date two weeks from now
 	const date = new Date();
 	date.setDate(date.getDate() + 14);
 
 	const twoWeeksFromNow = formatDate(date);
-	await page.getByLabel(/^Velg dato som reservasjonen avsluttes \(Valgfritt å fylle ut\)$/).fill(twoWeeksFromNow);
-	await page.getByLabel('Begrunn endring av reservasjon').click();
+	await page.getByLabel(/Velg dato som reservasjonen avsluttes/i).fill(twoWeeksFromNow);
 	await page
 		.getByLabel('Begrunn endring av reservasjon')
-		.fill('jeg ønsker å ha denne oppgaven liggende på min benk skikkelig lenge ');
-	await page.getByRole('button', { name: 'OK' }).click();
+		.fill('jeg ønsker å ha denne oppgaven liggende på min benk skikkelig lenge');
+	await page.getByRole('button', { name: 'Lagre' }).click();
 	await page.getByRole('cell', { name: `Reservert til ${twoWeeksFromNow}` }).isVisible();
 });
 
 test('kan fjerne reservasjon som avdelingsleder', async ({ page }) => {
 	await page.goto('/avdelingsleder');
 	await page.getByRole('link', { name: 'Reservasjoner' }).click();
-	await page.getByRole('row', { name: saksnummer }).getByRole('cell').nth(0).click();
-	await page.getByRole('button', { name: 'Legg oppgave tilbake i felles kø' }).click();
-	await page.getByLabel('Når en reservert sak frigjøres er begrunnelse obligatorisk').fill('Dette er en god grunn');
+	await page.getByRole('button', { name: 'Legg tilbake i kø' }).click();
 	await page.getByRole('button', { name: 'OK' }).click();
 
 	await page.waitForResponse(

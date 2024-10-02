@@ -2,11 +2,11 @@ import React, { useContext, useEffect, useMemo } from 'react';
 import { Select } from '@navikt/ds-react';
 import AppContext from 'app/AppContext';
 import { FilterContext } from 'filter/FilterContext';
+import { FeltverdiOppgavefilter, TolkesSom } from 'filter/filterTsTypes';
 import { updateFilter } from 'filter/queryUtils';
 import { OPERATORS, operatorsFraTolkesSom } from 'filter/utils';
-import { TolkesSom } from 'filter/filterTsTypes';
 
-function KriterieOperator({ oppgavefilter }) {
+function KriterieOperator({ oppgavefilter, readOnly }: { oppgavefilter: FeltverdiOppgavefilter; readOnly: boolean }) {
 	const { updateQuery } = useContext(FilterContext);
 	const { felter: kriterierSomKanVelges } = useContext(AppContext);
 
@@ -29,7 +29,7 @@ function KriterieOperator({ oppgavefilter }) {
 			kriterieDefinisjon.tolkes_som === TolkesSom.Timestamp ? 'Til og med' : 'Mindre enn eller lik (<=)',
 		[OPERATORS.GREATER_THAN_OR_EQUALS]:
 			kriterieDefinisjon.tolkes_som === TolkesSom.Timestamp ? 'Fra og med' : 'Større enn eller lik (>=)',
-		[OPERATORS.INTERVAL]: 'Mellom',
+		[OPERATORS.INTERVAL]: 'Fra og med, til og med',
 	};
 
 	const operators = useMemo(
@@ -68,6 +68,7 @@ function KriterieOperator({ oppgavefilter }) {
 				className="w-[12rem]"
 				value={oppgavefilter.operator}
 				onChange={handleChangeOperator}
+				readOnly={readOnly}
 			>
 				{operators.map((operator) => (
 					<option key={operator} value={operator}>

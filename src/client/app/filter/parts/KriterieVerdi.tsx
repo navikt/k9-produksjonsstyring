@@ -1,9 +1,17 @@
 import React, { useContext } from 'react';
 import dayjs from 'dayjs';
-import { Checkbox, CheckboxGroup, DatePicker, TextField, useDatepicker, useRangeDatepicker } from '@navikt/ds-react';
+import {
+	Checkbox,
+	CheckboxGroup,
+	DatePicker,
+	Select,
+	TextField,
+	useDatepicker,
+	useRangeDatepicker,
+} from '@navikt/ds-react';
 import AksjonspunktVelger from 'avdelingsleder/behandlingskoerV3/components/AksjonspunktVelger';
 import { FilterContext } from 'filter/FilterContext';
-import { FeltverdiOppgavefilter, Oppgavefelt, TolkesSom } from 'filter/filterTsTypes';
+import { FeltverdiOppgavefilter, Oppgavefelt, OppgavefilterKode, TolkesSom } from 'filter/filterTsTypes';
 import { aksjonspunktKoder } from 'filter/konstanter';
 import { updateFilter } from 'filter/queryUtils';
 import { OPERATORS, calculateDays, mapBooleanToStringArray, mapStringToBooleanArray } from 'filter/utils';
@@ -22,11 +30,14 @@ const useChangeValue = (oppgavefilter, updateQuery) => (value) => {
 const KriterieVerdi = ({
 	feltdefinisjon,
 	oppgavefilter,
+	readOnly,
 }: {
 	feltdefinisjon?: Oppgavefelt;
 	oppgavefilter: FeltverdiOppgavefilter;
+	readOnly?: boolean;
 }) => {
-	const { updateQuery } = useContext(FilterContext);
+	const { updateQuery, errors } = useContext(FilterContext);
+	const errorMessage = errors.find((e) => e.id === oppgavefilter.id && e.felt === 'verdi')?.message;
 
 	const handleChangeValue = useChangeValue(oppgavefilter, updateQuery);
 
@@ -91,7 +102,33 @@ const KriterieVerdi = ({
 
 	if (aksjonspunktKoder.includes(feltdefinisjon?.kode)) {
 		return (
-			<AksjonspunktVelger onChange={handleChangeValue} feltdefinisjon={feltdefinisjon} oppgavefilter={oppgavefilter} />
+			<AksjonspunktVelger
+				onChange={handleChangeValue}
+				feltdefinisjon={feltdefinisjon}
+				oppgavefilter={oppgavefilter}
+				error={errorMessage}
+				skjulValgteVerdierUnderDropdown
+			/>
+		);
+	}
+
+	if (feltdefinisjon?.kode === OppgavefilterKode.Personbeskyttelse) {
+		return (
+			<Select
+				label="Personbeskyttelse"
+				hideLabel
+				size="small"
+				value={oppgavefilter.verdi as string}
+				onChange={(e) => handleChangeValue(e.target.value)}
+				error={errorMessage}
+				readOnly={readOnly}
+			>
+				{feltdefinisjon.verdiforklaringer.map((verdiforklaring) => (
+					<option key={verdiforklaring.visningsnavn} value={verdiforklaring.verdi}>
+						{verdiforklaring.visningsnavn}
+					</option>
+				))}
+			</Select>
 		);
 	}
 
@@ -103,6 +140,7 @@ const KriterieVerdi = ({
 				hideLabel
 				value={calculateDays(oppgavefilter.verdi)}
 				onChange={handleDaysChange}
+				error={errorMessage}
 				type="number"
 				placeholder="Antall dager"
 				min="0"
@@ -113,9 +151,9 @@ const KriterieVerdi = ({
 		return (
 			<DatePicker {...rangeDatepickerProps}>
 				<div className="flex">
-					<DatePicker.Input {...fromInputProps} size="small" label="Fra" hideLabel />
+					<DatePicker.Input {...fromInputProps} error={errorMessage} size="small" label="Fra" hideLabel />
 					<div className="mx-1">-</div>
-					<DatePicker.Input {...toInputProps} size="small" label="Til" hideLabel />
+					<DatePicker.Input {...toInputProps} error={errorMessage} size="small" label="Til" hideLabel />
 				</div>
 			</DatePicker>
 		);
@@ -124,7 +162,7 @@ const KriterieVerdi = ({
 	if (feltdefinisjon?.tolkes_som === TolkesSom.Timestamp) {
 		return (
 			<DatePicker {...datepickerProps}>
-				<DatePicker.Input {...inputProps} size="small" label="Velg dato" hideLabel />
+				<DatePicker.Input {...inputProps} size="small" error={errorMessage} label="Velg dato" hideLabel />
 			</DatePicker>
 		);
 	}
@@ -138,9 +176,10 @@ const KriterieVerdi = ({
 				legend={feltdefinisjon.visningsnavn}
 				onChange={handleChangeBoolean}
 				value={mapBooleanToStringArray((oppgavefilter.verdi as string[]) || [])}
+				error={errorMessage}
 			>
 				<Checkbox value="ja">Ja</Checkbox>
-				<Checkbox value="nei">Nei</Checkbox>
+				{feltdefinisjon.kode !== OppgavefilterKode.Hastesak ? <Checkbox value="nei">Nei</Checkbox> : null}
 			</CheckboxGroup>
 		);
 	}
@@ -159,6 +198,7 @@ const KriterieVerdi = ({
 				legend={feltdefinisjon.visningsnavn}
 				onChange={handleChangeValue}
 				value={oppgavefilter.verdi as string[]}
+				error={errorMessage}
 			>
 				{feltdefinisjon.verdiforklaringer.map((verdiforklaring) => (
 					<Checkbox key={verdiforklaring.visningsnavn} value={verdiforklaring.verdi}>
@@ -177,7 +217,7 @@ const KriterieVerdi = ({
 	) {
 		return (
 			// eslint-disable-next-line react/jsx-pascal-case, camelcase
-			<MultiSelectKriterie feltdefinisjon={feltdefinisjon} oppgavefilter={oppgavefilter} />
+			<MultiSelectKriterie feltdefinisjon={feltdefinisjon} oppgavefilter={oppgavefilter} error={errorMessage} />
 		);
 	}
 
@@ -186,6 +226,7 @@ const KriterieVerdi = ({
 			label="Skriv fritekst"
 			size="small"
 			hideLabel
+			error={errorMessage}
 			value={oppgavefilter.verdi as string}
 			onChange={(e) => handleChangeValue(e.target.value)}
 		/>

@@ -1,6 +1,6 @@
 {
 	"env": {
-		"browser": true
+		"browser": true,
 	},
 	"parser": "@typescript-eslint/parser",
 	"parserOptions": {
@@ -8,8 +8,8 @@
 		"ecmaFeatures": {
 			"ecmaVersion": 8,
 			"jsx": true,
-			"impliedStrict": true
-		}
+			"impliedStrict": true,
+		},
 	},
 	"plugins": ["@typescript-eslint", "react-hooks", "import"],
 	"extends": ["airbnb", "plugin:@typescript-eslint/recommended", "prettier"],
@@ -18,18 +18,18 @@
 			"typescript": {},
 			"node": {
 				"extensions": [".js", ".jsx", ".ts", ".tsx", ".less", ".scss"],
-				"moduleDirectory": ["node_modules", "src/"]
-			}
-		}
+				"moduleDirectory": ["node_modules", "src/"],
+			},
+		},
 	},
 	"overrides": [
 		{
 			"files": ["*.spec.ts", "*.spec.tsx"],
 			"rules": {
 				"@typescript-eslint/no-explicit-any": 0,
-				"import/no-unused-modules": 0
-			}
-		}
+				"import/no-unused-modules": 0,
+			},
+		},
 	],
 	"rules": {
 		"import/no-extraneous-dependencies": 0,
@@ -38,10 +38,12 @@
 			{
 				"unusedExports": true,
 				"missingExports": true,
-				"ignoreExports": []
-			}
+				"ignoreExports": [],
+			},
 		],
-		"@typescript-eslint/no-use-before-define": ["error"],
+		"import/no-unresolved": "error",
+		"@typescript-eslint/no-unused-vars": "warn",
+		"@typescript-eslint/no-use-before-define": "error",
 		"@typescript-eslint/no-shadow": "error",
 		"react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx", ".ts", ".tsx"] }],
 		"no-shadow": "off",
@@ -57,7 +59,6 @@
 		"react/require-default-props": "off",
 		"react/prop-types": "off",
 		"import/prefer-default-export": "off",
-		"no-use-before-define": "off",
-		"import/extensions": "off"
-	}
+		"import/extensions": "off",
+	},
 }

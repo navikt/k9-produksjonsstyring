@@ -16,7 +16,7 @@ interface OwnProps {
 
 /**
  * Image
- *
+ * @deprecated
  * Presentasjonskomponent. Komponent som har ansvar for visning av bilder.
  */
 const Image: FunctionComponent<OwnProps> = ({

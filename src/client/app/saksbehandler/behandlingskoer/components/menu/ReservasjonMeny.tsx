@@ -1,13 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { OppgaveNøkkel } from 'types/OppgaveNøkkel';
-import OppgaveV3 from 'types/OppgaveV3';
 import ReservasjonV3 from 'saksbehandler/behandlingskoer/ReservasjonV3Dto';
 import Oppgave from 'saksbehandler/oppgaveTsType';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
-import FlyttReservasjonModal from './FlyttReservasjonModal';
+import { OppgaveNøkkel } from 'types/OppgaveNøkkel';
+import OppgaveV3 from 'types/OppgaveV3';
+import FlyttReservasjonerModal from './FlyttReservasjonerModal';
 import MenuButton from './MenuButton';
-import OpphevReservasjonModal from './OpphevReservasjonModal';
+import OpphevReservasjonerModal from './OpphevReservasjonerModal';
 import * as styles from './oppgaveHandlingerMenu.css';
 
 const toggleEventListeners = (turnOnEventListeners, handleOutsideClick) => {
@@ -23,9 +23,10 @@ const toggleEventListeners = (turnOnEventListeners, handleOutsideClick) => {
 };
 
 interface OwnProps {
-	toggleMenu: (valgtOppgave: OppgaveV3) => void;
+	toggleMenu: (valgtOppgave?: OppgaveV3) => void;
 	reservasjon: ReservasjonV3;
 	oppgave: Oppgave | OppgaveV3;
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	imageNode: any;
 	forlengOppgaveReservasjon: (oppgaveNøkkel: OppgaveNøkkel) => void;
 }
@@ -105,20 +106,24 @@ const ReservasjonMeny: React.FC<OwnProps> = ({
 				</MenuButton>
 			</div>
 			{showOpphevReservasjonModal && (
-				<OpphevReservasjonModal
-					oppgaveNøkkel={oppgave.oppgaveNøkkel}
-					showModal={showOpphevReservasjonModal}
-					cancel={closeBegrunnelseModal}
+				<OpphevReservasjonerModal
+					oppgaveNøkler={[oppgave.oppgaveNøkkel]}
+					open={showOpphevReservasjonModal}
+					closeModal={closeBegrunnelseModal}
 				/>
 			)}
 
 			{showFlyttReservasjonModal && (
-				<FlyttReservasjonModal
-					oppgaveNøkkel={oppgave.oppgaveNøkkel}
-					reservertAvIdent={reservasjon.reservertAvIdent}
-					eksisterendeBegrunnelse={reservasjon.kommentar}
-					oppgaveReservertTil={reservasjon.reservertTil}
-					showModal={showFlyttReservasjonModal}
+				<FlyttReservasjonerModal
+					reservasjoner={[
+						{
+							oppgaveNøkkel: oppgave.oppgaveNøkkel,
+							begrunnelse: reservasjon.kommentar,
+							reserverTil: reservasjon.reservertTil,
+							reservertAvIdent: reservasjon.reservertAvIdent,
+						},
+					]}
+					open={showFlyttReservasjonModal}
 					closeModal={closeFlytteModal}
 				/>
 			)}

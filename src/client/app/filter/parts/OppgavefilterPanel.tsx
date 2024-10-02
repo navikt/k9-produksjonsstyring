@@ -1,6 +1,6 @@
+/* eslint-disable no-use-before-define */
 import React, { useContext } from 'react';
-import { PlusCircleIcon } from '@navikt/aksel-icons';
-import { Delete } from '@navikt/ds-icons';
+import { PlusCircleIcon, TrashIcon } from '@navikt/aksel-icons';
 import { Button, Heading, Label, Panel, ToggleGroup } from '@navikt/ds-react';
 import { FilterContext } from 'filter/FilterContext';
 import { addFilter, addGruppe, removeFilter, updateFilter } from 'filter/queryUtils';
@@ -17,6 +17,7 @@ interface OppgavefilterPanelProps {
 	addGruppeOperation?: (model: OppgaveQuery) => OppgaveQuery;
 	køvisning?: boolean;
 	paakrevdeKoder?: OppgavefilterKode[];
+	readOnlyKoder?: OppgavefilterKode[];
 }
 
 /* eslint-disable @typescript-eslint/no-use-before-define */
@@ -26,6 +27,7 @@ const OppgavefilterPanel = ({
 	addGruppeOperation,
 	køvisning,
 	paakrevdeKoder,
+	readOnlyKoder = [],
 }: OppgavefilterPanelProps) => {
 	if (oppgavefilter.type === 'feltverdi' && 'kode' in oppgavefilter && oppgavefilter.kode === null) {
 		return (
@@ -40,7 +42,13 @@ const OppgavefilterPanel = ({
 
 	if (oppgavefilter.type === 'feltverdi' && 'operator' in oppgavefilter) {
 		if (!visningV3) return <FeltverdiOppgavefilterPanel oppgavefilter={oppgavefilter} />;
-		return <Kriterie oppgavefilter={oppgavefilter} paakrevdeKoder={paakrevdeKoder} />;
+		return (
+			<Kriterie
+				oppgavefilter={oppgavefilter}
+				paakrevdeKoder={paakrevdeKoder}
+				readOnly={readOnlyKoder.includes(oppgavefilter.kode)}
+			/>
+		);
 	}
 	if (oppgavefilter.type === 'combine' && 'combineOperator' in oppgavefilter) {
 		if (!visningV3) return <CombineOppgavefilterPanel oppgavefilter={oppgavefilter} />;
@@ -75,7 +83,7 @@ const FilterGruppe = ({ oppgavefilter, køvisning }: FilterGruppeProps) => {
 					</ToggleGroup>
 				</div>
 				<Button
-					icon={<Delete aria-hidden />}
+					icon={<TrashIcon height="1.5rem" width="1.5rem" />}
 					size="small"
 					variant="tertiary"
 					className="ml-auto"
@@ -119,7 +127,7 @@ const CombineOppgavefilterPanel = ({ oppgavefilter }: CombineOppgavefilterPanelP
 				<OppgavefilterPanel key={item.id} oppgavefilter={item} />
 			))}
 			<Button
-				icon={<Delete aria-hidden />}
+				icon={<TrashIcon height="1.5rem" width="1.5rem" />}
 				size="small"
 				variant="tertiary"
 				onClick={() => updateQuery([removeFilter(oppgavefilter.id)])}

@@ -1,5 +1,8 @@
-import React, { useContext, useEffect, useMemo, useState } from 'react';
-import { BodyLong, Button, Checkbox, Label, Select } from '@navikt/ds-react';
+/* eslint-disable camelcase */
+
+/* eslint-disable react/jsx-pascal-case */
+import React, { useContext, useEffect, useState } from 'react';
+import { BodyLong, Button, Checkbox, Label, UNSAFE_Combobox } from '@navikt/ds-react';
 import AppContext from 'app/AppContext';
 import { FilterContext } from 'filter/FilterContext';
 import { FeltverdiOppgavefilter, OppgaveQuery, Oppgavefelt, OppgavefilterKode } from 'filter/filterTsTypes';
@@ -9,34 +12,73 @@ import { feltverdiKey, kodeFraKey } from 'filter/utils';
 interface Props {
 	oppgavefilter: FeltverdiOppgavefilter;
 	addGruppeOperation: (model: OppgaveQuery) => OppgaveQuery;
-	køvisning: boolean;
 	paakrevdeKoder: OppgavefilterKode[];
+	køvisning: boolean;
 }
 
 const VelgKriterie = ({ oppgavefilter, addGruppeOperation, køvisning, paakrevdeKoder = [] }: Props) => {
-	const { updateQuery } = useContext(FilterContext);
+	const { updateQuery, errors } = useContext(FilterContext);
 	const { felter } = useContext(AppContext);
 	const [valgtKriterie, setValgtKriterie] = useState<Oppgavefelt | string>();
+	const [options, setOptions] = useState([]);
+	const [selectedChildIndex, setSelectedChildIndex] = useState(undefined);
+	const [fritekst, setFritekst] = useState('');
 	const [visAvanserteValg, setVisAvanserteValg] = useState('nei');
+	const [klikketLeggTilUtenÅVelgeKriterie, setKlikketLeggTilUtenÅVelgeKriterie] = useState(false);
+	// error fra modellen
+	const errorMessage =
+		klikketLeggTilUtenÅVelgeKriterie && !valgtKriterie
+			? 'Du må velge et kriterie'
+			: errors.find((e) => e.id === oppgavefilter.id && e.felt === 'kode')?.message;
+
+	// TODO: fjern når de er fjernet i backend
+	const kriterierUtenEgenAnsattOgAdressebeskyttelse = felter.filter(
+		(v) => v.kode !== OppgavefilterKode.Beskyttelse && v.kode !== OppgavefilterKode.EgenAnsatt,
+	);
 
 	const kriterierSomKanVelges = paakrevdeKoder.length
-		? felter.filter((kriterie) => paakrevdeKoder.some((v) => v !== kriterie.kode))
-		: felter;
+		? kriterierUtenEgenAnsattOgAdressebeskyttelse.filter((kriterie) => paakrevdeKoder.some((v) => v !== kriterie.kode))
+		: kriterierUtenEgenAnsattOgAdressebeskyttelse;
+
+	const getOptions = () => {
+		const primærvalg = kriterierSomKanVelges?.filter((v) => v.kokriterie);
+		const avanserteValg = kriterierSomKanVelges?.filter((v) => !v.kokriterie);
+
+		if (visAvanserteValg === 'ja' || !køvisning) {
+			const valg = [...primærvalg, ...avanserteValg];
+			const selectedChild = valg.findIndex((v) => v === avanserteValg[0]);
+			if (selectedChild !== -1) {
+				setSelectedChildIndex(selectedChild + 2);
+			}
+			const optionList = valg.map((v) => ({ value: feltverdiKey(v), label: v.visningsnavn }));
+			return [{ label: 'Gruppe', value: '__gruppe' }, ...optionList];
+		}
+		const optionList = primærvalg.map((v) => ({ value: feltverdiKey(v), label: v.visningsnavn }));
+		return [{ label: 'Gruppe', value: '__gruppe' }, ...optionList];
+	};
+
+	useEffect(() => {
+		setOptions(getOptions());
+	}, [JSON.stringify(kriterierSomKanVelges), visAvanserteValg]);
+
 	const toggleAvanserteValg = () => {
 		setVisAvanserteValg((prevState) => (prevState === 'nei' ? 'ja' : 'nei'));
 	};
-	const handleSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
-		if (event.target.value === '__gruppe') {
-			setValgtKriterie(event.target.value);
+
+	const handleSelect = (value: string) => {
+		if (value === '__gruppe') {
+			setValgtKriterie(value);
 			return;
 		}
-		const kode = kodeFraKey(event.target.value);
+
+		const kode = kodeFraKey(value);
 		const kriterie = kriterierSomKanVelges.find((k) => k.kode === kode);
 		setValgtKriterie(kriterie);
 	};
 
 	const leggTil = (kriterie: Oppgavefelt | string) => {
 		if (!kriterie) {
+			setKlikketLeggTilUtenÅVelgeKriterie(true);
 			return;
 		}
 
@@ -55,50 +97,26 @@ const VelgKriterie = ({ oppgavefilter, addGruppeOperation, køvisning, paakrevde
 		updateQuery([updateFilter(oppgavefilter.id, updateData)]);
 	};
 
-	useEffect(() => {
-		setValgtKriterie('');
-	}, [visAvanserteValg]);
-
-	const options = useMemo(
-		() =>
-			kriterierSomKanVelges
-				.filter((v) => {
-					if (køvisning) {
-						if (visAvanserteValg === 'ja') {
-							return true;
-						}
-						return v.kokriterie;
-					}
-
-					return true;
-				})
-				.map((v) => (
-					<option key={feltverdiKey(v)} value={feltverdiKey(v)}>
-						{v.visningsnavn}
-					</option>
-				)),
-		[kriterierSomKanVelges, visAvanserteValg, køvisning],
-	);
 	return (
 		<div className="flex gap-7 border-dashed border-[1px] border-surface-action rounded-sm pt-4 pr-7 pb-5 pl-4">
-			<div className="basis-5/12">
-				<Select
+			<div className="basis-5/12 velgKriterie">
+				<style>
+					{`.velgKriterie ul > li:nth-child(${selectedChildIndex}) {
+           border-top: 2px solid black; 
+        }`}
+				</style>
+				<UNSAFE_Combobox
 					label="Velg kriterie:"
 					size="small"
-					value={
-						valgtKriterie && typeof valgtKriterie === 'object' ? feltverdiKey(valgtKriterie) : (valgtKriterie as string)
-					}
-					onChange={handleSelect}
-				>
-					<option value="">Velg kriterie</option>
-					<option value="__gruppe">Gruppe</option>
-					{options}
-				</Select>
+					value={fritekst}
+					onChange={setFritekst}
+					onToggleSelected={handleSelect}
+					options={options}
+					error={errorMessage}
+				/>
 				{køvisning && (
-					<Checkbox id="avanserte-valg" value="ja" size="small" onClick={toggleAvanserteValg}>
-						<Label htmlFor="avanserte-valg" size="small">
-							Avanserte valg
-						</Label>
+					<Checkbox value="ja" size="small" onClick={toggleAvanserteValg}>
+						Avanserte valg
 					</Checkbox>
 				)}
 				<div className="flex gap-4 mt-4">
@@ -110,9 +128,15 @@ const VelgKriterie = ({ oppgavefilter, addGruppeOperation, køvisning, paakrevde
 					</Button>
 				</div>
 			</div>
-			<div>
-				<Label>Beskrivelse:</Label>
-				<BodyLong>Her vil det komme en beskrivelse for hva dette kriteriet er</BodyLong>
+			<div className="mt-[-0.125rem]">
+				{valgtKriterie && (
+					<>
+						<Label size="small">Beskrivelse:</Label>
+						<BodyLong className="mt-1" size="small">
+							Her vil det komme en beskrivelse for hva dette kriteriet er
+						</BodyLong>
+					</>
+				)}
 			</div>
 		</div>
 	);
