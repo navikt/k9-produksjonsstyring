@@ -4,6 +4,7 @@
 **/node_modules
 .pnp.*
 **/.yarn/
+.editorconfig
 !.yarn/patches
 !.yarn/plugins
 !.yarn/releases

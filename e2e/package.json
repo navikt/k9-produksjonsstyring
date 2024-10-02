@@ -1,5 +1,5 @@
 {
-  "name": "k9-los-web-e2e",
+  "name": "@k9-los-web/e2e",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
