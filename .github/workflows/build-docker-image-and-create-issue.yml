@@ -46,7 +46,7 @@ jobs:
         run: yarn test --maxWorkers=2
       - name: Bygge kode
         run: yarn build
-        # Installerer dependencies for kun
+        # Installerer dependencies for kun server, da det er det eneste som trenger å være med på docker imaget
       - name: Installere dependencies for server
         run: yarn workspaces focus @k9-los-web/server --production
       - name: Opprett release med Sentry
