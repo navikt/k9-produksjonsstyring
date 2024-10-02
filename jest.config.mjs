@@ -11,7 +11,10 @@ export default {
       roots: ["<rootDir>/src"],
       setupFiles: ["<rootDir>/setup/setup.js"],
       setupFilesAfterEnv: ["<rootDir>/setup/setup-test-env.ts"],
-      testEnvironment: "jsdom",
+      testEnvironment: "jest-fixed-jsdom",
+      testEnvironmentOptions: {
+        customExportConditions: [''],
+      },
       testMatch: ["**/?(*.)+(spec).+(js|jsx|ts|tsx)"],
       testPathIgnorePatterns: [
         "/node_modules/",
@@ -22,9 +25,10 @@ export default {
         "^.+\\.(ts|tsx|js|jsx)?$": "babel-jest",
         "^.+.(css|less)$": "jest-transform-stub",
       },
-      transformIgnorePatterns: ["<rootDir>.*(node_modules)(?!.*(nav).*).*$"],
+      transformIgnorePatterns: ["<rootDir>.*(node_modules)(?!.*(nav|uuid).*).*$"],
       // ignore tests in tests folder
       moduleDirectories: ["node_modules", "src/client", "src/client/app"],
+      
     },
   ],
 };
