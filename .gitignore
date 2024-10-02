@@ -2,14 +2,9 @@
 
 # dependencies
 **/node_modules
-.pnp.*
-**/.yarn/
-.editorconfig
-!.yarn/patches
-!.yarn/plugins
+.yarn/*
 !.yarn/releases
-!.yarn/sdks
-!.yarn/versions
+.editorconfig
 
 # testing
 /coverage
