@@ -19,7 +19,10 @@ export const useInnloggetSaksbehandler = (options: UseQueryOptions<NavAnsatt, Er
 export const useGetAlleSaksbehandlere = (options: UseQueryOptions<SaksbehandlerEnkel[], Error> = {}) =>
 	useQuery<SaksbehandlerEnkel[], Error>(apiPaths.hentSaksbehandlereSomSaksbehandler, options);
 
-export const useAntallOppgaverIKoV3 = (koId: string, options: UseQueryOptions<string, Error> = {}) =>
+export const useAntallOppgaverIKoV3 = (
+	koId: string,
+	options: UseQueryOptions<{ antallUtenReserverte: number; antallMedReserverte: number }, Error> = {},
+) =>
 	useQuery<{ antallUtenReserverte: number; antallMedReserverte: number }, Error>({
 		queryKey: [apiPaths.antallOppgaverIKoV3(koId)],
 		...options,

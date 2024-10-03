@@ -15,13 +15,13 @@ export const axiosInstance = axios.create({
 	withCredentials: true,
 });
 
-export const defaultQuery = async ({ queryKey }) => {
-	const { data } = await axiosInstance.get(queryKey[0], axiosConfig);
+export const defaultQuery = async <T>({ queryKey }) => {
+	const { data } = await axiosInstance.get<T>(queryKey[0], axiosConfig);
 	return data;
 };
 
-export const defaultMutation = async ({ url, body }) => {
-	const { data } = await axiosInstance.post(url, body, axiosConfig);
+export const defaultMutation = async <T>({ url, body }) => {
+	const { data } = await axiosInstance.post<T>(url, body, axiosConfig);
 	return data;
 };
 
