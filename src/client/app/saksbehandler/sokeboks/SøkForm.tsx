@@ -13,7 +13,7 @@ export function SøkForm(props: { loading: boolean; utførSøk: (søkeord: strin
 		>
 			<Search
 				label="Søk på saksnummer, personnummer eller journalpost-id"
-				variant="secondary"
+				variant="primary"
 				hideLabel={false}
 				onChange={setSøkeord}
 				htmlSize={40}
