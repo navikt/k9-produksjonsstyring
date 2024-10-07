@@ -15,7 +15,7 @@ export function OppgaveTabellRad(props: { oppgave: SøkeboksOppgaveDto; visHaste
 					<Table.DataCell>{props.oppgave.saksnummer ?? props.oppgave.journalpostId}</Table.DataCell>
 					<Table.DataCell>{props.oppgave.navn}</Table.DataCell>
 					<Table.DataCell>{props.oppgave.ytelsestype.navn}</Table.DataCell>
-					<Table.DataCell>{props.oppgave.oppgavestatus.navn}</Table.DataCell>
+					<Table.DataCell>{props.oppgave.behandlingsstatus?.navn ?? props.oppgave.oppgavestatus.navn}</Table.DataCell>
 					<Table.DataCell>
 						<Chevron />
 					</Table.DataCell>

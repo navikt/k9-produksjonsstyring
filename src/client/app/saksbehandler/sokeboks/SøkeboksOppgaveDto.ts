@@ -15,6 +15,11 @@ type Oppgavestatus = {
 	navn: string;
 };
 
+type Behandlingsstatus = {
+	kode: string;
+	navn: string;
+};
+
 export type SøkeboksOppgaveDto = {
 	navn: string;
 	fnr: string;
@@ -28,6 +33,7 @@ export type SøkeboksOppgaveDto = {
 	journalpostId: string | undefined;
 	opprettetTidspunkt: string | undefined;
 	oppgavestatus: Oppgavestatus;
+	behandlingsstatus?: Behandlingsstatus;
 	oppgavebehandlingsUrl: string | undefined;
 	reservasjonsnøkkel: string;
 	reservertAvSaksbehandlerNavn: string | undefined;
