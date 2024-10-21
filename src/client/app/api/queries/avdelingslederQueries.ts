@@ -1,8 +1,24 @@
 import { UseQueryOptions, useMutation, useQuery, useQueryClient } from 'react-query';
 import apiPaths from 'api/apiPaths';
+import { Saksbehandler } from 'avdelingsleder/bemanning/saksbehandlerTsType';
 import Reservasjon from 'avdelingsleder/reservasjoner/reservasjonTsType';
 import { OppgavekøV3, OppgavekøV3Enkel, OppgavekøerV3 } from 'types/OppgavekøV3Type';
 import { axiosInstance } from 'utils/reactQueryConfig';
+
+export const useHentSaksbehandlereAvdelingsleder = () =>
+	useQuery<Saksbehandler[], unknown, Saksbehandler[]>({
+		queryKey: [apiPaths.hentSaksbehandlereAvdelingsleder],
+		staleTime: 1000,
+	});
+
+export const useSlettSaksbehandler = () => {
+	const queryClient = useQueryClient();
+
+	return useMutation({
+		mutationFn: (data: { epost: string }) => axiosInstance.post(apiPaths.slettSaksbehandler, data),
+		onSuccess: () => queryClient.invalidateQueries(apiPaths.hentSaksbehandlereAvdelingsleder),
+	});
+};
 
 // eslint-disable-next-line import/prefer-default-export
 export const useAlleKoer = (options = {}) =>

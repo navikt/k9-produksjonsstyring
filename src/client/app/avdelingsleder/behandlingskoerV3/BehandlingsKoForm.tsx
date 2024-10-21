@@ -6,7 +6,7 @@ import { Alert, Button, ErrorMessage, Heading, Label, Modal } from '@navikt/ds-r
 import { Form, InputField, TextAreaField } from '@navikt/ft-form-hooks';
 import { required } from '@navikt/ft-form-validators';
 import AppContext from 'app/AppContext';
-import { useKo, useOppdaterKøMutation } from 'api/queries/avdelingslederQueries';
+import { useHentSaksbehandlereAvdelingsleder, useKo, useOppdaterKøMutation } from 'api/queries/avdelingslederQueries';
 import { Saksbehandler } from 'avdelingsleder/bemanning/saksbehandlerTsType';
 import { AvdelingslederContext } from 'avdelingsleder/context';
 import FilterIndex from 'filter/FilterIndex';
@@ -53,7 +53,7 @@ const BehandlingsKoForm = ({ kø, lukk, ekspandert, id }: BehandlingsKoFormProps
 	const { versjon } = kø;
 	const [visFilterModal, setVisFilterModal] = useState(false);
 	const [visSuksess, setVisSuksess] = useState(false);
-	const { saksbehandlere: alleSaksbehandlere } = useContext(AvdelingslederContext);
+	const { data: alleSaksbehandlere } = useHentSaksbehandlereAvdelingsleder();
 	const defaultValues = {
 		[fieldnames.TITTEL]: kø?.tittel || '',
 		[fieldnames.SAKSBEHANDLERE]: kø?.saksbehandlere || [],

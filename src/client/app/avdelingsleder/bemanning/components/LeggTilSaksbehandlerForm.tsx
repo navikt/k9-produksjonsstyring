@@ -7,6 +7,7 @@ import { Button, Label, TextField } from '@navikt/ds-react';
 import { PlusIcon } from '@navikt/ft-plattform-komponenter';
 import apiPaths from 'api/apiPaths';
 import { K9LosApiKeys } from 'api/k9LosApi';
+import { useHentSaksbehandlereAvdelingsleder } from 'api/queries/avdelingslederQueries';
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
 import { AvdelingslederContext } from 'avdelingsleder/context';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
@@ -18,7 +19,7 @@ import { Saksbehandler } from '../saksbehandlerTsType';
  */
 export const LeggTilSaksbehandlerForm: FunctionComponent = () => {
 	const [finnesAllerede, setFinnesAllerede] = useState(false);
-	const { saksbehandlere } = useContext(AvdelingslederContext);
+	const { data: saksbehandlere } = useHentSaksbehandlereAvdelingsleder();
 	const queryClient = useQueryClient();
 
 	const { startRequest: leggTilSaksbehandler, resetRequestData: resetSaksbehandlerSok } =
