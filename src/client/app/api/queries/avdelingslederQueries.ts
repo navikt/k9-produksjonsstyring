@@ -8,7 +8,7 @@ import { axiosInstance } from 'utils/reactQueryConfig';
 export const useHentSaksbehandlereAvdelingsleder = () =>
 	useQuery<Saksbehandler[], unknown, Saksbehandler[]>({
 		queryKey: [apiPaths.hentSaksbehandlereAvdelingsleder],
-		staleTime: 1000,
+		staleTime: 1000, // for å unngå flere like kall innenfor samme lasting
 	});
 
 export const useSlettSaksbehandler = () => {
