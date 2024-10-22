@@ -8,7 +8,6 @@ import { required } from '@navikt/ft-form-validators';
 import AppContext from 'app/AppContext';
 import { useHentSaksbehandlereAvdelingsleder, useKo, useOppdaterKøMutation } from 'api/queries/avdelingslederQueries';
 import { Saksbehandler } from 'avdelingsleder/bemanning/saksbehandlerTsType';
-import { AvdelingslederContext } from 'avdelingsleder/context';
 import FilterIndex from 'filter/FilterIndex';
 import { OppgaveQuery, OppgavefilterKode } from 'filter/filterTsTypes';
 import SearchWithDropdown from 'sharedComponents/searchWithDropdown/SearchWithDropdown';
@@ -233,9 +232,9 @@ const BehandlingsKoForm = ({ kø, lukk, ekspandert, id }: BehandlingsKoFormProps
 
 const BehandlingsKoFormContainer = (props: BaseProps) => {
 	const { lukk, ekspandert, id } = props;
-	const { data, isLoading, error } = useKo(props.id, { enabled: ekspandert });
+	const { data, isFetching, error } = useKo(props.id, { enabled: ekspandert });
 
-	if (isLoading) {
+	if (isFetching) {
 		return <div className="animate-pulse bg-surface-neutral-subtle h-10 w-full rounded-xl" />;
 	}
 
@@ -243,7 +242,7 @@ const BehandlingsKoFormContainer = (props: BaseProps) => {
 		return <ErrorMessage>Noe gikk galt ved henting av kø</ErrorMessage>;
 	}
 
-	if (!data) return null;
+	if (!data || !ekspandert) return null;
 
 	return <BehandlingsKoForm kø={data} id={id} lukk={lukk} ekspandert={ekspandert} />;
 };

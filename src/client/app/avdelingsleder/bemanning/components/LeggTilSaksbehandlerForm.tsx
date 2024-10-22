@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useContext, useState } from 'react';
+import React, { FunctionComponent, useState } from 'react';
 import { Field, FieldMetaState, Form } from 'react-final-form';
 import { FormattedMessage } from 'react-intl';
 import { useQueryClient } from 'react-query';
@@ -9,7 +9,6 @@ import apiPaths from 'api/apiPaths';
 import { K9LosApiKeys } from 'api/k9LosApi';
 import { useHentSaksbehandlereAvdelingsleder } from 'api/queries/avdelingslederQueries';
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
-import { AvdelingslederContext } from 'avdelingsleder/context';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import { hasValidEmailFormat } from 'utils/validation/validators';
 import { Saksbehandler } from '../saksbehandlerTsType';

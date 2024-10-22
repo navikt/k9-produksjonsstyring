@@ -149,7 +149,6 @@ export const AvdelingslederIndex: FunctionComponent = () => {
 	if (activeAvdelingslederPanel) {
 		return (
 			<div className="max-w-[1400px]">
-				{/* <AvdelingslederContext.Provider value={avdelingslederContextValue}> */}
 				<Row>
 					<BodyShort className={styles.paneltekst}>Avdelingslederpanel</BodyShort>
 				</Row>
@@ -187,7 +186,6 @@ export const AvdelingslederIndex: FunctionComponent = () => {
 						</div>
 					</AvdelingslederDashboard>
 				</Row>
-				{/* </AvdelingslederContext.Provider> */}
 			</div>
 		);
 	}
