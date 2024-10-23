@@ -2027,6 +2027,10 @@ export const felter = [
 					'En annen sak tilknyttet barnet må behandles frem til uttak, eller besluttes, før denne saken kan behandles videre.',
 			},
 			{
+				verdi: '9291',
+				visningsnavn: 'Vurder hvilken dato ny regel for utbetalingsgrad i uttak skal gjelde fra.',
+			},
+			{
 				verdi: '9300',
 				visningsnavn: 'Vurder om institusjonen er godkjent',
 			},

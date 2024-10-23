@@ -1,13 +1,13 @@
-import React, { FunctionComponent, useContext } from 'react';
+import React, { FunctionComponent } from 'react';
 import { Form } from 'react-final-form';
 import { FormattedMessage, IntlShape, WrappedComponentProps, injectIntl } from 'react-intl';
 import { TrashIcon } from '@navikt/aksel-icons';
 import { BodyShort, Button } from '@navikt/ds-react';
 import { K9LosApiKeys } from 'api/k9LosApi';
+import { useHentSaksbehandlereAvdelingsleder } from 'api/queries/avdelingslederQueries';
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
 import SkjermetVelger from 'avdelingsleder/behandlingskoer/components/oppgavekoForm/SkjermetVelger';
 import SaksbehandlereForOppgavekoForm from 'avdelingsleder/behandlingskoer/components/saksbehandlerForm/SaksbehandlereForOppgavekoForm';
-import { AvdelingslederContext } from 'avdelingsleder/context';
 import { InputField } from 'form/FinalFields';
 import kodeverkTyper from 'kodeverk/kodeverkTyper';
 import { hasValidName, maxLength, minLength, required } from 'utils/validation/validators';
@@ -85,7 +85,7 @@ export const UtvalgskriterierForOppgavekoForm: FunctionComponent<OwnProps & Wrap
 			.then(() => hentKo(values.id));
 	};
 
-	const { saksbehandlere: alleSaksbehandlere } = useContext(AvdelingslederContext);
+	const { data: alleSaksbehandlere } = useHentSaksbehandlereAvdelingsleder();
 
 	return (
 		<div className={styles.form}>

@@ -4,6 +4,7 @@ import { TrashIcon } from '@navikt/aksel-icons';
 import { BodyShort, Button } from '@navikt/ds-react';
 import apiPaths from 'api/apiPaths';
 import { K9LosApiKeys } from 'api/k9LosApi';
+import { useSlettSaksbehandler } from 'api/queries/avdelingslederQueries';
 import { useRestApiRunner } from 'api/rest-api-hooks';
 import SletteSaksbehandlerModal from 'avdelingsleder/bemanning/components/SletteSaksbehandlerModal';
 import { Saksbehandler } from 'avdelingsleder/bemanning/saksbehandlerTsType';
@@ -19,14 +20,8 @@ const SaksbehandlerInfo: FunctionComponent<OwnProps> = ({ saksbehandler }) => {
 		setVisSlettModal(false);
 	};
 
-	const queryClient = useQueryClient();
-
-	const { startRequest: fjernSaksbehandler } = useRestApiRunner<Saksbehandler>(K9LosApiKeys.SLETT_SAKSBEHANDLER);
-	const fjernSaksbehandlerFn = (epost: string) =>
-		fjernSaksbehandler({ epost }).then(() => {
-			queryClient.invalidateQueries({ queryKey: apiPaths.hentSaksbehandlereAvdelingsleder });
-			lukkSlettModal();
-		});
+	const { mutate } = useSlettSaksbehandler();
+	const slettSaksbehandler = () => mutate({ epost: saksbehandler.epost }, { onSuccess: lukkSlettModal });
 
 	return (
 		<div>
@@ -53,7 +48,7 @@ const SaksbehandlerInfo: FunctionComponent<OwnProps> = ({ saksbehandler }) => {
 				<SletteSaksbehandlerModal
 					valgtSaksbehandler={saksbehandler}
 					closeSletteModal={lukkSlettModal}
-					fjernSaksbehandler={fjernSaksbehandlerFn}
+					slettSaksbehandler={slettSaksbehandler}
 				/>
 			)}
 		</div>
