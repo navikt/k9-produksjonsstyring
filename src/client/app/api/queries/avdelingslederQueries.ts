@@ -16,7 +16,14 @@ export const useSlettSaksbehandler = () => {
 
 	return useMutation({
 		mutationFn: (data: { epost: string }) => axiosInstance.post(apiPaths.slettSaksbehandler, data),
-		onSuccess: () => queryClient.invalidateQueries(apiPaths.hentSaksbehandlereAvdelingsleder),
+		onSuccess: () =>
+			Promise.all([
+				queryClient.invalidateQueries(apiPaths.hentSaksbehandlereAvdelingsleder),
+				// invaliderer alle oppgavekøer, siden dette endepunktet inneholder alle saksbehandlere som er på hver kø
+				queryClient.invalidateQueries(apiPaths.hentOppgaveko('')),
+				// viser antallet saksbehandlere på kø, denne kan ha endret seg
+				queryClient.invalidateQueries(apiPaths.hentOppgavekoer),
+			]),
 	});
 };
 
@@ -96,7 +103,7 @@ export const useOppdaterKøMutation = (callback: () => void) => {
 };
 
 export const useKo = (id: string, options: UseQueryOptions<OppgavekøV3>) =>
-	useQuery<OppgavekøV3>({
+	useQuery<OppgavekøV3, unknown, OppgavekøV3>({
 		...options,
 		queryKey: [apiPaths.hentOppgaveko(id)],
 	});
