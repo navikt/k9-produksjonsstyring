@@ -37,7 +37,7 @@ const saksbehandlereMapper = (saksbehandlere: Saksbehandler[]) => {
 		return saksbehandlere.map((saksbehandler) => ({
 			value: saksbehandler.epost,
 			label: saksbehandler.navn || saksbehandler.epost,
-			group: relevanteEnheterForAvdelingsleder.find((enhet) => saksbehandler.enhet.includes(enhet))
+			group: relevanteEnheterForAvdelingsleder.find((enhet) => saksbehandler.enhet?.includes(enhet))
 				? saksbehandler.enhet
 				: 'Andre enheter',
 		}));
@@ -45,7 +45,7 @@ const saksbehandlereMapper = (saksbehandlere: Saksbehandler[]) => {
 	return saksbehandlere.map((saksbehandler) => ({
 		value: saksbehandler.epost,
 		label: saksbehandler.navn || saksbehandler.epost,
-		group: saksbehandler.enhet,
+		group: saksbehandler.enhet || 'Ukjent enhet',
 	}));
 };
 const BehandlingsKoForm = ({ kø, lukk, ekspandert, id }: BehandlingsKoFormProps) => {

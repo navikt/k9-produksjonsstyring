@@ -1,10 +1,9 @@
-import React, { FunctionComponent, useContext } from 'react';
+import React, { FunctionComponent } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { BodyShort, Table } from '@navikt/ds-react';
 import { useHentSaksbehandlereAvdelingsleder } from 'api/queries/avdelingslederQueries';
 import LeggTilSaksbehandlerForm from 'avdelingsleder/bemanning/components/LeggTilSaksbehandlerForm';
 import SaksbehandlerInfo from 'avdelingsleder/bemanning/components/SaksbehandlerInfo';
-import { AvdelingslederContext } from 'avdelingsleder/context';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 
 /**
