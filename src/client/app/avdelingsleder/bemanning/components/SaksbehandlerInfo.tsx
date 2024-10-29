@@ -20,7 +20,7 @@ const SaksbehandlerInfo: FunctionComponent<OwnProps> = ({ saksbehandler }) => {
 		setVisSlettModal(false);
 	};
 
-	const { mutate } = useSlettSaksbehandler();
+	const { mutate, isLoading } = useSlettSaksbehandler();
 	const slettSaksbehandler = () => mutate({ epost: saksbehandler.epost }, { onSuccess: lukkSlettModal });
 
 	return (
@@ -49,6 +49,7 @@ const SaksbehandlerInfo: FunctionComponent<OwnProps> = ({ saksbehandler }) => {
 					valgtSaksbehandler={saksbehandler}
 					closeSletteModal={lukkSlettModal}
 					slettSaksbehandler={slettSaksbehandler}
+					loading={isLoading}
 				/>
 			)}
 		</div>

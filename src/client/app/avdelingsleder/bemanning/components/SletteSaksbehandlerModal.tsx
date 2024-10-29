@@ -7,6 +7,7 @@ type OwnProps = Readonly<{
 	valgtSaksbehandler: Saksbehandler;
 	closeSletteModal: () => void;
 	slettSaksbehandler: (epost: string) => void;
+	loading: boolean;
 }>;
 
 /**
@@ -18,6 +19,7 @@ const SletteSaksbehandlerModal: FunctionComponent<OwnProps> = ({
 	valgtSaksbehandler,
 	closeSletteModal,
 	slettSaksbehandler,
+	loading,
 }) => (
 	<Modal
 		header={{ heading: 'Ønsker du å slette saksbehandler?', icon: <ExclamationmarkTriangleIcon /> }}
@@ -33,7 +35,9 @@ const SletteSaksbehandlerModal: FunctionComponent<OwnProps> = ({
 			</BodyLong>
 		</Modal.Body>
 		<Modal.Footer>
-			<Button onClick={() => slettSaksbehandler(valgtSaksbehandler.epost)}>Ja</Button>
+			<Button onClick={() => slettSaksbehandler(valgtSaksbehandler.epost)} loading={loading}>
+				Ja
+			</Button>
 			<Button variant="secondary" onClick={closeSletteModal}>
 				Nei
 			</Button>

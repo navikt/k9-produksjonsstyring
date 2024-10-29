@@ -29,7 +29,9 @@ interface BaseProps {
 
 interface BehandlingsKoFormProps extends BaseProps {
 	kø: OppgavekøV3;
+	alleSaksbehandlere: Saksbehandler[];
 }
+
 const saksbehandlereMapper = (saksbehandlere: Saksbehandler[]) => {
 	const relevanteEnheterForAvdelingsleder = ['2103', '4403', '4410'];
 	const isProd = window.location.hostname.includes('intern.nav.no');
@@ -48,11 +50,11 @@ const saksbehandlereMapper = (saksbehandlere: Saksbehandler[]) => {
 		group: saksbehandler.enhet || 'Ukjent enhet',
 	}));
 };
-const BehandlingsKoForm = ({ kø, lukk, ekspandert, id }: BehandlingsKoFormProps) => {
+
+const BehandlingsKoForm = ({ kø, alleSaksbehandlere, lukk, ekspandert, id }: BehandlingsKoFormProps) => {
 	const { versjon } = kø;
 	const [visFilterModal, setVisFilterModal] = useState(false);
 	const [visSuksess, setVisSuksess] = useState(false);
-	const { data: alleSaksbehandlere } = useHentSaksbehandlereAvdelingsleder();
 	const defaultValues = {
 		[fieldnames.TITTEL]: kø?.tittel || '',
 		[fieldnames.SAKSBEHANDLERE]: kø?.saksbehandlere || [],
@@ -128,7 +130,6 @@ const BehandlingsKoForm = ({ kø, lukk, ekspandert, id }: BehandlingsKoFormProps
 					<Heading className="mb-2" size="small">
 						Saksbehandlere
 					</Heading>
-
 					{alleSaksbehandlere.length === 0 && (
 						<>
 							<FormattedMessage id="SaksbehandlereForOppgavekoForm.IngenSaksbehandlere" />
@@ -232,19 +233,22 @@ const BehandlingsKoForm = ({ kø, lukk, ekspandert, id }: BehandlingsKoFormProps
 
 const BehandlingsKoFormContainer = (props: BaseProps) => {
 	const { lukk, ekspandert, id } = props;
-	const { data, isFetching, error } = useKo(props.id, { enabled: ekspandert });
+	const { data: kø, error, isFetching: isFetchingKø } = useKo(props.id, { enabled: ekspandert });
+	const { data: alleSaksbehandlere, isFetching: isFetchingAlleSaksbehandlere } = useHentSaksbehandlereAvdelingsleder();
 
-	if (isFetching) {
+	if (isFetchingKø && isFetchingAlleSaksbehandlere) {
 		return <div className="animate-pulse bg-surface-neutral-subtle h-10 w-full rounded-xl" />;
 	}
 
-	if (error) {
+	if (error || !kø || !alleSaksbehandlere) {
 		return <ErrorMessage>Noe gikk galt ved henting av kø</ErrorMessage>;
 	}
 
-	if (!data || !ekspandert) return null;
+	if (!ekspandert) return null;
 
-	return <BehandlingsKoForm kø={data} id={id} lukk={lukk} ekspandert={ekspandert} />;
+	return (
+		<BehandlingsKoForm kø={kø} alleSaksbehandlere={alleSaksbehandlere} id={id} lukk={lukk} ekspandert={ekspandert} />
+	);
 };
 
 export default BehandlingsKoFormContainer;
