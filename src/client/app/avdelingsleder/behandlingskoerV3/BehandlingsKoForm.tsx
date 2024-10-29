@@ -236,7 +236,7 @@ const BehandlingsKoFormContainer = (props: BaseProps) => {
 	const { data: kø, error, isFetching: isFetchingKø } = useKo(props.id, { enabled: ekspandert });
 	const { data: alleSaksbehandlere, isFetching: isFetchingAlleSaksbehandlere } = useHentSaksbehandlereAvdelingsleder();
 
-	if (isFetchingKø && isFetchingAlleSaksbehandlere) {
+	if (isFetchingKø || isFetchingAlleSaksbehandlere) {
 		return <div className="animate-pulse bg-surface-neutral-subtle h-10 w-full rounded-xl" />;
 	}
 
