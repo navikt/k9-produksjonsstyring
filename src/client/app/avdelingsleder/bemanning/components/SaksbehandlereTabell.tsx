@@ -1,50 +1,51 @@
-import React, { FunctionComponent, useContext } from 'react';
-import { FormattedMessage } from 'react-intl';
-import { BodyShort, Table } from '@navikt/ds-react';
+import React, { FunctionComponent } from 'react';
+import { Skeleton, Table } from '@navikt/ds-react';
 import { useHentSaksbehandlereAvdelingsleder } from 'api/queries/avdelingslederQueries';
 import LeggTilSaksbehandlerForm from 'avdelingsleder/bemanning/components/LeggTilSaksbehandlerForm';
 import SaksbehandlerInfo from 'avdelingsleder/bemanning/components/SaksbehandlerInfo';
-import { AvdelingslederContext } from 'avdelingsleder/context';
-import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 
-/**
- * SaksbehandlereTabell
- */
+const SkeletonRad = () => (
+	<Table.ExpandableRow content={null}>
+		<Table.DataCell>
+			<Skeleton />
+		</Table.DataCell>
+		<Table.DataCell>
+			<Skeleton />
+		</Table.DataCell>
+		<Table.DataCell>
+			<Skeleton />
+		</Table.DataCell>
+	</Table.ExpandableRow>
+);
 
 const SaksbehandlereTabell: FunctionComponent = () => {
-	const { data: saksbehandlere, isSuccess } = useHentSaksbehandlereAvdelingsleder();
-
-	if (!isSuccess) {
-		return null;
-	}
+	const { data: saksbehandlere, isLoading, isSuccess } = useHentSaksbehandlereAvdelingsleder();
 
 	return (
 		<>
 			<div className="mt-4 mb-10">
 				<LeggTilSaksbehandlerForm />
 			</div>
-			{saksbehandlere.length === 0 && (
-				<>
-					<VerticalSpacer eightPx />
-					<BodyShort size="small">
-						<FormattedMessage id="SaksbehandlereTabell.IngenSaksbehandlere" />
-					</BodyShort>
-					<VerticalSpacer eightPx />
-				</>
-			)}
-			{saksbehandlere.length > 0 && (
-				<div className="max-w-screen-xl">
-					<Table zebraStripes>
-						<Table.Header>
-							<Table.Row>
-								<Table.HeaderCell />
-								<Table.HeaderCell scope="col">Navn</Table.HeaderCell>
-								<Table.HeaderCell scope="col">Brukerident</Table.HeaderCell>
-								<Table.HeaderCell scope="col">Epost</Table.HeaderCell>
-							</Table.Row>
-						</Table.Header>
-						<Table.Body>
-							{saksbehandlere.map((saksbehandler) => (
+			<div className="max-w-screen-xl">
+				<Table zebraStripes>
+					<Table.Header>
+						<Table.Row>
+							<Table.HeaderCell />
+							<Table.HeaderCell scope="col">Navn</Table.HeaderCell>
+							<Table.HeaderCell scope="col">Brukerident</Table.HeaderCell>
+							<Table.HeaderCell scope="col">Epost</Table.HeaderCell>
+						</Table.Row>
+					</Table.Header>
+					<Table.Body>
+						{isLoading && (
+							<>
+								<SkeletonRad />
+								<SkeletonRad />
+								<SkeletonRad />
+							</>
+						)}
+						{isSuccess &&
+							saksbehandlere.map((saksbehandler) => (
 								<Table.ExpandableRow
 									key={saksbehandler.epost}
 									content={<SaksbehandlerInfo saksbehandler={saksbehandler} />}
@@ -54,10 +55,9 @@ const SaksbehandlereTabell: FunctionComponent = () => {
 									<Table.DataCell>{saksbehandler.epost}</Table.DataCell>
 								</Table.ExpandableRow>
 							))}
-						</Table.Body>
-					</Table>
-				</div>
-			)}
+					</Table.Body>
+				</Table>
+			</div>
 		</>
 	);
 };

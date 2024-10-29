@@ -85,7 +85,11 @@ export const UtvalgskriterierForOppgavekoForm: FunctionComponent<OwnProps & Wrap
 			.then(() => hentKo(values.id));
 	};
 
-	const { data: alleSaksbehandlere } = useHentSaksbehandlereAvdelingsleder();
+	const { data: alleSaksbehandlere, isLoading: isLoadingHentSaksbehandlere } = useHentSaksbehandlereAvdelingsleder();
+
+	if (isLoadingHentSaksbehandlere) {
+		return null;
+	}
 
 	return (
 		<div className={styles.form}>

@@ -18,7 +18,11 @@ import { Saksbehandler } from '../saksbehandlerTsType';
  */
 export const LeggTilSaksbehandlerForm: FunctionComponent = () => {
 	const [finnesAllerede, setFinnesAllerede] = useState(false);
-	const { data: saksbehandlere } = useHentSaksbehandlereAvdelingsleder();
+	const {
+		data: saksbehandlere,
+		isLoading: isLoadingSaksbehandlere,
+		isSuccess: isSuccessSaksbehandlere,
+	} = useHentSaksbehandlereAvdelingsleder();
 	const queryClient = useQueryClient();
 
 	const { startRequest: leggTilSaksbehandler, resetRequestData: resetSaksbehandlerSok } =
@@ -36,7 +40,7 @@ export const LeggTilSaksbehandlerForm: FunctionComponent = () => {
 			form.blur('epost');
 			return;
 		}
-		if (saksbehandlere.some((s) => s.epost.toLowerCase() === epost.toLowerCase())) {
+		if (isSuccessSaksbehandlere && saksbehandlere.some((s) => s.epost.toLowerCase() === epost.toLowerCase())) {
 			setFinnesAllerede(true);
 		} else {
 			leggTilSaksbehandler({ epost })
@@ -80,6 +84,7 @@ export const LeggTilSaksbehandlerForm: FunctionComponent = () => {
 										loading={submitting}
 										size="small"
 										variant="secondary"
+										disabled={isLoadingSaksbehandlere}
 										onClick={() => addSaksbehandler(values.epost, form, meta)}
 										icon={<PlusIcon />}
 									>
