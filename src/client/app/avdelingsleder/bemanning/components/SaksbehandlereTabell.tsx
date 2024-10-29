@@ -19,7 +19,7 @@ const SkeletonRad = () => (
 );
 
 const SaksbehandlereTabell: FunctionComponent = () => {
-	const { data: saksbehandlere, isLoading } = useHentSaksbehandlereAvdelingsleder();
+	const { data: saksbehandlere, isLoading, isSuccess } = useHentSaksbehandlereAvdelingsleder();
 
 	return (
 		<>
@@ -44,7 +44,7 @@ const SaksbehandlereTabell: FunctionComponent = () => {
 								<SkeletonRad />
 							</>
 						)}
-						{!isLoading &&
+						{isSuccess &&
 							saksbehandlere.map((saksbehandler) => (
 								<Table.ExpandableRow
 									key={saksbehandler.epost}

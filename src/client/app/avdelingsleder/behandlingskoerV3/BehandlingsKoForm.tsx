@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FormattedMessage } from 'react-intl';
-import { useIsFetching, useQueryClient } from 'react-query';
 import { PencilIcon } from '@navikt/aksel-icons';
 import { Alert, Button, ErrorMessage, Heading, Label, Modal } from '@navikt/ds-react';
 import { Form, InputField, TextAreaField } from '@navikt/ft-form-hooks';
@@ -234,11 +233,10 @@ const BehandlingsKoForm = ({ kø, alleSaksbehandlere, lukk, ekspandert, id }: Be
 
 const BehandlingsKoFormContainer = (props: BaseProps) => {
 	const { lukk, ekspandert, id } = props;
-	const isFetching = useIsFetching();
-	const { data: kø, error } = useKo(props.id, { enabled: ekspandert });
-	const { data: alleSaksbehandlere } = useHentSaksbehandlereAvdelingsleder();
+	const { data: kø, error, isFetching: isFetchingKø } = useKo(props.id, { enabled: ekspandert });
+	const { data: alleSaksbehandlere, isFetching: isFetchingAlleSaksbehandlere } = useHentSaksbehandlereAvdelingsleder();
 
-	if (isFetching > 0) {
+	if (isFetchingKø && isFetchingAlleSaksbehandlere) {
 		return <div className="animate-pulse bg-surface-neutral-subtle h-10 w-full rounded-xl" />;
 	}
 
