@@ -11,6 +11,15 @@ export const useHentSaksbehandlereAvdelingsleder = () =>
 		staleTime: 1000, // for å unngå flere like kall innenfor samme lasting
 	});
 
+export const useLeggTilSaksbehandler = () => {
+	const queryClient = useQueryClient();
+
+	return useMutation({
+		mutationFn: (data: { epost: string }) => axiosInstance.post(apiPaths.leggTilSaksbehandlerAvdelingsleder, data),
+		onSuccess: () => queryClient.invalidateQueries(apiPaths.hentSaksbehandlereAvdelingsleder),
+	});
+};
+
 export const useSlettSaksbehandler = () => {
 	const queryClient = useQueryClient();
 

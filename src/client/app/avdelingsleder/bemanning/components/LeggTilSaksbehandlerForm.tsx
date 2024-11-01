@@ -1,21 +1,13 @@
 import React, { FunctionComponent, useState } from 'react';
 import { Field, FieldMetaState, Form } from 'react-final-form';
 import { FormattedMessage } from 'react-intl';
-import { useQueryClient } from 'react-query';
 import { FormApi } from 'final-form';
 import { Button, Label, TextField } from '@navikt/ds-react';
 import { PlusIcon } from '@navikt/ft-plattform-komponenter';
-import apiPaths from 'api/apiPaths';
-import { K9LosApiKeys } from 'api/k9LosApi';
-import { useHentSaksbehandlereAvdelingsleder } from 'api/queries/avdelingslederQueries';
-import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
+import { useHentSaksbehandlereAvdelingsleder, useLeggTilSaksbehandler } from 'api/queries/avdelingslederQueries';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
 import { hasValidEmailFormat } from 'utils/validation/validators';
-import { Saksbehandler } from '../saksbehandlerTsType';
 
-/**
- * LeggTilSaksbehandlerForm
- */
 export const LeggTilSaksbehandlerForm: FunctionComponent = () => {
 	const [finnesAllerede, setFinnesAllerede] = useState(false);
 	const {
@@ -23,16 +15,7 @@ export const LeggTilSaksbehandlerForm: FunctionComponent = () => {
 		isLoading: isLoadingSaksbehandlere,
 		isSuccess: isSuccessSaksbehandlere,
 	} = useHentSaksbehandlereAvdelingsleder();
-	const queryClient = useQueryClient();
-
-	const { startRequest: leggTilSaksbehandler, resetRequestData: resetSaksbehandlerSok } =
-		useRestApiRunner<Saksbehandler>(K9LosApiKeys.SAKSBEHANDLER_SOK);
-
-	const resetSok = (resetFormValues: () => void) => {
-		resetSaksbehandlerSok();
-		resetFormValues();
-		setFinnesAllerede(false);
-	};
+	const { mutate: leggTilSaksbehandler, isLoading: isLoadingLeggTil } = useLeggTilSaksbehandler();
 
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	const addSaksbehandler = (epost: string, form: FormApi<any, Partial<any>>, meta: FieldMetaState<any>) => {
@@ -43,19 +26,22 @@ export const LeggTilSaksbehandlerForm: FunctionComponent = () => {
 		if (isSuccessSaksbehandlere && saksbehandlere.some((s) => s.epost.toLowerCase() === epost.toLowerCase())) {
 			setFinnesAllerede(true);
 		} else {
-			leggTilSaksbehandler({ epost })
-				.then(() => {
-					resetSok(form.reset);
-					form.resetFieldState('epost');
-				})
-				.then(() => queryClient.invalidateQueries({ queryKey: apiPaths.saksbehandler }));
+			leggTilSaksbehandler(
+				{ epost },
+				{
+					onSuccess: () => {
+						form.reset();
+						form.resetFieldState('epost');
+					},
+				},
+			);
 		}
 	};
 
 	return (
 		<Form
 			onSubmit={() => undefined}
-			render={({ submitting, form, values }) => (
+			render={({ form, values }) => (
 				<div>
 					<Label>
 						<FormattedMessage id="LeggTilSaksbehandlerForm.LeggTil" />
@@ -81,7 +67,7 @@ export const LeggTilSaksbehandlerForm: FunctionComponent = () => {
 									/>
 									<Button
 										className="ml-4 h-[30px] mt-[1.7rem]"
-										loading={submitting}
+										loading={isLoadingLeggTil}
 										size="small"
 										variant="secondary"
 										disabled={isLoadingSaksbehandlere}

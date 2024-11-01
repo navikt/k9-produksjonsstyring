@@ -22,6 +22,7 @@ const apiPaths = {
 	hentAntallOppgaver: '/api/k9-los-api/ny-oppgavestyring/oppgave/query/antall',
 	hentOppgaverSomFil: '/api/k9-los-api/ny-oppgavestyring/oppgave/queryToFile',
 	hentSaksbehandlereAvdelingsleder: '/api/k9-los-api/avdelingsleder/saksbehandlere',
+	leggTilSaksbehandlerAvdelingsleder: '/api/k9-los-api/avdelingsleder/saksbehandlere/legg-til',
 	hentSaksbehandlereSomSaksbehandler: '/api/k9-los-api/saksbehandler/oppgaver/saksbehandlere',
 	hentSaksbehandlereIKoV3: (id: string) => `/api/k9-los-api/ny-oppgavestyring/ko/${id}/saksbehandlere`,
 	hentTiNesteIKoV3: (id: string) => `/api/k9-los-api/ny-oppgavestyring/ko/${id}/oppgaver`,
