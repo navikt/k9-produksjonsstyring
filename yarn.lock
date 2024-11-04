@@ -2811,6 +2811,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@navikt/aksel-icons@npm:7.4.3":
+  version: 7.4.3
+  resolution: "@navikt/aksel-icons@npm:7.4.3::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40navikt%2Faksel-icons%2F7.4.3%2F28ae69c2846fc92b0f67cce5f1941aadab60a192"
+  checksum: 10/4816e9a9d4d090cc800a02b070ac9e6b84a34f3a6790341b8888070e500cd8d654d8a9517209158fb1009c676097a1c9ca3eb19262b7bdcf738f041ae5a997e5
+  languageName: node
+  linkType: hard
+
 "@navikt/aksel-stylelint@npm:7.1.0":
   version: 7.1.0
   resolution: "@navikt/aksel-stylelint@npm:7.1.0::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40navikt%2Faksel-stylelint%2F7.1.0%2F39567b144f19184b8adecc75ccbd7a276d011b2d"
@@ -12090,7 +12097,7 @@ __metadata:
     "@formatjs/intl-numberformat": "npm:8.10.3"
     "@grafana/faro-web-sdk": "npm:^1.10.2"
     "@grafana/faro-web-tracing": "npm:^1.10.2"
-    "@navikt/aksel-icons": "npm:7.1.0"
+    "@navikt/aksel-icons": "npm:7.4.3"
     "@navikt/aksel-stylelint": "npm:7.1.0"
     "@navikt/ds-css": "npm:7.1.0"
     "@navikt/ds-react": "npm:7.1.0"
