@@ -2,7 +2,7 @@ import React, { useContext, useMemo } from 'react';
 import { Select } from '@navikt/ds-react';
 import { FilterContext } from 'filter/FilterContext';
 import { addSortering, resetSortering } from 'filter/queryUtils';
-import { mapKodeTilSorteringParams, mapSorteringParamsTilKode } from './sorteringUtils';
+import { SORTERING_ALTERNATIVER, mapKodeTilSorteringParams, mapSorteringParamsTilKode } from './sorteringUtils';
 
 const EnkelSortering = () => {
 	const { oppgaveQuery, updateQuery } = useContext(FilterContext);
@@ -18,7 +18,7 @@ const EnkelSortering = () => {
 	}, [oppgaveQuery]);
 
 	const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-		const payload = mapKodeTilSorteringParams(e.target.value);
+		const payload = mapKodeTilSorteringParams(e.target.value as SORTERING_ALTERNATIVER);
 		if (payload) {
 			updateQuery([resetSortering(), addSortering(payload)]);
 		}
@@ -26,8 +26,20 @@ const EnkelSortering = () => {
 
 	return (
 		<Select label="Sortering:" size="small" onChange={handleChange} value={selectValue}>
-			<option value="mottattDatoEldstTilNyest">Mottatt dato: eldste til nyeste</option>
-			<option value="mottattDatoNyestTilEldst">Mottatt dato: nyeste til eldste</option>
+			<option value={SORTERING_ALTERNATIVER.mottattDatoEldstTilNyest}>Mottatt dato: eldste til nyeste</option>
+			<option value={SORTERING_ALTERNATIVER.mottattDatoNyestTilEldst}>Mottatt dato: nyeste til eldste</option>
+			<option value={SORTERING_ALTERNATIVER.feilutbetaltBeløpSynkende}>
+				Feilutbetaling: høyeste til laveste beløp (kun tilbakekreving)
+			</option>
+			<option value={SORTERING_ALTERNATIVER.feilutbetaltBeløpØkende}>
+				Feilutbetaling: laveste til høyeste beløp (kun tilbakekreving)
+			</option>
+			<option value={SORTERING_ALTERNATIVER.feilutbetalingsdatoSynkende}>
+				Feilutbetalingsdato: eldste til nyeste (kun tilbakekreving)
+			</option>
+			<option value={SORTERING_ALTERNATIVER.feilutbetalingsdatoØkende}>
+				Feilutbetalingsdato: nyeste til eldste (kun tilbakekreving)
+			</option>
 		</Select>
 	);
 };
