@@ -31,14 +31,8 @@ const EnkelSortering = () => {
 			<option value={SORTERING_ALTERNATIVER.feilutbetaltBeløpSynkende}>
 				Feilutbetaling: høyeste til laveste beløp (kun tilbakekreving)
 			</option>
-			<option value={SORTERING_ALTERNATIVER.feilutbetaltBeløpØkende}>
-				Feilutbetaling: laveste til høyeste beløp (kun tilbakekreving)
-			</option>
 			<option value={SORTERING_ALTERNATIVER.feilutbetalingsdatoSynkende}>
 				Feilutbetalingsdato: eldste til nyeste (kun tilbakekreving)
-			</option>
-			<option value={SORTERING_ALTERNATIVER.feilutbetalingsdatoØkende}>
-				Feilutbetalingsdato: nyeste til eldste (kun tilbakekreving)
 			</option>
 		</Select>
 	);
