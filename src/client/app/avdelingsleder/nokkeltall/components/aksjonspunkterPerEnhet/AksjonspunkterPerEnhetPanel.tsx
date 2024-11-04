@@ -41,7 +41,7 @@ const AksjonspunkterPerEnhetPanel: FunctionComponent = () => {
 
 		const aksjonspunkterPerEnhetMappet = aksjonspunkterPerEnhet.map((v) => ({
 			...v,
-			behandlendeEnhet: v.behandlendeEnhet.replace('NAV', 'Nav'),
+			behandlendeEnhet: v.behandlendeEnhet ? v.behandlendeEnhet.replace('NAV', 'Nav') : v.behandlendeEnhet,
 		}));
 
 		return (
