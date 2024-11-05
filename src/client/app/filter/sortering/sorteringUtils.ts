@@ -2,7 +2,7 @@ export enum SORTERING_ALTERNATIVER {
 	mottattDatoEldstTilNyest = 'mottattDatoEldstTilNyest',
 	mottattDatoNyestTilEldst = 'mottattDatoNyestTilEldst',
 	feilutbetaltBeløpSynkende = 'feilutbetaltBeløpSynkende',
-	feilutbetalingsdatoSynkende = 'feilutbetalingsdatoSynkende',
+	feilutbetalingsdatoEldstTilNyest = 'feilutbetalingsdatoSynkende',
 }
 
 const koder = {
@@ -30,11 +30,11 @@ export const mapKodeTilSorteringParams = (kode: SORTERING_ALTERNATIVER) => {
 				område: 'K9',
 				økende: false,
 			};
-		case SORTERING_ALTERNATIVER.feilutbetalingsdatoSynkende:
+		case SORTERING_ALTERNATIVER.feilutbetalingsdatoEldstTilNyest:
 			return {
 				kode: 'førsteFeilutbetalingDato',
 				område: 'K9',
-				økende: false,
+				økende: true,
 			};
 
 		default:
@@ -47,7 +47,7 @@ export const mapSorteringParamsTilKode = ({ kode, økende }: { kode: string; øk
 		case koder.mottattDato:
 			return økende ? 'mottattDatoEldstTilNyest' : 'mottattDatoNyestTilEldst';
 		case koder.førsteFeilutbetalingDato:
-			return SORTERING_ALTERNATIVER.feilutbetalingsdatoSynkende;
+			return SORTERING_ALTERNATIVER.feilutbetalingsdatoEldstTilNyest;
 		case koder.feilutbetaltBeløp:
 			return SORTERING_ALTERNATIVER.feilutbetaltBeløpSynkende;
 		default:
