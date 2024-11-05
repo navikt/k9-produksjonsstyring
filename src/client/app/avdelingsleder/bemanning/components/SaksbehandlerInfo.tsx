@@ -1,14 +1,37 @@
 import React, { FunctionComponent, useState } from 'react';
-import { useQueryClient } from 'react-query';
 import { TrashIcon } from '@navikt/aksel-icons';
-import { BodyShort, Button } from '@navikt/ds-react';
-import apiPaths from 'api/apiPaths';
-import { K9LosApiKeys } from 'api/k9LosApi';
-import { useSlettSaksbehandler } from 'api/queries/avdelingslederQueries';
-import { useRestApiRunner } from 'api/rest-api-hooks';
+import { BodyShort, Button, List, Skeleton } from '@navikt/ds-react';
+import { useHentAndreSaksbehandleresKøer, useSlettSaksbehandler } from 'api/queries/avdelingslederQueries';
 import SletteSaksbehandlerModal from 'avdelingsleder/bemanning/components/SletteSaksbehandlerModal';
 import { Saksbehandler } from 'avdelingsleder/bemanning/saksbehandlerTsType';
-import * as styles from './saksbehandlerInfo.css';
+import { OppgaveKoIdOgTittel } from 'types/OppgavekøV3Type';
+
+const KøListe = ({
+	title,
+	data,
+	isSuccess = true,
+	isLoading = false,
+}: {
+	title: string;
+	data: OppgaveKoIdOgTittel[];
+	isSuccess?: boolean;
+	isLoading?: boolean;
+}) => {
+	const skeleton = <Skeleton width={80} />;
+	return (
+		<List title={title} size="small">
+			{isLoading && (
+				<>
+					<List.Item>{skeleton}</List.Item>
+					<List.Item>{skeleton}</List.Item>
+					<List.Item>{skeleton}</List.Item>
+				</>
+			)}
+			{isSuccess && data.length === 0 && <BodyShort size="small">Ingen køer tildelt</BodyShort>}
+			{isSuccess && data.length > 0 && data.map(({ id, tittel }) => <List.Item key={id}>{tittel}</List.Item>)}
+		</List>
+	);
+};
 
 interface OwnProps {
 	saksbehandler: Saksbehandler;
@@ -19,20 +42,24 @@ const SaksbehandlerInfo: FunctionComponent<OwnProps> = ({ saksbehandler }) => {
 	const lukkSlettModal = () => {
 		setVisSlettModal(false);
 	};
-
-	const { mutate, isLoading } = useSlettSaksbehandler();
+	const {
+		data: køerV3,
+		isLoading: isLoadingKøerV3,
+		isSuccess: isSuccessKøerV3,
+	} = useHentAndreSaksbehandleresKøer(saksbehandler.id);
+	const { mutate, isLoading: isLoadingSlett } = useSlettSaksbehandler();
 	const slettSaksbehandler = () => mutate({ epost: saksbehandler.epost }, { onSuccess: lukkSlettModal });
 
 	return (
 		<div>
-			<BodyShort className={styles.overskrift}>Køer</BodyShort>
-			{!saksbehandler?.oppgavekoer?.length && <BodyShort className={styles.info}>Ingen køer tildelt</BodyShort>}
-			{saksbehandler?.oppgavekoer?.length > 0 &&
-				saksbehandler.oppgavekoer.map((ko) => (
-					<BodyShort size="small" key={ko} className={styles.info}>
-						{ko}
-					</BodyShort>
-				))}
+			<div className="flex">
+				<div className="flex-initial w-1/2">
+					<KøListe title="Køer" data={saksbehandler.oppgavekoer.map((kø, index) => ({ id: index, tittel: kø }))} />
+				</div>
+				<div className="flex-initial w-1/2">
+					<KøListe title="Nye køer" data={køerV3} isSuccess={isSuccessKøerV3} isLoading={isLoadingKøerV3} />
+				</div>
+			</div>
 			{/* eslint-disable-next-line jsx-a11y/interactive-supports-focus */}
 			<Button
 				onClick={() => {
@@ -49,7 +76,7 @@ const SaksbehandlerInfo: FunctionComponent<OwnProps> = ({ saksbehandler }) => {
 					valgtSaksbehandler={saksbehandler}
 					closeSletteModal={lukkSlettModal}
 					slettSaksbehandler={slettSaksbehandler}
-					loading={isLoading}
+					loading={isLoadingSlett}
 				/>
 			)}
 		</div>

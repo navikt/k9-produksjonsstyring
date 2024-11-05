@@ -1,18 +1,24 @@
 import { OppgaveQuery } from 'filter/filterTsTypes';
 
-export interface OppgavekøV3Enkel {
-	id: string;
+export interface OppgaveKoIdOgTittel {
+	id: number;
 	tittel: string;
-	antallSaksbehandlere: number;
-	sistEndret: string | null;
 }
-export interface OppgavekøV3 extends OppgavekøV3Enkel {
+export interface OppgavekøV3Enkel {
+	id: number;
+	tittel: string;
+	sistEndret: string | null;
+	antallSaksbehandlere: number;
+}
+export interface OppgavekøV3 {
+	id: number;
+	versjon: number;
+	tittel: string;
 	beskrivelse: string;
 	oppgaveQuery: OppgaveQuery;
-	saksbehandlere: string[];
 	frittValgAvOppgave: boolean;
-	sistEndret: string;
-	versjon: number;
+	saksbehandlere: string[];
+	endretTidspunkt: string | undefined;
 	skjermet: boolean;
 }
 export interface OppgavekøerV3 {

@@ -15,6 +15,7 @@ const apiPaths = {
 	ferdigstilteHistorikk: '/api/k9-los-api/avdelingsleder/nokkeltall/ferdigstilte-historikk',
 	hentAlleKoerSaksbehandlerV1: '/api/k9-los-api/saksbehandler/oppgaveko',
 	hentAlleKoerSaksbehandlerV3: '/api/k9-los-api/ny-oppgavestyring/ko/saksbehandlerskoer',
+	hentAndreSaksbehandleresKøerV3: '/api/k9-los-api/ny-oppgavestyring/ko/andre-saksbehandleres-koer',
 	hentFelter: '/api/k9-los-api/ny-oppgavestyring/oppgave/felter',
 	hentOppgaveFelter: '/api/k9-los-api/ny-oppgavestyring/oppgave/felter',
 	hentOppgaveFraKoV3: (id: string) => `/api/k9-los-api/ny-oppgavestyring/ko/${id}/fa-oppgave`,

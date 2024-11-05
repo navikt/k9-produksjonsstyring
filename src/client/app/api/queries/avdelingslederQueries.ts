@@ -2,7 +2,7 @@ import { UseQueryOptions, useMutation, useQuery, useQueryClient } from 'react-qu
 import apiPaths from 'api/apiPaths';
 import { Saksbehandler } from 'avdelingsleder/bemanning/saksbehandlerTsType';
 import Reservasjon from 'avdelingsleder/reservasjoner/reservasjonTsType';
-import { OppgavekøV3, OppgavekøV3Enkel, OppgavekøerV3 } from 'types/OppgavekøV3Type';
+import { OppgaveKoIdOgTittel, OppgavekøV3, OppgavekøV3Enkel, OppgavekøerV3 } from 'types/OppgavekøV3Type';
 import { axiosInstance } from 'utils/reactQueryConfig';
 
 export const useHentSaksbehandlereAvdelingsleder = () =>
@@ -35,6 +35,13 @@ export const useSlettSaksbehandler = () => {
 			]),
 	});
 };
+
+export const useHentAndreSaksbehandleresKøer = (id: number) =>
+	useQuery<OppgaveKoIdOgTittel[], unknown, OppgaveKoIdOgTittel[]>({
+		queryKey: [apiPaths.hentAndreSaksbehandleresKøerV3, id.toString()],
+		queryFn: () =>
+			axiosInstance.get(apiPaths.hentAndreSaksbehandleresKøerV3, { params: { id } }).then(({ data }) => data),
+	});
 
 // eslint-disable-next-line import/prefer-default-export
 export const useAlleKoer = (options = {}) =>
