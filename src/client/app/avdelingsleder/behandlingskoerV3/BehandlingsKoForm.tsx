@@ -40,14 +40,14 @@ const saksbehandlereMapper = (saksbehandlere: Saksbehandler[]) => {
 			value: saksbehandler.epost,
 			label: saksbehandler.navn || saksbehandler.epost,
 			group: relevanteEnheterForAvdelingsleder.find((enhet) => saksbehandler.enhet?.includes(enhet))
-				? saksbehandler.enhet
+				? saksbehandler.enhet?.replace('NAV', 'Nav')
 				: 'Andre enheter',
 		}));
 	}
 	return saksbehandlere.map((saksbehandler) => ({
 		value: saksbehandler.epost,
 		label: saksbehandler.navn || saksbehandler.epost,
-		group: saksbehandler.enhet || 'Ukjent enhet',
+		group: saksbehandler.enhet?.replace('NAV', 'Nav') || 'Ukjent enhet',
 	}));
 };
 
