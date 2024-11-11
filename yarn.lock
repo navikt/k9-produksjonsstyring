@@ -2843,10 +2843,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@navikt/ds-tailwind@npm:7.1.0":
-  version: 7.1.0
-  resolution: "@navikt/ds-tailwind@npm:7.1.0::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40navikt%2Fds-tailwind%2F7.1.0%2Fee916a10603ffafc2d7b943778450ab315a1fad2"
-  checksum: 10/8461a1a73253c51607ea3b01e2290f9542f591ed7264f418c3f5ee97ce626a08c0ec617bcbf7bdc9cf041b748b71b0809bdf9458d4c38e18f631f320652efeb8
+"@navikt/ds-tailwind@npm:7.5.1":
+  version: 7.5.1
+  resolution: "@navikt/ds-tailwind@npm:7.5.1::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40navikt%2Fds-tailwind%2F7.5.1%2F25ec1bbef2bb654dddfd6d1f7cab063c2413837f"
+  checksum: 10/438bad6e649f21ddd1b59e58deb170a4e635dda9b604f4d0e7dec8e1d7014dbac302d3f362118c63a874d5964dcdcc5b84cdd69162829d562d50e0fe3d9f2d3d
   languageName: node
   linkType: hard
 
@@ -12094,7 +12094,7 @@ __metadata:
     "@navikt/aksel-stylelint": "npm:7.1.0"
     "@navikt/ds-css": "npm:7.1.0"
     "@navikt/ds-react": "npm:7.1.0"
-    "@navikt/ds-tailwind": "npm:7.1.0"
+    "@navikt/ds-tailwind": "npm:7.5.1"
     "@navikt/ds-tokens": "npm:7.1.0"
     "@navikt/familie-endringslogg": "npm:13.1.4"
     "@navikt/fnrvalidator": "npm:^2.1.2"
