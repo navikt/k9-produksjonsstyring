@@ -4,7 +4,7 @@ import { useQuery, useQueryClient } from 'react-query';
 import { BodyShort, Button, ReadMore, Select } from '@navikt/ds-react';
 import apiPaths from 'api/apiPaths';
 import { K9LosApiKeys } from 'api/k9LosApi';
-import { useAntallOppgaverIKoV3 } from 'api/queries/saksbehandlerQueries';
+import { useAntallOppgaverIKoV3UtenReserverte } from 'api/queries/saksbehandlerQueries';
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
 import BehandlingskoerContext from 'saksbehandler/BehandlingskoerContext';
 import { OppgavekøV1 } from 'saksbehandler/behandlingskoer/oppgavekoTsType';
@@ -75,7 +75,7 @@ export const OppgavekoVelgerForm: FunctionComponent<OwnProps> = ({ plukkNyOppgav
 	const oppgavekoerSortertAlfabetisk = oppgavekoer.sort((a, b) => a.navn.localeCompare(b.navn));
 	const harKoer = !!oppgavekoerSortertAlfabetisk.length;
 	const valgtKoId = getDefaultOppgaveko(oppgavekoerSortertAlfabetisk);
-	const antallOppgaverV3 = useAntallOppgaverIKoV3(getKoId(valgtKoId), {
+	const antallOppgaverV3 = useAntallOppgaverIKoV3UtenReserverte(getKoId(valgtKoId), {
 		enabled: harKoer && valgtKoId && erKoV3(valgtKoId),
 	})?.data?.antallUtenReserverte;
 
