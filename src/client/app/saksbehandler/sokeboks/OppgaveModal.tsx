@@ -39,10 +39,13 @@ export function OppgaveModal(props: { oppgave: SøkeboksOppgaveDto; open: boolea
 				<BodyShort>Hva ønsker du å gjøre med oppgaven?</BodyShort>
 			</Modal.Body>
 			<Modal.Footer>
+				<Button type="button" onClick={() => åpneOppgave(props.oppgave)}>
+					Åpne oppgave
+				</Button>
 				{visÅpneOgReserverKnapp && (
 					<Button
 						type="button"
-						variant="primary"
+						variant="secondary"
 						loading={isLoadingReserverOppgave}
 						onClick={() => reserverOppgave(props.oppgave.oppgaveNøkkel)}
 					>
@@ -52,7 +55,7 @@ export function OppgaveModal(props: { oppgave: SøkeboksOppgaveDto; open: boolea
 				{visÅpneOgEndreReservasjonKnapp && (
 					<Button
 						type="button"
-						variant="primary"
+						variant="secondary"
 						loading={isLoadingEndreReservasjoner}
 						onClick={() =>
 							endreReservasjoner([
@@ -63,14 +66,6 @@ export function OppgaveModal(props: { oppgave: SøkeboksOppgaveDto; open: boolea
 						Reserver og åpne oppgave
 					</Button>
 				)}
-				<Button
-					type="button"
-					variant={visÅpneOgReserverKnapp || visÅpneOgEndreReservasjonKnapp ? 'secondary' : 'primary'}
-					onClick={() => åpneOppgave(props.oppgave)}
-				>
-					Åpne oppgave
-				</Button>
-
 				{visLeggTilbakeIKøKnapp && (
 					<Button
 						type="button"
