@@ -1,8 +1,9 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useState } from 'react';
 import { Skeleton, Table } from '@navikt/ds-react';
 import { useHentSaksbehandlereAvdelingsleder } from 'api/queries/avdelingslederQueries';
 import LeggTilSaksbehandlerForm from 'avdelingsleder/bemanning/components/LeggTilSaksbehandlerForm';
 import SaksbehandlerInfo from 'avdelingsleder/bemanning/components/SaksbehandlerInfo';
+import { Saksbehandler } from 'avdelingsleder/bemanning/saksbehandlerTsType';
 
 const SkeletonRad = () => (
 	<Table.ExpandableRow content={null}>
@@ -17,6 +18,21 @@ const SkeletonRad = () => (
 		</Table.DataCell>
 	</Table.ExpandableRow>
 );
+
+const SaksbehandlerRad = ({ saksbehandler }: { saksbehandler: Saksbehandler }) => {
+	const [ekspandert, setEkspandert] = useState(false);
+	return (
+		<Table.ExpandableRow
+			key={saksbehandler.epost}
+			content={ekspandert && <SaksbehandlerInfo saksbehandler={saksbehandler} />}
+			onOpenChange={(open) => setEkspandert(open)}
+		>
+			<Table.DataCell scope="row">{saksbehandler.navn || saksbehandler.epost}</Table.DataCell>
+			<Table.DataCell>{saksbehandler.brukerIdent}</Table.DataCell>
+			<Table.DataCell>{saksbehandler.epost}</Table.DataCell>
+		</Table.ExpandableRow>
+	);
+};
 
 const SaksbehandlereTabell: FunctionComponent = () => {
 	const { data: saksbehandlere, isLoading, isSuccess } = useHentSaksbehandlereAvdelingsleder();
@@ -44,17 +60,7 @@ const SaksbehandlereTabell: FunctionComponent = () => {
 								<SkeletonRad />
 							</>
 						)}
-						{isSuccess &&
-							saksbehandlere.map((saksbehandler) => (
-								<Table.ExpandableRow
-									key={saksbehandler.epost}
-									content={<SaksbehandlerInfo saksbehandler={saksbehandler} />}
-								>
-									<Table.DataCell scope="row">{saksbehandler.navn || saksbehandler.epost}</Table.DataCell>
-									<Table.DataCell>{saksbehandler.brukerIdent}</Table.DataCell>
-									<Table.DataCell>{saksbehandler.epost}</Table.DataCell>
-								</Table.ExpandableRow>
-							))}
+						{isSuccess && saksbehandlere.map((saksbehandler) => <SaksbehandlerRad saksbehandler={saksbehandler} />)}
 					</Table.Body>
 				</Table>
 			</div>
