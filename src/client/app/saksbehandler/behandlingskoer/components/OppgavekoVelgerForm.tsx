@@ -75,9 +75,12 @@ export const OppgavekoVelgerForm: FunctionComponent<OwnProps> = ({ plukkNyOppgav
 	const oppgavekoerSortertAlfabetisk = oppgavekoer.sort((a, b) => a.navn.localeCompare(b.navn));
 	const harKoer = !!oppgavekoerSortertAlfabetisk.length;
 	const valgtKoId = getDefaultOppgaveko(oppgavekoerSortertAlfabetisk);
-	const antallOppgaverV3 = useAntallOppgaverIKoV3UtenReserverte(getKoId(valgtKoId), {
-		enabled: harKoer && valgtKoId && erKoV3(valgtKoId),
-	})?.data?.antallUtenReserverte;
+	const { data: antallIValgtKø, isLoading: isLoadingAntallIValgtKø } = useAntallOppgaverIKoV3UtenReserverte(
+		getKoId(valgtKoId),
+		{
+			enabled: harKoer && valgtKoId && erKoV3(valgtKoId),
+		},
+	);
 
 	const { data: saksbehandlere, startRequest: hentSaksbehandlere } = useRestApiRunner<Saksbehandler[]>(
 		K9LosApiKeys.OPPGAVEKO_SAKSBEHANDLERE,
@@ -119,7 +122,7 @@ export const OppgavekoVelgerForm: FunctionComponent<OwnProps> = ({ plukkNyOppgav
 		);
 	}
 
-	const antallIKø = erKoV3(valgtKoId) ? antallOppgaverV3 : antallOppgaver;
+	const antallIKø = erKoV3(valgtKoId) ? antallIValgtKø?.antallUtenReserverte : antallOppgaver || 0;
 	return (
 		<div className={styles.oppgavevelgerform_container}>
 			<div className="flex">
@@ -136,7 +139,7 @@ export const OppgavekoVelgerForm: FunctionComponent<OwnProps> = ({ plukkNyOppgav
 						))}
 					</Select>
 					<VerticalSpacer eightPx />
-					{antallIKø === undefined && <Skeleton width={120} />}
+					{isLoadingAntallIValgtKø && <Skeleton width={120} />}
 					{antallIKø !== undefined && (
 						<FormattedMessage id="OppgavekoVelgerForm.AntallOppgaver" values={{ antall: antallIKø }} />
 					)}
