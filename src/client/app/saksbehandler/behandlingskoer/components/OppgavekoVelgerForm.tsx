@@ -1,7 +1,7 @@
 import React, { FunctionComponent, ReactNode, useContext, useEffect } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useQuery, useQueryClient } from 'react-query';
-import { BodyShort, Button, ReadMore, Select } from '@navikt/ds-react';
+import { BodyShort, Button, ReadMore, Select, Skeleton } from '@navikt/ds-react';
 import apiPaths from 'api/apiPaths';
 import { K9LosApiKeys } from 'api/k9LosApi';
 import { useAntallOppgaverIKoV3UtenReserverte } from 'api/queries/saksbehandlerQueries';
@@ -119,6 +119,7 @@ export const OppgavekoVelgerForm: FunctionComponent<OwnProps> = ({ plukkNyOppgav
 		);
 	}
 
+	const antallIKø = erKoV3(valgtKoId) ? antallOppgaverV3 : antallOppgaver;
 	return (
 		<div className={styles.oppgavevelgerform_container}>
 			<div className="flex">
@@ -135,10 +136,10 @@ export const OppgavekoVelgerForm: FunctionComponent<OwnProps> = ({ plukkNyOppgav
 						))}
 					</Select>
 					<VerticalSpacer eightPx />
-					<FormattedMessage
-						id="OppgavekoVelgerForm.AntallOppgaver"
-						values={{ antall: (erKoV3(valgtKoId) ? antallOppgaverV3 : antallOppgaver) || 0 }}
-					/>
+					{antallIKø === undefined && <Skeleton width={120} />}
+					{antallIKø !== undefined && (
+						<FormattedMessage id="OppgavekoVelgerForm.AntallOppgaver" values={{ antall: antallIKø }} />
+					)}
 					<ReadMore size="small" header="Saksbehandlere i køen">
 						{createTooltip(erKoV3(valgtKoId) ? saksbehandlereV3 : saksbehandlere)}
 					</ReadMore>

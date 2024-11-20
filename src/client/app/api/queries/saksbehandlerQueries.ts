@@ -21,9 +21,9 @@ export const useGetAlleSaksbehandlere = (options: UseQueryOptions<SaksbehandlerE
 
 export const useAntallOppgaverIKoV3UtenReserverte = (
 	koId: string,
-	options: UseQueryOptions<{ antallUtenReserverte: number }, Error> = {},
+	options: UseQueryOptions<{ antallUtenReserverte: number }, Error, { antallUtenReserverte: number }> = {},
 ) =>
-	useQuery<{ antallUtenReserverte: number }, Error>({
+	useQuery<{ antallUtenReserverte: number }, Error, { antallUtenReserverte: number }>({
 		queryKey: [apiPaths.antallOppgaverIKoV3UtenReserverte(koId)],
 		...options,
 	});
