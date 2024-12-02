@@ -6,27 +6,41 @@ registries:
     token: ${{secrets.READER_TOKEN}}
 updates:
   - package-ecosystem: npm
-    directory: "/"
+    directory: '/'
     schedule:
       interval: daily
-    open-pull-requests-limit: 20
+    open-pull-requests-limit: 30
     registries:
       - npm-github
-    ignore:
-      - dependency-name: "*"
-        update-types: ["version-update:semver-patch"]
     groups:
+      patch-and-minor:
+        patterns:
+          - '*'
+        update-types:
+          - 'patch'
+          - 'minor'
+        exclude-patterns:
+          - 'react*'
+          - '@types/react'
+          - '@navikt*'
+      storybook:
+        update-types:
+          - 'major'
+        patterns:
+          - 'storybook'
+          - '@storybook/*'
       react:
         patterns:
-          - "react"
-          - "react-dom"
-          - "@types/react"
-      babel:
+          - 'react'
+          - 'react-dom'
+          - '@types/react'
+      designsystem:
         patterns:
-          - "@babel*"
-      typescript-eslint:
+          - '@navikt/aksel-icons'
+          - '@navikt/ds-*'
+      ft-frontend:
         patterns:
-          - "@typescript-eslint*"
+          - '@navikt/ft-*'
   - package-ecosystem: github-actions
     directory: "/"
     schedule:
