@@ -19,11 +19,10 @@ observability:
     runtime: nodejs
     destinations:
       - id: "grafana-lgtm"
-      - id: "elastic-apm"
 
 env:
-  - name: OTEL_RESOURCE_ATTRIBUTES
-    value: "service.name=k9-los-web,service.namespace=k9saksbehandling,deployment.environment=q,nais.backend=elastic-apm;grafana-lgtm"
+  #- name: OTEL_RESOURCE_ATTRIBUTES
+  #  value: "service.name=k9-los-web,service.namespace=k9saksbehandling,deployment.environment=q,nais.backend=elastic-apm;grafana-lgtm"
   - name: SOKEBOKS_NYE_KOER
     value: "enabled"
   - name: SAKSBEHANDLER_KAN_VELGE_NYE_KOER
