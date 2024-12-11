@@ -13,8 +13,17 @@ proxyRedirects:
     url: "https://k9-los-api.dev-fss-pub.nais.io"
     backendPath: "/forvaltning"
 
+observability:
+  autoInstrumentation:
+    enabled: true
+    runtime: java
+    destinations:
+      - id: "grafana-lgtm"
+      - id: "elastic-apm"
 
 env:
+  - name: OTEL_RESOURCE_ATTRIBUTES
+    value: "service.name=k9-los-web,service.namespace=k9saksbehandling,deployment.environment=q,nais.backend=elastic-apm;grafana-lgtm"
   - name: SOKEBOKS_NYE_KOER
     value: "enabled"
   - name: SAKSBEHANDLER_KAN_VELGE_NYE_KOER
