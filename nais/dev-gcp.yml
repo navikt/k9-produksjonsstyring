@@ -16,7 +16,7 @@ proxyRedirects:
 observability:
   autoInstrumentation:
     enabled: true
-    runtime: java
+    runtime: nodejs
     destinations:
       - id: "grafana-lgtm"
       - id: "elastic-apm"
