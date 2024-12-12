@@ -1,5 +1,4 @@
 /* eslint-disable no-underscore-dangle */
-import timeout from 'connect-timeout';
 import cors from 'cors';
 import express from 'express';
 import rateLimit from 'express-rate-limit';
@@ -21,9 +20,6 @@ const limiter = rateLimit({
 
 async function startApp() {
 	try {
-		// log request
-		server.use(timeout('10m'));
-
 		// Logging i json format
 		server.use(logger.morganMiddleware);
 
