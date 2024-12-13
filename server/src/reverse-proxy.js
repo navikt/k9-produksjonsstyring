@@ -9,7 +9,7 @@ const xTimestamp = 'x-Timestamp';
 const stripTrailingSlash = (str) => (str.endsWith('/') ? str.slice(0, -1) : str);
 
 const proxyOptions = (api) => ({
-	timeout: 60000,
+	timeout: 63000,
 	proxyReqOptDecorator: async (options, req) => {
 		if (process.env.IS_VERDIKJEDE === 'true') {
 			return options;
