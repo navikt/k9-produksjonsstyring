@@ -15,7 +15,8 @@ const proxyOptions = (api) => ({
 		}
 		try {
 			const token = req.headers.authorization.replace('Bearer ', '');
-			await validateToken(token);
+			const validationResult = await validateToken(token);
+			console.log('Validation result:', validationResult);
 			const requestTime = Date.now();
 			options.headers[xTimestamp] = requestTime;
 			delete options.headers.cookie;
@@ -24,22 +25,24 @@ const proxyOptions = (api) => ({
 				requestOboToken(token, api.scopes).then(
 					(obo) => {
 						if (!obo.ok) {
-							console.log('Error getting OBO token:', obo.error);
+							console.error('Error getting OBO token:', obo.error);
 							reject(obo.error);
 						}
 						options.headers.Authorization = `Bearer ${obo.token}`;
 						// Log the request details right before resolving
-						log.info(`Sending request to ${api.url} with path ${req.originalUrl} at ${new Date(requestTime).toISOString()}`);
+						log.info(
+							`Sending request to ${api.url} with path ${req.originalUrl} at ${new Date(requestTime).toISOString()}`,
+						);
 						resolve(options);
 					},
 					(error) => {
-						console.log(error);
+						console.error(error);
 						reject(error);
 					},
 				);
 			});
 		} catch (error) {
-			console.log(error);
+			console.error(error);
 			throw error; // re-throw the error so it can be handled by the caller
 		}
 	},
@@ -75,6 +78,7 @@ const proxyOptions = (api) => ({
 	},
 	// eslint-disable-next-line consistent-return
 	proxyErrorHandler(err, res, next) {
+		console.error('proxy error', err);
 		switch (err && err.code) {
 			case 'ENOTFOUND': {
 				log.warning(`${err}, with code: ${err.code}`);
