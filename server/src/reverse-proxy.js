@@ -1,7 +1,6 @@
 import proxy from 'express-http-proxy';
-import { requestOboToken, validateToken } from '@navikt/oasis';
 import url from 'url';
-
+import { requestOboToken, validateToken } from '@navikt/oasis';
 import config, { configValueAsJson } from './config.js';
 import log from './log.js';
 
@@ -9,7 +8,7 @@ const xTimestamp = 'x-Timestamp';
 const stripTrailingSlash = (str) => (str.endsWith('/') ? str.slice(0, -1) : str);
 
 const proxyOptions = (api) => ({
-	timeout: 63000,
+	timeout: 40000,
 	proxyReqOptDecorator: async (options, req) => {
 		if (process.env.IS_VERDIKJEDE === 'true') {
 			return options;
@@ -25,9 +24,12 @@ const proxyOptions = (api) => ({
 				requestOboToken(token, api.scopes).then(
 					(obo) => {
 						if (!obo.ok) {
+							console.log('Error getting OBO token:', obo.error);
 							reject(obo.error);
 						}
 						options.headers.Authorization = `Bearer ${obo.token}`;
+						// Log the request details right before resolving
+						log.info(`Sending request to ${api.url} with path ${req.originalUrl} at ${new Date(requestTime).toISOString()}`);
 						resolve(options);
 					},
 					(error) => {
