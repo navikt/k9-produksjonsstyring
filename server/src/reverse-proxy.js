@@ -18,7 +18,6 @@ const proxyOptions = (api) => ({
 		}
 		try {
 			const token = req.headers.authorization.replace('Bearer ', '');
-			log.debug(`Validating token: ${token.substring(0, 10)}...`);
 			const validationResult = await validateToken(token);
 			log.info('Validation result:', validationResult);
 			const requestTime = Date.now();
