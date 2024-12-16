@@ -84,9 +84,9 @@ const proxyOptions = (api) => ({
 		return headers;
 	},
 	proxyErrorHandler(err, res, next) {
-		console.error('Proxy error:', err);
-		console.error('Proxy error code:', err.code);
-		console.error('Proxy error message:', err.message);
+		log.error('Proxy error:', err);
+		console.error(err.code);
+		console.error(err.message);
 
 		switch (err && err.code) {
 			case 'ENOTFOUND': {
@@ -94,7 +94,7 @@ const proxyOptions = (api) => ({
 				return res.status(404).send();
 			}
 			case 'ECONNRESET': {
-				log.warning('Connection reset error.');
+				log.error('Connection reset error.');
 				return res.status(504).send();
 			}
 			case 'ECONNREFUSED': {
