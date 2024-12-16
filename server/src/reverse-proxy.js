@@ -19,7 +19,10 @@ const proxyOptions = (api) => ({
 		try {
 			const token = req.headers.authorization.replace('Bearer ', '');
 			const validationResult = await validateToken(token);
-			log.info('Validation result:', validationResult);
+			log.info('Validation result:', validationResult.ok);
+			if (!validationResult.ok) {
+				log.error('Token validation failed:', validationResult.error);
+			}
 			const requestTime = Date.now();
 			options.headers[xTimestamp] = requestTime;
 			delete options.headers.cookie;
