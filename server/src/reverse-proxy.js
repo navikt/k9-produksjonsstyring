@@ -19,7 +19,6 @@ const proxyOptions = (api) => ({
 		try {
 			const token = req.headers.authorization.replace('Bearer ', '');
 			const validationResult = await validateToken(token);
-			log.info('Validation result:', validationResult.ok);
 			if (!validationResult.ok) {
 				log.error('Token validation failed:', validationResult.error);
 			}
@@ -85,7 +84,10 @@ const proxyOptions = (api) => ({
 		return headers;
 	},
 	proxyErrorHandler(err, res, next) {
-		log.error('Proxy error:', err);
+		console.error('Proxy error:', err);
+		console.error('Proxy error code:', err.code);
+		console.error('Proxy error message:', err.message);
+
 		switch (err && err.code) {
 			case 'ENOTFOUND': {
 				log.warning(`${err}, with code: ${err.code}`);
