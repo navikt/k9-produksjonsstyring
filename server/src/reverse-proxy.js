@@ -78,9 +78,9 @@ const proxyOptions = (api) => ({
 		const melding = `${statusCode} ${proxyRes.statusMessage}: ${userReq.method} - ${userReq.originalUrl} (${requestTime}ms)`;
 		const callIdValue = proxyReq.getHeader('Nav-Callid');
 		if (statusCode >= 500) {
-			log.warn(melding, { 'Nav-Callid': callIdValue });
+			console.log(melding, { 'Nav-Callid': callIdValue });
 		} else {
-			log.info(melding, { 'Nav-Callid': callIdValue });
+			console.log(melding, { 'Nav-Callid': callIdValue });
 		}
 		return headers;
 	},
@@ -88,11 +88,11 @@ const proxyOptions = (api) => ({
 		log.error('Proxy error:', err);
 		switch (err && err.code) {
 			case 'ENOTFOUND': {
-				log.warn(`${err}, with code: ${err.code}`);
+				log.warning(`${err}, with code: ${err.code}`);
 				return res.status(404).send();
 			}
 			case 'ECONNRESET': {
-				log.warn('Connection reset error.');
+				log.warning('Connection reset error.');
 				return res.status(504).send();
 			}
 			case 'ECONNREFUSED': {
@@ -112,7 +112,7 @@ const timedOut = function (req, res, next) {
 	if (!req.timedout) {
 		next();
 	} else {
-		log.warn(`Request for ${req.originalUrl} timed out!`);
+		log.warning(`Request for ${req.originalUrl} timed out!`);
 	}
 };
 
