@@ -10,39 +10,43 @@ const stripTrailingSlash = (str) => (str.endsWith('/') ? str.slice(0, -1) : str)
 const proxyOptions = (api) => ({
 	timeout: 40000,
 	proxyReqOptDecorator: async (options, req) => {
+		log.info(`Proxy request started for ${req.originalUrl}`);
+
 		if (process.env.IS_VERDIKJEDE === 'true') {
+			log.info('IS_VERDIKJEDE is true, skipping token processing.');
 			return options;
 		}
 		try {
 			const token = req.headers.authorization.replace('Bearer ', '');
+			log.debug(`Validating token: ${token.substring(0, 10)}...`);
 			const validationResult = await validateToken(token);
-			console.log('Validation result:', validationResult);
+			log.info('Validation result:', validationResult);
 			const requestTime = Date.now();
 			options.headers[xTimestamp] = requestTime;
 			delete options.headers.cookie;
 
 			return new Promise((resolve, reject) => {
+				log.debug(`Requesting OBO token for scopes: ${api.scopes}`);
 				requestOboToken(token, api.scopes).then(
 					(obo) => {
 						if (!obo.ok) {
-							console.error('Error getting OBO token:', obo.error);
+							log.error('Error getting OBO token:', obo.error);
 							reject(obo.error);
 						}
 						options.headers.Authorization = `Bearer ${obo.token}`;
-						// Log the request details right before resolving
 						log.info(
 							`Sending request to ${api.url} with path ${req.originalUrl} at ${new Date(requestTime).toISOString()}`,
 						);
 						resolve(options);
 					},
 					(error) => {
-						console.error(error);
+						log.error('Error during OBO token request:', error);
 						reject(error);
 					},
 				);
 			});
 		} catch (error) {
-			console.error(error);
+			log.error('Error in proxyReqOptDecorator:', error);
 			throw error; // re-throw the error so it can be handled by the caller
 		}
 	},
@@ -52,10 +56,12 @@ const proxyOptions = (api) => ({
 		const urlFromRequest = url.parse(req.originalUrl);
 		let path = urlFromRequest.pathname;
 
+		log.debug(`Resolving proxy path for request: ${req.originalUrl}`);
+
 		const PROXY_CONFIG = configValueAsJson({ name: 'PROXY_CONFIG' });
-		// go through proxy config and replace the path
 		PROXY_CONFIG.apis.forEach((proxyEntry) => {
 			if (proxyEntry.backendPath !== undefined) {
+				log.debug(`Replacing path ${proxyEntry.path} with ${proxyEntry.backendPath}`);
 				path = path.replace(proxyEntry.path, proxyEntry.backendPath);
 			}
 		});
@@ -70,28 +76,29 @@ const proxyOptions = (api) => ({
 		const melding = `${statusCode} ${proxyRes.statusMessage}: ${userReq.method} - ${userReq.originalUrl} (${requestTime}ms)`;
 		const callIdValue = proxyReq.getHeader('Nav-Callid');
 		if (statusCode >= 500) {
-			log.logger.warn(melding, { 'Nav-Callid': callIdValue });
+			log.warn(melding, { 'Nav-Callid': callIdValue });
 		} else {
-			log.logger.info(melding, { 'Nav-Callid': callIdValue });
+			log.info(melding, { 'Nav-Callid': callIdValue });
 		}
 		return headers;
 	},
-	// eslint-disable-next-line consistent-return
 	proxyErrorHandler(err, res, next) {
-		console.error('proxy error', err);
+		log.error('Proxy error:', err);
 		switch (err && err.code) {
 			case 'ENOTFOUND': {
-				log.warning(`${err}, with code: ${err.code}`);
+				log.warn(`${err}, with code: ${err.code}`);
 				return res.status(404).send();
 			}
 			case 'ECONNRESET': {
+				log.warn('Connection reset error.');
 				return res.status(504).send();
 			}
 			case 'ECONNREFUSED': {
+				log.error('Connection refused.');
 				return res.status(500).send();
 			}
 			default: {
-				log.warning(`${err}, with code: ${err.code}`);
+				log.error(`Unhandled error: ${err}, code: ${err.code}`);
 				next(err);
 			}
 		}
@@ -103,14 +110,15 @@ const timedOut = function (req, res, next) {
 	if (!req.timedout) {
 		next();
 	} else {
-		log.warning(`Request for ${req.originalUrl} timed out!`);
+		log.warn(`Request for ${req.originalUrl} timed out!`);
 	}
 };
 
 const setup = (router) => {
+	log.info('Setting up proxies...');
 	config.reverseProxyConfig.apis.forEach((api) => {
 		router.use(`${api.path}/*`, timedOut, proxy(api.url, proxyOptions(api)));
-		console.log(`Proxy set up: ${api.path}/* -> ${api.url}`);
+		log.info(`Proxy set up: ${api.path}/* -> ${api.url}`);
 	});
 };
 
