@@ -19,6 +19,10 @@ observability:
     runtime: nodejs
     destinations:
       - id: "grafana-lgtm"
+  logging:
+    destinations:
+      - id: loki
+      - id: elastic
 
 env:
   #- name: OTEL_RESOURCE_ATTRIBUTES
