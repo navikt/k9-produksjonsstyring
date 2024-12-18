@@ -1,5 +1,5 @@
-import React, { Fragment, useState } from 'react';
-import { useQueries, useQuery } from 'react-query';
+import React, { useState } from 'react';
+import { useQueries } from 'react-query';
 import dayjs from 'dayjs';
 import { PlusCircleIcon } from '@navikt/aksel-icons';
 import { Button, Loader, Skeleton, Table } from '@navikt/ds-react';
@@ -31,8 +31,13 @@ const berikMedAntallOppgaverIndividuelt = (køArray: OppgavekøV3Enkel[]) => {
 		køArray.map((kø) => ({
 			queryKey: ['antallOppgaver', kø.id],
 			queryFn: async () => {
-				const { data } = await axiosInstance.get(apiPaths.antallOppgaverIKoV3(kø.id));
-				return { ...kø, ...data };
+				try {
+					const { data } = await axiosInstance.get(apiPaths.antallOppgaverIKoV3(kø.id));
+					return { ...kø, ...data };
+				} catch (error) {
+					console.error('Error fetching antallOppgaver', error);
+					return { ...kø };
+				}
 			},
 			enabled: !!køArray.length,
 		})),
