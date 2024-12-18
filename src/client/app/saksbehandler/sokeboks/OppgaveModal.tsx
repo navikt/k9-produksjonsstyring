@@ -1,11 +1,13 @@
 import React from 'react';
 import { BodyShort, Button, Modal } from '@navikt/ds-react';
+import NavAnsatt from 'app/navAnsattTsType';
+import { RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
 import {
 	useEndreReservasjoner,
-	useInnloggetSaksbehandler,
 	useOpphevReservasjoner,
 	useReserverOppgaveMutation,
 } from 'api/queries/saksbehandlerQueries';
+import { useGlobalStateRestApiData } from 'api/rest-api-hooks';
 import { SøkeboksOppgaveDto } from 'saksbehandler/sokeboks/SøkeboksOppgaveDto';
 import { modalInnhold } from 'saksbehandler/sokeboks/modal-innhold';
 
@@ -14,7 +16,8 @@ const åpneOppgave = (oppgave: SøkeboksOppgaveDto) => {
 };
 
 export function OppgaveModal(props: { oppgave: SøkeboksOppgaveDto; open: boolean; closeModal: () => void }) {
-	const { isFetched: isFetchedSaksbehandler, data: innloggetSaksbehandler } = useInnloggetSaksbehandler();
+	const innloggetSaksbehandler = useGlobalStateRestApiData<NavAnsatt>(RestApiGlobalStatePathsKeys.NAV_ANSATT);
+
 	const { isLoading: isLoadingEndreReservasjoner, mutate: endreReservasjoner } = useEndreReservasjoner(() =>
 		åpneOppgave(props.oppgave),
 	);
@@ -24,10 +27,6 @@ export function OppgaveModal(props: { oppgave: SøkeboksOppgaveDto; open: boolea
 	const { mutate: opphevReservasjoner, isLoading: isLoadingOpphevReservasjon } = useOpphevReservasjoner(
 		props.closeModal,
 	);
-
-	if (!isFetchedSaksbehandler) {
-		return null;
-	}
 
 	const { visÅpneOgReserverKnapp, visÅpneOgEndreReservasjonKnapp, visLeggTilbakeIKøKnapp, heading, modaltekst } =
 		modalInnhold(props.oppgave, innloggetSaksbehandler);
