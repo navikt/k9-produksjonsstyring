@@ -1,5 +1,5 @@
 import React, { Fragment, useState } from 'react';
-import { useQuery } from 'react-query';
+import { useQueries, useQuery } from 'react-query';
 import dayjs from 'dayjs';
 import { PlusCircleIcon } from '@navikt/aksel-icons';
 import { Button, Loader, Skeleton, Table } from '@navikt/ds-react';
@@ -26,25 +26,28 @@ function scrollToId(id: string) {
 	intervalId = setInterval(scroll, 100);
 }
 
-const berikMedAntallOppgaver = (køArray: OppgavekøV3Enkel[]) =>
-	useQuery(
-		['beriketAntallOppgaver', køArray],
-		async () => {
-			const requests = køArray.map(async (kø) => {
-				try {
-					const { data } = await axiosInstance.get(apiPaths.antallOppgaverIKoV3(kø.id));
-					return { ...kø, ...data };
-					// eslint-disable-next-line @typescript-eslint/no-unused-vars
-				} catch (error) {
-					return { ...kø };
-				}
-			});
-			return Promise.all(requests);
-		},
-		{
-			enabled: !!køArray,
-		},
+const berikMedAntallOppgaverIndividuelt = (køArray: OppgavekøV3Enkel[]) => {
+	const queries = useQueries(
+		køArray.map((kø) => ({
+			queryKey: ['antallOppgaver', kø.id],
+			queryFn: async () => {
+				const { data } = await axiosInstance.get(apiPaths.antallOppgaverIKoV3(kø.id));
+				return { ...kø, ...data };
+			},
+			enabled: !!køArray.length,
+		})),
 	);
+
+	const isSuccess = queries.every((query) => query.isSuccess);
+	const results = queries.map((query, index) => ({
+		...(køArray[index] || {}),
+		...query.data,
+		isLoading: query.isLoading,
+		isError: query.isError,
+	}));
+
+	return { results, isSuccess };
+};
 
 const Row = ({
 	kø,
@@ -82,11 +85,9 @@ const Row = ({
 );
 const BehandlingskoerIndex = () => {
 	const { data: initielleKøer, isLoading, error } = useAlleKoer();
-	const {
-		data: køerMedAntallOppgaver,
-		isLoading: isLoadingAntallOppgaver,
-		isSuccess: harHentetAntallOppgaver,
-	} = berikMedAntallOppgaver(initielleKøer);
+	const { results: køerMedAntallOppgaver, isSuccess: isSuccessAll } = berikMedAntallOppgaverIndividuelt(
+		initielleKøer || [],
+	);
 	const [visNyKøModal, setVisNyKøModal] = useState(false);
 	const [sort, setSort] = useState(null);
 	const [ekspanderteKøer, setEkspanderteKøer] = useState([]);
@@ -160,7 +161,7 @@ const BehandlingskoerIndex = () => {
 						<Table.ColumnHeader sortKey="antallSaksbehandlere" sortable scope="col">
 							Saksbehandlere
 						</Table.ColumnHeader>
-						<Table.ColumnHeader sortKey="antallUtenReserverte" sortable={harHentetAntallOppgaver} scope="col">
+						<Table.ColumnHeader sortKey="antallUtenReserverte" sortable={isSuccessAll} scope="col">
 							Antall oppgaver (med reserverte)
 						</Table.ColumnHeader>
 						<Table.ColumnHeader sortKey="sistEndret" sortable scope="col">
@@ -174,7 +175,7 @@ const BehandlingskoerIndex = () => {
 						<Row
 							key={kø.id}
 							kø={kø}
-							isLoadingAntallOppgaver={isLoadingAntallOppgaver}
+							isLoadingAntallOppgaver={kø.isLoading}
 							ekspandert={ekspanderteKøer.includes(kø.id)}
 							toggleExpand={() => toggleExpand(kø.id)}
 						/>
