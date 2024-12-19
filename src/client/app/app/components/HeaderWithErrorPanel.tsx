@@ -5,12 +5,11 @@ import Endringslogg from '@navikt/familie-endringslogg';
 import { BoxedListWithLinks, Header, Popover, SystemButton, UserPanel } from '@navikt/ft-plattform-komponenter';
 import DriftsmeldingPanel from 'app/components/DriftsmeldingPanel';
 import ErrorFormatter from 'app/feilhandtering/ErrorFormatter';
-import NavAnsatt from 'app/navAnsattTsType';
 import { RETTSKILDE_URL, SHAREPOINT_URL } from 'api/eksterneLenker';
 import useRestApiError from 'api/error/useRestApiError';
 import useRestApiErrorDispatcher from 'api/error/useRestApiErrorDispatcher';
-import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
-import { useGlobalStateRestApiData } from 'api/rest-api-hooks';
+import { K9LosApiKeys } from 'api/k9LosApi';
+import { useInnloggetSaksbehandler } from 'api/queries/saksbehandlerQueries';
 import useRestApi from 'api/rest-api-hooks/src/local-data/useRestApi';
 import { Driftsmelding } from '../../admin/driftsmeldinger/driftsmeldingTsType';
 import ErrorMessagePanel from './ErrorMessagePanel';
@@ -70,7 +69,7 @@ const HeaderWithErrorPanel: FunctionComponent<OwnProps> = ({ queryStrings, crash
 	const navigate = useNavigate();
 	const intl = useIntl();
 
-	const navAnsatt = useGlobalStateRestApiData<NavAnsatt>(RestApiGlobalStatePathsKeys.NAV_ANSATT);
+	const { data: navAnsatt } = useInnloggetSaksbehandler();
 	const { data: driftsmeldinger = [] } = useRestApi<Driftsmelding[]>(K9LosApiKeys.DRIFTSMELDINGER);
 
 	const errorMessages = useRestApiError() || [];

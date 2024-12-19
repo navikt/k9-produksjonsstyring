@@ -1,15 +1,13 @@
 import React, { FunctionComponent, useEffect } from 'react';
 import dayjs from 'dayjs';
 import { BodyShort, Button, Modal } from '@navikt/ds-react';
-import NavAnsatt from 'app/navAnsattTsType';
-import { RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
 import {
 	useEndreReservasjoner,
+	useInnloggetSaksbehandler,
 	useOpphevReservasjoner,
 	useReserverOppgaveMutation,
 	useSøk,
 } from 'api/queries/saksbehandlerQueries';
-import { useGlobalStateRestApiData } from 'api/rest-api-hooks';
 import Oppgave from 'saksbehandler/oppgaveTsType';
 import { getDateAndTime } from 'utils/dateUtils';
 
@@ -30,7 +28,7 @@ export const ValgtOppgaveModal: FunctionComponent<OwnProps> = ({ oppgave, setVal
 	const { mutate: reserverOppgave, isSuccess: harReservertNyOppgave } = useReserverOppgaveMutation();
 	const { mutate: opphevReservasjoner, isSuccess: harOpphevetReservasjon } = useOpphevReservasjoner();
 	const { reset: resetSøk } = useSøk();
-	const saksbehandler = useGlobalStateRestApiData<NavAnsatt>(RestApiGlobalStatePathsKeys.NAV_ANSATT);
+	const { data: saksbehandler } = useInnloggetSaksbehandler();
 
 	const onClose = () => setValgtOppgave(undefined);
 
