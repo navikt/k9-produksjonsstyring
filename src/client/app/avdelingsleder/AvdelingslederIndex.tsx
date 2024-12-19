@@ -15,10 +15,9 @@ import {
 import { BodyShort, Heading } from '@navikt/ds-react';
 import useTrackRouteParam from 'app/data/trackRouteParam';
 import { avdelingslederTilgangTilNyeKoer } from 'app/envVariablesUtils';
-import NavAnsatt from 'app/navAnsattTsType';
 import { getPanelLocationCreator } from 'app/paths';
-import { K9LosApiKeys, RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
-import useGlobalStateRestApiData from 'api/rest-api-hooks/src/global-data/useGlobalStateRestApiData';
+import { K9LosApiKeys } from 'api/k9LosApi';
+import { useInnloggetSaksbehandler } from 'api/queries/saksbehandlerQueries';
 import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner';
 import DagensTallPanel from 'avdelingsleder/dagensTall/DagensTallPanel';
 import ApneBehandlinger from 'avdelingsleder/dagensTall/apneBehandlingerTsType';
@@ -137,12 +136,12 @@ export const AvdelingslederIndex: FunctionComponent = () => {
 		return panelFromUrl.avdelingsleder ? panelFromUrl.avdelingsleder : AvdelingslederPanels.BEHANDLINGSKOER;
 	};
 
-	const { kanOppgavestyre } = useGlobalStateRestApiData<NavAnsatt>(RestApiGlobalStatePathsKeys.NAV_ANSATT);
+	const { data: innnloggetSaksbehandler } = useInnloggetSaksbehandler();
 
 	const getAvdelingslederPanelLocation = getPanelLocationCreator(location);
 	const activeAvdelingslederPanel = activeAvdelingslederPanelTemp || getPanelFromUrlOrDefault(location);
 
-	if (!kanOppgavestyre) {
+	if (!innnloggetSaksbehandler.kanOppgavestyre) {
 		return <IkkeTilgangTilAvdelingslederPanel />;
 	}
 
