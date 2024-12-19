@@ -8,6 +8,7 @@ type NavAnsatt = Readonly<{
 	kanReservere: boolean;
 	funksjonellTid: string;
 	kanDrifte: boolean;
+	finnesISaksbehandlerTabell: boolean;
 }>;
 
 export default NavAnsatt;

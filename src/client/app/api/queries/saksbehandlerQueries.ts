@@ -15,7 +15,12 @@ import { OppgavekøV3Enkel } from 'types/OppgavekøV3Type';
 import { axiosInstance } from 'utils/reactQueryConfig';
 
 export const useInnloggetSaksbehandler = (options: UseQueryOptions<NavAnsatt, Error> = {}) =>
-	useQuery(apiPaths.saksbehandler, options);
+	useQuery(apiPaths.saksbehandler, {
+		...options,
+		staleTime: Infinity,
+		cacheTime: Infinity,
+		refetchOnWindowFocus: false,
+	});
 export const useGetAlleSaksbehandlere = (options: UseQueryOptions<SaksbehandlerEnkel[], Error> = {}) =>
 	useQuery<SaksbehandlerEnkel[], Error>(apiPaths.hentSaksbehandlereSomSaksbehandler, options);
 

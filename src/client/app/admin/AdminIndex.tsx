@@ -9,6 +9,7 @@ import useTrackRouteParam from 'app/data/trackRouteParam';
 import NavAnsatt from 'app/navAnsattTsType';
 import { getPanelLocationCreator } from 'app/paths';
 import { RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
+import { useInnloggetSaksbehandler } from 'api/queries/saksbehandlerQueries';
 import useGlobalStateRestApiData from 'api/rest-api-hooks/src/global-data/useGlobalStateRestApiData';
 import LoadingPanel from 'sharedComponents/LoadingPanel';
 import { parseQueryString } from 'utils/urlUtils';
@@ -65,9 +66,9 @@ export const AdminIndex: FunctionComponent = () => {
 	const getDriftsmeldingerPanelLocation = getPanelLocationCreator(location);
 	const activePanel = activePanelTemp || hentPanelFromUrlOrDefault(location);
 
-	const { kanDrifte } = useGlobalStateRestApiData<NavAnsatt>(RestApiGlobalStatePathsKeys.NAV_ANSATT);
+	const { data: saksbehandler } = useInnloggetSaksbehandler();
 
-	if (!kanDrifte) {
+	if (!saksbehandler.kanDrifte) {
 		return <IkkeTilgangTilAvdelingslederPanel />;
 	}
 	if (activePanel) {

@@ -1,6 +1,7 @@
 import React, { FunctionComponent, ReactElement, useEffect } from 'react';
 import useRestApiErrorDispatcher from 'api/error/useRestApiErrorDispatcher';
 import { RestApiGlobalStatePathsKeys, k9LosApi } from 'api/k9LosApi';
+import { useInnloggetSaksbehandler } from 'api/queries/saksbehandlerQueries';
 import { useGlobalStateRestApi } from 'api/rest-api-hooks';
 import RestApiState from 'api/rest-api-hooks/src/RestApiState';
 import LoadingPanel from 'sharedComponents/LoadingPanel';
@@ -15,26 +16,32 @@ const AppConfigResolver: FunctionComponent<OwnProps> = ({ children }) => {
 		k9LosApi().setAddErrorMessageHandler(addErrorMessage);
 	}, []);
 
-	const { state: stateNavAnsatt } = useGlobalStateRestApi(RestApiGlobalStatePathsKeys.NAV_ANSATT);
+	const {
+		data: innloggetSaksbehandler,
+		isSuccess: harHentetInnloggetSaksbehandler,
+		isLoading: isLoadingSaksbehandler,
+	} = useInnloggetSaksbehandler();
+
 	const { state: stateK9sakUrl } = useGlobalStateRestApi(RestApiGlobalStatePathsKeys.K9SAK_URL, undefined, {
-		suspendRequest: stateNavAnsatt !== RestApiState.SUCCESS,
-		updateTriggers: [stateNavAnsatt],
+		suspendRequest: !harHentetInnloggetSaksbehandler,
+		updateTriggers: [innloggetSaksbehandler],
 	});
 	const { state: stateKodeverk } = useGlobalStateRestApi(RestApiGlobalStatePathsKeys.KODEVERK, undefined, {
-		suspendRequest: stateNavAnsatt !== RestApiState.SUCCESS,
-		updateTriggers: [stateNavAnsatt],
+		suspendRequest: !harHentetInnloggetSaksbehandler,
+		updateTriggers: [innloggetSaksbehandler],
 	});
 	const { state: stateSseUrl } = useGlobalStateRestApi(RestApiGlobalStatePathsKeys.REFRESH_URL, undefined, {
-		suspendRequest: stateNavAnsatt !== RestApiState.SUCCESS,
-		updateTriggers: [stateNavAnsatt],
+		suspendRequest: !harHentetInnloggetSaksbehandler,
+		updateTriggers: [innloggetSaksbehandler],
 	});
 	const { state: stateK9punsjUrl } = useGlobalStateRestApi(RestApiGlobalStatePathsKeys.PUNSJ_URL, undefined, {
-		suspendRequest: stateNavAnsatt !== RestApiState.SUCCESS,
-		updateTriggers: [stateNavAnsatt],
+		suspendRequest: !harHentetInnloggetSaksbehandler,
+		updateTriggers: [innloggetSaksbehandler],
 	});
 
 	if (
-		[stateK9sakUrl, stateNavAnsatt, stateKodeverk, stateSseUrl, stateK9punsjUrl].some((v) => v === RestApiState.LOADING)
+		isLoadingSaksbehandler ||
+		[stateK9sakUrl, stateKodeverk, stateSseUrl, stateK9punsjUrl].some((v) => v === RestApiState.LOADING)
 	) {
 		return <LoadingPanel />;
 	}

@@ -14,7 +14,8 @@ const åpneOppgave = (oppgave: SøkeboksOppgaveDto) => {
 };
 
 export function OppgaveModal(props: { oppgave: SøkeboksOppgaveDto; open: boolean; closeModal: () => void }) {
-	const { isFetched: isFetchedSaksbehandler, data: innloggetSaksbehandler } = useInnloggetSaksbehandler();
+	const { data: innloggetSaksbehandler } = useInnloggetSaksbehandler();
+
 	const { isLoading: isLoadingEndreReservasjoner, mutate: endreReservasjoner } = useEndreReservasjoner(() =>
 		åpneOppgave(props.oppgave),
 	);
@@ -24,10 +25,6 @@ export function OppgaveModal(props: { oppgave: SøkeboksOppgaveDto; open: boolea
 	const { mutate: opphevReservasjoner, isLoading: isLoadingOpphevReservasjon } = useOpphevReservasjoner(
 		props.closeModal,
 	);
-
-	if (!isFetchedSaksbehandler) {
-		return null;
-	}
 
 	const { visÅpneOgReserverKnapp, visÅpneOgEndreReservasjonKnapp, visLeggTilbakeIKøKnapp, heading, modaltekst } =
 		modalInnhold(props.oppgave, innloggetSaksbehandler);

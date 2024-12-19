@@ -1,7 +1,5 @@
 import React from 'react';
-import NavAnsatt from 'app/navAnsattTsType';
-import { RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
-import useGlobalStateRestApiData from 'api/rest-api-hooks/src/global-data/useGlobalStateRestApiData';
+import { useInnloggetSaksbehandler } from 'api/queries/saksbehandlerQueries';
 import IkkeTilgangTilAvdelingslederPanel from 'avdelingsleder/components/IkkeTilgangTilAvdelingslederPanel';
 import SaksbehandlerDashboard from './components/SaksbehandlerDashboard';
 
@@ -10,8 +8,8 @@ import SaksbehandlerDashboard from './components/SaksbehandlerDashboard';
  */
 
 const SaksbehandlerIndex = () => {
-	const { kanSaksbehandle } = useGlobalStateRestApiData<NavAnsatt>(RestApiGlobalStatePathsKeys.NAV_ANSATT);
-	if (!kanSaksbehandle) {
+	const { data: saksbehandler } = useInnloggetSaksbehandler();
+	if (!saksbehandler.kanSaksbehandle) {
 		return <IkkeTilgangTilAvdelingslederPanel />;
 	}
 	return <SaksbehandlerDashboard />;
