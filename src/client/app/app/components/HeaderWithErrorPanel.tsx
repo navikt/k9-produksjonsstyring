@@ -69,7 +69,7 @@ const HeaderWithErrorPanel: FunctionComponent<OwnProps> = ({ queryStrings, crash
 	const navigate = useNavigate();
 	const intl = useIntl();
 
-	const { data: navAnsatt } = useInnloggetSaksbehandler();
+	const { data: innloggetSaksbehandler } = useInnloggetSaksbehandler();
 	const { data: driftsmeldinger = [] } = useRestApi<Driftsmelding[]>(K9LosApiKeys.DRIFTSMELDINGER);
 
 	const errorMessages = useRestApiError() || [];
@@ -85,7 +85,7 @@ const HeaderWithErrorPanel: FunctionComponent<OwnProps> = ({ queryStrings, crash
 		setLenkePanelApent,
 		setAvdelingerPanelApent,
 	);
-	const brukerPanel = <UserPanel name={navAnsatt.navn} />;
+	const brukerPanel = <UserPanel name={innloggetSaksbehandler?.navn} />;
 	const fixedHeaderRef = useRef(null);
 
 	const goTilAvdelingslederPanel = () => {
@@ -108,20 +108,20 @@ const HeaderWithErrorPanel: FunctionComponent<OwnProps> = ({ queryStrings, crash
 	};
 
 	const visAvdelingslederKnapp = (): boolean => {
-		if (!navAnsatt.kanOppgavestyre) {
+		if (!innloggetSaksbehandler?.kanOppgavestyre) {
 			return false;
 		}
-		if (navAnsatt.kanOppgavestyre && window.location.href.includes('avdelingsleder')) {
+		if (innloggetSaksbehandler?.kanOppgavestyre && window.location.href.includes('avdelingsleder')) {
 			return false;
 		}
 		return true;
 	};
 
 	const visAdminKnapp = (): boolean => {
-		if (!navAnsatt.kanDrifte) {
+		if (!innloggetSaksbehandler?.kanDrifte) {
 			return false;
 		}
-		if (navAnsatt.kanDrifte && window.location.href.includes('admin')) {
+		if (innloggetSaksbehandler?.kanDrifte && window.location.href.includes('admin')) {
 			return false;
 		}
 		return true;
@@ -186,10 +186,10 @@ const HeaderWithErrorPanel: FunctionComponent<OwnProps> = ({ queryStrings, crash
             https://github.com/navikt/familie-endringslogg
             For å nå backend lokalt må man være tilkoblet naisdevice og kjøre opp k9-sak-web på port 8000 pga CORS
             */}
-					{navAnsatt?.brukerIdent && window.location.hostname.includes('nav') && (
+					{innloggetSaksbehandler?.brukerIdent && window.location.hostname.includes('nav') && (
 						<div className={styles['endringslogg-container']}>
 							<Endringslogg
-								userId={navAnsatt.brukerIdent}
+								userId={innloggetSaksbehandler?.brukerIdent}
 								appId="K9_SAK"
 								appName="K9 Sak"
 								backendUrl={
