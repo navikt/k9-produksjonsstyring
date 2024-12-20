@@ -1,11 +1,13 @@
 import React from 'react';
 import { BodyShort, Button, Modal } from '@navikt/ds-react';
+import { K9LosApiKeys } from 'api/k9LosApi';
 import {
 	useEndreReservasjoner,
 	useInnloggetSaksbehandler,
 	useOpphevReservasjoner,
 	useReserverOppgaveMutation,
 } from 'api/queries/saksbehandlerQueries';
+import { useRestApiRunner } from 'api/rest-api-hooks';
 import { SøkeboksOppgaveDto } from 'saksbehandler/sokeboks/SøkeboksOppgaveDto';
 import { modalInnhold } from 'saksbehandler/sokeboks/modal-innhold';
 
@@ -15,12 +17,14 @@ const åpneOppgave = (oppgave: SøkeboksOppgaveDto) => {
 
 export function OppgaveModal(props: { oppgave: SøkeboksOppgaveDto; open: boolean; closeModal: () => void }) {
 	const { data: innloggetSaksbehandler } = useInnloggetSaksbehandler();
-
+	const { startRequest: leggTilBehandletOppgave } = useRestApiRunner(K9LosApiKeys.LEGG_TIL_BEHANDLET_OPPGAVE);
+	const leggTilBehandletOgÅpneOppgave = () =>
+		leggTilBehandletOppgave(props.oppgave.oppgaveNøkkel).then(() => åpneOppgave(props.oppgave));
 	const { isLoading: isLoadingEndreReservasjoner, mutate: endreReservasjoner } = useEndreReservasjoner(() =>
-		åpneOppgave(props.oppgave),
+		leggTilBehandletOgÅpneOppgave(),
 	);
 	const { mutate: reserverOppgave, isLoading: isLoadingReserverOppgave } = useReserverOppgaveMutation(() =>
-		åpneOppgave(props.oppgave),
+		leggTilBehandletOgÅpneOppgave(),
 	);
 	const { mutate: opphevReservasjoner, isLoading: isLoadingOpphevReservasjon } = useOpphevReservasjoner(
 		props.closeModal,
@@ -36,7 +40,7 @@ export function OppgaveModal(props: { oppgave: SøkeboksOppgaveDto; open: boolea
 				<BodyShort>Hva ønsker du å gjøre med oppgaven?</BodyShort>
 			</Modal.Body>
 			<Modal.Footer>
-				<Button type="button" onClick={() => åpneOppgave(props.oppgave)}>
+				<Button type="button" onClick={leggTilBehandletOgÅpneOppgave}>
 					Åpne oppgave
 				</Button>
 				{visÅpneOgReserverKnapp && (
