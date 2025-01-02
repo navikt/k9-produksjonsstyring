@@ -9,7 +9,7 @@ jobs:
       - name: Slash command dispatch
         uses: peter-evans/slash-command-dispatch@v4
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.GH_SSO_REPO_TOKEN }}
           commands: promote
           issue-type: issue
           allow-edits: true
