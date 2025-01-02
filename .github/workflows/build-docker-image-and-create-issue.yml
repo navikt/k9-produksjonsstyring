@@ -123,7 +123,6 @@ jobs:
       tag: ${{ needs.build-and-deploy.outputs.image_version }}
       suites: 'frontend-los'
       image_version: ${{ needs.build-and-deploy.outputs.image_version}}
-  
 
   deploy-prod:
     name: Deploy prod
@@ -137,7 +136,8 @@ jobs:
       gar: true
       image: ${{ needs.build-and-deploy.outputs.image_version }}
       cluster: prod-gcp
-      naiserator_file: nais/prod-gcp.yml
+      naiserator_file: nais/k9-los-web.yml
+      input_vars_file: nais/prod-gcp.yml
     secrets: inherit
 
   trivy:
