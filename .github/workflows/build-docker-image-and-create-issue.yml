@@ -123,22 +123,6 @@ jobs:
       tag: ${{ needs.build-and-deploy.outputs.image_version }}
       suites: 'frontend-los'
       image_version: ${{ needs.build-and-deploy.outputs.image_version}}
-  
-
-  deploy-prod:
-    name: Deploy prod
-    permissions:
-      id-token: write
-      contents: write
-    if: github.ref_name == 'master'
-    needs: [verdikjede-tester, build-and-deploy]
-    uses: navikt/sif-gha-workflows/.github/workflows/maven-deploy.yml@main
-    with:
-      gar: true
-      image: ${{ needs.build-and-deploy.outputs.image_version }}
-      cluster: prod-gcp
-      naiserator_file: nais/prod-gcp.yml
-    secrets: inherit
 
   trivy:
     needs: [build-and-deploy]
