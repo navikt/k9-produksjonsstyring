@@ -22,7 +22,7 @@ jobs:
       issues: write
     outputs:
       image: ${{ steps.docker-push.outputs.image }}
-      image_version: ${{ env.DOCKER_METADATA_OUTPUT_VERSION }}
+      image_version: ${{ steps.docker-push.outputs.image_version }}
     steps:
       - name: Hente kode
         uses: actions/checkout@v4
@@ -94,7 +94,7 @@ jobs:
               repo: context.issue.repo,
               labels: ['deployment'],
               body: 'Kommenter enten "/promote dev-gcp" eller "/promote prod-gcp" for å deploye ${{ github.sha }}',
-              title: 'Deploy av ${{ env.DOCKER_METADATA_OUTPUT_VERSION }}'})
+              title: 'Deploy av ${{ steps.docker-push.outputs.image_version }}'})
             .then(response => {
                     core.setOutput('number', response.data.number);
             });
@@ -123,7 +123,6 @@ jobs:
       tag: ${{ needs.build-and-deploy.outputs.image_version }}
       suites: 'frontend-los'
       image_version: ${{ needs.build-and-deploy.outputs.image_version}}
-
   deploy-prod:
     name: Deploy prod
     permissions:
