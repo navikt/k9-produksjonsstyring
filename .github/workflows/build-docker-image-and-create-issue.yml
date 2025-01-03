@@ -109,7 +109,7 @@ jobs:
 
       - name: Tag commit with dev
         if: success()
-        uses: navikt/sif-gha-workflows/.github/actions/create-or-update-tag@add402a80fad22c539cdd2cf246bb5d8e47973c7
+        uses: navikt/sif-gha-workflows/.github/actions/create-or-update-tag@1e3a7b63ba433e72ac680dbb3a2209eb8bf4c423
         with:
           tag: testolini
           sha: ${{ github.sha }}
