@@ -1,4 +1,4 @@
-name: Build docker image and create issue
+name: Build and deploy
 on:
   push:
     paths-ignore:
@@ -17,12 +17,12 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       actions: read
-      contents: read
+      contents: write
       id-token: write
       issues: write
     outputs:
       image: ${{ steps.docker-push.outputs.image }}
-      image_version: ${{ env.DOCKER_METADATA_OUTPUT_VERSION }}
+      image_version: ${{ steps.docker-push.outputs.tag }}
     steps:
       - name: Hente kode
         uses: actions/checkout@v4
@@ -61,54 +61,22 @@ jobs:
           project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
           identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
 
-      - name: Lukk gamle issues
-        uses: actions/github-script@v7
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            github.rest.issues.listForRepo({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              state: 'open',
-              labels: ['deployment']
-            }).then(response => {
-              response.data.forEach(issue => {
-                github.rest.issues.update({
-                  owner: context.repo.owner,
-                  repo: context.repo.repo,
-                  issue_number: issue.number,
-                  state: 'closed'
-                });
-              });
-            });
+      - name: Deploy k9-los-web til dev
+        uses: nais/deploy/actions/deploy@v2
+        env:
+          PRINT_PAYLOAD: true
+          CLUSTER: dev-gcp
+          IMAGE: ${{ steps.docker-push.outputs.image }}
+          RESOURCE: nais/k9-los-web.yml
+          VARS: nais/dev-gcp.yml
 
-      - name: Opprett deployment issue
-        id: createdeployissue
+      - name: Tag commit with dev
         if: success()
-        uses: actions/github-script@v7
+        uses: navikt/sif-gha-workflows/.github/actions/create-or-update-tag@main
         with:
-          github-token: ${{secrets.GITHUB_TOKEN}}
-          script: |
-            github.rest.issues.create( {
-              owner: context.issue.owner,
-              repo: context.issue.repo,
-              labels: ['deployment'],
-              body: 'Kommenter enten "/promote dev-gcp" eller "/promote prod-gcp" for å deploye ${{ github.sha }}',
-              title: 'Deploy av ${{ env.DOCKER_METADATA_OUTPUT_VERSION }}'})
-            .then(response => {
-                    core.setOutput('number', response.data.number);
-            });
-
-      - name: Trigg deploy til dev-gcp
-        if: success()
-        uses: actions/github-script@v7
-        with:
-          github-token: ${{secrets.GH_SSO_REPO_TOKEN}}
-          script: |
-            const issue = { owner: context.issue.owner,
-                            repo: context.issue.repo,
-                            issue_number: ${{ steps.createdeployissue.outputs.number }} }
-            github.rest.issues.createComment({...issue, body: '/promote dev-gcp'})
+          tag: dev
+          sha: ${{ github.sha }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
 
   verdikjede-tester:
     name: Verdikjedetester
@@ -123,6 +91,51 @@ jobs:
       tag: ${{ needs.build-and-deploy.outputs.image_version }}
       suites: 'frontend-los'
       image_version: ${{ needs.build-and-deploy.outputs.image_version}}
+
+  compare-url-prod:
+    name: Compare URL
+    permissions:
+      id-token: write
+      contents: write
+    if: github.ref_name == 'master'
+    needs: [verdikjede-tester, build-and-deploy]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Compare URL
+        id: compare
+        uses: navikt/sif-gha-workflows/.github/actions/compare-commits@main
+        with:
+          base_commit: prod
+          newest_commit: ${{ github.sha }}
+
+  deploy-prod:
+    name: Deploy prod
+    permissions:
+      id-token: write
+      contents: write
+    if: github.ref_name == 'master'
+    environment: prod-gcp:k9saksbehandling
+    concurrency: prod-gcp:k9saksbehandling
+    needs: [verdikjede-tester, build-and-deploy, compare-url-prod]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Hente kode
+        uses: actions/checkout@v4
+      - name: Deploy k9-los-web til prod
+        uses: nais/deploy/actions/deploy@v2
+        env:
+          PRINT_PAYLOAD: true
+          CLUSTER: prod-gcp
+          IMAGE: ${{ needs.build-and-deploy.outputs.image }}
+          RESOURCE: nais/k9-los-web.yml
+          VARS: nais/prod-gcp.yml
+      - name: Tag commit with prod
+        uses: navikt/sif-gha-workflows/.github/actions/create-or-update-tag@main
+        if: success()
+        with:
+          tag: prod
+          sha: ${{ github.sha }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
 
   trivy:
     needs: [build-and-deploy]
