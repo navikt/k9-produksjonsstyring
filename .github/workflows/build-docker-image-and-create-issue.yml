@@ -97,18 +97,15 @@ jobs:
               title: 'Deploy av ${{ steps.docker-push.outputs.tag }}'})
             .then(response => {
                     core.setOutput('number', response.data.number);
-            });
-
-      - name: Trigg deploy til dev-gcp
-        if: success()
-        uses: actions/github-script@v7
-        with:
-          github-token: ${{secrets.GH_SSO_REPO_TOKEN}}
-          script: |
-            const issue = { owner: context.issue.owner,
-                            repo: context.issue.repo,
-                            issue_number: ${{ steps.createdeployissue.outputs.number }} }
-            github.rest.issues.createComment({...issue, body: '/promote dev-gcp'})
+              });
+      - name: Deploy k9-los-web til dev
+        uses: nais/deploy/actions/deploy@v2
+        env:
+          PRINT_PAYLOAD: true
+          CLUSTER: dev-gcp
+          IMAGE: ${{ steps.docker-push.outputs.image }}
+          RESOURCE: nais/k9-los-web.yml
+          VARS: nais/dev-gcp.yml
 
       - name: Tag commit with dev
         if: success()
@@ -146,12 +143,13 @@ jobs:
         uses: navikt/sif-gha-workflows/.github/actions/compare-commits@4d9fdfa4ad0e3dae05564f634c2407890eb05df4
         with:
           base_commit: prod
-          newest_commit: ${{ needs.verdikjede-tester.outputs.image_version }}
+          newest_commit: ${{ github.sha }}
       - name: Deploy k9-los-web til prod
         uses: nais/deploy/actions/deploy@v2
         env:
           PRINT_PAYLOAD: true
           CLUSTER: prod-gcp
+          IMAGE: ${{ needs.build-and-deploy.outputs.image }}
           RESOURCE: nais/k9-los-web.yml
           VARS: nais/prod-gcp.yml
       - name: Tag commit with prod
