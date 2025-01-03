@@ -109,7 +109,7 @@ jobs:
 
       - name: Tag commit with dev
         if: success()
-        uses: navikt/sif-gha-workflows/.github/actions/create-or-update-tag@4d9fdfa4ad0e3dae05564f634c2407890eb05df4
+        uses: navikt/sif-gha-workflows/.github/actions/create-or-update-tag@95657eae7719b700de820924957198d903e192a1
         with:
           tag: dev
           sha: ${{ github.sha }}
@@ -140,7 +140,7 @@ jobs:
     steps:
       - name: Compare URL
         id: compare
-        uses: navikt/sif-gha-workflows/.github/actions/compare-commits@4d9fdfa4ad0e3dae05564f634c2407890eb05df4
+        uses: navikt/sif-gha-workflows/.github/actions/compare-commits@95657eae7719b700de820924957198d903e192a1
         with:
           base_commit: prod
           newest_commit: ${{ github.sha }}
@@ -153,7 +153,7 @@ jobs:
           RESOURCE: nais/k9-los-web.yml
           VARS: nais/prod-gcp.yml
       - name: Tag commit with prod
-        uses: navikt/sif-gha-workflows/.github/actions/create-or-update-tag@4d9fdfa4ad0e3dae05564f634c2407890eb05df4
+        uses: navikt/sif-gha-workflows/.github/actions/create-or-update-tag@95657eae7719b700de820924957198d903e192a1
         if: success()
         with:
           tag: prod
