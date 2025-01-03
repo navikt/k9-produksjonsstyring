@@ -112,7 +112,7 @@ jobs:
 
       - name: Tag commit with dev
         if: success()
-        uses: navikt/sif-gha-workflows/.github/actions/create-or-update-tag@a9b1e44e03972b82165bc168152465393979277a
+        uses: navikt/sif-gha-workflows/.github/actions/create-or-update-tag@1a1afd7ba78e34d4d1f39a31acd17d0fbc906774
         with:
           tag: dev
           sha: ${{ github.sha }}
