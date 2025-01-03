@@ -112,7 +112,7 @@ jobs:
 
       - name: Tag commit with dev
         if: success()
-        uses: navikt/sif-gha-workflows/.github/actions/create-or-update-tag@560f3ec97c03982e08037bc5e6566a9ee37b96d5
+        uses: navikt/sif-gha-workflows/.github/actions/create-or-update-tag@0e784c2df7b5d97e0a16398a3241e11063d2ddb3
         with:
           tag: dev
           image_name: ${{ steps.docker-push.outputs.image_version }}
