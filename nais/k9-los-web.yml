@@ -42,13 +42,6 @@ spec:
       {{#each outboundExternalHosts as |host|}}
        - host: {{host}}
       {{/each}}
-  resources:
-    limits:
-      cpu: 500m
-      memory: 128Mi
-    requests:
-      cpu: 200m
-      memory: 32Mi
   frontend:
     generatedConfig:
       mountPath: /app/dist/public/nais.js

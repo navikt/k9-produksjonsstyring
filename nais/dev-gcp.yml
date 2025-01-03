@@ -14,7 +14,6 @@ proxyRedirects:
     backendPath: "/forvaltning"
 resources:
   limits:
-    cpu: 500m
     memory: 200Mi
   requests:
     cpu: 10m
