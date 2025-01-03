@@ -74,7 +74,7 @@ jobs:
         if: success()
         uses: navikt/sif-gha-workflows/.github/actions/create-or-update-tag@main
         with:
-          tag: testolini
+          tag: dev
           sha: ${{ github.sha }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
