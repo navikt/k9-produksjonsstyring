@@ -112,7 +112,7 @@ jobs:
 
       - name: Tag commit with dev
         if: success()
-        uses: navikt/sif-gha-workflows/.github/actions/create-or-update-tag@cadf2178181e0f03f82e253eb7506be7f3a05cd4
+        uses: navikt/sif-gha-workflows/.github/actions/create-or-update-tag@4d9fdfa4ad0e3dae05564f634c2407890eb05df4
         with:
           tag: dev
           sha: ${{ github.sha }}
@@ -139,14 +139,28 @@ jobs:
       contents: write
     if: github.ref_name == 'master'
     needs: [verdikjede-tester, build-and-deploy]
-    uses: navikt/sif-gha-workflows/.github/workflows/maven-deploy.yml@main
-    with:
-      gar: true
-      image: ${{ needs.build-and-deploy.outputs.image_version }}
-      cluster: prod-gcp
-      naiserator_file: nais/k9-los-web.yml
-      input_vars_file: nais/prod-gcp.yml
-    secrets: inherit
+    runs-on: ubuntu-latest
+    steps:
+      - name: Compare URL
+        id: compare
+        uses: navikt/sif-gha-workflows/.github/actions/compare-commits@4d9fdfa4ad0e3dae05564f634c2407890eb05df4
+        with:
+          base_commit: prod
+          newest_commit: ${{ needs.verdikjede-tester.outputs.image_version }}
+      - name: Deploy k9-los-web til prod
+        uses: nais/deploy/actions/deploy@v2
+        env:
+          PRINT_PAYLOAD: true
+          CLUSTER: prod-gcp
+          RESOURCE: nais/k9-los-web.yml
+          VARS: nais/prod-gcp.yml
+      - name: Tag commit with prod
+        uses: navikt/sif-gha-workflows/.github/actions/create-or-update-tag@4d9fdfa4ad0e3dae05564f634c2407890eb05df4
+        if: success()
+        with:
+          tag: prod
+          sha: ${{ github.sha }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
 
   trivy:
     needs: [build-and-deploy]
