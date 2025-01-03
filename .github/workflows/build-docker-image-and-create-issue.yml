@@ -22,7 +22,7 @@ jobs:
       issues: write
     outputs:
       image: ${{ steps.docker-push.outputs.image }}
-      image_version: ${{ env.DOCKER_METADATA_OUTPUT_VERSION }}
+      image_version: ${{ steps.docker-push.outputs.tag }}
     steps:
       - name: Hente kode
         uses: actions/checkout@v4
@@ -94,7 +94,7 @@ jobs:
               repo: context.issue.repo,
               labels: ['deployment'],
               body: 'Kommenter enten "/promote dev-gcp" eller "/promote prod-gcp" for å deploye ${{ github.sha }}',
-              title: 'Deploy av ${{ env.DOCKER_METADATA_OUTPUT_VERSION }}'})
+              title: 'Deploy av ${{ steps.docker-push.outputs.tag }}'})
             .then(response => {
                     core.setOutput('number', response.data.number);
             });
@@ -115,7 +115,7 @@ jobs:
         uses: navikt/sif-gha-workflows/.github/actions/create-or-update-tag@0e784c2df7b5d97e0a16398a3241e11063d2ddb3
         with:
           tag: dev
-          image_name: ${{ steps.docker-push.outputs.image_version }}
+          image_name: ${{ steps.docker-push.outputs.tag }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
   verdikjede-tester:
@@ -132,6 +132,7 @@ jobs:
       suites: 'frontend-los'
       image_version: ${{ needs.build-and-deploy.outputs.image_version}}
 
+  
   deploy-prod:
     name: Deploy prod
     permissions:
