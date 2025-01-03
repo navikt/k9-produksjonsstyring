@@ -60,7 +60,7 @@ jobs:
           team: k9saksbehandling
           project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
           identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
-      
+
       - name: Lukk gamle issues
         uses: actions/github-script@v7
         with:
@@ -112,10 +112,10 @@ jobs:
 
       - name: Tag commit with dev
         if: success()
-        uses: navikt/sif-gha-workflows/.github/actions/create-or-update-tag@0e784c2df7b5d97e0a16398a3241e11063d2ddb3
+        uses: navikt/sif-gha-workflows/.github/actions/create-or-update-tag@a9b1e44e03972b82165bc168152465393979277a
         with:
           tag: dev
-          image_name: ${{ steps.docker-push.outputs.tag }}
+          sha: ${{ github.sha }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
   verdikjede-tester:
@@ -132,7 +132,6 @@ jobs:
       suites: 'frontend-los'
       image_version: ${{ needs.build-and-deploy.outputs.image_version}}
 
-  
   deploy-prod:
     name: Deploy prod
     permissions:
