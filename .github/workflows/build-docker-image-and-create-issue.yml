@@ -24,6 +24,13 @@ jobs:
       image: ${{ steps.docker-push.outputs.image }}
       image_version: ${{ steps.docker-push.outputs.tag }}
     steps:
+      - name: Tag commit with dev TEST
+        if: success()
+        uses: navikt/sif-gha-workflows/.github/actions/create-or-update-tag@71b94b3a9365691269e5ff06465f02dd817b5388
+        with:
+          tag: testolini
+          sha: ${{ github.sha }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
       - name: Hente kode
         uses: actions/checkout@v4
       - name: Sette yarn-config
@@ -109,7 +116,7 @@ jobs:
 
       - name: Tag commit with dev
         if: success()
-        uses: navikt/sif-gha-workflows/.github/actions/create-or-update-tag@1e3a7b63ba433e72ac680dbb3a2209eb8bf4c423
+        uses: navikt/sif-gha-workflows/.github/actions/create-or-update-tag@71b94b3a9365691269e5ff06465f02dd817b5388
         with:
           tag: testolini
           sha: ${{ github.sha }}
