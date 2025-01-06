@@ -1,6 +1,9 @@
 import React from 'react';
 import { FormattedDate } from 'react-intl';
-import PropTypes from 'prop-types';
+
+interface DateLabelProps {
+	dateString: string;
+}
 
 /**
  * DateLabel
@@ -12,12 +15,8 @@ import PropTypes from 'prop-types';
  * <DateLabel dateString="2017-08-31" />
  * ```
  */
-const DateLabel = ({ dateString }) => (
+const DateLabel = ({ dateString }: DateLabelProps) => (
 	<FormattedDate day="2-digit" month="2-digit" year="numeric" value={new Date(dateString)} />
 );
-
-DateLabel.propTypes = {
-	dateString: PropTypes.string.isRequired,
-};
 
 export default DateLabel;

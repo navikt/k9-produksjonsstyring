@@ -1,6 +1,5 @@
 import React from 'react';
 import classnames from 'classnames/bind';
-import PropTypes from 'prop-types';
 import * as styles from './tableRow.css';
 
 const classNames = classnames.bind(styles);
@@ -31,6 +30,23 @@ const createKeyHandler = (onKeyDown, id, model) => (e) => {
 	}
 };
 
+interface TableRowProps {
+	id?: number | string;
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	model?: any;
+	isHeader?: boolean;
+	onMouseDown?(...args: unknown[]): unknown;
+	onKeyDown?(...args: unknown[]): unknown;
+	children: React.ReactNode;
+	noHover?: boolean;
+	isSelected?: boolean;
+	isBold?: boolean;
+	isDashedBottomBorder?: boolean;
+	isSolidBottomBorder?: boolean;
+	isApLeftBorder?: boolean;
+	className?: string;
+}
+
 /**
  * TableRow
  * @deprecated
@@ -50,7 +66,7 @@ const TableRow = ({
 	isSolidBottomBorder,
 	isApLeftBorder,
 	className,
-}) => (
+}: TableRowProps) => (
 	<tr
 		className={classNames(className, {
 			rowHeader: isHeader,
@@ -68,21 +84,5 @@ const TableRow = ({
 		{children}
 	</tr>
 );
-
-TableRow.propTypes = {
-	id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-	model: PropTypes.shape({}),
-	isHeader: PropTypes.bool,
-	onMouseDown: PropTypes.func,
-	onKeyDown: PropTypes.func,
-	children: PropTypes.node.isRequired,
-	noHover: PropTypes.bool,
-	isSelected: PropTypes.bool,
-	isBold: PropTypes.bool,
-	isDashedBottomBorder: PropTypes.bool,
-	isSolidBottomBorder: PropTypes.bool,
-	isApLeftBorder: PropTypes.bool,
-	className: PropTypes.string,
-};
 
 export default TableRow;
