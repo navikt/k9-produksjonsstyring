@@ -3259,19 +3259,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@navikt/familie-endringslogg@npm:13.1.4":
-  version: 13.1.4
-  resolution: "@navikt/familie-endringslogg@npm:13.1.4::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40navikt%2Ffamilie-endringslogg%2F13.1.4%2Fbc8b9e3304b44c6b7d8a4ab15dfafd14e7b29617"
+"@navikt/familie-endringslogg@npm:13.1.5":
+  version: 13.1.5
+  resolution: "@navikt/familie-endringslogg@npm:13.1.5::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40navikt%2Ffamilie-endringslogg%2F13.1.5%2Fc7d6dbcc449ba472c8d022759472902e06c79591"
   dependencies:
-    "@portabletext/react": "npm:^3.1.0"
+    "@portabletext/react": "npm:^3.2.0"
     classnames: "npm:^2.5.1"
     react-transition-group: "npm:^4.4.5"
   peerDependencies:
     "@navikt/aksel-icons": 7.x
     "@navikt/ds-react": 7.x
-    "@types/react": 18.x
-    react: 18.x
-  checksum: 10/8c64c1d75df18d045351ab130fbf21eff5f4ef06539372e3b398b883f53a97079444719204ebd1308aaf9db0f0932989f746be338f4e86ca3b5a2f3a6b2a0cf0
+    "@types/react": 18.x || 19.x
+    react: 18.x || 19.x
+  checksum: 10/17586e36d25e33a69aa5ee2e4fe6e86af93ebdda376e92989e1094ae89663415d08491da19e226690a828ce4cf7d8f549ec7972abf6263236094c07e8d660a93
   languageName: node
   linkType: hard
 
@@ -3738,24 +3738,24 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@portabletext/react@npm:^3.1.0":
-  version: 3.1.0
-  resolution: "@portabletext/react@npm:3.1.0"
+"@portabletext/react@npm:^3.2.0":
+  version: 3.2.0
+  resolution: "@portabletext/react@npm:3.2.0"
   dependencies:
-    "@portabletext/toolkit": "npm:^2.0.15"
+    "@portabletext/toolkit": "npm:^2.0.16"
     "@portabletext/types": "npm:^2.0.13"
   peerDependencies:
-    react: ^17 || ^18 || >=19.0.0-rc
-  checksum: 10/33023f8ed8fc9d1e527c78cec6dffa4452e7dba9ba0874aa1a1dd924ba7f2e68b794ad16032811ca3d62b9be983563fbdc15e0303c78b807d3b9df38a46ec3b6
+    react: ^17 || ^18 || >=19.0.0-0
+  checksum: 10/0402d47dad3b7797529ab0c2cd16912d9ca90f1a08749a8fa1d00f89949f349c562762c302ea14a4b0799962d6bf5c9919076f49363693d0162b2d05d444cd56
   languageName: node
   linkType: hard
 
-"@portabletext/toolkit@npm:^2.0.15":
-  version: 2.0.15
-  resolution: "@portabletext/toolkit@npm:2.0.15"
+"@portabletext/toolkit@npm:^2.0.16":
+  version: 2.0.16
+  resolution: "@portabletext/toolkit@npm:2.0.16"
   dependencies:
     "@portabletext/types": "npm:^2.0.13"
-  checksum: 10/820c757b4cf5fa3a828a0983b64642e4cc2a3318eee1dbfa22ef27ad218a09a35d836f6191f0f647b72369d704a8ca396328a40c980d57df4a89faaba35546d6
+  checksum: 10/42ea34d96593df1fbf6647428eb6f399e9e356988fd07226a35e115be42fd408f1df78f970872a97b6a0fdc2c738d4c62e2fb9916c47b77bb69d582dcf80b374
   languageName: node
   linkType: hard
 
@@ -12725,7 +12725,7 @@ __metadata:
     "@navikt/ds-react": "npm:7.9.0"
     "@navikt/ds-tailwind": "npm:7.9.0"
     "@navikt/ds-tokens": "npm:7.9.0"
-    "@navikt/familie-endringslogg": "npm:13.1.4"
+    "@navikt/familie-endringslogg": "npm:13.1.5"
     "@navikt/fnrvalidator": "npm:2.1.5"
     "@navikt/ft-form-hooks": "npm:5.2.9"
     "@navikt/ft-form-validators": "npm:2.5.7"
