@@ -1,11 +1,6 @@
 import React from 'react';
 import { FormattedDate, FormattedMessage } from 'react-intl';
-
-interface PeriodLabelProps {
-	dateStringFom: string;
-	dateStringTom?: string;
-	showTodayString?: boolean;
-}
+import PropTypes from 'prop-types';
 
 /**
  * PeriodLabel
@@ -17,7 +12,7 @@ interface PeriodLabelProps {
  * <PeriodLabel dateStringFom="2017-08-25" dateStringTom="2017-08-31" />
  * ```
  */
-const PeriodLabel = ({ dateStringFom, dateStringTom, showTodayString }: PeriodLabelProps) => (
+const PeriodLabel = ({ dateStringFom, dateStringTom, showTodayString }) => (
 	<span>
 		<FormattedDate day="2-digit" month="2-digit" year="numeric" value={new Date(dateStringFom)} />
 		{' - '}
@@ -29,6 +24,12 @@ const PeriodLabel = ({ dateStringFom, dateStringTom, showTodayString }: PeriodLa
 		)}
 	</span>
 );
+
+PeriodLabel.propTypes = {
+	dateStringFom: PropTypes.string.isRequired,
+	dateStringTom: PropTypes.string,
+	showTodayString: PropTypes.bool,
+};
 
 PeriodLabel.defaultProps = {
 	dateStringTom: undefined,

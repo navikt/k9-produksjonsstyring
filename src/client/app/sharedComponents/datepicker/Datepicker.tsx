@@ -1,27 +1,16 @@
 import React, { Component } from 'react';
 import moment from 'moment';
 import { Input } from 'nav-frontend-skjema';
+import PropTypes from 'prop-types';
 import { DDMMYYYY_DATE_FORMAT } from 'utils/formats';
 import CalendarOverlay from './CalendarOverlay';
 import CalendarToggleButton from './CalendarToggleButton';
 import * as styles from './datepicker.css';
 
-interface DatepickerProps {
-	label?: React.ReactNode;
-	placeholder?: string;
-	onChange(...args: unknown[]): unknown;
-	onBlur(...args: unknown[]): unknown;
-	value?: string;
-	feil?: {
-		feilmelding?: string;
-	};
-	disabled?: boolean;
-}
-
 /**
  * @deprecated
  */
-class Datepicker extends Component<DatepickerProps> {
+class Datepicker extends Component {
 	constructor() {
 		super();
 		this.state = { showCalendar: false };
@@ -130,6 +119,16 @@ class Datepicker extends Component<DatepickerProps> {
 		);
 	}
 }
+
+Datepicker.propTypes = {
+	label: PropTypes.node,
+	placeholder: PropTypes.string,
+	onChange: PropTypes.func.isRequired,
+	onBlur: PropTypes.func.isRequired,
+	value: PropTypes.string,
+	feil: PropTypes.shape({ feilmelding: PropTypes.string }),
+	disabled: PropTypes.bool,
+};
 
 Datepicker.defaultProps = {
 	label: '',
