@@ -171,7 +171,6 @@
 		"prettier": "3.4.2",
 		"prop-types": "15.8.1",
 		"storybook": "8.4.7",
-		"stylelint": "16.12.0",
 		"stylelint-config-prettier": "9.0.5",
 		"stylelint-order": "6.0.4",
 		"terser-webpack-plugin": "5.3.11",
@@ -205,7 +204,6 @@
 	},
 	"lint-staged": {
 		"src/client/**/*.ts?(x)": "eslint --fix",
-		"src/**/*.(le|c)ss": "stylelint --fix",
 		"src/client/**/*.{ts,tsx,js,jsx,css,less}": "prettier --write"
 	},
 	"eslintConfig": {
