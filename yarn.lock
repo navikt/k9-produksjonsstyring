@@ -3107,13 +3107,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@navikt/aksel-stylelint@npm:7.9.0":
-  version: 7.9.0
-  resolution: "@navikt/aksel-stylelint@npm:7.9.0::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40navikt%2Faksel-stylelint%2F7.9.0%2Fe9b989136d8ac4b5dacbed5c6dcaeee2854eee4e"
-  checksum: 10/dc61b4e4e7dbdb7f7bee5d48331af874bfd221e87107b21f071d52bcc8bdd27bdec17b6fef73f4e691b8111e45129822ea1ffb0e5ffb30a47f4f97f82c98ad90
-  languageName: node
-  linkType: hard
-
 "@navikt/ds-css@npm:7.6.0":
   version: 7.6.0
   resolution: "@navikt/ds-css@npm:7.6.0::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40navikt%2Fds-css%2F7.6.0%2Fdce0c20349b06d964f44335f7f2f6f605ccacbaa"
@@ -12438,7 +12431,6 @@ __metadata:
     "@grafana/faro-web-sdk": "npm:1.12.2"
     "@grafana/faro-web-tracing": "npm:1.12.2"
     "@navikt/aksel-icons": "npm:7.9.0"
-    "@navikt/aksel-stylelint": "npm:7.9.0"
     "@navikt/ds-css": "npm:7.9.0"
     "@navikt/ds-react": "npm:7.9.0"
     "@navikt/ds-tailwind": "npm:7.9.0"
@@ -12580,8 +12572,6 @@ __metadata:
     react-router: "npm:6.26.2"
     react-router-dom: "npm:6.26.2"
     storybook: "npm:8.4.7"
-    stylelint-config-prettier: "npm:9.0.5"
-    stylelint-order: "npm:6.0.4"
     tailwindcss: "npm:3.4.17"
     terser-webpack-plugin: "npm:5.3.11"
     thread-loader: "npm:4.0.4"
@@ -15134,15 +15124,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postcss-sorting@npm:^8.0.2":
-  version: 8.0.2
-  resolution: "postcss-sorting@npm:8.0.2"
-  peerDependencies:
-    postcss: ^8.4.20
-  checksum: 10/2496713e31c3d07c6d650d6ca4734489c2440fbbdd5c109ae5192178e6637e255bdd77dd52a0171f773c00df49bb8e0a7077c67aa0ab3b3c93a1934372318dff
-  languageName: node
-  linkType: hard
-
 "postcss-svgo@npm:^7.0.1":
   version: 7.0.1
   resolution: "postcss-svgo@npm:7.0.1"
@@ -15173,7 +15154,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postcss@npm:^8.4.32, postcss@npm:^8.4.33, postcss@npm:^8.4.38, postcss@npm:^8.4.47":
+"postcss@npm:^8.4.33, postcss@npm:^8.4.38, postcss@npm:^8.4.47":
   version: 8.4.49
   resolution: "postcss@npm:8.4.49"
   dependencies:
@@ -17108,30 +17089,6 @@ __metadata:
   peerDependencies:
     postcss: ^8.4.31
   checksum: 10/fc9d6b1e0b996d139a77f391df6db49ee1ab7e8fdeb32a8fa6b4c11512e72eb072470c32080171e46ebe123c9c96d763b9e4421b09c9c428985077940b6ba085
-  languageName: node
-  linkType: hard
-
-"stylelint-config-prettier@npm:9.0.5":
-  version: 9.0.5
-  resolution: "stylelint-config-prettier@npm:9.0.5"
-  peerDependencies:
-    stylelint: ">= 11.x < 15"
-  bin:
-    stylelint-config-prettier: bin/check.js
-    stylelint-config-prettier-check: bin/check.js
-  checksum: 10/f00665801f65093269987eea0f6c0e1f4a479c76917da887577bf6063757575f5b752aa923d2677f87d32a14d528569ee0a869452dc41b0c3b61b5dcbec037f0
-  languageName: node
-  linkType: hard
-
-"stylelint-order@npm:6.0.4":
-  version: 6.0.4
-  resolution: "stylelint-order@npm:6.0.4"
-  dependencies:
-    postcss: "npm:^8.4.32"
-    postcss-sorting: "npm:^8.0.2"
-  peerDependencies:
-    stylelint: ^14.0.0 || ^15.0.0 || ^16.0.1
-  checksum: 10/a16a017bded454f78fb3ed02643e93525ee1e4a03c0303c364aa8ee908c4500238036e8df15403f9bb968136c70a32335b494a443df15bb6985bb8e1f431edcd
   languageName: node
   linkType: hard
 
