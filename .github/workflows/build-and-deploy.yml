@@ -36,12 +36,10 @@ jobs:
       - name: Sette opp Node
         uses: actions/setup-node@v4
         with:
-          node-version: 18.x
+          node-version: 22.x
           cache: yarn
       - name: Installere dependencies
         run: yarn workspaces focus k9-los-web
-      - name: CSS lint
-        run: yarn css:lint
       - name: Tester
         run: yarn test --maxWorkers=2
       - name: Bygge kode

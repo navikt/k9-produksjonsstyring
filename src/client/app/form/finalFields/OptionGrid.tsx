@@ -1,11 +1,19 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { PersonPencilIcon } from '@navikt/aksel-icons';
 import { FlexColumn, FlexContainer, FlexRow } from 'sharedComponents/flexGrid';
 import { range } from 'utils/arrayUtils';
 import * as styles from './optionGrid.css';
 
-export const OptionGrid = ({ columns, rows, options, spaceBetween, isEdited, direction }) => {
+interface OptionGridProps {
+	columns?: number;
+	options: React.ReactElement[];
+	spaceBetween?: boolean;
+	isEdited?: boolean;
+	direction?: string;
+	rows?: number;
+}
+
+export const OptionGrid = ({ columns, rows, options, spaceBetween, isEdited, direction }: OptionGridProps) => {
 	if (direction === 'vertical') {
 		const numRows = rows || options.length;
 		return (
@@ -34,15 +42,6 @@ export const OptionGrid = ({ columns, rows, options, spaceBetween, isEdited, dir
 			</FlexRow>
 		</FlexContainer>
 	);
-};
-
-OptionGrid.propTypes = {
-	columns: PropTypes.number,
-	options: PropTypes.arrayOf(PropTypes.element).isRequired,
-	spaceBetween: PropTypes.bool,
-	isEdited: PropTypes.bool,
-	direction: PropTypes.string,
-	rows: PropTypes.number,
 };
 
 OptionGrid.defaultProps = {

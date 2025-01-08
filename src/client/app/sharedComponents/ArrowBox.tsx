@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 // Css er satt opp på en spesiell måte her fordi React ikke støtter psydo-element i inline css. Her er en avhengig av å dynamisk
 // endre enkelte variabler i after/before. Bedre løsninger finnes sikkert?
@@ -84,12 +83,19 @@ const getOffset = (alignOffset, alignLeft) => {
 	return alignLeft ? DEFAULT_LEFT_OFFSET : DEFAULT_TOP_OFFSET;
 };
 
+interface ArrowBoxProps {
+	alignOffset?: number;
+	alignLeft?: boolean;
+	hideBorder?: boolean;
+	children: React.ReactNode | React.ReactNode[];
+}
+
 /**
  * ArrowBox
  * @deprecated
  * Vise innhold med ramme og pil
  */
-const ArrowBox = ({ children, alignOffset, alignLeft, hideBorder }) => {
+const ArrowBox = ({ children, alignOffset, alignLeft, hideBorder }: ArrowBoxProps) => {
 	const offset = getOffset(alignOffset, alignLeft);
 	return (
 		<>
@@ -102,13 +108,6 @@ const ArrowBox = ({ children, alignOffset, alignLeft, hideBorder }) => {
 			<div className={getClassName(offset, alignLeft, hideBorder)}>{children}</div>
 		</>
 	);
-};
-
-ArrowBox.propTypes = {
-	alignOffset: PropTypes.number,
-	alignLeft: PropTypes.bool,
-	hideBorder: PropTypes.bool,
-	children: PropTypes.oneOfType([PropTypes.node, PropTypes.arrayOf(PropTypes.node)]).isRequired,
 };
 
 ArrowBox.defaultProps = {

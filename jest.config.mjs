@@ -25,7 +25,7 @@ export default {
         "^.+\\.(ts|tsx|js|jsx)?$": "babel-jest",
         "^.+.(css|less)$": "jest-transform-stub",
       },
-      transformIgnorePatterns: ["<rootDir>.*(node_modules)(?!.*(nav|uuid).*).*$"],
+      transformIgnorePatterns: ["<rootDir>.*(node_modules)(?!.*(nav|uuid|chai).*).*$"],
       // ignore tests in tests folder
       moduleDirectories: ["node_modules", "src/client", "src/client/app"],
       
