@@ -1796,7 +1796,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.10.0, @babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.15.4, @babel/runtime@npm:^7.16.3, @babel/runtime@npm:^7.23.8, @babel/runtime@npm:^7.5.5, @babel/runtime@npm:^7.6.2, @babel/runtime@npm:^7.7.2, @babel/runtime@npm:^7.7.6, @babel/runtime@npm:^7.8.4, @babel/runtime@npm:^7.9.2":
+"@babel/runtime@npm:^7.10.0, @babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.15.4, @babel/runtime@npm:^7.16.3, @babel/runtime@npm:^7.23.8, @babel/runtime@npm:^7.5.5, @babel/runtime@npm:^7.6.2, @babel/runtime@npm:^7.7.2, @babel/runtime@npm:^7.7.6, @babel/runtime@npm:^7.8.4, @babel/runtime@npm:^7.8.7, @babel/runtime@npm:^7.9.2":
   version: 7.25.0
   resolution: "@babel/runtime@npm:7.25.0"
   dependencies:
@@ -3178,18 +3178,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@navikt/familie-endringslogg@npm:14.0.0":
-  version: 14.0.0
-  resolution: "@navikt/familie-endringslogg@npm:14.0.0::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40navikt%2Ffamilie-endringslogg%2F14.0.0%2F3eb12f4597568cf7c8d2bb0726b3dd05d66f07c0"
+"@navikt/familie-endringslogg@npm:13.1.5":
+  version: 13.1.5
+  resolution: "@navikt/familie-endringslogg@npm:13.1.5::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40navikt%2Ffamilie-endringslogg%2F13.1.5%2Fc7d6dbcc449ba472c8d022759472902e06c79591"
   dependencies:
     "@portabletext/react": "npm:^3.2.0"
     classnames: "npm:^2.5.1"
+    react-transition-group: "npm:^4.4.5"
   peerDependencies:
     "@navikt/aksel-icons": 7.x
     "@navikt/ds-react": 7.x
     "@types/react": 18.x || 19.x
     react: 18.x || 19.x
-  checksum: 10/c90acef3a67bd859d72afde956c23e1e0e7490f5612f45c74f20d7d43f05bc8e3845c9a68e82a0b8bcb752f5a9ffefeff94feb55ebfd67e00f672793fc4c0198
+  checksum: 10/17586e36d25e33a69aa5ee2e4fe6e86af93ebdda376e92989e1094ae89663415d08491da19e226690a828ce4cf7d8f549ec7972abf6263236094c07e8d660a93
   languageName: node
   linkType: hard
 
@@ -8395,6 +8396,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"dom-helpers@npm:^5.0.1":
+  version: 5.2.1
+  resolution: "dom-helpers@npm:5.2.1"
+  dependencies:
+    "@babel/runtime": "npm:^7.8.7"
+    csstype: "npm:^3.0.2"
+  checksum: 10/bed2341adf8864bf932b3289c24f35fdd99930af77df46688abf2d753ff291df49a15850c874d686d9be6ec4e1c6835673906e64dbd8b2839d227f117a11fd41
+  languageName: node
+  linkType: hard
+
 "dom-serializer@npm:^1.0.1":
   version: 1.4.1
   resolution: "dom-serializer@npm:1.4.1"
@@ -12424,7 +12435,7 @@ __metadata:
     "@navikt/ds-react": "npm:7.9.1"
     "@navikt/ds-tailwind": "npm:7.9.1"
     "@navikt/ds-tokens": "npm:7.9.1"
-    "@navikt/familie-endringslogg": "npm:14.0.0"
+    "@navikt/familie-endringslogg": "npm:13.1.5"
     "@navikt/fnrvalidator": "npm:2.1.5"
     "@navikt/ft-form-hooks": "npm:5.2.9"
     "@navikt/ft-form-validators": "npm:2.5.7"
@@ -15720,6 +15731,21 @@ __metadata:
   peerDependencies:
     react: ">=16.8"
   checksum: 10/496e855b53e61066c1791e354f5d79eab56a128d9722fdc6486c3ecd3b3a0bf9968e927028f429893b157f3cc10fc09e890a055847723ee242663e7995fedc9d
+  languageName: node
+  linkType: hard
+
+"react-transition-group@npm:^4.4.5":
+  version: 4.4.5
+  resolution: "react-transition-group@npm:4.4.5"
+  dependencies:
+    "@babel/runtime": "npm:^7.5.5"
+    dom-helpers: "npm:^5.0.1"
+    loose-envify: "npm:^1.4.0"
+    prop-types: "npm:^15.6.2"
+  peerDependencies:
+    react: ">=16.6.0"
+    react-dom: ">=16.6.0"
+  checksum: 10/ca32d3fd2168c976c5d90a317f25d5f5cd723608b415fb3b9006f9d793c8965c619562d0884503a3e44e4b06efbca4fdd1520f30e58ca3e00a0890e637d55419
   languageName: node
   linkType: hard
 
