@@ -20,7 +20,9 @@ import MissingPage from './MissingPage';
 
 const SentryRoutes = withSentryReactRouterV6Routing(Routes);
 const Home: FunctionComponent = () => {
-	const { data } = useQuery<{ felter: Oppgavefelt[] }>([apiPaths.hentOppgaveFelter]);
+	const { data } = useQuery({
+        queryKey: [apiPaths.hentOppgaveFelter]
+    });
 	const { data: saksbehandler } = useInnloggetSaksbehandler();
 
 	const queryClient = useQueryClient();
@@ -28,9 +30,13 @@ const Home: FunctionComponent = () => {
 	useEffect(() => {
 		if (saksbehandler.brukerIdent) {
 			if (saksbehandler.kanOppgavestyre) {
-				queryClient.prefetchQuery([apiPaths.hentSaksbehandlereAvdelingsleder]);
+				queryClient.prefetchQuery({
+                    queryKey: [apiPaths.hentSaksbehandlereAvdelingsleder]
+                });
 			}
-			queryClient.prefetchQuery([apiPaths.hentSaksbehandlereSomSaksbehandler]);
+			queryClient.prefetchQuery({
+                queryKey: [apiPaths.hentSaksbehandlereSomSaksbehandler]
+            });
 		}
 	}, [queryClient, saksbehandler.brukerIdent, saksbehandler.kanOppgavestyre]);
 
