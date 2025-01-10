@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { useMutation } from 'react-query';
+import { useMutation } from '@tanstack/react-query';
 import { ArrowsCirclepathIcon } from '@navikt/aksel-icons';
 import { Button, Label, Skeleton } from '@navikt/ds-react';
 import apiPaths from 'api/apiPaths';

@@ -1,4 +1,4 @@
-import { UseQueryOptions, useMutation, useQuery, useQueryClient } from 'react-query';
+import { UseQueryOptions, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import apiPaths from 'api/apiPaths';
 import { Saksbehandler } from 'avdelingsleder/bemanning/saksbehandlerTsType';
 import Reservasjon from 'avdelingsleder/reservasjoner/reservasjonTsType';
@@ -16,7 +16,7 @@ export const useLeggTilSaksbehandler = () => {
 
 	return useMutation({
 		mutationFn: (data: { epost: string }) => axiosInstance.post(apiPaths.leggTilSaksbehandlerAvdelingsleder, data),
-		onSuccess: () => queryClient.invalidateQueries(apiPaths.hentSaksbehandlereAvdelingsleder),
+		onSuccess: () => queryClient.invalidateQueries([apiPaths.hentSaksbehandlereAvdelingsleder]),
 	});
 };
 
@@ -27,11 +27,11 @@ export const useSlettSaksbehandler = () => {
 		mutationFn: (data: { epost: string }) => axiosInstance.post(apiPaths.slettSaksbehandler, data),
 		onSuccess: () =>
 			Promise.all([
-				queryClient.invalidateQueries(apiPaths.hentSaksbehandlereAvdelingsleder),
+				queryClient.invalidateQueries([apiPaths.hentSaksbehandlereAvdelingsleder]),
 				// invaliderer alle oppgavekøer, siden dette endepunktet inneholder alle saksbehandlere som er på hver kø
-				queryClient.invalidateQueries(apiPaths.hentOppgaveko('')),
+				queryClient.invalidateQueries([apiPaths.hentOppgaveko('')]),
 				// viser antallet saksbehandlere på kø, denne kan ha endret seg
-				queryClient.invalidateQueries(apiPaths.hentOppgavekoer),
+				queryClient.invalidateQueries([apiPaths.hentOppgavekoer]),
 			]),
 	});
 };
@@ -43,7 +43,6 @@ export const useHentAndreSaksbehandleresKøer = (id: number) =>
 			axiosInstance.get(apiPaths.hentAndreSaksbehandleresKøerV3, { params: { id } }).then(({ data }) => data),
 	});
 
- 
 export const useAlleKoer = (options = {}) =>
 	useQuery<OppgavekøerV3, unknown, OppgavekøV3Enkel[]>({
 		queryKey: [apiPaths.hentOppgavekoer],
@@ -56,7 +55,7 @@ export const useNyKøMutation = (callback) => {
 
 	return useMutation<OppgavekøV3, unknown, { url: string; body: { tittel: string } }>({
 		onSuccess: (data) =>
-			queryClient.invalidateQueries(apiPaths.hentOppgavekoer).then(() => {
+			queryClient.invalidateQueries([apiPaths.hentOppgavekoer]).then(() => {
 				if (callback) callback(data.id);
 			}),
 	});
@@ -81,7 +80,7 @@ export const useKopierKøMutation = (callback?: () => void) => {
 	return useMutation({
 		mutationFn: (data: KopierKøPayload) => axiosInstance.post(`${apiPaths.kopierOppgaveko}`, data),
 		onSuccess: () =>
-			queryClient.invalidateQueries(apiPaths.hentOppgavekoer).then(() => {
+			queryClient.invalidateQueries([apiPaths.hentOppgavekoer]).then(() => {
 				if (callback) callback();
 			}),
 	});
@@ -93,7 +92,7 @@ export const useSlettKøMutation = (callback?: () => void) => {
 	return useMutation({
 		mutationFn: (id: string) => axiosInstance.delete(`${apiPaths.slettOppgaveko}${id}`),
 		onSuccess: () =>
-			queryClient.invalidateQueries(apiPaths.hentOppgavekoer).then(() => {
+			queryClient.invalidateQueries([apiPaths.hentOppgavekoer]).then(() => {
 				if (callback) callback();
 			}),
 	});
@@ -107,9 +106,9 @@ export const useOppdaterKøMutation = (callback: () => void) => {
 			onSuccess: (props) => {
 				const { id } = props;
 				Promise.all([
-					queryClient.invalidateQueries(apiPaths.hentOppgavekoer),
-					queryClient.invalidateQueries(apiPaths.hentOppgaveko(id)),
-					queryClient.invalidateQueries(apiPaths.antallOppgaverIKoV3(id)),
+					queryClient.invalidateQueries([apiPaths.hentOppgavekoer]),
+					queryClient.invalidateQueries([apiPaths.hentOppgaveko(id)]),
+					queryClient.invalidateQueries([apiPaths.antallOppgaverIKoV3(id)]),
 				]).then(() => {
 					if (callback) callback();
 				});

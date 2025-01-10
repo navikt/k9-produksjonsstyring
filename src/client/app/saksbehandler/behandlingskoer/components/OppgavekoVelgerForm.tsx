@@ -1,6 +1,6 @@
 import React, { FunctionComponent, ReactNode, useContext, useEffect } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { useQuery, useQueryClient } from 'react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { BodyShort, Button, ReadMore, Select, Skeleton } from '@navikt/ds-react';
 import apiPaths from 'api/apiPaths';
 import { K9LosApiKeys } from 'api/k9LosApi';

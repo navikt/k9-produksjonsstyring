@@ -1,4 +1,4 @@
-import { UseMutationOptions, UseQueryOptions, useMutation, useQuery, useQueryClient } from 'react-query';
+import { UseMutationOptions, UseQueryOptions, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import NavAnsatt from 'app/navAnsattTsType';
 import apiPaths from 'api/apiPaths';
 import { SaksbehandlerEnkel } from 'avdelingsleder/bemanning/saksbehandlerTsType';

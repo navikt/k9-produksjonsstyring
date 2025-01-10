@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useQueries } from 'react-query';
+import { useQueries } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { PlusCircleIcon } from '@navikt/aksel-icons';
 import { Button, Loader, Skeleton, Table } from '@navikt/ds-react';
@@ -27,21 +27,28 @@ function scrollToId(id: string) {
 }
 
 const berikMedAntallOppgaverIndividuelt = (køArray: OppgavekøV3Enkel[]) => {
-	const queries = useQueries(
-		køArray.map((kø) => ({
+	const queries = useQueries({
+		queries: køArray.map((kø) => ({
 			queryKey: ['antallOppgaver', kø.id],
+
 			queryFn: async () => {
 				try {
 					const { data } = await axiosInstance.get(apiPaths.antallOppgaverIKoV3(kø.id));
-					return { ...kø, ...data };
+					return {
+						...kø,
+						...data,
+					};
 				} catch (error) {
 					console.error('Error fetching antallOppgaver', error);
-					return { ...kø };
+					return {
+						...kø,
+					};
 				}
 			},
+
 			enabled: !!køArray.length,
 		})),
-	);
+	});
 
 	const isSuccess = queries.every((query) => query.isSuccess);
 	const results = queries.map((query, index) => ({

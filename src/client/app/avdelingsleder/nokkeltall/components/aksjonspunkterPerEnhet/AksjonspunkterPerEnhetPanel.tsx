@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { useQuery } from 'react-query';
+import { useQuery } from '@tanstack/react-query';
 import { Loader } from '@navikt/ds-react';
 import { Error } from 'app/errorTsType';
 import apiPaths from 'api/apiPaths';
