@@ -43,7 +43,7 @@ export const useHentAndreSaksbehandleresKøer = (id: number) =>
 			axiosInstance.get(apiPaths.hentAndreSaksbehandleresKøerV3, { params: { id } }).then(({ data }) => data),
 	});
 
-// eslint-disable-next-line import/prefer-default-export
+ 
 export const useAlleKoer = (options = {}) =>
 	useQuery<OppgavekøerV3, unknown, OppgavekøV3Enkel[]>({
 		queryKey: [apiPaths.hentOppgavekoer],

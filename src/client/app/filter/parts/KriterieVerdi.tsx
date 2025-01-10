@@ -216,7 +216,7 @@ const KriterieVerdi = ({
 		feltdefinisjon.verdiforklaringer.length > 3
 	) {
 		return (
-			// eslint-disable-next-line react/jsx-pascal-case, camelcase
+			 
 			<MultiSelectKriterie feltdefinisjon={feltdefinisjon} oppgavefilter={oppgavefilter} error={errorMessage} />
 		);
 	}

@@ -1,6 +1,6 @@
 /* eslint-disable import/no-unused-modules */
-/* eslint-disable global-require */
-/* eslint-disable @typescript-eslint/no-var-requires */
+ 
+ 
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { createRoutesFromChildren, matchRoutes, useLocation, useNavigationType } from 'react-router';

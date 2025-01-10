@@ -2,7 +2,7 @@ import { Saksbehandler } from 'avdelingsleder/bemanning/saksbehandlerTsType';
 import KoSorteringType from 'kodeverk/KoSorteringTsType';
 
 // TODO (TOR) default export feilar for yarn:coverage
-// eslint-disable-next-line import/prefer-default-export
+ 
 export type Oppgaveko = Readonly<{
 	id: string;
 	navn?: string;

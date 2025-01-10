@@ -40,7 +40,7 @@ const datoFremITid = (daysObject, index) => daysObject.add(index, 'days');
 const Stolpediagram = ({ series, labels, legendColors = [], fremITid = false, uker = '2' }: OwnProps) => {
 	const intl = useIntl();
 	if (!series.length) {
-		// eslint-disable-next-line react/jsx-one-expression-per-line
+		 
 		return <p className="typo-normal">{intl.formatMessage({ id: 'InngangOgFerdigstiltePanel.IngenTall' })} </p>;
 	}
 	const antallDager = Number(uker) * 7;

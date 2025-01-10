@@ -36,7 +36,7 @@ const getTab = (avdelingslederPanel, activeAvdelingslederPanel, getDriftsmelding
 		</Heading>
 	),
 	aktiv: avdelingslederPanel === activeAvdelingslederPanel,
-	// eslint-disable-next-line react/prop-types
+	 
 	linkCreator: ({ children, className }) => (
 		<NavLink
 			to={getDriftsmeldingerPanelLocation(avdelingslederPanel)}
