@@ -14,44 +14,47 @@ import OppgaveV3 from 'types/OppgaveV3';
 import { OppgavekøV3Enkel } from 'types/OppgavekøV3Type';
 import { axiosInstance } from 'utils/reactQueryConfig';
 
-export const useInnloggetSaksbehandler = (options?: UseQueryOptions<NavAnsatt, Error>) =>
+export const useInnloggetSaksbehandler = (options?: Omit<UseQueryOptions<NavAnsatt, Error>, 'queryKey'>) =>
 	useQuery({
 		...options,
 		queryKey: [apiPaths.saksbehandler],
 		gcTime: Infinity,
 		refetchOnWindowFocus: false,
 	});
-export const useGetAlleSaksbehandlere = (options?: UseQueryOptions<SaksbehandlerEnkel[], Error>) =>
+export const useGetAlleSaksbehandlere = (options?: Omit<UseQueryOptions<SaksbehandlerEnkel[], Error>, 'queryKey'>) =>
 	useQuery<SaksbehandlerEnkel[], Error>({ queryKey: [apiPaths.hentSaksbehandlereSomSaksbehandler], ...options });
 
 export const useAntallOppgaverIKoV3UtenReserverte = (
 	koId: string,
-	options: UseQueryOptions<{ antallUtenReserverte: number }, Error, { antallUtenReserverte: number }>,
+	options: Omit<UseQueryOptions<{ antallUtenReserverte: number }, Error, { antallUtenReserverte: number }>, 'queryKey'>,
 ) =>
 	useQuery<{ antallUtenReserverte: number }, Error, { antallUtenReserverte: number }>({
 		queryKey: [apiPaths.antallOppgaverIKoV3UtenReserverte(koId)],
 		...options,
 	});
 
-export const useAlleSaksbehandlerKoerV1 = (options?: UseQueryOptions<OppgavekøV1[], Error>) =>
+export const useAlleSaksbehandlerKoerV1 = (options?: Omit<UseQueryOptions<OppgavekøV1[], Error>, 'queryKey'>) =>
 	useQuery<OppgavekøV1[], Error>({
 		queryKey: [apiPaths.hentAlleKoerSaksbehandlerV1],
 		...options,
 	});
 
-export const useAlleSaksbehandlerKoerV3 = (options?: UseQueryOptions<OppgavekøV3Enkel[], Error>) =>
+export const useAlleSaksbehandlerKoerV3 = (options?: Omit<UseQueryOptions<OppgavekøV3Enkel[], Error>, 'queryKey'>) =>
 	useQuery<OppgavekøV3Enkel[], Error>({
 		queryKey: [apiPaths.hentAlleKoerSaksbehandlerV3],
 		...options,
 	});
 
-export const useSaksbehandlerNesteTiV3 = (id: string, options?: UseQueryOptions<OppgaveV3[], Error>) =>
+export const useSaksbehandlerNesteTiV3 = (
+	id: string,
+	options?: Omit<UseQueryOptions<OppgaveV3[], Error>, 'queryKey'>,
+) =>
 	useQuery<OppgaveV3[], Error, OppgaveV3[]>({
 		queryKey: [apiPaths.hentTiNesteIKoV3(id)],
 		...options,
 	});
 
-export const useSaksbehandlerNesteTiV1 = (id: string, options?: UseQueryOptions<Oppgave[], Error>) =>
+export const useSaksbehandlerNesteTiV1 = (id: string, options?: Omit<UseQueryOptions<Oppgave[], Error>, 'queryKey'>) =>
 	useQuery<Oppgave[], Error, Oppgave[]>({
 		queryKey: [apiPaths.saksbehandlerNesteOppgaver(id)],
 		...options,

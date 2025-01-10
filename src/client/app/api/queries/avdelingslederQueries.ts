@@ -2,7 +2,7 @@ import { DefaultError, UseQueryOptions, useMutation, useQuery, useQueryClient } 
 import apiPaths from 'api/apiPaths';
 import { Saksbehandler } from 'avdelingsleder/bemanning/saksbehandlerTsType';
 import Reservasjon from 'avdelingsleder/reservasjoner/reservasjonTsType';
-import { OppgaveKoIdOgTittel, OppgavekøV3, OppgavekøV3Enkel, OppgavekøerV3 } from 'types/OppgavekøV3Type';
+import { OppgaveKoIdOgTittel, OppgavekøV3, OppgavekøerV3 } from 'types/OppgavekøV3Type';
 import { axiosInstance } from 'utils/reactQueryConfig';
 
 export const useHentSaksbehandlereAvdelingsleder = () =>
@@ -79,7 +79,9 @@ interface KopierKøPayload {
 	taMedSaksbehandlere: boolean;
 }
 
-export const useAvdelingslederReservasjoner = (options?: UseQueryOptions<Reservasjon[], DefaultError, Reservasjon[]>) =>
+export const useAvdelingslederReservasjoner = (
+	options?: Omit<UseQueryOptions<Reservasjon[], DefaultError, Reservasjon[]>, 'queryKey'>,
+) =>
 	useQuery<Reservasjon[], unknown, Reservasjon[]>({
 		queryKey: [apiPaths.avdelinglederReservasjoner],
 		...options,
@@ -120,7 +122,7 @@ export const useSlettKøMutation = (callback?: () => void) => {
 export const useOppdaterKøMutation = (callback: () => void) => {
 	const queryClient = useQueryClient();
 	return useMutation({
-		mutationFn: (payload: any) =>
+		mutationFn: (payload: { ['key']: string }) =>
 			axiosInstance.post(`${apiPaths.oppdaterOppgaveko}`, { ...payload }).then((res) => res.data),
 
 		onSuccess: (props) => {
@@ -142,7 +144,7 @@ export const useOppdaterKøMutation = (callback: () => void) => {
 	});
 };
 
-export const useKo = (id: string, options?: UseQueryOptions<OppgavekøV3>) =>
+export const useKo = (id: string, options?: Omit<UseQueryOptions<OppgavekøV3>, 'queryKey'>) =>
 	useQuery<OppgavekøV3, unknown, OppgavekøV3>({
 		...options,
 		queryKey: [apiPaths.hentOppgaveko(id)],
