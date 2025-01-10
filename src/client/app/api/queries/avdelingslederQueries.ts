@@ -2,7 +2,7 @@ import { DefaultError, UseQueryOptions, useMutation, useQuery, useQueryClient } 
 import apiPaths from 'api/apiPaths';
 import { Saksbehandler } from 'avdelingsleder/bemanning/saksbehandlerTsType';
 import Reservasjon from 'avdelingsleder/reservasjoner/reservasjonTsType';
-import { OppgaveKoIdOgTittel, OppgavekøV3, OppgavekøerV3 } from 'types/OppgavekøV3Type';
+import { OppgaveKoIdOgTittel, OppgavekøV3, OppgavekøV3Enkel, OppgavekøerV3 } from 'types/OppgavekøV3Type';
 import { axiosInstance } from 'utils/reactQueryConfig';
 
 export const useHentSaksbehandlereAvdelingsleder = () =>
@@ -51,7 +51,7 @@ export const useHentAndreSaksbehandleresKøer = (id: number) =>
 	});
 
 export const useAlleKoer = (options = {}) =>
-	useQuery<OppgavekøerV3, unknown, OppgavekøV3[]>({
+	useQuery<OppgavekøerV3, unknown, OppgavekøV3Enkel[]>({
 		queryKey: [apiPaths.hentOppgavekoer],
 		select: (v) => v.koer,
 		...options,
