@@ -149,11 +149,7 @@ export const endpoints = () =>
 		.withGet('/avdelingsleder/oppgaver/antall', K9LosApiKeys.OPPGAVE_ANTALL)
 		.withGet('/avdelingsleder/oppgaver/antall-totalt', K9LosApiKeys.OPPGAVE_ANTALL_TOTALT)
 		/* /api/avdelingsleder/nokkeltall */
-		.withGet('/avdelingsleder/nokkeltall/behandlinger-under-arbeid', K9LosApiKeys.HENT_OPPGAVER)
-		.withGet('/avdelingsleder/nokkeltall/beholdning-historikk', K9LosApiKeys.HENT_OPPGAVER_PER_DATO)
 		.withGet('/avdelingsleder/nokkeltall/nye-ferdigstilte-oppsummering', K9LosApiKeys.HENT_OPPSUMMERING)
-		.withGet('/avdelingsleder/nokkeltall/ferdigstilte-historikk', K9LosApiKeys.HENT_FERDIGSTILTE_HISTORIKK)
-		.withGet('/avdelingsleder/nokkeltall/nye-historikk', K9LosApiKeys.HENT_NYE_HISTORIKK)
 		.withGet(
 			'/avdelingsleder/nokkeltall/behandlinger-manuelt-vent-historikk',
 			K9LosApiKeys.HENT_OPPGAVER_MANUELT_PA_VENT,
