@@ -11,7 +11,7 @@ import { SøkeboksOppgaveDto } from 'saksbehandler/sokeboks/SøkeboksOppgaveDto'
 import EndreOppgaveType from 'types/EndreOppgaveType';
 import { OppgaveNøkkel } from 'types/OppgaveNøkkel';
 import OppgaveV3 from 'types/OppgaveV3';
-import { OppgavekøV3Enkel } from 'types/OppgavekøV3Type';
+import { OppgavekøV3, OppgavekøV3Enkel } from 'types/OppgavekøV3Type';
 import { axiosInstance } from 'utils/reactQueryConfig';
 
 export const useInnloggetSaksbehandler = (options?: Omit<UseQueryOptions<NavAnsatt, Error>, 'queryKey'>) =>
@@ -39,8 +39,8 @@ export const useAlleSaksbehandlerKoerV1 = (options?: Omit<UseQueryOptions<Oppgav
 		...options,
 	});
 
-export const useAlleSaksbehandlerKoerV3 = (options?: Omit<UseQueryOptions<OppgavekøV3Enkel[], Error>, 'queryKey'>) =>
-	useQuery<OppgavekøV3Enkel[], Error>({
+export const useAlleSaksbehandlerKoerV3 = (options?: Omit<UseQueryOptions<OppgavekøV3[], Error>, 'queryKey'>) =>
+	useQuery<OppgavekøV3[], Error>({
 		queryKey: [apiPaths.hentAlleKoerSaksbehandlerV3],
 		...options,
 	});
@@ -65,7 +65,7 @@ export const useSaksbehandlerReservasjoner = (options?: Omit<UseQueryOptions<Res
 		queryKey: [apiPaths.saksbehandlerReservasjoner],
 		...options,
 	});
-export const useSøk = (options: UseMutationOptions<SokeResultat, Error, string>) =>
+export const useSøk = (options?: UseMutationOptions<SokeResultat, Error, string>) =>
 	useMutation({
 		...options,
 		mutationFn: (searchString: string): Promise<SokeResultat> =>

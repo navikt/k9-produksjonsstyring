@@ -85,7 +85,8 @@ export const OppgavekoVelgerForm: FunctionComponent<OwnProps> = ({ plukkNyOppgav
 	const { data: saksbehandlere, startRequest: hentSaksbehandlere } = useRestApiRunner<Saksbehandler[]>(
 		K9LosApiKeys.OPPGAVEKO_SAKSBEHANDLERE,
 	);
-	const { data: saksbehandlereV3 } = useQuery<Saksbehandler[]>(apiPaths.hentSaksbehandlereIKoV3(getKoId(valgtKoId)), {
+	const { data: saksbehandlereV3 } = useQuery<Saksbehandler[]>({
+		queryKey: [apiPaths.hentSaksbehandlereIKoV3(getKoId(valgtKoId))],
 		enabled: harKoer && valgtKoId && erKoV3(valgtKoId),
 	});
 
@@ -98,7 +99,7 @@ export const OppgavekoVelgerForm: FunctionComponent<OwnProps> = ({ plukkNyOppgav
 					hentSaksbehandlere({ id: getKoId(defaultOppgavekoId) });
 					fetchAntallOppgaver({ id: getKoId(defaultOppgavekoId) });
 				} else {
-					queryClient.invalidateQueries(apiPaths.hentSaksbehandlereIKoV3(getKoId(defaultOppgavekoId)));
+					queryClient.invalidateQueries({ queryKey: [apiPaths.hentSaksbehandlereIKoV3(getKoId(defaultOppgavekoId))] });
 				}
 			}
 		}

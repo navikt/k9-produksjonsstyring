@@ -16,9 +16,9 @@ const AksjonspunkterPerEnhetPanel: FunctionComponent = () => {
 		data: aksjonspunkterPerEnhet,
 		isLoading,
 		error,
-	}: { data: AksjonspunkterPerEnhetType[]; isLoading: boolean; error: Error } = useQuery(
-		apiPaths.aksjonspunkterPerEnhet,
-	);
+	}: { data: AksjonspunkterPerEnhetType[]; isLoading: boolean; error: Error } = useQuery({
+		queryKey: [apiPaths.aksjonspunkterPerEnhet],
+	});
 
 	const [valgtYtelseType, setValgtYtelseType] = useState<string>(
 		getValueFromLocalStorage(`${id}-ytelsestype`) || ALLE_YTELSETYPER_VALGT,

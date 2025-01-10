@@ -12,6 +12,7 @@ const innloggetSaksbehandler: NavAnsatt = {
 	kanBehandleKode6: false,
 	kanDrifte: true,
 	kanOppgavestyre: true,
+	finnesISaksbehandlerTabell: true,
 };
 
 const oppgave: SøkeboksOppgaveDto = {

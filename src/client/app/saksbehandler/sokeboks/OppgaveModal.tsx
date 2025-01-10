@@ -20,13 +20,13 @@ export function OppgaveModal(props: { oppgave: SøkeboksOppgaveDto; open: boolea
 	const { startRequest: leggTilBehandletOppgave } = useRestApiRunner(K9LosApiKeys.LEGG_TIL_BEHANDLET_OPPGAVE);
 	const leggTilBehandletOgÅpneOppgave = () =>
 		leggTilBehandletOppgave(props.oppgave.oppgaveNøkkel).then(() => åpneOppgave(props.oppgave));
-	const { isLoading: isLoadingEndreReservasjoner, mutate: endreReservasjoner } = useEndreReservasjoner(() =>
+	const { isPending: isLoadingEndreReservasjoner, mutate: endreReservasjoner } = useEndreReservasjoner(() =>
 		leggTilBehandletOgÅpneOppgave(),
 	);
-	const { mutate: reserverOppgave, isLoading: isLoadingReserverOppgave } = useReserverOppgaveMutation(() =>
+	const { mutate: reserverOppgave, isPending: isLoadingReserverOppgave } = useReserverOppgaveMutation(() =>
 		leggTilBehandletOgÅpneOppgave(),
 	);
-	const { mutate: opphevReservasjoner, isLoading: isLoadingOpphevReservasjon } = useOpphevReservasjoner(
+	const { mutate: opphevReservasjoner, isPending: isLoadingOpphevReservasjon } = useOpphevReservasjoner(
 		props.closeModal,
 	);
 

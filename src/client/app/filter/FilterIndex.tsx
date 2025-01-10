@@ -33,7 +33,7 @@ interface OwnProps {
 
 const resultatErKunAntall = (oppgaver: Oppgaverad[]) => {
 	if (oppgaver.length === 1) {
-		if (oppgaver[0].felter.length === 1 && oppgaver[0].felter[0].kode === 'Antall') {
+		if (oppgaver[0].felter.length === 1 && (oppgaver[0].felter[0].kode as string) === 'Antall') {
 			return true;
 		}
 	}
@@ -121,13 +121,14 @@ const FilterIndex = ({
 		enabled: !køvisning,
 	});
 
-	useKo(koId, {
+	const { data: køData, isSuccess } = useKo(koId, {
 		enabled: !!koId,
-		onSuccess: (data) => {
-			const newQuery = new OppgaveQueryModel(data.oppgaveQuery).toOppgaveQuery();
-			setOppgaveQuery(newQuery);
-		},
 	});
+
+	useEffect(() => {
+		const newQuery = new OppgaveQueryModel(køData.oppgaveQuery).toOppgaveQuery();
+		setOppgaveQuery(newQuery);
+	}, [isSuccess]);
 
 	const validateOppgaveQuery = async (isValidatingFunc: (validating: boolean) => void): Promise<boolean> => {
 		isValidatingFunc(true);
