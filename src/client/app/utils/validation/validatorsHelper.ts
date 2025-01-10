@@ -9,7 +9,7 @@ export const decimalRegex = /^\d+(.\d{1,2})?$/;
 export const saksnummerOrFodselsnummerPattern = /^(?:(\w|\d){5}|(\w|\d){7}|(^\d{11}$)|(^\d{9}$))$/;
 export const saksnummerOrJournalpostidPattern = /^(?:(\w|\d){5}|(\w|\d){7}|(^\d{9}$))$/;
 export const emailPattern =
-	// eslint-disable-next-line no-useless-escape,max-len
+	// eslint-disable-next-line no-useless-escape
 	/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 export const textRegex =

@@ -60,7 +60,7 @@ const SaksbehandlerInfo: FunctionComponent<OwnProps> = ({ saksbehandler }) => {
 					<KøListe title="Nye køer" data={køerV3} isSuccess={isSuccessKøerV3} isLoading={isLoadingKøerV3} />
 				</div>
 			</div>
-			{/* eslint-disable-next-line jsx-a11y/interactive-supports-focus */}
+			{ }
 			<Button
 				onClick={() => {
 					setVisSlettModal(true);

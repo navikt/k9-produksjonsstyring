@@ -99,7 +99,7 @@ const ReservasjonerTabell = () => {
 		reservertTil: getDateAndTime(reservasjon.reservertTilTidspunkt).date,
 	});
 
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	 
 	const sokEtterReservasjon = (value: string) => {
 		const sokVerdi = value.toLowerCase();
 		const reservasjonerMedMatch = reservasjoner.filter(
