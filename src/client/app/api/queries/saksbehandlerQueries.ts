@@ -76,8 +76,8 @@ export const useReserverOppgaveMutation = (onSuccess?: () => void) => {
 	const queryClient = useQueryClient();
 	return useMutation({
 		onSuccess: () => {
-			queryClient.refetchQueries(apiPaths.saksbehandlerReservasjoner);
-			queryClient.refetchQueries(apiPaths.avdelinglederReservasjoner);
+			queryClient.refetchQueries({ queryKey: apiPaths.saksbehandlerReservasjoner });
+			queryClient.refetchQueries({ queryKey: apiPaths.avdelinglederReservasjoner });
 			if (onSuccess) onSuccess();
 		},
 		mutationFn: (oppgaveNøkkel: OppgaveNøkkel): Promise<OppgaveStatus> =>
@@ -90,8 +90,8 @@ export const useEndreReservasjoner = (onSuccess?: () => void) => {
 	return useMutation<OppgaveStatus, Error, EndreOppgaveType[]>({
 		mutationFn: (data) => axiosInstance.post(apiPaths.endreReservasjoner, data),
 		onSuccess: () => {
-			queryClient.refetchQueries(apiPaths.saksbehandlerReservasjoner);
-			queryClient.refetchQueries(apiPaths.avdelinglederReservasjoner);
+			queryClient.refetchQueries({ queryKey: apiPaths.saksbehandlerReservasjoner });
+			queryClient.refetchQueries({ queryKey: apiPaths.avdelinglederReservasjoner });
 			if (onSuccess) onSuccess();
 		},
 	});
@@ -103,7 +103,7 @@ export const usePlukkOppgaveMutation = (callback?: (oppgave: ReservasjonV3FraKø
 		mutationFn: (data: { oppgaveKøId: string }): Promise<ReservasjonV3FraKøDto> =>
 			axiosInstance.post(`${apiPaths.hentOppgaveFraKoV3(data.oppgaveKøId)}`, data).then((response) => response.data),
 		onSuccess: (data: ReservasjonV3FraKøDto) => {
-			queryClient.invalidateQueries(apiPaths.saksbehandlerReservasjoner).then(() => {
+			queryClient.invalidateQueries({ queryKey: apiPaths.saksbehandlerReservasjoner }).then(() => {
 				if (callback) callback(data);
 			});
 		},
@@ -116,8 +116,8 @@ export const useOpphevReservasjoner = (onSuccess?: () => void) => {
 		mutationFn: (data: Array<{ oppgaveNøkkel: OppgaveNøkkel }>) =>
 			axiosInstance.post(apiPaths.opphevReservasjoner, data),
 		onSuccess: () => {
-			queryClient.invalidateQueries(apiPaths.saksbehandlerReservasjoner);
-			queryClient.invalidateQueries(apiPaths.avdelinglederReservasjoner);
+			queryClient.invalidateQueries({ queryKey: apiPaths.saksbehandlerReservasjoner });
+			queryClient.invalidateQueries({ queryKey: apiPaths.avdelinglederReservasjoner });
 			if (onSuccess) onSuccess();
 		},
 	});
