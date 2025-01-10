@@ -1,16 +1,13 @@
 import React, { FunctionComponent } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router';
 import classnames from 'classnames/bind';
 import Panel from 'nav-frontend-paneler';
 import Tabs from 'nav-frontend-tabs';
 import { Heading } from '@navikt/ds-react';
 import useTrackRouteParam from 'app/data/trackRouteParam';
-import NavAnsatt from 'app/navAnsattTsType';
 import { getPanelLocationCreator } from 'app/paths';
-import { RestApiGlobalStatePathsKeys } from 'api/k9LosApi';
 import { useInnloggetSaksbehandler } from 'api/queries/saksbehandlerQueries';
-import useGlobalStateRestApiData from 'api/rest-api-hooks/src/global-data/useGlobalStateRestApiData';
 import LoadingPanel from 'sharedComponents/LoadingPanel';
 import { parseQueryString } from 'utils/urlUtils';
 import AdminPanels from './AdminPanels';
