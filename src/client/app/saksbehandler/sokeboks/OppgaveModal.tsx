@@ -72,7 +72,7 @@ export function OppgaveModal(props: { oppgave: SøkeboksOppgaveDto; open: boolea
 						type="button"
 						variant="secondary"
 						loading={isLoadingOpphevReservasjon}
-						onClick={() => opphevReservasjoner([...props.oppgave.oppgaveNøkkel])}
+						onClick={() => opphevReservasjoner([props.oppgave.oppgaveNøkkel])}
 					>
 						Legg tilbake i kø
 					</Button>
