@@ -1,8 +1,10 @@
 import React, { FunctionComponent, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useNavigate } from 'react-router';
+import { MenuGridIcon } from '@navikt/aksel-icons';
+import { ActionMenu, Dropdown, InternalHeader, Spacer } from '@navikt/ds-react';
 import Endringslogg from '@navikt/familie-endringslogg';
-import { BoxedListWithLinks, Header, Popover, SystemButton, UserPanel } from '@navikt/ft-plattform-komponenter';
+import { BoxedListWithLinks, Header, SystemButton } from '@navikt/ft-plattform-komponenter';
 import DriftsmeldingPanel from 'app/components/DriftsmeldingPanel';
 import ErrorFormatter from 'app/feilhandtering/ErrorFormatter';
 import { RETTSKILDE_URL, SHAREPOINT_URL } from 'api/eksterneLenker';
@@ -85,7 +87,6 @@ const HeaderWithErrorPanel: FunctionComponent<OwnProps> = ({ queryStrings, crash
 		setLenkePanelApent,
 		setAvdelingerPanelApent,
 	);
-	const brukerPanel = <UserPanel name={innloggetSaksbehandler?.navn} />;
 	const fixedHeaderRef = useRef(null);
 
 	const goTilAvdelingslederPanel = () => {
@@ -203,21 +204,30 @@ const HeaderWithErrorPanel: FunctionComponent<OwnProps> = ({ queryStrings, crash
 							/>
 						</div>
 					)}
-					<Popover
-						popperIsVisible={erLenkePanelApent}
-						renderArrowElement
-						customPopperStyles={{ top: '11px', zIndex: 1 }}
-						popperProps={{
-							children: popperPropsChildren,
-							placement: 'bottom-start',
-							strategy: 'fixed',
-						}}
-						referenceProps={{
-							// eslint-disable-next-line react/prop-types
-							children: referencePropsChildren,
-						}}
-					/>
-					{brukerPanel}
+					<ActionMenu>
+						<ActionMenu.Trigger>
+							<InternalHeader.Button>
+								<MenuGridIcon fontSize="1.5rem" title="Systemer og oppslagsverk" />
+							</InternalHeader.Button>
+						</ActionMenu.Trigger>
+						<ActionMenu.Content>
+							<ActionMenu.Group label="Systemer og oppslagsverk">
+								<ActionMenu.Item>
+									<a href={RETTSKILDE_URL} target="_blank" rel="noopener noreferrer">
+										Rettskilde
+									</a>
+								</ActionMenu.Item>
+								<ActionMenu.Item>
+									<a href={SHAREPOINT_URL} target="_blank" rel="noopener noreferrer">
+										Sharepoint
+									</a>
+								</ActionMenu.Item>
+							</ActionMenu.Group>
+						</ActionMenu.Content>
+					</ActionMenu>
+					<Dropdown.Menu.Divider />
+					<Spacer />
+					<InternalHeader.User className="text-white" name="Ola Normann" />
 					{isDev && (
 						<button type="button" className={styles.knapp} onClick={loggUt}>
 							Logg ut
