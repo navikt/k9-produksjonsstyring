@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useEffect } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router';
 import classnames from 'classnames/bind';
 import { Row } from 'nav-frontend-grid';
 import Panel from 'nav-frontend-paneler';

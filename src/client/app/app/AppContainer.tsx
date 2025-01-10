@@ -1,8 +1,8 @@
 import React from 'react';
-import AppIndex from 'app/AppIndex';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter } from 'react-router';
+import AppIndex from 'app/AppIndex';
 import { RestApiErrorProvider } from 'api/error/RestApiErrorContext';
 import { k9LosApi } from 'api/k9LosApi';
 import { RestApiProvider } from 'api/rest-api-hooks/src/RestApiContext';
