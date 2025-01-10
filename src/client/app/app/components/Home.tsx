@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useEffect, useMemo } from 'react';
 import { useQuery, useQueryClient } from 'react-query';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router';
 import { withSentryReactRouterV6Routing } from '@sentry/react';
 import AppContext from 'app/AppContext';
 import apiPaths from 'api/apiPaths';

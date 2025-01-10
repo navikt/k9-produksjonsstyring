@@ -1,10 +1,11 @@
-import { Params, useLocation, useParams } from 'react-router-dom';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { Params, useLocation, useParams } from 'react-router';
 import { Location } from 'history';
 import { parseQueryString } from 'utils/urlUtils';
 
 const defaultConfig = {
 	paramName: '',
-	parse: (a) => a,
+	parse: (a: unknown) => a,
 	isQueryParam: false,
 };
 

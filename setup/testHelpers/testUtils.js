@@ -1,7 +1,7 @@
 import React from 'react';
 import { IntlProvider } from 'react-intl';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter } from 'react-router';
 import { render as rtlRender } from '@testing-library/react';
 import kodeverk from 'mocks/kodeverk';
 import { k9LosApi } from 'api/k9LosApi';

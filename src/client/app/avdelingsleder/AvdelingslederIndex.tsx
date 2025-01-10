@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useEffect } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router';
 import classnames from 'classnames/bind';
 import { Row } from 'nav-frontend-grid';
 import Panel from 'nav-frontend-paneler';
@@ -22,7 +22,6 @@ import useRestApiRunner from 'api/rest-api-hooks/src/local-data/useRestApiRunner
 import DagensTallPanel from 'avdelingsleder/dagensTall/DagensTallPanel';
 import ApneBehandlinger from 'avdelingsleder/dagensTall/apneBehandlingerTsType';
 import NokkeltallIndex from 'avdelingsleder/nokkeltall/NokkeltallIndex';
-import PrognoseIndex from 'avdelingsleder/prognose/PrognoseIndex';
 import Image from 'sharedComponents/Image';
 import LoadingPanel from 'sharedComponents/LoadingPanel';
 import VerticalSpacer from 'sharedComponents/VerticalSpacer';
@@ -46,8 +45,6 @@ const renderAvdelingslederPanel = (avdelingslederPanel) => {
 			return <BehandlingskoerIndex />;
 		case AvdelingslederPanels.NOKKELTALL:
 			return <NokkeltallIndex />;
-		case AvdelingslederPanels.PROGNOSE:
-			return <PrognoseIndex />;
 		case AvdelingslederPanels.RESERVASJONER:
 			return <ReservasjonerTabell />;
 		case AvdelingslederPanels.SAKSBEHANDLERE:
@@ -61,7 +58,6 @@ const messageId = {
 	[AvdelingslederPanels.BEHANDLINGSKOER]: 'AvdelingslederIndex.Behandlingskoer',
 	[AvdelingslederPanels.BEHANDLINGSKOER_V3]: 'AvdelingslederIndex.Behandlingskoer.V3',
 	[AvdelingslederPanels.NOKKELTALL]: 'AvdelingslederIndex.Nokkeltall',
-	[AvdelingslederPanels.PROGNOSE]: 'AvdelingslederIndex.Prognose',
 	[AvdelingslederPanels.RESERVASJONER]: 'AvdelingslederIndex.Reservasjoner',
 	[AvdelingslederPanels.SAKSBEHANDLERE]: 'AvdelingslederIndex.Saksbehandlere',
 };
@@ -70,7 +66,6 @@ const tabStyle = {
 	[AvdelingslederPanels.BEHANDLINGSKOER]: [<TasklistIcon fontSize="1.5rem" />, <TasklistIcon fontSize="1.5rem" />],
 	[AvdelingslederPanels.BEHANDLINGSKOER_V3]: [<TasklistIcon fontSize="1.5rem" />, <TasklistIcon fontSize="1.5rem" />],
 	[AvdelingslederPanels.NOKKELTALL]: [<KeyHorizontalIcon fontSize="1.5rem" />, <KeyHorizontalIcon fontSize="1.5rem" />],
-	[AvdelingslederPanels.PROGNOSE]: [<LineGraphDotIcon fontSize="1.5rem" />, <LineGraphDotIcon fontSize="1.5rem" />],
 	[AvdelingslederPanels.RESERVASJONER]: [<CircleSlashIcon fontSize="1.5rem" />, <CircleSlashIcon fontSize="1.5rem" />],
 	[AvdelingslederPanels.SAKSBEHANDLERE]: [<PersonGroupIcon fontSize="1.5rem" />, <PersonGroupIcon fontSize="1.5rem" />],
 };
@@ -172,7 +167,6 @@ export const AvdelingslederIndex: FunctionComponent = () => {
 											getAvdelingslederPanelLocation,
 										),
 									getTab(AvdelingslederPanels.NOKKELTALL, activeAvdelingslederPanel, getAvdelingslederPanelLocation),
-									getTab(AvdelingslederPanels.PROGNOSE, activeAvdelingslederPanel, getAvdelingslederPanelLocation),
 									getTab(AvdelingslederPanels.RESERVASJONER, activeAvdelingslederPanel, getAvdelingslederPanelLocation),
 									getTab(
 										AvdelingslederPanels.SAKSBEHANDLERE,
