@@ -113,7 +113,8 @@ export const usePlukkOppgaveMutation = (callback?: (oppgave: ReservasjonV3FraKø
 export const useOpphevReservasjoner = (onSuccess?: () => void) => {
 	const queryClient = useQueryClient();
 	return useMutation({
-		mutationFn: (data: OppgaveNøkkel[]) => axiosInstance.post(apiPaths.opphevReservasjoner, data),
+		mutationFn: (data: Array<{ oppgaveNøkkel: OppgaveNøkkel }>) =>
+			axiosInstance.post(apiPaths.opphevReservasjoner, data),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: apiPaths.saksbehandlerReservasjoner });
 			queryClient.invalidateQueries({ queryKey: apiPaths.avdelinglederReservasjoner });
