@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import AlleOppgaver from 'avdelingsleder/nokkeltall/components/fordelingAvBehandlingstype/alleOppgaverTsType';
+import AlleOppgaver from 'avdelingsleder/nokkeltall/alleOppgaverTsType';
 import HistoriskData from 'avdelingsleder/nokkeltall/historiskDataTsType';
 import NyeOgFerdigstilteMedStonadstype from 'avdelingsleder/nokkeltall/nyeOgFerdigstilteMedStonadstypeTsType';
 import AlleKodeverk from 'kodeverk/alleKodeverkTsType';
