@@ -31,6 +31,26 @@ type ReservasjonTableData = {
 
 // Snevrer inn typesettingen av vanlig SortState, slik at kun felter som finnes i tabellen kan sorteres på
 type ReservasjonTableDataSortState = SortState & { orderBy: keyof ReservasjonTableData };
+const comparator = (a: ReservasjonTableData, b: ReservasjonTableData, orderBy: keyof ReservasjonTableData) => {
+	switch (orderBy) {
+		case 'reservasjon':
+			// Brukes ikke til sortering
+			return 0;
+		case 'reservertTil':
+			// Kan ikke bruke DD.MM.YYYY til å sortere på, må bruke YYYY-MM-DD
+			return a.reservasjon.reservertTilTidspunkt.localeCompare(b.reservasjon.reservertTilTidspunkt);
+		default:
+			return a[orderBy].localeCompare(b[orderBy]);
+	}
+};
+
+const sorter = (reservasjonerListe: ReservasjonTableData[], newSort: ReservasjonTableDataSortState) =>
+	reservasjonerListe?.sort((a, b) => {
+		if (newSort) {
+			return newSort.direction === 'ascending' ? comparator(b, a, newSort.orderBy) : comparator(a, b, newSort.orderBy);
+		}
+		return 1;
+	});
 
 const ReservasjonerTabell = () => {
 	const [reservasjonerSomSkalVises, setReservasjonerSomSkalVises] = useState<ReservasjonTableData[]>([]);
@@ -39,29 +59,6 @@ const ReservasjonerTabell = () => {
 		{ oppgaveNøkkel: OppgaveNøkkel; begrunnelse: string }[]
 	>([]);
 	const [sort, setSort] = useState<ReservasjonTableDataSortState>({ orderBy: 'navn', direction: 'ascending' });
-
-	const comparator = (a: ReservasjonTableData, b: ReservasjonTableData, orderBy: keyof ReservasjonTableData) => {
-		switch (orderBy) {
-			case 'reservasjon':
-				// Brukes ikke til sortering
-				return 0;
-			case 'reservertTil':
-				// Kan ikke bruke DD.MM.YYYY til å sortere på, må bruke YYYY-MM-DD
-				return a.reservasjon.reservertTilTidspunkt.localeCompare(b.reservasjon.reservertTilTidspunkt);
-			default:
-				return a[orderBy].localeCompare(b[orderBy]);
-		}
-	};
-
-	const sorter = (reservasjonerListe: ReservasjonTableData[], newSort: ReservasjonTableDataSortState) =>
-		reservasjonerListe?.sort((a, b) => {
-			if (newSort) {
-				return newSort.direction === 'ascending'
-					? comparator(b, a, newSort.orderBy)
-					: comparator(a, b, newSort.orderBy);
-			}
-			return 1;
-		});
 
 	const handleSort = (sortKey: keyof ReservasjonTableData) => {
 		const newSort: ReservasjonTableDataSortState =
@@ -78,11 +75,11 @@ const ReservasjonerTabell = () => {
 	const { data: reservasjoner, isLoading, isSuccess } = useAvdelingslederReservasjoner();
 
 	useEffect(() => {
-		if (isSuccess) {
+		if (reservasjoner) {
 			setReservasjonerSomSkalVises(sorter(reservasjoner.map(mapTilTableData), sort));
 			setValgteReservasjoner([]);
 		}
-	}, [isSuccess]);
+	}, [reservasjoner]);
 
 	const alleKodeverk: AlleKodeverk = useGlobalStateRestApiData(RestApiGlobalStatePathsKeys.KODEVERK);
 

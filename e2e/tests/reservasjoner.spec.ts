@@ -39,7 +39,7 @@ test('Kan søke opp og reservere opppgave', async ({ page }) => {
 	await searchButton.click();
 
 	await page.waitForResponse(
-		(response) => response.url().includes('/api/k9-los-api/fagsak/sok') && response.status() === 200,
+		(response) => response.url().includes('/api/k9-los-api/ny-oppgavestyring/sok') && response.status() === 200,
 	);
 
 	const searchResult = page.getByRole('cell', { name: saksnummer });
@@ -47,7 +47,7 @@ test('Kan søke opp og reservere opppgave', async ({ page }) => {
 	await searchResult.click();
 
 	expect(page.getByText('Hva ønsker du å gjøre med oppgaven?')).toBeVisible();
-	await page.getByRole('button', { name: 'Reserver og åpne oppgaven' }).click();
+	await page.getByRole('button', { name: 'Reserver og åpne oppgave' }).click();
 
 	await page.waitForResponse(
 		(response) =>
