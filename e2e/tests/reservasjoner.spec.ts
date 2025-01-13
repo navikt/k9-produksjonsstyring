@@ -39,7 +39,7 @@ test('Kan søke opp og reservere opppgave', async ({ page }) => {
 	await searchButton.click();
 
 	await page.waitForResponse(
-		(response) => response.url().includes('/api/k9-los-api/ny-oppgavestyring/sok') && response.status() === 200,
+		(response) => response.url().includes('/api/k9-los-api/fagsak/sok') && response.status() === 200,
 	);
 
 	const searchResult = page.getByRole('cell', { name: saksnummer });

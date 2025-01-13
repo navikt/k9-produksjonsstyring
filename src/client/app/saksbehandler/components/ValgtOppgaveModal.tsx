@@ -67,7 +67,7 @@ export const ValgtOppgaveModal: FunctionComponent<OwnProps> = ({ oppgave, setVal
 					</Button>
 					{saksbehandler?.kanReservere && !erReservertAvInnloggetSaksbehandler(oppgave) && (
 						<Button variant="secondary" size="small" onClick={reserverValgtOppgave}>
-							Reserver og åpne oppgaven
+							Reserver og åpne oppgave
 						</Button>
 					)}
 					{erReservertAvInnloggetSaksbehandler(oppgave) && (
@@ -130,7 +130,7 @@ export const ValgtOppgaveModal: FunctionComponent<OwnProps> = ({ oppgave, setVal
 					</Button>
 					{saksbehandler?.kanReservere && (
 						<Button variant="secondary" size="small" onClick={reserverValgtOppgave}>
-							Reserver og åpne oppgaven
+							Reserver og åpne oppgave
 						</Button>
 					)}
 					<Button variant="secondary" size="small" onClick={onClose}>
@@ -149,7 +149,7 @@ export const ValgtOppgaveModal: FunctionComponent<OwnProps> = ({ oppgave, setVal
 				</Button>
 				{saksbehandler?.kanReservere && (
 					<Button variant="secondary" size="small" onClick={reserverValgtOppgave}>
-						Reserver og åpne oppgaven
+						Reserver og åpne oppgave
 					</Button>
 				)}
 				<Button variant="secondary" size="small" onClick={onClose}>
