@@ -126,8 +126,10 @@ const FilterIndex = ({
 	});
 
 	useEffect(() => {
-		const newQuery = new OppgaveQueryModel(køData.oppgaveQuery).toOppgaveQuery();
-		setOppgaveQuery(newQuery);
+		if (isSuccess) {
+			const newQuery = new OppgaveQueryModel(køData.oppgaveQuery).toOppgaveQuery();
+			setOppgaveQuery(newQuery);
+		}
 	}, [isSuccess]);
 
 	const validateOppgaveQuery = async (isValidatingFunc: (validating: boolean) => void): Promise<boolean> => {

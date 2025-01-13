@@ -1,7 +1,6 @@
 /* eslint-disable no-use-before-define */
-
 /* eslint-disable @typescript-eslint/no-use-before-define */
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import _ from 'lodash';
 import { ArrowUndoIcon, PencilIcon } from '@navikt/aksel-icons';
@@ -76,16 +75,14 @@ const ReservasjonerTabell = () => {
 		setReservasjonerSomSkalVises(sorter(reservasjonerSomSkalVises, newSort));
 	};
 
-	const {
-		data: reservasjoner,
-		isLoading,
-		isSuccess,
-	} = useAvdelingslederReservasjoner({
-		onSuccess: (data: Reservasjon[]) => {
-			setReservasjonerSomSkalVises(sorter(data.map(mapTilTableData), sort));
+	const { data: reservasjoner, isLoading, isSuccess } = useAvdelingslederReservasjoner();
+
+	useEffect(() => {
+		if (isSuccess) {
+			setReservasjonerSomSkalVises(sorter(reservasjoner.map(mapTilTableData), sort));
 			setValgteReservasjoner([]);
-		},
-	});
+		}
+	}, [isSuccess]);
 
 	const alleKodeverk: AlleKodeverk = useGlobalStateRestApiData(RestApiGlobalStatePathsKeys.KODEVERK);
 
@@ -99,7 +96,6 @@ const ReservasjonerTabell = () => {
 		reservertTil: getDateAndTime(reservasjon.reservertTilTidspunkt).date,
 	});
 
-	 
 	const sokEtterReservasjon = (value: string) => {
 		const sokVerdi = value.toLowerCase();
 		const reservasjonerMedMatch = reservasjoner.filter(

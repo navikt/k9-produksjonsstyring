@@ -9,9 +9,6 @@ const isButtonDisabled = (searchString: string, searchStarted: boolean) => searc
 interface OwnProps {
 	onSubmit: (searchString: string) => void;
 	searchStarted: boolean;
-	searchResultAccessDenied?: {
-		feilmelding?: string;
-	};
 }
 
 /**
@@ -45,7 +42,7 @@ export const SearchForm: FunctionComponent<OwnProps> = ({ onSubmit, searchStarte
 		<form className={styles.container} onSubmit={handleSubmit}>
 			<div className="flex">
 				<TextField
-					label="Søk på saksnummer, personnummer eller journalpostID"
+					label="Søk på saksnummer, personnummer eller journalpost-id"
 					value={searchString}
 					onChange={(e) => setSearchString(e.target.value)}
 					error={error && intl.formatMessage(error)}
