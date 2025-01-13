@@ -1,17 +1,17 @@
 import { OppgaveQuery } from 'filter/filterTsTypes';
 
 export interface OppgaveKoIdOgTittel {
-	id: number;
+	id: string;
 	tittel: string;
 }
 export interface OppgavekøV3Enkel {
-	id: number;
+	id: string;
 	tittel: string;
 	sistEndret: string | null;
 	antallSaksbehandlere: number;
 }
 export interface OppgavekøV3 {
-	id: number;
+	id: string;
 	versjon: number;
 	tittel: string;
 	beskrivelse: string;
@@ -22,7 +22,7 @@ export interface OppgavekøV3 {
 	skjermet: boolean;
 }
 export interface OppgavekøerV3 {
-	koer: OppgavekøV3[];
+	koer: OppgavekøV3Enkel[];
 }
 
 export interface OppgavekøV3MedNavn extends OppgavekøV3 {

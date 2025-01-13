@@ -1,4 +1,4 @@
-import { UseMutationOptions, UseQueryOptions, useMutation, useQuery, useQueryClient } from 'react-query';
+import { UseMutationOptions, UseQueryOptions, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import NavAnsatt from 'app/navAnsattTsType';
 import apiPaths from 'api/apiPaths';
 import { SaksbehandlerEnkel } from 'avdelingsleder/bemanning/saksbehandlerTsType';
@@ -11,58 +11,61 @@ import { SøkeboksOppgaveDto } from 'saksbehandler/sokeboks/SøkeboksOppgaveDto'
 import EndreOppgaveType from 'types/EndreOppgaveType';
 import { OppgaveNøkkel } from 'types/OppgaveNøkkel';
 import OppgaveV3 from 'types/OppgaveV3';
-import { OppgavekøV3Enkel } from 'types/OppgavekøV3Type';
+import { OppgavekøV3, OppgavekøV3Enkel } from 'types/OppgavekøV3Type';
 import { axiosInstance } from 'utils/reactQueryConfig';
 
-export const useInnloggetSaksbehandler = (options: UseQueryOptions<NavAnsatt, Error> = {}) =>
-	useQuery(apiPaths.saksbehandler, {
+export const useInnloggetSaksbehandler = (options?: Omit<UseQueryOptions<NavAnsatt, Error>, 'queryKey'>) =>
+	useQuery({
 		...options,
-		staleTime: Infinity,
-		cacheTime: Infinity,
+		queryKey: [apiPaths.saksbehandler],
+		gcTime: Infinity,
 		refetchOnWindowFocus: false,
 	});
-export const useGetAlleSaksbehandlere = (options: UseQueryOptions<SaksbehandlerEnkel[], Error> = {}) =>
-	useQuery<SaksbehandlerEnkel[], Error>(apiPaths.hentSaksbehandlereSomSaksbehandler, options);
+export const useGetAlleSaksbehandlere = (options?: Omit<UseQueryOptions<SaksbehandlerEnkel[], Error>, 'queryKey'>) =>
+	useQuery<SaksbehandlerEnkel[], Error>({ queryKey: [apiPaths.hentSaksbehandlereSomSaksbehandler], ...options });
 
 export const useAntallOppgaverIKoV3UtenReserverte = (
 	koId: string,
-	options: UseQueryOptions<{ antallUtenReserverte: number }, Error, { antallUtenReserverte: number }> = {},
+	options: Omit<UseQueryOptions<{ antallUtenReserverte: number }, Error, { antallUtenReserverte: number }>, 'queryKey'>,
 ) =>
 	useQuery<{ antallUtenReserverte: number }, Error, { antallUtenReserverte: number }>({
 		queryKey: [apiPaths.antallOppgaverIKoV3UtenReserverte(koId)],
 		...options,
 	});
 
-export const useAlleSaksbehandlerKoerV1 = (options: UseQueryOptions<OppgavekøV1[], Error> = {}) =>
+export const useAlleSaksbehandlerKoerV1 = (options?: Omit<UseQueryOptions<OppgavekøV1[], Error>, 'queryKey'>) =>
 	useQuery<OppgavekøV1[], Error>({
 		queryKey: [apiPaths.hentAlleKoerSaksbehandlerV1],
 		...options,
 	});
 
-export const useAlleSaksbehandlerKoerV3 = (options: UseQueryOptions<OppgavekøV3Enkel[], Error> = {}) =>
-	useQuery<OppgavekøV3Enkel[], Error>({
+export const useAlleSaksbehandlerKoerV3 = (options?: Omit<UseQueryOptions<OppgavekøV3[], Error>, 'queryKey'>) =>
+	useQuery<OppgavekøV3[], Error>({
 		queryKey: [apiPaths.hentAlleKoerSaksbehandlerV3],
 		...options,
 	});
 
-export const useSaksbehandlerNesteTiV3 = (id: string, options: UseQueryOptions<OppgaveV3[], Error> = {}) =>
+export const useSaksbehandlerNesteTiV3 = (
+	id: string,
+	options?: Omit<UseQueryOptions<OppgaveV3[], Error>, 'queryKey'>,
+) =>
 	useQuery<OppgaveV3[], Error, OppgaveV3[]>({
 		queryKey: [apiPaths.hentTiNesteIKoV3(id)],
 		...options,
 	});
 
-export const useSaksbehandlerNesteTiV1 = (id: string, options: UseQueryOptions<Oppgave[], Error> = {}) =>
+export const useSaksbehandlerNesteTiV1 = (id: string, options?: Omit<UseQueryOptions<Oppgave[], Error>, 'queryKey'>) =>
 	useQuery<Oppgave[], Error, Oppgave[]>({
 		queryKey: [apiPaths.saksbehandlerNesteOppgaver(id)],
 		...options,
 	});
 
-export const useSaksbehandlerReservasjoner = (options: UseQueryOptions<ReservasjonV3[], Error> = {}) =>
+export const useSaksbehandlerReservasjoner = (options?: Omit<UseQueryOptions<ReservasjonV3[], Error>, 'queryKey'>) =>
 	useQuery<ReservasjonV3[], Error, ReservasjonV3[]>({
 		queryKey: [apiPaths.saksbehandlerReservasjoner],
 		...options,
 	});
-export const useSøk = (options: UseMutationOptions<SokeResultat, Error, string> = {}) =>
+export const useSøk = (options?: UseMutationOptions<SokeResultat, Error, string>) =>
 	useMutation({
 		...options,
 		mutationFn: (searchString: string): Promise<SokeResultat> =>
@@ -73,8 +76,8 @@ export const useReserverOppgaveMutation = (onSuccess?: () => void) => {
 	const queryClient = useQueryClient();
 	return useMutation({
 		onSuccess: () => {
-			queryClient.refetchQueries(apiPaths.saksbehandlerReservasjoner);
-			queryClient.refetchQueries(apiPaths.avdelinglederReservasjoner);
+			queryClient.refetchQueries({ queryKey: [apiPaths.saksbehandlerReservasjoner] });
+			queryClient.refetchQueries({ queryKey: [apiPaths.avdelinglederReservasjoner] });
 			if (onSuccess) onSuccess();
 		},
 		mutationFn: (oppgaveNøkkel: OppgaveNøkkel): Promise<OppgaveStatus> =>
@@ -87,8 +90,8 @@ export const useEndreReservasjoner = (onSuccess?: () => void) => {
 	return useMutation<OppgaveStatus, Error, EndreOppgaveType[]>({
 		mutationFn: (data) => axiosInstance.post(apiPaths.endreReservasjoner, data),
 		onSuccess: () => {
-			queryClient.refetchQueries(apiPaths.saksbehandlerReservasjoner);
-			queryClient.refetchQueries(apiPaths.avdelinglederReservasjoner);
+			queryClient.refetchQueries({ queryKey: [apiPaths.saksbehandlerReservasjoner] });
+			queryClient.refetchQueries({ queryKey: [apiPaths.avdelinglederReservasjoner] });
 			if (onSuccess) onSuccess();
 		},
 	});
@@ -100,7 +103,7 @@ export const usePlukkOppgaveMutation = (callback?: (oppgave: ReservasjonV3FraKø
 		mutationFn: (data: { oppgaveKøId: string }): Promise<ReservasjonV3FraKøDto> =>
 			axiosInstance.post(`${apiPaths.hentOppgaveFraKoV3(data.oppgaveKøId)}`, data).then((response) => response.data),
 		onSuccess: (data: ReservasjonV3FraKøDto) => {
-			queryClient.invalidateQueries(apiPaths.saksbehandlerReservasjoner).then(() => {
+			queryClient.refetchQueries({ queryKey: [apiPaths.saksbehandlerReservasjoner] }).then(() => {
 				if (callback) callback(data);
 			});
 		},
@@ -113,8 +116,8 @@ export const useOpphevReservasjoner = (onSuccess?: () => void) => {
 		mutationFn: (data: Array<{ oppgaveNøkkel: OppgaveNøkkel }>) =>
 			axiosInstance.post(apiPaths.opphevReservasjoner, data),
 		onSuccess: () => {
-			queryClient.invalidateQueries(apiPaths.saksbehandlerReservasjoner);
-			queryClient.invalidateQueries(apiPaths.avdelinglederReservasjoner);
+			queryClient.refetchQueries({ queryKey: [apiPaths.saksbehandlerReservasjoner] });
+			queryClient.refetchQueries({ queryKey: [apiPaths.avdelinglederReservasjoner] });
 			if (onSuccess) onSuccess();
 		},
 	});

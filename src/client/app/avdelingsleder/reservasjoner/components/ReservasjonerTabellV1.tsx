@@ -1,7 +1,6 @@
 /* eslint-disable no-use-before-define */
-
 /* eslint-disable @typescript-eslint/no-use-before-define */
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import _ from 'lodash';
 import { ArrowUndoIcon, PencilIcon } from '@navikt/aksel-icons';
@@ -32,6 +31,26 @@ type ReservasjonTableData = {
 
 // Snevrer inn typesettingen av vanlig SortState, slik at kun felter som finnes i tabellen kan sorteres på
 type ReservasjonTableDataSortState = SortState & { orderBy: keyof ReservasjonTableData };
+const comparator = (a: ReservasjonTableData, b: ReservasjonTableData, orderBy: keyof ReservasjonTableData) => {
+	switch (orderBy) {
+		case 'reservasjon':
+			// Brukes ikke til sortering
+			return 0;
+		case 'reservertTil':
+			// Kan ikke bruke DD.MM.YYYY til å sortere på, må bruke YYYY-MM-DD
+			return a.reservasjon.reservertTilTidspunkt.localeCompare(b.reservasjon.reservertTilTidspunkt);
+		default:
+			return a[orderBy].localeCompare(b[orderBy]);
+	}
+};
+
+const sorter = (reservasjonerListe: ReservasjonTableData[], newSort: ReservasjonTableDataSortState) =>
+	reservasjonerListe?.sort((a, b) => {
+		if (newSort) {
+			return newSort.direction === 'ascending' ? comparator(b, a, newSort.orderBy) : comparator(a, b, newSort.orderBy);
+		}
+		return 1;
+	});
 
 const ReservasjonerTabell = () => {
 	const [reservasjonerSomSkalVises, setReservasjonerSomSkalVises] = useState<ReservasjonTableData[]>([]);
@@ -40,29 +59,6 @@ const ReservasjonerTabell = () => {
 		{ oppgaveNøkkel: OppgaveNøkkel; begrunnelse: string }[]
 	>([]);
 	const [sort, setSort] = useState<ReservasjonTableDataSortState>({ orderBy: 'navn', direction: 'ascending' });
-
-	const comparator = (a: ReservasjonTableData, b: ReservasjonTableData, orderBy: keyof ReservasjonTableData) => {
-		switch (orderBy) {
-			case 'reservasjon':
-				// Brukes ikke til sortering
-				return 0;
-			case 'reservertTil':
-				// Kan ikke bruke DD.MM.YYYY til å sortere på, må bruke YYYY-MM-DD
-				return a.reservasjon.reservertTilTidspunkt.localeCompare(b.reservasjon.reservertTilTidspunkt);
-			default:
-				return a[orderBy].localeCompare(b[orderBy]);
-		}
-	};
-
-	const sorter = (reservasjonerListe: ReservasjonTableData[], newSort: ReservasjonTableDataSortState) =>
-		reservasjonerListe?.sort((a, b) => {
-			if (newSort) {
-				return newSort.direction === 'ascending'
-					? comparator(b, a, newSort.orderBy)
-					: comparator(a, b, newSort.orderBy);
-			}
-			return 1;
-		});
 
 	const handleSort = (sortKey: keyof ReservasjonTableData) => {
 		const newSort: ReservasjonTableDataSortState =
@@ -76,16 +72,14 @@ const ReservasjonerTabell = () => {
 		setReservasjonerSomSkalVises(sorter(reservasjonerSomSkalVises, newSort));
 	};
 
-	const {
-		data: reservasjoner,
-		isLoading,
-		isSuccess,
-	} = useAvdelingslederReservasjoner({
-		onSuccess: (data: Reservasjon[]) => {
-			setReservasjonerSomSkalVises(sorter(data.map(mapTilTableData), sort));
+	const { data: reservasjoner, isLoading, isSuccess } = useAvdelingslederReservasjoner();
+
+	useEffect(() => {
+		if (reservasjoner) {
+			setReservasjonerSomSkalVises(sorter(reservasjoner.map(mapTilTableData), sort));
 			setValgteReservasjoner([]);
-		},
-	});
+		}
+	}, [reservasjoner]);
 
 	const alleKodeverk: AlleKodeverk = useGlobalStateRestApiData(RestApiGlobalStatePathsKeys.KODEVERK);
 
@@ -99,7 +93,6 @@ const ReservasjonerTabell = () => {
 		reservertTil: getDateAndTime(reservasjon.reservertTilTidspunkt).date,
 	});
 
-	 
 	const sokEtterReservasjon = (value: string) => {
 		const sokVerdi = value.toLowerCase();
 		const reservasjonerMedMatch = reservasjoner.filter(

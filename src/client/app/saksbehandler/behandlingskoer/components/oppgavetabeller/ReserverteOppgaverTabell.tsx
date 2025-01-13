@@ -1,7 +1,6 @@
- 
 import React, { FunctionComponent, useRef, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { useQueryClient } from 'react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import NavFrontendChevron from 'nav-frontend-chevron';
 import { BodyShort, ErrorMessage, Label, Loader, Table } from '@navikt/ds-react';
 import apiPaths from 'api/apiPaths';
@@ -57,7 +56,9 @@ const ReserverteOppgaverTabell: FunctionComponent<OwnProps> = ({ apneOppgave, gj
 
 	const forlengOppgaveReservasjonFn = (oppgaveNøkkel: OppgaveNøkkel) => {
 		forlengOppgavereservasjon({ oppgaveNøkkel }).then(() => {
-			queryClient.invalidateQueries(apiPaths.saksbehandlerReservasjoner);
+			queryClient.invalidateQueries({
+                queryKey: [apiPaths.saksbehandlerReservasjoner]
+            });
 		});
 	};
 	const ref = useRef({});

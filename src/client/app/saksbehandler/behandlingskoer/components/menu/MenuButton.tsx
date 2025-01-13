@@ -12,7 +12,7 @@ interface MenuButtonProps {
  *
  * Presentasjonskomponent. Lager lenker i behandlingsmeny
  */
-const MenuButton = React.forwardRef<HTMLElement, MenuButtonProps>(({ onClick, children }: TsProps, ref) => (
+const MenuButton = React.forwardRef<HTMLElement, MenuButtonProps>(({ onClick, children }: MenuButtonProps, ref) => (
 	<button ref={ref} className={styles.button} onClick={onClick} type="button">
 		<Detail>{children}</Detail>
 	</button>

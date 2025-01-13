@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { useQuery } from 'react-query';
+import { useQuery } from '@tanstack/react-query';
 import { Loader } from '@navikt/ds-react';
 import { Error } from 'app/errorTsType';
 import apiPaths from 'api/apiPaths';
@@ -16,9 +16,9 @@ const AksjonspunkterPerEnhetPanel: FunctionComponent = () => {
 		data: aksjonspunkterPerEnhet,
 		isLoading,
 		error,
-	}: { data: AksjonspunkterPerEnhetType[]; isLoading: boolean; error: Error } = useQuery(
-		apiPaths.aksjonspunkterPerEnhet,
-	);
+	}: { data: AksjonspunkterPerEnhetType[]; isLoading: boolean; error: Error } = useQuery({
+		queryKey: [apiPaths.aksjonspunkterPerEnhet],
+	});
 
 	const [valgtYtelseType, setValgtYtelseType] = useState<string>(
 		getValueFromLocalStorage(`${id}-ytelsestype`) || ALLE_YTELSETYPER_VALGT,

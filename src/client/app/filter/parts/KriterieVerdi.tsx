@@ -215,10 +215,7 @@ const KriterieVerdi = ({
 		feltdefinisjon.verdiforklaringer.length &&
 		feltdefinisjon.verdiforklaringer.length > 3
 	) {
-		return (
-			 
-			<MultiSelectKriterie feltdefinisjon={feltdefinisjon} oppgavefilter={oppgavefilter} error={errorMessage} />
-		);
+		return <MultiSelectKriterie feltdefinisjon={feltdefinisjon} oppgavefilter={oppgavefilter} error={errorMessage} />;
 	}
 
 	return (

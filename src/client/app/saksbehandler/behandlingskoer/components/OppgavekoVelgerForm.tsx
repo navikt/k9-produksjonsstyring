@@ -1,6 +1,6 @@
 import React, { FunctionComponent, ReactNode, useContext, useEffect } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { useQuery, useQueryClient } from 'react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { BodyShort, Button, ReadMore, Select, Skeleton } from '@navikt/ds-react';
 import apiPaths from 'api/apiPaths';
 import { K9LosApiKeys } from 'api/k9LosApi';
@@ -85,7 +85,8 @@ export const OppgavekoVelgerForm: FunctionComponent<OwnProps> = ({ plukkNyOppgav
 	const { data: saksbehandlere, startRequest: hentSaksbehandlere } = useRestApiRunner<Saksbehandler[]>(
 		K9LosApiKeys.OPPGAVEKO_SAKSBEHANDLERE,
 	);
-	const { data: saksbehandlereV3 } = useQuery<Saksbehandler[]>(apiPaths.hentSaksbehandlereIKoV3(getKoId(valgtKoId)), {
+	const { data: saksbehandlereV3 } = useQuery<Saksbehandler[]>({
+		queryKey: [apiPaths.hentSaksbehandlereIKoV3(getKoId(valgtKoId))],
 		enabled: harKoer && valgtKoId && erKoV3(valgtKoId),
 	});
 
@@ -98,7 +99,7 @@ export const OppgavekoVelgerForm: FunctionComponent<OwnProps> = ({ plukkNyOppgav
 					hentSaksbehandlere({ id: getKoId(defaultOppgavekoId) });
 					fetchAntallOppgaver({ id: getKoId(defaultOppgavekoId) });
 				} else {
-					queryClient.invalidateQueries(apiPaths.hentSaksbehandlereIKoV3(getKoId(defaultOppgavekoId)));
+					queryClient.invalidateQueries({ queryKey: [apiPaths.hentSaksbehandlereIKoV3(getKoId(defaultOppgavekoId))] });
 				}
 			}
 		}
