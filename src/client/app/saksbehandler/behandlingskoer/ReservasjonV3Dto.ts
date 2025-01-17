@@ -1,6 +1,6 @@
-import OppgaveV3, { OppgavestatusV3 } from 'types/OppgaveV3';
 import Oppgave from 'saksbehandler/oppgaveTsType';
 import { OppgaveNøkkel } from 'types/OppgaveNøkkel';
+import OppgaveV3, { OppgavestatusV3 } from 'types/OppgaveV3';
 
 interface BaseReservasjonV3 {
 	reservertAvIdent: string;
@@ -13,7 +13,6 @@ interface BaseReservasjonV3 {
 
 interface ReservasjonV3 extends BaseReservasjonV3 {
 	reserverteV3Oppgaver: OppgaveV3[];
-	reservertOppgaveV1Dto?: Oppgave;
 	kommentar: string;
 }
 
@@ -32,24 +31,16 @@ function pickReservasjonProperties(reservasjon: ReservasjonV3) {
 }
 
 export function mapReservasjonV3Array(reservasjonV3Array: ReservasjonV3[]): MappedReservasjon[] {
-	return reservasjonV3Array.flatMap((reservasjon): MappedReservasjon[] => {
-		if (reservasjon.reservertOppgaveV1Dto) {
-			return [
-				{
-					...(reservasjon.reservertOppgaveV1Dto as MappedReservasjon),
-					...pickReservasjonProperties(reservasjon),
-				},
-			];
-		}
-		return reservasjon.reserverteV3Oppgaver
+	return reservasjonV3Array.flatMap((reservasjon): MappedReservasjon[] =>
+		reservasjon.reserverteV3Oppgaver
 			.filter((v) => v.oppgavestatus === OppgavestatusV3.AAPEN)
 			.map(
 				(oppgave): MappedReservasjon => ({
 					...(oppgave as MappedReservasjon),
 					...pickReservasjonProperties(reservasjon),
 				}),
-			);
-	});
+			),
+	);
 }
 
 export default ReservasjonV3;

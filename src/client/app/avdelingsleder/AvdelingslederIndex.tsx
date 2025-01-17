@@ -5,13 +5,7 @@ import classnames from 'classnames/bind';
 import { Row } from 'nav-frontend-grid';
 import Panel from 'nav-frontend-paneler';
 import Tabs from 'nav-frontend-tabs';
-import {
-	CircleSlashIcon,
-	KeyHorizontalIcon,
-	LineGraphDotIcon,
-	PersonGroupIcon,
-	TasklistIcon,
-} from '@navikt/aksel-icons';
+import { CircleSlashIcon, KeyHorizontalIcon, PersonGroupIcon, TasklistIcon } from '@navikt/aksel-icons';
 import { BodyShort, Heading } from '@navikt/ds-react';
 import useTrackRouteParam from 'app/data/trackRouteParam';
 import { avdelingslederTilgangTilNyeKoer } from 'app/envVariablesUtils';

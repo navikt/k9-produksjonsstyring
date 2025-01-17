@@ -1,6 +1,12 @@
 import KodeverkMedNavn from 'kodeverk/kodeverkMedNavnTsType';
 import { OppgaveNøkkel } from './OppgaveNøkkel';
 
+export enum OppgavestatusV3 {
+	AAPEN = 'AAPEN',
+	VENTER = 'VENTER',
+	LUKKET = 'LUKKET',
+}
+
 type OppgaveV3 = {
 	søkersNavn: string;
 	søkersPersonnr: string;
@@ -12,11 +18,5 @@ type OppgaveV3 = {
 	oppgavestatus: OppgavestatusV3;
 	oppgavebehandlingsUrl: string;
 };
-
-export enum OppgavestatusV3 {
-	AAPEN = 'AAPEN',
-	VENTER = 'VENTER',
-	LUKKET = 'LUKKET',
-}
 
 export default OppgaveV3;

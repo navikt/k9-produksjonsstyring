@@ -1,5 +1,4 @@
 /* eslint-disable no-param-reassign */
-
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { RefAttributes } from 'react';
 import { FormattedMessage } from 'react-intl';

@@ -6,7 +6,6 @@ import AppContext from 'app/AppContext';
 import apiPaths from 'api/apiPaths';
 import { useInnloggetSaksbehandler } from 'api/queries/saksbehandlerQueries';
 import AvdelingslederIndex from 'avdelingsleder/AvdelingslederIndex';
-import { Oppgavefelt } from 'filter/filterTsTypes';
 import SaksbehandlerIndex from 'saksbehandler/SaksbehandlerIndex';
 import AdminIndex from '../../admin/AdminIndex';
 import FilterIndex from '../../filter/FilterIndex';
@@ -21,8 +20,8 @@ import MissingPage from './MissingPage';
 const SentryRoutes = withSentryReactRouterV6Routing(Routes);
 const Home: FunctionComponent = () => {
 	const { data } = useQuery({
-        queryKey: [apiPaths.hentOppgaveFelter]
-    });
+		queryKey: [apiPaths.hentOppgaveFelter],
+	});
 	const { data: saksbehandler } = useInnloggetSaksbehandler();
 
 	const queryClient = useQueryClient();
@@ -31,12 +30,12 @@ const Home: FunctionComponent = () => {
 		if (saksbehandler.brukerIdent) {
 			if (saksbehandler.kanOppgavestyre) {
 				queryClient.prefetchQuery({
-                    queryKey: [apiPaths.hentSaksbehandlereAvdelingsleder]
-                });
+					queryKey: [apiPaths.hentSaksbehandlereAvdelingsleder],
+				});
 			}
 			queryClient.prefetchQuery({
-                queryKey: [apiPaths.hentSaksbehandlereSomSaksbehandler]
-            });
+				queryKey: [apiPaths.hentSaksbehandlereSomSaksbehandler],
+			});
 		}
 	}, [queryClient, saksbehandler.brukerIdent, saksbehandler.kanOppgavestyre]);
 

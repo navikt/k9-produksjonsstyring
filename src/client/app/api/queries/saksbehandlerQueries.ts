@@ -3,7 +3,6 @@ import NavAnsatt from 'app/navAnsattTsType';
 import apiPaths from 'api/apiPaths';
 import { SaksbehandlerEnkel } from 'avdelingsleder/bemanning/saksbehandlerTsType';
 import ReservasjonV3, { ReservasjonV3FraKøDto } from 'saksbehandler/behandlingskoer/ReservasjonV3Dto';
-import { OppgavekøV1 } from 'saksbehandler/behandlingskoer/oppgavekoTsType';
 import { SokeResultat } from 'saksbehandler/fagsakSearch/sokeResultatTsType';
 import { OppgaveStatus } from 'saksbehandler/oppgaveStatusTsType';
 import Oppgave from 'saksbehandler/oppgaveTsType';
@@ -11,7 +10,7 @@ import { SøkeboksOppgaveDto } from 'saksbehandler/sokeboks/SøkeboksOppgaveDto'
 import EndreOppgaveType from 'types/EndreOppgaveType';
 import { OppgaveNøkkel } from 'types/OppgaveNøkkel';
 import OppgaveV3 from 'types/OppgaveV3';
-import { OppgavekøV3, OppgavekøV3Enkel } from 'types/OppgavekøV3Type';
+import { OppgavekøV3 } from 'types/OppgavekøV3Type';
 import { axiosInstance } from 'utils/reactQueryConfig';
 
 export const useInnloggetSaksbehandler = (options?: Omit<UseQueryOptions<NavAnsatt, Error>, 'queryKey'>) =>
@@ -30,12 +29,6 @@ export const useAntallOppgaverIKoV3UtenReserverte = (
 ) =>
 	useQuery<{ antallUtenReserverte: number }, Error, { antallUtenReserverte: number }>({
 		queryKey: [apiPaths.antallOppgaverIKoV3UtenReserverte(koId)],
-		...options,
-	});
-
-export const useAlleSaksbehandlerKoerV1 = (options?: Omit<UseQueryOptions<OppgavekøV1[], Error>, 'queryKey'>) =>
-	useQuery<OppgavekøV1[], Error>({
-		queryKey: [apiPaths.hentAlleKoerSaksbehandlerV1],
 		...options,
 	});
 

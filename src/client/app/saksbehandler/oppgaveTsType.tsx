@@ -1,11 +1,11 @@
-import { OppgaveNøkkel } from 'types/OppgaveNøkkel';
 import KodeverkMedNavn from 'kodeverk/kodeverkMedNavnTsType';
+import { OppgaveNøkkel } from 'types/OppgaveNøkkel';
 import { OppgaveStatus } from './oppgaveStatusTsType';
 
 type Oppgave = {
 	status: OppgaveStatus;
 	saksnummer: string;
-	behandlingId: number;
+	behandlingId: string;
 	journalpostId: string;
 	personnummer: string;
 	oppgaveNøkkel: OppgaveNøkkel;
