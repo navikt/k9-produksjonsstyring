@@ -66,5 +66,6 @@ jobs:
     if: ${{github.actor != 'dependabot[bot]'}}
     with:
       suites: 'frontend-los'
+      tag: ${{ needs.build-and-test.outputs.image_version }}
       image_version: ${{ needs.build-and-test.outputs.image_version }}
       override_image_artifact_name: ${{ needs.build-and-test.outputs.image_artifact_name }}
