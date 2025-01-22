@@ -2,6 +2,7 @@ import { DefaultError, UseQueryOptions, useMutation, useQuery, useQueryClient } 
 import apiPaths from 'api/apiPaths';
 import { Saksbehandler } from 'avdelingsleder/bemanning/saksbehandlerTsType';
 import Reservasjon from 'avdelingsleder/reservasjoner/reservasjonTsType';
+import BehandlingType from 'kodeverk/behandlingType';
 import { OppgaveKoIdOgTittel, OppgavekøV3, OppgavekøV3Enkel, OppgavekøerV3 } from 'types/OppgavekøV3Type';
 import { axiosInstance } from 'utils/reactQueryConfig';
 
@@ -148,4 +149,23 @@ export const useKo = (id: string, options?: Omit<UseQueryOptions<OppgavekøV3>, 
 	useQuery<OppgavekøV3, unknown, OppgavekøV3>({
 		...options,
 		queryKey: [apiPaths.hentOppgaveko(id)],
+	});
+
+export const useHentDagensTall = () =>
+	useQuery<{
+		oppdatertTidspunkt: string;
+		hovedgrupper: [{ kode: string; navn: string }];
+		undergrupper: [{ kode: string; navn: string }];
+		tall: [
+			{
+				hovedgruppe: string;
+				undergruppe: string;
+				nyeIDag: number;
+				ferdigstilteIDag: number;
+				nyeSiste7Dager: number;
+				ferdigstilteSiste7Dager: number;
+			},
+		];
+	}>({
+		queryKey: [apiPaths.hentDagensTall],
 	});
