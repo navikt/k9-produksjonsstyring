@@ -13,8 +13,8 @@
 	"dependencies": {
 		"@formatjs/intl-datetimeformat": "6.17.2",
 		"@formatjs/intl-numberformat": "8.15.2",
-		"@grafana/faro-web-sdk": "1.12.3",
-		"@grafana/faro-web-tracing": "1.12.3",
+		"@grafana/faro-web-sdk": "1.13.0",
+		"@grafana/faro-web-tracing": "1.13.0",
 		"@navikt/aksel-icons": "7.10.0",
 		"@navikt/ds-css": "7.10.0",
 		"@navikt/ds-react": "7.10.0",
