@@ -54,6 +54,15 @@ export const RadioOption: FunctionComponent<OwnProps> = ({
 	);
 };
 
+RadioOption.defaultProps = {
+	name: '',
+	className: '',
+	disabled: false,
+	groupDisabled: false,
+	onChange: () => undefined,
+	manualHideChildren: false,
+};
+
 RadioOption.displayName = 'RadioOption';
 
 export default RadioOption;

@@ -32,5 +32,9 @@ export const ReadOnlyField: FunctionComponent<OwnProps> = ({ label, input, isEdi
 	);
 };
 
+ReadOnlyField.defaultProps = {
+	label: undefined,
+	isEdited: false,
+};
 
 export default ReadOnlyField;

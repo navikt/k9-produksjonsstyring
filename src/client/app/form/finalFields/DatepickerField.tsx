@@ -76,4 +76,12 @@ const DatepickerField: FunctionComponent<OwnProps> = ({
 	/>
 );
 
+DatepickerField.defaultProps = {
+	label: '',
+	readOnly: false,
+	isEdited: false,
+	format: (value) => value,
+	parse: (value) => value,
+};
+
 export default DatepickerField;

@@ -44,6 +44,9 @@ const TextAreaWithBadge: FunctionComponent<TextAreaWithBadgeProps & WrappedCompo
 	</div>
 );
 
+TextAreaWithBadge.defaultProps = {
+	badges: null,
+};
 
 const renderNavTextArea = renderNavField(injectIntl(TextAreaWithBadge));
 
