@@ -23,14 +23,14 @@ interface OwnProps {
  */
 
 export const RadioOption: FunctionComponent<OwnProps> = ({
-	name,
-	className,
+	name = '',
+	className = '',
 	label,
 	value,
 	actualValue,
 	disabled,
 	groupDisabled,
-	onChange,
+	onChange = () => undefined,
 	children,
 	style,
 	manualHideChildren,
